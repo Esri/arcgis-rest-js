@@ -1,0 +1,14 @@
+{
+  "name": "arcgis-core",
+  "version": "1.0.0",
+  "description": "Common methods and utilities for arcgis-rest-js.",
+  "main": "index.js",
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "es6-promise": "^4.1.1",
+    "form-data": "^2.2.0",
+    "isomorphic-fetch": "^2.2.1",
+    "url-search-params": "^0.9.0"
+  }
+}
