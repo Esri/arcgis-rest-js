@@ -15,7 +15,7 @@ const auth = new AppAuthentication({
 });
 
 auth.on('error', (error) => {
-  // unable to authenticate a request so try to get a new token and retry.
+  // unable to authenticate a request so get a new token and retry.
   auth.refreshToken().then(() => {
     error.request.retry();
   });

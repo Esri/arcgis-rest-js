@@ -7,7 +7,7 @@ export type Partial<T> = {
     [P in keyof T]?: T[P];
 };
 
-// Simple enum for our HTTP Methods. Users cana lso just use the strings "GET" and "POST"
+// Simple enum for our HTTP Methods. Users can also use the strings "GET" and "POST"
 export enum HTTPMethods {
   GET = 'GET',
   POST = 'POST'
