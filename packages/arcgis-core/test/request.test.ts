@@ -1,6 +1,6 @@
 import { request, FormData } from '../src/request';
-import * as fetchMock from 'fetch-mock';
-import * as sharingRestInfo from './mocks/sharing-rest-info.json';
+import fetchMock from 'fetch-mock';
+import sharingRestInfo from './mocks/sharing-rest-info.json';
 
 describe("request()", function () {
   it("should make a basic JSON request", function () {

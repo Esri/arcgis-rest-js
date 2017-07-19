@@ -57,3 +57,12 @@ typings/
 # dotenv environment variables file
 .env
 
+# Rollup Typescript caches
+.rpt2_cache
+
+# Lerna files
+lerna-debug.log*
+
+# Garbage
+
+.DS_Store

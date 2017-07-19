@@ -1,11 +1,12 @@
 import 'es6-promise/auto';
 import 'isomorphic-fetch';
-import * as FormData from 'form-data';
-import * as URLSearchParams from 'url-search-params';
+import { defaults } from 'lodash-es';
+import { encodeFormData, FormData } from './utils/encode-form-data';
+import { encodeQueryString, URLSearchParams } from './utils/encode-query-string';
+import { checkForErrors } from './utils/check-for-errors';
 
-export type Partial<T> = {
-    [P in keyof T]?: T[P];
-};
+export { FormData };
+export { URLSearchParams };
 
 // Simple enum for our HTTP Methods. Users cana lso just use the strings "GET" and "POST"
 export enum HTTPMethods {
@@ -19,105 +20,6 @@ export enum ResponseType {
   Text = 'text',
   Image = 'blob',
   ZIP = 'blob'
-}
-
-export function encodeQueryString (paramsObj: any): URLSearchParams {
-  const params = new URLSearchParams();
-  let newParams = processParams(paramsObj);
-  Object.keys(newParams).forEach((key: any) => {
-    params.set(key, newParams[key]);
-  });
-  return params;
-}
-
-export function encodeFormData (paramsObj: any): FormData {
-  let formData = new FormData();
-  let newParams = processParams(paramsObj);
-  Object.keys(newParams).forEach((key: any) => {
-    formData.append(key, newParams[key]);
-  });
-  return formData;
-}
-
-export function processParams (params: any): any {
-  Object.keys(params).forEach((key) => {
-    let param = params[key];
-    let type = Object.prototype.toString.call(param);
-    let value: any;
-    // properly encodes objects, arrays and dates for arcgis.com and other services.
-    // ported from https://github.com/Esri/esri-leaflet/blob/master/src/Request.js#L22-L30
-    switch (type) {
-      case '[object Array]':
-        value = (Object.prototype.toString.call(param[0]) === '[object Object]') ? JSON.stringify(param) : param.join(',');
-        break;
-      case '[object Object]':
-        value = JSON.stringify(param);
-        break;
-      case '[object Date]':
-        value = param.valueOf();
-        break;
-      default:
-        value = param;
-        break;
-    }
-
-    params[key] = value;
-  });
-  return params;
-}
-
-// TypeScript 2.1 no longer allows you to extend built in types. See https://github.com/Microsoft/TypeScript/issues/12790#issuecomment-265981442
-// and https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
-//
-// This code is from MDN https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Custom_Error_Types.
-export class ArcGISRequestError {
-  name: string;
-  message: string;
-  apiErrorMessage: string;
-
-  constructor (message = 'UNKNOWN_ERROR', apiErrorMessage = '') {
-    this.name = 'ArcGISEndpointError';
-    this.message = message;
-    this.apiErrorMessage = apiErrorMessage;
-  }
-};
-ArcGISRequestError.prototype = Object.create(Error.prototype);
-ArcGISRequestError.prototype.constructor = ArcGISRequestError;
-
-export function checkForErrors (data: any): any {
-  // this is an error message from billing.arcgis.com backend
-  if (data.code >= 400) {
-    let { message, code } = data;
-    let apiErrorMessage = `${code}${code ? ': ' : ''}${message}`;
-    throw new ArcGISRequestError(message, apiErrorMessage);
-  }
-
-  // error from the arcgis.com portal
-  if (data.error) {
-    let message = data.error.message;
-    let errorCode = (data.error.messageCode || data.error.code) || '';
-    let apiErrorMessage = `${errorCode}${errorCode ? ': ' : ''}${message}`;
-    throw new ArcGISRequestError(message, apiErrorMessage);
-  }
-
-  // error from a status check
-  if (data.status === 'failed') {
-    let message: string;
-    let code: any = '';
-
-    try {
-      message = JSON.parse(data.statusMessage).message;
-      code = JSON.parse(data.statusMessage).code;
-    } catch (e) {
-      message = data.statusMessage;
-    }
-
-    let apiErrorMessage = `${code}${code ? ': ' : ''}${message}`;
-
-    throw new ArcGISRequestError(message, apiErrorMessage);
-  }
-
-  return data;
 }
 
 export interface RequestOptions {
@@ -134,10 +36,8 @@ const defaultOptions = {
   response: ResponseType.JSON
 }
 
-export { FormData };
-
 export function request (url: string, options: Partial<RequestOptions> = {}): Promise<any> {
-  const requestOptions :RequestOptions = Object.assign(options, defaultOptions);
+  const requestOptions :RequestOptions = defaults(options, defaultOptions);
 
   const fetchOptions: RequestInit = {
     method: options.method

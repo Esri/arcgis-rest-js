@@ -7,17 +7,14 @@ module.exports = function(config) {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
-
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jasmine', 'karma-typescript'],
 
-
     // list of files / patterns to load in the browser
     files: [
-      'packages/**/*.ts'
+      `${process.cwd()}/**/*.ts`
     ],
-
 
     // list of files to exclude
     exclude: [
@@ -29,6 +26,9 @@ module.exports = function(config) {
       },
       tsconfig: "./tsconfig.json",
       bundlerOptions: {
+        transforms: [
+          require("karma-typescript-es6-transform")()
+        ],
         resolve: {
           alias: {
             'form-data': './packages/arcgis-core/browser/form-data.ts',
@@ -44,29 +44,23 @@ module.exports = function(config) {
       "**/*.ts": ["karma-typescript"], // *.tsx for React Jsx
     },
 
-
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ["progress", "karma-typescript"],
 
-
     // web server port
     port: 9876,
 
-
     // enable / disable colors in the output (reporters and logs)
     colors: true,
-
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_INFO,
 
-
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
-
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
@@ -77,7 +71,6 @@ module.exports = function(config) {
       // 'Safari',
       // 'IE'
     ],
-
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

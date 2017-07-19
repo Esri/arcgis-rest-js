@@ -1,11 +1,10 @@
 {
-  "spec_dir": "packages",
+  "spec_dir": ".",
   "spec_files": [
-    "support/json.d.ts",
     "**/*.test.ts"
   ],
   "helpers": [
-    "../node_modules/ts-node/register.js"
+    "../../support/register-tsnode.js"
   ],
   "stopSpecOnExpectationFailure": false,
   "random": false
