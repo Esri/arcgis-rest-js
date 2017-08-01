@@ -25,6 +25,22 @@ This API would simplify interactions with the ArcGIS REST API, enabling the crea
 
 While the tools proposed here would be useful in internal projects such as ArcGIS for Developers and ArcGIS Hub, they also strongly target outside developers who need to script and automate the platform but do not know or are not willing to integrate the ArcGIS API for Python into their projects. This project will also have appeal to enterprise developers who have existing Node.js systems and want to integrate with ArcGIS.
 
+## Developer Instructions
+
+First, make sure you have lerna v2.0.0 installed globally:
+
+```
+npm i -g lerna@2.0.0
+```
+
+Next, bootstrap the repository by running:
+
+```
+lerna boostrap
+```
+
+Now you can run the tests or builds as you normally would with commands like `npm test` or `npm run build`.
+
 ## Required Functionality
 
 * Manage feature layers
