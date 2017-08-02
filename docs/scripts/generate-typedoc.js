@@ -1,9 +1,13 @@
 const { spawn } = require("child_process");
 const { join } = require("path");
 
-const modules = ["arcgis-core"];
+const PACKAGES = ["arcgis-core"];
 
-modules.forEach(module => {
+PACKAGES.forEach(module => {
+  /**
+   * This runs `typedoc` in each of the `PACKAGES` and dumps the results to temp
+   * file for Acetate,
+   */
   spawn(
     "typedoc",
     [

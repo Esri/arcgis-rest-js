@@ -1,25 +1,33 @@
 const _ = require("lodash");
 const path = require("path");
+const slug = require("slug");
 const { prettyifyUrl } = require("acetate/lib/utils.js");
-var slug = require("slug");
+const PACKAGES = ["arcgis-core"];
 
+/**
+ * This function formats the exported children of each package so we can easily
+ * add then as pages to Acetate later.
+ */
 function processChildren(children, name) {
   return children.map(child => {
-    // console.log("\n", child, "\n");
     /**
      * add the following to each API ref page
-     * * src - where the virtual "source file" should go
-     * * id - unique id for this module that we can link to it
+     * * src - where the virtual "source file" will go in Acetate
+     * * pageUrl - precalculate the Acetate page URL, `url` is reserved by Acetate
+     * * icon - best guess of how to match icon names to typescript types
      */
-    child.src = `api/${name}/${child.name}.html`;
-    child.id = `${name}/${child.name}`;
-    child.pageUrl = prettyifyUrl(child.src);
-    child.icon = `tsd-kind-${slug(child.kindString).toLowerCase()}`;
-    return child;
+    return Ojbect.assign(child, {
+      src: `api/${name}/${child.name}.html`,
+      pageUrl: prettyifyUrl(child.src),
+      icon: `tsd-kind-${slug(child.kindString).toLowerCase()}`
+    });
   });
 }
 
-const api = ["arcgis-core"].map(module => {
+/**
+ * Transforms the generated JSON from TypeDoc into something we can use later. Looks like:
+ */
+const APIREF = PACKAGES.map(module => {
   const typedoc = require(`./.typedoc_temp/${module}.json`);
   const src = `api/${typedoc.name}.html`;
   const children = _(typedoc.children)
@@ -33,8 +41,8 @@ const api = ["arcgis-core"].map(module => {
 
   return {
     name: typedoc.name,
-    id: typedoc.name,
     pageUrl: prettyifyUrl(src),
+    icon: "tsd-kind-module",
     src,
     children
   };
@@ -51,16 +59,17 @@ module.exports = function(acetate) {
     return JSON.stringify(obj, null, 2);
   });
 
-  acetate.filter("slugify", function(str) {
-    return slug(str);
-  });
-
-  // generate a page for each item exported from typedoc
+  /**
+   * Use Acetates generate helper to generate a page for each `child` exported
+   * from in each `package` in our processed `APIREF`,
+   */
   acetate.generate((createPage, callback) => {
-    const pages = _(api)
+    const pages = _(APIREF)
+      // collect all teh children from all packages
       .reduce((children, package) => {
         return children.concat(package.children);
       }, [])
+      // call `createPage` (returns a promise) for each child item.
       .map(child => {
         return createPage.fromTemplate(
           child.src,
@@ -71,14 +80,19 @@ module.exports = function(acetate) {
         );
       });
 
+    // once all the pages have been generated provide them to Acetate.
     Promise.all(pages).then(pages => {
       callback(null, pages);
     });
   });
 
-  // generate an index page for each module
+  /**
+   * Use Acetates generate helper to generate to create an index page for each
+   * `package` in our `APIREF`.
+   */
   acetate.generate((createPage, callback) => {
-    const pages = _(api).map(package => {
+    // call `createPage` (returns a promise) for each package item.
+    const pages = _(APIREF).map(package => {
       return createPage.fromTemplate(
         package.src,
         path.join(acetate.sourceDir, "api", "_package.html"),
@@ -88,10 +102,12 @@ module.exports = function(acetate) {
       );
     });
 
+    // once all the pages have been generated provide them to Acetate.
     Promise.all(pages).then(pages => {
       callback(null, pages);
     });
   });
 
-  acetate.global("api", api);
+  // add the APIREF as a global so we can also generate a nav for it with Acetate.
+  acetate.global("api", APIREF);
 };
