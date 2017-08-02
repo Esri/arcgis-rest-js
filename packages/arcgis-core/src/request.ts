@@ -18,7 +18,6 @@ export enum HTTPMethods {
   GET = "GET",
   POST = "POST"
 }
-
 export enum ResponseType {
   JSON = "json",
   HTML = "text",
@@ -35,8 +34,8 @@ export interface IRequestOptions {
 }
 
 const defaultOptions: IRequestOptions = {
-  authentication: null,
   params: {},
+  authentication: null,
   method: HTTPMethods.POST,
   response: ResponseType.JSON
 };

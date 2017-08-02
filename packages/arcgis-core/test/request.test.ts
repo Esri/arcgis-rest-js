@@ -2,8 +2,8 @@ import { request, FormData } from "../src/request";
 import fetchMock from "fetch-mock";
 import sharingRestInfo from "./mocks/sharing-rest-info.json";
 
-describe("request()", function() {
-  it("should make a basic JSON request", function() {
+describe("request()", () => {
+  it("should make a basic JSON request", () => {
     const paramsSpy = spyOn(FormData.prototype, "append");
 
     fetchMock.once("*", sharingRestInfo);
