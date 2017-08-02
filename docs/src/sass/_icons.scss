@@ -129,7 +129,7 @@ $member-interface-inherited: -13 * $icon-size;
         }
       }
 
-      &.tsd-parent-kind-enum {
+      &.tsd-parent-kind-enumeration {
         > .tsd-kind-icon:before {
           background-position: $member-enum $offset;
         }

@@ -16,9 +16,11 @@ function processChildren(children, name) {
      * * pageUrl - precalculate the Acetate page URL, `url` is reserved by Acetate
      * * icon - best guess of how to match icon names to typescript types
      */
-    return Ojbect.assign(child, {
-      src: `api/${name}/${child.name}.html`,
-      pageUrl: prettyifyUrl(child.src),
+    const src = `api/${name}/${child.name}.html`;
+
+    return Object.assign(child, {
+      src,
+      pageUrl: prettyifyUrl(src),
       icon: `tsd-kind-${slug(child.kindString).toLowerCase()}`
     });
   });

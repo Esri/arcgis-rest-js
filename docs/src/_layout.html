@@ -9,34 +9,49 @@
     <link rel="stylesheet" href="/css/style.css">
   </head>
   <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">ArcGIS REST API JavaScript Client</h2>
+          {% link "/tutorials/", "Tutorials", class="side-nav-link" %}
+          {% link "/api/", "API Reference", class="side-nav-link"%}
+        </aside>
+      </nav>
+    </div>
+
     <div class="wrapper">
-      <header class="top-nav">
+      <!-- Sample HTML -->
+      <header class="top-nav fade-in">
         <div class="grid-container">
           <div class="column-24">
+            <!-- desktop sized navigation -->
             <div class="tablet-hide">
-              <a class="skip-to-content" href="#skip-to-content">Skip To Content</a>
-              <a href="#" class="top-nav-title">ArcGIS REST JS Client</a>
+              <!-- logo / home -->
+              <a href="#" class="top-nav-title">ArcGIS REST API JavaScript Client</a>
+              <!-- primary navigation sections -->
               <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
-                <a class="top-nav-link" href="/api/">API Reference</a>
-                <a class="top-nav-link" href="/tutorials/">Tutorials</a>
+                {% link "/tutorials/", "Tutorials", class="top-nav-link" %}
+                {% link "/api/", "API Reference", class="top-nav-link"%}
               </nav>
             </div>
 
+            <!-- tablet and mobile sized navigation -->
             <div class="tablet-show top-nav-flex">
-              <nav class="top-nav-flex-list" role="navigation">
-                <a href="/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="left"><span class="phone-hide">Menu</span></a>
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
               </nav>
+              <!-- logo / home -->
               <header class="top-nav-flex-title">
-                <a href="/" class="top-nav-link">ArcGIS REST JS Client</a>
+                <a href="/" class="top-nav-link">ArcGIS REST API JavaScript Client</a>
               </header>
-              <nav class="top-nav-flex-list text-right" role="navigation">
-                <a class="top-nav-link icon-ui-user icon-ui-flush margin-left-1" href="/api/">API Reference</a>
-                <a class="top-nav-link icon-ui-user icon-ui-flush margin-left-1" href="/tutorials/">Tutorials</a>
-              </nav>
             </div>
           </div>
+
         </div>
       </header>
+
 
       <main id="#skip-to-content">
         {% block main %}{% endblock %}
@@ -44,12 +59,10 @@
     </div>
 
     <footer class="footer leader-1">
+      {% block footer %}{% endblock %}
       <div class="grid-container">
-        <div class="column-24">
-          <details>
-            <summary>Debug Info</summary>
-            <pre><code>{{ api | json }}</code></pre>
-          </details>
+        <div class="column-24 trailer-half">
+          <a href="https://github.com/ArcGIS/arcgis-rest-js" class="font-size--1">Fork this project on GitHub</a>
         </div>
       </div>
     </footer>
