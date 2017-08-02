@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.7/css/calcite-web.min.css">
+  <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.7/js/calcite-web.min.js"></script>
+</head>
+
+<body>
+  <div class="grid-container">
+    <div class="column-16 column-center">
+      <div class="panel">
+        {% block body %}{% endblock %}
+        <details>
+          <summary>debug info</summary>
+          <pre><code>{{doc | inspect}}</code></pre>
+        </details>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

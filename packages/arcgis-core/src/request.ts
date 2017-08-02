@@ -1,27 +1,44 @@
-import 'es6-promise/auto';
-import 'isomorphic-fetch';
-import { defaults } from 'lodash-es';
-import { encodeFormData, FormData } from './utils/encode-form-data';
-import { encodeQueryString, URLSearchParams } from './utils/encode-query-string';
-import { checkForErrors } from './utils/check-for-errors';
+import "es6-promise/auto";
+import "isomorphic-fetch";
+import { defaults } from "lodash-es";
+import { encodeFormData, FormData } from "./utils/encode-form-data";
+import {
+  encodeQueryString,
+  URLSearchParams
+} from "./utils/encode-query-string";
+import { checkForErrors } from "./utils/check-for-errors";
+
+type Partial<T> = { [P in keyof T]?: T[P] };
 
 export { FormData };
 export { URLSearchParams };
 
-// Simple enum for our HTTP Methods. Users cana lso just use the strings "GET" and "POST"
+/**
+ * Allowed HTTP Methods
+ */
 export enum HTTPMethods {
-  GET = 'GET',
-  POST = 'POST'
+  GET = "GET",
+  POST = "POST"
 }
 
+/**
+ * Allowed Response Types
+ */
 export enum ResponseType {
-  JSON = 'json',
-  HTML = 'text',
-  Text = 'text',
-  Image = 'blob',
-  ZIP = 'blob'
+  JSON = "json",
+  HTML = "text",
+  Text = "text",
+  Image = "blob",
+  ZIP = "blob"
 }
 
+/**
+  Allowed request options
+  @property {object} params - the params.
+  @property {string} authentication - the token
+  @property {string} method - See {HTTPMethods}.
+  @property {string} response - See {ResponseType}.
+ */
 export interface RequestOptions {
   params: any;
   authentication: string | null | undefined;
@@ -34,10 +51,18 @@ const defaultOptions = {
   authentication: null,
   method: HTTPMethods.POST,
   response: ResponseType.JSON
-}
+};
 
-export function request (url: string, options: Partial<RequestOptions> = {}): Promise<any> {
-  const requestOptions :RequestOptions = defaults(options, defaultOptions);
+/**
+ * Main request method
+ * @param {string} url - the url
+ * @param {RequestOptions} options - request options
+ */
+export function request(
+  url: string,
+  options: Partial<RequestOptions> = {}
+): Promise<any> {
+  const requestOptions: RequestOptions = defaults(options, defaultOptions);
 
   const fetchOptions: RequestInit = {
     method: options.method
@@ -56,14 +81,14 @@ export function request (url: string, options: Partial<RequestOptions> = {}): Pr
     case ResponseType.Text:
       break;
     case ResponseType.ZIP:
-      options.params.f = 'zip'
+      options.params.f = "zip";
       break;
     default:
       options.params.f = "json";
   }
 
   if (options.method === HTTPMethods.GET) {
-    url = url + '?' + encodeQueryString(options.params).toString();
+    url = url + "?" + encodeQueryString(options.params).toString();
   }
 
   if (options.method === HTTPMethods.POST) {
@@ -71,7 +96,7 @@ export function request (url: string, options: Partial<RequestOptions> = {}): Pr
   }
 
   return fetch(url, fetchOptions)
-    .then((response) => {
+    .then(response => {
       switch (options.response) {
         case ResponseType.JSON:
           return response.json();
@@ -86,13 +111,13 @@ export function request (url: string, options: Partial<RequestOptions> = {}): Pr
         default:
           return response.text();
       }
-    }).
-    then((data => {
-      if(options.response === ResponseType.JSON) {
+    })
+    .then(data => {
+      if (options.response === ResponseType.JSON) {
         checkForErrors(data);
         return data;
       } else {
         return data;
       }
-    }));
+    });
 }

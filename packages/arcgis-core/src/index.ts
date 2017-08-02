@@ -1,9 +1,28 @@
 /**
- * Actual module comment.
- * @preferred
+ * @module arcgis-core
  */
-export { request, URLSearchParams, FormData, HTTPMethods, ResponseType, RequestOptions } from './request';
-export { encodeFormData } from './utils/encode-form-data';
-export { encodeQueryString } from './utils/encode-query-string';
-export { checkForErrors } from './utils/check-for-errors';
-export { ArcGISRequestError } from './utils/ArcGISRequestError';
+import {
+  request,
+  URLSearchParams,
+  FormData,
+  HTTPMethods,
+  ResponseType,
+  RequestOptions
+} from "./request";
+import { encodeFormData } from "./utils/encode-form-data";
+import { encodeQueryString } from "./utils/encode-query-string";
+import { checkForErrors } from "./utils/check-for-errors";
+import { ArcGISRequestError } from "./utils/ArcGISRequestError";
+
+export {
+  request,
+  URLSearchParams,
+  FormData,
+  HTTPMethods,
+  ResponseType,
+  RequestOptions,
+  encodeFormData,
+  encodeQueryString,
+  checkForErrors,
+  ArcGISRequestError
+};

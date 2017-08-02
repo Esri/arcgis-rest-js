@@ -10,6 +10,8 @@
     "@types/isomorphic-fetch": "0.0.34",
     "@types/jasmine": "^2.5.53",
     "@types/node": "^6.0.82",
+    "dgeni": "^0.4.9",
+    "dgeni-packages": "^0.20.0",
     "fetch-mock": "^5.12.1",
     "grunt": "^1.0.1",
     "grunt-cli": "^1.2.0",
@@ -44,6 +46,7 @@
   },
   "scripts": {
     "build": "lerna run build",
+    "build:docs": "lerna run build:docs",
     "test": "lerna run test",
     "test:watch": "karma start --auto-watch --no-single-run --browsers=Chrome"
   },

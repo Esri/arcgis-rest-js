@@ -1,0 +1,14 @@
+{
+  "name": "arcgis-docs",
+  "version": "1.0.0",
+  "description": "Documentation generator",
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "arcgis-core": "*"
+  },
+  "scripts": {
+    "prebuild:docs": "rm -rf build",
+    "build:docs": "dgeni ./index.js"
+  }
+}
