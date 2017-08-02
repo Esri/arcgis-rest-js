@@ -1,12 +1,12 @@
 import "es6-promise/auto";
 import "isomorphic-fetch";
 import { defaults } from "lodash-es";
+import { checkForErrors } from "./utils/check-for-errors";
 import { encodeFormData, FormData } from "./utils/encode-form-data";
 import {
   encodeQueryString,
   URLSearchParams
 } from "./utils/encode-query-string";
-import { checkForErrors } from "./utils/check-for-errors";
 
 export { FormData };
 export { URLSearchParams };
@@ -27,60 +27,60 @@ export enum ResponseType {
   ZIP = "blob"
 }
 
-export interface RequestOptions {
+export interface IRequestOptions {
   params: any;
   authentication: string | null | undefined;
   method: HTTPMethods;
   response: ResponseType;
 }
 
-const defaultOptions: RequestOptions = {
-  params: {},
+const defaultOptions: IRequestOptions = {
   authentication: null,
+  params: {},
   method: HTTPMethods.POST,
   response: ResponseType.JSON
 };
 
 export function request(
   url: string,
-  options: Partial<RequestOptions> = {}
+  options: Partial<IRequestOptions> = {}
 ): Promise<any> {
-  const requestOptions: RequestOptions = defaults(options, defaultOptions);
+  const requestOptions: IRequestOptions = defaults(options, defaultOptions);
 
   const fetchOptions: RequestInit = {
-    method: options.method
+    method: requestOptions.method
   };
 
-  switch (options.response) {
+  switch (requestOptions.response) {
     case ResponseType.JSON:
-      options.params.f = "json";
+      requestOptions.params.f = "json";
       break;
     case ResponseType.Image:
-      options.params.f = "image";
+      requestOptions.params.f = "image";
       break;
     case ResponseType.HTML:
-      options.params.f = "html";
+      requestOptions.params.f = "html";
       break;
     case ResponseType.Text:
       break;
     case ResponseType.ZIP:
-      options.params.f = "zip";
+      requestOptions.params.f = "zip";
       break;
     default:
-      options.params.f = "json";
+      requestOptions.params.f = "json";
   }
 
-  if (options.method === HTTPMethods.GET) {
-    url = url + "?" + encodeQueryString(options.params).toString();
+  if (requestOptions.method === HTTPMethods.GET) {
+    url = url + "?" + encodeQueryString(requestOptions.params).toString();
   }
 
-  if (options.method === HTTPMethods.POST) {
-    fetchOptions.body = encodeFormData(options.params);
+  if (requestOptions.method === HTTPMethods.POST) {
+    fetchOptions.body = encodeFormData(requestOptions.params);
   }
 
   return fetch(url, fetchOptions)
     .then(response => {
-      switch (options.response) {
+      switch (requestOptions.response) {
         case ResponseType.JSON:
           return response.json();
         case ResponseType.Image:
@@ -96,7 +96,7 @@ export function request(
       }
     })
     .then(data => {
-      if (options.response === ResponseType.JSON) {
+      if (requestOptions.response === ResponseType.JSON) {
         checkForErrors(data);
         return data;
       } else {

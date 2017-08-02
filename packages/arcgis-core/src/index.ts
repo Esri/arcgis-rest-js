@@ -7,7 +7,7 @@ export {
   FormData,
   HTTPMethods,
   ResponseType,
-  RequestOptions
+  IRequestOptions
 } from "./request";
 export { encodeFormData } from "./utils/encode-form-data";
 export { encodeQueryString } from "./utils/encode-query-string";

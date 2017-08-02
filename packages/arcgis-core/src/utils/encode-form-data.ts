@@ -1,9 +1,9 @@
-import * as FormData from 'form-data';
-import { processParams } from './process-params';
+import * as FormData from "form-data";
+import { processParams } from "./process-params";
 
-export function encodeFormData (paramsObj: any): FormData {
-  let formData = new FormData();
-  let newParams = processParams(paramsObj);
+export function encodeFormData(paramsObj: any): FormData {
+  const formData = new FormData();
+  const newParams = processParams(paramsObj);
   Object.keys(newParams).forEach((key: any) => {
     formData.append(key, newParams[key]);
   });

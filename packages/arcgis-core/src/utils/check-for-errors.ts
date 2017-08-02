@@ -1,25 +1,25 @@
-import { ArcGISRequestError } from './ArcGISRequestError';
+import { ArcGISRequestError } from "./ArcGISRequestError";
 
-export function checkForErrors (data: any): any {
+export function checkForErrors(data: any): any {
   // this is an error message from billing.arcgis.com backend
   if (data.code >= 400) {
-    let { message, code } = data;
-    let apiErrorMessage = `${code}${code ? ': ' : ''}${message}`;
+    const { message, code } = data;
+    const apiErrorMessage = `${code}${code ? ": " : ""}${message}`;
     throw new ArcGISRequestError(message, apiErrorMessage);
   }
 
   // error from the arcgis.com portal
   if (data.error) {
-    let message = data.error.message;
-    let errorCode = (data.error.messageCode || data.error.code) || '';
-    let apiErrorMessage = `${errorCode}${errorCode ? ': ' : ''}${message}`;
+    const message = data.error.message;
+    const errorCode = data.error.messageCode || data.error.code || "";
+    const apiErrorMessage = `${errorCode}${errorCode ? ": " : ""}${message}`;
     throw new ArcGISRequestError(message, apiErrorMessage);
   }
 
   // error from a status check
-  if (data.status === 'failed') {
+  if (data.status === "failed") {
     let message: string;
-    let code: any = '';
+    let code: any = "";
 
     try {
       message = JSON.parse(data.statusMessage).message;
@@ -28,7 +28,7 @@ export function checkForErrors (data: any): any {
       message = data.statusMessage;
     }
 
-    let apiErrorMessage = `${code}${code ? ': ' : ''}${message}`;
+    const apiErrorMessage = `${code}${code ? ": " : ""}${message}`;
 
     throw new ArcGISRequestError(message, apiErrorMessage);
   }
