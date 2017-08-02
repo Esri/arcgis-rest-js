@@ -56,19 +56,7 @@
     "url-search-params": "^0.9.0"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.ts": [
-      "prettier --write --parser typescript",
-      "tslint",
-      "git add"
-    ],
-    "*.scss": [
-      "prettier --write --parser post-css",
-      "git add"
-    ]
+    "*.ts": ["prettier --write --parser typescript", "tslint", "git add"]
   },
   "scripts": {
     "build": "lerna run build",
