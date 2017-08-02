@@ -4,11 +4,11 @@ This repository is for discussing and creating a fully featured JavaScript clien
 
 ## Origins
 
-The idea for this library originated in a [Slack conversation between @patrickarlt and @ajturner](https://esri-runtime.slack.com/archives/C0CPMTHGD/p1499287765858737). @ajturner had been looking for a library to automate creation of Feature Layers in ArcGIS Online for the Hub project.
+The idea for this library originated in a [Slack conversation between @patrickarlt and @ajturner](https://esri-runtime.slack.com/archives/C0CPMTHGD/p1499287765858737). @ajturner was looking for a library to automate creation of Feature Layers in ArcGIS Online for the Hub project.
 
 ## Key Collaborators
 
-This list includes people who contributed to the original conversation or those who have previously discussed or contributed to projects like this.
+This list includes people who contributed to the original conversation and those who have previously contributed to similar projects.
 
 * @ajturner - ArcGIS Hub
 * @dbouwman - ArcGIS Hub
@@ -21,19 +21,34 @@ This list includes people who contributed to the original conversation or those 
 
 ## Use Cases and Target Audience
 
-This API would simplify interactions with the ArcGIS REST API, creating enabling the creation of powerful scripting tools in both Node.js and the browser that cannot currently be built without deep knowlage of the REST API, coordinating multiple API calls and knowing how to logically link several calls together. This library would also enable downstream projects like the ArcGIS for Developers website and ArcGIS Hub to have identity management similar to the ArcGIS API for JavaScript.
+This API would simplify interactions with the ArcGIS REST API, enabling the creation of powerful scripting tools in both Node.js and the browser that currently require deep knowledge of the REST API, and coordinating chained calls with a variety of complex parameters. This library would also enable downstream projects like the ArcGIS for Developers website and ArcGIS Hub to achieve identity management similar to the ArcGIS API for JavaScript.
 
-The types of tools proposed here would be complimentary to internal projects such as ArcGIS for Developers and ArcGIS Hub but will also strongly target developers who need to script and automate the platform but do not know or are not willing to integrate the ArcGIS API for Python into their projects. This project also has additional appeal to enterprise developers who have existing Node.js systems and want to integrate ArcGIS into their enterprise.
+While the tools proposed here would be useful in internal projects such as ArcGIS for Developers and ArcGIS Hub, they also strongly target outside developers who need to script and automate the platform but do not know or are not willing to integrate the ArcGIS API for Python into their projects. This project will also have appeal to enterprise developers who have existing Node.js systems and want to integrate with ArcGIS.
+
+## Developer Instructions
+
+First, make sure you have lerna v2.0.0 installed globally:
+
+```
+npm i -g lerna@2.0.0
+```
+
+Next, bootstrap the repository by running:
+
+```
+lerna boostrap
+```
+
+Now you can run the tests or builds as you normally would with commands like `npm test` or `npm run build`.
 
 ## Required Functionality
 
-* Manage Feature Layers
+* Manage feature layers
    * Create new feature layers
    * Add/Remove/Update fields in feature layers
    * Query and edit features
    * Get statistics
-* Simplify running spatial analysis tasks
-* Improve experience interacting the premium ArcGIS Online services
+* Make interacting with premium ArcGIS Online services more intuitive
    * Geocoding
    * Routing
    * Geoenrichment
@@ -49,14 +64,14 @@ The types of tools proposed here would be complimentary to internal projects suc
 
 ## Comparison With Other Products
 
-While this project would have similarities with existing products such as the ArcGIS API for JavaScript and the ArcGIS API for Python, it differs significantly from both. Like the ArcGIS API for Python this library aims at being a low level scripting tools for interacting with and simplifying usage of the ArcGIS REST APIs, but where the ArcGIS API for Python API focuses primarily on scripting and integration with Jupyter Notebooks this project focuses on being a generic tools for usage with any JavaScript project be it a server, CLI tools, script or browser application.
+While this project shares some similarities with existing products such as the ArcGIS API for JavaScript and the ArcGIS API for Python, it is also unique. Like the ArcGIS API for Python, this library aims at being a low level scripting tools for interacting with and simplifying usage of the ArcGIS REST APIs, but where the ArcGIS API for Python focuses primarily on scripting and integration with Jupyter Notebooks this project provides generic tools for JavaScript applications running on a server, CLI, in a browser or as a script.
 
-This project does share some functional overlap withe the ArcGIS API for JavaScript however the JavaScript API focuses on reusable widgets and often hides the underlying interactions with the REST API and when it does expose then through tasks the experiences differs little from using the REST API directly, examples of this include the search and analysis widgets. This project focuses more on exposing the undying REST APIs and simplifying complex tasks not handled by the JavaScript API such as creating and modifying feature layers.
+This project does have functional overlap with the ArcGIS API for JavaScript however the JavaScript API closed source, specifically designed for the browser. The ArcGIS API for JavaScript provides reusable widgets that obfuscate underlying interaction with the REST API and in low level tasks exposes them via an experience that is similar to using the REST API directly. Examples of this include the search and analysis widgets. This project would instead aim to expose and demystify the underlying REST API and simplify common complex tasks not handled by the JavaScript API such as creating and modifying feature layer schema.
 
 ## Prior Projects
 
 * [node-arcgis](https://github.com/Esri/node-arcgis) - Originally started by Nik Wise and currently maintained by John Gravois this library wraps a large amount of functionality for ArcGIS Online into a single API. However this library lacks much key functionality and does not handle authentication at all leaving it to the user to obtain and manage tokens. This library also lacks a significant test suite.
-* [geoservices.js](https://github.com/Esri/geoservices-js) - Originally created by Jerry Seivert to wrap the [Geoservices](https://geoservices.github.io/) specification it is maintained by currently maintained by John Gravois. However this library does not fully implement the specification, handle authentication with ArcGIS or work in browsers.
+* [geoservices.js](https://github.com/Esri/geoservices-js) - Originally created by Jerry Seivert to wrap the [Geoservices](https://geoservices.github.io/) specification it is currently maintained by John Gravois. However this library does not fully implement the specification, handle authentication with ArcGIS or work in browsers.
 * ArcGIS for Developers - The developers website has a large amount of internal tooling for working with Portal APIs and publishing feature services, we have plans to add additional features that would require either creating our own implementations or writing a common implementation in this project.
 * Koop -
 * ArcGIS Hub -
@@ -70,7 +85,7 @@ As with any new JavaScript project there are numerous decisions to make regardin
 * Would recommend using a Node/browser HTTP library like [Axios](https://github.com/mzabriskie/axios) which also has support for mocking in tests via [axios-mock-adapter](https://github.com/ctimmerm/axios-mock-adapter).
 * Testing is a concern. I initially thought that we could simply use Karma to test all the code. However Karma can only be used to test browser based code. We could however use the `jasmine` command line tool it would just mean we would have to compile the TypeScript source first and then run the Jasmine CLI tools. Karma would use the `karma-typescript` plugin and run the browser tests. An alternative to this might be to use [The Intern](https://theintern.github.io/) setup according to this [blog post about testing with TypeScript](https://www.sitepen.com/blog/2015/03/24/testing-typescript-with-intern/). However the Intern doesn't have super great support for TypeScript currently though these issues should be solved in this Falls Intern 4 release.
 
-It is worth noting that if we go in a TypeScript/Intern approach we align perfectly with the direction of the JavaScript API team.
+It is worth noting that a TypeScript/Intern approach aligns perfectly with the direction of the JavaScript API team.
 
 ## Packages
 
