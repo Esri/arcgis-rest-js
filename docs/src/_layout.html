@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Your Title</title>
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.7/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <div class="tablet-hide">
+              <a class="skip-to-content" href="#skip-to-content">Skip To Content</a>
+              <a href="#" class="top-nav-title">ArcGIS REST JS Client</a>
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a class="top-nav-link" href="/api/">API Reference</a>
+                <a class="top-nav-link" href="/tutorials/">Tutorials</a>
+              </nav>
+            </div>
+
+            <div class="tablet-show top-nav-flex">
+              <nav class="top-nav-flex-list" role="navigation">
+                <a href="/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="left"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <header class="top-nav-flex-title">
+                <a href="/" class="top-nav-link">ArcGIS REST JS Client</a>
+              </header>
+              <nav class="top-nav-flex-list text-right" role="navigation">
+                <a class="top-nav-link icon-ui-user icon-ui-flush margin-left-1" href="/api/">API Reference</a>
+                <a class="top-nav-link icon-ui-user icon-ui-flush margin-left-1" href="/tutorials/">Tutorials</a>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main id="#skip-to-content">
+        {% block main %}{% endblock %}
+      </main>
+    </div>
+
+    <footer class="footer leader-1">
+      <div class="grid-container">
+        <div class="column-24">
+          <details>
+            <summary>Debug Info</summary>
+            <pre><code>{{ api | json }}</code></pre>
+          </details>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.7/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+  </body>
+</html>

@@ -1,25 +1,30 @@
-import 'es6-promise/auto';
-import 'isomorphic-fetch';
-import { defaults } from 'lodash-es';
-import { encodeFormData, FormData } from './utils/encode-form-data';
-import { encodeQueryString, URLSearchParams } from './utils/encode-query-string';
-import { checkForErrors } from './utils/check-for-errors';
+import "es6-promise/auto";
+import "isomorphic-fetch";
+import { defaults } from "lodash-es";
+import { encodeFormData, FormData } from "./utils/encode-form-data";
+import {
+  encodeQueryString,
+  URLSearchParams
+} from "./utils/encode-query-string";
+import { checkForErrors } from "./utils/check-for-errors";
 
 export { FormData };
 export { URLSearchParams };
 
-// Simple enum for our HTTP Methods. Users cana lso just use the strings "GET" and "POST"
+/**
+ * Enum for valid HTTP Methods. The Strings "GET" and "POST" can also be used in place of this `HTTPMethods`.
+ */
 export enum HTTPMethods {
-  GET = 'GET',
-  POST = 'POST'
+  GET = "GET",
+  POST = "POST"
 }
 
 export enum ResponseType {
-  JSON = 'json',
-  HTML = 'text',
-  Text = 'text',
-  Image = 'blob',
-  ZIP = 'blob'
+  JSON = "json",
+  HTML = "text",
+  Text = "text",
+  Image = "blob",
+  ZIP = "blob"
 }
 
 export interface RequestOptions {
@@ -29,15 +34,18 @@ export interface RequestOptions {
   response: ResponseType;
 }
 
-const defaultOptions = {
+const defaultOptions: RequestOptions = {
   params: {},
   authentication: null,
   method: HTTPMethods.POST,
   response: ResponseType.JSON
-}
+};
 
-export function request (url: string, options: Partial<RequestOptions> = {}): Promise<any> {
-  const requestOptions :RequestOptions = defaults(options, defaultOptions);
+export function request(
+  url: string,
+  options: Partial<RequestOptions> = {}
+): Promise<any> {
+  const requestOptions: RequestOptions = defaults(options, defaultOptions);
 
   const fetchOptions: RequestInit = {
     method: options.method
@@ -56,14 +64,14 @@ export function request (url: string, options: Partial<RequestOptions> = {}): Pr
     case ResponseType.Text:
       break;
     case ResponseType.ZIP:
-      options.params.f = 'zip'
+      options.params.f = "zip";
       break;
     default:
       options.params.f = "json";
   }
 
   if (options.method === HTTPMethods.GET) {
-    url = url + '?' + encodeQueryString(options.params).toString();
+    url = url + "?" + encodeQueryString(options.params).toString();
   }
 
   if (options.method === HTTPMethods.POST) {
@@ -71,7 +79,7 @@ export function request (url: string, options: Partial<RequestOptions> = {}): Pr
   }
 
   return fetch(url, fetchOptions)
-    .then((response) => {
+    .then(response => {
       switch (options.response) {
         case ResponseType.JSON:
           return response.json();
@@ -86,13 +94,13 @@ export function request (url: string, options: Partial<RequestOptions> = {}): Pr
         default:
           return response.text();
       }
-    }).
-    then((data => {
-      if(options.response === ResponseType.JSON) {
+    })
+    .then(data => {
+      if (options.response === ResponseType.JSON) {
         checkForErrors(data);
         return data;
       } else {
         return data;
       }
-    }));
+    });
 }

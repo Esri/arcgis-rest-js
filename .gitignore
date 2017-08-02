@@ -64,5 +64,4 @@ typings/
 lerna-debug.log*
 
 # Garbage
-
 .DS_Store
