@@ -1,78 +1,85 @@
-import 'es6-promise/auto';
-import 'isomorphic-fetch';
-import { defaults } from 'lodash-es';
-import { encodeFormData, FormData } from './utils/encode-form-data';
-import { encodeQueryString, URLSearchParams } from './utils/encode-query-string';
-import { checkForErrors } from './utils/check-for-errors';
+import "es6-promise/auto";
+import "isomorphic-fetch";
+import { defaults } from "lodash-es";
+import { checkForErrors } from "./utils/check-for-errors";
+import { encodeFormData, FormData } from "./utils/encode-form-data";
+import {
+  encodeQueryString,
+  URLSearchParams
+} from "./utils/encode-query-string";
 
 export { FormData };
 export { URLSearchParams };
 
-// Simple enum for our HTTP Methods. Users can also use the strings "GET" and "POST"
+/**
+ * Enum for valid HTTP Methods. The Strings "GET" and "POST" can also be used in place of this `HTTPMethods`.
+ */
 export enum HTTPMethods {
-  GET = 'GET',
-  POST = 'POST'
+  GET = "GET",
+  POST = "POST"
 }
-
 export enum ResponseType {
-  JSON = 'json',
-  HTML = 'text',
-  Text = 'text',
-  Image = 'blob',
-  ZIP = 'blob'
+  JSON = "json",
+  HTML = "text",
+  Text = "text",
+  Image = "blob",
+  ZIP = "blob"
 }
 
-export interface RequestOptions {
+export interface IRequestOptions {
   params: any;
   authentication: string | null | undefined;
   method: HTTPMethods;
   response: ResponseType;
 }
 
-const defaultOptions = {
+const defaultOptions: IRequestOptions = {
   params: {},
   authentication: null,
   method: HTTPMethods.POST,
   response: ResponseType.JSON
-}
+};
 
-export function request (url: string, options: Partial<RequestOptions> = {}): Promise<any> {
-  const requestOptions :RequestOptions = defaults(options, defaultOptions);
+export function request(
+  url: string,
+  options: Partial<IRequestOptions> = {}
+): Promise<any> {
+  const requestOptions: IRequestOptions = defaults(options, defaultOptions);
 
   const fetchOptions: RequestInit = {
-    method: options.method
+    method: requestOptions.method
   };
 
-  switch (options.response) {
+  switch (requestOptions.response) {
     case ResponseType.JSON:
-      options.params.f = "json";
+      requestOptions.params.f = "json";
       break;
     case ResponseType.Image:
-      options.params.f = "image";
+      requestOptions.params.f = "image";
       break;
     case ResponseType.HTML:
-      options.params.f = "html";
+      requestOptions.params.f = "html";
       break;
     case ResponseType.Text:
       break;
     case ResponseType.ZIP:
-      options.params.f = 'zip'
+      requestOptions.params.f = "zip";
       break;
     default:
-      options.params.f = "json";
+      requestOptions.params.f = "json";
   }
 
-  if (options.method === HTTPMethods.GET) {
-    url = url + '?' + encodeQueryString(options.params).toString();
+  if (requestOptions.method === HTTPMethods.GET) {
+    url = url + "?" + encodeQueryString(requestOptions.params).toString();
   }
 
-  if (options.method === HTTPMethods.POST) {
-    fetchOptions.body = encodeFormData(options.params);
+  if (requestOptions.method === HTTPMethods.POST) {
+    fetchOptions.body = encodeFormData(requestOptions.params);
   }
 
   return fetch(url, fetchOptions)
-    .then((response) => {
-      switch (options.response) {
+    .then(response => {
+      switch (requestOptions.response) {
         case ResponseType.JSON:
           return response.json();
         case ResponseType.Image:
@@ -86,13 +93,13 @@ export function request (url: string, options: Partial<RequestOptions> = {}): Pr
         default:
           return response.text();
       }
-    }).
-    then((data => {
-      if(options.response === ResponseType.JSON) {
+    })
+    .then(data => {
+      if (requestOptions.response === ResponseType.JSON) {
         checkForErrors(data);
         return data;
       } else {
         return data;
       }
-    }));
+    });
 }
