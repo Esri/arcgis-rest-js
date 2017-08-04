@@ -4,13 +4,13 @@
     {%- endif -%}
 
     {%- if type.type === 'reference' and type.id -%}
-      <a href="{{ API_TOOLS.findById(type.id).pageUrl }}">{{type.name}}</a>
+      <a href="{{ API_TOOLS.findById(data.typedoc, type.id).pageUrl }}">{{type.name}}</a>
     {%- elif type.type === 'reference' -%}
       {{type.name}}
     {%- endif -%}
 
     {%- if type.type === 'reflection' and type.declaration.id -%}
-      {% set declaration = API_TOOLS.findById(type.declaration.id)%}
+      {% set declaration = API_TOOLS.findById(data.typedoc, type.declaration.id)%}
       <a href="{{ declaration.pageUrl }}">{{declaration.name}}</a>
     {%- elif type.type === 'reflection' -%}
       {{type.name}}
@@ -58,7 +58,7 @@
       {% for id in group.children %}
         {% set child = API_TOOLS.findChildById(id, children) %}
         <tr>
-          <td class="code-face {% iconClasses child %}"><span class="tsd-kind-icon">{{child.name}}</span></td>
+          <td class="code-face {{child.icon}}"><span class="tsd-kind-icon">{{child.name}}</span></td>
           <td class="code-face">
             {% if child.defaultValue %}
               {{ child.defaultValue }}
@@ -167,7 +167,7 @@
 
     {% if group.title == 'Constructors' %}
       {% set firstSignature = API_TOOLS.findChildById(group.children[0], children).signatures[0] %}
-      <ul class="list-plain trailer-1 {% iconClasses firstSignature%}">
+      <ul class="list-plain trailer-1 {{ API_TOOLS.findChildById(group.children[0], children).icon }}">
         {% for id in group.children %}
           {% set signatures = API_TOOLS.findChildById(id, children).signatures %}
           {% for signature in signatures %}

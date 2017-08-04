@@ -65,3 +65,6 @@ lerna-debug.log*
 
 # Garbage
 .DS_Store
+
+# Visual Studio Code files
+.vscode

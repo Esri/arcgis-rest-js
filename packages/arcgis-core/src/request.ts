@@ -11,7 +11,7 @@ export { FormData };
 export { URLSearchParams };
 
 /**
- * HTTP methods used by the ArcGIS REST API. n JavaScript the strings `"GET"` and `"POST"` can also be used in place of `HTTPMethods`.
+ * HTTP methods used by the ArcGIS REST API.
  */
 export type HTTPMethods = "GET" | "POST";
 
