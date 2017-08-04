@@ -1,1 +1,15 @@
 @import "_icons.scss";
+@import "_highlight.scss";
+
+.api-param-comment {
+  p {
+    margin-bottom: 0;
+  }
+}
+
+a > code {
+  color: #0079c1;
+  &:hover {
+    color: #005e95;
+  }
+}

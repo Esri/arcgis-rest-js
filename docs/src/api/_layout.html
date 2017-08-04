@@ -2,14 +2,14 @@
 
 {% block main %}
   <div class="grid-container trailer-1 leader-1">
-    <div class="column-6">
+    <div class="column-5">
     <ul class="list-plain">
       {% for package in api %}
       <li class="tsd-kind-module">
         {% link package.pageUrl, package.name, class="tsd-kind-icon" %}
         <ul>
         {% for child in package.children %}
-          <li class="{{child.icon}}">{% link child.pageUrl, child.name, class="tsd-kind-icon" %}</li>
+          <li class="{{ child.icon }}">{% link child.pageUrl, child.name, class="tsd-kind-icon" %}</li>
         {% endfor %}
         </ul>
       </li>
@@ -17,7 +17,7 @@
     </ul>
     </div>
 
-    <div class="column-18">
+    <div class="column-19">
       <div class="panel">
         {% block content %}{% endblock %}
       </div>

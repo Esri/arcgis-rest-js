@@ -3,12 +3,13 @@ const path = require("path");
 const slug = require("slug");
 const { prettyifyUrl } = require("acetate/lib/utils.js");
 const PACKAGES = ["arcgis-core"];
+const { inspect } = require("util");
 
 /**
  * This function formats the exported children of each package so we can easily
  * add then as pages to Acetate later.
  */
-function processChildren(children, name) {
+function processChildren(children, package) {
   return children.map(child => {
     /**
      * add the following to each API ref page
@@ -16,12 +17,13 @@ function processChildren(children, name) {
      * * pageUrl - precalculate the Acetate page URL, `url` is reserved by Acetate
      * * icon - best guess of how to match icon names to typescript types
      */
-    const src = `api/${name}/${child.name}.html`;
+    const src = `api/${package.name}/${child.name}.html`;
 
     return Object.assign(child, {
       src,
       pageUrl: prettyifyUrl(src),
-      icon: `tsd-kind-${slug(child.kindString).toLowerCase()}`
+      icon: `tsd-kind-${slug(child.kindString).toLowerCase()}`,
+      package: package.name
     });
   });
 }
@@ -36,10 +38,9 @@ const APIREF = PACKAGES.map(module => {
     .filter(file => file.children)
     .reduce(
       (exported, file, index, files) =>
-        exported.concat(processChildren(file.children, typedoc.name)),
+        exported.concat(processChildren(file.children, typedoc)),
       []
-    )
-    .filter(child => !child.flags || (child.flags && child.flags.isExported));
+    );
 
   return {
     name: typedoc.name,
@@ -57,8 +58,8 @@ module.exports = function(acetate) {
     }
   });
 
-  acetate.filter("json", function(obj) {
-    return JSON.stringify(obj, null, 2);
+  acetate.filter("inspect", function(obj) {
+    return inspect(obj, { depth: 3 });
   });
 
   /**
@@ -71,6 +72,7 @@ module.exports = function(acetate) {
       .reduce((children, package) => {
         return children.concat(package.children);
       }, [])
+      .filter(child => !child.flags || (child.flags && child.flags.isExported))
       // call `createPage` (returns a promise) for each child item.
       .map(child => {
         return createPage.fromTemplate(
@@ -112,4 +114,53 @@ module.exports = function(acetate) {
 
   // add the APIREF as a global so we can also generate a nav for it with Acetate.
   acetate.global("api", APIREF);
+
+  const API_ID_INDEX = _.keyBy(
+    _.reduce(
+      APIREF,
+      (children, package) => {
+        return children.concat(package.children);
+      },
+      []
+    ),
+    c => c.id
+  );
+
+  const API_NAME_INDEX = _.keyBy(
+    _.reduce(
+      APIREF,
+      (children, package) => {
+        return children.concat(package.children);
+      },
+      []
+    ),
+    c => c.name
+  );
+  acetate.global("API_ID_INDEX", API_ID_INDEX);
+  acetate.global("API_NAME_INDEX", API_NAME_INDEX);
+  acetate.global("API_TOOLS", {
+    findById: function(id) {
+      return API_ID_INDEX[id + ""];
+    },
+    findByName: function(name) {
+      return API_NAME_INDEX[_.trim(name)];
+    },
+    findChildById: function(id, children) {
+      return children.find(c => c.id === id);
+    }
+  });
+
+  acetate.helper("iconClasses", function(ctx, child) {
+    const parentClass = ctx.page.kindString
+      ? `tsd-parent-kind-${slug(ctx.page.kindString).toLowerCase()}`
+      : "";
+
+    if (!child) {
+      return parentClass;
+    }
+
+    const childClass = `tsd-kind-${slug(child.kindString).toLowerCase()}`;
+
+    return [parentClass, childClass].join(" ");
+  });
 };

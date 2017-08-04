@@ -6,7 +6,6 @@ export {
   URLSearchParams,
   FormData,
   HTTPMethods,
-  ResponseType,
   IRequestOptions
 } from "./request";
 export { encodeFormData } from "./utils/encode-form-data";

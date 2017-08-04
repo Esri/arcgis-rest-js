@@ -13,19 +13,15 @@
     "es6-promise": "^4.1.1",
     "form-data": "^2.2.0",
     "isomorphic-fetch": "^2.2.1",
-    "lodash-es": "^4.17.4",
     "url-search-params": "^0.9.0"
   },
   "scripts": {
-    "test": "npm run test:chrome && npm run test:node",
-    "test:chrome": "karma start ../../karma.conf.js --single-run --browsers=Chrome",
-    "test:node": "jasmine --config=./jasmine.json",
     "build": "npm run build:node && npm run build:umd && npm run build:esm",
     "build:esm": "tsc -p ./tsconfig.json",
     "postbuild:esm": "npm run replace:form-data && npm run replace:url-search-params",
     "build:umd": "rollup -c ../../rollup.config.umd.js",
     "build:node": "rollup -c ../../rollup.config.node.js",
-    "replace:form-data": "replace-in-file \"'form-data'\" \"'./browser/form-data'\" dist/esm/utils/encode-form-data.js --verbose",
-    "replace:url-search-params": "replace-in-file \"'url-search-params'\" \"'./browser/url-search-params'\" dist/esm/utils/encode-query-string.js --verbose"
+    "replace:form-data": "replace-in-file \"form-data\" \"./browser/form-data\" ./dist/esm/utils/encode-form-data.js --verbose",
+    "replace:url-search-params": "replace-in-file \"url-search-params\" \"./browser/url-search-params\" ./dist/esm/utils/encode-query-string.js --verbose"
   }
 }

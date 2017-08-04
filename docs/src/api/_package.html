@@ -2,6 +2,6 @@
 
 <ul class="list-plain">
 {% for child in children %}
-  <li class="{{child.icon}}">{% link child.pageUrl, child.name, class="tsd-kind-icon" %}</li>
+  <li class="{{ child.icon }}">{% link child.pageUrl, child.name, class="tsd-kind-icon" %}</li>
 {% endfor %}
 </ul>
