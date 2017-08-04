@@ -40,7 +40,7 @@ export class ArcGISRequestError {
     code = "UNKNOWN_ERROR_CODE",
     originalResponse?: any
   ) {
-    this.name = "ArcGISEndpointError";
+    this.name = "ArcGISRequestError";
     this.message =
       code === "UNKNOWN_ERROR_CODE" ? message : `${code}: ${message}`;
     this.originalMessage = message;

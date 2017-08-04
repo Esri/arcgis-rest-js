@@ -12,6 +12,8 @@ describe("ArcGISRequestError", () => {
       ArcGISOnlineError.error.messageCode,
       ArcGISOnlineError
     );
+
+    expect(error.name).toBe("ArcGISRequestError");
     expect(error.message).toBe(
       "GWM_0003: You do not have permissions to access this resource or perform this operation."
     );
