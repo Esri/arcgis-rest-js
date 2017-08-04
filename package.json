@@ -31,6 +31,7 @@
     "karma-typescript-es6-transform": "^1.0.2",
     "lerna": "^2.0.0",
     "lint-staged": "^4.0.2",
+    "minimatch": "^3.0.4",
     "node-sass": "^4.5.3",
     "onchange": "^3.2.1",
     "prettier": "^1.5.3",

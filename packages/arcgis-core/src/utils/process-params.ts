@@ -24,6 +24,10 @@ export function processParams(params: any): any {
       case "[object Date]":
         value = param.valueOf();
         break;
+      case "[object Function]":
+        throw new Error(
+          `Function value passed for key \`${key}\` in processParams`
+        );
       default:
         value = param;
         break;

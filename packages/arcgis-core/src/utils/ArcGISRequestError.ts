@@ -38,7 +38,7 @@ export class ArcGISRequestError {
   constructor(
     message = "UNKNOWN_ERROR",
     code = "UNKNOWN_ERROR_CODE",
-    originalResponse: any = {}
+    originalResponse?: any
   ) {
     this.name = "ArcGISEndpointError";
     this.message =

@@ -1,19 +1,16 @@
-import * as URLSearchParams from "url-search-params";
 import { processParams } from "./process-params";
 
 /**
- * Encodes parameters in a [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) object in browsers or in a [URLSearchParams](https://github.com/WebReflection/url-search-params) in Node.js
+ * Encodes the passed object as a query string.
  *
  * @param params An object to be encoded.
- * @returns The complete [URLSearchParams](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) object.
+ * @returns An encoded query string.
  */
-export function encodeQueryString(params: any): URLSearchParams {
-  const qa = new URLSearchParams();
+export function encodeQueryString(params: any): string {
   const newParams = processParams(params);
-  Object.keys(newParams).forEach((key: any) => {
-    qa.set(key, newParams[key]);
-  });
-  return qa;
+  return Object.keys(newParams)
+    .map((key: any) => {
+      return `${encodeURIComponent(key)}=${encodeURIComponent(newParams[key])}`;
+    })
+    .join("&");
 }
-
-export { URLSearchParams };

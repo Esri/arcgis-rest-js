@@ -2,13 +2,9 @@ import "es6-promise/auto";
 import "isomorphic-fetch";
 import { checkForErrors } from "./utils/check-for-errors";
 import { encodeFormData, FormData } from "./utils/encode-form-data";
-import {
-  encodeQueryString,
-  URLSearchParams
-} from "./utils/encode-query-string";
+import { encodeQueryString } from "./utils/encode-query-string";
 
 export { FormData };
-export { URLSearchParams };
 
 /**
  * HTTP methods used by the ArcGIS REST API.
@@ -81,7 +77,7 @@ export function request(
   };
 
   if (httpMethod === "GET") {
-    url = url + "?" + encodeQueryString(params).toString();
+    url = url + "?" + encodeQueryString(params);
   }
 
   if (httpMethod === "POST") {

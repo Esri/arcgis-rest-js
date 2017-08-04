@@ -5,6 +5,7 @@ const _ = require("lodash");
 const OUTPUT = join(process.cwd(), "docs", "src", `typedoc.json`);
 const { prettyifyUrl } = require("acetate/lib/utils.js");
 const slug = require("slug");
+const minimatch = require("minimatch");
 
 (function generateTypeDoc() {
   return new Promise((resolve, reject) => {
@@ -14,8 +15,6 @@ const slug = require("slug");
         "-json",
         OUTPUT,
         "--ignoreCompilerErrors",
-        "--exclude",
-        '"*.test.ts"',
         "--module",
         "common",
         "--tsconfig",
@@ -73,6 +72,11 @@ const slug = require("slug");
           })
         );
       }, []);
+    })
+    .then(children => {
+      return children.filter(c => {
+        return minimatch(c.sources[0].fileName, "**/src/**/*.ts");
+      });
     })
     .then(children => {
       return children.map(child => {
