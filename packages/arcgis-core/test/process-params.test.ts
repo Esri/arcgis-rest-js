@@ -28,8 +28,6 @@ describe("processParams", () => {
   });
 
   it("should throw an error if passed a function", () => {
-    const date = new Date();
-
     const params = {
       foo() {} // tslint:disable-line no-empty
     };

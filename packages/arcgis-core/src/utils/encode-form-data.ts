@@ -1,4 +1,4 @@
-import * as FormData from "form-data";
+import * as FormData from "isomorphic-form-data";
 import { processParams } from "./process-params";
 
 /**

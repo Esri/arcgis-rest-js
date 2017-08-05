@@ -1,5 +1,5 @@
 import { ArcGISRequestError } from "../src/index";
-import { ArcGISOnlineError, BillingError, TaskError } from "./mocks/errors";
+import { ArcGISOnlineError } from "./mocks/errors";
 
 describe("ArcGISRequestError", () => {
   it("should be an instanceof Error", () => {

@@ -25,9 +25,7 @@ module.exports = function(config) {
         transforms: [require("karma-typescript-es6-transform")()],
         resolve: {
           alias: {
-            "form-data": "./packages/arcgis-core/browser/form-data.ts",
-            "url-search-params":
-              "./packages/arcgis-core/browser/url-search-params.ts"
+            "form-data": "./packages/arcgis-core/src/utils/browser/form-data.ts"
           }
         }
       }
