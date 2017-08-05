@@ -30,16 +30,16 @@ While the tools proposed here would be useful in internal projects such as ArcGI
 First, make sure you have lerna v2.0.0 installed globally:
 
 ```
-npm i -g lerna@2.0.0
+npm install -g lerna@2.0.0
 ```
 
-Next, bootstrap the repository by running:
+Next, install dependencies and bootstrap the repository by running:
 
 ```
-lerna boostrap
+npm install
 ```
 
-Now you can run the tests or builds as you normally would with commands like `npm test` or `npm run build`.
+Now you can run npm scripts, for a list of all available commands run `npm run`.
 
 Some useful command include:
 
