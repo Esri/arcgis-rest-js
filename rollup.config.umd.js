@@ -1,14 +1,25 @@
-import config from './rollup.config.plugins';
+import typescript from "rollup-plugin-typescript2";
+import resolve from "rollup-plugin-node-resolve";
+import commonjs from "rollup-plugin-commonjs";
+import json from "rollup-plugin-json";
 
-export default Object.assign(config, {
-  entry: 'src/index.ts',
-  targets: [
-    { dest: './dist/umd/bundle.umd.js', format: 'umd', sourceMap: true },
+export default {
+  entry: "src/index.ts",
+  plugins: [
+    typescript({
+      tsconfig: "../../tsconfig.json",
+      include: ["src/**/*.ts+(|x)"],
+      exclude: ["src/**/*.test.ts+(|x)"]
+    }),
+    json(),
+    resolve({
+      browser: true
+    }),
+    commonjs()
   ],
-  context: 'window',
-  globals: {
-    'form-data': 'FormData',
-    'url-search-params': 'URLSearchParams'
-  },
-  moduleName: 'arcgis'
-});
+  targets: [
+    { dest: "./dist/umd/bundle.umd.js", format: "umd", sourceMap: true }
+  ],
+  context: "window",
+  moduleName: "arcgis"
+};

@@ -1,0 +1,12 @@
+{
+  "name": "arcgis-core-types",
+  "version": "1.0.0",
+  "description": "Common type arcgis-rest-js.",
+  "types": "dist/types/index.d.ts",
+  "author": "",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "npm run build:esm",
+    "build:esm": "tsc -p ./tsconfig.json"
+  }
+}

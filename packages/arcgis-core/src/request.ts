@@ -1,101 +1,108 @@
 import "es6-promise/auto";
 import "isomorphic-fetch";
-import { defaults } from "lodash-es";
 import { checkForErrors } from "./utils/check-for-errors";
 import { encodeFormData, FormData } from "./utils/encode-form-data";
-import {
-  encodeQueryString,
-  URLSearchParams
-} from "./utils/encode-query-string";
+import { encodeQueryString } from "./utils/encode-query-string";
 
 export { FormData };
-export { URLSearchParams };
 
 /**
- * Enum for valid HTTP Methods. The Strings "GET" and "POST" can also be used in place of this `HTTPMethods`.
+ * HTTP methods used by the ArcGIS REST API.
  */
-export enum HTTPMethods {
-  GET = "GET",
-  POST = "POST"
-}
-export enum ResponseType {
-  JSON = "json",
-  HTML = "text",
-  Text = "text",
-  Image = "blob",
-  ZIP = "blob"
-}
+export type HTTPMethods = "GET" | "POST";
 
+/**
+ * Options for the [`request()`](/api/arcgis-core/request/) method.
+ */
 export interface IRequestOptions {
-  params: any;
-  authentication: string | null | undefined;
-  method: HTTPMethods;
-  response: ResponseType;
+  /**
+   * The HTTP method to send the request with.
+   */
+  httpMethod?: HTTPMethods;
 }
 
-const defaultOptions: IRequestOptions = {
-  params: {},
-  authentication: null,
-  method: HTTPMethods.POST,
-  response: ResponseType.JSON
-};
-
+/**
+ * Generic method for making HTTP requests to ArcGIS REST API endpoints.
+ *
+ * ```js
+ * import { request } from 'arcgis-core';
+ *
+ * request('https://www.arcgis.com/sharing/rest')
+ *   .then((response) => {
+ *     console.log(response.currentVersion); // => 5.2
+ *   });
+ * ```
+ *
+ * ```js
+ * import { request, HTTPMethods } from 'arcgis-core';
+ *
+ * request('https://www.arcgis.com/sharing/rest', {}, {
+ *   httpMethod: "GET"
+ * }).then((response) => {
+ *   console.log(response.currentVersion); // => 5.2
+ * });
+ * ```
+ *
+ * ```js
+ * import { request, HTTPMethods } from 'arcgis-core';
+ *
+ * request('https://www.arcgis.com/sharing/rest/search', {
+ *   q: 'parks'
+ * }).then((response) => {
+ *   console.log(response.total); // => 78379
+ * });
+ * ```
+ *
+ * @param url - The URL of the ArcGIS REST API endpoint.
+ * @param params - The parameters to pass to the endpoint.
+ * @param requestOptions - Options for the request.
+ * @returns A Promise that will resolve with the data from the request.
+ */
 export function request(
   url: string,
-  options: Partial<IRequestOptions> = {}
+  params: any = {},
+  requestOptions?: IRequestOptions
 ): Promise<any> {
-  const requestOptions: IRequestOptions = defaults(options, defaultOptions);
-
-  const fetchOptions: RequestInit = {
-    method: requestOptions.method
+  const { httpMethod }: IRequestOptions = {
+    ...{ httpMethod: "POST" },
+    ...requestOptions
   };
 
-  switch (requestOptions.response) {
-    case ResponseType.JSON:
-      requestOptions.params.f = "json";
-      break;
-    case ResponseType.Image:
-      requestOptions.params.f = "image";
-      break;
-    case ResponseType.HTML:
-      requestOptions.params.f = "html";
-      break;
-    case ResponseType.Text:
-      break;
-    case ResponseType.ZIP:
-      requestOptions.params.f = "zip";
-      break;
-    default:
-      requestOptions.params.f = "json";
+  if (!params.f) {
+    params.f = "json";
   }
 
-  if (requestOptions.method === HTTPMethods.GET) {
-    url = url + "?" + encodeQueryString(requestOptions.params).toString();
+  const options: RequestInit = {
+    method: httpMethod
+  };
+
+  if (httpMethod === "GET") {
+    url = url + "?" + encodeQueryString(params);
   }
 
-  if (requestOptions.method === HTTPMethods.POST) {
-    fetchOptions.body = encodeFormData(requestOptions.params);
+  if (httpMethod === "POST") {
+    options.body = encodeFormData(params);
   }
 
-  return fetch(url, fetchOptions)
+  return fetch(url, options)
     .then(response => {
-      switch (requestOptions.response) {
-        case ResponseType.JSON:
+      switch (params.f) {
+        case "json":
           return response.json();
-        case ResponseType.Image:
+        case "image":
           return response.blob();
-        case ResponseType.HTML:
+        case "html":
           return response.text();
-        case ResponseType.Text:
+        case "text":
           return response.text();
-        case ResponseType.ZIP:
+        case "zip":
           return response.blob();
         default:
           return response.text();
       }
     })
     .then(data => {
-      if (requestOptions.response === ResponseType.JSON) {
+      if (params.f === "json") {
         checkForErrors(data);
         return data;
       } else {

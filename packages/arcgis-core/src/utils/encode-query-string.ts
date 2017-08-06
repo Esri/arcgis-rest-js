@@ -1,13 +1,16 @@
-import * as URLSearchParams from "url-search-params";
 import { processParams } from "./process-params";
 
-export function encodeQueryString(paramsObj: any): URLSearchParams {
-  const params = new URLSearchParams();
-  const newParams = processParams(paramsObj);
-  Object.keys(newParams).forEach((key: any) => {
-    params.set(key, newParams[key]);
-  });
-  return params;
+/**
+ * Encodes the passed object as a query string.
+ *
+ * @param params An object to be encoded.
+ * @returns An encoded query string.
+ */
+export function encodeQueryString(params: any): string {
+  const newParams = processParams(params);
+  return Object.keys(newParams)
+    .map((key: any) => {
+      return `${encodeURIComponent(key)}=${encodeURIComponent(newParams[key])}`;
+    })
+    .join("&");
 }
-
-export { URLSearchParams };

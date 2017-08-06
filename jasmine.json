@@ -1,0 +1,7 @@
+{
+  "spec_dir": "packages",
+  "spec_files": ["**/*.test.ts"],
+  "helpers": ["../support/register-tsnode.js"],
+  "stopSpecOnExpectationFailure": false,
+  "random": false
+}

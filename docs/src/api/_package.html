@@ -1,7 +1,7 @@
-<h1 class="tsd-kind-module"> {% link url, name, class="tsd-kind-icon" %}</h1>
+<h1 class="{{icon}}"> {% link url, name, class="tsd-kind-icon" %}</h1>
 
 <ul class="list-plain">
 {% for child in children %}
-  <li class="{{child.icon}}">{% link child.pageUrl, child.name, class="tsd-kind-icon" %}</li>
+  <li class="{{ child.icon }}">{% link child.pageUrl, child.name, class="tsd-kind-icon" %}</li>
 {% endfor %}
 </ul>

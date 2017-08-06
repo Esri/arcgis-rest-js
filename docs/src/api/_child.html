@@ -1,3 +1,196 @@
-<h1>{{name}}</h1>
+{% macro @paramType(type) -%}
+  <i>{%- if type.type === 'intrinsic' -%}
+      {{type.name}}
+    {%- endif -%}
 
-<pre><code>{{__defaultMetadata | json}}</code></pre>
+    {%- if type.type === 'reference' and type.id -%}
+      <a href="{{ API_TOOLS.findById(data.typedoc, type.id).pageUrl }}">{{type.name}}</a>
+    {%- elif type.type === 'reference' -%}
+      {{type.name}}
+    {%- endif -%}
+
+    {%- if type.type === 'reflection' and type.declaration.id -%}
+      {% set declaration = API_TOOLS.findById(data.typedoc, type.declaration.id)%}
+      <a href="{{ declaration.pageUrl }}">{{declaration.name}}</a>
+    {%- elif type.type === 'reflection' -%}
+      {{type.name}}
+    {%- endif -%}
+
+    {%- if type.type === 'union' -%}
+      {% for t in type.types -%}
+        {%- if t.type === 'stringLiteral' -%}
+          <code>"{{t.value}}"</code>
+        {% else %}
+          <code>{{t.value}}</code>
+        {%- endif -%}
+      {%- endfor %}
+    {%- endif -%}
+
+    {%- if type.typeArguments -%}
+      {% for arg in type.typeArguments -%}
+        {{ '<' if loop.first}}{{ arg.name }}{{ '>' if loop.last}}
+      {%- endfor %}
+    {%- endif -%}</i>
+{%- endmacro %}
+
+{% macro @param(param) -%}
+  {{param.name}}: {{@paramType(param.type)}}
+{%- endmacro %}
+
+{% macro @signatureParams(params) -%}
+  {% for param in params -%}{{ @param(param) }}{{ ', ' if (loop.last === false)}}{%- endfor %}
+{%- endmacro %}
+
+{% macro @signature(signature) -%}
+  <li class="code-face tsd-signature tsd-kind-icon">{{ signature.name }}({{ @signatureParams(signature.parameters) }}) : {{@paramType(signature.type)}}</li>
+{%- endmacro %}
+
+{% macro @properties (group, children) %}
+  <table>
+    <thead>
+      <tr>
+        <td>{{ API_TOOLS.findChildById(group.children[0], children).kindString }}</td>
+        <td>{{ 'Value' if group.children[0].defaultValue else 'Type' }}</td>
+        <td>Notes</td>
+      </tr>
+    </thead>
+    <tbody>
+      {% for id in group.children %}
+        {% set child = API_TOOLS.findChildById(id, children) %}
+        <tr>
+          <td class="code-face {{child.icon}}"><span class="tsd-kind-icon">{{child.name}}</span></td>
+          <td class="code-face">
+            {% if child.defaultValue %}
+              {{ child.defaultValue }}
+            {% else %}
+              {{ @paramType(child.type) }}
+            {% endif %}
+          </td>
+          <td class="body-face api-param-comment">
+            {% markdown -%}
+              {{ child.comment.shortText | safe | trim }}
+            {%- endmarkdown %}
+          </td>
+        </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
+{% endmacro %}
+
+{% macro @signatures(signatures) %}
+ {% markdown -%}
+    {{ signatures[0].comment.shortText | safe }}
+  {%- endmarkdown %}
+
+  <ul class="list-plain tsd-signatures {{icon}} trailer-1">
+    {% for signature in signatures %}
+      {{ @signature(signature) }}
+    {% endfor %}
+  </ul>
+
+  <h2 class="font-size-1">Parameters</h2>
+  {{@parametersTable(signatures[0].parameters)}}
+
+  <h2 class="font-size-1">Returns</h2>
+
+  {%- markdown -%}
+    <code>{{@paramType(signatures[0].type)}}</code> - {{ signatures[0].comment.returns | safe }}
+  {%- endmarkdown %}
+
+  {% if signatures[0].comment.text %}
+    <hr class="leader-half trailer-half">
+
+    {% markdown -%}
+      {{ signatures[0].comment.text | safe }}
+    {%- endmarkdown %}
+  {% endif %}
+{% endmacro %}
+
+{% macro @parametersTable(parameters) %}
+  <div class="overflow-auto">
+    <table>
+      <thead>
+        <tr>
+          <td class="font-size--2">Parameter</td>
+          <td class="font-size--2">Type</td>
+          <td class="font-size--2">Default</td>
+          <td class="font-size--2">Required</td>
+          <td class="font-size--2">Notes</td>
+        </tr>
+      </thead>
+      <tbody>
+        {% for param in parameters -%}
+          <tr>
+            <td class="code-face">{{param.name}}</td>
+            <td class="code-face">{{@paramType(param.type)}}</td>
+            <td class="code-face">{{param.defaultValue}}</td>
+            <td>{{"No" if param.defaultValue or param.flags.isOptional else "Yes"}}</td>
+            <td class="body-face api-param-comment">
+              {% markdown -%}
+                {{ param.comment.shortText | safe | trim }}
+              {%- endmarkdown %}
+              {% markdown -%}
+                {{ param.comment.text | safe | trim }}
+              {%- endmarkdown %}
+            </td>
+          </tr>
+        {%- endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endmacro %}
+
+<div class="clearfix">
+  <h1 class="left font-size-4 code-face trailer-0">{{name}}</h1>
+  <small class="{{icon}} font-size--2 right"><span class="tsd-kind-icon">{{kindString}}</span></small>
+</div>
+
+<hr class="leader-half trailer-1">
+
+{% if comment %}
+  {% markdown -%}
+    {{ comment.shortText | safe }}
+  {%- endmarkdown %}
+{% endif %}
+
+{% if type %}
+  Value(s): {{@paramType(type)}}
+{% endif %}
+
+{% if groups %}
+  {% for group in groups %}
+    <h2 class="font-size-1">{{group.title}}</h2>
+    {% if group.title == 'Properties' %}
+      {{ @properties(group, children) }}
+    {% endif %}
+
+    {% if group.title == 'Constructors' %}
+      {% set firstSignature = API_TOOLS.findChildById(group.children[0], children).signatures[0] %}
+      <ul class="list-plain trailer-1 {{ API_TOOLS.findChildById(group.children[0], children).icon }}">
+        {% for id in group.children %}
+          {% set signatures = API_TOOLS.findChildById(id, children).signatures %}
+          {% for signature in signatures %}
+            {{ @signature(signature) }}
+          {% endfor %}
+        {% endfor %}
+      </ul>
+
+      <h2 class="font-size-1">Constructor Parameters</h2>
+      {{@parametersTable(firstSignature.parameters)}}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if signatures %}
+  {{@signatures(signatures)}}
+{% endif %}
+
+<hr class="leader-half trailer-half">
+
+<small class="font-size--2">Defined in <a href="https://github.com/ArcGIS/arcgis-rest-js/blob/master/packages/{{package}}/src/{{sources[0].fileName}}#L{{sources[0].line}}">packages/{{package}}/src/{{sources[0].fileName}}:{{sources[0].line}}</a></small>
+
+<details class="leader-1">
+  <summary>Debug Info</summary>
+  <pre><code>{{__defaultMetadata | inspect}}</code></pre>
+</details>

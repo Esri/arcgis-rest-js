@@ -65,3 +65,6 @@ lerna-debug.log*
 
 # Garbage
 .DS_Store
+
+# docs temp files
+docs/.typedoc_temp/

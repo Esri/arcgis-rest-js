@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "es2015",
+    "declaration": true,
+    "outDir": "./dist/esm",
+    "declarationDir": "./dist/types",
+    "sourceMap": true
+  },
+  "include": [
+    "./src/**/*.ts",
+    "../../support/**/*.ts"
+  ],
+  "exclude": [
+    "./src/browser/**/*.ts"
+  ]
+}
