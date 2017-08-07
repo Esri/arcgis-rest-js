@@ -1,9 +1,10 @@
 const express = require("express");
 const app = express();
 const { UserSession } = require("@esri/rest-auth");
+const { clientId } = require("config.json");
 
 const credentials = {
-  clientId: "bwQCnqNnTJtOM6ue",
+  clientId,
   redirectUri: "http://localhost:3000/authenticate"
 };
 
