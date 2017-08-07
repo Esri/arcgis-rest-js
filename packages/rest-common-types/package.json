@@ -8,6 +8,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:esm",
-    "build:esm": "tsc -p ./tsconfig.json"
+    "build:esm": "tsc -p ./tsconfig.json",
+    "postbuild": "rimraf dist/esm"
   }
 }

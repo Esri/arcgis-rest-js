@@ -3,6 +3,16 @@ import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import json from "rollup-plugin-json";
 
+const path = require("path");
+const pkg = require(path.join(process.cwd(), "package.json"));
+const _ = require("lodash");
+
+const moduleName = _.snakeCase(
+  `esri-rest-${pkg.name.replace("@", "_").replace("/", "_")}`
+);
+
+console.log(moduleName);
+
 export default {
   entry: "src/index.ts",
   plugins: [
@@ -21,5 +31,5 @@ export default {
     { dest: "./dist/umd/bundle.umd.js", format: "umd", sourceMap: true }
   ],
   context: "window",
-  moduleName: "arcgis"
+  moduleName
 };

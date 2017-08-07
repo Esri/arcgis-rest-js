@@ -1,0 +1,578 @@
+import * as http from "http";
+import {
+  request,
+  ArcGISRequestError,
+  IAuthenticationManager
+} from "@esri/rest-request";
+import { generateToken, fetchToken } from "./utils";
+
+/**
+ * Internal utility for resolving a Promise from outside its constructor.
+ *
+ * See: http://lea.verou.me/2016/12/resolve-promises-externally-with-this-one-weird-trick/
+ */
+interface IDeferred<T> {
+  promise: Promise<T>;
+  resolve: (v: T) => void;
+  reject: (v: any) => void;
+}
+
+function defer<T>(): IDeferred<T> {
+  const deferred: any = {
+    promise: null,
+    resolve: null,
+    reject: null
+  };
+
+  deferred.promise = new Promise((resolve, reject) => {
+    deferred.resolve = resolve;
+    deferred.reject = reject;
+  });
+
+  return deferred as IDeferred<T>;
+}
+
+/**
+ * Options for static OAuth 2.0 helper methods on `UserSession`.
+ */
+export interface IOauth2Options {
+  /**
+   * Client ID of your application. Can be obtained by registering an application
+   * on [ArcGIS for Developers](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/#registering-your-application),
+   * [ArcGIS Online](http://doc.arcgis.com/en/arcgis-online/share-maps/add-items.htm#ESRI_SECTION1_0D1B620254F745AE84F394289F8AF44B) or on your instance of ArcGIS Enterprise.
+   */
+  clientId: string;
+
+  /**
+   * A valid URL to redirect to after a user authorizes your application. Can be set on [ArcGIS for Developers](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/#registering-your-application),
+   * [ArcGIS Online](http://doc.arcgis.com/en/arcgis-online/share-maps/add-items.htm#ESRI_SECTION1_0D1B620254F745AE84F394289F8AF44B) or on your instance of ArcGIS Enterprise.
+   */
+  redirectUri: string;
+
+  /**
+   * Determines wether to open the authorization window in a new tab/window or in the current window.
+   *
+   * @browserOnly
+   */
+  popup?: boolean;
+
+  /**
+   * The ArcGIS Online or ArcGIS Enterprise portal you want to use for authentication. Defaults to `https://www.arcgis.com/sharing/rest` for the ArcGIS Online portal.
+   */
+  portal?: string;
+
+  /** Default duration you would to obtain tokens for in minutes. Defaults to 20160 minutes (two weeks). */
+  duration?: number;
+}
+
+/**
+ * Options for the `UserSession` constructor.
+ */
+export interface IUserSessionOptions {
+  /**
+   * Client ID of your application. Can be obtained by registering an application
+   * on [ArcGIS for Developers](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/#registering-your-application),
+   * [ArcGIS Online](http://doc.arcgis.com/en/arcgis-online/share-maps/add-items.htm#ESRI_SECTION1_0D1B620254F745AE84F394289F8AF44B) or on your instance of ArcGIS Enterprise.
+   */
+  clientId?: string;
+
+  /**
+   * A valid URL to redirect to after a user authorizes your application. Can be set on [ArcGIS for Developers](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/#registering-your-application),
+   * [ArcGIS Online](http://doc.arcgis.com/en/arcgis-online/share-maps/add-items.htm#ESRI_SECTION1_0D1B620254F745AE84F394289F8AF44B) or on your instance of ArcGIS Enterprise.
+   */
+  redirectUri?: string;
+
+  /**
+   * OAuth 2.0 refresh token from a previous user session.
+   */
+  refreshToken?: string;
+
+  /**
+   * Expiration date of the `refreshToken`
+   */
+  refreshTokenExpires?: Date;
+
+  /**
+   * The authenticated users username. Guarenteed to be unique across ArcGIS Online or your instance of ArcGIS Enterprise.
+   */
+  username?: string;
+
+  /**
+   * Password for this user. Used in CLI apps where users cannot do OAuth 2.0.
+   */
+  password?: string;
+
+  /**
+   * OAuth 2.0 access token from a previous user session.
+   */
+  token?: string;
+
+  /**
+   * Expiration date for the `token`
+   */
+  tokenExpires?: Date;
+
+  /**
+   * The ArcGIS Online or ArcGIS Enterprise portal you want to use for authentication. Defaults to `https://www.arcgis.com/sharing/rest` for the ArcGIS Online portal.
+   */
+  portal?: string;
+
+  /**
+   * Duration of requested tokens in minutes. Used when requesting tokens with `username` and `password` for when validating the identities of unknown servers. Defaults to 2 weeks.
+   */
+  tokenDuration?: number;
+
+  /**
+   * Original duration of the refresh token from a previous user session.
+   */
+  refreshTokenDuration?: number;
+}
+
+/**
+ * Used to manage the authentication of ArcGIS Online and ArcGIs Enterprise users
+ * in [`request`](/api/rest-request/request/). This class also includes several
+ * helper methods for authenticating users with OAuth 2.0 in both browser and
+ * server applications.
+ */
+export class UserSession implements IAuthenticationManager {
+  /**
+   * Client ID being used for authentication if provided in the `constructor`.
+   */
+  readonly clientId: string;
+
+  /**
+   * The currently authenticated users username if provided in the `constructor`.
+   */
+  readonly username: string;
+
+  /**
+   * The currently authenticated users password if provided in the `constructor`.
+   */
+  readonly password: string;
+
+  /**
+   * The current portal the user is authenticated with.
+   */
+  readonly portal: string;
+
+  /**
+   * Determines how long new tokens requested last.
+   */
+  readonly tokenDuration: number;
+
+  /**
+   * A valid redirect URI for this application if provided in the `constructor`.
+   */
+  readonly redirectUri: string;
+
+  /**
+   * Duration of new OAuth 2.0 refresh tokens.
+   */
+  readonly refreshTokenDuration: number;
+
+  private _token: string;
+  private _tokenExpires: Date;
+  private _refreshToken: string;
+  private _refreshTokenExpires: Date;
+
+  /**
+   * Internal list of trusted 3rd party servers (federated servers) that have
+   *  been validated with `generateToken`.
+   */
+  private trustedServers: {
+    [key: string]: {
+      token: string;
+      expires: Date;
+    };
+  };
+
+  /**
+   * The current token to ArcGIS Online or ArcGIS Enterprise.
+   */
+  get token() {
+    return this._token;
+  }
+
+  /**
+   * The expiration time of the current `token`.
+   */
+  get tokenExpires() {
+    return this._tokenExpires;
+  }
+
+  /**
+   * The current token to ArcGIS Online or ArcGIS Enterprise.
+   */
+  get refreshToken() {
+    return this._refreshToken;
+  }
+
+  /**
+   * The expiration time of the current `refreshToken`.
+   */
+  get refreshTokenExpires() {
+    return this._refreshTokenExpires;
+  }
+
+  constructor(options: IUserSessionOptions) {
+    this.clientId = options.clientId;
+    this._refreshToken = options.refreshToken;
+    this._refreshTokenExpires = options.refreshTokenExpires;
+    this.username = options.username;
+    this.password = options.password;
+    this._token = options.token;
+    this._tokenExpires = options.tokenExpires;
+    this.portal = options.portal || "https://www.arcgis.com/sharing/rest";
+    this.tokenDuration = options.tokenDuration || 20160;
+    this.redirectUri = options.redirectUri;
+    this.refreshTokenDuration = options.refreshTokenDuration;
+    this.trustedServers = {};
+  }
+
+  /**
+   * Begins a new browser-based OAuth 2.0 sign in. If `options.popup` is true the
+   * authentication window will open in a new tab/window otherwise the user will
+   * be redirected to the authorization page in their current tab.
+   *
+   * @browserOnly
+   */
+  static beginOAuth2(options: IOauth2Options, win: any = window) {
+    const { portal, clientId, duration, redirectUri, popup }: IOauth2Options = {
+      ...{
+        portal: "https://arcgis.com/sharing/rest",
+        duration: 20160,
+        popup: true
+      },
+      ...options
+    };
+    const url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${duration}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}`;
+
+    if (!popup) {
+      win.location.href = url;
+      return;
+    }
+
+    const session = defer<UserSession>();
+
+    win[`__ESRI_REST_AUTH_HANDLER_${clientId}`] = function(
+      error: any,
+      oauthInfo: any
+    ) {
+      if (error) {
+        session.reject(error);
+      }
+
+      session.resolve(
+        new UserSession({
+          clientId,
+          portal,
+          token: oauthInfo.token,
+          tokenExpires: oauthInfo.expires,
+          username: oauthInfo.username
+        })
+      );
+    };
+
+    win.open(
+      url,
+      "oauth-window",
+      "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
+    );
+
+    return session.promise;
+  }
+
+  /**
+   * Completes a browser-based OAuth 2.0 sign if `options.popup` is true the user
+   * will be returned to the previous window. Otherwise a new `UserSession`
+   * will be returned.
+   *
+   * @browserOnly
+   */
+  static completeOAuth2(options: IOauth2Options, win: any = window) {
+    const { portal, clientId, duration, redirectUri }: IOauth2Options = {
+      ...{ portal: "https://arcgis.com/sharing/rest", duration: 20160 },
+      ...options
+    };
+
+    function completeSignIn(error: any, oauthInfo: any) {
+      if (win.opener && win.opener.parent) {
+        win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`](
+          error,
+          oauthInfo
+        );
+        win.close();
+        return;
+      }
+
+      if (win.parent) {
+        win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`](error, oauthInfo);
+        window.close();
+        return;
+      }
+
+      if (error) {
+        throw error;
+      }
+
+      return new UserSession({
+        clientId,
+        portal,
+        token: oauthInfo.token,
+        tokenExpires: oauthInfo.expires,
+        username: oauthInfo.username
+      });
+    }
+
+    const match = win.location.href.match(
+      /access_token=(.+)&expires_in=(.+)&username=(.+)/
+    );
+
+    if (!match) {
+      const errorMatch = win.location.href.match(
+        /error=(.+)&error_description=(.+)&/
+      );
+      const error = match[1];
+      const errorMessage = decodeURIComponent(match[2]);
+
+      return completeSignIn(new ArcGISRequestError(errorMessage, error), null);
+    }
+
+    const token = match[1];
+    const expires = new Date(
+      Date.now() + parseInt(match[2], 10) * 1000 - 60 * 1000
+    );
+    const username = match[3];
+
+    return completeSignIn(null, {
+      token,
+      expires,
+      username
+    });
+  }
+
+  /**
+   * Begins a new server-based OAuth 2.0 sign in. This will redirect the user to
+   * the ArcGIS Online or ArcGIS Enterprise authorization page.
+   *
+   * @nodeOnly
+   */
+  static authorize(options: IOauth2Options, response: http.ServerResponse) {
+    const { portal, clientId, duration, redirectUri }: IOauth2Options = {
+      ...{ portal: "https://arcgis.com/sharing/rest", duration: 20160 },
+      ...options
+    };
+
+    response.writeHead(301, {
+      Location: `${portal}/oauth2/authorize?client_id=${clientId}&duration=${duration}&response_type=code&redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}`
+    });
+
+    response.end();
+  }
+
+  /**
+   * Completes the server-based OAuth 2.0 sign in process by exchanging the `authorizationCode`
+   * for a `access_token`.
+   *
+   * @nodeOnly
+   */
+  static exchangeAuthorizationCode(
+    options: IOauth2Options,
+    authorizationCode: string
+  ): Promise<UserSession> {
+    const { portal, clientId, duration, redirectUri }: IOauth2Options = {
+      ...{ portal: "https://arcgis.com/sharing/rest", duration: 20160 },
+      ...options
+    };
+
+    return fetchToken(`${portal}/oauth2/token`, {
+      grant_type: "authorization_code",
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      code: authorizationCode
+    }).then(response => {
+      return new UserSession({
+        clientId,
+        portal,
+        redirectUri,
+        refreshToken: response.refreshToken,
+        refreshTokenDuration: duration,
+        refreshTokenExpires: new Date(Date.now() + (duration - 60) * 1000),
+        token: response.token,
+        tokenExpires: response.expires,
+        username: response.username
+      });
+    });
+  }
+
+  /**
+   * Gets a appropriate token for the given URL. If `portal` is ArcGIS Online and
+   * the request is to an ArcGIS Online domain `token` will be used. If the request
+   * is to the current `portal` the current `token` will also be used. However if
+   * the request is to an unknown server we will validate the server with a request
+   * to our current `portal`.
+   */
+  getToken(url: string) {
+    if (
+      this.portal === "https://www.arcgis.com/sharing/rest" &&
+      /^https?:\/\/\S+\.arcgis\.com.+/.test(url)
+    ) {
+      return this.getFreshToken();
+    } else if (new RegExp(this.portal).test(url)) {
+      return this.getFreshToken();
+    } else {
+      return this.getTokenForServer(url);
+    }
+  }
+
+  toJson(): IUserSessionOptions {
+    return {
+      clientId: this.clientId,
+      refreshToken: this.refreshToken,
+      refreshTokenExpires: this.refreshTokenExpires,
+      username: this.username,
+      password: this.password,
+      token: this.token,
+      tokenExpires: this.tokenExpires,
+      portal: this.portal,
+      tokenDuration: this.tokenDuration,
+      redirectUri: this.redirectUri,
+      refreshTokenDuration: this.refreshTokenDuration
+    };
+  }
+
+  /**
+   * Manually refreshes the current `token` and `tokenExpires`.
+   */
+  refreshSession(): Promise<UserSession> {
+    if (this.username && this.password) {
+      return this.refreshWithUsernameAndPassword();
+    }
+
+    if (this.clientId && this.refreshToken) {
+      return this.refreshWithRefreshToken();
+    }
+
+    return Promise.reject(new Error("Unable to refresh token."));
+  }
+
+  /**
+   * Validates that a given URL is properly federated with our current `portal`.
+   * Attempts to use the internal `trustedServers` cache first.
+   */
+  private getTokenForServer(url: string) {
+    const [root] = url.split("rest/services");
+    const existingToken = this.trustedServers[root];
+
+    if (existingToken && existingToken.expires.getTime() > Date.now()) {
+      return Promise.resolve(existingToken.token);
+    }
+
+    return request(`${root}/rest/info`)
+      .then((response: any) => {
+        return response.owningSystemUrl;
+      })
+      .then(owningSystemUrl => {
+        // @TODO if owning system URL if NOT this.portal we need to bail out...
+        return request(`${owningSystemUrl}/sharing/rest/info`);
+      })
+      .then((response: any) => {
+        return response.authInfo.tokenServicesUrl;
+      })
+      .then((tokenServicesUrl: string) => {
+        return generateToken(tokenServicesUrl, {
+          token: this.token,
+          serverUrl: url,
+          expiration: this.tokenDuration
+        });
+      })
+      .then(response => {
+        this.trustedServers[root] = {
+          expires: new Date(response.expires),
+          token: response.token
+        };
+        return response.token;
+      });
+  }
+
+  /**
+   * Returns an unexpired token for the current `portal`.
+   */
+  private getFreshToken() {
+    if (
+      this.token &&
+      this.tokenExpires &&
+      this.tokenExpires.getTime() > Date.now()
+    ) {
+      return Promise.resolve(this.token);
+    }
+
+    return this.refreshSession().then(session => session.token);
+  }
+
+  /**
+   * Refreshes the current `token` and `tokenExpires` with `username` and
+   * `password`.
+   */
+  private refreshWithUsernameAndPassword() {
+    return generateToken(`${this.portal}/generateToken`, {
+      username: this.username,
+      password: this.password,
+      expiration: this.tokenDuration
+    }).then((response: any) => {
+      this._token = response.token;
+      this._tokenExpires = new Date(response.expires);
+      return this;
+    });
+  }
+
+  /**
+   * Refreshes the current `token` and `tokenExpires` with `refreshToken`.
+   */
+  private refreshWithRefreshToken() {
+    if (
+      this.refreshToken &&
+      this.refreshTokenExpires &&
+      this.refreshTokenExpires.getTime() > Date.now()
+    ) {
+      return this.refreshRefreshToken();
+    }
+
+    return fetchToken(`${this.portal}/oauth2/token/`, {
+      client_id: this.clientId,
+      refresh_token: this.refreshToken,
+      grant_type: "refresh_token"
+    }).then(response => {
+      this._token = response.token;
+      this._tokenExpires = response.expires;
+      return this;
+    });
+  }
+
+  /**
+   * Exchanges an expired `refreshToken` for a new one also updates `token` and
+   * `tokenExpires`.
+   */
+  private refreshRefreshToken() {
+    return request(`${this.portal}/oauth2/token/`, {
+      client_id: this.clientId,
+      refresh_token: this.refreshToken,
+      redirect_uri: this.redirectUri,
+      grant_type: "exchange_refresh_token"
+    }).then((response: any) => {
+      this._token = response.access_token;
+      this._tokenExpires = new Date(
+        Date.now() + (response.expires_in - 60) * 1000
+      );
+      this._refreshToken = response.refresh_token;
+      this._refreshTokenExpires = new Date(
+        Date.now() + (this.refreshTokenDuration - 60) * 1000
+      );
+      return this;
+    });
+  }
+}

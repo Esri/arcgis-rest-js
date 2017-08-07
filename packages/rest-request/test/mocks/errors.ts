@@ -4,7 +4,7 @@ export const ArcGISOnlineError = {
     messageCode: "GWM_0003",
     message:
       "You do not have permissions to access this resource or perform this operation.",
-    details: []
+    details: [] as string[]
   }
 };
 
@@ -13,7 +13,7 @@ export const ArcGISOnlineErrorNoMessageCode = {
     code: 403,
     message:
       "You do not have permissions to access this resource or perform this operation.",
-    details: []
+    details: [] as string[]
   }
 };
 
@@ -21,7 +21,7 @@ export const ArcGISOnlineErrorNoCode = {
   error: {
     message:
       "You do not have permissions to access this resource or perform this operation.",
-    details: []
+    details: [] as string[]
   }
 };
 
@@ -29,7 +29,7 @@ export const BillingError = {
   code: 500,
   message: "Error getting subscription info",
   status: "failure",
-  details: null
+  details: null as any
 };
 
 export const TaskErrorWithJSON = {

@@ -11,7 +11,7 @@ module.exports = function(config) {
     frameworks: ["jasmine", "karma-typescript"],
 
     // list of files / patterns to load in the browser
-    files: ["packages/**/*.ts"],
+    files: ["packages/*/{src,test}/**/*.ts"],
 
     // list of files to exclude
     exclude: [],
@@ -22,7 +22,12 @@ module.exports = function(config) {
       },
       tsconfig: "./tsconfig.json",
       bundlerOptions: {
-        transforms: [require("karma-typescript-es6-transform")()]
+        transforms: [require("karma-typescript-es6-transform")()],
+        resolve: {
+          alias: {
+            "@esri/rest-request": "packages/rest-request/src/index.ts"
+          }
+        }
       }
     },
 

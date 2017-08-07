@@ -6,6 +6,10 @@ import { encodeQueryString } from "./utils/encode-query-string";
 
 export { FormData };
 
+export interface IAuthenticationManager {
+  getToken(url: string): Promise<string>;
+}
+
 /**
  * HTTP methods used by the ArcGIS REST API.
  */
@@ -19,6 +23,11 @@ export interface IRequestOptions {
    * The HTTP method to send the request with.
    */
   httpMethod?: HTTPMethods;
+
+  /**
+   * The instance of `IAuthenticationManager` to use to authenticate this request.
+   */
+  authentication?: IAuthenticationManager;
 }
 
 /**
@@ -63,7 +72,7 @@ export function request(
   params: any = {},
   requestOptions?: IRequestOptions
 ): Promise<any> {
-  const { httpMethod }: IRequestOptions = {
+  const { httpMethod, authentication }: IRequestOptions = {
     ...{ httpMethod: "POST" },
     ...requestOptions
   };
@@ -76,37 +85,47 @@ export function request(
     method: httpMethod
   };
 
-  if (httpMethod === "GET") {
-    url = url + "?" + encodeQueryString(params);
-  }
+  const tokenRequest = authentication
+    ? authentication.getToken(url)
+    : Promise.resolve("");
 
-  if (httpMethod === "POST") {
-    options.body = encodeFormData(params);
-  }
+  return tokenRequest.then(token => {
+    if (token.length) {
+      params.token = token;
+    }
 
-  return fetch(url, options)
-    .then(response => {
-      switch (params.f) {
-        case "json":
-          return response.json();
-        case "image":
-          return response.blob();
-        case "html":
-          return response.text();
-        case "text":
-          return response.text();
-        case "zip":
-          return response.blob();
-        default:
-          return response.text();
-      }
-    })
-    .then(data => {
-      if (params.f === "json") {
-        checkForErrors(data);
-        return data;
-      } else {
-        return data;
-      }
-    });
+    if (httpMethod === "GET") {
+      url = url + "?" + encodeQueryString(params);
+    }
+
+    if (httpMethod === "POST") {
+      options.body = encodeFormData(params);
+    }
+
+    return fetch(url, options)
+      .then(response => {
+        switch (params.f) {
+          case "json":
+            return response.json();
+          case "image":
+            return response.blob();
+          case "html":
+            return response.text();
+          case "text":
+            return response.text();
+          case "zip":
+            return response.blob();
+          default:
+            return response.text();
+        }
+      })
+      .then(data => {
+        if (params.f === "json") {
+          checkForErrors(data);
+          return data;
+        } else {
+          return data;
+        }
+      });
+  });
 }

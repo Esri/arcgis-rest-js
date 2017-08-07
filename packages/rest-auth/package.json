@@ -1,5 +1,5 @@
 {
-  "name": "@esri/rest-request",
+  "name": "@esri/rest-auth",
   "version": "1.0.0",
   "description": "Common methods and utilities for arcgis-rest-js.",
   "main": "dist/node/index.js",
@@ -9,14 +9,15 @@
   "types": "dist/esm/index.d.ts",
   "author": "",
   "license": "Apache-2.0",
-  "dependencies": {
-    "es6-promise": "^4.1.1",
-    "form-data": "^2.2.0",
-    "isomorphic-fetch": "^2.2.1",
-    "isomorphic-form-data": "^1.0.0"
+  "peerDependencies": {
+    "@esri/rest-request": "1.0.0"
+  },
+  "devDependencies": {
+    "@esri/rest-request": "1.0.0"
   },
   "scripts": {
     "prepublish": "npm run build",
+    "prebuild": "rimraf dist",
     "build": "npm run build:node && npm run build:umd && npm run build:esm",
     "build:esm": "tsc -p ./tsconfig.json --module es2015 --outDir ./dist/esm --declaration",
     "build:umd": "rollup -c ../../rollup.config.umd.js",

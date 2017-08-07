@@ -79,6 +79,16 @@ const minimatch = require("minimatch");
       });
     })
     .then(children => {
+      return children.filter(c => {
+        return !minimatch(c.sources[0].fileName, "**/node_modules/**");
+      });
+    })
+    .then(children => {
+      return children.filter(c => {
+        return c.flags && c.flags.isExported;
+      });
+    })
+    .then(children => {
       return children.map(child => {
         const src = `api/${child.package}/${child.name}.html`;
         let children;

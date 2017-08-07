@@ -1,17 +1,12 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "target": "es5",
     "module": "es2015",
-    "declaration": true,
-    "outDir": "./dist/esm",
-    "declarationDir": "./dist/types",
-    "sourceMap": true
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "strictNullChecks": false,
+    "listFiles": true
   },
-  "include": [
-    "./src/**/*.ts",
-    "../../support/**/*.ts"
-  ],
-  "exclude": [
-    "./src/browser/**/*.ts"
-  ]
+  "include": ["./src/**/*.ts", "../../support/**/*.ts"]
 }

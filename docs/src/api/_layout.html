@@ -2,7 +2,7 @@
 
 {% block main %}
   <div class="grid-container trailer-1 leader-1">
-    <div class="column-5">
+    <div class="column-6">
     <ul class="list-plain">
       {% for package in data.typedoc.packages %}
       <li class="{{ package.icon }}">
@@ -17,7 +17,7 @@
     </ul>
     </div>
 
-    <div class="column-19">
+    <div class="column-18">
       <div class="panel">
         {% block content %}{% endblock %}
       </div>
