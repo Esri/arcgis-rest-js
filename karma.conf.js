@@ -22,12 +22,7 @@ module.exports = function(config) {
       },
       tsconfig: "./tsconfig.json",
       bundlerOptions: {
-        transforms: [require("karma-typescript-es6-transform")()],
-        resolve: {
-          alias: {
-            "form-data": "./packages/arcgis-core/src/utils/browser/form-data.ts"
-          }
-        }
+        transforms: [require("karma-typescript-es6-transform")()]
       }
     },
 

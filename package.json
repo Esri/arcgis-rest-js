@@ -1,5 +1,5 @@
 {
-  "name": "arcgis-rest-js",
+  "name": "@esri/rest",
   "version": "1.0.0",
   "description": "This repository is for discussing and creating a fully featured JavaScript client API for browsers and Node.js.",
   "main": "index.js",
