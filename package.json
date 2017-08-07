@@ -89,12 +89,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ArcGIS/arcgis-rest-js.git"
+    "url": "git+https://github.com/ArcGIS/rest-js.git"
   },
   "author": "",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/ArcGIS/arcgis-rest-js/issues"
+    "url": "https://github.com/ArcGIS/rest-js/issues"
   },
-  "homepage": "https://github.com/ArcGIS/arcgis-rest-js#readme"
+  "homepage": "https://github.com/ArcGIS/rest-js#readme"
 }
