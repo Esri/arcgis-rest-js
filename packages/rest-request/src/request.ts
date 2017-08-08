@@ -16,6 +16,16 @@ export interface IAuthenticationManager {
 export type HTTPMethods = "GET" | "POST";
 
 /**
+ * Valid response formats for the `f` parameter.
+ */
+export type ResponseFormats = "json" | "text" | "html" | "image" | "zip";
+
+export interface IParams {
+  f?: ResponseFormats;
+  [key: string]: any;
+}
+
+/**
  * Options for the [`request()`](/api/arcgis-core/request/) method.
  */
 export interface IRequestOptions {
@@ -69,7 +79,7 @@ export interface IRequestOptions {
  */
 export function request(
   url: string,
-  params: any = {},
+  requestParams: IParams = { f: "json" },
   requestOptions?: IRequestOptions
 ): Promise<any> {
   const { httpMethod, authentication }: IRequestOptions = {
@@ -77,9 +87,10 @@ export function request(
     ...requestOptions
   };
 
-  if (!params.f) {
-    params.f = "json";
-  }
+  const params: IParams = {
+    ...{ f: "json" },
+    ...requestParams
+  };
 
   const options: RequestInit = {
     method: httpMethod
@@ -115,8 +126,6 @@ export function request(
             return response.text();
           case "zip":
             return response.blob();
-          default:
-            return response.text();
         }
       })
       .then(data => {
