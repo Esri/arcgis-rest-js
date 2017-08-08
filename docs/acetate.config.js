@@ -13,7 +13,8 @@ module.exports = function(acetate) {
   });
 
   /**
-   * Load the typedoc.json file as a page in Acetate. This makes the watcher start looking for changes.
+   * Load the typedoc.json file as a page in Acetate. This makes the watcher
+   * start looking for changes and we can listen for the events later.
    */
   acetate.load("typedoc.json", {
     metadata: {
@@ -23,7 +24,8 @@ module.exports = function(acetate) {
   });
 
   /**
-   * Use Acetates generate helper to generate a page for each `child` and `package` in the typedoc.json.
+   * Use Acetates generate helper to generate a page for each `declaration`
+   * and `package` in the typedoc.json.
    */
   acetate.generate((createPage, callback) => {
     fs.readFile(
@@ -31,11 +33,11 @@ module.exports = function(acetate) {
       (e, contents) => {
         const typedoc = JSON.parse(contents.toString());
 
-        const childPages = typedoc.children.map(child => {
+        const declarationPages = typedoc.declarations.map(declaration => {
           return createPage.fromTemplate(
-            child.src,
-            path.join(acetate.sourceDir, "api", "_child.html"),
-            Object.assign({}, child, {
+            declaration.src,
+            path.join(acetate.sourceDir, "api", "_declaration.html"),
+            Object.assign({}, declaration, {
               layout: "api/_layout:content"
             })
           );
@@ -52,7 +54,7 @@ module.exports = function(acetate) {
         });
 
         // once all the pages have been generated provide them to Acetate.
-        Promise.all(childPages.concat(packagePages)).then(pages => {
+        Promise.all(declarationPages.concat(packagePages)).then(pages => {
           callback(null, pages);
         });
       }
@@ -60,7 +62,7 @@ module.exports = function(acetate) {
   });
 
   /**
-   * Also register typedoc.json as a global data object called typedoc.
+   * Also register typedoc.json as a global data object called `typedoc`.
    */
   acetate.data("typedoc", "typedoc.json");
 
@@ -77,7 +79,8 @@ module.exports = function(acetate) {
   });
 
   /**
-   * Listen for changes, if we see a change in typedoc.json we know we need to regenerate all the dymanically generated pages so reload everything.
+   * Listen for changes, if we see a change in typedoc.json we know we need to
+   * regenerate all the dymanically generated pages so reload this config file.
    */
   acetate.on("watcher:change", page => {
     if (page.src === "typedoc.json") {

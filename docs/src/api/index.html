@@ -8,8 +8,8 @@ layout: "_layout:main"
     <div class="panel">
       <h1 class="{{package.icon}}"> {% link package.pageUrl, package.name, class="tsd-kind-icon" %}</h1>
       <ul class="list-plain">
-      {% for child in package.children %}
-        <li class="{{child.icon}}">{% link child.pageUrl, child.name, class="tsd-kind-icon" %}</li>
+      {% for declaration in package.declarations %}
+        <li class="{{declaration.icon}}">{% link declaration.pageUrl, declaration.name, class="tsd-kind-icon" %}</li>
       {% endfor %}
       </ul>
     </div>
