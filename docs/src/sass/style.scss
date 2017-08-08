@@ -7,6 +7,12 @@
   }
 }
 
+.api-function-comment {
+  p {
+    margin-bottom: .5rem;
+  }
+}
+
 a > code {
   color: #0079c1;
   &:hover {
@@ -16,4 +22,11 @@ a > code {
 
 .no-wrap {
   white-space: nowrap;
+}
+
+.method-table-signatures {
+  margin: 0;
+  li {
+    margin: 0;
+  }
 }

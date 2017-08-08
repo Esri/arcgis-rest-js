@@ -81,12 +81,6 @@ const minimatch = require("minimatch");
     })
     .then(children => {
       /**
-       * Next we remove all children that are not exported out of their files.
-       */
-      return children.filter(c => c.flags && c.flags.isExported);
-    })
-    .then(children => {
-      /**
        * The `name` of each child is wrapped in extra quote marks remove these
        * quote marks and add `.ts` back to the end of the `name`,
        */
@@ -121,6 +115,12 @@ const minimatch = require("minimatch");
           })
         );
       }, []);
+    })
+    .then(children => {
+      /**
+       * Next we remove all children that are not exported out of their files.
+       */
+      return children.filter(c => c.flags && c.flags.isExported);
     })
     .then(declarations => {
       /**

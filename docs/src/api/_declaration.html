@@ -49,22 +49,24 @@
   <table>
     <thead>
       <tr>
-        <td>{{ API_TOOLS.findChildById(group.children[0], children).kindString }}</td>
-        <td>{{ 'Value' if group.children[0].defaultValue else 'Type' }}</td>
-        <td>Notes</td>
+        <th>{{ API_TOOLS.findChildById(group.children[0], children).kindString }}</th>
+        <th>{{ 'Value' if group.children[0].defaultValue else 'Type' }}</th>
+        <th>Notes</th>
       </tr>
     </thead>
     <tbody>
       {% for id in group.children %}
         {% set child = API_TOOLS.findChildById(id, children) %}
         <tr>
-          <td class="code-face {{child.icon}} no-wrap padding-right-1">
-            <span class="tsd-kind-icon left margin-right-half">{{child.name}}</span>
+          <td class="code-face {{child.icon}} no-wrap">
+            <span class="tsd-kind-icon">{{child.name}}</span>
             {{ @flags(child.flags) }}
           </td>
           <td class="code-face">
             {% if child.defaultValue %}
               {{ child.defaultValue }}
+            {% elif child.getSignature %}
+              {{ @paramType(child.getSignature[0].type) }}
             {% else %}
               {{ @paramType(child.type) }}
             {% endif %}
@@ -83,23 +85,23 @@
 
 {% macro @flags(flags) %}
   {% if flags.isOptional %}
-  <span class="label margin-right-half">Optional</span>
+  <span class="label">Optional</span>
   {% endif %}
 
   {% if flags.isPrivate %}
-  <span class="label margin-right-half">Private</span>
+  <span class="label">Private</span>
   {% endif %}
 
   {% if flags.isProtected %}
-  <span class="label margin-right-half">Protected</span>
+  <span class="label">Protected</span>
   {% endif %}
 
   {% if flags.isRequired %}
-  <span class="label margin-right-half">Required</span>
+  <span class="label">Required</span>
   {% endif %}
 
   {% if flags.isStatic %}
-  <span class="label margin-right-half">Static</span>
+  <span class="label">Static</span>
   {% endif %}
 {% endmacro %}
 
@@ -108,19 +110,19 @@
     {{ signatures[0].comment.shortText | safe }}
   {%- endmarkdown %}
 
-  <ul class="list-plain tsd-signatures {{icon}} trailer-1">
+  <ul class="list-plain tsd-signatures {{icon}} trailer-half">
     {% for signature in signatures %}
       {{ @signature(signature) }}
     {% endfor %}
   </ul>
 
-  <h2 class="font-size-1">Parameters</h2>
+  <h2 class="font-size-1 trailer-half">Parameters</h2>
   {{@parametersTable(signatures[0].parameters)}}
 
-  <h2 class="font-size-1">Returns</h2>
+  <h2 class="font-size-1 trailer-half">Returns</h2>
 
   {%- markdown -%}
-    <code>{{@paramType(signatures[0].type)}}</code> - {{ signatures[0].comment.returns | safe }}
+    <code>{{@paramType(signatures[0].type)}}</code>{{" - " if signatures[0].comment.returns}}{{ signatures[0].comment.returns | safe }}
   {%- endmarkdown %}
 
   {% if signatures[0].comment.text %}
@@ -132,15 +134,110 @@
   {% endif %}
 {% endmacro %}
 
+{% macro @methodsTable(group, children) %}
+  <table>
+    <thead>
+    <tr>
+      <th>Method</th>
+      <th>Returns</th>
+      <th>Notes</th>
+    </tr>
+    </thead>
+    <tbody>
+      {% for childId in group.children %}
+        {% set child = API_TOOLS.findChildById(childId, children) %}
+        <tr>
+          <td>
+            <ul class="method-table-signatures {{child.signatures[0].icon}}">
+              {% for signature in child.signatures %}
+                <li class="code-face tsd-signature tsd-kind-icon"><a href="#{{signature.name}}">{{ signature.name }}</a>({{ @signatureParams(signature.parameters) }})</li>
+              {% endfor %}
+            </ul>
+          </td>
+          <td>{{@paramType(child.signatures[0].type)}}</td>
+          <td class="body-face api-param-comment">
+            {% markdown -%}
+              {{ child.signatures[0].comment.shortText | safe | trim }}
+            {%- endmarkdown %}
+            {% markdown -%}
+              {{ child.signatures[0].comment.text | safe | trim }}
+            {%- endmarkdown %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% for childId in group.children %}
+    {% set child = API_TOOLS.findChildById(childId, children) %}
+    {% set signatures = child.signatures %}
+    <div class="panel panel-white padding-trailer-0 leader-1 trailer-1">
+      <div class="clearfix">
+        <h3 id="{{ signatures[0].name }}" class="font-size-2 code-face trailer-0 margin-right-half left">{{signatures[0].name}}</h3>
+        {{ @flags(child.flags)}}
+        <small class="{{signatures[0].icon}} font-size--2 right">
+          <span class="tsd-kind-icon">
+            {% if child.flags.isStatic %}
+              Static {{kindString}} Method
+            {% elif child.flags.isPrivate %}
+              Private {{kindString}} Method
+            {% elif child.flags.isProtected %}
+              Protected {{kindString}} Method
+            {% else %}
+              {{kindString}} Method
+            {% endif %}
+          </span>
+        </small>
+      </div>
+
+      <hr class="leader-half trailer-1">
+
+      <div class="api-function-comment">
+        {% markdown -%}
+          {{ signatures[0].comment.shortText | safe }}
+        {%- endmarkdown %}
+      </div>
+
+      <ul class="list-plain tsd-signatures trailer-half {{signatures[0].icon}}">
+        {% for signature in signatures %}
+          {{ @signature(signature) }}
+        {% endfor %}
+      </ul>
+
+      <h2 class="font-size-1 trailer-half">Parameters</h2>
+      {{@parametersTable(signatures[0].parameters)}}
+
+      <h2 class="font-size-1 trailer-half">Returns</h2>
+
+      {%- markdown -%}
+        <code>{{@paramType(signatures[0].type)}}</code>{{" - " if signatures[0].comment.returns}}{{ signatures[0].comment.returns | safe }}
+      {%- endmarkdown %}
+
+      {% if signatures[0].comment.text %}
+        <hr class="leader-half trailer-half">
+
+        {% markdown -%}
+          {{ signatures[0].comment.text | safe }}
+        {%- endmarkdown %}
+      {% endif %}
+    </div>
+  {% endfor %}
+{% endmacro %}
+
+{% macro @accessorsTable(group, children) %}
+  {{ @properties(group, children) }}
+  {# @TODO make a custom table when and if we need setters... #}
+{% endmacro %}
+
 {% macro @parametersTable(parameters) %}
   <div class="overflow-auto">
     <table>
       <thead>
         <tr>
-          <td class="font-size--2">Parameter</td>
-          <td class="font-size--2">Type</td>
-          <td class="font-size--2">Default</td>
-          <td class="font-size--2">Notes</td>
+          <th class="font-size--2">Parameter</th>
+          <th class="font-size--2">Type</th>
+          <th class="font-size--2">Default</th>
+          <th class="font-size--2">Notes</th>
         </tr>
       </thead>
       <tbody>
@@ -174,7 +271,7 @@
 {% endmacro %}
 
 <div class="clearfix">
-  <h1 class="left font-size-4 code-face trailer-0">{{name}}</h1>
+  <h1 class="left font-size-5 code-face trailer-0">{{name}}</h1>
   <small class="{{icon}} font-size--2 right"><span class="tsd-kind-icon">{{kindString}}</span></small>
 </div>
 
@@ -192,7 +289,8 @@
 
 {% if groups %}
   {% for group in groups %}
-    <h2 class="font-size-1">{{group.title}}</h2>
+    <h2 class="font-size-3">{{group.title}}</h2>
+
     {% if group.title == 'Properties' %}
       {{ @properties(group, children) }}
     {% endif %}
@@ -211,6 +309,15 @@
       <h2 class="font-size-1">Constructor Parameters</h2>
       {{@parametersTable(firstSignature.parameters)}}
     {% endif %}
+
+    {% if group.title == 'Accessors' %}
+      {{ @accessorsTable(group, children) }}
+    {% endif %}
+
+    {% if group.title == 'Methods' %}
+      {{ @methodsTable(group, children) }}
+    {% endif %}
+
   {% endfor %}
 {% endif %}
 
@@ -220,9 +327,9 @@
 
 <hr class="leader-half trailer-half">
 
-<small class="font-size--2">Defined in <a href="https://github.com/ArcGIS/rest-js/blob/master/packages/{{package}}/src/{{sources[0].fileName}}#L{{sources[0].line}}">packages/{{package}}/src/{{sources[0].fileName}}:{{sources[0].line}}</a></small>
+<small class="font-size--2">{{kindString}} defined in <a href="https://github.com/ArcGIS/rest-js/blob/master/packages/{{sources[0].fileName}}#L{{sources[0].line}}">packages/{{sources[0].fileName}}:{{sources[0].line}}</a></small>
 
 <details class="leader-1">
   <summary>Debug Info</summary>
-  <pre><code>{{__defaultMetadata.signatures[0].type | inspect}}</code></pre>
+  <pre><code>{{__defaultMetadata | inspect}}</code></pre>
 </details>
