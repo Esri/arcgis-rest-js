@@ -28,7 +28,7 @@
 
     {%- if type.typeArguments -%}
       {% for arg in type.typeArguments -%}
-        {{ '<' if loop.first}}{{ arg.name }}{{ '>' if loop.last}}
+        {{ '<' if loop.first}}{{ @paramType(arg) }}{{ '>' if loop.last}}
       {%- endfor %}
     {%- endif -%}</i>
 {%- endmacro %}
@@ -224,5 +224,5 @@
 
 <details class="leader-1">
   <summary>Debug Info</summary>
-  <pre><code>{{__defaultMetadata | inspect}}</code></pre>
+  <pre><code>{{__defaultMetadata.signatures[0].type | inspect}}</code></pre>
 </details>
