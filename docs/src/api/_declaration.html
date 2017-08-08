@@ -50,7 +50,7 @@
     <thead>
       <tr>
         <th>{{ API_TOOLS.findChildById(group.children[0], children).kindString }}</th>
-        <th>{{ 'Value' if group.children[0].defaultValue else 'Type' }}</th>
+        <th>{{ 'Value' if API_TOOLS.findChildById(group.children[0], children).defaultValue else 'Type' }}</th>
         <th>Notes</th>
       </tr>
     </thead>
@@ -291,6 +291,10 @@
   {% for group in groups %}
     <h2 class="font-size-3">{{group.title}}</h2>
 
+    {% if group.title == 'Enumeration members' %}
+      {{ @properties(group, children) }}
+    {% endif %}
+
     {% if group.title == 'Properties' %}
       {{ @properties(group, children) }}
     {% endif %}
@@ -323,6 +327,12 @@
 
 {% if signatures %}
   {{@signatures(signatures)}}
+{% endif %}
+
+{% if comment and comment.text %}
+  {% markdown -%}
+    {{ comment.text | safe }}
+  {%- endmarkdown %}
 {% endif %}
 
 <hr class="leader-half trailer-half">
