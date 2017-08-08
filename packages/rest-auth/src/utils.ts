@@ -1,6 +1,6 @@
-import { request } from "@esri/rest-request";
+import { request, IParams } from "@esri/rest-request";
 
-export interface IGenerateTokenParams {
+export interface IGenerateTokenParams extends IParams {
   username?: string;
   password?: string;
   expiration?: number;
@@ -30,7 +30,7 @@ export type GrantTypes =
   | "client_credentials"
   | "exchange_refresh_token";
 
-export interface IFetchTokenParams {
+export interface IFetchTokenParams extends IParams {
   client_id: string;
   client_secret?: string;
   grant_type: GrantTypes;
