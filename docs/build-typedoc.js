@@ -144,6 +144,18 @@ const minimatch = require("minimatch");
               declaration.kindString
             ).toLowerCase()}`;
 
+            if (child.flags.isPrivate) {
+              child.icon += ` tsd-is-private`;
+            }
+
+            if (child.flags.isProtected) {
+              child.icon += ` tsd-is-protected`;
+            }
+
+            if (child.flags.isStatic) {
+              child.icon += ` tsd-is-static`;
+            }
+
             if (child.signatures) {
               child.signatures = child.signatures.map(sig => {
                 sig.icon = child.icon;

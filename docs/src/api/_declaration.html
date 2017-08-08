@@ -58,7 +58,10 @@
       {% for id in group.children %}
         {% set child = API_TOOLS.findChildById(id, children) %}
         <tr>
-          <td class="code-face {{child.icon}}"><span class="tsd-kind-icon">{{child.name}}</span></td>
+          <td class="code-face {{child.icon}} no-wrap padding-right-1">
+            <span class="tsd-kind-icon left margin-right-half">{{child.name}}</span>
+            {{ @flags(child.flags) }}
+          </td>
           <td class="code-face">
             {% if child.defaultValue %}
               {{ child.defaultValue }}
@@ -76,6 +79,28 @@
 
     </tbody>
   </table>
+{% endmacro %}
+
+{% macro @flags(flags) %}
+  {% if flags.isOptional %}
+  <span class="label margin-right-half">Optional</span>
+  {% endif %}
+
+  {% if flags.isPrivate %}
+  <span class="label margin-right-half">Private</span>
+  {% endif %}
+
+  {% if flags.isProtected %}
+  <span class="label margin-right-half">Protected</span>
+  {% endif %}
+
+  {% if flags.isRequired %}
+  <span class="label margin-right-half">Required</span>
+  {% endif %}
+
+  {% if flags.isStatic %}
+  <span class="label margin-right-half">Static</span>
+  {% endif %}
 {% endmacro %}
 
 {% macro @signatures(signatures) %}
@@ -115,17 +140,24 @@
           <td class="font-size--2">Parameter</td>
           <td class="font-size--2">Type</td>
           <td class="font-size--2">Default</td>
-          <td class="font-size--2">Required</td>
           <td class="font-size--2">Notes</td>
         </tr>
       </thead>
       <tbody>
         {% for param in parameters -%}
           <tr>
-            <td class="code-face">{{param.name}}</td>
+            <td class="code-face">
+              <span class="code-face">{{param.name}}</span>
+              {% if param.defaultValue %}
+                {{ @flags({isOptional: true}) }}
+              {% elif not param.defaultValue and not param.flags.isOptional %}
+                {{ @flags({isRequired: true}) }}
+              {% else %}
+                {{ @flags(param.flags) }}
+              {% endif %}
+            </td>
             <td class="code-face">{{@paramType(param.type)}}</td>
             <td class="code-face">{{param.defaultValue}}</td>
-            <td>{{"No" if param.defaultValue or param.flags.isOptional else "Yes"}}</td>
             <td class="body-face api-param-comment">
               {% markdown -%}
                 {{ param.comment.shortText | safe | trim }}
