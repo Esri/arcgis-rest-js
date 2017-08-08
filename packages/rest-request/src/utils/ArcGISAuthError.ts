@@ -2,9 +2,9 @@
 // and https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
 //
 // This code is from MDN https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Custom_Error_Types.
-export class ArcGISRequestError {
+export class ArcGISAuthError {
   /**
-   * The name of this error. Will always be `"ArcGISRequestError"` to conform with the [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) class.
+   * The name of this error. Will always be `"ArcGISAuthError"` to conform with the [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) class.
    */
   name: string;
 
@@ -29,24 +29,24 @@ export class ArcGISRequestError {
   originalResponse: any;
 
   /**
-   * Create a new `ArcGISRequestError`  object.
+   * Create a new `ArcGISAuthError`  object.
    *
    * @param message - The error message from the API
    * @param code - The error code from the API
    * @param originalResponse - The original response from the API that caused the error
    */
   constructor(
-    message = "UNKNOWN_ERROR",
-    code = "UNKNOWN_ERROR_CODE",
+    message = "AUTHENTICATION_ERROR",
+    code = "AUTHENTICATION_ERROR_CODE",
     originalResponse?: any
   ) {
-    this.name = "ArcGISRequestError";
+    this.name = "ArcGISAuthError";
     this.message =
-      code === "UNKNOWN_ERROR_CODE" ? message : `${code}: ${message}`;
+      code === "AUTHENTICATION_ERROR" ? message : `${code}: ${message}`;
     this.originalMessage = message;
     this.code = code;
     this.originalResponse = originalResponse;
   }
 }
-ArcGISRequestError.prototype = Object.create(Error.prototype);
-ArcGISRequestError.prototype.constructor = ArcGISRequestError;
+ArcGISAuthError.prototype = Object.create(Error.prototype);
+ArcGISAuthError.prototype.constructor = ArcGISAuthError;

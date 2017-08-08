@@ -1,6 +1,7 @@
 import * as http from "http";
 import {
   request,
+  ArcGISAuthError,
   ArcGISRequestError,
   IAuthenticationManager
 } from "@esri/rest-request";
@@ -465,7 +466,7 @@ export class UserSession implements IAuthenticationManager {
    * Attempts to use the internal `trustedServers` cache first.
    */
   private getTokenForServer(url: string) {
-    const [root] = url.split("rest/services");
+    const [root] = url.split("/rest/services/");
     const existingToken = this.trustedServers[root];
 
     if (existingToken && existingToken.expires.getTime() > Date.now()) {
@@ -477,7 +478,17 @@ export class UserSession implements IAuthenticationManager {
         return response.owningSystemUrl;
       })
       .then(owningSystemUrl => {
-        // @TODO if owning system URL if NOT this.portal we need to bail out...
+        /**
+         * if this server is not owned by this portal bail out with an error
+         * since we know we wont be able to generate a token
+         */
+        if (!new RegExp(owningSystemUrl).test(this.portal)) {
+          throw new ArcGISAuthError(
+            `${url} is not federated with ${this.portal}.`,
+            "NOT_FEDERATED"
+          );
+        }
+
         return request(`${owningSystemUrl}/sharing/rest/info`);
       })
       .then((response: any) => {
