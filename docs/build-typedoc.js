@@ -190,9 +190,11 @@ const minimatch = require("minimatch");
           .uniq()
           .reduce((packages, package) => {
             const src = `api/${package}.html`;
+            const pkg = require(`${process.cwd()}/packages/${package}/package.json`);
 
             packages.push({
               package,
+              pkg,
               name: package,
               declarations: declarations.filter(d => d.package === package),
               icon: "tsd-kind-module",

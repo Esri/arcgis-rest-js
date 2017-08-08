@@ -13,6 +13,10 @@
   }
 }
 
+.api-package-content-list {
+  margin-left: 1.1375rem;
+}
+
 a > code {
   color: #0079c1;
   &:hover {
@@ -27,6 +31,37 @@ a > code {
 .method-table-signatures {
   margin: 0;
   li {
+    margin: 0;
+  }
+}
+
+.package-contents {
+  display: grid;
+  grid-gap: 10px;
+}
+
+/* no grid support? */
+
+.package-contents {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.package-contents {
+  display: grid;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fill, minmax(25ch, 1fr));
+}
+
+.package-contents li {
+  /* needed for the flex layout*/
+  flex: 1 1 200px;
+}
+
+/* We need to set the margin used on flex items to 0 as we have gaps in grid.  */
+
+@supports (display: grid) {
+  .package-contents > * {
     margin: 0;
   }
 }
