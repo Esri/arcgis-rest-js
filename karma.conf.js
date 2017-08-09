@@ -18,6 +18,11 @@ module.exports = function(config) {
     exclude: [],
 
     karmaTypescriptConfig: {
+      reports: {
+        lcovonly: "coverage",
+        html: "coverage",
+        text: ""
+      },
       compilerOptions: {
         module: "commonjs"
       },
@@ -47,7 +52,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["jasmine-diff", "progress", "karma-typescript"],
+    reporters: ["jasmine-diff", "dots", "karma-typescript"],
 
     // web server port
     port: 9876,

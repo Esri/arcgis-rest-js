@@ -16,7 +16,6 @@
     "husky": "^0.14.3",
     "inspect-process": "^0.5.0",
     "jasmine-core": "^2.6.4",
-    "jasmine-ts": "^0.2.0",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.2.0",
     "karma-firefox-launcher": "^1.0.1",
@@ -51,6 +50,7 @@
     "es6-promise": "^4.1.1",
     "isomorphic-fetch": "^2.2.1",
     "isomorphic-form-data": "^1.0.0",
+    "jasmine": "^2.7.0",
     "tslib": "^1.7.1"
   },
   "lint-staged": {
@@ -62,7 +62,7 @@
   },
   "scripts": {
     "build": "lerna run build",
-    "test": "npm run test:chrome && npm run test:node",
+    "test": "npm run test:node && npm run test:chrome",
     "test:chrome:debug": "karma start --auto-watch --no-single-run --browsers=Chrome",
     "test:chrome": "karma start --single-run --browsers=Chrome",
     "test:node": "jasmine --config=jasmine.json",

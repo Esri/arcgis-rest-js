@@ -42,7 +42,7 @@ export class ArcGISAuthError {
   ) {
     this.name = "ArcGISAuthError";
     this.message =
-      code === "AUTHENTICATION_ERROR" ? message : `${code}: ${message}`;
+      code === "AUTHENTICATION_ERROR_CODE" ? message : `${code}: ${message}`;
     this.originalMessage = message;
     this.code = code;
     this.originalResponse = originalResponse;
