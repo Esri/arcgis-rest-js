@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const { UserSession } = require("@esri/rest-auth");
-const { clientId } = require("config.json");
+const { clientId } = require("./config.json");
 
 const credentials = {
   clientId,

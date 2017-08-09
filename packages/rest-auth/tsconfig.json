@@ -4,11 +4,8 @@
     "target": "es5",
     "module": "es2015",
     "moduleResolution": "node",
-    "declaration": true,
-    "outDir": "./dist/esm",
-    "declarationDir": "./dist/types",
     "sourceMap": true,
-    "strictNullChecks": false
+    "importHelpers": true
   },
   "include": ["./src/**/*.ts", "../../support/**/*.ts"]
 }

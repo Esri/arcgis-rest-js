@@ -5,14 +5,12 @@
 </head>
 <body>
 
-<script src="node_modules/@esri/rest-request/dist/umd/bundle.umd.js"></script>
-<script src="node_modules/@esri/rest-auth/dist/umd/bundle.umd.js"></script>
-<script>
-const { request } = esri_rest_esri_rest_request;
-const { UserSession } = esri_rest_esri_rest_auth;
+<script src="node_modules/@esri/rest-request/dist/umd/rest-request.umd.js"></script>
+<script src="node_modules/@esri/rest-auth/dist/umd/rest-auth.umd.js"></script>
 
+<script>
 try {
-  UserSession.completeOAuth2({
+  EsriRestAuth.UserSession.completeOAuth2({
     clientId: "bwQCnqNnTJtOM6ue",
     redirectUri: "http://localhost:8080/post-sign-in.html",
     popup: true,
