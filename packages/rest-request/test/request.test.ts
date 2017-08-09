@@ -1,6 +1,9 @@
 import { request, FormData } from "../src/index";
 import * as fetchMock from "fetch-mock";
-import { SharingRestInfo } from "./mocks/sharing-rest-info";
+import {
+  SharingRestInfo,
+  SharingRestInfoHTML
+} from "./mocks/sharing-rest-info";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap";
 
 describe("request()", () => {
@@ -60,6 +63,27 @@ describe("request()", () => {
         );
         expect(options.method).toBe("GET");
         expect(response).toEqual(WebMapAsText);
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should make a basic GET request for html", () => {
+    fetchMock.once("*", SharingRestInfoHTML);
+
+    request(
+      "https://www.arcgis.com/sharing/rest/info",
+      { f: "html" },
+      {
+        httpMethod: "GET"
+      }
+    )
+      .then(response => {
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=html");
+        expect(options.method).toBe("GET");
+        expect(response).toEqual(SharingRestInfoHTML);
       })
       .catch(e => {
         fail(e);

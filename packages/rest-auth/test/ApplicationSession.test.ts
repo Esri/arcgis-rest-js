@@ -49,4 +49,23 @@ describe("ApplicationSession", () => {
       });
     });
   });
+
+  it("should provide a method to refresh a session", done => {
+    const session = new ApplicationSession({
+      clientId: "id",
+      clientSecret: "secret",
+      token: "token",
+      expires: YESTERDAY
+    });
+
+    fetchMock.post("https://www.arcgis.com/sharing/rest/oauth2/token/", {
+      access_token: "new",
+      expires_in: 1800
+    });
+
+    session.refreshSession().then(s => {
+      expect(s).toBe(session);
+      done();
+    });
+  });
 });

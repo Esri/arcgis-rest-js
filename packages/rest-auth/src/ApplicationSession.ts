@@ -1,5 +1,5 @@
 import { request, IAuthenticationManager } from "@esri/rest-request";
-import { fetchToken } from "./utils";
+import { fetchToken } from "./fetchToken";
 
 export interface IApplicationSessionOptions {
   clientId: string;
@@ -47,6 +47,6 @@ export class ApplicationSession implements IAuthenticationManager {
   }
 
   refreshSession() {
-    this.refreshToken().then(() => this);
+    return this.refreshToken().then(() => this);
   }
 }

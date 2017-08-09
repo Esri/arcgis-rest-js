@@ -1,29 +1,5 @@
 import { request, IParams } from "@esri/rest-request";
 
-export interface IGenerateTokenParams extends IParams {
-  username?: string;
-  password?: string;
-  expiration?: number;
-  token?: string;
-  serverUrl?: string;
-}
-
-export interface IGenerateTokenResponse {
-  token: string;
-  expires: number;
-  ssl: boolean;
-}
-
-export function generateToken(
-  url: string,
-  params: IGenerateTokenParams
-): Promise<IGenerateTokenResponse> {
-  return request(url, {
-    ...{ referer: window ? window.location.host : "@esri/rest-auth" },
-    ...params
-  });
-}
-
 export type GrantTypes =
   | "authorization_code"
   | "refresh_token"
@@ -61,9 +37,10 @@ export function fetchToken(
     const r: IFetchTokenResponse = {
       token: response.access_token,
       username: response.username,
-      expires: new Date(Date.now() + (response.expires_in * 1000 - 60 * 1000))
+      expires: new Date(
+        Date.now() + (response.expires_in * 60 * 1000 - 60 * 1000)
+      )
     };
-
     if (response.refresh_token) {
       r.refreshToken = response.refresh_token;
     }

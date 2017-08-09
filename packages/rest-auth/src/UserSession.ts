@@ -5,7 +5,8 @@ import {
   ArcGISRequestError,
   IAuthenticationManager
 } from "@esri/rest-request";
-import { generateToken, fetchToken } from "./utils";
+import { generateToken } from "./generateToken";
+import { fetchToken, IFetchTokenResponse } from "./fetchToken";
 
 /**
  * Internal utility for resolving a Promise from outside its constructor.
@@ -226,7 +227,7 @@ export class UserSession implements IAuthenticationManager {
     this.portal = options.portal || "https://www.arcgis.com/sharing/rest";
     this.tokenDuration = options.tokenDuration || 20160;
     this.redirectUri = options.redirectUri;
-    this.refreshTokenDuration = options.refreshTokenDuration;
+    this.refreshTokenDuration = options.refreshTokenDuration || 20160;
     this.trustedServers = {};
   }
 
@@ -237,7 +238,10 @@ export class UserSession implements IAuthenticationManager {
    *
    * @browserOnly
    */
-  static beginOAuth2(options: IOauth2Options, win: any = window) {
+  static beginOAuth2(
+    options: IOauth2Options,
+    /* istanbul ignore next */ win: any = window
+  ) {
     const { portal, clientId, duration, redirectUri, popup }: IOauth2Options = {
       ...{
         portal: "https://arcgis.com/sharing/rest",
@@ -246,6 +250,7 @@ export class UserSession implements IAuthenticationManager {
       },
       ...options
     };
+
     const url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${duration}&redirect_uri=${encodeURIComponent(
       redirectUri
     )}`;
@@ -259,10 +264,11 @@ export class UserSession implements IAuthenticationManager {
 
     win[`__ESRI_REST_AUTH_HANDLER_${clientId}`] = function(
       error: any,
-      oauthInfo: any
+      oauthInfo: IFetchTokenResponse
     ) {
       if (error) {
         session.reject(error);
+        return;
       }
 
       session.resolve(
@@ -292,13 +298,16 @@ export class UserSession implements IAuthenticationManager {
    *
    * @browserOnly
    */
-  static completeOAuth2(options: IOauth2Options, win: any = window) {
+  static completeOAuth2(
+    options: IOauth2Options,
+    /* istanbul ignore next*/ win: any = window
+  ) {
     const { portal, clientId, duration, redirectUri }: IOauth2Options = {
       ...{ portal: "https://arcgis.com/sharing/rest", duration: 20160 },
       ...options
     };
 
-    function completeSignIn(error: any, oauthInfo: any) {
+    function completeSignIn(error: any, oauthInfo: IFetchTokenResponse) {
       if (win.opener && win.opener.parent) {
         win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`](
           error,
@@ -310,7 +319,7 @@ export class UserSession implements IAuthenticationManager {
 
       if (win.parent) {
         win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`](error, oauthInfo);
-        window.close();
+        win.close();
         return;
       }
 
@@ -333,10 +342,11 @@ export class UserSession implements IAuthenticationManager {
 
     if (!match) {
       const errorMatch = win.location.href.match(
-        /error=(.+)&error_description=(.+)&/
+        /error=(.+)&error_description=(.+)/
       );
-      const error = match[1];
-      const errorMessage = decodeURIComponent(match[2]);
+
+      const error = errorMatch[1];
+      const errorMessage = decodeURIComponent(errorMatch[2]);
 
       return completeSignIn(new ArcGISRequestError(errorMessage, error), null);
     }
@@ -386,7 +396,7 @@ export class UserSession implements IAuthenticationManager {
     authorizationCode: string
   ): Promise<UserSession> {
     const { portal, clientId, duration, redirectUri }: IOauth2Options = {
-      ...{ portal: "https://arcgis.com/sharing/rest", duration: 20160 },
+      ...{ portal: "https://www.arcgis.com/sharing/rest", duration: 20160 },
       ...options
     };
 
@@ -410,6 +420,23 @@ export class UserSession implements IAuthenticationManager {
     });
   }
 
+  static deserialize(str: string) {
+    const options = JSON.parse(str);
+    return new UserSession({
+      clientId: options.clientId,
+      refreshToken: options.refreshToken,
+      refreshTokenExpires: new Date(options.refreshTokenExpires),
+      username: options.username,
+      password: options.password,
+      token: options.token,
+      tokenExpires: new Date(options.tokenExpires),
+      portal: options.portal,
+      tokenDuration: options.tokenDuration,
+      redirectUri: options.redirectUri,
+      refreshTokenDuration: options.refreshTokenDuration
+    });
+  }
+
   /**
    * Gets a appropriate token for the given URL. If `portal` is ArcGIS Online and
    * the request is to an ArcGIS Online domain `token` will be used. If the request
@@ -430,7 +457,7 @@ export class UserSession implements IAuthenticationManager {
     }
   }
 
-  toJson(): IUserSessionOptions {
+  toJSON(): IUserSessionOptions {
     return {
       clientId: this.clientId,
       refreshToken: this.refreshToken,
@@ -444,6 +471,10 @@ export class UserSession implements IAuthenticationManager {
       redirectUri: this.redirectUri,
       refreshTokenDuration: this.refreshTokenDuration
     };
+  }
+
+  serialize() {
+    return JSON.stringify(this);
   }
 
   /**
@@ -488,7 +519,6 @@ export class UserSession implements IAuthenticationManager {
             "NOT_FEDERATED"
           );
         }
-
         return request(`${owningSystemUrl}/sharing/rest/info`);
       })
       .then((response: any) => {
@@ -548,12 +578,12 @@ export class UserSession implements IAuthenticationManager {
     if (
       this.refreshToken &&
       this.refreshTokenExpires &&
-      this.refreshTokenExpires.getTime() > Date.now()
+      this.refreshTokenExpires.getTime() < Date.now()
     ) {
       return this.refreshRefreshToken();
     }
 
-    return fetchToken(`${this.portal}/oauth2/token/`, {
+    return fetchToken(`${this.portal}/oauth2/token`, {
       client_id: this.clientId,
       refresh_token: this.refreshToken,
       grant_type: "refresh_token"
@@ -569,19 +599,17 @@ export class UserSession implements IAuthenticationManager {
    * `tokenExpires`.
    */
   private refreshRefreshToken() {
-    return request(`${this.portal}/oauth2/token/`, {
+    return fetchToken(`${this.portal}/oauth2/token`, {
       client_id: this.clientId,
       refresh_token: this.refreshToken,
       redirect_uri: this.redirectUri,
       grant_type: "exchange_refresh_token"
-    }).then((response: any) => {
-      this._token = response.access_token;
-      this._tokenExpires = new Date(
-        Date.now() + (response.expires_in - 60) * 1000
-      );
-      this._refreshToken = response.refresh_token;
+    }).then(response => {
+      this._token = response.token;
+      this._tokenExpires = response.expires;
+      this._refreshToken = response.refreshToken;
       this._refreshTokenExpires = new Date(
-        Date.now() + (this.refreshTokenDuration - 60) * 1000
+        Date.now() + (this.refreshTokenDuration - 1) * 60 * 1000
       );
       return this;
     });
