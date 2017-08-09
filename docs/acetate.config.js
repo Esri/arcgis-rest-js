@@ -1,16 +1,94 @@
-const _ = require("lodash");
 const path = require("path");
-const slug = require("slug");
-const { prettyifyUrl } = require("acetate/lib/utils.js");
-const { inspect } = require("util");
 const fs = require("fs");
+const { inspect } = require("util");
+const _ = require("lodash");
+const slug = require("slug");
 
 module.exports = function(acetate) {
+  /**
+   * Load all .html and markdown pages in the `src` folder, assigning them a
+   * default layout.
+   */
   acetate.load("**/*.+(html|md)", {
     metadata: {
       layout: "_layout:main"
     }
   });
+
+  /**
+   * Add a different layout for guides. Add an array of `titleSegments` to go
+   * inbetween the page title and the "Esri REST JS" title suffix.
+   */
+  acetate.metadata("guides/**/*", {
+    layout: "guides/_layout:content",
+    titleSegments: ["Guide"]
+  });
+
+  /**
+   * Now we need to make a new query called `guides` that will be used to render
+   * the guide navigation.
+   */
+  acetate.query(
+    /**
+     * results will be accessible as `queries.guides` in templates
+     */
+    "guides",
+    /**
+     * start by getting all markdown pages in the `guides` folder
+     */
+    "guides/**/*.md",
+    /**
+     * Now map over each page extracting values from it into a new array.
+     */
+    page => {
+      return {
+        title: page.title,
+        order: page.order,
+        group: page.group,
+        url: page.url
+      };
+    },
+    /**
+     * Now reduce our array from the previous step sorting the items into sections
+     * based on their `group` property.
+     */
+    (sections, item) => {
+      if (!item.group) {
+        return sections;
+      }
+
+      // does this items `section` already have a `section` in `sections`?
+      const idx = _.findIndex(sections, section => section.id === item.group);
+
+      if (idx >= 0) {
+        // if it does push this item into it.
+        sections[idx].items.push(item);
+      } else {
+        // if it does not push a new `section` into `sections`.
+        sections.push({
+          name: _.startCase(item.group.replace(/\d-/, "")),
+          id: item.group,
+          items: [item]
+        });
+      }
+
+      /**
+       * sort our sections by their `id` (which starts with a number) an sort
+       * each sections items by their `order` property
+       */
+      return _(sections)
+        .sortBy("id")
+        .map(section => {
+          section.items = _.sortBy(section.items, "order");
+          return section;
+        })
+        .value();
+    },
+    /**
+     * The initial value for the above reduce function.
+     */
+    []
+  );
 
   /**
    * Load the typedoc.json file as a page in Acetate. This makes the watcher

@@ -6,6 +6,9 @@ const OUTPUT = join(process.cwd(), "docs", "src", `typedoc.json`);
 const { prettyifyUrl } = require("acetate/lib/utils.js");
 const slug = require("slug");
 const minimatch = require("minimatch");
+const cheerio = require("cheerio");
+const MarkdownIt = require("markdown-it");
+const md = new MarkdownIt();
 
 (function generateTypeDoc() {
   return new Promise((resolve, reject) => {
@@ -130,7 +133,8 @@ const minimatch = require("minimatch");
        * be generated for this declaration. Each `declaration` will also have
        * `children` which we can generate and `icon` property for. These
        * additonal properties, `src`, `pageUrl`, `icon` and `children` are then
-       * merged into the `declaration`.
+       * merged into the `declaration`. This also adds a `title`, `description`
+       * and `titleSegments` to each page which are used in the template for SEO.
        */
       return declarations.map(declaration => {
         const src = `api/${declaration.package}/${declaration.name}.html`;
@@ -167,6 +171,16 @@ const minimatch = require("minimatch");
           });
         }
 
+        declaration.title = declaration.name;
+        declaration.titleSegments = ["API Reference"];
+        declaration.description =
+          declaration.comment && declaration.comment.shortText
+            ? cheerio
+                .load(md.render(declaration.comment.shortText))
+                .text()
+                .replace("\n", "")
+            : "API Reference documentation for ${child.name}, part of ${declaration.package}.";
+
         return Object.assign(declaration, {
           src,
           pageUrl: prettyifyUrl(src),
@@ -181,7 +195,9 @@ const minimatch = require("minimatch");
        * individual API reference pages, but we still need to generate a landing
        * page for each `package`. Return a new object with our `declarations` and
        * a new property `packages` which is an array of every `package` with a
-       * page `src`, a `pageUrl`, an `icon` and a list of `declarations`.
+       * page `src`, a `pageUrl`, an `icon` and a list of `declarations`. This
+       * also adds a `title`, `description` and `titleSegments` to each page
+       * which are used in the template for SEO.
        */
       return {
         declarations,
@@ -195,6 +211,9 @@ const minimatch = require("minimatch");
             packages.push({
               package,
               pkg,
+              title: package,
+              description: pkg.description,
+              titleSegments: ["API Reference"],
               name: package,
               declarations: declarations.filter(d => d.package === package),
               icon: "tsd-kind-module",

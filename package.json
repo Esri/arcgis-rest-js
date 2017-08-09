@@ -50,6 +50,7 @@
     "typescript": "^2.4.1"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "es6-promise": "^4.1.1",
     "form-data": "^2.2.0",
     "husky": "^0.14.3",

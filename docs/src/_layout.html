@@ -4,7 +4,10 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <title>Your Title</title>
+    <title>{{title if title}}{{" | " + titleSegments | join(" |") if titleSegments}}{{" | " if title}}Esri REST JS</title>
+    {% if description %}
+    <meta name="description" content="This is an example of a meta description. This will often show up in search results.">
+    {% endif %}
     <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.7/css/calcite-web.min.css">
     <link rel="stylesheet" href="/css/style.css">
   </head>
@@ -13,8 +16,8 @@
     <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
       <nav class="drawer-nav" role="navigation">
         <aside class="side-nav">
-          <h2 class="side-nav-title">ArcGIS REST API JavaScript Client</h2>
-          {% link "/tutorials/", "Tutorials", class="side-nav-link" %}
+          <h2 class="side-nav-title">Esri REST JS</h2>
+          {% link "/guides/", "Guides", class="side-nav-link" %}
           {% link "/api/", "API Reference", class="side-nav-link"%}
         </aside>
       </nav>
@@ -22,16 +25,16 @@
 
     <div class="wrapper">
       <!-- Sample HTML -->
-      <header class="top-nav fade-in">
+      <header class="top-nav">
         <div class="grid-container">
           <div class="column-24">
             <!-- desktop sized navigation -->
             <div class="tablet-hide">
               <!-- logo / home -->
-              <a href="#" class="top-nav-title">ArcGIS REST API JavaScript Client</a>
+              <a href="/" class="top-nav-title">Esri REST JS</a>
               <!-- primary navigation sections -->
               <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
-                {% link "/tutorials/", "Tutorials", class="top-nav-link" %}
+                {% link "/guides/", "Guides", class="top-nav-link" %}
                 {% link "/api/", "API Reference", class="top-nav-link"%}
               </nav>
             </div>
