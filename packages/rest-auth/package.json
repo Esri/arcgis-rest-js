@@ -1,7 +1,7 @@
 {
   "name": "@esri/rest-auth",
   "version": "1.0.0",
-  "description": "Common methods and utilities for arcgis-rest-js.",
+  "description": "Authentication helpers for @esri/rest-*.",
   "main": "dist/node/index.js",
   "browser": "dist/browser/bundle.umd.js",
   "module": "dist/esm/index.js",

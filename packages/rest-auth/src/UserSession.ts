@@ -95,7 +95,7 @@ export interface IUserSessionOptions {
   refreshTokenExpires?: Date;
 
   /**
-   * The authenticated users username. Guarenteed to be unique across ArcGIS Online or your instance of ArcGIS Enterprise.
+   * The authenticated users username. Guaranteed to be unique across ArcGIS Online or your instance of ArcGIS Enterprise.
    */
   username?: string;
 
@@ -143,12 +143,12 @@ export class UserSession implements IAuthenticationManager {
   readonly clientId: string;
 
   /**
-   * The currently authenticated users username if provided in the `constructor`.
+   * The currently authenticated user if provided in the `constructor`.
    */
   readonly username: string;
 
   /**
-   * The currently authenticated users password if provided in the `constructor`.
+   * The currently authenticated user's password if provided in the `constructor`.
    */
   readonly password: string;
 
@@ -158,7 +158,7 @@ export class UserSession implements IAuthenticationManager {
   readonly portal: string;
 
   /**
-   * Determines how long new tokens requested last.
+   * Determines how long new tokens requested are valid.
    */
   readonly tokenDuration: number;
 
@@ -168,7 +168,7 @@ export class UserSession implements IAuthenticationManager {
   readonly redirectUri: string;
 
   /**
-   * Duration of new OAuth 2.0 refresh tokens.
+   * Duration of new OAuth 2.0 refresh token validity.
    */
   readonly refreshTokenDuration: number;
 
@@ -189,7 +189,7 @@ export class UserSession implements IAuthenticationManager {
   };
 
   /**
-   * The current token to ArcGIS Online or ArcGIS Enterprise.
+   * The current ArcGIS Online or ArcGIS Enterprise `token`.
    */
   get token() {
     return this._token;
