@@ -5,13 +5,14 @@
 </head>
 <body>
 
+<script src="config.js"></script>
 <script src="node_modules/@esri/rest-request/dist/umd/rest-request.umd.js"></script>
 <script src="node_modules/@esri/rest-auth/dist/umd/rest-auth.umd.js"></script>
 
 <script>
 try {
   EsriRestAuth.UserSession.completeOAuth2({
-    clientId: "bwQCnqNnTJtOM6ue",
+    clientId: ClientId,
     redirectUri: "http://localhost:8080/post-sign-in.html",
     popup: true,
     portal: "https://www.arcgis.com/sharing/rest"
