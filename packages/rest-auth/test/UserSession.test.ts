@@ -236,7 +236,8 @@ describe("UserSession", () => {
         token: "token",
         username: "casey",
         refreshToken: "refreshToken",
-        refreshTokenExpires: YESTERDAY
+        refreshTokenExpires: YESTERDAY,
+        redirectUri: "https://example-app.com/redirect-uri"
       });
 
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
@@ -246,13 +247,18 @@ describe("UserSession", () => {
         refresh_token: "newRefreshToken"
       });
 
-      session.refreshSession().then(s => {
-        expect(s.token).toBe("newToken");
-        expect(s.tokenExpires.getTime()).toBeGreaterThan(Date.now());
-        expect(s.refreshToken).toBe("newRefreshToken");
-        expect(s.refreshTokenExpires.getTime()).toBeGreaterThan(Date.now());
-        done();
-      });
+      session
+        .refreshSession()
+        .then(s => {
+          expect(s.token).toBe("newToken");
+          expect(s.tokenExpires.getTime()).toBeGreaterThan(Date.now());
+          expect(s.refreshToken).toBe("newRefreshToken");
+          expect(s.refreshTokenExpires.getTime()).toBeGreaterThan(Date.now());
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
     });
 
     it("should reject if we cannot refresh the token", done => {

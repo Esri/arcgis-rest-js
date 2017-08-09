@@ -1,5 +1,6 @@
 // Karma configuration
 // Generated on Thu Jul 13 2017 11:01:30 GMT-0700 (PDT)
+const fs = require("fs");
 
 module.exports = function(config) {
   config.set({
@@ -24,9 +25,15 @@ module.exports = function(config) {
       bundlerOptions: {
         transforms: [require("karma-typescript-es6-transform")()],
         resolve: {
-          alias: {
-            "@esri/rest-request": "packages/rest-request/src/index.ts"
-          }
+          // karmas resolver cant figure out the symlinked deps from lerna
+          // so we need to manually alias each package here.
+          alias: fs
+            .readdirSync("packages")
+            .filter(p => p[0] !== ".")
+            .reduce((alias, p) => {
+              alias[`@esri/${p}`] = `packages/${p}/src/index.ts`;
+              return alias;
+            }, {})
         }
       }
     },

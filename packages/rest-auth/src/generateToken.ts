@@ -1,4 +1,5 @@
 import { request, IParams } from "@esri/rest-request";
+import { isBrowser } from "./utils";
 
 export interface IGenerateTokenParams extends IParams {
   username?: string;
@@ -20,7 +21,7 @@ export function generateToken(
 ): Promise<IGenerateTokenResponse> {
   return request(url, {
     ...{
-      referer: window
+      referer: isBrowser()
         ? window.location
             .host /* istanbul ignore next since coverage is browser only mocking `window` is hard. */
         : "@esri/rest-auth"
