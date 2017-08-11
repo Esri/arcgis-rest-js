@@ -1,6 +1,6 @@
 {
   "name": "@esri/rest",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "This repository is for discussing and creating a fully featured JavaScript client API for browsers and Node.js.",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",
@@ -10,11 +10,18 @@
     "@types/node": "^6.0.82",
     "acetate": "github:patrickarlt/acetate#acetate-2",
     "acetate-cli": "^1.0.1",
+    "changelog-parser": "^2.0.5",
+    "cheerio": "^1.0.0-rc.2",
+    "commitizen": "^2.9.6",
     "concurrently": "^3.5.0",
     "cpx": "^1.5.0",
+    "cz-lerna-changelog": "github:patrickarlt/cz-lerna-changelog#3fe7650a2e2e624b1f46e5031c96119759698288",
+    "date-fns": "^1.28.5",
     "fetch-mock": "^5.12.1",
+    "gh-release": "^3.1.1",
     "husky": "^0.14.3",
     "inspect-process": "^0.5.0",
+    "jasmine": "^2.7.0",
     "jasmine-core": "^2.6.4",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.2.0",
@@ -39,6 +46,7 @@
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-typescript2": "^0.4.6",
     "rollup-plugin-uglify": "^2.0.1",
+    "shelljs": "^0.7.8",
     "slug": "^0.9.1",
     "tslint": "^5.5.0",
     "tslint-config-prettier": "^1.3.0",
@@ -47,11 +55,9 @@
     "typescript": "^2.4.1"
   },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.2",
     "es6-promise": "^4.1.1",
     "isomorphic-fetch": "^2.2.1",
     "isomorphic-form-data": "^1.0.0",
-    "jasmine": "^2.7.0",
     "tslib": "^1.7.1"
   },
   "lint-staged": {
@@ -81,7 +87,11 @@
     "lint:fix": "tslint --project tsconfig.json --type-check --fix",
     "precommit": "lint-staged",
     "bootstrap": "lerna bootstrap",
-    "postinstall": "npm run bootstrap"
+    "postinstall": "npm run bootstrap",
+    "release:prepare": "lerna publish --skip-git --skip-npm && node ./support/changelog.js",
+    "release:review": "git --no-pager diff --word-diff",
+    "release:publish": "./support/publish.sh",
+    "c": "git-cz"
   },
   "repository": {
     "type": "git",
@@ -98,5 +108,10 @@
   "bugs": {
     "url": "https://github.com/ArcGIS/rest-js/issues"
   },
-  "homepage": "https://github.com/ArcGIS/rest-js#readme"
+  "homepage": "https://github.com/ArcGIS/rest-js#readme",
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-lerna-changelog"
+    }
+  }
 }

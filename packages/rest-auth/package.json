@@ -1,6 +1,6 @@
 {
   "name": "@esri/rest-auth",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Authentication helpers for @esri/rest-*.",
   "main": "dist/node/index.js",
   "browser": "dist/browser/rest-auth.umd.js",
@@ -12,10 +12,10 @@
     "tslib": "^1.7.1"
   },
   "peerDependencies": {
-    "@esri/rest-request": "^1.0.0"
+    "@esri/rest-request": "0.0.0"
   },
   "devDependencies": {
-    "@esri/rest-request": "^1.0.0"
+    "@esri/rest-request": "0.0.0"
   },
   "scripts": {
     "prepublish": "npm run build",

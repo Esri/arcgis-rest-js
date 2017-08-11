@@ -7,3 +7,4 @@
 5. Copy your apps client id into your new `config.json` file.
 6. `npm start`
 7. Visit http://localhost:3000/authorize to start the OAuth 2.0 process.
+

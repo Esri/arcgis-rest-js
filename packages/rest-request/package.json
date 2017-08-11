@@ -1,6 +1,6 @@
 {
   "name": "@esri/rest-request",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Common methods and utilities for @esri/rest-js.",
   "main": "dist/node/index.js",
   "browser": "dist/browser/rest-request.umd.js",
