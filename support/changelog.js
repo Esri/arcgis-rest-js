@@ -260,7 +260,7 @@ const template = stripIndents`
 
   {%- macro relatedIssues(issues) -%}
     {%- for i in issues -%}
-    [#{{i.issue}}]({{i.url}})
+    {{" "}}[#{{i.issue}}]({{i.url}})
     {%- endfor -%}
   {%- endmacro %}
 
@@ -272,7 +272,7 @@ const template = stripIndents`
       {% for type, commits in groups -%}
         * {{ getTypeName(type) }}
         {% for c in commits -%}
-        {{"   "}}* **{{ c.scope }}**: {{ c.subject }} {{link(repo, c.shortHash, c.hash)}} {{relatedIssues(c.relatedIssues)}}
+        {{"   "}}* **{{ c.scope }}**: {{ c.subject }} {{link(repo, c.shortHash, c.hash)}}{{relatedIssues(c.relatedIssues)}}
         {% endfor %}
       {%- endfor %}
     {%- endfor %}
@@ -364,11 +364,13 @@ getReleases()
       };
     });
 
-    links.push({
-      ref: "HEAD",
-      title: "Unreleased Changes",
-      href: `${repo}/compare/${_.last(links).title}...HEAD`
-    });
+    if (links.length) {
+      links.push({
+        ref: "HEAD",
+        title: "Unreleased Changes",
+        href: `${repo}/compare/${_.last(links).title}...HEAD`
+      });
+    }
 
     const rendered = nunjucks.renderString(changeLogTemplate, {
       title: changelog.title,
