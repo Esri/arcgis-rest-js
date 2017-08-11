@@ -1,0 +1,16 @@
+# Replace `type` the type of chage you are making, `scope` with a single-word
+# general description of the files, classes or methods changed. Finally Replace
+# `message` with your normal commit message.
+type(scope): message
+
+# Add an optional description below this line
+OPTIONAL DESCRIPTION
+
+# List the packages your changes will affect 1 per line under `AFFECTED PACKAGES:`
+AFFECTED PACKAGES:
+
+# Describe any breaking changes your commit makes under `BREAKING CHANGES:`
+BREAKING CHANGES:
+
+# Reference any issues closed by this commit comma seperated (`,`).
+ISSUES CLOSED: #1, #2
