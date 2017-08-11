@@ -2,14 +2,14 @@
 
 {% block main %}
   <div class="grid-container trailer-1 leader-1">
-    <div class="column-5">
+    <div class="column-6">
     <ul class="list-plain">
       {% for package in data.typedoc.packages %}
       <li class="{{ package.icon }}">
-        {% link package.pageUrl, package.name, class="tsd-kind-icon" %}
-        <ul>
-        {% for child in package.children %}
-          <li class="{{ child.icon }}">{% link child.pageUrl, child.name, class="tsd-kind-icon" %}</li>
+        {% link package.pageUrl, package.pkg.name, class="tsd-kind-icon" %}
+        <ul class="api-package-content-list">
+        {% for declaration in package.declarations %}
+          <li class="{{ declaration.icon }}">{% link declaration.pageUrl, declaration.name, class="tsd-kind-icon" %}</li>
         {% endfor %}
         </ul>
       </li>
@@ -17,7 +17,7 @@
     </ul>
     </div>
 
-    <div class="column-19">
+    <div class="column-18">
       <div class="panel">
         {% block content %}{% endblock %}
       </div>
@@ -29,7 +29,7 @@
 <div class="grid-container">
   <div class="column-24">
     <h2>Legend</h2>
-    <div class="block-group block-group-4-up">
+    <div class="block-group block-group-4-up tablet-block-group-2-up phone-block-group-1-up">
       <div class="block">
         <ul class="list-plain">
             <li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>

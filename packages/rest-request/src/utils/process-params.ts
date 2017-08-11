@@ -4,6 +4,8 @@
  * @return A new object with properly encoded values.
  */
 export function processParams(params: any): any {
+  const newParams: any = {};
+
   Object.keys(params).forEach(key => {
     const param = params[key];
     const type = Object.prototype.toString.call(param);
@@ -11,6 +13,7 @@ export function processParams(params: any): any {
 
     // properly encodes objects, arrays and dates for arcgis.com and other services.
     // ported from https://github.com/Esri/esri-leaflet/blob/master/src/Request.js#L22-L30
+    // also see https://github.com/ArcGIS/rest-js/issues/18
     switch (type) {
       case "[object Array]":
         value =
@@ -25,16 +28,19 @@ export function processParams(params: any): any {
         value = param.valueOf();
         break;
       case "[object Function]":
-        throw new Error(
-          `Function value passed for key \`${key}\` in processParams`
-        );
+        value = null;
+        break;
+      case "[object Boolean]":
+        value = param + "";
+        break;
       default:
         value = param;
         break;
     }
-
-    params[key] = value;
+    if (value) {
+      newParams[key] = value;
+    }
   });
 
-  return params;
+  return newParams;
 }

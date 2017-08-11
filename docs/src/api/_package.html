@@ -1,7 +1,9 @@
-<h1 class="{{icon}}"> {% link url, name, class="tsd-kind-icon" %}</h1>
-
-<ul class="list-plain">
-{% for child in children %}
-  <li class="{{ child.icon }}">{% link child.pageUrl, child.name, class="tsd-kind-icon" %}</li>
+<small class="label right">Version {{pkg.version}}</small>
+<h1 class="{{icon}} font-size-3 trailer-half"> {% link url, pkg.name, class="tsd-kind-icon" %}</h1>
+<p class="trailer-half">{{pkg.description}}</p>
+<hr class="leader-half trailer-half">
+<ul class="list-plain package-contents">
+{% for declaration in declarations %}
+  <li class="{{ declaration.icon }}">{% link declaration.pageUrl, declaration.name, class="tsd-kind-icon" %}</li>
 {% endfor %}
 </ul>

@@ -9,18 +9,14 @@ describe("ArcGISRequestError", () => {
   it("should expose basic error properties", () => {
     const error = new ArcGISRequestError(
       ArcGISOnlineError.error.message,
-      ArcGISOnlineError.error.messageCode,
+      ArcGISOnlineError.error.code,
       ArcGISOnlineError
     );
 
     expect(error.name).toBe("ArcGISRequestError");
-    expect(error.message).toBe(
-      "GWM_0003: You do not have permissions to access this resource or perform this operation."
-    );
-    expect(error.code).toBe("GWM_0003");
-    expect(error.originalMessage).toBe(
-      "You do not have permissions to access this resource or perform this operation."
-    );
+    expect(error.message).toBe("400: 'type' and 'title' property required.");
+    expect(error.code).toBe(400);
+    expect(error.originalMessage).toBe("'type' and 'title' property required.");
     expect(error.originalResponse).toEqual(ArcGISOnlineError);
   });
 

@@ -27,17 +27,12 @@ describe("processParams", () => {
     expect(processParams(params)).toEqual(expected);
   });
 
-  it("should throw an error if passed a function", () => {
+  it("should not encode a function", () => {
     const params = {
       foo() {} // tslint:disable-line no-empty
     };
 
-    expect(function() {
-      processParams(params);
-    }).toThrowError(
-      Error,
-      "Function value passed for key `foo` in processParams"
-    );
+    expect(processParams(params)).toEqual({});
   });
 
   it("should stringify objects", () => {
@@ -80,5 +75,26 @@ describe("processParams", () => {
     };
 
     expect(processParams(params)).toEqual(expected);
+  });
+
+  it("should stringify booleans", () => {
+    const params = {
+      foo: true
+    };
+
+    const expected = {
+      foo: "true"
+    };
+
+    expect(processParams(params)).toEqual(expected);
+  });
+
+  it("should exclude null and undefined", () => {
+    const params: any = {
+      foo: null,
+      bar: undefined
+    };
+
+    expect(processParams(params)).toEqual({});
   });
 });

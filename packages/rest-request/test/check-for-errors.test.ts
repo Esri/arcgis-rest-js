@@ -1,4 +1,8 @@
-import { checkForErrors, ArcGISRequestError } from "../src/index";
+import {
+  checkForErrors,
+  ArcGISRequestError,
+  ArcGISAuthError
+} from "../src/index";
 import { SharingRestInfo } from "./mocks/sharing-rest-info";
 import {
   ArcGISOnlineError,
@@ -6,7 +10,9 @@ import {
   TaskErrorWithJSON,
   TaskError,
   ArcGISOnlineErrorNoMessageCode,
-  ArcGISOnlineErrorNoCode
+  ArcGISOnlineErrorNoCode,
+  ArcGISServerTokenRequired,
+  ArcGISOnlineAuthError
 } from "./mocks/errors";
 
 describe("checkForErrors", () => {
@@ -19,8 +25,14 @@ describe("checkForErrors", () => {
       checkForErrors(ArcGISOnlineError);
     }).toThrowError(
       ArcGISRequestError,
-      "GWM_0003: You do not have permissions to access this resource or perform this operation."
+      "400: 'type' and 'title' property required."
     );
+  });
+
+  it("should throw an ArcGISOnlineAuthError for an error from the ArcGIS REST API", () => {
+    expect(() => {
+      checkForErrors(ArcGISOnlineAuthError);
+    }).toThrowError(ArcGISAuthError, "498: Invalid token.");
   });
 
   it("should throw an ArcGISRequestError for an error from the ArcGIS REST API that has no messageCode", () => {
@@ -60,5 +72,11 @@ describe("checkForErrors", () => {
     expect(() => {
       checkForErrors(TaskError);
     }).toThrowError(ArcGISRequestError, "failed");
+  });
+
+  it("should throw an ArcGISAuthError instead of ArcGISRequestError for messageCode=GWM_0003", () => {
+    expect(() => {
+      checkForErrors(ArcGISServerTokenRequired);
+    }).toThrowError(ArcGISAuthError, "GWM_0003: Token Required");
   });
 });

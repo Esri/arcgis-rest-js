@@ -8,6 +8,22 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:esm",
-    "build:esm": "tsc -p ./tsconfig.json"
-  }
+    "build:esm": "tsc -p ./tsconfig.json",
+    "postbuild": "rimraf dist/esm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArcGIS/rest-js.git"
+  },
+  "contributors": [
+    {
+      "name": "Patrick Arlt",
+      "email": "parlt@esri.com",
+      "url": "http://patrickarlt.com/"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/ArcGIS/rest-js/issues"
+  },
+  "homepage": "https://github.com/ArcGIS/rest-js#readme"
 }
