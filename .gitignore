@@ -71,3 +71,4 @@ docs/.typedoc_temp/
 
 # Built files
 dist
+.zip
