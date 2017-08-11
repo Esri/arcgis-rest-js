@@ -3,14 +3,17 @@
 # `message` with your normal commit message.
 type(scope): message
 
-# Add an optional description below this line
-OPTIONAL DESCRIPTION
+# Add an additional description (otpional) below this line
 
-# List the packages your changes will affect 1 per line under `AFFECTED PACKAGES:`
-AFFECTED PACKAGES:
+# If ou change will affect any Lerna packages uncomment the `AFFECTED PACKAGES:`
+# line below and list the packages, one per line, by package name.
+# AFFECTED PACKAGES:
 
-# Describe any breaking changes your commit makes under `BREAKING CHANGES:`
-BREAKING CHANGES:
+# If your commit makes any breaking changes, uncomment the `BREAKING CHANGES:`
+# line below and add a description of any breaking changes after it.
+# BREAKING CHANGES:
 
-# Reference any issues closed by this commit comma seperated (`,`).
-ISSUES CLOSED: #1, #2
+# If your commit resolves, closes or references any issues uncomment the
+# `ISSUES CLOSED:` line below and add issue number one the same line comma
+# seperated like #31,#32
+# ISSUES CLOSED:
