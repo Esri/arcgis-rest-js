@@ -1,101 +1,102 @@
-# An ArcGIS REST API Client for JavaScript
+# @esri/rest-js
 
-This repository is for discussing and creating a fully featured JavaScript client API for browsers and Node.js.
+> a compact, modular Esri JavaScript client library that runs in modern browsers and Node.js.
 
-## Origins
+## Table of Contents
 
-The idea for this library originated in a [Slack conversation between @patrickarlt and @ajturner](https://esri-runtime.slack.com/archives/C0CPMTHGD/p1499287765858737). @ajturner was looking for a library to automate creation of Feature Layers in ArcGIS Online for the Hub project.
+- [Example](#example)
+- [API Reference](#api-reference)
+- [Code of Conduct](#code-of-conduct)
+- [Instructions](#instructions)
+- [Packages](#packages)
+- [FAQ](#frequently-asked-questions)
+- [Issues](#issues)
+- [Versioning](#versioning)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Key Collaborators
+### Example
 
-This list includes people who contributed to the original conversation and those who have previously contributed to similar projects.
+```js
+import { request } from '@esri/rest-request';
 
-* @ajturner - ArcGIS Hub
-* @dbouwman - ArcGIS Hub
-* @tomwayson - ArcGIS Hub
-* @patricakrlt - ArcGIS for Developers
-* @noahmulfinger - ArcGIS for Developers
-* @araedavis - ArcGIS for Developers
-* @nixta - Developer Outreach
-* @jgravois - Developer Outreach
+const url = "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data";
 
-## Use Cases and Target Audience
-
-This API would simplify interactions with the ArcGIS REST API, enabling the creation of powerful scripting tools in both Node.js and the browser that currently require deep knowledge of the REST API, and coordinating chained calls with a variety of complex parameters. This library would also enable downstream projects like the ArcGIS for Developers website and ArcGIS Hub to achieve identity management similar to the ArcGIS API for JavaScript.
-
-While the tools proposed here would be useful in internal projects such as ArcGIS for Developers and ArcGIS Hub, they also strongly target outside developers who need to script and automate the platform but do not know or are not willing to integrate the ArcGIS API for Python into their projects. This project will also have appeal to enterprise developers who have existing Node.js systems and want to integrate with ArcGIS.
-
-## Developer Instructions
-
-First, make sure you have lerna v2.0.0 installed globally:
-
-```
-npm install -g lerna@2.0.0
+request(url)
+    .then(response => {
+        console.log(response) // WebMap JSON
+    })
+});
 ```
 
-Next, install dependencies and bootstrap the repository by running:
+### API Reference
 
-```
+The documentation is published at https://esri.github.io/rest-js/ (source code [here](/docs/src)).
+
+### Code of conduct
+
+**TL;DR** - We expect folks that participate in both our online and IRL communities to be kind and considerate of others at all times.
+
+The full CoC text can be found at http://www.esri.com/events/code-of-conduct
+
+### Instructions
+
+You can install dependencies (and bootstrap lerna) by cloning the repository and running:
+
+```bash
 npm install
 ```
 
-Now you can run npm scripts, for a list of all available commands run `npm run`.
+Afterward, for a list of all available commands run `npm run`.
 
-Some useful command include:
+Some useful commands include:
 
-* `npm run test:chrome:debug` runs the Karma tests in Chrome and watches for changes. In the opened Chrome window you can click "Debug" and refresh the page to enter the debugger for tests. Note that you will be debugging the compiled JS files until https://github.com/monounity/karma-typescript/issues/144 is resolved.
-* `npm run test:node:debug` run the node tests, automatically opening the Chrome debugger. This is great for debugging the tests while you are working. **REQUIRES CHROME 60+*. This also means you can do you really stupid things like run this in an infinite loop with `while :; do npm run test:node:debug; sleep 1; done` which will reopen the chrome debugger once the current one closes.
+* `npm test` runs _all_ the tests and confirms the API is functioning as expected.
 * There is also a `Debug Node Tests` configuration in the `.vscode/launch.json` which will run the Node tests in the VS Code debugger.
-* `npm run docs:serve` will run YypeDoc and start the development server for the docs website.
+* `npm run docs:serve` will run the documentation site locally at http://localhost:3000
+* `npm run build` will created UMD bundles for _all_ the packages
 
-## Required Functionality
+### Packages
 
-* Manage feature layers
-   * Create new feature layers
-   * Add/Remove/Update fields in feature layers
-   * Query and edit features
-   * Get statistics
-* Make interacting with premium ArcGIS Online services more intuitive
-   * Geocoding
-   * Routing
-   * Geoenrichment
-   * Spatial Analysis
-   * Elevation Analysis
-* Managing groups and users
-   * Create/invite new users
-   * Create/edit/delete/share with groups
-* Manage content
-   * Create, edit and delete items, maps and scenes
-* Handle authentication and identity
-* Compatible with Node 6+ and the 2 latest releases of every browser and IE 11.
+* [`@esri/rest-request`](./packages/rest-request/) - Handles common functionality across all aspects of `@esri/rest-js`.
+* [`@esri/rest-auth`](./packages/rest-auth) - Provides methods for authenticating named users and applications for `@esri/rest-auth`.
+* [`@esri/rest-geocoding`](./packages/rest-geocoding) - Geocoding wrapper for `@esri/rest-js`
 
-## Comparison With Other Products
+### Frequently Asked Questions
 
-While this project shares some similarities with existing products such as the ArcGIS API for JavaScript and the ArcGIS API for Python, it is also unique. Like the ArcGIS API for Python, this library aims at being a low level scripting tools for interacting with and simplifying usage of the ArcGIS REST APIs, but where the ArcGIS API for Python focuses primarily on scripting and integration with Jupyter Notebooks this project provides generic tools for JavaScript applications running on a server, CLI, in a browser or as a script.
+* [Why TypeScript?](docs/FAQ.md#why-typescript) What if I prefer [VanillaJS](https://stackoverflow.com/questions/20435653/what-is-vanillajs)?
+* [What is the difference between this project and the ArcGIS API for JavaScript?](docs/FAQ.md#comparison-with-other-products)
 
-This project does have functional overlap with the ArcGIS API for JavaScript however the JavaScript API closed source, specifically designed for the browser. The ArcGIS API for JavaScript provides reusable widgets that obfuscate underlying interaction with the REST API and in low level tasks exposes them via an experience that is similar to using the REST API directly. Examples of this include the search and analysis widgets. This project would instead aim to expose and demystify the underlying REST API and simplify common complex tasks not handled by the JavaScript API such as creating and modifying feature layer schema.
+### Issues
 
-## Prior Projects
+If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/rest-js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [**love**](https://github.com/Esri/rest-js/issues/new) to hear from you.
 
-* [node-arcgis](https://github.com/Esri/node-arcgis) - Originally started by Nik Wise and currently maintained by John Gravois this library wraps a large amount of functionality for ArcGIS Online into a single API. However this library lacks much key functionality and does not handle authentication at all leaving it to the user to obtain and manage tokens. This library also lacks a significant test suite.
-* [geoservices.js](https://github.com/Esri/geoservices-js) - Originally created by Jerry Seivert to wrap the [Geoservices](https://geoservices.github.io/) specification it is currently maintained by John Gravois. However this library does not fully implement the specification, handle authentication with ArcGIS or work in browsers.
-* ArcGIS for Developers - The developers website has a large amount of internal tooling for working with Portal APIs and publishing feature services, we have plans to add additional features that would require either creating our own implementations or writing a common implementation in this project.
-* Koop -
-* ArcGIS Hub -
+If you're looking for help you can also post issues on [GIS Stackexchange](http://gis.stackexchange.com/questions/ask?tags=esri-oss).
 
-## Project Architecture
+### Versioning
 
-As with any new JavaScript project there are numerous decisions to make regarding which technologies to use. I will make some recommendations here but these are all up for debate.
+For transparency into the release cycle and in striving to maintain backward compatibility, @esri/rest-js is maintained under Semantic Versioning guidelines and will adhere to these rules whenever possible.
 
-* Implement this project as a [monorepo managed with Lerna](https://lernajs.io/). The mono repo approach will allow us to manage distinct packages like `arcgis-rest-geocoding` and separate functionality while sharing build, test and documentation tooling.
-* Author the library in [TypeScript](https://www.typescriptlang.org/). Using TypeScript will allow us to add type information to request params and response structures which vastly simplifies development. TypeScript also has excellent support for newer `async`/`await` patterns with miminal code overhead and can publish to any module format we might need to support. Additionally TypeScript has excellent support for generating API documentation with [TypeDoc](http://typedoc.org/). TypeScript also has better internal adoption since Dojo 2 is using it as well as the JS API, Insights and the ArcGIS for Developers site.
-* Would recommend using a Node/browser HTTP library like [Axios](https://github.com/mzabriskie/axios) which also has support for mocking in tests via [axios-mock-adapter](https://github.com/ctimmerm/axios-mock-adapter).
-* Testing is a concern. I initially thought that we could simply use Karma to test all the code. However Karma can only be used to test browser based code. We could however use the `jasmine` command line tool it would just mean we would have to compile the TypeScript source first and then run the Jasmine CLI tools. Karma would use the `karma-typescript` plugin and run the browser tests. An alternative to this might be to use [The Intern](https://theintern.github.io/) setup according to this [blog post about testing with TypeScript](https://www.sitepen.com/blog/2015/03/24/testing-typescript-with-intern/). However the Intern doesn't have super great support for TypeScript currently though these issues should be solved in this Falls Intern 4 release.
+For more information on SemVer, please visit <http://semver.org/>.
 
-It is worth noting that a TypeScript/Intern approach aligns perfectly with the direction of the JavaScript API team.
+### Contributing
 
-## Packages
+Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](CONTRIBUTING.md).
 
-* [`arcgis-rest-core`](./packages/arcgis-core/) - Handles common functionality across all aspects of `arcgis-rest`.
-* [`arcgis-rest-auth`](./packages/arcgis-core) - Provides methods for authenticating named users and applications for `arcgis-rest`.
-* [`arcgis-rest-geocoding`](./packages/arcgis-geocoding) - Geocoding wrapper for `arcgis-rest`
+### License
+
+Copyright 2017 Esri
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+> http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+A copy of the license is available in the repository's [LICENSE](./LICENSE) file.
