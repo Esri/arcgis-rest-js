@@ -1,6 +1,6 @@
 {
   "name": "@esri/rest",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "This repository is for discussing and creating a fully featured JavaScript client API for browsers and Node.js.",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",
