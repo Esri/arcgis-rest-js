@@ -64,7 +64,7 @@ Some useful commands include:
 
 ### Frequently Asked Questions
 
-* [Why TypeScript?](docs/FAQ.md#why-typescript) What if I prefer [VanillaJS](https://stackoverflow.com/questions/20435653/what-is-vanillajs)?]
+* [Why TypeScript?](docs/FAQ.md#why-typescript) What if I prefer [VanillaJS](https://stackoverflow.com/questions/20435653/what-is-vanillajs)?
 * [What is the difference between this project and the ArcGIS API for JavaScript?](docs/FAQ.md#comparison-with-other-products)
 
 ### Issues
