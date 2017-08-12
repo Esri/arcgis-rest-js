@@ -1,5 +1,6 @@
 // Karma configuration
 // Generated on Thu Jul 13 2017 11:01:30 GMT-0700 (PDT)
+const fs = require("fs");
 
 module.exports = function(config) {
   config.set({
@@ -11,18 +12,34 @@ module.exports = function(config) {
     frameworks: ["jasmine", "karma-typescript"],
 
     // list of files / patterns to load in the browser
-    files: ["packages/**/*.ts"],
+    files: ["packages/*/{src,test}/**/*.ts"],
 
     // list of files to exclude
     exclude: [],
 
     karmaTypescriptConfig: {
+      reports: {
+        lcovonly: "coverage",
+        html: "coverage",
+        text: ""
+      },
       compilerOptions: {
         module: "commonjs"
       },
       tsconfig: "./tsconfig.json",
       bundlerOptions: {
-        transforms: [require("karma-typescript-es6-transform")()]
+        transforms: [require("karma-typescript-es6-transform")()],
+        resolve: {
+          // karmas resolver cant figure out the symlinked deps from lerna
+          // so we need to manually alias each package here.
+          alias: fs
+            .readdirSync("packages")
+            .filter(p => p[0] !== ".")
+            .reduce((alias, p) => {
+              alias[`@esri/${p}`] = `packages/${p}/src/index.ts`;
+              return alias;
+            }, {})
+        }
       }
     },
 
@@ -35,7 +52,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["progress", "karma-typescript"],
+    reporters: ["jasmine-diff", "dots", "karma-typescript"],
 
     // web server port
     port: 9876,

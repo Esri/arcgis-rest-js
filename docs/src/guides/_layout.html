@@ -1,0 +1,24 @@
+{% extends "_layout" %}
+
+{% block main %}
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        {% for section in queries.guides %}
+          <li>{{section.name}}</li>
+          <ul class="list-plain margin-left-1">
+            {% for item in section.items %}
+              <li>{% link item.url, item.title %}</li>
+            {% endfor %}
+          </ul>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -2,24 +2,40 @@
   "name": "@esri/rest-request",
   "version": "1.0.0",
   "description": "Common methods and utilities for @esri/rest-js.",
-  "main": "dist/node/bundle.cjs.js",
-  "browser": "dist/browser/bundle.umd.js",
+  "main": "dist/node/index.js",
+  "browser": "dist/browser/rest-request.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
-  "author": "",
+  "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
+    "tslib": "^1.7.1"
+  },
+  "peerDependencies": {
     "es6-promise": "^4.1.1",
-    "form-data": "^2.2.0",
     "isomorphic-fetch": "^2.2.1",
     "isomorphic-form-data": "^1.0.0"
   },
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:node && npm run build:umd && npm run build:esm",
-    "build:esm": "tsc -p ./tsconfig.json",
+    "build:esm": "tsc -p ./tsconfig.json --module es2015 --outDir ./dist/esm --declaration",
     "build:umd": "rollup -c ../../rollup.config.umd.js",
-    "build:node": "rollup -c ../../rollup.config.node.js"
-  }
+    "build:node": "tsc -p ./tsconfig.json --module commonjs --outDir ./dist/node"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArcGIS/rest-js.git"
+  },
+  "contributors": [
+    {
+      "name": "Patrick Arlt",
+      "email": "parlt@esri.com",
+      "url": "http://patrickarlt.com/"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/ArcGIS/rest-js/issues"
+  },
+  "homepage": "https://github.com/ArcGIS/rest-js#readme"
 }

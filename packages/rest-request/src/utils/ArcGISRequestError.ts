@@ -4,7 +4,7 @@
 // This code is from MDN https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Custom_Error_Types.
 export class ArcGISRequestError {
   /**
-   * The name of this error. Will always be `"ArcGISEndpointError"` to conform with the [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) class.
+   * The name of this error. Will always be `"ArcGISRequestError"` to conform with the [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) class.
    */
   name: string;
 
@@ -21,7 +21,7 @@ export class ArcGISRequestError {
   /**
    * The error code returned from the request.
    */
-  code: string;
+  code: string | number;
 
   /**
    * The original JSON response the caused the error.
@@ -29,7 +29,7 @@ export class ArcGISRequestError {
   originalResponse: any;
 
   /**
-   * Create a new `ArcGISEndpointError`  object.
+   * Create a new `ArcGISRequestError`  object.
    *
    * @param message - The error message from the API
    * @param code - The error code from the API

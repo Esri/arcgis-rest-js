@@ -6,10 +6,24 @@ import { encodeQueryString } from "./utils/encode-query-string";
 
 export { FormData };
 
+export interface IAuthenticationManager {
+  getToken(url: string): Promise<string>;
+}
+
 /**
  * HTTP methods used by the ArcGIS REST API.
  */
 export type HTTPMethods = "GET" | "POST";
+
+/**
+ * Valid response formats for the `f` parameter.
+ */
+export type ResponseFormats = "json" | "text" | "html" | "image" | "zip";
+
+export interface IParams {
+  f?: ResponseFormats;
+  [key: string]: any;
+}
 
 /**
  * Options for the [`request()`](/api/arcgis-core/request/) method.
@@ -19,6 +33,11 @@ export interface IRequestOptions {
    * The HTTP method to send the request with.
    */
   httpMethod?: HTTPMethods;
+
+  /**
+   * The instance of `IAuthenticationManager` to use to authenticate this request.
+   */
+  authentication?: IAuthenticationManager;
 }
 
 /**
@@ -60,53 +79,64 @@ export interface IRequestOptions {
  */
 export function request(
   url: string,
-  params: any = {},
+  requestParams: IParams = { f: "json" },
   requestOptions?: IRequestOptions
 ): Promise<any> {
-  const { httpMethod }: IRequestOptions = {
+  const { httpMethod, authentication }: IRequestOptions = {
     ...{ httpMethod: "POST" },
     ...requestOptions
   };
 
-  if (!params.f) {
-    params.f = "json";
-  }
+  const params: IParams = {
+    ...{ f: "json" },
+    ...requestParams
+  };
 
   const options: RequestInit = {
     method: httpMethod
   };
 
-  if (httpMethod === "GET") {
-    url = url + "?" + encodeQueryString(params);
-  }
+  const tokenRequest = authentication
+    ? authentication.getToken(url)
+    : Promise.resolve("");
 
-  if (httpMethod === "POST") {
-    options.body = encodeFormData(params);
-  }
+  return tokenRequest.then(token => {
+    if (token.length) {
+      params.token = token;
+    }
 
-  return fetch(url, options)
-    .then(response => {
-      switch (params.f) {
-        case "json":
-          return response.json();
-        case "image":
-          return response.blob();
-        case "html":
-          return response.text();
-        case "text":
-          return response.text();
-        case "zip":
-          return response.blob();
-        default:
-          return response.text();
-      }
-    })
-    .then(data => {
-      if (params.f === "json") {
-        checkForErrors(data);
-        return data;
-      } else {
-        return data;
-      }
-    });
+    if (httpMethod === "GET") {
+      url = url + "?" + encodeQueryString(params);
+    }
+
+    if (httpMethod === "POST") {
+      options.body = encodeFormData(params);
+    }
+
+    return fetch(url, options)
+      .then(response => {
+        switch (params.f) {
+          case "json":
+            return response.json();
+          /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
+          case "image":
+            return response.blob();
+          case "html":
+            return response.text();
+          case "text":
+            return response.text();
+          /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
+          case "zip":
+            return response.blob();
+        }
+      })
+      .then(data => {
+        if (params.f === "json") {
+          checkForErrors(data);
+          return data;
+        } else {
+          return data;
+        }
+      });
+  });
 }
