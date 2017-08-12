@@ -2,7 +2,9 @@
 
 Using TypeScript allows us to add type information to request params and response structures. This vastly simplifies development. TypeScript also has excellent support for newer `async`/`await` patterns and for generating API documentation with [TypeDoc](http://typedoc.org/).
 
-We _really_ like TypeScript, but we export our packages in [UMD](http://davidbcalhoun.com/2014/what-is-amd-commonjs-and-umd/) format for folks that prefer to write ES6.
+TypeScript compiles to JavaScript so you can use @esri/rest-js in any JavaScript project. However if you use TypeScript you will also get the benifits of TypeScripts type checking for free.
+
+We also _really_ like TypeScript becuase it supports exporting to both [ES 2015 modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) (use `import`/`export`) and [UMD](http://davidbcalhoun.com/2014/what-is-amd-commonjs-and-umd/) modules/. This allows us to support a wide variety of module loaders and bundlers, including Browserify, Webpack, RequireJS, and Dojo 1 and 2.
 
 ## Comparison With Other Products
 

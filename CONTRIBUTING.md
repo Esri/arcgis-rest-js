@@ -8,7 +8,7 @@ If you're looking for help you can also post issues on [GIS Stackexchange](http:
 
 **Please include the following information in your issue:**
 * Browser (or Node.js) version
-* a snippet of code 
+* a snippet of code
 * an explanation of
   * what you saw
   * what you expected to see
@@ -23,11 +23,11 @@ You don't _have to_ but we recommend installing TypeScript, TSLint, Prettier and
 
 * https://atom.io/packages/atom-typescript
 * https://github.com/Microsoft/TypeScript-Sublime-Plugin
-* etc. 
+* etc...
 
 ### Running the tests
 
-@esri/rest-js has a comprehensive test suite built with [Karma](http://karma-runner.github.io/0.12/index.html) and [Jasmine](https://jasmine.github.io/) The tests can be found in `/packages/*test/`.
+@esri/rest-js has a comprehensive test suite built with [Karma](http://karma-runner.github.io/0.12/index.html) and [Jasmine](https://jasmine.github.io/) The tests can be found in `/packages/*/test/`.
 
 You can run _all_ the tests with `npm test`.
 
@@ -38,4 +38,4 @@ You can run _all_ the tests with `npm test`.
 
 We use TypeDoc and acetate to turn the inline documentation into a snazzy website.
 
-* `npm run docs:serve` > http://localhost:3000 
+* `npm run docs:serve` > http://localhost:3000

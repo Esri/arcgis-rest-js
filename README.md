@@ -18,7 +18,10 @@
 ### Example
 
 ```js
+import { request } from '@esri/rest-request';
+
 const url = "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data";
+
 request(url)
     .then(response => {
         console.log(response) // WebMap JSON
@@ -55,13 +58,13 @@ Some useful commands include:
 
 ### Packages
 
-* [`rest-request`](./packages/rest-request/) - Handles common functionality across all aspects of `@esri/rest-js`.
+* [`@esri/rest-request`](./packages/rest-request/) - Handles common functionality across all aspects of `@esri/rest-js`.
 * [`@esri/rest-auth`](./packages/rest-auth) - Provides methods for authenticating named users and applications for `@esri/rest-auth`.
 * [`@esri/rest-geocoding`](./packages/rest-geocoding) - Geocoding wrapper for `@esri/rest-js`
 
 ### Frequently Asked Questions
 
-* [Why TypeScript? What if I prefer [VanillaJS](https://stackoverflow.com/questions/20435653/what-is-vanillajs)?](docs/FAQ.md#why-typescript)
+* [Why TypeScript?](docs/FAQ.md#why-typescript) What if I prefer [VanillaJS](https://stackoverflow.com/questions/20435653/what-is-vanillajs)?]
 * [What is the difference between this project and the ArcGIS API for JavaScript?](docs/FAQ.md#comparison-with-other-products)
 
 ### Issues
