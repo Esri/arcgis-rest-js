@@ -92,7 +92,8 @@
     "release:prepare": "lerna publish --skip-git --skip-npm && node ./support/changelog.js",
     "release:review": "git --no-pager diff --word-diff",
     "release:publish": "./support/publish.sh",
-    "c": "git-cz"
+    "c": "npm run precommit && git-cz"
+
   },
   "repository": {
     "type": "git",
