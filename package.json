@@ -62,11 +62,7 @@
     "tslib": "^1.7.1"
   },
   "lint-staged": {
-    "*.ts": [
-      "prettier --write --parser typescript",
-      "tslint",
-      "git add"
-    ]
+    "*.ts": ["prettier --write --parser typescript", "tslint", "git add"]
   },
   "scripts": {
     "build": "lerna run build",
@@ -89,11 +85,10 @@
     "precommit": "lint-staged",
     "bootstrap": "lerna bootstrap",
     "postinstall": "npm run bootstrap",
-    "release:prepare": "lerna publish --skip-git --skip-npm && node ./support/changelog.js",
+    "release:prepare": "lerna publish --skip-git --skip-npm --yes && node ./support/changelog.js",
     "release:review": "git --no-pager diff --word-diff",
     "release:publish": "./support/publish.sh",
     "c": "npm run precommit && git-cz"
-
   },
   "repository": {
     "type": "git",
