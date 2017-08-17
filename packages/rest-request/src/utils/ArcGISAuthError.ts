@@ -1,6 +1,16 @@
-import { IRequestOptions, IParams } from "../request";
+import {
+  request,
+  IRequestOptions,
+  IParams,
+  IAuthenticationManager
+} from "../request";
 import { ArcGISRequestError } from "./ArcGISRequestError";
 
+export interface IRetryAuthError {
+  (url: string, params: IParams, options: IRequestOptions): Promise<
+    IAuthenticationManager
+  >;
+}
 export class ArcGISAuthError extends ArcGISRequestError {
   /**
    * Create a new `ArcGISAuthError`  object.
@@ -14,7 +24,7 @@ export class ArcGISAuthError extends ArcGISRequestError {
    */
   constructor(
     message = "AUTHENTICATION_ERROR",
-    code = "AUTHENTICATION_ERROR_CODE",
+    code: string | number = "AUTHENTICATION_ERROR_CODE",
     response?: any,
     url?: string,
     params?: IParams,
@@ -24,5 +34,38 @@ export class ArcGISAuthError extends ArcGISRequestError {
     this.name = "ArcGISAuthError";
     this.message =
       code === "AUTHENTICATION_ERROR_CODE" ? message : `${code}: ${message}`;
+  }
+
+  retry(getSession: IRetryAuthError, retryLimit = 3) {
+    let tries = 0;
+
+    const retryRequest = (resolve: any, reject: any) => {
+      getSession(this.url, this.params, this.options)
+        .then(session => {
+          const newOptions = {
+            ...this.options,
+            ...{ authentication: session }
+          };
+
+          tries = tries + 1;
+          return request(this.url, this.params, newOptions);
+        })
+        .then(response => {
+          resolve(response);
+        })
+        .catch(e => {
+          if (e.name === "ArcGISAuthError" && tries < retryLimit) {
+            retryRequest(resolve, reject);
+          } else if (e.name === "ArcGISAuthError" && tries >= retryLimit) {
+            reject(this);
+          } else {
+            reject(e);
+          }
+        });
+    };
+
+    return new Promise((resolve, reject) => {
+      retryRequest(resolve, reject);
+    });
   }
 }

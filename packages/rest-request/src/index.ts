@@ -1,4 +1,3 @@
-// bump, bump
 export * from "./request";
 export * from "./utils/encode-form-data";
 export * from "./utils/encode-query-string";

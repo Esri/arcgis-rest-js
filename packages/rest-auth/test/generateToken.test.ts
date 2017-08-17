@@ -5,9 +5,19 @@ import { YESTERDAY, TOMORROW } from "./utils";
 const TOKEN_URL = "https://www.arcgis.com/sharing/rest/generateToken";
 
 describe("generateToken()", () => {
-  it("should generate a token for a username and password", () => {
-    const paramsSpy = spyOn(FormData.prototype, "append");
+  let paramsSpy: jasmine.Spy;
 
+  beforeEach(() => {
+    paramsSpy = spyOn(FormData.prototype, "append").and.callThrough();
+  });
+
+  afterAll(() => {
+    paramsSpy.calls.reset();
+  });
+
+  afterEach(fetchMock.restore);
+
+  it("should generate a token for a username and password", () => {
     fetchMock.postOnce(TOKEN_URL, {
       token: "token",
       expires: TOMORROW.getTime()

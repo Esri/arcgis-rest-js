@@ -8,9 +8,19 @@ import { ArcGISOnlineError } from "./mocks/errors";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap";
 
 describe("request()", () => {
-  it("should make a basic POST request", () => {
-    const paramsSpy = spyOn(FormData.prototype, "append");
+  let paramsSpy: jasmine.Spy;
 
+  beforeEach(() => {
+    paramsSpy = spyOn(FormData.prototype, "append").and.callThrough();
+  });
+
+  afterAll(() => {
+    paramsSpy.calls.reset();
+  });
+
+  afterEach(fetchMock.restore);
+
+  it("should make a basic POST request", () => {
     fetchMock.once("*", SharingRestInfo);
 
     request("https://www.arcgis.com/sharing/rest/info")
@@ -47,7 +57,7 @@ describe("request()", () => {
       });
   });
 
-  it("should make a basic GET request for text", () => {
+  it("should make a basic GET request for text", done => {
     fetchMock.once("*", WebMapAsText);
 
     request(
@@ -64,13 +74,14 @@ describe("request()", () => {
         );
         expect(options.method).toBe("GET");
         expect(response).toEqual(WebMapAsText);
+        done();
       })
       .catch(e => {
         fail(e);
       });
   });
 
-  it("should make a basic GET request for html", () => {
+  it("should make a basic GET request for html", done => {
     fetchMock.once("*", SharingRestInfoHTML);
 
     request(
@@ -85,6 +96,7 @@ describe("request()", () => {
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=html");
         expect(options.method).toBe("GET");
         expect(response).toEqual(SharingRestInfoHTML);
+        done();
       })
       .catch(e => {
         fail(e);
@@ -92,8 +104,6 @@ describe("request()", () => {
   });
 
   it("should use the `authentication` option to authenticate a request", () => {
-    const paramsSpy = spyOn(FormData.prototype, "append");
-
     fetchMock.once("*", WebMapAsText);
 
     const MOCK_AUTH = {
