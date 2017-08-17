@@ -82,17 +82,19 @@ export function request(
   requestParams: IParams = { f: "json" },
   requestOptions?: IRequestOptions
 ): Promise<any> {
-  const { httpMethod, authentication }: IRequestOptions = {
+  const options: IRequestOptions = {
     ...{ httpMethod: "POST" },
     ...requestOptions
   };
+
+  const { httpMethod, authentication } = options;
 
   const params: IParams = {
     ...{ f: "json" },
     ...requestParams
   };
 
-  const options: RequestInit = {
+  const fetchOptions: RequestInit = {
     method: httpMethod
   };
 
@@ -110,10 +112,10 @@ export function request(
     }
 
     if (httpMethod === "POST") {
-      options.body = encodeFormData(params);
+      fetchOptions.body = encodeFormData(params);
     }
 
-    return fetch(url, options)
+    return fetch(url, fetchOptions)
       .then(response => {
         switch (params.f) {
           case "json":
@@ -132,8 +134,7 @@ export function request(
       })
       .then(data => {
         if (params.f === "json") {
-          checkForErrors(data);
-          return data;
+          return checkForErrors(data, url, params, options);
         } else {
           return data;
         }

@@ -17,7 +17,7 @@ describe("ArcGISRequestError", () => {
     expect(error.message).toBe("498: Invalid token.");
     expect(error.code).toBe(498);
     expect(error.originalMessage).toBe("Invalid token.");
-    expect(error.originalResponse).toEqual(ArcGISOnlineAuthError);
+    expect(error.response).toEqual(ArcGISOnlineAuthError);
   });
 
   it("should still format without a message, code or response", () => {
@@ -25,6 +25,6 @@ describe("ArcGISRequestError", () => {
     expect(error.message).toBe("AUTHENTICATION_ERROR");
     expect(error.code).toEqual("AUTHENTICATION_ERROR_CODE");
     expect(error.originalMessage).toBe("AUTHENTICATION_ERROR");
-    expect(error.originalResponse).toEqual(undefined);
+    expect(error.response).toEqual(undefined);
   });
 });

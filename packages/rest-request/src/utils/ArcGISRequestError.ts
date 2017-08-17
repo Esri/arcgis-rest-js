@@ -1,3 +1,5 @@
+import { IRequestOptions, IParams } from "../request";
+
 // TypeScript 2.1 no longer allows you to extend built in types. See https://github.com/Microsoft/TypeScript/issues/12790#issuecomment-265981442
 // and https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
 //
@@ -26,26 +28,47 @@ export class ArcGISRequestError {
   /**
    * The original JSON response the caused the error.
    */
-  originalResponse: any;
+  response: any;
+
+  /**
+   * The URL of the original request that caused the error
+   */
+  url: string;
+
+  /**
+   * The parameters of the original request that caused the error
+   */
+  params: IParams;
+
+  /**
+   * The options of the original request that caused the error
+   */
+  options: IRequestOptions;
 
   /**
    * Create a new `ArcGISRequestError`  object.
    *
    * @param message - The error message from the API
    * @param code - The error code from the API
-   * @param originalResponse - The original response from the API that caused the error
+   * @param response - The original response from the API that caused the error
    */
   constructor(
     message = "UNKNOWN_ERROR",
     code = "UNKNOWN_ERROR_CODE",
-    originalResponse?: any
+    response?: any,
+    url?: string,
+    params?: IParams,
+    options?: IRequestOptions
   ) {
     this.name = "ArcGISRequestError";
     this.message =
       code === "UNKNOWN_ERROR_CODE" ? message : `${code}: ${message}`;
     this.originalMessage = message;
     this.code = code;
-    this.originalResponse = originalResponse;
+    this.response = response;
+    this.url = url;
+    this.params = params;
+    this.options = options;
   }
 }
 ArcGISRequestError.prototype = Object.create(Error.prototype);
