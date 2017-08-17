@@ -5,6 +5,7 @@ import {
   SharingRestInfoHTML
 } from "./mocks/sharing-rest-info";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap";
+import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection";
 
 describe("request()", () => {
   it("should make a basic POST request", () => {
@@ -84,6 +85,29 @@ describe("request()", () => {
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=html");
         expect(options.method).toBe("GET");
         expect(response).toEqual(SharingRestInfoHTML);
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should make a basic GET request for geojson", () => {
+    fetchMock.once("*", GeoJSONFeatureCollection);
+
+    request(
+      "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
+      { where: "1=1", f: "geojson" },
+      {
+        httpMethod: "GET"
+      }
+    )
+      .then(response => {
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query?f=geojson&where=1%3D1"
+        );
+        expect(options.method).toBe("GET");
+        expect(response).toEqual(GeoJSONFeatureCollection);
       })
       .catch(e => {
         fail(e);
