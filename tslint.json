@@ -8,7 +8,6 @@
     "strict-type-predicates": false,
     "ordered-imports": ["any"],
     "only-arrow-functions": [false],
-    "object-literal-sort-keys": false,
-    "callable-types": false
+    "object-literal-sort-keys": false
   }
 }

@@ -6,11 +6,11 @@ import {
 } from "../request";
 import { ArcGISRequestError } from "./ArcGISRequestError";
 
-export interface IRetryAuthError {
-  (url: string, params: IParams, options: IRequestOptions): Promise<
-    IAuthenticationManager
-  >;
-}
+export type IRetryAuthError = (
+  url: string,
+  params: IParams,
+  options: IRequestOptions
+) => Promise<IAuthenticationManager>;
 export class ArcGISAuthError extends ArcGISRequestError {
   /**
    * Create a new `ArcGISAuthError`  object.
