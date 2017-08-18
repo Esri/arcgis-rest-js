@@ -18,7 +18,13 @@ export type HTTPMethods = "GET" | "POST";
 /**
  * Valid response formats for the `f` parameter.
  */
-export type ResponseFormats = "json" | "text" | "html" | "image" | "zip";
+export type ResponseFormats =
+  | "json"
+  | "geojson"
+  | "text"
+  | "html"
+  | "image"
+  | "zip";
 
 export interface IParams {
   f?: ResponseFormats;
@@ -118,6 +124,8 @@ export function request(
         switch (params.f) {
           case "json":
             return response.json();
+          case "geojson":
+            return response.json();
           /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
           case "image":
             return response.blob();
@@ -131,7 +139,7 @@ export function request(
         }
       })
       .then(data => {
-        if (params.f === "json") {
+        if (params.f === "json" || params.f === "geojson") {
           checkForErrors(data);
           return data;
         } else {
