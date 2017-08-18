@@ -62,7 +62,11 @@
     "tslib": "^1.7.1"
   },
   "lint-staged": {
-    "*.ts": ["prettier --write --parser typescript", "tslint", "git add"]
+    "*.ts": [
+      "prettier --write --parser typescript",
+      "tslint",
+      "git add"
+    ]
   },
   "scripts": {
     "build": "lerna run build",
