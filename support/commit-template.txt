@@ -1,0 +1,19 @@
+# Replace `type` the type of chage you are making, `scope` with a single-word
+# general description of the files, classes or methods changed. Finally Replace
+# `message` with your normal commit message.
+type(scope): message
+
+# Add an additional description (otpional) below this line
+
+# If ou change will affect any Lerna packages uncomment the `AFFECTED PACKAGES:`
+# line below and list the packages, one per line, by package name.
+# AFFECTED PACKAGES:
+
+# If your commit makes any breaking changes, uncomment the `BREAKING CHANGES:`
+# line below and add a description of any breaking changes after it.
+# BREAKING CHANGES:
+
+# If your commit resolves, closes or references any issues uncomment the
+# `ISSUES CLOSED:` line below and add issue number one the same line comma
+# seperated like #31,#32
+# ISSUES CLOSED:

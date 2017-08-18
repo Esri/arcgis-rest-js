@@ -1,12 +1,13 @@
 {
   "name": "@esri/rest-demo-express",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Demo of @esri/rest-* packages in an Express server",
   "author": "",
   "license": "Apache-2.0",
+  "private": true,
   "dependencies": {
-    "@esri/rest-auth": "1.0.0",
-    "@esri/rest-request": "1.0.0",
+    "@esri/rest-auth": "0.0.0",
+    "@esri/rest-request": "0.0.0",
     "express": "^4.15.4"
   },
   "scripts": {
