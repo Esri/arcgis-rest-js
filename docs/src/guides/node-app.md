@@ -6,4 +6,4 @@ order: 60
 group: 1-get-started
 ---
 
-# Get Started withE Esri REST JS and Node.js
+# Get Started with Esri REST JS and Node.js
