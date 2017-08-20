@@ -42,7 +42,7 @@ module.exports = function(acetate) {
      */
     page => {
       return {
-        title: page.title,
+        title: page.navTitle || page.title,
         order: page.order,
         group: page.group,
         url: page.url
