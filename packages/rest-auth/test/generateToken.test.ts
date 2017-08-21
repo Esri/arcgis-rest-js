@@ -1,6 +1,6 @@
 import * as fetchMock from "fetch-mock";
 import { generateToken } from "../src/index";
-import { YESTERDAY, TOMORROW } from "./utils";
+import { TOMORROW } from "./utils";
 
 const TOKEN_URL = "https://www.arcgis.com/sharing/rest/generateToken";
 
