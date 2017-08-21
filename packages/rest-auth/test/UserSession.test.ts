@@ -53,7 +53,7 @@ describe("UserSession", () => {
           done();
         })
         .catch(e => {
-          expect(e).toBe(null);
+          fail(e);
         });
     });
 
@@ -103,7 +103,7 @@ describe("UserSession", () => {
           done();
         })
         .catch(e => {
-          expect(e).toBe(null);
+          fail(e);
         });
     });
 
@@ -217,7 +217,7 @@ describe("UserSession", () => {
           done();
         })
         .catch(e => {
-          expect(e).toBe(null);
+          fail(e);
         });
     });
 
@@ -244,7 +244,7 @@ describe("UserSession", () => {
           done();
         })
         .catch(e => {
-          expect(e).toBe(null);
+          fail(e);
         });
     });
 
@@ -313,7 +313,7 @@ describe("UserSession", () => {
           done();
         })
         .catch(e => {
-          expect(e).toBe(null);
+          fail(e);
         });
 
       expect(MockWindow.open).toHaveBeenCalledWith(
@@ -527,7 +527,7 @@ describe("UserSession", () => {
           done();
         })
         .catch(e => {
-          expect(e).toBe(null);
+          fail(e);
         });
     });
   });

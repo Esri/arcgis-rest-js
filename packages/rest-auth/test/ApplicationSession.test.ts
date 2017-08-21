@@ -24,7 +24,7 @@ describe("ApplicationSession", () => {
           done();
         })
         .catch(e => {
-          expect(e).toBe(null);
+          fail(e);
         });
     });
 
@@ -53,7 +53,7 @@ describe("ApplicationSession", () => {
           done();
         })
         .catch(e => {
-          expect(e).toBe(null);
+          fail(e);
         });
     });
   });
@@ -78,7 +78,7 @@ describe("ApplicationSession", () => {
         done();
       })
       .catch(e => {
-        expect(e).toBe(null);
+        fail(e);
       });
   });
 });
