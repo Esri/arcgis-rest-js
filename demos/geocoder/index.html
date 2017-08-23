@@ -78,7 +78,6 @@ metadataBtn.addEventListener('click', function (e) {
 var bulkBtn = document.getElementById('bulk');
 
 bulkBtn.addEventListener('click', function (e) {
-  if (auth) {
     var addresses = [
         {
             "attributes": {
@@ -96,9 +95,10 @@ bulkBtn.addEventListener('click', function (e) {
     EsriRestGeocoder.bulk(addresses, { authentication: auth })
     .then((response) => {
         console.log("bulk", response);
+    })
+    .catch((err) => {
+        console.warn(err);
     });
-  }
-    
 });
 </script>
 </body>

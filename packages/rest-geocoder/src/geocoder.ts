@@ -1,9 +1,8 @@
 /*
 to do:
-add SR to location objects
 verify custom endpoints contain 'GeocodeServer' and end in a '/'
-make demo interactive
 write tests
+make demo more interactive
 */
 import { request, IRequestOptions, IParams } from "@esri/rest-request";
 
@@ -21,16 +20,8 @@ export interface IGeocodeResponse {
   spatialReference: ISpatialReference;
   candidates: Array<{
     address: string;
-    location: {
-      x: number;
-      y: number;
-    };
-    extent: {
-      xmax: number;
-      xmin: number;
-      ymax: number;
-      ymin: number;
-    };
+    location: IPoint;
+    extent: IExtent;
     attributes: object;
   }>;
 }
@@ -107,8 +98,22 @@ export function single(
     params.singleLine = text;
   }
 
-  // need to add spatial references to response now
-  return request(endpoint + "findAddressCandidates", params, requestOptions);
+  // add spatialReference property to individual matches
+  return request(
+    endpoint + "findAddressCandidates",
+    params,
+    requestOptions
+  ).then(response => {
+    const sr = response.spatialReference;
+    response.candidates.forEach(function(candidate: {
+      location: IPoint;
+      extent: IExtent;
+    }) {
+      candidate.location.spatialReference = sr;
+      candidate.extent.spatialReference = sr;
+    });
+    return response;
+  });
 }
 
 /**
@@ -225,7 +230,21 @@ export function bulk(
     ...requestParams
   };
 
-  return request(endpoint + "geocodeAddresses", params, requestOptions);
+  if (!requestOptions.authentication) {
+    return Promise.reject("bulk geocoding requires authentication");
+  }
+
+  return request(
+    endpoint + "geocodeAddresses",
+    params,
+    requestOptions
+  ).then(response => {
+    const sr = response.spatialReference;
+    response.locations.forEach(function(address: { location: IPoint }) {
+      address.location.spatialReference = sr;
+    });
+    return response;
+  });
 }
 
 /**

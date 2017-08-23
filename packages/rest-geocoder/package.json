@@ -1,6 +1,6 @@
 {
   "name": "@esri/rest-geocoder",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Geocoding helpers for @esri/rest-request",
   "main": "dist/node/index.js",
   "browser": "dist/browser/rest-geocoder.umd.js",
@@ -12,12 +12,12 @@
     "tslib": "^1.7.1"
   },
   "peerDependencies": {
-    "@esri/rest-request": "^1.0.0",
-    "@esri/rest-common-types": "^1.0.0"
+    "@esri/rest-request": "^0.0.0",
+    "@esri/rest-common-types": "^0.0.0"
   },
   "devDependencies": {
-    "@esri/rest-request": "^1.0.0",
-    "@esri/rest-common-types": "^1.0.0"
+    "@esri/rest-request": "^0.0.0",
+    "@esri/rest-common-types": "^0.0.0"
   },
   "scripts": {
     "prepublish": "npm run build",
