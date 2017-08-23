@@ -1,45 +1,67 @@
 import { ArcGISRequestError } from "./ArcGISRequestError";
 import { ArcGISAuthError } from "./ArcGISAuthError";
-
+import { IRequestOptions, IParams } from "../request";
 /**
  * Checks a JSON response from the ArcGIS REST API for errors. If there are no errors this will return the `data` it is passed in. If there is an error it will throw. With a [`ArcGISRequestError`](/api/arcgis-core/ArcGISRequestError/) or [`ArcGISAuthError`](/api/arcgis-core/ArcGISAuthError/).
  *
  * @param data The response JSON to check for errors.
+ * @param url The url of the original request
+ * @param params The parameters of the original request
+ * @param options The options of the original request
  * @returns The data that was passed in the `data` parameter
  */
-export function checkForErrors(data: any): any {
+export function checkForErrors(
+  response: any,
+  url?: string,
+  params?: IParams,
+  options?: IRequestOptions
+): any {
   // this is an error message from billing.arcgis.com backend
-  if (data.code >= 400) {
-    const { message, code } = data;
-    throw new ArcGISRequestError(message, code, data);
+  if (response.code >= 400) {
+    const { message, code } = response;
+    throw new ArcGISRequestError(message, code, response, url, params, options);
   }
 
   // error from ArcGIS Online or an ArcGIS Portal or server instance.
-  if (data.error) {
-    const { message, code, messageCode } = data.error;
+  if (response.error) {
+    const { message, code, messageCode } = response.error;
     const errorCode = messageCode || code || "UNKNOWN_ERROR_CODE";
 
     if (code === 498 || code === 499 || messageCode === "GWM_0003") {
-      throw new ArcGISAuthError(message, errorCode, data);
+      throw new ArcGISAuthError(
+        message,
+        errorCode,
+        response,
+        url,
+        params,
+        options
+      );
     }
 
-    throw new ArcGISRequestError(message, errorCode, data);
+    throw new ArcGISRequestError(
+      message,
+      errorCode,
+      response,
+      url,
+      params,
+      options
+    );
   }
 
   // error from a status check
-  if (data.status === "failed") {
+  if (response.status === "failed") {
     let message: string;
     let code: string = "UNKNOWN_ERROR_CODE";
 
     try {
-      message = JSON.parse(data.statusMessage).message;
-      code = JSON.parse(data.statusMessage).code;
+      message = JSON.parse(response.statusMessage).message;
+      code = JSON.parse(response.statusMessage).code;
     } catch (e) {
-      message = data.statusMessage;
+      message = response.statusMessage;
     }
 
-    throw new ArcGISRequestError(message, code, data);
+    throw new ArcGISRequestError(message, code, response, url, params, options);
   }
 
-  return data;
+  return response;
 }

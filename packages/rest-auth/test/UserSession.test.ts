@@ -506,9 +506,17 @@ describe("UserSession", () => {
   });
 
   describe(".exchangeAuthorizationCode()", () => {
-    it("should exchange an authorization code for a new UserSession", done => {
-      spyOn(FormData.prototype, "append");
+    let paramsSpy: jasmine.Spy;
 
+    beforeEach(() => {
+      paramsSpy = spyOn(FormData.prototype, "append").and.callThrough();
+    });
+
+    afterAll(() => {
+      paramsSpy.calls.reset();
+    });
+
+    it("should exchange an authorization code for a new UserSession", done => {
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "token",
         expires_in: 1800,

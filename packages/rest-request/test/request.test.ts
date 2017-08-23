@@ -1,16 +1,27 @@
-import { request, FormData } from "../src/index";
+import { request, FormData, ErrorTypes } from "../src/index";
 import * as fetchMock from "fetch-mock";
 import {
   SharingRestInfo,
   SharingRestInfoHTML
 } from "./mocks/sharing-rest-info";
+import { ArcGISOnlineError } from "./mocks/errors";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap";
 import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection";
 
 describe("request()", () => {
-  it("should make a basic POST request", () => {
-    const paramsSpy = spyOn(FormData.prototype, "append");
+  let paramsSpy: jasmine.Spy;
 
+  beforeEach(() => {
+    paramsSpy = spyOn(FormData.prototype, "append").and.callThrough();
+  });
+
+  afterAll(() => {
+    paramsSpy.calls.reset();
+  });
+
+  afterEach(fetchMock.restore);
+
+  it("should make a basic POST request", () => {
     fetchMock.once("*", SharingRestInfo);
 
     request("https://www.arcgis.com/sharing/rest/info")
@@ -47,7 +58,7 @@ describe("request()", () => {
       });
   });
 
-  it("should make a basic GET request for text", () => {
+  it("should make a basic GET request for text", done => {
     fetchMock.once("*", WebMapAsText);
 
     request(
@@ -64,13 +75,14 @@ describe("request()", () => {
         );
         expect(options.method).toBe("GET");
         expect(response).toEqual(WebMapAsText);
+        done();
       })
       .catch(e => {
         fail(e);
       });
   });
 
-  it("should make a basic GET request for html", () => {
+  it("should make a basic GET request for html", done => {
     fetchMock.once("*", SharingRestInfoHTML);
 
     request(
@@ -85,6 +97,7 @@ describe("request()", () => {
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=html");
         expect(options.method).toBe("GET");
         expect(response).toEqual(SharingRestInfoHTML);
+        done();
       })
       .catch(e => {
         fail(e);
@@ -115,8 +128,6 @@ describe("request()", () => {
   });
 
   it("should use the `authentication` option to authenticate a request", () => {
-    const paramsSpy = spyOn(FormData.prototype, "append");
-
     fetchMock.once("*", WebMapAsText);
 
     const MOCK_AUTH = {
@@ -144,5 +155,23 @@ describe("request()", () => {
       .catch(e => {
         fail(e);
       });
+  });
+
+  it("should throw errors with information about the request", done => {
+    fetchMock.once("*", ArcGISOnlineError);
+
+    request(
+      "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
+    ).catch(error => {
+      expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
+      expect(error.message).toBe("400: 'type' and 'title' property required.");
+      expect(error instanceof Error).toBeTruthy();
+      expect(error.url).toBe(
+        "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
+      );
+      expect(error.params).toEqual({ f: "json" });
+      expect(error.options).toEqual({ httpMethod: "POST" });
+      done();
+    });
   });
 });
