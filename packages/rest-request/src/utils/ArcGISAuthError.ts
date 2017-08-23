@@ -1,52 +1,71 @@
-// TypeScript 2.1 no longer allows you to extend built in types. See https://github.com/Microsoft/TypeScript/issues/12790#issuecomment-265981442
-// and https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
-//
-// This code is from MDN https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Custom_Error_Types.
-export class ArcGISAuthError {
-  /**
-   * The name of this error. Will always be `"ArcGISAuthError"` to conform with the [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) class.
-   */
-  name: string;
+import {
+  request,
+  IRequestOptions,
+  IParams,
+  IAuthenticationManager
+} from "../request";
+import { ArcGISRequestError } from "./ArcGISRequestError";
 
-  /**
-   * Formatted error message. See the [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) class for more details.
-   */
-  message: string;
-
-  /**
-   * The errror message return from the request.
-   */
-  originalMessage: string;
-
-  /**
-   * The error code returned from the request.
-   */
-  code: string | number;
-
-  /**
-   * The original JSON response the caused the error.
-   */
-  originalResponse: any;
-
+export type IRetryAuthError = (
+  url: string,
+  params: IParams,
+  options: IRequestOptions
+) => Promise<IAuthenticationManager>;
+export class ArcGISAuthError extends ArcGISRequestError {
   /**
    * Create a new `ArcGISAuthError`  object.
    *
    * @param message - The error message from the API
    * @param code - The error code from the API
-   * @param originalResponse - The original response from the API that caused the error
+   * @param response - The original response from the API that caused the error
+   * @param url - The original url of the request
+   * @param params - The original params of the request
+   * @param options - The original options of the request
    */
   constructor(
     message = "AUTHENTICATION_ERROR",
-    code = "AUTHENTICATION_ERROR_CODE",
-    originalResponse?: any
+    code: string | number = "AUTHENTICATION_ERROR_CODE",
+    response?: any,
+    url?: string,
+    params?: IParams,
+    options?: IRequestOptions
   ) {
+    super(message, code, response, url, params, options);
     this.name = "ArcGISAuthError";
     this.message =
       code === "AUTHENTICATION_ERROR_CODE" ? message : `${code}: ${message}`;
-    this.originalMessage = message;
-    this.code = code;
-    this.originalResponse = originalResponse;
+  }
+
+  retry(getSession: IRetryAuthError, retryLimit = 3) {
+    let tries = 0;
+
+    const retryRequest = (resolve: any, reject: any) => {
+      getSession(this.url, this.params, this.options)
+        .then(session => {
+          const newOptions = {
+            ...this.options,
+            ...{ authentication: session }
+          };
+
+          tries = tries + 1;
+          return request(this.url, this.params, newOptions);
+        })
+        .then(response => {
+          resolve(response);
+        })
+        .catch(e => {
+          if (e.name === "ArcGISAuthError" && tries < retryLimit) {
+            retryRequest(resolve, reject);
+          } else if (e.name === "ArcGISAuthError" && tries >= retryLimit) {
+            reject(this);
+          } else {
+            reject(e);
+          }
+        });
+    };
+
+    return new Promise((resolve, reject) => {
+      retryRequest(resolve, reject);
+    });
   }
 }
-ArcGISAuthError.prototype = Object.create(Error.prototype);
-ArcGISAuthError.prototype.constructor = ArcGISAuthError;
