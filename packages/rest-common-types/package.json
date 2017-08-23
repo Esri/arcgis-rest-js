@@ -2,6 +2,7 @@
   "name": "@esri/rest-common-types",
   "version": "0.0.0",
   "description": "Common types for @esri/rest-js.",
+  "private": true,
   "types": "dist/types/index.d.ts",
   "author": "",
   "license": "Apache-2.0",

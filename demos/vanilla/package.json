@@ -1,10 +1,10 @@
 {
   "name": "@esri/rest-demo-vanilla",
   "version": "0.0.0",
+  "private": true,
   "description": "Vanilla JavaScript demo of @esri/rest-* packages",
   "author": "",
   "license": "Apache-2.0",
-  "private": true,
   "dependencies": {
     "@esri/rest-auth": "0.0.0",
     "@esri/rest-request": "0.0.0"

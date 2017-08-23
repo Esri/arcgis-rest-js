@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+
+<a href="" class="btn" id="sign-in" role="button">Sign In</a><br>
+<button class="btn" id="geocode" role="button">geocode an address</button>
+<button class="btn" id="suggest" role="button">get address suggestion</button>
+<button class="btn" id="reverse" role="button">find address of a location</button>
+<button class="btn" id="metadata" role="button">get service info</button>
+<button class="btn" id="bulk" role="button">geocode many addresses</button>
+
+<script src="config.js"></script>
+<script src="node_modules/@esri/rest-request/dist/umd/rest-request.umd.js"></script>
+<script src="node_modules/@esri/rest-auth/dist/umd/rest-auth.umd.js"></script>
+<script src="node_modules/@esri/rest-geocoder/dist/umd/rest-geocoder.umd.js"></script>
+
+<script>
+var auth;
+
+// add back later for bulk geocoding
+var authBtn = document.getElementById('sign-in');
+
+authBtn.addEventListener('click', function (e) {
+  EsriRestAuth.UserSession.beginOAuth2({
+    clientId: ClientId,
+    redirectUri: "http://localhost:8080/post-sign-in.html",
+    popup: true,
+    portal: "https://www.arcgis.com/sharing/rest"
+  }).then((session) => {
+    auth = session;
+    console.log(session);
+  }).catch(error => {
+    console.log(error);
+  });
+
+  e.preventDefault();
+});
+
+var geocodeBtn = document.getElementById('geocode');
+
+geocodeBtn.addEventListener('click', function (e) {
+  EsriRestGeocoder.single("LAX")
+    .then((response) => {
+        console.log("simple", response);
+    });
+});
+
+var suggestBtn = document.getElementById('suggest');
+
+suggestBtn.addEventListener('click', function (e) {
+  EsriRestGeocoder.suggest("Starb")
+    .then((response) => {
+        console.log("suggest", response);
+    });
+});
+
+var reverseBtn = document.getElementById('reverse');
+
+reverseBtn.addEventListener('click', function (e) {
+  EsriRestGeocoder.reverse([-118.409, 33.943])
+    .then((response) => {
+        console.log("reverse", response);
+    });
+});
+
+var metadataBtn = document.getElementById('metadata');
+
+metadataBtn.addEventListener('click', function (e) {
+  EsriRestGeocoder.serviceInfo()
+    .then((response) => {
+        console.log("metadata", response);
+    });
+});
+
+var bulkBtn = document.getElementById('bulk');
+
+bulkBtn.addEventListener('click', function (e) {
+  if (auth) {
+    var addresses = [
+        {
+            "attributes": {
+                "OBJECTID": 1,
+                "SingleLine": "380 New York St. Redlands 92373"
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 2,
+                "SingleLine": "1 World Way Los Angeles 90045"
+            }
+        }
+    ];
+    EsriRestGeocoder.bulk(addresses, { authentication: auth })
+    .then((response) => {
+        console.log("bulk", response);
+    });
+  }
+    
+});
+</script>
+</body>
+</html>

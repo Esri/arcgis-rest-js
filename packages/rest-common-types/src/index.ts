@@ -16,3 +16,12 @@ export interface IExtent {
   ymax: number;
   spatialReference: ISpatialReference;
 }
+
+/**
+ * A simple point geometry, with spatial reference defined.
+ */
+export interface IPoint {
+  x: number;
+  y: number;
+  spatialReference: ISpatialReference;
+}
