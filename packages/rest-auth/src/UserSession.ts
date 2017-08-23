@@ -302,8 +302,8 @@ export class UserSession implements IAuthenticationManager {
     options: IOauth2Options,
     /* istanbul ignore next*/ win: any = window
   ) {
-    const { portal, clientId, duration, redirectUri }: IOauth2Options = {
-      ...{ portal: "https://arcgis.com/sharing/rest", duration: 20160 },
+    const { portal, clientId }: IOauth2Options = {
+      ...{ portal: "https://arcgis.com/sharing/rest" },
       ...options
     };
 

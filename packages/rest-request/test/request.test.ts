@@ -144,7 +144,7 @@ describe("request()", () => {
       }
     )
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
         );
