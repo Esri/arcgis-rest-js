@@ -257,7 +257,7 @@ export class UserSession implements IAuthenticationManager {
 
     if (!popup) {
       win.location.href = url;
-      return;
+      return undefined;
     }
 
     const session = defer<UserSession>();
@@ -314,13 +314,13 @@ export class UserSession implements IAuthenticationManager {
           oauthInfo
         );
         win.close();
-        return;
+        return undefined;
       }
 
       if (win.parent) {
         win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`](error, oauthInfo);
         win.close();
-        return;
+        return undefined;
       }
 
       if (error) {

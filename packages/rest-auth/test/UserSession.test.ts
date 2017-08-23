@@ -46,11 +46,15 @@ describe("UserSession", () => {
         session.getToken(
           "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
         )
-      ]).then(([token1, token2]) => {
-        expect(token1).toBe("token");
-        expect(token2).toBe("token");
-        done();
-      });
+      ])
+        .then(([token1, token2]) => {
+          expect(token1).toBe("token");
+          expect(token2).toBe("token");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
     });
 
     it("should return unexpired tokens for the configured portal domain", done => {
@@ -92,11 +96,15 @@ describe("UserSession", () => {
         session.getToken(
           "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
         )
-      ]).then(([token1, token2]) => {
-        expect(token1).toBe("new");
-        expect(token2).toBe("new");
-        done();
-      });
+      ])
+        .then(([token1, token2]) => {
+          expect(token1).toBe("new");
+          expect(token2).toBe("new");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
     });
 
     it("should generate a token for an untrusted server", done => {
@@ -201,11 +209,16 @@ describe("UserSession", () => {
         username: " casey"
       });
 
-      session.refreshSession().then(s => {
-        expect(s.token).toBe("token");
-        expect(s.tokenExpires).toEqual(TOMORROW);
-        done();
-      });
+      session
+        .refreshSession()
+        .then(s => {
+          expect(s.token).toBe("token");
+          expect(s.tokenExpires).toEqual(TOMORROW);
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
     });
 
     it("should refresh with an unexpired refresh token", done => {
@@ -223,11 +236,16 @@ describe("UserSession", () => {
         username: " casey"
       });
 
-      session.refreshSession().then(s => {
-        expect(s.token).toBe("newToken");
-        expect(s.tokenExpires.getTime()).toBeGreaterThan(Date.now());
-        done();
-      });
+      session
+        .refreshSession()
+        .then(s => {
+          expect(s.token).toBe("newToken");
+          expect(s.tokenExpires.getTime()).toBeGreaterThan(Date.now());
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
     });
 
     it("should refresh with an expired refresh token", done => {
@@ -281,18 +299,22 @@ describe("UserSession", () => {
         open: jasmine.createSpy("spy")
       };
 
-      const signin = UserSession.beginOAuth2(
+      UserSession.beginOAuth2(
         {
           clientId: "clientId",
           redirectUri: "http://example-app.com/redirect"
         },
         MockWindow
-      ).then(session => {
-        expect(session.token).toBe("token");
-        expect(session.username).toBe("Casey");
-        expect(session.tokenExpires).toBe(TOMORROW);
-        done();
-      });
+      )
+        .then(session => {
+          expect(session.token).toBe("token");
+          expect(session.username).toBe("Casey");
+          expect(session.tokenExpires).toBe(TOMORROW);
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
 
       expect(MockWindow.open).toHaveBeenCalledWith(
         "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect",
@@ -312,7 +334,7 @@ describe("UserSession", () => {
         open: jasmine.createSpy("spy")
       };
 
-      const signin = UserSession.beginOAuth2(
+      UserSession.beginOAuth2(
         {
           clientId: "clientId",
           redirectUri: "http://example-app.com/redirect"
@@ -340,7 +362,7 @@ describe("UserSession", () => {
         }
       };
 
-      const signin = UserSession.beginOAuth2(
+      UserSession.beginOAuth2(
         {
           clientId: "clientId",
           redirectUri: "http://example-app.com/redirect",
@@ -400,7 +422,7 @@ describe("UserSession", () => {
         }
       };
 
-      const session = UserSession.completeOAuth2(
+      UserSession.completeOAuth2(
         {
           clientId: "clientId",
           redirectUri: "https://example-app.com/redirect-uri"
@@ -430,7 +452,7 @@ describe("UserSession", () => {
         }
       };
 
-      const session = UserSession.completeOAuth2(
+      UserSession.completeOAuth2(
         {
           clientId: "clientId",
           redirectUri: "https://example-app.com/redirect-uri"
@@ -448,7 +470,7 @@ describe("UserSession", () => {
       };
 
       expect(function() {
-        const session = UserSession.completeOAuth2(
+        UserSession.completeOAuth2(
           {
             clientId: "clientId",
             redirectUri: "https://example-app.com/redirect-uri"
@@ -508,9 +530,13 @@ describe("UserSession", () => {
           redirectUri: "https://example-app.com/redirect-uri"
         },
         "code"
-      ).then(session => {
-        done();
-      });
+      )
+        .then(session => {
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
     });
   });
 });
