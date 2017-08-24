@@ -362,7 +362,8 @@ describe("UserSession", () => {
         }
       };
 
-      UserSession.beginOAuth2(
+      // https://github.com/palantir/tslint/issues/3056
+      void UserSession.beginOAuth2(
         {
           clientId: "clientId",
           redirectUri: "http://example-app.com/redirect",

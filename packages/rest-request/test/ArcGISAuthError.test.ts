@@ -1,8 +1,6 @@
 import {
   FormData,
   ArcGISAuthError,
-  checkForErrors,
-  IAuthenticationManager,
   IRetryAuthError,
   ErrorTypes
 } from "../src/index";
