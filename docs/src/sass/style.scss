@@ -1,6 +1,25 @@
 @import "_icons.scss";
 @import "_highlight.scss";
 
+[v-cloak],
+[hide] {
+  display: none;
+}
+
+.api-search-result {
+  border: 1px solid transparent;
+  padding: .25rem;
+
+  &.is-selected {
+    background: #f8f8f8;
+    border: 1px solid #0079c1;
+  }
+}
+
+.text-purple {
+  color: #7461a8;
+}
+
 .sub-nav {
   background: #005e95;
 }
@@ -63,7 +82,6 @@ a > code {
 }
 
 /* We need to set the margin used on flex items to 0 as we have gaps in grid.  */
-
 @supports (display: grid) {
   .package-contents > * {
     margin: 0;

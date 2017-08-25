@@ -10,6 +10,7 @@
     {% endif %}
     <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.7/css/calcite-web.min.css">
     <link rel="stylesheet" href="/css/style.css">
+    {% block css %}{% endblock %}
   </head>
   <body>
   <!-- Drawer -->
@@ -23,7 +24,7 @@
       </nav>
     </div>
 
-    <div class="wrapper">
+    <div id="page" class="wrapper">
       <!-- Sample HTML -->
       <header class="top-nav">
         <div class="grid-container">
@@ -75,5 +76,7 @@
     <script>
        calcite.init()
     </script>
+
+    {% block scripts %}{% endblock %}
   </body>
 </html>

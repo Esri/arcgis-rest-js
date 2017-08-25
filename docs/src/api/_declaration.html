@@ -1,40 +1,48 @@
-{% macro @paramType(type) -%}
-  <i>{%- if type.type === 'intrinsic' -%}
-      {{type.name}}
-    {%- endif -%}
+{% macro @type(type) -%}
+  {%- if type.type === 'intrinsic' -%}
+    <i>{{type.name}}</i>
+  {%- endif -%}
 
-    {%- if type.type === 'reference' and type.id -%}
-      <a href="{{ API_TOOLS.findById(data.typedoc, type.id).pageUrl }}">{{type.name}}</a>
-    {%- elif type.type === 'reference' -%}
-      {{type.name}}
-    {%- endif -%}
+  {%- if type.type === 'reference' and type.id -%}
+    <i><a href="{{ API_TOOLS.findById(data.typedoc, type.id).pageUrl }}">{{type.name}}</a></i>
+  {%- elif type.type === 'reference' -%}
+    <i>{{type.name}}</i>
+  {%- endif -%}
 
-    {%- if type.type === 'reflection' and type.declaration.id -%}
-      {% set declaration = API_TOOLS.findById(data.typedoc, type.declaration.id)%}
-      <a href="{{ declaration.pageUrl }}">{{declaration.name}}</a>
-    {%- elif type.type === 'reflection' -%}
-      {{type.name}}
-    {%- endif -%}
+  {%- if type.type === 'reflection' and type.declaration.signatures.length > 0 -%}
+    <span class="code-face"><span class="text-light-gray">function</span> <span class="text-purple">{{name}}</span> <span class="text-light-gray">(</span>{{ @signatureParams(type.declaration.signatures[0].parameters) }}<span class="text-light-gray">) : </span>{{@type(type.declaration.signatures[0].type)}}</span>
+  {%- elif type.type === 'reflection' and type.declaration.id  -%}
+    {% set declaration = API_TOOLS.findById(data.typedoc, type.declaration.id) %}
+    <i><a href="{{ declaration.pageUrl }}">{{declaration.name}}</a></i>
+  {%- elif type.type === 'reflection' -%}
+    <i>{{ type.name }}</i>
+  {%- endif -%}
 
-    {%- if type.type === 'union' -%}
-      {% for t in type.types -%}
-        {%- if t.type === 'stringLiteral' -%}
-          <code>"{{t.value}}"</code>
-        {% else %}
-          <code>{{t.value}}</code>
-        {%- endif -%}
-      {%- endfor %}
-    {%- endif -%}
+  {%- if type.type === 'union' -%}
+    <i>{%- for t in type.types -%}
+      {%- if t.type === 'stringLiteral' -%}
+        <span class="text-green">"{{t.value}}"</span>
+      {%- else -%}
+        {{t.value or t.name}}
+      {%- endif -%}
 
-    {%- if type.typeArguments -%}
-      {% for arg in type.typeArguments -%}
-        {{ '<' if loop.first}}{{ @paramType(arg) }}{{ '>' if loop.last}}
-      {%- endfor %}
-    {%- endif -%}</i>
+      {%- if (loop.last === false) -%}
+        <span class="text-light-gray">{{ ' | ' }}</span>
+      {%- endif -%}
+    {%- endfor -%}</i>
+  {%- endif -%}
+
+  {%- if type.typeArguments -%}
+    <i>{% for arg in type.typeArguments -%}
+      {%- if (loop.first) -%}<span class="text-light-gray">{{ '<' }}</span>{%- endif -%}
+      {{ @type(arg) }}
+      {%- if (loop.last) -%}<span class="text-light-gray">{{ '>' }}</span>{%- endif -%}
+    {%- endfor %}</i>
+  {%- endif -%}
 {%- endmacro %}
 
 {% macro @param(param) -%}
-  {{param.name}}: {{@paramType(param.type)}}
+  {{param.name}}: {{@type(param.type)}}
 {%- endmacro %}
 
 {% macro @signatureParams(params) -%}
@@ -42,7 +50,13 @@
 {%- endmacro %}
 
 {% macro @signature(signature) -%}
-  <li class="code-face tsd-signature tsd-kind-icon">{{ signature.name }}({{ @signatureParams(signature.parameters) }}) : {{@paramType(signature.type)}}</li>
+  <li class="code-face tsd-signature tsd-kind-icon">{{ signature.name }}<span class="text-light-gray">(</span>{{ @signatureParams(signature.parameters) }}<span class="text-light-gray">) : </span>{{@type(signature.type)}}</li>
+{%- endmacro %}
+
+{% macro @inherited(inheritedFrom) -%}
+  {% if inheritedFrom %}
+    <span class="label">Inherited</span>
+  {% endif %}
 {%- endmacro %}
 
 {% macro @properties (group, children) %}
@@ -57,18 +71,55 @@
     <tbody>
       {% for id in group.children %}
         {% set child = API_TOOLS.findChildById(id, children) %}
-        <tr>
+        <tr id="{{child.name}}">
           <td class="code-face {{child.icon}} no-wrap">
             <span class="tsd-kind-icon">{{child.name}}</span>
             {{ @flags(child.flags) }}
+            {{ @inherited(child.inheritedFrom) }}
           </td>
           <td class="code-face">
             {% if child.defaultValue %}
               {{ child.defaultValue }}
             {% elif child.getSignature %}
-              {{ @paramType(child.getSignature[0].type) }}
+              {{ @type(child.getSignature[0].type) }}
             {% else %}
-              {{ @paramType(child.type) }}
+              {{ @type(child.type) }}
+            {% endif %}
+          </td>
+          <td class="body-face api-param-comment">
+            {% markdown -%}
+              {{ child.comment.shortText | safe | trim }}
+            {%- endmarkdown %}
+          </td>
+        </tr>
+      {% endfor %}
+
+    </tbody>
+  </table>
+{% endmacro %}
+
+{% macro @indexSignature (signatures) %}
+  <table>
+    <thead>
+      <tr>
+        <th>Key Type</th>
+        <th>Value Type</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for child in signatures %}
+        <tr>
+          <td class="code-face {{child.icon}} no-wrap">
+            {{ @type(child.parameters[0].type) }}
+          </td>
+          <td class="code-face">
+            {% if child.defaultValue %}
+              {{ child.defaultValue }}
+            {% elif child.getSignature %}
+              {{ @type(child.getSignature[0].type) }}
+            {% else %}
+              {{ @type(child.type) }}
             {% endif %}
           </td>
           <td class="body-face api-param-comment">
@@ -122,7 +173,7 @@
   <h2 class="font-size-1 trailer-half">Returns</h2>
 
   {%- markdown -%}
-    <code>{{@paramType(signatures[0].type)}}</code>{{" - " if signatures[0].comment.returns}}{{ signatures[0].comment.returns | safe }}
+    <code>{{@type(signatures[0].type)}}</code>{{" - " if signatures[0].comment.returns}}{{ signatures[0].comment.returns | safe }}
   {%- endmarkdown %}
 
   {% if signatures[0].comment.text %}
@@ -149,12 +200,16 @@
         <tr>
           <td>
             <ul class="method-table-signatures {{child.signatures[0].icon}}">
-              {% for signature in child.signatures %}
-                <li class="code-face tsd-signature tsd-kind-icon"><a href="#{{signature.name}}">{{ signature.name }}</a>({{ @signatureParams(signature.parameters) }})</li>
-              {% endfor %}
+              {% for signature in child.signatures -%}
+                <li class="code-face tsd-signature tsd-kind-icon">
+                  <a href="#{{signature.name}}">{{ signature.name }}</a><span class="text-light-gray">(</span>{{ @signatureParams(signature.parameters) }}<span class="text-light-gray">)</span>
+                  {{ @flags(child.flags) }}
+                  {{ @inherited(child.inheritedFrom) }}
+                </li>
+              {%- endfor %}
             </ul>
           </td>
-          <td>{{@paramType(child.signatures[0].type)}}</td>
+          <td class="code-face">{{@type(child.signatures[0].type)}}</td>
           <td class="body-face api-param-comment">
             {% markdown -%}
               {{ child.signatures[0].comment.shortText | safe | trim }}
@@ -210,7 +265,7 @@
       <h2 class="font-size-1 trailer-half">Returns</h2>
 
       {%- markdown -%}
-        <code>{{@paramType(signatures[0].type)}}</code>{{" - " if signatures[0].comment.returns}}{{ signatures[0].comment.returns | safe }}
+        <code>{{@type(signatures[0].type)}}</code>{{" - " if signatures[0].comment.returns}}{{ signatures[0].comment.returns | safe }}
       {%- endmarkdown %}
 
       {% if signatures[0].comment.text %}
@@ -253,7 +308,7 @@
                 {{ @flags(param.flags) }}
               {% endif %}
             </td>
-            <td class="code-face">{{@paramType(param.type)}}</td>
+            <td class="code-face">{{@type(param.type)}}</td>
             <td class="code-face">{{param.defaultValue}}</td>
             <td class="body-face api-param-comment">
               {% markdown -%}
@@ -283,8 +338,47 @@
   {%- endmarkdown %}
 {% endif %}
 
+{% if implementedTypes %}
+  <h2>Impliments</h2>
+  <ul class="list-plain trailer-1">
+  {% for implimentedType in implementedTypes %}
+    {% if implimentedType.id %}
+      {% set base = API_TOOLS.findById(data.typedoc, implimentedType.id) %}
+      <li class="code-face {{base.icon}}"><a href="{{ base.pageUrl }}" class="tsd-kind-icon">{{base.name}}</a></li>
+    {% elif implimentedType.name %}
+      {% set base = API_TOOLS.findByName(data.typedoc, implimentedType.name) %}
+      {% if base %}
+        <li class="code-face {{base.icon}}"><a href="{{ base.pageUrl }}" class="tsd-kind-icon">{{base.name}}</a></li>
+      {% elif implimentedType.name %}
+        <li class="code-face">{{base.name}}</li>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  </ul>
+{% endif %}
+
+{% if extendedTypes %}
+  <h2>Extends</h2>
+  <ul class="list-plain trailer-1">
+  {% for extendedType in extendedTypes %}
+    {% if extendedType.id %}
+      {% set base = API_TOOLS.findById(data.typedoc, extendedType.id) %}
+      <li class="code-face {{base.icon}}"><a href="{{ base.pageUrl }}" class="tsd-kind-icon">{{base.name}}</a></li>
+    {% elif extendedType.name %}
+      {% set base = API_TOOLS.findByName(data.typedoc, extendedType.name) %}
+      {% if base %}
+        <li class="code-face {{base.icon}}"><a href="{{ base.pageUrl }}" class="tsd-kind-icon">{{base.name}}</a></li>
+      {% elif extendedType.name %}
+        <li class="code-face">{{base.name}}</li>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  </ul>
+{% endif %}
+
 {% if type %}
-  Value(s): {{@paramType(type)}}
+  Value(s):<br>
+  <pre>{{@type(type)}}</pre>
 {% endif %}
 
 {% if groups %}
@@ -325,6 +419,11 @@
   {% endfor %}
 {% endif %}
 
+{% if indexSignature %}
+  <h3>Index Signatures</h3>
+  {{@indexSignature(indexSignature)}}
+{% endif %}
+
 {% if signatures %}
   {{@signatures(signatures)}}
 {% endif %}
@@ -341,5 +440,5 @@
 
 <details class="leader-1">
   <summary>Debug Info</summary>
-  <pre><code>{{__defaultMetadata | inspect}}</code></pre>
+  <pre><code>{{__defaultMetadata.indexSignature[0] | inspect}}</code></pre>
 </details>

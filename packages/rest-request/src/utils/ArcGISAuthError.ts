@@ -11,6 +11,7 @@ export type IRetryAuthError = (
   params: IParams,
   options: IRequestOptions
 ) => Promise<IAuthenticationManager>;
+
 export class ArcGISAuthError extends ArcGISRequestError {
   /**
    * Create a new `ArcGISAuthError`  object.
