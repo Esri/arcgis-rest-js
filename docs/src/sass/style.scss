@@ -6,6 +6,55 @@
   display: none;
 }
 
+tr:hover .table-link,
+.method-panel:hover header .table-link {
+  display: block;
+}
+
+.method-panel header .table-link {
+  left: -.875rem;
+  top: 1.75rem;
+}
+
+td,
+.method-panel {
+  position: relative;
+}
+
+tr:target,
+.panel:target {
+  background: #efe397;
+}
+
+.table-link {
+  position: absolute;
+  left: -1.25rem;
+  top: 50%;
+  margin-top: -0.8375rem;
+  display: none;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid #cccccc;
+  color: #0079c1;
+  width: 1.675rem;
+  height: 1.675rem;
+  text-align: center;
+  line-height: 1.675rem;
+  &:hover {
+    color: white;
+    background: #005e95;
+    border: 1px solid #005e95;
+  }
+  .svg-icon {
+    vertical-align: auto;
+    padding: 0;
+    width: 1rem;
+    height: 1rem;
+    top: 2px;
+    position: relative;
+  }
+}
+
 .api-search-result {
   border: 1px solid transparent;
   padding: .25rem;
