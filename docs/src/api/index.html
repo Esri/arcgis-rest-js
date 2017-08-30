@@ -1,23 +1,19 @@
 ---
-layout: "_layout:main"
+layout: "api/_layout:content"
 ---
 
-<div class="grid-container trailer-1 leader-1">
-  <div class="column-24">
-    <h1 class="font-size-4">Packages</h1>
-    {% for package in data.typedoc.packages %}
-    <section class="panel trailer-1">
-      <small class="label right">Version {{package.pkg.version}}</small>
-      <h2 class="{{package.icon}} font-size-3 trailer-half"> {% link package.pageUrl, package.pkg.name, class="tsd-kind-icon" %}</h2>
-      <p class="trailer-half">{{package.pkg.description}}</p>
-      <hr class="leader-half trailer-half">
-      <ul class="list-plain package-contents">
-      {% for declaration in package.declarations %}
-        <li class="{{declaration.icon}}">{% link declaration.pageUrl, declaration.name, class="tsd-kind-icon" %}</li>
-      {% endfor %}
-      </ul>
-    </section>
-    {% endfor %}
-    </div>
-  </div>
+<h1 class="font-size-4">Packages</h1>
+{% for package in data.typedoc.packages %}
+<section class="panel panel-white leader-1">
+  <small class="label right">Version {{package.pkg.version}}</small>
+  <h2 class="{{package.icon}} font-size-3 trailer-half"> {% link package.pageUrl, package.pkg.name, class="tsd-kind-icon" %}</h2>
+  <p class="trailer-half">{{package.pkg.description}}</p>
+  <hr class="leader-half trailer-half">
+  <ul class="list-plain package-contents">
+  {% for declaration in package.declarations %}
+    <li class="{{declaration.icon}}">{% link declaration.pageUrl, declaration.name, class="tsd-kind-icon" %}</li>
+  {% endfor %}
+  </ul>
+</section>
+{% endfor %}
 </div>

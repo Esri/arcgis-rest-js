@@ -62,11 +62,7 @@
     "tslib": "^1.7.1"
   },
   "lint-staged": {
-    "*.ts": [
-      "prettier --write --parser typescript",
-      "tslint",
-      "git add"
-    ]
+    "*.ts": ["prettier --write --parser typescript", "tslint", "git add"]
   },
   "scripts": {
     "build": "lerna run build",
@@ -78,12 +74,13 @@
     "docs:typedoc": "node docs/build-typedoc.js",
     "docs:dev:typedoc": "onchange -v 'packages/*/src/**/*.ts' -- npm run docs:typedoc",
     "predocs:serve": "npm run docs:typedoc",
-    "docs:serve": "concurrently \"npm run docs:dev:images\" \"npm run docs:dev:acetate\" \"npm run docs:dev:sass\" \"npm run docs:dev:typedoc\"",
+    "docs:serve": "concurrently \"npm run docs:dev:js\" \"npm run docs:dev:images\" \"npm run docs:dev:acetate\" \"npm run docs:dev:sass\" \"npm run docs:dev:typedoc\"",
     "docs:dev:images": "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build -w",
     "docs:dev:acetate": "acetate server --log=debug --config docs/acetate.config.js",
     "predocs:dev:sass": "npm run docs:build:sass",
     "docs:dev:sass": "node-sass --watch --recursive --output docs/build/css --source-map true --source-map-contents docs/src/sass",
     "docs:build:sass": "node-sass --output docs/build/css --source-map true --source-map-contents docs/src/sass",
+    "docs:dev:js": "cpx \"docs/src/**/{api-search,}.js\" docs/build -w",
     "lint": "tslint --project tsconfig.json --type-check",
     "lint:fix": "tslint --project tsconfig.json --type-check --fix",
     "precommit": "lint-staged",
