@@ -356,17 +356,17 @@
 {% endif %}
 
 {% if implementedTypes %}
-  <h2>Impliments</h2>
+  <h2>Implements</h2>
   <ul class="list-plain trailer-1">
-  {% for implimentedType in implementedTypes %}
-    {% if implimentedType.id %}
-      {% set base = API_TOOLS.findById(data.typedoc, implimentedType.id) %}
+  {% for implementedType in implementedTypes %}
+    {% if implementedType.id %}
+      {% set base = API_TOOLS.findById(data.typedoc, implementedType.id) %}
       <li class="code-face {{base.icon}}"><a href="{{ base.pageUrl }}" class="tsd-kind-icon">{{base.name}}</a></li>
-    {% elif implimentedType.name %}
-      {% set base = API_TOOLS.findByName(data.typedoc, implimentedType.name) %}
+    {% elif implementedType.name %}
+      {% set base = API_TOOLS.findByName(data.typedoc, implementedType.name) %}
       {% if base %}
         <li class="code-face {{base.icon}}"><a href="{{ base.pageUrl }}" class="tsd-kind-icon">{{base.name}}</a></li>
-      {% elif implimentedType.name %}
+      {% elif implementedType.name %}
         <li class="code-face">{{base.name}}</li>
       {% endif %}
     {% endif %}
