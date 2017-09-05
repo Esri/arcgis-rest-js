@@ -17,11 +17,15 @@ describe("ApplicationSession", () => {
         session.getToken(
           "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
         )
-      ]).then(([token1, token2]) => {
-        expect(token1).toBe("token");
-        expect(token2).toBe("token");
-        done();
-      });
+      ])
+        .then(([token1, token2]) => {
+          expect(token1).toBe("token");
+          expect(token2).toBe("token");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
     });
 
     it("should fetch a new token if the cached one is expired", done => {
@@ -42,11 +46,15 @@ describe("ApplicationSession", () => {
         session.getToken(
           "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
         )
-      ]).then(([token1, token2]) => {
-        expect(token1).toBe("new");
-        expect(token2).toBe("new");
-        done();
-      });
+      ])
+        .then(([token1, token2]) => {
+          expect(token1).toBe("new");
+          expect(token2).toBe("new");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
     });
   });
 
@@ -63,9 +71,14 @@ describe("ApplicationSession", () => {
       expires_in: 1800
     });
 
-    session.refreshSession().then(s => {
-      expect(s).toBe(session);
-      done();
-    });
+    session
+      .refreshSession()
+      .then(s => {
+        expect(s).toBe(session);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
   });
 });

@@ -240,6 +240,38 @@ const md = new MarkdownIt();
     })
     .then(api => {
       /**
+       * In order to power the API reference quick search we can build an array
+       * of all declarations and child items
+       */
+      api.quickSearchIndex = api.declarations.reduce(
+        (quickSearchIndex, declaration) => {
+          if (declaration.children) {
+            quickSearchIndex = quickSearchIndex.concat(
+              declaration.children.map(child => {
+                return {
+                  title: `${declaration.name}.${child.name}`,
+                  url: `${declaration.pageUrl}#${child.name}`,
+                  icon: child.icon
+                };
+              })
+            );
+          }
+
+          return quickSearchIndex.concat([
+            {
+              title: declaration.name,
+              url: declaration.pageUrl,
+              icon: declaration.icon
+            }
+          ]);
+        },
+        []
+      );
+
+      return api;
+    })
+    .then(api => {
+      /**
        * Our final object looks like this:
        *
        * {

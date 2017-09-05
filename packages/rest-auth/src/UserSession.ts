@@ -257,7 +257,7 @@ export class UserSession implements IAuthenticationManager {
 
     if (!popup) {
       win.location.href = url;
-      return;
+      return undefined;
     }
 
     const session = defer<UserSession>();
@@ -302,8 +302,8 @@ export class UserSession implements IAuthenticationManager {
     options: IOauth2Options,
     /* istanbul ignore next*/ win: any = window
   ) {
-    const { portal, clientId, duration, redirectUri }: IOauth2Options = {
-      ...{ portal: "https://arcgis.com/sharing/rest", duration: 20160 },
+    const { portal, clientId }: IOauth2Options = {
+      ...{ portal: "https://arcgis.com/sharing/rest" },
       ...options
     };
 
@@ -314,13 +314,13 @@ export class UserSession implements IAuthenticationManager {
           oauthInfo
         );
         win.close();
-        return;
+        return undefined;
       }
 
       if (win.parent) {
         win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`](error, oauthInfo);
         win.close();
-        return;
+        return undefined;
       }
 
       if (error) {

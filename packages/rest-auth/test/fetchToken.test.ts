@@ -4,9 +4,19 @@ import { fetchToken } from "../src/index";
 const TOKEN_URL = "https://www.arcgis.com/sharing/rest/oauth2/token";
 
 describe("fetchToken()", () => {
-  it("should request a token with `client_credentials`, `client_id` and `client_secret`", () => {
-    const paramsSpy = spyOn(FormData.prototype, "append");
+  let paramsSpy: jasmine.Spy;
 
+  beforeEach(() => {
+    paramsSpy = spyOn(FormData.prototype, "append").and.callThrough();
+  });
+
+  afterAll(() => {
+    paramsSpy.calls.reset();
+  });
+
+  afterEach(fetchMock.restore);
+
+  it("should request a token with `client_credentials`, `client_id` and `client_secret`", () => {
     fetchMock.postOnce(TOKEN_URL, {
       access_token: "token",
       expires_in: 1800
@@ -36,8 +46,6 @@ describe("fetchToken()", () => {
   });
 
   it("should request a token with `authorization_code`, `client_id` and `redirect_uri`", () => {
-    const paramsSpy = spyOn(FormData.prototype, "append");
-
     fetchMock.postOnce(TOKEN_URL, {
       access_token: "token",
       expires_in: 1800,

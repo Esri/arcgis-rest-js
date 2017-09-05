@@ -15,6 +15,13 @@ module.exports = function(acetate) {
     }
   });
 
+  acetate.load("js/index.js", {
+    metadata: {
+      layout: false,
+      prettyUrl: false
+    }
+  });
+
   /**
    * Add a different layout for guides. Add an array of `titleSegments` to go
    * inbetween the page title and the "Esri REST JS" title suffix.
@@ -150,6 +157,9 @@ module.exports = function(acetate) {
   acetate.global("API_TOOLS", {
     findById: function(typedoc, id) {
       return typedoc.index[id];
+    },
+    findByName: function(typedoc, name) {
+      return typedoc.declarations.find(c => c.name === name);
     },
     findChildById: function(id, children) {
       return children.find(c => c.id === id);
