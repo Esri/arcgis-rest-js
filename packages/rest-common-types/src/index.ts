@@ -14,7 +14,7 @@ export interface IExtent {
   ymin: number;
   xmax: number;
   ymax: number;
-  spatialReference: ISpatialReference;
+  spatialReference?: ISpatialReference;
 }
 
 /**
@@ -23,5 +23,5 @@ export interface IExtent {
 export interface IPoint {
   x: number;
   y: number;
-  spatialReference: ISpatialReference;
+  spatialReference?: ISpatialReference;
 }

@@ -1,4 +1,4 @@
-export const findAddressCandidatesResponse = {
+export const FindAddressCandidates = {
   spatialReference: {
     wkid: 4326,
     latestWkid: 4326
@@ -52,7 +52,7 @@ export const findAddressCandidatesResponse = {
   ]
 };
 
-export const suggestResponse = {
+export const Suggest = {
   suggestions: [
     {
       text: "LAX, Los Angeles, CA, USA",
@@ -87,7 +87,7 @@ export const suggestResponse = {
   ]
 };
 
-export const reverseGeocodeResponse = {
+export const ReverseGeocode = {
   address: {
     Match_addr: "LA Airport",
     LongLabel: "LA Airport, Los Angeles, CA, USA",
@@ -120,7 +120,141 @@ export const reverseGeocodeResponse = {
   }
 };
 
-export const metadataResponse = {
+export const GeocodeAddresses = {
+  spatialReference: { wkid: 4326, latestWkid: 4326 },
+  locations: [
+    {
+      address: "380 New York St, Redlands, California, 92373",
+      location: { x: -117.19567031799994, y: 34.056488119000051 },
+      score: 100,
+      attributes: {
+        ResultID: 1,
+        Loc_name: "World",
+        Status: "M",
+        Score: 100,
+        Match_addr: "380 New York St, Redlands, California, 92373",
+        LongLabel: "380 New York St, Redlands, CA, 92373, USA",
+        ShortLabel: "380 New York St",
+        Addr_type: "PointAddress",
+        Type: "",
+        PlaceName: "",
+        Place_addr: "380 New York St, Redlands, California, 92373",
+        Phone: "",
+        URL: "",
+        Rank: 20,
+        AddBldg: "",
+        AddNum: "380",
+        AddNumFrom: "",
+        AddNumTo: "",
+        AddRange: "",
+        Side: "R",
+        StPreDir: "",
+        StPreType: "",
+        StName: "New York",
+        StType: "St",
+        StDir: "",
+        BldgType: "",
+        BldgName: "",
+        LevelType: "",
+        LevelName: "",
+        UnitType: "",
+        UnitName: "",
+        SubAddr: "",
+        StAddr: "380 New York St",
+        Block: "",
+        Sector: "",
+        Nbrhd: "West Redlands",
+        District: "",
+        City: "Redlands",
+        MetroArea: "Inland Empire",
+        Subregion: "San Bernardino",
+        Region: "California",
+        RegionAbbr: "CA",
+        Territory: "",
+        Zone: "",
+        Postal: "92373",
+        PostalExt: "",
+        Country: "USA",
+        LangCode: "ENG",
+        Distance: 0,
+        X: -117.1956703176181,
+        Y: 34.056488119308924,
+        DisplayX: -117.1953135,
+        DisplayY: 34.056108000000009,
+        Xmin: -117.1963135,
+        Xmax: -117.19431349999999,
+        Ymin: 34.055108000000011,
+        Ymax: 34.057108000000007
+      }
+    },
+    {
+      address: "1 World Way, Los Angeles, California, 90045",
+      location: { x: -118.39751976799994, y: 33.944172212000069 },
+      score: 100,
+      attributes: {
+        ResultID: 2,
+        Loc_name: "World",
+        Status: "M",
+        Score: 100,
+        Match_addr: "1 World Way, Los Angeles, California, 90045",
+        LongLabel: "1 World Way, Los Angeles, CA, 90045, USA",
+        ShortLabel: "1 World Way",
+        Addr_type: "StreetAddress",
+        Type: "",
+        PlaceName: "",
+        Place_addr: "1 World Way, Los Angeles, California, 90045",
+        Phone: "",
+        URL: "",
+        Rank: 20,
+        AddBldg: "",
+        AddNum: "1",
+        AddNumFrom: "1",
+        AddNumTo: "57",
+        AddRange: "1-57",
+        Side: "R",
+        StPreDir: "",
+        StPreType: "",
+        StName: "World",
+        StType: "Way",
+        StDir: "",
+        BldgType: "",
+        BldgName: "",
+        LevelType: "",
+        LevelName: "",
+        UnitType: "",
+        UnitName: "",
+        SubAddr: "",
+        StAddr: "1 World Way",
+        Block: "",
+        Sector: "",
+        Nbrhd: "Westchester",
+        District: "",
+        City: "Los Angeles",
+        MetroArea: "Los Angeles Metro Area",
+        Subregion: "Los Angeles",
+        Region: "California",
+        RegionAbbr: "CA",
+        Territory: "",
+        Zone: "",
+        Postal: "90045",
+        PostalExt: "",
+        Country: "USA",
+        LangCode: "ENG",
+        Distance: 0,
+        X: -118.39751976816108,
+        Y: 33.944172211706103,
+        DisplayX: -118.39751976816108,
+        DisplayY: 33.944172211706103,
+        Xmin: -118.39851976816108,
+        Xmax: -118.39651976816107,
+        Ymin: 33.943172211706106,
+        Ymax: 33.945172211706101
+      }
+    }
+  ]
+};
+
+export const SharingInfo = {
   currentVersion: 10.41,
   serviceDescription: "Sample geocoder for San Diego, California, USA",
   addressFields: [

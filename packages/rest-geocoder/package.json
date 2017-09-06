@@ -13,10 +13,12 @@
   },
   "peerDependencies": {
     "@esri/rest-request": "^0.0.0",
+    "@esri/rest-auth": "^0.0.0",
     "@esri/rest-common-types": "^0.0.0"
   },
   "devDependencies": {
     "@esri/rest-request": "^0.0.0",
+    "@esri/rest-auth": "^0.0.0",
     "@esri/rest-common-types": "^0.0.0"
   },
   "scripts": {

@@ -13,7 +13,7 @@ const worldGeocoder =
   "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/";
 
 export interface IGeocodeRequestOptions extends IRequestOptions {
-  endpoint: string;
+  endpoint?: string;
 }
 
 export interface IGeocodeResponse {
@@ -27,7 +27,9 @@ export interface IGeocodeResponse {
 }
 
 export interface IReverseGeocodeResponse {
-  address: object;
+  address: {
+    [key: string]: any;
+  };
   location: IPoint;
 }
 
@@ -50,15 +52,15 @@ export interface IBulkGeocodeResponse {
 }
 
 export interface IGeocodeServiceInfoResponse {
-  currentVersion: string;
-  serviceDescription: number;
+  currentVersion: number;
+  serviceDescription: string;
   addressFields: any[];
   countries: string[];
   capabilities: string;
 }
 
 /**
- * Used to convert a string into a location
+ * Used to determine the location of a single address or point of interest
  *
  * ```js
  * import EsriRestGeocoder from '@esri/arcgis-geocoder';
@@ -67,7 +69,7 @@ export interface IGeocodeServiceInfoResponse {
  *   .then((response) => {
  *     response.candidates[0].location; // => { x: -118.409, y: 33.943 }
  *   });
- * 
+ *
  * EsriRestGeocoder.single("Disneyland", { countryCode: "FRA" })
  *   .then((response) => {
  *     response.candidates[0].location; // => { x: 2.796, y: 8.876 }
@@ -121,7 +123,7 @@ export function single(
  *
  * ```js
  * import EsriRestGeocoder from '@esri/arcgis-geocoder';
- * 
+ *
  * // expects coordinates in longitude, latitude (XY) order
  * EsriRestGeocoder.reverse([-118.409, 33.943])
  *   .then((response) => {
@@ -136,7 +138,7 @@ export function reverse(
   lngLat?: number[],
   requestParams?: IParams,
   requestOptions?: IGeocodeRequestOptions
-): Promise<ISuggestResponse> {
+): Promise<IReverseGeocodeResponse> {
   const { endpoint }: IGeocodeRequestOptions = {
     ...{ endpoint: worldGeocoder },
     ...requestOptions
@@ -198,18 +200,18 @@ export function suggest(
  * var addresses = [
  *   {
  *     "attributes": { "OBJECTID": 1, "SingleLine": "380 New York Street 92373" }
- *   }, 
+ *   },
  *   {
  *     "attributes": { "OBJECTID": 2, "SingleLine": "1 World Way Los Angeles 90045" }
  *   }
  *  }];
- * 
+ *
  *  EsriRestGeocoder.bulk(addresses, { authentication: session })
  *    .then((response) => {
  *      console.log(response.locations[0].location); // => { x: -117, y: 34 }
  *    });
  * ```
- * 
+ *
  * @param params - The parameters to pass to the geocoder.
  * @param requestOptions - Additional options to pass to the geocoder.
  * @returns A Promise that will resolve with the data from the request.
@@ -231,7 +233,7 @@ export function bulk(
   };
 
   if (!requestOptions.authentication) {
-    return Promise.reject("bulk geocoding requires authentication");
+    return Promise.reject("bulk geocoding requests require authentication");
   }
 
   return request(
