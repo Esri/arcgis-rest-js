@@ -1,8 +1,6 @@
 /*
 to do:
 verify custom endpoints contain 'GeocodeServer' and end in a '/'
-write tests
-make demo more interactive
 */
 import { request, IRequestOptions, IParams } from "@esri/rest-request";
 
@@ -67,12 +65,12 @@ export interface IGeocodeServiceInfoResponse {
  *
  * EsriRestGeocoder.single("LAX")
  *   .then((response) => {
- *     response.candidates[0].location; // => { x: -118.409, y: 33.943 }
+ *     response.candidates[0].location; // => { x: -118.409, y: 33.943, spatialReference: { wkid: 4326 }  }
  *   });
  *
  * EsriRestGeocoder.single("Disneyland", { countryCode: "FRA" })
  *   .then((response) => {
- *     response.candidates[0].location; // => { x: 2.796, y: 8.876 }
+ *     response.candidates[0].location; // => { x: 2.796, y: 8.876, spatialReference: { wkid: 4326 } }
  *   });
  * ```
  *
@@ -84,7 +82,7 @@ export interface IGeocodeServiceInfoResponse {
 export function single(
   text?: string,
   requestParams?: IParams,
-  requestOptions?: IRequestOptions
+  requestOptions?: IGeocodeRequestOptions
 ): Promise<IGeocodeResponse> {
   const { endpoint }: IGeocodeRequestOptions = {
     ...{ endpoint: worldGeocoder },
@@ -127,7 +125,7 @@ export function single(
  * // expects coordinates in longitude, latitude (XY) order
  * EsriRestGeocoder.reverse([-118.409, 33.943])
  *   .then((response) => {
- *     console.log(response.address.PlaceName); // => "LA Airport"
+ *     response.address.PlaceName; // => "LA Airport"
  *   });
  * ```
  *
@@ -164,7 +162,7 @@ export function reverse(
  *
  * EsriRestGeocoder.suggest("Starb")
  *   .then((response) => {
- *     console.log(response.address.PlaceName); // => "Starbucks"
+ *     response.address.PlaceName; // => "Starbucks"
  *   });
  * ```
  *
@@ -208,7 +206,7 @@ export function suggest(
  *
  *  EsriRestGeocoder.bulk(addresses, { authentication: session })
  *    .then((response) => {
- *      console.log(response.locations[0].location); // => { x: -117, y: 34 }
+ *      response.locations[0].location; // => { x: -117, y: 34, spatialReference: { wkid: 4326 } }
  *    });
  * ```
  *
@@ -257,11 +255,11 @@ export function bulk(
  *
  * EsriRestGeocoder.serviceInfo()
  *   .then((response) => {
- *     console.log(response.serviceDescription); // => 'World Geocoder'
+ *     response.serviceDescription; // => 'World Geocoder'
  *   });
  * ```
  *
- * @param endpoint - The geocoding service to inquire about.
+ * @param endpoint - A custom geocoding service to fetch metadata from.
  * @returns A Promise that will resolve with the data from the request.
  */
 export function serviceInfo(
