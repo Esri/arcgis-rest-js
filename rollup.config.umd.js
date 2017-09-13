@@ -41,28 +41,17 @@ const packageNames = fs
  * Rollup will use this map to determine where to lookup modules on the global
  * window object when neither AMD or CommonJS is being used.
  */
-const globals = packageNames.reduce(
-  (globals, p) => {
-    globals[p] = formatModuleName("@esri/rest-request");
-    return globals;
-  },
-  {
-    "isomorphic-fetch": "",
-    "isomorphic-form-data": "FormData",
-    "es6-promise": "Promise"
-  }
-);
+const globals = packageNames.reduce((globals, p) => {
+  globals[p] = formatModuleName("@esri/rest-request");
+  return globals;
+}, {});
 
 /**
  * Rollup will not bundle these modules into the final build. Users will be
  * expected to install the peer dependencies (for Common JS), map the package
  * names for AMD or include the dependencies in <script> tags in the proper order.
  */
-const external = [
-  "isomorphic-fetch",
-  "isomorphic-form-data",
-  "es6-promise"
-].concat(packageNames);
+const external = packageNames;
 
 /**
  * Now we can export the Rollup config!

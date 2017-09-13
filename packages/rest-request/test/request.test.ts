@@ -1,4 +1,4 @@
-import { request, FormData, ErrorTypes } from "../src/index";
+import { request, ErrorTypes } from "../src/index";
 import * as fetchMock from "fetch-mock";
 import {
   SharingRestInfo,
@@ -21,7 +21,7 @@ describe("request()", () => {
 
   afterEach(fetchMock.restore);
 
-  it("should make a basic POST request", () => {
+  it("should make a basic POST request", done => {
     fetchMock.once("*", SharingRestInfo);
 
     request("https://www.arcgis.com/sharing/rest/info")
@@ -31,13 +31,14 @@ describe("request()", () => {
         expect(options.method).toBe("POST");
         expect(paramsSpy).toHaveBeenCalledWith("f", "json");
         expect(response).toEqual(SharingRestInfo);
+        done();
       })
       .catch(e => {
         fail(e);
       });
   });
 
-  it("should make a basic GET request", () => {
+  it("should make a basic GET request", done => {
     fetchMock.once("*", SharingRestInfo);
 
     request(
@@ -52,6 +53,7 @@ describe("request()", () => {
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json");
         expect(options.method).toBe("GET");
         expect(response).toEqual(SharingRestInfo);
+        done();
       })
       .catch(e => {
         fail(e);
@@ -104,7 +106,7 @@ describe("request()", () => {
       });
   });
 
-  it("should make a basic GET request for geojson", () => {
+  it("should make a basic GET request for geojson", done => {
     fetchMock.once("*", GeoJSONFeatureCollection);
 
     request(
@@ -121,13 +123,14 @@ describe("request()", () => {
         );
         expect(options.method).toBe("GET");
         expect(response).toEqual(GeoJSONFeatureCollection);
+        done();
       })
       .catch(e => {
         fail(e);
       });
   });
 
-  it("should use the `authentication` option to authenticate a request", () => {
+  it("should use the `authentication` option to authenticate a request", done => {
     fetchMock.once("*", WebMapAsText);
 
     const MOCK_AUTH = {
@@ -149,8 +152,8 @@ describe("request()", () => {
           "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
         );
         expect(paramsSpy).toHaveBeenCalledWith("token", "token");
-
         expect(response).toEqual(WebMapAsJSON);
+        done();
       })
       .catch(e => {
         fail(e);
@@ -170,8 +173,41 @@ describe("request()", () => {
         "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
       );
       expect(error.params).toEqual({ f: "json" });
-      expect(error.options).toEqual({ httpMethod: "POST" });
+      expect(error.options).toEqual({ httpMethod: "POST", fetch });
       done();
     });
+  });
+
+  it("should allow you to use custom implimentations of `fetch`", done => {
+    const MockFetchResponse = {
+      json() {
+        return Promise.resolve(SharingRestInfo);
+      },
+      blob() {
+        return Promise.resolve(new Blob([JSON.stringify(SharingRestInfo)]));
+      },
+      text() {
+        return Promise.resolve(JSON.stringify(SharingRestInfo));
+      }
+    };
+
+    const MockFetch = function() {
+      return Promise.resolve(MockFetchResponse);
+    };
+
+    request(
+      "https://www.arcgis.com/sharing/rest/info",
+      {},
+      {
+        fetch: MockFetch as any
+      }
+    )
+      .then(response => {
+        expect(response).toEqual(SharingRestInfo);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
   });
 });
