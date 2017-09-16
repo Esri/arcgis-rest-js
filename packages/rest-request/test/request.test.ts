@@ -178,7 +178,7 @@ describe("request()", () => {
     });
   });
 
-  it("should allow you to use custom implimentations of `fetch`", done => {
+  it("should allow you to use custom implementations of `fetch`", done => {
     const MockFetchResponse = {
       json() {
         return Promise.resolve(SharingRestInfo);
