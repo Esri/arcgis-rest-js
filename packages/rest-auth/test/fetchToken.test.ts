@@ -16,7 +16,7 @@ describe("fetchToken()", () => {
 
   afterEach(fetchMock.restore);
 
-  it("should request a token with `client_credentials`, `client_id` and `client_secret`", () => {
+  it("should request a token with `client_credentials`, `client_id` and `client_secret`", done => {
     fetchMock.postOnce(TOKEN_URL, {
       access_token: "token",
       expires_in: 1800
@@ -39,13 +39,14 @@ describe("fetchToken()", () => {
         );
         expect(response.token).toEqual("token");
         expect(response.expires).toBeGreaterThan(Date.now());
+        done();
       })
       .catch(e => {
         fail(e);
       });
   });
 
-  it("should request a token with `authorization_code`, `client_id` and `redirect_uri`", () => {
+  it("should request a token with `authorization_code`, `client_id` and `redirect_uri`", done => {
     fetchMock.postOnce(TOKEN_URL, {
       access_token: "token",
       expires_in: 1800,
@@ -78,6 +79,7 @@ describe("fetchToken()", () => {
         expect(response.refreshToken).toEqual("refreshToken");
         expect(response.username).toEqual("Casey");
         expect(response.expires).toBeGreaterThan(Date.now());
+        done();
       })
       .catch(e => {
         fail(e);

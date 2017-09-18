@@ -1,9 +1,4 @@
-import {
-  FormData,
-  ArcGISAuthError,
-  IRetryAuthError,
-  ErrorTypes
-} from "../src/index";
+import { ArcGISAuthError, IRetryAuthError, ErrorTypes } from "../src/index";
 import { ArcGISOnlineAuthError, ArcGISOnlineError } from "./mocks/errors";
 import * as fetchMock from "fetch-mock";
 

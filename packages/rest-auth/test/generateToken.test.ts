@@ -17,7 +17,7 @@ describe("generateToken()", () => {
 
   afterEach(fetchMock.restore);
 
-  it("should generate a token for a username and password", () => {
+  it("should generate a token for a username and password", done => {
     fetchMock.postOnce(TOKEN_URL, {
       token: "token",
       expires: TOMORROW.getTime()
@@ -35,6 +35,7 @@ describe("generateToken()", () => {
         expect(paramsSpy).toHaveBeenCalledWith("password", "Jones");
         expect(response.token).toEqual("token");
         expect(response.expires).toEqual(TOMORROW.getTime());
+        done();
       })
       .catch(e => {
         fail(e);
