@@ -8,7 +8,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:esm",
-    "build:esm": "dir ./src/*.ts /b /s > ts-files.txt && tsc @ts-files.txt --moduleResolution node --importHelpers --module es2015 --outDir ./dist/esm --sourceMap --declaration --declarationDir ./dist/types --target ES5 && del ts-files.txt",
+    "build:esm": "node buildEsm.js",
     "postbuild": "rimraf dist/esm"
   },
   "repository": {
