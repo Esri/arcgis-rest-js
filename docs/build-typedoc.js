@@ -13,7 +13,7 @@ const md = new MarkdownIt();
 (function generateTypeDoc() {
   return new Promise((resolve, reject) => {
     const typedoc = spawn(
-      "typedoc",
+      "typedoc.cmd",
       [
         "-json",
         OUTPUT,
@@ -98,7 +98,7 @@ const md = new MarkdownIt();
        * its name.
        */
       return children.map(child => {
-        child.name = _.first(child.name.split(sep));
+        child.name = _.first(child.name.split("/"));
         child.package = child.name;
         return child;
       });
