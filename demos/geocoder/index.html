@@ -28,7 +28,7 @@
         </p>
 
         <p>
-            <input id="reverseInput" placeholder="-118,34"></input>
+            <input id="reverseInput" placeholder="{x:-118,y:34}"></input>
             <button class="btn" id="reverse" role="button">determine address</button>
         </p>
 
@@ -72,9 +72,9 @@ authBtn.addEventListener('click', function (e) {
 var geocodeBtn = document.getElementById('geocode');
 
 geocodeBtn.addEventListener('click', function (e) {
-    EsriRestGeocoder.single(document.getElementById("geocodeInput").value)
+    EsriRestGeocoder.geocode(document.getElementById("geocodeInput").value)
     .then((response) => {
-        console.log("simple", response);
+        console.log("geocode", response);
     });
 });
 
@@ -91,9 +91,9 @@ var reverseBtn = document.getElementById('reverse');
 
 reverseBtn.addEventListener('click', function (e) {
   // need to parse
-  EsriRestGeocoder.reverse(document.getElementById("reverseInput").value.split(','))
+  EsriRestGeocoder.reverseGeocode(document.getElementById("reverseInput").value.split(','))
     .then((response) => {
-        console.log("reverse", response);
+        console.log("reverseGeocode", response);
     });
 });
 
@@ -109,23 +109,17 @@ metadataBtn.addEventListener('click', function (e) {
 var bulkBtn = document.getElementById('bulk');
 
 bulkBtn.addEventListener('click', function (e) {
-    var addresses = [
-        {
-            "attributes": {
-                "OBJECTID": 1,
-                "SingleLine": "380 New York St. Redlands 92373"
-            }
-        },
-        {
-            "attributes": {
-                "OBJECTID": 2,
-                "SingleLine": "1 World Way Los Angeles 90045"
-            }
-        }
-    ];
-    EsriRestGeocoder.bulk(addresses, { authentication: auth })
+    var addresses = [{
+      "OBJECTID": 1,
+      "SingleLine": "380 New York St. Redlands 92373"
+    },
+    {
+      "OBJECTID": 2,
+      "SingleLine": "1 World Way Los Angeles 90045"
+    }];
+    EsriRestGeocoder.bulkGeocode(addresses, { authentication: auth })
     .then((response) => {
-        console.log("bulk", response);
+        console.log("bulkGeocode", response);
     })
     .catch((err) => {
         console.warn(err);

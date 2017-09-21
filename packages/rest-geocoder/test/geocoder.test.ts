@@ -1,6 +1,12 @@
 import { FormData } from "@esri/rest-request";
 
-import { single, suggest, reverse, bulk, serviceInfo } from "../src/index";
+import {
+  geocode,
+  suggest,
+  reverseGeocode,
+  bulkGeocode,
+  serviceInfo
+} from "../src/index";
 
 import * as fetchMock from "fetch-mock";
 
@@ -14,23 +20,19 @@ import {
 
 const addresses = [
   {
-    attributes: {
-      OBJECTID: 1,
-      SingleLine: "380 New York St. Redlands 92373"
-    }
+    OBJECTID: 1,
+    SingleLine: "380 New York St. Redlands 92373"
   },
   {
-    attributes: {
-      OBJECTID: 2,
-      SingleLine: "1 World Way Los Angeles 90045"
-    }
+    OBJECTID: 2,
+    SingleLine: "1 World Way Los Angeles 90045"
   }
 ];
 
 const customGeocoderUrl =
   "https://foo.com/arcgis/rest/services/Custom/GeocodeServer/";
 
-describe("request()", () => {
+describe("geocode", () => {
   let paramsSpy: jasmine.Spy;
 
   beforeEach(() => {
@@ -46,7 +48,7 @@ describe("request()", () => {
   it("should make a simple, single geocoding request", done => {
     fetchMock.once("*", FindAddressCandidates);
 
-    single("LAX")
+    geocode("LAX")
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -68,7 +70,7 @@ describe("request()", () => {
   it("should make a simple, single geocoding request with a custom parameter", done => {
     fetchMock.once("*", FindAddressCandidates);
 
-    single(null, { singleLine: "LAX" })
+    geocode("LAX", { countryCode: "USA" })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -78,6 +80,7 @@ describe("request()", () => {
         expect(options.method).toBe("POST");
         expect(paramsSpy).toHaveBeenCalledWith("f", "json");
         expect(paramsSpy).toHaveBeenCalledWith("singleLine", "LAX");
+        expect(paramsSpy).toHaveBeenCalledWith("countryCode", "USA");
         // the only property this lib tacks on
         expect(response.spatialReference.wkid).toEqual(4326);
         done();
@@ -90,7 +93,14 @@ describe("request()", () => {
   it("should make a single geocoding request to a custom geocoding service", done => {
     fetchMock.once("*", FindAddressCandidates);
 
-    single(null, { singleLine: "LAX" }, { endpoint: customGeocoderUrl })
+    geocode(
+      {
+        address: "380 New York St",
+        postal: 92373
+      },
+      { outSR: 3857 },
+      { endpoint: customGeocoderUrl }
+    )
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -99,7 +109,9 @@ describe("request()", () => {
         );
         expect(options.method).toBe("POST");
         expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-        expect(paramsSpy).toHaveBeenCalledWith("singleLine", "LAX");
+        expect(paramsSpy).toHaveBeenCalledWith("address", "380 New York St");
+        expect(paramsSpy).toHaveBeenCalledWith("postal", 92373);
+        expect(paramsSpy).toHaveBeenCalledWith("outSR", 3857);
         // the only property this lib tacks on
         expect(response.spatialReference.wkid).toEqual(4326);
         done();
@@ -112,7 +124,7 @@ describe("request()", () => {
   it("should make a reverse geocoding request", done => {
     fetchMock.once("*", ReverseGeocode);
 
-    reverse([-118.409, 33.9425])
+    reverseGeocode({ x: -118.409, y: 33.9425 })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -121,8 +133,11 @@ describe("request()", () => {
         );
         expect(options.method).toBe("POST");
         expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-        expect(paramsSpy).toHaveBeenCalledWith("location", "-118.409,33.9425");
-        expect(response).toEqual(ReverseGeocode); // this introspects the entire response
+        expect(paramsSpy).toHaveBeenCalledWith(
+          "location",
+          '{"x":-118.409,"y":33.9425}'
+        );
+        expect(response).toEqual(ReverseGeocode); // introspect the entire response
         done();
       })
       .catch(e => {
@@ -133,12 +148,16 @@ describe("request()", () => {
   it("should make a reverse geocoding GET request", done => {
     fetchMock.once("*", ReverseGeocode);
 
-    reverse([-118.409, 33.9425], {}, { httpMethod: "GET" })
+    reverseGeocode(
+      { x: -118.409, y: 33.9425, spatialReference: { wkid: 4326 } },
+      {},
+      { httpMethod: "GET" }
+    )
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=json&location=-118.409%2C33.9425"
+          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=json&location=%7B%22x%22%3A-118.409%2C%22y%22%3A33.9425%2C%22spatialReference%22%3A%7B%22wkid%22%3A4326%7D%7D"
         );
         expect(options.method).toBe("GET");
         expect(response).toEqual(ReverseGeocode); // this introspects the entire response
@@ -179,7 +198,7 @@ describe("request()", () => {
       }
     };
 
-    bulk(addresses, { authentication: MOCK_AUTH })
+    bulkGeocode(addresses, { authentication: MOCK_AUTH })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -188,6 +207,10 @@ describe("request()", () => {
         );
         expect(options.method).toBe("POST");
         expect(paramsSpy).toHaveBeenCalledWith("f", "json");
+        expect(paramsSpy).toHaveBeenCalledWith(
+          "addresses",
+          '{"records":[{"attributes":{"OBJECTID":1,"SingleLine":"380 New York St. Redlands 92373"}},{"attributes":{"OBJECTID":2,"SingleLine":"1 World Way Los Angeles 90045"}}]}'
+        );
         expect(paramsSpy).toHaveBeenCalledWith("token", "token");
         expect(response.spatialReference.latestWkid).toEqual(4326);
         expect(response.locations[0].address).toEqual(
@@ -208,8 +231,8 @@ describe("request()", () => {
   it("should throw an error when a bulk geocoding request is made without a token", done => {
     fetchMock.once("*", GeocodeAddresses);
     // tslint:disable-next-line
-    bulk(addresses, {}).then(response => {}).catch(e => {
-      expect(e).toEqual("bulk geocoding requests require authentication");
+    bulkGeocode(addresses, {}).then(response => {}).catch(e => {
+      expect(e).toEqual("bulk geocoding requires authentication");
       done();
     });
   });
@@ -241,7 +264,7 @@ describe("request()", () => {
   it("should make GET request for metadata from the World Geocoding Service", done => {
     fetchMock.once("*", SharingInfo);
 
-    serviceInfo(null, { httpMethod: "GET" })
+    serviceInfo({ httpMethod: "GET" })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -265,7 +288,7 @@ describe("request()", () => {
   it("should retrieve metadata from custom geocoding services", done => {
     fetchMock.once("*", SharingInfo);
 
-    serviceInfo(customGeocoderUrl)
+    serviceInfo({ endpoint: customGeocoderUrl })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");

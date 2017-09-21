@@ -1,5 +1,5 @@
 /**
- * Spatial reference systems define mathematical transformations and coordinate systems for displaying spatial information in 2 and 3 dimensions.
+ * Spatial reference systems define mathematical transformations and coordinate systems for displaying spatial information in 2D and 3D.
  */
 export interface ISpatialReference {
   wkid: number;
@@ -7,7 +7,7 @@ export interface ISpatialReference {
 }
 
 /**
- * Extents are commonly used to define rectangles and bounding boxes.
+ * Extents are used to define rectangles and bounding boxes.
  */
 export interface IExtent {
   xmin: number;

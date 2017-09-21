@@ -136,9 +136,6 @@ export function request(
           case "text":
             return response.text();
           /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
-          case "image":
-            return response.blob();
-          /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
           case "zip":
             return response.blob();
         }
