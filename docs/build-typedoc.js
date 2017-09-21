@@ -1,5 +1,5 @@
 const { spawn } = require("child_process");
-const { join, resolve, sep } = require("path");
+const { join, resolve } = require("path");
 const { readFile, writeFile } = require("fs");
 const _ = require("lodash");
 const OUTPUT = join(process.cwd(), "docs", "src", `typedoc.json`);
