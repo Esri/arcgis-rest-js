@@ -1,4 +1,4 @@
-const { spawn } = require("child_process");
+const spawn = require('cross-spawn');
 const { join, resolve } = require("path");
 const { readFile, writeFile } = require("fs");
 const _ = require("lodash");
@@ -13,7 +13,7 @@ const md = new MarkdownIt();
 (function generateTypeDoc() {
   return new Promise((resolve, reject) => {
     const typedoc = spawn(
-      "typedoc.cmd",
+      "typedoc",
       [
         "-json",
         OUTPUT,
