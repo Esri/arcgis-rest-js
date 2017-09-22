@@ -10,21 +10,16 @@ const fs = require("fs");
 const _ = require("lodash");
 
 /**
+ * The module name will be the name of the global variable used in UMD builds.
+ * All exported memebers of each package will be attached to this global.
+ */
+const moduleName = "arcgisRest";
+
+/**
  * Since Rollup runs inside each package we can just get the name of the current
  * package we are bundling.
  */
 const { name } = require(path.join(process.cwd(), "package.json"));
-
-/**
- * Helper function to reformat package names (like `@esri/rest-request`) into
- * nice names for the global namespace like `EsriRestRequest`.
- */
-function formatModuleName(name) {
-  return _.startCase(`Esri${_.startCase(name.replace("@esri/", ""))}`).replace(
-    /\s/g,
-    ""
-  );
-}
 
 /**
  * Now we need to discover all the `@esri/rest-*` package names so we can create
@@ -39,30 +34,14 @@ const packageNames = fs
 
 /**
  * Rollup will use this map to determine where to lookup modules on the global
- * window object when neither AMD or CommonJS is being used.
+ * window object when neither AMD or CommonJS is being used. This configuration
+ * will cause Rollup to lookup all imports from our packages on a single global
+ * `arcgisRest` object.
  */
-const globals = packageNames.reduce(
-  (globals, p) => {
-    globals[p] = formatModuleName("@esri/rest-request");
-    return globals;
-  },
-  {
-    "isomorphic-fetch": "",
-    "isomorphic-form-data": "FormData",
-    "es6-promise": "Promise"
-  }
-);
-
-/**
- * Rollup will not bundle these modules into the final build. Users will be
- * expected to install the peer dependencies (for Common JS), map the package
- * names for AMD or include the dependencies in <script> tags in the proper order.
- */
-const external = [
-  "isomorphic-fetch",
-  "isomorphic-form-data",
-  "es6-promise"
-].concat(packageNames);
+const globals = packageNames.reduce((globals, p) => {
+  globals[p] = moduleName;
+  return globals;
+}, {});
 
 /**
  * Now we can export the Rollup config!
@@ -73,13 +52,11 @@ export default {
   format: "umd",
   sourceMap: true,
   context: "window",
-  moduleName: formatModuleName(name),
+  extend: true, // causes this module to extend the global specificed by `moduleName`
+  moduleName,
+  globals,
   plugins: [
-    typescript({
-      tsconfig: "../../tsconfig.json",
-      include: ["src/**/*.ts+(|x)"],
-      exclude: ["src/**/*.test.ts+(|x)"]
-    }),
+    typescript(),
     json(),
     resolve({
       browser: true
@@ -87,7 +64,5 @@ export default {
     commonjs(),
     uglify(),
     filesize()
-  ],
-  globals,
-  external
+  ]
 };

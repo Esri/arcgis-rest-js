@@ -1,15 +1,14 @@
 {
-  "name": "@esri/rest-common-types",
+  "name": "@esri/arcgis-rest-common-types",
   "version": "0.0.0",
-  "description": "Common types for @esri/rest-js.",
-  "private": true,
+  "description": "Common TypeScript types for @esri/arcgis-rest-* packages.",
   "types": "dist/types/index.d.ts",
   "author": "",
   "license": "Apache-2.0",
   "scripts": {
     "prepublish": "npm run build",
     "build": "npm run build:esm",
-    "build:esm": "tsc ./src/*.ts --moduleResolution node --importHelpers --module es2015 --outDir ./dist/esm --sourceMap --declaration --declarationDir ./dist/types --target ES5",
+    "build:esm": "tsc --module es2015 --outDir ./dist/esm --sourceMap --declaration --declarationDir ./dist/types",
     "postbuild": "rimraf dist/esm"
   },
   "repository": {

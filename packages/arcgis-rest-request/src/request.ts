@@ -1,10 +1,6 @@
-import "es6-promise/auto";
-import "isomorphic-fetch";
 import { checkForErrors } from "./utils/check-for-errors";
-import { encodeFormData, FormData } from "./utils/encode-form-data";
+import { encodeFormData } from "./utils/encode-form-data";
 import { encodeQueryString } from "./utils/encode-query-string";
-
-export { FormData };
 
 export interface IAuthenticationManager {
   getToken(url: string): Promise<string>;
@@ -44,6 +40,11 @@ export interface IRequestOptions {
    * The instance of `IAuthenticationManager` to use to authenticate this request.
    */
   authentication?: IAuthenticationManager;
+
+  /**
+   * The implementation of `fetch` to use. Defaults to a global `fetch`
+   */
+  fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 }
 
 /**
@@ -89,7 +90,7 @@ export function request(
   requestOptions?: IRequestOptions
 ): Promise<any> {
   const options: IRequestOptions = {
-    ...{ httpMethod: "POST" },
+    ...{ httpMethod: "POST", fetch },
     ...requestOptions
   };
 
@@ -104,48 +105,45 @@ export function request(
     method: httpMethod
   };
 
-  const tokenRequest = authentication
-    ? authentication.getToken(url)
-    : Promise.resolve("");
+  return (authentication ? authentication.getToken(url) : Promise.resolve(""))
+    .then(token => {
+      if (token.length) {
+        params.token = token;
+      }
 
-  return tokenRequest.then(token => {
-    if (token.length) {
-      params.token = token;
-    }
+      if (httpMethod === "GET") {
+        url = url + "?" + encodeQueryString(params);
+      }
 
-    if (httpMethod === "GET") {
-      url = url + "?" + encodeQueryString(params);
-    }
+      if (httpMethod === "POST") {
+        fetchOptions.body = encodeFormData(params);
+      }
 
-    if (httpMethod === "POST") {
-      fetchOptions.body = encodeFormData(params);
-    }
-
-    return fetch(url, fetchOptions)
-      .then(response => {
-        switch (params.f) {
-          case "json":
-            return response.json();
-          case "geojson":
-            return response.json();
-          /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
-          case "image":
-            return response.blob();
-          case "html":
-            return response.text();
-          case "text":
-            return response.text();
-          /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
-          case "zip":
-            return response.blob();
-        }
-      })
-      .then(data => {
-        if (params.f === "json" || params.f === "geojson") {
-          return checkForErrors(data, url, params, options);
-        } else {
-          return data;
-        }
-      });
-  });
+      return options.fetch(url, fetchOptions);
+    })
+    .then(response => {
+      switch (params.f) {
+        case "json":
+          return response.json();
+        case "geojson":
+          return response.json();
+        case "html":
+          return response.text();
+        case "text":
+          return response.text();
+        /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
+        case "image":
+          return response.blob();
+        /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
+        case "zip":
+          return response.blob();
+      }
+    })
+    .then(data => {
+      if (params.f === "json" || params.f === "geojson") {
+        return checkForErrors(data, url, params, options);
+      } else {
+        return data;
+      }
+    });
 }

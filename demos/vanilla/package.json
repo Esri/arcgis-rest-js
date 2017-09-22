@@ -6,8 +6,8 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@esri/rest-auth": "0.0.0",
-    "@esri/rest-request": "0.0.0"
+    "@esri/arcgis-rest-auth": "0.0.0",
+    "@esri/arcgis-rest-request": "0.0.0"
   },
   "devDependencies": {
     "http-server": "*"

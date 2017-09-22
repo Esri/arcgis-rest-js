@@ -15,6 +15,7 @@
     "commitizen": "^2.9.6",
     "concurrently": "^3.5.0",
     "cpx": "^1.5.0",
+    "cross-spawn": "^5.1.0",
     "cz-lerna-changelog": "github:patrickarlt/cz-lerna-changelog#3fe7650a2e2e624b1f46e5031c96119759698288",
     "date-fns": "^1.28.5",
     "fetch-mock": "^5.12.1",
@@ -62,7 +63,11 @@
     "tslib": "^1.7.1"
   },
   "lint-staged": {
-    "*.ts": ["prettier --write --parser typescript", "tslint", "git add"]
+    "*.ts": [
+      "prettier --write --parser typescript",
+      "tslint",
+      "git add"
+    ]
   },
   "scripts": {
     "build": "lerna run build",

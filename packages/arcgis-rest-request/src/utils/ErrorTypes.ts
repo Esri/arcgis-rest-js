@@ -2,7 +2,7 @@
  * Enum describing the different errors that might be thrown by a request.
  *
  * ```ts
- * import { request, ErrorTypes } from '@esri/rest-request';
+ * import { request, ErrorTypes } from '@esri/arcgis-rest-request';
  *
  * request("...").catch((e) => {
  *   switch(e.name) {

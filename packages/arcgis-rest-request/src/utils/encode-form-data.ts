@@ -1,4 +1,3 @@
-import * as FormData from "isomorphic-form-data";
 import { processParams } from "./process-params";
 
 /**
@@ -15,5 +14,3 @@ export function encodeFormData(params: any): FormData {
   });
   return formData;
 }
-
-export { FormData };

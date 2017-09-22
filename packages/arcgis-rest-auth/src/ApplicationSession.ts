@@ -1,4 +1,4 @@
-import { IAuthenticationManager } from "@esri/rest-request";
+import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 import { fetchToken } from "./fetchToken";
 
 export interface IApplicationSessionOptions {

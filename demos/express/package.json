@@ -6,9 +6,11 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@esri/rest-auth": "0.0.0",
-    "@esri/rest-request": "0.0.0",
-    "express": "^4.15.4"
+    "@esri/arcgis-rest-auth": "0.0.0",
+    "@esri/arcgis-rest-request": "0.0.0",
+    "express": "^4.15.4",
+    "isomorphic-fetch": "^2.2.1",
+    "isomorphic-form-data": "^1.0.0"
   },
   "scripts": {
     "start": "node server.js"

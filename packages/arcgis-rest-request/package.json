@@ -1,9 +1,9 @@
 {
-  "name": "@esri/rest-auth",
+  "name": "@esri/arcgis-rest-request",
   "version": "0.0.0",
-  "description": "Authentication helpers for @esri/rest-*.",
+  "description": "Common methods and utilities for @esri/arcgis-rest-* packages.",
   "main": "dist/node/index.js",
-  "browser": "dist/browser/rest-auth.umd.js",
+  "browser": "dist/browser/rest-request.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -11,19 +11,13 @@
   "dependencies": {
     "tslib": "^1.7.1"
   },
-  "peerDependencies": {
-    "@esri/rest-request": "0.0.0"
-  },
-  "devDependencies": {
-    "@esri/rest-request": "0.0.0"
-  },
+  "devDependencies": {},
   "scripts": {
     "prepublish": "npm run build",
-    "prebuild": "rimraf dist",
     "build": "npm run build:node && npm run build:umd && npm run build:esm",
-    "build:esm": "tsc ./src/*.ts --moduleResolution node --importHelpers --module es2015 --outDir ./dist/esm --sourceMap --declaration --target ES5",
+    "build:esm": "tsc --module es2015 --outDir ./dist/esm --declaration",
     "build:umd": "rollup -c ../../rollup.config.umd.js",
-    "build:node": "tsc  ./src/*.ts --importHelpers --module commonjs --outDir ./dist/node --sourceMap --target ES5"
+    "build:node": "tsc --module commonjs --outDir ./dist/node"
   },
   "repository": {
     "type": "git",
