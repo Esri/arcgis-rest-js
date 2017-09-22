@@ -1,7 +1,7 @@
 {
-  "name": "@esri/rest-auth",
+  "name": "@esri/arcgis-rest-auth",
   "version": "0.0.0",
-  "description": "Authentication helpers for @esri/rest-*.",
+  "description": "Authentication helpers for @esri/arcgis-rest-*.",
   "main": "dist/node/index.js",
   "browser": "dist/browser/rest-auth.umd.js",
   "module": "dist/esm/index.js",
@@ -12,10 +12,10 @@
     "tslib": "^1.7.1"
   },
   "peerDependencies": {
-    "@esri/rest-request": "0.0.0"
+    "@esri/arcgis-rest-request": "0.0.0"
   },
   "devDependencies": {
-    "@esri/rest-request": "0.0.0"
+    "@esri/arcgis-rest-request": "0.0.0"
   },
   "scripts": {
     "prepublish": "npm run build",

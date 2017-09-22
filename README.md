@@ -18,7 +18,7 @@
 ### Example
 
 ```js
-import { request } from '@esri/rest-request';
+import { request } from '@esri/arcgis-rest-request';
 
 const url = "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data";
 
@@ -58,9 +58,9 @@ Some useful commands include:
 
 ### Packages
 
-* [`@esri/rest-request`](./packages/rest-request/) - Handles common functionality across all aspects of `@esri/rest-js`.
-* [`@esri/rest-auth`](./packages/rest-auth) - Provides methods for authenticating named users and applications for `@esri/rest-auth`.
-* [`@esri/rest-geocoding`](./packages/rest-geocoding) - Geocoding wrapper for `@esri/rest-js`
+* [`@esri/arcgis-rest-request`](./packages/arcgis-rest-request/) - Handles common functionality across all aspects of `@esri/rest-js`.
+* [`@esri/arcgis-rest-auth`](./packages/arcgis-rest-auth) - Provides methods for authenticating named users and applications for `@esri/arcgis-rest-auth`.
+* [`@esri/arcgis-rest-geocoding`](./packages/arcgis-rest-geocoding) - Geocoding wrapper for `@esri/rest-js`
 
 ### Frequently Asked Questions
 

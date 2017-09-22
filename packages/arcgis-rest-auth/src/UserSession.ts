@@ -4,7 +4,7 @@ import {
   ArcGISAuthError,
   ArcGISRequestError,
   IAuthenticationManager
-} from "@esri/rest-request";
+} from "@esri/arcgis-rest-request";
 import { generateToken } from "./generateToken";
 import { fetchToken, IFetchTokenResponse } from "./fetchToken";
 

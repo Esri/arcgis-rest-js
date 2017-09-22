@@ -6,12 +6,12 @@
 <body>
 
 <script src="config.js"></script>
-<script src="node_modules/@esri/rest-request/dist/umd/rest-request.umd.js"></script>
-<script src="node_modules/@esri/rest-auth/dist/umd/rest-auth.umd.js"></script>
+<script src="node_modules/@esri/arcgis-rest-request/dist/umd/arcgis-rest-request.umd.js"></script>
+<script src="node_modules/@esri/arcgis-rest-auth/dist/umd/arcgis-rest-auth.umd.js"></script>
 
 <script>
 try {
-  EsriRestAuth.UserSession.completeOAuth2({
+  arcgisRest.UserSession.completeOAuth2({
     clientId: ClientId,
     redirectUri: "http://localhost:8080/post-sign-in.html",
     popup: true,
