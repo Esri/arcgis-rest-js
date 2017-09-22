@@ -42,6 +42,36 @@ export interface ILocation {
   long?: number;
 }
 
+function isLocationArray(
+  coords: ILocation | IPoint | [number, number]
+): coords is [number, number] {
+  return (coords as [number, number]).length === 2;
+}
+
+function isLocation(
+  coords: ILocation | IPoint | [number, number]
+): coords is ILocation {
+  return (
+    (coords as ILocation).latitude !== undefined ||
+    (coords as ILocation).lat !== undefined
+  );
+}
+
+export interface IGeocodeParams extends IParams {
+  /**
+   * You can create an autocomplete experience by making a call to suggest with partial text and then passing through the magicKey and complete address that are returned to geocode.
+   * ```js
+   * import { suggest, geocode } from '@esri/arcgis-geocoder'; 
+   * suggest("LAX")
+   *   .then((response) => {
+   *     response.suggestions[2].magicKey; // =>  "dHA9MCNsb2M9Mjk3ODc2MCNsbmc9MzMjcGw9ODkxNDg4I2xicz0xNDoxNDc4MTI1MA=="
+   *   });
+   * geocode("LAX, 1 World Way, Los Angeles, CA, 90045, USA", {magicKey: "dHA9MCN..."})
+   * ```
+   */
+  magicKey?: string;
+}
+
 export interface IGeocodeRequestOptions extends IRequestOptions {
   /**
    * Any ArcGIS Geocoding service (example: http://sampleserver6.arcgisonline.com/arcgis/rest/services/Locators/SanDiego/GeocodeServer )
@@ -116,7 +146,7 @@ export interface IGeocodeServiceInfoResponse {
  */
 export function geocode(
   address: IAddress | string,
-  requestParams?: IParams,
+  requestParams?: IGeocodeParams,
   requestOptions?: IGeocodeRequestOptions
 ): Promise<IGeocodeResponse> {
   const { endpoint }: IGeocodeRequestOptions = {
@@ -194,18 +224,24 @@ export function suggest(
  * ```js
  * import { reverseGeocode } from '@esri/arcgis-geocoder';
  *
- * // expects coordinates in longitude, latitude (XY) order
- * reverseGeocode({ x: -118.409, y: 33.943 })
+ * // long, lat
+ * reverseGeocode([-118.409,33.943 ])
  *   .then((response) => {
  *     response.address.PlaceName; // => "LA Airport"
  *   });
+ * 
+ * // or
+ * reverseGeocode({ long: -118.409, lat: 33.943 })
+ * reverseGeocode({ latitude: 33.943, latitude: -118.409 })
+ * reverseGeocode({ x: -118.409, y: 33.9425 }) // wgs84 is assumed
+ * reverseGeocode({ x: -13181226, y: 4021085, spatialReference: { wkid: 3857 })
  * ```
  *
  * @param params - The parameters to pass to the endpoint.
  * @returns A Promise that will resolve with the data from the request.
  */
 export function reverseGeocode(
-  coords: IPoint | ILocation,
+  coords: IPoint | ILocation | [number, number],
   requestParams?: IParams,
   requestOptions?: IGeocodeRequestOptions
 ): Promise<IReverseGeocodeResponse> {
@@ -219,13 +255,19 @@ export function reverseGeocode(
     ...requestParams
   };
 
-  // TypeScript doesn't like the way i'm overload this function
-  // if (coords.lat) { params.location = coords.long + "," + coords.lat }
-  // if (coords.latitude) { params.location = coords.longitude + "," + coords.latitude }
-
-  // if (coords is an array) { params.location = coords.join(), }
-
-  params.location = coords; // no need to append spatialReference if its missing. geocoding service assumes wgs84
+  if (isLocationArray(coords)) {
+    params.location = coords.join();
+  } else if (isLocation(coords)) {
+    if (coords.lat) {
+      params.location = coords.long + "," + coords.lat;
+    }
+    if (coords.latitude) {
+      params.location = coords.longitude + "," + coords.latitude;
+    }
+  } else {
+    // if input is a point, we can pass it straight through, with or without an sr
+    params.location = coords;
+  }
 
   return request(endpoint + "reverseGeocode", params, requestOptions);
 }
