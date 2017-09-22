@@ -20,15 +20,15 @@
         </p>
 
         <p>
-            <input id="geocodeInput" placeholder="123 main st"></input>
+            <input id="geocodeInput" value="123 main st"></input>
             <button class="btn" id="geocode" role="button">geocode an address</button>
         <p>
-            <input id="suggestInput" placeholder="World Tr"></input>
+            <input id="suggestInput" value="World Tr"></input>
             <button class="btn" id="suggest" role="button">get address suggestion</button>
         </p>
 
         <p>
-            <input id="reverseInput" placeholder="{x:-118,y:34}"></input>
+            <input id="reverseInput" value="{x:-118,y:34}"></input>
             <button class="btn" id="reverse" role="button">determine address</button>
         </p>
 
@@ -81,6 +81,7 @@ geocodeBtn.addEventListener('click', function (e) {
 var suggestBtn = document.getElementById('suggest');
 
 suggestBtn.addEventListener('click', function (e) {
+    console.log(document.getElementById("suggestInput").value);
     arcgisRest.suggest(document.getElementById("suggestInput").value)
     .then((response) => {
         console.log("suggest", response);

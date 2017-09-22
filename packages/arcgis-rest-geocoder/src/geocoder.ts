@@ -65,7 +65,7 @@ export interface IGeocodeParams extends IParams {
   /**
    * You can create an autocomplete experience by making a call to suggest with partial text and then passing through the magicKey and complete address that are returned to geocode.
    * ```js
-   * import { suggest, geocode } from '@esri/arcgis-geocoder'; 
+   * import { suggest, geocode } from '@esri/arcgis-geocoder';
    * suggest("LAX")
    *   .then((response) => {
    *     response.suggestions[2].magicKey; // =>  "dHA9MCNsb2M9Mjk3ODc2MCNsbmc9MzMjcGw9ODkxNDg4I2xicz0xNDoxNDc4MTI1MA=="
@@ -233,7 +233,7 @@ export function suggest(
  *   .then((response) => {
  *     response.address.PlaceName; // => "LA Airport"
  *   });
- * 
+ *
  * // or
  * reverseGeocode({ long: -118.409, lat: 33.943 })
  * reverseGeocode({ latitude: 33.943, latitude: -118.409 })
