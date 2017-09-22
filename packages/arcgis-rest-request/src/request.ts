@@ -90,7 +90,7 @@ export function request(
   requestOptions?: IRequestOptions
 ): Promise<any> {
   const options: IRequestOptions = {
-    ...{ httpMethod: "POST", fetch },
+    ...{ httpMethod: "POST", fetch: fetch.bind(Function("return this")()) },
     ...requestOptions
   };
 
