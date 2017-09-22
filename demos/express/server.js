@@ -1,6 +1,8 @@
+require("isomorphic-fetch");
+require("isomorphic-form-data");
 const express = require("express");
 const app = express();
-const { UserSession } = require("@esri/rest-auth");
+const { UserSession } = require("@esri/arcgis-rest-auth");
 const { clientId } = require("./config.json");
 
 const credentials = {
