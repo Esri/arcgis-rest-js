@@ -1,4 +1,4 @@
-import { request, IParams } from "@esri/rest-request";
+import { request, IParams } from "@esri/arcgis-rest-request";
 
 export interface IGenerateTokenParams extends IParams {
   username?: string;

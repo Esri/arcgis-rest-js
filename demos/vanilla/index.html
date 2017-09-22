@@ -8,14 +8,14 @@
 <a href="" class="btn" id="sign-in" role="button">Sign In</a>
 
 <script src="config.js"></script>
-<script src="node_modules/@esri/rest-request/dist/umd/rest-request.umd.js"></script>
-<script src="node_modules/@esri/rest-auth/dist/umd/rest-auth.umd.js"></script>
+<script src="node_modules/@esri/arcgis-rest-request/dist/umd/arcgis-rest-request.umd.js"></script>
+<script src="node_modules/@esri/arcgis-rest-auth/dist/umd/arcgis-rest-auth.umd.js"></script>
 
 <script>
 var btn = document.getElementById('sign-in');
 
 btn.addEventListener('click', function (e) {
-  EsriRestAuth.UserSession.beginOAuth2({
+  arcgisRest.UserSession.beginOAuth2({
     clientId: ClientId,
     redirectUri: "http://localhost:8080/post-sign-in.html",
     popup: true,

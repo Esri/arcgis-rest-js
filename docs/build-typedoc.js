@@ -1,4 +1,4 @@
-const spawn = require('cross-spawn');
+const spawn = require("cross-spawn");
 const { join, resolve } = require("path");
 const { readFile, writeFile } = require("fs");
 const _ = require("lodash");

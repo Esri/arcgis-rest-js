@@ -1,5 +1,5 @@
 import { UserSession, IFetchTokenResponse } from "../src/index";
-import { ArcGISRequestError, ErrorTypes } from "@esri/rest-request";
+import { ArcGISRequestError, ErrorTypes } from "@esri/arcgis-rest-request";
 import * as fetchMock from "fetch-mock";
 import { YESTERDAY, TOMORROW } from "./utils";
 

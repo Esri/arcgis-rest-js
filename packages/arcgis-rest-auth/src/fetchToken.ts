@@ -1,4 +1,4 @@
-import { request, IParams } from "@esri/rest-request";
+import { request, IParams } from "@esri/arcgis-rest-request";
 
 export type GrantTypes =
   | "authorization_code"

@@ -1,7 +1,7 @@
 {
-  "name": "@esri/rest-common-types",
+  "name": "@esri/arcgis-rest-common-types",
   "version": "0.0.0",
-  "description": "Common types for @esri/rest-js.",
+  "description": "Common TypeScript types for @esri/arcgis-rest-* packages.",
   "types": "dist/types/index.d.ts",
   "author": "",
   "license": "Apache-2.0",
