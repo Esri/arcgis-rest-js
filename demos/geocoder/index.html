@@ -43,9 +43,9 @@
 </div>
 
 <script src="config.js"></script>
-<script src="node_modules/@esri/rest-request/dist/umd/rest-request.umd.js"></script>
-<script src="node_modules/@esri/rest-auth/dist/umd/rest-auth.umd.js"></script>
-<script src="node_modules/@esri/rest-geocoder/dist/umd/rest-geocoder.umd.js"></script>
+<script src="node_modules/@esri/arcgis-rest-request/dist/umd/arcgis-rest-request.umd.js"></script>
+<script src="node_modules/@esri/arcgis-rest-auth/dist/umd/arcgis-rest-auth.umd.js"></script>
+<script src="node_modules/@esri/arcgis-rest-geocoder/dist/umd/arcgis-rest-geocoder.umd.js"></script>
 
 <script>
 var auth;
@@ -54,7 +54,7 @@ var auth;
 var authBtn = document.getElementById('sign-in');
 
 authBtn.addEventListener('click', function (e) {
-  EsriRestAuth.UserSession.beginOAuth2({
+  arcgisRest.UserSession.beginOAuth2({
     clientId: ClientId,
     redirectUri: "http://localhost:8080/post-sign-in.html",
     popup: true,
@@ -72,7 +72,7 @@ authBtn.addEventListener('click', function (e) {
 var geocodeBtn = document.getElementById('geocode');
 
 geocodeBtn.addEventListener('click', function (e) {
-    EsriRestGeocoder.geocode(document.getElementById("geocodeInput").value)
+    arcgisRest.geocode(document.getElementById("geocodeInput").value)
     .then((response) => {
         console.log("geocode", response);
     });
@@ -81,7 +81,7 @@ geocodeBtn.addEventListener('click', function (e) {
 var suggestBtn = document.getElementById('suggest');
 
 suggestBtn.addEventListener('click', function (e) {
-  EsriRestGeocoder.suggest(document.getElementById("suggestInput").value)
+    arcgisRest.suggest(document.getElementById("suggestInput").value)
     .then((response) => {
         console.log("suggest", response);
     });
@@ -91,7 +91,7 @@ var reverseBtn = document.getElementById('reverse');
 
 reverseBtn.addEventListener('click', function (e) {
   // need to parse
-  EsriRestGeocoder.reverseGeocode(document.getElementById("reverseInput").value.split(','))
+  arcgisRest.reverseGeocode(document.getElementById("reverseInput").value.split(','))
     .then((response) => {
         console.log("reverseGeocode", response);
     });
@@ -100,7 +100,7 @@ reverseBtn.addEventListener('click', function (e) {
 var metadataBtn = document.getElementById('metadata');
 
 metadataBtn.addEventListener('click', function (e) {
-  EsriRestGeocoder.serviceInfo()
+    arcgisRest.serviceInfo()
     .then((response) => {
         console.log("metadata", response);
     });
@@ -117,7 +117,7 @@ bulkBtn.addEventListener('click', function (e) {
       "OBJECTID": 2,
       "SingleLine": "1 World Way Los Angeles 90045"
     }];
-    EsriRestGeocoder.bulkGeocode(addresses, { authentication: auth })
+    arcgisRest.bulkGeocode(addresses, { authentication: auth })
     .then((response) => {
         console.log("bulkGeocode", response);
     })

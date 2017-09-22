@@ -2,9 +2,13 @@
 to do:
 verify custom endpoints contain 'GeocodeServer' and end in a '/'
 */
-import { request, IRequestOptions, IParams } from "@esri/rest-request";
+import { request, IRequestOptions, IParams } from "@esri/arcgis-rest-request";
 
-import { IExtent, ISpatialReference, IPoint } from "@esri/rest-common-types";
+import {
+  IExtent,
+  ISpatialReference,
+  IPoint
+} from "@esri/arcgis-rest-common-types";
 
 // https always
 const worldGeocoder =

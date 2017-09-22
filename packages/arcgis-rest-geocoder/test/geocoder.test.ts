@@ -1,5 +1,3 @@
-import { FormData } from "@esri/rest-request";
-
 import {
   geocode,
   suggest,
