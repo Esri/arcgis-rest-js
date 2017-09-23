@@ -72,3 +72,9 @@ docs/.typedoc_temp/
 # Built files
 dist
 .zip
+
+# Debugging files
+packages/*/debug/
+
+# no idea
+/packages/*/.rpt2_cache
