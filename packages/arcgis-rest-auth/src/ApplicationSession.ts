@@ -40,6 +40,12 @@ export class ApplicationSession implements IAuthenticationManager {
   private portal: string;
   private duration: number;
 
+  /**
+   * Internal object to keep track of pending token requests. Used to prevent
+   *  duplicate token requests.
+   */
+  private _pendingTokenRequest: Promise<string>;
+
   constructor(options: IApplicationSessionOptions) {
     this.clientId = options.clientId;
     this.clientSecret = options.clientSecret;
@@ -54,7 +60,13 @@ export class ApplicationSession implements IAuthenticationManager {
       return Promise.resolve(this.token);
     }
 
-    return this.refreshToken();
+    if (this._pendingTokenRequest) {
+      return this._pendingTokenRequest;
+    }
+
+    this._pendingTokenRequest = this.refreshToken();
+
+    return this._pendingTokenRequest;
   }
 
   refreshToken(): Promise<string> {
@@ -63,6 +75,7 @@ export class ApplicationSession implements IAuthenticationManager {
       client_secret: this.clientSecret,
       grant_type: "client_credentials"
     }).then(response => {
+      this._pendingTokenRequest = null;
       this.token = response.token;
       this.expires = response.expires;
       return response.token;
