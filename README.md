@@ -1,4 +1,4 @@
-# @esri/rest-js
+# @esri/arcgis-rest-js
 
 > a compact, modular Esri JavaScript client library that runs in modern browsers and Node.js.
 
@@ -31,7 +31,7 @@ request(url)
 
 ### API Reference
 
-The documentation is published at https://esri.github.io/rest-js/ (source code [here](/docs/src)).
+The documentation is published at https://esri.github.io/arcgis-rest-js/ (source code [here](/docs/src)).
 
 ### Code of conduct
 
@@ -58,9 +58,9 @@ Some useful commands include:
 
 ### Packages
 
-* [`@esri/arcgis-rest-request`](./packages/arcgis-rest-request/) - Handles common functionality across all aspects of `@esri/rest-js`.
+* [`@esri/arcgis-rest-request`](./packages/arcgis-rest-request/) - Handles common functionality across all aspects of `@esri/arcgis-rest-js`.
 * [`@esri/arcgis-rest-auth`](./packages/arcgis-rest-auth) - Provides methods for authenticating named users and applications for `@esri/arcgis-rest-auth`.
-* [`@esri/arcgis-rest-geocoding`](./packages/arcgis-rest-geocoding) - Geocoding wrapper for `@esri/rest-js`
+* [`@esri/arcgis-rest-geocoding`](./packages/arcgis-rest-geocoding) - Geocoding wrapper for `@esri/arcgis-rest-js`
 
 ### Frequently Asked Questions
 
@@ -69,13 +69,13 @@ Some useful commands include:
 
 ### Issues
 
-If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/rest-js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [**love**](https://github.com/Esri/rest-js/issues/new) to hear from you.
+If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/ArcGIS/arcgis-rest-js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [**love**](https://github.com/ArcGIS/arcgis-rest-js/issues/new) to hear from you.
 
 If you're looking for help you can also post issues on [GIS Stackexchange](http://gis.stackexchange.com/questions/ask?tags=esri-oss).
 
 ### Versioning
 
-For transparency into the release cycle and in striving to maintain backward compatibility, @esri/rest-js is maintained under Semantic Versioning guidelines and will adhere to these rules whenever possible.
+For transparency into the release cycle and in striving to maintain backward compatibility, @esri/arcgis-rest-js is maintained under Semantic Versioning guidelines and will adhere to these rules whenever possible.
 
 For more information on SemVer, please visit <http://semver.org/>.
 

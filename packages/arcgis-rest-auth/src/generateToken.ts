@@ -26,7 +26,7 @@ export function generateToken(
   ) {
     params.referer = window.location.host;
   } else {
-    params.referer = "@esri.rest-auth";
+    params.referer = "@esri.arcgis-rest-auth";
   }
 
   return request(url, params);

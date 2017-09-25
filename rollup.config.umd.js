@@ -22,7 +22,7 @@ const moduleName = "arcgisRest";
 const { name } = require(path.join(process.cwd(), "package.json"));
 
 /**
- * Now we need to discover all the `@esri/rest-*` package names so we can create
+ * Now we need to discover all the `@esri/arcgis-rest-*` package names so we can create
  * the `globals` and `externals` to pass to Rollup.
  */
 const packageNames = fs
