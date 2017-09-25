@@ -57,7 +57,7 @@ export interface IOauth2Options {
   portal?: string;
 
   /**
-   * Default duration you would to obtain tokens for in minutes. Defaults to 20160 minutes (two weeks).
+   * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
    */
   duration?: number;
 
@@ -69,7 +69,7 @@ export interface IOauth2Options {
   popup?: boolean;
 
   /**
-   * Duration (in minutes) of how long to assume a refresh token will be valid for.
+   * Duration (in minutes) that a refresh token will be valid.
    *
    * @nodeOnly
    */
@@ -104,7 +104,7 @@ export interface IUserSessionOptions {
   refreshTokenExpires?: Date;
 
   /**
-   * The authenticated users username. Guaranteed to be unique across ArcGIS Online or your instance of ArcGIS Enterprise.
+   * The authenticated user's username. Guaranteed to be unique across ArcGIS Online or your instance of ArcGIS Enterprise.
    */
   username?: string;
 
@@ -129,12 +129,12 @@ export interface IUserSessionOptions {
   portal?: string;
 
   /**
-   * Duration of requested tokens in minutes. Used when requesting tokens with `username` and `password` for when validating the identities of unknown servers. Defaults to 2 weeks.
+   * Duration of requested token validity in minutes. Used when requesting tokens with `username` and `password` or when validating the identity of unknown servers. Defaults to two weeks.
    */
   tokenDuration?: number;
 
   /**
-   * Duration (in minutes) of how long to assume a refresh token will be valid for.
+   * Duration (in minutes) that a refresh token will be valid.
    */
   refreshTokenTTL?: number;
 }
