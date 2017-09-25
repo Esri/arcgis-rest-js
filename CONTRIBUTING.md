@@ -2,7 +2,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### Before filing an issue
 
-If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/rest-js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [love](https://github.com/Esri/rest-js/issues/new) to hear from you.
+If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/ArcGIS/arcgis-rest-js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [love](https://github.com/ArcGIS/arcgis-rest-js/issues/new) to hear from you.
 
 If you're looking for help you can also post issues on [GIS Stackexchange](http://gis.stackexchange.com/questions/ask?tags=esri-oss).
 
@@ -27,7 +27,7 @@ You don't _have to_ but we recommend installing TypeScript, TSLint, Prettier and
 
 ### Running the tests
 
-@esri/rest-js has a comprehensive test suite built with [Karma](http://karma-runner.github.io/0.12/index.html) and [Jasmine](https://jasmine.github.io/) The tests can be found in `/packages/*/test/`.
+@esri/arcgis-rest-js has a comprehensive test suite built with [Karma](http://karma-runner.github.io/0.12/index.html) and [Jasmine](https://jasmine.github.io/) The tests can be found in `/packages/*/test/`.
 
 You can run _all_ the tests with `npm test`.
 

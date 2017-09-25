@@ -1,8 +1,8 @@
 {
-  "name": "@esri/rest-demo-express",
+  "name": "@esri/arcgis-rest-demo-express",
   "version": "0.0.0",
   "private": true,
-  "description": "Demo of @esri/rest-* packages in an Express server",
+  "description": "Demo of @esri/arcgis-rest-* packages in an Express server",
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
