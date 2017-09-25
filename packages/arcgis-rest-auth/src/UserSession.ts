@@ -176,6 +176,9 @@ export class UserSession implements IAuthenticationManager {
   private _tokenExpires: Date;
   private _refreshToken: string;
   private _refreshTokenExpires: Date;
+  private _pendingTokenRequests: {
+    [key: string]: Promise<string>;
+  };
 
   /**
    * Internal list of trusted 3rd party servers (federated servers) that have
@@ -229,6 +232,7 @@ export class UserSession implements IAuthenticationManager {
     this.redirectUri = options.redirectUri;
     this.refreshTokenDuration = options.refreshTokenDuration || 20160;
     this.trustedServers = {};
+    this._pendingTokenRequests = {};
   }
 
   /**
@@ -504,7 +508,11 @@ export class UserSession implements IAuthenticationManager {
       return Promise.resolve(existingToken.token);
     }
 
-    return request(`${root}/rest/info`)
+    if (this._pendingTokenRequests[root]) {
+      return this._pendingTokenRequests[root];
+    }
+
+    this._pendingTokenRequests[root] = request(`${root}/rest/info`)
       .then((response: any) => {
         return response.owningSystemUrl;
       })
@@ -538,6 +546,8 @@ export class UserSession implements IAuthenticationManager {
         };
         return response.token;
       });
+
+    return this._pendingTokenRequests[root];
   }
 
   /**
@@ -552,7 +562,16 @@ export class UserSession implements IAuthenticationManager {
       return Promise.resolve(this.token);
     }
 
-    return this.refreshSession().then(session => session.token);
+    if (!this._pendingTokenRequests[this.portal]) {
+      this._pendingTokenRequests[
+        this.portal
+      ] = this.refreshSession().then(session => {
+        this._pendingTokenRequests[this.portal] = null;
+        return session.token;
+      });
+    }
+
+    return this._pendingTokenRequests[this.portal];
   }
 
   /**
