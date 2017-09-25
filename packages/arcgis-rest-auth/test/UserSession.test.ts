@@ -14,7 +14,7 @@ describe("UserSession", () => {
       tokenExpires: TOMORROW,
       refreshToken: "refreshToken",
       refreshTokenExpires: TOMORROW,
-      refreshTokenDuration: 20160,
+      refreshTokenTTL: 1440,
       username: "casey",
       password: "123456"
     });
@@ -32,7 +32,7 @@ describe("UserSession", () => {
     expect(session2.username).toEqual("casey");
     expect(session2.password).toEqual("123456");
     expect(session2.tokenDuration).toEqual(20160);
-    expect(session2.refreshTokenDuration).toEqual(20160);
+    expect(session2.refreshTokenTTL).toEqual(1440);
   });
 
   describe(".getToken()", () => {
