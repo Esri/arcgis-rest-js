@@ -52,6 +52,16 @@ export interface IOauth2Options {
   redirectUri: string;
 
   /**
+   * The ArcGIS Online or ArcGIS Enterprise portal you want to use for authentication. Defaults to `https://www.arcgis.com/sharing/rest` for the ArcGIS Online portal.
+   */
+  portal?: string;
+
+  /**
+   * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
+   */
+  duration?: number;
+
+  /**
    * Determines wether to open the authorization window in a new tab/window or in the current window.
    *
    * @browserOnly
@@ -59,12 +69,11 @@ export interface IOauth2Options {
   popup?: boolean;
 
   /**
-   * The ArcGIS Online or ArcGIS Enterprise portal you want to use for authentication. Defaults to `https://www.arcgis.com/sharing/rest` for the ArcGIS Online portal.
+   * Duration (in minutes) that a refresh token will be valid.
+   *
+   * @nodeOnly
    */
-  portal?: string;
-
-  /** Default duration you would to obtain tokens for in minutes. Defaults to 20160 minutes (two weeks). */
-  duration?: number;
+  refreshTokenTTL?: number;
 }
 
 /**
@@ -95,7 +104,7 @@ export interface IUserSessionOptions {
   refreshTokenExpires?: Date;
 
   /**
-   * The authenticated users username. Guaranteed to be unique across ArcGIS Online or your instance of ArcGIS Enterprise.
+   * The authenticated user's username. Guaranteed to be unique across ArcGIS Online or your instance of ArcGIS Enterprise.
    */
   username?: string;
 
@@ -120,14 +129,14 @@ export interface IUserSessionOptions {
   portal?: string;
 
   /**
-   * Duration of requested tokens in minutes. Used when requesting tokens with `username` and `password` for when validating the identities of unknown servers. Defaults to 2 weeks.
+   * Duration of requested token validity in minutes. Used when requesting tokens with `username` and `password` or when validating the identity of unknown servers. Defaults to two weeks.
    */
   tokenDuration?: number;
 
   /**
-   * Original duration of the refresh token from a previous user session.
+   * Duration (in minutes) that a refresh token will be valid.
    */
-  refreshTokenDuration?: number;
+  refreshTokenTTL?: number;
 }
 
 /**
@@ -170,12 +179,20 @@ export class UserSession implements IAuthenticationManager {
   /**
    * Duration of new OAuth 2.0 refresh token validity.
    */
-  readonly refreshTokenDuration: number;
+  readonly refreshTokenTTL: number;
 
   private _token: string;
   private _tokenExpires: Date;
   private _refreshToken: string;
   private _refreshTokenExpires: Date;
+
+  /**
+   * Internal object to keep track of pending token requests. Used to prevent
+   *  duplicate token requests.
+   */
+  private _pendingTokenRequests: {
+    [key: string]: Promise<string>;
+  };
 
   /**
    * Internal list of trusted 3rd party servers (federated servers) that have
@@ -227,8 +244,9 @@ export class UserSession implements IAuthenticationManager {
     this.portal = options.portal || "https://www.arcgis.com/sharing/rest";
     this.tokenDuration = options.tokenDuration || 20160;
     this.redirectUri = options.redirectUri;
-    this.refreshTokenDuration = options.refreshTokenDuration || 20160;
+    this.refreshTokenTTL = options.refreshTokenTTL || 1440;
     this.trustedServers = {};
+    this._pendingTokenRequests = {};
   }
 
   /**
@@ -395,8 +413,18 @@ export class UserSession implements IAuthenticationManager {
     options: IOauth2Options,
     authorizationCode: string
   ): Promise<UserSession> {
-    const { portal, clientId, duration, redirectUri }: IOauth2Options = {
-      ...{ portal: "https://www.arcgis.com/sharing/rest", duration: 20160 },
+    const {
+      portal,
+      clientId,
+      duration,
+      redirectUri,
+      refreshTokenTTL
+    }: IOauth2Options = {
+      ...{
+        portal: "https://www.arcgis.com/sharing/rest",
+        duration: 20160,
+        refreshTokenTTL: 1440
+      },
       ...options
     };
 
@@ -411,8 +439,10 @@ export class UserSession implements IAuthenticationManager {
         portal,
         redirectUri,
         refreshToken: response.refreshToken,
-        refreshTokenDuration: duration,
-        refreshTokenExpires: new Date(Date.now() + (duration - 60) * 1000),
+        refreshTokenTTL,
+        refreshTokenExpires: new Date(
+          Date.now() + (refreshTokenTTL - 1) * 1000
+        ),
         token: response.token,
         tokenExpires: response.expires,
         username: response.username
@@ -433,7 +463,7 @@ export class UserSession implements IAuthenticationManager {
       portal: options.portal,
       tokenDuration: options.tokenDuration,
       redirectUri: options.redirectUri,
-      refreshTokenDuration: options.refreshTokenDuration
+      refreshTokenTTL: options.refreshTokenTTL
     });
   }
 
@@ -469,7 +499,7 @@ export class UserSession implements IAuthenticationManager {
       portal: this.portal,
       tokenDuration: this.tokenDuration,
       redirectUri: this.redirectUri,
-      refreshTokenDuration: this.refreshTokenDuration
+      refreshTokenTTL: this.refreshTokenTTL
     };
   }
 
@@ -504,7 +534,11 @@ export class UserSession implements IAuthenticationManager {
       return Promise.resolve(existingToken.token);
     }
 
-    return request(`${root}/rest/info`)
+    if (this._pendingTokenRequests[root]) {
+      return this._pendingTokenRequests[root];
+    }
+
+    this._pendingTokenRequests[root] = request(`${root}/rest/info`)
       .then((response: any) => {
         return response.owningSystemUrl;
       })
@@ -538,6 +572,8 @@ export class UserSession implements IAuthenticationManager {
         };
         return response.token;
       });
+
+    return this._pendingTokenRequests[root];
   }
 
   /**
@@ -552,7 +588,16 @@ export class UserSession implements IAuthenticationManager {
       return Promise.resolve(this.token);
     }
 
-    return this.refreshSession().then(session => session.token);
+    if (!this._pendingTokenRequests[this.portal]) {
+      this._pendingTokenRequests[
+        this.portal
+      ] = this.refreshSession().then(session => {
+        this._pendingTokenRequests[this.portal] = null;
+        return session.token;
+      });
+    }
+
+    return this._pendingTokenRequests[this.portal];
   }
 
   /**
@@ -609,7 +654,7 @@ export class UserSession implements IAuthenticationManager {
       this._tokenExpires = response.expires;
       this._refreshToken = response.refreshToken;
       this._refreshTokenExpires = new Date(
-        Date.now() + (this.refreshTokenDuration - 1) * 60 * 1000
+        Date.now() + (this.refreshTokenTTL - 1) * 60 * 1000
       );
       return this;
     });

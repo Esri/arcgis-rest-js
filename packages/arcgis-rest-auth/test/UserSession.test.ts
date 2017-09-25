@@ -4,6 +4,8 @@ import * as fetchMock from "fetch-mock";
 import { YESTERDAY, TOMORROW } from "./utils";
 
 describe("UserSession", () => {
+  afterEach(fetchMock.restore);
+
   it("should serialze to and from JSON", () => {
     const session = new UserSession({
       clientId: "clientId",
@@ -12,7 +14,7 @@ describe("UserSession", () => {
       tokenExpires: TOMORROW,
       refreshToken: "refreshToken",
       refreshTokenExpires: TOMORROW,
-      refreshTokenDuration: 20160,
+      refreshTokenTTL: 1440,
       username: "casey",
       password: "123456"
     });
@@ -30,7 +32,7 @@ describe("UserSession", () => {
     expect(session2.username).toEqual("casey");
     expect(session2.password).toEqual("123456");
     expect(session2.tokenDuration).toEqual(20160);
-    expect(session2.refreshTokenDuration).toEqual(20160);
+    expect(session2.refreshTokenTTL).toEqual(1440);
   });
 
   describe(".getToken()", () => {
@@ -153,6 +155,67 @@ describe("UserSession", () => {
           expect(token).toBe("serverToken");
           done();
         });
+    });
+
+    it("should only make 1 token request to an untrusted portal for similar URLs", done => {
+      const session = new UserSession({
+        clientId: "id",
+        token: "token",
+        refreshToken: "refresh",
+        tokenExpires: TOMORROW,
+        portal: "https://gis.city.gov/sharing/rest"
+      });
+
+      fetchMock.mock(
+        "https://gisservices.city.gov/public/rest/info",
+        {
+          currentVersion: 10.51,
+          fullVersion: "10.5.1.120",
+          owningSystemUrl: "https://gis.city.gov",
+          authInfo: {
+            isTokenBasedSecurity: true,
+            tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
+          }
+        },
+        { times: 1, method: "POST" }
+      );
+
+      fetchMock.mock(
+        "https://gis.city.gov/sharing/rest/info",
+        {
+          owningSystemUrl: "http://gis.city.gov",
+          authInfo: {
+            tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+            isTokenBasedSecurity: true
+          }
+        },
+        { times: 1, method: "POST" }
+      );
+
+      fetchMock.mock(
+        "https://gis.city.gov/sharing/generateToken",
+        {
+          token: "serverToken",
+          expires: TOMORROW
+        },
+        { times: 1, method: "POST" }
+      );
+
+      Promise.all([
+        session.getToken(
+          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+        ),
+        session.getToken(
+          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+        )
+      ]).then(([token1, token2]) => {
+        expect(token1).toBe("serverToken");
+        expect(token2).toBe("serverToken");
+        expect(
+          fetchMock.calls("https://gis.city.gov/sharing/generateToken").length
+        ).toBe(1);
+        done();
+      });
     });
 
     it("should throw an ArcGISAuthError when the owning system doesn't match", done => {
@@ -290,6 +353,42 @@ describe("UserSession", () => {
         expect(e.message).toBe("Unable to refresh token.");
         done();
       });
+    });
+
+    it("should only make 1 token request to the portal for similar URLs", done => {
+      const session = new UserSession({
+        clientId: "id",
+        token: "token",
+        refreshToken: "refresh",
+        tokenExpires: YESTERDAY
+      });
+
+      fetchMock.mock(
+        "https://www.arcgis.com/sharing/rest/oauth2/token",
+        {
+          access_token: "new",
+          expires_in: 1800,
+          username: "casey"
+        },
+        { times: 1, method: "POST" }
+      );
+
+      Promise.all([
+        session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
+        session.getToken("https://www.arcgis.com/sharing/rest/portals/self")
+      ])
+        .then(([token1, token2]) => {
+          expect(token1).toBe("new");
+          expect(token2).toBe("new");
+          expect(
+            fetchMock.calls("https://www.arcgis.com/sharing/rest/oauth2/token")
+              .length
+          ).toBe(1);
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
     });
   });
 
