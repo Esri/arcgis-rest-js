@@ -1,3 +1,6 @@
+/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+
 import { request, IParams } from "@esri/arcgis-rest-request";
 
 export interface IGenerateTokenParams extends IParams {

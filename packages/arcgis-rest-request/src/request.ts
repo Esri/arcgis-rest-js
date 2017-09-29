@@ -1,3 +1,6 @@
+/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+
 import { checkForErrors } from "./utils/check-for-errors";
 import { encodeFormData } from "./utils/encode-form-data";
 import { encodeQueryString } from "./utils/encode-query-string";
