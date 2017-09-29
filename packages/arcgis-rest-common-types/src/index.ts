@@ -1,3 +1,6 @@
+/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+
 /**
  * Spatial reference systems define mathematical transformations and coordinate systems for displaying spatial information in 2D and 3D.
  */

@@ -11,7 +11,7 @@ git commit -am "Prepare v$VERSION" --no-verify
 npm version $VERSION
 
 # push the changes and tag to github
-git push https://github.com/ArcGIS/arcgis-rest-js.git master
+git push https://github.com/Esri/arcgis-rest-js.git master
 git push --tags
 
 # publish each package on npm

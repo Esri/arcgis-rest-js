@@ -27,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ArcGIS/arcgis-rest-js.git"
+    "url": "git+https://github.com/Esri/arcgis-rest-js.git"
   },
   "contributors": [
     {
@@ -37,7 +37,7 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/ArcGIS/arcgis-rest-js/issues"
+    "url": "https://github.com/Esri/arcgis-rest-js/issues"
   },
-  "homepage": "https://github.com/ArcGIS/arcgis-rest-js#readme"
+  "homepage": "https://github.com/Esri/arcgis-rest-js#readme"
 }

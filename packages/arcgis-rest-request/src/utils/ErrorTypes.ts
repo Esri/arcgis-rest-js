@@ -1,3 +1,6 @@
+/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+
 /**
  * Enum describing the different errors that might be thrown by a request.
  *

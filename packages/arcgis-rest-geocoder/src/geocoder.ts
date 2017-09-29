@@ -1,3 +1,6 @@
+/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+
 /*
 to do:
 verify custom endpoints contain 'GeocodeServer' and end in a '/'
