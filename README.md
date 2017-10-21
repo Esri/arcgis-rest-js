@@ -1,18 +1,18 @@
 # @esri/arcgis-rest-js
 
-> a compact, modular Esri JavaScript client library that runs in modern browsers and Node.js.
+> compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.
 
 ## Table of Contents
 
 - [Example](#example)
 - [API Reference](#api-reference)
-- [Code of Conduct](#code-of-conduct)
 - [Instructions](#instructions)
 - [Packages](#packages)
 - [FAQ](#frequently-asked-questions)
 - [Issues](#issues)
 - [Versioning](#versioning)
 - [Contributing](#contributing)
+- [Code of Conduct](/CODE_OF_CONDUCT.md)
 - [License](#license)
 
 ### Example
@@ -32,12 +32,6 @@ request(url)
 ### API Reference
 
 The documentation is published at https://esri.github.io/arcgis-rest-js/ (source code [here](/docs/src)).
-
-### Code of conduct
-
-**TL;DR** - We expect folks that participate in both our online and IRL communities to be kind and considerate of others at all times.
-
-The full CoC text can be found at http://www.esri.com/events/code-of-conduct
 
 ### Instructions
 
@@ -64,8 +58,10 @@ Some useful commands include:
 
 ### Frequently Asked Questions
 
+* [Is this a _supported_ Esri product?](docs/FAQ.md#is-this-a-supported-esri-product)
+* [How does this project comparse with the ArcGIS API for JavaScript?](docs/FAQ.md#comparison-with-the-arcgis-api-for-javascript)
+* [Is this similar to the ArcGIS API for Python?](docs/FAQ.md#comparison-with-the-arcgis-python-api)
 * [Why TypeScript?](docs/FAQ.md#why-typescript) What if I prefer [VanillaJS](https://stackoverflow.com/questions/20435653/what-is-vanillajs)?
-* [What is the difference between this project and the ArcGIS API for JavaScript?](docs/FAQ.md#comparison-with-other-products)
 
 ### Issues
 
