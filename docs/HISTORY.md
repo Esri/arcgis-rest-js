@@ -17,9 +17,9 @@ This list includes people who contributed to the original conversation and those
 
 ## Use Cases and Target Audience
 
-This API intends to simplify interactions with the ArcGIS REST API, enabling the creation of powerful scripting tools in both Node.js and the browser that currently require deep knowledge of the REST API, and coordinating chained calls with a variety of complex parameters. This library would also enable downstream projects like the ArcGIS for Developers website and ArcGIS Hub to achieve identity management similar to the ArcGIS API for JavaScript.
+This API intends to simplify interactions with the ArcGIS REST API, enabling the creation of powerful scripting tools in both Node.js and the browser that currently require deep knowledge of the REST API, and coordinating chained calls with a variety of complex parameters. This library also enables downstream projects like the ArcGIS for Developers website and ArcGIS Hub to achieve identity management.
 
-While the tools proposed here would be useful in internal projects such as ArcGIS for Developers and ArcGIS Hub, they also strongly target outside developers who need to script and automate the platform but do not know or are not willing to integrate the ArcGIS API for Python into their projects. This project will also have appeal to enterprise developers who have existing Node.js systems and want to integrate with ArcGIS.
+The tools proposed here are intended to be useful in internal projects such as ArcGIS for Developers and ArcGIS Hub, but they also strongly target outside developers who need to script and automate the platform but do not know or are not willing to integrate the ArcGIS API for Python into their projects. Hopefully, this project will also have appeal to enterprise developers who have existing Node.js systems and want to integrate with ArcGIS.
 
 ## Functionality Roadmap
 
@@ -28,7 +28,7 @@ While the tools proposed here would be useful in internal projects such as ArcGI
    * Add/Remove/Update fields in feature layers
    * Query and edit features
    * Get statistics
-* Make interacting with premium ArcGIS Online services more intuitive
+* Make interacting with premium ArcGIS Online services intuitive
    * Geocoding
    * Routing
    * Geoenrichment
