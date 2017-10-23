@@ -59,8 +59,8 @@ Some useful commands include:
 ### Frequently Asked Questions
 
 * [Is this a _supported_ Esri product?](docs/FAQ.md#is-this-a-supported-esri-product)
-* [How does this project comparse with the ArcGIS API for JavaScript?](docs/FAQ.md#comparison-with-the-arcgis-api-for-javascript)
-* [Is this similar to the ArcGIS API for Python?](docs/FAQ.md#comparison-with-the-arcgis-python-api)
+* [How does this project compare with the ArcGIS API for JavaScript?](docs/FAQ.md#comparison-with-the-arcgis-api-for-javascript)
+* [Is this similar to the ArcGIS API for Python?](docs/FAQ.md#comparison-with-the-arcgis-api-for-python)
 * [Why TypeScript?](docs/FAQ.md#why-typescript) What if I prefer [VanillaJS](https://stackoverflow.com/questions/20435653/what-is-vanillajs)?
 
 ### Issues

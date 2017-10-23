@@ -12,9 +12,9 @@ In this project we have open sourced the low-level request methods and identity 
 
 We aim to make interacting with the platform as intuitive as possible, but the surface area of the project currently does not nearly encompass the entire ArcGIS REST API.
 
-## Comparison with the ArcGIS Python API
+## Comparison with the ArcGIS API for Python
 
-This project is very similar to the ArcGIS Python API in many ways. Like the ArcGIS API for Python, this library aims at being a low level scripting tool that simplifies interacting with the ArcGIS REST API, but where the ArcGIS API for Python highlights integration with Jupyter Notebooks for visualization and sharing this project provides generic tools for JavaScript applications running on a server, CLI, in a browser or as a script.
+This project is similar to the ArcGIS API for Python in many ways. Like the ArcGIS API for Python, this library aims at being a low level scripting tool that simplifies interacting with the ArcGIS REST API, but where the ArcGIS API for Python highlights integration with Jupyter Notebooks for visualization and sharing this project provides generic tools for JavaScript applications running on a server, CLI, in a browser or as a script.
 
 ## Why TypeScript
 
