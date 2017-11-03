@@ -45,6 +45,11 @@ export interface IRequestOptions {
   authentication?: IAuthenticationManager;
 
   /**
+   * Base url for the portal you want to make the request to. Defaults to 'https://www.arcgis.com/sharing/rest'
+   */
+  portal?: string;
+
+  /**
    * The implementation of `fetch` to use. Defaults to a global `fetch`
    */
   fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
