@@ -43,9 +43,9 @@ export interface ISearchResult {
  * Search for items via the portal api
  * 
  * ```js
- * import { search } from '@esri/arcgis-rest-items';
+ * import { itemSearch } from '@esri/arcgis-rest-items';
  * 
- * search({q:'water'})
+ * itemSearch({q:'water'})
  * .then((results) => {
  *  console.log(response.results.total); // 355
  * })
