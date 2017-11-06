@@ -6,6 +6,7 @@ import { encodeFormData } from "./utils/encode-form-data";
 import { encodeQueryString } from "./utils/encode-query-string";
 
 export interface IAuthenticationManager {
+  portal: string;
   getToken(url: string): Promise<string>;
 }
 

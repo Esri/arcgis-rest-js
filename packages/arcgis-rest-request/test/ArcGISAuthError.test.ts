@@ -42,7 +42,12 @@ describe("ArcGISRequestError", () => {
   });
 
   describe("retry", () => {
-    const MockAuth: { getToken: any; retryHandler: IRetryAuthError } = {
+    const MockAuth: {
+      portal: string;
+      getToken: any;
+      retryHandler: IRetryAuthError;
+    } = {
+      portal: "https://www.arcgis.com/sharing/rest",
       getToken() {
         return Promise.resolve("token");
       },

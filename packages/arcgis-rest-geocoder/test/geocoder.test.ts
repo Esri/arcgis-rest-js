@@ -256,7 +256,8 @@ describe("geocode", () => {
     const MOCK_AUTH = {
       getToken() {
         return Promise.resolve("token");
-      }
+      },
+      portal: "https://mapsdev.arcgis.com"
     };
 
     bulkGeocode(addresses, { authentication: MOCK_AUTH })
@@ -291,11 +292,14 @@ describe("geocode", () => {
 
   it("should throw an error when a bulk geocoding request is made without a token", done => {
     fetchMock.once("*", GeocodeAddresses);
-    // tslint:disable-next-line
-    bulkGeocode(addresses, {}).then(response => {}).catch(e => {
-      expect(e).toEqual("bulk geocoding requires authentication");
-      done();
-    });
+
+    bulkGeocode(addresses, {})
+      // tslint:disable-next-line
+      .then(response => {})
+      .catch(e => {
+        expect(e).toEqual("bulk geocoding requires authentication");
+        done();
+      });
   });
 
   it("should retrieve metadata from the World Geocoding Service", done => {
