@@ -1,7 +1,7 @@
 {
   "name": "@esri/arcgis-rest-items",
   "version": "0.0.0",
-  "description": "Portal Item helpers for @esri/arcgis-rest-items",
+  "description": "Portal Item helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
   "browser": "dist/browser/arcgis-rest-items.umd.js",
   "module": "dist/esm/index.js",

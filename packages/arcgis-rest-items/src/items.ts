@@ -53,7 +53,7 @@ export interface ISearchResult {
  * 
  * @param searchForm - Search request
  * @param requestOptions - Options for the request
- * @returns A Promise that will resolve with the data from the request.
+ * @returns A Promise that will resolve with the data from the response.
  */
 export function itemSearch(
   searchForm: ISearchRequest,
@@ -113,12 +113,12 @@ export function createItem(
   item: IItem,
   requestOptions: IRequestOptions
 ): Promise<any> {
-  // delegate to createInFolder with a null foldername
+  // delegate to createItemInFolder placing in the root of the filestore
   return createItemInFolder(owner, item, null, requestOptions);
 }
 
 /**
- * Send json to an item to be stored in the `/data` resource
+ * Send json to an item to be stored as the `/data` resource
  * 
  * @param id - Item Id
  * @param owner - Item owner username
@@ -153,7 +153,7 @@ export function addItemJsonData(
  * 
  * @param id - Item Id
  * @param requestOptions - Options for the request
- * @returns A Promise that will resolve with the data from the request.
+ * @returns A Promise that will resolve with the data from the response.
  */
 export function getItem(
   id: string,
@@ -195,7 +195,7 @@ export function getItemData(
  * 
  * @param item - The item to update.
  * @param requestOptions - Options for the request.
- * @returns A Promise that with status of the operation.
+ * @returns A Promise that resolves with the status of the operation.
  */
 export function updateItem(
   item: IItem,
@@ -221,7 +221,7 @@ export function updateItem(
  * @param id - guid item id
  * @param owner - string owner username
  * @param requestOptions - Options for the request
- * @returns A Promise to delete an item.
+ * @returns A Promise that deletes an item.
  */
 export function removeItem(
   id: string,
@@ -264,7 +264,7 @@ export function protectItem(
 }
 
 /**
- * Unrotect an item
+ * Unprotect an item
  * 
  * @param id - guid item id
  * @param owner - string owner username
@@ -309,7 +309,7 @@ function getPortalUrl(requestOptions?: IRequestOptions): string {
  * for create and update operations
  * 
  * @param item IItem to be serialized
- * @returns a json object formatted to be sent to Portal
+ * @returns a formatted json object to be sent to Portal
  */
 function serializeItem(item: IItem): any {
   // create a clone so we're not messing with the original
