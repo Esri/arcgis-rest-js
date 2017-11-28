@@ -36,11 +36,11 @@ export interface IApplicationSessionOptions {
 }
 
 export class ApplicationSession implements IAuthenticationManager {
+  public portal: string;
   private clientId: string;
   private clientSecret: string;
   private token: string;
   private expires: Date;
-  private portal: string;
   private duration: number;
 
   /**

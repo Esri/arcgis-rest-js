@@ -134,6 +134,7 @@ describe("request()", () => {
     fetchMock.once("*", WebMapAsText);
 
     const MOCK_AUTH = {
+      portal: "https://www.arcgis.com/sharing/rest",
       getToken() {
         return Promise.resolve("token");
       }
