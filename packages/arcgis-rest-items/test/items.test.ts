@@ -1,5 +1,5 @@
 import {
-  itemSearch,
+  searchItems,
   getItem,
   getItemData,
   removeItem,
@@ -36,7 +36,7 @@ describe("search", () => {
   it("should make a simple, single search request", done => {
     fetchMock.once("*", SearchResponse);
 
-    itemSearch({
+    searchItems({
       q: "DC AND typekeywords:hubSiteApplication"
     })
       .then(response => {
@@ -55,7 +55,7 @@ describe("search", () => {
   it("should take num, start, sortField, sortDir and construct the request", done => {
     fetchMock.once("*", SearchResponse);
 
-    itemSearch({
+    searchItems({
       q: "DC AND typekeywords:hubSiteApplication",
       num: 12,
       start: 22,
@@ -125,7 +125,7 @@ describe("search", () => {
     it("search should use the portal and token from Auth Manager", done => {
       fetchMock.once("*", SearchResponse);
 
-      itemSearch(
+      searchItems(
         {
           q: "DC AND typekeywords:hubSiteApplication"
         },

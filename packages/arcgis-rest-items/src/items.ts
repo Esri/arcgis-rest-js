@@ -1,6 +1,11 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { request, IRequestOptions, IParams } from "@esri/arcgis-rest-request";
+import {
+  request,
+  IRequestOptions,
+  IParams,
+  getPortalUrl
+} from "@esri/arcgis-rest-request";
 
 import { IExtent } from "@esri/arcgis-rest-common-types";
 
@@ -43,9 +48,9 @@ export interface ISearchResult {
  * Search for items via the portal api
  * 
  * ```js
- * import { itemSearch } from '@esri/arcgis-rest-items';
+ * import { searchItems } from '@esri/arcgis-rest-items';
  * 
- * itemSearch({q:'water'})
+ * searchItems({q:'water'})
  * .then((results) => {
  *  console.log(response.results.total); // 355
  * })
@@ -55,7 +60,7 @@ export interface ISearchResult {
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the data from the request.
  */
-export function itemSearch(
+export function searchItems(
   searchForm: ISearchRequest,
   requestOptions?: IRequestOptions
 ): Promise<ISearchResult> {
@@ -285,23 +290,6 @@ export function unprotectItem(
     ...requestOptions
   };
   return request(url, null, options);
-}
-
-/**
- * Helper that returns the portalUrl - either defaulting to www.arcgis.com or using
- * the passed in auth manager's .portal property
- * 
- * @param requestOptions - Request options that may have authentication manager
- * @returns Portal url to be used in API requests
- */
-function getPortalUrl(requestOptions?: IRequestOptions): string {
-  let portalUrl = "https://www.arcgis.com/sharing/rest";
-  // but if the auth was passed, use that portal...
-  if (requestOptions && requestOptions.authentication) {
-    portalUrl = requestOptions.authentication.portal;
-  }
-
-  return portalUrl;
 }
 
 /**
