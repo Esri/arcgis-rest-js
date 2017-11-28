@@ -60,7 +60,7 @@ export interface IRequestOptions {
  * Generic method for making HTTP requests to ArcGIS REST API endpoints.
  *
  * ```js
- * import { request } from 'arcgis-core';
+ * import { request } from '@esri/arcgis-rest-request';
  *
  * request('https://www.arcgis.com/sharing/rest')
  *   .then((response) => {
@@ -69,7 +69,7 @@ export interface IRequestOptions {
  * ```
  *
  * ```js
- * import { request, HTTPMethods } from 'arcgis-core';
+ * import { request, HTTPMethods } from '@esri/arcgis-rest-request';
  *
  * request('https://www.arcgis.com/sharing/rest', {}, {
  *   httpMethod: "GET"
@@ -79,7 +79,7 @@ export interface IRequestOptions {
  * ```
  *
  * ```js
- * import { request, HTTPMethods } from 'arcgis-core';
+ * import { request, HTTPMethods } from '@esri/arcgis-rest-request';
  *
  * request('https://www.arcgis.com/sharing/rest/search', {
  *   q: 'parks'
@@ -91,7 +91,7 @@ export interface IRequestOptions {
  * @param url - The URL of the ArcGIS REST API endpoint.
  * @param params - The parameters to pass to the endpoint.
  * @param requestOptions - Options for the request.
- * @returns A Promise that will resolve with the data from the request.
+ * @returns A Promise that will resolve with the data from the response.
  */
 export function request(
   url: string,
