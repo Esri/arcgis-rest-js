@@ -1,5 +1,5 @@
-import { ArcGISAuthError, IRetryAuthError, ErrorTypes } from "../src/index";
-import { ArcGISOnlineAuthError, ArcGISOnlineError } from "./mocks/errors";
+import { ArcGISAuthError, IRetryAuthError, ErrorTypes } from "../../src/index";
+import { ArcGISOnlineAuthError, ArcGISOnlineError } from "./../mocks/errors";
 import * as fetchMock from "fetch-mock";
 
 describe("ArcGISRequestError", () => {

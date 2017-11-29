@@ -2,8 +2,8 @@ import {
   checkForErrors,
   ArcGISRequestError,
   ArcGISAuthError
-} from "../src/index";
-import { SharingRestInfo } from "./mocks/sharing-rest-info";
+} from "../../src/index";
+import { SharingRestInfo } from "./../mocks/sharing-rest-info";
 import {
   ArcGISOnlineError,
   BillingError,
@@ -13,7 +13,7 @@ import {
   ArcGISOnlineErrorNoCode,
   ArcGISServerTokenRequired,
   ArcGISOnlineAuthError
-} from "./mocks/errors";
+} from "./../mocks/errors";
 
 describe("checkForErrors", () => {
   it("should pass if an error is not found", () => {

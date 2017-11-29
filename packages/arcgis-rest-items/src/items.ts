@@ -7,26 +7,7 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IExtent } from "@esri/arcgis-rest-common-types";
-
-export interface IItem {
-  id?: string;
-  owner: string;
-  title: string;
-  type: string;
-  tags: string[];
-  typeKeywords: string[];
-  description?: string;
-  snippet?: string;
-  documentation?: string;
-  extent?: number[][];
-  categories?: string[];
-  spatialReference?: any;
-  culture?: string;
-  properties?: any;
-  url?: string;
-  [key: string]: any;
-}
+import { IExtent, IItem } from "@esri/arcgis-rest-common-types";
 
 export interface ISearchRequest {
   q: string;
