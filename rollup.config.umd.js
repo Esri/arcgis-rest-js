@@ -11,7 +11,7 @@ const _ = require("lodash");
 
 /**
  * The module name will be the name of the global variable used in UMD builds.
- * All exported memebers of each package will be attached to this global.
+ * All exported members of each package will be attached to this global.
  */
 const moduleName = "arcgisRest";
 
@@ -52,7 +52,7 @@ export default {
   format: "umd",
   sourceMap: true,
   context: "window",
-  extend: true, // causes this module to extend the global specificed by `moduleName`
+  extend: true, // causes this module to extend the global specified by `moduleName`
   moduleName,
   globals,
   plugins: [

@@ -11,7 +11,7 @@
 
 <script>
 try {
-  EsriRestAuth.UserSession.completeOAuth2({
+  arcgisRest.UserSession.completeOAuth2({
     clientId: ClientId,
     redirectUri: "http://localhost:8080/post-sign-in.html",
     popup: true,
