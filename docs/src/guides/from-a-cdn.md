@@ -1,9 +1,9 @@
 ---
-title: Using Esri REST JS from a CDN
+title: Using ArcGIS REST JS from a CDN
 navTitle: From a CDN
-description: Learn how to use Esri REST JS from a CDN.
+description: Learn how to use ArcGIS REST JS from a CDN.
 order: 20
 group: 1-get-started
 ---
 
-# Get Started with Esri REST JS from a CDN
+# Get Started with ArcGIS REST JS from a CDN
