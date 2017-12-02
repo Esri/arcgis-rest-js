@@ -1,7 +1,7 @@
 {
   "name": "@esri/arcgis-rest-js",
-  "version": "0.0.0",
-  "description": "This repository is for discussing and creating a fully featured JavaScript client API for browsers and Node.js.",
+  "version": "1.0.0",
+  "description": "Compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",
     "@types/fetch-mock": "^5.8.3",
@@ -19,6 +19,7 @@
     "cz-lerna-changelog": "github:patrickarlt/cz-lerna-changelog#3fe7650a2e2e624b1f46e5031c96119759698288",
     "date-fns": "^1.28.5",
     "fetch-mock": "^5.12.1",
+    "gh-pages": "^1.1.0",
     "gh-release": "^3.1.1",
     "husky": "^0.14.3",
     "inspect-process": "^0.5.0",
@@ -76,6 +77,8 @@
     "test:chrome": "karma start --single-run --browsers=Chrome",
     "test:node": "jasmine --config=jasmine.json",
     "test:node:debug": "inspect jasmine --config=jasmine.json",
+    "docs:build": "acetate build --config docs/acetate.config.js",
+    "docs:deploy": "node support/deploy-doc-site.js",
     "docs:typedoc": "node docs/build-typedoc.js",
     "docs:dev:typedoc": "onchange -v 'packages/*/src/**/*.ts' -- npm run docs:typedoc",
     "predocs:serve": "npm run docs:typedoc",

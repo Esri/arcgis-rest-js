@@ -1,6 +1,6 @@
 ---
 title: Get Started
-description: Get started with the Esri REST JS library.
+description: Get started with the ArcGIS REST JS library.
 ---
 
 # Get Started

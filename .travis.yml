@@ -1,0 +1,12 @@
+language: node_js
+sudo: false
+notifications:
+  email: false
+node_js:
+  - "6"
+  - "8"
+cache:
+  directories: # Cache dependencies
+    - node_modules
+before_script:
+  - npm run bootstrap

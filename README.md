@@ -1,3 +1,12 @@
+[![npm version][npm-img]][npm-url]
+[![build status][travis-img]][travis-url]
+[![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/arcgis-rest-js/master/LICENSE)
+
+[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-request.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-request
+[travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
+
 # @esri/arcgis-rest-js
 
 > compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.
@@ -31,7 +40,7 @@ request(url)
 
 ### API Reference
 
-The documentation is published at https://esri.github.io/arcgis-rest-js/ (source code [here](/docs/src)).
+The documentation is published at http://arcgis-rest-js.surge.sh/ (source code [here](/docs/src)).
 
 ### Instructions
 
@@ -52,9 +61,11 @@ Some useful commands include:
 
 ### Packages
 
-* [`@esri/arcgis-rest-request`](./packages/arcgis-rest-request/) - Handles common functionality across all aspects of `@esri/arcgis-rest-js`.
-* [`@esri/arcgis-rest-auth`](./packages/arcgis-rest-auth) - Provides methods for authenticating named users and applications for `@esri/arcgis-rest-auth`.
+* [`@esri/arcgis-rest-request`](./packages/arcgis-rest-request/) - Underpins other packages and supports making low-level requests.
+* [`@esri/arcgis-rest-auth`](./packages/arcgis-rest-auth) - Provides methods for authenticating named users and applications.
 * [`@esri/arcgis-rest-geocoder`](./packages/arcgis-rest-geocoder) - Geocoding wrapper for `@esri/arcgis-rest-js`
+* [`@esri/arcgis-rest-items`](./packages/arcgis-rest-items) - Methods for working with ArcGIS Online/Enterprise content.
+* [`@esri/arcgis-rest-groups`](./packages/arcgis-rest-groups) - Methods for working with ArcGIS Online/Enterprise groups.
 
 ### Frequently Asked Questions
 
