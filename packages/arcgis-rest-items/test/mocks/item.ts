@@ -1,4 +1,4 @@
-import { IItem } from "../../src/items";
+import { IItem } from "@esri/arcgis-rest-common-types";
 
 export const ItemSuccessResponse: any = {
   success: true,
