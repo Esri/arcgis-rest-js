@@ -8,17 +8,27 @@ import {
   updateItem,
   addItemJsonData,
   protectItem,
-  unprotectItem
+  unprotectItem,
+  getItemResources,
+  updateItemResource,
+  removeItemResource
 } from "../src/index";
 
 import * as fetchMock from "fetch-mock";
 
+import { SearchResponse } from "./mocks/search";
+
 import {
-  SearchResponse,
   ItemSuccessResponse,
   ItemResponse,
   ItemDataResponse
-} from "./mocks/responses";
+} from "./mocks/item";
+
+import {
+  GetItemResourcesResponse,
+  UpdateItemResourceResponse,
+  RemoveItemResourceResponse
+} from "./mocks/resources";
 
 describe("search", () => {
   let paramsSpy: jasmine.Spy;
@@ -373,6 +383,74 @@ describe("search", () => {
           );
           expect(options.method).toBe("POST");
           expect(paramsSpy).toHaveBeenCalledWith("f", "json");
+          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("get item resources", done => {
+      fetchMock.once("*", GetItemResourcesResponse);
+      getItemResources("3ef", MOCK_REQOPTS)
+        .then(response => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources"
+          );
+          expect(options.method).toBe("POST");
+          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("update an item resource", done => {
+      fetchMock.once("*", UpdateItemResourceResponse);
+      updateItemResource(
+        "3ef",
+        "dbouwman",
+        "image/banner.png",
+        "jumbotron",
+        MOCK_REQOPTS
+      )
+        .then(response => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/updateResources"
+          );
+          expect(options.method).toBe("POST");
+          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
+          expect(paramsSpy).toHaveBeenCalledWith(
+            "fileName",
+            "image/banner.png"
+          );
+          expect(paramsSpy).toHaveBeenCalledWith("text", "jumbotron");
+          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should remove a resource", done => {
+      fetchMock.once("*", RemoveItemResourceResponse);
+      removeItemResource("3ef", "dbouwman", "image/banner.png", MOCK_REQOPTS)
+        .then(response => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/removeResources"
+          );
+          expect(options.method).toBe("POST");
+          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
+          expect(paramsSpy).toHaveBeenCalledWith(
+            "resource",
+            "image/banner.png"
+          );
           expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
           done();
         })
