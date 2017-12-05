@@ -28,3 +28,33 @@ export interface IPoint {
   y: number;
   spatialReference?: ISpatialReference;
 }
+
+/**
+ * Params for paging operations
+ */
+export interface IPagingParams {
+  start?: number;
+  num?: number;
+}
+
+/**
+ * Portal Item
+ */
+export interface IItem {
+  id?: string;
+  owner: string;
+  title: string;
+  type: string;
+  tags: string[];
+  typeKeywords: string[];
+  description?: string;
+  snippet?: string;
+  documentation?: string;
+  extent?: number[][];
+  categories?: string[];
+  spatialReference?: any;
+  culture?: string;
+  properties?: any;
+  url?: string;
+  [key: string]: any;
+}
