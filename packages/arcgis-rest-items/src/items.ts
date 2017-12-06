@@ -9,6 +9,8 @@ import {
 
 import { IExtent, IItem } from "@esri/arcgis-rest-common-types";
 
+import { UserSession } from "@esri/arcgis-rest-auth";
+
 export interface ISearchRequest {
   q: string;
   start?: number;
@@ -23,6 +25,10 @@ export interface ISearchResult {
   num: number;
   nextStart: number;
   results: IItem[];
+}
+
+export interface IUserSessionRequestOptions extends IRequestOptions {
+  authentication: UserSession;
 }
 
 /**
@@ -61,18 +67,19 @@ export function searchItems(
 /**
  * Create an item in a folder
  *
- * @param owner - owner name
  * @param item - item object
  * @param folder - optional folder to create the item in
  * @param requestOptions = Options for the request
+ * @param owner - The authentication session typically identifies the item owner, but you can also pass one in explicitly
  */
 export function createItemInFolder(
-  owner: string,
   item: IItem,
   folder: string,
-  requestOptions: IRequestOptions
+  requestOptions: IUserSessionRequestOptions,
+  owner?: string
 ): Promise<any> {
-  const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
+  const itemOwner = owner || requestOptions.authentication.username;
+  const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${itemOwner}`;
   let url = `${baseUrl}/addItem`;
   if (folder) {
     url = `${baseUrl}/${folder}/addItem`;
@@ -90,36 +97,38 @@ export function createItemInFolder(
 /**
  * Create an Item in the user's root folder
  *
- * @param owner - owner name
  * @param item - the item
  * @param requestOptions - Options for the request
+ * @param owner - The authentication session typically identifies the item owner, but you can also pass one in explicitly
  */
 export function createItem(
-  owner: string,
   item: IItem,
-  requestOptions: IRequestOptions
+  requestOptions: IUserSessionRequestOptions,
+  owner?: string
 ): Promise<any> {
+  const itemOwner = owner || requestOptions.authentication.username;
   // delegate to createItemInFolder placing in the root of the filestore
-  return createItemInFolder(owner, item, null, requestOptions);
+  return createItemInFolder(item, null, requestOptions, itemOwner);
 }
 
 /**
  * Send json to an item to be stored as the `/data` resource
  *
  * @param id - Item Id
- * @param owner - Item owner username
  * @param data - Javascript object to store
  * @param requestOptions - Options for the request
+ * @param owner - The authentication session typically identifies the item owner, but you can also pass one in explicitly
  */
 export function addItemJsonData(
   id: string,
-  owner: string,
   data: any,
-  requestOptions: IRequestOptions
+  requestOptions: IUserSessionRequestOptions,
+  owner?: string
 ): Promise<any> {
+  const itemOwner = owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/update`;
+  )}/content/users/${itemOwner}/items/${id}/update`;
 
   const options: IRequestOptions = {
     ...{ httpMethod: "POST" },
@@ -201,18 +210,19 @@ export function updateItem(
  * Remove an item from the portal
  *
  * @param id - guid item id
- * @param owner - string owner username
  * @param requestOptions - Options for the request
+ * @param owner - The authentication session typically identifies the item owner, but you can also pass one in explicitly
  * @returns A Promise that deletes an item.
  */
 export function removeItem(
   id: string,
-  owner: string,
-  requestOptions: IRequestOptions
+  requestOptions: IUserSessionRequestOptions,
+  owner?: string
 ): Promise<any> {
+  const itemOwner = owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/delete`;
+  )}/content/users/${itemOwner}/items/${id}/delete`;
   return request(url, null, requestOptions);
 }
 
@@ -220,18 +230,19 @@ export function removeItem(
  * Protect an item
  *
  * @param id - guid item id
- * @param owner - string owner username
  * @param requestOptions - Options for the request
+ * @param owner - The authentication session typically identifies the item owner, but you can also pass one in explicitly
  * @returns A Promise to protect an item.
  */
 export function protectItem(
   id: string,
-  owner: string,
-  requestOptions: IRequestOptions
+  requestOptions: IUserSessionRequestOptions,
+  owner?: string
 ): Promise<any> {
+  const itemOwner = owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/protect`;
+  )}/content/users/${itemOwner}/items/${id}/protect`;
   return request(url, null, requestOptions);
 }
 
@@ -239,18 +250,19 @@ export function protectItem(
  * Unprotect an item
  *
  * @param id - guid item id
- * @param owner - string owner username
  * @param requestOptions - Options for the request
+ * @param owner - The authentication session typically identifies the item owner, but you can also pass one in explicitly
  * @returns A Promise to unprotect an item.
  */
 export function unprotectItem(
   id: string,
-  owner: string,
-  requestOptions: IRequestOptions
+  requestOptions: IUserSessionRequestOptions,
+  owner?: string
 ): Promise<any> {
+  const itemOwner = owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/unprotect`;
+  )}/content/users/${itemOwner}/items/${id}/unprotect`;
   return request(url, null, requestOptions);
 }
 
@@ -278,18 +290,20 @@ export function getItemResources(
  * @param name - new resource filename
  * @param content - text input to be added as a file resource
  * @param requestOptions - Options for the request
+ * @param owner - The authentication session typically identifies the item owner, but you can also pass one in explicitly
  * @returns A Promise to unprotect an item.
  */
 export function updateItemResource(
   id: string,
-  owner: string,
   name: string,
   content: string,
-  requestOptions: IRequestOptions
+  requestOptions: IUserSessionRequestOptions,
+  owner?: string
 ): Promise<any> {
+  const itemOwner = owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/updateResources`;
+  )}/content/users/${itemOwner}/items/${id}/updateResources`;
 
   const params = {
     fileName: name,
@@ -303,20 +317,21 @@ export function updateItemResource(
  * Remove a resource associated with an item
  *
  * @param id - guid item id
- * @param owner - guid item id
  * @param resource - guid item id
  * @param requestOptions - Options for the request
+ * @param owner - The authentication session typically identifies the item owner, but you can also pass one in explicitly
  * @returns A Promise to unprotect an item.
  */
 export function removeItemResource(
   id: string,
-  owner: string,
   resource: string,
-  requestOptions: IRequestOptions
+  requestOptions: IUserSessionRequestOptions,
+  owner?: string
 ): Promise<any> {
+  const itemOwner = owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/removeResources`;
+  )}/content/users/${itemOwner}/items/${id}/removeResources`;
 
   return request(url, { resource }, requestOptions);
 }
