@@ -27,16 +27,16 @@ export interface ISearchResult {
 
 /**
  * Search for items via the portal api
- * 
+ *
  * ```js
  * import { searchItems } from '@esri/arcgis-rest-items';
- * 
+ *
  * searchItems({q:'water'})
  * .then((results) => {
  *  console.log(response.results.total); // 355
  * })
  * ```
- * 
+ *
  * @param searchForm - Search request
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the data from the response.
@@ -60,7 +60,7 @@ export function searchItems(
 
 /**
  * Create an item in a folder
- * 
+ *
  * @param owner - owner name
  * @param item - item object
  * @param folder - optional folder to create the item in
@@ -89,7 +89,7 @@ export function createItemInFolder(
 
 /**
  * Create an Item in the user's root folder
- * 
+ *
  * @param owner - owner name
  * @param item - the item
  * @param requestOptions - Options for the request
@@ -105,7 +105,7 @@ export function createItem(
 
 /**
  * Send json to an item to be stored as the `/data` resource
- * 
+ *
  * @param id - Item Id
  * @param owner - Item owner username
  * @param data - Javascript object to store
@@ -136,7 +136,7 @@ export function addItemJsonData(
 }
 /**
  * Get an item by id
- * 
+ *
  * @param id - Item Id
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the data from the response.
@@ -155,10 +155,10 @@ export function getItem(
 }
 
 /**
- * Get the /data for an item. 
+ * Get the /data for an item.
  * Note: Some items do not return json from /data
  * and this method will throw if that is the case.
- * 
+ *
  * @param id - Item Id
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the json data for the item.
@@ -178,32 +178,28 @@ export function getItemData(
 
 /**
  * Update an Item
- * 
+ *
  * @param item - The item to update.
  * @param requestOptions - Options for the request.
  * @returns A Promise that resolves with the status of the operation.
  */
 export function updateItem(
   item: IItem,
-  requestOptions?: IRequestOptions
+  requestOptions: IRequestOptions
 ): Promise<any> {
   const url = `${getPortalUrl(
     requestOptions
   )}/content/users/${item.owner}/items/${item.id}/update`;
 
-  const options: IRequestOptions = {
-    ...{ httpMethod: "POST" },
-    ...requestOptions
-  };
   // serialize the item into something Portal will accept
   const requestParams = serializeItem(item);
 
-  return request(url, requestParams, options);
+  return request(url, requestParams, requestOptions);
 }
 
 /**
  * Remove an item from the portal
- * 
+ *
  * @param id - guid item id
  * @param owner - string owner username
  * @param requestOptions - Options for the request
@@ -217,17 +213,12 @@ export function removeItem(
   const url = `${getPortalUrl(
     requestOptions
   )}/content/users/${owner}/items/${id}/delete`;
-  // default to a POST request
-  const options: IRequestOptions = {
-    ...{ httpMethod: "POST" },
-    ...requestOptions
-  };
-  return request(url, null, options);
+  return request(url, null, requestOptions);
 }
 
 /**
  * Protect an item
- * 
+ *
  * @param id - guid item id
  * @param owner - string owner username
  * @param requestOptions - Options for the request
@@ -241,17 +232,12 @@ export function protectItem(
   const url = `${getPortalUrl(
     requestOptions
   )}/content/users/${owner}/items/${id}/protect`;
-  // default to a POST request
-  const options: IRequestOptions = {
-    ...{ httpMethod: "POST" },
-    ...requestOptions
-  };
-  return request(url, null, options);
+  return request(url, null, requestOptions);
 }
 
 /**
  * Unprotect an item
- * 
+ *
  * @param id - guid item id
  * @param owner - string owner username
  * @param requestOptions - Options for the request
@@ -265,18 +251,80 @@ export function unprotectItem(
   const url = `${getPortalUrl(
     requestOptions
   )}/content/users/${owner}/items/${id}/unprotect`;
-  // default to a POST request
-  const options: IRequestOptions = {
-    ...{ httpMethod: "POST" },
-    ...requestOptions
+  return request(url, null, requestOptions);
+}
+
+/**
+ * Get the resources associated with an item
+ *
+ * @param id - guid item id
+ * @param requestOptions - Options for the request
+ * @returns A Promise to unprotect an item.
+ */
+export function getItemResources(
+  id: string,
+  requestOptions: IRequestOptions
+): Promise<any> {
+  const url = `${getPortalUrl(requestOptions)}/content/items/${id}/resources`;
+
+  return request(url, { num: 1000 }, requestOptions);
+}
+
+/**
+ * Update a resource associated with an item
+ *
+ * @param id - guid item id
+ * @param owner - string owner username
+ * @param name - new resource filename
+ * @param content - text input to be added as a file resource
+ * @param requestOptions - Options for the request
+ * @returns A Promise to unprotect an item.
+ */
+export function updateItemResource(
+  id: string,
+  owner: string,
+  name: string,
+  content: string,
+  requestOptions: IRequestOptions
+): Promise<any> {
+  const url = `${getPortalUrl(
+    requestOptions
+  )}/content/users/${owner}/items/${id}/updateResources`;
+
+  const params = {
+    fileName: name,
+    text: content
   };
-  return request(url, null, options);
+
+  return request(url, params, requestOptions);
+}
+
+/**
+ * Remove a resource associated with an item
+ *
+ * @param id - guid item id
+ * @param owner - guid item id
+ * @param resource - guid item id
+ * @param requestOptions - Options for the request
+ * @returns A Promise to unprotect an item.
+ */
+export function removeItemResource(
+  id: string,
+  owner: string,
+  resource: string,
+  requestOptions: IRequestOptions
+): Promise<any> {
+  const url = `${getPortalUrl(
+    requestOptions
+  )}/content/users/${owner}/items/${id}/removeResources`;
+
+  return request(url, { resource }, requestOptions);
 }
 
 /**
  * Serialize an item into a json format accepted by the Portal API
  * for create and update operations
- * 
+ *
  * @param item IItem to be serialized
  * @returns a formatted json object to be sent to Portal
  */
