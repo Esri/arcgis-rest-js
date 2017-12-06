@@ -9,7 +9,7 @@ import {
 
 import { IExtent, IItem } from "@esri/arcgis-rest-common-types";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 export interface ISearchRequest {
   q: string;
@@ -25,10 +25,6 @@ export interface ISearchResult {
   num: number;
   nextStart: number;
   results: IItem[];
-}
-
-export interface IUserSessionRequestOptions extends IRequestOptions {
-  authentication: UserSession;
 }
 
 /**
@@ -75,7 +71,7 @@ export function searchItems(
 export function createItemInFolder(
   item: IItem,
   folder: string,
-  requestOptions: IUserSessionRequestOptions,
+  requestOptions: IUserRequestOptions,
   owner?: string
 ): Promise<any> {
   const itemOwner = owner || requestOptions.authentication.username;
@@ -103,7 +99,7 @@ export function createItemInFolder(
  */
 export function createItem(
   item: IItem,
-  requestOptions: IUserSessionRequestOptions,
+  requestOptions: IUserRequestOptions,
   owner?: string
 ): Promise<any> {
   const itemOwner = owner || requestOptions.authentication.username;
@@ -122,7 +118,7 @@ export function createItem(
 export function addItemJsonData(
   id: string,
   data: any,
-  requestOptions: IUserSessionRequestOptions,
+  requestOptions: IUserRequestOptions,
   owner?: string
 ): Promise<any> {
   const itemOwner = owner || requestOptions.authentication.username;
@@ -216,7 +212,7 @@ export function updateItem(
  */
 export function removeItem(
   id: string,
-  requestOptions: IUserSessionRequestOptions,
+  requestOptions: IUserRequestOptions,
   owner?: string
 ): Promise<any> {
   const itemOwner = owner || requestOptions.authentication.username;
@@ -236,7 +232,7 @@ export function removeItem(
  */
 export function protectItem(
   id: string,
-  requestOptions: IUserSessionRequestOptions,
+  requestOptions: IUserRequestOptions,
   owner?: string
 ): Promise<any> {
   const itemOwner = owner || requestOptions.authentication.username;
@@ -256,7 +252,7 @@ export function protectItem(
  */
 export function unprotectItem(
   id: string,
-  requestOptions: IUserSessionRequestOptions,
+  requestOptions: IUserRequestOptions,
   owner?: string
 ): Promise<any> {
   const itemOwner = owner || requestOptions.authentication.username;
@@ -297,7 +293,7 @@ export function updateItemResource(
   id: string,
   name: string,
   content: string,
-  requestOptions: IUserSessionRequestOptions,
+  requestOptions: IUserRequestOptions,
   owner?: string
 ): Promise<any> {
   const itemOwner = owner || requestOptions.authentication.username;
@@ -325,7 +321,7 @@ export function updateItemResource(
 export function removeItemResource(
   id: string,
   resource: string,
-  requestOptions: IUserSessionRequestOptions,
+  requestOptions: IUserRequestOptions,
   owner?: string
 ): Promise<any> {
   const itemOwner = owner || requestOptions.authentication.username;
