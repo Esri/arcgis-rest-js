@@ -38,6 +38,11 @@ export interface IRequestOptions {
   /**
    * The HTTP method to send the request with.
    */
+  params?: IParams;
+
+  /**
+   * The HTTP method to send the request with.
+   */
   httpMethod?: HTTPMethods;
 
   /**
@@ -95,8 +100,7 @@ export interface IRequestOptions {
  */
 export function request(
   url: string,
-  requestParams: IParams = { f: "json" },
-  requestOptions?: IRequestOptions
+  requestOptions: IRequestOptions = { params: { f: "json" } }
 ): Promise<any> {
   const options: IRequestOptions = {
     ...{ httpMethod: "POST", fetch: fetch.bind(Function("return this")()) },
@@ -107,7 +111,7 @@ export function request(
 
   const params: IParams = {
     ...{ f: "json" },
-    ...requestParams
+    ...requestOptions.params
   };
 
   const fetchOptions: RequestInit = {

@@ -41,13 +41,9 @@ describe("request()", () => {
   it("should make a basic GET request", done => {
     fetchMock.once("*", SharingRestInfo);
 
-    request(
-      "https://www.arcgis.com/sharing/rest/info",
-      {},
-      {
-        httpMethod: "GET"
-      }
-    )
+    request("https://www.arcgis.com/sharing/rest/info", {
+      httpMethod: "GET"
+    })
       .then(response => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json");
@@ -65,9 +61,9 @@ describe("request()", () => {
 
     request(
       "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data",
-      { f: "text" },
       {
-        httpMethod: "GET"
+        httpMethod: "GET",
+        params: { f: "text" }
       }
     )
       .then(response => {
@@ -87,13 +83,10 @@ describe("request()", () => {
   it("should make a basic GET request for html", done => {
     fetchMock.once("*", SharingRestInfoHTML);
 
-    request(
-      "https://www.arcgis.com/sharing/rest/info",
-      { f: "html" },
-      {
-        httpMethod: "GET"
-      }
-    )
+    request("https://www.arcgis.com/sharing/rest/info", {
+      httpMethod: "GET",
+      params: { f: "html" }
+    })
       .then(response => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=html");
@@ -111,9 +104,9 @@ describe("request()", () => {
 
     request(
       "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
-      { where: "1=1", f: "geojson" },
       {
-        httpMethod: "GET"
+        httpMethod: "GET",
+        params: { where: "1=1", f: "geojson" }
       }
     )
       .then(response => {
@@ -142,7 +135,6 @@ describe("request()", () => {
 
     request(
       "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data",
-      {},
       {
         authentication: MOCK_AUTH
       }
@@ -198,13 +190,9 @@ describe("request()", () => {
       return Promise.resolve(MockFetchResponse);
     };
 
-    request(
-      "https://www.arcgis.com/sharing/rest/info",
-      {},
-      {
-        fetch: MockFetch as any
-      }
-    )
+    request("https://www.arcgis.com/sharing/rest/info", {
+      fetch: MockFetch as any
+    })
       .then(response => {
         expect(response).toEqual(SharingRestInfo);
         done();

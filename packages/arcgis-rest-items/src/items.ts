@@ -9,12 +9,46 @@ import {
 
 import { IExtent, IItem } from "@esri/arcgis-rest-common-types";
 
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+
+export interface IItemRequestOptions extends IUserRequestOptions {
+  item: IItem;
+}
+
+export interface IItemIdRequestOptions extends IUserRequestOptions {
+  id: string;
+  owner?: string;
+}
+
+export interface IItemJsonDataRequestOptions extends IItemIdRequestOptions {
+  data: any;
+  owner?: string;
+}
+
+export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
+  name?: string;
+  content?: string;
+  resource?: string;
+}
+
+export interface IFolderlessItemCrudRequestOptions extends IUserRequestOptions {
+  item: IItem;
+  owner?: string;
+}
+
+export interface IItemCrudRequestOptions
+  extends IFolderlessItemCrudRequestOptions {
+  folder?: string;
+}
+
 export interface ISearchRequest {
   q: string;
   start?: number;
   num?: number;
   [key: string]: any;
 }
+
+// export interface ISearchRequestOptions extends IRequestOptions { }
 
 export interface ISearchResult {
   query: string; // matches the api's form param
@@ -54,8 +88,12 @@ export function searchItems(
     ...requestOptions
   };
 
+  options.params = {
+    ...searchForm
+  };
+
   // send the request
-  return request(url, searchForm, options);
+  return request(url, options);
 }
 
 /**
@@ -67,40 +105,36 @@ export function searchItems(
  * @param requestOptions = Options for the request
  */
 export function createItemInFolder(
-  owner: string,
-  item: IItem,
-  folder: string,
-  requestOptions: IRequestOptions
+  requestOptions: IItemCrudRequestOptions
 ): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
   const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
   let url = `${baseUrl}/addItem`;
-  if (folder) {
-    url = `${baseUrl}/${folder}/addItem`;
-  }
-  const options: IRequestOptions = {
-    ...{ httpMethod: "POST" },
-    ...requestOptions
-  };
-  // serialize the item into something Portal will accept
-  const requestParams = serializeItem(item);
 
-  return request(url, requestParams, options);
+  if (requestOptions.folder) {
+    url = `${baseUrl}/${requestOptions.folder}/addItem`;
+  }
+
+  // serialize the item into something Portal will accept
+  requestOptions.params = serializeItem(requestOptions.item);
+
+  return request(url, requestOptions);
 }
 
 /**
  * Create an Item in the user's root folder
  *
- * @param owner - owner name
- * @param item - the item
  * @param requestOptions - Options for the request
  */
 export function createItem(
-  owner: string,
-  item: IItem,
-  requestOptions: IRequestOptions
+  requestOptions: IFolderlessItemCrudRequestOptions
 ): Promise<any> {
   // delegate to createItemInFolder placing in the root of the filestore
-  return createItemInFolder(owner, item, null, requestOptions);
+  const options = {
+    folder: null,
+    ...requestOptions
+  } as IItemCrudRequestOptions;
+  return createItemInFolder(options);
 }
 
 /**
@@ -112,27 +146,22 @@ export function createItem(
  * @param requestOptions - Options for the request
  */
 export function addItemJsonData(
-  id: string,
-  owner: string,
-  data: any,
-  requestOptions: IRequestOptions
+  requestOptions: IItemJsonDataRequestOptions
 ): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
+
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/update`;
+  )}/content/users/${owner}/items/${requestOptions.id}/update`;
 
-  const options: IRequestOptions = {
-    ...{ httpMethod: "POST" },
-    ...requestOptions
-  };
   // Portal API requires that the 'data' be stringified and POSTed in
   // a `text` form field. It can also be sent with the `.create` call by sending
   // a `.data` property.
-  const requestParams = {
-    text: JSON.stringify(data)
+  requestOptions.params = {
+    text: JSON.stringify(requestOptions.data)
   };
 
-  return request(url, requestParams, options);
+  return request(url, requestOptions);
 }
 /**
  * Get an item by id
@@ -146,12 +175,13 @@ export function getItem(
   requestOptions?: IRequestOptions
 ): Promise<IItem> {
   const url = `${getPortalUrl(requestOptions)}/content/items/${id}`;
+
   // default to a GET request
   const options: IRequestOptions = {
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
-  return request(url, null, options);
+  return request(url, options);
 }
 
 /**
@@ -173,7 +203,7 @@ export function getItemData(
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
-  return request(url, null, options);
+  return request(url, options);
 }
 
 /**
@@ -183,18 +213,14 @@ export function getItemData(
  * @param requestOptions - Options for the request.
  * @returns A Promise that resolves with the status of the operation.
  */
-export function updateItem(
-  item: IItem,
-  requestOptions: IRequestOptions
-): Promise<any> {
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${item.owner}/items/${item.id}/update`;
+export function updateItem(requestOptions: IItemRequestOptions): Promise<any> {
+  const url = `${getPortalUrl(requestOptions)}/content/users/${requestOptions
+    .item.owner}/items/${requestOptions.item.id}/update`;
 
   // serialize the item into something Portal will accept
-  const requestParams = serializeItem(item);
+  requestOptions.params = serializeItem(requestOptions.item);
 
-  return request(url, requestParams, requestOptions);
+  return request(url, requestOptions);
 }
 
 /**
@@ -206,14 +232,13 @@ export function updateItem(
  * @returns A Promise that deletes an item.
  */
 export function removeItem(
-  id: string,
-  owner: string,
-  requestOptions: IRequestOptions
+  requestOptions: IItemIdRequestOptions
 ): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/delete`;
-  return request(url, null, requestOptions);
+  )}/content/users/${owner}/items/${requestOptions.id}/delete`;
+  return request(url, requestOptions);
 }
 
 /**
@@ -225,33 +250,29 @@ export function removeItem(
  * @returns A Promise to protect an item.
  */
 export function protectItem(
-  id: string,
-  owner: string,
-  requestOptions: IRequestOptions
+  requestOptions: IItemIdRequestOptions
 ): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/protect`;
-  return request(url, null, requestOptions);
+  )}/content/users/${owner}/items/${requestOptions.id}/protect`;
+  return request(url, requestOptions);
 }
 
 /**
  * Unprotect an item
  *
- * @param id - guid item id
- * @param owner - string owner username
  * @param requestOptions - Options for the request
  * @returns A Promise to unprotect an item.
  */
 export function unprotectItem(
-  id: string,
-  owner: string,
-  requestOptions: IRequestOptions
+  requestOptions: IItemIdRequestOptions
 ): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/unprotect`;
-  return request(url, null, requestOptions);
+  )}/content/users/${owner}/items/${requestOptions.id}/unprotect`;
+  return request(url, requestOptions);
 }
 
 /**
@@ -262,12 +283,15 @@ export function unprotectItem(
  * @returns A Promise to unprotect an item.
  */
 export function getItemResources(
-  id: string,
-  requestOptions: IRequestOptions
+  requestOptions: IItemIdRequestOptions
 ): Promise<any> {
-  const url = `${getPortalUrl(requestOptions)}/content/items/${id}/resources`;
+  const url = `${getPortalUrl(
+    requestOptions
+  )}/content/items/${requestOptions.id}/resources`;
 
-  return request(url, { num: 1000 }, requestOptions);
+  requestOptions.params = { num: 1000 };
+
+  return request(url, requestOptions);
 }
 
 /**
@@ -281,22 +305,19 @@ export function getItemResources(
  * @returns A Promise to unprotect an item.
  */
 export function updateItemResource(
-  id: string,
-  owner: string,
-  name: string,
-  content: string,
-  requestOptions: IRequestOptions
+  requestOptions: IItemResourceRequestOptions
 ): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/updateResources`;
+  )}/content/users/${owner}/items/${requestOptions.id}/updateResources`;
 
-  const params = {
+  requestOptions.params = {
     fileName: name,
-    text: content
+    text: requestOptions.content
   };
 
-  return request(url, params, requestOptions);
+  return request(url, requestOptions);
 }
 
 /**
@@ -309,16 +330,15 @@ export function updateItemResource(
  * @returns A Promise to unprotect an item.
  */
 export function removeItemResource(
-  id: string,
-  owner: string,
-  resource: string,
-  requestOptions: IRequestOptions
+  requestOptions: IItemResourceRequestOptions
 ): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/removeResources`;
+  )}/content/users/${owner}/items/${requestOptions.id}/removeResources`;
 
-  return request(url, { resource }, requestOptions);
+  requestOptions.params = { resource: requestOptions.resource };
+  return request(url, requestOptions);
 }
 
 /**

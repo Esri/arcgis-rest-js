@@ -9,6 +9,14 @@ import {
 
 import { IPagingParams, IItem } from "@esri/arcgis-rest-common-types";
 
+export interface IPagingParamsRequestOptions extends IRequestOptions {
+  params: IPagingParams;
+}
+
+export interface IGroupIdRequestOptions extends IRequestOptions {
+  id: string;
+}
+
 export interface IGroup {
   id?: string;
   owner: string;
@@ -18,6 +26,10 @@ export interface IGroup {
   categories?: string[];
   culture?: string;
   [key: string]: any;
+}
+
+export interface IGroupRequestOptions extends IRequestOptions {
+  group: IGroup;
 }
 
 export interface IGroupSearchRequest extends IPagingParams {
@@ -52,16 +64,16 @@ export interface IGroupUsersResult {
 
 /**
  * Search for groups via the portal api
- * 
+ *
  * ```js
  * import { searchGroups } from '@esri/arcgis-rest-groups';
- * 
+ *
  * searchgroups({q:'water'})
  * .then((results) => {
  *  console.log(response.results.total); // 355
  * })
  * ```
- * 
+ *
  * @param searchForm - Search request
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the data from the response.
@@ -73,18 +85,20 @@ export function searchGroups(
   // construct the search url
   const url = `${getPortalUrl(requestOptions)}/community/groups`;
 
-  // default to a GET request
+  // default to a GET
   const options: IRequestOptions = {
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
 
+  options.params = { searchForm };
+
   // send the request
-  return request(url, searchForm, options);
+  return request(url, options);
 }
 
 /**
- * 
+ *
  * @param id - Group Id
  * @param requestOptions  - Options for the request
  * @returns  A Promise that will resolve with the data from the response.
@@ -99,33 +113,34 @@ export function getGroup(
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
-  return request(url, null, options);
+  return request(url, options);
 }
 
 /**
  * Returns the content of a Group. Since the group may contain 1000s of items
  * the requestParams allow for paging.
  * @param id - Group Id
- * @param requestParams - Paging parameters 
+ * @param requestParams - Paging parameters
  * @param requestOptions  - Options for the request
  * @returns  A Promise that will resolve with the content of the group.
  */
 export function getGroupContent(
   id: string,
-  requestParams?: IPagingParams,
-  requestOptions?: IRequestOptions
+  requestOptions?: IPagingParamsRequestOptions
 ): Promise<IGroup> {
   const url = `${getPortalUrl(requestOptions)}/content/groups/${id}`;
-  const params: IPagingParams = {
-    ...{ start: 1, num: 100 },
-    ...requestParams
-  };
+
   // default to a GET request
   const options: IRequestOptions = {
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
-  return request(url, params, options);
+
+  options.params = {
+    ...{ start: 1, num: 100 } // paging params
+  };
+
+  return request(url, options);
 }
 
 /**
@@ -133,7 +148,7 @@ export function getGroupContent(
  * retrieved via separate calls to the User's API.
  * @param id - Group Id
  * @param requestOptions - Options for the request
- * @returns A Promise that will resolve with arrays of the group admin usernames and the member usernames 
+ * @returns A Promise that will resolve with arrays of the group admin usernames and the member usernames
  */
 export function getGroupUsers(
   id: string,
@@ -145,13 +160,13 @@ export function getGroupUsers(
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
-  return request(url, null, options);
+  return request(url, options);
 }
 
 /**
  * Serialize an group into a json format accepted by the Portal API
  * for create and update operations
- * 
+ *
  * @param item IGroup to be serialized
  * @returns a formatted json object to be sent to Portal
  */
@@ -164,25 +179,24 @@ function serializeGroup(group: IGroup): any {
 }
 
 /**
- * Create a new Group. 
+ * Create a new Group.
  * Note: The name must be unique within the user's organization.
  * @param group - Group to create
  * @param requestOptions  - Options for the request
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function createGroup(
-  group: IGroup,
-  requestOptions: IRequestOptions
+  requestOptions: IGroupRequestOptions
 ): Promise<any> {
   const url = `${getPortalUrl(requestOptions)}/community/createGroup`;
   // default to a POST request
-  const options: IRequestOptions = {
+  const options: IGroupRequestOptions = {
     ...{ httpMethod: "POST" },
     ...requestOptions
   };
   // serialize the group into something Portal will accept
-  const requestParams = serializeGroup(group);
-  return request(url, requestParams, options);
+  options.params = serializeGroup(requestOptions.group);
+  return request(url, options);
 }
 
 /**
@@ -192,77 +206,73 @@ export function createGroup(
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function updateGroup(
-  group: IGroup,
-  requestOptions: IRequestOptions
+  requestOptions: IGroupRequestOptions
 ): Promise<any> {
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/community/groups/${group.id}/update`;
+  const url = `${getPortalUrl(requestOptions)}/community/groups/${requestOptions
+    .group.id}/update`;
   // default to a POST request
-  const options: IRequestOptions = {
+  const options: IGroupRequestOptions = {
     ...{ httpMethod: "POST" },
     ...requestOptions
   };
   // serialize the group into something Portal will accept
-  const requestParams = serializeGroup(group);
-  return request(url, requestParams, options);
+  options.params = serializeGroup(requestOptions.group);
+  return request(url, options);
 }
 
 /**
  * Delete a group.
- * @param id - Group Id 
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function removeGroup(
-  id: string,
-  requestOptions: IRequestOptions
+  requestOptions: IGroupIdRequestOptions
 ): Promise<any> {
-  const url = `${getPortalUrl(requestOptions)}/community/groups/${id}/delete`;
+  const url = `${getPortalUrl(
+    requestOptions
+  )}/community/groups/${requestOptions.id}/delete`;
   // default to a POST request
-  const options: IRequestOptions = {
+  const options: IGroupIdRequestOptions = {
     ...{ httpMethod: "POST" },
     ...requestOptions
   };
-  return request(url, null, options);
+  return request(url, options);
 }
 
 /**
  * Protect a Group. This simply means a user must unprotect the group prior to deleting it
- * @param id - Group Id
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function protectGroup(
-  id: string,
-  requestOptions: IRequestOptions
+  requestOptions: IGroupIdRequestOptions
 ): Promise<any> {
-  const url = `${getPortalUrl(requestOptions)}/community/groups/${id}/protect`;
+  const url = `${getPortalUrl(
+    requestOptions
+  )}/community/groups/${requestOptions.id}/protect`;
   // default to a POST request
-  const options: IRequestOptions = {
+  const options: IGroupIdRequestOptions = {
     ...{ httpMethod: "POST" },
     ...requestOptions
   };
-  return request(url, null, options);
+  return request(url, options);
 }
 
 /**
  * Unprotect a Group.
- * @param id - Group Id
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function unprotectGroup(
-  id: string,
-  requestOptions: IRequestOptions
+  requestOptions: IGroupIdRequestOptions
 ): Promise<any> {
   const url = `${getPortalUrl(
     requestOptions
-  )}/community/groups/${id}/unprotect`;
+  )}/community/groups/${requestOptions.id}/unprotect`;
   // default to a POST request
-  const options: IRequestOptions = {
+  const options: IGroupIdRequestOptions = {
     ...{ httpMethod: "POST" },
     ...requestOptions
   };
-  return request(url, null, options);
+  return request(url, options);
 }

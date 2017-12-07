@@ -32,5 +32,5 @@ export function generateToken(
     params.referer = "@esri.arcgis-rest-auth";
   }
 
-  return request(url, params);
+  return request(url, { params });
 }
