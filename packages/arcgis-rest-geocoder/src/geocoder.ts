@@ -41,7 +41,6 @@ export interface IAddressBulk extends IAddress {
   OBJECTID: number;
 }
 
-// not using this, yet....
 export interface ILocation {
   latitude?: number;
   longitude?: number;
@@ -203,9 +202,9 @@ export function geocode(
  * ```
  *
  * @param partialText - The string to pass to the endpoint.
+ * @param requestParams - Additional parameters to pass to the endpoint.
  * @param requestOptions - Additional options for the request including authentication.
- * @param params - Additional parameters to pass to the endpoint.
- * @returns A Promise that will resolve with the data from the request.
+ * @returns A Promise that will resolve with the data from the response.
  */
 export function suggest(
   partialText: string,
@@ -244,8 +243,10 @@ export function suggest(
  * reverseGeocode({ x: -13181226, y: 4021085, spatialReference: { wkid: 3857 })
  * ```
  *
- * @param params - The parameters to pass to the endpoint.
- * @returns A Promise that will resolve with the data from the request.
+ * @param coordinates - the location you'd like to associate an address with.
+ * @param requestParams - Additional parameters to pass to the endpoint.
+ * @param requestOptions - Additional options for the request including authentication.
+ * @returns A Promise that will resolve with the data from the response.
  */
 export function reverseGeocode(
   coords: IPoint | ILocation | [number, number],
@@ -297,9 +298,10 @@ export function reverseGeocode(
  *   });
  * ```
  *
- * @param params - The parameters to pass to the geocoder.
+ * @param addresses - The array of addresses you'd like to find the locations of
  * @param requestOptions - Additional options to pass to the geocoder.
- * @returns A Promise that will resolve with the data from the request.
+ * @param requestParams - Additional parameters to pass through in the request to the geocoder.
+ * @returns A Promise that will resolve with the data from the response.
  */
 export function bulkGeocode(
   addresses: IAddressBulk[],
@@ -355,8 +357,8 @@ export function bulkGeocode(
  *   });
  * ```
  *
- * @param IGeocodeRequestOptions - A custom geocoding service to fetch metadata from.
- * @returns A Promise that will resolve with the data from the request.
+ * @param requestOptions - Request options can contain a custom geocoding service to fetch metadata from.
+ * @returns A Promise that will resolve with the data from the response.
  */
 export function serviceInfo(
   requestOptions?: IGeocodeRequestOptions

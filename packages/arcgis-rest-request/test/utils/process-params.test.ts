@@ -1,4 +1,4 @@
-import { processParams, requiresFormData } from "../src/index";
+import { processParams, requiresFormData } from "../../src/index";
 
 describe("processParams", () => {
   it("should pass non Date, Function, Array and Object params through", () => {
