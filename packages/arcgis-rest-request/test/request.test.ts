@@ -165,7 +165,7 @@ describe("request()", () => {
       expect(error.url).toBe(
         "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
       );
-      expect(error.params).toEqual({ f: "json" });
+      expect(error.options.params).toEqual({ f: "json" });
       expect(error.options.httpMethod).toEqual("POST");
       expect(typeof error.options.fetch).toEqual("function");
       expect(error.options.fetch.length).toEqual(2);

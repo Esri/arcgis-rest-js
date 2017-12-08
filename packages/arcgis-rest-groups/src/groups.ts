@@ -91,7 +91,7 @@ export function searchGroups(
     ...requestOptions
   };
 
-  options.params = { searchForm };
+  options.params = { ...searchForm };
 
   // send the request
   return request(url, options);
@@ -133,12 +133,16 @@ export function getGroupContent(
   // default to a GET request
   const options: IRequestOptions = {
     ...{ httpMethod: "GET" },
+    params: {} as IPagingParams,
     ...requestOptions
   };
 
-  options.params = {
-    ...{ start: 1, num: 100 } // paging params
-  };
+  options.params = { start: 1, num: 100 };
+
+  // there has GOT to be a better way to mixin the defaults above
+  if (requestOptions && requestOptions.params) {
+    options.params = requestOptions.params;
+  }
 
   return request(url, options);
 }

@@ -313,8 +313,8 @@ export function updateItemResource(
   )}/content/users/${owner}/items/${requestOptions.id}/updateResources`;
 
   requestOptions.params = {
-    fileName: name,
-    text: requestOptions.content
+    fileName: requestOptions.content,
+    text: requestOptions.name
   };
 
   return request(url, requestOptions);

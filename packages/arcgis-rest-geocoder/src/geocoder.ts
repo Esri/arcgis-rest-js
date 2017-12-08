@@ -159,11 +159,12 @@ export function geocode(
     ...requestOptions
   };
 
-  // can we replace this with ternary operator?
+  // would it be better to replace this with a ternary operator?
   if (typeof address === "string") {
     options.params.singleLine = address;
   } else {
-    options.params = { ...address };
+    // why aren't the params from the request mixed in way up top??
+    options.params = { ...requestOptions.params, ...address };
   }
 
   // add spatialReference property to individual matches
