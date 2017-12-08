@@ -153,22 +153,23 @@ export function geocode(
   address: IAddress | string,
   requestOptions?: IGenericGeocodeRequestOptions
 ): Promise<IGeocodeResponse> {
-  const { endpoint }: IGenericGeocodeRequestOptions = {
+  const options: IGenericGeocodeRequestOptions = {
     endpoint: worldGeocoder,
+    params: {},
     ...requestOptions
   };
 
   // can we replace this with ternary operator?
   if (typeof address === "string") {
-    requestOptions.params.singleLine = address;
+    options.params.singleLine = address;
   } else {
-    requestOptions.params = { ...address };
+    options.params = { ...address };
   }
 
   // add spatialReference property to individual matches
   return request(
-    endpoint + "findAddressCandidates",
-    requestOptions
+    options.endpoint + "findAddressCandidates",
+    options
   ).then(response => {
     const sr = response.spatialReference;
     response.candidates.forEach(function(candidate: {
@@ -201,14 +202,13 @@ export function suggest(
   partialText: string,
   requestOptions?: IGenericGeocodeRequestOptions
 ): Promise<ISuggestResponse> {
-  const { endpoint }: IGenericGeocodeRequestOptions = {
+  const options: IGenericGeocodeRequestOptions = {
     endpoint: worldGeocoder,
+    params: { text: partialText },
     ...requestOptions
   };
 
-  requestOptions.params.text = partialText;
-
-  return request(endpoint + "suggest", requestOptions);
+  return request(options.endpoint + "suggest", options);
 }
 
 /**
@@ -238,26 +238,27 @@ export function reverseGeocode(
   coords: IPoint | ILocation | [number, number],
   requestOptions?: IGenericGeocodeRequestOptions
 ): Promise<IReverseGeocodeResponse> {
-  const { endpoint }: IGenericGeocodeRequestOptions = {
+  const options: IGenericGeocodeRequestOptions = {
     endpoint: worldGeocoder,
+    params: {},
     ...requestOptions
   };
 
   if (isLocationArray(coords)) {
-    requestOptions.params.location = coords.join();
+    options.params.location = coords.join();
   } else if (isLocation(coords)) {
     if (coords.lat) {
-      requestOptions.params.location = coords.long + "," + coords.lat;
+      options.params.location = coords.long + "," + coords.lat;
     }
     if (coords.latitude) {
-      requestOptions.params.location = coords.longitude + "," + coords.latitude;
+      options.params.location = coords.longitude + "," + coords.latitude;
     }
   } else {
     // if input is a point, we can pass it straight through, with or without a spatial reference
-    requestOptions.params.location = coords;
+    options.params.location = coords;
   }
 
-  return request(endpoint + "reverseGeocode", requestOptions);
+  return request(options.endpoint + "reverseGeocode", options);
 }
 
 /**

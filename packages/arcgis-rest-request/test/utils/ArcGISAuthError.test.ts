@@ -51,7 +51,7 @@ describe("ArcGISRequestError", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      retryHandler(url, params, options) {
+      retryHandler(url, options) {
         return Promise.resolve(MockAuth);
       }
     };
@@ -63,12 +63,14 @@ describe("ArcGISRequestError", () => {
         ArcGISAuthError,
         "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem",
         {
-          title: "Test Map",
-          tags: "foo",
-          type: "Web Map",
-          f: "json"
-        },
-        { httpMethod: "POST" }
+          httpMethod: "POST",
+          params: {
+            title: "Test Map",
+            tags: "foo",
+            type: "Web Map",
+            f: "json"
+          }
+        }
       );
 
       fetchMock.once("*", {
@@ -102,19 +104,21 @@ describe("ArcGISRequestError", () => {
         });
     });
 
-    it("should retrying a request with a new or updated session up to the limit", done => {
+    it("should retry a request with a new or updated session up to the limit", done => {
       const error = new ArcGISAuthError(
         "Invalid token.",
         498,
         ArcGISAuthError,
         "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem",
         {
-          title: "Test Map",
-          tags: "foo",
-          type: "Web Map",
-          f: "json"
-        },
-        { httpMethod: "POST" }
+          httpMethod: "POST",
+          params: {
+            title: "Test Map",
+            tags: "foo",
+            type: "Web Map",
+            f: "json"
+          }
+        }
       );
 
       fetchMock.post("*", ArcGISOnlineAuthError);
@@ -147,10 +151,12 @@ describe("ArcGISRequestError", () => {
         ArcGISAuthError,
         requestUrl,
         {
-          type: "Web Map",
-          f: "json"
-        },
-        { httpMethod: "POST" }
+          httpMethod: "POST",
+          params: {
+            type: "Web Map",
+            f: "json"
+          }
+        }
       );
 
       fetchMock.post("*", ArcGISOnlineError);

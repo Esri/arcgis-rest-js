@@ -30,6 +30,9 @@ import {
   RemoveItemResourceResponse
 } from "./mocks/resources";
 
+import { UserSession, IFetchTokenResponse } from "@esri/arcgis-rest-auth";
+import { TOMORROW, YESTERDAY } from "@esri/arcgis-rest-auth/test/utils";
+
 describe("search", () => {
   let paramsSpy: jasmine.Spy;
 
@@ -121,15 +124,22 @@ describe("search", () => {
   });
 
   describe("Authenticated methods", () => {
-    // setup an authmgr to use in all these tests
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("fake-token");
-      },
+    // setup a UserSession to use in all these tests
+    const MOCK_USER_SESSION = new UserSession({
+      clientId: "clientId",
+      redirectUri: "https://example-app.com/redirect-uri",
+      token: "fake-token",
+      tokenExpires: TOMORROW,
+      refreshToken: "refreshToken",
+      refreshTokenExpires: TOMORROW,
+      refreshTokenTTL: 1440,
+      username: "casey",
+      password: "123456",
       portal: "https://myorg.maps.arcgis.com/sharing/rest"
-    };
-    const MOCK_REQOPTS = {
-      authentication: MOCK_AUTH
+    });
+
+    const MOCK_USER_REQOPTS = {
+      authentication: MOCK_USER_SESSION
     };
 
     it("search should use the portal and token from Auth Manager", done => {
@@ -139,7 +149,7 @@ describe("search", () => {
         {
           q: "DC AND typekeywords:hubSiteApplication"
         },
-        MOCK_REQOPTS
+        MOCK_USER_REQOPTS
       )
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
@@ -158,7 +168,7 @@ describe("search", () => {
     it("should return an item by id using a token", done => {
       fetchMock.once("*", ItemResponse);
 
-      getItem("3ef", MOCK_REQOPTS)
+      getItem("3ef", MOCK_USER_REQOPTS)
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -175,7 +185,7 @@ describe("search", () => {
     it("should return an item data by id using a token", done => {
       fetchMock.once("*", ItemDataResponse);
 
-      getItemData("3ef", MOCK_REQOPTS)
+      getItemData("3ef", MOCK_USER_REQOPTS)
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -209,7 +219,12 @@ describe("search", () => {
           }
         }
       };
-      createItem("dbouwman", fakeItem, MOCK_REQOPTS)
+      // why not just use item.owner??
+      createItem({
+        item: fakeItem,
+        owner: "dbouwman",
+        ...MOCK_USER_REQOPTS
+      })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -245,7 +260,12 @@ describe("search", () => {
         typeKeywords: ["fake", "kwds"],
         tags: ["fakey", "mcfakepants"]
       };
-      createItemInFolder("dbouwman", fakeItem, "someFolder", MOCK_REQOPTS)
+      createItemInFolder({
+        owner: "dbouwman",
+        item: fakeItem,
+        folder: "someFolder",
+        ...MOCK_USER_REQOPTS
+      })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -272,7 +292,13 @@ describe("search", () => {
           key: "someValue"
         }
       };
-      addItemJsonData("3ef", "dbouwman", fakeData, MOCK_REQOPTS)
+      // addItemJsonData("3ef", "dbouwman", fakeData, MOCK_REQOPTS)
+      addItemJsonData({
+        id: "3ef",
+        owner: "dbouwman",
+        data: fakeData,
+        ...MOCK_USER_REQOPTS
+      })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -312,7 +338,7 @@ describe("search", () => {
           }
         }
       };
-      updateItem(fakeItem, MOCK_REQOPTS)
+      updateItem({ item: fakeItem, ...MOCK_USER_REQOPTS })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -339,7 +365,11 @@ describe("search", () => {
 
     it("should remove an item", done => {
       fetchMock.once("*", ItemSuccessResponse);
-      removeItem("3ef", "dbouwman", MOCK_REQOPTS)
+      removeItem({
+        id: "3ef",
+        owner: "dbouwman",
+        ...MOCK_USER_REQOPTS
+      })
         .then(response => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -357,7 +387,11 @@ describe("search", () => {
 
     it("should protect an item", done => {
       fetchMock.once("*", ItemSuccessResponse);
-      protectItem("3ef", "dbouwman", MOCK_REQOPTS)
+      protectItem({
+        id: "3ef",
+        owner: "dbouwman",
+        ...MOCK_USER_REQOPTS
+      })
         .then(response => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -375,7 +409,11 @@ describe("search", () => {
 
     it("should unprotect an item", done => {
       fetchMock.once("*", ItemSuccessResponse);
-      unprotectItem("3ef", "dbouwman", MOCK_REQOPTS)
+      unprotectItem({
+        id: "3ef",
+        owner: "dbouwman",
+        ...MOCK_USER_REQOPTS
+      })
         .then(response => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -393,7 +431,10 @@ describe("search", () => {
 
     it("get item resources", done => {
       fetchMock.once("*", GetItemResourcesResponse);
-      getItemResources("3ef", MOCK_REQOPTS)
+      getItemResources({
+        id: "3ef",
+        ...MOCK_USER_REQOPTS
+      })
         .then(response => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -410,13 +451,13 @@ describe("search", () => {
 
     it("update an item resource", done => {
       fetchMock.once("*", UpdateItemResourceResponse);
-      updateItemResource(
-        "3ef",
-        "dbouwman",
-        "image/banner.png",
-        "jumbotron",
-        MOCK_REQOPTS
-      )
+      updateItemResource({
+        id: "3ef",
+        owner: "dbouwman",
+        content: "image/banner.png",
+        name: "jumbotron",
+        ...MOCK_USER_REQOPTS
+      })
         .then(response => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -439,7 +480,12 @@ describe("search", () => {
 
     it("should remove a resource", done => {
       fetchMock.once("*", RemoveItemResourceResponse);
-      removeItemResource("3ef", "dbouwman", "image/banner.png", MOCK_REQOPTS)
+      removeItemResource({
+        id: "3ef",
+        owner: "dbouwman",
+        resource: "image/banner.png",
+        ...MOCK_USER_REQOPTS
+      })
         .then(response => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
