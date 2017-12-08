@@ -20,17 +20,9 @@ import {
   ItemDataResponse
 } from "./mocks/responses";
 
+import { encodedParam } from "../../../support/encoded-param-helper";
+
 describe("search", () => {
-  let paramsSpy: jasmine.Spy;
-
-  beforeEach(() => {
-    paramsSpy = spyOn(FormData.prototype, "append").and.callThrough();
-  });
-
-  afterAll(() => {
-    paramsSpy.calls.reset();
-  });
-
   afterEach(fetchMock.restore);
 
   it("should make a simple, single search request", done => {
@@ -207,15 +199,18 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/addItem"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
-          expect(paramsSpy).toHaveBeenCalledWith("owner", "dbouwman");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain(encodedParam("token", "fake-token"));
+          expect(options.body).toContain("owner=dbouwman");
           // ensure the array props are serialized into strings
-          expect(paramsSpy).toHaveBeenCalledWith("typeKeywords", "fake, kwds");
-          expect(paramsSpy).toHaveBeenCalledWith("tags", "fakey, mcfakepants");
-          expect(paramsSpy).toHaveBeenCalledWith(
-            "properties",
-            JSON.stringify(fakeItem.properties)
+          expect(options.body).toContain(
+            encodedParam("typeKeywords", "fake, kwds")
+          );
+          expect(options.body).toContain(
+            encodedParam("tags", "fakey, mcfakepants")
+          );
+          expect(options.body).toContain(
+            encodedParam("properties", JSON.stringify(fakeItem.properties))
           );
 
           done();
@@ -243,12 +238,16 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/someFolder/addItem"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
-          expect(paramsSpy).toHaveBeenCalledWith("owner", "dbouwman");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain(encodedParam("token", "fake-token"));
+          expect(options.body).toContain("owner=dbouwman");
           // ensure the array props are serialized into strings
-          expect(paramsSpy).toHaveBeenCalledWith("typeKeywords", "fake, kwds");
-          expect(paramsSpy).toHaveBeenCalledWith("tags", "fakey, mcfakepants");
+          expect(options.body).toContain(
+            encodedParam("typeKeywords", "fake, kwds")
+          );
+          expect(options.body).toContain(
+            encodedParam("tags", "fakey, mcfakepants")
+          );
           done();
         })
         .catch(e => {
@@ -270,12 +269,13 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/update"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
-          expect(paramsSpy).toHaveBeenCalledWith(
-            "text",
-            JSON.stringify(fakeData)
+
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("token=fake-token");
+          expect(options.body).toContain(
+            encodedParam("text", JSON.stringify(fakeData))
           );
+
           done();
         })
         .catch(e => {
@@ -310,15 +310,18 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/5bc/update"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
-          expect(paramsSpy).toHaveBeenCalledWith("owner", "dbouwman");
+          expect(options.body).toContain(encodedParam("f", "json"));
+          expect(options.body).toContain(encodedParam("token", "fake-token"));
+          expect(options.body).toContain(encodedParam("owner", "dbouwman"));
           // ensure the array props are serialized into strings
-          expect(paramsSpy).toHaveBeenCalledWith("typeKeywords", "fake, kwds");
-          expect(paramsSpy).toHaveBeenCalledWith("tags", "fakey, mcfakepants");
-          expect(paramsSpy).toHaveBeenCalledWith(
-            "text",
-            JSON.stringify(fakeItem.data)
+          expect(options.body).toContain(
+            encodedParam("typeKeywords", "fake, kwds")
+          );
+          expect(options.body).toContain(
+            encodedParam("tags", "fakey, mcfakepants")
+          );
+          expect(options.body).toContain(
+            encodedParam("text", JSON.stringify(fakeItem.data))
           );
           done();
         })
@@ -336,8 +339,8 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/delete"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
+          expect(options.body).toContain(encodedParam("f", "json"));
+          expect(options.body).toContain(encodedParam("token", "fake-token"));
           done();
         })
         .catch(e => {
@@ -354,8 +357,8 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/protect"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
+          expect(options.body).toContain(encodedParam("f", "json"));
+          expect(options.body).toContain(encodedParam("token", "fake-token"));
           done();
         })
         .catch(e => {
@@ -372,8 +375,8 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/unprotect"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
+          expect(options.body).toContain(encodedParam("f", "json"));
+          expect(options.body).toContain(encodedParam("token", "fake-token"));
           done();
         })
         .catch(e => {

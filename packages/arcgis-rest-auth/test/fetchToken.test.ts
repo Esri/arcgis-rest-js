@@ -4,16 +4,6 @@ import { fetchToken } from "../src/index";
 const TOKEN_URL = "https://www.arcgis.com/sharing/rest/oauth2/token";
 
 describe("fetchToken()", () => {
-  let paramsSpy: jasmine.Spy;
-
-  beforeEach(() => {
-    paramsSpy = spyOn(FormData.prototype, "append").and.callThrough();
-  });
-
-  afterAll(() => {
-    paramsSpy.calls.reset();
-  });
-
   afterEach(fetchMock.restore);
 
   it("should request a token with `client_credentials`, `client_id` and `client_secret`", done => {
@@ -28,15 +18,14 @@ describe("fetchToken()", () => {
       grant_type: "client_credentials"
     })
       .then(response => {
-        const [url]: [string, RequestInit] = fetchMock.lastCall(TOKEN_URL);
-        expect(url).toEqual(TOKEN_URL);
-        expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-        expect(paramsSpy).toHaveBeenCalledWith("client_id", "clientId");
-        expect(paramsSpy).toHaveBeenCalledWith("client_secret", "clientSecret");
-        expect(paramsSpy).toHaveBeenCalledWith(
-          "grant_type",
-          "client_credentials"
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          TOKEN_URL
         );
+        expect(url).toEqual(TOKEN_URL);
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain("client_id=clientId");
+        expect(options.body).toContain("client_secret=clientSecret");
+        expect(options.body).toContain("grant_type=client_credentials");
         expect(response.token).toEqual("token");
         expect(response.expires).toBeGreaterThan(Date.now());
         done();
@@ -61,20 +50,19 @@ describe("fetchToken()", () => {
       grant_type: "authorization_code"
     })
       .then(response => {
-        const [url]: [string, RequestInit] = fetchMock.lastCall(TOKEN_URL);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          TOKEN_URL
+        );
         expect(url).toEqual(TOKEN_URL);
-        expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-
-        expect(paramsSpy).toHaveBeenCalledWith("client_id", "clientId");
-        expect(paramsSpy).toHaveBeenCalledWith(
-          "redirect_uri",
-          "https://example-app.com/redirect-uri"
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain("client_id=clientId");
+        expect(options.body).toContain(
+          `redirect_uri=${encodeURIComponent(
+            "https://example-app.com/redirect-uri"
+          )}`
         );
-        expect(paramsSpy).toHaveBeenCalledWith(
-          "grant_type",
-          "authorization_code"
-        );
-        expect(paramsSpy).toHaveBeenCalledWith("code", "authorizationCode");
+        expect(options.body).toContain("grant_type=authorization_code");
+        expect(options.body).toContain("code=authorizationCode");
         expect(response.token).toEqual("token");
         expect(response.refreshToken).toEqual("refreshToken");
         expect(response.username).toEqual("Casey");

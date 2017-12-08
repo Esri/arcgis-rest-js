@@ -5,16 +5,6 @@ import { TOMORROW } from "./utils";
 const TOKEN_URL = "https://www.arcgis.com/sharing/rest/generateToken";
 
 describe("generateToken()", () => {
-  let paramsSpy: jasmine.Spy;
-
-  beforeEach(() => {
-    paramsSpy = spyOn(FormData.prototype, "append").and.callThrough();
-  });
-
-  afterAll(() => {
-    paramsSpy.calls.reset();
-  });
-
   afterEach(fetchMock.restore);
 
   it("should generate a token for a username and password", done => {
@@ -28,11 +18,13 @@ describe("generateToken()", () => {
       password: "Jones"
     })
       .then(response => {
-        const [url]: [string, RequestInit] = fetchMock.lastCall(TOKEN_URL);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          TOKEN_URL
+        );
         expect(url).toEqual(TOKEN_URL);
-        expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-        expect(paramsSpy).toHaveBeenCalledWith("username", "Casey");
-        expect(paramsSpy).toHaveBeenCalledWith("password", "Jones");
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain("username=Casey");
+        expect(options.body).toContain("password=Jones");
         expect(response.token).toEqual("token");
         expect(response.expires).toEqual(TOMORROW.getTime());
         done();

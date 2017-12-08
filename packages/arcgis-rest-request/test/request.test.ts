@@ -9,16 +9,6 @@ import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap";
 import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection";
 
 describe("request()", () => {
-  let paramsSpy: jasmine.Spy;
-
-  beforeEach(() => {
-    paramsSpy = spyOn(FormData.prototype, "append").and.callThrough();
-  });
-
-  afterAll(() => {
-    paramsSpy.calls.reset();
-  });
-
   afterEach(fetchMock.restore);
 
   it("should make a basic POST request", done => {
@@ -29,8 +19,8 @@ describe("request()", () => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
         expect(options.method).toBe("POST");
-        expect(paramsSpy).toHaveBeenCalledWith("f", "json");
         expect(response).toEqual(SharingRestInfo);
+        expect(options.body).toContain("f=json");
         done();
       })
       .catch(e => {
@@ -148,11 +138,11 @@ describe("request()", () => {
       }
     )
       .then(response => {
-        const [url]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
         );
-        expect(paramsSpy).toHaveBeenCalledWith("token", "token");
+        expect(options.body).toContain("token=token");
         expect(response).toEqual(WebMapAsJSON);
         done();
       })

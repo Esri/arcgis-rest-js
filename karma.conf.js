@@ -12,7 +12,7 @@ module.exports = function(config) {
     frameworks: ["jasmine", "karma-typescript"],
 
     // list of files / patterns to load in the browser
-    files: ["packages/*/{src,test}/**/*.ts"],
+    files: ["support/encoded-param-helper.ts", "packages/*/{src,test}/**/*.ts"],
 
     // list of files to exclude
     exclude: [],

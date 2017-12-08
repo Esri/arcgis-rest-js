@@ -3,16 +3,6 @@ import { ArcGISOnlineAuthError, ArcGISOnlineError } from "./mocks/errors";
 import * as fetchMock from "fetch-mock";
 
 describe("ArcGISRequestError", () => {
-  let paramsSpy: jasmine.Spy;
-
-  beforeEach(() => {
-    paramsSpy = spyOn(FormData.prototype, "append").and.callThrough();
-  });
-
-  afterAll(() => {
-    paramsSpy.calls.reset();
-  });
-
   afterEach(fetchMock.restore);
 
   it("should be an instanceof Error", () => {
@@ -88,10 +78,9 @@ describe("ArcGISRequestError", () => {
           );
           expect(options.method).toEqual("POST");
           expect(retryHandlerSpy).toHaveBeenCalledTimes(1);
-          expect(paramsSpy).toHaveBeenCalledWith("token", "token");
-          expect(paramsSpy).toHaveBeenCalledWith("title", "Test Map");
-          expect(paramsSpy).toHaveBeenCalledWith("tags", "foo");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
+          expect(options.body).toContain("token=token");
+          expect(options.body).toContain("tags=foo");
+          expect(options.body).toContain("f=json");
           expect(response.success).toBe(true);
           expect(response.id).toBe("abc");
           expect(response.folder).toBe(null);
@@ -128,10 +117,9 @@ describe("ArcGISRequestError", () => {
         );
         expect(options.method).toEqual("POST");
         expect(retryHandlerSpy).toHaveBeenCalledTimes(3);
-        expect(paramsSpy).toHaveBeenCalledWith("token", "token");
-        expect(paramsSpy).toHaveBeenCalledWith("title", "Test Map");
-        expect(paramsSpy).toHaveBeenCalledWith("tags", "foo");
-        expect(paramsSpy).toHaveBeenCalledWith("f", "json");
+        expect(options.body).toContain("token=token");
+        expect(options.body).toContain("tags=foo");
+        expect(options.body).toContain("f=json");
         expect(e.name).toBe(ErrorTypes.ArcGISAuthError);
         expect(e.message).toBe("498: Invalid token.");
         done();
@@ -162,8 +150,8 @@ describe("ArcGISRequestError", () => {
         expect(url).toEqual(requestUrl);
         expect(options.method).toEqual("POST");
         expect(retryHandlerSpy).toHaveBeenCalledTimes(1);
-        expect(paramsSpy).toHaveBeenCalledWith("token", "token");
-        expect(paramsSpy).toHaveBeenCalledWith("f", "json");
+        expect(options.body).toContain("token=token");
+        expect(options.body).toContain("f=json");
         expect(e.name).toBe(ErrorTypes.ArcGISRequestError);
         expect(e.message).toBe("400: 'type' and 'title' property required.");
         done();

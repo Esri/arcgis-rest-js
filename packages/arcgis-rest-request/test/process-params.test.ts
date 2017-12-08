@@ -1,4 +1,4 @@
-import { processParams } from "../src/index";
+import { processParams, requiresFormData } from "../src/index";
 
 describe("processParams", () => {
   it("should pass non Date, Function, Array and Object params through", () => {
@@ -96,5 +96,72 @@ describe("processParams", () => {
     };
 
     expect(processParams(params)).toEqual({});
+  });
+
+  it("should not require form data for simple requests", () => {
+    expect(
+      requiresFormData({
+        string: "string"
+      })
+    ).toBeFalsy();
+
+    expect(
+      requiresFormData({
+        number: 123
+      })
+    ).toBeFalsy();
+
+    expect(
+      requiresFormData({
+        date: new Date()
+      })
+    ).toBeFalsy();
+
+    expect(
+      requiresFormData({
+        boolean: true
+      })
+    ).toBeFalsy();
+
+    expect(
+      requiresFormData({
+        array: []
+      })
+    ).toBeFalsy();
+
+    expect(
+      requiresFormData({
+        object: {}
+      })
+    ).toBeFalsy();
+
+    expect(
+      requiresFormData({
+        fn: () => {
+          return;
+        }
+      })
+    ).toBeFalsy();
+
+    expect(
+      requiresFormData({
+        falsy: null
+      })
+    ).toBeFalsy();
+  });
+
+  it("should require form data for multipart requests", () => {
+    const binaryObj =
+      typeof File !== "undefined"
+        ? new File(["foo"], "foo.txt", {
+            type: "text/plain"
+          })
+        : new Buffer("");
+
+    expect(
+      requiresFormData({
+        binary: binaryObj
+      })
+    ).toBeTruthy();
   });
 });
