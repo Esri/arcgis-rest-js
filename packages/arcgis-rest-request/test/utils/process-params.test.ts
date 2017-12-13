@@ -164,4 +164,20 @@ describe("processParams", () => {
       })
     ).toBeTruthy();
   });
+
+  it("should require form data for mixed multipart requests", () => {
+    const binaryObj =
+      typeof File !== "undefined"
+        ? new File(["foo"], "foo.txt", {
+            type: "text/plain"
+          })
+        : new Buffer("");
+
+    expect(
+      requiresFormData({
+        string: "string",
+        binary: binaryObj
+      })
+    ).toBeTruthy();
+  });
 });

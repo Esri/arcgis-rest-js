@@ -7,7 +7,7 @@
  * @return A boolean indicating if FormData will be required.
  */
 export function requiresFormData(params: any) {
-  return Object.keys(params).every(key => {
+  return Object.keys(params).some(key => {
     const value = params[key];
 
     if (!value) {
