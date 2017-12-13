@@ -3,6 +3,10 @@
 
 import { processParams } from "./process-params";
 
+export function encodeParam(key: string, value: any) {
+  return encodeURIComponent(key) + "=" + encodeURIComponent(value);
+}
+
 /**
  * Encodes the passed object as a query string.
  *
@@ -13,7 +17,7 @@ export function encodeQueryString(params: any): string {
   const newParams = processParams(params);
   return Object.keys(newParams)
     .map((key: any) => {
-      return `${encodeURIComponent(key)}=${encodeURIComponent(newParams[key])}`;
+      return encodeParam(key, newParams[key]);
     })
     .join("&");
 }

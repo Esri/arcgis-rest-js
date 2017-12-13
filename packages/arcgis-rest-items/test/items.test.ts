@@ -30,17 +30,9 @@ import {
   RemoveItemResourceResponse
 } from "./mocks/resources";
 
+import { encodeParam } from "@esri/arcgis-rest-request";
+
 describe("search", () => {
-  let paramsSpy: jasmine.Spy;
-
-  beforeEach(() => {
-    paramsSpy = spyOn(FormData.prototype, "append").and.callThrough();
-  });
-
-  afterAll(() => {
-    paramsSpy.calls.reset();
-  });
-
   afterEach(fetchMock.restore);
 
   it("should make a simple, single search request", done => {
@@ -102,6 +94,7 @@ describe("search", () => {
         fail(e);
       });
   });
+
   it("should return an item data by id", done => {
     fetchMock.once("*", ItemDataResponse);
 
@@ -217,15 +210,18 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/addItem"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
-          expect(paramsSpy).toHaveBeenCalledWith("owner", "dbouwman");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain("owner=dbouwman");
           // ensure the array props are serialized into strings
-          expect(paramsSpy).toHaveBeenCalledWith("typeKeywords", "fake, kwds");
-          expect(paramsSpy).toHaveBeenCalledWith("tags", "fakey, mcfakepants");
-          expect(paramsSpy).toHaveBeenCalledWith(
-            "properties",
-            JSON.stringify(fakeItem.properties)
+          expect(options.body).toContain(
+            encodeParam("typeKeywords", "fake, kwds")
+          );
+          expect(options.body).toContain(
+            encodeParam("tags", "fakey, mcfakepants")
+          );
+          expect(options.body).toContain(
+            encodeParam("properties", JSON.stringify(fakeItem.properties))
           );
 
           done();
@@ -253,12 +249,16 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/someFolder/addItem"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
-          expect(paramsSpy).toHaveBeenCalledWith("owner", "dbouwman");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain("owner=dbouwman");
           // ensure the array props are serialized into strings
-          expect(paramsSpy).toHaveBeenCalledWith("typeKeywords", "fake, kwds");
-          expect(paramsSpy).toHaveBeenCalledWith("tags", "fakey, mcfakepants");
+          expect(options.body).toContain(
+            encodeParam("typeKeywords", "fake, kwds")
+          );
+          expect(options.body).toContain(
+            encodeParam("tags", "fakey, mcfakepants")
+          );
           done();
         })
         .catch(e => {
@@ -280,12 +280,13 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/update"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
-          expect(paramsSpy).toHaveBeenCalledWith(
-            "text",
-            JSON.stringify(fakeData)
+
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("token=fake-token");
+          expect(options.body).toContain(
+            encodeParam("text", JSON.stringify(fakeData))
           );
+
           done();
         })
         .catch(e => {
@@ -320,15 +321,18 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/5bc/update"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
-          expect(paramsSpy).toHaveBeenCalledWith("owner", "dbouwman");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("owner", "dbouwman"));
           // ensure the array props are serialized into strings
-          expect(paramsSpy).toHaveBeenCalledWith("typeKeywords", "fake, kwds");
-          expect(paramsSpy).toHaveBeenCalledWith("tags", "fakey, mcfakepants");
-          expect(paramsSpy).toHaveBeenCalledWith(
-            "text",
-            JSON.stringify(fakeItem.data)
+          expect(options.body).toContain(
+            encodeParam("typeKeywords", "fake, kwds")
+          );
+          expect(options.body).toContain(
+            encodeParam("tags", "fakey, mcfakepants")
+          );
+          expect(options.body).toContain(
+            encodeParam("text", JSON.stringify(fakeItem.data))
           );
           done();
         })
@@ -346,8 +350,8 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/delete"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
         .catch(e => {
@@ -364,8 +368,8 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/protect"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
         .catch(e => {
@@ -382,8 +386,8 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/unprotect"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
         .catch(e => {
@@ -400,7 +404,7 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
+          expect(options.body).toContain("f=json");
           done();
         })
         .catch(e => {
@@ -423,13 +427,12 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/updateResources"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith(
-            "fileName",
-            "image/banner.png"
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain(
+            encodeParam("fileName", "image/banner.png")
           );
-          expect(paramsSpy).toHaveBeenCalledWith("text", "jumbotron");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
+          expect(options.body).toContain(encodeParam("text", "jumbotron"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
         .catch(e => {
@@ -446,12 +449,11 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/removeResources"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith(
-            "resource",
-            "image/banner.png"
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(
+            encodeParam("resource", "image/banner.png")
           );
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
         .catch(e => {

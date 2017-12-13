@@ -17,20 +17,10 @@ import {
   GroupContentResponse,
   GroupUsersResponse
 } from "./mocks/responses";
-
+import { encodeParam } from "@esri/arcgis-rest-request";
 import * as fetchMock from "fetch-mock";
 
 describe("groups", () => {
-  let paramsSpy: jasmine.Spy;
-
-  beforeEach(() => {
-    paramsSpy = spyOn(FormData.prototype, "append").and.callThrough();
-  });
-
-  afterAll(() => {
-    paramsSpy.calls.reset();
-  });
-
   afterEach(fetchMock.restore);
 
   describe("searchGroups", () => {
@@ -172,11 +162,11 @@ describe("groups", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/community/createGroup"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
-          expect(paramsSpy).toHaveBeenCalledWith("owner", "fakeUser");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("owner", "fakeUser"));
           // ensure the array props are serialized into strings
-          expect(paramsSpy).toHaveBeenCalledWith("tags", "foo, bar");
+          expect(options.body).toContain(encodeParam("tags", "foo, bar"));
           done();
         })
         .catch(e => {
@@ -200,11 +190,11 @@ describe("groups", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/update"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
-          expect(paramsSpy).toHaveBeenCalledWith("owner", "fakeUser");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("owner", "fakeUser"));
           // ensure the array props are serialized into strings
-          expect(paramsSpy).toHaveBeenCalledWith("tags", "foo, bar");
+          expect(options.body).toContain(encodeParam("tags", "foo, bar"));
           done();
         })
         .catch(e => {
@@ -222,8 +212,8 @@ describe("groups", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/delete"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
         .catch(e => {
@@ -241,8 +231,8 @@ describe("groups", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/protect"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
         .catch(e => {
@@ -260,8 +250,8 @@ describe("groups", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/unprotect"
           );
           expect(options.method).toBe("POST");
-          expect(paramsSpy).toHaveBeenCalledWith("f", "json");
-          expect(paramsSpy).toHaveBeenCalledWith("token", "fake-token");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
         .catch(e => {
