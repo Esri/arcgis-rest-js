@@ -41,5 +41,5 @@ export function getPortal(
   };
 
   // send the request
-  return request(url, null, options);
+  return request(url, options);
 }

@@ -39,11 +39,6 @@ export class ArcGISRequestError {
   url: string;
 
   /**
-   * The parameters of the original request that caused the error
-   */
-  params: IParams;
-
-  /**
    * The options of the original request that caused the error
    */
   options: IRequestOptions;
@@ -63,7 +58,6 @@ export class ArcGISRequestError {
     code: string | number = "UNKNOWN_ERROR_CODE",
     response?: any,
     url?: string,
-    params?: IParams,
     options?: IRequestOptions
   ) {
     this.name = "ArcGISRequestError";
@@ -73,7 +67,6 @@ export class ArcGISRequestError {
     this.code = code;
     this.response = response;
     this.url = url;
-    this.params = params;
     this.options = options;
   }
 }

@@ -58,7 +58,7 @@ describe("geocode", () => {
   it("should make a simple, single geocoding request with a custom parameter", done => {
     fetchMock.once("*", FindAddressCandidates);
 
-    geocode("LAX", { countryCode: "USA" })
+    geocode("LAX", { params: { countryCode: "USA" } })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -86,8 +86,12 @@ describe("geocode", () => {
         address: "380 New York St",
         postal: 92373
       },
-      { outSr: 3857 },
-      { endpoint: customGeocoderUrl }
+      {
+        params: {
+          outSr: 3857
+        },
+        endpoint: customGeocoderUrl
+      }
     )
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
@@ -139,7 +143,6 @@ describe("geocode", () => {
 
     reverseGeocode(
       { x: -118.409, y: 33.9425, spatialReference: { wkid: 4326 } },
-      {},
       { httpMethod: "GET" }
     )
       .then(response => {

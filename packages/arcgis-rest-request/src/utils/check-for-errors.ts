@@ -22,7 +22,7 @@ export function checkForErrors(
   // this is an error message from billing.arcgis.com backend
   if (response.code >= 400) {
     const { message, code } = response;
-    throw new ArcGISRequestError(message, code, response, url, params, options);
+    throw new ArcGISRequestError(message, code, response, url, options);
   }
 
   // error from ArcGIS Online or an ArcGIS Portal or server instance.
@@ -31,24 +31,10 @@ export function checkForErrors(
     const errorCode = messageCode || code || "UNKNOWN_ERROR_CODE";
 
     if (code === 498 || code === 499 || messageCode === "GWM_0003") {
-      throw new ArcGISAuthError(
-        message,
-        errorCode,
-        response,
-        url,
-        params,
-        options
-      );
+      throw new ArcGISAuthError(message, errorCode, response, url, options);
     }
 
-    throw new ArcGISRequestError(
-      message,
-      errorCode,
-      response,
-      url,
-      params,
-      options
-    );
+    throw new ArcGISRequestError(message, errorCode, response, url, options);
   }
 
   // error from a status check
@@ -63,7 +49,7 @@ export function checkForErrors(
       message = response.statusMessage;
     }
 
-    throw new ArcGISRequestError(message, code, response, url, params, options);
+    throw new ArcGISRequestError(message, code, response, url, options);
   }
 
   return response;

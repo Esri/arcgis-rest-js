@@ -78,7 +78,7 @@ export interface IGeocodeParams extends IParams {
   magicKey?: string;
 }
 
-export interface IGeocodeRequestOptions extends IRequestOptions {
+export interface IGenericGeocodeRequestOptions extends IRequestOptions {
   /**
    * Any ArcGIS Geocoding service (example: http://sampleserver6.arcgisonline.com/arcgis/rest/services/Locators/SanDiego/GeocodeServer )
    */
@@ -139,43 +139,38 @@ export interface IGeocodeServiceInfoResponse {
  *     response.candidates[0].location; // => { x: -118.409, y: 33.943, spatialReference: { wkid: 4326 }  }
  *   });
  *
- * geocode({address: "1600 Pennsylvania Ave", postal: 20500}, { countryCode: "USA" })
+ * geocode({address: "1600 Pennsylvania Ave", postal: 20500}, { params: { countryCode: "USA" }})
  *   .then((response) => {
  *     response.candidates[0].location; // => { x: -77.036533, y: 38.898719, spatialReference: { wkid: 4326 } }
  *   });
  * ```
  *
  * @param address | String or IAddress representing the address or Point of Interest to pass to the endpoint.
- * @param requestParams - Other arguments to pass to the endpoint.
  * @param requestOptions - Additional options for the request including authentication.
  * @returns A Promise that will resolve with the address candidates for the request.
  */
 export function geocode(
   address: IAddress | string,
-  requestParams?: IGeocodeParams,
-  requestOptions?: IGeocodeRequestOptions
+  requestOptions?: IGenericGeocodeRequestOptions
 ): Promise<IGeocodeResponse> {
-  const { endpoint }: IGeocodeRequestOptions = {
+  const options: IGenericGeocodeRequestOptions = {
     endpoint: worldGeocoder,
+    params: {},
     ...requestOptions
   };
 
-  let params: IParams = {
-    ...requestParams
-  };
-
-  // replace with ternary operator?
+  // would it be better to replace this with a ternary operator?
   if (typeof address === "string") {
-    params.singleLine = address;
+    options.params.singleLine = address;
   } else {
-    params = { ...address, ...params };
+    // why aren't the params from the request mixed in way up top??
+    options.params = { ...requestOptions.params, ...address };
   }
 
   // add spatialReference property to individual matches
   return request(
-    endpoint + "findAddressCandidates",
-    params,
-    requestOptions
+    options.endpoint + "findAddressCandidates",
+    options
   ).then(response => {
     const sr = response.spatialReference;
     response.candidates.forEach(function(candidate: {
@@ -195,33 +190,26 @@ export function geocode(
  * ```js
  * import { suggest } from '@esri/arcgis-geocoder';
  *
- * suggest("Starb")
+ * suggest({ partialText: "Starb" })
  *   .then((response) => {
  *     response.address.PlaceName; // => "Starbucks"
  *   });
  * ```
  *
- * @param partialText - The string to pass to the endpoint.
- * @param requestParams - Additional parameters to pass to the endpoint.
- * @param requestOptions - Additional options for the request including authentication.
+ * @param requestOptions - Options for the request including authentication and other optional parameters.
  * @returns A Promise that will resolve with the data from the response.
  */
 export function suggest(
   partialText: string,
-  requestParams?: IParams,
-  requestOptions?: IGeocodeRequestOptions
+  requestOptions?: IGenericGeocodeRequestOptions
 ): Promise<ISuggestResponse> {
-  const { endpoint }: IGeocodeRequestOptions = {
+  const options: IGenericGeocodeRequestOptions = {
     endpoint: worldGeocoder,
+    params: { text: partialText },
     ...requestOptions
   };
 
-  const params: IParams = {
-    text: partialText,
-    ...requestParams
-  };
-
-  return request(endpoint + "suggest", params, requestOptions);
+  return request(options.endpoint + "suggest", options);
 }
 
 /**
@@ -244,40 +232,34 @@ export function suggest(
  * ```
  *
  * @param coordinates - the location you'd like to associate an address with.
- * @param requestParams - Additional parameters to pass to the endpoint.
  * @param requestOptions - Additional options for the request including authentication.
  * @returns A Promise that will resolve with the data from the response.
  */
 export function reverseGeocode(
   coords: IPoint | ILocation | [number, number],
-  requestParams?: IParams,
-  requestOptions?: IGeocodeRequestOptions
+  requestOptions?: IGenericGeocodeRequestOptions
 ): Promise<IReverseGeocodeResponse> {
-  const { endpoint }: IGeocodeRequestOptions = {
+  const options: IGenericGeocodeRequestOptions = {
     endpoint: worldGeocoder,
+    params: {},
     ...requestOptions
   };
 
-  const params: IParams = {
-    location: null,
-    ...requestParams
-  };
-
   if (isLocationArray(coords)) {
-    params.location = coords.join();
+    options.params.location = coords.join();
   } else if (isLocation(coords)) {
     if (coords.lat) {
-      params.location = coords.long + "," + coords.lat;
+      options.params.location = coords.long + "," + coords.lat;
     }
     if (coords.latitude) {
-      params.location = coords.longitude + "," + coords.latitude;
+      options.params.location = coords.longitude + "," + coords.latitude;
     }
   } else {
-    // if input is a point, we can pass it straight through, with or without an sr
-    params.location = coords;
+    // if input is a point, we can pass it straight through, with or without a spatial reference
+    options.params.location = coords;
   }
 
-  return request(endpoint + "reverseGeocode", params, requestOptions);
+  return request(options.endpoint + "reverseGeocode", options);
 }
 
 /**
@@ -299,25 +281,23 @@ export function reverseGeocode(
  * ```
  *
  * @param addresses - The array of addresses you'd like to find the locations of
- * @param requestOptions - Additional options to pass to the geocoder.
- * @param requestParams - Additional parameters to pass through in the request to the geocoder.
+ * @param requestOptions - Additional options and parameters to pass to the geocoder.
  * @returns A Promise that will resolve with the data from the response.
  */
 export function bulkGeocode(
   addresses: IAddressBulk[],
-  requestOptions: IGeocodeRequestOptions, // POST by default (always)
-  requestParams?: IParams
+  requestOptions: IGenericGeocodeRequestOptions // must POST
 ) {
   // passing authentication is mandatory
-  const { endpoint }: IGeocodeRequestOptions = {
+  const { endpoint }: IGenericGeocodeRequestOptions = {
     endpoint: worldGeocoder,
     ...requestOptions
   };
 
-  const params: IParams = {
+  requestOptions.params = {
     forStorage: true,
     addresses: { records: null },
-    ...requestParams
+    ...requestOptions.params
   };
 
   const parsedAddresses: any[] = [];
@@ -326,7 +306,7 @@ export function bulkGeocode(
     parsedAddresses.push({ attributes: address });
   });
 
-  params.addresses.records = parsedAddresses;
+  requestOptions.params.addresses.records = parsedAddresses;
 
   if (!requestOptions.authentication) {
     return Promise.reject("bulk geocoding requires authentication");
@@ -334,7 +314,6 @@ export function bulkGeocode(
 
   return request(
     endpoint + "geocodeAddresses",
-    params,
     requestOptions
   ).then(response => {
     const sr = response.spatialReference;
@@ -361,10 +340,10 @@ export function bulkGeocode(
  * @returns A Promise that will resolve with the data from the response.
  */
 export function serviceInfo(
-  requestOptions?: IGeocodeRequestOptions
+  requestOptions?: IGenericGeocodeRequestOptions
 ): Promise<IGeocodeServiceInfoResponse> {
   const url = (requestOptions && requestOptions.endpoint) || worldGeocoder;
-  return request(url, {}, requestOptions);
+  return request(url, requestOptions);
 }
 
 export default {

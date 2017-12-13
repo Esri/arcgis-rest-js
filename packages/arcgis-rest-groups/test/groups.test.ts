@@ -102,7 +102,7 @@ describe("groups", () => {
     });
     it("should return group content, paged", done => {
       fetchMock.once("*", GroupContentResponse);
-      getGroupContent("3ef", { start: 4, num: 7 })
+      getGroupContent("3ef", { params: { start: 4, num: 7 } })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -154,7 +154,7 @@ describe("groups", () => {
         tags: ["foo", "bar"],
         description: "my fake group"
       };
-      createGroup(fakeGroup, MOCK_REQOPTS)
+      createGroup({ group: fakeGroup, ...MOCK_REQOPTS })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -182,7 +182,7 @@ describe("groups", () => {
         tags: ["foo", "bar"],
         description: "my fake group"
       };
-      updateGroup(fakeGroup, MOCK_REQOPTS)
+      updateGroup({ group: fakeGroup, ...MOCK_REQOPTS })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -204,7 +204,7 @@ describe("groups", () => {
     it("should remove a group", done => {
       fetchMock.once("*", GroupEditResponse);
 
-      removeGroup("5bc", MOCK_REQOPTS)
+      removeGroup({ id: "5bc", ...MOCK_REQOPTS })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -223,7 +223,7 @@ describe("groups", () => {
     it("should protect a group", done => {
       fetchMock.once("*", GroupEditResponse);
 
-      protectGroup("5bc", MOCK_REQOPTS)
+      protectGroup({ id: "5bc", ...MOCK_REQOPTS })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -242,7 +242,7 @@ describe("groups", () => {
     it("should unprotect a group", done => {
       fetchMock.once("*", GroupEditResponse);
 
-      unprotectGroup("5bc", MOCK_REQOPTS)
+      unprotectGroup({ id: "5bc", ...MOCK_REQOPTS })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
