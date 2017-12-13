@@ -30,7 +30,7 @@ import {
   RemoveItemResourceResponse
 } from "./mocks/resources";
 
-import { encodedParam } from "../../../support/encoded-param-helper";
+import { encodeParam } from "@esri/arcgis-rest-request";
 
 describe("search", () => {
   afterEach(fetchMock.restore);
@@ -94,6 +94,7 @@ describe("search", () => {
         fail(e);
       });
   });
+
   it("should return an item data by id", done => {
     fetchMock.once("*", ItemDataResponse);
 
@@ -210,17 +211,17 @@ describe("search", () => {
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodedParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
           expect(options.body).toContain("owner=dbouwman");
           // ensure the array props are serialized into strings
           expect(options.body).toContain(
-            encodedParam("typeKeywords", "fake, kwds")
+            encodeParam("typeKeywords", "fake, kwds")
           );
           expect(options.body).toContain(
-            encodedParam("tags", "fakey, mcfakepants")
+            encodeParam("tags", "fakey, mcfakepants")
           );
           expect(options.body).toContain(
-            encodedParam("properties", JSON.stringify(fakeItem.properties))
+            encodeParam("properties", JSON.stringify(fakeItem.properties))
           );
 
           done();
@@ -249,14 +250,14 @@ describe("search", () => {
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodedParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
           expect(options.body).toContain("owner=dbouwman");
           // ensure the array props are serialized into strings
           expect(options.body).toContain(
-            encodedParam("typeKeywords", "fake, kwds")
+            encodeParam("typeKeywords", "fake, kwds")
           );
           expect(options.body).toContain(
-            encodedParam("tags", "fakey, mcfakepants")
+            encodeParam("tags", "fakey, mcfakepants")
           );
           done();
         })
@@ -283,7 +284,7 @@ describe("search", () => {
           expect(options.body).toContain("f=json");
           expect(options.body).toContain("token=fake-token");
           expect(options.body).toContain(
-            encodedParam("text", JSON.stringify(fakeData))
+            encodeParam("text", JSON.stringify(fakeData))
           );
 
           done();
@@ -320,18 +321,18 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/5bc/update"
           );
           expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodedParam("f", "json"));
-          expect(options.body).toContain(encodedParam("token", "fake-token"));
-          expect(options.body).toContain(encodedParam("owner", "dbouwman"));
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("owner", "dbouwman"));
           // ensure the array props are serialized into strings
           expect(options.body).toContain(
-            encodedParam("typeKeywords", "fake, kwds")
+            encodeParam("typeKeywords", "fake, kwds")
           );
           expect(options.body).toContain(
-            encodedParam("tags", "fakey, mcfakepants")
+            encodeParam("tags", "fakey, mcfakepants")
           );
           expect(options.body).toContain(
-            encodedParam("text", JSON.stringify(fakeItem.data))
+            encodeParam("text", JSON.stringify(fakeItem.data))
           );
           done();
         })
@@ -349,8 +350,8 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/delete"
           );
           expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodedParam("f", "json"));
-          expect(options.body).toContain(encodedParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
         .catch(e => {
@@ -367,8 +368,8 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/protect"
           );
           expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodedParam("f", "json"));
-          expect(options.body).toContain(encodedParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
         .catch(e => {
@@ -385,8 +386,8 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/unprotect"
           );
           expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodedParam("f", "json"));
-          expect(options.body).toContain(encodedParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
         .catch(e => {
@@ -428,10 +429,10 @@ describe("search", () => {
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
           expect(options.body).toContain(
-            encodedParam("fileName", "image/banner.png")
+            encodeParam("fileName", "image/banner.png")
           );
-          expect(options.body).toContain(encodedParam("text", "jumbotron"));
-          expect(options.body).toContain(encodedParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("text", "jumbotron"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
         .catch(e => {
@@ -448,11 +449,11 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/removeResources"
           );
           expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodedParam("f", "json"));
+          expect(options.body).toContain(encodeParam("f", "json"));
           expect(options.body).toContain(
-            encodedParam("resource", "image/banner.png")
+            encodeParam("resource", "image/banner.png")
           );
-          expect(options.body).toContain(encodedParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
         .catch(e => {
