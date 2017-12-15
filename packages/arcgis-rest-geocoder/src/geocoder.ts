@@ -139,32 +139,35 @@ export interface IGeocodeServiceInfoResponse {
  *     response.candidates[0].location; // => { x: -118.409, y: 33.943, spatialReference: { wkid: 4326 }  }
  *   });
  *
- * geocode({address: "1600 Pennsylvania Ave", postal: 20500}, { params: { countryCode: "USA" }})
+ * geocode({ 
+ *   params: { 
+ *     address: "1600 Pennsylvania Ave",
+ *     postal: 20500,
+ *     countryCode: "USA"
+ *   }
+ * })
  *   .then((response) => {
  *     response.candidates[0].location; // => { x: -77.036533, y: 38.898719, spatialReference: { wkid: 4326 } }
  *   });
  * ```
  *
- * @param address | String or IAddress representing the address or Point of Interest to pass to the endpoint.
- * @param requestOptions - Additional options for the request including authentication.
- * @returns A Promise that will resolve with the address candidates for the request.
+ * @param address | String representing the address or point of interest or RequestOptions to pass to the endpoint.
+ * @returns A Promise that will resolve with address candidates for the request.
  */
 export function geocode(
-  address: IAddress | string,
-  requestOptions?: IGeocodeRequestOptions
+  address: string | IGeocodeRequestOptions
 ): Promise<IGeocodeResponse> {
   const options: IGeocodeRequestOptions = {
     endpoint: worldGeocoder,
-    params: {},
-    ...requestOptions
+    params: {}
   };
 
   // would it be better to replace this with a ternary operator?
   if (typeof address === "string") {
     options.params.singleLine = address;
   } else {
-    // why aren't the params from the request mixed in way up top??
-    options.params = { ...requestOptions.params, ...address };
+    options.params = { ...address.params };
+    options.endpoint = address.endpoint || worldGeocoder;
   }
 
   // add spatialReference property to individual matches

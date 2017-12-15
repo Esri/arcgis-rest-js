@@ -15,8 +15,18 @@ export interface IItemRequestOptions extends IUserRequestOptions {
   item: IItem;
 }
 
+// * @param id - Item Id
+// * @param owner - Item owner username
+// * @param data - Javascript object to store
+
 export interface IItemIdRequestOptions extends IUserRequestOptions {
+  /**
+   * Unique identifier of the item.
+   */
   id: string;
+  /**
+   * Item owner username (by default authentication session will be used).
+   */
   owner?: string;
 }
 
@@ -26,7 +36,13 @@ export interface IItemJsonDataRequestOptions extends IItemIdRequestOptions {
 }
 
 export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
+  /**
+   * New resource filename.
+   */
   name?: string;
+  /**
+   * Text input to be added as a file resource.
+   */
   content?: string;
   resource?: string;
 }
@@ -44,8 +60,9 @@ export interface ISearchRequest {
   [key: string]: any;
 }
 
-// export interface ISearchRequestOptions extends IRequestOptions { }
-
+/**
+ * Options to pass through when searching for items.
+ */
 export interface ISearchResult {
   query: string; // matches the api's form param
   total: number;
@@ -95,9 +112,6 @@ export function searchItems(
 /**
  * Create an item in a folder
  *
- * @param owner - owner name
- * @param item - item object
- * @param folder - optional folder to create the item in
  * @param requestOptions = Options for the request
  */
 export function createItemInFolder(
@@ -136,9 +150,6 @@ export function createItem(
 /**
  * Send json to an item to be stored as the `/data` resource
  *
- * @param id - Item Id
- * @param owner - Item owner username
- * @param data - Javascript object to store
  * @param requestOptions - Options for the request
  */
 export function addItemJsonData(
@@ -222,8 +233,6 @@ export function updateItem(requestOptions: IItemRequestOptions): Promise<any> {
 /**
  * Remove an item from the portal
  *
- * @param id - guid item id
- * @param owner - string owner username
  * @param requestOptions - Options for the request
  * @returns A Promise that deletes an item.
  */
@@ -240,8 +249,6 @@ export function removeItem(
 /**
  * Protect an item
  *
- * @param id - guid item id
- * @param owner - string owner username
  * @param requestOptions - Options for the request
  * @returns A Promise to protect an item.
  */
@@ -274,9 +281,8 @@ export function unprotectItem(
 /**
  * Get the resources associated with an item
  *
- * @param id - guid item id
  * @param requestOptions - Options for the request
- * @returns A Promise to unprotect an item.
+ * @returns A Promise to get some item resources.
  */
 export function getItemResources(
   requestOptions: IItemIdRequestOptions
@@ -292,11 +298,7 @@ export function getItemResources(
 
 /**
  * Update a resource associated with an item
- *
- * @param id - guid item id
- * @param owner - string owner username
- * @param name - new resource filename
- * @param content - text input to be added as a file resource
+ *  
  * @param requestOptions - Options for the request
  * @returns A Promise to unprotect an item.
  */
@@ -319,9 +321,6 @@ export function updateItemResource(
 /**
  * Remove a resource associated with an item
  *
- * @param id - guid item id
- * @param owner - guid item id
- * @param resource - guid item id
  * @param requestOptions - Options for the request
  * @returns A Promise to unprotect an item.
  */
