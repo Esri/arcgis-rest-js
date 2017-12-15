@@ -8,8 +8,8 @@ import {
   ArcGISRequestError,
   IAuthenticationManager
 } from "@esri/arcgis-rest-request";
-import { generateToken } from "./generateToken";
-import { fetchToken, IFetchTokenResponse } from "./fetchToken";
+import { generateToken } from "./generate-token";
+import { fetchToken, IFetchTokenResponse } from "./fetch-token";
 
 /**
  * Internal utility for resolving a Promise from outside its constructor.

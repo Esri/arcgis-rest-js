@@ -78,7 +78,7 @@ export interface IGeocodeParams extends IParams {
   magicKey?: string;
 }
 
-export interface IGenericGeocodeRequestOptions extends IRequestOptions {
+export interface IGeocodeRequestOptions extends IRequestOptions {
   /**
    * Any ArcGIS Geocoding service (example: http://sampleserver6.arcgisonline.com/arcgis/rest/services/Locators/SanDiego/GeocodeServer )
    */
@@ -151,9 +151,9 @@ export interface IGeocodeServiceInfoResponse {
  */
 export function geocode(
   address: IAddress | string,
-  requestOptions?: IGenericGeocodeRequestOptions
+  requestOptions?: IGeocodeRequestOptions
 ): Promise<IGeocodeResponse> {
-  const options: IGenericGeocodeRequestOptions = {
+  const options: IGeocodeRequestOptions = {
     endpoint: worldGeocoder,
     params: {},
     ...requestOptions
@@ -201,9 +201,9 @@ export function geocode(
  */
 export function suggest(
   partialText: string,
-  requestOptions?: IGenericGeocodeRequestOptions
+  requestOptions?: IGeocodeRequestOptions
 ): Promise<ISuggestResponse> {
-  const options: IGenericGeocodeRequestOptions = {
+  const options: IGeocodeRequestOptions = {
     endpoint: worldGeocoder,
     params: { text: partialText },
     ...requestOptions
@@ -237,9 +237,9 @@ export function suggest(
  */
 export function reverseGeocode(
   coords: IPoint | ILocation | [number, number],
-  requestOptions?: IGenericGeocodeRequestOptions
+  requestOptions?: IGeocodeRequestOptions
 ): Promise<IReverseGeocodeResponse> {
-  const options: IGenericGeocodeRequestOptions = {
+  const options: IGeocodeRequestOptions = {
     endpoint: worldGeocoder,
     params: {},
     ...requestOptions
@@ -286,10 +286,10 @@ export function reverseGeocode(
  */
 export function bulkGeocode(
   addresses: IAddressBulk[],
-  requestOptions: IGenericGeocodeRequestOptions // must POST
+  requestOptions: IGeocodeRequestOptions // must POST
 ) {
   // passing authentication is mandatory
-  const { endpoint }: IGenericGeocodeRequestOptions = {
+  const { endpoint }: IGeocodeRequestOptions = {
     endpoint: worldGeocoder,
     ...requestOptions
   };
@@ -340,7 +340,7 @@ export function bulkGeocode(
  * @returns A Promise that will resolve with the data from the response.
  */
 export function serviceInfo(
-  requestOptions?: IGenericGeocodeRequestOptions
+  requestOptions?: IGeocodeRequestOptions
 ): Promise<IGeocodeServiceInfoResponse> {
   const url = (requestOptions && requestOptions.endpoint) || worldGeocoder;
   return request(url, requestOptions);

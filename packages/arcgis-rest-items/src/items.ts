@@ -31,13 +31,9 @@ export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
   resource?: string;
 }
 
-export interface IFolderlessItemCrudRequestOptions extends IUserRequestOptions {
+export interface IItemCrudRequestOptions extends IUserRequestOptions {
   item: IItem;
   owner?: string;
-}
-
-export interface IItemCrudRequestOptions
-  extends IFolderlessItemCrudRequestOptions {
   folder?: string;
 }
 
@@ -127,7 +123,7 @@ export function createItemInFolder(
  * @param requestOptions - Options for the request
  */
 export function createItem(
-  requestOptions: IFolderlessItemCrudRequestOptions
+  requestOptions: IItemCrudRequestOptions
 ): Promise<any> {
   // delegate to createItemInFolder placing in the root of the filestore
   const options = {
