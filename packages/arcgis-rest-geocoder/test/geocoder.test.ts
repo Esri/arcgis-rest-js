@@ -256,7 +256,7 @@ describe("geocode", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    bulkGeocode(addresses, { authentication: MOCK_AUTH })
+    bulkGeocode({ addresses, authentication: MOCK_AUTH })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -290,7 +290,7 @@ describe("geocode", () => {
   it("should throw an error when a bulk geocoding request is made without a token", done => {
     fetchMock.once("*", GeocodeAddresses);
 
-    bulkGeocode(addresses, {})
+    bulkGeocode({ addresses })
       // tslint:disable-next-line
       .then(response => {})
       .catch(e => {

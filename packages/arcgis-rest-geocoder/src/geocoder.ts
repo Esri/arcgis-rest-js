@@ -1,11 +1,8 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-/*
-to do:
-verify custom endpoints contain 'GeocodeServer' and end in a '/'
-*/
 import { request, IRequestOptions, IParams } from "@esri/arcgis-rest-request";
+import { IAuthenticatedRequestOptions } from "@esri/arcgis-rest-auth";
 
 import {
   IExtent,
@@ -18,7 +15,11 @@ const worldGeocoder =
   "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/";
 
 // it'd be better if doc didnt display these properties in alphabetical order
-export interface IAddress {
+export interface IAddressBulk {
+  /**
+   * A unique id must be passed along for each individual address.
+   */
+  OBJECTID: number;
   address?: string;
   address2?: string;
   address3?: string;
@@ -26,19 +27,12 @@ export interface IAddress {
   city?: string;
   subregion?: string;
   /**
-   * The World Geocoding Service expects US states to be passed in as a 'region'.
+   * The World Geocoding Service considers US states regions.
    */
   region?: string;
   postal?: number;
   postalExt?: number;
   countryCode?: string;
-}
-
-export interface IAddressBulk extends IAddress {
-  /**
-   * A unique id must be passed along for each individual address.
-   */
-  OBJECTID: number;
 }
 
 export interface ILocation {
@@ -78,11 +72,32 @@ export interface IGeocodeParams extends IParams {
   magicKey?: string;
 }
 
-export interface IGeocodeRequestOptions extends IRequestOptions {
+// nice to have: verify custom endpoints contain 'GeocodeServer' and end in a '/'
+export interface IEndpointRequestOptions extends IRequestOptions {
   /**
    * Any ArcGIS Geocoding service (example: http://sampleserver6.arcgisonline.com/arcgis/rest/services/Locators/SanDiego/GeocodeServer )
    */
   endpoint?: string;
+}
+
+export interface IGeocodeRequestOptions extends IEndpointRequestOptions {
+  address?: string;
+  address2?: string;
+  address3?: string;
+  neighborhood?: string;
+  city?: string;
+  subregion?: string;
+  /**
+   * The World Geocoding Service expects US states to be passed in as a 'region'.
+   */
+  region?: string;
+  postal?: number;
+  postalExt?: number;
+  countryCode?: string;
+}
+
+export interface IBulkGeocodeRequestOptions extends IEndpointRequestOptions {
+  addresses: IAddressBulk[];
 }
 
 export interface IGeocodeResponse {
@@ -156,13 +171,13 @@ export interface IGeocodeServiceInfoResponse {
  */
 export function geocode(
   address: string | IGeocodeRequestOptions
+  // requestOptions?: IGeocodeRequestOptions
 ): Promise<IGeocodeResponse> {
   const options: IGeocodeRequestOptions = {
     endpoint: worldGeocoder,
     params: {}
   };
 
-  // would it be better to replace this with a ternary operator?
   if (typeof address === "string") {
     options.params.singleLine = address;
   } else {
@@ -204,7 +219,7 @@ export function geocode(
  */
 export function suggest(
   partialText: string,
-  requestOptions?: IGeocodeRequestOptions
+  requestOptions?: IEndpointRequestOptions
 ): Promise<ISuggestResponse> {
   const options: IGeocodeRequestOptions = {
     endpoint: worldGeocoder,
@@ -240,7 +255,7 @@ export function suggest(
  */
 export function reverseGeocode(
   coords: IPoint | ILocation | [number, number],
-  requestOptions?: IGeocodeRequestOptions
+  requestOptions?: IEndpointRequestOptions
 ): Promise<IReverseGeocodeResponse> {
   const options: IGeocodeRequestOptions = {
     endpoint: worldGeocoder,
@@ -288,11 +303,10 @@ export function reverseGeocode(
  * @returns A Promise that will resolve with the data from the response.
  */
 export function bulkGeocode(
-  addresses: IAddressBulk[],
-  requestOptions: IGeocodeRequestOptions // must POST
+  requestOptions: IBulkGeocodeRequestOptions // must POST
 ) {
   // passing authentication is mandatory
-  const { endpoint }: IGeocodeRequestOptions = {
+  const options: IBulkGeocodeRequestOptions = {
     endpoint: worldGeocoder,
     ...requestOptions
   };
@@ -305,7 +319,7 @@ export function bulkGeocode(
 
   const parsedAddresses: any[] = [];
 
-  addresses.forEach(address => {
+  requestOptions.addresses.forEach(address => {
     parsedAddresses.push({ attributes: address });
   });
 
@@ -316,7 +330,7 @@ export function bulkGeocode(
   }
 
   return request(
-    endpoint + "geocodeAddresses",
+    options.endpoint + "geocodeAddresses",
     requestOptions
   ).then(response => {
     const sr = response.spatialReference;
