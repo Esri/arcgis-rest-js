@@ -102,7 +102,7 @@ describe("groups", () => {
     });
     it("should return group content, paged", done => {
       fetchMock.once("*", GroupContentResponse);
-      getGroupContent("3ef", { params: { start: 4, num: 7 } })
+      getGroupContent("3ef", { paging: { start: 4, num: 7 } })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");

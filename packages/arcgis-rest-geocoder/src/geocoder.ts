@@ -96,6 +96,21 @@ export interface IGeocodeRequestOptions extends IEndpointRequestOptions {
   countryCode?: string;
 }
 
+export interface ISuggestRequestOptions extends IEndpointRequestOptions {
+  /**
+   * You can create an autocomplete experience by making a call to suggest with partial text and then passing through the magicKey and complete address that are returned to geocode.
+   * ```js
+   * import { suggest, geocode } from '@esri/arcgis-geocoder';
+   * suggest("LAX")
+   *   .then((response) => {
+   *     response.suggestions[2].magicKey; // =>  "dHA9MCNsb2M9Mjk3ODc2MCNsbmc9MzMjcGw9ODkxNDg4I2xicz0xNDoxNDc4MTI1MA=="
+   *   });
+   * geocode("LAX, 1 World Way, Los Angeles, CA, 90045, USA", {magicKey: "dHA9MCN..."})
+   * ```
+   */
+  magicKey?: string;
+}
+
 export interface IBulkGeocodeRequestOptions extends IEndpointRequestOptions {
   addresses: IAddressBulk[];
 }
@@ -219,13 +234,24 @@ export function geocode(
  */
 export function suggest(
   partialText: string,
-  requestOptions?: IEndpointRequestOptions
+  requestOptions?: ISuggestRequestOptions
 ): Promise<ISuggestResponse> {
-  const options: IGeocodeRequestOptions = {
+  const options: ISuggestRequestOptions = {
     endpoint: worldGeocoder,
-    params: { text: partialText },
+    params: {},
     ...requestOptions
   };
+
+  // is this the most concise way to mixin these optional parameters?
+  if (requestOptions && requestOptions.params) {
+    options.params = { ...requestOptions.params };
+  }
+
+  if (requestOptions && requestOptions.magicKey) {
+    options.params.magicKey = requestOptions.magicKey;
+  }
+
+  options.params.text = partialText;
 
   return request(options.endpoint + "suggest", options);
 }
@@ -287,19 +313,18 @@ export function reverseGeocode(
  * import { bulkGeocode } from '@esri/arcgis-geocoder';
  * import { ApplicationSession } from '@esri/arcgis-auth';
  *
- * var addresses = [
+ * const addresses = [
  *   { "OBJECTID": 1, "SingleLine": "380 New York Street 92373" },
  *   { "OBJECTID": 2, "SingleLine": "1 World Way Los Angeles 90045" }
  * ];
  *
- * bulkGeocode(addresses, { authentication: session })
+ * bulkGeocode({ addresses, authentication: session })
  *   .then((response) => {
  *     response.locations[0].location; // => { x: -117, y: 34, spatialReference: { wkid: 4326 } }
  *   });
  * ```
  *
- * @param addresses - The array of addresses you'd like to find the locations of
- * @param requestOptions - Additional options and parameters to pass to the geocoder.
+ * @param requestOptions - Request options to pass to the geocoder, including an array of addresses and authentication session.
  * @returns A Promise that will resolve with the data from the response.
  */
 export function bulkGeocode(

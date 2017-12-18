@@ -31,7 +31,13 @@ export interface IItemIdRequestOptions extends IUserRequestOptions {
 }
 
 export interface IItemJsonDataRequestOptions extends IItemIdRequestOptions {
+  /**
+   * JSON object to store
+   */
   data: any;
+  /**
+   * Item owner username (by default authentication session will be used).
+   */
   owner?: string;
 }
 
@@ -49,10 +55,17 @@ export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
 
 export interface IItemCrudRequestOptions extends IUserRequestOptions {
   item: IItem;
+  /**
+   * Item owner username (by default authentication session will be used).
+   */
   owner?: string;
+  /**
+   * Optional folder to house the item
+   */
   folder?: string;
 }
 
+// this interface still needs to be docced
 export interface ISearchRequest {
   q: string;
   start?: number;

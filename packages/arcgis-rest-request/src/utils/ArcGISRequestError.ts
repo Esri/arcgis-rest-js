@@ -50,8 +50,7 @@ export class ArcGISRequestError {
    * @param code - The error code from the API
    * @param response - The original response from the API that caused the error
    * @param url - The original url of the request
-   * @param params - The original params of the request
-   * @param options - The original options of the request
+   * @param options - The original options and parameters of the request
    */
   constructor(
     message = "UNKNOWN_ERROR",

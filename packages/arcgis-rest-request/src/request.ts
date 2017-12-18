@@ -77,7 +77,7 @@ export interface IRequestOptions {
  * ```js
  * import { request, HTTPMethods } from '@esri/arcgis-rest-request';
  *
- * request('https://www.arcgis.com/sharing/rest', {}, {
+ * request('https://www.arcgis.com/sharing/rest', {
  *   httpMethod: "GET"
  * }).then((response) => {
  *   console.log(response.currentVersion); // => 5.2
@@ -88,15 +88,14 @@ export interface IRequestOptions {
  * import { request, HTTPMethods } from '@esri/arcgis-rest-request';
  *
  * request('https://www.arcgis.com/sharing/rest/search', {
- *   q: 'parks'
+ *   params: { q: 'parks' }
  * }).then((response) => {
  *   console.log(response.total); // => 78379
  * });
  * ```
  *
  * @param url - The URL of the ArcGIS REST API endpoint.
- * @param params - The parameters to pass to the endpoint.
- * @param requestOptions - Options for the request.
+ * @param requestOptions - Options for the request, including parameters relevant to the endpoint.
  * @returns A Promise that will resolve with the data from the response.
  */
 export function request(

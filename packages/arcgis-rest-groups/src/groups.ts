@@ -10,7 +10,7 @@ import {
 import { IPagingParams, IItem } from "@esri/arcgis-rest-common-types";
 
 export interface IPagingParamsRequestOptions extends IRequestOptions {
-  params: IPagingParams;
+  paging: IPagingParams;
 }
 
 export interface IGroupIdRequestOptions extends IRequestOptions {
@@ -40,7 +40,10 @@ export interface IGroupSearchRequest extends IPagingParams {
 }
 
 export interface IGroupSearchResult {
-  query: string; // matches the api's form param
+  /**
+   * Matches the REST APIs form param
+   */
+  query: string;
   total: number;
   start: number;
   num: number;
@@ -120,8 +123,7 @@ export function getGroup(
  * Returns the content of a Group. Since the group may contain 1000s of items
  * the requestParams allow for paging.
  * @param id - Group Id
- * @param requestParams - Paging parameters
- * @param requestOptions  - Options for the request
+ * @param requestOptions  - Options for the request, including paging parameters.
  * @returns  A Promise that will resolve with the content of the group.
  */
 export function getGroupContent(
@@ -133,15 +135,13 @@ export function getGroupContent(
   // default to a GET request
   const options: IRequestOptions = {
     ...{ httpMethod: "GET" },
-    params: {} as IPagingParams,
+    params: { start: 1, num: 100 },
     ...requestOptions
-  };
+  } as IPagingParamsRequestOptions;
 
-  options.params = { start: 1, num: 100 };
-
-  // there has GOT to be a better way to mixin the defaults above
-  if (requestOptions && requestOptions.params) {
-    options.params = requestOptions.params;
+  // is this the most concise way to mixin with the defaults above?
+  if (requestOptions && requestOptions.paging) {
+    options.params = { ...requestOptions.paging };
   }
 
   return request(url, options);
@@ -168,11 +168,11 @@ export function getGroupUsers(
 }
 
 /**
- * Serialize an group into a json format accepted by the Portal API
+ * Serialize a group into a json format accepted by the Portal API
  * for create and update operations
  *
- * @param item IGroup to be serialized
- * @returns a formatted json object to be sent to Portal
+ * @param group IGroup to be serialized
+ * @returns a formatted JSON object to be sent to Portal
  */
 function serializeGroup(group: IGroup): any {
   // create a clone so we're not messing with the original
@@ -184,9 +184,8 @@ function serializeGroup(group: IGroup): any {
 
 /**
  * Create a new Group.
- * Note: The name must be unique within the user's organization.
- * @param group - Group to create
- * @param requestOptions  - Options for the request
+ * Note: The group name must be unique within the user's organization.
+ * @param requestOptions  - Options for the request, including a group object
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function createGroup(
@@ -205,8 +204,7 @@ export function createGroup(
 
 /**
  * Update the properties of a group - title, tags etc.
- * @param group - Group to update
- * @param requestOptions - Options for the request
+ * @param requestOptions - Options for the request, including the group
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function updateGroup(
