@@ -11,7 +11,8 @@ import {
   unprotectItem,
   getItemResources,
   updateItemResource,
-  removeItemResource
+  removeItemResource,
+  ISearchRequestOptions
 } from "../src/index";
 
 import * as fetchMock from "fetch-mock";
@@ -40,9 +41,7 @@ describe("search", () => {
   it("should make a simple, single search request", done => {
     fetchMock.once("*", SearchResponse);
 
-    searchItems({
-      q: "DC AND typekeywords:hubSiteApplication"
-    })
+    searchItems("DC AND typekeywords:hubSiteApplication")
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -60,11 +59,13 @@ describe("search", () => {
     fetchMock.once("*", SearchResponse);
 
     searchItems({
-      q: "DC AND typekeywords:hubSiteApplication",
-      num: 12,
-      start: 22,
-      sortField: "title",
-      sortDir: "desc"
+      searchForm: {
+        q: "DC AND typekeywords:hubSiteApplication",
+        num: 12,
+        start: 22,
+        sortField: "title",
+        sortDir: "desc"
+      }
     })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
@@ -137,12 +138,13 @@ describe("search", () => {
     it("search should use the portal and token from Auth Manager", done => {
       fetchMock.once("*", SearchResponse);
 
-      searchItems(
-        {
-          q: "DC AND typekeywords:hubSiteApplication"
-        },
-        MOCK_USER_REQOPTS
-      )
+      const MOCK_USER_REQOPTS_SEARCH = MOCK_USER_REQOPTS as ISearchRequestOptions;
+
+      MOCK_USER_REQOPTS_SEARCH.searchForm = {
+        q: "DC AND typekeywords:hubSiteApplication"
+      };
+
+      searchItems(MOCK_USER_REQOPTS_SEARCH)
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");

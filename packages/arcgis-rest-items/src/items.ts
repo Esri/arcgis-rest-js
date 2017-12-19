@@ -7,7 +7,7 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IExtent, IItem } from "@esri/arcgis-rest-common-types";
+import { IExtent, IItem, IPagingParams } from "@esri/arcgis-rest-common-types";
 
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
@@ -66,11 +66,15 @@ export interface IItemCrudRequestOptions extends IUserRequestOptions {
 }
 
 // this interface still needs to be docced
-export interface ISearchRequest {
+export interface ISearchRequest extends IPagingParams {
   q: string;
-  start?: number;
-  num?: number;
   [key: string]: any;
+  // start: number;
+  // num: number;
+}
+
+export interface ISearchRequestOptions extends IRequestOptions {
+  searchForm?: ISearchRequest;
 }
 
 /**
@@ -91,32 +95,34 @@ export interface ISearchResult {
  * ```js
  * import { searchItems } from '@esri/arcgis-rest-items';
  *
- * searchItems({q:'water'})
+ * searchItems('water')
  * .then((results) => {
  *  console.log(response.results.total); // 355
  * })
  * ```
  *
- * @param searchForm - Search request
- * @param requestOptions - Options for the request
+ * @param search - A string or RequestOptions object to pass through to the endpoint.
  * @returns A Promise that will resolve with the data from the response.
  */
 export function searchItems(
-  searchForm: ISearchRequest,
-  requestOptions?: IRequestOptions
+  search: string | ISearchRequestOptions
 ): Promise<ISearchResult> {
+  const options: ISearchRequestOptions = {
+    httpMethod: "GET",
+    params: {}
+  };
+
+  if (typeof search === "string") {
+    options.params = { q: search };
+  } else {
+    options.params = search.searchForm;
+    if (search.authentication) {
+      options.authentication = search.authentication;
+    }
+  }
+
   // construct the search url
-  const url = `${getPortalUrl(requestOptions)}/search`;
-
-  // default to a GET request
-  const options: IRequestOptions = {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
-  };
-
-  options.params = {
-    ...searchForm
-  };
+  const url = `${getPortalUrl(options)}/search`;
 
   // send the request
   return request(url, options);
@@ -311,7 +317,7 @@ export function getItemResources(
 
 /**
  * Update a resource associated with an item
- *  
+ *
  * @param requestOptions - Options for the request
  * @returns A Promise to unprotect an item.
  */
