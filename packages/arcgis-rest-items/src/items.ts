@@ -7,15 +7,79 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IExtent, IItem } from "@esri/arcgis-rest-common-types";
+import { IExtent, IItem, IPagingParams } from "@esri/arcgis-rest-common-types";
 
-export interface ISearchRequest {
-  q: string;
-  start?: number;
-  num?: number;
-  [key: string]: any;
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+
+export interface IItemRequestOptions extends IUserRequestOptions {
+  item: IItem;
 }
 
+// * @param id - Item Id
+// * @param owner - Item owner username
+// * @param data - Javascript object to store
+
+export interface IItemIdRequestOptions extends IUserRequestOptions {
+  /**
+   * Unique identifier of the item.
+   */
+  id: string;
+  /**
+   * Item owner username (by default authentication session will be used).
+   */
+  owner?: string;
+}
+
+export interface IItemJsonDataRequestOptions extends IItemIdRequestOptions {
+  /**
+   * JSON object to store
+   */
+  data: any;
+  /**
+   * Item owner username (by default authentication session will be used).
+   */
+  owner?: string;
+}
+
+export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
+  /**
+   * New resource filename.
+   */
+  name?: string;
+  /**
+   * Text input to be added as a file resource.
+   */
+  content?: string;
+  resource?: string;
+}
+
+export interface IItemCrudRequestOptions extends IUserRequestOptions {
+  item: IItem;
+  /**
+   * Item owner username (by default authentication session will be used).
+   */
+  owner?: string;
+  /**
+   * Optional folder to house the item
+   */
+  folder?: string;
+}
+
+// this interface still needs to be docced
+export interface ISearchRequest extends IPagingParams {
+  q: string;
+  [key: string]: any;
+  // start: number;
+  // num: number;
+}
+
+export interface ISearchRequestOptions extends IRequestOptions {
+  searchForm?: ISearchRequest;
+}
+
+/**
+ * Options to pass through when searching for items.
+ */
 export interface ISearchResult {
   query: string; // matches the api's form param
   total: number;
@@ -31,108 +95,99 @@ export interface ISearchResult {
  * ```js
  * import { searchItems } from '@esri/arcgis-rest-items';
  *
- * searchItems({q:'water'})
+ * searchItems('water')
  * .then((results) => {
  *  console.log(response.results.total); // 355
  * })
  * ```
  *
- * @param searchForm - Search request
- * @param requestOptions - Options for the request
+ * @param search - A string or RequestOptions object to pass through to the endpoint.
  * @returns A Promise that will resolve with the data from the response.
  */
 export function searchItems(
-  searchForm: ISearchRequest,
-  requestOptions?: IRequestOptions
+  search: string | ISearchRequestOptions
 ): Promise<ISearchResult> {
-  // construct the search url
-  const url = `${getPortalUrl(requestOptions)}/search`;
-
-  // default to a GET request
-  const options: IRequestOptions = {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
+  const options: ISearchRequestOptions = {
+    httpMethod: "GET",
+    params: {}
   };
 
+  if (typeof search === "string") {
+    options.params = { q: search };
+  } else {
+    options.params = search.searchForm;
+    if (search.authentication) {
+      options.authentication = search.authentication;
+    }
+  }
+
+  // construct the search url
+  const url = `${getPortalUrl(options)}/search`;
+
   // send the request
-  return request(url, searchForm, options);
+  return request(url, options);
 }
 
 /**
  * Create an item in a folder
  *
- * @param owner - owner name
- * @param item - item object
- * @param folder - optional folder to create the item in
  * @param requestOptions = Options for the request
  */
 export function createItemInFolder(
-  owner: string,
-  item: IItem,
-  folder: string,
-  requestOptions: IRequestOptions
+  requestOptions: IItemCrudRequestOptions
 ): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
   const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
   let url = `${baseUrl}/addItem`;
-  if (folder) {
-    url = `${baseUrl}/${folder}/addItem`;
-  }
-  const options: IRequestOptions = {
-    ...{ httpMethod: "POST" },
-    ...requestOptions
-  };
-  // serialize the item into something Portal will accept
-  const requestParams = serializeItem(item);
 
-  return request(url, requestParams, options);
+  if (requestOptions.folder) {
+    url = `${baseUrl}/${requestOptions.folder}/addItem`;
+  }
+
+  // serialize the item into something Portal will accept
+  requestOptions.params = serializeItem(requestOptions.item);
+
+  return request(url, requestOptions);
 }
 
 /**
  * Create an Item in the user's root folder
  *
- * @param owner - owner name
- * @param item - the item
  * @param requestOptions - Options for the request
  */
 export function createItem(
-  owner: string,
-  item: IItem,
-  requestOptions: IRequestOptions
+  requestOptions: IItemCrudRequestOptions
 ): Promise<any> {
   // delegate to createItemInFolder placing in the root of the filestore
-  return createItemInFolder(owner, item, null, requestOptions);
+  const options = {
+    folder: null,
+    ...requestOptions
+  } as IItemCrudRequestOptions;
+  return createItemInFolder(options);
 }
 
 /**
  * Send json to an item to be stored as the `/data` resource
  *
- * @param id - Item Id
- * @param owner - Item owner username
- * @param data - Javascript object to store
  * @param requestOptions - Options for the request
  */
 export function addItemJsonData(
-  id: string,
-  owner: string,
-  data: any,
-  requestOptions: IRequestOptions
+  requestOptions: IItemJsonDataRequestOptions
 ): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
+
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/update`;
+  )}/content/users/${owner}/items/${requestOptions.id}/update`;
 
-  const options: IRequestOptions = {
-    ...{ httpMethod: "POST" },
-    ...requestOptions
-  };
   // Portal API requires that the 'data' be stringified and POSTed in
   // a `text` form field. It can also be sent with the `.create` call by sending
   // a `.data` property.
-  const requestParams = {
-    text: JSON.stringify(data)
+  requestOptions.params = {
+    text: JSON.stringify(requestOptions.data)
   };
 
-  return request(url, requestParams, options);
+  return request(url, requestOptions);
 }
 /**
  * Get an item by id
@@ -146,12 +201,13 @@ export function getItem(
   requestOptions?: IRequestOptions
 ): Promise<IItem> {
   const url = `${getPortalUrl(requestOptions)}/content/items/${id}`;
+
   // default to a GET request
   const options: IRequestOptions = {
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
-  return request(url, null, options);
+  return request(url, options);
 }
 
 /**
@@ -173,7 +229,7 @@ export function getItemData(
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
-  return request(url, null, options);
+  return request(url, options);
 }
 
 /**
@@ -183,142 +239,120 @@ export function getItemData(
  * @param requestOptions - Options for the request.
  * @returns A Promise that resolves with the status of the operation.
  */
-export function updateItem(
-  item: IItem,
-  requestOptions: IRequestOptions
-): Promise<any> {
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${item.owner}/items/${item.id}/update`;
+export function updateItem(requestOptions: IItemRequestOptions): Promise<any> {
+  const url = `${getPortalUrl(requestOptions)}/content/users/${requestOptions
+    .item.owner}/items/${requestOptions.item.id}/update`;
 
   // serialize the item into something Portal will accept
-  const requestParams = serializeItem(item);
+  requestOptions.params = serializeItem(requestOptions.item);
 
-  return request(url, requestParams, requestOptions);
+  return request(url, requestOptions);
 }
 
 /**
  * Remove an item from the portal
  *
- * @param id - guid item id
- * @param owner - string owner username
  * @param requestOptions - Options for the request
  * @returns A Promise that deletes an item.
  */
 export function removeItem(
-  id: string,
-  owner: string,
-  requestOptions: IRequestOptions
+  requestOptions: IItemIdRequestOptions
 ): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/delete`;
-  return request(url, null, requestOptions);
+  )}/content/users/${owner}/items/${requestOptions.id}/delete`;
+  return request(url, requestOptions);
 }
 
 /**
  * Protect an item
  *
- * @param id - guid item id
- * @param owner - string owner username
  * @param requestOptions - Options for the request
  * @returns A Promise to protect an item.
  */
 export function protectItem(
-  id: string,
-  owner: string,
-  requestOptions: IRequestOptions
+  requestOptions: IItemIdRequestOptions
 ): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/protect`;
-  return request(url, null, requestOptions);
+  )}/content/users/${owner}/items/${requestOptions.id}/protect`;
+  return request(url, requestOptions);
 }
 
 /**
  * Unprotect an item
  *
- * @param id - guid item id
- * @param owner - string owner username
  * @param requestOptions - Options for the request
  * @returns A Promise to unprotect an item.
  */
 export function unprotectItem(
-  id: string,
-  owner: string,
-  requestOptions: IRequestOptions
+  requestOptions: IItemIdRequestOptions
 ): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/unprotect`;
-  return request(url, null, requestOptions);
+  )}/content/users/${owner}/items/${requestOptions.id}/unprotect`;
+  return request(url, requestOptions);
 }
 
 /**
  * Get the resources associated with an item
  *
- * @param id - guid item id
  * @param requestOptions - Options for the request
- * @returns A Promise to unprotect an item.
+ * @returns A Promise to get some item resources.
  */
 export function getItemResources(
-  id: string,
-  requestOptions: IRequestOptions
+  requestOptions: IItemIdRequestOptions
 ): Promise<any> {
-  const url = `${getPortalUrl(requestOptions)}/content/items/${id}/resources`;
+  const url = `${getPortalUrl(
+    requestOptions
+  )}/content/items/${requestOptions.id}/resources`;
 
-  return request(url, { num: 1000 }, requestOptions);
+  requestOptions.params = { num: 1000 };
+
+  return request(url, requestOptions);
 }
 
 /**
  * Update a resource associated with an item
  *
- * @param id - guid item id
- * @param owner - string owner username
- * @param name - new resource filename
- * @param content - text input to be added as a file resource
  * @param requestOptions - Options for the request
  * @returns A Promise to unprotect an item.
  */
 export function updateItemResource(
-  id: string,
-  owner: string,
-  name: string,
-  content: string,
-  requestOptions: IRequestOptions
+  requestOptions: IItemResourceRequestOptions
 ): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/updateResources`;
+  )}/content/users/${owner}/items/${requestOptions.id}/updateResources`;
 
-  const params = {
-    fileName: name,
-    text: content
+  requestOptions.params = {
+    fileName: requestOptions.content,
+    text: requestOptions.name
   };
 
-  return request(url, params, requestOptions);
+  return request(url, requestOptions);
 }
 
 /**
  * Remove a resource associated with an item
  *
- * @param id - guid item id
- * @param owner - guid item id
- * @param resource - guid item id
  * @param requestOptions - Options for the request
  * @returns A Promise to unprotect an item.
  */
 export function removeItemResource(
-  id: string,
-  owner: string,
-  resource: string,
-  requestOptions: IRequestOptions
+  requestOptions: IItemResourceRequestOptions
 ): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
-  )}/content/users/${owner}/items/${id}/removeResources`;
+  )}/content/users/${owner}/items/${requestOptions.id}/removeResources`;
 
-  return request(url, { resource }, requestOptions);
+  requestOptions.params = { resource: requestOptions.resource };
+  return request(url, requestOptions);
 }
 
 /**

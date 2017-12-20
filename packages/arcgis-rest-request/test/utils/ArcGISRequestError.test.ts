@@ -12,8 +12,12 @@ describe("ArcGISRequestError", () => {
       ArcGISOnlineError.error.code,
       ArcGISOnlineError,
       "https://example.com",
-      { f: "json" },
-      { httpMethod: "POST" }
+      {
+        params: {
+          f: "json"
+        },
+        httpMethod: "POST"
+      }
     );
 
     expect(error.name).toBe("ArcGISRequestError");
@@ -22,8 +26,8 @@ describe("ArcGISRequestError", () => {
     expect(error.originalMessage).toBe("'type' and 'title' property required.");
     expect(error.response).toEqual(ArcGISOnlineError);
     expect(error.url).toBe("https://example.com");
-    expect(error.params).toEqual({ f: "json" });
-    expect(error.options).toEqual({ httpMethod: "POST" });
+    expect(error.options.params).toEqual({ f: "json" });
+    expect(error.options.httpMethod).toEqual("POST");
   });
 
   it("should still format without a message, code or response", () => {

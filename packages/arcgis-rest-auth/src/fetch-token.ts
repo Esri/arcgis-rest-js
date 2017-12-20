@@ -34,9 +34,11 @@ export interface IFetchTokenResponse {
 
 export function fetchToken(
   url: string,
-  params: IFetchTokenParams
+  options: IFetchTokenParams
 ): Promise<IFetchTokenResponse> {
-  return request(url, params).then((response: IFetchTokenRawResponse) => {
+  return request(url, {
+    params: options
+  }).then((response: IFetchTokenRawResponse) => {
     const r: IFetchTokenResponse = {
       token: response.access_token,
       username: response.username,

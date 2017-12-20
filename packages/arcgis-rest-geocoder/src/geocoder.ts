@@ -1,11 +1,8 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-/*
-to do:
-verify custom endpoints contain 'GeocodeServer' and end in a '/'
-*/
 import { request, IRequestOptions, IParams } from "@esri/arcgis-rest-request";
+import { IAuthenticatedRequestOptions } from "@esri/arcgis-rest-auth";
 
 import {
   IExtent,
@@ -18,7 +15,11 @@ const worldGeocoder =
   "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/";
 
 // it'd be better if doc didnt display these properties in alphabetical order
-export interface IAddress {
+export interface IAddressBulk {
+  /**
+   * A unique id must be passed along for each individual address.
+   */
+  OBJECTID: number;
   address?: string;
   address2?: string;
   address3?: string;
@@ -26,19 +27,12 @@ export interface IAddress {
   city?: string;
   subregion?: string;
   /**
-   * The World Geocoding Service expects US states to be passed in as a 'region'.
+   * The World Geocoding Service considers US states regions.
    */
   region?: string;
   postal?: number;
   postalExt?: number;
   countryCode?: string;
-}
-
-export interface IAddressBulk extends IAddress {
-  /**
-   * A unique id must be passed along for each individual address.
-   */
-  OBJECTID: number;
 }
 
 export interface ILocation {
@@ -78,11 +72,47 @@ export interface IGeocodeParams extends IParams {
   magicKey?: string;
 }
 
-export interface IGeocodeRequestOptions extends IRequestOptions {
+// nice to have: verify custom endpoints contain 'GeocodeServer' and end in a '/'
+export interface IEndpointRequestOptions extends IRequestOptions {
   /**
    * Any ArcGIS Geocoding service (example: http://sampleserver6.arcgisonline.com/arcgis/rest/services/Locators/SanDiego/GeocodeServer )
    */
   endpoint?: string;
+}
+
+export interface IGeocodeRequestOptions extends IEndpointRequestOptions {
+  address?: string;
+  address2?: string;
+  address3?: string;
+  neighborhood?: string;
+  city?: string;
+  subregion?: string;
+  /**
+   * The World Geocoding Service expects US states to be passed in as a 'region'.
+   */
+  region?: string;
+  postal?: number;
+  postalExt?: number;
+  countryCode?: string;
+}
+
+export interface ISuggestRequestOptions extends IEndpointRequestOptions {
+  /**
+   * You can create an autocomplete experience by making a call to suggest with partial text and then passing through the magicKey and complete address that are returned to geocode.
+   * ```js
+   * import { suggest, geocode } from '@esri/arcgis-geocoder';
+   * suggest("LAX")
+   *   .then((response) => {
+   *     response.suggestions[2].magicKey; // =>  "dHA9MCNsb2M9Mjk3ODc2MCNsbmc9MzMjcGw9ODkxNDg4I2xicz0xNDoxNDc4MTI1MA=="
+   *   });
+   * geocode("LAX, 1 World Way, Los Angeles, CA, 90045, USA", {magicKey: "dHA9MCN..."})
+   * ```
+   */
+  magicKey?: string;
+}
+
+export interface IBulkGeocodeRequestOptions extends IEndpointRequestOptions {
+  addresses: IAddressBulk[];
 }
 
 export interface IGeocodeResponse {
@@ -139,43 +169,41 @@ export interface IGeocodeServiceInfoResponse {
  *     response.candidates[0].location; // => { x: -118.409, y: 33.943, spatialReference: { wkid: 4326 }  }
  *   });
  *
- * geocode({address: "1600 Pennsylvania Ave", postal: 20500}, { countryCode: "USA" })
+ * geocode({ 
+ *   params: { 
+ *     address: "1600 Pennsylvania Ave",
+ *     postal: 20500,
+ *     countryCode: "USA"
+ *   }
+ * })
  *   .then((response) => {
  *     response.candidates[0].location; // => { x: -77.036533, y: 38.898719, spatialReference: { wkid: 4326 } }
  *   });
  * ```
  *
- * @param address | String or IAddress representing the address or Point of Interest to pass to the endpoint.
- * @param requestParams - Other arguments to pass to the endpoint.
- * @param requestOptions - Additional options for the request including authentication.
- * @returns A Promise that will resolve with the address candidates for the request.
+ * @param address | String representing the address or point of interest or RequestOptions to pass to the endpoint.
+ * @returns A Promise that will resolve with address candidates for the request.
  */
 export function geocode(
-  address: IAddress | string,
-  requestParams?: IGeocodeParams,
-  requestOptions?: IGeocodeRequestOptions
+  address: string | IGeocodeRequestOptions
+  // requestOptions?: IGeocodeRequestOptions
 ): Promise<IGeocodeResponse> {
-  const { endpoint }: IGeocodeRequestOptions = {
+  const options: IGeocodeRequestOptions = {
     endpoint: worldGeocoder,
-    ...requestOptions
+    params: {}
   };
 
-  let params: IParams = {
-    ...requestParams
-  };
-
-  // replace with ternary operator?
   if (typeof address === "string") {
-    params.singleLine = address;
+    options.params.singleLine = address;
   } else {
-    params = { ...address, ...params };
+    options.params = { ...address.params };
+    options.endpoint = address.endpoint || worldGeocoder;
   }
 
   // add spatialReference property to individual matches
   return request(
-    endpoint + "findAddressCandidates",
-    params,
-    requestOptions
+    options.endpoint + "findAddressCandidates",
+    options
   ).then(response => {
     const sr = response.spatialReference;
     response.candidates.forEach(function(candidate: {
@@ -195,33 +223,37 @@ export function geocode(
  * ```js
  * import { suggest } from '@esri/arcgis-geocoder';
  *
- * suggest("Starb")
+ * suggest({ partialText: "Starb" })
  *   .then((response) => {
  *     response.address.PlaceName; // => "Starbucks"
  *   });
  * ```
  *
- * @param partialText - The string to pass to the endpoint.
- * @param requestParams - Additional parameters to pass to the endpoint.
- * @param requestOptions - Additional options for the request including authentication.
+ * @param requestOptions - Options for the request including authentication and other optional parameters.
  * @returns A Promise that will resolve with the data from the response.
  */
 export function suggest(
   partialText: string,
-  requestParams?: IParams,
-  requestOptions?: IGeocodeRequestOptions
+  requestOptions?: ISuggestRequestOptions
 ): Promise<ISuggestResponse> {
-  const { endpoint }: IGeocodeRequestOptions = {
+  const options: ISuggestRequestOptions = {
     endpoint: worldGeocoder,
+    params: {},
     ...requestOptions
   };
 
-  const params: IParams = {
-    text: partialText,
-    ...requestParams
-  };
+  // is this the most concise way to mixin these optional parameters?
+  if (requestOptions && requestOptions.params) {
+    options.params = { ...requestOptions.params };
+  }
 
-  return request(endpoint + "suggest", params, requestOptions);
+  if (requestOptions && requestOptions.magicKey) {
+    options.params.magicKey = requestOptions.magicKey;
+  }
+
+  options.params.text = partialText;
+
+  return request(options.endpoint + "suggest", options);
 }
 
 /**
@@ -244,40 +276,34 @@ export function suggest(
  * ```
  *
  * @param coordinates - the location you'd like to associate an address with.
- * @param requestParams - Additional parameters to pass to the endpoint.
  * @param requestOptions - Additional options for the request including authentication.
  * @returns A Promise that will resolve with the data from the response.
  */
 export function reverseGeocode(
   coords: IPoint | ILocation | [number, number],
-  requestParams?: IParams,
-  requestOptions?: IGeocodeRequestOptions
+  requestOptions?: IEndpointRequestOptions
 ): Promise<IReverseGeocodeResponse> {
-  const { endpoint }: IGeocodeRequestOptions = {
+  const options: IGeocodeRequestOptions = {
     endpoint: worldGeocoder,
+    params: {},
     ...requestOptions
   };
 
-  const params: IParams = {
-    location: null,
-    ...requestParams
-  };
-
   if (isLocationArray(coords)) {
-    params.location = coords.join();
+    options.params.location = coords.join();
   } else if (isLocation(coords)) {
     if (coords.lat) {
-      params.location = coords.long + "," + coords.lat;
+      options.params.location = coords.long + "," + coords.lat;
     }
     if (coords.latitude) {
-      params.location = coords.longitude + "," + coords.latitude;
+      options.params.location = coords.longitude + "," + coords.latitude;
     }
   } else {
-    // if input is a point, we can pass it straight through, with or without an sr
-    params.location = coords;
+    // if input is a point, we can pass it straight through, with or without a spatial reference
+    options.params.location = coords;
   }
 
-  return request(endpoint + "reverseGeocode", params, requestOptions);
+  return request(options.endpoint + "reverseGeocode", options);
 }
 
 /**
@@ -287,54 +313,49 @@ export function reverseGeocode(
  * import { bulkGeocode } from '@esri/arcgis-geocoder';
  * import { ApplicationSession } from '@esri/arcgis-auth';
  *
- * var addresses = [
+ * const addresses = [
  *   { "OBJECTID": 1, "SingleLine": "380 New York Street 92373" },
  *   { "OBJECTID": 2, "SingleLine": "1 World Way Los Angeles 90045" }
  * ];
  *
- * bulkGeocode(addresses, { authentication: session })
+ * bulkGeocode({ addresses, authentication: session })
  *   .then((response) => {
  *     response.locations[0].location; // => { x: -117, y: 34, spatialReference: { wkid: 4326 } }
  *   });
  * ```
  *
- * @param addresses - The array of addresses you'd like to find the locations of
- * @param requestOptions - Additional options to pass to the geocoder.
- * @param requestParams - Additional parameters to pass through in the request to the geocoder.
+ * @param requestOptions - Request options to pass to the geocoder, including an array of addresses and authentication session.
  * @returns A Promise that will resolve with the data from the response.
  */
 export function bulkGeocode(
-  addresses: IAddressBulk[],
-  requestOptions: IGeocodeRequestOptions, // POST by default (always)
-  requestParams?: IParams
+  requestOptions: IBulkGeocodeRequestOptions // must POST
 ) {
   // passing authentication is mandatory
-  const { endpoint }: IGeocodeRequestOptions = {
+  const options: IBulkGeocodeRequestOptions = {
     endpoint: worldGeocoder,
     ...requestOptions
   };
 
-  const params: IParams = {
+  requestOptions.params = {
     forStorage: true,
     addresses: { records: null },
-    ...requestParams
+    ...requestOptions.params
   };
 
   const parsedAddresses: any[] = [];
 
-  addresses.forEach(address => {
+  requestOptions.addresses.forEach(address => {
     parsedAddresses.push({ attributes: address });
   });
 
-  params.addresses.records = parsedAddresses;
+  requestOptions.params.addresses.records = parsedAddresses;
 
   if (!requestOptions.authentication) {
     return Promise.reject("bulk geocoding requires authentication");
   }
 
   return request(
-    endpoint + "geocodeAddresses",
-    params,
+    options.endpoint + "geocodeAddresses",
     requestOptions
   ).then(response => {
     const sr = response.spatialReference;
@@ -364,7 +385,7 @@ export function serviceInfo(
   requestOptions?: IGeocodeRequestOptions
 ): Promise<IGeocodeServiceInfoResponse> {
   const url = (requestOptions && requestOptions.endpoint) || worldGeocoder;
-  return request(url, {}, requestOptions);
+  return request(url, requestOptions);
 }
 
 export default {

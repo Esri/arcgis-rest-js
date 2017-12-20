@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
-import { fetchToken } from "./fetchToken";
+import { fetchToken } from "./fetch-token";
 
 export interface IApplicationSessionOptions {
   /**

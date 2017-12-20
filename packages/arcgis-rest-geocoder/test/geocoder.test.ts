@@ -58,7 +58,7 @@ describe("geocode", () => {
   it("should make a simple, single geocoding request with a custom parameter", done => {
     fetchMock.once("*", FindAddressCandidates);
 
-    geocode("LAX", { countryCode: "USA" })
+    geocode({ params: { singleLine: "LAX", countryCode: "USA" } })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -81,14 +81,14 @@ describe("geocode", () => {
   it("should make a single geocoding request to a custom geocoding service", done => {
     fetchMock.once("*", FindAddressCandidates);
 
-    geocode(
-      {
+    geocode({
+      endpoint: customGeocoderUrl,
+      params: {
+        outSr: 3857,
         address: "380 New York St",
         postal: 92373
-      },
-      { outSr: 3857 },
-      { endpoint: customGeocoderUrl }
-    )
+      }
+    })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -139,7 +139,6 @@ describe("geocode", () => {
 
     reverseGeocode(
       { x: -118.409, y: 33.9425, spatialReference: { wkid: 4326 } },
-      {},
       { httpMethod: "GET" }
     )
       .then(response => {
@@ -247,6 +246,50 @@ describe("geocode", () => {
       });
   });
 
+  it("should make a request for suggestions with magic key", done => {
+    fetchMock.once("*", Suggest);
+
+    suggest("LAX", { magicKey: "foo" })
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest"
+        );
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain("text=LAX");
+        expect(options.body).toContain("magicKey=foo");
+        expect(response).toEqual(Suggest); // this introspects the entire response
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should make a request for suggestions with other parameters", done => {
+    fetchMock.once("*", Suggest);
+
+    suggest("LAX", { params: { category: "Address,Postal" } })
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest"
+        );
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain("text=LAX");
+        expect(options.body).toContain("category=Address%2CPostal");
+        expect(response).toEqual(Suggest); // this introspects the entire response
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   it("should make a bulk geocoding request", done => {
     fetchMock.once("*", GeocodeAddresses);
 
@@ -257,7 +300,7 @@ describe("geocode", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    bulkGeocode(addresses, { authentication: MOCK_AUTH })
+    bulkGeocode({ addresses, authentication: MOCK_AUTH })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -291,7 +334,7 @@ describe("geocode", () => {
   it("should throw an error when a bulk geocoding request is made without a token", done => {
     fetchMock.once("*", GeocodeAddresses);
 
-    bulkGeocode(addresses, {})
+    bulkGeocode({ addresses })
       // tslint:disable-next-line
       .then(response => {})
       .catch(e => {
