@@ -107,6 +107,34 @@ export function request(
     ...requestOptions
   };
 
+  const missingGlobals: string[] = [];
+  const recommendedPackages: string[] = [];
+
+  if (!options.fetch) {
+    missingGlobals.push("`fetch`");
+    recommendedPackages.push("`isomorphic-fetch`");
+  }
+
+  if (!Promise) {
+    missingGlobals.push("`Promise`");
+    recommendedPackages.push("`es6-promise`");
+  }
+
+  if (!FormData) {
+    missingGlobals.push("`FormData`");
+    recommendedPackages.push("`isomorphic-form-data`");
+  }
+
+  if (!options.fetch || !Promise || !FormData) {
+    throw new Error(
+      `\`arcgis-rest-request\` requires global variables for \`fetch\`, \`Promise\` and \`FormData\` to be present in the global scope. You are missing ${missingGlobals.join(
+        ", "
+      )}. We recommend installing the ${recommendedPackages.join(
+        ", "
+      )} modules at the root of your application to add these to the global scope. See http://bit.ly/2BXbqzq for more info.`
+    );
+  }
+
   const { httpMethod, authentication } = options;
 
   const params: IParams = {
