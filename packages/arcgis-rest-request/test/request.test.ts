@@ -191,4 +191,28 @@ describe("request()", () => {
         fail(e);
       });
   });
+
+  describe("should throw errors when required dependencies are missing", () => {
+    const oldPromise = Promise;
+    const oldFetch = fetch;
+    const oldFormData = FormData;
+    beforeEach(() => {
+      Promise = undefined;
+      FormData = undefined;
+    });
+
+    afterEach(() => {
+      Promise = oldPromise;
+      FormData = oldFormData;
+    });
+    it("should throw for missing dependencies", () => {
+      expect(() => {
+        request("https://www.arcgis.com/sharing/rest/info", {
+          fetch: undefined
+        });
+      }).toThrowError(
+        "`arcgis-rest-request` requires global variables for `fetch`, `Promise` and `FormData` to be present in the global scope. You are missing `fetch`, `Promise`, `FormData`. We recommend installing the `isomorphic-fetch`, `es6-promise`, `isomorphic-form-data` modules at the root of your application to add these to the global scope. See http://bit.ly/2BXbqzq for more info."
+      );
+    });
+  });
 });
