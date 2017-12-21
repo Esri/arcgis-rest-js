@@ -182,4 +182,19 @@ module.exports = function(acetate) {
   acetate.filter("inspect", function(obj) {
     return inspect(obj, { depth: 3 });
   });
+
+  acetate.helper("cdnUrl", function(context, package) {
+    return `https://unpkg.com/${package.name}@${package.version}/dist/umd/${package.name.split(
+      "/"
+    )[1]}.umd.js`;
+  });
+
+  acetate.helper("npmInstallCmd", function(context, package) {
+    const peers = package.peerDependencies
+      ? Object.keys(package.peerDependencies).map(
+          pkg => `${pkg}@${package.peerDependencies[pkg]} `
+        )
+      : [];
+    return `npm install ${package.name} ${peers.join(" ")}`;
+  });
 };
