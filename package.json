@@ -77,7 +77,7 @@
     "docs:build:acetate": "ENV=prod acetate build --config docs/acetate.config.js",
     "docs:build:sass": "node-sass --output docs/build/css --source-map true --source-map-contents docs/src/sass",
     "docs:build:images": "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build",
-    "docs:deploy": "node support/deploy-doc-site.js",
+    "docs:deploy": "npm run docs:build && node support/deploy-doc-site.js",
     "docs:typedoc": "node docs/build-typedoc.js",
     "docs:dev:typedoc": "onchange -v 'packages/*/src/**/*.ts' -- npm run docs:typedoc",
     "predocs:serve": "npm run docs:typedoc",
