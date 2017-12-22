@@ -5,17 +5,32 @@ VERSION=$(node --eval "console.log(require('./lerna.json').version);")
 
 # commit the changes from `npm run release:prepare`
 git add --all
-git commit -am "Prepare v$VERSION" --no-verify
+git commit -am "v$VERSION" --no-verify
 
-# incriment the package.json version to the lerna version so gh-release works
-npm version $VERSION --allow-same-version
+# sync the package.json version to the lerna version so gh-release works
+npm version $VERSION --allow-same-version --no-git-tag-version
 
 # amend the changes from `npm version` to the release commit
-git add --all
-git commit -am "Prepare v$VERSION" --no-verify --amend
+git add package.json
+git commit -m"v$VERSION" --no-verify --amend
 
-# push the changes and tag to github
+# push everything up to this point to master
 git push https://github.com/Esri/arcgis-rest-js.git master
+
+# checkout temp branch for release
+git checkout -b release-v$VERSION
+
+# add built files to the release commit
+git add packages/*/dist -f
+
+# commit the built files
+git commit -am"Publish v$VERSION" --no-verify
+
+# tag the release
+git tag v$VERSION
+
+# push the release commit and tag to github
+git push https://github.com/Esri/arcgis-rest-js.git release-v$VERSION
 git push --tags
 
 # publish each package on npm
@@ -33,3 +48,8 @@ gh-release --t v$VERSION --repo arcgis-rest-js --owner Esri -a $TEMP_FOLDER.zip
 
 # Delete the ZIP archive
 rm $TEMP_FOLDER.zip
+
+# checkout master and delete release branch locally and on GitHub
+git checkout master
+git branch -D release-v$VERSION
+git push upstream :release-v$VERSION
