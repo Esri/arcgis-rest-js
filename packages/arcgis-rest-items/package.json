@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-items",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Portal Item helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
   "browser": "dist/browser/arcgis-rest-items.umd.js",
@@ -12,14 +12,14 @@
     "tslib": "^1.7.1"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^1.0.0",
-    "@esri/arcgis-rest-common-types": "^1.0.0",
-    "@esri/arcgis-rest-request": "^1.0.0"
+    "@esri/arcgis-rest-auth": "^1.0.1",
+    "@esri/arcgis-rest-common-types": "^1.0.1",
+    "@esri/arcgis-rest-request": "^1.0.1"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^1.0.0",
-    "@esri/arcgis-rest-common-types": "^1.0.0",
-    "@esri/arcgis-rest-request": "^1.0.0"
+    "@esri/arcgis-rest-auth": "^1.0.1",
+    "@esri/arcgis-rest-common-types": "^1.0.1",
+    "@esri/arcgis-rest-request": "^1.0.1"
   },
   "scripts": {
     "prepare": "npm run build",

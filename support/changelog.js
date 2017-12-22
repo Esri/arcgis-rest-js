@@ -337,52 +337,52 @@ function filterReleases(releases) {
 }
 
 getReleases()
-  .then(logStep)
   .then(releases => filterReleases(releases))
   .then(releases => pairReleases(releases))
-  .then(pairs =>
-    Promise.all(pairs.map(([from, to]) => getCommitData(from, to)))
-  )
-  .then(releaseData => processCommitMessages(releaseData))
-  .then(releaseData => findReleasedPackages(releaseData))
-  .then(releaseData => groupCommitsByPackage(releaseData))
-  .then(releaseData => buildMarkdown(releaseData))
-  .then(newVersion => {
-    return Promise.all([
-      getReleases().then(pairReleases),
-      getChangelogData(),
-      Promise.resolve(newVersion)
-    ]);
-  })
-  .then(([pairs, changelog, newVersion]) => {
-    const links = pairs.map(([from, to]) => {
-      to = to === "HEAD" ? getPackageVersion() : to;
-      return {
-        ref: to.replace("v", ""),
-        title: to,
-        href: `${repo}/compare/${from}...${to}`
-      };
-    });
+  .then(logStep);
+// .then(pairs =>
+//   Promise.all(pairs.map(([from, to]) => getCommitData(from, to)))
+// )
+// .then(releaseData => processCommitMessages(releaseData))
+// .then(releaseData => findReleasedPackages(releaseData))
+// .then(releaseData => groupCommitsByPackage(releaseData))
+// .then(releaseData => buildMarkdown(releaseData))
+// .then(newVersion => {
+//   return Promise.all([
+//     getReleases().then(pairReleases),
+//     getChangelogData(),
+//     Promise.resolve(newVersion)
+//   ]);
+// })
+// .then(([pairs, changelog, newVersion]) => {
+//   const links = pairs.map(([from, to]) => {
+//     to = to === "HEAD" ? getPackageVersion() : to;
+//     return {
+//       ref: to.replace("v", ""),
+//       title: to,
+//       href: `${repo}/compare/${from}...${to}`
+//     };
+//   });
 
-    if (links.length) {
-      links.push({
-        ref: "HEAD",
-        title: "Unreleased Changes",
-        href: `${repo}/compare/${_.last(links).title}...HEAD`
-      });
-    }
+//   if (links.length) {
+//     links.push({
+//       ref: "HEAD",
+//       title: "Unreleased Changes",
+//       href: `${repo}/compare/${_.last(links).title}...HEAD`
+//     });
+//   }
 
-    const rendered = nunjucks.renderString(changeLogTemplate, {
-      title: changelog.title,
-      description: changelog.description,
-      oldVersions: changelog.versions,
-      newVersion: newVersion,
-      links,
-      repo
-    });
+//   const rendered = nunjucks.renderString(changeLogTemplate, {
+//     title: changelog.title,
+//     description: changelog.description,
+//     oldVersions: changelog.versions,
+//     newVersion: newVersion,
+//     links,
+//     repo
+//   });
 
-    writeFile("CHANGELOG.md", rendered, function(e) {});
-  })
-  .catch(error => {
-    console.error(error.stack);
-  });
+//   writeFile("CHANGELOG.md", rendered, function(e) {});
+// })
+// .catch(error => {
+//   console.error(error.stack);
+// });
