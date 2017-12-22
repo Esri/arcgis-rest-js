@@ -337,7 +337,6 @@ function filterReleases(releases) {
 }
 
 getReleases()
-  .then(logStep)
   .then(releases => filterReleases(releases))
   .then(releases => pairReleases(releases))
   .then(pairs =>

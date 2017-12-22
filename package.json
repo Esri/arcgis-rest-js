@@ -97,7 +97,7 @@
     "precommit": "lint-staged",
     "bootstrap": "lerna bootstrap",
     "postinstall": "npm run bootstrap",
-    "prerelease:prepare": "lerna bootstrap && npm test",
+    "prerelease:prepare": "git fetch --all && lerna bootstrap && npm test",
     "release:prepare": "lerna publish --skip-git --skip-npm --yes && node ./support/changelog.js",
     "release:review": "git --no-pager diff --word-diff",
     "release:publish": "./support/publish.sh",
