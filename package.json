@@ -1,7 +1,8 @@
 {
   "name": "@esri/arcgis-rest-js",
   "version": "1.0.2",
-  "description": "Compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.",
+  "description":
+    "Compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",
     "@types/fetch-mock": "^5.12.2",
@@ -16,7 +17,8 @@
     "concurrently": "^3.5.1",
     "cpx": "^1.5.0",
     "cross-spawn": "^5.1.0",
-    "cz-lerna-changelog": "github:patrickarlt/cz-lerna-changelog#3fe7650a2e2e624b1f46e5031c96119759698288",
+    "cz-lerna-changelog":
+      "github:patrickarlt/cz-lerna-changelog#3fe7650a2e2e624b1f46e5031c96119759698288",
     "date-fns": "^1.29.0",
     "fetch-mock": "^5.13.1",
     "gh-pages": "^1.1.0",
@@ -65,32 +67,38 @@
     "tslib": "^1.8.1"
   },
   "lint-staged": {
-    "*.ts": [
-      "prettier --write --parser typescript",
-      "tslint",
-      "git add"
-    ]
+    "*.ts": ["prettier --write --parser typescript", "tslint", "git add"]
   },
   "scripts": {
     "build": "lerna run build",
     "test": "npm run test:node && npm run test:chrome",
-    "test:chrome:debug": "karma start --auto-watch --no-single-run --browsers=Chrome",
+    "test:chrome:debug":
+      "karma start --auto-watch --no-single-run --browsers=Chrome",
     "test:chrome": "karma start --single-run --browsers=Chrome",
     "test:node": "jasmine --config=jasmine.json",
     "test:node:debug": "inspect jasmine --config=jasmine.json",
-    "docs:build": "rimraf docs/build && npm run docs:build:acetate && npm run docs:build:sass && npm run docs:build:images",
-    "docs:build:acetate": "ENV=prod acetate build --config docs/acetate.config.js",
-    "docs:build:sass": "node-sass --output docs/build/css --source-map true --source-map-contents docs/src/sass",
-    "docs:build:images": "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build",
+    "docs:build":
+      "rimraf docs/build && npm run docs:typedoc && npm run docs:build:acetate && npm run docs:build:sass && npm run docs:build:images",
+    "docs:build:acetate":
+      "ENV=prod acetate build --config docs/acetate.config.js",
+    "docs:build:sass":
+      "node-sass --output docs/build/css --source-map true --source-map-contents docs/src/sass",
+    "docs:build:images":
+      "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build",
     "docs:deploy": "npm run docs:build && node support/deploy-doc-site.js",
     "docs:typedoc": "node docs/build-typedoc.js",
-    "docs:dev:typedoc": "onchange -v 'packages/*/src/**/*.ts' -- npm run docs:typedoc",
+    "docs:dev:typedoc":
+      "onchange -v 'packages/*/src/**/*.ts' -- npm run docs:typedoc",
     "predocs:serve": "npm run docs:typedoc",
-    "docs:serve": "rimraf docs/build && concurrently \"npm run docs:dev:js\" \"npm run docs:dev:images\" \"npm run docs:dev:acetate\" \"npm run docs:dev:sass\" \"npm run docs:dev:typedoc\"",
-    "docs:dev:images": "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build -w",
-    "docs:dev:acetate": "acetate server --log=debug --config docs/acetate.config.js",
+    "docs:serve":
+      "rimraf docs/build && concurrently \"npm run docs:dev:js\" \"npm run docs:dev:images\" \"npm run docs:dev:acetate\" \"npm run docs:dev:sass\" \"npm run docs:dev:typedoc\"",
+    "docs:dev:images":
+      "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build -w",
+    "docs:dev:acetate":
+      "acetate server --log=debug --config docs/acetate.config.js",
     "predocs:dev:sass": "npm run docs:build:sass",
-    "docs:dev:sass": "node-sass --watch --recursive --output docs/build/css --source-map true --source-map-contents docs/src/sass",
+    "docs:dev:sass":
+      "node-sass --watch --recursive --output docs/build/css --source-map true --source-map-contents docs/src/sass",
     "docs:dev:js": "cpx \"docs/src/**/{api-search,}.js\" docs/build -w",
     "lint": "tslint --project tsconfig.json --type-check",
     "lint:fix": "tslint --project tsconfig.json --type-check --fix",
@@ -98,9 +106,11 @@
     "bootstrap": "lerna bootstrap",
     "postinstall": "npm run bootstrap",
     "prerelease:prepare": "git fetch --all && lerna bootstrap && npm test",
-    "release:prepare": "lerna publish --skip-git --skip-npm --yes && node ./support/changelog.js",
+    "release:prepare":
+      "lerna publish --skip-git --skip-npm --yes && node ./support/changelog.js",
     "release:review": "git --no-pager diff --word-diff",
     "release:publish": "./support/publish.sh",
+    "postrelease:publish": "npm run docs:deploy",
     "c": "git add --all && npm run precommit && git-cz"
   },
   "repository": {
