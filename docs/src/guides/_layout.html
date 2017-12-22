@@ -8,7 +8,7 @@
           <li>{{section.name}}</li>
           <ul class="list-plain margin-left-1">
             {% for item in section.items %}
-              <li>{% link item.url, item.title %}</li>
+              <li>{% link baseUrl + item.url, item.title %}</li>
             {% endfor %}
           </ul>
         {% endfor %}

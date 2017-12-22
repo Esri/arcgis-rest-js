@@ -3,8 +3,8 @@
 {% block scripts %}
   <script src="https://unpkg.com/vue@2.4.2/dist/vue.min.js"></script>
   <script src="https://unpkg.com/fuse.js@3.0.5/dist/fuse.min.js"></script>
-  <script src="/js/index.js"></script>
-  <script src="/js/api-search.js"></script>
+  <script src="{{baseUrl}}/js/index.js"></script>
+  <script src="{{baseUrl}}/js/api-search.js"></script>
 {% endblock %}
 
 {% block main %}
@@ -14,10 +14,10 @@
       <ul class="list-plain">
         {% for package in data.typedoc.packages %}
         <li class="{{ package.icon }}">
-          {% link package.pageUrl, package.pkg.name, class="tsd-kind-icon" %}
+          {% link baseUrl + package.pageUrl, package.pkg.name, class="tsd-kind-icon" %}
           <ul class="api-package-content-list">
           {% for declaration in package.declarations %}
-            <li class="{{ declaration.icon }}">{% link declaration.pageUrl, declaration.name, class="tsd-kind-icon" %}</li>
+            <li class="{{ declaration.icon }}">{% link baseUrl + declaration.pageUrl, declaration.name, class="tsd-kind-icon" %}</li>
           {% endfor %}
           </ul>
         </li>
