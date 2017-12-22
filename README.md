@@ -40,7 +40,7 @@ request(url)
 
 ### API Reference
 
-The documentation is published at http://arcgis-rest-js.surge.sh/ (source code [here](/docs/src)).
+The documentation is published at http://esri.github.io/arcgis-rest-js/ (source code [here](/docs/src)).
 
 ### Instructions
 

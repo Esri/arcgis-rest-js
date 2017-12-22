@@ -4,6 +4,8 @@ const { inspect } = require("util");
 const _ = require("lodash");
 const slug = require("slug");
 
+const BASE_URL = process.env.ENV === "prod" ? "/arcgis-rest-js" : "";
+
 module.exports = function(acetate) {
   /**
    * Load all .html and markdown pages in the `src` folder, assigning them a
@@ -15,11 +17,15 @@ module.exports = function(acetate) {
     }
   });
 
-  acetate.load("js/index.js", {
+  acetate.load("js/*", {
     metadata: {
       layout: false,
       prettyUrl: false
     }
+  });
+
+  acetate.metadata("**/*", {
+    baseUrl: BASE_URL
   });
 
   /**

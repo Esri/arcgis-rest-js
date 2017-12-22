@@ -34,10 +34,10 @@ $member-icons: (variable, property),  (get-signature),  (set-signature),
     width: 17px;
     height: 17px;
     margin: 0 3px 2px 0;
-    background-image: url(/img/icons.png);
+    background-image: url(../img/icons.png);
 
     @include retina {
-      background-image: url(/img/icons@2x.png);
+      background-image: url(../img/icons@2x.png);
       background-size: 238px 204px;
     }
   }
