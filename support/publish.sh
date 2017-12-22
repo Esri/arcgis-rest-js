@@ -21,22 +21,6 @@ git tag v$VERSION
 git push https://github.com/Esri/arcgis-rest-js.git master
 git push --tags
 
-# checkout temp branch for release
-git checkout -b release-v$VERSION
-
-# add built files to the release commit
-git add packages/*/dist -f
-
-# commit the built files
-git commit -am"Publish v$VERSION" --no-verify
-
-# tag the release
-git tag v$VERSION
-
-# push the release commit and tag to github
-git push https://github.com/Esri/arcgis-rest-js.git release-v$VERSION
-git push --tags
-
 # publish each package on npm
 lerna publish --skip-git --yes --repo-version $VERSION
 
@@ -52,8 +36,3 @@ gh-release --t v$VERSION --repo arcgis-rest-js --owner Esri -a $TEMP_FOLDER.zip
 
 # Delete the ZIP archive
 rm $TEMP_FOLDER.zip
-
-# checkout master and delete release branch locally and on GitHub
-git checkout master
-git branch -D release-v$VERSION
-git push upstream :release-v$VERSION
