@@ -1,5 +1,5 @@
 <small class="label right">Version {{pkg.version}}</small>
-<h1 class="{{icon}} font-size-3 trailer-half"> {% link url, pkg.name, class="tsd-kind-icon" %}</h1>
+<h1 class="{{icon}} font-size-3 trailer-half"> {% link baseUrl + url, pkg.name, class="tsd-kind-icon" %}</h1>
 <p class="trailer-half">{{pkg.description}}</p>
 <h2 class="font-size--1 trailer-half">NPM Install:</h2>
 <pre><code>{% npmInstallCmd pkg %}</code></pre>
@@ -8,6 +8,6 @@
 <hr class="leader-half trailer-half">
 <ul class="list-plain package-contents">
 {% for declaration in declarations %}
-  <li class="{{ declaration.icon }}">{% link declaration.pageUrl, declaration.name, class="tsd-kind-icon" %}</li>
+  <li class="{{ declaration.icon }}">{% link baseUrl + declaration.pageUrl, declaration.name, class="tsd-kind-icon" %}</li>
 {% endfor %}
 </ul>
