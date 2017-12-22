@@ -5,16 +5,19 @@ VERSION=$(node --eval "console.log(require('./lerna.json').version);")
 
 # commit the changes from `npm run release:prepare`
 git add --all
-git commit -am "Prepare v$VERSION" --no-verify
+git commit -am "v$VERSION" --no-verify
 
 # incriment the package.json version to the lerna version so gh-release works
-npm version $VERSION --allow-same-version
+npm version $VERSION --allow-same-version --no-git-tag-version
 
 # amend the changes from `npm version` to the release commit
 git add --all
-git commit -am "Prepare v$VERSION" --no-verify --amend
+git commit -am "v$VERSION" --no-verify --amend
 
-# push the changes and tag to github
+# tag this version
+git tag v$VERSION
+
+# push everything up to this point to master
 git push https://github.com/Esri/arcgis-rest-js.git master
 git push --tags
 
