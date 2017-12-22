@@ -90,7 +90,7 @@ function getCommitData(from, to) {
 }
 
 function getPackageVersion() {
-  return require(path.resolve(process.cwd(), "./lerna.json")).version;
+  return require(resolve(process.cwd(), "./lerna.json")).version;
 }
 
 function pairReleases(releases) {
