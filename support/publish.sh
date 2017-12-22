@@ -11,12 +11,12 @@ git commit -am "Prepare v$VERSION" --no-verify
 npm version $VERSION --allow-same-version
 
 # amend the changes from `npm version` to the release commit
-git add --all
-git commit -am "Prepare v$VERSION" --no-verify --amend
+git add package.json
+git commit --amend
 
 # push the changes and tag to github
-git push https://github.com/Esri/arcgis-rest-js.git master
-git push --tags
+#git push https://github.com/Esri/arcgis-rest-js.git master
+#git push --tags
 
 # publish each package on npm
 lerna publish --skip-git --yes --repo-version $VERSION
