@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",
@@ -64,7 +64,11 @@
     "tslib": "^1.8.1"
   },
   "lint-staged": {
-    "*.ts": ["prettier --write --parser typescript", "tslint", "git add"]
+    "*.ts": [
+      "prettier --write --parser typescript",
+      "tslint",
+      "git add"
+    ]
   },
   "scripts": {
     "build": "lerna run build",
