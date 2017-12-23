@@ -35,7 +35,6 @@ request(url)
     .then(response => {
         console.log(response) // WebMap JSON
     })
-});
 ```
 
 ### API Reference
