@@ -8,9 +8,9 @@ layout: "api/_layout:content"
   <small class="label right">Version {{package.pkg.version}}</small>
   <h2 class="{{package.icon}} font-size-3 trailer-half"> {% link baseUrl + package.pageUrl, package.pkg.name, class="tsd-kind-icon" %}</h2>
   <p>{{package.pkg.description}}</p>
-  <h3 class="font-size--1 trailer-half">NPM Install:</h2>
+  <h3 class="font-size--1 trailer-half">npm install:</h2>
   <pre><code>{% npmInstallCmd package.pkg %}</code></pre>
-  <h3 class="font-size--1 trailer-half">CDN URL:</h2>
+  <h3 class="font-size--1 trailer-half">CDN url:</h2>
   <pre><code>{% cdnUrl package.pkg %}</code></pre>
   <hr class="leader-half trailer-half">
   <ul class="list-plain package-contents">

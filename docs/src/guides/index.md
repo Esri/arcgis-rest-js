@@ -5,7 +5,7 @@ description: Get started with ArcGIS REST JS.
 
 # Get Started
 
-ArcGIS REST JS is capable of being deployed with variety of JavaScript projects and build tools, including:
+ArcGIS REST JS can be deployed with variety of build tools, including:
 
 * [From a CDN](./from-a-cdn/) (Coming soon)
 * [Babel + WebPack](./babel-and-webpack/) (Coming soon)
@@ -73,7 +73,7 @@ ArcGIS REST JS is hosted on [unpkg](https://unpkg.com/). You can find URLs for i
   <script src="{% cdnUrl data.typedoc | findPackage('@esri/arcgis-rest-request') %}"></script>
 
   <script>
-    // when including ARcGIS REST JS all exports are available from a arcgisRest global
+    // when including ArcGIS REST JS all exports are available from an arcgisRest global
     arcgisRest.request("https://www.arcgis.com/sharing/rest/info").then(response => {
       console.log(response);
     });
@@ -83,7 +83,7 @@ ArcGIS REST JS is hosted on [unpkg](https://unpkg.com/). You can find URLs for i
 
 ## Get started with a bundler (webpack, rollup, ect&hellip;)
 
-ArcGIS REST JS is ready-to-use with popular module bundlers such as [webpack](https://webpack.js.org/) and [rollup](https://rollupjs.org/). Make sure you also install the polyfills for [`fetch`](https://github.com/matthew-andrews/isomorphic-fetch) and [`Promise`](https://github.com/stefanpenner/es6-promise). You can find `npm install` commands for all packages in the [API reference](../api).
+ArcGIS REST JS is ready-to-use with popular module bundlers like [webpack](https://webpack.js.org/) and [rollup](https://rollupjs.org/). Make sure you also install the polyfills for [`fetch`](https://github.com/matthew-andrews/isomorphic-fetch) and [`Promise`](https://github.com/stefanpenner/es6-promise). You can find `npm install` commands for all packages in the [API reference](../api).
 
 ```bash
 npm install @esri/arcgis-rest-request isomorphic-fetch es6-promise
@@ -102,7 +102,7 @@ request("https://www.arcgis.com/sharing/rest/info").then(response => {
 });
 ```
 
-**Note**: many other libraries or tools (such as [Babel](https://babeljs.io/docs/usage/polyfill/)) require an ES 6 `Promise` polyfill. Any `Promise` polyfill will work with ArcGIS REST JS, `es6-promise` is simply a lightweight standalone version.
+**Note**: many other libraries or tools (such as [Babel](https://babeljs.io/docs/usage/polyfill/)) require an ES6 `Promise` polyfill. Any `Promise` polyfill will work with ArcGIS REST JS, `es6-promise` is simply a lightweight standalone version.
 
 ## Get started with Node.js
 
