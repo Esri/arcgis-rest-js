@@ -4,7 +4,7 @@
   {%- endif -%}
 
   {%- if type.type === 'reference' and type.id -%}
-    <i><a href="{{ API_TOOLS.findById(data.typedoc, type.id).pageUrl }}">{{type.name}}</a></i>
+    <i><a href="{{ baseUrl + API_TOOLS.findById(data.typedoc, type.id).pageUrl }}">{{type.name}}</a></i>
   {%- elif type.type === 'reference' -%}
     <i>{{type.name}}</i>
   {%- endif -%}
@@ -13,7 +13,7 @@
     <span class="code-face"><span class="text-light-gray">function</span> <span class="text-purple">{{name}}</span> <span class="text-light-gray">(</span>{{ @signatureParams(type.declaration.signatures[0].parameters) }}<span class="text-light-gray">) : </span>{{@type(type.declaration.signatures[0].type)}}</span>
   {%- elif type.type === 'reflection' and type.declaration.id  -%}
     {% set declaration = API_TOOLS.findById(data.typedoc, type.declaration.id) %}
-    <i><a href="{{ declaration.pageUrl }}">{{declaration.name}}</a></i>
+    <i><a href="{{ baseUrl + declaration.pageUrl }}">{{declaration.name}}</a></i>
   {%- elif type.type === 'reflection' -%}
     <i>{{ type.name }}</i>
   {%- endif -%}
@@ -361,11 +361,11 @@
   {% for implementedType in implementedTypes %}
     {% if implementedType.id %}
       {% set base = API_TOOLS.findById(data.typedoc, implementedType.id) %}
-      <li class="code-face {{base.icon}}"><a href="{{ base.pageUrl }}" class="tsd-kind-icon">{{base.name}}</a></li>
+      <li class="code-face {{base.icon}}"><a href="{{ baseUrl + base.pageUrl }}" class="tsd-kind-icon">{{base.name}}</a></li>
     {% elif implementedType.name %}
       {% set base = API_TOOLS.findByName(data.typedoc, implementedType.name) %}
       {% if base %}
-        <li class="code-face {{base.icon}}"><a href="{{ base.pageUrl }}" class="tsd-kind-icon">{{base.name}}</a></li>
+        <li class="code-face {{base.icon}}"><a href="{{ baseUrl + base.pageUrl }}" class="tsd-kind-icon">{{base.name}}</a></li>
       {% elif implementedType.name %}
         <li class="code-face">{{base.name}}</li>
       {% endif %}
@@ -380,11 +380,11 @@
   {% for extendedType in extendedTypes %}
     {% if extendedType.id %}
       {% set base = API_TOOLS.findById(data.typedoc, extendedType.id) %}
-      <li class="code-face {{base.icon}}"><a href="{{ base.pageUrl }}" class="tsd-kind-icon">{{base.name}}</a></li>
+      <li class="code-face {{base.icon}}"><a href="{{ baseUrl + base.pageUrl }}" class="tsd-kind-icon">{{base.name}}</a></li>
     {% elif extendedType.name %}
       {% set base = API_TOOLS.findByName(data.typedoc, extendedType.name) %}
       {% if base %}
-        <li class="code-face {{base.icon}}"><a href="{{ base.pageUrl }}" class="tsd-kind-icon">{{base.name}}</a></li>
+        <li class="code-face {{base.icon}}"><a href="{{ baseUrl + base.pageUrl }}" class="tsd-kind-icon">{{base.name}}</a></li>
       {% elif extendedType.name %}
         <li class="code-face">{{base.name}}</li>
       {% endif %}
