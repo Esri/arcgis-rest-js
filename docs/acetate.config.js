@@ -172,6 +172,11 @@ module.exports = function(acetate) {
     }
   });
 
+  acetate.filter("findPackage", (typedoc, name) => {
+    console.log(typedoc.packages, name);
+    return typedoc.packages.find(p => p.pkg.name === name).pkg;
+  });
+
   /**
    * Listen for changes, if we see a change in typedoc.json we know we need to
    * regenerate all the dymanically generated pages so reload this config file.
