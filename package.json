@@ -98,7 +98,7 @@
     "release:review": "git --no-pager diff --word-diff",
     "release:publish": "./support/publish.sh",
     "postrelease:publish": "npm run docs:deploy",
-    "c": "git add --all && npm run precommit && git-cz"
+    "c": "npm run precommit && git-cz"
   },
   "repository": {
     "type": "git",
