@@ -60,10 +60,12 @@ Vue.component("api-search", {
 
     search: function(text) {
       return this.index.search(text).map(result => {
+        // append gh-pages subdirectory on live site
+        const BASE_URL = (window && window.location.origin === "http://localhost:3000") ? "" : "/arcgis-rest-js";
         return {
           title: this.highlightText(result.item.title, result.matches),
           icon: result.item.icon,
-          url: result.item.url
+          url: BASE_URL + result.item.url
         };
       });
     },
