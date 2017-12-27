@@ -1,4 +1,12 @@
 {% macro @type(type) -%}
+  {%- if type.declaration and type.declaration.children -%}
+    {<dl class="type-child-list clearfix">
+    {%- for child in type.declaration.children -%}
+      <dt class="type-child-name">{{child.name}}:</dt><dd class="type-child-type">{{ @type(child.type) }}</dd>
+    {%- endfor -%}
+    </dl>}
+  {%- endif -%}
+
   {% if type.type === 'array' %}
     <i class="no-wrap">{{ @type(type.elementType) }}<span class="text-light-gray">{{ '[]' }}</span></i>
   {% endif %}
@@ -7,7 +15,7 @@
     <i class="text-purple">{{type.name}}</i>
   {%- endif -%}
 
-  {%- if type.type === 'reference' and type.id -%}
+  {%- if type.type === 'reference' and type.id and API_TOOLS.findById(data.typedoc, type.id) -%}
     <i><a href="{{ baseUrl + API_TOOLS.findById(data.typedoc, type.id).pageUrl }}">{{type.name}}</a></i>
   {%- elif API_TOOLS.findByName(data.typedoc, type.name) -%}
     <i><a href="{{ baseUrl + API_TOOLS.findByName(data.typedoc, type.name).pageUrl }}">{{type.name}}</a></i>
@@ -17,9 +25,13 @@
 
   {%- if type.type === 'reflection' and type.declaration.signatures.length > 0 -%}
     <span class="code-face"><span class="text-light-gray">function</span> <span class="text-purple">{{name}}</span> <span class="text-light-gray">(</span>{{ @signatureParams(type.declaration.signatures[0].parameters) }}<span class="text-light-gray">) : </span>{{@type(type.declaration.signatures[0].type)}}</span>
-  {%- elif type.type === 'reflection' and type.declaration.id  -%}
+  {%- elif type.type === 'reflection' and type.declaration.id and API_TOOLS.findById(data.typedoc, type.declaration.id)  -%}
     {% set declaration = API_TOOLS.findById(data.typedoc, type.declaration.id) %}
     <i><a href="{{ baseUrl + declaration.pageUrl }}">{{declaration.name}}</a></i>
+  {%- elif type.type === 'reflection' and type.declaration and type.declaration.indexSignature -%}
+    {% for signature in type.declaration.indexSignature %}
+      <i class="no-wrap">{% for param in signature.parameters%}[key: {{@type(param.type)}}]: {% endfor %}{{@type(signature.type)}}</i>
+    {% endfor %}
   {%- elif type.type === 'reflection' -%}
     <i>{{ type.name }}</i>
   {%- endif -%}
@@ -122,7 +134,7 @@
   </table>
 {% endmacro %}
 
-{% macro @indexSignature (signatures) %}
+{% macro @indexSignature (signatures, parentKind) %}
   <table>
     <thead>
       <tr>
@@ -134,11 +146,11 @@
     <tbody>
       {% for child in signatures %}
         <tr id="{{child.parameters[0].id}}">
-          <td class="code-face {{child.icon}} no-wrap">
+          <td class="code-face tsd-kind-index-signature tsd-parent-kind-{{parentKind | lower}} no-wrap">
             <a href="{{child.parameters[0].id}}" class="table-link">
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
             </a>
-            {{ @type(child.parameters[0].type) }}
+            <span class="tsd-kind-icon">{{ @type(child.parameters[0].type) }}</span>
           </td>
           <td class="code-face">
             {% if child.defaultValue %}
@@ -459,7 +471,7 @@
 
 {% if indexSignature %}
   <h3>Index Signatures</h3>
-  {{@indexSignature(indexSignature)}}
+  {{@indexSignature(indexSignature, kindString)}}
 {% endif %}
 
 {% if signatures %}
@@ -479,6 +491,6 @@
 {% if isDev %}
   <details class="leader-1">
     <summary>Debug Info</summary>
-    <pre><code>{{__defaultMetadata | inspect}}</code></pre>
+    <pre><code>{{__defaultMetadata.children[12].type.declaration.indexSignature[0].type.declaration  | inspect}}</code></pre>
   </details>
 {% endif %}
