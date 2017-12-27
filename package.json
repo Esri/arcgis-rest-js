@@ -65,11 +65,7 @@
     "tslib": "^1.8.1"
   },
   "lint-staged": {
-    "*.ts": [
-      "prettier --write --parser typescript",
-      "tslint",
-      "git add"
-    ]
+    "*.ts": ["prettier --write --parser typescript", "tslint", "git add"]
   },
   "scripts": {
     "build": "lerna run build",
@@ -78,7 +74,7 @@
     "test:chrome": "karma start --single-run --browsers=Chrome",
     "test:node": "jasmine --config=jasmine.json",
     "test:node:debug": "inspect jasmine --config=jasmine.json",
-    "docs:build": "rimraf docs/build && npm run docs:build:acetate && npm run docs:build:sass && npm run docs:build:images",
+    "docs:build": "rimraf docs/build && npm run docs:typedoc && npm run docs:build:acetate && npm run docs:build:sass && npm run docs:build:images",
     "docs:build:acetate": "ENV=prod acetate build --config docs/acetate.config.js",
     "docs:build:sass": "node-sass --output docs/build/css --source-map true --source-map-contents docs/src/sass",
     "docs:build:images": "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build",
@@ -101,6 +97,7 @@
     "release:prepare": "lerna publish --skip-git --skip-npm --yes && node ./support/changelog.js",
     "release:review": "git --no-pager diff --word-diff",
     "release:publish": "./support/publish.sh",
+    "postrelease:publish": "npm run docs:deploy",
     "c": "npm run precommit && git-cz"
   },
   "repository": {

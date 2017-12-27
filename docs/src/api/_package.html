@@ -1,6 +1,10 @@
 <small class="label right">Version {{pkg.version}}</small>
 <h1 class="{{icon}} font-size-3 trailer-half"> {% link baseUrl + url, pkg.name, class="tsd-kind-icon" %}</h1>
 <p class="trailer-half">{{pkg.description}}</p>
+<h2 class="font-size--1 trailer-half">npm install:</h2>
+<pre><code>{% npmInstallCmd pkg %}</code></pre>
+<h2 class="font-size--1 trailer-half">CDN url:</h2>
+<pre><code>{% cdnUrl pkg %}</code></pre>
 <hr class="leader-half trailer-half">
 <ul class="list-plain package-contents">
 {% for declaration in declarations %}
