@@ -1,4 +1,8 @@
 {% macro @type(type) -%}
+  {% if type.type === 'array' %}
+    <i class="no-wrap">{{ @type(type.elementType) }}<span class="text-light-gray">{{ '[]' }}</span></i>
+  {% endif %}
+
   {%- if type.type === 'intrinsic' -%}
     <i class="text-purple">{{type.name}}</i>
   {%- endif -%}
@@ -475,6 +479,6 @@
 {% if isDev %}
   <details class="leader-1">
     <summary>Debug Info</summary>
-    <pre><code>{{__defaultMetadata.children[0].type | inspect}}</code></pre>
+    <pre><code>{{__defaultMetadata | inspect}}</code></pre>
   </details>
 {% endif %}
