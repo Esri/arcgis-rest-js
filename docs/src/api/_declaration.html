@@ -1,10 +1,12 @@
 {% macro @type(type) -%}
   {%- if type.type === 'intrinsic' -%}
-    <i>{{type.name}}</i>
+    <i class="text-purple">{{type.name}}</i>
   {%- endif -%}
 
   {%- if type.type === 'reference' and type.id -%}
     <i><a href="{{ baseUrl + API_TOOLS.findById(data.typedoc, type.id).pageUrl }}">{{type.name}}</a></i>
+  {%- elif API_TOOLS.findByName(data.typedoc, type.name) -%}
+    <i><a href="{{ baseUrl + API_TOOLS.findByName(data.typedoc, type.name).pageUrl }}">{{type.name}}</a></i>
   {%- elif type.type === 'reference' -%}
     <i>{{type.name}}</i>
   {%- endif -%}
@@ -23,11 +25,26 @@
       {%- if t.type === 'stringLiteral' -%}
         <span class="text-green">"{{t.value}}"</span>
       {%- else -%}
-        {{t.value or t.name}}
+        {{ @type(t) }}
       {%- endif -%}
 
       {%- if (loop.last === false) -%}
         <span class="text-light-gray">{{ ' | ' }}</span>
+      {%- endif -%}
+    {%- endfor -%}</i>
+  {%- endif -%}
+
+  {%- if type.type === 'tuple' -%}
+    <i class="no-wrap">{%- for t in type.elements -%}
+      {%- if (loop.first) -%}
+        <span class="text-light-gray">{{ '[' }}</span>
+      {%- endif -%}
+      {{ @type(t) }}
+      {%- if (loop.last === false) -%}
+        <span class="text-light-gray">{{ ', ' }}</span>
+      {%- endif -%}
+      {%- if (loop.last) -%}
+        <span class="text-light-gray">{{ ']' }}</span>
       {%- endif -%}
     {%- endfor -%}</i>
   {%- endif -%}
@@ -455,7 +472,9 @@
 
 <small class="font-size--2">{{kindString}} defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/master/packages/{{sources[0].fileName}}#L{{sources[0].line}}">packages/{{sources[0].fileName}}:{{sources[0].line}}</a></small>
 
-<details class="leader-1">
-  <summary>Debug Info</summary>
-  <pre><code>{{__defaultMetadata.indexSignature[0] | inspect}}</code></pre>
-</details>
+{% if isDev %}
+  <details class="leader-1">
+    <summary>Debug Info</summary>
+    <pre><code>{{__defaultMetadata.children[0].type | inspect}}</code></pre>
+  </details>
+{% endif %}

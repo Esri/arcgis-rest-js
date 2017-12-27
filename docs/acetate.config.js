@@ -4,6 +4,7 @@ const { inspect } = require("util");
 const _ = require("lodash");
 const slug = require("slug");
 
+const IS_DEV = process.env.ENV !== "prod";
 const BASE_URL = process.env.ENV === "prod" ? "/arcgis-rest-js" : "";
 
 module.exports = function(acetate) {
@@ -25,7 +26,8 @@ module.exports = function(acetate) {
   });
 
   acetate.metadata("**/*", {
-    baseUrl: BASE_URL
+    baseUrl: BASE_URL,
+    isDev: IS_DEV
   });
 
   /**
