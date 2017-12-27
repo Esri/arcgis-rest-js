@@ -10,7 +10,7 @@
 {% block main %}
   <div class="grid-container trailer-1 leader-1">
     <div class="column-6">
-    <api-search>
+    <api-search base-url="{{baseUrl}}">
       <ul class="list-plain">
         {% for package in data.typedoc.packages %}
         <li class="{{ package.icon }}">

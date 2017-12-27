@@ -31,6 +31,7 @@ Vue.component("api-search", {
       searchTerm: ""
     };
   },
+  props: ['baseUrl'],
   methods: {
     highlightText: function(text, matches) {
       return matches
@@ -63,7 +64,7 @@ Vue.component("api-search", {
         return {
           title: this.highlightText(result.item.title, result.matches),
           icon: result.item.icon,
-          url: result.item.url
+          url: this.baseUrl + result.item.url
         };
       });
     },
