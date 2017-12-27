@@ -35,7 +35,6 @@ request(url)
     .then(response => {
         console.log(response) // WebMap JSON
     })
-});
 ```
 
 ### API Reference
@@ -66,6 +65,7 @@ Some useful commands include:
 * [`@esri/arcgis-rest-geocoder`](./packages/arcgis-rest-geocoder) - Geocoding wrapper for `@esri/arcgis-rest-js`
 * [`@esri/arcgis-rest-items`](./packages/arcgis-rest-items) - Methods for working with ArcGIS Online/Enterprise content.
 * [`@esri/arcgis-rest-groups`](./packages/arcgis-rest-groups) - Methods for working with ArcGIS Online/Enterprise groups.
+* [`@esri/arcgis-rest-common-types`](./packages/arcgis-rest-common-types) - Stores objects common across the ArcGIS API.
 
 ### Frequently Asked Questions
 

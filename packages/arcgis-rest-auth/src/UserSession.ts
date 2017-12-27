@@ -143,8 +143,8 @@ export interface IUserSessionOptions {
 }
 
 /**
- * Used to manage the authentication of ArcGIS Online and ArcGIs Enterprise users
- * in [`request`](/api/arcgis-rest-request/request/). This class also includes several
+ * Used to manage the authentication of ArcGIS Online and ArcGIS Enterprise users
+ * in [`request`](/api/request/request/). This class also includes several
  * helper methods for authenticating users with OAuth 2.0 in both browser and
  * server applications.
  */
