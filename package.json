@@ -27,6 +27,8 @@
     "jasmine-core": "^2.8.0",
     "karma": "^1.7.1",
     "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.1",
+    "karma-coveralls": "^1.1.2",
     "karma-firefox-launcher": "^1.1.0",
     "karma-ie-launcher": "^1.0.0",
     "karma-jasmine": "^1.1.1",
@@ -65,7 +67,11 @@
     "tslib": "^1.8.1"
   },
   "lint-staged": {
-    "*.ts": ["prettier --write --parser typescript", "tslint", "git add"]
+    "*.ts": [
+      "prettier --write --parser typescript",
+      "tslint",
+      "git add"
+    ]
   },
   "scripts": {
     "build": "lerna run build",
@@ -74,6 +80,7 @@
     "test:chrome": "karma start --single-run --browsers=Chrome",
     "test:node": "jasmine --config=jasmine.json",
     "test:node:debug": "inspect jasmine --config=jasmine.json",
+    "test:coverage": "npm run test:node && karma start --browsers=Chrome --single-run --reporter=coveralls",
     "docs:build": "rimraf docs/build && npm run docs:typedoc && npm run docs:build:acetate && npm run docs:build:sass && npm run docs:build:images",
     "docs:build:acetate": "ENV=prod acetate build --config docs/acetate.config.js",
     "docs:build:sass": "node-sass --output docs/build/css --source-map true --source-map-contents docs/src/sass",

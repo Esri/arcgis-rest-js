@@ -1,0 +1,2 @@
+git service_name: travis-ci
+repo_token: $COVERALLS_TOKEN
