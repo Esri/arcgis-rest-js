@@ -12,7 +12,7 @@ tr:hover .table-link,
 }
 
 .method-panel header .table-link {
-  left: -.875rem;
+  left: -0.875rem;
   top: 1.75rem;
 }
 
@@ -57,7 +57,7 @@ tr:target,
 
 .api-search-result {
   border: 1px solid transparent;
-  padding: .25rem;
+  padding: 0.25rem;
 
   &.is-selected {
     background: #f8f8f8;
@@ -81,7 +81,7 @@ tr:target,
 
 .api-function-comment {
   p {
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 }
 
@@ -135,4 +135,21 @@ a > code {
   .package-contents > * {
     margin: 0;
   }
+}
+
+.type-child-list {
+  margin: 0;
+}
+
+.type-child-name {
+  float: left;
+  clear: left;
+  padding: 0 0.25rem 0 1rem;
+  margin: 0;
+}
+
+.type-child-type {
+  float: left;
+  clear: right;
+  margin: 0;
 }
