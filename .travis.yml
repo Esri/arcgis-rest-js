@@ -27,5 +27,8 @@ deploy:
   target_branch: gh-pages # default
 before_deploy:
  - npm run docs:build
+env:
+  - MOZ_HEADLESS=1
 addons:
   chrome: stable
+  firefox: latest
