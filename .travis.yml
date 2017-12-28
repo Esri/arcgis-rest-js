@@ -16,7 +16,7 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
 script:
-  - npm run test:coverage
+  - npm run test:all
 deploy:
   provider: pages
   skip_cleanup: true
@@ -27,5 +27,8 @@ deploy:
   target_branch: gh-pages # default
 before_deploy:
  - npm run docs:build
+env:
+  - MOZ_HEADLESS=1
 addons:
   chrome: stable
+  firefox: latest
