@@ -338,7 +338,7 @@ export class UserSession implements IAuthenticationManager {
         return undefined;
       }
 
-      if (win.parent) {
+      if (win !== win.parent) {
         win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`](error, oauthInfo);
         win.close();
         return undefined;
@@ -592,12 +592,12 @@ export class UserSession implements IAuthenticationManager {
     }
 
     if (!this._pendingTokenRequests[this.portal]) {
-      this._pendingTokenRequests[
-        this.portal
-      ] = this.refreshSession().then(session => {
-        this._pendingTokenRequests[this.portal] = null;
-        return session.token;
-      });
+      this._pendingTokenRequests[this.portal] = this.refreshSession().then(
+        session => {
+          this._pendingTokenRequests[this.portal] = null;
+          return session.token;
+        }
+      );
     }
 
     return this._pendingTokenRequests[this.portal];
