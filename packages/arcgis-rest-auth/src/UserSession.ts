@@ -144,7 +144,7 @@ export interface IUserSessionOptions {
 
 /**
  * Used to manage the authentication of ArcGIS Online and ArcGIS Enterprise users
- * in [`request`](/api/request/request/). This class also includes several
+ * in `request`. This class also includes several
  * helper methods for authenticating users with OAuth 2.0 in both browser and
  * server applications.
  */
@@ -592,12 +592,12 @@ export class UserSession implements IAuthenticationManager {
     }
 
     if (!this._pendingTokenRequests[this.portal]) {
-      this._pendingTokenRequests[
-        this.portal
-      ] = this.refreshSession().then(session => {
-        this._pendingTokenRequests[this.portal] = null;
-        return session.token;
-      });
+      this._pendingTokenRequests[this.portal] = this.refreshSession().then(
+        session => {
+          this._pendingTokenRequests[this.portal] = null;
+          return session.token;
+        }
+      );
     }
 
     return this._pendingTokenRequests[this.portal];

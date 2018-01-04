@@ -33,7 +33,7 @@ export interface IParams {
 }
 
 /**
- * Options for the [`request()`](/api/arcgis-core/request/) method.
+ * Options for the `request()` method.
  */
 export interface IRequestOptions {
   /**
