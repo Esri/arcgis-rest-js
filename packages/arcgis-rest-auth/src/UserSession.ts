@@ -338,7 +338,7 @@ export class UserSession implements IAuthenticationManager {
         return undefined;
       }
 
-      if (win.parent) {
+      if (win !== win.parent) {
         win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`](error, oauthInfo);
         win.close();
         return undefined;

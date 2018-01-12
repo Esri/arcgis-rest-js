@@ -483,6 +483,9 @@ describe("UserSession", () => {
         location: {
           href:
             "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=casey"
+        },
+        get parent() {
+          return this;
         }
       };
 
@@ -566,6 +569,9 @@ describe("UserSession", () => {
         location: {
           href:
             "https://example-app.com/redirect-uri#error=Invalid_Signin&error_description=Invalid_Signin"
+        },
+        get parent() {
+          return this;
         }
       };
 
