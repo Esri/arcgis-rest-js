@@ -48,7 +48,7 @@ const globals = packageNames.reduce((globals, p) => {
  */
 export default {
   entry: "./src/index.ts",
-  dest: `./dist/umd/${name.replace("@esri/", "")}.js`,
+  dest: `./dist/umd/${name.replace("@esri/", "")}.umd.js`,
   format: "umd",
   sourceMap: true,
   context: "window",

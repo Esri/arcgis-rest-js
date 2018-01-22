@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "description": "Geocoding helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
-  "browser": "dist/umd/arcgis-rest-geocoder.js",
+  "browser": "dist/umd/arcgis-rest-geocoder.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
