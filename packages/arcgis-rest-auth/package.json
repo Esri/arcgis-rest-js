@@ -3,7 +3,7 @@
   "version": "1.0.2",
   "description": "Authentication helpers for @esri/arcgis-rest-*.",
   "main": "dist/node/index.js",
-  "browser": "dist/browser/arcgis-rest-auth.umd.js",
+  "browser": "dist/umd/arcgis-rest-auth.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
