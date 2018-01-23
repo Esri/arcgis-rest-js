@@ -8,15 +8,10 @@ node_js:
 cache:
   directories: # Cache dependencies
     - node_modules
-before_install:
-  - google-chrome-stable --headless --disable-gpu
 before_script:
   - npm run bootstrap
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
 script:
-  - npm run test:all
+  - npm run test:ci
 deploy:
   provider: pages
   skip_cleanup: true
