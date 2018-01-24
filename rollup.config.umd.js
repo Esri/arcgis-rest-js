@@ -58,9 +58,7 @@ export default {
   plugins: [
     typescript(),
     json(),
-    resolve({
-      browser: true
-    }),
+    resolve(),
     commonjs(),
     uglify(),
     filesize()
