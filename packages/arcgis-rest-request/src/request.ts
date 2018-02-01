@@ -103,7 +103,7 @@ export function request(
   requestOptions: IRequestOptions = { params: { f: "json" } }
 ): Promise<any> {
   const options: IRequestOptions = {
-    ...{ httpMethod: "POST", fetch: fetch.bind(Function("return this")()) },
+    ...{ httpMethod: "POST", fetch },
     ...requestOptions
   };
 
@@ -133,6 +133,10 @@ export function request(
         ", "
       )} modules at the root of your application to add these to the global scope. See http://bit.ly/2BXbqzq for more info.`
     );
+  }
+
+  if (options.fetch === fetch) {
+    options.fetch = fetch.bind(Function("return this")());
   }
 
   const { httpMethod, authentication } = options;
