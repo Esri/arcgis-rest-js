@@ -522,7 +522,7 @@ export class UserSession implements IAuthenticationManager {
       return this.refreshWithRefreshToken();
     }
 
-    return Promise.reject(new Error("Unable to refresh token."));
+    return Promise.reject(new ArcGISAuthError("Unable to refresh token."));
   }
 
   /**

@@ -1,5 +1,9 @@
 import { UserSession, IFetchTokenResponse } from "../src/index";
-import { ArcGISRequestError, ErrorTypes } from "@esri/arcgis-rest-request";
+import {
+  ArcGISRequestError,
+  ArcGISAuthError,
+  ErrorTypes
+} from "@esri/arcgis-rest-request";
 import * as fetchMock from "fetch-mock";
 import { YESTERDAY, TOMORROW } from "./utils";
 
@@ -350,6 +354,8 @@ describe("UserSession", () => {
       });
 
       session.refreshSession().catch(e => {
+        expect(e instanceof ArcGISAuthError).toBeTruthy();
+        expect(e.name).toBe("ArcGISAuthError");
         expect(e.message).toBe("Unable to refresh token.");
         done();
       });
