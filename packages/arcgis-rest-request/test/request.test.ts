@@ -199,20 +199,52 @@ describe("request()", () => {
     beforeEach(() => {
       Promise = undefined;
       FormData = undefined;
+      Function("return this")().fetch = undefined;
     });
 
     afterEach(() => {
       Promise = oldPromise;
       FormData = oldFormData;
+      Function("return this")().fetch = oldFetch;
     });
     it("should throw for missing dependencies", () => {
       expect(() => {
-        request("https://www.arcgis.com/sharing/rest/info", {
-          fetch: undefined
-        });
+        request("https://www.arcgis.com/sharing/rest/info");
       }).toThrowError(
         "`arcgis-rest-request` requires global variables for `fetch`, `Promise` and `FormData` to be present in the global scope. You are missing `fetch`, `Promise`, `FormData`. We recommend installing the `isomorphic-fetch`, `es6-promise`, `isomorphic-form-data` modules at the root of your application to add these to the global scope. See http://bit.ly/2BXbqzq for more info."
       );
+    });
+
+    it("should not throw if fetch is not present but a custom fetch is defined", done => {
+      Promise = oldPromise;
+      FormData = oldFormData;
+
+      const MockFetchResponse = {
+        json() {
+          return Promise.resolve(SharingRestInfo);
+        },
+        blob() {
+          return Promise.resolve(new Blob([JSON.stringify(SharingRestInfo)]));
+        },
+        text() {
+          return Promise.resolve(JSON.stringify(SharingRestInfo));
+        }
+      };
+
+      const MockFetch = function() {
+        return Promise.resolve(MockFetchResponse);
+      };
+
+      request("https://www.arcgis.com/sharing/rest/info", {
+        fetch: MockFetch as any
+      })
+        .then(response => {
+          expect(response).toEqual(SharingRestInfo);
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
     });
   });
 });
