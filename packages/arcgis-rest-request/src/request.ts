@@ -37,7 +37,7 @@ export interface IParams {
  */
 export interface IRequestOptions {
   /**
-   * The HTTP method to send the request with.
+   * The parameters passed with the request.
    */
   params?: IParams;
 
