@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased Changes
+
+### Added
+
+* New arcgis-rest-feature-service package w/ `getFeature()` to get a feature by id
+
 ## [1.0.2] - December 21st 2017
 
 ### Other Changes
