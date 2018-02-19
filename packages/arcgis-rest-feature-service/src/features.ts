@@ -11,24 +11,31 @@ export interface IFeature {
 }
 
 /**
+ * parameters required to get a feature by id
+ *
+ * @param url - layer service url
+ * @param id - feature id
+ */
+export interface IFeatureRequestOptions extends IRequestOptions {
+  url: string;
+  id: number;
+}
+
+/**
  * Get an feature by id
  *
- * @param serviceUrl - service url
- * @param id - feature id
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the feature.
  */
 export function getFeature(
-  serviceUrl: string,
-  id: number,
-  requestOptions?: IRequestOptions
+  requestOptions: IFeatureRequestOptions
 ): Promise<IFeature> {
-  const url = `${serviceUrl}/${id}`;
+  const url = `${requestOptions.url}/${requestOptions.id}`;
 
   // default to a GET request
-  const options: IRequestOptions = {
+  const options: IFeatureRequestOptions = {
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
-  return request(url, options).then(response => response.feature);
+  return request(url, options).then((response: any) => response.feature);
 }

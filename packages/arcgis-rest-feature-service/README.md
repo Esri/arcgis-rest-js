@@ -20,9 +20,13 @@ npm install @esri/arcgis-rest-feature-service
 ```js
 import { getFeature } from '@esri/arcgis-rest-feature-service';
 
-const serviceUrl = "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0";
+const params = {
+  url:
+    "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
+  id: 42
+};
 
-getFeature(serviceUrl, 42)
+getFeature(params)
   .then(feature => {
     console.log(feature.attributes.FID); // 42
   });
