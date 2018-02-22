@@ -593,8 +593,8 @@ describe("search", () => {
       updateItemResource({
         id: "3ef",
         owner: "dbouwman",
-        content: "image/banner.png",
-        name: "jumbotron",
+        name: "image/banner.png",
+        content: "jumbotron",
         ...MOCK_USER_REQOPTS
       })
         .then(response => {
@@ -620,8 +620,8 @@ describe("search", () => {
       fetchMock.once("*", UpdateItemResourceResponse);
       updateItemResource({
         id: "3ef",
-        content: "image/banner.png",
-        name: "jumbotron",
+        name: "image/banner.png",
+        content: "jumbotron",
         ...MOCK_USER_REQOPTS
       })
         .then(response => {

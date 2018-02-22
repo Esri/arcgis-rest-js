@@ -176,9 +176,9 @@ export function addItemJsonData(
 ): Promise<any> {
   const owner = requestOptions.owner || requestOptions.authentication.username;
 
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${owner}/items/${requestOptions.id}/update`;
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/update`;
 
   // Portal API requires that the 'data' be stringified and POSTed in
   // a `text` form field. It can also be sent with the `.create` call by sending
@@ -240,8 +240,9 @@ export function getItemData(
  * @returns A Promise that resolves with the status of the operation.
  */
 export function updateItem(requestOptions: IItemRequestOptions): Promise<any> {
-  const url = `${getPortalUrl(requestOptions)}/content/users/${requestOptions
-    .item.owner}/items/${requestOptions.item.id}/update`;
+  const url = `${getPortalUrl(requestOptions)}/content/users/${
+    requestOptions.item.owner
+  }/items/${requestOptions.item.id}/update`;
 
   // serialize the item into something Portal will accept
   requestOptions.params = serializeItem(requestOptions.item);
@@ -259,9 +260,9 @@ export function removeItem(
   requestOptions: IItemIdRequestOptions
 ): Promise<any> {
   const owner = requestOptions.owner || requestOptions.authentication.username;
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${owner}/items/${requestOptions.id}/delete`;
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/delete`;
   return request(url, requestOptions);
 }
 
@@ -275,9 +276,9 @@ export function protectItem(
   requestOptions: IItemIdRequestOptions
 ): Promise<any> {
   const owner = requestOptions.owner || requestOptions.authentication.username;
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${owner}/items/${requestOptions.id}/protect`;
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/protect`;
   return request(url, requestOptions);
 }
 
@@ -291,9 +292,9 @@ export function unprotectItem(
   requestOptions: IItemIdRequestOptions
 ): Promise<any> {
   const owner = requestOptions.owner || requestOptions.authentication.username;
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${owner}/items/${requestOptions.id}/unprotect`;
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/unprotect`;
   return request(url, requestOptions);
 }
 
@@ -306,9 +307,9 @@ export function unprotectItem(
 export function getItemResources(
   requestOptions: IItemIdRequestOptions
 ): Promise<any> {
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/items/${requestOptions.id}/resources`;
+  const url = `${getPortalUrl(requestOptions)}/content/items/${
+    requestOptions.id
+  }/resources`;
 
   requestOptions.params = { num: 1000 };
 
@@ -325,13 +326,13 @@ export function updateItemResource(
   requestOptions: IItemResourceRequestOptions
 ): Promise<any> {
   const owner = requestOptions.owner || requestOptions.authentication.username;
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${owner}/items/${requestOptions.id}/updateResources`;
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/updateResources`;
 
   requestOptions.params = {
-    fileName: requestOptions.content,
-    text: requestOptions.name
+    fileName: requestOptions.name,
+    text: requestOptions.content
   };
 
   return request(url, requestOptions);
@@ -347,9 +348,9 @@ export function removeItemResource(
   requestOptions: IItemResourceRequestOptions
 ): Promise<any> {
   const owner = requestOptions.owner || requestOptions.authentication.username;
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${owner}/items/${requestOptions.id}/removeResources`;
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/removeResources`;
 
   requestOptions.params = { resource: requestOptions.resource };
   return request(url, requestOptions);
