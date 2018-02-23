@@ -1,11 +1,11 @@
-import { IItem } from "@esri/arcgis-rest-common-types";
+import { Item } from "@esri/arcgis-rest-common-types";
 
 export const ItemSuccessResponse: any = {
   success: true,
   id: "3efakeitemid0000"
 };
 
-export const ItemResponse: IItem = {
+export const ItemResponse: Item = {
   id: "4bc",
   owner: "jeffvader",
   title: "DS Plans",

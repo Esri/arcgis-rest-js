@@ -7,12 +7,12 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IExtent, IItem, IPagingParams } from "@esri/arcgis-rest-common-types";
+import { Extent, Item, PagingParams } from "@esri/arcgis-rest-common-types";
 
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 export interface IItemRequestOptions extends IUserRequestOptions {
-  item: IItem;
+  item: Item;
 }
 
 // * @param id - Item Id
@@ -54,7 +54,7 @@ export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
 }
 
 export interface IItemCrudRequestOptions extends IUserRequestOptions {
-  item: IItem;
+  item: Item;
   /**
    * Item owner username (by default authentication session will be used).
    */
@@ -66,7 +66,7 @@ export interface IItemCrudRequestOptions extends IUserRequestOptions {
 }
 
 // this interface still needs to be docced
-export interface ISearchRequest extends IPagingParams {
+export interface ISearchRequest extends PagingParams {
   q: string;
   [key: string]: any;
   // start: number;
@@ -86,7 +86,7 @@ export interface ISearchResult {
   start: number;
   num: number;
   nextStart: number;
-  results: IItem[];
+  results: Item[];
 }
 
 /**
@@ -176,9 +176,9 @@ export function addItemJsonData(
 ): Promise<any> {
   const owner = requestOptions.owner || requestOptions.authentication.username;
 
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${owner}/items/${requestOptions.id}/update`;
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/update`;
 
   // Portal API requires that the 'data' be stringified and POSTed in
   // a `text` form field. It can also be sent with the `.create` call by sending
@@ -199,7 +199,7 @@ export function addItemJsonData(
 export function getItem(
   id: string,
   requestOptions?: IRequestOptions
-): Promise<IItem> {
+): Promise<Item> {
   const url = `${getPortalUrl(requestOptions)}/content/items/${id}`;
 
   // default to a GET request
@@ -240,8 +240,9 @@ export function getItemData(
  * @returns A Promise that resolves with the status of the operation.
  */
 export function updateItem(requestOptions: IItemRequestOptions): Promise<any> {
-  const url = `${getPortalUrl(requestOptions)}/content/users/${requestOptions
-    .item.owner}/items/${requestOptions.item.id}/update`;
+  const url = `${getPortalUrl(requestOptions)}/content/users/${
+    requestOptions.item.owner
+  }/items/${requestOptions.item.id}/update`;
 
   // serialize the item into something Portal will accept
   requestOptions.params = serializeItem(requestOptions.item);
@@ -259,9 +260,9 @@ export function removeItem(
   requestOptions: IItemIdRequestOptions
 ): Promise<any> {
   const owner = requestOptions.owner || requestOptions.authentication.username;
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${owner}/items/${requestOptions.id}/delete`;
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/delete`;
   return request(url, requestOptions);
 }
 
@@ -275,9 +276,9 @@ export function protectItem(
   requestOptions: IItemIdRequestOptions
 ): Promise<any> {
   const owner = requestOptions.owner || requestOptions.authentication.username;
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${owner}/items/${requestOptions.id}/protect`;
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/protect`;
   return request(url, requestOptions);
 }
 
@@ -291,9 +292,9 @@ export function unprotectItem(
   requestOptions: IItemIdRequestOptions
 ): Promise<any> {
   const owner = requestOptions.owner || requestOptions.authentication.username;
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${owner}/items/${requestOptions.id}/unprotect`;
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/unprotect`;
   return request(url, requestOptions);
 }
 
@@ -306,9 +307,9 @@ export function unprotectItem(
 export function getItemResources(
   requestOptions: IItemIdRequestOptions
 ): Promise<any> {
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/items/${requestOptions.id}/resources`;
+  const url = `${getPortalUrl(requestOptions)}/content/items/${
+    requestOptions.id
+  }/resources`;
 
   requestOptions.params = { num: 1000 };
 
@@ -325,9 +326,9 @@ export function updateItemResource(
   requestOptions: IItemResourceRequestOptions
 ): Promise<any> {
   const owner = requestOptions.owner || requestOptions.authentication.username;
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${owner}/items/${requestOptions.id}/updateResources`;
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/updateResources`;
 
   requestOptions.params = {
     fileName: requestOptions.content,
@@ -347,9 +348,9 @@ export function removeItemResource(
   requestOptions: IItemResourceRequestOptions
 ): Promise<any> {
   const owner = requestOptions.owner || requestOptions.authentication.username;
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${owner}/items/${requestOptions.id}/removeResources`;
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/removeResources`;
 
   requestOptions.params = { resource: requestOptions.resource };
   return request(url, requestOptions);
@@ -362,7 +363,7 @@ export function removeItemResource(
  * @param item IItem to be serialized
  * @returns a formatted json object to be sent to Portal
  */
-function serializeItem(item: IItem): any {
+function serializeItem(item: Item): any {
   // create a clone so we're not messing with the original
   const clone = JSON.parse(JSON.stringify(item));
   // join keywords and tags...
