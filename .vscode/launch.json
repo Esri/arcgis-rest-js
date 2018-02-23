@@ -12,6 +12,13 @@
       "args": [
         "--config=jasmine.json"
       ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Changelog Script",
+      "program": "${workspaceRoot}/support/changelog.js",
+      "args": ["--config=jasmine.json"]
     }
   ]
 }
