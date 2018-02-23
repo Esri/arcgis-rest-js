@@ -74,7 +74,7 @@ function getCommitData(from, to) {
     exec(cmd, (err, stdout, stderr) => {
       if (err) return reject(err);
       if (stderr) return reject(stderr);
-      const commits = JSON.parse(`[${stdout.slice(0, -1)}]`);
+      const commits = JSON.parse("["+stdout.slice(0, -1).replace(/\\/g, "\\\\")+"]");
       const last = _.last(commits);
       const date = last ? last.date : new Date();
       resolve({
