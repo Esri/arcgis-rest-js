@@ -143,6 +143,7 @@ function processCommitMessages(releaseData) {
 
         if (issues >= 0) {
           const issuesClosed = commit.notes[issues].text
+            .replace(/\n.*/gm, "")
             .replace(/\s/g, "")
             .split(",")
             .map(i => i.replace("#", ""));
