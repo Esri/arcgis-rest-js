@@ -145,7 +145,10 @@ export function createItemInFolder(
   }
 
   // serialize the item into something Portal will accept
-  requestOptions.params = serializeItem(requestOptions.item);
+  requestOptions.params = {
+    ...requestOptions.params,
+    ...serializeItem(requestOptions.item)
+  };
 
   return request(url, requestOptions);
 }
@@ -184,6 +187,7 @@ export function addItemJsonData(
   // a `text` form field. It can also be sent with the `.create` call by sending
   // a `.data` property.
   requestOptions.params = {
+    ...requestOptions.params,
     text: JSON.stringify(requestOptions.data)
   };
 
@@ -245,7 +249,10 @@ export function updateItem(requestOptions: IItemRequestOptions): Promise<any> {
   }/items/${requestOptions.item.id}/update`;
 
   // serialize the item into something Portal will accept
-  requestOptions.params = serializeItem(requestOptions.item);
+  requestOptions.params = {
+    ...requestOptions.params,
+    ...serializeItem(requestOptions.item)
+  };
 
   return request(url, requestOptions);
 }
@@ -311,7 +318,11 @@ export function getItemResources(
     requestOptions.id
   }/resources`;
 
-  requestOptions.params = { num: 1000 };
+  // mix in user supplied params
+  requestOptions.params = {
+    ...requestOptions.params,
+    num: 1000
+  };
 
   return request(url, requestOptions);
 }
@@ -330,7 +341,9 @@ export function updateItemResource(
     requestOptions.id
   }/updateResources`;
 
+  // mix in user supplied params
   requestOptions.params = {
+    ...requestOptions.params,
     fileName: requestOptions.name,
     text: requestOptions.content
   };
@@ -352,7 +365,11 @@ export function removeItemResource(
     requestOptions.id
   }/removeResources`;
 
-  requestOptions.params = { resource: requestOptions.resource };
+  // mix in user supplied params
+  requestOptions.params = {
+    ...requestOptions.params,
+    resource: requestOptions.resource
+  };
   return request(url, requestOptions);
 }
 
