@@ -5,9 +5,9 @@ import { request, IRequestOptions, IParams } from "@esri/arcgis-rest-request";
 import { IAuthenticatedRequestOptions } from "@esri/arcgis-rest-auth";
 
 import {
-  Extent,
-  SpatialReferenceWkid,
-  Point
+  IExtent,
+  ISpatialReference,
+  IPoint
 } from "@esri/arcgis-rest-common-types";
 
 // https always
@@ -35,7 +35,7 @@ export interface IAddressBulk {
   countryCode?: string;
 }
 
-export interface Location {
+export interface ILocation {
   latitude?: number;
   longitude?: number;
   lat?: number;
@@ -43,17 +43,17 @@ export interface Location {
 }
 
 function isLocationArray(
-  coords: Location | Point | [number, number]
+  coords: ILocation | IPoint | [number, number]
 ): coords is [number, number] {
   return (coords as [number, number]).length === 2;
 }
 
 function isLocation(
-  coords: Location | Point | [number, number]
-): coords is Location {
+  coords: ILocation | IPoint | [number, number]
+): coords is ILocation {
   return (
-    (coords as Location).latitude !== undefined ||
-    (coords as Location).lat !== undefined
+    (coords as ILocation).latitude !== undefined ||
+    (coords as ILocation).lat !== undefined
   );
 }
 
@@ -116,11 +116,11 @@ export interface IBulkGeocodeRequestOptions extends IEndpointRequestOptions {
 }
 
 export interface IGeocodeResponse {
-  spatialReference: SpatialReferenceWkid;
+  spatialReference: ISpatialReference;
   candidates: Array<{
     address: string;
-    location: Point;
-    extent: Extent;
+    location: IPoint;
+    extent: IExtent;
     attributes: object;
   }>;
 }
@@ -129,7 +129,7 @@ export interface IReverseGeocodeResponse {
   address: {
     [key: string]: any;
   };
-  location: Point;
+  location: IPoint;
 }
 
 export interface ISuggestResponse {
@@ -141,10 +141,10 @@ export interface ISuggestResponse {
 }
 
 export interface IBulkGeocodeResponse {
-  spatialReference: SpatialReferenceWkid;
+  spatialReference: ISpatialReference;
   locations: Array<{
     address: string;
-    location: Point;
+    location: IPoint;
     score: number;
     attributes: object;
   }>;
@@ -205,8 +205,8 @@ export function geocode(
     response => {
       const sr = response.spatialReference;
       response.candidates.forEach(function(candidate: {
-        location: Point;
-        extent: Extent;
+        location: IPoint;
+        extent: IExtent;
       }) {
         candidate.location.spatialReference = sr;
         candidate.extent.spatialReference = sr;
@@ -279,7 +279,7 @@ export function suggest(
  * @returns A Promise that will resolve with the data from the response.
  */
 export function reverseGeocode(
-  coords: Point | Location | [number, number],
+  coords: IPoint | ILocation | [number, number],
   requestOptions?: IEndpointRequestOptions
 ): Promise<IReverseGeocodeResponse> {
   const options: IGeocodeRequestOptions = {
@@ -356,7 +356,7 @@ export function bulkGeocode(
   return request(options.endpoint + "geocodeAddresses", requestOptions).then(
     response => {
       const sr = response.spatialReference;
-      response.locations.forEach(function(address: { location: Point }) {
+      response.locations.forEach(function(address: { location: IPoint }) {
         address.location.spatialReference = sr;
       });
       return response;

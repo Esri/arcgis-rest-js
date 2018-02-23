@@ -7,12 +7,12 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { Extent, Item, PagingParams } from "@esri/arcgis-rest-common-types";
+import { IExtent, IItem, IPagingParams } from "@esri/arcgis-rest-common-types";
 
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 export interface IItemRequestOptions extends IUserRequestOptions {
-  item: Item;
+  item: IItem;
 }
 
 // * @param id - Item Id
@@ -54,7 +54,7 @@ export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
 }
 
 export interface IItemCrudRequestOptions extends IUserRequestOptions {
-  item: Item;
+  item: IItem;
   /**
    * Item owner username (by default authentication session will be used).
    */
@@ -66,7 +66,7 @@ export interface IItemCrudRequestOptions extends IUserRequestOptions {
 }
 
 // this interface still needs to be docced
-export interface ISearchRequest extends PagingParams {
+export interface ISearchRequest extends IPagingParams {
   q: string;
   [key: string]: any;
   // start: number;
@@ -86,7 +86,7 @@ export interface ISearchResult {
   start: number;
   num: number;
   nextStart: number;
-  results: Item[];
+  results: IItem[];
 }
 
 /**
@@ -199,7 +199,7 @@ export function addItemJsonData(
 export function getItem(
   id: string,
   requestOptions?: IRequestOptions
-): Promise<Item> {
+): Promise<IItem> {
   const url = `${getPortalUrl(requestOptions)}/content/items/${id}`;
 
   // default to a GET request
@@ -363,7 +363,7 @@ export function removeItemResource(
  * @param item IItem to be serialized
  * @returns a formatted json object to be sent to Portal
  */
-function serializeItem(item: Item): any {
+function serializeItem(item: IItem): any {
   // create a clone so we're not messing with the original
   const clone = JSON.parse(JSON.stringify(item));
   // join keywords and tags...

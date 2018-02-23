@@ -7,10 +7,10 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { PagingParams, Item } from "@esri/arcgis-rest-common-types";
+import { IPagingParams, IItem } from "@esri/arcgis-rest-common-types";
 
 export interface IPagingParamsRequestOptions extends IRequestOptions {
-  paging: PagingParams;
+  paging: IPagingParams;
 }
 
 export interface IGroupIdRequestOptions extends IRequestOptions {
@@ -32,7 +32,7 @@ export interface IGroupRequestOptions extends IRequestOptions {
   group: IGroup;
 }
 
-export interface IGroupSearchRequest extends PagingParams {
+export interface IGroupSearchRequest extends IPagingParams {
   q: string;
   sortField?: string;
   sortOrder?: string;
@@ -56,7 +56,7 @@ export interface IGroupContentResult {
   start: number;
   num: number;
   nextStart: number;
-  items: Item[];
+  items: IItem[];
 }
 
 export interface IGroupUsersResult {

@@ -4,7 +4,7 @@
 /**
  * an arc can be represented as a JSON curve object
  */
-export interface Arc {
+export interface IArc {
   a: [
     Position, // End point: x, y, <z>, <m>
     Position2D, // Center point: center_x, center_y
@@ -19,14 +19,14 @@ export interface Arc {
 /**
  * a bezier curve can be represented as a JSON curve object
  */
-export interface BezierCurve {
+export interface IBezierCurve {
   b: [Position, Position2D, Position2D];
 }
 
 /**
  * a circular arc can be represented as a JSON curve object
  */
-export interface CircularArc {
+export interface ICircularArc {
   c: [Position, Position2D];
 }
 
@@ -38,20 +38,20 @@ export type Color = [number, number, number, number];
 /**
  *
  */
-export type ElipticArc = Arc;
+export type ElipticArc = IArc;
 
 /**
  * a spatial entity and its corresponding properties
  */
-export interface Feature {
-  geometry?: Geometry;
+export interface IFeature {
+  geometry?: IGeometry;
   attributes?: any;
 }
 
 /**
  *
  */
-export interface Field {
+export interface IField {
   name: string;
   type: string;
   alias?: string;
@@ -61,14 +61,14 @@ export interface Field {
 /**
  * a building block for discrete geometries
  */
-export interface Geometry {
-  spatialReference?: SpatialReference;
+export interface IGeometry {
+  spatialReference?: ISpatialReference;
 }
 
 /**
  * An envelope is a rectangle defined by a range of values for each coordinate and attribute.
  */
-export interface Envelope extends Geometry {
+export interface IEnvelope extends IGeometry {
   xmin: number;
   xmax: number;
   ymin: number;
@@ -92,22 +92,33 @@ export type esriGeometryType =
   | "esriGeometryEnvelope";
 
 /**
- *
+ * Extents are used to define rectangles and bounding boxes.
  */
-export interface FeatureSet extends HasZM {
-  objectIdFieldName?: string; // optional
-  globalIdFieldName?: string; // optional
-  displayFieldName?: string; // optional
-  geometryType?: esriGeometryType; // for feature layers only
-  spatialReference?: SpatialReference; // for feature layers only.
-  fields?: Field[];
-  features: Feature[];
+export interface IExtent {
+  xmin: number;
+  ymin: number;
+  xmax: number;
+  ymax: number;
+  spatialReference?: ISpatialReference;
 }
 
 /**
  *
  */
-export interface Font {
+export interface IFeatureSet extends IHasZM {
+  objectIdFieldName?: string; // optional
+  globalIdFieldName?: string; // optional
+  displayFieldName?: string; // optional
+  geometryType?: esriGeometryType; // for feature layers only
+  spatialReference?: ISpatialReference; // for feature layers only.
+  fields?: IField[];
+  features: IFeature[];
+}
+
+/**
+ *
+ */
+export interface IFont {
   family?: string; // "<fontFamily>";
   size?: number; // <fontSize>;
   style?: "italic" | "normal" | "oblique";
@@ -116,20 +127,9 @@ export interface Font {
 }
 
 /**
- * Extents are used to define rectangles and bounding boxes.
- */
-export interface Extent {
-  xmin: number;
-  ymin: number;
-  xmax: number;
-  ymax: number;
-  spatialReference?: SpatialReference;
-}
-
-/**
  *
  */
-export interface HasZM {
+export interface IHasZM {
   hasZ?: boolean;
   hasM?: boolean;
 }
@@ -137,7 +137,7 @@ export interface HasZM {
 /**
  * Portal Item
  */
-export interface Item {
+export interface IItem {
   id?: string;
   owner: string;
   title: string;
@@ -159,12 +159,12 @@ export interface Item {
 /**
  *
  */
-export type JsonCurve = CircularArc | Arc | OldCircularArc | BezierCurve;
+export type JsonCurve = ICircularArc | IArc | IOldCircularArc | IBezierCurve;
 
 /**
  *
  */
-export interface OldCircularArc {
+export interface IOldCircularArc {
   a: [
     Position, // End point: x, y, <z>, <m>
     Position2D, // Center point: center_x, center_y
@@ -176,7 +176,7 @@ export interface OldCircularArc {
 /**
  *
  */
-export interface MarkerSymbol extends Symbol {
+export interface IMarkerSymbol extends ISymbol {
   angle?: number;
   xoffset?: number;
   yoffset?: number;
@@ -185,14 +185,14 @@ export interface MarkerSymbol extends Symbol {
 /**
  * A multipoint contains an array of points.
  */
-export interface Multipoint extends HasZM, Geometry {
+export interface IMultipoint extends IHasZM, IGeometry {
   points: Position[];
 }
 
 /**
  * Params for paging operations
  */
-export interface PagingParams {
+export interface IPagingParams {
   start?: number;
   num?: number;
 }
@@ -200,9 +200,9 @@ export interface PagingParams {
 /**
  *
  */
-export interface PictureFillSymbol extends Symbol, PictureSourced {
+export interface IPictureFillSymbol extends ISymbol, IPictureSourced {
   type: "esriPFS";
-  outline?: SimpleLineSymbol; // if outline has been specified
+  outline?: ISimpleLineSymbol; // if outline has been specified
   xscale?: number;
   yscale?: number;
 }
@@ -210,14 +210,14 @@ export interface PictureFillSymbol extends Symbol, PictureSourced {
 /**
  *
  */
-export interface PictureMarkerSymbol extends MarkerSymbol, PictureSourced {
+export interface IPictureMarkerSymbol extends IMarkerSymbol, IPictureSourced {
   type: "esriPMS";
 }
 
 /**
  *
  */
-export interface PictureSourced {
+export interface IPictureSourced {
   url?: string; // Relative URL for static layers and full URL for dynamic layers. Access relative URL using http://<mapservice-url>/<layerId1>/images/<imageUrl11>
   imageData?: string; // "<base64EncodedImageData>";
   contentType?: string;
@@ -231,7 +231,7 @@ export interface PictureSourced {
 /**
  * A simple point geometry, with spatial reference defined.
  */
-export interface Point extends HasZM, Geometry {
+export interface IPoint extends IHasZM, IGeometry {
   x: number;
   y: number;
 }
@@ -239,28 +239,28 @@ export interface Point extends HasZM, Geometry {
 /**
  *
  */
-export interface Polyline extends HasZM, Geometry {
+export interface IPolyline extends IHasZM, IGeometry {
   paths: Position[][];
 }
 
 /**
  *
  */
-export interface PolylineWithCurves extends HasZM, Geometry {
+export interface IPolylineWithCurves extends IHasZM, IGeometry {
   curvePaths: Array<Array<Position | JsonCurve>>;
 }
 
 /**
  *
  */
-export interface Polygon extends HasZM, Geometry {
+export interface IPolygon extends IHasZM, IGeometry {
   rings: Position[][];
 }
 
 /**
  *
  */
-export interface PolygonWithCurves extends HasZM, Geometry {
+export interface IPolygonWithCurves extends IHasZM, IGeometry {
   curveRings: Array<Array<Position | JsonCurve>>;
 }
 
@@ -326,17 +326,17 @@ export type SymbolType =
 /**
  *
  */
-export interface SimpleFillSymbol extends Symbol {
+export interface ISimpleFillSymbol extends ISymbol {
   type: "esriSFS";
   style?: SimpleFillSymbolStyle;
   color?: Color;
-  outline?: SimpleLineSymbol; // if outline has been specified
+  outline?: ISimpleLineSymbol; // if outline has been specified
 }
 
 /**
  *
  */
-export interface SimpleLineSymbol extends Symbol {
+export interface ISimpleLineSymbol extends ISymbol {
   type: "esriSLS";
   style?: SimpleLineSymbolStyle;
   color?: Color;
@@ -346,28 +346,22 @@ export interface SimpleLineSymbol extends Symbol {
 /**
  *
  */
-export interface SimpleMarkerSymbol extends MarkerSymbol {
+export interface ISimpleMarkerSymbol extends IMarkerSymbol {
   type: "esriSMS";
   style?: SimpleMarkerSymbolStyle;
   color?: Color;
   size?: number;
-  outline?: SimpleLineSymbol;
+  outline?: ISimpleLineSymbol;
 }
 
 /**
  * Spatial reference systems define mathematical transformations and coordinate systems for displaying spatial information in 2D and 3D.
  */
-export interface SpatialReferenceWkid {
-  wkid: number;
+export interface ISpatialReference {
+  wkid?: number;
   latestWkid?: number;
   vcsWkid?: number;
   latestVcsWkid?: number;
-}
-
-/**
- *
- */
-export interface SpatialReferenceWkt {
   wkt?: string;
   latestWkt?: string;
 }
@@ -375,12 +369,7 @@ export interface SpatialReferenceWkt {
 /**
  *
  */
-export type SpatialReference = SpatialReferenceWkt | SpatialReferenceWkid;
-
-/**
- *
- */
-export interface Symbol {
+export interface ISymbol {
   type: SymbolType;
   style?: string;
 }
@@ -388,7 +377,7 @@ export interface Symbol {
 /**
  *
  */
-export interface TextSymbol extends MarkerSymbol {
+export interface ITextSymbol extends IMarkerSymbol {
   type: "esriTS";
   color?: Color;
   backgroundColor?: Color;
@@ -400,6 +389,6 @@ export interface TextSymbol extends MarkerSymbol {
   horizontalAlignment?: "left" | "right" | "center" | "justify";
   rightToLeft?: boolean;
   kerning?: boolean;
-  font?: Font;
+  font?: IFont;
   text?: string; // only applicable when specified as a client-side graphic.
 }
