@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request, IRequestOptions, IParams } from "@esri/arcgis-rest-request";
-import { IAuthenticatedRequestOptions } from "@esri/arcgis-rest-auth";
+// import { IAuthenticatedRequestOptions } from "@esri/arcgis-rest-auth";
 
 import {
   IExtent,

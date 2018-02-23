@@ -1,4 +1,4 @@
-import { getPortalUrl, IRequestOptions } from "../../src/index";
+import { getPortalUrl } from "../../src/index";
 
 describe("getPortalUrl", () => {
   it("should default to arcgis.com", () => {

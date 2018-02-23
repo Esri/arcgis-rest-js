@@ -105,6 +105,14 @@ export interface IExtent {
 /**
  *
  */
+export interface IHasZM {
+  hasZ?: boolean;
+  hasM?: boolean;
+}
+
+/**
+ *
+ */
 export interface IFeatureSet extends IHasZM {
   objectIdFieldName?: string; // optional
   globalIdFieldName?: string; // optional
@@ -124,14 +132,6 @@ export interface IFont {
   style?: "italic" | "normal" | "oblique";
   weight?: "bold" | "bolder" | "lighter" | "normal";
   decoration?: "line-through" | "underline" | "none";
-}
-
-/**
- *
- */
-export interface IHasZM {
-  hasZ?: boolean;
-  hasM?: boolean;
 }
 
 /**
@@ -176,6 +176,14 @@ export interface IOldCircularArc {
 /**
  *
  */
+export interface ISymbol {
+  type: SymbolType;
+  style?: string;
+}
+
+/**
+ *
+ */
 export interface IMarkerSymbol extends ISymbol {
   angle?: number;
   xoffset?: number;
@@ -200,6 +208,20 @@ export interface IPagingParams {
 /**
  *
  */
+export interface IPictureSourced {
+  url?: string; // Relative URL for static layers and full URL for dynamic layers. Access relative URL using http://<mapservice-url>/<layerId1>/images/<imageUrl11>
+  imageData?: string; // "<base64EncodedImageData>";
+  contentType?: string;
+  width?: number;
+  height?: number;
+  angle?: number;
+  xoffset?: number;
+  yoffset?: number;
+}
+
+/**
+ *
+ */
 export interface IPictureFillSymbol extends ISymbol, IPictureSourced {
   type: "esriPFS";
   outline?: ISimpleLineSymbol; // if outline has been specified
@@ -212,20 +234,6 @@ export interface IPictureFillSymbol extends ISymbol, IPictureSourced {
  */
 export interface IPictureMarkerSymbol extends IMarkerSymbol, IPictureSourced {
   type: "esriPMS";
-}
-
-/**
- *
- */
-export interface IPictureSourced {
-  url?: string; // Relative URL for static layers and full URL for dynamic layers. Access relative URL using http://<mapservice-url>/<layerId1>/images/<imageUrl11>
-  imageData?: string; // "<base64EncodedImageData>";
-  contentType?: string;
-  width?: number;
-  height?: number;
-  angle?: number;
-  xoffset?: number;
-  yoffset?: number;
 }
 
 /**
@@ -364,14 +372,6 @@ export interface ISpatialReference {
   latestVcsWkid?: number;
   wkt?: string;
   latestWkt?: string;
-}
-
-/**
- *
- */
-export interface ISymbol {
-  type: SymbolType;
-  style?: string;
 }
 
 /**

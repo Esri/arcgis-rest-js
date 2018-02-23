@@ -31,8 +31,8 @@ import {
   RemoveItemResourceResponse
 } from "./mocks/resources";
 
-import { UserSession, IFetchTokenResponse } from "@esri/arcgis-rest-auth";
-import { TOMORROW, YESTERDAY } from "@esri/arcgis-rest-auth/test/utils";
+import { UserSession } from "@esri/arcgis-rest-auth";
+import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 import { encodeParam } from "@esri/arcgis-rest-request";
 
 describe("search", () => {

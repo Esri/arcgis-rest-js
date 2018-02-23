@@ -9,6 +9,6 @@
     "ordered-imports": ["any"],
     "only-arrow-functions": [false],
     "object-literal-sort-keys": false,
-    "interface-name": [false, "always-prefix"]
+    "interface-name": [true, "always-prefix"]
   }
 }

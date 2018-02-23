@@ -3,7 +3,7 @@
 import {
   request,
   IRequestOptions,
-  IParams,
+  // IParams,
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 

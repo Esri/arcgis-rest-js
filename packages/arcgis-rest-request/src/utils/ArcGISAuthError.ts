@@ -1,12 +1,7 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  IRequestOptions,
-  IParams,
-  IAuthenticationManager
-} from "../request";
+import { request, IRequestOptions, IAuthenticationManager } from "../request";
 import { ArcGISRequestError } from "./ArcGISRequestError";
 
 export type IRetryAuthError = (
