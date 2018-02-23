@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    * **UserSession**: throw ArcGISAuthError instead of Error when unable to refresh a token [`8854765`](https://github.com/Esri/arcgis-rest-js/commit/88547656ce88786e2dcac8e8e0e78045b67e8e16) [#56](https://github.com/Esri/arcgis-rest-js/issues/56)
    * **oauth**: check for window parent correctly in ouath without popup [`a27bb7d`](https://github.com/Esri/arcgis-rest-js/commit/a27bb7da5fa5de7ddfbc2d676b707bfa1780ecbf)
 * Misc.
-   * **package.json files and rollup config**: ensure JS build tools can fetch a valid UMD file [`29e0189`](https://github.com/Esri/arcgis-rest-js/commit/29e01897e35c6c4bb02709998afe2c493401d86d) [#101travisneedssudotoinstallchromenowiguessleavethefilenamesbeithinkitschokingonthepreparescriptanothertrywiththenpm@5guessensurerollupdoesntusebrowserbundlesdontneedsudoanymore](https://github.com/Esri/arcgis-rest-js/issues/101travisneedssudotoinstallchromenowiguessleavethefilenamesbeithinkitschokingonthepreparescriptanothertrywiththenpm@5guessensurerollupdoesntusebrowserbundlesdontneedsudoanymore)
+   * **package.json files and rollup config**: ensure JS build tools can fetch a valid UMD file [`29e0189`](https://github.com/Esri/arcgis-rest-js/commit/29e01897e35c6c4bb02709998afe2c493401d86d) [#101](https://github.com/Esri/arcgis-rest-js/issues/101)
 
 ### @esri/arcgis-rest-common-types
 
@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Documentation
    * **fix dead links**: fixed broken links within declaration page content [`449183b`](https://github.com/Esri/arcgis-rest-js/commit/449183b4bd612712be9cd8dca096c7514764cbcb)
 * Misc.
-   * **package.json files and rollup config**: ensure JS build tools can fetch a valid UMD file [`29e0189`](https://github.com/Esri/arcgis-rest-js/commit/29e01897e35c6c4bb02709998afe2c493401d86d) [#101travisneedssudotoinstallchromenowiguessleavethefilenamesbeithinkitschokingonthepreparescriptanothertrywiththenpm@5guessensurerollupdoesntusebrowserbundlesdontneedsudoanymore](https://github.com/Esri/arcgis-rest-js/issues/101travisneedssudotoinstallchromenowiguessleavethefilenamesbeithinkitschokingonthepreparescriptanothertrywiththenpm@5guessensurerollupdoesntusebrowserbundlesdontneedsudoanymore)
+   * **package.json files and rollup config**: ensure JS build tools can fetch a valid UMD file [`29e0189`](https://github.com/Esri/arcgis-rest-js/commit/29e01897e35c6c4bb02709998afe2c493401d86d) [#101](https://github.com/Esri/arcgis-rest-js/issues/101)
 
 ### @esri/arcgis-rest-geocoder-vanilla
 
@@ -44,7 +44,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Documentation
    * **fix dead links**: fixed broken links within declaration page content [`449183b`](https://github.com/Esri/arcgis-rest-js/commit/449183b4bd612712be9cd8dca096c7514764cbcb)
 * Misc.
-   * **package.json files and rollup config**: ensure JS build tools can fetch a valid UMD file [`29e0189`](https://github.com/Esri/arcgis-rest-js/commit/29e01897e35c6c4bb02709998afe2c493401d86d) [#101travisneedssudotoinstallchromenowiguessleavethefilenamesbeithinkitschokingonthepreparescriptanothertrywiththenpm@5guessensurerollupdoesntusebrowserbundlesdontneedsudoanymore](https://github.com/Esri/arcgis-rest-js/issues/101travisneedssudotoinstallchromenowiguessleavethefilenamesbeithinkitschokingonthepreparescriptanothertrywiththenpm@5guessensurerollupdoesntusebrowserbundlesdontneedsudoanymore)
+   * **package.json files and rollup config**: ensure JS build tools can fetch a valid UMD file [`29e0189`](https://github.com/Esri/arcgis-rest-js/commit/29e01897e35c6c4bb02709998afe2c493401d86d) [#101](https://github.com/Esri/arcgis-rest-js/issues/101)
 
 ### @esri/arcgis-rest-items
 
@@ -54,7 +54,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    * **items**: dont override user supplied parameters when updating items [`eaa1656`](https://github.com/Esri/arcgis-rest-js/commit/eaa1656fc0164098e45897ccd1bc9b21a865d2df) [#117](https://github.com/Esri/arcgis-rest-js/issues/117)
    * **params**: flip param values in updateItemResource so they are passed correctly [`5093e39`](https://github.com/Esri/arcgis-rest-js/commit/5093e390f5f60f5ca39901c361c4c993f1355d73) [#118](https://github.com/Esri/arcgis-rest-js/issues/118)
 * Misc.
-   * **package.json files and rollup config**: ensure JS build tools can fetch a valid UMD file [`29e0189`](https://github.com/Esri/arcgis-rest-js/commit/29e01897e35c6c4bb02709998afe2c493401d86d) [#101travisneedssudotoinstallchromenowiguessleavethefilenamesbeithinkitschokingonthepreparescriptanothertrywiththenpm@5guessensurerollupdoesntusebrowserbundlesdontneedsudoanymore](https://github.com/Esri/arcgis-rest-js/issues/101travisneedssudotoinstallchromenowiguessleavethefilenamesbeithinkitschokingonthepreparescriptanothertrywiththenpm@5guessensurerollupdoesntusebrowserbundlesdontneedsudoanymore)
+   * **package.json files and rollup config**: ensure JS build tools can fetch a valid UMD file [`29e0189`](https://github.com/Esri/arcgis-rest-js/commit/29e01897e35c6c4bb02709998afe2c493401d86d) [#101](https://github.com/Esri/arcgis-rest-js/issues/101)
 
 ### @esri/arcgis-rest-request
 
@@ -63,7 +63,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Bug Fixes
    * **request**: allow options.fetch without global fetch [`99cf01c`](https://github.com/Esri/arcgis-rest-js/commit/99cf01c391cffc4ba73f39119db05564962abd74) [#108](https://github.com/Esri/arcgis-rest-js/issues/108)
 * Misc.
-   * **package.json files and rollup config**: ensure JS build tools can fetch a valid UMD file [`29e0189`](https://github.com/Esri/arcgis-rest-js/commit/29e01897e35c6c4bb02709998afe2c493401d86d) [#101travisneedssudotoinstallchromenowiguessleavethefilenamesbeithinkitschokingonthepreparescriptanothertrywiththenpm@5guessensurerollupdoesntusebrowserbundlesdontneedsudoanymore](https://github.com/Esri/arcgis-rest-js/issues/101travisneedssudotoinstallchromenowiguessleavethefilenamesbeithinkitschokingonthepreparescriptanothertrywiththenpm@5guessensurerollupdoesntusebrowserbundlesdontneedsudoanymore)
+   * **package.json files and rollup config**: ensure JS build tools can fetch a valid UMD file [`29e0189`](https://github.com/Esri/arcgis-rest-js/commit/29e01897e35c6c4bb02709998afe2c493401d86d) [#101](https://github.com/Esri/arcgis-rest-js/issues/101)
 
 ### Other Changes
 
