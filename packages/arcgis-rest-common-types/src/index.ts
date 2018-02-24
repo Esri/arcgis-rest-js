@@ -45,7 +45,7 @@ export type ElipticArc = IArc;
  */
 export interface IFeature {
   geometry?: IGeometry;
-  attributes?: any;
+  attributes: { [key: string]: any };
 }
 
 /**

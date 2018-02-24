@@ -1,14 +1,7 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
+import { IFeature } from "@esri/arcgis-rest-common-types";
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
-
-/**
- * Feature - TODO: move this to common types?
- */
-export interface IFeature {
-  attributes: { [key: string]: any };
-  geometry: any;
-}
 
 /**
  * parameters required to get a feature by id

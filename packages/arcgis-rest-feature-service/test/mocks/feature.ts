@@ -1,4 +1,4 @@
-import { IFeature } from "../../src/features";
+import { IFeature } from "@esri/arcgis-rest-common-types";
 
 export const featureResponse = {
   feature: {
