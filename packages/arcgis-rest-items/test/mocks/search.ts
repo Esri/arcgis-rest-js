@@ -1,5 +1,4 @@
 import { ISearchResult } from "../../src/items";
-import { IItem } from "@esri/arcgis-rest-common-types";
 
 export const SearchResponse: ISearchResult = {
   query: "",

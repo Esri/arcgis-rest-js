@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request, IRequestOptions, IParams } from "@esri/arcgis-rest-request";
-import { IAuthenticatedRequestOptions } from "@esri/arcgis-rest-auth";
+// import { IAuthenticatedRequestOptions } from "@esri/arcgis-rest-auth";
 
 import {
   IExtent,
@@ -169,8 +169,8 @@ export interface IGeocodeServiceInfoResponse {
  *     response.candidates[0].location; // => { x: -118.409, y: 33.943, spatialReference: { wkid: 4326 }  }
  *   });
  *
- * geocode({ 
- *   params: { 
+ * geocode({
+ *   params: {
  *     address: "1600 Pennsylvania Ave",
  *     postal: 20500,
  *     countryCode: "USA"
@@ -201,20 +201,19 @@ export function geocode(
   }
 
   // add spatialReference property to individual matches
-  return request(
-    options.endpoint + "findAddressCandidates",
-    options
-  ).then(response => {
-    const sr = response.spatialReference;
-    response.candidates.forEach(function(candidate: {
-      location: IPoint;
-      extent: IExtent;
-    }) {
-      candidate.location.spatialReference = sr;
-      candidate.extent.spatialReference = sr;
-    });
-    return response;
-  });
+  return request(options.endpoint + "findAddressCandidates", options).then(
+    response => {
+      const sr = response.spatialReference;
+      response.candidates.forEach(function(candidate: {
+        location: IPoint;
+        extent: IExtent;
+      }) {
+        candidate.location.spatialReference = sr;
+        candidate.extent.spatialReference = sr;
+      });
+      return response;
+    }
+  );
 }
 
 /**
@@ -354,16 +353,15 @@ export function bulkGeocode(
     return Promise.reject("bulk geocoding requires authentication");
   }
 
-  return request(
-    options.endpoint + "geocodeAddresses",
-    requestOptions
-  ).then(response => {
-    const sr = response.spatialReference;
-    response.locations.forEach(function(address: { location: IPoint }) {
-      address.location.spatialReference = sr;
-    });
-    return response;
-  });
+  return request(options.endpoint + "geocodeAddresses", requestOptions).then(
+    response => {
+      const sr = response.spatialReference;
+      response.locations.forEach(function(address: { location: IPoint }) {
+        address.location.spatialReference = sr;
+      });
+      return response;
+    }
+  );
 }
 
 /**

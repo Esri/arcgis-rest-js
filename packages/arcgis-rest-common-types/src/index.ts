@@ -2,12 +2,94 @@
  * Apache-2.0 */
 
 /**
- * Spatial reference systems define mathematical transformations and coordinate systems for displaying spatial information in 2D and 3D.
+ * an arc can be represented as a JSON curve object
  */
-export interface ISpatialReference {
-  wkid: number;
-  latestWkid?: number;
+export interface IArc {
+  a: [
+    Position, // End point: x, y, <z>, <m>
+    Position2D, // Center point: center_x, center_y
+    number, // minor
+    number, // clockwise
+    number, // rotation
+    number, // axis
+    number // ratio
+  ];
 }
+
+/**
+ * a bezier curve can be represented as a JSON curve object
+ */
+export interface IBezierCurve {
+  b: [Position, Position2D, Position2D];
+}
+
+/**
+ * a circular arc can be represented as a JSON curve object
+ */
+export interface ICircularArc {
+  c: [Position, Position2D];
+}
+
+/**
+ *
+ */
+export type Color = [number, number, number, number];
+
+/**
+ *
+ */
+export type ElipticArc = IArc;
+
+/**
+ * a spatial entity and its corresponding properties
+ */
+export interface IFeature {
+  geometry?: IGeometry;
+  attributes?: any;
+}
+
+/**
+ *
+ */
+export interface IField {
+  name: string;
+  type: string;
+  alias?: string;
+  length?: number;
+}
+
+/**
+ * a building block for discrete geometries
+ */
+export interface IGeometry {
+  spatialReference?: ISpatialReference;
+}
+
+/**
+ * An envelope is a rectangle defined by a range of values for each coordinate and attribute.
+ */
+export interface IEnvelope extends IGeometry {
+  xmin: number;
+  xmax: number;
+  ymin: number;
+  ymax: number;
+
+  zmin?: number;
+  zmax?: number;
+
+  mmin?: number;
+  mmax?: number;
+}
+
+/**
+ *
+ */
+export type esriGeometryType =
+  | "esriGeometryPoint"
+  | "esriGeometryMultipoint"
+  | "esriGeometryPolyline"
+  | "esriGeometryPolygon"
+  | "esriGeometryEnvelope";
 
 /**
  * Extents are used to define rectangles and bounding boxes.
@@ -21,20 +103,35 @@ export interface IExtent {
 }
 
 /**
- * A simple point geometry, with spatial reference defined.
+ *
  */
-export interface IPoint {
-  x: number;
-  y: number;
-  spatialReference?: ISpatialReference;
+export interface IHasZM {
+  hasZ?: boolean;
+  hasM?: boolean;
 }
 
 /**
- * Params for paging operations
+ *
  */
-export interface IPagingParams {
-  start?: number;
-  num?: number;
+export interface IFeatureSet extends IHasZM {
+  objectIdFieldName?: string; // optional
+  globalIdFieldName?: string; // optional
+  displayFieldName?: string; // optional
+  geometryType?: esriGeometryType; // for feature layers only
+  spatialReference?: ISpatialReference; // for feature layers only.
+  fields?: IField[];
+  features: IFeature[];
+}
+
+/**
+ *
+ */
+export interface IFont {
+  family?: string; // "<fontFamily>";
+  size?: number; // <fontSize>;
+  style?: "italic" | "normal" | "oblique";
+  weight?: "bold" | "bolder" | "lighter" | "normal";
+  decoration?: "line-through" | "underline" | "none";
 }
 
 /**
@@ -57,4 +154,241 @@ export interface IItem {
   properties?: any;
   url?: string;
   [key: string]: any;
+}
+
+/**
+ *
+ */
+export type JsonCurve = ICircularArc | IArc | IOldCircularArc | IBezierCurve;
+
+/**
+ *
+ */
+export interface IOldCircularArc {
+  a: [
+    Position, // End point: x, y, <z>, <m>
+    Position2D, // Center point: center_x, center_y
+    number, // minor
+    number // clockwise
+  ];
+}
+
+/**
+ *
+ */
+export interface ISymbol {
+  type: SymbolType;
+  style?: string;
+}
+
+/**
+ *
+ */
+export interface IMarkerSymbol extends ISymbol {
+  angle?: number;
+  xoffset?: number;
+  yoffset?: number;
+}
+
+/**
+ * A multipoint contains an array of points.
+ */
+export interface IMultipoint extends IHasZM, IGeometry {
+  points: Position[];
+}
+
+/**
+ * Params for paging operations
+ */
+export interface IPagingParams {
+  start?: number;
+  num?: number;
+}
+
+/**
+ *
+ */
+export interface IPictureSourced {
+  url?: string; // Relative URL for static layers and full URL for dynamic layers. Access relative URL using http://<mapservice-url>/<layerId1>/images/<imageUrl11>
+  imageData?: string; // "<base64EncodedImageData>";
+  contentType?: string;
+  width?: number;
+  height?: number;
+  angle?: number;
+  xoffset?: number;
+  yoffset?: number;
+}
+
+/**
+ *
+ */
+export interface IPictureFillSymbol extends ISymbol, IPictureSourced {
+  type: "esriPFS";
+  outline?: ISimpleLineSymbol; // if outline has been specified
+  xscale?: number;
+  yscale?: number;
+}
+
+/**
+ *
+ */
+export interface IPictureMarkerSymbol extends IMarkerSymbol, IPictureSourced {
+  type: "esriPMS";
+}
+
+/**
+ * A simple point geometry, with spatial reference defined.
+ */
+export interface IPoint extends IHasZM, IGeometry {
+  x: number;
+  y: number;
+}
+
+/**
+ *
+ */
+export interface IPolyline extends IHasZM, IGeometry {
+  paths: Position[][];
+}
+
+/**
+ *
+ */
+export interface IPolylineWithCurves extends IHasZM, IGeometry {
+  curvePaths: Array<Array<Position | JsonCurve>>;
+}
+
+/**
+ *
+ */
+export interface IPolygon extends IHasZM, IGeometry {
+  rings: Position[][];
+}
+
+/**
+ *
+ */
+export interface IPolygonWithCurves extends IHasZM, IGeometry {
+  curveRings: Array<Array<Position | JsonCurve>>;
+}
+
+/**
+ *
+ */
+export type Position =
+  | Position2D
+  | [number, number, number]
+  | [number, number, number, number];
+
+/**
+ *
+ */
+export type Position2D = [number, number];
+
+/**
+ *
+ */
+export type SimpleMarkerSymbolStyle =
+  | "esriSMSCircle"
+  | "esriSMSCross"
+  | "esriSMSDiamond"
+  | "esriSMSSquare"
+  | "esriSMSX"
+  | "esriSMSTriangle";
+
+/**
+ *
+ */
+export type SimpleLineSymbolStyle =
+  | "esriSLSDash"
+  | "esriSLSDashDot"
+  | "esriSLSDashDotDot"
+  | "esriSLSDot"
+  | "esriSLSNull"
+  | "esriSLSSolid";
+
+/**
+ *
+ */
+export type SimpleFillSymbolStyle =
+  | "esriSFSBackwardDiagonal"
+  | "esriSFSCross"
+  | "esriSFSDiagonalCross"
+  | "esriSFSForwardDiagonal"
+  | "esriSFSHorizontal"
+  | "esriSFSNull"
+  | "esriSFSSolid"
+  | "esriSFSVertical";
+
+/**
+ *
+ */
+export type SymbolType =
+  | "esriSLS"
+  | "esriSMS"
+  | "esriSFS"
+  | "esriPMS"
+  | "esriPFS"
+  | "esriTS";
+
+/**
+ *
+ */
+export interface ISimpleFillSymbol extends ISymbol {
+  type: "esriSFS";
+  style?: SimpleFillSymbolStyle;
+  color?: Color;
+  outline?: ISimpleLineSymbol; // if outline has been specified
+}
+
+/**
+ *
+ */
+export interface ISimpleLineSymbol extends ISymbol {
+  type: "esriSLS";
+  style?: SimpleLineSymbolStyle;
+  color?: Color;
+  width?: number;
+}
+
+/**
+ *
+ */
+export interface ISimpleMarkerSymbol extends IMarkerSymbol {
+  type: "esriSMS";
+  style?: SimpleMarkerSymbolStyle;
+  color?: Color;
+  size?: number;
+  outline?: ISimpleLineSymbol;
+}
+
+/**
+ * Spatial reference systems define mathematical transformations and coordinate systems for displaying spatial information in 2D and 3D.
+ */
+export interface ISpatialReference {
+  wkid?: number;
+  latestWkid?: number;
+  vcsWkid?: number;
+  latestVcsWkid?: number;
+  wkt?: string;
+  latestWkt?: string;
+}
+
+/**
+ *
+ */
+export interface ITextSymbol extends IMarkerSymbol {
+  type: "esriTS";
+  color?: Color;
+  backgroundColor?: Color;
+  borderLineSize?: number; // <size>;
+  borderLineColor?: Color;
+  haloSize?: number; // <size>;
+  haloColor?: Color;
+  verticalAlignment?: "baseline" | "top" | "middle" | "bottom";
+  horizontalAlignment?: "left" | "right" | "center" | "justify";
+  rightToLeft?: boolean;
+  kerning?: boolean;
+  font?: IFont;
+  text?: string; // only applicable when specified as a client-side graphic.
 }

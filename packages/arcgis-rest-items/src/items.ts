@@ -3,11 +3,10 @@
 import {
   request,
   IRequestOptions,
-  IParams,
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IExtent, IItem, IPagingParams } from "@esri/arcgis-rest-common-types";
+import { IItem, IPagingParams } from "@esri/arcgis-rest-common-types";
 
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
