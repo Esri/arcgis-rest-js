@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",
@@ -82,7 +82,7 @@
     "test:firefox": "karma start --single-run --browsers=Firefox",
     "test:node": "jasmine --config=jasmine.json",
     "test:node:debug": "inspect jasmine --config=jasmine.json",
-    "test:ci":  "npm run test:node && npm run test:chrome:ci && npm run test:firefox",
+    "test:ci": "npm run test:node && npm run test:chrome:ci && npm run test:firefox",
     "test:all": "npm run test:node && npm run test:firefox && npm run test:chrome",
     "docs:build": "rimraf docs/build && npm run docs:typedoc && npm run docs:build:acetate && npm run docs:build:sass && npm run docs:build:images",
     "docs:build:acetate": "ENV=prod acetate build --config docs/acetate.config.js",

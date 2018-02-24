@@ -53,7 +53,31 @@ A potentially better option might be to just use JSDoc and work from the compile
 
 # Release system
 
-So far I havn't looked into release automation at all. I would love to be able to automatically (or partially) genearte a Changelog in addition to automating releases.
+the release process has been entirely automated.
+
+```bash
+npm run release:prepare
+```
+
+the command above bumps the version in each individual package.json file and parses all `npm run c` invoked commit messages since the last release to update the changelog.
+
+```bash
+npm run release:review
+```
+
+this command displays a diff to give you a sense of what will be committed to master when you actually publish.
+
+```bash
+npm run release:publish
+```
+
+this command increments the version in the root package.json, pushes a new tag to GitHub and publishes a release of each individual package on npm.
+
+> on the off chance that nothing makes it to npm, you can force lerna to try again if normal attempts fail with `No updated packages to publish`
+
+```bash
+lerna publish --skip-git --repo-version x.x.x --force-publish=*
+```
 
 # Potential improvments
 
