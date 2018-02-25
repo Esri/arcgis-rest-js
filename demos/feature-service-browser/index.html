@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="jumbotron" >
+        <h1>search features!</h1>
+        <form id="searchFrom" class="form-inline">
+          <div class="form-group">
+            <input type="text" class="form-control" id="search" placeholder="Search by tree type or condition" style="width: 400px" tabindex="0">
+          </div>
+          <button type="submit" class="btn btn-default">Search</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Tree ID</th>
+            <th>Type</th>
+            <th>Condition</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+      </table>
+      <p id="additionalRowsMessage" style="display: none" class="alert alert-warning">There are additional rows that meet your search criteria.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TODO: I would not expect this to work w/o first adding @esri/arcgis-rest-request, but it does -->
+<script src="node_modules/@esri/arcgis-rest-feature-service/dist/umd/arcgis-rest-feature-service.umd.js"></script>
+
+<script>
+  // respond when s user fills out he search text and hits enter
+  // or clicks on the Search button
+  const searchFrom = document.getElementById('searchFrom');
+  searchFrom.addEventListener('submit', function (e) {
+    var searchTerm = e.target.search.value;
+    searchTrees(searchTerm);
+    e.preventDefault();
+  });
+
+  function searchTrees(searchTerm) {
+    arcgisRest.queryFeatures({
+      url: 'https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0',
+      // see: https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm
+      // for all possible query parameters
+      params: {
+        // NOTE: returnGeometry is set to false by default
+        where: 'Cmn_Name LIKE \'%' + searchTerm + '%\' OR Condition LIKE \'%' + searchTerm + '%\'',
+        outFields: ['FID','Tree_ID','Cmn_Name','Condition'],
+        // limit to number of records that will show on the page
+        resultRecordCount: 15
+      }
+    }).then(function(response) {
+      refreshTable(response.features);
+      // show/hide additional rows message
+      var additionalRowsMessageDisplay = response.exceededTransferLimit ? 'block' : 'none';
+      document.getElementById('additionalRowsMessage').style.display = additionalRowsMessageDisplay;
+    });
+  }
+
+  function refreshTable(features) {
+    // clear table
+    var tableBody = document.getElementById('tableBody');
+    tableBody.innerHTML = '';
+    // show returned features (if any)
+    var rows = features.map(function (feature) {
+      return '<tr><td>' + feature.attributes.Tree_ID + '<td>' + feature.attributes.Cmn_Name + '</td><td>' + feature.attributes.Condition + '</td></tr>';
+    });
+    tableBody.innerHTML = rows.join('');
+  }
+</script>
+</body>
+</html>
