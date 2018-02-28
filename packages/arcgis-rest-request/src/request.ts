@@ -193,6 +193,11 @@ export function request(
       return options.fetch(url, fetchOptions);
     })
     .then(response => {
+      if (!response.ok) {
+        // server responded w/ an actual error (404, 500, etc)
+        const { status, statusText } = response;
+        return Promise.reject(new Error(`${status}: ${statusText}`));
+      }
       switch (params.f) {
         case "json":
           return response.json();

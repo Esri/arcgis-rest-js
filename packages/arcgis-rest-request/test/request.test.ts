@@ -167,6 +167,18 @@ describe("request()", () => {
       });
   });
 
+  it("should re-throw HTTP errors (404, 500, etc)", done => {
+    fetchMock.once("*", 404);
+
+    request(
+      "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
+    ).catch(error => {
+      expect(error.message).toBe("404: Not Found");
+      expect(error instanceof Error).toBeTruthy();
+      done();
+    });
+  });
+
   it("should throw errors with information about the request", done => {
     fetchMock.once("*", ArcGISOnlineError);
 
@@ -189,6 +201,7 @@ describe("request()", () => {
 
   it("should allow you to use custom implementations of `fetch`", done => {
     const MockFetchResponse = {
+      ok: true,
       json() {
         return Promise.resolve(SharingRestInfo);
       },
@@ -244,6 +257,7 @@ describe("request()", () => {
       FormData = oldFormData;
 
       const MockFetchResponse = {
+        ok: true,
         json() {
           return Promise.resolve(SharingRestInfo);
         },
