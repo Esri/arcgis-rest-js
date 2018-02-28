@@ -38,7 +38,7 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <table class="table table-striped">
+      <table id="featureTable" class="table table-striped" style="display: none">
         <thead>
           <tr>
             <th>Tree ID</th>
@@ -49,8 +49,8 @@
         <tbody id="tableBody">
         </tbody>
       </table>
-      <p id="recordCountMessage"></p>
       <p id="suggestedTermsMessage">Try 'elm' or 'oak' for <strong>Type</strong>. Try 'fair' or 'good' for <strong>Condition</strong>.</p id="suggestedTermsMessage">
+      <p id="recordCountMessage"></p>
       <p id="additionalRowsMessage" style="display: none" class="alert alert-warning">There are additional rows that meet your query criteria.</p>
     </div>
   </div>
@@ -61,19 +61,28 @@
 <script src="node_modules/@esri/arcgis-rest-feature-service/dist/umd/arcgis-rest-feature-service.umd.js"></script>
 
 <script>
-  // respond when a user fills out the query text and hits enter
-  // or clicks on the query button
-  const queryForm = document.getElementById('queryForm');
+  // respond when a user fills out the query form and
+  // either hits enter or clicks on the button
+  var queryForm = document.getElementById('queryForm');
   queryForm.addEventListener('submit', function (e) {
+    // don't submit the form and reload the page (the default behavior)
+    e.preventDefault();
+    // get query params from form fields
     var queryField = e.target.queryField.value;
     var queryTerm = e.target.queryTerm.value;
     var resultRecordCount = e.target.resultRecordCount.value;
-    queryTrees(queryField, queryTerm, resultRecordCount);
-    e.preventDefault();
+    // execute the query
+    queryTrees(queryField, queryTerm, resultRecordCount)
+    .then(function(response) {
+      // display the features in a table
+      refreshTable(response);
+    });
   });
 
+  // perform query against the feature service and
+  // return a promise that will resolve with the response
   function queryTrees(queryField, queryTerm, resultRecordCount) {
-    arcgisRest.queryFeatures({
+    return arcgisRest.queryFeatures({
       url: 'https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0',
       // see: https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm
       // for all possible query parameters
@@ -84,27 +93,29 @@
         // limit to number of records that will show on the page
         resultRecordCount: resultRecordCount
       }
-    }).then(function(response) {
-      refreshTable(response.features);
-      // show/hide messages
-      var recordCount = response.features.length;
-      var suggestedTermsMessageDisplay = recordCount > 0 ? 'none' : 'block';
-      var additionalRowsMessageDisplay = response.exceededTransferLimit ? 'block' : 'none';
-      document.getElementById('recordCountMessage').innerHTML = recordCount + ' records returned.';
-      document.getElementById('suggestedTermsMessage').style.display = suggestedTermsMessageDisplay;      
-      document.getElementById('additionalRowsMessage').style.display = additionalRowsMessageDisplay;
     });
   }
 
-  function refreshTable(features) {
+  function refreshTable(response) {
+    var features = response.features;
     // clear table
     var tableBody = document.getElementById('tableBody');
     tableBody.innerHTML = '';
     // show returned features (if any)
+    var recordCount = features.length;
+    var featureTableDisplay = recordCount > 0 ? 'table' : 'none';
+    document.getElementById('featureTable').style.display = featureTableDisplay;
     var rows = features.map(function (feature) {
       return '<tr><td>' + feature.attributes.Tree_ID + '<td>' + feature.attributes.Cmn_Name + '</td><td>' + feature.attributes.Condition + '</td></tr>';
     });
     tableBody.innerHTML = rows.join('');
+    // show number of returned features
+    document.getElementById('recordCountMessage').innerHTML = recordCount + ' record(s) returned.';
+    // show/hide additional messages
+    var suggestedTermsMessageDisplay = recordCount > 0 ? 'none' : 'block';
+    var additionalRowsMessageDisplay = response.exceededTransferLimit ? 'block' : 'none';
+    document.getElementById('suggestedTermsMessage').style.display = suggestedTermsMessageDisplay;      
+    document.getElementById('additionalRowsMessage').style.display = additionalRowsMessageDisplay;
   }
 </script>
 </body>
