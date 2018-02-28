@@ -9,12 +9,29 @@
   <div class="row">
     <div class="col-md-12">
       <div class="jumbotron" >
-        <h1>search features!</h1>
-        <form id="searchFrom" class="form-inline">
+        <h1>query features!</h1>
+        <form id="queryForm" class="form-inline">
           <div class="form-group">
-            <input type="text" class="form-control" id="search" placeholder="Search by tree type or condition" style="width: 400px" tabindex="0">
+            <label for="resultRecordCount">Show up to</label>
+            <select id="resultRecordCount" class="form-control">
+              <option>5</option>
+              <option selected>10</option>
+              <option>25</option>
+              <option>50</option>
+            </select>
           </div>
-          <button type="submit" class="btn btn-default">Search</button>
+          <div class="form-group">
+            <label for="queryField">records where</label>
+            <select id="queryField" class="form-control">
+              <option value="Cmn_Name">Type</option>
+              <option value="Condition">Condition</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="queryTerm">contains</label>
+            <input type="text" class="form-control" id="queryTerm" style="width: 200px" tabindex="0">
+          </div>
+          <button type="submit" class="btn btn-default">Go</button>
         </form>
       </div>
     </div>
@@ -32,7 +49,9 @@
         <tbody id="tableBody">
         </tbody>
       </table>
-      <p id="additionalRowsMessage" style="display: none" class="alert alert-warning">There are additional rows that meet your search criteria.</p>
+      <p id="recordCountMessage"></p>
+      <p id="suggestedTermsMessage">Try 'elm' or 'oak' for <strong>Type</strong>. Try 'fair' or 'good' for <strong>Condition</strong>.</p id="suggestedTermsMessage">
+      <p id="additionalRowsMessage" style="display: none" class="alert alert-warning">There are additional rows that meet your query criteria.</p>
     </div>
   </div>
 </div>
@@ -42,31 +61,37 @@
 <script src="node_modules/@esri/arcgis-rest-feature-service/dist/umd/arcgis-rest-feature-service.umd.js"></script>
 
 <script>
-  // respond when s user fills out he search text and hits enter
-  // or clicks on the Search button
-  const searchFrom = document.getElementById('searchFrom');
-  searchFrom.addEventListener('submit', function (e) {
-    var searchTerm = e.target.search.value;
-    searchTrees(searchTerm);
+  // respond when a user fills out the query text and hits enter
+  // or clicks on the query button
+  const queryForm = document.getElementById('queryForm');
+  queryForm.addEventListener('submit', function (e) {
+    var queryField = e.target.queryField.value;
+    var queryTerm = e.target.queryTerm.value;
+    var resultRecordCount = e.target.resultRecordCount.value;
+    queryTrees(queryField, queryTerm, resultRecordCount);
     e.preventDefault();
   });
 
-  function searchTrees(searchTerm) {
+  function queryTrees(queryField, queryTerm, resultRecordCount) {
     arcgisRest.queryFeatures({
       url: 'https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0',
       // see: https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm
       // for all possible query parameters
       params: {
         // NOTE: returnGeometry is set to false by default
-        where: 'Cmn_Name LIKE \'%' + searchTerm + '%\' OR Condition LIKE \'%' + searchTerm + '%\'',
+        where: queryField + ' LIKE \'%' + queryTerm + '%\'',
         outFields: ['FID','Tree_ID','Cmn_Name','Condition'],
         // limit to number of records that will show on the page
-        resultRecordCount: 15
+        resultRecordCount: resultRecordCount
       }
     }).then(function(response) {
       refreshTable(response.features);
-      // show/hide additional rows message
+      // show/hide messages
+      var recordCount = response.features.length;
+      var suggestedTermsMessageDisplay = recordCount > 0 ? 'none' : 'block';
       var additionalRowsMessageDisplay = response.exceededTransferLimit ? 'block' : 'none';
+      document.getElementById('recordCountMessage').innerHTML = recordCount + ' records returned.';
+      document.getElementById('suggestedTermsMessage').style.display = suggestedTermsMessageDisplay;      
       document.getElementById('additionalRowsMessage').style.display = additionalRowsMessageDisplay;
     });
   }
