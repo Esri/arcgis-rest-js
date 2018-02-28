@@ -54,6 +54,7 @@ export default {
   context: "window",
   extend: true, // causes this module to extend the global specified by `moduleName`
   moduleName,
+  external: packageNames,
   globals,
   plugins: [
     typescript(),
