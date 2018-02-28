@@ -11,6 +11,10 @@
   "dependencies": {
     "tslib": "^1.7.1"
   },
+  "files": [
+    "src/**",
+    "dist/**"
+  ],
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:node && npm run build:umd && npm run build:esm",

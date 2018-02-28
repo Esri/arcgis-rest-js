@@ -8,6 +8,10 @@
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
+  "files": [
+    "src/**",
+    "dist/**"
+  ],
   "dependencies": {
     "tslib": "^1.7.1"
   },
