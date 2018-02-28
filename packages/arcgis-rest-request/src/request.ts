@@ -60,6 +60,11 @@ export interface IRequestOptions {
    * The implementation of `fetch` to use. Defaults to a global `fetch`
    */
   fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+
+  /**
+   * If the length of a GET request's URL exceeds `maxUrlLength` the request will use POST instead
+   */
+  maxUrlLength?: number;
 }
 
 /**
@@ -156,11 +161,23 @@ export function request(
         params.token = token;
       }
 
-      if (httpMethod === "GET") {
-        url = url + "?" + encodeQueryString(params);
+      if (fetchOptions.method === "GET") {
+        // encode the parameters into the query string
+        const urlWithQueryString = url + "?" + encodeQueryString(params);
+        if (
+          options.maxUrlLength &&
+          urlWithQueryString.length > options.maxUrlLength
+        ) {
+          // the consumer specified a maximum length for URLs
+          // and this would exceed it, so use post instead
+          fetchOptions.method = "POST";
+        } else {
+          // just use GET
+          url = urlWithQueryString;
+        }
       }
 
-      if (httpMethod === "POST") {
+      if (fetchOptions.method === "POST") {
         fetchOptions.body = encodeFormData(params);
       }
 
