@@ -1,7 +1,12 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IRequestOptions, IParams } from "@esri/arcgis-rest-request";
+import {
+  request,
+  IRequestOptions,
+  IParams,
+  warn
+} from "@esri/arcgis-rest-request";
 // import { IAuthenticatedRequestOptions } from "@esri/arcgis-rest-auth";
 
 import {
@@ -368,9 +373,9 @@ export function bulkGeocode(
  * Used to fetch metadata from a geocoding service.
  *
  * ```js
- * import { serviceInfo } from '@esri/arcgis-geocoder';
+ * import { getGeocoderServiceInfo } from '@esri/arcgis-geocoder';
  *
- * serviceInfo()
+ * getGeocoderServiceInfo()
  *   .then((response) => {
  *     response.serviceDescription; // => 'World Geocoder'
  *   });
@@ -379,11 +384,26 @@ export function bulkGeocode(
  * @param requestOptions - Request options can contain a custom geocoding service to fetch metadata from.
  * @returns A Promise that will resolve with the data from the response.
  */
-export function serviceInfo(
+export function getGeocoderServiceInfo(
   requestOptions?: IGeocodeRequestOptions
 ): Promise<IGeocodeServiceInfoResponse> {
   const url = (requestOptions && requestOptions.endpoint) || worldGeocoder;
   return request(url, requestOptions);
+}
+
+/**
+ * Deprecated. Please use `getGeocoderServiceInfo()` instead.
+ *
+ * @param requestOptions - Request options can contain a custom geocoding service to fetch metadata from.
+ * @returns A Promise that will resolve with the data from the response.
+ */
+export function serviceInfo(
+  requestOptions?: IGeocodeRequestOptions
+): Promise<IGeocodeServiceInfoResponse> {
+  warn(
+    "serviceInfo() will be deprecated in the next major release. please use getGeocoderServiceInfo() instead."
+  );
+  return getGeocoderServiceInfo(requestOptions);
 }
 
 export default {

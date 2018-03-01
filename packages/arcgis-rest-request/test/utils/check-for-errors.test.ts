@@ -1,5 +1,6 @@
 import {
   checkForErrors,
+  warn,
   ArcGISRequestError,
   ArcGISAuthError
 } from "../../src/index";
@@ -78,5 +79,21 @@ describe("checkForErrors", () => {
     expect(() => {
       checkForErrors(ArcGISServerTokenRequired);
     }).toThrowError(ArcGISAuthError, "GWM_0003: Token Required");
+  });
+});
+
+describe("warn", () => {
+  it("should bubble up deprecation warnings", () => {
+    console.warn = jasmine.createSpy("warning");
+    warn("Danger Will Robinson!");
+    expect(console.warn).toHaveBeenCalledWith("Danger Will Robinson!");
+  });
+});
+
+describe("warn", () => {
+  it("should carry on gracefully when no console is available", () => {
+    console.warn = undefined;
+    warn("Danger Will Robinson!");
+    expect(console.warn).toBe(undefined);
   });
 });

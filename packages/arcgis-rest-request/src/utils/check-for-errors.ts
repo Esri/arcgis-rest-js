@@ -54,3 +54,12 @@ export function checkForErrors(
 
   return response;
 }
+
+/**
+ * Method used internally to surface messages to developers.
+ */
+export function warn(message: string) {
+  if (console && console.warn) {
+    console.warn.apply(console, [message]);
+  }
+}

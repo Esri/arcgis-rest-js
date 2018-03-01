@@ -3,7 +3,8 @@ import {
   suggest,
   reverseGeocode,
   bulkGeocode,
-  serviceInfo
+  serviceInfo,
+  getGeocoderServiceInfo
 } from "../src/index";
 
 import * as fetchMock from "fetch-mock";
@@ -343,10 +344,37 @@ describe("geocode", () => {
       });
   });
 
+  it("should retrieve metadata from the World Geocoding Service using the old method name", done => {
+    fetchMock.once("*", SharingInfo);
+
+    // intercept deprecation warning
+    console.warn = jasmine.createSpy("warning");
+
+    serviceInfo()
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/"
+        );
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=json");
+        // expect(response).toEqual(SharingInfo); // need to fix something in order introspect the whole response
+        expect(response.currentVersion).toEqual(10.41);
+        expect(response.serviceDescription).toEqual(
+          "Sample geocoder for San Diego, California, USA"
+        );
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   it("should retrieve metadata from the World Geocoding Service", done => {
     fetchMock.once("*", SharingInfo);
 
-    serviceInfo()
+    getGeocoderServiceInfo()
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -370,7 +398,7 @@ describe("geocode", () => {
   it("should make GET request for metadata from the World Geocoding Service", done => {
     fetchMock.once("*", SharingInfo);
 
-    serviceInfo({ httpMethod: "GET" })
+    getGeocoderServiceInfo({ httpMethod: "GET" })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -394,7 +422,7 @@ describe("geocode", () => {
   it("should retrieve metadata from custom geocoding services", done => {
     fetchMock.once("*", SharingInfo);
 
-    serviceInfo({ endpoint: customGeocoderUrl })
+    getGeocoderServiceInfo({ endpoint: customGeocoderUrl })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
