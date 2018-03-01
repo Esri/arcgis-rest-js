@@ -173,8 +173,16 @@ describe("request()", () => {
     request(
       "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
     ).catch(error => {
-      expect(error.message).toBe("404: Not Found");
+      expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
+      expect(error.message).toBe("HTTP 404: Not Found");
       expect(error instanceof Error).toBeTruthy();
+      expect(error.url).toBe(
+        "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
+      );
+      expect(error.options.params).toEqual({ f: "json" });
+      expect(error.options.httpMethod).toEqual("POST");
+      expect(typeof error.options.fetch).toEqual("function");
+      expect(error.options.fetch.length).toEqual(2);
       done();
     });
   });
