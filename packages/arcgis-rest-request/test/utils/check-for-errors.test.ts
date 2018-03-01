@@ -92,8 +92,10 @@ describe("warn", () => {
 
 describe("warn", () => {
   it("should carry on gracefully when no console is available", () => {
+    const realConsoleWarn = console.warn;
     console.warn = undefined;
     warn("Danger Will Robinson!");
     expect(console.warn).toBe(undefined);
+    console.warn = realConsoleWarn;
   });
 });

@@ -108,7 +108,8 @@ export function request(
   requestOptions: IRequestOptions = { params: { f: "json" } }
 ): Promise<any> {
   const options: IRequestOptions = {
-    ...{ httpMethod: "POST", fetch },
+    httpMethod: "POST",
+    fetch,
     ...requestOptions
   };
 
