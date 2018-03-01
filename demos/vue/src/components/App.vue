@@ -20,8 +20,10 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-12">
+          <!-- Hook the has-error class to the boolean clientIdError. -->
           <div :class="{ 'has-error': clientIdError }" class="form-group">
             <label class="control-label">Client ID</label>
+            <!-- Hook this input up to the clientId property. -->
             <input
               v-model="clientId"
               type="text"
@@ -44,19 +46,24 @@
       </div>
       <div class="row">
         <div class="col-xs-6">
+          <!-- On click, this button will call the signInWithPopup function. -->
           <button class="btn btn-primary btn-block" @click="signInWithPopup()">Sign In (with popup)</button>
         </div>
         <div class="col-xs-6">
+          <!-- On click, this button will call the signInWithoutPopup function. -->
           <button class="btn btn-primary btn-block" @click="signInWithoutPopup()">Sign In (without popup)</button>
         </div>
       </div>
+      <!-- If there is a current session, render this bit. -->
       <div v-if="session" class="row">
         <div class="col-xs-12 text-center">
           <p class="bg-success info-panel">
+            <!-- Display the current user's username. -->
             Logged in as {{ session.username }}.
           </p>
         </div>
       </div>
+      <!-- If there is not a current session, render this instead. -->
       <div v-else class="row">
         <div class="col-xs-12 text-center">
           <p class="bg-info info-panel">
@@ -68,6 +75,7 @@
         <div class="panel-heading">
           <div class="row" style="margin-bottom: 0px">
             <div class="col-xs-4">
+              <!-- This button will call the search function. It's disabled if there is no current session. -->
               <button @click="search" :disabled="!session" class="btn btn-success btn-block">
                 <span class="glyphicon glyphicon-search"></span>
                 Search Your Content
@@ -78,6 +86,7 @@
                 <div class="input-group-addon">
                   <span class="glyphicon glyphicon-filter"></span>
                 </div>
+                <!-- Hook up this input the the filter string property. It's disabled if there is no current session. -->
                 <input
                   v-model="filterString"
                   :disabled="!session"
@@ -89,6 +98,7 @@
             </div>
           </div>
         </div>
+        <!-- Render this only if their is a current search pending. -->
         <div v-if="searching" class="panel-body loading-table">
           <loader
             size='25'
@@ -96,6 +106,7 @@
             labelPosition='bottom'
           ></loader>
         </div>
+        <!-- Render if there are search results. -->
         <table v-if="searchResults" class="table table-hover">
           <thead>
             <tr>
@@ -103,7 +114,9 @@
               <th>ID:</th>
             </tr>
           </thead>
+          <!-- If there are any search results, render them. -->
           <tbody v-if="searchResults.length > 0">
+            <!-- Iterate over the search results and render a table row for each. -->
             <tr
               v-for="(item, index) in searchResults"
               :key="index"
@@ -116,6 +129,7 @@
               </td>
             </tr>
           </tbody>
+          <!-- If no results were found, render this information. -->
           <tbody v-else>
             <tr class="danger">
               <td>
@@ -131,17 +145,23 @@
 </template>
 
 <script>
+// Import the arcgis-rest-auth bit.
 import { UserSession } from '@esri/arcgis-rest-auth';
+// Import the arcgis-rest-request bit.
 import { request } from '@esri/arcgis-rest-request';
+// Import the main Vue instance. Will be used for event dispatching.
 import Main from '../main';
+// Import a simple loading indicator.
 import Loader from './Loader';
 
 export default {
   name: 'App',
   components: { Loader },
+  // The session object is a prop supplied by the main Vue instance.
   props: ['session'],
   data() {
     return {
+      // Store these values on this instance.
       clientId: '',
       clientIdError: false,
       filterString: null,
@@ -150,23 +170,29 @@ export default {
     };
   },
   computed: {
+    // Simple computed property to access the current applications path to
+    // set it as the redirect_uri.
     redirect_uri() {
       return `${window.location.origin}${window.location.pathname}`;
     }
   },
   created() {
+    // Upon creation, check to see if the session prop exists. If it does,
+    // pre-populate the client id value.
     if (this.session) {
       this.clientId = this.session.clientId;
     }
   },
   mounted() {},
   watch: {
+    // Set a watcher on the client id to validate it when it changes.
     clientId() {
       if (this.clientId === '') this.clientIdError = true;
       else this.clientIdError = false;
     },
   },
   methods: {
+    // Function to validate that the client id exists.
     requireClientId() {
       if (this.clientIdError || !this.clientId) {
         this.clientIdError = true;
@@ -174,6 +200,8 @@ export default {
       }
       return true;
     },
+    // The signup with a popup workflow. When popup is true, the beginOAuth2 function
+    // returns a promise.
     signInWithPopup() {
       if (this.requireClientId()) {
         UserSession.beginOAuth2({
@@ -181,12 +209,17 @@ export default {
           redirectUri: `${this.redirect_uri}#/authenticate?clientID=${this.clientId}`,
           popup: true,
         }).then((session) => {
+          // Upon successful login, emit a login event on the main Vue instance. This
+          // triggers an update on the main Vue instance's session property which is
+          // passed to this component via props.
           Main.$emit('login', session);
         }).catch(error => {
           console.error(error);
         });
       }
     },
+    // The signup without a popup workflow. In this case the user is just redirected to
+    // the authorization page.
     signInWithoutPopup() {
       if (this.requireClientId()) {
         UserSession.beginOAuth2({
@@ -196,13 +229,22 @@ export default {
         });
       }
     },
+    // Function to call to search for a user's content.
     search() {
+      // Update the properties for a new search.
+      this.searchResults = null;
       this.searching = true;
+      // Timeout is for effect.
       setTimeout(this.requestData, 300);
     },
+    // Request data from AGOL.
     requestData() {
+      // Construct a search query for only items the user owns. Add a filter if it exists.
       const query = `owner: ${this.session.username}${this.filterString ? ` AND ${this.filterString}`:''}`
+      // Construct the url for the endpoint with the session's portal and the constructed
+      // query.
       const searchUrl = `${this.session.portal}/search?q=${query}`;
+      // Make the request. Tack on the current authentication session.
       request(searchUrl, { authentication: this.session })
         .then((response) => {
           this.searching = false;
