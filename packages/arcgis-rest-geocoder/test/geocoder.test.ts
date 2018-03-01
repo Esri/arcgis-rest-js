@@ -4,7 +4,7 @@ import {
   reverseGeocode,
   bulkGeocode,
   serviceInfo,
-  getGeocodeService
+  geocodeService
 } from "../src/index";
 
 import * as fetchMock from "fetch-mock";

@@ -384,7 +384,7 @@ export function bulkGeocode(
  * @param requestOptions - Request options can contain a custom geocoding service to fetch metadata from.
  * @returns A Promise that will resolve with the data from the response.
  */
-export function getGeocodeService(
+export function geocodeService(
   requestOptions?: IEndpointRequestOptions
 ): Promise<IGeocodeServiceInfoResponse> {
   const url = (requestOptions && requestOptions.endpoint) || worldGeocoder;
@@ -399,7 +399,7 @@ export function getGeocodeService(
 }
 
 /**
- * Deprecated. Please use `getGeocoderServiceInfo()` instead.
+ * Deprecated. Please use `geocodeService()` instead.
  *
  * @param requestOptions - Request options can contain a custom geocoding service to fetch metadata from.
  * @returns A Promise that will resolve with the data from the response.
@@ -410,7 +410,7 @@ export function serviceInfo(
   warn(
     "serviceInfo() will be deprecated in the next major release. please use getGeocoderServiceInfo() instead."
   );
-  return getGeocodeService(requestOptions);
+  return geocodeService(requestOptions);
 }
 
 export default {
