@@ -4,7 +4,7 @@ import {
   reverseGeocode,
   bulkGeocode,
   serviceInfo,
-  geocodeService
+  getGeocodeService
 } from "../src/index";
 
 import * as fetchMock from "fetch-mock";
@@ -347,7 +347,7 @@ describe("geocode", () => {
   it("should retrieve metadata from the World Geocoding Service", done => {
     fetchMock.once("*", SharingInfo);
 
-    geocodeService()
+    getGeocodeService()
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -370,7 +370,7 @@ describe("geocode", () => {
   it("should make POST request for metadata from the World Geocoding Service", done => {
     fetchMock.once("*", SharingInfo);
 
-    geocodeService({ httpMethod: "POST" })
+    getGeocodeService({ httpMethod: "POST" })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -395,7 +395,7 @@ describe("geocode", () => {
   it("should retrieve metadata from custom geocoding services", done => {
     fetchMock.once("*", SharingInfo);
 
-    geocodeService({ endpoint: customGeocoderUrl })
+    getGeocodeService({ endpoint: customGeocoderUrl })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
