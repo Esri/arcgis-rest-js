@@ -10,16 +10,28 @@ const fs = require("fs");
 const _ = require("lodash");
 
 /**
+ * Since Rollup runs inside each package we can just get the current
+ * package we are bundling.
+ */
+const pkg = require(path.join(process.cwd(), "package.json"));
+
+/**
+ * and dig out its name.
+ */
+const { name } = pkg;
+
+/**
+ * to construct a copyright banner
+ */
+const copyright = '/* ' + pkg.name + ' - v' + pkg.version + ' - ' + new Date().toString() + '\n' +
+                ' * Copyright (c) ' + new Date().getFullYear() + ' Environmental Systems Research Institute, Inc.\n' +
+                ' * ' + pkg.license + ' */';
+
+/**
  * The module name will be the name of the global variable used in UMD builds.
  * All exported members of each package will be attached to this global.
  */
 const moduleName = "arcgisRest";
-
-/**
- * Since Rollup runs inside each package we can just get the name of the current
- * package we are bundling.
- */
-const { name } = require(path.join(process.cwd(), "package.json"));
 
 /**
  * Now we need to discover all the `@esri/arcgis-rest-*` package names so we can create
@@ -47,21 +59,24 @@ const globals = packageNames.reduce((globals, p) => {
  * Now we can export the Rollup config!
  */
 export default {
-  entry: "./src/index.ts",
-  dest: `./dist/umd/${name.replace("@esri/", "")}.umd.js`,
-  format: "umd",
-  sourceMap: true,
+  input: "./src/index.ts",
+  output: [{
+    file: `./dist/umd/${name.replace("@esri/", "")}.umd.js`,
+    sourcemap: `./dist/umd/${name.replace("@esri/", "")}.umd.js.map`,
+    banner: copyright,
+    format: "umd",
+    name: moduleName,
+    globals,
+    extend: true // causes this module to extend the global specified by `moduleName`
+  }],
   context: "window",
-  extend: true, // causes this module to extend the global specified by `moduleName`
-  moduleName,
   external: packageNames,
-  globals,
   plugins: [
     typescript(),
     json(),
     resolve(),
     commonjs(),
-    uglify(),
+    uglify({ output: {comments: /Institute, Inc/} }),
     filesize()
   ]
 };
