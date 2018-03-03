@@ -68,7 +68,7 @@
   },
   "lint-staged": {
     "*.ts": [
-      "prettier --write --parser typescript",
+      "prettier --write --parser typescript --tab-width 2 --use-tabs false",
       "tslint",
       "git add"
     ]
