@@ -2,8 +2,6 @@ import typescript from "rollup-plugin-typescript2";
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import json from "rollup-plugin-json";
-import uglify from "rollup-plugin-uglify";
-import filesize from "rollup-plugin-filesize";
 
 const path = require("path");
 const fs = require("fs");
@@ -60,23 +58,21 @@ const globals = packageNames.reduce((globals, p) => {
  */
 export default {
   input: "./src/index.ts",
-  output: [{
-    file: `./dist/umd/${name.replace("@esri/", "")}.umd.js`,
-    sourcemap: `./dist/umd/${name.replace("@esri/", "")}.umd.js.map`,
+  output: {
+    file: `./dist/umd/${name.replace("@esri/", "")}.debug.umd.js`,
+    sourcemap: `./dist/umd/${name.replace("@esri/", "")}.debug.umd.js.map`,
     banner: copyright,
     format: "umd",
     name: moduleName,
     globals,
     extend: true // causes this module to extend the global specified by `moduleName`
-  }],
+  },
   context: "window",
   external: packageNames,
   plugins: [
     typescript(),
     json(),
     resolve(),
-    commonjs(),
-    uglify({ output: {comments: /Institute, Inc/} }),
-    filesize()
+    commonjs()
   ]
 };
