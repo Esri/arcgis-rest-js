@@ -1,5 +1,5 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
- * Apache-2.0 */
+* Apache-2.0 */
 
 /**
  * Checks parameters to see if we should use FormData to send the request
@@ -47,7 +47,7 @@ export function processParams(params: any): any {
 
   Object.keys(params).forEach(key => {
     const param = params[key];
-    if (!param) {
+    if (!param && param !== 0) {
       return;
     }
     const type = param.constructor.name;
@@ -80,7 +80,7 @@ export function processParams(params: any): any {
         value = param;
         break;
     }
-    if (value) {
+    if (value || value === 0) {
       newParams[key] = value;
     }
   });
