@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-items",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Portal Item helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
   "browser": "dist/umd/arcgis-rest-items.umd.js",
@@ -8,19 +8,21 @@
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
-  "files": [ "dist/**" ],
+  "files": [
+    "dist/**"
+  ],
   "dependencies": {
     "tslib": "^1.7.1"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^1.0.3",
-    "@esri/arcgis-rest-common-types": "^1.0.3",
-    "@esri/arcgis-rest-request": "^1.0.3"
+    "@esri/arcgis-rest-auth": "^1.1.0",
+    "@esri/arcgis-rest-common-types": "^1.1.0",
+    "@esri/arcgis-rest-request": "^1.1.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^1.0.3",
-    "@esri/arcgis-rest-common-types": "^1.0.3",
-    "@esri/arcgis-rest-request": "^1.0.3"
+    "@esri/arcgis-rest-auth": "^1.1.0",
+    "@esri/arcgis-rest-common-types": "^1.1.0",
+    "@esri/arcgis-rest-request": "^1.1.0"
   },
   "scripts": {
     "prepare": "npm run build",
