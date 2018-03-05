@@ -5,7 +5,9 @@
   "types": "dist/types/index.d.ts",
   "author": "",
   "license": "Apache-2.0",
-  "files": [],
+  "files": [
+    "dist/types/index.d.ts"
+  ],
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:esm",

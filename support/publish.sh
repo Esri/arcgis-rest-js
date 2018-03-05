@@ -22,7 +22,7 @@ git push https://github.com/Esri/arcgis-rest-js.git master
 git push --tags
 
 # publish each package on npm
-lerna publish --skip-git --yes --repo-version $VERSION
+lerna publish --skip-git --yes --repo-version $VERSION --force-publish=*
 
 # create a ZIP archive of the dist files
 TEMP_FOLDER=arcgis-rest-js-v$VERSION;
