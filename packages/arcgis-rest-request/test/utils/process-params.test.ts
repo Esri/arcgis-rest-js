@@ -79,11 +79,13 @@ describe("processParams", () => {
 
   it("should stringify booleans", () => {
     const params = {
-      foo: true
+      foo: true,
+      bar: false
     };
 
     const expected = {
-      foo: "true"
+      foo: "true",
+      bar: "false"
     };
 
     expect(processParams(params)).toEqual(expected);

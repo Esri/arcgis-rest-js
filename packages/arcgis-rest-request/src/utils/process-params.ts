@@ -47,7 +47,7 @@ export function processParams(params: any): any {
 
   Object.keys(params).forEach(key => {
     const param = params[key];
-    if (!param && param !== 0) {
+    if (!param && param !== 0 && typeof param !== "boolean") {
       return;
     }
     const type = param.constructor.name;
