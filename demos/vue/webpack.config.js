@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const DotenvWebpack = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -45,6 +46,7 @@ module.exports = {
     overlay: true,
   },
   plugins: [
+    new DotenvWebpack(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',

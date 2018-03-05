@@ -162,7 +162,7 @@ export default {
   data() {
     return {
       // Store these values on this instance.
-      clientId: '',
+      clientId: process.env.CLIENTID || null,
       clientIdError: false,
       filterString: null,
       searching: null,
