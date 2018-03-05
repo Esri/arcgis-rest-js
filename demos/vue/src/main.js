@@ -64,12 +64,8 @@ export default new Vue({
     loadSerializedSession() {
       const serializedSession = localStorage.getItem('__ARCGIS_REST_USER_SESSION__');
       if (serializedSession !== null && serializedSession !== "undefined") {
-        // If there is a serialized session, parse it and create a new session object.
-        let parsed = JSON.parse(serializedSession);
-        // Cast the tokenExpires property back into a date.
-        parsed.tokenExpires = new Date(parsed.tokenExpires);
-        // Create the new session object.
-        this.session = new UserSession(parsed);
+        // If there is a serialized session, deserialize it into a new session object.
+        this.session = UserSession.deserialize(serializedSession);
       }
     },
   },
