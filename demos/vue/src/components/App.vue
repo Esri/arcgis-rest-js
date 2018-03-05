@@ -22,21 +22,21 @@
         <div class="col-xs-12">
           <!-- Hook the has-error class to the boolean clientIdError. -->
           <div :class="{ 'has-error': clientIdError }" class="form-group">
-            <label class="control-label">Client ID</label>
+            <label class="control-label">ClientID</label>
             <!-- Hook this input up to the clientId property. -->
             <input
               v-model="clientId"
               type="text"
               class="form-control"
-              placeholder="Client ID"
+              placeholder="ClientID"
             >
           </div>
           <p class="help-block">
-            You can generate your own client id by creating an application on the
-            <a target='_blank' href='https://developers.arcgis.com/'>
+            You can generate your own clientid by creating an application on the
+            <a target='_blank' href='https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/browser-based-user-logins/'>
               ArcGIS for Developers
             </a>
-            site. Be sure to add
+            website. Be sure to add
             <code>
               {{ redirect_uri }}
             </code>
@@ -47,11 +47,11 @@
       <div class="row">
         <div class="col-xs-6">
           <!-- On click, this button will call the signInWithPopup function. -->
-          <button class="btn btn-primary btn-block" @click="signInWithPopup()">Sign In (with popup)</button>
+          <button class="btn btn-primary btn-block" @click="signInWithPopup">Sign In (with popup)</button>
         </div>
         <div class="col-xs-6">
           <!-- On click, this button will call the signInWithoutPopup function. -->
-          <button class="btn btn-primary btn-block" @click="signInWithoutPopup()">Sign In (without popup)</button>
+          <button class="btn btn-primary btn-block" @click="signInWithInlineRedirect">Sign In (inline redirect)</button>
         </div>
       </div>
       <!-- If there is a current session, render this bit. -->
@@ -69,6 +69,11 @@
           <p class="bg-info info-panel">
             Log in using one of the methods above to load rest of the page.
           </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 col-xs-offset-3 text-center">
+          <button class="btn btn-block btn-warning" @click="signout">Sign Out</button>
         </div>
       </div>
       <div class="panel panel-default">
@@ -206,6 +211,9 @@ export default {
       if (this.requireClientId()) {
         UserSession.beginOAuth2({
           clientId: this.clientId,
+          // Passing the clientid here is only a requirement of this demo where we allow
+          // dynamic clientids via input. Typically you would have this hard-coded on
+          // the authorization callback.
           redirectUri: `${this.redirect_uri}#/authenticate?clientID=${this.clientId}`,
           popup: true,
         }).then((session) => {
@@ -218,9 +226,9 @@ export default {
         });
       }
     },
-    // The signup without a popup workflow. In this case the user is just redirected to
+    // The signup with an inline redirect workflow. In this case the user is just redirected to
     // the authorization page.
-    signInWithoutPopup() {
+    signInWithInlineRedirect() {
       if (this.requireClientId()) {
         UserSession.beginOAuth2({
           clientId: this.clientId,
@@ -228,6 +236,10 @@ export default {
           popup: false,
         });
       }
+    },
+    // Function to log the use out of the current session.
+    signout() {
+      Main.$emit('logout');
     },
     // Function to call to search for a user's content.
     search() {

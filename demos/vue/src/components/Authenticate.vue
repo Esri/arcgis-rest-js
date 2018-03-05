@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     // Simple computed property to make it easier to access the client id
-    // in the url.
+    // in the url. In a production app the clientid should be hardcoded.
     clientId () {
       return this.$route.query.clientID;
     },

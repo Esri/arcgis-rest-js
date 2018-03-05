@@ -1,6 +1,9 @@
+// Import VueJS.
 import Vue from 'vue';
 // Using the router to treat this like a single-page application.
 import Router from 'vue-router';
+// Import the arcgis-rest-auth bit required for deserializing local storage sessions.
+import { UserSession } from '@esri/arcgis-rest-auth';
 // Importing the main application.
 import App from './components/App.vue';
 // Importing the authentication component that post-processes the OAuth response.
@@ -32,11 +35,43 @@ export default new Vue({
     }
   },
   created() {
+    // Enable some functionality if localStorage is supported.
+    if (typeof(Storage) !== "undefined") {
+      // Check to see if there is a previous session. If so, load it.
+      this.loadSerializedSession();
+      // If the browser supports local storage, add a watcher to the session
+      // property to re-serialize it on change.
+      this.$watch('session', (newValue, oldValue) => {
+        if (newValue && newValue.serialize) {
+          localStorage.setItem('__ARCGIS_REST_USER_SESSION__', newValue.serialize());
+        } else {
+          localStorage.removeItem('__ARCGIS_REST_USER_SESSION__');
+        }
+      });
+    }
     // Set a listener for the 'login' event. When triggered, set this instance's
     // session to the event object.
     this.$on('login', (session) => {
       this.session = session;
     });
+    // Set a listener for the 'logout' event. When triggered, destroy the session.
+    this.$on('logout', () => {
+      this.session = null;
+    });
+  },
+  methods: {
+    // Function to load any serialized session from local storage.
+    loadSerializedSession() {
+      const serializedSession = localStorage.getItem('__ARCGIS_REST_USER_SESSION__');
+      if (serializedSession !== null && serializedSession !== "undefined") {
+        // If there is a serialized session, parse it and create a new session object.
+        let parsed = JSON.parse(serializedSession);
+        // Cast the tokenExpires property back into a date.
+        parsed.tokenExpires = new Date(parsed.tokenExpires);
+        // Create the new session object.
+        this.session = new UserSession(parsed);
+      }
+    },
   },
   // This template renders the correct component based on the current route.
   // The session prop is passed as well.
