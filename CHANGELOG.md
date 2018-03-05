@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - March 5th 2018
+
+### @esri/arcgis-rest-common-types
+
+* Bug Fixes
+   * **common-types**: ensure typings are distributed in common-types npm package [`bec3fbf`](https://github.com/Esri/arcgis-rest-js/commit/bec3fbfeac304a12be419c4bf560ace800f99c56) [#151](https://github.com/Esri/arcgis-rest-js/issues/151)
+
+### @esri/arcgis-rest-demo-vanilla
+
+* Bug Fixes
+   * **common-types**: ensure typings are distributed in common-types npm package [`bec3fbf`](https://github.com/Esri/arcgis-rest-js/commit/bec3fbfeac304a12be419c4bf560ace800f99c56) [#151](https://github.com/Esri/arcgis-rest-js/issues/151)
+
+### @esri/arcgis-rest-request
+
+* Bug Fixes
+   * **request**: ensure request is passed through as a request parameter [`77ad553`](https://github.com/Esri/arcgis-rest-js/commit/77ad5533b273c60cb4c6078ecf8fc05249214c19) [#142](https://github.com/Esri/arcgis-rest-js/issues/142)
+
+### Other Changes
+
+* Bug Fixes
+   * **common-types**: ensure typings are distributed in common-types npm… [`3dfed70`](https://github.com/Esri/arcgis-rest-js/commit/3dfed705ea935ff06aec598f0a56b767febace6c)
+   * **request**: ensure request is passed through as a request parameter [`43936f7`](https://github.com/Esri/arcgis-rest-js/commit/43936f7d9609c5e87224873ddcfaf0efff693492)
+
 ## [1.1.0] - March 3rd 2018
 
 ### @esri/arcgis-rest-auth
@@ -22,7 +45,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Chores
    * **npm packages**: remove test files and tsconfig.json from npm tarballs [`37940e7`](https://github.com/Esri/arcgis-rest-js/commit/37940e7268e0d4ea8628d23c3b26e3d4ab22877a) [#132](https://github.com/Esri/arcgis-rest-js/issues/132)
 * New Features
-   * **common-types**: add more common types, keep the &amp;#39;I&amp;#39; in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
+   * **common-types**: add more common types, keep the &amp;amp;#39;I&amp;amp;#39; in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
    * **lots more common-types**: adding a lot more common data types [`73ce0b8`](https://github.com/Esri/arcgis-rest-js/commit/73ce0b8ff4780fa925814f9bf279c74a513fc0ad)
 * Bug Fixes
    * **build**: set other @esri/arcgis-rest-js-* pacakges as external [`2f77c9f`](https://github.com/Esri/arcgis-rest-js/commit/2f77c9f11c2e8a9e85291f844aea9bdc730cdde3) [#128](https://github.com/Esri/arcgis-rest-js/issues/128)
@@ -45,7 +68,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    * **npm packages**: remove test files and tsconfig.json from npm tarballs [`37940e7`](https://github.com/Esri/arcgis-rest-js/commit/37940e7268e0d4ea8628d23c3b26e3d4ab22877a) [#132](https://github.com/Esri/arcgis-rest-js/issues/132)
 * New Features
    * **all packages**: start shipping an unminified UMD for each package [`52043f5`](https://github.com/Esri/arcgis-rest-js/commit/52043f5b702aca699f62abf8054582286e258ba5) [#135](https://github.com/Esri/arcgis-rest-js/issues/135)
-   * **common-types**: add more common types, keep the &amp;#39;I&amp;#39; in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
+   * **common-types**: add more common types, keep the &amp;amp;#39;I&amp;amp;#39; in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
 * Bug Fixes
    * **build**: set other @esri/arcgis-rest-js-* pacakges as external [`2f77c9f`](https://github.com/Esri/arcgis-rest-js/commit/2f77c9f11c2e8a9e85291f844aea9bdc730cdde3) [#128](https://github.com/Esri/arcgis-rest-js/issues/128)
 * Misc.
@@ -58,7 +81,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    * **npm packages**: remove test files and tsconfig.json from npm tarballs [`37940e7`](https://github.com/Esri/arcgis-rest-js/commit/37940e7268e0d4ea8628d23c3b26e3d4ab22877a) [#132](https://github.com/Esri/arcgis-rest-js/issues/132)
 * New Features
    * **all packages**: start shipping an unminified UMD for each package [`52043f5`](https://github.com/Esri/arcgis-rest-js/commit/52043f5b702aca699f62abf8054582286e258ba5) [#135](https://github.com/Esri/arcgis-rest-js/issues/135)
-   * **common-types**: add more common types, keep the &amp;#39;I&amp;#39; in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
+   * **common-types**: add more common types, keep the &amp;amp;#39;I&amp;amp;#39; in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
 * Bug Fixes
    * **build**: set other @esri/arcgis-rest-js-* pacakges as external [`2f77c9f`](https://github.com/Esri/arcgis-rest-js/commit/2f77c9f11c2e8a9e85291f844aea9bdc730cdde3) [#128](https://github.com/Esri/arcgis-rest-js/issues/128)
 
@@ -68,7 +91,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    * **npm packages**: remove test files and tsconfig.json from npm tarballs [`37940e7`](https://github.com/Esri/arcgis-rest-js/commit/37940e7268e0d4ea8628d23c3b26e3d4ab22877a) [#132](https://github.com/Esri/arcgis-rest-js/issues/132)
 * New Features
    * **all packages**: start shipping an unminified UMD for each package [`52043f5`](https://github.com/Esri/arcgis-rest-js/commit/52043f5b702aca699f62abf8054582286e258ba5) [#135](https://github.com/Esri/arcgis-rest-js/issues/135)
-   * **common-types**: add more common types, keep the &amp;#39;I&amp;#39; in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
+   * **common-types**: add more common types, keep the &amp;amp;#39;I&amp;amp;#39; in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
 * Bug Fixes
    * **build**: set other @esri/arcgis-rest-js-* pacakges as external [`2f77c9f`](https://github.com/Esri/arcgis-rest-js/commit/2f77c9f11c2e8a9e85291f844aea9bdc730cdde3) [#128](https://github.com/Esri/arcgis-rest-js/issues/128)
 
@@ -230,5 +253,6 @@ Initial Public Release
 [1.0.0]: https://github.com/Esri/arcgis-rest-js/compare/265d6aed1856d3ae1ff81f03ce85aba449b01f21...v1.0.0 "v1.0.0"
 [1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.2 "v1.0.2"
 [1.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.2...v1.0.3 "v1.0.3"
-[1.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.3...1.1.0 "1.1.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/1.1.0...HEAD "Unreleased Changes"
+[1.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.3...v1.1.0 "v1.1.0"
+[1.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.0...1.1.1 "1.1.1"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/1.1.1...HEAD "Unreleased Changes"
