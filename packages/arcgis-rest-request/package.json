@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-request",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Common methods and utilities for @esri/arcgis-rest-* packages.",
   "main": "dist/node/index.js",
   "browser": "dist/umd/arcgis-rest-request.umd.js",
@@ -11,12 +11,14 @@
   "dependencies": {
     "tslib": "^1.7.1"
   },
-  "files": [ "dist/**" ],
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:node && npm run build:umd && npm run build:esm",
     "build:esm": "tsc --module es2015 --outDir ./dist/esm --declaration",
-    "build:umd": "rollup -c ../../rollup.config.umd.js",
+    "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
     "build:node": "tsc --module commonjs --outDir ./dist/node"
   },
   "publishConfig": {

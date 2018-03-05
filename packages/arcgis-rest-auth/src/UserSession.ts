@@ -358,7 +358,7 @@ export class UserSession implements IAuthenticationManager {
     }
 
     const match = win.location.href.match(
-      /access_token=(.+)&expires_in=(.+)&username=(.+)/
+      /access_token=(.+)&expires_in=(.+)&username=([^&]+)/
     );
 
     if (!match) {

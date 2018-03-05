@@ -5,7 +5,8 @@ import {
   IFeature,
   IField,
   IGeometry,
-  ISpatialReference
+  ISpatialReference,
+  IFeatureSet
 } from "@esri/arcgis-rest-common-types";
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 
@@ -39,7 +40,7 @@ export interface IStatisticDefinition {
 export interface IQueryFeaturesParams {
   // TODO: are _any_ of these required?
   where?: string;
-  objectIds?: [number];
+  objectIds?: number[];
   geometry?: IGeometry;
   geometryType?: esriGeometryType;
   // NOTE: either WKID or ISpatialReference
@@ -55,7 +56,7 @@ export interface IQueryFeaturesParams {
     | "esriSpatialRelWithin";
   relationParam?: string;
   // NOTE: either time=1199145600000 or time=1199145600000, 1230768000000
-  time?: Date | [Date];
+  time?: Date | Date[];
   distance?: number;
   units?:
     | "esriSRUnit_Meter"
@@ -64,7 +65,7 @@ export interface IQueryFeaturesParams {
     | "esriSRUnit_Kilometer"
     | "esriSRUnit_NauticalMile"
     | "esriSRUnit_USNauticalMile";
-  outFields?: "*" | [string];
+  outFields?: "*" | string[];
   returnGeometry?: boolean;
   maxAllowableOffset?: number;
   geometryPrecision?: number;
@@ -77,7 +78,7 @@ export interface IQueryFeaturesParams {
   returnExtentOnly?: boolean;
   orderByFields?: string;
   groupByFieldsForStatistics?: string;
-  outStatistics?: [IStatisticDefinition];
+  outStatistics?: IStatisticDefinition[];
   returnZ?: boolean;
   returnM?: boolean;
   multipatchOption?: "xyFootprint";
@@ -105,13 +106,8 @@ export interface IQueryFeaturesRequestOptions extends IRequestOptions {
   params?: IQueryFeaturesParams;
 }
 
-export interface IQueryFeaturesResponse {
-  objectIdFieldName: string;
-  globalIdFieldName: string;
-  geometryType: esriGeometryType;
-  spatialReference: ISpatialReference;
-  fields: [IField];
-  features: [IFeature];
+export interface IQueryFeaturesResponse extends IFeatureSet {
+  exceededTransferLimit?: boolean;
 }
 
 /**

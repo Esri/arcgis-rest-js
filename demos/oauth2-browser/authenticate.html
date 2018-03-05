@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ArcGIS Rest JS Vanilla JS</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <script src="node_modules/@esri/arcgis-rest-request/dist/umd/arcgis-rest-request.umd.js"></script>
+    <script src="node_modules/@esri/arcgis-rest-auth/dist/umd/arcgis-rest-auth.umd.js"></script>
+    <script>
+      // in a production app, clientID would be hardcoded. we're uusing a regex so that developers can pass one in at runtime.
+      const match = window.location.href.match(
+        /clientID=(.+)#/
+      );
+      const clientId = match[1];
+      let session;
+      function processAuthentication() {        
+        window.location.href = '/';
+        session = arcgisRest.UserSession.completeOAuth2({
+          clientId,
+        });
+        localStorage.setItem('__ARCGIS_REST_USER_SESSION__', session.serialize());
+      }
+      processAuthentication();
+    </script>
+  </body>
+</html>

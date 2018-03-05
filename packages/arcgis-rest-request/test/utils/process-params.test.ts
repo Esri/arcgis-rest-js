@@ -89,13 +89,18 @@ describe("processParams", () => {
     expect(processParams(params)).toEqual(expected);
   });
 
-  it("should exclude null and undefined", () => {
+  it("should exclude null and undefined, but not a zero", () => {
     const params: any = {
       foo: null,
-      bar: undefined
+      bar: undefined,
+      baz: 0
     };
 
-    expect(processParams(params)).toEqual({});
+    const expected = {
+      baz: 0
+    };
+
+    expect(processParams(params)).toEqual(expected);
   });
 
   it("should not require form data for simple requests", () => {
