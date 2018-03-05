@@ -227,7 +227,7 @@ export function geocode(
  * ```js
  * import { suggest } from '@esri/arcgis-geocoder';
  *
- * suggest({ partialText: "Starb" })
+ * suggest("Starb")
  *   .then((response) => {
  *     response.address.PlaceName; // => "Starbucks"
  *   });
