@@ -1,6 +1,7 @@
 # Local
 config.js
 *.csv
+!NYC_Restaurant_Inspection_Results.csv
 
 # vscode
 .vscode/
