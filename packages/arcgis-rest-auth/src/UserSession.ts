@@ -479,8 +479,8 @@ export class UserSession implements IAuthenticationManager {
    */
   getToken(url: string) {
     if (
-      this.portal === "https://www.arcgis.com/sharing/rest" &&
-      /^https?:\/\/\S+\.arcgis\.com.+/.test(url)
+      (/^https?:\/\/www\.arcgis\.com\/sharing\/rest\/?/.test(this.portal),
+      /^https?:\/\/\S+\.arcgis\.com.+/.test(url))
     ) {
       return this.getFreshToken();
     } else if (new RegExp(this.portal).test(url)) {
