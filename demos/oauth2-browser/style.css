@@ -1,0 +1,36 @@
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+.row {
+  margin-bottom: 25px;
+}
+
+.jumbotron {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+#logo-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+#logo {
+  width: 125px;
+  height: 125px;
+  padding: 12.5px;
+}
+
+.info-panel{
+  padding: 15px;
+}
+
+.loading-table {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}

@@ -5,6 +5,7 @@ import { checkForErrors } from "./utils/check-for-errors";
 import { encodeFormData } from "./utils/encode-form-data";
 import { encodeQueryString } from "./utils/encode-query-string";
 import { requiresFormData } from "./utils/process-params";
+import { ArcGISRequestError } from "./utils/ArcGISRequestError";
 
 export interface IAuthenticationManager {
   portal: string;
@@ -108,7 +109,8 @@ export function request(
   requestOptions: IRequestOptions = { params: { f: "json" } }
 ): Promise<any> {
   const options: IRequestOptions = {
-    ...{ httpMethod: "POST", fetch },
+    httpMethod: "POST",
+    fetch,
     ...requestOptions
   };
 
@@ -193,6 +195,17 @@ export function request(
       return options.fetch(url, fetchOptions);
     })
     .then(response => {
+      if (!response.ok) {
+        // server responded w/ an actual error (404, 500, etc)
+        const { status, statusText } = response;
+        throw new ArcGISRequestError(
+          statusText,
+          `HTTP ${status}`,
+          response,
+          url,
+          options
+        );
+      }
       switch (params.f) {
         case "json":
           return response.json();

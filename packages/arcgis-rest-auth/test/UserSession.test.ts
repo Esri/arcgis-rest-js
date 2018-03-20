@@ -19,7 +19,7 @@ describe("UserSession", () => {
       refreshToken: "refreshToken",
       refreshTokenExpires: TOMORROW,
       refreshTokenTTL: 1440,
-      username: "casey",
+      username: "c@sey",
       password: "123456"
     });
 
@@ -33,7 +33,7 @@ describe("UserSession", () => {
     expect(session2.tokenExpires).toEqual(TOMORROW);
     expect(session2.refreshToken).toEqual("refreshToken");
     expect(session2.refreshTokenExpires).toEqual(TOMORROW);
-    expect(session2.username).toEqual("casey");
+    expect(session2.username).toEqual("c@sey");
     expect(session2.password).toEqual("123456");
     expect(session2.tokenDuration).toEqual(20160);
     expect(session2.refreshTokenTTL).toEqual(1440);
@@ -92,7 +92,7 @@ describe("UserSession", () => {
         {
           access_token: "new",
           expires_in: 1800,
-          username: "casey"
+          username: "c@sey"
         },
         { times: 2, method: "POST" }
       );
@@ -266,14 +266,14 @@ describe("UserSession", () => {
   describe(".refreshSession()", () => {
     it("should refresh with a username and password if expired", done => {
       const session = new UserSession({
-        username: "casey",
+        username: "c@sey",
         password: "123456"
       });
 
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/generateToken", {
         token: "token",
         expires: TOMORROW.getTime(),
-        username: " casey"
+        username: " c@sey"
       });
 
       session
@@ -292,7 +292,7 @@ describe("UserSession", () => {
       const session = new UserSession({
         clientId: "clientId",
         token: "token",
-        username: "casey",
+        username: "c@sey",
         refreshToken: "refreshToken",
         refreshTokenExpires: TOMORROW
       });
@@ -300,7 +300,7 @@ describe("UserSession", () => {
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "newToken",
         expires_in: 60,
-        username: " casey"
+        username: " c@sey"
       });
 
       session
@@ -319,7 +319,7 @@ describe("UserSession", () => {
       const session = new UserSession({
         clientId: "clientId",
         token: "token",
-        username: "casey",
+        username: "c@sey",
         refreshToken: "refreshToken",
         refreshTokenExpires: YESTERDAY,
         redirectUri: "https://example-app.com/redirect-uri"
@@ -328,7 +328,7 @@ describe("UserSession", () => {
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "newToken",
         expires_in: 60,
-        username: " casey",
+        username: " c@sey",
         refresh_token: "newRefreshToken"
       });
 
@@ -350,7 +350,7 @@ describe("UserSession", () => {
       const session = new UserSession({
         clientId: "clientId",
         token: "token",
-        username: "casey"
+        username: "c@sey"
       });
 
       session.refreshSession().catch(e => {
@@ -374,7 +374,7 @@ describe("UserSession", () => {
         {
           access_token: "new",
           expires_in: 1800,
-          username: "casey"
+          username: "c@sey"
         },
         { times: 1, method: "POST" }
       );
@@ -413,7 +413,7 @@ describe("UserSession", () => {
       )
         .then(session => {
           expect(session.token).toBe("token");
-          expect(session.username).toBe("Casey");
+          expect(session.username).toBe("c@sey");
           expect(session.tokenExpires).toBe(TOMORROW);
           done();
         })
@@ -430,7 +430,7 @@ describe("UserSession", () => {
       MockWindow.__ESRI_REST_AUTH_HANDLER_clientId(null, {
         token: "token",
         expires: TOMORROW,
-        username: "Casey"
+        username: "c@sey"
       });
     });
 
@@ -488,7 +488,7 @@ describe("UserSession", () => {
       const MockWindow = {
         location: {
           href:
-            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=casey"
+            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c@sey&persist=true"
         },
         get parent() {
           return this;
@@ -505,7 +505,7 @@ describe("UserSession", () => {
 
       expect(session.token).toBe("token");
       expect(session.tokenExpires.getTime()).toBeGreaterThan(Date.now());
-      expect(session.username).toBe("casey");
+      expect(session.username).toBe("c@sey");
     });
 
     it("should callback to create a new user session if finds a valid opener", done => {
@@ -517,7 +517,7 @@ describe("UserSession", () => {
               oauthInfo: IFetchTokenResponse
             ) {
               expect(oauthInfo.token).toBe("token");
-              expect(oauthInfo.username).toBe("casey");
+              expect(oauthInfo.username).toBe("c@sey");
               expect(oauthInfo.expires.getTime()).toBeGreaterThan(Date.now());
             }
           }
@@ -527,7 +527,7 @@ describe("UserSession", () => {
         },
         location: {
           href:
-            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=casey"
+            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c@sey"
         }
       };
 
@@ -548,7 +548,7 @@ describe("UserSession", () => {
             oauthInfo: IFetchTokenResponse
           ) {
             expect(oauthInfo.token).toBe("token");
-            expect(oauthInfo.username).toBe("casey");
+            expect(oauthInfo.username).toBe("c@sey");
             expect(oauthInfo.expires.getTime()).toBeGreaterThan(Date.now());
           }
         },
@@ -557,7 +557,7 @@ describe("UserSession", () => {
         },
         location: {
           href:
-            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=casey"
+            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c@sey"
         }
       };
 

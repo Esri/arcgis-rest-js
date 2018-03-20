@@ -16,28 +16,28 @@
     </div>
     <div class="col-md-4">
         <p>
-            <button class="btn" id="metadata" role="button">get service info</button>
+            <button class="btn btn-default" id="metadata" role="button">get service info</button>
         </p>
 
         <p>
             <input id="geocodeInput" value="123 main st"></input>
-            <button class="btn" id="geocode" role="button">geocode an address</button>
+            <button class="btn btn-default" id="geocode" role="button">geocode an address</button>
         <p>
             <input id="suggestInput" value="World Tr"></input>
-            <button class="btn" id="suggest" role="button">get address suggestion</button>
+            <button class="btn btn-default" id="suggest" role="button">get address suggestion</button>
         </p>
 
         <p>
             <input id="reverseInput" value="{x:-118,y:34}"></input>
-            <button class="btn" id="reverse" role="button">determine address</button>
+            <button class="btn btn-default" id="reverse" role="button">determine address</button>
         </p>
 
         <p>
-            <a href="" class="btn" id="sign-in" role="button">Sign In</a><br>
+            <a href="" class="btn btn-default" id="sign-in" role="button">Sign In</a><br>
         </p>
 
         <p>
-            <button class="btn" id="bulk" role="button">geocode many addresses</button>
+            <button class="btn btn-default" id="bulk" role="button">geocode many addresses</button>
         </p>
     </div>
 </div>
@@ -118,7 +118,7 @@ bulkBtn.addEventListener('click', function (e) {
       "OBJECTID": 2,
       "SingleLine": "1 World Way Los Angeles 90045"
     }];
-    arcgisRest.bulkGeocode(addresses, { authentication: auth })
+    arcgisRest.bulkGeocode({ authentication: auth, addresses })
     .then((response) => {
         console.log("bulkGeocode", response);
     })

@@ -1,10 +1,13 @@
 {
   "name": "@esri/arcgis-rest-common-types",
-  "version": "1.0.3",
+  "version": "1.1.1",
   "description": "Common TypeScript types for @esri/arcgis-rest-* packages.",
   "types": "dist/types/index.d.ts",
   "author": "",
   "license": "Apache-2.0",
+  "files": [
+    "dist/types/index.d.ts"
+  ],
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:esm",

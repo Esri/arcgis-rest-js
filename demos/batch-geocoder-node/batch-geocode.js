@@ -65,6 +65,9 @@ const mapResults = results =>
       const locFields = {};
       locFields['x'] = loc.location.x;
       locFields['y'] = loc.location.y;
+      // ref: https://developers.arcgis.com/rest/geocode/api-reference/geocoding-service-output.htm#ESRI_SECTION1_42D7D3D0231241E9B656C01438209440
+      locFields['geocode_score'] = loc.score;
+      locFields['match_type'] = loc.attributes.Addr_type;
       locMap[loc.attributes.ResultID] = locFields;
       return locMap;
     }, resMap);
