@@ -153,3 +153,10 @@ a > code {
   clear: right;
   margin: 0;
 }
+
+/** only apply to tables inside <main> for sanity **/
+main table {
+  overflow: auto; /** show a scrollbar automatically**/
+  display: inline-block; /**  display span as a block **/
+  border: none;
+}
