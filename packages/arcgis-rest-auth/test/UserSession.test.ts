@@ -488,7 +488,7 @@ describe("UserSession", () => {
       const MockWindow = {
         location: {
           href:
-            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c@sey&persist=true"
+            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey&persist=true"
         },
         get parent() {
           return this;
@@ -527,7 +527,7 @@ describe("UserSession", () => {
         },
         location: {
           href:
-            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c@sey"
+            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey"
         }
       };
 
@@ -557,7 +557,7 @@ describe("UserSession", () => {
         },
         location: {
           href:
-            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c@sey"
+            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey"
         }
       };
 
