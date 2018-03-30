@@ -376,7 +376,7 @@ export class UserSession implements IAuthenticationManager {
     const expires = new Date(
       Date.now() + parseInt(match[2], 10) * 1000 - 60 * 1000
     );
-    const username = match[3];
+    const username = decodeURIComponent(match[3]);
 
     return completeSignIn(null, {
       token,
