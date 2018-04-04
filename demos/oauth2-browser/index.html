@@ -114,7 +114,7 @@
 
       // Function to check that a client id is present.
       function requireClientId() {
-        // Pull out the client id. 
+        // Pull out the client id.
         if (document.getElementById('clientId').value !== "") {
           clientId = document.getElementById('clientId').value
         }
@@ -160,8 +160,8 @@
           // Begin an OAuth2 login using a popup.
           arcgisRest.UserSession.beginOAuth2({
             clientId,
-            redirectUri: `${redirect_uri}authenticate.html?clientID=${clientId}`,
-            popup: true,
+            redirectUri: `${redirect_uri}authenticate.html`,
+            popup: true
           }).then((newSession) => {
             // Upon a successful login, update the session with the new session.
             session = newSession;

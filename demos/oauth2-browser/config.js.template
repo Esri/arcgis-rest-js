@@ -3,4 +3,4 @@ You can generate your own clientid by creating an application on the ArcGIS for 
 
 once you have a clientid of your own, copy/paste it here and rename this file 'config.js'
 */
-const clientId = "abc123"
+let clientId = "abc123"
