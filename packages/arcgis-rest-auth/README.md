@@ -14,6 +14,7 @@
 ### Example
 
 ```bash
+npm install @esri/arcgis-rest-request
 npm install @esri/arcgis-rest-auth
 ```
 
@@ -25,6 +26,8 @@ const session = new UserSession({
     password: "123456"
 });
 ```
+
+### [API Reference](https://esri.github.io/arcgis-rest-js/api/auth/)
 
 ### Issues
 

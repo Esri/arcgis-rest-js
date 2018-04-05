@@ -24,6 +24,8 @@ const myPoint = { x: -118.409, y: 33.943 } as IPoint
 
 ```
 
+### [API Reference](https://esri.github.io/arcgis-rest-js/api/common-types/)
+
 ### Issues
 
 If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/arcgis-rest-js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [**love**](https://github.com/Esri/arcgis-rest-js/issues/new) to hear from you.

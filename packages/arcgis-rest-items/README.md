@@ -14,6 +14,7 @@
 ### Example
 
 ```bash
+npm install @esri/arcgis-rest-request
 npm install @esri/arcgis-rest-items
 ```
 
@@ -27,6 +28,8 @@ getItem(itemId)
         console.log(response.title) // World Topographic Map
     });
 ```
+
+### [API Reference](https://esri.github.io/arcgis-rest-js/api/items/)
 
 ### Issues
 

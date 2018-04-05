@@ -14,6 +14,7 @@
 ### Example
 
 ```bash
+npm install @esri/arcgis-rest-request
 npm install @esri/arcgis-rest-feature-service
 ```
 
@@ -31,6 +32,8 @@ getFeature(params)
     console.log(feature.attributes.FID); // 42
   });
 ```
+
+### [API Reference](https://esri.github.io/arcgis-rest-js/api/feature-service/)
 
 ### Issues
 

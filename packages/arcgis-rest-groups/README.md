@@ -14,6 +14,7 @@
 ### Example
 
 ```bash
+npm install @esri/arcgis-rest-request
 npm install @esri/arcgis-rest-groups
 ```
 
@@ -25,6 +26,8 @@ searchGroups({q:"water"})
         console.log(response.results.length) // 10
     });
 ```
+
+### [API Reference](https://esri.github.io/arcgis-rest-js/api/groups/)
 
 ### Issues
 

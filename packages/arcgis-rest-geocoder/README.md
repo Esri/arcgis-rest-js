@@ -14,6 +14,7 @@
 ### Example
 
 ```bash
+npm install @esri/arcgis-rest-request
 npm install @esri/arcgis-rest-geocoder
 ```
 
@@ -25,6 +26,8 @@ geocode("LAX")
     response.candidates[0].location; // => { x: -118.409, y: 33.943, spatialReference: { wkid: 4326 }  }
   });
 ```
+
+### [API Reference](https://esri.github.io/arcgis-rest-js/api/geocoder/)
 
 ### Issues
 
