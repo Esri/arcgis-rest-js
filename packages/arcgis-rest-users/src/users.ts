@@ -10,7 +10,14 @@ import {
 import { IUser } from "@esri/arcgis-rest-common-types";
 import { UserSession, IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
-export interface IGetUserRequestOptions extends IUserRequestOptions {
+export interface IGetUserRequestOptions extends IRequestOptions {
+  /**
+   * A session representing a logged in user.
+   */
+  authentication?: UserSession;
+  /**
+   * Supply a username if you'd like to fetch information about a different user than is being used to authenticate the request.
+   */
   username?: string;
 }
 
@@ -20,10 +27,20 @@ export interface IGetUserRequestOptions extends IUserRequestOptions {
  * ```js
  * import { getUser } from '@esri/arcgis-rest-users';
  *
- * getUser("johnqpublic")
+ * getUser("jsmith")
  *   .then(
- *     results => console.log(response); // IUser
- *   )
+ *     results => {
+ *      // {
+ *      //   firstName: "John",
+ *      //   lastName: "Smith",
+ *      //   description: "Senior GIS Analyst for the city of Redlands.",
+ *      //   tags: ["GIS Analyst", "City of Redlands"],
+ *      //   thumbnail: "myProfile.jpg",
+ *      //   created: 1258501046000,
+ *      //   modified: 1290625562000,
+ *      //   etc.
+ *      // };
+ *   })
  * ```
  *
  * @param requestOptions - options to pass through in the request

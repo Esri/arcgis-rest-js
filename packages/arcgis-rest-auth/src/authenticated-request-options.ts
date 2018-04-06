@@ -14,5 +14,8 @@ export interface IAuthenticatedRequestOptions extends IRequestOptions {
  * Used internally by packages for requests that require authentication.
  */
 export interface IUserRequestOptions extends IRequestOptions {
+  /**
+   * A session representing a logged in user.
+   */
   authentication: UserSession;
 }

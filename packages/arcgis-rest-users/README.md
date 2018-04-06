@@ -20,9 +20,19 @@ npm install @esri/arcgis-rest-users
 ```js
 import { getUser } from '@esri/arcgis-rest-groups';
 
-getUser("johnqpublic")
+getUser("jsmith")
     .then(response => {
-        console.log(response) // {}
+        /*
+        {
+            firstName: "John",
+            lastName: "Smith",
+            tags: ["GIS Analyst", "City of Redlands"],
+            thumbnail: "myProfile.jpg",
+            created: 1258501046000,
+            modified: 1290625562000,
+             d eetc.
+        };
+        */
     });
 ```
 
