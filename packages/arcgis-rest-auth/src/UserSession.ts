@@ -154,16 +154,6 @@ export interface IUserSessionOptions {
    * Duration (in minutes) that a refresh token will be valid.
    */
   refreshTokenTTL?: number;
-
-  /**
-   * The locale assumed to render the login page.
-   */
-  locale?: string;
-
-  /**
-   * Applications can specify an opaque value for this parameter to correlate the authorization request sent with the received response. By default, clientId is used.
-   */
-  state?: string;
 }
 
 /**
