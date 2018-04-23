@@ -81,3 +81,5 @@ packages/*/debug/
 
 # packages in development
 packages/arcgis-rest-portal/
+
+test.html

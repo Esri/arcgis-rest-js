@@ -406,8 +406,9 @@ describe("UserSession", () => {
 
       UserSession.beginOAuth2(
         {
-          clientId: "clientId",
-          redirectUri: "http://example-app.com/redirect"
+          clientId: "clientId123",
+          redirectUri: "http://example-app.com/redirect",
+          state: "abc123"
         },
         MockWindow
       )
@@ -422,12 +423,12 @@ describe("UserSession", () => {
         });
 
       expect(MockWindow.open).toHaveBeenCalledWith(
-        "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect",
+        "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId123&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=abc123&locale=",
         "oauth-window",
         "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
       );
 
-      MockWindow.__ESRI_REST_AUTH_HANDLER_clientId(null, {
+      MockWindow.__ESRI_REST_AUTH_HANDLER_clientId123(null, {
         token: "token",
         expires: TOMORROW,
         username: "c@sey"
@@ -441,8 +442,9 @@ describe("UserSession", () => {
 
       UserSession.beginOAuth2(
         {
-          clientId: "clientId",
-          redirectUri: "http://example-app.com/redirect"
+          clientId: "clientId123",
+          redirectUri: "http://example-app.com/redirect",
+          locale: "fr"
         },
         MockWindow
       ).catch(e => {
@@ -450,12 +452,12 @@ describe("UserSession", () => {
       });
 
       expect(MockWindow.open).toHaveBeenCalledWith(
-        "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect",
+        "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId123&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=clientId123&locale=fr",
         "oauth-window",
         "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
       );
 
-      MockWindow.__ESRI_REST_AUTH_HANDLER_clientId(
+      MockWindow.__ESRI_REST_AUTH_HANDLER_clientId123(
         new ArcGISRequestError("unable to sign in", "SIGN_IN_FAILED")
       );
     });
@@ -470,7 +472,7 @@ describe("UserSession", () => {
       // https://github.com/palantir/tslint/issues/3056
       void UserSession.beginOAuth2(
         {
-          clientId: "clientId",
+          clientId: "clientId123",
           redirectUri: "http://example-app.com/redirect",
           popup: false
         },
@@ -478,7 +480,7 @@ describe("UserSession", () => {
       );
 
       expect(MockWindow.location.href).toBe(
-        "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect"
+        "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId123&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=clientId123&locale="
       );
     });
   });

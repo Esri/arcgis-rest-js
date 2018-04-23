@@ -65,7 +65,7 @@ export interface IOauth2Options {
   duration?: number;
 
   /**
-   * Determines wether to open the authorization window in a new tab/window or in the current window.
+   * Determines whether to open the authorization window in a new tab/window or in the current window.
    *
    * @browserOnly
    */
@@ -77,6 +77,20 @@ export interface IOauth2Options {
    * @nodeOnly
    */
   refreshTokenTTL?: number;
+
+  /**
+   * The locale assumed to render the login page.
+   *
+   * @browserOnly
+   */
+  locale?: string;
+
+  /**
+   * Applications can specify an opaque value for this parameter to correlate the authorization request sent with the received response. By default, clientId is used.
+   *
+   * @browserOnly
+   */
+  state?: string;
 }
 
 /**
@@ -263,18 +277,28 @@ export class UserSession implements IAuthenticationManager {
     options: IOauth2Options,
     /* istanbul ignore next */ win: any = window
   ) {
-    const { portal, clientId, duration, redirectUri, popup }: IOauth2Options = {
+    const {
+      portal,
+      clientId,
+      duration,
+      redirectUri,
+      popup,
+      state,
+      locale
+    }: IOauth2Options = {
       ...{
         portal: "https://arcgis.com/sharing/rest",
         duration: 20160,
-        popup: true
+        popup: true,
+        state: options.clientId,
+        locale: ""
       },
       ...options
     };
 
     const url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${duration}&redirect_uri=${encodeURIComponent(
       redirectUri
-    )}`;
+    )}&state=${state}&locale=${locale}`;
 
     if (!popup) {
       win.location.href = url;
