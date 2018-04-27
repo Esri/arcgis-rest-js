@@ -273,10 +273,8 @@ export class UserSession implements IAuthenticationManager {
    *
    * @browserOnly
    */
-  static beginOAuth2(
-    options: IOauth2Options,
-    /* istanbul ignore next */ win: any = window
-  ) {
+  /* istanbul ignore next */
+  static beginOAuth2(options: IOauth2Options, win: any = window) {
     const {
       portal,
       clientId,
@@ -343,10 +341,8 @@ export class UserSession implements IAuthenticationManager {
    *
    * @browserOnly
    */
-  static completeOAuth2(
-    options: IOauth2Options,
-    /* istanbul ignore next*/ win: any = window
-  ) {
+  /* istanbul ignore next */
+  static completeOAuth2(options: IOauth2Options, win: any = window) {
     const { portal, clientId }: IOauth2Options = {
       ...{ portal: "https://arcgis.com/sharing/rest" },
       ...options

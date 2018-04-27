@@ -79,7 +79,7 @@ describe("UserSession", () => {
         });
     });
 
-    it("should fetch new tokens when tokens for for trusted arcgis.com domains are expired", done => {
+    it("should fetch new tokens when tokens for trusted arcgis.com domains are expired", done => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
