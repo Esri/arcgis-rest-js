@@ -43,6 +43,7 @@ module.exports = function(config) {
       }
     },
 
+    // coveralls uses this one. still need to figure out how to DRY this up.
     coverageReporter: {
       type: 'lcov',
       dir: 'coverage/'
