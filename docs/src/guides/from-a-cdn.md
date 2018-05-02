@@ -8,7 +8,7 @@ group: 1-get-started
 
 # Get Started using a CDN
 
-ArcGIS REST JS is hosted on [unpkg](https://unpkg.com/). You can find URLs for individual packages in the [API reference](../api).
+ArcGIS REST JS is hosted on [unpkg](https://unpkg.com/). You can find URLs for individual packages in the [API reference](../../api).
 
 ```html
 <!DOCTYPE html>
