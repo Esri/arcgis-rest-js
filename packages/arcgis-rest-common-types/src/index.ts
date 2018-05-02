@@ -152,11 +152,11 @@ export interface IFont {
  */
 export interface IItem {
   id?: string;
-  owner: string;
-  title: string;
-  type: string;
-  tags: string[];
-  typeKeywords: string[];
+  owner?: string;
+  title?: string;
+  type?: string;
+  tags?: string[];
+  typeKeywords?: string[];
   description?: string;
   snippet?: string;
   documentation?: string;
