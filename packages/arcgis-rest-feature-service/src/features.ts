@@ -49,7 +49,6 @@ export interface ISharedQueryParams extends IParams {
  */
 export interface IQueryFeaturesParams extends ISharedQueryParams {
   objectIds?: number[];
-  // NOTE: either WKID or ISpatialReference
   relationParam?: string;
   // NOTE: either time=1199145600000 or time=1199145600000, 1230768000000
   time?: Date | Date[];
