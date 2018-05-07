@@ -144,3 +144,30 @@ export const queryResponse = {
     }
   ]
 };
+
+export const addFeaturesResponse = {
+  addResults: [
+    {
+      objectId: 1001,
+      success: true
+    }
+  ]
+};
+
+export const updateFeaturesResponse = {
+  updateResults: [
+    {
+      objectId: 1001,
+      success: true
+    }
+  ]
+};
+
+export const deleteFeaturesResponse = {
+  deleteResults: [
+    {
+      objectId: 1001,
+      success: true
+    }
+  ]
+};

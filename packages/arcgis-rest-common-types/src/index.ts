@@ -84,12 +84,25 @@ export interface IEnvelope extends IGeometry {
 /**
  *
  */
-export type esriGeometryType =
+export type esriGeometryType =  // why is this type camelCased?
   | "esriGeometryPoint"
   | "esriGeometryMultipoint"
   | "esriGeometryPolyline"
   | "esriGeometryPolygon"
   | "esriGeometryEnvelope";
+
+/**
+ * The spatial relationship used to compare input geometries
+ */
+export type SpatialRelationship =
+  | "esriSpatialRelIntersects"
+  | "esriSpatialRelContains"
+  | "esriSpatialRelCrosses"
+  | "esriSpatialRelEnvelopeIntersects"
+  | "esriSpatialRelIndexIntersects"
+  | "esriSpatialRelOverlaps"
+  | "esriSpatialRelTouches"
+  | "esriSpatialRelWithin";
 
 /**
  * Extents are used to define rectangles and bounding boxes.
