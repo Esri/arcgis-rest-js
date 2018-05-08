@@ -3,13 +3,9 @@ import {
   queryFeatures,
   addFeatures,
   updateFeatures,
-<<<<<<< HEAD
   deleteFeatures,
   IDeleteFeaturesRequestOptions,
   IUpdateFeaturesRequestOptions
-=======
-  deleteFeatures
->>>>>>> 7523ddf... add tests for add, update and delete
 } from "../src/index";
 
 import * as fetchMock from "fetch-mock";
