@@ -138,7 +138,6 @@
       function updateSessionInfo(session) {
         let sessionInfo = document.getElementById('sessionInfo')
         if (session) {
-          debugger;
           sessionInfo.classList.remove('bg-info');
           sessionInfo.classList.add('bg-success');
           sessionInfo.innerHTML = `Logged in as ${session.username}.`;
