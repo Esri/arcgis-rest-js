@@ -5,6 +5,7 @@
     <title>ArcGIS REST JS Browser OAuth2</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
+    <script src="https://cdn.polyfill.io/v2/polyfill.js?features=es5,Promise,fetch"></script>
   </head>
   <body>
     <div id="app-wrapper">
@@ -108,7 +109,7 @@
       }
 
       // Define the variable used for the redirect uri.
-      const redirect_uri = `${window.location.origin}${window.location.pathname}`;
+      const redirect_uri = window.location.origin + window.location.pathname;
       // Inject that value into the page text.
       document.getElementById('redirect_uri').innerHTML = redirect_uri;
 
@@ -130,7 +131,7 @@
       }
 
       // Attach a listener to validate the client id on change.
-      document.getElementById('clientId').addEventListener('input', (event) => {
+      document.getElementById('clientId').addEventListener('input', function (event) {
         requireClientId();
       });
 
@@ -140,7 +141,7 @@
         if (session) {
           sessionInfo.classList.remove('bg-info');
           sessionInfo.classList.add('bg-success');
-          sessionInfo.innerHTML = `Logged in as ${session.username}.`;
+          sessionInfo.innerHTML = 'Logged in as ' +  session.username;
           localStorage.setItem('__ARCGIS_REST_USER_SESSION__', session.serialize());
         } else {
           sessionInfo.classList.remove('bg-success');
@@ -153,42 +154,42 @@
       updateSessionInfo(session);
 
       // Attach a listener to the sign in buttons.
-      document.getElementById('withPopupButton').addEventListener('click', (event) => {
+      document.getElementById('withPopupButton').addEventListener('click', function (event) {
         event.preventDefault();
         if (requireClientId()) {
 
           // Begin an OAuth2 login using a popup.
           arcgisRest.UserSession.beginOAuth2({
-            clientId,
-            redirectUri: `${redirect_uri}authenticate.html`,
+            clientId: clientId,
+            redirectUri: redirect_uri + 'authenticate.html',
             popup: true
-          }).then((newSession) => {
+          }).then(function (newSession) {
             // Upon a successful login, update the session with the new session.
             session = newSession;
             console.log(session);
             updateSessionInfo(session);
-          }).catch(error => {
+          }).catch(function (error) {
             console.log(error);
           });
         }
       });
 
       // Attach a listener to the sign in buttons.
-      document.getElementById('inlineRedirectButton').addEventListener('click', (event) => {
+      document.getElementById('inlineRedirectButton').addEventListener('click', function (event) {
         event.preventDefault();
         if (requireClientId()) {
           // let clientId = document.getElementById('clientId').value || configClientId;
           // Begin an OAuth2 login without a popup.
           arcgisRest.UserSession.beginOAuth2({
-            clientId,
-            redirectUri: `${redirect_uri}authenticate.html?clientID=${clientId}`,
+            clientId: clientId,
+            redirectUri: redirect_uri + 'authenticate.html?clientID=' + clientId,
             popup: false,
           });
         }
       });
 
       // Attach a listener to the sign in buttons.
-      document.getElementById('signOutButton').addEventListener('click', (event) => {
+      document.getElementById('signOutButton').addEventListener('click', function (event) {
         event.preventDefault();
 
         // Clear the previous session.
