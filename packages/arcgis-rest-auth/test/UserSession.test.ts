@@ -415,7 +415,7 @@ describe("UserSession", () => {
         .then(session => {
           expect(session.token).toBe("token");
           expect(session.username).toBe("c@sey");
-          expect(session.tokenExpires).toBe(TOMORROW);
+          expect(session.tokenExpires).toEqual(TOMORROW);
           done();
         })
         .catch(e => {
@@ -428,11 +428,14 @@ describe("UserSession", () => {
         "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
       );
 
-      MockWindow.__ESRI_REST_AUTH_HANDLER_clientId123(null, {
-        token: "token",
-        expires: TOMORROW,
-        username: "c@sey"
-      });
+      MockWindow.__ESRI_REST_AUTH_HANDLER_clientId123(
+        JSON.stringify(undefined),
+        JSON.stringify({
+          token: "token",
+          expires: TOMORROW,
+          username: "c@sey"
+        })
+      );
     });
 
     it("should reject the promise if there is an error", done => {
@@ -458,7 +461,10 @@ describe("UserSession", () => {
       );
 
       MockWindow.__ESRI_REST_AUTH_HANDLER_clientId123(
-        new ArcGISRequestError("unable to sign in", "SIGN_IN_FAILED")
+        JSON.stringify({
+          errorMessage: "unable to sign in",
+          error: "SIGN_IN_FAILED"
+        })
       );
     });
 
@@ -515,12 +521,15 @@ describe("UserSession", () => {
         opener: {
           parent: {
             __ESRI_REST_AUTH_HANDLER_clientId(
-              error: any,
-              oauthInfo: IFetchTokenResponse
+              errorString: string,
+              oauthInfoString: string
             ) {
+              const oauthInfo = JSON.parse(oauthInfoString);
               expect(oauthInfo.token).toBe("token");
               expect(oauthInfo.username).toBe("c@sey");
-              expect(oauthInfo.expires.getTime()).toBeGreaterThan(Date.now());
+              expect(new Date(oauthInfo.expires).getTime()).toBeGreaterThan(
+                Date.now()
+              );
             }
           }
         },
@@ -546,12 +555,15 @@ describe("UserSession", () => {
       const MockWindow = {
         parent: {
           __ESRI_REST_AUTH_HANDLER_clientId(
-            error: any,
-            oauthInfo: IFetchTokenResponse
+            errorString: string,
+            oauthInfoString: string
           ) {
+            const oauthInfo = JSON.parse(oauthInfoString);
             expect(oauthInfo.token).toBe("token");
             expect(oauthInfo.username).toBe("c@sey");
-            expect(oauthInfo.expires.getTime()).toBeGreaterThan(Date.now());
+            expect(new Date(oauthInfo.expires).getTime()).toBeGreaterThan(
+              Date.now()
+            );
           }
         },
         close() {
