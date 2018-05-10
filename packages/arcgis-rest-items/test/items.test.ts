@@ -82,6 +82,34 @@ describe("search", () => {
       });
   });
 
+  it("should pass through other requestOptions at the same time", done => {
+    fetchMock.once("*", SearchResponse);
+
+    searchItems({
+      searchForm: {
+        q: "DC AND typekeywords:hubSiteApplication",
+        num: 12,
+        start: 22,
+        sortField: "title",
+        sortDir: "desc"
+      },
+      httpMethod: "POST"
+    })
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual("https://www.arcgis.com/sharing/rest/search");
+        expect(options.body).toContain(
+          "q=DC%20AND%20typekeywords%3AhubSiteApplication&num=12&start=22&sortField=title&sortDir=desc"
+        );
+        expect(options.method).toBe("POST");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   it("should return an item by id", done => {
     fetchMock.once("*", ItemResponse);
 
