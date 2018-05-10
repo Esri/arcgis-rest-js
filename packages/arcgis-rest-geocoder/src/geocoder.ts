@@ -250,7 +250,7 @@ export function suggest(
 
   // is this the most concise way to mixin these optional parameters?
   if (requestOptions && requestOptions.params) {
-    options.params = { ...requestOptions.params };
+    options.params = requestOptions.params;
   }
 
   if (requestOptions && requestOptions.magicKey) {
