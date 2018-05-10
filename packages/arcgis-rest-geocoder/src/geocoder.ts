@@ -191,9 +191,8 @@ export interface IGetGeocodeServiceResponse {
  */
 export function geocode(
   address: string | IGeocodeRequestOptions
-  // requestOptions?: IGeocodeRequestOptions
 ): Promise<IGeocodeResponse> {
-  const options: IGeocodeRequestOptions = {
+  let options: IGeocodeRequestOptions = {
     endpoint: worldGeocoder,
     params: {}
   };
@@ -201,8 +200,11 @@ export function geocode(
   if (typeof address === "string") {
     options.params.singleLine = address;
   } else {
-    options.params = { ...address.params };
     options.endpoint = address.endpoint || worldGeocoder;
+    options = {
+      ...options,
+      ...address
+    };
   }
 
   // add spatialReference property to individual matches
@@ -248,7 +250,7 @@ export function suggest(
 
   // is this the most concise way to mixin these optional parameters?
   if (requestOptions && requestOptions.params) {
-    options.params = { ...requestOptions.params };
+    options.params = requestOptions.params;
   }
 
   if (requestOptions && requestOptions.magicKey) {

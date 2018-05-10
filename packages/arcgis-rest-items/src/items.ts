@@ -102,18 +102,20 @@ export interface ISearchResult {
 export function searchItems(
   search: string | ISearchRequestOptions
 ): Promise<ISearchResult> {
-  const options: ISearchRequestOptions = {
+  let options: ISearchRequestOptions = {
     httpMethod: "GET",
     params: {}
   };
 
   if (typeof search === "string") {
-    options.params = { q: search };
+    options.params.q = search;
   } else {
     options.params = search.searchForm;
-    if (search.authentication) {
-      options.authentication = search.authentication;
-    }
+    // mixin, giving user supplied requestOptions precedence
+    options = {
+      ...options,
+      ...search
+    };
   }
 
   // construct the search url

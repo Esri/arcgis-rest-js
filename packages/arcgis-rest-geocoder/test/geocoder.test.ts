@@ -112,6 +112,34 @@ describe("geocode", () => {
       });
   });
 
+  it("should pass through all requestOptions when making a geocoding request", done => {
+    fetchMock.once("*", FindAddressCandidates);
+
+    geocode({
+      endpoint: customGeocoderUrl,
+      params: {
+        outSr: 3857,
+        address: "380 New York St",
+        postal: 92373
+      },
+      httpMethod: "GET"
+    })
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://foo.com/arcgis/rest/services/Custom/GeocodeServer/findAddressCandidates?f=json&outSr=3857&address=380%20New%20York%20St&postal=92373"
+        );
+        expect(options.method).toBe("GET");
+        // the only property this lib tacks on
+        expect(response.spatialReference.wkid).toEqual(4326);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   it("should make a reverse geocoding request", done => {
     fetchMock.once("*", ReverseGeocode);
 
