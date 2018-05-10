@@ -215,7 +215,6 @@ describe("search", () => {
           }
         }
       };
-      // why not just use item.owner??
       createItem({
         item: fakeItem,
         owner: "dbouwman",
@@ -231,6 +230,98 @@ describe("search", () => {
           expect(options.body).toContain("f=json");
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           expect(options.body).toContain("owner=dbouwman");
+          // ensure the array props are serialized into strings
+          expect(options.body).toContain(
+            encodeParam("typeKeywords", "fake, kwds")
+          );
+          expect(options.body).toContain(
+            encodeParam("tags", "fakey, mcfakepants")
+          );
+          expect(options.body).toContain(
+            encodeParam("properties", JSON.stringify(fakeItem.properties))
+          );
+
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should create an item without an explicit owner", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+      const fakeItem = {
+        title: "my fake item",
+        owner: "dbouwman",
+        description: "yep its fake",
+        snipped: "so very fake",
+        type: "Web Mapping Application",
+        typeKeywords: ["fake", "kwds"],
+        tags: ["fakey", "mcfakepants"],
+        properties: {
+          key: "somevalue"
+        }
+      };
+      createItem({
+        item: fakeItem,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/addItem"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain("owner=dbouwman");
+          // ensure the array props are serialized into strings
+          expect(options.body).toContain(
+            encodeParam("typeKeywords", "fake, kwds")
+          );
+          expect(options.body).toContain(
+            encodeParam("tags", "fakey, mcfakepants")
+          );
+          expect(options.body).toContain(
+            encodeParam("properties", JSON.stringify(fakeItem.properties))
+          );
+
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should create an item with only a username from auth", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+      const fakeItem = {
+        title: "my fake item",
+        description: "yep its fake",
+        snipped: "so very fake",
+        type: "Web Mapping Application",
+        typeKeywords: ["fake", "kwds"],
+        tags: ["fakey", "mcfakepants"],
+        properties: {
+          key: "somevalue"
+        }
+      };
+      // why not just use item.owner??
+      createItem({
+        item: fakeItem,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/addItem"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          // expect(options.body).toContain("owner=casey");
           // ensure the array props are serialized into strings
           expect(options.body).toContain(
             encodeParam("typeKeywords", "fake, kwds")

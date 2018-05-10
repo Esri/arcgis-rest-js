@@ -24,7 +24,7 @@ export interface IItemIdRequestOptions extends IUserRequestOptions {
    */
   id: string;
   /**
-   * Item owner username (by default authentication session will be used).
+   * Item owner username. If not present, `authentication.username` is utilized.
    */
   owner?: string;
 }
@@ -34,10 +34,6 @@ export interface IItemJsonDataRequestOptions extends IItemIdRequestOptions {
    * JSON object to store
    */
   data: any;
-  /**
-   * Item owner username (by default authentication session will be used).
-   */
-  owner?: string;
 }
 
 export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
@@ -55,11 +51,11 @@ export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
 export interface IItemCrudRequestOptions extends IUserRequestOptions {
   item: IItem;
   /**
-   * Item owner username (by default authentication session will be used).
+   * The owner of the item. If this property is not present, `item.owner` will be passed, or lastly `authentication.username`.
    */
   owner?: string;
   /**
-   * Optional folder to house the item
+   * Folder to house the item.
    */
   folder?: string;
 }
@@ -135,7 +131,10 @@ export function searchItems(
 export function createItemInFolder(
   requestOptions: IItemCrudRequestOptions
 ): Promise<any> {
-  const owner = requestOptions.owner || requestOptions.authentication.username;
+  const owner =
+    requestOptions.owner ||
+    requestOptions.item.owner ||
+    requestOptions.authentication.username;
   const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
   let url = `${baseUrl}/addItem`;
 
