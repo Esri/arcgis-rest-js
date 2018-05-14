@@ -1,7 +1,7 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-export * from "./Webmap";
+export * from "./webmap";
 
 /**
  * an arc can be represented as a JSON curve object
