@@ -22,7 +22,7 @@
       function processAuthentication() {
         window.location.href = '/';
         session = arcgisRest.UserSession.completeOAuth2({
-          clientId,
+          clientId: clientId,
         });
         localStorage.setItem('__ARCGIS_REST_USER_SESSION__', session.serialize());
       }
