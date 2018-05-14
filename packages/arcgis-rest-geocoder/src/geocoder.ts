@@ -66,7 +66,7 @@ export interface IGeocodeParams extends IParams {
   /**
    * You can create an autocomplete experience by making a call to suggest with partial text and then passing through the magicKey and complete address that are returned to geocode.
    * ```js
-   * import { suggest, geocode } from '@esri/arcgis-geocoder';
+   * import { suggest, geocode } from '@esri/arcgis-rest-geocoder';
    * suggest("LAX")
    *   .then((response) => {
    *     response.suggestions[2].magicKey; // =>  "dHA9MCNsb2M9Mjk3ODc2MCNsbmc9MzMjcGw9ODkxNDg4I2xicz0xNDoxNDc4MTI1MA=="
@@ -105,7 +105,7 @@ export interface ISuggestRequestOptions extends IEndpointRequestOptions {
   /**
    * You can create an autocomplete experience by making a call to suggest with partial text and then passing through the magicKey and complete address that are returned to geocode.
    * ```js
-   * import { suggest, geocode } from '@esri/arcgis-geocoder';
+   * import { suggest, geocode } from '@esri/arcgis-rest-geocoder';
    * suggest("LAX")
    *   .then((response) => {
    *     response.suggestions[2].magicKey; // =>  "dHA9MCNsb2M9Mjk3ODc2MCNsbmc9MzMjcGw9ODkxNDg4I2xicz0xNDoxNDc4MTI1MA=="
@@ -167,7 +167,7 @@ export interface IGetGeocodeServiceResponse {
  * Used to determine the location of a single address or point of interest
  *
  * ```js
- * import { geocode } from '@esri/arcgis-geocoder';
+ * import { geocode } from '@esri/arcgis-rest-geocoder';
  *
  * geocode("LAX")
  *   .then((response) => {
@@ -227,7 +227,7 @@ export function geocode(
  * Used to return a placename suggestion for a partial string
  *
  * ```js
- * import { suggest } from '@esri/arcgis-geocoder';
+ * import { suggest } from '@esri/arcgis-rest-geocoder';
  *
  * suggest("Starb")
  *   .then((response) => {
@@ -266,7 +266,7 @@ export function suggest(
  * Used to determine the address of a location.
  *
  * ```js
- * import { reverseGeocode } from '@esri/arcgis-geocoder';
+ * import { reverseGeocode } from '@esri/arcgis-rest-geocoder';
  *
  * // long, lat
  * reverseGeocode([-118.409,33.943 ])
@@ -316,8 +316,8 @@ export function reverseGeocode(
  * Used to geocode a batch of addresses
  *
  * ```js
- * import { bulkGeocode } from '@esri/arcgis-geocoder';
- * import { ApplicationSession } from '@esri/arcgis-auth';
+ * import { bulkGeocode } from '@esri/arcgis-rest-geocoder';
+ * import { ApplicationSession } from '@esri/arcgis-rest-auth';
  *
  * const addresses = [
  *   { "OBJECTID": 1, "SingleLine": "380 New York Street 92373" },
@@ -375,7 +375,7 @@ export function bulkGeocode(
  * Used to fetch metadata from a geocoding service.
  *
  * ```js
- * import { getGeocoderServiceInfo } from '@esri/arcgis-geocoder';
+ * import { getGeocoderServiceInfo } from '@esri/arcgis-rest-geocoder';
  *
  * getGeocoderServiceInfo()
  *   .then((response) => {
