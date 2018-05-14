@@ -6,7 +6,7 @@
   "author": "",
   "license": "Apache-2.0",
   "files": [
-    "dist/types/index.d.ts"
+    "dist/types/*.d.ts"
   ],
   "scripts": {
     "prepare": "npm run build",

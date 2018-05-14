@@ -1,6 +1,8 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+export * from "./Webmap";
+
 /**
  * an arc can be represented as a JSON curve object
  */
@@ -46,16 +48,47 @@ export type ElipticArc = IArc;
 export interface IFeature {
   geometry?: IGeometry;
   attributes: { [key: string]: any };
+  symbol?: ISymbol;
 }
 
 /**
- *
+ * Field type.
+ */
+export type esriFieldType =
+  | "esriFieldTypeBlob"
+  | "esriFieldTypeDate"
+  | "esriFieldTypeDouble"
+  | "esriFieldTypeGeometry"
+  | "esriFieldTypeGlobalID"
+  | "esriFieldTypeGUID"
+  | "esriFieldTypeInteger"
+  | "esriFieldTypeOID"
+  | "esriFieldTypeRaster"
+  | "esriFieldTypeSingle"
+  | "esriFieldTypeSmallInteger"
+  | "esriFieldTypeString"
+  | "esriFieldTypeXML";
+
+/**
+ * Contains information about an attribute field.
  */
 export interface IField {
+  /** A string defining the field name. */
   name: string;
-  type: string;
+  /** A string defining the field type. */
+  type: esriFieldType;
+  /** A string defining the field alias. */
   alias?: string;
+  /** The domain objects if applicable. */
+  domain?: any;
+  /** A Boolean defining whether this field is editable. */
+  editable?: boolean;
+  /** A Boolean defining whether or not the field is an exact match. */
+  exactMatch?: boolean;
+  /** A number defining how many characters are allowed in a string. field. */
   length?: number;
+  /** A Boolean defining whether this field can have a null value. */
+  nullable?: boolean;
 }
 
 /**
