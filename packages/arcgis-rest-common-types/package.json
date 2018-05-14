@@ -11,8 +11,7 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:esm",
-    "build:esm": "tsc --module es2015 --outDir ./dist/esm --sourceMap --declaration --declarationDir ./dist/types",
-    "postbuild": "rimraf dist/esm"
+    "build:esm": "tsc"
   },
   "publishConfig": {
     "access": "public"
