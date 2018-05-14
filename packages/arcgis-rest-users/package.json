@@ -3,7 +3,7 @@
   "version": "1.1.2",
   "description": "Portal user helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
-  "browser": "dist/umd/arcgis-rest-users.umd.js",
+  "browser": "dist/umd/users.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
