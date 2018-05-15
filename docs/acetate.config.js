@@ -199,7 +199,7 @@ module.exports = function(acetate) {
   acetate.helper("cdnUrl", function(context, package) {
     return `https://unpkg.com/${
       package.name
-    }@${package.version}/dist/umd/${package.name.split("/")[1]}.umd.js`;
+    }@${package.version}/dist/umd/${package.name.replace("arcgis-rest-", "")}.umd.js`;
   });
 
   acetate.helper("npmInstallCmd", function(context, package) {
