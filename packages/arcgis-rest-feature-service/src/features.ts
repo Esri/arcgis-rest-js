@@ -173,6 +173,7 @@ export interface IEditFeaturesParams extends IParams {
  * add features request options
  *
  * @param url - layer service url
+ * @param adds - array of features to add
  * @param params - query parameters to be sent to the feature service
  */
 export interface IAddFeaturesRequestOptions extends IRequestOptions {
@@ -215,6 +216,7 @@ export function addFeatures(
  * update features request options
  *
  * @param url - layer service url
+ * @param updates - array of features to update
  * @param params - query parameters to be sent to the feature service
  */
 export interface IUpdateFeaturesRequestOptions extends IRequestOptions {
@@ -264,6 +266,7 @@ export interface IDeleteFeaturesParams
  * delete features request options
  *
  * @param url - layer service url
+ * @param deletes - array of objectIds to delete
  * @param params - query parameters to be sent to the feature service
  */
 export interface IDeleteFeaturesRequestOptions extends IRequestOptions {
