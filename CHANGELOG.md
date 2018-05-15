@@ -7,6 +7,81 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.2.0] - May 14th 2018
+
+### @esri/arcgis-rest-auth
+
+* Chores
+   * **umd**: make umd filenames more terse [`368e1a1`](https://github.com/Esri/arcgis-rest-js/commit/368e1a19088d4eff55144e71b9e0285c92a32199)
+* Bug Fixes
+   * **oAuth**: fix oAuth2 methods in IE 11 and Edge [`462f980`](https://github.com/Esri/arcgis-rest-js/commit/462f980082f9eeb8c55b5aa6c5981422ae40105f)
+
+### @esri/arcgis-rest-common-types
+
+* Chores
+   * **umd**: make umd filenames more terse [`368e1a1`](https://github.com/Esri/arcgis-rest-js/commit/368e1a19088d4eff55144e71b9e0285c92a32199)
+* Bug Fixes
+   * **IItem**: make all IItem properties optional [`8df9278`](https://github.com/Esri/arcgis-rest-js/commit/8df9278a5c59f6e85384dd106f0d379c847f72c1) [#171](https://github.com/Esri/arcgis-rest-js/issues/171)
+
+### @esri/arcgis-rest-feature-service
+
+* Chores
+   * **umd**: make umd filenames more terse [`368e1a1`](https://github.com/Esri/arcgis-rest-js/commit/368e1a19088d4eff55144e71b9e0285c92a32199)
+* Documentation
+   * **snippets**: add CRUD feature service snippets and fix geocoder ones [`7143f06`](https://github.com/Esri/arcgis-rest-js/commit/7143f0625c6c3c0cc21a1451ffa76a35ddba60f1) [#190](https://github.com/Esri/arcgis-rest-js/issues/190)
+* New Features
+   * **feature-service**: add feature service CRUD methods [`5cb8fbc`](https://github.com/Esri/arcgis-rest-js/commit/5cb8fbcb0ff4bbb314b9926511c4502d0f4737b0) [#176](https://github.com/Esri/arcgis-rest-js/issues/176)
+
+### @esri/arcgis-rest-geocoder
+
+* Chores
+   * **umd**: make umd filenames more terse [`368e1a1`](https://github.com/Esri/arcgis-rest-js/commit/368e1a19088d4eff55144e71b9e0285c92a32199)
+* Documentation
+   * **snippets**: add CRUD feature service snippets and fix geocoder ones [`7143f06`](https://github.com/Esri/arcgis-rest-js/commit/7143f0625c6c3c0cc21a1451ffa76a35ddba60f1) [#190](https://github.com/Esri/arcgis-rest-js/issues/190)
+* Bug Fixes
+   * **geocode**: max sure user supplied request options are all passed through [`3ffa710`](https://github.com/Esri/arcgis-rest-js/commit/3ffa7107bcf4d6ee4cf735bb0a14eac638e93a6c)
+
+### @esri/arcgis-rest-groups
+
+* Chores
+   * **umd**: make umd filenames more terse [`368e1a1`](https://github.com/Esri/arcgis-rest-js/commit/368e1a19088d4eff55144e71b9e0285c92a32199)
+
+### @esri/arcgis-rest-items
+
+* Chores
+   * **umd**: make umd filenames more terse [`368e1a1`](https://github.com/Esri/arcgis-rest-js/commit/368e1a19088d4eff55144e71b9e0285c92a32199)
+* Bug Fixes
+   * **createItem**: owner `item.owner` authentication.username [`76680a1`](https://github.com/Esri/arcgis-rest-js/commit/76680a1834332a196bf4b93a05caf5020156fe0f)
+   * **itemSearch**: max sure user supplied request options are all passed through [`afb9e38`](https://github.com/Esri/arcgis-rest-js/commit/afb9e38e7cf83571a5d998b3eb97678c2e730524) [#183](https://github.com/Esri/arcgis-rest-js/issues/183)
+
+### @esri/arcgis-rest-request
+
+* Chores
+   * **umd**: make umd filenames more terse [`368e1a1`](https://github.com/Esri/arcgis-rest-js/commit/368e1a19088d4eff55144e71b9e0285c92a32199)
+* Bug Fixes
+   * **fetch**: set credentials: "same-origin" in fetch options to support sending IWA cookies [`a4d0115`](https://github.com/Esri/arcgis-rest-js/commit/a4d0115522c1d2a3e44e15320c84745ad58389dc)
+
+### @esri/arcgis-rest-users
+
+* Chores
+   * **umd**: make umd filenames more terse [`368e1a1`](https://github.com/Esri/arcgis-rest-js/commit/368e1a19088d4eff55144e71b9e0285c92a32199)
+
+### Other Changes
+
+* Chores
+   * **copyright**: remove duplicate copyright statements from minified files [`13b5db5`](https://github.com/Esri/arcgis-rest-js/commit/13b5db52d96f62787aae0b3a9c9558864831f671)
+* Documentation
+   * **snippets**: add CRUD feature service snippets and fix geocoder ones [`26da42e`](https://github.com/Esri/arcgis-rest-js/commit/26da42e25fd55a2dc6c4a380cc6257e29e6a7d3f)
+* Bug Fixes
+   * **oauth-demo**: remove ES2015 buts from oAuth Demo for IE 11 [`22ec948`](https://github.com/Esri/arcgis-rest-js/commit/22ec94889d5867c07babaf2c85197f39c0ae46f1)
+   * **IItem**: make id and owner the only required properties of IItem [`9c508f2`](https://github.com/Esri/arcgis-rest-js/commit/9c508f25a2404f0cbea8d22da98653a875a49901)
+   * **fetch**: set credentials: "same-origin" in fetch options  [`3ae7159`](https://github.com/Esri/arcgis-rest-js/commit/3ae715939fd3245a8dc0f693e82a7df16fe099a1)
+
+### doc improvements
+
+* Bug Fixes
+   * **createItem**: owner "item.owner" authentication.username [`76680a1`](https://github.com/Esri/arcgis-rest-js/commit/76680a1834332a196bf4b93a05caf5020156fe0f)
+
 ## [1.1.2] - May 2nd 2018
 
 ### @esri/arcgis-rest-auth
@@ -15,7 +90,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    * **all READMEs**: add links to API reference sections [`3afbe95`](https://github.com/Esri/arcgis-rest-js/commit/3afbe95de00abd313f808808236f3a534dea4e84) [#148](https://github.com/Esri/arcgis-rest-js/issues/148)
    * **security**: bump devDependencies to resolve security vulnerability [`16fd1a7`](https://github.com/Esri/arcgis-rest-js/commit/16fd1a7915ebd2dbed1c25ec5ce99875505106cc)
 * Documentation
-   * **LICENSe**: fix license links in package READMEs [`d9f6027`](https://github.com/Esri/arcgis-rest-js/commit/d9f6027fd82317392a4df1b955226c68bfc6eaf7)
+   * **LICENSE**: fix license links in package READMEs [`d9f6027`](https://github.com/Esri/arcgis-rest-js/commit/d9f6027fd82317392a4df1b955226c68bfc6eaf7)
 * Bug Fixes
    * **auth**: allow trailing slash in portal URL [`b76da90`](https://github.com/Esri/arcgis-rest-js/commit/b76da902d67d4ac3635ac18eb780e7c68d7617f7)
    * **auth**: decode username when parsing response from OAuth [`e0c2a44`](https://github.com/Esri/arcgis-rest-js/commit/e0c2a44bd5032ce9b45b0f8511e9cc256056872c) [#165](https://github.com/Esri/arcgis-rest-js/issues/165)
@@ -93,7 +168,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    * **new users package**: add rest-users with a single method [`29b7af0`](https://github.com/Esri/arcgis-rest-js/commit/29b7af087c366fe377345d015ff8c3910f969c2c)
 * Bug Fixes
    * **auth**: decode username when parsing response from OAuth [`fd9005f`](https://github.com/Esri/arcgis-rest-js/commit/fd9005fef74c33c684273fd283aa6bd9990e8630)
-   * **OAuth2 options**: add &amp;#39;locale&amp;#39; and &amp;#39;state&amp;#39; parameters for browser based OAuth2 [`6234f0c`](https://github.com/Esri/arcgis-rest-js/commit/6234f0c9cc40a73a0e6e05080abef48bc8b15b2b)
+   * **OAuth2 options**: add locale and state parameters for browser based OAuth2 [`6234f0c`](https://github.com/Esri/arcgis-rest-js/commit/6234f0c9cc40a73a0e6e05080abef48bc8b15b2b)
 
 ### batch-geocoder
 
@@ -145,7 +220,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Chores
    * **npm packages**: remove test files and tsconfig.json from npm tarballs [`37940e7`](https://github.com/Esri/arcgis-rest-js/commit/37940e7268e0d4ea8628d23c3b26e3d4ab22877a) [#132](https://github.com/Esri/arcgis-rest-js/issues/132)
 * New Features
-   * **common-types**: add more common types, keep the &amp;amp;amp;#39;I&amp;amp;amp;#39; in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
+   * **common-types**: add more common types, keep the I in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
    * **lots more common-types**: adding a lot more common data types [`73ce0b8`](https://github.com/Esri/arcgis-rest-js/commit/73ce0b8ff4780fa925814f9bf279c74a513fc0ad)
 * Bug Fixes
    * **build**: set other @esri/arcgis-rest-js-* pacakges as external [`2f77c9f`](https://github.com/Esri/arcgis-rest-js/commit/2f77c9f11c2e8a9e85291f844aea9bdc730cdde3) [#128](https://github.com/Esri/arcgis-rest-js/issues/128)
@@ -168,7 +243,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    * **npm packages**: remove test files and tsconfig.json from npm tarballs [`37940e7`](https://github.com/Esri/arcgis-rest-js/commit/37940e7268e0d4ea8628d23c3b26e3d4ab22877a) [#132](https://github.com/Esri/arcgis-rest-js/issues/132)
 * New Features
    * **all packages**: start shipping an unminified UMD for each package [`52043f5`](https://github.com/Esri/arcgis-rest-js/commit/52043f5b702aca699f62abf8054582286e258ba5) [#135](https://github.com/Esri/arcgis-rest-js/issues/135)
-   * **common-types**: add more common types, keep the &amp;amp;amp;#39;I&amp;amp;amp;#39; in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
+   * **common-types**: add more common types, keep the I in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
 * Bug Fixes
    * **build**: set other @esri/arcgis-rest-js-* pacakges as external [`2f77c9f`](https://github.com/Esri/arcgis-rest-js/commit/2f77c9f11c2e8a9e85291f844aea9bdc730cdde3) [#128](https://github.com/Esri/arcgis-rest-js/issues/128)
 * Misc.
@@ -181,7 +256,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    * **npm packages**: remove test files and tsconfig.json from npm tarballs [`37940e7`](https://github.com/Esri/arcgis-rest-js/commit/37940e7268e0d4ea8628d23c3b26e3d4ab22877a) [#132](https://github.com/Esri/arcgis-rest-js/issues/132)
 * New Features
    * **all packages**: start shipping an unminified UMD for each package [`52043f5`](https://github.com/Esri/arcgis-rest-js/commit/52043f5b702aca699f62abf8054582286e258ba5) [#135](https://github.com/Esri/arcgis-rest-js/issues/135)
-   * **common-types**: add more common types, keep the &amp;amp;amp;#39;I&amp;amp;amp;#39; in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
+   * **common-types**: add more common types, keep the I in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
 * Bug Fixes
    * **build**: set other @esri/arcgis-rest-js-* pacakges as external [`2f77c9f`](https://github.com/Esri/arcgis-rest-js/commit/2f77c9f11c2e8a9e85291f844aea9bdc730cdde3) [#128](https://github.com/Esri/arcgis-rest-js/issues/128)
 
@@ -191,7 +266,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    * **npm packages**: remove test files and tsconfig.json from npm tarballs [`37940e7`](https://github.com/Esri/arcgis-rest-js/commit/37940e7268e0d4ea8628d23c3b26e3d4ab22877a) [#132](https://github.com/Esri/arcgis-rest-js/issues/132)
 * New Features
    * **all packages**: start shipping an unminified UMD for each package [`52043f5`](https://github.com/Esri/arcgis-rest-js/commit/52043f5b702aca699f62abf8054582286e258ba5) [#135](https://github.com/Esri/arcgis-rest-js/issues/135)
-   * **common-types**: add more common types, keep the &amp;amp;amp;#39;I&amp;amp;amp;#39; in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
+   * **common-types**: add more common types, keep the I in front of interfaces [`d91dd0e`](https://github.com/Esri/arcgis-rest-js/commit/d91dd0e127f70804beec8a4ce373c17755746c2e)
 * Bug Fixes
    * **build**: set other @esri/arcgis-rest-js-* pacakges as external [`2f77c9f`](https://github.com/Esri/arcgis-rest-js/commit/2f77c9f11c2e8a9e85291f844aea9bdc730cdde3) [#128](https://github.com/Esri/arcgis-rest-js/issues/128)
 
@@ -357,4 +432,5 @@ Initial Public Release
 [1.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.3...v1.1.0 "v1.1.0"
 [1.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.0...v1.1.1 "v1.1.1"
 [1.1.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.1...v1.1.2 "v1.1.2"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.2...HEAD "Unreleased Changes"
+[1.2.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.2...v1.2.0 "v1.2.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.2.0...HEAD "Unreleased Changes"
