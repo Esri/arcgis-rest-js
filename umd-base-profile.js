@@ -21,9 +21,13 @@ const { name } = pkg;
 /**
  * to construct a copyright banner
  */
-const copyright = '/* ' + pkg.name + ' - v' + pkg.version + ' - ' + new Date().toString() + '\n' +
-                ' * Copyright (c) ' + new Date().getFullYear() + ' Environmental Systems Research Institute, Inc.\n' +
-                ' * ' + pkg.license + ' */';
+
+const copyright = `/* @preserve
+* ${pkg.name} - v${pkg.version} - ${new Date().toString()}
+* Copyright (c) 2017 - ${new Date().getFullYear()} Environmental Systems Research Institute, Inc.
+* ${pkg.license}
+*/`;
+
 
 /**
  * The module name will be the name of the global variable used in UMD builds.
@@ -59,8 +63,8 @@ const globals = packageNames.reduce((globals, p) => {
 export default {
   input: "./src/index.ts",
   output: {
-    file: `./dist/umd/${name.replace("@esri/", "")}.umd.js`,
-    sourcemap: `./dist/umd/${name.replace("@esri/", "")}.umd.js.map`,
+    file: `./dist/umd/${name.replace("@esri/arcgis-rest-", "")}.umd.js`,
+    sourcemap: true,
     banner: copyright,
     format: "umd",
     name: moduleName,

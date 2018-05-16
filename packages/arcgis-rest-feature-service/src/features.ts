@@ -214,6 +214,21 @@ export interface IAddFeaturesResult {
  * Add features request.
  *
  * @param requestOptions - Options for the request.
+ * ```js
+ * import { addFeatures } from '@esri/arcgis-rest-feature-service';
+ *
+ * const url = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0";
+ *
+ * addFeatures({
+ *   url,
+ *   adds: [{
+ *     geometry: { x: -120, y: 45, spatialReference: { wkid: 4326 } },
+ *     attributes: { status: "alive" }
+ *   }]
+ * });
+ * ```
+ *
+ * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the addFeatures response.
  */
 export function addFeatures(
@@ -267,6 +282,20 @@ export interface IUpdateFeaturesResult {
 
 /**
  * Update features request.
+ *
+ * ```js
+ * import { updateFeatures } from '@esri/arcgis-rest-feature-service';
+ *
+ * const url = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0";
+ *
+ * updateFeatures({
+ *   url,
+ *   updates: [{
+ *     geometry: { x: -120, y: 45, spatialReference: { wkid: 4326 } },
+ *     attributes: { status: "alive" }
+ *   }]
+ * });
+ * ```
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the updateFeatures response.
@@ -329,6 +358,17 @@ export interface IDeleteFeaturesResult {
 
 /**
  * Delete features request.
+ *
+ * ```js
+ * import { deleteFeatures } from '@esri/arcgis-rest-feature-service';
+ *
+ * const url = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0";
+ *
+ * deleteFeatures({
+ *   url,
+ *   deletes: [1,2,3]
+ * });
+ * ```
  *
  * @param deleteFeaturesRequestOptions - Options for the request.
  * @returns A Promise that will resolve with the deleteFeatures response.

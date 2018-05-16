@@ -306,23 +306,27 @@ export class UserSession implements IAuthenticationManager {
     const session = defer<UserSession>();
 
     win[`__ESRI_REST_AUTH_HANDLER_${clientId}`] = function(
-      error: any,
-      oauthInfo: IFetchTokenResponse
+      errorString: any,
+      oauthInfoString: string
     ) {
-      if (error) {
-        session.reject(error);
+      if (errorString) {
+        const error = JSON.parse(errorString);
+        session.reject(new ArcGISAuthError(error.errorMessage, error.error));
         return;
       }
 
-      session.resolve(
-        new UserSession({
-          clientId,
-          portal,
-          token: oauthInfo.token,
-          tokenExpires: oauthInfo.expires,
-          username: oauthInfo.username
-        })
-      );
+      if (oauthInfoString) {
+        const oauthInfo = JSON.parse(oauthInfoString);
+        session.resolve(
+          new UserSession({
+            clientId,
+            portal,
+            token: oauthInfo.token,
+            tokenExpires: new Date(oauthInfo.expires),
+            username: oauthInfo.username
+          })
+        );
+      }
     };
 
     win.open(
@@ -348,24 +352,27 @@ export class UserSession implements IAuthenticationManager {
       ...options
     };
 
-    function completeSignIn(error: any, oauthInfo: IFetchTokenResponse) {
+    function completeSignIn(error: any, oauthInfo?: IFetchTokenResponse) {
       if (win.opener && win.opener.parent) {
         win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`](
-          error,
-          oauthInfo
+          error ? JSON.stringify(error) : undefined,
+          JSON.stringify(oauthInfo)
         );
         win.close();
         return undefined;
       }
 
       if (win !== win.parent) {
-        win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`](error, oauthInfo);
+        win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`](
+          error ? JSON.stringify(error) : undefined,
+          JSON.stringify(oauthInfo)
+        );
         win.close();
         return undefined;
       }
 
       if (error) {
-        throw error;
+        throw new ArcGISAuthError(error.errorMessage, error.error);
       }
 
       return new UserSession({
@@ -389,7 +396,7 @@ export class UserSession implements IAuthenticationManager {
       const error = errorMatch[1];
       const errorMessage = decodeURIComponent(errorMatch[2]);
 
-      return completeSignIn(new ArcGISRequestError(errorMessage, error), null);
+      return completeSignIn({ error, errorMessage });
     }
 
     const token = match[1];
@@ -398,7 +405,7 @@ export class UserSession implements IAuthenticationManager {
     );
     const username = decodeURIComponent(match[3]);
 
-    return completeSignIn(null, {
+    return completeSignIn(undefined, {
       token,
       expires,
       username

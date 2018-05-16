@@ -154,7 +154,9 @@ export function request(
   };
 
   const fetchOptions: RequestInit = {
-    method: httpMethod
+    method: httpMethod,
+    // ensures behavior mimics XMLHttpRequest. needed to support sending IWA cookies
+    credentials: "same-origin"
   };
 
   return (authentication ? authentication.getToken(url) : Promise.resolve(""))
