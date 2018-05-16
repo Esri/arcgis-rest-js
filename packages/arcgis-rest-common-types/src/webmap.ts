@@ -308,15 +308,15 @@ export interface ISlide {
 
 export interface IPresentation {
   /** Indicates whether to display the time slider (if accessible). */
-  displayTimeSlider?: true;
+  displayTimeSlider?: boolean;
   /** Indicates whether to display a legend on all slides. */
-  showLegend?: true;
+  showLegend?: boolean;
   /** Number of seconds to show slide before proceeding to the next slide. */
   slideAdvancementInterval?: number;
   /** Array of slide objects. */
   slides?: ISlide[];
   /** Indicates whether to use the time extent (if applicable) of a slide. */
-  useTimeExtentOfSlide?: true;
+  useTimeExtentOfSlide?: boolean;
 }
 
 /**
@@ -584,24 +584,24 @@ export interface ISupportsTime {
 
 export interface IBingLayer extends ILayer {
   /** String value that unlocks the use of Bing layers in a web map. */
-  bingKey?: any;
+  bingKey?: string;
   /** Boolean value indicating whether the Bing key can be shared to the public. */
-  canShareBingPublic?: any;
+  canShareBingPublic?: boolean;
   /** String indicating the layer type. */
   layerType: "BingMapsAerial" | "BingMapsRoad" | "BingMapsHybrid";
   /** A string value representing the URL to the Portal/organization Self resource. Calls should be made to this property to retrieve the Bing key. If the key is not made accessible to the public or if canShareBingPublic is false, any web maps using Bing layers will not work. */
-  portalUrl?: any;
+  portalUrl?: string;
 }
 
 export interface IImageServiceLayer extends ILayer, ISupportsTime {
   /** An array of bandIds that are visible, can specify bands to export or rearrange band order(from image service). */
-  bandIds?: any;
+  bandIds?: number[];
   /** Controls how much loss the image will be subjected to by the compression algorithm (from image service). */
   compressionQuality?: any;
   /** Stores interactive filters. */
   definitionEditor?: any;
   /** Boolean property indicating whether to ignore popups defined by the service item. */
-  disablePopup?: any;
+  disablePopup?: boolean;
   /** String value representing image format. */
   format?:
     | "jpgpng"
@@ -678,10 +678,10 @@ export interface IImageVectorLayer extends ILayer, ISupportsTime {
 }
 
 export interface IDefinitionParameter {
-  /** The default value that is automatically given is nothing is provided. */
+  /** The default value that is automatically given if nothing is provided. */
   defaultValue?: number | string;
   /** A string value representing the name of the field to query. */
-  fieldName?: any;
+  fieldName?: string;
   /** Number given to uniquely identify the specified parameter. */
   parameterId?: any;
   /** The field type for the specified field parameter. */
@@ -795,21 +795,21 @@ export interface IDrawingInfo {
   renderer?: any;
   /** Boolean property indicating whether symbols should stay the same size in screen units as you zoom in. A value of true means the symbols stay the same size in screen units regardless of the map scale. */
   scaleSymbols?: any;
-  /** Defines whether a labels should be shown or not. This is only valid for sublayers. */
-  showLabels?: any;
+  /** Defines whether labels should be shown or not. This is only valid for sublayers. */
+  showLabels?: boolean;
   /** Number value ranging between 0 (no transparency) to 100 (completely transparent). */
-  transparency?: any;
+  transparency?: number;
 }
 
 export interface ILayerDefinition extends IHasZM {
   /** Boolean value indicating whether the geometry of the features in the layer can be edited. */
-  allowGeometryUpdates?: any;
+  allowGeometryUpdates?: boolean;
   /** A comma separated list of supported capabilities, e.g. Query,Editing. */
   capabilities?: string;
   /** String value for the copyright text information for the layer. */
-  copyrightText?: any;
+  copyrightText?: string;
   /** Numeric value indicating the server version of the layer. */
-  currentVersion?: any;
+  currentVersion?: number;
   /** Boolean value indicating whether the layer's visibility is turned on. */
   defaultVisibility?: boolean;
   /** Stores interactive filters. */
@@ -961,7 +961,7 @@ export interface IOpenStreetMapLayer extends ILayer {
 
 export interface ITiledImageServiceLayer extends ILayer {
   /** Applicable if used as a baseMapLayer. A boolean value indicating whether or not the baseMapLayer draws on top (true) of other layers, including operationalLayers , or below (false). */
-  isReference?: any;
+  isReference?: boolean;
   /** String indicating the layer type. Value of this property must be ArcGISTiledImageServiceLayer */
   layerType: "ArcGISTiledImageServiceLayer";
   /** Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified interval. Value of 0 indicates auto refresh is not enabled. */
