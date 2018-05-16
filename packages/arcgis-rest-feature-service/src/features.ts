@@ -152,7 +152,7 @@ export function queryFeatures(
 }
 
 /**
- * add, update and delete features results
+ * Add, update and delete features result Object.
  */
 export interface IEditFeatureResult {
   objectId: number;
@@ -161,38 +161,59 @@ export interface IEditFeatureResult {
 }
 
 /**
- * add and update features update parameters
+ * Common add and update features parameters.
  */
 export interface IEditFeaturesParams extends IParams {
+  /**
+   * The geodatabase version to apply the edits.
+   */
   gdbVersion?: string;
+  /**
+   * Optional parameter specifying whether the response will report the time features were added.
+   */
   returnEditMoment?: boolean;
+  /**
+   * Optional parameter to specify if the edits should be applied only if all submitted edits succeed.
+   */
   rollbackOnFailure?: boolean;
 }
 
 /**
- * add features request options
+ * Add features request options.
  *
- * @param url - layer service url
- * @param adds - array of features to add
- * @param params - query parameters to be sent to the feature service
+ * @param url - Feature service url.
+ * @param adds - Array of JSON features to add.
+ * @param params - Query parameters to be sent to the feature service via the request.
  */
 export interface IAddFeaturesRequestOptions extends IRequestOptions {
+  /**
+   * Feature service url.
+   */
   url: string;
+  /**
+   * Array of JSON features to add.
+   */
   adds: IFeature[];
+  /**
+   * Query parameters to be sent to the feature service via the request.
+   */
   params?: IEditFeaturesParams;
 }
 
 /**
- * add features results
+ * Add features results.
  */
 export interface IAddFeaturesResult {
+  /**
+   * Array of JSON response Object(s) for each feature added.
+   */
   addResults?: IEditFeatureResult[];
 }
 
 /**
- * Add features
+ * Add features request.
  *
- * @param requestOptions - Options for the request
+ * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the addFeatures response.
  */
 export function addFeatures(
@@ -213,29 +234,41 @@ export function addFeatures(
 }
 
 /**
- * update features request options
+ * Update features request options.
  *
- * @param url - layer service url
- * @param updates - array of features to update
- * @param params - query parameters to be sent to the feature service
+ * @param url - Feature service url.
+ * @param updates - Array of JSON features to update.
+ * @param params - Query parameters to be sent to the feature service via the request.
  */
 export interface IUpdateFeaturesRequestOptions extends IRequestOptions {
+  /**
+   * Feature service url.
+   */
   url: string;
+  /**
+   * Array of JSON features to update.
+   */
   updates: IFeature[];
+  /**
+   * Query parameters to be sent to the feature service via the request.
+   */
   params?: IEditFeaturesParams;
 }
 
 /**
- * update features results
+ * Update features results.
  */
 export interface IUpdateFeaturesResult {
+  /**
+   * Array of JSON response Object(s) for each feature updated.
+   */
   updateResults?: IEditFeatureResult[];
 }
 
 /**
- * Update features
+ * Update features request.
  *
- * @param requestOptions - Options for the request
+ * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the updateFeatures response.
  */
 export function updateFeatures(
@@ -256,36 +289,48 @@ export function updateFeatures(
 }
 
 /**
- * delete features parameters
+ * Delete features parameters.
  */
 export interface IDeleteFeaturesParams
   extends IEditFeaturesParams,
     ISharedQueryParams {}
 
 /**
- * delete features request options
+ * Delete features request options.
  *
- * @param url - layer service url
- * @param deletes - array of objectIds to delete
- * @param params - query parameters to be sent to the feature service
+ * @param url - Feature service url.
+ * @param deletes - Array of objectIds to delete.
+ * @param params - Query parameters to be sent to the feature service via the request.
  */
 export interface IDeleteFeaturesRequestOptions extends IRequestOptions {
+  /**
+   * Feature service url.
+   */
   url: string;
+  /**
+   * Array of objectIds to delete.
+   */
   deletes: number[];
+  /**
+   * Query parameters to be sent to the feature service via the request.
+   */
   params?: IDeleteFeaturesParams;
 }
 
 /**
- * update features results
+ * Delete features results.
  */
 export interface IDeleteFeaturesResult {
+  /**
+   * Array of JSON response Object(s) for each feature deleted.
+   */
   deleteResults?: IEditFeatureResult[];
 }
 
 /**
- * Delete features
+ * Delete features request.
  *
- * @param deleteFeaturesRequestOptions - Options for the request
+ * @param deleteFeaturesRequestOptions - Options for the request.
  * @returns A Promise that will resolve with the deleteFeatures response.
  */
 export function deleteFeatures(
