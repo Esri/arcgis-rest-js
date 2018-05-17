@@ -368,6 +368,45 @@ describe("search", () => {
         });
     });
 
+    it("should create an item with no tags or typeKeywords", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+      const fakeItem = {
+        title: "my fake item",
+        description: "yep its fake",
+        snipped: "so very fake",
+        type: "Web Mapping Application",
+        properties: {
+          key: "somevalue"
+        }
+      };
+      createItem({
+        item: fakeItem,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/addItem"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain(
+            encodeParam("type", "Web Mapping Application")
+          );
+          // ensure the array props are serialized into strings
+          expect(options.body).toContain(
+            encodeParam("properties", JSON.stringify(fakeItem.properties))
+          );
+
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
     it("should create an item in a folder", done => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
