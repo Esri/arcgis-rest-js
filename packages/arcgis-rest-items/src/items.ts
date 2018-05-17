@@ -384,8 +384,9 @@ function serializeItem(item: IItem): any {
   // create a clone so we're not messing with the original
   const clone = JSON.parse(JSON.stringify(item));
   // join keywords and tags...
-  clone.typeKeywords = item.typeKeywords.join(", ");
-  clone.tags = item.tags.join(", ");
+  const { typeKeywords=[], tags=[] } = item;
+  clone.typeKeywords = typeKeywords.join(", ");
+  clone.tags = tags.join(", ");
   // convert .data to .text
   if (clone.data) {
     clone.text = JSON.stringify(clone.data);
