@@ -1097,6 +1097,7 @@ describe("search", () => {
       shareItem({
         id: "3ef",
         owner: "haoliang",
+        everyone: true,
         ...MOCK_USER_REQOPTS
       })
         .then(response => {
@@ -1106,6 +1107,7 @@ describe("search", () => {
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("everyone", "true"));
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
@@ -1118,6 +1120,7 @@ describe("search", () => {
       fetchMock.once("*", ItemSuccessResponse);
       shareItem({
         id: "3ef",
+        confirmItemControl: false,
         ...MOCK_USER_REQOPTS
       })
         .then(response => {
@@ -1127,6 +1130,9 @@ describe("search", () => {
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(
+            encodeParam("confirmItemControl", "false")
+          );
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
