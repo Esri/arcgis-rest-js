@@ -12,6 +12,7 @@ import {
   getItemResources,
   updateItemResource,
   removeItemResource,
+  shareItem,
   ISearchRequestOptions
 } from "../src/index";
 
@@ -206,6 +207,7 @@ describe("search", () => {
           fail(e);
         });
     });
+
     it("should return an item data by id using a token", done => {
       fetchMock.once("*", ItemDataResponse);
 
@@ -531,6 +533,7 @@ describe("search", () => {
           fail(e);
         });
     });
+
     it("should add data to an item", done => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeData = {
@@ -1081,6 +1084,49 @@ describe("search", () => {
           expect(options.body).toContain(
             encodeParam("resource", "image/banner.png")
           );
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should share an item", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+      shareItem({
+        id: "3ef",
+        owner: "haoliang",
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/haoliang/items/3ef/share"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should share an item, no owner passed", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+      shareItem({
+        id: "3ef",
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/share"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain(encodeParam("f", "json"));
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
