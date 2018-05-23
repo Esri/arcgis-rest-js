@@ -7,13 +7,46 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.3.0] - May 23rd 2018
+
+### @esri/arcgis-rest-items
+
+* Bug Fixes
+  * Better handling of missing tags [`c7ba459`](https://github.com/Esri/arcgis-rest-js/commit/c7ba459a1e455132e3d494d6679c835eebdcef90) 🙏alukach🙏
+
+### @esri/arcgis-rest-common-types
+
+* New Features
+  * Loads of new Webmap typings! [`e52f115`](https://github.com/Esri/arcgis-rest-js/commit/e52f11506f087d29ad59e302e95e055d73cb1c9c) 🙏JeffJacobson🙏
+
+### @esri/arcgis-rest-feature-service
+
+* Documentation
+   * **feature-service**: add missing `@params` [`b0d96f1`](https://github.com/Esri/arcgis-rest-js/commit/b0d96f118211edbabac08669260235b71ee96fec)
+
+### @esri/arcgis-rest-request
+
+* Chores
+   * **404**: new bit.ly link in err message [`4976a2c`](https://github.com/Esri/arcgis-rest-js/commit/4976a2c83863d98ec40b3991e2ab14263529ac8e)
+
+### Other Changes
+
+* Misc.
+   * **arcgis-rest-common-types**: simplified build [`11ae59c`](https://github.com/Esri/arcgis-rest-js/commit/11ae59c1a78835fea91430da9ef860c60225ee7e)
+* Chores
+   * **404**: new bit.ly link in err message [`e406915`](https://github.com/Esri/arcgis-rest-js/commit/e4069159abc7c58727ef811d32ec825ce7349306)
+* Documentation
+   * **feature-service**: add missing `@params` [`80faae8`](https://github.com/Esri/arcgis-rest-js/commit/80faae8b681d338823db70a70da61e0e46fa87fa)
+* New Features
+   * **common-types**: Added webmap interfaces and types [`e52f115`](https://github.com/Esri/arcgis-rest-js/commit/e52f11506f087d29ad59e302e95e055d73cb1c9c)
+
 ## [1.2.1] - May 15th 2018
 
 ### Other Changes
 
 * Bug Fixes
    * **umd**: strip outdated umd files from npm packages [`2e1764d`](https://github.com/Esri/arcgis-rest-js/commit/2e1764ddfc4c43956d94d440412464d10cd4aea5) [#198](https://github.com/Esri/arcgis-rest-js/issues/198)
-   
+
 ## [1.2.0] - May 14th 2018
 
 ### @esri/arcgis-rest-auth
@@ -441,4 +474,5 @@ Initial Public Release
 [1.1.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.1...v1.1.2 "v1.1.2"
 [1.2.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.2...v1.2.0 "v1.2.0"
 [1.2.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.2.0...v1.2.1 "v1.2.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.2.1...HEAD "Unreleased Changes"
+[1.3.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.2.1...v1.3.0 "v1.3.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.3.0...HEAD "Unreleased Changes"
