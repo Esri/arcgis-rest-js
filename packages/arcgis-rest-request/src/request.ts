@@ -138,7 +138,7 @@ export function request(
         ", "
       )}. We recommend installing the ${recommendedPackages.join(
         ", "
-      )} modules at the root of your application to add these to the global scope. See http://bit.ly/2BXbqzq for more info.`
+      )} modules at the root of your application to add these to the global scope. See https://bit.ly/2KNwWaJ for more info.`
     );
   }
 
