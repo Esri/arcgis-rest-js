@@ -20,7 +20,7 @@ export interface ISetAccessRequestOptions extends IRequestOptions {
   /**
    * "private" indicates that the item can only be accessed by the user. "public" means accessible to anyone. An item shared to the organization has an access level of "org".
    */
-  access: "private" | "public" | "org";
+  access: "private" | "org" | "public";
   authentication?: UserSession;
 }
 
@@ -29,10 +29,10 @@ export interface ISharingResponse {
   itemId: string;
 }
 /**
- * Generic method for sharing stuff.
+ * Set access level of an item to 'public', 'org', or 'private'.
  *
  * ```js
- * import { setAccess } from '@esri/arcgis-rest-sharing';
+ * import { setItemAccess } from '@esri/arcgis-rest-sharing';
  *
  * setItemAccess({
  *   id: "abc123",
@@ -44,7 +44,7 @@ export interface ISharingResponse {
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the data from the response.
  */
-export function setAccess(
+export function setItemAccess(
   requestOptions: ISetAccessRequestOptions
 ): Promise<ISharingResponse> {
   const username = requestOptions.authentication.username;
@@ -68,15 +68,15 @@ export function setAccess(
           `This item can not be shared by ${username}. They are neither the item owner nor an organization admin.`
         );
       } else {
-        return updateAccess(sharingUrl, requestOptions);
+        return updateItemAccess(sharingUrl, requestOptions);
       }
     });
   } else {
-    return updateAccess(sharingUrl, requestOptions);
+    return updateItemAccess(sharingUrl, requestOptions);
   }
 }
 
-function updateAccess(
+function updateItemAccess(
   url: string,
   requestOptions: ISetAccessRequestOptions
 ): Promise<any> {
@@ -86,19 +86,15 @@ function updateAccess(
     ...requestOptions.params
   };
 
-  // FYI: i think we're setting 'items' unnecessarily in: https://github.com/Esri/ember-arcgis-portal-services/blob/master/addon/services/sharing-service.js#L26
-
+  if (requestOptions.access === "private") {
+    requestOptions.params.groups = " ";
+  }
   if (requestOptions.access === "org") {
     requestOptions.params.org = true;
-    requestOptions.params.everyone = false;
   }
   if (requestOptions.access === "public") {
     requestOptions.params.org = true;
     requestOptions.params.everyone = true;
   }
-  if (requestOptions.access === "private") {
-    requestOptions.params.groups = " ";
-  }
-
   return request(url, requestOptions);
 }

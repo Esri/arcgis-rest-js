@@ -1,4 +1,4 @@
-import { setAccess } from "../src/index";
+import { setItemAccess } from "../src/index";
 import * as fetchMock from "fetch-mock";
 
 import { MOCK_USER_SESSION } from "./mocks/sharing";
@@ -12,13 +12,13 @@ const SharingResponse = {
   itemId: "abc123"
 };
 
-describe("setAccess()", () => {
+describe("setItemAccess()", () => {
   afterEach(fetchMock.restore);
 
   it("should share an item with everyone", done => {
     fetchMock.once("*", SharingResponse);
 
-    setAccess({
+    setItemAccess({
       authentication: MOCK_USER_SESSION,
       id: "abc123",
       access: "public"
@@ -43,7 +43,7 @@ describe("setAccess()", () => {
   it("should share an item with an organization", done => {
     fetchMock.once("*", SharingResponse);
 
-    setAccess({
+    setItemAccess({
       authentication: MOCK_USER_SESSION,
       id: "abc123",
       access: "org"
@@ -68,7 +68,7 @@ describe("setAccess()", () => {
   it("should stop sharing an item entirely", done => {
     fetchMock.once("*", SharingResponse);
 
-    setAccess({
+    setItemAccess({
       authentication: MOCK_USER_SESSION,
       id: "abc123",
       access: "private"
@@ -102,7 +102,7 @@ describe("setAccess()", () => {
       SharingResponse
     );
 
-    setAccess({
+    setItemAccess({
       authentication: MOCK_USER_SESSION,
       id: "abc123",
       access: "private",
@@ -137,7 +137,7 @@ describe("setAccess()", () => {
       SharingResponse
     );
 
-    setAccess({
+    setItemAccess({
       authentication: MOCK_USER_SESSION,
       id: "abc123",
       access: "private",

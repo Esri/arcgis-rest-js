@@ -9,7 +9,7 @@
 
 # @esri/arcgis-rest-sharing
 
-> Helper utilities for managing access to content via the ArcGIS REST API that run in Node.js and modern browsers.
+> Helper utilities for managing access to ArcGIS content in Node.js and modern browsers.
 
 ### Example
 
@@ -19,18 +19,18 @@ npm install @esri/arcgis-rest-sharing
 ```
 
 ```js
-import { setAccess } from '@esri/arcgis-rest-sharing';
+import { setItemAccess } from '@esri/arcgis-rest-sharing';
 
-const id = "abc123";
+const itemId = "abc123";
 
-setAccess({
-    id,
-    access: "everyone",
+setItemAccess({
+    id: itemId,
+    access: "public",
     authentication: session
 })
 ```
 
-### [API Reference](https://esri.github.io/arcgis-rest-js/api/request/)
+### [API Reference](https://esri.github.io/arcgis-rest-js/api/sharing/)
 
 ### Issues
 
