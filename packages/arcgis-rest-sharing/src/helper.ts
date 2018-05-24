@@ -8,6 +8,8 @@ import {
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 
+import { IGroupSharingRequestOptions } from "./group-sharing";
+
 export interface ISharingRequestOptions extends IRequestOptions {
   /**
    * Item identifier
@@ -33,6 +35,10 @@ export function getSharingUrl(requestOptions: ISharingRequestOptions): string {
   )}/items/${requestOptions.id}/share`;
 }
 
+export function getOwner(requestOptions: ISharingRequestOptions): string {
+  return requestOptions.owner || requestOptions.authentication.username;
+}
+
 export function isItemOwner(requestOptions: ISharingRequestOptions): boolean {
   const username = requestOptions.authentication.username;
   const owner = requestOptions.owner || username;
@@ -42,7 +48,7 @@ export function isItemOwner(requestOptions: ISharingRequestOptions): boolean {
 export function isAdmin(
   requestOptions: ISharingRequestOptions
 ): Promise<boolean> {
-  // more manual than calling out to "@esri/arcgis-rest-users, but one less dependency
+  // more manual than calling out to "@esri/arcgis-rest-users, but trims a dependency
   const username = requestOptions.authentication.username;
   const url = `${getPortalUrl(
     requestOptions
@@ -56,4 +62,38 @@ export function isAdmin(
       return true;
     }
   });
+}
+
+export function getUserMembership(
+  requestOptions: IGroupSharingRequestOptions
+): Promise<string> {
+  let result = "nonmember";
+  const username = requestOptions.authentication.username;
+
+  const urlPath = `${getPortalUrl(requestOptions)}/community/groups/${
+    requestOptions.groupId
+  }/users?f=json`;
+
+  return request(urlPath, { authentication: requestOptions.authentication })
+    .then((response: any) => {
+      // check if username is in the admin hash...
+      if (response.owner === username) {
+        result = "owner";
+      }
+      if (response.admins.includes(username)) {
+        result = "admin";
+      }
+      if (response.users.includes(username)) {
+        result = "user";
+      }
+      return result;
+    })
+    .catch(err => {
+      // debug(`GroupService:getUserMembership ${id} for ${username} errored: ${err}`);
+      throw Error(
+        `GroupService:getUserMembership ${
+          requestOptions.id
+        } for ${username} errored: ${err}`
+      );
+    });
 }
