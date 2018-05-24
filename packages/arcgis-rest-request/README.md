@@ -20,7 +20,7 @@ npm install @esri/arcgis-rest-request
 ```js
 import { request } from '@esri/arcgis-rest-request';
 
-const url = "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data";
+const url = "https://www.arcgis.com/sharing/rest/content/items/6e03e8c26aad4b9c92a87c1063ddb0e3/data";
 
 request(url)
     .then(response => {
