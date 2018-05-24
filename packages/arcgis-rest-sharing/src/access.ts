@@ -1,5 +1,6 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
+
 import {
   request,
   IRequestOptions,
@@ -8,26 +9,21 @@ import {
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 
-export interface ISetAccessRequestOptions extends IRequestOptions {
-  /**
-   * Item identifier
-   */
-  id: string;
-  /**
-   * Item owner, if different from the authenticated user.
-   */
-  owner?: string;
+import {
+  ISharingRequestOptions,
+  ISharingResponse,
+  isItemOwner,
+  getSharingUrl,
+  isOrgAdmin
+} from "./helpers";
+
+export interface ISetAccessRequestOptions extends ISharingRequestOptions {
   /**
    * "private" indicates that the item can only be accessed by the user. "public" means accessible to anyone. An item shared to the organization has an access level of "org".
    */
   access: "private" | "org" | "public";
-  authentication?: UserSession;
 }
 
-export interface ISharingResponse {
-  notSharedWith: string[];
-  itemId: string;
-}
 /**
  * Set access level of an item to 'public', 'org', or 'private'.
  *
@@ -47,32 +43,25 @@ export interface ISharingResponse {
 export function setItemAccess(
   requestOptions: ISetAccessRequestOptions
 ): Promise<ISharingResponse> {
-  const username = requestOptions.authentication.username;
-  const owner = requestOptions.owner || username;
-  const sharingUrl = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${encodeURIComponent(owner)}/items/${
-    requestOptions.id
-  }/share`;
-  const usernameUrl = `${getPortalUrl(
-    requestOptions
-  )}/community/users/${encodeURIComponent(username)}`;
+  const url = getSharingUrl(requestOptions);
 
-  if (owner !== username) {
-    // more manual than calling out to "@esri/arcgis-rest-users, but one less dependency
-    return request(usernameUrl, {
-      authentication: requestOptions.authentication
-    }).then(response => {
-      if (!response.role || response.role !== "org_admin") {
-        throw Error(
-          `This item can not be shared by ${username}. They are neither the item owner nor an organization admin.`
-        );
+  if (isItemOwner(requestOptions)) {
+    // if the user owns the item, proceed
+    return updateItemAccess(url, requestOptions);
+  } else {
+    // otherwise we need to check to see if they are an organization admin
+    return isOrgAdmin(requestOptions).then(admin => {
+      if (admin) {
+        return updateItemAccess(url, requestOptions);
       } else {
-        return updateItemAccess(sharingUrl, requestOptions);
+        // if neither, updating the sharing isnt possible
+        throw Error(
+          `This item can not be shared by ${
+            requestOptions.authentication.username
+          }. They are neither the item owner nor an organization admin.`
+        );
       }
     });
-  } else {
-    return updateItemAccess(sharingUrl, requestOptions);
   }
 }
 
@@ -86,12 +75,14 @@ function updateItemAccess(
     ...requestOptions.params
   };
 
+  // if the user wants to make the item private, it needs to be unshared from any/all groups as well
   if (requestOptions.access === "private") {
     requestOptions.params.groups = " ";
   }
   if (requestOptions.access === "org") {
     requestOptions.params.org = true;
   }
+  // if sharing with everyone, share with the entire organization as well.
   if (requestOptions.access === "public") {
     requestOptions.params.org = true;
     requestOptions.params.everyone = true;

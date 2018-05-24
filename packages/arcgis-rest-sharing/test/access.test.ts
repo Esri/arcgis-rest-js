@@ -13,6 +13,10 @@ const SharingResponse = {
 };
 
 describe("setItemAccess()", () => {
+  beforeEach(function() {
+    MOCK_USER_SESSION.userInfo = null;
+  });
+
   afterEach(fetchMock.restore);
 
   it("should share an item with everyone", done => {
@@ -93,7 +97,7 @@ describe("setItemAccess()", () => {
 
   it("should share another persons item if an org admin makes the request", done => {
     fetchMock.once(
-      "begin:https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       UserResponse
     );
 
@@ -128,13 +132,8 @@ describe("setItemAccess()", () => {
 
   it("should throw if the person trying to share doesnt own the item and is not an admin", done => {
     fetchMock.once(
-      "begin:https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       AnonUserResponse
-    );
-
-    fetchMock.once(
-      "begin:https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/abc123/share",
-      SharingResponse
     );
 
     setItemAccess({

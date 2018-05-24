@@ -48,7 +48,7 @@ export const UserResponse = {
   disabled: false,
   groups: [
     {
-      id: "0657d48d0c0841d793ea6ada2e6955f3",
+      id: "xyz678...",
       title: "Street Maps",
       isInvitationOnly: false,
       owner: "jsmith",
