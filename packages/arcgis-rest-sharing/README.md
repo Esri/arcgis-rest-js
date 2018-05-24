@@ -19,19 +19,15 @@ npm install @esri/arcgis-rest-sharing
 ```
 
 ```js
-import { shareItem } from '@esri/arcgis-rest-sharing';
+import { setAccess } from '@esri/arcgis-rest-sharing';
 
 const id = "abc123";
 
-shareItem({ id, access: "everyone"})
-    .then(response => {
-        console.log(response) // success!
-    });
-// or
-shareItem({ id, access: "organization", groups: ["myGroup"]})
-    .then(response => {
-        console.log(response) // success!
-    });
+setAccess({
+    id,
+    access: "everyone",
+    authentication: session
+})
 ```
 
 ### [API Reference](https://esri.github.io/arcgis-rest-js/api/request/)

@@ -1,6 +1,5 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-
 import {
   request,
   IRequestOptions,
@@ -8,8 +7,6 @@ import {
 } from "@esri/arcgis-rest-request";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
-
-// import { getUser } from "@esri/arcgis-rest-users";
 
 export interface ISetAccessRequestOptions extends IRequestOptions {
   /**
@@ -23,7 +20,7 @@ export interface ISetAccessRequestOptions extends IRequestOptions {
   /**
    * "private" indicates that the item can only be accessed by the user. "public" means accessible to anyone. An item shared to the organization has an access level of "org".
    */
-  access: "private" | "public" | "org" | "shared";
+  access: "private" | "public" | "org";
   authentication?: UserSession;
 }
 
@@ -39,9 +36,9 @@ export interface ISharingResponse {
  *
  * setItemAccess({
  *   id: "abc123",
- *   access: "public"
+ *   access: "public",
+ *   authentication: session
  * })
- *   .then(response => // sure! });
  * ```
  *
  * @param requestOptions - Options for the request.
@@ -62,7 +59,7 @@ export function setAccess(
   )}/community/users/${encodeURIComponent(username)}`;
 
   if (owner !== username) {
-    // more manual than calling out to getUser(), but one less dependency
+    // more manual than calling out to "@esri/arcgis-rest-users, but one less dependency
     return request(usernameUrl, {
       authentication: requestOptions.authentication
     }).then(response => {
@@ -89,7 +86,7 @@ function updateAccess(
     ...requestOptions.params
   };
 
-  // we're setting 'items' unnecessarily in: https://github.com/Esri/ember-arcgis-portal-services/blob/master/addon/services/sharing-service.js#L26
+  // FYI: i think we're setting 'items' unnecessarily in: https://github.com/Esri/ember-arcgis-portal-services/blob/master/addon/services/sharing-service.js#L26
 
   if (requestOptions.access === "org") {
     requestOptions.params.org = true;
