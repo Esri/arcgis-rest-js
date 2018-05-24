@@ -2,34 +2,35 @@
 [![build status][travis-img]][travis-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/arcgis-rest-js/master/LICENSE)
 
-[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-items.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-items
+[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-sharing.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-sharing
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
 
-# @esri/arcgis-rest-items
+# @esri/arcgis-rest-sharing
 
-> A module for working with content in the ArcGIS REST API that runs in Node.js and modern browsers.
+> Helper utilities for managing access to ArcGIS content in Node.js and modern browsers.
 
 ### Example
 
 ```bash
 npm install @esri/arcgis-rest-request
-npm install @esri/arcgis-rest-items
+npm install @esri/arcgis-rest-sharing
 ```
 
 ```js
-import { getItem } from '@esri/arcgis-rest-items';
+import { setItemAccess } from '@esri/arcgis-rest-sharing';
 
-const itemId = "30e5fe3149c34df1ba922e6f5bbf808f";
+const itemId = "abc123";
 
-getItem(itemId)
-    .then(response => {
-        console.log(response.title) // World Topographic Map
-    });
+setItemAccess({
+    id: itemId,
+    access: "public",
+    authentication: session
+})
 ```
 
-### [API Reference](https://esri.github.io/arcgis-rest-js/api/items/)
+### [API Reference](https://esri.github.io/arcgis-rest-js/api/sharing/)
 
 ### Issues
 
@@ -49,7 +50,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### License
 
-Copyright &copy; 2017-2018 Esri
+Copyright &copy; 2018 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
