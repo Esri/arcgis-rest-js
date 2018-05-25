@@ -23,7 +23,8 @@ export interface ISharingRequestOptions extends IRequestOptions {
 }
 
 export interface ISharingResponse {
-  notSharedWith: string[];
+  notSharedWith?: string[];
+  notUnsharedFrom?: string[];
   itemId: string;
 }
 
@@ -35,17 +36,13 @@ export function getSharingUrl(requestOptions: ISharingRequestOptions): string {
   )}/items/${requestOptions.id}/share`;
 }
 
-export function getOwner(requestOptions: ISharingRequestOptions): string {
-  return requestOptions.owner || requestOptions.authentication.username;
-}
-
 export function isItemOwner(requestOptions: ISharingRequestOptions): boolean {
   const username = requestOptions.authentication.username;
   const owner = requestOptions.owner || username;
   return owner === username;
 }
 
-export function isAdmin(
+export function isOrgAdmin(
   requestOptions: ISharingRequestOptions
 ): Promise<boolean> {
   // more manual than calling out to "@esri/arcgis-rest-users, but trims a dependency
@@ -70,11 +67,11 @@ export function getUserMembership(
   let result = "nonmember";
   const username = requestOptions.authentication.username;
 
-  const urlPath = `${getPortalUrl(requestOptions)}/community/groups/${
+  const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.groupId
   }/users?f=json`;
 
-  return request(urlPath, { authentication: requestOptions.authentication })
+  return request(url, { authentication: requestOptions.authentication })
     .then((response: any) => {
       // check if username is in the admin hash...
       if (response.owner === username) {
@@ -88,12 +85,13 @@ export function getUserMembership(
       }
       return result;
     })
-    .catch(err => {
-      // debug(`GroupService:getUserMembership ${id} for ${username} errored: ${err}`);
-      throw Error(
-        `GroupService:getUserMembership ${
-          requestOptions.id
-        } for ${username} errored: ${err}`
-      );
-    });
+    .catch(
+      /* istanbul ignore next */ err => {
+        throw Error(
+          `failure determining membership of ${username} in group:${
+            requestOptions.groupId
+          }: ${err}`
+        );
+      }
+    );
 }

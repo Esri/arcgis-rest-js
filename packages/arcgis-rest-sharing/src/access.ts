@@ -13,7 +13,7 @@ import {
   ISharingResponse,
   isItemOwner,
   getSharingUrl,
-  isAdmin
+  isOrgAdmin
 } from "./helper";
 
 export interface ISetAccessRequestOptions extends ISharingRequestOptions {
@@ -45,10 +45,15 @@ export function setItemAccess(
   const url = getSharingUrl(requestOptions);
 
   if (isItemOwner(requestOptions)) {
-    return isAdmin(requestOptions).then(admin => {
+    // if the user owns the item, proceed
+    return updateItemAccess(url, requestOptions);
+  } else {
+    // otherwise we need to check to see if they are an organization admin
+    return isOrgAdmin(requestOptions).then(admin => {
       if (admin) {
         return updateItemAccess(url, requestOptions);
       } else {
+        // if neither, updating the sharing isnt possible
         throw Error(
           `This item can not be shared by ${
             requestOptions.authentication.username
@@ -56,8 +61,6 @@ export function setItemAccess(
         );
       }
     });
-  } else {
-    return updateItemAccess(url, requestOptions);
   }
 }
 
@@ -71,6 +74,7 @@ function updateItemAccess(
     ...requestOptions.params
   };
 
+  // if the user wants to make the item private, it needs to be unshared from any/all groups as well
   if (requestOptions.access === "private") {
     requestOptions.params.groups = " ";
   }
@@ -78,6 +82,7 @@ function updateItemAccess(
     requestOptions.params.org = true;
   }
   if (requestOptions.access === "public") {
+    // if public, the item should be shared with the entire organization as well.
     requestOptions.params.org = true;
     requestOptions.params.everyone = true;
   }

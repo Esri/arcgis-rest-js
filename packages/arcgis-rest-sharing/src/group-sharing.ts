@@ -10,9 +10,8 @@ import {
 import {
   ISharingRequestOptions,
   ISharingResponse,
-  isAdmin,
-  getUserMembership,
-  getOwner
+  isOrgAdmin,
+  getUserMembership
 } from "./helper";
 
 export interface IGroupSharingRequestOptions extends ISharingRequestOptions {
@@ -82,47 +81,51 @@ function changeGroupSharing(
   const username = requestOptions.authentication.username;
   const owner = requestOptions.owner || username;
 
-  return isAdmin(requestOptions).then(admin => {
+  return isOrgAdmin(requestOptions).then(admin => {
     const resultProp =
       requestOptions.action === "share" ? "notSharedWith" : "notUnsharedFrom";
-    // check if the item is already shared with group...
+    // check if the item has already been shared with the group...
     return isItemSharedWithGroup(requestOptions).then(result => {
       // if we are sharing and result is true OR we are unsharing and result is false... short circuit
       if (
         (requestOptions.action === "share" && result === true) ||
         (requestOptions.action === "unshare" && result === false)
       ) {
-        // item is shared so we can short-circuit here and send back the same structure ago would
+        // and send back the same response structure ArcGIS Online would
         const obj = { itemId: requestOptions.id, shortcut: true } as any;
         obj[resultProp] = [];
         return obj;
       } else {
-        // is the user a member of the group?
+        // next check to ensure the user is a member of the group
         return getUserMembership(requestOptions)
           .then(membership => {
-            if (!membership) {
-              // reject the whole thing...
+            // ember bug fix
+            if (membership === "nonmember") {
+              // abort and reject promise
               throw Error(
-                `This item can not be shared by ${username} as they are not a member of the specified group ${
+                `This item can not be ${
+                  requestOptions.action
+                }d by ${username} as they are not a member of the specified group ${
                   requestOptions.groupId
                 }.`
               );
             } else {
-              // user is a member of the group - now we figure out if/how they can share it...
-              // if user is the owner, or orgAdmin, they can share to the group using the item-owner url...
-              if (requestOptions.owner && requestOptions.owner === username) {
+              // if orgAdmin or owner (and member of group) share using the owner url...
+              // slight deviation from logic in ember
+              if (owner === username || admin) {
                 return `${getPortalUrl(
                   requestOptions
                 )}/content/users/${owner}/items/${requestOptions.id}/${
                   requestOptions.action
                 }`;
               } else {
-                if (membership === "admin" || admin) {
+                // if they are a group admin/owner, use the bare item url
+                if (membership === "admin") {
                   return `${getPortalUrl(requestOptions)}/content/items/${
                     requestOptions.id
                   }/${requestOptions.action}`;
                 } else {
-                  // user can not share item to group b/c they don't own the item
+                  // otherwise the user wont be able to share the item at all
                   throw Error(
                     `This item can not be ${
                       requestOptions.action
@@ -134,15 +137,14 @@ function changeGroupSharing(
               }
             }
           })
-          .then(urlPath => {
-            // actually do the sharing...
+          .then(url => {
+            // now its time to finally do the sharing
             requestOptions.params = {
               groups: requestOptions.groupId,
               confirmItemControl: requestOptions.confirmItemControl
             };
-            // if we mixed in, the old query parameters would be passed through
-
-            return request(urlPath, requestOptions);
+            // we dont mixin to ensure that old query parameters are not passed through
+            return request(url, requestOptions);
           })
           .then(sharingResult => {
             if (sharingResult[resultProp].length) {
@@ -177,12 +179,14 @@ function isItemSharedWithGroup(
     sortField: "title"
   };
 
+  // instead of calling out to "@esri/arcgis-rest-items, we make the request manually to forgoe another dependency
   requestOptions.params = {
     ...query,
     ...requestOptions.params
   };
-  // more manual than calling out to "@esri/arcgis-rest-items, but trims a dependency
+
   const url = `${getPortalUrl(requestOptions)}/search`;
+
   return request(url, requestOptions).then(searchResult => {
     if (searchResult.total === 0) {
       return false;
