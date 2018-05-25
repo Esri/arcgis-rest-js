@@ -12,7 +12,7 @@ import {
   ISharingResponse,
   isOrgAdmin,
   getUserMembership
-} from "./helper";
+} from "./helpers";
 
 export interface IGroupSharingRequestOptions extends ISharingRequestOptions {
   /**
@@ -92,14 +92,13 @@ function changeGroupSharing(
         (requestOptions.action === "unshare" && result === false)
       ) {
         // and send back the same response structure ArcGIS Online would
-        const obj = { itemId: requestOptions.id, shortcut: true } as any;
-        obj[resultProp] = [];
-        return obj;
+        const response = { itemId: requestOptions.id, shortcut: true } as any;
+        response[resultProp] = [];
+        return response;
       } else {
         // next check to ensure the user is a member of the group
         return getUserMembership(requestOptions)
           .then(membership => {
-            // ember bug fix
             if (membership === "nonmember") {
               // abort and reject promise
               throw Error(
@@ -110,8 +109,7 @@ function changeGroupSharing(
                 }.`
               );
             } else {
-              // if orgAdmin or owner (and member of group) share using the owner url...
-              // slight deviation from logic in ember
+              // if orgAdmin or owner (and member of group) share using the owner url
               if (owner === username || admin) {
                 return `${getPortalUrl(
                   requestOptions
@@ -125,7 +123,7 @@ function changeGroupSharing(
                     requestOptions.id
                   }/${requestOptions.action}`;
                 } else {
-                  // otherwise the user wont be able to share the item at all
+                  // otherwise abort
                   throw Error(
                     `This item can not be ${
                       requestOptions.action
@@ -138,16 +136,16 @@ function changeGroupSharing(
             }
           })
           .then(url => {
-            // now its time to finally do the sharing
+            // now its finally time to do the sharing
             requestOptions.params = {
               groups: requestOptions.groupId,
               confirmItemControl: requestOptions.confirmItemControl
             };
-            // we dont mixin to ensure that old query parameters are not passed through
+            // dont mixin to ensure that old query parameters from the search request arent included
             return request(url, requestOptions);
           })
-          .then(sharingResult => {
-            if (sharingResult[resultProp].length) {
+          .then(sharingResponse => {
+            if (sharingResponse[resultProp].length) {
               throw Error(
                 `Item ${requestOptions.id} could not be ${
                   requestOptions.action
@@ -155,7 +153,7 @@ function changeGroupSharing(
               );
             } else {
               // all is well
-              return sharingResult;
+              return sharingResponse;
             }
           });
       } // else
@@ -179,7 +177,7 @@ function isItemSharedWithGroup(
     sortField: "title"
   };
 
-  // instead of calling out to "@esri/arcgis-rest-items, we make the request manually to forgoe another dependency
+  // instead of calling out to "@esri/arcgis-rest-items, make the request manually to forgoe another dependency
   requestOptions.params = {
     ...query,
     ...requestOptions.params
@@ -188,10 +186,11 @@ function isItemSharedWithGroup(
   const url = `${getPortalUrl(requestOptions)}/search`;
 
   return request(url, requestOptions).then(searchResult => {
+    // if there are no search results at all, we know the item hasnt already been shared with the group
     if (searchResult.total === 0) {
       return false;
     } else {
-      // Check that the item actually was returned
+      // otherwise loop through and search for the id
       const results = searchResult.results;
       const itm = results.find((shadowedItm: { id: string }) => {
         return shadowedItm.id === requestOptions.id;

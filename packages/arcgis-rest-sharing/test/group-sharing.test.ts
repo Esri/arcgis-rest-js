@@ -13,28 +13,28 @@ import { SearchResponse } from "../../arcgis-rest-items/test/mocks/search";
 
 const SharingResponse = {
   notSharedWith: [] as any,
-  itemId: "abc123"
+  itemId: "n3v"
 };
 
 const FailedSharingResponse = {
-  notSharedWith: ["xyz678"],
-  itemId: "abc123"
+  notSharedWith: ["t6b"],
+  itemId: "n3v"
 };
 
 const UnsharingResponse = {
   notUnsharedFrom: [] as any,
-  itemId: "a5b15fe368684a66b8c85a6cadaef9e5"
+  itemId: "a5b"
 };
 
 const CachedSharingResponse = {
   notSharedWith: [] as any,
-  itemId: "a5b15fe368684a66b8c85a6cadaef9e5",
+  itemId: "a5b",
   shortcut: true
 };
 
 const CachedUnsharingResponse = {
   notUnsharedFrom: [] as any,
-  itemId: "abc123",
+  itemId: "n3v",
   shortcut: true
 };
 
@@ -80,28 +80,28 @@ describe("shareItemWithGroup()", () => {
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/xyz678.../users?f=json",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/users?f=json",
       UserGroupUsersResponse
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/abc123/share",
+      "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/n3v/share",
       SharingResponse
     );
 
     shareItemWithGroup({
       authentication: MOCK_USER_SESSION,
-      id: "abc123",
-      groupId: "xyz678..."
+      id: "n3v",
+      groupId: "t6b"
     })
       .then(response => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/abc123/share"
+          "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/n3v/share"
         );
         expect(options.method).toBe("POST");
         expect(response).toEqual(SharingResponse);
         expect(options.body).toContain("f=json");
-        expect(options.body).toContain("groups=xyz678");
+        expect(options.body).toContain("groups=t6b");
         done();
       })
       .catch(e => {
@@ -121,19 +121,17 @@ describe("shareItemWithGroup()", () => {
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/xyz678.../users?f=json",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/users?f=json",
       NonMemberGroupUsersResponse
     );
 
-    // fetchMock.once("https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/abc123/share", SharingResponse);
-
     shareItemWithGroup({
       authentication: MOCK_USER_SESSION,
-      id: "abc123",
-      groupId: "xyz678..."
+      id: "n3v",
+      groupId: "t6b"
     }).catch(e => {
       expect(e.message).toBe(
-        "This item can not be shared by jsmith as they are not a member of the specified group xyz678...."
+        "This item can not be shared by jsmith as they are not a member of the specified group t6b."
       );
       done();
     });
@@ -151,29 +149,29 @@ describe("shareItemWithGroup()", () => {
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/xyz678.../users?f=json",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/users?f=json",
       UserGroupUsersResponse
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/abc123/share",
+      "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/n3v/share",
       SharingResponse
     );
 
     shareItemWithGroup({
       authentication: MOCK_USER_SESSION,
-      id: "abc123",
-      groupId: "xyz678...",
+      id: "n3v",
+      groupId: "t6b",
       owner: "casey"
     })
       .then(response => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/abc123/share"
+          "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/n3v/share"
         );
         expect(options.method).toBe("POST");
         expect(response).toEqual(SharingResponse);
         expect(options.body).toContain("f=json");
-        expect(options.body).toContain("groups=xyz678");
+        expect(options.body).toContain("groups=t6b");
         done();
       })
       .catch(e => {
@@ -193,29 +191,29 @@ describe("shareItemWithGroup()", () => {
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/xyz678.../users?f=json",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/users?f=json",
       AdminGroupUsersResponse
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/content/items/abc123/share",
+      "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share",
       SharingResponse
     );
 
     shareItemWithGroup({
       authentication: MOCK_USER_SESSION,
-      id: "abc123",
-      groupId: "xyz678...",
+      id: "n3v",
+      groupId: "t6b",
       owner: "otherguy"
     })
       .then(response => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/items/abc123/share"
+          "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
         );
         expect(options.method).toBe("POST");
         expect(response).toEqual(SharingResponse);
         expect(options.body).toContain("f=json");
-        expect(options.body).toContain("groups=xyz678");
+        expect(options.body).toContain("groups=t6b");
         done();
       })
       .catch(e => {
@@ -223,7 +221,7 @@ describe("shareItemWithGroup()", () => {
       });
   });
 
-  it("should mock a share if an item was previously shared with a group", done => {
+  it("should mock the response if an item was previously shared with a group", done => {
     fetchMock.once(
       "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith",
       UserResponse
@@ -235,17 +233,17 @@ describe("shareItemWithGroup()", () => {
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/xyz678.../users?f=json",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/users?f=json",
       AdminGroupUsersResponse
     );
 
     shareItemWithGroup({
       authentication: MOCK_USER_SESSION,
-      id: "a5b15fe368684a66b8c85a6cadaef9e5",
-      groupId: "xyz678..."
+      id: "a5b",
+      groupId: "t6b"
     })
       .then(response => {
-        // no web request at all
+        // no web request to share at all
         expect(response).toEqual(CachedSharingResponse);
         done();
       })
@@ -266,18 +264,18 @@ describe("shareItemWithGroup()", () => {
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/xyz678.../users?f=json",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/users?f=json",
       UserGroupUsersResponse
     );
 
     shareItemWithGroup({
       authentication: MOCK_USER_SESSION,
-      id: "abc123",
-      groupId: "xyz678...",
+      id: "n3v",
+      groupId: "t6b",
       owner: "casey"
     }).catch(e => {
       expect(e.message).toContain(
-        "This item can not be share by jsmith as they are neither the owner, a groupAdmin of xyz678..., nor an org_admin."
+        "This item can not be share by jsmith as they are neither the owner, a groupAdmin of t6b, nor an org_admin."
       );
       done();
     });
@@ -295,23 +293,21 @@ describe("shareItemWithGroup()", () => {
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/xyz678.../users?f=json",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/users?f=json",
       AdminGroupUsersResponse
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/abc123/share",
+      "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/n3v/share",
       FailedSharingResponse
     );
 
     shareItemWithGroup({
       authentication: MOCK_USER_SESSION,
-      id: "abc123",
-      groupId: "xyz678..."
+      id: "n3v",
+      groupId: "t6b"
     }).catch(e => {
-      expect(e.message).toBe(
-        "Item abc123 could not be shareed to group xyz678...."
-      );
+      expect(e.message).toBe("Item n3v could not be shareed to group t6b.");
       done();
     });
   });
@@ -332,28 +328,28 @@ describe("unshareItemWithGroup()", () => {
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/xyz678.../users?f=json",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/users?f=json",
       AdminGroupUsersResponse
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/a5b15fe368684a66b8c85a6cadaef9e5/unshare",
+      "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/a5b/unshare",
       UnsharingResponse
     );
 
     unshareItemWithGroup({
       authentication: MOCK_USER_SESSION,
-      id: "a5b15fe368684a66b8c85a6cadaef9e5",
-      groupId: "xyz678..."
+      id: "a5b",
+      groupId: "t6b"
     })
       .then(response => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/a5b15fe368684a66b8c85a6cadaef9e5/unshare"
+          "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/a5b/unshare"
         );
         expect(options.method).toBe("POST");
         expect(response).toEqual(UnsharingResponse);
         expect(options.body).toContain("f=json");
-        expect(options.body).toContain("groups=xyz678...");
+        expect(options.body).toContain("groups=t6b");
         done();
       })
       .catch(e => {
@@ -373,29 +369,29 @@ describe("unshareItemWithGroup()", () => {
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/xyz678.../users?f=json",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/users?f=json",
       UserGroupUsersResponse
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/a5b15fe368684a66b8c85a6cadaef9e5/unshare",
+      "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/a5b/unshare",
       UnsharingResponse
     );
 
     unshareItemWithGroup({
       authentication: MOCK_USER_SESSION,
-      id: "a5b15fe368684a66b8c85a6cadaef9e5",
-      groupId: "xyz678...",
+      id: "a5b",
+      groupId: "t6b",
       owner: "casey"
     })
       .then(response => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/a5b15fe368684a66b8c85a6cadaef9e5/unshare"
+          "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/a5b/unshare"
         );
         expect(options.method).toBe("POST");
         expect(response).toEqual(UnsharingResponse);
         expect(options.body).toContain("f=json");
-        expect(options.body).toContain("groups=xyz678...");
+        expect(options.body).toContain("groups=t6b");
         done();
       })
       .catch(e => {
@@ -415,29 +411,29 @@ describe("unshareItemWithGroup()", () => {
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/xyz678.../users?f=json",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/users?f=json",
       AdminGroupUsersResponse
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/content/items/a5b15fe368684a66b8c85a6cadaef9e5/unshare",
+      "https://myorg.maps.arcgis.com/sharing/rest/content/items/a5b/unshare",
       UnsharingResponse
     );
 
     unshareItemWithGroup({
       authentication: MOCK_USER_SESSION,
-      id: "a5b15fe368684a66b8c85a6cadaef9e5",
-      groupId: "xyz678...",
+      id: "a5b",
+      groupId: "t6b",
       owner: "otherguy"
     })
       .then(response => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/items/a5b15fe368684a66b8c85a6cadaef9e5/unshare"
+          "https://myorg.maps.arcgis.com/sharing/rest/content/items/a5b/unshare"
         );
         expect(options.method).toBe("POST");
         expect(response).toEqual(UnsharingResponse);
         expect(options.body).toContain("f=json");
-        expect(options.body).toContain("groups=xyz678...");
+        expect(options.body).toContain("groups=t6b");
         done();
       })
       .catch(e => {
@@ -457,17 +453,17 @@ describe("unshareItemWithGroup()", () => {
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/xyz678.../users?f=json",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/users?f=json",
       UserGroupUsersResponse
     );
 
     unshareItemWithGroup({
       authentication: MOCK_USER_SESSION,
-      id: "abc123",
-      groupId: "xyz678..."
+      id: "n3v",
+      groupId: "t6b"
     })
       .then(response => {
-        // no web request at all
+        // no web request to unshare at all
         expect(response).toEqual(CachedUnsharingResponse);
         done();
       })
@@ -488,18 +484,18 @@ describe("unshareItemWithGroup()", () => {
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/xyz678.../users?f=json",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/users?f=json",
       NonMemberGroupUsersResponse
     );
 
     unshareItemWithGroup({
       authentication: MOCK_USER_SESSION,
-      id: "a5b15fe368684a66b8c85a6cadaef9e5",
-      groupId: "xyz678...",
+      id: "a5b",
+      groupId: "t6b",
       owner: "jones"
     }).catch(e => {
       expect(e.message).toContain(
-        "This item can not be unshared by jsmith as they are not a member of the specified group xyz678...."
+        "This item can not be unshared by jsmith as they are not a member of the specified group t6b."
       );
       done();
     });

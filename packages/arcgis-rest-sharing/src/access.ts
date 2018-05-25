@@ -1,5 +1,6 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
+
 import {
   request,
   IRequestOptions,
@@ -14,7 +15,7 @@ import {
   isItemOwner,
   getSharingUrl,
   isOrgAdmin
-} from "./helper";
+} from "./helpers";
 
 export interface ISetAccessRequestOptions extends ISharingRequestOptions {
   /**
@@ -81,8 +82,8 @@ function updateItemAccess(
   if (requestOptions.access === "org") {
     requestOptions.params.org = true;
   }
+  // if sharing with everyone, share with the entire organization as well.
   if (requestOptions.access === "public") {
-    // if public, the item should be shared with the entire organization as well.
     requestOptions.params.org = true;
     requestOptions.params.everyone = true;
   }
