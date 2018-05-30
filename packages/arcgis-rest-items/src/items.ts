@@ -60,6 +60,25 @@ export interface IItemCrudRequestOptions extends IUserRequestOptions {
   folder?: string;
 }
 
+export interface IItemShareRequestOptions extends IItemIdRequestOptions {
+  /**
+   * A comma-separated list of group IDs with which the item will be shared.
+   */
+  groups?: string;
+  /**
+   * If `true`, this item will be shared with everyone, for example, it will be publicly accessible. If explicitly set to false, the item will not be shared with the public.
+   */
+  everyone?: boolean;
+  /**
+   * If `true`, this item will be shared with the organization. If set to false, the item will not be shared with the organization.
+   */
+  org?: boolean;
+  /**
+   * Set to `true` when the item will be shared with groups with item update capability so that any member of such groups can update the item that is shared with them.
+   */
+  confirmItemControl?: boolean;
+}
+
 // this interface still needs to be docced
 export interface ISearchRequest extends IPagingParams {
   q: string;
@@ -374,6 +393,25 @@ export function removeItemResource(
 }
 
 /**
+ * Share an item as the item owner
+ * @param requestOptions - Options for the request
+ * @return A Promise to share an item
+ */
+export function shareItem(
+  requestOptions: IItemShareRequestOptions
+): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/share`;
+
+  // this is a POST only API
+  requestOptions.httpMethod = "POST";
+
+  return request(url, requestOptions);
+}
+
+/**
  * Serialize an item into a json format accepted by the Portal API
  * for create and update operations
  *
@@ -384,7 +422,7 @@ function serializeItem(item: IItem): any {
   // create a clone so we're not messing with the original
   const clone = JSON.parse(JSON.stringify(item));
   // join keywords and tags...
-  const { typeKeywords=[], tags=[] } = item;
+  const { typeKeywords = [], tags = [] } = item;
   clone.typeKeywords = typeKeywords.join(", ");
   clone.tags = tags.join(", ");
   // convert .data to .text
