@@ -66,11 +66,16 @@ const NoResultsSearchResponse = {
 };
 
 describe("shareItemWithGroup()", () => {
+  // make sure session doesnt cache metadata
+  // beforeEach(function () {
+  //   MOCK_USER_SESSION.userInfo = null;
+  // });
+
   afterEach(fetchMock.restore);
 
   it("should share an item with a group by owner", done => {
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       UserResponse
     );
 
@@ -111,7 +116,7 @@ describe("shareItemWithGroup()", () => {
 
   it("should fail to share an item with a group if the request is made by a non-org admin and non-group member", done => {
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       AnonUserResponse
     );
 
@@ -139,7 +144,7 @@ describe("shareItemWithGroup()", () => {
 
   it("should share an item with a group by org administrator", done => {
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       UserResponse
     );
 
@@ -181,7 +186,7 @@ describe("shareItemWithGroup()", () => {
 
   it("should share an item with a group by group owner/admin", done => {
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       AnonUserResponse
     );
 
@@ -223,7 +228,7 @@ describe("shareItemWithGroup()", () => {
 
   it("should mock the response if an item was previously shared with a group", done => {
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       UserResponse
     );
 
@@ -254,7 +259,7 @@ describe("shareItemWithGroup()", () => {
 
   it("should throw if the person trying to share doesnt own the item, is not an admin or member of said group", done => {
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       AnonUserResponse
     );
 
@@ -275,7 +280,7 @@ describe("shareItemWithGroup()", () => {
       owner: "casey"
     }).catch(e => {
       expect(e.message).toContain(
-        "This item can not be share by jsmith as they are neither the owner, a groupAdmin of t6b, nor an org_admin."
+        "This item can not be shared by jsmith as they are neither the owner, a groupAdmin of t6b, nor an org_admin."
       );
       done();
     });
@@ -283,7 +288,7 @@ describe("shareItemWithGroup()", () => {
 
   it("should throw if the response from the server is fishy", done => {
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       AnonUserResponse
     );
 
@@ -307,7 +312,7 @@ describe("shareItemWithGroup()", () => {
       id: "n3v",
       groupId: "t6b"
     }).catch(e => {
-      expect(e.message).toBe("Item n3v could not be shareed to group t6b.");
+      expect(e.message).toBe("Item n3v could not be shared to group t6b.");
       done();
     });
   });
@@ -318,7 +323,7 @@ describe("unshareItemWithGroup()", () => {
 
   it("should unshare an item with a group by owner", done => {
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       UserResponse
     );
 
@@ -359,7 +364,7 @@ describe("unshareItemWithGroup()", () => {
 
   it("should unshare an item with a group by org administrator", done => {
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       UserResponse
     );
 
@@ -401,7 +406,7 @@ describe("unshareItemWithGroup()", () => {
 
   it("should unshare an item with a group by group member", done => {
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       AnonUserResponse
     );
 
@@ -443,7 +448,7 @@ describe("unshareItemWithGroup()", () => {
 
   it("should shortcircuit share if an item was previously unshared with a group", done => {
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       UserResponse
     );
 
@@ -474,7 +479,7 @@ describe("unshareItemWithGroup()", () => {
 
   it("should throw if the person trying to unshare doesnt own the item, is not an admin or member of said group", done => {
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       AnonUserResponse
     );
 

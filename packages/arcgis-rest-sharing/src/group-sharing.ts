@@ -127,7 +127,7 @@ function changeGroupSharing(
                   throw Error(
                     `This item can not be ${
                       requestOptions.action
-                    } by ${username} as they are neither the owner, a groupAdmin of ${
+                    }d by ${username} as they are neither the owner, a groupAdmin of ${
                       requestOptions.groupId
                     }, nor an org_admin.`
                   );
@@ -149,7 +149,7 @@ function changeGroupSharing(
               throw Error(
                 `Item ${requestOptions.id} could not be ${
                   requestOptions.action
-                }ed to group ${requestOptions.groupId}.`
+                }d to group ${requestOptions.groupId}.`
               );
             } else {
               // all is well

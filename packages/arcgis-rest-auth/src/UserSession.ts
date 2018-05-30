@@ -10,6 +10,7 @@ import {
 } from "@esri/arcgis-rest-request";
 import { generateToken } from "./generate-token";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token";
+import { getUserInfo } from "./user-info";
 
 /**
  * Internal utility for resolving a Promise from outside its constructor.
@@ -154,6 +155,11 @@ export interface IUserSessionOptions {
    * Duration (in minutes) that a refresh token will be valid.
    */
   refreshTokenTTL?: number;
+
+  /**
+   * The result of an authenticated request to http://www.arcgis.com/sharing/rest/community/users/[username]
+   */
+  userInfo?: any;
 }
 
 /**
@@ -197,6 +203,11 @@ export class UserSession implements IAuthenticationManager {
    * Duration of new OAuth 2.0 refresh token validity.
    */
   readonly refreshTokenTTL: number;
+
+  // /**
+  //  * The result of an authenticated request to http://www.arcgis.com/sharing/rest/community/users/[username].
+  //  */
+  userInfo?: any;
 
   private _token: string;
   private _tokenExpires: Date;
@@ -264,6 +275,7 @@ export class UserSession implements IAuthenticationManager {
     this.refreshTokenTTL = options.refreshTokenTTL || 1440;
     this.trustedServers = {};
     this._pendingTokenRequests = {};
+    this.userInfo = null; // dont fetch metadata automatically
   }
 
   /**
@@ -689,4 +701,11 @@ export class UserSession implements IAuthenticationManager {
       return this;
     });
   }
+
+  /**
+   * To do: add doc here.
+   */
+  // private getUserInfo() {
+  //   return getUserInfo(this);
+  // }
 }

@@ -7,7 +7,7 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { UserSession, getUserInfo } from "@esri/arcgis-rest-auth";
 
 import { IGroupSharingRequestOptions } from "./group-sharing";
 
@@ -29,6 +29,10 @@ export interface ISharingResponse {
   itemId: string;
 }
 
+interface IUserInfo {
+  role?: string;
+}
+
 export function getSharingUrl(requestOptions: ISharingRequestOptions): string {
   const username = requestOptions.authentication.username;
   const owner = requestOptions.owner || username;
@@ -46,15 +50,10 @@ export function isItemOwner(requestOptions: ISharingRequestOptions): boolean {
 export function isOrgAdmin(
   requestOptions: ISharingRequestOptions
 ): Promise<boolean> {
-  // more manual than calling out to "@esri/arcgis-rest-users, but trims a dependency
-  const username = requestOptions.authentication.username;
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/community/users/${encodeURIComponent(username)}`;
-  return request(url, {
-    authentication: requestOptions.authentication
-  }).then(response => {
-    if (!response.role || response.role !== "org_admin") {
+  const session = requestOptions.authentication as any;
+
+  return getUserInfo(session).then(userInfo => {
+    if (!userInfo || !userInfo.role || userInfo.role !== "org_admin") {
       return false;
     } else {
       return true;
