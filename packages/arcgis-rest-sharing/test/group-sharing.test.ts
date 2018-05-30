@@ -67,9 +67,9 @@ const NoResultsSearchResponse = {
 
 describe("shareItemWithGroup()", () => {
   // make sure session doesnt cache metadata
-  // beforeEach(function () {
-  //   MOCK_USER_SESSION.userInfo = null;
-  // });
+  beforeEach(function() {
+    MOCK_USER_SESSION.userInfo = null;
+  });
 
   afterEach(fetchMock.restore);
 
@@ -319,6 +319,11 @@ describe("shareItemWithGroup()", () => {
 });
 
 describe("unshareItemWithGroup()", () => {
+  // make sure session doesnt cache metadata
+  beforeEach(function() {
+    MOCK_USER_SESSION.userInfo = null;
+  });
+
   afterEach(fetchMock.restore);
 
   it("should unshare an item with a group by owner", done => {

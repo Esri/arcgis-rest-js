@@ -86,6 +86,7 @@ function changeGroupSharing(
       requestOptions.action === "share" ? "notSharedWith" : "notUnsharedFrom";
     // check if the item has already been shared with the group...
     return isItemSharedWithGroup(requestOptions).then(result => {
+      // console.log(admin);
       // if we are sharing and result is true OR we are unsharing and result is false... short circuit
       if (
         (requestOptions.action === "share" && result === true) ||
