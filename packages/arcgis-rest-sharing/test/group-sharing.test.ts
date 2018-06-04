@@ -1,7 +1,5 @@
 import * as fetchMock from "fetch-mock";
-
 import { shareItemWithGroup, unshareItemWithGroup } from "../src/index";
-
 import { MOCK_USER_SESSION } from "./mocks/sharing";
 
 import {

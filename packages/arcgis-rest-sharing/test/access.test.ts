@@ -1,6 +1,5 @@
 import { setItemAccess } from "../src/index";
 import * as fetchMock from "fetch-mock";
-
 import { MOCK_USER_SESSION } from "./mocks/sharing";
 import {
   AnonUserResponse,
@@ -13,6 +12,7 @@ const SharingResponse = {
 };
 
 describe("setItemAccess()", () => {
+  // make sure session doesnt cache metadata
   beforeEach(function() {
     MOCK_USER_SESSION.userInfo = null;
   });
