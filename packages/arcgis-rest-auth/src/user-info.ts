@@ -1,4 +1,3 @@
-// import { ApplicationSession } from "./ApplicationSession";
 import { UserSession } from "./UserSession";
 
 import { IUserRequestOptions } from "./authenticated-request-options";
@@ -22,7 +21,6 @@ export function getUserInfo(session: UserSession): Promise<IUserInfo> {
       authentication: session,
       httpMethod: "GET"
     }).then(response => {
-      // console.log(session.userInfo);
       session.userInfo = response;
       return response;
     });

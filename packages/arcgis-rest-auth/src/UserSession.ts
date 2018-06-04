@@ -275,7 +275,7 @@ export class UserSession implements IAuthenticationManager {
     this.refreshTokenTTL = options.refreshTokenTTL || 1440;
     this.trustedServers = {};
     this._pendingTokenRequests = {};
-    this.userInfo = null; // dont fetch metadata automatically
+    this.userInfo = null; // placeholder for eventual, optional, metadata request
   }
 
   /**
@@ -701,11 +701,4 @@ export class UserSession implements IAuthenticationManager {
       return this;
     });
   }
-
-  /**
-   * To do: add doc here.
-   */
-  // private getUserInfo() {
-  //   return getUserInfo(this);
-  // }
 }
