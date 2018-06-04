@@ -1,5 +1,5 @@
 import { UserSession, IFetchTokenResponse } from "../src/index";
-import { getUserInfo } from "../src/user-info";
+
 import {
   ArcGISRequestError,
   ArcGISAuthError,
@@ -694,10 +694,10 @@ describe("UserSession", () => {
 
       expect(session.userInfo).toEqual(null);
 
-      getUserInfo(session).then(response => {
+      session.getUserInfo().then(response => {
         expect(response.role).toEqual("pawn_in_their_game");
         expect(session.userInfo.role).toEqual("pawn_in_their_game");
-        getUserInfo(session).then(cachedResponse => {
+        session.getUserInfo().then(cachedResponse => {
           expect(cachedResponse.full_name).toEqual("John Smith");
           expect(session.userInfo.full_name).toEqual("John Smith");
           done();

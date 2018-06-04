@@ -4,10 +4,11 @@
 import {
   request,
   IRequestOptions,
-  getPortalUrl
+  getPortalUrl,
+  IParams
 } from "@esri/arcgis-rest-request";
 
-import { UserSession, getUserInfo } from "@esri/arcgis-rest-auth";
+import { UserSession } from "@esri/arcgis-rest-auth";
 
 import { IGroupSharingRequestOptions } from "./group-sharing";
 
@@ -50,9 +51,9 @@ export function isItemOwner(requestOptions: ISharingRequestOptions): boolean {
 export function isOrgAdmin(
   requestOptions: ISharingRequestOptions
 ): Promise<boolean> {
-  const session = requestOptions.authentication as any;
+  const session = requestOptions.authentication as UserSession;
 
-  return getUserInfo(session).then(userInfo => {
+  return session.getUserInfo().then((userInfo: IParams) => {
     if (!userInfo || !userInfo.role || userInfo.role !== "org_admin") {
       return false;
     } else {
