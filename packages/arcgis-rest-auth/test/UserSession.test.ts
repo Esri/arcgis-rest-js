@@ -667,11 +667,11 @@ describe("UserSession", () => {
     });
   });
 
-  describe(".getUserInfo()", () => {
+  describe(".getUser()", () => {
     afterEach(fetchMock.restore);
 
     it("should cache metadata about the user", done => {
-      // we only mock one response, the second time the cache should be used
+      // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=token",
         {

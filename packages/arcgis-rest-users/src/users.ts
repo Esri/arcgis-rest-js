@@ -22,7 +22,7 @@ export interface IGetUserRequestOptions extends IRequestOptions {
 }
 
 /**
- * Get information about a user
+ * Get information about a user. This method has proven so generically useful that you can also call [`UserSession.getUser()`](/api/auth/UserSession#getUser-summary).
  *
  * ```js
  * import { getUser } from '@esri/arcgis-rest-users';
@@ -33,18 +33,15 @@ export interface IGetUserRequestOptions extends IRequestOptions {
  *      // {
  *      //   firstName: "John",
  *      //   lastName: "Smith",
- *      //   description: "Senior GIS Analyst for the city of Redlands.",
  *      //   tags: ["GIS Analyst", "City of Redlands"],
- *      //   thumbnail: "myProfile.jpg",
- *      //   created: 1258501046000,
- *      //   modified: 1290625562000,
+ *      //   created: 1258501046000
  *      //   etc.
  *      // };
  *   })
  * ```
  *
  * @param requestOptions - options to pass through in the request
- * @returns A Promise that will resolve with metdata about the user
+ * @returns A Promise that will resolve with metadata about the user
  */
 export function getUser(
   requestOptions?: string | IGetUserRequestOptions
