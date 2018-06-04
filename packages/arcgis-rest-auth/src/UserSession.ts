@@ -11,6 +11,7 @@ import {
 } from "@esri/arcgis-rest-request";
 import { generateToken } from "./generate-token";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token";
+import { IUser } from "@esri/arcgis-rest-common-types";
 
 /**
  * Internal utility for resolving a Promise from outside its constructor.
@@ -528,9 +529,9 @@ export class UserSession implements IAuthenticationManager {
    *
    * @returns A Promise that will resolve with the data from the response.
    */
-  getUserInfo(): Promise<IParams> {
+  getUserInfo(): Promise<IUser> {
     if (this.userInfo) {
-      return new Promise(resolve => resolve(this.userInfo as IParams));
+      return new Promise(resolve => resolve(this.userInfo));
     } else {
       const url = `${this.portal}/community/users/${encodeURIComponent(
         this.username
@@ -540,7 +541,7 @@ export class UserSession implements IAuthenticationManager {
         authentication: this
       }).then(response => {
         this.userInfo = response;
-        return response as IParams;
+        return response;
       });
     }
   }
