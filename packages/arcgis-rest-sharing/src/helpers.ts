@@ -1,14 +1,12 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-
 import {
   request,
   IRequestOptions,
   getPortalUrl
 } from "@esri/arcgis-rest-request";
-
 import { UserSession } from "@esri/arcgis-rest-auth";
-
+import { IUser, IGroup } from "@esri/arcgis-rest-common-types";
 import { IGroupSharingRequestOptions } from "./group-sharing";
 
 export interface ISharingRequestOptions extends IRequestOptions {
@@ -48,8 +46,8 @@ export function isOrgAdmin(
 ): Promise<boolean> {
   const session = requestOptions.authentication as UserSession;
 
-  return session.getUser().then(userInfo => {
-    if (!userInfo || userInfo.role !== "org_admin") {
+  return session.getUser().then(user => {
+    if (!user || user.role !== "org_admin") {
       return false;
     } else {
       return true;
@@ -60,31 +58,27 @@ export function isOrgAdmin(
 export function getUserMembership(
   requestOptions: IGroupSharingRequestOptions
 ): Promise<string> {
+  // start by assuming the user does not belong to the group
   let result = "nonmember";
-  const username = requestOptions.authentication.username;
+  const session = requestOptions.authentication as UserSession;
 
-  const url = `${getPortalUrl(requestOptions)}/community/groups/${
-    requestOptions.groupId
-  }/users?f=json`;
-
-  return request(url, { authentication: requestOptions.authentication })
-    .then((response: any) => {
-      // check if username is in the admin hash...
-      if (response.owner === username) {
-        result = "owner";
-      }
-      if (response.admins.includes(username)) {
-        result = "admin";
-      }
-      if (response.users.includes(username)) {
-        result = "user";
+  // the response to this call is cached. yay!
+  return session
+    .getUser()
+    .then((user: IUser) => {
+      if (user.groups) {
+        user.groups.forEach(function(group: IGroup) {
+          if (group.id === requestOptions.groupId) {
+            result = group.userMembership.memberType;
+          }
+        });
       }
       return result;
     })
     .catch(
       /* istanbul ignore next */ err => {
         throw Error(
-          `failure determining membership of ${username} in group:${
+          `failure determining membership of ${session.username} in group:${
             requestOptions.groupId
           }: ${err}`
         );

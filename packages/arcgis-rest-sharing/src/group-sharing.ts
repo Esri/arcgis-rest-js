@@ -6,6 +6,7 @@ import {
   IRequestOptions,
   getPortalUrl
 } from "@esri/arcgis-rest-request";
+import { IItem } from "@esri/arcgis-rest-common-types";
 
 import {
   ISharingRequestOptions,
@@ -186,17 +187,19 @@ function isItemSharedWithGroup(
 
   const url = `${getPortalUrl(requestOptions)}/search`;
 
-  return request(url, requestOptions).then(searchResult => {
+  return request(url, requestOptions).then(searchResponse => {
     // if there are no search results at all, we know the item hasnt already been shared with the group
-    if (searchResult.total === 0) {
+    if (searchResponse.total === 0) {
       return false;
     } else {
+      let sharedItem;
       // otherwise loop through and search for the id
-      const results = searchResult.results;
-      const itm = results.find((shadowedItm: { id: string }) => {
-        return shadowedItm.id === requestOptions.id;
+      searchResponse.results.forEach((item: IItem) => {
+        if (item.id === requestOptions.id) {
+          sharedItem = item;
+        }
       });
-      if (itm) {
+      if (sharedItem) {
         return true;
       } else {
         return false;

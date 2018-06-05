@@ -3,7 +3,9 @@ import * as fetchMock from "fetch-mock";
 import { MOCK_USER_SESSION } from "./mocks/sharing";
 import {
   AnonUserResponse,
-  UserResponse
+  GroupMemberUserResponse,
+  GroupAdminUserResponse,
+  OrgAdminUserResponse
 } from "../../arcgis-rest-users/test/mocks/responses";
 
 const SharingResponse = {
@@ -98,7 +100,7 @@ describe("setItemAccess()", () => {
   it("should share another persons item if an org admin makes the request", done => {
     fetchMock.once(
       "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
-      UserResponse
+      OrgAdminUserResponse
     );
 
     fetchMock.once(

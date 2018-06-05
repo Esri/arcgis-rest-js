@@ -1,6 +1,10 @@
 import { getUser } from "../src/index";
 
-import { AnonUserResponse, UserResponse } from "./mocks/responses";
+import {
+  AnonUserResponse,
+  GroupMemberUserResponse,
+  GroupAdminUserResponse
+} from "./mocks/responses";
 
 import { encodeParam } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
@@ -52,7 +56,7 @@ describe("users", () => {
     });
 
     it("should make an authenticated request for information about a user", done => {
-      fetchMock.once("*", UserResponse);
+      fetchMock.once("*", GroupMemberUserResponse);
 
       getUser({ authentication: session })
         .then(response => {
@@ -70,7 +74,7 @@ describe("users", () => {
     });
 
     it("should make an authenticated request for information about a different user", done => {
-      fetchMock.once("*", UserResponse);
+      fetchMock.once("*", GroupAdminUserResponse);
 
       getUser({
         username: "jsmith",
