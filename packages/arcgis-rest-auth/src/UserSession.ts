@@ -6,8 +6,7 @@ import {
   request,
   ArcGISAuthError,
   ArcGISRequestError,
-  IAuthenticationManager,
-  IParams
+  IAuthenticationManager
 } from "@esri/arcgis-rest-request";
 import { generateToken } from "./generate-token";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token";
@@ -156,11 +155,6 @@ export interface IUserSessionOptions {
    * Duration (in minutes) that a refresh token will be valid.
    */
   refreshTokenTTL?: number;
-
-  /**
-   * The result of an authenticated request to http://www.arcgis.com/sharing/rest/community/users/[username]
-   */
-  userInfo?: any;
 }
 
 /**
@@ -213,9 +207,9 @@ export class UserSession implements IAuthenticationManager {
   readonly refreshTokenTTL: number;
 
   /**
-   * This property is hydrated by a call to [getUserInfo](../getUserInfo/).
+   * Hydrated by a call to [getUser()](../getUser/).
    */
-  userInfo?: any;
+  _user: IUser;
 
   private _token: string;
   private _tokenExpires: Date;
@@ -283,7 +277,6 @@ export class UserSession implements IAuthenticationManager {
     this.refreshTokenTTL = options.refreshTokenTTL || 1440;
     this.trustedServers = {};
     this._pendingTokenRequests = {};
-    this.userInfo = null; // placeholder for eventual, optional, metadata request
   }
 
   /**
@@ -521,7 +514,7 @@ export class UserSession implements IAuthenticationManager {
    * Returns information about the currently logged in [user](https://developers.arcgis.com/rest/users-groups-and-items/user.htm). Result is cached so that subsequent calls don't result in additional web traffic.
    *
    * ```js
-   * session.getUserInfo()
+   * session.getUser()
    *   .then(response => {
    *     console.log(response.role); // "org_admin"
    *   })
@@ -529,9 +522,9 @@ export class UserSession implements IAuthenticationManager {
    *
    * @returns A Promise that will resolve with the data from the response.
    */
-  getUserInfo(): Promise<IUser> {
-    if (this.userInfo) {
-      return new Promise(resolve => resolve(this.userInfo));
+  getUser(): Promise<IUser> {
+    if (this._user && this._user.username === this.username) {
+      return new Promise(resolve => resolve(this._user));
     } else {
       const url = `${this.portal}/community/users/${encodeURIComponent(
         this.username
@@ -540,7 +533,7 @@ export class UserSession implements IAuthenticationManager {
         httpMethod: "GET",
         authentication: this
       }).then(response => {
-        this.userInfo = response;
+        this._user = response;
         return response;
       });
     }

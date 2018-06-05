@@ -675,8 +675,9 @@ describe("UserSession", () => {
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=token",
         {
-          role: "org_publisher",
-          fullName: "John Smith"
+          username: "jsmith",
+          fullName: "John Smith",
+          role: "org_publisher"
         }
       );
 
@@ -692,14 +693,10 @@ describe("UserSession", () => {
         password: "123456"
       });
 
-      expect(session.userInfo).toEqual(null);
-
-      session.getUserInfo().then(response => {
+      session.getUser().then(response => {
         expect(response.role).toEqual("org_publisher");
-        expect(session.userInfo.role).toEqual("org_publisher");
-        session.getUserInfo().then(cachedResponse => {
+        session.getUser().then(cachedResponse => {
           expect(cachedResponse.fullName).toEqual("John Smith");
-          expect(session.userInfo.fullName).toEqual("John Smith");
           done();
         });
       });

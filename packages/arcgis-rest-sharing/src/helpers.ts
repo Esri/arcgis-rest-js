@@ -48,7 +48,7 @@ export function isOrgAdmin(
 ): Promise<boolean> {
   const session = requestOptions.authentication as UserSession;
 
-  return session.getUserInfo().then(userInfo => {
+  return session.getUser().then(userInfo => {
     if (!userInfo || userInfo.role !== "org_admin") {
       return false;
     } else {

@@ -14,7 +14,7 @@ const SharingResponse = {
 describe("setItemAccess()", () => {
   // make sure session doesnt cache metadata
   beforeEach(function() {
-    MOCK_USER_SESSION.userInfo = null;
+    MOCK_USER_SESSION._user = null;
   });
 
   afterEach(fetchMock.restore);

@@ -66,7 +66,7 @@ const NoResultsSearchResponse = {
 describe("shareItemWithGroup()", () => {
   // make sure session doesnt cache metadata
   beforeEach(function() {
-    MOCK_USER_SESSION.userInfo = null;
+    MOCK_USER_SESSION._user = null;
   });
 
   afterEach(fetchMock.restore);
@@ -319,7 +319,7 @@ describe("shareItemWithGroup()", () => {
 describe("unshareItemWithGroup()", () => {
   // make sure session doesnt cache metadata
   beforeEach(function() {
-    MOCK_USER_SESSION.userInfo = null;
+    MOCK_USER_SESSION._user = null;
   });
 
   afterEach(fetchMock.restore);
