@@ -11,14 +11,17 @@ import { IGroupSharingRequestOptions } from "./group-sharing";
 
 export interface ISharingRequestOptions extends IRequestOptions {
   /**
-   * Item identifier
+   * Unique identifier for the item.
    */
   id: string;
+  /**
+   * Represents a user with privileges to update item sharing.
+   */
+  authentication: UserSession;
   /**
    * Item owner, if different from the authenticated user.
    */
   owner?: string;
-  authentication?: UserSession;
 }
 
 export interface ISharingResponse {

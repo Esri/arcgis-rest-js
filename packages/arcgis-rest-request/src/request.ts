@@ -38,7 +38,7 @@ export interface IParams {
  */
 export interface IRequestOptions {
   /**
-   * The parameters passed with the request.
+   * Additional parameters to pass in the request.
    */
   params?: IParams;
 

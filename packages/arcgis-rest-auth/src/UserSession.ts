@@ -207,7 +207,7 @@ export class UserSession implements IAuthenticationManager {
   readonly refreshTokenTTL: number;
 
   /**
-   * Hydrated by a call to [getUser()](../getUser/).
+   * Hydrated by a call to [getUser()](#getUser-summary).
    */
   _user: IUser;
 
@@ -511,7 +511,7 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
-   * Returns information about the currently logged in [user](https://developers.arcgis.com/rest/users-groups-and-items/user.htm). Result is cached so that subsequent calls don't result in additional web traffic.
+   * Returns information about the currently logged in [user](https://developers.arcgis.com/rest/users-groups-and-items/user.htm). Subsequent calls will *not* result in additional web traffic.
    *
    * ```js
    * session.getUser()
