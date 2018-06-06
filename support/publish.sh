@@ -7,7 +7,7 @@ VERSION=$(node --eval "console.log(require('./lerna.json').version);")
 git add --all
 git commit -am "v$VERSION" --no-verify
 
-# incriment the package.json version to the lerna version so gh-release works
+# increment the package.json version to the lerna version so gh-release works
 npm version $VERSION --allow-same-version --no-git-tag-version
 
 # amend the changes from `npm version` to the release commit
@@ -19,7 +19,9 @@ git tag v$VERSION
 
 # push everything up to this point to master
 git push https://github.com/Esri/arcgis-rest-js.git master
-git push --tags
+
+# push the new tag, not the old tags
+git push https://github.com/Esri/arcgis-rest-js.git v$VERSION
 
 # publish each package on npm
 lerna publish --skip-git --yes --repo-version $VERSION --force-publish=*

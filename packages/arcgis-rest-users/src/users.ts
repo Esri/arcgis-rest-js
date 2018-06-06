@@ -22,7 +22,7 @@ export interface IGetUserRequestOptions extends IRequestOptions {
 }
 
 /**
- * Get information about a user. This method has proven so generically useful that you can also call [`UserSession.getUser()`](/api/auth/UserSession#getUser-summary).
+ * Get information about a user. This method has proven so generically useful that you can also call [`UserSession.getUser()`](../../auth/UserSession#getUser-summary).
  *
  * ```js
  * import { getUser } from '@esri/arcgis-rest-users';

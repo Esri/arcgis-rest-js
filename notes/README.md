@@ -55,28 +55,22 @@ A potentially better option might be to just use JSDoc and work from the compile
 
 the release process has been entirely automated.
 
+the command below bumps the version in each individual package.json file and parses all `npm run c` invoked commit messages since the last release to update the changelog.
+
 ```bash
 npm run release:prepare
 ```
 
-the command above bumps the version in each individual package.json file and parses all `npm run c` invoked commit messages since the last release to update the changelog.
+afterwards, you can display a diff to give you a sense of what will be committed to master when you actually publish.
 
 ```bash
 npm run release:review
 ```
 
-this command displays a diff to give you a sense of what will be committed to master when you actually publish.
+the last command increments the version in the root package.json, pushes the new tag to GitHub and publishes a release of each individual package on npm.
 
 ```bash
 npm run release:publish
-```
-
-this command increments the version in the root package.json, pushes a new tag to GitHub and publishes a release of each individual package on npm.
-
-> on the off chance that nothing makes it to npm, you can force lerna to try again if normal attempts fail with `No updated packages to publish`
-
-```bash
-lerna publish --skip-git --repo-version x.x.x --force-publish=*
 ```
 
 # Potential improvments
