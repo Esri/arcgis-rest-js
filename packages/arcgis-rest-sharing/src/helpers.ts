@@ -70,10 +70,12 @@ export function getUserMembership(
     .getUser()
     .then((user: IUser) => {
       if (user.groups) {
-        user.groups.forEach(function(group: IGroup) {
-          if (group.id === requestOptions.groupId) {
+        user.groups.some(function(group: IGroup) {
+          const matchedGroup = group.id === requestOptions.groupId;
+          if (matchedGroup) {
             result = group.userMembership.memberType;
           }
+          return matchedGroup;
         });
       }
       return result;

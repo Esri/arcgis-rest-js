@@ -192,13 +192,16 @@ function isItemSharedWithGroup(
     if (searchResponse.total === 0) {
       return false;
     } else {
-      let sharedItem;
+      let sharedItem: IItem;
       // otherwise loop through and search for the id
-      searchResponse.results.forEach((item: IItem) => {
-        if (item.id === requestOptions.id) {
+      searchResponse.results.some((item: IItem) => {
+        const matchedItem = item.id === requestOptions.id;
+        if (matchedItem) {
           sharedItem = item;
         }
+        return matchedItem;
       });
+
       if (sharedItem) {
         return true;
       } else {
