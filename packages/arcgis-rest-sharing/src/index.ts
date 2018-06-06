@@ -1,1 +1,2 @@
-export * from "./sharing";
+export * from "./access";
+export * from "./group-sharing";

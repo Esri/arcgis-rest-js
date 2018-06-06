@@ -8,7 +8,7 @@ export const SearchResponse: ISearchResult = {
   nextStart: 2,
   results: [
     {
-      id: "a5b15fe368684a66b8c85a6cadaef9e5",
+      id: "a5b",
       owner: "dcadminqa",
       created: 1496748288000,
       modified: 1508856526000,

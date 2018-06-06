@@ -186,7 +186,7 @@ export interface IGetGeocodeServiceResponse {
  *   });
  * ```
  *
- * @param address | String representing the address or point of interest or RequestOptions to pass to the endpoint.
+ * @param address String representing the address or point of interest or RequestOptions to pass to the endpoint.
  * @returns A Promise that will resolve with address candidates for the request.
  */
 export function geocode(

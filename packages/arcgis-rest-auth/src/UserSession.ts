@@ -10,6 +10,7 @@ import {
 } from "@esri/arcgis-rest-request";
 import { generateToken } from "./generate-token";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token";
+import { IUser } from "@esri/arcgis-rest-common-types";
 
 /**
  * Internal utility for resolving a Promise from outside its constructor.
@@ -157,10 +158,17 @@ export interface IUserSessionOptions {
 }
 
 /**
+ * ```js
+ * const session = new UserSession({
+ *   username: "jsmith",
+ *   password: "123456"
+ * })
+ * ```
  * Used to manage the authentication of ArcGIS Online and ArcGIS Enterprise users
  * in `request`. This class also includes several
  * helper methods for authenticating users with OAuth 2.0 in both browser and
  * server applications.
+ *
  */
 export class UserSession implements IAuthenticationManager {
   /**
@@ -197,6 +205,11 @@ export class UserSession implements IAuthenticationManager {
    * Duration of new OAuth 2.0 refresh token validity.
    */
   readonly refreshTokenTTL: number;
+
+  /**
+   * Hydrated by a call to [getUser()](#getUser-summary).
+   */
+  _user: IUser;
 
   private _token: string;
   private _tokenExpires: Date;
@@ -498,7 +511,36 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
-   * Gets a appropriate token for the given URL. If `portal` is ArcGIS Online and
+   * Returns information about the currently logged in [user](https://developers.arcgis.com/rest/users-groups-and-items/user.htm). Subsequent calls will *not* result in additional web traffic.
+   *
+   * ```js
+   * session.getUser()
+   *   .then(response => {
+   *     console.log(response.role); // "org_admin"
+   *   })
+   * ```
+   *
+   * @returns A Promise that will resolve with the data from the response.
+   */
+  getUser(): Promise<IUser> {
+    if (this._user && this._user.username === this.username) {
+      return new Promise(resolve => resolve(this._user));
+    } else {
+      const url = `${this.portal}/community/users/${encodeURIComponent(
+        this.username
+      )}`;
+      return request(url, {
+        httpMethod: "GET",
+        authentication: this
+      }).then(response => {
+        this._user = response;
+        return response;
+      });
+    }
+  }
+
+  /**
+   * Gets an appropriate token for the given URL. If `portal` is ArcGIS Online and
    * the request is to an ArcGIS Online domain `token` will be used. If the request
    * is to the current `portal` the current `token` will also be used. However if
    * the request is to an unknown server we will validate the server with a request

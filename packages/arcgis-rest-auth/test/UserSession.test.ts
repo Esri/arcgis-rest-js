@@ -1,4 +1,5 @@
 import { UserSession, IFetchTokenResponse } from "../src/index";
+
 import {
   ArcGISRequestError,
   ArcGISAuthError,
@@ -10,7 +11,7 @@ import { YESTERDAY, TOMORROW } from "./utils";
 describe("UserSession", () => {
   afterEach(fetchMock.restore);
 
-  it("should serialze to and from JSON", () => {
+  it("should serialize to and from JSON", () => {
     const session = new UserSession({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
@@ -663,6 +664,42 @@ describe("UserSession", () => {
         .catch(e => {
           fail(e);
         });
+    });
+  });
+
+  describe(".getUser()", () => {
+    afterEach(fetchMock.restore);
+
+    it("should cache metadata about the user", done => {
+      // we intentionally only mock one response
+      fetchMock.once(
+        "https://www.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=token",
+        {
+          username: "jsmith",
+          fullName: "John Smith",
+          role: "org_publisher"
+        }
+      );
+
+      const session = new UserSession({
+        clientId: "clientId",
+        redirectUri: "https://example-app.com/redirect-uri",
+        token: "token",
+        tokenExpires: TOMORROW,
+        refreshToken: "refreshToken",
+        refreshTokenExpires: TOMORROW,
+        refreshTokenTTL: 1440,
+        username: "jsmith",
+        password: "123456"
+      });
+
+      session.getUser().then(response => {
+        expect(response.role).toEqual("org_publisher");
+        session.getUser().then(cachedResponse => {
+          expect(cachedResponse.fullName).toEqual("John Smith");
+          done();
+        });
+      });
     });
   });
 });

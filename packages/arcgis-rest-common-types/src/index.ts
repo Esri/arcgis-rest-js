@@ -472,6 +472,27 @@ export interface IUser {
   thumbnail?: string;
   created?: number;
   modified?: number;
-  groups?: object[];
+  groups?: IGroup[];
   provider?: "arcgis" | "enterprise" | "facebook" | "google";
+}
+
+export interface IGroup {
+  id?: string;
+  title?: string;
+  isInvitationOnly?: boolean;
+  owner?: string;
+  description?: string;
+  snippet?: string;
+  tags?: string[];
+  phone?: string;
+  thumbnail?: string;
+  created?: number; // utc date
+  modified?: number;
+  access?: "private" | "org" | "public";
+  userMembership?: {
+    username?: string;
+    memberType?: string;
+    applications?: number;
+  };
+  [key: string]: any;
 }

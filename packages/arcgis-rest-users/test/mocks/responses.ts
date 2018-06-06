@@ -16,7 +16,7 @@ export const AnonUserResponse: IUser = {
   provider: "arcgis"
 };
 
-export const UserResponse = {
+export const GroupMemberUserResponse: IUser = {
   ...AnonUserResponse,
   availableCredits: 479.50998,
   assignedCredits: 500.0,
@@ -30,7 +30,7 @@ export const UserResponse = {
   storageUsage: 583650,
   storageQuota: 2147483648,
   orgId: "qWAReEOCnD7eTxOe",
-  role: "org_admin",
+  role: "org_publisher",
   privileges: [
     "portal:admin:deleteItems",
     "portal:admin:reassignItems",
@@ -48,10 +48,89 @@ export const UserResponse = {
   disabled: false,
   groups: [
     {
-      id: "0657d48d0c0841d793ea6ada2e6955f3",
+      id: "t6b",
       title: "Street Maps",
       isInvitationOnly: false,
-      owner: "jsmith",
+      owner: "whoknows",
+      description:
+        "The street map group provides street maps for the city of Redlands.",
+      snippet: "City of Redlands maps",
+      tags: ["Redlands", "street", "maps"],
+      phone: "http://www.esri.com",
+      thumbnail: "streets.jpg",
+      created: 1258501221000,
+      modified: 1272309404000,
+      access: "org",
+      userMembership: {
+        username: "jsmith",
+        memberType: "user",
+        applications: 0
+      }
+    }
+  ]
+};
+
+export const GroupNonMemberUserResponse: IUser = {
+  ...GroupMemberUserResponse,
+  groups: [
+    {
+      id: "abc",
+      title: "Street Maps",
+      isInvitationOnly: false,
+      owner: "whoknows",
+      description:
+        "The street map group provides street maps for the city of Redlands.",
+      snippet: "City of Redlands maps",
+      tags: ["Redlands", "street", "maps"],
+      phone: "http://www.esri.com",
+      thumbnail: "streets.jpg",
+      created: 1258501221000,
+      modified: 1272309404000,
+      access: "org",
+      userMembership: {
+        username: "jsmith",
+        memberType: "user",
+        applications: 0
+      }
+    }
+  ]
+};
+
+export const GroupAdminUserResponse = {
+  ...GroupMemberUserResponse,
+  groups: [
+    {
+      id: "t6b",
+      title: "Street Maps",
+      isInvitationOnly: false,
+      owner: "whoknows",
+      description:
+        "The street map group provides street maps for the city of Redlands.",
+      snippet: "City of Redlands maps",
+      tags: ["Redlands", "street", "maps"],
+      phone: "http://www.esri.com",
+      thumbnail: "streets.jpg",
+      created: 1258501221000,
+      modified: 1272309404000,
+      access: "org",
+      userMembership: {
+        username: "jsmith",
+        memberType: "admin",
+        applications: 0
+      }
+    }
+  ]
+};
+
+export const OrgAdminUserResponse = {
+  ...GroupAdminUserResponse,
+  role: "org_admin",
+  groups: [
+    {
+      id: "t6b",
+      title: "Street Maps",
+      isInvitationOnly: false,
+      owner: "whoknows",
       description:
         "The street map group provides street maps for the city of Redlands.",
       snippet: "City of Redlands maps",

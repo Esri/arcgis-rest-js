@@ -15,10 +15,12 @@
     "tslib": "^1.7.1"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-request": "^1.2.1"
+    "@esri/arcgis-rest-request": "^1.2.1",
+    "@esri/arcgis-common-types": "^1.2.1"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-request": "^1.3.0"
+    "@esri/arcgis-rest-request": "^1.3.0",
+    "@esri/arcgis-rest-common-types": "^1.3.0"
   },
   "scripts": {
     "prepare": "npm run build",
