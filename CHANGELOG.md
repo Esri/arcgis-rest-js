@@ -7,6 +7,59 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.4.0] - June 6th 2018
+
+### @esri/arcgis-rest-auth
+
+* New Features
+   * **caring**: methods to un/share items with groups [`8572bb0`](https://github.com/Esri/arcgis-rest-js/commit/8572bb0ab0222e4f0eedbe9cfd4ff00c160f0c77)
+
+### @esri/arcgis-rest-demo-express
+
+* Chores
+   * **tooling**: bump commitizen to allow empty commits [`746a6c5`](https://github.com/Esri/arcgis-rest-js/commit/746a6c57d7d9bd12fd7b8a101d8c17e878999b6f) [#188](https://github.com/Esri/arcgis-rest-js/issues/188)
+
+### @esri/arcgis-rest-demo-vanilla
+
+* Chores
+   * **tooling**: bump commitizen to allow empty commits [`746a6c5`](https://github.com/Esri/arcgis-rest-js/commit/746a6c57d7d9bd12fd7b8a101d8c17e878999b6f) [#188](https://github.com/Esri/arcgis-rest-js/issues/188)
+
+### @esri/arcgis-rest-demo-vue-with-popup
+
+* Chores
+   * **tooling**: bump commitizen to allow empty commits [`746a6c5`](https://github.com/Esri/arcgis-rest-js/commit/746a6c57d7d9bd12fd7b8a101d8c17e878999b6f) [#188](https://github.com/Esri/arcgis-rest-js/issues/188)
+
+### @esri/arcgis-rest-geocoder-vanilla
+
+* Chores
+   * **tooling**: bump commitizen to allow empty commits [`746a6c5`](https://github.com/Esri/arcgis-rest-js/commit/746a6c57d7d9bd12fd7b8a101d8c17e878999b6f) [#188](https://github.com/Esri/arcgis-rest-js/issues/188)
+
+### @esri/arcgis-rest-sharing
+
+* New Features
+   * **caring**: new sharing package with method to set access on items [`a212d59`](https://github.com/Esri/arcgis-rest-js/commit/a212d59abf820f2e719aaaedb85dd3f3708dc793) [#43](https://github.com/Esri/arcgis-rest-js/issues/43)
+   * **caring**: methods to un/share items with groups [`8572bb0`](https://github.com/Esri/arcgis-rest-js/commit/8572bb0ab0222e4f0eedbe9cfd4ff00c160f0c77)
+
+### Other Changes
+
+* Chores
+   * **tooling**: bump commitizen to allow empty commits [`b4f254c`](https://github.com/Esri/arcgis-rest-js/commit/b4f254cd6eaa8e456ca23524f746eeb925ec534c)
+
+### batch-geocoder
+
+* Chores
+   * **tooling**: bump commitizen to allow empty commits [`746a6c5`](https://github.com/Esri/arcgis-rest-js/commit/746a6c57d7d9bd12fd7b8a101d8c17e878999b6f) [#188](https://github.com/Esri/arcgis-rest-js/issues/188)
+
+### feature-service-browser
+
+* Chores
+   * **tooling**: bump commitizen to allow empty commits [`746a6c5`](https://github.com/Esri/arcgis-rest-js/commit/746a6c57d7d9bd12fd7b8a101d8c17e878999b6f) [#188](https://github.com/Esri/arcgis-rest-js/issues/188)
+
+### node-cli
+
+* Chores
+   * **tooling**: bump commitizen to allow empty commits [`746a6c5`](https://github.com/Esri/arcgis-rest-js/commit/746a6c57d7d9bd12fd7b8a101d8c17e878999b6f) [#188](https://github.com/Esri/arcgis-rest-js/issues/188)
+
 ## [1.3.0] - May 23rd 2018
 
 ### @esri/arcgis-rest-items
@@ -99,7 +152,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Chores
    * **umd**: make umd filenames more terse [`368e1a1`](https://github.com/Esri/arcgis-rest-js/commit/368e1a19088d4eff55144e71b9e0285c92a32199)
 * Bug Fixes
-   * **fetch**: set credentials: &quot;same-origin&quot; in fetch options to support sending IWA cookies [`a4d0115`](https://github.com/Esri/arcgis-rest-js/commit/a4d0115522c1d2a3e44e15320c84745ad58389dc)
+   * **fetch**: set credentials: "same-origin" in fetch options to support sending IWA cookies [`a4d0115`](https://github.com/Esri/arcgis-rest-js/commit/a4d0115522c1d2a3e44e15320c84745ad58389dc)
 
 ### @esri/arcgis-rest-users
 
@@ -115,12 +168,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Bug Fixes
    * **oauth-demo**: remove ES2015 buts from oAuth Demo for IE 11 [`22ec948`](https://github.com/Esri/arcgis-rest-js/commit/22ec94889d5867c07babaf2c85197f39c0ae46f1)
    * **IItem**: make id and owner the only required properties of IItem [`9c508f2`](https://github.com/Esri/arcgis-rest-js/commit/9c508f25a2404f0cbea8d22da98653a875a49901)
-   * **fetch**: set credentials: &quot;same-origin&quot; in fetch options  [`3ae7159`](https://github.com/Esri/arcgis-rest-js/commit/3ae715939fd3245a8dc0f693e82a7df16fe099a1)
+   * **fetch**: set credentials: "same-origin" in fetch options  [`3ae7159`](https://github.com/Esri/arcgis-rest-js/commit/3ae715939fd3245a8dc0f693e82a7df16fe099a1)
 
 ### doc improvements
 
 * Bug Fixes
-   * **createItem**: owner &quot;item.owner&quot; authentication.username [`76680a1`](https://github.com/Esri/arcgis-rest-js/commit/76680a1834332a196bf4b93a05caf5020156fe0f)
+   * **createItem**: owner "item.owner" authentication.username [`76680a1`](https://github.com/Esri/arcgis-rest-js/commit/76680a1834332a196bf4b93a05caf5020156fe0f)
 
 ## [1.1.2] - May 2nd 2018
 
@@ -475,4 +528,5 @@ Initial Public Release
 [1.2.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.2...v1.2.0 "v1.2.0"
 [1.2.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.2.0...v1.2.1 "v1.2.1"
 [1.3.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.2.1...v1.3.0 "v1.3.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.3.0...HEAD "Unreleased Changes"
+[1.4.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.3.0...v1.4.0 "v1.4.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.4.0...HEAD "Unreleased Changes"
