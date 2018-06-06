@@ -7,33 +7,41 @@ import {
   IField,
   IGeometry,
   ISpatialReference,
-  IFeatureSet
+  IFeatureSet,
+  esriUnits
 } from "@esri/arcgis-rest-common-types";
 import { request, IRequestOptions, IParams } from "@esri/arcgis-rest-request";
 
 /**
- * parameters required to get a feature by id
- *
- * @param url - layer service url
- * @param id - feature id
+ * Request options to fetch a feature by id.
  */
 export interface IFeatureRequestOptions extends IRequestOptions {
+  /**
+   * Layer service url.
+   */
   url: string;
+  /**
+   * Unique identifier of the feature.
+   */
   id: number;
 }
 
-/**
- * @param statisticType - statistical operation to perform (count, sum, min, max, avg, stddev, var)
- * @param onStatisticField - field on which to perform the statistical operation
- * @param outStatisticFieldName - a field name for the returned statistic field. If outStatisticFieldName is empty or missing, the server will assign one. A valid field name can only contain alphanumeric characters and an underscore. If the outStatisticFieldName is a reserved keyword of the underlying DBMS, the operation can fail. Try specifying an alternative outStatisticFieldName.
- */
 export interface IStatisticDefinition {
+  /**
+   * Statistical operation to perform (count, sum, min, max, avg, stddev, var).
+   */
   statisticType: "count" | "sum" | "min" | "max" | "avg" | "stddev" | "var";
+  /**
+   * Field on which to perform the statistical operation.
+   */
   onStatisticField: string;
+  /**
+   * Field name for the returned statistic field. If outStatisticFieldName is empty or missing, the server will assign one. A valid field name can only contain alphanumeric characters and an underscore. If the outStatisticFieldName is a reserved keyword of the underlying DBMS, the operation can fail. Try specifying an alternative outStatisticFieldName.
+   */
   outStatisticFieldName: string;
 }
 
-export interface ISharedQueryParams extends IParams {
+export interface ISharedQueryParams {
   where?: string;
   geometry?: IGeometry;
   geometryType?: esriGeometryType;
@@ -43,23 +51,21 @@ export interface ISharedQueryParams extends IParams {
 }
 
 /**
- * feature query parameters
- *
- * See https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm
+ * feature query request options. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
  */
-export interface IQueryFeaturesParams extends ISharedQueryParams {
+export interface IQueryFeaturesRequestOptions
+  extends ISharedQueryParams,
+    IRequestOptions {
+  /**
+   * Layer service url.
+   */
+  url: string;
   objectIds?: number[];
   relationParam?: string;
   // NOTE: either time=1199145600000 or time=1199145600000, 1230768000000
   time?: Date | Date[];
   distance?: number;
-  units?:
-    | "esriSRUnit_Meter"
-    | "esriSRUnit_StatuteMile"
-    | "esriSRUnit_Foot"
-    | "esriSRUnit_Kilometer"
-    | "esriSRUnit_NauticalMile"
-    | "esriSRUnit_USNauticalMile";
+  units?: esriUnits;
   outFields?: "*" | string[];
   returnGeometry?: boolean;
   maxAllowableOffset?: number;
@@ -83,22 +89,11 @@ export interface IQueryFeaturesParams extends ISharedQueryParams {
   quantizationParameters?: any;
   returnCentroid?: boolean;
   resultType?: "none" | "standard" | "tile";
-  // TODO: is Date the right type for epoch time in milliseconds?
-  historicMoment?: Date;
+  historicMoment?: number;
   returnTrueCurves?: false;
   sqlFormat?: "none" | "standard" | "native";
   returnExceededLimitFeatures?: boolean;
-}
-
-/**
- * feature query request options
- *
- * @param url - layer service url
- * @param params - query parameters to be sent to the feature service
- */
-export interface IQueryFeaturesRequestOptions extends IRequestOptions {
-  url: string;
-  params?: IQueryFeaturesParams;
+  [key: string]: any; // helper to loop through and pass down to params
 }
 
 export interface IQueryFeaturesResponse extends IFeatureSet {
@@ -107,6 +102,20 @@ export interface IQueryFeaturesResponse extends IFeatureSet {
 
 /**
  * Get a feature by id
+ *
+ * ```js
+ * import { getFeature } from '@esri/arcgis-rest-feature-service';
+ *
+ * const url = "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0";
+ *
+ * getFeature({
+ *   url,
+ *   id: 42
+ * };)
+ *   .then(feature => {
+ *     console.log(feature.attributes.FID); // 42
+ *   });
+ * ```
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the feature.
@@ -127,6 +136,20 @@ export function getFeature(
 /**
  * Query features
  *
+ * ```js
+ * import { queryFeatures } from '@esri/arcgis-rest-feature-service';
+ *
+ * const url = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3";
+ *
+ * queryFeatures({
+ *   url,
+ *   where: "STATE_NAME = 'Alaska"
+ * };)
+ *   .then(feature => {
+ *     console.log(feature.attributes.FID); // 42
+ *   });
+ * ```
+ *
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the query response.
  */
@@ -135,12 +158,14 @@ export function queryFeatures(
 ): Promise<IQueryFeaturesResponse> {
   // default to a GET request
   const options: IQueryFeaturesRequestOptions = {
-    ...{
-      params: {},
-      httpMethod: "GET"
-    },
+    params: {},
+    httpMethod: "GET",
+    url: requestOptions.url,
     ...requestOptions
   };
+
+  appendCustomParams(requestOptions, options);
+
   // set default query parameters
   if (!options.params.where) {
     options.params.where = "1=1";
@@ -148,7 +173,7 @@ export function queryFeatures(
   if (!options.params.outFields) {
     options.params.outFields = "*";
   }
-  return request(`${requestOptions.url}/query`, options);
+  return request(`${options.url}/query`, options);
 }
 
 /**
@@ -163,7 +188,7 @@ export interface IEditFeatureResult {
 /**
  * Common add and update features parameters.
  */
-export interface IEditFeaturesParams extends IParams {
+export interface IEditFeaturesParams {
   /**
    * The geodatabase version to apply the edits.
    */
@@ -185,7 +210,9 @@ export interface IEditFeaturesParams extends IParams {
  * @param adds - Array of JSON features to add.
  * @param params - Query parameters to be sent to the feature service via the request.
  */
-export interface IAddFeaturesRequestOptions extends IRequestOptions {
+export interface IAddFeaturesRequestOptions
+  extends IEditFeaturesParams,
+    IRequestOptions {
   /**
    * Feature service url.
    */
@@ -194,10 +221,6 @@ export interface IAddFeaturesRequestOptions extends IRequestOptions {
    * Array of JSON features to add.
    */
   adds: IFeature[];
-  /**
-   * Query parameters to be sent to the feature service via the request.
-   */
-  params?: IEditFeaturesParams;
 }
 
 /**
@@ -242,6 +265,8 @@ export function addFeatures(
     ...requestOptions
   };
 
+  appendCustomParams(requestOptions, options);
+
   // mixin, don't overwrite
   options.params.features = requestOptions.adds;
 
@@ -255,7 +280,9 @@ export function addFeatures(
  * @param updates - Array of JSON features to update.
  * @param params - Query parameters to be sent to the feature service via the request.
  */
-export interface IUpdateFeaturesRequestOptions extends IRequestOptions {
+export interface IUpdateFeaturesRequestOptions
+  extends IEditFeaturesParams,
+    IRequestOptions {
   /**
    * Feature service url.
    */
@@ -264,10 +291,6 @@ export interface IUpdateFeaturesRequestOptions extends IRequestOptions {
    * Array of JSON features to update.
    */
   updates: IFeature[];
-  /**
-   * Query parameters to be sent to the feature service via the request.
-   */
-  params?: IEditFeaturesParams;
 }
 
 /**
@@ -311,6 +334,8 @@ export function updateFeatures(
     ...requestOptions
   };
 
+  appendCustomParams(requestOptions, options);
+
   // mixin, don't overwrite
   options.params.features = requestOptions.updates;
 
@@ -331,7 +356,9 @@ export interface IDeleteFeaturesParams
  * @param deletes - Array of objectIds to delete.
  * @param params - Query parameters to be sent to the feature service via the request.
  */
-export interface IDeleteFeaturesRequestOptions extends IRequestOptions {
+export interface IDeleteFeaturesRequestOptions
+  extends IDeleteFeaturesParams,
+    IRequestOptions {
   /**
    * Feature service url.
    */
@@ -340,10 +367,6 @@ export interface IDeleteFeaturesRequestOptions extends IRequestOptions {
    * Array of objectIds to delete.
    */
   deletes: number[];
-  /**
-   * Query parameters to be sent to the feature service via the request.
-   */
-  params?: IDeleteFeaturesParams;
 }
 
 /**
@@ -384,8 +407,30 @@ export function deleteFeatures(
     ...requestOptions
   };
 
+  appendCustomParams(requestOptions, options);
+
   // mixin, don't overwrite
   options.params.objectIds = requestOptions.deletes;
 
   return request(url, options);
+}
+
+function appendCustomParams(
+  oldOptions: IQueryFeaturesRequestOptions,
+  newOptions: IRequestOptions
+) {
+  // only pass query parameters through in the request, not generic IRequestOptions props
+  Object.keys(oldOptions).forEach(function(key: string, index: number) {
+    if (
+      key !== "url" &&
+      key !== "params" &&
+      key !== "authentication" &&
+      key !== "httpMethod" &&
+      key !== "fetch" &&
+      key !== "portal" &&
+      key !== "maxUrlLength"
+    ) {
+      newOptions.params[key] = oldOptions[key];
+    }
+  });
 }

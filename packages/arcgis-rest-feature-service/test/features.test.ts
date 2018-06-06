@@ -22,16 +22,16 @@ describe("feature", () => {
   afterEach(fetchMock.restore);
 
   it("should return a feature by id", done => {
-    const params = {
+    const requestOptions = {
       url:
         "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
       id: 42
     };
     fetchMock.once("*", featureResponse);
-    getFeature(params).then(response => {
+    getFeature(requestOptions).then(response => {
       expect(fetchMock.called()).toBeTruthy();
       const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-      expect(url).toEqual(`${params.url}/42?f=json`);
+      expect(url).toEqual(`${requestOptions.url}/42?f=json`);
       expect(options.method).toBe("GET");
       expect(response.attributes.FID).toEqual(42);
       done();
@@ -51,7 +51,6 @@ describe("feature", () => {
         `${requestOptions.url}/query?f=json&where=1%3D1&outFields=*`
       );
       expect(options.method).toBe("GET");
-      // expect(response.attributes.FID).toEqual(42);
       done();
     });
   });
@@ -60,10 +59,8 @@ describe("feature", () => {
     const requestOptions = {
       url:
         "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
-      params: {
-        where: "Condition='Poor'",
-        outFields: ["FID", "Tree_ID", "Cmn_Name", "Condition"]
-      }
+      where: "Condition='Poor'",
+      outFields: ["FID", "Tree_ID", "Cmn_Name", "Condition"]
     };
     fetchMock.once("*", queryResponse);
     queryFeatures(requestOptions).then(response => {
@@ -134,9 +131,7 @@ describe("feature", () => {
           }
         }
       ],
-      params: {
-        rollbackOnFailure: false
-      }
+      rollbackOnFailure: false
     } as IUpdateFeaturesRequestOptions;
     fetchMock.once("*", updateFeaturesResponse);
     updateFeatures(requestOptions).then(response => {
@@ -161,9 +156,7 @@ describe("feature", () => {
       url:
         "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
       deletes: [1001],
-      params: {
-        where: "1=1"
-      }
+      where: "1=1"
     } as IDeleteFeaturesRequestOptions;
     fetchMock.once("*", deleteFeaturesResponse);
     deleteFeatures(requestOptions).then(response => {
