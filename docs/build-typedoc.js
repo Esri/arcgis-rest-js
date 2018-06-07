@@ -47,8 +47,8 @@ const md = new MarkdownIt();
     .then(json => {
       /**
        * `json.children` will be a list of all TypeScript files in our project.
-       * We dont care about the files we need need all their children so reduce
-       * this to just a general list of everything in the entire project.
+       * We dont care about the files, we just need all their children so we reduce
+       * to a single list of everything in the entire project.
        */
       return json.children.reduce(
         (allChildren, fileChildren) => allChildren.concat(fileChildren),
@@ -105,9 +105,9 @@ const md = new MarkdownIt();
     })
     .then(children => {
       /**
-       * `children` is currently a list of all TypeScript soruce files in
+       * `children` is currently a list of all TypeScript source files in
        * `packages`. `children.children` is an array of all declarations in that
-       * source file. We need to concat all `children.children` arrays togather
+       * source file. We need to concat all `children.children` arrays together
        * into a giant array of all declarations in all packages.
        */
       return children.reduce((allChildren, child) => {
@@ -127,12 +127,12 @@ const md = new MarkdownIt();
     })
     .then(declarations => {
       /**
-       * Now that we have a list of all declarations accross the entire project
-       * we can begin to generate additonal information about each declaration.
-       * For example we can now determine the `src` of the page page that will
+       * Now that we have a list of all declarations across the entire project
+       * we can begin to generate additional information about each declaration.
+       * For example we can now determine the `src` of the page that will
        * be generated for this declaration. Each `declaration` will also have
-       * `children` which we can generate and `icon` property for. These
-       * additonal properties, `src`, `pageUrl`, `icon` and `children` are then
+       * `children` which we can generate and define an `icon` property for. These
+       * additional properties, `src`, `pageUrl`, `icon` and `children` are then
        * merged into the `declaration`. This also adds a `title`, `description`
        * and `titleSegments` to each page which are used in the template for SEO.
        */
@@ -229,7 +229,7 @@ const md = new MarkdownIt();
     .then(api => {
       /**
        * Since we generated the TypeDoc for the entire project at once each
-       * `declaration` has a unique numerical `id` property. We occassionally
+       * `declaration` has a unique numerical `id` property. We occasionally
        * need to lookup a declaration by its `id` so we can prebuild an index of
        * them here.
        */
