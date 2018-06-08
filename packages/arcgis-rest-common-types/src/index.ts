@@ -496,3 +496,11 @@ export interface IGroup {
   };
   [key: string]: any;
 }
+
+export type esriUnits =
+  | "esriSRUnit_Meter"
+  | "esriSRUnit_StatuteMile"
+  | "esriSRUnit_Foot"
+  | "esriSRUnit_Kilometer"
+  | "esriSRUnit_NauticalMile"
+  | "esriSRUnit_USNauticalMile";
