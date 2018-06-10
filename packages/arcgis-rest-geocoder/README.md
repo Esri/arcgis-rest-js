@@ -7,7 +7,7 @@
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
 
-# @esri/arcgis-rest-groups
+# @esri/arcgis-rest-geocoder
 
 > Geocoding helpers for [`@esri/arcgis-rest-request`](https://github.com/Esri/arcgis-rest-js).
 
