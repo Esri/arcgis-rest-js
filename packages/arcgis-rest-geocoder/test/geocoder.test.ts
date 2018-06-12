@@ -1,11 +1,12 @@
-import {
-  geocode,
-  suggest,
-  reverseGeocode,
-  bulkGeocode,
-  serviceInfo,
-  getGeocodeService
-} from "../src/index";
+import { geocode } from "../src/geocode";
+
+import { suggest } from "../src/suggest";
+
+import { reverseGeocode } from "../src/reverse";
+
+import { bulkGeocode } from "../src/bulk";
+
+import { serviceInfo, getGeocodeService } from "../src/helpers";
 
 import * as fetchMock from "fetch-mock";
 
@@ -365,9 +366,46 @@ describe("geocode", () => {
 
     bulkGeocode({ addresses })
       // tslint:disable-next-line
-      .then(response => {})
       .catch(e => {
-        expect(e).toEqual("bulk geocoding requires authentication");
+        expect(e).toEqual(
+          "bulk geocoding using the ArcGIS service requires authentication"
+        );
+        done();
+      });
+  });
+
+  it("should send a bulk geocoding request to a custom url without a token", done => {
+    fetchMock.once("*", GeocodeAddresses);
+
+    bulkGeocode({
+      addresses,
+      endpoint:
+        "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/"
+    })
+      // tslint:disable-next-line
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/geocodeAddresses"
+        );
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain(
+          `addresses=${encodeURIComponent(
+            '{"records":[{"attributes":{"OBJECTID":1,"SingleLine":"380 New York St. Redlands 92373"}},{"attributes":{"OBJECTID":2,"SingleLine":"1 World Way Los Angeles 90045"}}]}'
+          )}`
+        );
+        // expect(options.body).toContain("token=token");
+        expect(response.spatialReference.latestWkid).toEqual(4326);
+        expect(response.locations[0].address).toEqual(
+          "380 New York St, Redlands, California, 92373"
+        );
+        expect(response.locations[0].location.x).toEqual(-117.19567031799994);
+        // the only property this lib tacks on
+        expect(response.locations[0].location.spatialReference.wkid).toEqual(
+          4326
+        );
         done();
       });
   });
