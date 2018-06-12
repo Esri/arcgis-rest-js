@@ -62,7 +62,7 @@ export function getGeocodeService(
 }
 
 /**
- * Deprecated. Please use `getGeocodeService()` instead.
+ * Deprecated. Please use [`getGeocodeService()`](../getGeocodeService/) instead.
  *
  * @param requestOptions - Request options can contain a custom geocoding service to fetch metadata from.
  * @returns A Promise that will resolve with the data from the response.
