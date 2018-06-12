@@ -23,11 +23,20 @@ import { geocode } from '@esri/arcgis-rest-geocoder';
 
 geocode("LAX")
   .then((response) => {
-    response.candidates[0].location; // => { x: -118.409, y: 33.943, spatialReference: { wkid: 4326 }  }
+    response.candidates[0].location;
+    // => { x: -118.409, y: 33.943  }
   });
 ```
 
 ### [API Reference](https://esri.github.io/arcgis-rest-js/api/geocoder/)
+
+* [`geocode("1 World Way Los Angeles 90045")`](https://esri.github.io/arcgis-rest-js/api/geocoder/geocode/)
+
+* [`suggest("Starb")`](https://esri.github.io/arcgis-rest-js/api/geocoder/suggest/)
+
+* [`reverseGeocode([-118.409,33.943 ])`](https://esri.github.io/arcgis-rest-js/api/geocoder/reverseGeocode/)
+
+* [`bulkGeocode()`](https://esri.github.io/arcgis-rest-js/api/geocoder/bulkGeocode/)
 
 ### Issues
 
