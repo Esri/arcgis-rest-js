@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Share auth between rest-js and the jsapi</title>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.7/esri/css/main.css">
+
+  <script>
+    dojoConfig = {
+        paths: {
+          "@esri/arcgis-rest-request": "/node_modules/@esri/arcgis-rest-request/dist/umd/request.umd",
+          "@esri/arcgis-rest-auth": "/node_modules/@esri/arcgis-rest-auth/dist/umd/auth.umd",
+          "@esri/arcgis-rest-items": "/node_modules/@esri/arcgis-rest-items/dist/umd/items.umd"
+        }
+    };
+  </script>
+
+  <script src="https://js.arcgis.com/4.7/"></script>
+  <script>
+    require([
+      "@esri/arcgis-rest-request",
+      "@esri/arcgis-rest-auth",
+      "@esri/arcgis-rest-items",
+      "esri/identity/IdentityManager",
+      "esri/views/MapView",
+      "esri/WebMap",
+      "dojo/domReady!"
+    ], function(
+      arcgis, arcgisAuth, arcgisItems, esriId, MapView, WebMap
+    ) {
+
+      // private item
+      // https://geosaurus.maps.arcgis.com/home/item.html?id=728043ac6a574a00b8f1cd5ee0eae8cd
+      const itemId = "728043ac6a574a00b8f1cd5ee0eae8cd";
+
+      // canned username/password from
+      // https://developers.arcgis.com/python/sample-notebooks/chennai-floods-analysis/
+      const session = new arcgisAuth.UserSession({
+        username: "arcgis_python",
+        password: "P@ssword123"
+      });
+
+      // fetch the private item's data, not just the metadata
+      arcgisItems.getItemData(itemId, { authentication: session })
+        .then(response => {
+          // pass the authenticated session over to the JSAPI Identity Manager
+          esriId.registerToken(session.getCredential());
+
+          // dig the webmap id out of the response
+          var webmap = new WebMap({
+            portalItem: {
+              id: response.map.itemId
+            }
+          });
+
+          // and pass it to the map view
+          var view = new MapView({
+            map: webmap,
+            container: "viewDiv"
+          });
+        });
+    });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html>

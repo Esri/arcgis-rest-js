@@ -25,7 +25,7 @@ ArcGIS REST JS is hosted on [unpkg](https://unpkg.com/). You can find URLs for i
   <script src="https://cdn.polyfill.io/v2/polyfill.js?features=es5,Promise,fetch"></script>
 
   <!-- require ArcGIS REST JS libraries from https://unpkg.com -->
-  <script src="{% cdnUrl data.typedoc | findPackage('@esri/arcgis-rest-request') %}"></script>
+  <script src="{% cdnUrl data.typedoc | findPackage('@esri/arcgis-rest-request') %}.js"></script>
 
   <script>
     // when including ArcGIS REST JS all exports are available from an arcgisRest global

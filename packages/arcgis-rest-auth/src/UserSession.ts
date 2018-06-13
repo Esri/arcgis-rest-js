@@ -5,7 +5,6 @@ import * as http from "http";
 import {
   request,
   ArcGISAuthError,
-  ArcGISRequestError,
   IAuthenticationManager
 } from "@esri/arcgis-rest-request";
 import { generateToken } from "./generate-token";
@@ -21,6 +20,17 @@ interface IDeferred<T> {
   promise: Promise<T>;
   resolve: (v: T) => void;
   reject: (v: any) => void;
+}
+
+/**
+ * Represents a [credential]((https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-Credential.html)) object used to access a secure ArcGIS resource.
+ */
+export interface ICredential {
+  expires: number;
+  server: string;
+  ssl: boolean;
+  token: string;
+  userId: string;
 }
 
 function defer<T>(): IDeferred<T> {
@@ -508,6 +518,17 @@ export class UserSession implements IAuthenticationManager {
       redirectUri: options.redirectUri,
       refreshTokenTTL: options.refreshTokenTTL
     });
+  }
+
+  // returns authentication in a format useable in the [ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/)
+  getCredential(): ICredential {
+    return {
+      expires: this.tokenExpires.getTime(),
+      server: this.portal,
+      ssl: true,
+      token: this.token,
+      userId: this.username
+    };
   }
 
   /**

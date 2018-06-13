@@ -196,10 +196,11 @@ module.exports = function(acetate) {
     return inspect(obj, { depth: 3 });
   });
 
+  // without the '.js' on the end, for the benefit of the AMD sample
   acetate.helper("cdnUrl", function(context, package) {
     return `https://unpkg.com/${
       package.name
-    }@${package.version}/dist/umd/${package.name.replace("@esri/arcgis-rest-", "")}.umd.js`;
+    }@${package.version}/dist/umd/${package.name.replace("@esri/arcgis-rest-", "")}.umd`;
   });
 
   acetate.helper("npmInstallCmd", function(context, package) {

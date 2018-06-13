@@ -1,4 +1,5 @@
-import { UserSession, IFetchTokenResponse } from "../src/index";
+import { UserSession } from "../src/index";
+import { ICredential } from "../src/UserSession";
 
 import {
   ArcGISRequestError,
@@ -700,6 +701,33 @@ describe("UserSession", () => {
           done();
         });
       });
+    });
+  });
+
+  describe(".getCredential()", () => {
+    const MOCK_CREDENTIAL: ICredential = {
+      expires: TOMORROW.getTime(),
+      server: "https://www.arcgis.com/sharing/rest",
+      ssl: true,
+      token: "token",
+      userId: "jsmith"
+    };
+
+    it("should cache metadata about the user", () => {
+      const session = new UserSession({
+        clientId: "clientId",
+        redirectUri: "https://example-app.com/redirect-uri",
+        token: "token",
+        tokenExpires: TOMORROW,
+        refreshToken: "refreshToken",
+        refreshTokenExpires: TOMORROW,
+        refreshTokenTTL: 1440,
+        username: "jsmith",
+        password: "123456"
+      });
+
+      const creds = session.getCredential();
+      expect(creds).toEqual(MOCK_CREDENTIAL);
     });
   });
 });
