@@ -69,7 +69,10 @@ export default {
     format: "umd",
     name: moduleName,
     globals,
-    extend: true // causes this module to extend the global specified by `moduleName`
+    extend: true, // causes this module to extend the global specified by `moduleName`
+    amd: {
+      id: `${name}`
+    }
   },
   context: "window",
   external: packageNames,
