@@ -18,6 +18,8 @@
 
   <link rel="stylesheet" href="https://js.arcgis.com/4.7/esri/css/main.css">
 
+  <!-- pull clientid from config.js if present -->
+  <script src="config.js"></script>
   <script src="node_modules/@esri/arcgis-rest-request/dist/umd/request.umd.js"></script>
   <script src="node_modules/@esri/arcgis-rest-auth/dist/umd/auth.umd.js"></script>
   <script src="node_modules/@esri/arcgis-rest-items/dist/umd/items.umd.js"></script>
@@ -34,6 +36,7 @@
 <body>
   <div id="viewDiv"></div>
   <script>
+      // catch auth errors and retry after logging in
       function autoLogin(fn, args) {
         // first, try calling the fn w/o logging in
         return fn.apply(arcgisRest, args)
@@ -54,18 +57,18 @@
               // already authenticated, must not be authorized, rethrow
               throw e;
             }
-            if (!options.autoLogin) {
+            if (!options.oauth2Options) {
               // we will need IOauth2Options to login, rethrow
               throw e;
             }
-            // get user session
-            // TODO: start oauth flow
-            // for now, just using canned username/password from
-            // https://developers.arcgis.com/python/sample-notebooks/chennai-floods-analysis/
-            const session = new arcgisRest.UserSession(options.autoLogin);
-            options.authentication = session;
-            // retry the original request with the user session
-            return fn.apply(arcgisRest, args);
+            // get user session by starting oauth flow
+            return arcgisRest.UserSession.beginOAuth2(options.oauth2Options)
+            .then(function (newSession) {
+              // login was successful
+              // retry the original request with the user session
+              options.authentication = newSession;
+              return fn.apply(arcgisRest, args);
+            });
           }
         });
       }
@@ -74,9 +77,17 @@
       // https://geosaurus.maps.arcgis.com/home/item.html?id=728043ac6a574a00b8f1cd5ee0eae8cd
       const itemId = "728043ac6a574a00b8f1cd5ee0eae8cd";
       const requestOptions = {
-        autoLogin: {
-          username: "arcgis_python",
-          password: "P@ssword123"
+        // if request requires authentication, use these options to initiate oauth
+        oauth2Options: {
+          // NOTE: if you don't set portal, it defaults to https://arcgis.com/sharing/rest
+          // even though it should default to https://www.arcgis.com/sharing/rest
+          // https://esri.github.io/arcgis-rest-js/api/auth/IOauth2Options/#portal
+          // which caused CORS errors for me when trying to re-fetch the data
+          portal: "https://www.arcgis.com/sharing/rest",
+          // NOTE: clientId is set in config.js
+          clientId: clientId,
+          redirectUri: window.location.origin + location.pathname.replace('autologin.html', '') + 'authenticate.html',
+          popup: true
         }
       };
       autoLogin(arcgisRest.getItemData, [itemId, requestOptions])
