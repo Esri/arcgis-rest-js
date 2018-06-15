@@ -61,8 +61,11 @@
               // we will need IOauth2Options to login, rethrow
               throw e;
             }
-            // get user session by starting oauth flow
-            return arcgisRest.UserSession.beginOAuth2(options.oauth2Options)
+            if (!this.oAuthPromise) {
+              // get user session by starting oauth flow
+              this.oAuthPromise = arcgisRest.UserSession.beginOAuth2(options.oauth2Options);
+            }
+            return this.oAuthPromise
             .then(function (newSession) {
               // login was successful
               // retry the original request with the user session
@@ -73,27 +76,38 @@
         });
       }
 
-      // auto-login while fetching a private item's data (not just the metadata)
+      // NOTE: use arcgis_python / P@ssword123 to access this private item
       // https://geosaurus.maps.arcgis.com/home/item.html?id=728043ac6a574a00b8f1cd5ee0eae8cd
       const itemId = "728043ac6a574a00b8f1cd5ee0eae8cd";
-      const requestOptions = {
-        // if request requires authentication, use these options to initiate oauth
-        oauth2Options: {
-          // NOTE: if you don't set portal, it defaults to https://arcgis.com/sharing/rest
-          // even though it should default to https://www.arcgis.com/sharing/rest
-          // https://esri.github.io/arcgis-rest-js/api/auth/IOauth2Options/#portal
-          // which caused CORS errors for me when trying to re-fetch the data
-          portal: "https://www.arcgis.com/sharing/rest",
-          // NOTE: clientId is set in config.js
-          clientId: clientId,
-          redirectUri: window.location.origin + location.pathname.replace('autologin.html', '') + 'authenticate.html',
-          popup: true
-        }
-      };
-      autoLogin(arcgisRest.getItemData, [itemId, requestOptions])
+      // for any request requires authentication use these options to initiate the oauth flow
+      const oauth2Options = {
+        // NOTE: if you don't set portal, it defaults to https://arcgis.com/sharing/rest
+        // even though it should default to https://www.arcgis.com/sharing/rest
+        // https://esri.github.io/arcgis-rest-js/api/auth/IOauth2Options/#portal
+        // which caused CORS errors for me when trying to re-fetch the data
+        portal: "https://www.arcgis.com/sharing/rest",
+        // NOTE: clientId is set in config.js
+        clientId: clientId,
+        redirectUri: window.location.origin + location.pathname.replace('autologin.html', '') + 'authenticate.html',
+        popup: true
+      }
+
+      // we don't really care about this request to get the item
+      // it's only here to demonstrate that autoLogin() can handle more than one request at a time
+      const getItemRequestOptions = { oauth2Options: oauth2Options };
+      autoLogin(arcgisRest.getItem, [itemId, getItemRequestOptions])
       .then(response => {
-        // this was added by autoLogin
-        const session = requestOptions.authentication;
+        console.log('Got item with title: ', response.title);
+        console.log('After logging in as: ', getItemRequestOptions.authentication.username);
+      });
+
+      // this is the request we care about, it will fetch the data
+      // and pass a map id over to the JSAPI which will render the map
+      const getItemDataRequestOptions = { oauth2Options: oauth2Options };
+      autoLogin(arcgisRest.getItemData, [itemId, getItemDataRequestOptions])
+      .then(response => {
+        // the authentication option was added by autoLogin() after successful login
+        const session = getItemDataRequestOptions.authentication;
         // once we have the private item, we can create a map
         // NOTE: this is where you would lazy-load the ArcGIS API for JavaScript
         require([
