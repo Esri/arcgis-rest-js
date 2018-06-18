@@ -425,7 +425,7 @@ describe("UserSession", () => {
         });
 
       expect(MockWindow.open).toHaveBeenCalledWith(
-        "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId123&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=abc123&locale=",
+        "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId123&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=abc123&locale=",
         "oauth-window",
         "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
       );
@@ -457,7 +457,7 @@ describe("UserSession", () => {
       });
 
       expect(MockWindow.open).toHaveBeenCalledWith(
-        "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId123&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=clientId123&locale=fr",
+        "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId123&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=clientId123&locale=fr",
         "oauth-window",
         "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
       );
@@ -488,7 +488,7 @@ describe("UserSession", () => {
       );
 
       expect(MockWindow.location.href).toBe(
-        "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId123&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=clientId123&locale="
+        "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId123&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=clientId123&locale="
       );
     });
   });
