@@ -35,105 +35,97 @@
 <body>
   <div id="viewDiv"></div>
   <script>
-      // catch auth errors and retry after logging in
-      function autoLogin(fn, args) {
-        // first, try calling the fn w/o logging in
-        return fn.apply(arcgisRest, args)
-        .catch(function (e) {
-          if (e.name !== 'ArcGISAuthError') {
-            // not an auth error, rethrow
-            throw e;
-          } else {
-            // auth error, try to login
-            if (!args || args.length === 0) {
-              // we need request options passed in args, rethrow
-              throw e;
-            }
-            // get request options - should be last argument
-            // TODO: is it ever **not** the last argument?
-            let options = args[args.length - 1];
-            if (options.authentication) {
-              // already authenticated, must not be authorized, rethrow
-              throw e;
-            }
-            if (!options.oauth2Options) {
-              // we will need IOauth2Options to login, rethrow
-              throw e;
-            }
-            if (!this.oAuthPromise) {
-              // get user session by starting oauth flow
-              this.oAuthPromise = arcgisRest.UserSession.beginOAuth2(options.oauth2Options);
-            }
-            return this.oAuthPromise
-            .then(function (newSession) {
-              // login was successful
-              // retry the original request with the user session
-              options.authentication = newSession;
-              return fn.apply(arcgisRest, args);
-            });
-          }
-        });
-      }
+    // send this w/ all requests, it will be undefined until 
+    // the user requests a secure resource and is prompted to sign in
+    let session;
 
-      // NOTE: use arcgis_python / P@ssword123 to access this private item
-      // https://geosaurus.maps.arcgis.com/home/item.html?id=728043ac6a574a00b8f1cd5ee0eae8cd
-      const itemId = "728043ac6a574a00b8f1cd5ee0eae8cd";
-      // for any request requires authentication use these options to initiate the oauth flow
+    // sign a user in returning the session
+    function signIn (/*url, originalRequestOptions */) {
+      // NOTE: we could use url and/or originalRequestOptions to set the portal, clientId, etc.
       const oauth2Options = {
-        // NOTE: if you don't set portal, it defaults to https://arcgis.com/sharing/rest
-        // even though it should default to https://www.arcgis.com/sharing/rest
-        // https://esri.github.io/arcgis-rest-js/api/auth/IOauth2Options/#portal
-        // which caused CORS errors for me when trying to re-fetch the data
+        // NOTE: have to explicitly set portal for now b/c of 
+        // https://github.com/Esri/arcgis-rest-js/issues/223
         portal: "https://www.arcgis.com/sharing/rest",
         // NOTE: clientId is set in config.js
         clientId: clientId,
         redirectUri: window.location.origin + location.pathname.replace('autologin.html', '') + 'authenticate.html',
         popup: true
+      };
+      return arcgisRest.UserSession.beginOAuth2(oauth2Options)
+      .then(newSession => {
+        // hold on to the session for future requests
+        session = newSession;
+        return newSession;
+      });
+    }
+
+    // use this handler for all potentially unauthenticated arcgis-rest-js requests
+    function handleError (error) {
+      const originalRequestOptions = error.options;
+      // if we got an auth error for an unauthenticated request, 
+      // retry after getting a new session for this user
+      if(error instanceof arcgisRest.ArcGISAuthError && !originalRequestOptions.authentication) {
+        if (!this.retryPromise) {
+          this.retryPromise = error.retry(signIn);
+        }
+        return this.retryPromise;
       }
 
-      // we don't really care about this request to get the item
-      // it's only here to demonstrate that autoLogin() can handle more than one request at a time
-      const getItemRequestOptions = { oauth2Options: oauth2Options };
-      autoLogin(arcgisRest.getItem, [itemId, getItemRequestOptions])
-      .then(response => {
-        console.log('Got item with title: ', response.title);
-        console.log('After logging in as: ', getItemRequestOptions.authentication.username);
-      });
+      // otherwise throw a regular error
+      throw error;
+    }
 
-      // this is the request we care about, it will fetch the data
-      // and pass a map id over to the JSAPI which will render the map
-      const getItemDataRequestOptions = { oauth2Options: oauth2Options };
-      autoLogin(arcgisRest.getItemData, [itemId, getItemDataRequestOptions])
-      .then(response => {
-        // the authentication option was added by autoLogin() after successful login
-        const session = getItemDataRequestOptions.authentication;
-        // once we have the private item, we can create a map
-        // NOTE: this will lazy-load the ArcGIS API for JavaScript
-        esriLoader.loadModules([
-          "esri/identity/IdentityManager",
-          "esri/views/MapView",
-          "esri/WebMap"
-        ])
-        .then(function([esriId, MapView, WebMap]) {
-          if (session) {
-            // pass the authenticated session over to the JSAPI Identity Manager
-            esriId.registerToken(session.getCredential());
+    // NOTE: use arcgis_python / P@ssword123 to access this private item
+    // https://geosaurus.maps.arcgis.com/home/item.html?id=728043ac6a574a00b8f1cd5ee0eae8cd
+    const itemId = "728043ac6a574a00b8f1cd5ee0eae8cd";
+
+    // first request the item
+    // we don't really care about this request, it's only here to
+    // demonstrate that errorHandler() can handle more than one request at a time
+    arcgisRest.getItemData(itemId, {
+      authentication: session
+    })
+    .catch(handleError)
+    .then(response => {
+      console.log('Got item with title: ', response.title);
+      console.log('After logging in as: ', session.username);
+    });
+
+    // this is the request we care about, it will fetch the data
+    // and pass a map id over to the JSAPI which will render the map
+    arcgisRest.getItemData(itemId, {
+      authentication: session
+    })
+    .catch(handleError)
+    .then(response => {
+      // once we have the private item, we can create a map
+      // NOTE: this will lazy-load the ArcGIS API for JavaScript
+      esriLoader.loadModules([
+        "esri/identity/IdentityManager",
+        "esri/views/MapView",
+        "esri/WebMap"
+      ])
+      .then(function([esriId, MapView, WebMap]) {
+        if (session) {
+          // pass the authenticated session over to the JSAPI Identity Manager
+          esriId.registerToken(session.getCredential());
+        }
+
+        // dig the webmap id out of the response
+        var webmap = new WebMap({
+          portalItem: {
+            id: response.map.itemId
           }
+        });
 
-          // dig the webmap id out of the response
-          var webmap = new WebMap({
-            portalItem: {
-              id: response.map.itemId
-            }
-          });
-
-          // and pass it to the map view
-          var view = new MapView({
-            map: webmap,
-            container: "viewDiv"
-          });
+        // and pass it to the map view
+        var view = new MapView({
+          map: webmap,
+          container: "viewDiv"
         });
       });
-    </script>
+    })
+    ;
+  </script>
 </body>
 </html>
