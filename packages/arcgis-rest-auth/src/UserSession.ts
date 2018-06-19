@@ -520,8 +520,37 @@ export class UserSession implements IAuthenticationManager {
     });
   }
 
-  // returns authentication in a format useable in the [ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/)
-  getCredential(): ICredential {
+  /**
+   * Translates authentication from the format used in the [ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/).
+   *
+   * ```js
+   * UserSession.fromCredential({
+   *   userId: "jsmith",
+   *   token: "secret"
+   * });
+   * ```
+   *
+   * @returns UserSession
+   */
+  static fromCredential(credential: ICredential) {
+    return new UserSession({
+      portal: credential.server,
+      token: credential.token,
+      username: credential.userId,
+      tokenExpires: new Date(credential.expires)
+    });
+  }
+
+  /**
+   * Returns authentication in a format useable in the [ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/).
+   *
+   * ```js
+   * esriId.registerToken(session.toCredential());
+   * ```
+   *
+   * @returns ICredential
+   */
+  toCredential(): ICredential {
     return {
       expires: this.tokenExpires.getTime(),
       server: this.portal,

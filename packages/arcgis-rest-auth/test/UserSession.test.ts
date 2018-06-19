@@ -704,7 +704,7 @@ describe("UserSession", () => {
     });
   });
 
-  describe(".getCredential()", () => {
+  describe("to/fromCredential()", () => {
     const MOCK_CREDENTIAL: ICredential = {
       expires: TOMORROW.getTime(),
       server: "https://www.arcgis.com/sharing/rest",
@@ -713,7 +713,7 @@ describe("UserSession", () => {
       userId: "jsmith"
     };
 
-    it("should cache metadata about the user", () => {
+    it("should create a credential object from a session", () => {
       const session = new UserSession({
         clientId: "clientId",
         redirectUri: "https://example-app.com/redirect-uri",
@@ -726,8 +726,16 @@ describe("UserSession", () => {
         password: "123456"
       });
 
-      const creds = session.getCredential();
+      const creds = session.toCredential();
       expect(creds).toEqual(MOCK_CREDENTIAL);
+    });
+
+    it("should create a UserSession from a credential", () => {
+      const session = UserSession.fromCredential(MOCK_CREDENTIAL);
+      expect(session.username).toEqual("jsmith");
+      expect(session.portal).toEqual("https://www.arcgis.com/sharing/rest");
+      expect(session.token).toEqual("token");
+      expect(session.tokenExpires).toEqual(new Date(TOMORROW));
     });
   });
 });
