@@ -308,7 +308,7 @@ export class UserSession implements IAuthenticationManager {
       locale
     }: IOauth2Options = {
       ...{
-        portal: "https://arcgis.com/sharing/rest",
+        portal: "https://www.arcgis.com/sharing/rest",
         duration: 20160,
         popup: true,
         state: options.clientId,
@@ -371,7 +371,7 @@ export class UserSession implements IAuthenticationManager {
   /* istanbul ignore next */
   static completeOAuth2(options: IOauth2Options, win: any = window) {
     const { portal, clientId }: IOauth2Options = {
-      ...{ portal: "https://arcgis.com/sharing/rest" },
+      ...{ portal: "https://www.arcgis.com/sharing/rest" },
       ...options
     };
 
