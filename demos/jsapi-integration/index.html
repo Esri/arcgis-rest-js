@@ -22,10 +22,10 @@
   <script src="node_modules/@esri/arcgis-rest-auth/dist/umd/auth.umd.js"></script>
   <script src="node_modules/@esri/arcgis-rest-items/dist/umd/items.umd.js"></script>
 
-  <!-- 
+  <!--
     NOTE: rather than include the ArcGIS API for JavaScript via a <script> tag
     typically you would using something like https://github.com/Esri/esri-loader
-    to lazy-load the API _after_ you had used the light-weight arcgis-rest-js 
+    to lazy-load the API _after_ you had used the light-weight arcgis-rest-js
     libraries above to log in and fetch some data (see NOTE below)
   -->
   <script src="https://js.arcgis.com/4.7/"></script>
@@ -58,7 +58,7 @@
           esriId, MapView, WebMap
         ) {
             // pass the authenticated session over to the JSAPI Identity Manager
-            esriId.registerToken(session.getCredential());
+            esriId.registerToken(session.toCredential());
 
             // dig the webmap id out of the response
             var webmap = new WebMap({
