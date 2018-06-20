@@ -662,7 +662,10 @@ export class UserSession implements IAuthenticationManager {
 
     this._pendingTokenRequests[root] = request(`${root}/rest/info`)
       .then((response: any) => {
-        return response.owningSystemUrl;
+        // a stand-alone instance of ArcGIS Server won't advertise federation at all
+        return response.owningSystemUrl
+          ? response.owningSystemUrl
+          : "https://foo.bar";
       })
       .then(owningSystemUrl => {
         /**
