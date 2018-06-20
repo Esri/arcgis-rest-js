@@ -11,7 +11,7 @@ layout: "api/_layout:content"
   <h3 class="font-size--1 trailer-half">npm install:</h2>
   <pre><code>{% npmInstallCmd package.pkg %}</code></pre>
   <h3 class="font-size--1 trailer-half">CDN url:</h2>
-  <pre><code>{% cdnUrl package.pkg %}</code></pre>
+  <pre><code>{% cdnUrl package.pkg %}.js</code></pre>
   <hr class="leader-half trailer-half">
   <ul class="list-plain package-contents">
   {% for declaration in package.declarations %}
