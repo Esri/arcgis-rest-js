@@ -707,7 +707,7 @@ describe("UserSession", () => {
   describe("to/fromCredential()", () => {
     const MOCK_CREDENTIAL: ICredential = {
       expires: TOMORROW.getTime(),
-      server: "https://www.arcgis.com/sharing/rest",
+      server: "https://www.arcgis.com",
       ssl: true,
       token: "token",
       userId: "jsmith"
@@ -727,7 +727,11 @@ describe("UserSession", () => {
       });
 
       const creds = session.toCredential();
-      expect(creds).toEqual(MOCK_CREDENTIAL);
+      expect(creds.userId).toEqual("jsmith");
+      expect(creds.server).toEqual("https://www.arcgis.com/sharing/rest");
+      expect(creds.ssl).toEqual(true);
+      expect(creds.token).toEqual("token");
+      expect(creds.expires).toEqual(TOMORROW.getTime());
     });
 
     it("should create a UserSession from a credential", () => {

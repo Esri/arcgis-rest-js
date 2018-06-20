@@ -534,7 +534,7 @@ export class UserSession implements IAuthenticationManager {
    */
   static fromCredential(credential: ICredential) {
     return new UserSession({
-      portal: credential.server,
+      portal: credential.server + `/sharing/rest`,
       token: credential.token,
       username: credential.userId,
       tokenExpires: new Date(credential.expires)
