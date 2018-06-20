@@ -110,6 +110,7 @@ export function request(
 ): Promise<any> {
   const options: IRequestOptions = {
     httpMethod: "POST",
+    maxUrlLength: 2048,
     fetch,
     ...requestOptions
   };
