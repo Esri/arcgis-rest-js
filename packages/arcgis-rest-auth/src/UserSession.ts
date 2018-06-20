@@ -662,17 +662,19 @@ export class UserSession implements IAuthenticationManager {
 
     this._pendingTokenRequests[root] = request(`${root}/rest/info`)
       .then((response: any) => {
-        // a stand-alone instance of ArcGIS Server won't advertise federation at all
-        return response.owningSystemUrl
-          ? response.owningSystemUrl
-          : "https://foo.bar";
+        return response.owningSystemUrl;
       })
       .then(owningSystemUrl => {
         /**
-         * if this server is not owned by this portal bail out with an error
-         * since we know we wont be able to generate a token
+         * if this server is not owned by this portal or the stand-alone
+         * instance of ArcGIS Server doesn't advertise federation,
+         * bail out with an error since we know we wont
+         * be able to generate a token
          */
-        if (!new RegExp(owningSystemUrl).test(this.portal)) {
+        if (
+          !owningSystemUrl ||
+          !new RegExp(owningSystemUrl).test(this.portal)
+        ) {
           throw new ArcGISAuthError(
             `${url} is not federated with ${this.portal}.`,
             "NOT_FEDERATED"
