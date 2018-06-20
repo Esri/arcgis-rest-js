@@ -100,7 +100,7 @@ export interface IQueryFeaturesResponse extends IFeatureSet {
  * getFeature({
  *   url,
  *   id: 42
- * };)
+ * })
  *   .then(feature => {
  *     console.log(feature.attributes.FID); // 42
  *   });
@@ -133,9 +133,9 @@ export function getFeature(
  * queryFeatures({
  *   url,
  *   where: "STATE_NAME = 'Alaska"
- * };)
+ * })
  *   .then(feature => {
- *     console.log(feature.attributes.FID); // 42
+ *     console.log(response.features.length); // 1
  *   });
  * ```
  *
