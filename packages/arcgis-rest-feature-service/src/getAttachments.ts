@@ -56,9 +56,7 @@ export function getAttachments(
   requestOptions: IFeatureRequestOptions
 ): Promise<IGetAttachmentsResponse> {
   const options: IFeatureRequestOptions = {
-    params: {
-      HTTPMethod: "GET"
-    },
+    params: {},
     ...requestOptions
   };
 
