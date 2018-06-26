@@ -5,8 +5,17 @@ import {
   updateFeatures,
   deleteFeatures,
   IDeleteFeaturesRequestOptions,
-  IUpdateFeaturesRequestOptions
+  IUpdateFeaturesRequestOptions,
+  getAttachments,
+  addAttachment,
+  IAddAttachmentOptions,
+  updateAttachment,
+  IUpdateAttachmentOptions,
+  deleteAttachments,
+  IDeleteAttachmentsOptions
 } from "../src/index";
+
+import { IFeatureRequestOptions } from "../src/query";
 
 import * as fetchMock from "fetch-mock";
 
@@ -15,8 +24,23 @@ import {
   queryResponse,
   addFeaturesResponse,
   updateFeaturesResponse,
-  deleteFeaturesResponse
+  deleteFeaturesResponse,
+  getAttachmentsResponse,
+  addAttachmentResponse,
+  updateAttachmentResponse,
+  deleteAttachmentsResponse
 } from "./mocks/feature";
+
+function attachmentFile() {
+  if (typeof File !== "undefined" && File) {
+    return new File(["foo"], "foo.txt", { type: "text/plain" });
+  } else {
+    const fs = require("fs");
+    return fs.createReadStream(
+      "./packages/arcgis-rest-feature-service/test/mocks/foo.txt"
+    );
+  }
+}
 
 describe("feature", () => {
   afterEach(fetchMock.restore);
@@ -170,6 +194,105 @@ describe("feature", () => {
         requestOptions.deletes[0]
       );
       expect(deleteFeaturesResponse.deleteResults[0].success).toEqual(true);
+      done();
+    });
+  });
+
+  it("should return an array of attachmentInfos for a feature by id", done => {
+    const requestOptions = {
+      url:
+        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
+      id: 42,
+      where: "1=1"
+    } as IFeatureRequestOptions;
+    fetchMock.once("*", getAttachmentsResponse);
+    getAttachments(requestOptions).then(response => {
+      expect(fetchMock.called()).toBeTruthy();
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        `${requestOptions.url}/${requestOptions.id}/attachments`
+      );
+      expect(options.body).toContain("where=1%3D1");
+      expect(options.method).toBe("POST");
+      expect(getAttachmentsResponse.attachmentInfos.length).toEqual(2);
+      expect(getAttachmentsResponse.attachmentInfos[0].id).toEqual(409);
+      done();
+    });
+  });
+
+  it("should return objectId of the added attachment and a truthy success", done => {
+    const requestOptions = {
+      url:
+        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
+      id: 42,
+      attachment: attachmentFile()
+    } as IAddAttachmentOptions;
+    fetchMock.once("*", addAttachmentResponse);
+    addAttachment(requestOptions).then(response => {
+      expect(fetchMock.called()).toBeTruthy();
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        `${requestOptions.url}/${requestOptions.id}/addAttachment`
+      );
+      // expect(options.body).toContain("where=1%3D1");
+      expect(options.method).toBe("POST");
+      expect(addAttachmentResponse.addAttachmentResult.objectId).toEqual(1001);
+      expect(addAttachmentResponse.addAttachmentResult.success).toEqual(true);
+      done();
+    });
+  });
+
+  it("should return objectId of the updated attachment and a truthy success", done => {
+    const requestOptions = {
+      url:
+        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
+      id: 42,
+      attachmentId: 1001,
+      attachment: attachmentFile()
+    } as IUpdateAttachmentOptions;
+    fetchMock.once("*", updateAttachmentResponse);
+    updateAttachment(requestOptions).then(response => {
+      expect(fetchMock.called()).toBeTruthy();
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        `${requestOptions.url}/${requestOptions.id}/updateAttachment`
+      );
+      // expect(options.body).toContain("where=1%3D1");
+      expect(options.method).toBe("POST");
+      expect(updateAttachmentResponse.updateAttachmentResult.objectId).toEqual(
+        1001
+      );
+      expect(updateAttachmentResponse.updateAttachmentResult.success).toEqual(
+        true
+      );
+      done();
+    });
+  });
+
+  it("should return objectId of the deleted attachment and a truthy success", done => {
+    const requestOptions = {
+      url:
+        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
+      id: 42,
+      attachmentIds: [1001],
+      where: "1=1"
+    } as IDeleteAttachmentsOptions;
+    fetchMock.once("*", deleteAttachmentsResponse);
+    deleteAttachments(requestOptions).then(response => {
+      expect(fetchMock.called()).toBeTruthy();
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        `${requestOptions.url}/${requestOptions.id}/deleteAttachments`
+      );
+      expect(options.body).toContain("attachmentIds=1001");
+      expect(options.body).toContain("where=1%3D1");
+      expect(options.method).toBe("POST");
+      expect(
+        deleteAttachmentsResponse.deleteAttachmentResults[0].objectId
+      ).toEqual(1001);
+      expect(
+        deleteAttachmentsResponse.deleteAttachmentResults[0].success
+      ).toEqual(true);
       done();
     });
   });

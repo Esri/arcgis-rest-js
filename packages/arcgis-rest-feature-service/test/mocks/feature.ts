@@ -171,3 +171,43 @@ export const deleteFeaturesResponse = {
     }
   ]
 };
+
+export const getAttachmentsResponse = {
+  attachmentInfos: [
+    {
+      id: 409,
+      contentType: "application/pdf",
+      size: 400633,
+      name: "Permit_Application_20180416"
+    },
+    {
+      id: 822,
+      contentType: "application/pdf",
+      size: 619543,
+      name: "Planning_Review_20180604"
+    }
+  ]
+};
+
+export const addAttachmentResponse = {
+  addAttachmentResult: {
+    objectId: 1001,
+    success: true
+  }
+};
+
+export const updateAttachmentResponse = {
+  updateAttachmentResult: {
+    objectId: 1001,
+    success: true
+  }
+};
+
+export const deleteAttachmentsResponse = {
+  deleteAttachmentResults: [
+    {
+      objectId: 1001,
+      success: true
+    }
+  ]
+};
