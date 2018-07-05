@@ -111,9 +111,8 @@ describe("feature", () => {
           )
       );
       expect(options.method).toBe("POST");
-      expect(addFeaturesResponse.addResults[0].objectId).toEqual(1001);
-      expect(addFeaturesResponse.addResults[0].success).toEqual(true);
-      expect(options.method).toBe("POST");
+      expect(response.addResults[0].objectId).toEqual(1001);
+      expect(response.addResults[0].success).toEqual(true);
       done();
     });
   });
@@ -146,7 +145,7 @@ describe("feature", () => {
           )
       );
       expect(options.body).toContain("rollbackOnFailure=false");
-      expect(updateFeaturesResponse.updateResults[0].success).toEqual(true);
+      expect(response.updateResults[0].success).toEqual(true);
       done();
     });
   });
@@ -166,10 +165,10 @@ describe("feature", () => {
       expect(options.body).toContain("objectIds=1001");
       expect(options.body).toContain("where=1%3D1");
       expect(options.method).toBe("POST");
-      expect(deleteFeaturesResponse.deleteResults[0].objectId).toEqual(
+      expect(response.deleteResults[0].objectId).toEqual(
         requestOptions.deletes[0]
       );
-      expect(deleteFeaturesResponse.deleteResults[0].success).toEqual(true);
+      expect(response.deleteResults[0].success).toEqual(true);
       done();
     });
   });
