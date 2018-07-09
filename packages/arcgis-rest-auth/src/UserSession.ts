@@ -598,8 +598,8 @@ export class UserSession implements IAuthenticationManager {
    */
   getToken(url: string) {
     if (
-      (/^https?:\/\/www\.arcgis\.com\/sharing\/rest\/?/.test(this.portal),
-      /^https?:\/\/\S+\.arcgis\.com.+/.test(url))
+      /^https?:\/\/www\.arcgis\.com\/sharing\/rest\/?/.test(this.portal) &&
+      /^https?:\/\/\S+\.arcgis\.com.+/.test(url)
     ) {
       return this.getFreshToken();
     } else if (new RegExp(this.portal).test(url)) {
@@ -686,11 +686,24 @@ export class UserSession implements IAuthenticationManager {
         return response.authInfo.tokenServicesUrl;
       })
       .then((tokenServicesUrl: string) => {
-        return generateToken(tokenServicesUrl, {
-          token: this.token,
-          serverUrl: url,
-          expiration: this.tokenDuration
-        });
+        if (this.token) {
+          return generateToken(tokenServicesUrl, {
+            token: this.token,
+            serverUrl: url,
+            expiration: this.tokenDuration
+          });
+          // generate an entirely fresh token if necessary
+        } else {
+          return generateToken(tokenServicesUrl, {
+            username: this.username,
+            password: this.password,
+            expiration: this.tokenDuration
+          }).then((response: any) => {
+            this._token = response.token;
+            this._tokenExpires = new Date(response.expires);
+            return response;
+          });
+        }
       })
       .then(response => {
         this.trustedServers[root] = {

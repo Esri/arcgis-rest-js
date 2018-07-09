@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^1.4.2",
-    "@esri/arcgis-rest-common-types": "^1.4.1",
+    "@esri/arcgis-rest-common-types": "^1.4.2",
     "@esri/arcgis-rest-request": "^1.4.2"
   },
   "scripts": {
