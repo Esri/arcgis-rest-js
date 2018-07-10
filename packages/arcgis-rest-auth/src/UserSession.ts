@@ -22,6 +22,8 @@ interface IDeferred<T> {
   reject: (v: any) => void;
 }
 
+export type AuthenticationProvider = "arcgis" | "facebook" | "google";
+
 /**
  * Represents a [credential]((https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-Credential.html)) object used to access a secure ArcGIS resource.
  */
@@ -69,6 +71,11 @@ export interface IOauth2Options {
    * The ArcGIS Online or ArcGIS Enterprise portal you want to use for authentication. Defaults to `https://www.arcgis.com/sharing/rest` for the ArcGIS Online portal.
    */
   portal?: string;
+
+  /**
+   * ArcGIS Authentication is used by default. Specifying an alternative will take users directly to the corresponding provider's OAuth page.
+   */
+  provider?: AuthenticationProvider;
 
   /**
    * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
@@ -157,6 +164,11 @@ export interface IUserSessionOptions {
   portal?: string;
 
   /**
+   * ArcGIS Authentication is used by default. Specifying an alternative will take users directly to the corresponding provider's OAuth page.
+   */
+  provider?: AuthenticationProvider;
+
+  /**
    * Duration of requested token validity in minutes. Used when requesting tokens with `username` and `password` or when validating the identity of unknown servers. Defaults to two weeks.
    */
   tokenDuration?: number;
@@ -200,6 +212,11 @@ export class UserSession implements IAuthenticationManager {
    * The current portal the user is authenticated with.
    */
   readonly portal: string;
+
+  /**
+   * The authentication provider to use.
+   */
+  readonly provider: AuthenticationProvider;
 
   /**
    * Determines how long new tokens requested are valid.
@@ -282,9 +299,11 @@ export class UserSession implements IAuthenticationManager {
     this._token = options.token;
     this._tokenExpires = options.tokenExpires;
     this.portal = options.portal || "https://www.arcgis.com/sharing/rest";
+    this.provider = options.provider || "arcgis";
     this.tokenDuration = options.tokenDuration || 20160;
     this.redirectUri = options.redirectUri;
     this.refreshTokenTTL = options.refreshTokenTTL || 1440;
+
     this.trustedServers = {};
     this._pendingTokenRequests = {};
   }
@@ -300,6 +319,7 @@ export class UserSession implements IAuthenticationManager {
   static beginOAuth2(options: IOauth2Options, win: any = window) {
     const {
       portal,
+      provider,
       clientId,
       duration,
       redirectUri,
@@ -309,6 +329,7 @@ export class UserSession implements IAuthenticationManager {
     }: IOauth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
+        provider: "arcgis",
         duration: 20160,
         popup: true,
         state: options.clientId,
@@ -316,10 +337,16 @@ export class UserSession implements IAuthenticationManager {
       },
       ...options
     };
-
-    const url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${duration}&redirect_uri=${encodeURIComponent(
-      redirectUri
-    )}&state=${state}&locale=${locale}`;
+    let url: string;
+    if (provider === "arcgis") {
+      url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${duration}&redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}&state=${state}&locale=${locale}`;
+    } else {
+      url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${duration}&redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}&state=${state}&locale=${locale}`;
+    }
 
     if (!popup) {
       win.location.href = url;
