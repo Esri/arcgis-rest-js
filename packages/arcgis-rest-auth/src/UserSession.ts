@@ -22,7 +22,7 @@ interface IDeferred<T> {
   reject: (v: any) => void;
 }
 
-export type IAuthenticationProvider = "arcgis" | "facebook" | "google";
+export type AuthenticationProvider = "arcgis" | "facebook" | "google";
 
 /**
  * Represents a [credential]((https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-Credential.html)) object used to access a secure ArcGIS resource.
@@ -73,9 +73,9 @@ export interface IOauth2Options {
   portal?: string;
 
   /**
-   * The authentication provider to use. Defaults to ArcGIS, but Google and Facebook social media logins can also be used.
+   * ArcGIS Authentication is used by default. Specifying an alternative will take users directly to the corresponding provider's OAuth page.
    */
-  provider?: IAuthenticationProvider;
+  provider?: AuthenticationProvider;
 
   /**
    * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
@@ -164,9 +164,9 @@ export interface IUserSessionOptions {
   portal?: string;
 
   /**
-   * The authentication provider to use. Defaults to ArcGIS, but Google and Facebook social media logins can also be used.
+   * ArcGIS Authentication is used by default. Specifying an alternative will take users directly to the corresponding provider's OAuth page.
    */
-  provider?: IAuthenticationProvider;
+  provider?: AuthenticationProvider;
 
   /**
    * Duration of requested token validity in minutes. Used when requesting tokens with `username` and `password` or when validating the identity of unknown servers. Defaults to two weeks.
@@ -216,7 +216,7 @@ export class UserSession implements IAuthenticationManager {
   /**
    * The authentication provider to use.
    */
-  readonly provider: IAuthenticationProvider;
+  readonly provider: AuthenticationProvider;
 
   /**
    * Determines how long new tokens requested are valid.
