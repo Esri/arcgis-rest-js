@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-feature-service",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Feature service helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
   "browser": "dist/umd/feature-service.umd.js",

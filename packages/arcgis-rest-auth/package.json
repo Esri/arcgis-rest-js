@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-auth",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Authentication helpers for @esri/arcgis-rest-*.",
   "main": "dist/node/index.js",
   "browser": "dist/umd/auth.umd.js",
