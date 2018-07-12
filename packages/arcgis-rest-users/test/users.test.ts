@@ -45,7 +45,7 @@ describe("users", () => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
-            "http://www.arcgis.com/sharing/rest/community/users/jsmith?f=json"
+            "https://www.arcgis.com/sharing/rest/community/users/jsmith?f=json"
           );
           expect(options.method).toBe("GET");
           done();
