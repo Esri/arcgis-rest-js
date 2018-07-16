@@ -18,7 +18,7 @@ export interface IGroupIdRequestOptions extends IRequestOptions {
 }
 
 export interface IGroupRequestOptions extends IRequestOptions {
-  group: IItem;
+  group: IGroup;
 }
 
 export interface IGroupSearchRequest extends IPagingParams {
