@@ -7,7 +7,7 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IPagingParams, IItem } from "@esri/arcgis-rest-common-types";
+import { IPagingParams, IItem, IGroup } from "@esri/arcgis-rest-common-types";
 
 export interface IPagingParamsRequestOptions extends IRequestOptions {
   paging: IPagingParams;
@@ -17,19 +17,8 @@ export interface IGroupIdRequestOptions extends IRequestOptions {
   id: string;
 }
 
-export interface IGroup {
-  id?: string;
-  owner: string;
-  title: string;
-  tags: string[];
-  description?: string;
-  categories?: string[];
-  culture?: string;
-  [key: string]: any;
-}
-
 export interface IGroupRequestOptions extends IRequestOptions {
-  group: IGroup;
+  group: IItem;
 }
 
 export interface IGroupSearchRequest extends IPagingParams {
@@ -192,9 +181,7 @@ export function createGroup(
   requestOptions: IGroupRequestOptions
 ): Promise<any> {
   const url = `${getPortalUrl(requestOptions)}/community/createGroup`;
-  // default to a POST request
   const options: IGroupRequestOptions = {
-    ...{ httpMethod: "POST" },
     ...requestOptions
   };
   // serialize the group into something Portal will accept
@@ -213,9 +200,8 @@ export function updateGroup(
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.group.id
   }/update`;
-  // default to a POST request
+
   const options: IGroupRequestOptions = {
-    ...{ httpMethod: "POST" },
     ...requestOptions
   };
   // serialize the group into something Portal will accept
@@ -234,9 +220,7 @@ export function removeGroup(
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
   }/delete`;
-  // default to a POST request
   const options: IGroupIdRequestOptions = {
-    ...{ httpMethod: "POST" },
     ...requestOptions
   };
   return request(url, options);
@@ -253,9 +237,7 @@ export function protectGroup(
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
   }/protect`;
-  // default to a POST request
   const options: IGroupIdRequestOptions = {
-    ...{ httpMethod: "POST" },
     ...requestOptions
   };
   return request(url, options);
@@ -272,9 +254,7 @@ export function unprotectGroup(
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
   }/unprotect`;
-  // default to a POST request
   const options: IGroupIdRequestOptions = {
-    ...{ httpMethod: "POST" },
     ...requestOptions
   };
   return request(url, options);
