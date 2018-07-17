@@ -476,24 +476,28 @@ export interface IUser {
   provider?: "arcgis" | "enterprise" | "facebook" | "google";
 }
 
-export interface IGroup {
-  id?: string;
-  title?: string;
+export interface IGroup extends IItem {
   isInvitationOnly?: boolean;
-  owner?: string;
-  description?: string;
-  snippet?: string;
-  tags?: string[];
   phone?: string;
-  thumbnail?: string;
-  created?: number; // utc date
-  modified?: number;
+  sortField?:
+    | "title"
+    | "owner"
+    | "avgrating"
+    | "numviews"
+    | "created"
+    | "modified";
+  isViewOnly?: boolean;
+  isFav?: boolean;
   access?: "private" | "org" | "public";
   userMembership?: {
     username?: string;
     memberType?: string;
     applications?: number;
   };
+  protected?: boolean;
+  autoJoin?: boolean;
+  hasCategorySchema?: boolean;
+  isOpenData?: boolean;
   [key: string]: any;
 }
 

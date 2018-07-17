@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-groups",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Portal Group helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
   "browser": "dist/umd/groups.umd.js",
@@ -15,14 +15,14 @@
     "tslib": "^1.7.1"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^1.5.0",
-    "@esri/arcgis-rest-common-types": "^1.2.1",
-    "@esri/arcgis-rest-request": "^1.2.1"
+    "@esri/arcgis-rest-auth": "^1.5.1",
+    "@esri/arcgis-rest-common-types": "^1.5.1",
+    "@esri/arcgis-rest-request": "^1.5.1"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^1.5.0",
-    "@esri/arcgis-rest-common-types": "^1.4.2",
-    "@esri/arcgis-rest-request": "^1.4.2"
+    "@esri/arcgis-rest-auth": "^1.5.1",
+    "@esri/arcgis-rest-common-types": "^1.5.1",
+    "@esri/arcgis-rest-request": "^1.5.1"
   },
   "scripts": {
     "prepare": "npm run build",
