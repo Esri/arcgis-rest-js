@@ -8,7 +8,7 @@ import {
 } from "@esri/arcgis-rest-request";
 
 import { IItem, IPagingParams } from "@esri/arcgis-rest-common-types";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 export interface IItemAdd extends IItem {
   title: string;
@@ -23,7 +23,7 @@ export interface IItemRequestOptions extends IRequestOptions {
   item: IItem;
 }
 
-export interface IItemIdRequestOptions extends IRequestOptions {
+export interface IItemIdRequestOptions extends IUserRequestOptions {
   /**
    * Unique identifier of the item.
    */
@@ -53,7 +53,7 @@ export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
   resource?: string;
 }
 
-export interface IItemCrudRequestOptions extends IRequestOptions {
+export interface IItemCrudRequestOptions extends IUserRequestOptions {
   /**
    * The owner of the item. If this property is not present, `item.owner` will be passed, or lastly `authentication.username`.
    */
@@ -62,10 +62,6 @@ export interface IItemCrudRequestOptions extends IRequestOptions {
    * Folder to house the item.
    */
   folder?: string;
-  /**
-   * ArcGIS Online content cannot be manipulated anonymously.
-   */
-  authentication: UserSession;
 }
 
 export interface IItemAddRequestOptions extends IItemCrudRequestOptions {
@@ -74,13 +70,6 @@ export interface IItemAddRequestOptions extends IItemCrudRequestOptions {
 
 export interface IItemUpdateRequestOptions extends IItemCrudRequestOptions {
   item: IItemUpdate;
-}
-
-export interface IItemRemoveRequestOptions extends IItemIdRequestOptions {
-  /**
-   * ArcGIS Online content cannot be manipulated anonymously.
-   */
-  authentication: UserSession;
 }
 
 // this interface still needs to be docced
@@ -154,9 +143,7 @@ export function searchItems(
 export function createItemInFolder(
   requestOptions: IItemAddRequestOptions
 ): Promise<any> {
-  const session = requestOptions.authentication as UserSession;
-  const owner =
-    requestOptions.owner || requestOptions.item.owner || session.username;
+  const owner = determineOwner(requestOptions);
 
   const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
   let url = `${baseUrl}/addItem`;
@@ -290,9 +277,10 @@ export function getItemData(
 export function updateItem(
   requestOptions: IItemUpdateRequestOptions
 ): Promise<any> {
-  const url = `${getPortalUrl(requestOptions)}/content/users/${
-    requestOptions.item.owner
-  }/items/${requestOptions.item.id}/update`;
+  const owner = determineOwner(requestOptions);
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.item.id
+  }/update`;
 
   // serialize the item into something Portal will accept
   requestOptions.params = {
@@ -320,7 +308,7 @@ export function updateItem(
  * @returns A Promise that deletes an item.
  */
 export function removeItem(
-  requestOptions: IItemRemoveRequestOptions
+  requestOptions: IItemIdRequestOptions
 ): Promise<any> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
@@ -455,7 +443,16 @@ function serializeItem(item: IItem): any {
   return clone;
 }
 
-function determineOwner(requestOptions: IItemIdRequestOptions): string {
-  const session = requestOptions.authentication as UserSession;
-  return requestOptions.owner || session.username;
+/**
+ * requestOptions.owner is given priority, requestOptions.item.owner will be checked next. If neither are present, authentication.username will be assumed.
+ */
+function determineOwner(requestOptions: any): string {
+  if (requestOptions.owner) {
+    return requestOptions.owner;
+  }
+  if (requestOptions.item && requestOptions.item.owner) {
+    return requestOptions.item.owner;
+  } else {
+    return requestOptions.authentication.username;
+  }
 }
