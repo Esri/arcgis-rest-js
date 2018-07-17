@@ -15,6 +15,10 @@ import {
 } from "@esri/arcgis-rest-common-types";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
+export interface IItemRequestOptions extends IUserRequestOptions {
+  item: IItem;
+}
+
 export interface IItemIdRequestOptions extends IUserRequestOptions {
   /**
    * Unique identifier of the item.
@@ -72,6 +76,13 @@ export interface ISearchRequest extends IPagingParams {
 
 export interface ISearchRequestOptions extends IRequestOptions {
   searchForm?: ISearchRequest;
+}
+
+export interface IItemDataRequestOptions extends IRequestOptions {
+  /**
+   * Used to request binary data.
+   */
+  file?: boolean;
 }
 
 /**
@@ -227,23 +238,25 @@ export function getItem(
 
 /**
  * Get the /data for an item.
- * Note: Some items do not return json from /data
- * and this method will throw if that is the case.
- *
  * @param id - Item Id
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the json data for the item.
  */
 export function getItemData(
   id: string,
-  requestOptions?: IRequestOptions
+  requestOptions?: IItemDataRequestOptions
 ): Promise<any> {
   const url = `${getPortalUrl(requestOptions)}/content/items/${id}/data`;
   // default to a GET request
-  const options: IRequestOptions = {
-    ...{ httpMethod: "GET" },
+  const options: IItemDataRequestOptions = {
+    ...{ httpMethod: "GET", params: {} },
     ...requestOptions
   };
+
+  if (options.file) {
+    options.params.f = null;
+  }
+
   return request(url, options);
 }
 

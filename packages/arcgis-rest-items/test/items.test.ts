@@ -1,3 +1,5 @@
+import * as fetchMock from "fetch-mock";
+
 import {
   searchItems,
   getItem,
@@ -15,10 +17,6 @@ import {
   ISearchRequestOptions
 } from "../src/index";
 
-import * as fetchMock from "fetch-mock";
-
-import { SearchResponse } from "./mocks/search";
-
 import {
   ItemSuccessResponse,
   ItemResponse,
@@ -31,6 +29,7 @@ import {
   RemoveItemResourceResponse
 } from "./mocks/resources";
 
+import { SearchResponse } from "./mocks/search";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 import { encodeParam } from "@esri/arcgis-rest-request";
@@ -144,6 +143,34 @@ describe("search", () => {
       .catch(e => {
         fail(e);
       });
+  });
+
+  it("should return binary item data by id", done => {
+    // Blob() is only available in the browser
+    if (typeof window !== "undefined") {
+      fetchMock.once("*", {
+        sendAsJson: false,
+        headers: { "Content-Type": "application/zip" },
+        body: new Blob()
+      });
+
+      getItemData("3ef", { file: true })
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://www.arcgis.com/sharing/rest/content/items/3ef/data"
+          );
+          expect(options.method).toBe("GET");
+          expect(response instanceof Blob).toBeTruthy();
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    } else {
+      done();
+    }
   });
 
   describe("Authenticated methods", () => {
