@@ -17,6 +17,7 @@ import {
   GroupContentResponse,
   GroupUsersResponse
 } from "./mocks/responses";
+
 import { encodeParam } from "@esri/arcgis-rest-request";
 import * as fetchMock from "fetch-mock";
 
@@ -118,7 +119,7 @@ describe("groups", () => {
     });
   });
 
-  describe("authenticted methods", () => {
+  describe("authenticated methods", () => {
     const MOCK_AUTH = {
       getToken() {
         return Promise.resolve("fake-token");
@@ -154,6 +155,7 @@ describe("groups", () => {
         tags: ["foo", "bar"],
         description: "my fake group"
       };
+
       createGroup({ group: fakeGroup, ...MOCK_REQOPTS })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);

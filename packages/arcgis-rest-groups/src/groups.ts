@@ -1,9 +1,9 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
+
 import {
   request,
   IRequestOptions,
-  // IParams,
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
@@ -28,6 +28,18 @@ export interface IGroupSearchRequest extends IPagingParams {
   [key: string]: any;
 }
 
+export interface IGroupResponse extends IGroup {
+  isFav?: boolean;
+  userMembership?: {
+    username?: string;
+    memberType?: string;
+    applications?: number;
+  };
+  protected?: boolean;
+  hasCategorySchema?: boolean;
+  isOpenData?: boolean;
+}
+
 export interface IGroupSearchResult {
   /**
    * Matches the REST APIs form param
@@ -37,7 +49,7 @@ export interface IGroupSearchResult {
   start: number;
   num: number;
   nextStart: number;
-  results: IGroup[];
+  results: IGroupResponse[];
 }
 
 export interface IGroupContentResult {
@@ -98,7 +110,7 @@ export function searchGroups(
 export function getGroup(
   id: string,
   requestOptions?: IRequestOptions
-): Promise<IGroup> {
+): Promise<IGroupResponse> {
   const url = `${getPortalUrl(requestOptions)}/community/groups/${id}`;
   // default to a GET request
   const options: IRequestOptions = {
@@ -118,7 +130,7 @@ export function getGroup(
 export function getGroupContent(
   id: string,
   requestOptions?: IPagingParamsRequestOptions
-): Promise<IGroup> {
+): Promise<IGroupContentResult> {
   const url = `${getPortalUrl(requestOptions)}/content/groups/${id}`;
 
   // default to a GET request

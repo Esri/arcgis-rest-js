@@ -477,8 +477,8 @@ export interface IUser {
 }
 
 export interface IGroup extends IItem {
-  isInvitationOnly?: boolean;
   phone?: string;
+  access?: "private" | "org" | "public";
   sortField?:
     | "title"
     | "owner"
@@ -486,19 +486,11 @@ export interface IGroup extends IItem {
     | "numviews"
     | "created"
     | "modified";
+  sortOrder?: "asc" | "desc";
   isViewOnly?: boolean;
-  isFav?: boolean;
-  access?: "private" | "org" | "public";
-  userMembership?: {
-    username?: string;
-    memberType?: string;
-    applications?: number;
-  };
-  protected?: boolean;
+  isInvitationOnly?: boolean;
+  thumbnail?: "string";
   autoJoin?: boolean;
-  hasCategorySchema?: boolean;
-  isOpenData?: boolean;
-  [key: string]: any;
 }
 
 export type esriUnits =
