@@ -1,21 +1,20 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request } from "@esri/arcgis-rest-request";
+import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 
-import { IFeatureRequestOptions } from "./query";
-
-import { IEditFeatureResult, appendCustomParams } from "./helpers";
+import { IEditFeatureResult } from "./helpers";
 
 /**
  * Request options to for adding a related attachment to a feature by id. See [Add Attachment](https://developers.arcgis.com/rest/services-reference/add-attachment.htm) for more information.
  *
  * @param url - Feature service url.
- * @param id - Unique identifier of feature to add related attachment.
+ * @param featureId - Unique identifier of feature to add related attachment.
  * @param attachment - File to be attached.
- * @param params - Additional parameters to be sent via the request. See reference docs.
  */
-export interface IAddAttachmentOptions extends IFeatureRequestOptions {
+export interface IAddAttachmentOptions extends IRequestOptions {
+  url: string;
+  featureId: number;
   attachment: File;
 }
 
@@ -37,7 +36,7 @@ export interface IAddAttachmentResponse {
  *
  * addAttachment({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
- *   id: 8484,
+ *   featureId: 8484,
  *   attachment: myFileInput.files[0]
  * });
  * ```
@@ -53,14 +52,11 @@ export function addAttachment(
     ...requestOptions
   };
 
-  // `attachment` and any additional parameters --> params: {}
-  appendCustomParams(requestOptions, options);
+  // `attachment` --> params: {}
+  options.params.attachment = requestOptions.attachment;
 
   // force POST
   options.httpMethod = "POST";
 
-  return request(
-    `${requestOptions.url}/${requestOptions.id}/addAttachment`,
-    options
-  );
+  return request(`${options.url}/${options.featureId}/addAttachment`, options);
 }

@@ -1,9 +1,7 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request } from "@esri/arcgis-rest-request";
-
-import { IFeatureRequestOptions } from "./query";
+import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 
 import { IEditFeatureResult, appendCustomParams } from "./helpers";
 
@@ -11,12 +9,13 @@ import { IEditFeatureResult, appendCustomParams } from "./helpers";
  * Request options to for updating a related attachment to a feature by id. See [Update Attachment](https://developers.arcgis.com/rest/services-reference/update-attachment.htm) for more information.
  *
  * @param url - Feature service url.
- * @param id - Unique identifier of feature to update related attachment.
+ * @param featureId - Unique identifier of feature to update related attachment.
  * @param attachment - File to be updated.
  * @param attachmentId - Unique identifier of the attachment.
- * @param params - Additional parameters to be sent via the request. See reference docs.
  */
-export interface IUpdateAttachmentOptions extends IFeatureRequestOptions {
+export interface IUpdateAttachmentOptions extends IRequestOptions {
+  url: string;
+  featureId: number;
   attachment: File;
   attachmentId: number;
 }
@@ -32,14 +31,14 @@ export interface IUpdateAttachmentResponse {
 }
 
 /**
- * Update an existing attachment file of a feature by id. See [Add Attachment](https://developers.arcgis.com/rest/services-reference/add-attachment.htm) for more information.
+ * Update a related attachment to a feature by id. See [Update Attachment](https://developers.arcgis.com/rest/services-reference/update-attachment.htm) for more information.
  *
  * ```js
  * import { updateAttachment } from '@esri/arcgis-rest-feature-service';
  *
  * updateAttachment({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
- *   id: 8484,
+ *   featureId: 8484,
  *   attachment: myFileInput.files[0],
  *   attachmentId: 306
  * });
@@ -56,14 +55,15 @@ export function updateAttachment(
     ...requestOptions
   };
 
-  // `attachment`, `attachmentId` and any additional parameters --> params: {}
-  appendCustomParams(requestOptions, options);
+  // `attachment` and `attachmentId` --> params: {}
+  options.params.attachment = requestOptions.attachment;
+  options.params.attachmentId = requestOptions.attachmentId;
 
   // force POST
   options.httpMethod = "POST";
 
   return request(
-    `${requestOptions.url}/${requestOptions.id}/updateAttachment`,
+    `${options.url}/${options.featureId}/updateAttachment`,
     options
   );
 }

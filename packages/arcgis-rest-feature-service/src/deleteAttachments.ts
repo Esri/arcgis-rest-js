@@ -1,21 +1,20 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request } from "@esri/arcgis-rest-request";
+import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 
-import { IFeatureRequestOptions } from "./query";
-
-import { IEditFeatureResult, appendCustomParams } from "./helpers";
+import { IEditFeatureResult } from "./helpers";
 
 /**
  * Request options to for deleting related attachments of a feature by id. See [Delete Attachments](https://developers.arcgis.com/rest/services-reference/delete-attachments.htm) for more information.
  *
  * @param url - Feature service url.
- * @param id - Unique identifier of feature to delete related attachment(s).
+ * @param featureId - Unique identifier of feature to delete related attachment(s).
  * @param attachmentIds - Array of unique identifiers of attachments to delete.
- * @param params - Additional parameters to be sent via the request. See reference docs.
  */
-export interface IDeleteAttachmentsOptions extends IFeatureRequestOptions {
+export interface IDeleteAttachmentsOptions extends IRequestOptions {
+  url: string;
+  featureId: number;
   attachmentIds: number[];
 }
 
@@ -53,14 +52,14 @@ export function deleteAttachments(
     ...requestOptions
   };
 
-  // `attachmentIds` and any additional parameters --> params: {}
-  appendCustomParams(requestOptions, options);
+  // `attachmentIds` --> params: {}
+  options.params.attachmentIds = requestOptions.attachmentIds;
 
   // force POST
   options.httpMethod = "POST";
 
   return request(
-    `${requestOptions.url}/${requestOptions.id}/deleteAttachments`,
+    `${options.url}/${options.featureId}/deleteAttachments`,
     options
   );
 }

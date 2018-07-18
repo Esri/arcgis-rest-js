@@ -7,6 +7,7 @@ import {
   IDeleteFeaturesRequestOptions,
   IUpdateFeaturesRequestOptions,
   getAttachments,
+  IGetAttachmentsOptions,
   addAttachment,
   IAddAttachmentOptions,
   updateAttachment,
@@ -201,19 +202,23 @@ describe("feature", () => {
   it("should return an array of attachmentInfos for a feature by id", done => {
     const requestOptions = {
       url:
-        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
-      id: 42,
-      where: "1=1"
-    } as IFeatureRequestOptions;
+        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
+      featureId: 42,
+      params: {
+        gdbVersion: "SDE.DEFAULT"
+      },
+      httpMethod: "GET"
+    } as IGetAttachmentsOptions;
     fetchMock.once("*", getAttachmentsResponse);
     getAttachments(requestOptions).then(response => {
       expect(fetchMock.called()).toBeTruthy();
       const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
       expect(url).toEqual(
-        `${requestOptions.url}/${requestOptions.id}/attachments`
+        `${requestOptions.url}/${
+          requestOptions.featureId
+        }/attachments?f=json&gdbVersion=SDE.DEFAULT`
       );
-      expect(options.body).toContain("where=1%3D1");
-      expect(options.method).toBe("POST");
+      expect(options.method).toBe("GET");
       expect(getAttachmentsResponse.attachmentInfos.length).toEqual(2);
       expect(getAttachmentsResponse.attachmentInfos[0].id).toEqual(409);
       done();
@@ -223,19 +228,22 @@ describe("feature", () => {
   it("should return objectId of the added attachment and a truthy success", done => {
     const requestOptions = {
       url:
-        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
-      id: 42,
-      attachment: attachmentFile()
+        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
+      featureId: 42,
+      attachment: attachmentFile(),
+      params: {
+        returnEditMoment: true
+      }
     } as IAddAttachmentOptions;
     fetchMock.once("*", addAttachmentResponse);
     addAttachment(requestOptions).then(response => {
       expect(fetchMock.called()).toBeTruthy();
       const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
       expect(url).toEqual(
-        `${requestOptions.url}/${requestOptions.id}/addAttachment`
+        `${requestOptions.url}/${requestOptions.featureId}/addAttachment`
       );
-      // expect(options.body).toContain("where=1%3D1");
       expect(options.method).toBe("POST");
+      // expect(options.body).toContain("returnEditMoment=true");
       expect(addAttachmentResponse.addAttachmentResult.objectId).toEqual(1001);
       expect(addAttachmentResponse.addAttachmentResult.success).toEqual(true);
       done();
@@ -245,20 +253,23 @@ describe("feature", () => {
   it("should return objectId of the updated attachment and a truthy success", done => {
     const requestOptions = {
       url:
-        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
-      id: 42,
+        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
+      featureId: 42,
       attachmentId: 1001,
-      attachment: attachmentFile()
+      attachment: attachmentFile(),
+      params: {
+        returnEditMoment: true
+      }
     } as IUpdateAttachmentOptions;
     fetchMock.once("*", updateAttachmentResponse);
     updateAttachment(requestOptions).then(response => {
       expect(fetchMock.called()).toBeTruthy();
       const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
       expect(url).toEqual(
-        `${requestOptions.url}/${requestOptions.id}/updateAttachment`
+        `${requestOptions.url}/${requestOptions.featureId}/updateAttachment`
       );
-      // expect(options.body).toContain("where=1%3D1");
       expect(options.method).toBe("POST");
+      // expect(options.body).toContain("returnEditMoment=true");
       expect(updateAttachmentResponse.updateAttachmentResult.objectId).toEqual(
         1001
       );
@@ -272,20 +283,22 @@ describe("feature", () => {
   it("should return objectId of the deleted attachment and a truthy success", done => {
     const requestOptions = {
       url:
-        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
-      id: 42,
+        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
+      featureId: 42,
       attachmentIds: [1001],
-      where: "1=1"
+      params: {
+        returnEditMoment: true
+      }
     } as IDeleteAttachmentsOptions;
     fetchMock.once("*", deleteAttachmentsResponse);
     deleteAttachments(requestOptions).then(response => {
       expect(fetchMock.called()).toBeTruthy();
       const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
       expect(url).toEqual(
-        `${requestOptions.url}/${requestOptions.id}/deleteAttachments`
+        `${requestOptions.url}/${requestOptions.featureId}/deleteAttachments`
       );
       expect(options.body).toContain("attachmentIds=1001");
-      expect(options.body).toContain("where=1%3D1");
+      expect(options.body).toContain("returnEditMoment=true");
       expect(options.method).toBe("POST");
       expect(
         deleteAttachmentsResponse.deleteAttachmentResults[0].objectId
