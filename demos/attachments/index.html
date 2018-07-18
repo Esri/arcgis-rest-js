@@ -18,7 +18,7 @@
           <input type="number" min="0" step="1" id="featureId" name="featureId" class="form-control" placeholder="Integer >= 0" required>
         </div>
         <div class="form-group">
-          <button type="submit" class="btn">Get Attachments</button>
+          <button type="submit" class="btn"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Get Attachments</button>
         </div>
       </form>
     </div>
@@ -31,7 +31,7 @@
           <input type="file" id="attachFile" name="attachFile" required>
         </div>
         <div class="form-group">
-          <button type="submit" class="btn btn-success">Add Attachment</button>
+          <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Attachment</button>
         </div>
       </form>
     </div>
@@ -90,7 +90,7 @@
     });
   }
 
-  // hangle get attachments response and create table rows
+  // handle get attachments response and create table rows
   const getResponse = res => {
     console.log(res);
     const infos = res.attachmentInfos;
@@ -103,14 +103,14 @@
         put(tr, 'td', info.id);
         put(tr, 'td', info.contentType);
         put(tr, 'td', info.size);
-        put(tr, 'td a', {
+        put(tr, 'td a.btn.btn-primary', {
           target: '_blank',
           href: serviceUrl + '/' + featureId + '/attachments/' + info.id,
-          innerHTML: info.name
+          innerHTML: '<span class="glyphicon glyphicon-file" aria-hidden="true"></span> ' + info.name
         });
-        put(tr, 'td a', {
+        put(tr, 'td a.btn.btn-danger', {
           href: '#',
-          innerHTML: 'Delete ' + info.name,
+          innerHTML: '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ' + info.name,
           onclick: evt => {
             evt.preventDefault();
             deleteAttachment(info.id);
@@ -120,7 +120,7 @@
     }
   };
 
-  // hangle get attachments error
+  // handle get attachments error
   const getError = err => {
     console.log(err);
     validService = false;

@@ -211,3 +211,10 @@ export const deleteAttachmentsResponse = {
     }
   ]
 };
+
+export const genericInvalidResponse = {
+  error: {
+    code: 400,
+    message: "Invalid or missing input parameters."
+  }
+};

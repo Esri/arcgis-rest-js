@@ -29,7 +29,8 @@ import {
   getAttachmentsResponse,
   addAttachmentResponse,
   updateAttachmentResponse,
-  deleteAttachmentsResponse
+  deleteAttachmentsResponse,
+  genericInvalidResponse
 } from "./mocks/feature";
 
 function attachmentFile() {
@@ -248,6 +249,37 @@ describe("feature", () => {
       expect(addAttachmentResponse.addAttachmentResult.success).toEqual(true);
       done();
     });
+  });
+
+  it("should return an error for a service/feature which does not have attachments", done => {
+    const requestOptions = {
+      url:
+        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/4",
+      featureId: 654,
+      attachment: attachmentFile(),
+      params: {
+        returnEditMoment: true
+      }
+    } as IAddAttachmentOptions;
+    fetchMock.once("*", genericInvalidResponse);
+    addAttachment(requestOptions)
+      .then(response => {
+        // nothing to test here forcing error
+        done();
+      })
+      .catch(error => {
+        expect(fetchMock.called()).toBeTruthy();
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          `${requestOptions.url}/${requestOptions.featureId}/addAttachment`
+        );
+        expect(options.method).toBe("POST");
+        expect(error.response.error.code).toEqual(400);
+        expect(error.response.error.message).toEqual(
+          "Invalid or missing input parameters."
+        );
+        done();
+      });
   });
 
   it("should return objectId of the updated attachment and a truthy success", done => {
