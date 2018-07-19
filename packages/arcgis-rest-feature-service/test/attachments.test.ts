@@ -30,13 +30,15 @@ function attachmentFile() {
   }
 }
 
+const serviceUrl =
+  "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
+
 describe("attachment methods", () => {
   afterEach(fetchMock.restore);
 
   it("should return an array of attachmentInfos for a feature by id", done => {
     const requestOptions = {
-      url:
-        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
+      url: serviceUrl,
       featureId: 42,
       params: {
         gdbVersion: "SDE.DEFAULT"
@@ -61,8 +63,7 @@ describe("attachment methods", () => {
 
   it("should return objectId of the added attachment and a truthy success", done => {
     const requestOptions = {
-      url:
-        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
+      url: serviceUrl,
       featureId: 42,
       attachment: attachmentFile(),
       params: {
@@ -79,7 +80,7 @@ describe("attachment methods", () => {
       expect(options.method).toBe("POST");
       expect(options.body instanceof FormData).toBeTruthy();
       const params = options.body as FormData;
-      // figured out how to instrospect FormData in Chrome, but not Node.js
+      // we could introspect FormData in Chrome this way, but not Node.js
       // more info: https://github.com/form-data/form-data/issues/124
       // expect(params.get("returnEditMoment")).toEqual("true");
       expect(addAttachmentResponse.addAttachmentResult.objectId).toEqual(1001);
@@ -91,7 +92,7 @@ describe("attachment methods", () => {
   it("should return an error for a service/feature which does not have attachments", done => {
     const requestOptions = {
       url:
-        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/4",
+        "https://services.arcgis.com/f8b/arcgis/rest/services/NoAttachments/FeatureServer/0",
       featureId: 654,
       attachment: attachmentFile(),
       params: {
@@ -121,8 +122,7 @@ describe("attachment methods", () => {
 
   it("should return objectId of the updated attachment and a truthy success", done => {
     const requestOptions = {
-      url:
-        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
+      url: serviceUrl,
       featureId: 42,
       attachmentId: 1001,
       attachment: attachmentFile(),
@@ -138,7 +138,6 @@ describe("attachment methods", () => {
         `${requestOptions.url}/${requestOptions.featureId}/updateAttachment`
       );
       expect(options.method).toBe("POST");
-      // expect(options.body).toContain("returnEditMoment=true");
       expect(updateAttachmentResponse.updateAttachmentResult.objectId).toEqual(
         1001
       );
@@ -151,8 +150,7 @@ describe("attachment methods", () => {
 
   it("should return objectId of the deleted attachment and a truthy success", done => {
     const requestOptions = {
-      url:
-        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
+      url: serviceUrl,
       featureId: 42,
       attachmentIds: [1001],
       params: {

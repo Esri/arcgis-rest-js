@@ -11,11 +11,11 @@
       <form id="getForm">
         <div class="form-group">
           <label for="serviceUrl">Service URL</label>
-          <input type="text" id="serviceUrl" name="serviceUrl" class="form-control" placeholder="https://myserver/arcgis/rest/services/Service/2" required>
+          <input type="text" id="serviceUrl" name="serviceUrl" class="form-control" value="http://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0/" required>
         </div>
         <div class="form-group">
           <label for="featureId">Feature ID</label>
-          <input type="number" min="0" step="1" id="featureId" name="featureId" class="form-control" placeholder="Integer >= 0" required>
+          <input type="number" min="0" step="1" id="featureId" name="featureId" class="form-control" value="3339970" required>
         </div>
         <div class="form-group">
           <button type="submit" class="btn"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Get Attachments</button>
@@ -55,11 +55,7 @@
 
 <script src="https://rawgit.com/kriszyp/put-selector/master/put.js"></script>
 <script src="node_modules/@esri/arcgis-rest-request/dist/umd/request.umd.js"></script>
-
-<!-- this demo with not work with http-server until attachment methods are included in a release -->
-<!-- update package.json and swap out scripts when included in a release -->
-<script src="../../packages/arcgis-rest-feature-service/dist/umd/feature-service.umd.js"></script>
-<!-- <script src="node_modules/@esri/arcgis-rest-feature-service/dist/umd/feature-service.umd.js"></script> -->
+<script src="node_modules/@esri/arcgis-rest-feature-service/dist/umd/feature-service.umd.js"></script>
 
 <script>
   let serviceUrl, featureId;
