@@ -18,13 +18,15 @@ import {
   deleteFeaturesResponse
 } from "./mocks/feature";
 
+const serviceUrl =
+  "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
+
 describe("feature", () => {
   afterEach(fetchMock.restore);
 
   it("should return a feature by id", done => {
     const requestOptions = {
-      url:
-        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
+      url: serviceUrl,
       id: 42
     };
     fetchMock.once("*", featureResponse);
@@ -40,8 +42,7 @@ describe("feature", () => {
 
   it("should supply default query parameters", done => {
     const requestOptions = {
-      url:
-        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0"
+      url: serviceUrl
     };
     fetchMock.once("*", queryResponse);
     queryFeatures(requestOptions).then(response => {
@@ -57,8 +58,7 @@ describe("feature", () => {
 
   it("should use passed in query parameters", done => {
     const requestOptions = {
-      url:
-        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
+      url: serviceUrl,
       where: "Condition='Poor'",
       outFields: ["FID", "Tree_ID", "Cmn_Name", "Condition"]
     };
@@ -79,8 +79,7 @@ describe("feature", () => {
 
   it("should return objectId of the added feature and a truthy success", done => {
     const requestOptions = {
-      url:
-        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
+      url: serviceUrl,
       adds: [
         {
           geometry: {
@@ -119,8 +118,7 @@ describe("feature", () => {
 
   it("should return objectId of the updated feature and a truthy success", done => {
     const requestOptions = {
-      url:
-        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
+      url: serviceUrl,
       updates: [
         {
           attributes: {
@@ -152,8 +150,7 @@ describe("feature", () => {
 
   it("should return objectId of the deleted feature and a truthy success", done => {
     const requestOptions = {
-      url:
-        "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
+      url: serviceUrl,
       deletes: [1001],
       where: "1=1"
     } as IDeleteFeaturesRequestOptions;

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<title>Attachments</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js?features=es5,Promise,fetch"></script>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Attachments</h3>
+      <form id="getForm">
+        <div class="form-group">
+          <label for="serviceUrl">Service URL</label>
+          <input type="text" id="serviceUrl" name="serviceUrl" class="form-control" value="http://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/0/" required>
+        </div>
+        <div class="form-group">
+          <label for="featureId">Feature ID</label>
+          <input type="number" min="0" step="1" id="featureId" name="featureId" class="form-control" value="3339970" required>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Get Attachments</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <form id="addForm">
+        <div class="form-group">
+          <label for="attachFile">File</label>
+          <input type="file" id="attachFile" name="attachFile" required>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Attachment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p id="resultMessage"></p>
+      <table class="table table-striped">
+        <thead>
+          <th>Attachment ID</th>
+          <th>Content Type</th>
+          <th>Size</th>
+          <th>Attachment</th>
+          <th>Delete</th>
+        </thead>
+        <tbody id="result"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="https://rawgit.com/kriszyp/put-selector/master/put.js"></script>
+<script src="node_modules/@esri/arcgis-rest-request/dist/umd/request.umd.js"></script>
+<script src="node_modules/@esri/arcgis-rest-feature-service/dist/umd/feature-service.umd.js"></script>
+
+<script>
+  let serviceUrl, featureId;
+
+  let validService = false;
+
+  // ref some nodes
+  const getForm = document.getElementById('getForm');
+  const addForm = document.getElementById('addForm');
+  const resultMessage = document.getElementById('resultMessage');
+  const result = document.getElementById('result');
+
+  // delete attachment and get again to update table rows
+  const deleteAttachment = attachmentId => {
+    arcgisRest.deleteAttachments({
+      url: serviceUrl,
+      featureId: featureId,
+      attachmentIds: [attachmentId]
+    }).then(res => {
+      console.log(res);
+      arcgisRest.getAttachments({
+        url: serviceUrl,
+        featureId: featureId
+      }).then(getResponse).catch(getError);
+    }).catch(err => {
+      console.log(err);
+      alert(err.message + ' Check the console for more details.');
+    });
+  }
+
+  // handle get attachments response and create table rows
+  const getResponse = res => {
+    console.log(res);
+    const infos = res.attachmentInfos;
+    validService = true;
+    resultMessage.innerHTML = 'Feature has ' + infos.length + ' attachments.';
+    result.innerHTML = '';
+    if (infos.length) {
+      infos.forEach(info => {
+        const tr = put(result, 'tr');
+        put(tr, 'td', info.id);
+        put(tr, 'td', info.contentType);
+        put(tr, 'td', info.size);
+        put(tr, 'td a.btn.btn-primary', {
+          target: '_blank',
+          href: serviceUrl + '/' + featureId + '/attachments/' + info.id,
+          innerHTML: '<span class="glyphicon glyphicon-file" aria-hidden="true"></span> ' + info.name
+        });
+        put(tr, 'td a.btn.btn-danger', {
+          href: '#',
+          innerHTML: '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span> ' + info.name,
+          onclick: evt => {
+            evt.preventDefault();
+            deleteAttachment(info.id);
+          }
+        });
+      });
+    }
+  };
+
+  // handle get attachments error
+  const getError = err => {
+    console.log(err);
+    validService = false;
+    resultMessage.innerHTML = err.message + ' Check the console for more details.';
+    result.innerHTML = '';
+  }
+
+  // handle get attachments form submit
+  getForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    arcgisRest.getAttachments({
+      url: serviceUrl = getForm.serviceUrl.value,
+      featureId: featureId = getForm.featureId.value
+    }).then(getResponse).catch(getError);
+  });
+
+  // handle add attachment form submit and get again to update table rows
+  addForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    if (!validService) {
+      alert('Not so fast. Start by getting a feature\'s attachments first.');
+      return;
+    }
+    arcgisRest.addAttachment({
+      url: serviceUrl,
+      featureId: featureId,
+      attachment: evt.target.attachFile.files[0],
+      params: {
+        returnEditMoment: true
+      }
+    }).then(res => {
+      console.log(res);
+      arcgisRest.getAttachments({
+        url: serviceUrl,
+        featureId: featureId
+      }).then(getResponse).catch(getError);
+    }).catch(err => {
+      console.log(err);
+      alert(err.message + ' Check the console for more details.');
+    });
+  });
+</script>
+</html>
