@@ -76,6 +76,7 @@ export function addFeatures(
 
   // mixin, don't overwrite
   options.params.features = requestOptions.adds;
+  delete options.params.adds;
 
   return request(url, options);
 }

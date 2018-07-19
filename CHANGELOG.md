@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.5.1] - July 12th 2018
+
+### @esri/arcgis-rest-users
+
+* Bug Fixes
+   * **users**: users defaults to https://www.arcgis.com instead of http:// [`7e3d9f6`](https://github.com/Esri/arcgis-rest-js/commit/7e3d9f621ced27e3a64778ebbebff40fcc93d994)
+
+### Other Changes
+
+* Bug Fixes
+   * **users**: users defaults to https://www.arcgis.com instead of http:// [`d92e053`](https://github.com/Esri/arcgis-rest-js/commit/d92e05364e78ae21c3bb4adbeb725ba89503d966)
+
+## [1.5.0] - July 10th 2018
+
+### @esri/arcgis-rest-auth
+
+* New Features
+  * **auth** add support for an OAuth flow that triggers social media login automatically [`2e582e1`](https://github.com/Esri/arcgis-rest-js/commit/2e582e12fc3e5bf9688b3ba80da33e4a5a5fa84f)
+
+* Bug Fixes
+   * **enterprise**: fetch fresh token manually when u/pw are provided [`299f3c0`](https://github.com/Esri/arcgis-rest-js/commit/299f3c0da043b74113310cba9a3e9a0f77afa921) [#161](https://github.com/Esri/arcgis-rest-js/issues/161)
+
+### Other Changes
+
+* Bug Fixes
+   * **enterprise**: ensure a brand new token can be generated for servers federated with ArcGIS Enterprise [`ddd3d57`](https://github.com/Esri/arcgis-rest-js/commit/ddd3d57bb8a98f79c0fb0de6507d5e9483ab91ec)
+
+## [1.4.2] - July 8th 2018
+
+* Bug Fixes:
+   * removed corrupt artifacts shipped with previous release  
+   * **crud**: ensure add/update/deleteFeatures dont pass extraneous parameters [`8566860`](https://github.com/Esri/arcgis-rest-js/commit/8566860554beb32e87c4b9b28b40138b7ac70b80) [#223](https://github.com/Esri/arcgis-rest-js/pull/238/)
+   * **auth** fixed typo in peerDependency name [`d0d89b8`](https://github.com/Esri/arcgis-rest-js/commit/d0d89b875e4887c327f4501aaa47ac9f339a6c6b) 🙏richardhinkamp🙏 [#237](https://github.com/Esri/arcgis-rest-js/pull/237/)
+
 ## [1.4.1] - June 20th 2018
 
 ### @esri/arcgis-rest-auth
@@ -179,7 +213,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Chores
    * **umd**: make umd filenames more terse [`368e1a1`](https://github.com/Esri/arcgis-rest-js/commit/368e1a19088d4eff55144e71b9e0285c92a32199)
 * Bug Fixes
-   * **fetch**: set credentials: &quot;same-origin&quot; in fetch options to support sending IWA cookies [`a4d0115`](https://github.com/Esri/arcgis-rest-js/commit/a4d0115522c1d2a3e44e15320c84745ad58389dc)
+   * **fetch**: set credentials: same-origin in fetch options to support sending IWA cookies [`a4d0115`](https://github.com/Esri/arcgis-rest-js/commit/a4d0115522c1d2a3e44e15320c84745ad58389dc)
 
 ### @esri/arcgis-rest-users
 
@@ -195,12 +229,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Bug Fixes
    * **oauth-demo**: remove ES2015 buts from oAuth Demo for IE 11 [`22ec948`](https://github.com/Esri/arcgis-rest-js/commit/22ec94889d5867c07babaf2c85197f39c0ae46f1)
    * **IItem**: make id and owner the only required properties of IItem [`9c508f2`](https://github.com/Esri/arcgis-rest-js/commit/9c508f25a2404f0cbea8d22da98653a875a49901)
-   * **fetch**: set credentials: &quot;same-origin&quot; in fetch options  [`3ae7159`](https://github.com/Esri/arcgis-rest-js/commit/3ae715939fd3245a8dc0f693e82a7df16fe099a1)
+   * **fetch**: set credentials: same-origin in fetch options  [`3ae7159`](https://github.com/Esri/arcgis-rest-js/commit/3ae715939fd3245a8dc0f693e82a7df16fe099a1)
 
 ### doc improvements
 
 * Bug Fixes
-   * **createItem**: owner &quot;item.owner&quot; authentication.username [`76680a1`](https://github.com/Esri/arcgis-rest-js/commit/76680a1834332a196bf4b93a05caf5020156fe0f)
+   * **createItem**: owner item.owner authentication.username [`76680a1`](https://github.com/Esri/arcgis-rest-js/commit/76680a1834332a196bf4b93a05caf5020156fe0f)
 
 ## [1.1.2] - May 2nd 2018
 
@@ -546,7 +580,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 Initial Public Release
 
 [1.0.0]: https://github.com/Esri/arcgis-rest-js/compare/265d6aed1856d3ae1ff81f03ce85aba449b01f21...v1.0.0 "v1.0.0"
-[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.2 "v1.0.2"
+[1.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.1 "v1.0.1"
+[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.1...v1.0.2 "v1.0.2"
 [1.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.2...v1.0.3 "v1.0.3"
 [1.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.3...v1.1.0 "v1.1.0"
 [1.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.0...v1.1.1 "v1.1.1"
@@ -556,4 +591,7 @@ Initial Public Release
 [1.3.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.2.1...v1.3.0 "v1.3.0"
 [1.4.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.3.0...v1.4.0 "v1.4.0"
 [1.4.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.4.0...v1.4.1 "v1.4.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.4.1...HEAD "Unreleased Changes"
+[1.4.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.4.1...v1.4.2 "v1.4.2"
+[1.5.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.4.2...v1.5.0 "v1.5.0"
+[1.5.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.5.0...v1.5.1 "v1.5.1"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.5.1...HEAD "Unreleased Changes"

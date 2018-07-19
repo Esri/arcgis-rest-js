@@ -79,6 +79,7 @@ export function deleteFeatures(
 
   // mixin, don't overwrite
   options.params.objectIds = requestOptions.deletes;
+  delete options.params.deletes;
 
   return request(url, options);
 }

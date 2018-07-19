@@ -115,7 +115,7 @@ describe("UserSession", () => {
         });
     });
 
-    it("should generate a token for an untrusted server", done => {
+    it("should generate a token for an untrusted, federated server", done => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
@@ -157,6 +157,46 @@ describe("UserSession", () => {
             "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
           );
         })
+        .then(token => {
+          expect(token).toBe("serverToken");
+          done();
+        });
+    });
+
+    it("should generate a token for an untrusted, federated server with user credentials", done => {
+      const session = new UserSession({
+        username: "c@sey",
+        password: "jones",
+        portal: "https://gis.city.gov/sharing/rest"
+      });
+
+      fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
+        currentVersion: 10.51,
+        fullVersion: "10.5.1.120",
+        owningSystemUrl: "https://gis.city.gov",
+        authInfo: {
+          isTokenBasedSecurity: true,
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
+        }
+      });
+
+      fetchMock.postOnce("https://gis.city.gov/sharing/rest/info", {
+        owningSystemUrl: "http://gis.city.gov",
+        authInfo: {
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+          isTokenBasedSecurity: true
+        }
+      });
+
+      fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
+        token: "serverToken",
+        expires: TOMORROW
+      });
+
+      session
+        .getToken(
+          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+        )
         .then(token => {
           expect(token).toBe("serverToken");
           done();
@@ -520,6 +560,52 @@ describe("UserSession", () => {
 
       expect(MockWindow.location.href).toBe(
         "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId123&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=clientId123&locale="
+      );
+    });
+
+    it("should authorize using a social media provider", () => {
+      const MockWindow: any = {
+        location: {
+          href: ""
+        }
+      };
+
+      // https://github.com/palantir/tslint/issues/3056
+      void UserSession.beginOAuth2(
+        {
+          clientId: "clientId123",
+          redirectUri: "http://example-app.com/redirect",
+          popup: false,
+          provider: "facebook"
+        },
+        MockWindow
+      );
+
+      expect(MockWindow.location.href).toBe(
+        "https://www.arcgis.com/sharing/rest/oauth2/social/authorize?client_id=clientId123&socialLoginProviderName=facebook&autoAccountCreateForSocial=true&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=clientId123&locale="
+      );
+    });
+
+    it("should authorize using the other social media provider", () => {
+      const MockWindow: any = {
+        location: {
+          href: ""
+        }
+      };
+
+      // https://github.com/palantir/tslint/issues/3056
+      void UserSession.beginOAuth2(
+        {
+          clientId: "clientId123",
+          redirectUri: "http://example-app.com/redirect",
+          popup: false,
+          provider: "google"
+        },
+        MockWindow
+      );
+
+      expect(MockWindow.location.href).toBe(
+        "https://www.arcgis.com/sharing/rest/oauth2/social/authorize?client_id=clientId123&socialLoginProviderName=google&autoAccountCreateForSocial=true&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=clientId123&locale="
       );
     });
   });

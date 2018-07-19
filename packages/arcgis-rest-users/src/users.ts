@@ -51,7 +51,7 @@ export function getUser(
 
   // if a username is passed, assume ArcGIS Online
   if (typeof requestOptions === "string") {
-    url = `http://www.arcgis.com/sharing/rest/community/users/${requestOptions}`;
+    url = `https://www.arcgis.com/sharing/rest/community/users/${requestOptions}`;
   } else {
     // if an authenticated session is passed, default to that user/portal unless another username is provided manually
     const username =
