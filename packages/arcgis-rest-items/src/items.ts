@@ -92,7 +92,7 @@ export interface ISearchResult {
  *
  * searchItems('water')
  * .then((results) => {
- *  console.log(response.results.total); // 355
+ *  console.log(results.total); // 355
  * })
  * ```
  *
