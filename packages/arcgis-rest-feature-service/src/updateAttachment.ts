@@ -59,9 +59,6 @@ export function updateAttachment(
   options.params.attachment = requestOptions.attachment;
   options.params.attachmentId = requestOptions.attachmentId;
 
-  // force POST
-  options.httpMethod = "POST";
-
   return request(
     `${options.url}/${options.featureId}/updateAttachment`,
     options

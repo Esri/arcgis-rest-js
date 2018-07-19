@@ -36,7 +36,7 @@ export interface IDeleteAttachmentsResponse {
  *
  * deleteAttachments({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
- *   id: 8484,
+ *   featureId: 8484,
  *   attachmentIds: [306]
  * });
  * ```
@@ -54,9 +54,6 @@ export function deleteAttachments(
 
   // `attachmentIds` --> params: {}
   options.params.attachmentIds = requestOptions.attachmentIds;
-
-  // force POST
-  options.httpMethod = "POST";
 
   return request(
     `${options.url}/${options.featureId}/deleteAttachments`,

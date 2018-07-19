@@ -52,10 +52,9 @@ export interface IGetAttachmentsResponse {
 export function getAttachments(
   requestOptions: IGetAttachmentsOptions
 ): Promise<IGetAttachmentsResponse> {
-  const options: IGetAttachmentsOptions = {
-    params: {},
-    ...requestOptions
-  };
-
-  return request(`${options.url}/${options.featureId}/attachments`, options);
+  // pass through
+  return request(
+    `${requestOptions.url}/${requestOptions.featureId}/attachments`,
+    requestOptions
+  );
 }

@@ -6,7 +6,7 @@ import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { IEditFeatureResult } from "./helpers";
 
 /**
- * Request options to for adding a related attachment to a feature by id. See [Add Attachment](https://developers.arcgis.com/rest/services-reference/add-attachment.htm) for more information.
+ * Request options for adding a related attachment to a feature by id. See [Add Attachment](https://developers.arcgis.com/rest/services-reference/add-attachment.htm) for more information.
  *
  * @param url - Feature service url.
  * @param featureId - Unique identifier of feature to add related attachment.
@@ -54,9 +54,6 @@ export function addAttachment(
 
   // `attachment` --> params: {}
   options.params.attachment = requestOptions.attachment;
-
-  // force POST
-  options.httpMethod = "POST";
 
   return request(`${options.url}/${options.featureId}/addAttachment`, options);
 }
