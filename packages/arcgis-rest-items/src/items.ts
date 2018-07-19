@@ -7,21 +7,13 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IItem, IPagingParams } from "@esri/arcgis-rest-common-types";
+import {
+  IItemAdd,
+  IItemUpdate,
+  IItem,
+  IPagingParams
+} from "@esri/arcgis-rest-common-types";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-
-export interface IItemAdd extends IItem {
-  title: string;
-  type: string;
-}
-
-export interface IItemUpdate extends IItem {
-  id: string;
-}
-
-export interface IItemRequestOptions extends IRequestOptions {
-  item: IItem;
-}
 
 export interface IItemIdRequestOptions extends IUserRequestOptions {
   /**
@@ -424,7 +416,7 @@ export function removeItemResource(
  * @param item IItem to be serialized
  * @returns a formatted json object to be sent to Portal
  */
-function serializeItem(item: IItem): any {
+function serializeItem(item: IItemAdd | IItemUpdate | IItem): any {
   // create a clone so we're not messing with the original
   const clone = JSON.parse(JSON.stringify(item));
   // join keywords and tags...

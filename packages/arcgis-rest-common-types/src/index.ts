@@ -1,7 +1,11 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { IGroup } from "./group";
+
 export * from "./webmap";
+export * from "./item";
+export * from "./group";
 
 /**
  * an arc can be represented as a JSON curve object
@@ -178,28 +182,6 @@ export interface IFont {
   style?: "italic" | "normal" | "oblique";
   weight?: "bold" | "bolder" | "lighter" | "normal";
   decoration?: "line-through" | "underline" | "none";
-}
-
-/**
- * Portal Item
- */
-export interface IItem {
-  id?: string;
-  owner?: string;
-  title?: string;
-  type?: string;
-  tags?: string[];
-  typeKeywords?: string[];
-  description?: string;
-  snippet?: string;
-  documentation?: string;
-  extent?: number[][];
-  categories?: string[];
-  spatialReference?: any;
-  culture?: string;
-  properties?: any;
-  url?: string;
-  [key: string]: any;
 }
 
 /**
@@ -474,31 +456,6 @@ export interface IUser {
   modified?: number;
   groups?: IGroup[];
   provider?: "arcgis" | "enterprise" | "facebook" | "google";
-}
-
-export interface IGroup extends IItem {
-  isInvitationOnly?: boolean;
-  phone?: string;
-  sortField?:
-    | "title"
-    | "owner"
-    | "avgrating"
-    | "numviews"
-    | "created"
-    | "modified";
-  isViewOnly?: boolean;
-  isFav?: boolean;
-  access?: "private" | "org" | "public";
-  userMembership?: {
-    username?: string;
-    memberType?: string;
-    applications?: number;
-  };
-  protected?: boolean;
-  autoJoin?: boolean;
-  hasCategorySchema?: boolean;
-  isOpenData?: boolean;
-  [key: string]: any;
 }
 
 export type esriUnits =
