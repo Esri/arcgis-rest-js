@@ -130,7 +130,8 @@ export const GroupContentResponse: IGroupContentResult = {
       avgRating: 0,
       numViews: 1301,
       groupCategories: [],
-      scoreCompleteness: 50
+      scoreCompleteness: 50,
+      protected: false
     }
   ]
 };

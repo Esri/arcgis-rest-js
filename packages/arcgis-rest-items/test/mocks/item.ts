@@ -16,7 +16,10 @@ export const ItemResponse: IItem = {
   typeKeywords: ["Javascript", "hubSiteApplication"],
   properties: {
     parentId: "3eb"
-  }
+  },
+  created: 123,
+  modified: 456,
+  protected: false
 };
 
 export const ItemDataResponse: any = {

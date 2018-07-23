@@ -1,22 +1,19 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
+
 import {
   request,
   IRequestOptions,
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IItem, IPagingParams } from "@esri/arcgis-rest-common-types";
-
+import {
+  IItemAdd,
+  IItemUpdate,
+  IItem,
+  IPagingParams
+} from "@esri/arcgis-rest-common-types";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-
-export interface IItemRequestOptions extends IUserRequestOptions {
-  item: IItem;
-}
-
-// * @param id - Item Id
-// * @param owner - Item owner username
-// * @param data - Javascript object to store
 
 export interface IItemIdRequestOptions extends IUserRequestOptions {
   /**
@@ -49,7 +46,6 @@ export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
 }
 
 export interface IItemCrudRequestOptions extends IUserRequestOptions {
-  item: IItem;
   /**
    * The owner of the item. If this property is not present, `item.owner` will be passed, or lastly `authentication.username`.
    */
@@ -60,12 +56,18 @@ export interface IItemCrudRequestOptions extends IUserRequestOptions {
   folder?: string;
 }
 
+export interface IItemAddRequestOptions extends IItemCrudRequestOptions {
+  item: IItemAdd;
+}
+
+export interface IItemUpdateRequestOptions extends IItemCrudRequestOptions {
+  item: IItemUpdate;
+}
+
 // this interface still needs to be docced
 export interface ISearchRequest extends IPagingParams {
   q: string;
   [key: string]: any;
-  // start: number;
-  // num: number;
 }
 
 export interface ISearchRequestOptions extends IRequestOptions {
@@ -131,12 +133,10 @@ export function searchItems(
  * @param requestOptions = Options for the request
  */
 export function createItemInFolder(
-  requestOptions: IItemCrudRequestOptions
+  requestOptions: IItemAddRequestOptions
 ): Promise<any> {
-  const owner =
-    requestOptions.owner ||
-    requestOptions.item.owner ||
-    requestOptions.authentication.username;
+  const owner = determineOwner(requestOptions);
+
   const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
   let url = `${baseUrl}/addItem`;
 
@@ -156,16 +156,28 @@ export function createItemInFolder(
 /**
  * Create an Item in the user's root folder
  *
+ * ```js
+ * import { createItem } from '@esri/arcgis-rest-items';
+ *
+ * createItem({
+ *   authentication: userSession,
+ *   item: {
+ *     title: "The Amazing Voyage",
+ *     type: "Webmap"
+ *   }
+ * })
+ * ```
+ *
  * @param requestOptions - Options for the request
  */
 export function createItem(
-  requestOptions: IItemCrudRequestOptions
+  requestOptions: IItemAddRequestOptions
 ): Promise<any> {
   // delegate to createItemInFolder placing in the root of the filestore
   const options = {
     folder: null,
     ...requestOptions
-  } as IItemCrudRequestOptions;
+  } as IItemAddRequestOptions;
   return createItemInFolder(options);
 }
 
@@ -177,8 +189,7 @@ export function createItem(
 export function addItemJsonData(
   requestOptions: IItemJsonDataRequestOptions
 ): Promise<any> {
-  const owner = requestOptions.owner || requestOptions.authentication.username;
-
+  const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id
   }/update`;
@@ -239,14 +250,29 @@ export function getItemData(
 /**
  * Update an Item
  *
+ * * ```js
+ * import { updateItem } from '@esri/arcgis-rest-items';
+ *
+ * updateItem({
+ *   authentication: userSession,
+ *   item: {
+ *     id: "3ef",
+ *     description: "A three hour tour"
+ *   }
+ * })
+ * ```
+ *
  * @param item - The item to update.
  * @param requestOptions - Options for the request.
  * @returns A Promise that resolves with the status of the operation.
  */
-export function updateItem(requestOptions: IItemRequestOptions): Promise<any> {
-  const url = `${getPortalUrl(requestOptions)}/content/users/${
-    requestOptions.item.owner
-  }/items/${requestOptions.item.id}/update`;
+export function updateItem(
+  requestOptions: IItemUpdateRequestOptions
+): Promise<any> {
+  const owner = determineOwner(requestOptions);
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.item.id
+  }/update`;
 
   // serialize the item into something Portal will accept
   requestOptions.params = {
@@ -260,13 +286,23 @@ export function updateItem(requestOptions: IItemRequestOptions): Promise<any> {
 /**
  * Remove an item from the portal
  *
+ * *
+ * ```js
+ * import { removeItem } from '@esri/arcgis-rest-items';
+ *
+ * removeItem({
+ *   authentication: userSession,
+ *   id: "3ef"
+ * })
+ * ```
+ *
  * @param requestOptions - Options for the request
  * @returns A Promise that deletes an item.
  */
 export function removeItem(
   requestOptions: IItemIdRequestOptions
 ): Promise<any> {
-  const owner = requestOptions.owner || requestOptions.authentication.username;
+  const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id
   }/delete`;
@@ -282,7 +318,7 @@ export function removeItem(
 export function protectItem(
   requestOptions: IItemIdRequestOptions
 ): Promise<any> {
-  const owner = requestOptions.owner || requestOptions.authentication.username;
+  const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id
   }/protect`;
@@ -298,7 +334,7 @@ export function protectItem(
 export function unprotectItem(
   requestOptions: IItemIdRequestOptions
 ): Promise<any> {
-  const owner = requestOptions.owner || requestOptions.authentication.username;
+  const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id
   }/unprotect`;
@@ -336,7 +372,7 @@ export function getItemResources(
 export function updateItemResource(
   requestOptions: IItemResourceRequestOptions
 ): Promise<any> {
-  const owner = requestOptions.owner || requestOptions.authentication.username;
+  const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id
   }/updateResources`;
@@ -360,7 +396,7 @@ export function updateItemResource(
 export function removeItemResource(
   requestOptions: IItemResourceRequestOptions
 ): Promise<any> {
-  const owner = requestOptions.owner || requestOptions.authentication.username;
+  const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id
   }/removeResources`;
@@ -380,11 +416,11 @@ export function removeItemResource(
  * @param item IItem to be serialized
  * @returns a formatted json object to be sent to Portal
  */
-function serializeItem(item: IItem): any {
+function serializeItem(item: IItemAdd | IItemUpdate | IItem): any {
   // create a clone so we're not messing with the original
   const clone = JSON.parse(JSON.stringify(item));
   // join keywords and tags...
-  const { typeKeywords=[], tags=[] } = item;
+  const { typeKeywords = [], tags = [] } = item;
   clone.typeKeywords = typeKeywords.join(", ");
   clone.tags = tags.join(", ");
   // convert .data to .text
@@ -397,4 +433,18 @@ function serializeItem(item: IItem): any {
     clone.properties = JSON.stringify(clone.properties);
   }
   return clone;
+}
+
+/**
+ * requestOptions.owner is given priority, requestOptions.item.owner will be checked next. If neither are present, authentication.username will be assumed.
+ */
+function determineOwner(requestOptions: any): string {
+  if (requestOptions.owner) {
+    return requestOptions.owner;
+  }
+  if (requestOptions.item && requestOptions.item.owner) {
+    return requestOptions.item.owner;
+  } else {
+    return requestOptions.authentication.username;
+  }
 }

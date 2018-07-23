@@ -1,5 +1,6 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
+
 import {
   request,
   IRequestOptions,
@@ -7,7 +8,13 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IPagingParams, IItem, IGroup } from "@esri/arcgis-rest-common-types";
+import {
+  IPagingParams,
+  IItem,
+  IItemUpdate,
+  IGroupAdd,
+  IGroup
+} from "@esri/arcgis-rest-common-types";
 
 export interface IPagingParamsRequestOptions extends IRequestOptions {
   paging: IPagingParams;
@@ -17,8 +24,12 @@ export interface IGroupIdRequestOptions extends IRequestOptions {
   id: string;
 }
 
-export interface IGroupRequestOptions extends IRequestOptions {
-  group: IGroup;
+export interface IGroupAddRequestOptions extends IRequestOptions {
+  group: IGroupAdd;
+}
+
+export interface IGroupUpdateRequestOptions extends IRequestOptions {
+  group: IItemUpdate;
 }
 
 export interface IGroupSearchRequest extends IPagingParams {
@@ -157,31 +168,16 @@ export function getGroupUsers(
 }
 
 /**
- * Serialize a group into a json format accepted by the Portal API
- * for create and update operations
- *
- * @param group IGroup to be serialized
- * @returns a formatted JSON object to be sent to Portal
- */
-function serializeGroup(group: IGroup): any {
-  // create a clone so we're not messing with the original
-  const clone = JSON.parse(JSON.stringify(group));
-  // join and tags...
-  clone.tags = clone.tags.join(", ");
-  return clone;
-}
-
-/**
  * Create a new Group.
  * Note: The group name must be unique within the user's organization.
  * @param requestOptions  - Options for the request, including a group object
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function createGroup(
-  requestOptions: IGroupRequestOptions
+  requestOptions: IGroupAddRequestOptions
 ): Promise<any> {
   const url = `${getPortalUrl(requestOptions)}/community/createGroup`;
-  const options: IGroupRequestOptions = {
+  const options: IGroupAddRequestOptions = {
     ...requestOptions
   };
   // serialize the group into something Portal will accept
@@ -195,13 +191,13 @@ export function createGroup(
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function updateGroup(
-  requestOptions: IGroupRequestOptions
+  requestOptions: IGroupUpdateRequestOptions
 ): Promise<any> {
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.group.id
   }/update`;
 
-  const options: IGroupRequestOptions = {
+  const options: IGroupUpdateRequestOptions = {
     ...requestOptions
   };
   // serialize the group into something Portal will accept
@@ -258,4 +254,19 @@ export function unprotectGroup(
     ...requestOptions
   };
   return request(url, options);
+}
+
+/**
+ * Serialize a group into a json format accepted by the Portal API
+ * for create and update operations
+ *
+ * @param group IGroup to be serialized
+ * @returns a formatted JSON object to be sent to Portal
+ */
+function serializeGroup(group: IGroupAdd | IItemUpdate | IGroup): any {
+  // create a clone so we're not messing with the original
+  const clone = JSON.parse(JSON.stringify(group));
+  // join and tags...
+  clone.tags = clone.tags.join(", ");
+  return clone;
 }

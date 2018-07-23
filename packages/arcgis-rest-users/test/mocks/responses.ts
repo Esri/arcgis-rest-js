@@ -65,7 +65,12 @@ export const GroupMemberUserResponse: IUser = {
         username: "jsmith",
         memberType: "user",
         applications: 0
-      }
+      },
+      protected: false,
+      isViewOnly: false,
+      isFav: false,
+      isOpenData: true,
+      autoJoin: false
     }
   ]
 };
@@ -91,7 +96,12 @@ export const GroupNonMemberUserResponse: IUser = {
         username: "jsmith",
         memberType: "user",
         applications: 0
-      }
+      },
+      protected: false,
+      isViewOnly: false,
+      isFav: false,
+      isOpenData: true,
+      autoJoin: false
     }
   ]
 };
@@ -117,7 +127,12 @@ export const GroupAdminUserResponse = {
         username: "jsmith",
         memberType: "admin",
         applications: 0
-      }
+      },
+      protected: false,
+      isViewOnly: false,
+      isFav: false,
+      isOpenData: true,
+      autoJoin: false
     }
   ]
 };
@@ -144,7 +159,12 @@ export const OrgAdminUserResponse = {
         username: "jsmith",
         memberType: "owner",
         applications: 0
-      }
+      },
+      protected: false,
+      isViewOnly: false,
+      isFav: false,
+      isOpenData: true,
+      autoJoin: false
     }
   ]
 };
