@@ -51,7 +51,7 @@ export interface IItemCrudRequestOptions extends IUserRequestOptions {
    */
   owner?: string;
   /**
-   * Folder to house the item.
+   * Id of the folder to house the item.
    */
   folder?: string;
 }

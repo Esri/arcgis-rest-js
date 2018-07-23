@@ -188,7 +188,7 @@ export interface IUserSessionOptions {
  * ```
  * Used to manage the authentication of ArcGIS Online and ArcGIS Enterprise users
  * in `request`. This class also includes several
- * helper methods for authenticating users with OAuth 2.0 in both browser and
+ * helper methods for authenticating users with [OAuth 2.0](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/browser-based-user-logins/) in both browser and
  * server applications.
  *
  */
