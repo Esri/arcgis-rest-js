@@ -30,7 +30,7 @@ export interface IItemIdRequestOptions extends IUserRequestOptions {
   owner?: string;
 }
 
-export interface IItemJsonRequestOptions extends IItemIdRequestOptions {
+export interface IItemDataAddRequestOptions extends IItemIdRequestOptions {
   /**
    * Object to store
    */
@@ -97,6 +97,15 @@ export interface ISearchResult {
   results: IItem[];
 }
 
+export interface IItemUpdateResponse {
+  success: boolean;
+  id: string;
+}
+
+export interface IItemAddResponse extends IItemUpdateResponse {
+  folder: string;
+}
+
 /**
  * Search for items via the portal api
  *
@@ -145,7 +154,7 @@ export function searchItems(
  */
 export function createItemInFolder(
   requestOptions: IItemAddRequestOptions
-): Promise<any> {
+): Promise<IItemAddResponse> {
   const owner = determineOwner(requestOptions);
 
   const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
@@ -183,7 +192,7 @@ export function createItemInFolder(
  */
 export function createItem(
   requestOptions: IItemAddRequestOptions
-): Promise<any> {
+): Promise<IItemAddResponse> {
   // delegate to createItemInFolder placing in the root of the filestore
   const options = {
     folder: null,
@@ -196,10 +205,12 @@ export function createItem(
  * Send json to an item to be stored as the `/data` resource
  *
  * @param requestOptions - Options for the request
+ * @returns A Promise that will resolve with an object reporting
+ *        success/failure and echoing the item id.
  */
 export function addItemJsonData(
-  requestOptions: IItemJsonRequestOptions
-): Promise<any> {
+  requestOptions: IItemDataAddRequestOptions
+): Promise<IItemUpdateResponse> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id
@@ -209,21 +220,23 @@ export function addItemJsonData(
   // a `text` form field. It can also be sent with the `.create` call by sending
   // a `.data` property.
   requestOptions.params = {
-    ...requestOptions.params,
-    text: JSON.stringify(requestOptions.data)
+    text: JSON.stringify(requestOptions.data),
+    ...requestOptions.params
   };
 
   return request(url, requestOptions);
 }
 /**
- * Send blob to an item to be stored as the `/data` resource
+ * Send a file or blob to an item to be stored as the `/data` resource
  *
  * @param requestOptions - Options for the request
+ * @returns A Promise that will resolve with an object reporting
+ *        success/failure and echoing the item id.
  */
-export function addItemBinaryData(
-  requestOptions: IItemJsonRequestOptions
-): Promise<any> {
-  const owner = requestOptions.owner || requestOptions.authentication.username;
+export function addItemData(
+  requestOptions: IItemDataAddRequestOptions
+): Promise<IItemUpdateResponse> {
+  const owner = determineOwner(requestOptions);
 
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id
@@ -231,8 +244,8 @@ export function addItemBinaryData(
 
   // Portal API requires that the 'data' be POSTed in a `file` form field.
   requestOptions.params = {
-    ...requestOptions.params,
-    file: requestOptions.data
+    file: requestOptions.data,
+    ...requestOptions.params
   };
 
   return request(url, requestOptions);
@@ -448,7 +461,7 @@ export function removeItemResource(
  * Serialize an item into a json format accepted by the Portal API
  * for create and update operations
  *
- * @param item IItem to be serialized
+ * @param item Item to be serialized
  * @returns a formatted json object to be sent to Portal
  */
 function serializeItem(item: IItemAdd | IItemUpdate | IItem): any {

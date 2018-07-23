@@ -19,7 +19,7 @@ import {
   genericInvalidResponse
 } from "./mocks/feature";
 
-function attachmentFile() {
+export function attachmentFile() {
   if (typeof File !== "undefined" && File) {
     return new File(["foo"], "foo.txt", { type: "text/plain" });
   } else {
