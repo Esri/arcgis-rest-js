@@ -15,7 +15,12 @@ export function encodeFormData(params: any): FormData | string {
   if (useFormData) {
     const formData = new FormData();
     Object.keys(newParams).forEach((key: any) => {
-      formData.append(key, newParams[key]);
+      if (key === "file" && newParams[key].name) {
+        // Pass on the file's name if provided to override defaults such as "blob"
+        formData.append(key, newParams[key], newParams[key].name);
+      } else {
+        formData.append(key, newParams[key]);
+      }
     });
     return formData;
   } else {

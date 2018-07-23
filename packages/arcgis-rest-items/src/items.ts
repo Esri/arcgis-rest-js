@@ -30,9 +30,9 @@ export interface IItemIdRequestOptions extends IUserRequestOptions {
   owner?: string;
 }
 
-export interface IItemJsonDataRequestOptions extends IItemIdRequestOptions {
+export interface IItemJsonRequestOptions extends IItemIdRequestOptions {
   /**
-   * JSON object to store
+   * Object to store
    */
   data: any;
 }
@@ -198,7 +198,7 @@ export function createItem(
  * @param requestOptions - Options for the request
  */
 export function addItemJsonData(
-  requestOptions: IItemJsonDataRequestOptions
+  requestOptions: IItemJsonRequestOptions
 ): Promise<any> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
@@ -211,6 +211,28 @@ export function addItemJsonData(
   requestOptions.params = {
     ...requestOptions.params,
     text: JSON.stringify(requestOptions.data)
+  };
+
+  return request(url, requestOptions);
+}
+/**
+ * Send blob to an item to be stored as the `/data` resource
+ *
+ * @param requestOptions - Options for the request
+ */
+export function addItemBinaryData(
+  requestOptions: IItemJsonRequestOptions
+): Promise<any> {
+  const owner = requestOptions.owner || requestOptions.authentication.username;
+
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/update`;
+
+  // Portal API requires that the 'data' be POSTed in a `file` form field.
+  requestOptions.params = {
+    ...requestOptions.params,
+    file: requestOptions.data
   };
 
   return request(url, requestOptions);
