@@ -13,8 +13,17 @@ import { IEditFeatureResult } from "./helpers";
  * @param attachment - File to be attached.
  */
 export interface IAddAttachmentOptions extends IRequestOptions {
+  /**
+   * Feature service url.
+   */
   url: string;
+  /**
+   * Unique identifier of feature to add related attachment.
+   */
   featureId: number;
+  /**
+   * File to be attached.
+   */
   attachment: File;
 }
 

@@ -10,7 +10,13 @@ import { request, IRequestOptions } from "@esri/arcgis-rest-request";
  * @param featureId - Unique identifier of feature to request related `attachmentInfos`.
  */
 export interface IGetAttachmentsOptions extends IRequestOptions {
+  /**
+   * Feature service url.
+   */
   url: string;
+  /**
+   * Unique identifier of feature to request related `attachmentInfos`.
+   */
   featureId: number;
 }
 

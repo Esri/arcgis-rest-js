@@ -14,9 +14,21 @@ import { IEditFeatureResult, appendCustomParams } from "./helpers";
  * @param attachmentId - Unique identifier of the attachment.
  */
 export interface IUpdateAttachmentOptions extends IRequestOptions {
+  /**
+   * Feature service url.
+   */
   url: string;
+  /**
+   * Unique identifier of feature to update related attachment.
+   */
   featureId: number;
+  /**
+   * File to be updated.
+   */
   attachment: File;
+  /**
+   * Unique identifier of the attachment.
+   */
   attachmentId: number;
 }
 
