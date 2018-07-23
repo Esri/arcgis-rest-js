@@ -8,9 +8,6 @@ import { IEditFeatureResult } from "./helpers";
 /**
  * Request options for adding a related attachment to a feature by id. See [Add Attachment](https://developers.arcgis.com/rest/services-reference/add-attachment.htm) for more information.
  *
- * @param url - Feature service url.
- * @param featureId - Unique identifier of feature to add related attachment.
- * @param attachment - File to be attached.
  */
 export interface IAddAttachmentOptions extends IRequestOptions {
   /**
