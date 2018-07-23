@@ -6,11 +6,15 @@ import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 /**
  * Request options to fetch `attachmentInfos` of a feature by id. See [Attachment Infos](https://developers.arcgis.com/rest/services-reference/attachment-infos-feature-service-.htm) for more information.
  *
- * @param url - Feature service url.
- * @param featureId - Unique identifier of feature to request related `attachmentInfos`.
  */
 export interface IGetAttachmentsOptions extends IRequestOptions {
+  /**
+   * Feature service url.
+   */
   url: string;
+  /**
+   * Unique identifier of feature to request related `attachmentInfos`.
+   */
   featureId: number;
 }
 

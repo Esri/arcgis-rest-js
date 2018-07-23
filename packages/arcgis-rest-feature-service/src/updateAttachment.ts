@@ -8,15 +8,23 @@ import { IEditFeatureResult, appendCustomParams } from "./helpers";
 /**
  * Request options to for updating a related attachment to a feature by id. See [Update Attachment](https://developers.arcgis.com/rest/services-reference/update-attachment.htm) for more information.
  *
- * @param url - Feature service url.
- * @param featureId - Unique identifier of feature to update related attachment.
- * @param attachment - File to be updated.
- * @param attachmentId - Unique identifier of the attachment.
  */
 export interface IUpdateAttachmentOptions extends IRequestOptions {
+  /**
+   * Feature service url.
+   */
   url: string;
+  /**
+   * Unique identifier of feature to update related attachment.
+   */
   featureId: number;
+  /**
+   * File to be updated.
+   */
   attachment: File;
+  /**
+   * Unique identifier of the attachment.
+   */
   attachmentId: number;
 }
 

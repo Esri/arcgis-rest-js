@@ -8,13 +8,19 @@ import { IEditFeatureResult } from "./helpers";
 /**
  * Request options to for deleting related attachments of a feature by id. See [Delete Attachments](https://developers.arcgis.com/rest/services-reference/delete-attachments.htm) for more information.
  *
- * @param url - Feature service url.
- * @param featureId - Unique identifier of feature to delete related attachment(s).
- * @param attachmentIds - Array of unique identifiers of attachments to delete.
  */
 export interface IDeleteAttachmentsOptions extends IRequestOptions {
+  /**
+   * Feature service url.
+   */
   url: string;
+  /**
+   * Unique identifier of feature to delete related attachment(s).
+   */
   featureId: number;
+  /**
+   * Array of unique identifiers of attachments to delete.
+   */
   attachmentIds: number[];
 }
 
