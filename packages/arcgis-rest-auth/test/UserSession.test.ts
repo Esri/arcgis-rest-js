@@ -65,6 +65,27 @@ describe("UserSession", () => {
         });
     });
 
+    it("should return unexpired tokens when an org url is passed", done => {
+      const session = new UserSession({
+        clientId: "id",
+        token: "token",
+        tokenExpires: TOMORROW,
+        portal: "https://custom.maps.arcgis.com/sharing/rest"
+      });
+
+      session
+        .getToken(
+          "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
+        )
+        .then(token => {
+          expect(token).toBe("token");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
     it("should return unexpired tokens for the configured portal domain", done => {
       const session = new UserSession({
         clientId: "id",
