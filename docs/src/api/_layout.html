@@ -5,25 +5,36 @@
   <script src="https://unpkg.com/fuse.js@3.0.5/dist/fuse.min.js"></script>
   <script src="{{baseUrl}}/js/index.js"></script>
   <script src="{{baseUrl}}/js/api-search.js"></script>
+  <script src="{{baseUrl}}/js/nav-toggle.js"></script>
+  <script>
+    new Vue({
+      el: "#page"
+    });
+  </script>
+  
 {% endblock %}
 
 {% block main %}
   <div class="grid-container trailer-1 leader-1">
     <div class="column-6">
-    <api-search base-url="{{baseUrl}}">
-      <ul class="list-plain">
-        {% for package in data.typedoc.packages %}
-        <li class="{{ package.icon }}">
-          {% link baseUrl + package.pageUrl, package.pkg.name, class="tsd-kind-icon" %}
-          <ul class="api-package-content-list">
-          {% for declaration in package.declarations %}
-            <li class="{{ declaration.icon }}">{% link baseUrl + declaration.pageUrl, declaration.name, class="tsd-kind-icon" %}</li>
+      <api-search base-url="{{baseUrl}}">
+        <ul class="list-plain">
+          {% for package in data.typedoc.packages %}
+          <li class="{{ package.icon }} api-list-item">
+            <nav-toggle index="{{loop.index}}" package-name="{{package.pkg.name}}"></nav-toggle>
+            <button id="trigger{{loop.index}}" class="btn btn-transparent api-toggle-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M7 4h5l12 12-12 12H7l12-12L7 4z"/></svg>
+            </button> 
+            {% link baseUrl + package.pageUrl, package.pkg.name, class="tsd-kind-icon" %}
+            <ul id="list{{loop.index}}" class="api-package-content-list">
+            {% for declaration in package.declarations %}
+              <li class="{{ declaration.icon }} padding-left-1 padding-right-1 visually-hidden">{% link baseUrl + declaration.pageUrl, declaration.name, class="tsd-kind-icon padding-right-1" %}</li>
+            {% endfor %}
+            </ul>
+          </li>
           {% endfor %}
-          </ul>
-        </li>
-        {% endfor %}
-      </ul>
-    </api-search>
+        </ul>
+      </api-search>
     </div>
 
     <div class="column-18">
