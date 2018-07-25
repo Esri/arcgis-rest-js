@@ -5,7 +5,8 @@ import {
   ISpatialReference,
   IFeatureSet,
   IFeature,
-  esriUnits
+  esriUnits,
+  IExtent
 } from "@esri/arcgis-rest-common-types";
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 
@@ -87,6 +88,8 @@ export interface IQueryFeaturesRequestOptions
 
 export interface IQueryFeaturesResponse extends IFeatureSet {
   exceededTransferLimit?: boolean;
+  count?: number;
+  extent?: IExtent;
 }
 
 /**
