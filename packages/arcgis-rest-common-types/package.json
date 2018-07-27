@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-common-types",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "Common TypeScript types for @esri/arcgis-rest-* packages.",
   "types": "dist/types/index.d.ts",
   "author": "",

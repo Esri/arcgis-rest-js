@@ -7,6 +7,53 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.6.0] - July 27th 2018
+
+### @esri/arcgis-rest-auth
+
+* Chores
+   * **all**: get pkg.versions back in sync [`c7751c8`](https://github.com/Esri/arcgis-rest-js/commit/c7751c866bb500833fcd3506f6de7a60928a35fa)
+
+* Bug Fixes
+   * ensure tokens can be generated successfully for hosted feature services.
+
+### @esri/arcgis-rest-common-types
+
+* Chores
+   * **groups**: remove duplicate IGroup interface and corrections to IItem interface) [`dd10d72`](https://github.com/Esri/arcgis-rest-js/commit/dd10d722efac1b2b2c70c84ebbd0468854f88e33) [#241](https://github.com/Esri/arcgis-rest-js/issues/241)
+
+### @esri/arcgis-rest-feature-service
+
+* Features
+   * new methods for querying, adding, updating and deleting feature service attachments 🙏COV-GIS🙏
+   * new feature service attachement demo! 🙏COV-GIS🙏
+   * **query features**: add count and extent to IQueryFeaturesResponse [`2ab9f33`](https://github.com/Esri/arcgis-rest-js/commit/2ab9f339f746e79beb06301e2c5e967d8c5135a2)
+
+### @esri/arcgis-rest-groups
+
+* Chores
+   * **groups**: remove duplicate IGroup interface (and extend IItem) [`dd10d72`](https://github.com/Esri/arcgis-rest-js/commit/dd10d722efac1b2b2c70c84ebbd0468854f88e33) [#241](https://github.com/Esri/arcgis-rest-js/issues/241)
+
+### @esri/arcgis-rest-items
+
+* Features
+   * **data**: added support for fetching and uploading binary data associated with items 🙏MikeTschudi🙏
+* Bug Fixes
+   * **crud**: enforce more AGOL rules in item crud operations [`3f365d9`](https://github.com/Esri/arcgis-rest-js/commit/3f365d9b0847a7cacd46d7b4c1a34b5dda235f7b) [#246](https://github.com/Esri/arcgis-rest-js/issues/246)
+* Chores
+   * more consistent `owner` checks across item methods
+
+### @esri/arcgis-rest-request
+
+* Chores
+   * **all**: get pkg.versions back in sync [`c7751c8`](https://github.com/Esri/arcgis-rest-js/commit/c7751c866bb500833fcd3506f6de7a60928a35fa)
+
+### Other Changes
+
+* Documentation
+   * **api**: add toggle component for side nav on API page. [`1432c22`](https://github.com/Esri/arcgis-rest-js/commit/1432c228c8c3816e3a41f605eb276bceb8920075)
+   * **api**: fix api nav toggle url path check so it works in production [`90db4a0`](https://github.com/Esri/arcgis-rest-js/commit/90db4a00700c00e3048d887176e8ecd32a66909c)
+
 ## [1.5.1] - July 12th 2018
 
 ### @esri/arcgis-rest-users
@@ -37,7 +84,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.4.2] - July 8th 2018
 
 * Bug Fixes:
-   * removed corrupt artifacts shipped with previous release  
+   * removed corrupt artifacts shipped with previous release
    * **crud**: ensure add/update/deleteFeatures dont pass extraneous parameters [`8566860`](https://github.com/Esri/arcgis-rest-js/commit/8566860554beb32e87c4b9b28b40138b7ac70b80) [#223](https://github.com/Esri/arcgis-rest-js/pull/238/)
    * **auth** fixed typo in peerDependency name [`d0d89b8`](https://github.com/Esri/arcgis-rest-js/commit/d0d89b875e4887c327f4501aaa47ac9f339a6c6b) 🙏richardhinkamp🙏 [#237](https://github.com/Esri/arcgis-rest-js/pull/237/)
 
@@ -594,4 +641,5 @@ Initial Public Release
 [1.4.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.4.1...v1.4.2 "v1.4.2"
 [1.5.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.4.2...v1.5.0 "v1.5.0"
 [1.5.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.5.0...v1.5.1 "v1.5.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.5.1...HEAD "Unreleased Changes"
+[1.6.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.5.1...v1.6.0 "v1.6.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.6.0...HEAD "Unreleased Changes"
