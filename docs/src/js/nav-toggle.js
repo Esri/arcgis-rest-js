@@ -5,7 +5,8 @@ Vue.component("nav-toggle", {
     this.list = document.getElementById("list" + this.index);
     this.toggle = false;
 
-    if (this.packageName.indexOf(window.location.pathname.split("/")[2]) > -1) {
+    const partialPath = window.location.pathname.split("/")[2];
+    if (partialPath !== "" && this.packageName.indexOf(partialPath) > -1) {
       this.show();
     }
 
