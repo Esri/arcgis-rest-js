@@ -47,7 +47,12 @@ export function processParams(params: any): any {
 
   Object.keys(params).forEach(key => {
     const param = params[key];
-    if (!param && param !== 0 && typeof param !== "boolean") {
+    if (
+      !param &&
+      param !== 0 &&
+      typeof param !== "boolean" &&
+      typeof param !== "string"
+    ) {
       return;
     }
     const type = param.constructor.name;
@@ -56,10 +61,15 @@ export function processParams(params: any): any {
 
     // properly encodes objects, arrays and dates for arcgis.com and other services.
     // ported from https://github.com/Esri/esri-leaflet/blob/master/src/Request.js#L22-L30
-    // also see https://github.com/Esri/arcgis-rest-js/issues/18
+    // also see https://github.com/Esri/arcgis-rest-js/issues/18:
+    // null, undefined, function are excluded. If you want to send an empty key you need to send an empty string "".
     switch (type) {
       case "Array":
+        // Based on the first element of the array, classify array as an array of objects to be stringified
+        // or an array of non-objects to be comma-separated
         value =
+          param[0] &&
+          param[0].constructor &&
           param[0].constructor.name === "Object"
             ? JSON.stringify(param)
             : param.join(",");
@@ -80,7 +90,7 @@ export function processParams(params: any): any {
         value = param;
         break;
     }
-    if (value || value === 0) {
+    if (value || value === 0 || typeof value === "string") {
       newParams[key] = value;
     }
   });
