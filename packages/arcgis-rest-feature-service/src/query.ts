@@ -5,7 +5,8 @@ import {
   ISpatialReference,
   IFeatureSet,
   IFeature,
-  esriUnits
+  esriUnits,
+  IExtent
 } from "@esri/arcgis-rest-common-types";
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 
@@ -89,6 +90,13 @@ export interface IQueryFeaturesResponse extends IFeatureSet {
   exceededTransferLimit?: boolean;
 }
 
+export interface IQueryResponse {
+  count?: number;
+  extent?: IExtent;
+  objectIdFieldName?: string;
+  objectIds?: number[];
+}
+
 /**
  * Get a feature by id.
  *
@@ -144,7 +152,7 @@ export function getFeature(
  */
 export function queryFeatures(
   requestOptions: IQueryFeaturesRequestOptions
-): Promise<IQueryFeaturesResponse> {
+): Promise<IQueryFeaturesResponse | IQueryResponse> {
   // default to a GET request
   const options: IQueryFeaturesRequestOptions = {
     params: {},
