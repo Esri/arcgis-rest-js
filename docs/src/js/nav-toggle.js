@@ -5,8 +5,9 @@ Vue.component("nav-toggle", {
     this.list = document.getElementById("list" + this.index);
     this.toggle = false;
 
-    const partialPath = window.location.pathname.split("/")[2];
-    if (partialPath !== "" && this.packageName.indexOf(partialPath) > -1) {
+    const match = window.location.pathname.match(/\/api\/([^\/]+)\//);
+    const partialPath = match ? match[1] : null;
+    if (partialPath && this.packageName.indexOf(partialPath) > -1) {
       this.show();
     }
 
@@ -36,5 +37,5 @@ Vue.component("nav-toggle", {
       }
       this.toggle = true;
     }
-  },
+  }
 });
