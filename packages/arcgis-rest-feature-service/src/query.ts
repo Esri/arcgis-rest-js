@@ -90,12 +90,11 @@ export interface IQueryFeaturesResponse extends IFeatureSet {
   exceededTransferLimit?: boolean;
 }
 
-export interface IQueryCountResponse {
-  count: number;
-}
-
-export interface IQueryExtentResponse {
-  extent: IExtent;
+export interface IQueryResponse {
+  count?: number;
+  extent?: IExtent;
+  objectIdFieldName?: string;
+  objectIds?: number[];
 }
 
 /**
@@ -153,9 +152,7 @@ export function getFeature(
  */
 export function queryFeatures(
   requestOptions: IQueryFeaturesRequestOptions
-): Promise<
-  IQueryFeaturesResponse | IQueryCountResponse | IQueryExtentResponse
-> {
+): Promise<IQueryFeaturesResponse | IQueryResponse> {
   // default to a GET request
   const options: IQueryFeaturesRequestOptions = {
     params: {},
