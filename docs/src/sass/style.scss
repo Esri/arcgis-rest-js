@@ -153,3 +153,17 @@ a > code {
   clear: right;
   margin: 0;
 }
+
+.api-toggle-button {
+  padding: 0.1rem 0.1rem;
+}
+
+.api-list-item {
+  white-space: nowrap;
+}
+
+.list-item-active {
+  border-width: 1px;
+  border-color: #0079c1;
+  border-style: solid
+}
