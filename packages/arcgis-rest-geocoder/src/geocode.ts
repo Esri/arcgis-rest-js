@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import { request, IParams } from "@esri/arcgis-rest-request";
@@ -53,7 +53,7 @@ export interface IGeocodeResponse {
 }
 
 /**
- * Used to determine the location of a single address or point of interest
+ * Used to determine the [location](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-find-address-candidates.htm)  of a single address or point of interest.
  *
  * ```js
  * import { geocode } from '@esri/arcgis-rest-geocoder';

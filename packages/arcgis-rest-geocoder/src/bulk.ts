@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import { request } from "@esri/arcgis-rest-request";
@@ -43,7 +43,7 @@ export interface IBulkGeocodeResponse {
 }
 
 /**
- * Used to geocode a batch of addresses
+ * Used to geocode a [batch](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm) of addresses.
  *
  * ```js
  * import { bulkGeocode } from '@esri/arcgis-rest-geocoder';
