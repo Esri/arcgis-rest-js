@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import { request } from "@esri/arcgis-rest-request";
@@ -29,7 +29,7 @@ export interface ISuggestResponse {
 }
 
 /**
- * Used to return a placename suggestion for a partial string
+ * Used to return a placename [suggestion]((https://developers.arcgis.com/rest/geocode/api-reference/geocoding-suggest.htm) for a partial string.
  *
  * ```js
  * import { suggest } from '@esri/arcgis-rest-geocoder';

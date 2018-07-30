@@ -54,6 +54,12 @@ For more information on SemVer, please visit <http://semver.org/>.
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](CONTRIBUTING.md).
 
+### In the wild
+
+| What | Who  |
+| -- | -- |
+| [React](https://twitter.com/oppoudel/status/1022209378378805249) component | [@oppoudel](https://github.com/oppoudel) |
+
 ### License
 
 Copyright &copy; 2017-2018 Esri

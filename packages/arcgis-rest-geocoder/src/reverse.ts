@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import { request } from "@esri/arcgis-rest-request";
@@ -30,7 +30,7 @@ function isLocation(
 }
 
 /**
- * Used to determine the address of a location.
+ * Used to determine the address of a [location](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-reverse-geocode.htm).
  *
  * ```js
  * import { reverseGeocode } from '@esri/arcgis-rest-geocoder';
