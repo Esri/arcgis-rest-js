@@ -23,9 +23,9 @@ const { name } = pkg;
  */
 
 const copyright = `/* @preserve
-* ${pkg.name} - v${pkg.version} - ${new Date().toString()}
-* Copyright (c) 2017 - ${new Date().getFullYear()} Environmental Systems Research Institute, Inc.
-* ${pkg.license}
+* ${pkg.name} - v${pkg.version} - ${pkg.license}
+* Copyright (c) 2017-${new Date().getFullYear()} Esri, Inc.
+* ${new Date().toString()}
 */`;
 
 
