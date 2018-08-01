@@ -126,14 +126,16 @@ export function request(
 ): Promise<any> {
   const options: IRequestOptions = {
     httpMethod: "POST",
-    fetch,
     ...requestOptions
   };
 
   const missingGlobals: string[] = [];
   const recommendedPackages: string[] = [];
 
-  if (!options.fetch) {
+  // don't check for a global fetch if a custom implementation was passed through
+  if (!options.fetch && typeof fetch !== "undefined") {
+    options.fetch = fetch.bind(Function("return this")());
+  } else {
     missingGlobals.push("`fetch`");
     recommendedPackages.push("`isomorphic-fetch`");
   }
@@ -156,10 +158,6 @@ export function request(
         ", "
       )} modules at the root of your application to add these to the global scope. See https://bit.ly/2KNwWaJ for more info.`
     );
-  }
-
-  if (options.fetch === fetch) {
-    options.fetch = fetch.bind(Function("return this")());
   }
 
   const { httpMethod, authentication } = options;
