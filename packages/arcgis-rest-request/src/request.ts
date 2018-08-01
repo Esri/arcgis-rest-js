@@ -207,11 +207,9 @@ export function request(
 
       /* istanbul ignore else blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
       if (!requiresFormData(params)) {
-        fetchOptions.headers = new Headers();
-        fetchOptions.headers.append(
-          "Content-Type",
-          "application/x-www-form-urlencoded"
-        );
+        fetchOptions.headers = {};
+        fetchOptions.headers["Content-Type"] =
+          "application/x-www-form-urlencoded";
       }
 
       return options.fetch(url, fetchOptions);
