@@ -39,7 +39,7 @@ export interface IQueryRelatedRecordsRequestOptions extends IRequestOptions {
  * Related record data structure
  */
 
-export interface IRelatedRecordGroups {
+export interface IRelatedRecordGroup {
   objectId: number;
   relatedRecords?: IFeature[];
   count?: number;
@@ -53,7 +53,7 @@ export interface IQueryRelatedRecordResponse extends IHasZM {
   geometryType?: esriGeometryType;
   spatialReference?: ISpatialReference;
   fields?: IField[];
-  relatedRecordGroups: IRelatedRecordGroups;
+  relatedRecordGroups: IRelatedRecordGroup[];
 }
 /**
  * Query the related records for a feature service. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-records-feature-service-.htm) for more information.
