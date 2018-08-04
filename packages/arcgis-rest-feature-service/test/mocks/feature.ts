@@ -218,3 +218,61 @@ export const genericInvalidResponse = {
     message: "Invalid or missing input parameters."
   }
 };
+
+export const queryRelatedResponse = {
+  geometryType: "esriGeometryPolygon",
+  spatialReference: {
+    wkid: 4267
+  },
+  fields: [
+    {
+      name: "OBJECTID",
+      type: "esriFieldTypeOID",
+      alias: "OBJECTID"
+    },
+    {
+      name: "FIELD_KID",
+      type: "esriFieldTypeString",
+      alias: "FIELD_KID",
+      length: 25
+    },
+    {
+      name: "APPROXACRE",
+      type: "esriFieldTypeDouble",
+      alias: "APPROXACRE"
+    },
+    {
+      name: "FIELD_NAME",
+      type: "esriFieldTypeString",
+      alias: "FIELD_NAME",
+      length: 150
+    }
+  ],
+  relatedRecordGroups: [
+    {
+      objectId: 3,
+      relatedRecords: [
+        {
+          attributes: {
+            OBJECTID: 5540,
+            FIELD_KID: "1000147595",
+            APPROXACRE: 95929,
+            FIELD_NAME: "LOST SPRINGS"
+          },
+          geometry: {
+            rings: [
+              [
+                [-96.929599633999942, 38.52426809800005],
+                [-96.929602437999961, 38.522448437000037],
+                [-96.92959118999994, 38.529723252000053],
+                [-96.929594022999936, 38.527905578000059],
+                [-96.929596839999988, 38.526087119000067],
+                [-96.929599633999942, 38.52426809800005]
+              ]
+            ]
+          }
+        }
+      ]
+    }
+  ]
+};

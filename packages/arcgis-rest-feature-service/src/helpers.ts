@@ -12,6 +12,7 @@ import { IQueryFeaturesRequestOptions } from "./query";
 import { IAddFeaturesRequestOptions } from "./add";
 import { IUpdateFeaturesRequestOptions } from "./update";
 import { IDeleteFeaturesRequestOptions } from "./delete";
+import { IQueryRelatedRecordsRequestOptions } from "./queryRelated";
 
 export interface ISharedQueryParams {
   where?: string;
@@ -57,7 +58,8 @@ export function appendCustomParams(
     | IQueryFeaturesRequestOptions
     | IAddFeaturesRequestOptions
     | IUpdateFeaturesRequestOptions
-    | IDeleteFeaturesRequestOptions,
+    | IDeleteFeaturesRequestOptions
+    | IQueryRelatedRecordsRequestOptions,
   newOptions: IRequestOptions
 ) {
   // only pass query parameters through in the request, not generic IRequestOptions props

@@ -4,6 +4,7 @@ import {
   addFeatures,
   updateFeatures,
   deleteFeatures,
+  queryRelatedRecords,
   IDeleteFeaturesRequestOptions,
   IUpdateFeaturesRequestOptions
 } from "../src/index";
@@ -15,7 +16,8 @@ import {
   queryResponse,
   addFeaturesResponse,
   updateFeaturesResponse,
-  deleteFeaturesResponse
+  deleteFeaturesResponse,
+  queryRelatedResponse
 } from "./mocks/feature";
 
 const serviceUrl =
@@ -166,6 +168,45 @@ describe("feature", () => {
         requestOptions.deletes[0]
       );
       expect(response.deleteResults[0].success).toEqual(true);
+      done();
+    });
+  });
+
+  it("should supply default query parameters (query related)", done => {
+    const requestOptions = {
+      url: serviceUrl,
+      relationshipId: 1
+    };
+    fetchMock.once("*", queryRelatedResponse);
+    queryRelatedRecords(requestOptions).then(response => {
+      expect(fetchMock.called()).toBeTruthy();
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        `${
+          requestOptions.url
+        }/queryRelatedRecords?f=json&relationshipId=1&definitionExpression=1%3D1&outFields=*`
+      );
+      expect(options.method).toBe("GET");
+      done();
+    });
+  });
+
+  it("should use passed in query parameters (query related)", done => {
+    const requestOptions = {
+      url: serviceUrl,
+      relationshipId: 1,
+      definitionExpression: "APPROXACRE<10000",
+      outFields: ["APPROXACRE", "FIELD_NAME"]
+    };
+    fetchMock.once("*", queryRelatedResponse);
+    queryRelatedRecords(requestOptions).then(response => {
+      expect(fetchMock.called()).toBeTruthy();
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        `${
+          requestOptions.url
+        }/queryRelatedRecords?f=json&relationshipId=1&definitionExpression=APPROXACRE%3C10000&outFields=APPROXACRE%2CFIELD_NAME`
+      );
       done();
     });
   });
