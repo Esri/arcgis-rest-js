@@ -1,22 +1,12 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IParams } from "@esri/arcgis-rest-request";
-
-export type GrantTypes =
-  | "authorization_code"
-  | "refresh_token"
-  | "client_credentials"
-  | "exchange_refresh_token";
-
-export interface IFetchTokenParams extends IParams {
-  client_id: string;
-  client_secret?: string;
-  grant_type: GrantTypes;
-  redirect_uri?: string;
-  refresh_token?: string;
-  code?: string;
-}
+import {
+  request,
+  IRequestOptions,
+  IFetchTokenParams,
+  ITokenRequestOptions
+} from "@esri/arcgis-rest-request";
 
 interface IFetchTokenRawResponse {
   access_token: string;
@@ -34,11 +24,15 @@ export interface IFetchTokenResponse {
 
 export function fetchToken(
   url: string,
-  options: IFetchTokenParams
+  requestOptions: IFetchTokenParams | ITokenRequestOptions
 ): Promise<IFetchTokenResponse> {
-  return request(url, {
-    params: options
-  }).then((response: IFetchTokenRawResponse) => {
+  // TODO: remove union type and type guard next breaking change and just expect IGenerateTokenRequestOptions
+  const options: IRequestOptions = (requestOptions as ITokenRequestOptions)
+    .params
+    ? (requestOptions as IRequestOptions)
+    : { params: requestOptions };
+
+  return request(url, options).then((response: IFetchTokenRawResponse) => {
     const r: IFetchTokenResponse = {
       token: response.access_token,
       username: response.username,

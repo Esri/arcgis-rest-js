@@ -6,7 +6,7 @@ import {
   request,
   ArcGISAuthError,
   IAuthenticationManager,
-  IGenerateTokenRequestOptions
+  ITokenRequestOptions
 } from "@esri/arcgis-rest-request";
 import { generateToken } from "./generate-token";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token";
@@ -624,7 +624,7 @@ export class UserSession implements IAuthenticationManager {
    * the request is to an unknown server we will validate the server with a request
    * to our current `portal`.
    */
-  getToken(url: string, requestOptions?: IGenerateTokenRequestOptions) {
+  getToken(url: string, requestOptions?: ITokenRequestOptions) {
     if (
       /^https?:\/\/\S+\.arcgis\.com\/sharing\/rest/.test(this.portal) &&
       /^https?:\/\/\S+\.arcgis\.com.+/.test(url)
@@ -660,9 +660,7 @@ export class UserSession implements IAuthenticationManager {
   /**
    * Manually refreshes the current `token` and `tokenExpires`.
    */
-  refreshSession(
-    requestOptions?: IGenerateTokenRequestOptions
-  ): Promise<UserSession> {
+  refreshSession(requestOptions?: ITokenRequestOptions): Promise<UserSession> {
     if (this.username && this.password) {
       return this.refreshWithUsernameAndPassword(requestOptions);
     }
@@ -680,7 +678,7 @@ export class UserSession implements IAuthenticationManager {
    */
   private getTokenForServer(
     url: string,
-    requestOptions?: IGenerateTokenRequestOptions
+    requestOptions?: ITokenRequestOptions
   ) {
     const [root] = url.split("/rest/services/");
     const existingToken = this.trustedServers[root];
@@ -756,7 +754,7 @@ export class UserSession implements IAuthenticationManager {
   /**
    * Returns an unexpired token for the current `portal`.
    */
-  private getFreshToken(requestOptions?: IGenerateTokenRequestOptions) {
+  private getFreshToken(requestOptions?: ITokenRequestOptions) {
     if (
       this.token &&
       this.tokenExpires &&
@@ -782,7 +780,7 @@ export class UserSession implements IAuthenticationManager {
    * `password`.
    */
   private refreshWithUsernameAndPassword(
-    requestOptions?: IGenerateTokenRequestOptions
+    requestOptions?: ITokenRequestOptions
   ) {
     const options = {
       params: {
@@ -804,20 +802,24 @@ export class UserSession implements IAuthenticationManager {
   /**
    * Refreshes the current `token` and `tokenExpires` with `refreshToken`.
    */
-  private refreshWithRefreshToken() {
+  private refreshWithRefreshToken(requestOptions?: ITokenRequestOptions) {
     if (
       this.refreshToken &&
       this.refreshTokenExpires &&
       this.refreshTokenExpires.getTime() < Date.now()
     ) {
-      return this.refreshRefreshToken();
+      return this.refreshRefreshToken(requestOptions);
     }
 
-    return fetchToken(`${this.portal}/oauth2/token`, {
-      client_id: this.clientId,
-      refresh_token: this.refreshToken,
-      grant_type: "refresh_token"
-    }).then(response => {
+    const options: ITokenRequestOptions = {
+      params: {
+        client_id: this.clientId,
+        refresh_token: this.refreshToken,
+        grant_type: "refresh_token"
+      },
+      ...requestOptions
+    };
+    return fetchToken(`${this.portal}/oauth2/token`, options).then(response => {
       this._token = response.token;
       this._tokenExpires = response.expires;
       return this;
@@ -828,13 +830,18 @@ export class UserSession implements IAuthenticationManager {
    * Exchanges an expired `refreshToken` for a new one also updates `token` and
    * `tokenExpires`.
    */
-  private refreshRefreshToken() {
-    return fetchToken(`${this.portal}/oauth2/token`, {
-      client_id: this.clientId,
-      refresh_token: this.refreshToken,
-      redirect_uri: this.redirectUri,
-      grant_type: "exchange_refresh_token"
-    }).then(response => {
+  private refreshRefreshToken(requestOptions?: ITokenRequestOptions) {
+    const options: ITokenRequestOptions = {
+      params: {
+        client_id: this.clientId,
+        refresh_token: this.refreshToken,
+        redirect_uri: this.redirectUri,
+        grant_type: "exchange_refresh_token"
+      },
+      ...requestOptions
+    };
+
+    return fetchToken(`${this.portal}/oauth2/token`, options).then(response => {
       this._token = response.token;
       this._tokenExpires = response.expires;
       this._refreshToken = response.refreshToken;
