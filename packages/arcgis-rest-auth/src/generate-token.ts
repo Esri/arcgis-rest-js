@@ -1,7 +1,7 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IParams } from "@esri/arcgis-rest-request";
+import { request, IParams, IRequestOptions } from "@esri/arcgis-rest-request";
 
 export interface IGenerateTokenParams extends IParams {
   username?: string;
@@ -9,6 +9,10 @@ export interface IGenerateTokenParams extends IParams {
   expiration?: number;
   token?: string;
   serverUrl?: string;
+}
+
+export interface IGenerateTokenRequestOptions extends IRequestOptions {
+  params: IGenerateTokenParams;
 }
 
 export interface IGenerateTokenResponse {
@@ -19,7 +23,7 @@ export interface IGenerateTokenResponse {
 
 export function generateToken(
   url: string,
-  params: IGenerateTokenParams
+  requestOptions: IGenerateTokenRequestOptions
 ): Promise<IGenerateTokenResponse> {
   /* istanbul ignore else */
   if (
@@ -27,10 +31,10 @@ export function generateToken(
     window.location &&
     window.location.host
   ) {
-    params.referer = window.location.host;
+    requestOptions.params.referer = window.location.host;
   } else {
-    params.referer = "@esri.arcgis-rest-auth";
+    requestOptions.params.referer = "@esri.arcgis-rest-auth";
   }
 
-  return request(url, { params });
+  return request(url, requestOptions);
 }

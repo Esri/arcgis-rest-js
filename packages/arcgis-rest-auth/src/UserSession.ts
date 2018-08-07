@@ -1,11 +1,12 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import * as http from "http";
 import {
   request,
   ArcGISAuthError,
-  IAuthenticationManager
+  IAuthenticationManager,
+  IRequestOptions
 } from "@esri/arcgis-rest-request";
 import { generateToken } from "./generate-token";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token";
@@ -623,16 +624,16 @@ export class UserSession implements IAuthenticationManager {
    * the request is to an unknown server we will validate the server with a request
    * to our current `portal`.
    */
-  getToken(url: string) {
+  getToken(url: string, requestOptions?: IRequestOptions) {
     if (
       /^https?:\/\/\S+\.arcgis\.com\/sharing\/rest/.test(this.portal) &&
       /^https?:\/\/\S+\.arcgis\.com.+/.test(url)
     ) {
-      return this.getFreshToken();
+      return this.getFreshToken(requestOptions);
     } else if (new RegExp(this.portal).test(url)) {
-      return this.getFreshToken();
+      return this.getFreshToken(requestOptions);
     } else {
-      return this.getTokenForServer(url);
+      return this.getTokenForServer(url, requestOptions);
     }
   }
 
@@ -659,9 +660,9 @@ export class UserSession implements IAuthenticationManager {
   /**
    * Manually refreshes the current `token` and `tokenExpires`.
    */
-  refreshSession(): Promise<UserSession> {
+  refreshSession(requestOptions?: IRequestOptions): Promise<UserSession> {
     if (this.username && this.password) {
-      return this.refreshWithUsernameAndPassword();
+      return this.refreshWithUsernameAndPassword(requestOptions);
     }
 
     if (this.clientId && this.refreshToken) {
@@ -675,7 +676,7 @@ export class UserSession implements IAuthenticationManager {
    * Validates that a given URL is properly federated with our current `portal`.
    * Attempts to use the internal `trustedServers` cache first.
    */
-  private getTokenForServer(url: string) {
+  private getTokenForServer(url: string, requestOptions: IRequestOptions) {
     const [root] = url.split("/rest/services/");
     const existingToken = this.trustedServers[root];
 
@@ -707,7 +708,7 @@ export class UserSession implements IAuthenticationManager {
             "NOT_FEDERATED"
           );
         }
-        return request(`${owningSystemUrl}/sharing/rest/info`);
+        return request(`${owningSystemUrl}/sharing/rest/info`, requestOptions);
       })
       .then((response: any) => {
         return response.authInfo.tokenServicesUrl;
@@ -715,16 +716,20 @@ export class UserSession implements IAuthenticationManager {
       .then((tokenServicesUrl: string) => {
         if (this.token) {
           return generateToken(tokenServicesUrl, {
-            token: this.token,
-            serverUrl: url,
-            expiration: this.tokenDuration
+            params: {
+              token: this.token,
+              serverUrl: url,
+              expiration: this.tokenDuration
+            }
           });
           // generate an entirely fresh token if necessary
         } else {
           return generateToken(tokenServicesUrl, {
-            username: this.username,
-            password: this.password,
-            expiration: this.tokenDuration
+            params: {
+              username: this.username,
+              password: this.password,
+              expiration: this.tokenDuration
+            }
           }).then((response: any) => {
             this._token = response.token;
             this._tokenExpires = new Date(response.expires);
@@ -746,7 +751,7 @@ export class UserSession implements IAuthenticationManager {
   /**
    * Returns an unexpired token for the current `portal`.
    */
-  private getFreshToken() {
+  private getFreshToken(requestOptions?: IRequestOptions) {
     if (
       this.token &&
       this.tokenExpires &&
@@ -756,12 +761,12 @@ export class UserSession implements IAuthenticationManager {
     }
 
     if (!this._pendingTokenRequests[this.portal]) {
-      this._pendingTokenRequests[this.portal] = this.refreshSession().then(
-        session => {
-          this._pendingTokenRequests[this.portal] = null;
-          return session.token;
-        }
-      );
+      this._pendingTokenRequests[this.portal] = this.refreshSession(
+        requestOptions
+      ).then(session => {
+        this._pendingTokenRequests[this.portal] = null;
+        return session.token;
+      });
     }
 
     return this._pendingTokenRequests[this.portal];
@@ -771,16 +776,22 @@ export class UserSession implements IAuthenticationManager {
    * Refreshes the current `token` and `tokenExpires` with `username` and
    * `password`.
    */
-  private refreshWithUsernameAndPassword() {
-    return generateToken(`${this.portal}/generateToken`, {
-      username: this.username,
-      password: this.password,
-      expiration: this.tokenDuration
-    }).then((response: any) => {
-      this._token = response.token;
-      this._tokenExpires = new Date(response.expires);
-      return this;
-    });
+  private refreshWithUsernameAndPassword(requestOptions?: IRequestOptions) {
+    const options = {
+      params: {
+        username: this.username,
+        password: this.password,
+        expiration: this.tokenDuration
+      },
+      ...requestOptions
+    };
+    return generateToken(`${this.portal}/generateToken`, options).then(
+      (response: any) => {
+        this._token = response.token;
+        this._tokenExpires = new Date(response.expires);
+        return this;
+      }
+    );
   }
 
   /**

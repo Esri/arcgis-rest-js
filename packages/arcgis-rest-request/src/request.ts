@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import { checkForErrors } from "./utils/check-for-errors";
@@ -25,7 +25,7 @@ export interface IAuthenticationManager {
    * Defaults to 'https://www.arcgis.com/sharing/rest'.
    */
   portal: string;
-  getToken(url: string): Promise<string>;
+  getToken(url: string, requestOptions?: IRequestOptions): Promise<string>;
 }
 
 /**
@@ -173,7 +173,12 @@ export function request(
     credentials: "same-origin"
   };
 
-  return (authentication ? authentication.getToken(url) : Promise.resolve(""))
+  return (authentication
+    ? authentication.getToken(url, {
+        fetch: options.fetch
+      })
+    : Promise.resolve("")
+  )
     .then(token => {
       if (token.length) {
         params.token = token;
