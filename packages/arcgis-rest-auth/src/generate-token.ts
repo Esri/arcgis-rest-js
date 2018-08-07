@@ -3,6 +3,7 @@
 
 import {
   request,
+  IGenerateTokenParams,
   IGenerateTokenRequestOptions
 } from "@esri/arcgis-rest-request";
 
@@ -14,18 +15,28 @@ export interface IGenerateTokenResponse {
 
 export function generateToken(
   url: string,
-  requestOptions: IGenerateTokenRequestOptions
+  requestOptionsOrParams: IGenerateTokenParams | IGenerateTokenRequestOptions
 ): Promise<IGenerateTokenResponse> {
+  // TODO: remove union type and type guard next breaking change and just expect IGenerateTokenRequestOptions
+  let options: IGenerateTokenRequestOptions;
+  if ((requestOptionsOrParams as IGenerateTokenRequestOptions).params) {
+    options = requestOptionsOrParams as IGenerateTokenRequestOptions;
+  } else {
+    options = {
+      params: requestOptionsOrParams
+    };
+  }
+
   /* istanbul ignore else */
   if (
     typeof window !== "undefined" &&
     window.location &&
     window.location.host
   ) {
-    requestOptions.params.referer = window.location.host;
+    options.params.referer = window.location.host;
   } else {
-    requestOptions.params.referer = "@esri.arcgis-rest-auth";
+    options.params.referer = "@esri.arcgis-rest-auth";
   }
 
-  return request(url, requestOptions);
+  return request(url, options);
 }
