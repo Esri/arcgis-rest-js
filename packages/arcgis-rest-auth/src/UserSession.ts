@@ -6,7 +6,7 @@ import {
   request,
   ArcGISAuthError,
   IAuthenticationManager,
-  IRequestOptions
+  IGenerateTokenRequestOptions
 } from "@esri/arcgis-rest-request";
 import { generateToken } from "./generate-token";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token";
@@ -624,7 +624,7 @@ export class UserSession implements IAuthenticationManager {
    * the request is to an unknown server we will validate the server with a request
    * to our current `portal`.
    */
-  getToken(url: string, requestOptions?: IRequestOptions) {
+  getToken(url: string, requestOptions?: IGenerateTokenRequestOptions) {
     if (
       /^https?:\/\/\S+\.arcgis\.com\/sharing\/rest/.test(this.portal) &&
       /^https?:\/\/\S+\.arcgis\.com.+/.test(url)
@@ -660,7 +660,9 @@ export class UserSession implements IAuthenticationManager {
   /**
    * Manually refreshes the current `token` and `tokenExpires`.
    */
-  refreshSession(requestOptions?: IRequestOptions): Promise<UserSession> {
+  refreshSession(
+    requestOptions?: IGenerateTokenRequestOptions
+  ): Promise<UserSession> {
     if (this.username && this.password) {
       return this.refreshWithUsernameAndPassword(requestOptions);
     }
@@ -676,7 +678,10 @@ export class UserSession implements IAuthenticationManager {
    * Validates that a given URL is properly federated with our current `portal`.
    * Attempts to use the internal `trustedServers` cache first.
    */
-  private getTokenForServer(url: string, requestOptions: IRequestOptions) {
+  private getTokenForServer(
+    url: string,
+    requestOptions?: IGenerateTokenRequestOptions
+  ) {
     const [root] = url.split("/rest/services/");
     const existingToken = this.trustedServers[root];
 
@@ -751,7 +756,7 @@ export class UserSession implements IAuthenticationManager {
   /**
    * Returns an unexpired token for the current `portal`.
    */
-  private getFreshToken(requestOptions?: IRequestOptions) {
+  private getFreshToken(requestOptions?: IGenerateTokenRequestOptions) {
     if (
       this.token &&
       this.tokenExpires &&
@@ -776,7 +781,9 @@ export class UserSession implements IAuthenticationManager {
    * Refreshes the current `token` and `tokenExpires` with `username` and
    * `password`.
    */
-  private refreshWithUsernameAndPassword(requestOptions?: IRequestOptions) {
+  private refreshWithUsernameAndPassword(
+    requestOptions?: IGenerateTokenRequestOptions
+  ) {
     const options = {
       params: {
         username: this.username,

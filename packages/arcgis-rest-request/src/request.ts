@@ -7,6 +7,20 @@ import { encodeQueryString } from "./utils/encode-query-string";
 import { requiresFormData } from "./utils/process-params";
 import { ArcGISRequestError } from "./utils/ArcGISRequestError";
 
+export interface IGenerateTokenParams extends IParams {
+  username?: string;
+  password?: string;
+  expiration?: number;
+  token?: string;
+  serverUrl?: string;
+}
+
+export interface IGenerateTokenRequestOptions {
+  params?: IGenerateTokenParams;
+  httpMethod?: HTTPMethods;
+  fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+}
+
 /**
  * Authentication can be supplied to `request` via [`UserSession`](../../auth/UserSession/) or [`ApplicationSession`](../../auth/ApplicationSession/). Both classes extend `IAuthenticationManager`.
  * ```js
@@ -25,7 +39,10 @@ export interface IAuthenticationManager {
    * Defaults to 'https://www.arcgis.com/sharing/rest'.
    */
   portal: string;
-  getToken(url: string, requestOptions?: IRequestOptions): Promise<string>;
+  getToken(
+    url: string,
+    requestOptions?: IGenerateTokenRequestOptions
+  ): Promise<string>;
 }
 
 /**

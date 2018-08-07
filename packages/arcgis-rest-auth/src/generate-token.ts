@@ -1,19 +1,10 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IParams, IRequestOptions } from "@esri/arcgis-rest-request";
-
-export interface IGenerateTokenParams extends IParams {
-  username?: string;
-  password?: string;
-  expiration?: number;
-  token?: string;
-  serverUrl?: string;
-}
-
-export interface IGenerateTokenRequestOptions extends IRequestOptions {
-  params: IGenerateTokenParams;
-}
+import {
+  request,
+  IGenerateTokenRequestOptions
+} from "@esri/arcgis-rest-request";
 
 export interface IGenerateTokenResponse {
   token: string;
