@@ -101,7 +101,7 @@ reverseBtn.addEventListener('click', function (e) {
 var metadataBtn = document.getElementById('metadata');
 
 metadataBtn.addEventListener('click', function (e) {
-    arcgisRest.serviceInfo()
+    arcgisRest.getGeocodeService()
     .then((response) => {
         console.log("metadata", response);
     });
