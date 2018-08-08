@@ -13,9 +13,11 @@ describe("fetchToken()", () => {
     });
 
     fetchToken(TOKEN_URL, {
-      client_id: "clientId",
-      client_secret: "clientSecret",
-      grant_type: "client_credentials"
+      params: {
+        client_id: "clientId",
+        client_secret: "clientSecret",
+        grant_type: "client_credentials"
+      }
     })
       .then(response => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
@@ -44,10 +46,12 @@ describe("fetchToken()", () => {
     });
 
     fetchToken(TOKEN_URL, {
-      client_id: "clientId",
-      redirect_uri: "https://example-app.com/redirect-uri",
-      code: "authorizationCode",
-      grant_type: "authorization_code"
+      params: {
+        client_id: "clientId",
+        redirect_uri: "https://example-app.com/redirect-uri",
+        code: "authorizationCode",
+        grant_type: "authorization_code"
+      }
     })
       .then(response => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
