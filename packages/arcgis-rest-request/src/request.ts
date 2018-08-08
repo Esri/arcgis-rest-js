@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import { checkForErrors } from "./utils/check-for-errors";
@@ -6,6 +6,35 @@ import { encodeFormData } from "./utils/encode-form-data";
 import { encodeQueryString } from "./utils/encode-query-string";
 import { requiresFormData } from "./utils/process-params";
 import { ArcGISRequestError } from "./utils/ArcGISRequestError";
+
+export type GrantTypes =
+  | "authorization_code"
+  | "refresh_token"
+  | "client_credentials"
+  | "exchange_refresh_token";
+
+export interface IGenerateTokenParams extends IParams {
+  username?: string;
+  password?: string;
+  expiration?: number;
+  token?: string;
+  serverUrl?: string;
+}
+
+export interface IFetchTokenParams extends IParams {
+  client_id: string;
+  client_secret?: string;
+  grant_type: GrantTypes;
+  redirect_uri?: string;
+  refresh_token?: string;
+  code?: string;
+}
+
+export interface ITokenRequestOptions {
+  params?: IGenerateTokenParams | IFetchTokenParams;
+  httpMethod?: HTTPMethods;
+  fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+}
 
 /**
  * Authentication can be supplied to `request` via [`UserSession`](../../auth/UserSession/) or [`ApplicationSession`](../../auth/ApplicationSession/). Both classes extend `IAuthenticationManager`.
@@ -25,7 +54,7 @@ export interface IAuthenticationManager {
    * Defaults to 'https://www.arcgis.com/sharing/rest'.
    */
   portal: string;
-  getToken(url: string): Promise<string>;
+  getToken(url: string, requestOptions?: ITokenRequestOptions): Promise<string>;
 }
 
 /**
@@ -126,14 +155,16 @@ export function request(
 ): Promise<any> {
   const options: IRequestOptions = {
     httpMethod: "POST",
-    fetch,
     ...requestOptions
   };
 
   const missingGlobals: string[] = [];
   const recommendedPackages: string[] = [];
 
-  if (!options.fetch) {
+  // don't check for a global fetch if a custom implementation was passed through
+  if (!options.fetch && typeof fetch !== "undefined") {
+    options.fetch = fetch.bind(Function("return this")());
+  } else {
     missingGlobals.push("`fetch`");
     recommendedPackages.push("`isomorphic-fetch`");
   }
@@ -158,10 +189,6 @@ export function request(
     );
   }
 
-  if (options.fetch === fetch) {
-    options.fetch = fetch.bind(Function("return this")());
-  }
-
   const { httpMethod, authentication } = options;
 
   const params: IParams = {
@@ -175,7 +202,12 @@ export function request(
     credentials: "same-origin"
   };
 
-  return (authentication ? authentication.getToken(url) : Promise.resolve(""))
+  return (authentication
+    ? authentication.getToken(url, {
+        fetch: options.fetch
+      })
+    : Promise.resolve("")
+  )
     .then(token => {
       if (token.length) {
         params.token = token;
@@ -207,11 +239,9 @@ export function request(
 
       /* istanbul ignore else blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
       if (!requiresFormData(params)) {
-        fetchOptions.headers = new Headers();
-        fetchOptions.headers.append(
-          "Content-Type",
-          "application/x-www-form-urlencoded"
-        );
+        fetchOptions.headers = {};
+        fetchOptions.headers["Content-Type"] =
+          "application/x-www-form-urlencoded";
       }
 
       return options.fetch(url, fetchOptions);
