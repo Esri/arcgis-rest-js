@@ -6,3 +6,4 @@ export * from "./getAttachments";
 export * from "./addAttachment";
 export * from "./updateAttachment";
 export * from "./deleteAttachments";
+export * from "./queryRelated";

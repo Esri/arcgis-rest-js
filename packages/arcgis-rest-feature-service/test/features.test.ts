@@ -4,8 +4,10 @@ import {
   addFeatures,
   updateFeatures,
   deleteFeatures,
+  queryRelated,
   IDeleteFeaturesRequestOptions,
-  IUpdateFeaturesRequestOptions
+  IUpdateFeaturesRequestOptions,
+  IQueryRelatedRequestOptions
 } from "../src/index";
 
 import * as fetchMock from "fetch-mock";
@@ -15,7 +17,8 @@ import {
   queryResponse,
   addFeaturesResponse,
   updateFeaturesResponse,
-  deleteFeaturesResponse
+  deleteFeaturesResponse,
+  queryRelatedResponse
 } from "./mocks/feature";
 
 const serviceUrl =
@@ -166,6 +169,46 @@ describe("feature", () => {
         requestOptions.deletes[0]
       );
       expect(response.deleteResults[0].success).toEqual(true);
+      done();
+    });
+  });
+
+  it("should supply default query related parameters", done => {
+    const requestOptions = {
+      url: serviceUrl
+    };
+    fetchMock.once("*", queryRelatedResponse);
+    queryRelated(requestOptions).then(() => {
+      expect(fetchMock.called()).toBeTruthy();
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        `${
+          requestOptions.url
+        }/queryRelatedRecords?f=json&definitionExpression=1%3D1&outFields=*&relationshipId=0`
+      );
+      expect(options.method).toBe("GET");
+      done();
+    });
+  });
+
+  it("should use passed in query related parameters", done => {
+    const requestOptions = {
+      url: serviceUrl,
+      relationshipId: 1,
+      definitionExpression: "APPROXACRE<10000",
+      outFields: ["APPROXACRE", "FIELD_NAME"],
+      httpMethod: "POST"
+    } as IQueryRelatedRequestOptions;
+    fetchMock.once("*", queryRelatedResponse);
+    queryRelated(requestOptions).then(() => {
+      expect(fetchMock.called()).toBeTruthy();
+      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+      expect(url).toEqual(`${requestOptions.url}/queryRelatedRecords`);
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain("relationshipId=1");
+      expect(options.body).toContain("definitionExpression=APPROXACRE%3C10000");
+      expect(options.body).toContain("outFields=APPROXACRE%2CFIELD_NAME");
       done();
     });
   });

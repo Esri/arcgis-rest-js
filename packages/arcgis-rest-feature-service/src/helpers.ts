@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 import {
   esriGeometryType,
@@ -6,12 +6,13 @@ import {
   IGeometry,
   ISpatialReference
 } from "@esri/arcgis-rest-common-types";
-import { request, IRequestOptions, IParams } from "@esri/arcgis-rest-request";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 import { IQueryFeaturesRequestOptions } from "./query";
 import { IAddFeaturesRequestOptions } from "./add";
 import { IUpdateFeaturesRequestOptions } from "./update";
 import { IDeleteFeaturesRequestOptions } from "./delete";
+import { IQueryRelatedRequestOptions } from "./queryRelated";
 
 export interface ISharedQueryParams {
   where?: string;
@@ -57,7 +58,8 @@ export function appendCustomParams(
     | IQueryFeaturesRequestOptions
     | IAddFeaturesRequestOptions
     | IUpdateFeaturesRequestOptions
-    | IDeleteFeaturesRequestOptions,
+    | IDeleteFeaturesRequestOptions
+    | IQueryRelatedRequestOptions,
   newOptions: IRequestOptions
 ) {
   // only pass query parameters through in the request, not generic IRequestOptions props
