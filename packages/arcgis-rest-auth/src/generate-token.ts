@@ -5,7 +5,7 @@ import {
   request,
   IRequestOptions,
   IGenerateTokenParams,
-  IGenerateTokenRequestOptions
+  ITokenRequestOptions
 } from "@esri/arcgis-rest-request";
 
 export interface IGenerateTokenResponse {
@@ -16,13 +16,13 @@ export interface IGenerateTokenResponse {
 
 export function generateToken(
   url: string,
-  requestOptionsOrParams: IGenerateTokenParams | IGenerateTokenRequestOptions
+  requestOptions: IGenerateTokenParams | ITokenRequestOptions
 ): Promise<IGenerateTokenResponse> {
   // TODO: remove union type and type guard next breaking change and just expect IGenerateTokenRequestOptions
-  const options: IRequestOptions = (requestOptionsOrParams as IGenerateTokenRequestOptions)
+  const options: IRequestOptions = (requestOptions as ITokenRequestOptions)
     .params
-    ? (requestOptionsOrParams as IRequestOptions)
-    : { params: requestOptionsOrParams };
+    ? (requestOptions as IRequestOptions)
+    : { params: requestOptions };
 
   /* istanbul ignore else */
   if (

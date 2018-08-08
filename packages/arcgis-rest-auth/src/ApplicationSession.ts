@@ -1,7 +1,10 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IAuthenticationManager } from "@esri/arcgis-rest-request";
+import {
+  IAuthenticationManager,
+  ITokenRequestOptions
+} from "@esri/arcgis-rest-request";
 import { fetchToken } from "./fetch-token";
 
 export interface IApplicationSessionOptions {
@@ -58,7 +61,11 @@ export class ApplicationSession implements IAuthenticationManager {
     this.duration = options.duration || 20160;
   }
 
-  getToken(url: string): Promise<string> {
+  // url isnt actually read or passed through.
+  getToken(
+    url: string,
+    requestOptions?: ITokenRequestOptions
+  ): Promise<string> {
     if (this.token && this.expires && this.expires.getTime() > Date.now()) {
       return Promise.resolve(this.token);
     }
@@ -67,22 +74,28 @@ export class ApplicationSession implements IAuthenticationManager {
       return this._pendingTokenRequest;
     }
 
-    this._pendingTokenRequest = this.refreshToken();
+    this._pendingTokenRequest = this.refreshToken(requestOptions);
 
     return this._pendingTokenRequest;
   }
 
-  refreshToken(): Promise<string> {
-    return fetchToken(`${this.portal}/oauth2/token/`, {
-      client_id: this.clientId,
-      client_secret: this.clientSecret,
-      grant_type: "client_credentials"
-    }).then(response => {
-      this._pendingTokenRequest = null;
-      this.token = response.token;
-      this.expires = response.expires;
-      return response.token;
-    });
+  refreshToken(requestOptions?: ITokenRequestOptions): Promise<string> {
+    const options = {
+      params: {
+        client_id: this.clientId,
+        client_secret: this.clientSecret,
+        grant_type: "client_credentials"
+      },
+      ...requestOptions
+    };
+    return fetchToken(`${this.portal}/oauth2/token/`, options).then(
+      response => {
+        this._pendingTokenRequest = null;
+        this.token = response.token;
+        this.expires = response.expires;
+        return response.token;
+      }
+    );
   }
 
   refreshSession() {
