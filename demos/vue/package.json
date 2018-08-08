@@ -1,7 +1,7 @@
 {
   "name": "@esri/arcgis-rest-demo-vue-with-popup",
   "description": "VueJS demo of @esri/arcgis-rest-* packages.",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "author": "",
   "license": "Apache-2.0",
   "private": true,
@@ -11,8 +11,8 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "@esri/arcgis-rest-auth": "^1.6.0",
-    "@esri/arcgis-rest-request": "^1.6.0",
+    "@esri/arcgis-rest-auth": "^1.7.0",
+    "@esri/arcgis-rest-request": "^1.7.0",
     "vue": "^2.5.11",
     "vue-router": "^3.0.1"
   },

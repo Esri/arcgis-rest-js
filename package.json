@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-js",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",

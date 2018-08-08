@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-items",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Portal Item helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
   "browser": "dist/umd/items.umd.js",
@@ -20,9 +20,9 @@
     "@esri/arcgis-rest-request": "^1.5.1"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^1.6.0",
+    "@esri/arcgis-rest-auth": "^1.7.0",
     "@esri/arcgis-rest-common-types": "^1.6.0",
-    "@esri/arcgis-rest-request": "^1.6.0"
+    "@esri/arcgis-rest-request": "^1.7.0"
   },
   "scripts": {
     "prepare": "npm run build",

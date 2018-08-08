@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.7.0] - August 7th 2018
+
+* Chores
+   * **all**: more legible, terse copyright notices in built packages.
+
+### @esri/arcgis-rest-request
+
+* Bug Fixes
+   * avoid `new Header()` when POSTing to ensure that the library is able to utilize custom fetch implementations correctly.
+
+### @esri/arcgis-rest-auth
+
+* Bug Fixes
+   * the `getToken()` method of both `UserSession` and `ApplicationSession` now expose a `requestOptions?` parameter so that a custom fetch implementation can be passed through.
+
+### @esri/arcgis-rest-feature-service
+
+* Features
+   * new `queryRelated()` method for querying the related records associated with a feature service 🙏mpayson🙏
+
 ## [1.6.0] - July 27th 2018
 
 ### @esri/arcgis-rest-auth
@@ -627,8 +647,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 Initial Public Release
 
 [1.0.0]: https://github.com/Esri/arcgis-rest-js/compare/265d6aed1856d3ae1ff81f03ce85aba449b01f21...v1.0.0 "v1.0.0"
-[1.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.1 "v1.0.1"
-[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.1...v1.0.2 "v1.0.2"
+[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.2 "v1.0.2"
 [1.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.2...v1.0.3 "v1.0.3"
 [1.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.3...v1.1.0 "v1.1.0"
 [1.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.0...v1.1.1 "v1.1.1"
@@ -642,4 +661,5 @@ Initial Public Release
 [1.5.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.4.2...v1.5.0 "v1.5.0"
 [1.5.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.5.0...v1.5.1 "v1.5.1"
 [1.6.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.5.1...v1.6.0 "v1.6.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.6.0...HEAD "Unreleased Changes"
+[1.7.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.6.0...v1.7.0 "v1.7.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.0...HEAD "Unreleased Changes"
