@@ -4,9 +4,10 @@ import {
   addFeatures,
   updateFeatures,
   deleteFeatures,
-  queryRelatedRecords,
+  queryRelated,
   IDeleteFeaturesRequestOptions,
-  IUpdateFeaturesRequestOptions
+  IUpdateFeaturesRequestOptions,
+  IQueryRelatedRequestOptions
 } from "../src/index";
 
 import * as fetchMock from "fetch-mock";
@@ -177,7 +178,7 @@ describe("feature", () => {
       url: serviceUrl
     };
     fetchMock.once("*", queryRelatedResponse);
-    queryRelatedRecords(requestOptions).then(response => {
+    queryRelated(requestOptions).then(() => {
       expect(fetchMock.called()).toBeTruthy();
       const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
       expect(url).toEqual(
@@ -195,17 +196,19 @@ describe("feature", () => {
       url: serviceUrl,
       relationshipId: 1,
       definitionExpression: "APPROXACRE<10000",
-      outFields: ["APPROXACRE", "FIELD_NAME"]
-    };
+      outFields: ["APPROXACRE", "FIELD_NAME"],
+      httpMethod: "POST"
+    } as IQueryRelatedRequestOptions;
     fetchMock.once("*", queryRelatedResponse);
-    queryRelatedRecords(requestOptions).then(response => {
+    queryRelated(requestOptions).then(() => {
       expect(fetchMock.called()).toBeTruthy();
       const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-      expect(url).toEqual(
-        `${
-          requestOptions.url
-        }/queryRelatedRecords?f=json&relationshipId=1&definitionExpression=APPROXACRE%3C10000&outFields=APPROXACRE%2CFIELD_NAME`
-      );
+      expect(url).toEqual(`${requestOptions.url}/queryRelatedRecords`);
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain("relationshipId=1");
+      expect(options.body).toContain("definitionExpression=APPROXACRE%3C10000");
+      expect(options.body).toContain("outFields=APPROXACRE%2CFIELD_NAME");
       done();
     });
   });

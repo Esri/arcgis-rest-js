@@ -12,9 +12,9 @@ import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { appendCustomParams } from "./helpers";
 
 /**
- * Related record query request options. Additional arguments can be passed via the [params](/api/feature-service/IQueryRelatedRecordsRequestOptions/#params) property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-records-feature-service-.htm) for more information and a full list of parameters.
+ * Related record query request options. Additional arguments can be passed via the [params](/arcgis-rest-js/api/feature-service/IQueryRelatedRequestOptions/#params) property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-feature-service-.htm) for more information and a full list of parameters.
  */
-export interface IQueryRelatedRecordsRequestOptions extends IRequestOptions {
+export interface IQueryRelatedRequestOptions extends IRequestOptions {
   url: string;
   relationshipId?: number;
   objectIds?: number[];
@@ -36,7 +36,7 @@ export interface IRelatedRecordGroup {
  * Related record response structure
  */
 
-export interface IQueryRelatedRecordsResponse extends IHasZM {
+export interface IQueryRelatedResponse extends IHasZM {
   geometryType?: esriGeometryType;
   spatialReference?: ISpatialReference;
   fields?: IField[];
@@ -46,11 +46,11 @@ export interface IQueryRelatedRecordsResponse extends IHasZM {
  * Query the related records for a feature service. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-records-feature-service-.htm) for more information.
  *
  * ```js
- * import { queryRelatedRecords } from '@esri/arcgis-rest-feature-service'
+ * import { queryRelated } from '@esri/arcgis-rest-feature-service'
  *
  * const url = "http://services.myserver/OrgID/ArcGIS/rest/services/Petroleum/KSPetro/FeatureServer/0"
  *
- * queryRelatedRecords({
+ * queryRelated({
  *  url: url,
  *  relationshipId: 1,
  *  params: { returnCountOnly: true }
@@ -63,10 +63,10 @@ export interface IQueryRelatedRecordsResponse extends IHasZM {
  * @param requestOptions
  * @returns A Promise that will resolve with the query response
  */
-export function queryRelatedRecords(
-  requestOptions: IQueryRelatedRecordsRequestOptions
-): Promise<IQueryRelatedRecordsResponse> {
-  const options: IQueryRelatedRecordsRequestOptions = {
+export function queryRelated(
+  requestOptions: IQueryRelatedRequestOptions
+): Promise<IQueryRelatedResponse> {
+  const options: IQueryRelatedRequestOptions = {
     params: {},
     httpMethod: "GET",
     url: requestOptions.url,
