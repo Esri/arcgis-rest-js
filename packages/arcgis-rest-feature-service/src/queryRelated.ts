@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import {
@@ -12,27 +12,14 @@ import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { appendCustomParams } from "./helpers";
 
 /**
- * Query related records request options. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-records-feature-service-.htm) for more information.
+ * Related record query request options. Additional arguments can be passed via the [params](/api/feature-service/IQueryRelatedRecordsRequestOptions/#params) property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-records-feature-service-.htm) for more information and a full list of parameters.
  */
 export interface IQueryRelatedRecordsRequestOptions extends IRequestOptions {
   url: string;
-  relationshipId: number;
+  relationshipId?: number;
   objectIds?: number[];
   outFields?: "*" | string[];
   definitionExpression?: string;
-  returnGeometry?: boolean;
-  maxAllowableOffset?: number;
-  geometryPrecision?: number;
-  resultOffset?: number;
-  resultRecordCount?: number;
-  outSR?: string | ISpatialReference;
-  gdbVersion?: string;
-  historicMoment?: number;
-  returnZ?: boolean;
-  returnM?: boolean;
-  returnTrueCurves?: boolean;
-  orderByFields?: string;
-  returnCountOnly?: boolean;
 }
 
 /**
@@ -49,14 +36,14 @@ export interface IRelatedRecordGroup {
  * Related record response structure
  */
 
-export interface IQueryRelatedRecordResponse extends IHasZM {
+export interface IQueryRelatedRecordsResponse extends IHasZM {
   geometryType?: esriGeometryType;
   spatialReference?: ISpatialReference;
   fields?: IField[];
   relatedRecordGroups: IRelatedRecordGroup[];
 }
 /**
- * Query the related records for a feature service. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-records-feature-service-.htm) for more information.
+ * Query the related records for a feature service. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-records-feature-service-.htm) for more information.
  *
  * ```js
  * import { queryRelatedRecords } from '@esri/arcgis-rest-feature-service'
@@ -65,8 +52,9 @@ export interface IQueryRelatedRecordResponse extends IHasZM {
  *
  * queryRelatedRecords({
  *  url: url,
- *  relationshipId: 1
- * };)
+ *  relationshipId: 1,
+ *  params: { returnCountOnly: true }
+ * })
  *  .then(response => {
  *    console.log(response.relatedRecords)
  *  })
@@ -77,7 +65,7 @@ export interface IQueryRelatedRecordResponse extends IHasZM {
  */
 export function queryRelatedRecords(
   requestOptions: IQueryRelatedRecordsRequestOptions
-): Promise<IQueryRelatedRecordResponse> {
+): Promise<IQueryRelatedRecordsResponse> {
   const options: IQueryRelatedRecordsRequestOptions = {
     params: {},
     httpMethod: "GET",
@@ -93,6 +81,10 @@ export function queryRelatedRecords(
 
   if (!options.params.outFields) {
     options.params.outFields = "*";
+  }
+
+  if (!options.params.relationshipId) {
+    options.params.relationshipId = 0;
   }
 
   return request(`${options.url}/queryRelatedRecords`, options);

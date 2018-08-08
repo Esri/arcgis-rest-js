@@ -172,10 +172,9 @@ describe("feature", () => {
     });
   });
 
-  it("should supply default query parameters (query related)", done => {
+  it("should supply default query related parameters", done => {
     const requestOptions = {
-      url: serviceUrl,
-      relationshipId: 1
+      url: serviceUrl
     };
     fetchMock.once("*", queryRelatedResponse);
     queryRelatedRecords(requestOptions).then(response => {
@@ -184,14 +183,14 @@ describe("feature", () => {
       expect(url).toEqual(
         `${
           requestOptions.url
-        }/queryRelatedRecords?f=json&relationshipId=1&definitionExpression=1%3D1&outFields=*`
+        }/queryRelatedRecords?f=json&definitionExpression=1%3D1&outFields=*&relationshipId=0`
       );
       expect(options.method).toBe("GET");
       done();
     });
   });
 
-  it("should use passed in query parameters (query related)", done => {
+  it("should use passed in query related parameters", done => {
     const requestOptions = {
       url: serviceUrl,
       relationshipId: 1,
