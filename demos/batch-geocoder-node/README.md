@@ -9,6 +9,6 @@
    3. `"csv"`: csv path
    4. `"output"`: output csv path
    5. `"fieldmap"`: `object` that maps CSV fields to [address fields](https://esri.github.io/arcgis-rest-js/api/geocoder/IAddressBulk/) __or__ `string` that points to a CSV field with single-line addresses
-3. `node batch-geocode.js`
+3. `npm start`
 
 Sample Restaurant Inspections adapted from a DOHMH dataset available [online](https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/xx67-kt59/data)

@@ -2,7 +2,7 @@ module.exports = {
   "un": "<USERNAME>",
   "pw": "<PASSWORD>",
   "csv": "NYC_Restaurant_Inspection_Results.csv",
-  "output": "NYC_Inspections_Geocoded.csv",
+  "output": "NYC_Restaurant_Inspection_Results_Geocoded.csv",
   "fieldmap": {
     "address": "ADDRESS",
     // "address2": "<csv field>",
