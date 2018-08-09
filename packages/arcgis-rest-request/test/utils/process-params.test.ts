@@ -163,7 +163,7 @@ describe("processParams", () => {
         ? new File(["foo"], "foo.txt", {
             type: "text/plain"
           })
-        : new Buffer("");
+        : Buffer.from("");
 
     expect(
       requiresFormData({
@@ -178,7 +178,7 @@ describe("processParams", () => {
         ? new File(["foo"], "foo.txt", {
             type: "text/plain"
           })
-        : new Buffer("");
+        : Buffer.from("");
 
     expect(
       requiresFormData({
