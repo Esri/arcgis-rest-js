@@ -4,7 +4,8 @@
   "description": "arcgis-rest-js batch geocode sample",
   "main": "batch-geocode.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node batch-geocode.js"
   },
   "repository": {
     "type": "git",
@@ -31,10 +32,8 @@
     "@esri/arcgis-rest-geocoder": "^1.7.0",
     "@esri/arcgis-rest-request": "^1.7.0",
     "isomorphic-fetch": "^2.2.1",
-    "isomorphic-form-data": "^1.0.0",
-    "papaparse": "^4.3.6"
-  },
-  "devDependencies": {
-    "node-fetch": "^2.2.0"
+    "isomorphic-form-data": "^2.0.0",
+    "node-fetch": "^2.2.0",
+    "papaparse": "^4.6.0"
   }
 }

@@ -10,7 +10,7 @@
     "@esri/arcgis-rest-request": "^1.7.0",
     "express": "^4.15.4",
     "isomorphic-fetch": "^2.2.1",
-    "isomorphic-form-data": "^1.0.0"
+    "isomorphic-form-data": "^2.0.0"
   },
   "scripts": {
     "start": "node server.js"
