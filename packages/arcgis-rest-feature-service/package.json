@@ -15,8 +15,8 @@
     "tslib": "^1.7.1"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-common-types": "^1.5.1",
-    "@esri/arcgis-rest-request": "^1.5.1"
+    "@esri/arcgis-rest-common-types": "^1.7.1",
+    "@esri/arcgis-rest-request": "^1.7.1"
   },
   "devDependencies": {
     "@esri/arcgis-rest-common-types": "^1.7.1",
