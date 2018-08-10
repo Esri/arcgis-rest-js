@@ -28,7 +28,6 @@
               v-model="clientId"
               type="text"
               class="form-control"
-              placeholder="ClientID"
             >
           </div>
           <p class="help-block">
@@ -163,7 +162,7 @@ export default {
   data() {
     return {
       // Store these values on this instance.
-      clientId: process.env.VUE_APP_CLIENTID || null,
+      clientId: process.env.VUE_APP_CLIENTID || "QVQNb3XfDzoboWS0",
       clientIdError: false,
       filterString: null,
       searching: null,
