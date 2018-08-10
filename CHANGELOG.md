@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.7.1] - August 10th 2018
+
+### @esri/arcgis-rest-auth
+
+* Bug Fixes
+   * **sharing**: ensure internal sharing metadata calls pass through custom request options [`e70a10d`](https://github.com/Esri/arcgis-rest-js/commit/e70a10d5bbd6ac4fecf61f9f635b01cf9c8c5034) [#276](https://github.com/Esri/arcgis-rest-js/issues/276)
+
+### @esri/arcgis-rest-items
+
+* Tests
+   * **items**: test body of addItemData request in browser tests [`2710f4c`](https://github.com/Esri/arcgis-rest-js/commit/2710f4c281f3e04b00b9ad2da73ca4e35f9dfcb3)
+
+### @esri/arcgis-rest-request
+
+* Bug Fixes
+   * **encodeFormData**: append file name based on object type instead of key and name properties [`401c6dd`](https://github.com/Esri/arcgis-rest-js/commit/401c6dd205c1e2470783435d0da22338edbcaed4)
+
+### @esri/arcgis-rest-sharing
+
+* Bug Fixes
+   * **sharing**: ensure internal sharing metadata calls pass through custom request options [`e70a10d`](https://github.com/Esri/arcgis-rest-js/commit/e70a10d5bbd6ac4fecf61f9f635b01cf9c8c5034) [#276](https://github.com/Esri/arcgis-rest-js/issues/276)
+
+### Other Changes
+
+* Bug Fixes
+   * **sharing**: ensure internal sharing metadata calls pass through cus… [`c09548c`](https://github.com/Esri/arcgis-rest-js/commit/c09548c866d11a6c7c693bf948e8f1889b7893a8)
+
 ## [1.7.0] - August 7th 2018
 
 * Chores
@@ -647,7 +674,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 Initial Public Release
 
 [1.0.0]: https://github.com/Esri/arcgis-rest-js/compare/265d6aed1856d3ae1ff81f03ce85aba449b01f21...v1.0.0 "v1.0.0"
-[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.2 "v1.0.2"
+[1.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.1 "v1.0.1"
+[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.1...v1.0.2 "v1.0.2"
 [1.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.2...v1.0.3 "v1.0.3"
 [1.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.3...v1.1.0 "v1.1.0"
 [1.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.0...v1.1.1 "v1.1.1"
@@ -662,4 +690,5 @@ Initial Public Release
 [1.5.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.5.0...v1.5.1 "v1.5.1"
 [1.6.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.5.1...v1.6.0 "v1.6.0"
 [1.7.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.6.0...v1.7.0 "v1.7.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.0...HEAD "Unreleased Changes"
+[1.7.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.0...v1.7.1 "v1.7.1"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.1...HEAD "Unreleased Changes"
