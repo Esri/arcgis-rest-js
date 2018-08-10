@@ -672,10 +672,12 @@ describe("search", () => {
         success: true
       });
 
+      const file = attachmentFile();
+
       addItemData({
         id: "3ef",
         // File() is only available in the browser
-        data: attachmentFile(),
+        data: file,
         ...MOCK_USER_REQOPTS
       })
         .then(() => {
@@ -687,10 +689,12 @@ describe("search", () => {
           expect(options.method).toBe("POST");
           expect(options.body instanceof FormData).toBeTruthy();
           const params = options.body as FormData;
-          // need to figure out how to introspect FormData from Node.js
-          // expect(params.get("token")).toEqual("fake-token");
-          // expect(params.get("f")).toEqual("json");
-          // expect(params.get("filename")).toEqual("foo.txt");
+          if (params.get) {
+            expect(params.get("token")).toEqual("fake-token");
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("file")).toEqual(file);
+          }
+
           done();
         })
         .catch(e => {
