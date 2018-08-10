@@ -22,9 +22,9 @@
 
 <script>
 export default {
-  name: 'Loader',
+  name: "Loader",
   components: {},
-  props: ['size', 'label', 'labelPosition'],
+  props: ["size", "label", "labelPosition"],
   data() {
     return {};
   },
@@ -34,7 +34,7 @@ export default {
     },
     labelPosition() {
       this.setLabelPosition();
-    },
+    }
   },
   created() {},
   mounted() {
@@ -46,29 +46,31 @@ export default {
       const marginPercentage = 0.2;
       this.$refs.spinner.style.width = `${this.size || 40}px`;
       this.$refs.spinner.style.height = `${this.size || 40}px`;
-      this.$refs.spinner.style.margin =
-        `${this.size * marginPercentage || 40 * marginPercentage}px`;
+      this.$refs.spinner.style.margin = `${this.size * marginPercentage ||
+        40 * marginPercentage}px`;
     },
     setLabelPosition() {
       switch (this.labelPosition) {
-        case 'top':
-          this.$refs['loader-wrapper'].style['flex-direction'] = 'column';
+        case "top":
+          this.$refs["loader-wrapper"].style["flex-direction"] = "column";
           break;
-        case 'bottom':
-          this.$refs['loader-wrapper'].style['flex-direction'] = 'column-reverse';
+        case "bottom":
+          this.$refs["loader-wrapper"].style["flex-direction"] =
+            "column-reverse";
           break;
-        case 'left':
-          this.$refs['loader-wrapper'].style['flex-direction'] = 'row';
+        case "left":
+          this.$refs["loader-wrapper"].style["flex-direction"] = "row";
           break;
-        case 'right':
-          this.$refs['loader-wrapper'].style['flex-direction'] = 'row-reverse';
+        case "right":
+          this.$refs["loader-wrapper"].style["flex-direction"] = "row-reverse";
           break;
         default:
-          this.$refs['loader-wrapper'].style['flex-direction'] = 'column-reverse';
+          this.$refs["loader-wrapper"].style["flex-direction"] =
+            "column-reverse";
           break;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -94,7 +96,7 @@ export default {
 }
 
 .sk-fading-circle .sk-circle:before {
-  content: '';
+  content: "";
   display: block;
   margin: 0 auto;
   width: 15%;
@@ -102,115 +104,127 @@ export default {
   background-color: #333;
   border-radius: 100%;
   -webkit-animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
-          animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
+  animation: sk-circleFadeDelay 1.2s infinite ease-in-out both;
 }
 .sk-fading-circle .sk-circle2 {
   -webkit-transform: rotate(30deg);
-      -ms-transform: rotate(30deg);
-          transform: rotate(30deg);
+  -ms-transform: rotate(30deg);
+  transform: rotate(30deg);
 }
 .sk-fading-circle .sk-circle3 {
   -webkit-transform: rotate(60deg);
-      -ms-transform: rotate(60deg);
-          transform: rotate(60deg);
+  -ms-transform: rotate(60deg);
+  transform: rotate(60deg);
 }
 .sk-fading-circle .sk-circle4 {
   -webkit-transform: rotate(90deg);
-      -ms-transform: rotate(90deg);
-          transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 .sk-fading-circle .sk-circle5 {
   -webkit-transform: rotate(120deg);
-      -ms-transform: rotate(120deg);
-          transform: rotate(120deg);
+  -ms-transform: rotate(120deg);
+  transform: rotate(120deg);
 }
 .sk-fading-circle .sk-circle6 {
   -webkit-transform: rotate(150deg);
-      -ms-transform: rotate(150deg);
-          transform: rotate(150deg);
+  -ms-transform: rotate(150deg);
+  transform: rotate(150deg);
 }
 .sk-fading-circle .sk-circle7 {
   -webkit-transform: rotate(180deg);
-      -ms-transform: rotate(180deg);
-          transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 .sk-fading-circle .sk-circle8 {
   -webkit-transform: rotate(210deg);
-      -ms-transform: rotate(210deg);
-          transform: rotate(210deg);
+  -ms-transform: rotate(210deg);
+  transform: rotate(210deg);
 }
 .sk-fading-circle .sk-circle9 {
   -webkit-transform: rotate(240deg);
-      -ms-transform: rotate(240deg);
-          transform: rotate(240deg);
+  -ms-transform: rotate(240deg);
+  transform: rotate(240deg);
 }
 .sk-fading-circle .sk-circle10 {
   -webkit-transform: rotate(270deg);
-      -ms-transform: rotate(270deg);
-          transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg);
 }
 .sk-fading-circle .sk-circle11 {
   -webkit-transform: rotate(300deg);
-      -ms-transform: rotate(300deg);
-          transform: rotate(300deg);
+  -ms-transform: rotate(300deg);
+  transform: rotate(300deg);
 }
 .sk-fading-circle .sk-circle12 {
   -webkit-transform: rotate(330deg);
-      -ms-transform: rotate(330deg);
-          transform: rotate(330deg);
+  -ms-transform: rotate(330deg);
+  transform: rotate(330deg);
 }
 .sk-fading-circle .sk-circle2:before {
   -webkit-animation-delay: -1.1s;
-          animation-delay: -1.1s;
+  animation-delay: -1.1s;
 }
 .sk-fading-circle .sk-circle3:before {
   -webkit-animation-delay: -1s;
-          animation-delay: -1s;
+  animation-delay: -1s;
 }
 .sk-fading-circle .sk-circle4:before {
   -webkit-animation-delay: -0.9s;
-          animation-delay: -0.9s;
+  animation-delay: -0.9s;
 }
 .sk-fading-circle .sk-circle5:before {
   -webkit-animation-delay: -0.8s;
-          animation-delay: -0.8s;
+  animation-delay: -0.8s;
 }
 .sk-fading-circle .sk-circle6:before {
   -webkit-animation-delay: -0.7s;
-          animation-delay: -0.7s;
+  animation-delay: -0.7s;
 }
 .sk-fading-circle .sk-circle7:before {
   -webkit-animation-delay: -0.6s;
-          animation-delay: -0.6s;
+  animation-delay: -0.6s;
 }
 .sk-fading-circle .sk-circle8:before {
   -webkit-animation-delay: -0.5s;
-          animation-delay: -0.5s;
+  animation-delay: -0.5s;
 }
 .sk-fading-circle .sk-circle9:before {
   -webkit-animation-delay: -0.4s;
-          animation-delay: -0.4s;
+  animation-delay: -0.4s;
 }
 .sk-fading-circle .sk-circle10:before {
   -webkit-animation-delay: -0.3s;
-          animation-delay: -0.3s;
+  animation-delay: -0.3s;
 }
 .sk-fading-circle .sk-circle11:before {
   -webkit-animation-delay: -0.2s;
-          animation-delay: -0.2s;
+  animation-delay: -0.2s;
 }
 .sk-fading-circle .sk-circle12:before {
   -webkit-animation-delay: -0.1s;
-          animation-delay: -0.1s;
+  animation-delay: -0.1s;
 }
 
 @-webkit-keyframes sk-circleFadeDelay {
-  0%, 39%, 100% { opacity: 0; }
-  40% { opacity: 1; }
+  0%,
+  39%,
+  100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
 }
 
 @keyframes sk-circleFadeDelay {
-  0%, 39%, 100% { opacity: 0; }
-  40% { opacity: 1; }
+  0%,
+  39%,
+  100% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
 }
 </style>

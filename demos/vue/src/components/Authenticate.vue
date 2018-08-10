@@ -11,14 +11,12 @@
 
 <script>
 // Import the arcgis-rest-auth bit.
-import { UserSession } from '@esri/arcgis-rest-auth';
-// Import the main Vue instance. Will be used for event dispatching.
-import Main from '../main';
+import { UserSession } from "@esri/arcgis-rest-auth";
 // Import a simple loading indicator.
-import Loader from './Loader';
+import Loader from "./Loader";
 
 export default {
-  name: 'Authenticate',
+  name: "Authenticate",
   components: { Loader },
   props: [],
   data() {
@@ -27,9 +25,9 @@ export default {
   computed: {
     // Simple computed property to make it easier to access the client id
     // in the url. In a production app the clientid should be hardcoded.
-    clientId () {
+    clientId() {
       return this.$route.query.clientID;
-    },
+    }
   },
   created() {},
   mounted() {
@@ -45,15 +43,14 @@ export default {
       const session = UserSession.completeOAuth2({
         // Required as it is a piece of the key in the popup method. If not using
         // a popup, this shouldn't be required.
-        clientId: this.clientId,
+        clientId: this.clientId
       });
-      // If this component isn't in a popup, it will emit an event on the main Vue
-      // instance that a successful login occurred with the session object attached.
-      Main.$emit('login', session);
+      // Update the application store with the new session.
+      this.$store.dispatch("updateSession", session);
       // The app is the rerouted to the main application.
-      this.$router.replace('/');
-    },
-  },
+      this.$router.replace("/");
+    }
+  }
 };
 </script>
 
