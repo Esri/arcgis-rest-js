@@ -49,7 +49,7 @@ export function isOrgAdmin(
 ): Promise<boolean> {
   const session = requestOptions.authentication as UserSession;
 
-  return session.getUser().then(user => {
+  return session.getUser(requestOptions).then(user => {
     if (!user || user.role !== "org_admin") {
       return false;
     } else {
@@ -67,7 +67,7 @@ export function getUserMembership(
 
   // the response to this call is cached. yay!
   return session
-    .getUser()
+    .getUser(requestOptions)
     .then((user: IUser) => {
       if (user.groups) {
         user.groups.some(function(group: IGroup) {
