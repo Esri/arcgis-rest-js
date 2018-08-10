@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Make sure user is logged in to npm
+npm whoami || exit 1
+
 # Extract the version from lerna.json (this was updated by `npm run release:prepare`)
 VERSION=$(node --eval "console.log(require('./lerna.json').version);")
 
