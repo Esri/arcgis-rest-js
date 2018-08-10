@@ -4,6 +4,7 @@
 import * as http from "http";
 import {
   request,
+  IRequestOptions,
   ArcGISAuthError,
   IAuthenticationManager,
   ITokenRequestOptions
@@ -600,17 +601,20 @@ export class UserSession implements IAuthenticationManager {
    *
    * @returns A Promise that will resolve with the data from the response.
    */
-  getUser(): Promise<IUser> {
+  getUser(requestOptions?: IRequestOptions): Promise<IUser> {
     if (this._user && this._user.username === this.username) {
       return new Promise(resolve => resolve(this._user));
     } else {
       const url = `${this.portal}/community/users/${encodeURIComponent(
         this.username
       )}`;
-      return request(url, {
+
+      const options = {
         httpMethod: "GET",
-        authentication: this
-      }).then(response => {
+        authentication: this,
+        ...requestOptions
+      } as IRequestOptions;
+      return request(url, options).then(response => {
         this._user = response;
         return response;
       });
