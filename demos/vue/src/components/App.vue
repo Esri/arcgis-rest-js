@@ -28,7 +28,6 @@
               v-model="clientId"
               type="text"
               class="form-control"
-              placeholder="ClientID"
             >
           </div>
           <p class="help-block">
@@ -151,27 +150,23 @@
 
 <script>
 // Import the arcgis-rest-auth bit.
-import { UserSession } from '@esri/arcgis-rest-auth';
+import { UserSession } from "@esri/arcgis-rest-auth";
 // Import the arcgis-rest-request bit.
-import { request } from '@esri/arcgis-rest-request';
-// Import the main Vue instance. Will be used for event dispatching.
-import Main from '../main';
+import { request } from "@esri/arcgis-rest-request";
 // Import a simple loading indicator.
-import Loader from './Loader';
+import Loader from "./Loader";
 
 export default {
-  name: 'App',
+  name: "App",
   components: { Loader },
-  // The session object is a prop supplied by the main Vue instance.
-  props: ['session'],
   data() {
     return {
       // Store these values on this instance.
-      clientId: process.env.CLIENTID || null,
+      clientId: process.env.VUE_APP_CLIENTID || "QVQNb3XfDzoboWS0",
       clientIdError: false,
       filterString: null,
       searching: null,
-      searchResults: null,
+      searchResults: null
     };
   },
   computed: {
@@ -179,22 +174,25 @@ export default {
     // set it as the redirect_uri.
     redirect_uri() {
       return `${window.location.origin}${window.location.pathname}`;
+    },
+    session() {
+      return this.$store.state.session;
     }
   },
   created() {
     // Upon creation, check to see if the session prop exists. If it does,
     // pre-populate the client id value.
-    if (this.session) {
-      this.clientId = this.session.clientId;
+    if (this.$store.state.session) {
+      this.clientId = this.$store.state.session.clientId;
     }
   },
   mounted() {},
   watch: {
     // Set a watcher on the client id to validate it when it changes.
     clientId() {
-      if (this.clientId === '') this.clientIdError = true;
+      if (this.clientId === "") this.clientIdError = true;
       else this.clientIdError = false;
-    },
+    }
   },
   methods: {
     // Function to validate that the client id exists.
@@ -214,16 +212,19 @@ export default {
           // Passing the clientid here is only a requirement of this demo where we allow
           // dynamic clientids via input. Typically you would have this hard-coded on
           // the authorization callback.
-          redirectUri: `${this.redirect_uri}#/authenticate?clientID=${this.clientId}`,
-          popup: true,
-        }).then((session) => {
-          // Upon successful login, emit a login event on the main Vue instance. This
-          // triggers an update on the main Vue instance's session property which is
-          // passed to this component via props.
-          Main.$emit('login', session);
-        }).catch(error => {
-          console.error(error);
-        });
+          redirectUri: `${this.redirect_uri}#/authenticate?clientID=${
+            this.clientId
+          }`,
+          popup: true
+        })
+          .then(session => {
+            // Upon successful login, update the application's store with this new
+            // session.
+            this.$store.dispatch("updateSession", session);
+          })
+          .catch(error => {
+            console.error(error);
+          });
       }
     },
     // The signup with an inline redirect workflow. In this case the user is just redirected to
@@ -232,14 +233,17 @@ export default {
       if (this.requireClientId()) {
         UserSession.beginOAuth2({
           clientId: this.clientId,
-          redirectUri: `${this.redirect_uri}#/authenticate?clientID=${this.clientId}`,
-          popup: false,
+          redirectUri: `${this.redirect_uri}#/authenticate?clientID=${
+            this.clientId
+          }`,
+          popup: false
         });
       }
     },
     // Function to log the use out of the current session.
     signout() {
-      Main.$emit('logout');
+      this.$store.dispatch("updateSession", null);
+      this.searchResults = null;
     },
     // Function to call to search for a user's content.
     search() {
@@ -252,21 +256,24 @@ export default {
     // Request data from AGOL.
     requestData() {
       // Construct a search query for only items the user owns. Add a filter if it exists.
-      const query = `owner: ${this.session.username}${this.filterString ? ` AND ${this.filterString}`:''}`
+      const query = `owner: ${this.$store.state.session.username}${
+        this.filterString ? ` AND ${this.filterString}` : ""
+      }`;
       // Construct the url for the endpoint with the session's portal and the constructed
       // query.
-      const searchUrl = `${this.session.portal}/search?q=${query}`;
+      const searchUrl = `${this.$store.state.session.portal}/search?q=${query}`;
       // Make the request. Tack on the current authentication session.
-      request(searchUrl, { authentication: this.session })
-        .then((response) => {
+      request(searchUrl, { authentication: this.$store.state.session })
+        .then(response => {
           this.searching = false;
           this.searchResults = response.results;
-        }).catch(error => {
+        })
+        .catch(error => {
           this.searching = false;
           console.error(error);
         });
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -287,7 +294,7 @@ export default {
   height: 150px;
 }
 
-.info-panel{
+.info-panel {
   padding: 15px;
 }
 
@@ -298,5 +305,4 @@ export default {
   align-content: center;
   justify-content: center;
 }
-
 </style>
