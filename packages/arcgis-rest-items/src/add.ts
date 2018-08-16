@@ -73,3 +73,27 @@ export function addItemData(
 
   return request(url, requestOptions);
 }
+
+/**
+ * Add a resource associated with an item
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise to add item resources.
+ */
+export function addItemResource(
+  requestOptions: IItemResourceAddRequestOptions
+): Promise<IItemResourceResponse> {
+  const owner = determineOwner(requestOptions);
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/addResources`;
+
+  requestOptions.params = {
+    file: requestOptions.resource,
+    fileName: requestOptions.name,
+    text: requestOptions.content,
+    ...requestOptions.params
+  };
+
+  return request(url, requestOptions);
+}
