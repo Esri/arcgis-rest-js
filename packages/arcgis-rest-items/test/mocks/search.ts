@@ -1,4 +1,4 @@
-import { ISearchResult } from "../../src/items";
+import { ISearchResult } from "../../src/search";
 
 export const SearchResponse: ISearchResult = {
   query: "",
