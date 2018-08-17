@@ -183,12 +183,13 @@ export function createItemInFolder(
  *   authentication: userSession,
  *   item: {
  *     title: "The Amazing Voyage",
- *     type: "Webmap"
+ *     type: "Web Map"
  *   }
  * })
  * ```
  *
  * @param requestOptions - Options for the request
+ * @returns A Promise that creates an item.
  */
 export function createItem(
   requestOptions: IItemAddRequestOptions
@@ -298,7 +299,7 @@ export function getItemData(
 /**
  * Update an Item
  *
- * * ```js
+ * ```js
  * import { updateItem } from '@esri/arcgis-rest-items';
  *
  * updateItem({
@@ -312,7 +313,7 @@ export function getItemData(
  *
  * @param item - The item to update.
  * @param requestOptions - Options for the request.
- * @returns A Promise that resolves with the status of the operation.
+ * @returns A Promise that updates an item.
  */
 export function updateItem(
   requestOptions: IItemUpdateRequestOptions
@@ -334,7 +335,7 @@ export function updateItem(
 /**
  * Remove an item from the portal
  *
- * *
+ *
  * ```js
  * import { removeItem } from '@esri/arcgis-rest-items';
  *
@@ -415,7 +416,7 @@ export function getItemResources(
  * Update a resource associated with an item
  *
  * @param requestOptions - Options for the request
- * @returns A Promise to unprotect an item.
+ * @returns A Promise that updates an item resource.
  */
 export function updateItemResource(
   requestOptions: IItemResourceRequestOptions
@@ -439,7 +440,7 @@ export function updateItemResource(
  * Remove a resource associated with an item
  *
  * @param requestOptions - Options for the request
- * @returns A Promise to unprotect an item.
+ * @returns A Promise that deletes an item resource.
  */
 export function removeItemResource(
   requestOptions: IItemResourceRequestOptions
