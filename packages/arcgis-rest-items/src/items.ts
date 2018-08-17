@@ -298,7 +298,7 @@ export function getItemData(
 /**
  * Update an Item
  *
- * * ```js
+ * ```js
  * import { updateItem } from '@esri/arcgis-rest-items';
  *
  * updateItem({
@@ -334,7 +334,7 @@ export function updateItem(
 /**
  * Remove an item from the portal
  *
- * *
+ *
  * ```js
  * import { removeItem } from '@esri/arcgis-rest-items';
  *
