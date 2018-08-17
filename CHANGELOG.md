@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.8.0] - August 17th 2018
+
+### @esri/arcgis-rest-items
+
+* Chores
+   * **items**: break out item methods into individual files [`be17cab`](https://github.com/Esri/arcgis-rest-js/commit/be17cab0f5801858e3dc8b7455a0f0cf98e577f5)
+* New Features
+   * **resources**: new method to add a new resource to an item [`9c63075`](https://github.com/Esri/arcgis-rest-js/commit/9c63075e9f202a13632e34e2a478a9de70b6fafb) [#281](https://github.com/Esri/arcgis-rest-js/issues/281)
+* Bug Fixes
+   * **search**: ensure searchItems can mixin arbitrary parameters with a searchform [`a26b935`](https://github.com/Esri/arcgis-rest-js/commit/a26b9354a35b11014eda23dacccbf53210606e7e)
+
+### Other Changes
+
+* Chores
+   * **publish**: check for npm login before allowing publish [`7b13a1a`](https://github.com/Esri/arcgis-rest-js/commit/7b13a1a2b5d4153e56bec347cf2a903a826251a7)
+   * **doc**: misc doc fixes 🙏gavinr🙏 
+   
 ## [1.7.1] - August 10th 2018
 
 ### @esri/arcgis-rest-auth
@@ -691,4 +708,5 @@ Initial Public Release
 [1.6.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.5.1...v1.6.0 "v1.6.0"
 [1.7.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.6.0...v1.7.0 "v1.7.0"
 [1.7.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.0...v1.7.1 "v1.7.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.1...HEAD "Unreleased Changes"
+[1.8.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.1...v1.8.0 "v1.8.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.8.0...HEAD "Unreleased Changes"

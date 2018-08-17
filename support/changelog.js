@@ -75,7 +75,7 @@ function getCommitData(from, to) {
       if (err) return reject(err);
       if (stderr) return reject(stderr);
       // order commits from most recent to least recent
-      const commits = JSON.parse("["+stdout.slice(0, -1).replace(/\\/g, "\\\\")+"]").reverse();
+      const commits = JSON.parse("["+stdout.slice(0, -1).replace(/"returns"/g, "returns").replace(/\\/g, "\\\\")+"]").reverse();
       const today = new Date();
       resolve({
         previousVersion: /v\d\.\d\.\d/.test(from)
