@@ -54,11 +54,16 @@ export function searchItems(
   if (typeof search === "string") {
     options.params.q = search;
   } else {
-    options.params = search.searchForm;
-    // mixin, giving user supplied requestOptions precedence
+    // mixin user supplied requestOptions with defaults
     options = {
       ...options,
       ...search
+    };
+
+    // mixin arbitrary request parameters with search form
+    options.params = {
+      ...search.params,
+      ...search.searchForm
     };
   }
 
