@@ -12,7 +12,12 @@ import { IRequestOptions } from "../request";
 export function getPortalUrl(requestOptions: IRequestOptions = {}): string {
   // use portal in options if specified
   if (requestOptions.portal) {
-    return requestOptions.portal;
+    if (/https?:\/\//.test(requestOptions.portal)) {
+      return requestOptions.portal;
+    } else {
+      // if no protocol is supplied, assume secure
+      return `https://${requestOptions.portal}`;
+    }
   }
 
   // if auth was passed, use that portal
