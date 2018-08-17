@@ -81,6 +81,35 @@ describe("search", () => {
       });
   });
 
+  it("should mixin generic params with the search form", done => {
+    fetchMock.once("*", SearchResponse);
+
+    searchItems({
+      searchForm: {
+        q: "DC AND typekeywords:hubSiteApplication",
+        num: 12,
+        start: 22,
+        sortField: "title",
+        sortDir: "desc"
+      },
+      params: {
+        foo: "bar"
+      }
+    })
+      .then(() => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://www.arcgis.com/sharing/rest/search?f=json&foo=bar&q=DC%20AND%20typekeywords%3AhubSiteApplication&num=12&start=22&sortField=title&sortDir=desc"
+        );
+        expect(options.method).toBe("GET");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   describe("Authenticated methods", () => {
     // setup a UserSession to use in all these tests
     const MOCK_USER_SESSION = new UserSession({
