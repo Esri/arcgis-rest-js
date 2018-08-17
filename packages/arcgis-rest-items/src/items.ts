@@ -183,7 +183,7 @@ export function createItemInFolder(
  *   authentication: userSession,
  *   item: {
  *     title: "The Amazing Voyage",
- *     type: "Webmap"
+ *     type: "Web Map"
  *   }
  * })
  * ```
