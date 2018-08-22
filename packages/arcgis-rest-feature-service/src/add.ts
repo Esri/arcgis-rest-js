@@ -43,7 +43,6 @@ export interface IAddFeaturesResult {
 /**
  * Add features request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-features.htm) for more information.
  *
- * @param requestOptions - Options for the request.
  * ```js
  * import { addFeatures } from '@esri/arcgis-rest-feature-service';
  *
