@@ -465,12 +465,3 @@ export type esriUnits =
   | "esriSRUnit_Kilometer"
   | "esriSRUnit_NauticalMile"
   | "esriSRUnit_USNauticalMile";
-
-export interface INotification {
-  id: string;
-  type: string;
-  target: string;
-  targetType: string;
-  received: number;
-  data: { [key: string]: any };
-}

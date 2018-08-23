@@ -7,7 +7,7 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IUser, INotification } from "@esri/arcgis-rest-common-types";
+import { IUser } from "@esri/arcgis-rest-common-types";
 import { UserSession, IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 export interface IGetUserRequestOptions extends IRequestOptions {
@@ -67,6 +67,15 @@ export function getUser(
 
   // send the request
   return request(url, options);
+}
+
+export interface INotification {
+  id: string;
+  type: string;
+  target: string;
+  targetType: string;
+  received: number;
+  data: { [key: string]: any };
 }
 
 export interface INotificationResult {
