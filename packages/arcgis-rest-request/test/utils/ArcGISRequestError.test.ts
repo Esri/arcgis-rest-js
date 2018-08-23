@@ -37,4 +37,12 @@ describe("ArcGISRequestError", () => {
     expect(error.originalMessage).toBe("UNKNOWN_ERROR");
     expect(error.response).toEqual(undefined);
   });
+
+  it("should still format with a null or empty string message or code", () => {
+    const error = new ArcGISRequestError(null, "");
+    expect(error.message).toBe("UNKNOWN_ERROR");
+    expect(error.code).toEqual("UNKNOWN_ERROR_CODE");
+    expect(error.originalMessage).toBe("UNKNOWN_ERROR");
+    expect(error.response).toEqual(undefined);
+  });
 });

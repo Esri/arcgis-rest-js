@@ -64,7 +64,7 @@ describe("checkForErrors", () => {
   it("should throw an ArcGISRequestError for an error from the ArcGIS Online Billing Backend with a failure status", () => {
     expect(() => {
       checkForErrors(BillingErrorWithCode200);
-    }).toThrowError(ArcGISRequestError, null);
+    }).toThrowError(ArcGISRequestError, "UNKNOWN_ERROR");
   });
 
   it("should throw an ArcGISRequestError for an error when checking long running tasks in ArcGIS REST API", () => {

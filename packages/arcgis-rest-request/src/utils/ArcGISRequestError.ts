@@ -53,12 +53,15 @@ export class ArcGISRequestError {
    * @param options - The original options and parameters of the request
    */
   constructor(
-    message = "UNKNOWN_ERROR",
-    code: string | number = "UNKNOWN_ERROR_CODE",
+    message?: string,
+    code?: string | number,
     response?: any,
     url?: string,
     options?: IRequestOptions
   ) {
+    message = message || "UNKNOWN_ERROR";
+    code = code || "UNKNOWN_ERROR_CODE";
+
     this.name = "ArcGISRequestError";
     this.message =
       code === "UNKNOWN_ERROR_CODE" ? message : `${code}: ${message}`;
