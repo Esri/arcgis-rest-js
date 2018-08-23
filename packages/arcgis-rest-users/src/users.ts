@@ -69,12 +69,6 @@ export function getUser(
   return request(url, options);
 }
 
-export interface IGetUserNotificationRequestOptions extends IRequestOptions {
-  /**
-   * A session representing a logged in user.
-   */
-  authentication?: UserSession;
-}
 export interface INotificationResult {
   notifications: INotification[];
 }
@@ -86,10 +80,10 @@ export interface INotificationResult {
  * @returns A Promise that will resolve with the user's notifications
  */
 export function getUserNotifications(
-  requestOptions: IGetUserNotificationRequestOptions
+  requestOptions: IUserRequestOptions
 ): Promise<INotificationResult> {
   let url;
-  let options = { httpMethod: "GET" } as IGetUserNotificationRequestOptions;
+  let options = { httpMethod: "GET" } as IUserRequestOptions;
 
   const username = requestOptions.authentication.username;
   url = `${getPortalUrl(requestOptions)}/community/users/${encodeURIComponent(
