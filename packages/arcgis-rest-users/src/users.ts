@@ -7,7 +7,7 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IUser } from "@esri/arcgis-rest-common-types";
+import { IUser, INotification } from "@esri/arcgis-rest-common-types";
 import { UserSession, IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 export interface IGetUserRequestOptions extends IRequestOptions {
@@ -64,6 +64,38 @@ export function getUser(
       ...options
     };
   }
+
+  // send the request
+  return request(url, options);
+}
+
+export interface IGetUserNotificationRequestOptions extends IRequestOptions {
+  /**
+   * A session representing a logged in user.
+   */
+  authentication?: UserSession;
+}
+export interface INotificationResult {
+  notifications: INotification[];
+}
+
+/**
+ * Get notifications for a user.
+ *
+ * @param requestOptions - options to pass through in the request
+ * @returns A Promise that will resolve with the user's notifications
+ */
+export function getUserNotifications(
+  requestOptions: IGetUserNotificationRequestOptions
+): Promise<INotificationResult> {
+  let url;
+  let options = { httpMethod: "GET" } as IGetUserNotificationRequestOptions;
+
+  const username = requestOptions.authentication.username;
+  url = `${getPortalUrl(requestOptions)}/community/users/${encodeURIComponent(
+    username
+  )}/notifications`;
+  options = { ...requestOptions, ...options };
 
   // send the request
   return request(url, options);
