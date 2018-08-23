@@ -38,7 +38,7 @@ export function checkForErrors(
   }
 
   // error from a status check
-  if (response.status === "failed") {
+  if (response.status === "failed" || response.status === "failure") {
     let message: string;
     let code: string = "UNKNOWN_ERROR_CODE";
 
@@ -46,7 +46,7 @@ export function checkForErrors(
       message = JSON.parse(response.statusMessage).message;
       code = JSON.parse(response.statusMessage).code;
     } catch (e) {
-      message = response.statusMessage;
+      message = response.statusMessage || response.message;
     }
 
     throw new ArcGISRequestError(message, code, response, url, options);
