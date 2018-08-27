@@ -13,7 +13,8 @@ import {
   ArcGISOnlineErrorNoMessageCode,
   ArcGISOnlineErrorNoCode,
   ArcGISServerTokenRequired,
-  ArcGISOnlineAuthError
+  ArcGISOnlineAuthError,
+  BillingErrorWithCode200
 } from "./../mocks/errors";
 
 describe("checkForErrors", () => {
@@ -58,6 +59,12 @@ describe("checkForErrors", () => {
     expect(() => {
       checkForErrors(BillingError);
     }).toThrowError(ArcGISRequestError, "500: Error getting subscription info");
+  });
+
+  it("should throw an ArcGISRequestError for an error from the ArcGIS Online Billing Backend with a failure status", () => {
+    expect(() => {
+      checkForErrors(BillingErrorWithCode200);
+    }).toThrowError(ArcGISRequestError, "UNKNOWN_ERROR");
   });
 
   it("should throw an ArcGISRequestError for an error when checking long running tasks in ArcGIS REST API", () => {

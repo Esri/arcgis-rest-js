@@ -47,6 +47,12 @@ export const BillingError: any = {
   details: null as any
 };
 
+export const BillingErrorWithCode200: any = {
+  code: 200,
+  message: null,
+  status: "failure"
+};
+
 export const TaskErrorWithJSON: any = {
   status: "failed",
   statusMessage:
