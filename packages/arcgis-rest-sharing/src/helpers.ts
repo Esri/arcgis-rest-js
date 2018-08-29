@@ -49,7 +49,7 @@ export function isOrgAdmin(
 ): Promise<boolean> {
   const session = requestOptions.authentication as UserSession;
 
-  return session.getUser(requestOptions).then(user => {
+  return session.getUser(requestOptions).then((user: IUser): boolean => {
     if (!user || user.role !== "org_admin") {
       return false;
     } else {
@@ -60,7 +60,7 @@ export function isOrgAdmin(
 
 export function getUserMembership(
   requestOptions: IGroupSharingRequestOptions
-): Promise<string> {
+): Promise<string | void> {
   // start by assuming the user does not belong to the group
   let result = "nonmember";
   const session = requestOptions.authentication as UserSession;
@@ -81,7 +81,7 @@ export function getUserMembership(
       return result;
     })
     .catch(
-      /* istanbul ignore next */ err => {
+      /* istanbul ignore next */ (err: any): void => {
         throw Error(
           `failure determining membership of ${session.username} in group:${
             requestOptions.groupId
