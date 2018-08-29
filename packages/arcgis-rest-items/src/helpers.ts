@@ -68,6 +68,15 @@ export interface IItemResourceResponse {
   folder: string;
 }
 
+export interface IFolderAddResponse {
+  success: boolean;
+  folder: {
+    id: string;
+    title: string;
+    username: string;
+  };
+}
+
 /**
  * Serialize an item into a json format accepted by the Portal API
  * for create and update operations
