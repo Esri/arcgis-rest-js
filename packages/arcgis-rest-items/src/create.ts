@@ -31,7 +31,6 @@ export interface IItemAddRequestOptions extends IItemCrudRequestOptions {
  * })
  * ```
  *
- * @param folder - Name to be assigned to new folder
  * @param requestOptions - Options for the request
  * @returns A Promise that resolves with folder details once the folder has been created
  */
