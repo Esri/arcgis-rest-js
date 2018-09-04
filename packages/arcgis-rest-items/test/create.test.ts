@@ -1,6 +1,6 @@
 import * as fetchMock from "fetch-mock";
 
-import { createItem, createItemInFolder } from "../src/create";
+import { createFolder, createItem, createItemInFolder } from "../src/create";
 
 import { ItemSuccessResponse } from "./mocks/item";
 
@@ -331,6 +331,33 @@ describe("search", () => {
           expect(options.body).toContain(
             encodeParam("tags", "fakey, mcfakepants")
           );
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should create a folder", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+      const title = "an amazing folder";
+      createFolder({
+        title,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createFolder"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain(
+            "title=" + title.replace(/\s/g, "%20")
+          );
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+
           done();
         })
         .catch(e => {

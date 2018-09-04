@@ -2,15 +2,52 @@ import { request, getPortalUrl } from "@esri/arcgis-rest-request";
 
 import { IItemAdd } from "@esri/arcgis-rest-common-types";
 
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+
 import {
+  IAddFolderResponse,
   IItemAddResponse,
   IItemCrudRequestOptions,
   serializeItem,
   determineOwner
 } from "./helpers";
 
+export interface IAddFolderRequestOptions extends IItemCrudRequestOptions {
+  title: string;
+}
+
 export interface IItemAddRequestOptions extends IItemCrudRequestOptions {
   item: IItemAdd;
+}
+
+/**
+ * Create a folder
+ *
+ * ```js
+ * import { createFolder } from '@esri/arcgis-rest-items';
+ *
+ * createFolder({
+ *   title: 'Map Collection',
+ *   authentication: userSession
+ * }) ```
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise that resolves with folder details once the folder has been created
+ */
+export function createFolder(
+  requestOptions: IAddFolderRequestOptions
+): Promise<IAddFolderResponse> {
+  const owner = determineOwner(requestOptions);
+
+  const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
+  const url = `${baseUrl}/createFolder`;
+
+  requestOptions.params = {
+    title: requestOptions.title,
+    ...requestOptions.params
+  };
+
+  return request(url, requestOptions);
 }
 
 /**
