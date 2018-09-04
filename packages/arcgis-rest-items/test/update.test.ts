@@ -1,6 +1,6 @@
 import * as fetchMock from "fetch-mock";
 
-import { updateItem, updateItemResource } from "../src/update";
+import { updateItem, updateItemResource, moveItem } from "../src/update";
 
 import { ItemSuccessResponse } from "./mocks/item";
 
@@ -224,6 +224,34 @@ describe("search", () => {
           expect(options.body).toContain("resourcesPrefix=foolder");
           expect(options.body).toContain(encodeParam("text", "jumbotron"));
           expect(options.body).toContain(encodeParam("token", "fake-token"));
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should move an item to a folder", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+      const itemId = "3ef";
+      const folder = "7c5";
+      moveItem({
+        itemId,
+        folder,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/" +
+              itemId +
+              "/move"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+
           done();
         })
         .catch(e => {
