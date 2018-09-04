@@ -340,7 +340,9 @@ describe("search", () => {
 
     it("should create a folder", done => {
       fetchMock.once("*", ItemSuccessResponse);
-      createFolder("an amazing folder", {
+      const title = "an amazing folder";
+      createFolder({
+        title,
         ...MOCK_USER_REQOPTS
       })
         .then(response => {
@@ -350,6 +352,9 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createFolder"
           );
           expect(options.method).toBe("POST");
+          expect(options.body).toContain(
+            "title=" + title.replace(/\s/g, "%20")
+          );
           expect(options.body).toContain("f=json");
           expect(options.body).toContain(encodeParam("token", "fake-token"));
 

@@ -68,7 +68,7 @@ export interface IItemResourceResponse {
   folder: string;
 }
 
-export interface IFolderAddResponse {
+export interface IAddFolderResponse {
   success: boolean;
   folder: {
     id: string;
