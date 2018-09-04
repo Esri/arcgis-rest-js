@@ -1,3 +1,6 @@
+/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+
 import * as fetchMock from "fetch-mock";
 
 import { updateItem, updateItemResource, moveItem } from "../src/update";
@@ -250,6 +253,7 @@ describe("search", () => {
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
+          expect(options.body).toContain("folder=" + folder);
           expect(options.body).toContain(encodeParam("token", "fake-token"));
 
           done();
