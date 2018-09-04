@@ -1,3 +1,6 @@
+/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+
 import { geocode } from "../src/geocode";
 
 import { suggest } from "../src/suggest";

@@ -1,3 +1,6 @@
+/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+
 import { getSelf, getPortal } from "../../src/index";
 
 import { PortalResponse } from "./../mocks/portal";

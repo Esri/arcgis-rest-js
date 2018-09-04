@@ -1,3 +1,6 @@
+/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+
 import * as fetchMock from "fetch-mock";
 
 import { getItem, getItemData, getItemResources } from "../src/get";
