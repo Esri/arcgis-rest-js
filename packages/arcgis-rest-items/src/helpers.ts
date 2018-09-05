@@ -77,6 +77,13 @@ export interface IAddFolderResponse {
   };
 }
 
+export interface IItemMoveResponse {
+  success: boolean;
+  itemId: string;
+  owner: string;
+  folder: string; // folder id
+}
+
 /**
  * Serialize an item into a json format accepted by the Portal API
  * for create and update operations

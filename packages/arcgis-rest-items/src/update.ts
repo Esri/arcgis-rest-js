@@ -4,6 +4,7 @@ import { IItemUpdate } from "@esri/arcgis-rest-common-types";
 
 import {
   IItemCrudRequestOptions,
+  IItemMoveResponse,
   IItemResourceRequestOptions,
   IItemUpdateResponse,
   serializeItem,
@@ -12,6 +13,11 @@ import {
 
 export interface IItemUpdateRequestOptions extends IItemCrudRequestOptions {
   item: IItemUpdate;
+}
+
+export interface IItemMoveRequestOptions extends IItemCrudRequestOptions {
+  itemId: string; // id of item to be moved
+  folder: string; // id of destination folder; null, empty, or "/" if the destination is the root folder
 }
 
 /**
@@ -69,6 +75,37 @@ export function updateItemResource(
     ...requestOptions.params,
     fileName: requestOptions.name,
     text: requestOptions.content
+  };
+
+  return request(url, requestOptions);
+}
+
+/**
+ * Move an item to a folder
+ *
+ * ```js
+ * import { moveItem } from '@esri/arcgis-rest-items';
+ *
+ * moveItem({
+ *   itemId: "3ef",
+ *   folder: "7c5",
+ *   authentication: userSession
+ * }) ```
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise that resolves with owner and folder details once the move has been completed
+ */
+export function moveItem(
+  requestOptions: IItemMoveRequestOptions
+): Promise<IItemMoveResponse> {
+  const owner = determineOwner(requestOptions);
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.itemId
+  }/move`;
+
+  requestOptions.params = {
+    folder: requestOptions.folder,
+    ...requestOptions.params
   };
 
   return request(url, requestOptions);
