@@ -69,7 +69,13 @@ export interface IItemResourceResponse {
 }
 
 export interface IAddFolderResponse {
+  /**
+   * Success or failure of request.
+   */
   success: boolean;
+  /**
+   * Information about created folder: its alphanumeric id, name, and owner's name.
+   */
   folder: {
     id: string;
     title: string;
@@ -78,10 +84,22 @@ export interface IAddFolderResponse {
 }
 
 export interface IItemMoveResponse {
+  /**
+   * Success or failure of request.
+   */
   success: boolean;
+  /**
+   * Alphanumeric id of moved item.
+   */
   itemId: string;
+  /**
+   * Name of owner of item.
+   */
   owner: string;
-  folder: string; // folder id
+  /**
+   * Alphanumeric id of folder now housing item.
+   */
+  folder: string;
 }
 
 /**
