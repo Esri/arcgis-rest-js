@@ -19,8 +19,15 @@ export interface IItemUpdateRequestOptions extends IItemCrudRequestOptions {
 }
 
 export interface IItemMoveRequestOptions extends IItemCrudRequestOptions {
-  itemId: string; // id of item to be moved
-  folder: string; // id of destination folder; null, empty, or "/" if the destination is the root folder
+  /**
+   * Alphanumeric id of item to be moved.
+   */
+  itemId: string;
+  /**
+   * Alphanumeric id of folder to house moved item. If null, empty, or "/", the destination is the
+   * root folder.
+   */
+  folder: string;
 }
 
 /**
