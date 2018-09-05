@@ -253,6 +253,7 @@ describe("search", () => {
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
+          expect(options.body).toContain("folder=" + folder);
           expect(options.body).toContain(encodeParam("token", "fake-token"));
 
           done();
