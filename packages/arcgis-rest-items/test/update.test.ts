@@ -262,5 +262,90 @@ describe("search", () => {
           fail(e);
         });
     });
+
+    it("should move an item to the root folder 1", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+      const itemId = "3ef";
+      moveItem({
+        itemId,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/" +
+              itemId +
+              "/move"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("folder=%2F&");
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should move an item to the root folder 2", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+      const itemId = "3ef";
+      const folder = "";
+      moveItem({
+        itemId,
+        folder,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/" +
+              itemId +
+              "/move"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("folder=%2F&");
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should move an item to the root folder 3", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+      const itemId = "3ef";
+      const folder = "/";
+      moveItem({
+        itemId,
+        folder,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/" +
+              itemId +
+              "/move"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("folder=%2F&");
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
   }); // auth requests
 });
