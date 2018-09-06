@@ -237,10 +237,10 @@ describe("search", () => {
     it("should move an item to a folder", done => {
       fetchMock.once("*", ItemSuccessResponse);
       const itemId = "3ef";
-      const folder = "7c5";
+      const folderId = "7c5";
       moveItem({
         itemId,
-        folder,
+        folderId,
         ...MOCK_USER_REQOPTS
       })
         .then(response => {
@@ -253,7 +253,7 @@ describe("search", () => {
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
-          expect(options.body).toContain("folder=" + folder);
+          expect(options.body).toContain("folder=" + folderId);
           expect(options.body).toContain(encodeParam("token", "fake-token"));
 
           done();
@@ -293,10 +293,10 @@ describe("search", () => {
     it("should move an item to the root folder 2", done => {
       fetchMock.once("*", ItemSuccessResponse);
       const itemId = "3ef";
-      const folder = "";
+      const folderId = "";
       moveItem({
         itemId,
-        folder,
+        folderId,
         ...MOCK_USER_REQOPTS
       })
         .then(response => {
@@ -322,10 +322,10 @@ describe("search", () => {
     it("should move an item to the root folder 3", done => {
       fetchMock.once("*", ItemSuccessResponse);
       const itemId = "3ef";
-      const folder = "/";
+      const folderId = "/";
       moveItem({
         itemId,
-        folder,
+        folderId,
         ...MOCK_USER_REQOPTS
       })
         .then(response => {
