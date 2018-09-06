@@ -131,13 +131,14 @@ export interface IAddFeatureServiceResult {
 }
 
 /**
- * Create a hosted feature service in the user's root folder.
+ * Create a hosted feature service in the specified folder.
  *
  * ```js
  * import { createFeatureService } from '@esri/arcgis-rest-items';
  *
  * createFeatureService({
  *   authentication: userSession,
+ *   //folderId: "/",      // not specified, empty string, or "/": into root folder
  *   item: {
  *     "name": "EmptyServiceName",
  *     "serviceDescription": "",
@@ -197,19 +198,22 @@ export function createFeatureService(
     // If the service is destined for a subfolder, catch the results of the request and then move
     // the item to the desired folder
     return new Promise((resolve, reject) => {
-      request(url, requestOptions).then(results => {
-        moveItem({
-          itemId: results.itemId,
-          folder: requestOptions.folderId,
-          authentication: requestOptions.authentication
-        }).then(
-          () => {
-            resolve(results);
-          },
-          error => {
-            reject(error);
-          }
-        );
+      request(url, requestOptions).then(createResults => {
+        if (createResults.success) {
+          moveItem({
+            itemId: createResults.itemId,
+            folderId: requestOptions.folderId,
+            authentication: requestOptions.authentication
+          }).then(moveResults => {
+            if (moveResults.success) {
+              resolve(createResults);
+            } else {
+              reject({ success: false });
+            }
+          });
+        } else {
+          reject({ success: false });
+        }
       });
     });
   }
