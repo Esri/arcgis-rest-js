@@ -5,8 +5,6 @@ import { request, getPortalUrl } from "@esri/arcgis-rest-request";
 
 import { IItemAdd } from "@esri/arcgis-rest-common-types";
 
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-
 import {
   IAddFolderResponse,
   IItemAddResponse,
