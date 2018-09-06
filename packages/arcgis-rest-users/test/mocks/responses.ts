@@ -200,3 +200,8 @@ export const UserNotificationsResponse: INotificationResult = {
     }
   ]
 };
+
+export const IDeleteSuccessResponse: any = {
+  success: true,
+  notificationId: "3ef"
+};

@@ -78,6 +78,12 @@ export interface INotification {
   data: { [key: string]: any };
 }
 
+export interface INotificationIdRequestOptions extends IUserRequestOptions {
+  /**
+   * Unique identifier of the item.
+   */
+  id: string;
+}
 export interface INotificationResult {
   notifications: INotification[];
 }
@@ -91,15 +97,25 @@ export interface INotificationResult {
 export function getUserNotifications(
   requestOptions: IUserRequestOptions
 ): Promise<INotificationResult> {
-  let url;
   let options = { httpMethod: "GET" } as IUserRequestOptions;
 
-  const username = requestOptions.authentication.username;
-  url = `${getPortalUrl(requestOptions)}/community/users/${encodeURIComponent(
-    username
-  )}/notifications`;
+  const username = encodeURIComponent(requestOptions.authentication.username);
+  const portalUrl = getPortalUrl(requestOptions);
+  const url = `${portalUrl}/community/users/${username}/notifications`;
   options = { ...requestOptions, ...options };
 
   // send the request
   return request(url, options);
+}
+
+export function removeNotification(
+  requestOptions: INotificationIdRequestOptions
+): Promise<any> {
+  const username = encodeURIComponent(requestOptions.authentication.username);
+  const portalUrl = getPortalUrl(requestOptions);
+  const url = `${portalUrl}/content/users/${username}/notifications/${
+    requestOptions.id
+  }/delete`;
+
+  return request(url, requestOptions);
 }
