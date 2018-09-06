@@ -31,7 +31,8 @@ export interface ISharingResponse {
 }
 
 export function getSharingUrl(requestOptions: ISharingRequestOptions): string {
-  const username = requestOptions.authentication.username;
+  const username =
+    requestOptions.authentication && requestOptions.authentication.username;
   const owner = requestOptions.owner || username;
   return `${getPortalUrl(requestOptions)}/content/users/${encodeURIComponent(
     owner
