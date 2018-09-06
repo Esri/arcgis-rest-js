@@ -14,6 +14,9 @@ import {
 } from "./helpers";
 
 export interface IAddFolderRequestOptions extends IItemCrudRequestOptions {
+  /**
+   * Name of the folder to create.
+   */
   title: string;
 }
 

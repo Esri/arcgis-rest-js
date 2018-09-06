@@ -23,6 +23,11 @@ export interface IItemMoveRequestOptions extends IItemCrudRequestOptions {
    * Alphanumeric id of item to be moved.
    */
   itemId: string;
+  /**
+   * Alphanumeric id of folder to house moved item. If null, empty, or "/", the destination is the
+   * root folder.
+   */
+  folderId?: string;
 }
 
 /**
@@ -93,7 +98,7 @@ export function updateItemResource(
  *
  * moveItem({
  *   itemId: "3ef",
- *   folder: "7c5",
+ *   folderId: "7c5",
  *   authentication: userSession
  * }) ```
  *
@@ -108,8 +113,12 @@ export function moveItem(
     requestOptions.itemId
   }/move`;
 
+  let folderId = requestOptions.folderId;
+  if (!folderId) {
+    folderId = "/";
+  }
   requestOptions.params = {
-    folder: requestOptions.folder,
+    folder: folderId,
     ...requestOptions.params
   };
 
