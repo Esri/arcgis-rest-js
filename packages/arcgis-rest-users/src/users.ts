@@ -108,6 +108,12 @@ export function getUserNotifications(
   return request(url, options);
 }
 
+/**
+ * Delete a notification.
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise that will resolve with the success/failure status of the request
+ */
 export function removeNotification(
   requestOptions: INotificationIdRequestOptions
 ): Promise<any> {
