@@ -67,7 +67,7 @@ export const GroupMemberUserResponse: IUser = {
       access: "org",
       userMembership: {
         username: "jsmith",
-        memberType: "user",
+        memberType: "member",
         applications: 0
       },
       protected: false,
@@ -98,7 +98,7 @@ export const GroupNonMemberUserResponse: IUser = {
       access: "org",
       userMembership: {
         username: "jsmith",
-        memberType: "user",
+        memberType: "member",
         applications: 0
       },
       protected: false,
