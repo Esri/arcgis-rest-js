@@ -3,7 +3,6 @@
 
 export * from "./add";
 export * from "./create";
-export * from "./createFeatureService";
 export * from "./get";
 export * from "./protect";
 export * from "./remove";

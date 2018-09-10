@@ -2,19 +2,22 @@
  * Apache-2.0 */
 
 import { request, getPortalUrl } from "@esri/arcgis-rest-request";
-import { moveItem } from "./update";
-import { IItemCrudRequestOptions, determineOwner } from "./helpers";
+import {
+  moveItem,
+  IItemCrudRequestOptions,
+  determineOwner
+} from "@esri/arcgis-rest-items";
 import { IExtent, ISpatialReference } from "@esri/arcgis-rest-common-types";
 
 /**
  * A [`createParameters` JSON object for a new
  * service](https://developers.arcgis.com/rest/users-groups-and-items/create-service.htm).
  */
-export interface IFeatureServiceAdd {
+export interface ICreateServiceParams {
   /**
    * Name of the service to be created. This name must be unique. If the name already exists, the operation will fail. ArcGIS Enterprise does not allow spaces or special characters other than underscores in a service name.
    */
-  name?: string;
+  name: string;
   /**
    * Description given to the service.
    */
@@ -68,14 +71,13 @@ export interface IFeatureServiceAdd {
   xssPreventionInfo?: any;
 }
 
-export interface IAddFeatureServiceRequestOptions
-  extends IItemCrudRequestOptions {
+export interface ICreateServiceRequestOptions extends IItemCrudRequestOptions {
   /**
    * A JSON object specifying the properties of the newly-created service. See the [REST
    * Documentation](https://developers.arcgis.com/rest/users-groups-and-items/working-with-users-groups-and-items.htm)
    * for more information.
    */
-  item: IFeatureServiceAdd;
+  item: ICreateServiceParams;
   /**
    * Alphanumeric id of folder to house moved item. If null, empty, or "/", the destination is the
    * root folder.
@@ -83,7 +85,7 @@ export interface IAddFeatureServiceRequestOptions
   folderId?: string;
 }
 
-export interface IAddFeatureServiceResult {
+export interface ICreateServiceResult {
   /**
    * The encoded URL to the hosted service.
    */
@@ -131,43 +133,16 @@ export interface IAddFeatureServiceResult {
 }
 
 /**
- * Create a hosted feature service in the specified folder.
+ * Create a new hosted feature service.
  *
  * ```js
- * import { createFeatureService } from '@esri/arcgis-rest-items';
+ * import { createFeatureService } from '@esri/arcgis-rest-feature-service-admin';
  *
  * createFeatureService({
  *   authentication: userSession,
- *   //folderId: "/",      // not specified, empty string, or "/": into root folder
  *   item: {
- *     "name": "EmptyServiceName",
- *     "serviceDescription": "",
- *     "hasStaticData": false,
- *     "maxRecordCount": 1000,
- *     "supportedQueryFormats": "JSON",
- *     "capabilities": "Create,Delete,Query,Update,Editing",
- *     "description": "",
- *     "copyrightText": "",
- *     "spatialReference": {
- *       "wkid": 102100
- *     },
- *     "initialExtent": {
- *       "xmin": -20037507.0671618,
- *       "ymin": -30240971.9583862,
- *       "xmax": 20037507.0671618,
- *       "ymax": 18398924.324645,
- *       "spatialReference": {
- *         "wkid": 102100,
- *         "latestWkid": 3857
- *       }
- *     },
- *     "allowGeometryUpdates": true,
- *     "units": "esriMeters",
- *     "xssPreventionInfo": {
- *       "xssPreventionEnabled": true,
- *       "xssPreventionRule": "InputOnly",
- *       "xssInputRule": "rejectInvalid"
- *     }
+ *     "name": "NewEmptyService",
+ *     "capabilities": "Create,Delete,Query,Update,Editing"
  *   }
  * });
  * ```
@@ -176,8 +151,8 @@ export interface IAddFeatureServiceResult {
  * @returns A Promise that resolves with service details once the service has been created
  */
 export function createFeatureService(
-  requestOptions: IAddFeatureServiceRequestOptions
-): Promise<IAddFeatureServiceResult> {
+  requestOptions: ICreateServiceRequestOptions
+): Promise<ICreateServiceResult> {
   const owner = determineOwner(requestOptions);
 
   const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;

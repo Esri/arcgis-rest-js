@@ -1,7 +1,9 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-export const FeatureServiceSuccessResponse: any = {
+import { ICreateServiceResult } from "../../src/create";
+
+export const FeatureServiceSuccessResponse: ICreateServiceResult = {
   encodedServiceURL:
     "https://services.arcgis.com/b6gLrKHqgkQb393u/arcgis/rest/services/EmptyServiceName/FeatureServer",
   isView: false,
@@ -14,7 +16,6 @@ export const FeatureServiceSuccessResponse: any = {
   success: true,
   type: "Feature Service"
 };
-
 export const FeatureServiceFailResponse: any = {
   success: false
 };

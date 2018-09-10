@@ -3,12 +3,12 @@
 
 import * as fetchMock from "fetch-mock";
 
-import { createFeatureService } from "../src/createFeatureService";
+import { createFeatureService } from "../src/create";
 
 import {
   FeatureServiceSuccessResponse,
   FeatureServiceFailResponse
-} from "./mocks/featureService";
+} from "./mocks/service";
 import {
   MoveToFolderSuccessResponse,
   MoveToFolderFailResponse
