@@ -22,13 +22,6 @@ export interface ISharingRequestOptions extends IRequestOptions {
   owner?: string;
 }
 
-export interface IGroupIdRequestOptions extends IRequestOptions {
-  /**
-   * Group identifier
-   */
-  groupId: string;
-}
-
 export interface ISharingResponse {
   notSharedWith?: string[];
   notUnsharedFrom?: string[];
@@ -76,7 +69,7 @@ export function isOrgAdmin(
  * @returns A Promise that resolves with "owner" | "admin" | "member" | "nonmember"
  */
 export function getUserMembership(
-  requestOptions: IGroupIdRequestOptions
+  requestOptions: IGroupSharingRequestOptions
 ): Promise<GroupMembership> {
   // fetch the group...
   return getGroup(requestOptions.groupId, requestOptions)

@@ -18,6 +18,7 @@ describe("sharing helpers ::", () => {
         GroupNoAccessResponse
       );
       getUserMembership({
+        id: "ignoreme",
         groupId: "tb6",
         authentication: MOCK_USER_SESSION
       }).then(result => {
@@ -33,6 +34,7 @@ describe("sharing helpers ::", () => {
         GroupOwnerResponse
       );
       getUserMembership({
+        id: "ignoreme",
         groupId: "tb6",
         authentication: MOCK_USER_SESSION
       }).then(result => {
