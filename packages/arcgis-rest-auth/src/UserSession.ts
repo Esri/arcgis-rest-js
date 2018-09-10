@@ -603,7 +603,7 @@ export class UserSession implements IAuthenticationManager {
    */
   getUser(requestOptions?: IRequestOptions): Promise<IUser> {
     if (this._user && this._user.username === this.username) {
-      return new Promise(resolve => resolve(this._user));
+      return Promise.resolve(this._user);
     } else {
       const url = `${this.portal}/community/users/${encodeURIComponent(
         this.username

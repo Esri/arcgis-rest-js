@@ -1,11 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  IRequestOptions,
-  getPortalUrl
-} from "@esri/arcgis-rest-request";
+import { request, getPortalUrl } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-common-types";
 
 import {
@@ -120,7 +116,7 @@ function changeGroupSharing(
                 }`;
               } else {
                 // if they are a group admin/owner, use the bare item url
-                if (membership === "admin") {
+                if (membership === "admin" || membership === "owner") {
                   return `${getPortalUrl(requestOptions)}/content/items/${
                     requestOptions.id
                   }/${requestOptions.action}`;
@@ -179,15 +175,18 @@ function isItemSharedWithGroup(
     sortField: "title"
   };
 
+  // we need to append some params into requestOptions, so make a clone
+  // instead of mutating the params on the inbound requestOptions object
+  const options = { ...requestOptions };
   // instead of calling out to "@esri/arcgis-rest-items, make the request manually to forgoe another dependency
-  requestOptions.params = {
+  options.params = {
     ...query,
     ...requestOptions.params
   };
 
-  const url = `${getPortalUrl(requestOptions)}/search`;
+  const url = `${getPortalUrl(options)}/search`;
 
-  return request(url, requestOptions).then(searchResponse => {
+  return request(url, options).then(searchResponse => {
     // if there are no search results at all, we know the item hasnt already been shared with the group
     if (searchResponse.total === 0) {
       return false;

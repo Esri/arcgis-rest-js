@@ -9,17 +9,19 @@
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "tslib": "^1.7.1"
+    "tslib": "^1.8.0"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^1.7.1",
-    "@esri/arcgis-rest-common-types": "^1.7.1",
-    "@esri/arcgis-rest-request": "^1.7.1"
+    "@esri/arcgis-rest-auth": "^1.8.0",
+    "@esri/arcgis-rest-common-types": "^1.8.0",
+    "@esri/arcgis-rest-request": "^1.8.0",
+    "@esri/arcgis-rest-groups": "^1.8.0"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^1.8.0",
-    "@esri/arcgis-rest-common-types": "^1.7.1",
-    "@esri/arcgis-rest-request": "^1.8.0"
+    "@esri/arcgis-rest-common-types": "^1.8.0",
+    "@esri/arcgis-rest-request": "^1.8.0",
+    "@esri/arcgis-rest-groups": "^1.8.0"
   },
   "files": [
     "dist/**"

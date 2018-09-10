@@ -1,6 +1,9 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+// if you want to get *really* pedantic, nonmember is more _derived_
+export type GroupMembership = "owner" | "admin" | "member" | "nonmember";
+
 /**
  * A [Group](https://developers.arcgis.com/rest/users-groups-and-items/common-parameters.htm) that has not been created yet.
  */
@@ -44,7 +47,7 @@ export interface IGroup extends IGroupAdd {
   autoJoin: boolean;
   userMembership?: {
     username?: string;
-    memberType?: string;
+    memberType?: GroupMembership;
     applications?: number;
   };
   hasCategorySchema?: boolean;
