@@ -6,8 +6,6 @@ import * as fetchMock from "fetch-mock";
 import { MOCK_USER_SESSION } from "./mocks/sharing";
 import {
   AnonUserResponse,
-  GroupMemberUserResponse,
-  GroupAdminUserResponse,
   OrgAdminUserResponse
 } from "../../arcgis-rest-users/test/mocks/responses";
 

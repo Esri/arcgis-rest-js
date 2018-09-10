@@ -51,7 +51,7 @@ const NoResultsSearchResponse = {
   results: [] as any
 };
 
-const GroupOwnerResponse = {
+export const GroupOwnerResponse = {
   id: "tb6",
   title: "fake group",
   userMembership: {
@@ -59,7 +59,7 @@ const GroupOwnerResponse = {
   }
 };
 
-const GroupMemberResponse = {
+export const GroupMemberResponse = {
   id: "tb6",
   title: "fake group",
   userMembership: {
@@ -67,7 +67,7 @@ const GroupMemberResponse = {
   }
 };
 
-const GroupAdminResponse = {
+export const GroupAdminResponse = {
   id: "tb6",
   title: "fake group",
   userMembership: {
@@ -75,7 +75,7 @@ const GroupAdminResponse = {
   }
 };
 
-const GroupNoAccessResponse = {
+export const GroupNoAccessResponse = {
   error: {
     code: 400,
     messageCode: "COM_0003",

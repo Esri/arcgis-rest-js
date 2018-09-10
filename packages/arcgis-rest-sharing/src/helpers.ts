@@ -52,7 +52,7 @@ export function isItemOwner(requestOptions: ISharingRequestOptions): boolean {
 /**
  * Check it the user is a full org_admin
  * @param requestOptions
- * @returns {Promise<string>} Promise resolving in a boolean indicating if the user is a full Org Admin
+ * @returns Promise resolving in a boolean indicating if the user is an ArcGIS Organization administrator
  */
 export function isOrgAdmin(
   requestOptions: ISharingRequestOptions

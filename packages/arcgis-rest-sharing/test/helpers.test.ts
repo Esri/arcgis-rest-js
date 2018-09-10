@@ -4,31 +4,10 @@
 import * as fetchMock from "fetch-mock";
 import { getUserMembership } from "../src/helpers";
 import { MOCK_USER_SESSION } from "./mocks/sharing";
-
-const GroupOwnerResponse = {
-  id: "tb6",
-  title: "fake group",
-  userMembership: {
-    memberType: "owner"
-  }
-};
-
-const GroupMemberResponse = {
-  id: "tb6",
-  title: "fake group",
-  userMembership: {
-    memberType: "owner"
-  }
-};
-
-const GroupNoAccessResponse = {
-  error: {
-    code: 400,
-    messageCode: "COM_0003",
-    message: "Group does not exist or is inaccessible.",
-    details: [] as any[]
-  }
-};
+import {
+  GroupOwnerResponse,
+  GroupNoAccessResponse
+} from "./group-sharing.test";
 
 describe("sharing helpers ::", () => {
   afterEach(fetchMock.restore);
