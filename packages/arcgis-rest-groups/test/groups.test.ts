@@ -11,7 +11,8 @@ import {
   removeGroup,
   protectGroup,
   unprotectGroup,
-  createGroupNotification
+  createGroupNotification,
+  NotificationChannelType
 } from "../src/index";
 
 import {
@@ -281,14 +282,14 @@ describe("groups", () => {
           fail(e);
         });
     });
-    it("should create a group notification", done => {
+    it("should create an email notification", done => {
       fetchMock.once("*", GroupNotificationResponse);
 
       const opts = {
         id: "3ef",
         subject: "this is the subject",
         message: "this is the message",
-        notificationChannelType: "email",
+        users: [] as string[],
         ...MOCK_REQOPTS
       };
 
