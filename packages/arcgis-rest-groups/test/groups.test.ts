@@ -20,6 +20,7 @@ import {
   GroupContentResponse,
   GroupUsersResponse
 } from "./mocks/responses";
+
 import { encodeParam } from "@esri/arcgis-rest-request";
 import * as fetchMock from "fetch-mock";
 
@@ -278,6 +279,5 @@ describe("groups", () => {
           fail(e);
         });
     });
-    // it('should make authenticated call to get the group content', done => {})
   });
 });
