@@ -286,8 +286,8 @@ describe("groups", () => {
 
       const opts = {
         id: "3ef",
-        subject: "string",
-        message: "string | object",
+        subject: "this is the subject",
+        message: "this is the message",
         notificationChannelType: "email",
         ...MOCK_REQOPTS
       };
@@ -302,6 +302,15 @@ describe("groups", () => {
           expect(options.method).toBe("POST");
           expect(options.body).toContain(encodeParam("f", "json"));
           expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain(
+            encodeParam("subject", "this is the subject")
+          );
+          expect(options.body).toContain(
+            encodeParam("message", "this is the message")
+          );
+          expect(options.body).toContain(
+            encodeParam("notificationChannelType", "email")
+          );
           expect(options.body).toContain(encodeParam("notifyAll", true));
           expect(response.success).toEqual(true);
           done();
