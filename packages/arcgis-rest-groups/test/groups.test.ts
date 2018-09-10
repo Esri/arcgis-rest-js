@@ -10,9 +10,7 @@ import {
   updateGroup,
   removeGroup,
   protectGroup,
-  unprotectGroup,
-  createGroupNotification,
-  NotificationChannelType
+  unprotectGroup
 } from "../src/index";
 
 import {
@@ -20,8 +18,7 @@ import {
   GroupEditResponse,
   GroupResponse,
   GroupContentResponse,
-  GroupUsersResponse,
-  GroupNotificationResponse
+  GroupUsersResponse
 } from "./mocks/responses";
 
 import { encodeParam } from "@esri/arcgis-rest-request";
@@ -282,44 +279,5 @@ describe("groups", () => {
           fail(e);
         });
     });
-    it("should create an email notification", done => {
-      fetchMock.once("*", GroupNotificationResponse);
-
-      const opts = {
-        id: "3ef",
-        subject: "this is the subject",
-        message: "this is the message",
-        users: [] as string[],
-        ...MOCK_REQOPTS
-      };
-
-      createGroupNotification(opts)
-        .then(response => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/createNotification"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodeParam("f", "json"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain(
-            encodeParam("subject", "this is the subject")
-          );
-          expect(options.body).toContain(
-            encodeParam("message", "this is the message")
-          );
-          expect(options.body).toContain(
-            encodeParam("notificationChannelType", "email")
-          );
-          expect(options.body).toContain(encodeParam("notifyAll", true));
-          expect(response.success).toEqual(true);
-          done();
-        })
-        .catch(e => {
-          fail(e);
-        });
-    });
-    // it('should make authenticated call to get the group content', done => {})
   });
 });
