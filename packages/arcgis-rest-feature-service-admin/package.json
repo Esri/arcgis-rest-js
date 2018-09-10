@@ -1,0 +1,53 @@
+{
+  "name": "@esri/arcgis-rest-feature-service-admin",
+  "version": "1.8.0",
+  "description": "Feature service administration helpers for @esri/arcgis-rest-request",
+  "main": "dist/node/index.js",
+  "browser": "dist/umd/feature-service-admin.umd.js",
+  "module": "dist/esm/index.js",
+  "js:next": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "license": "Apache-2.0",
+  "files": [
+    "dist/**"
+  ],
+  "dependencies": {
+    "tslib": "^1.7.1"
+  },
+  "peerDependencies": {
+    "@esri/arcgis-rest-request": "^1.8.0",
+    "@esri/arcgis-rest-common-types": "^1.8.0",
+    "@esri/arcgis-rest-auth": "^1.8.0",
+    "@esri/arcgis-rest-items": "^1.8.0"
+  },
+  "devDependencies": {
+    "@esri/arcgis-rest-request": "^1.8.0",
+    "@esri/arcgis-rest-common-types": "^1.8.0",
+    "@esri/arcgis-rest-auth": "^1.8.0",
+    "@esri/arcgis-rest-items": "^1.8.0"
+  },
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "npm run build:node && npm run build:umd && npm run build:esm",
+    "build:esm": "tsc -p ./tsconfig.json --module es2015 --outDir ./dist/esm --declaration",
+    "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
+    "build:node": "tsc -p ./tsconfig.json --module commonjs --outDir ./dist/node"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/arcgis-rest-js.git"
+  },
+  "contributors": [
+    {
+      "name": "Mike Tschudi",
+      "email": "mtschudi@esri.com"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/Esri/arcgis-rest-js/issues"
+  },
+  "homepage": "https://github.com/Esri/arcgis-rest-js#readme"
+}
