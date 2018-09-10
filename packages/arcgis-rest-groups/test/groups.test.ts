@@ -10,7 +10,8 @@ import {
   updateGroup,
   removeGroup,
   protectGroup,
-  unprotectGroup
+  unprotectGroup,
+  createGroupNotification
 } from "../src/index";
 
 import {
@@ -18,8 +19,10 @@ import {
   GroupEditResponse,
   GroupResponse,
   GroupContentResponse,
-  GroupUsersResponse
+  GroupUsersResponse,
+  GroupNotificationResponse
 } from "./mocks/responses";
+
 import { encodeParam } from "@esri/arcgis-rest-request";
 import * as fetchMock from "fetch-mock";
 
@@ -272,6 +275,35 @@ describe("groups", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/users?f=json&token=fake-token"
           );
           expect(options.method).toBe("GET");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+    it("should create a group notification", done => {
+      fetchMock.once("*", GroupNotificationResponse);
+
+      const opts = {
+        id: "3ef",
+        subject: "string",
+        message: "string | object",
+        notificationChannelType: "email",
+        ...MOCK_REQOPTS
+      };
+
+      createGroupNotification(opts)
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/createNotification"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("notifyAll", true));
+          expect(response.success).toEqual(true);
           done();
         })
         .catch(e => {

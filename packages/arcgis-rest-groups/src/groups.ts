@@ -24,6 +24,16 @@ export interface IGroupIdRequestOptions extends IRequestOptions {
   id: string;
 }
 
+export interface IGroupNotificationRequestOptions
+  extends IGroupIdRequestOptions {
+  subject?: string;
+  message: string | object;
+  users?: string[];
+  notificationChannelType: string;
+  clientId?: string;
+  silentNotification?: boolean;
+}
+
 export interface IGroupAddRequestOptions extends IRequestOptions {
   group: IGroupAdd;
 }
@@ -269,4 +279,33 @@ function serializeGroup(group: IGroupAdd | IItemUpdate | IGroup): any {
   // join and tags...
   clone.tags = clone.tags.join(", ");
   return clone;
+}
+
+/**
+ * Create a group notification.
+ * @param requestOptions - Options for the request
+ * @returns A Promise that will resolve with the success/failure status of the request
+ */
+// see http://mediawikidev.esri.com/index.php/ArcGIS.com/User_Notifications
+export function createGroupNotification(
+  requestOptions: IGroupNotificationRequestOptions
+): Promise<any> {
+  const url = `${getPortalUrl(requestOptions)}/community/groups/${
+    requestOptions.id
+  }/createNotification`;
+
+  const options: IGroupNotificationRequestOptions = {
+    params: {
+      subject: requestOptions.subject,
+      message: requestOptions.message,
+      users: requestOptions.users,
+      notificationChannelType: requestOptions.notificationChannelType,
+      clientId: requestOptions.clientId,
+      silentNotification: requestOptions.silentNotification,
+      notifyAll: !requestOptions.users || requestOptions.users.length === 0,
+      ...requestOptions.params
+    },
+    ...requestOptions
+  };
+  return request(url, options);
 }

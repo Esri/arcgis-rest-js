@@ -138,3 +138,7 @@ export const GroupContentResponse: IGroupContentResult = {
     }
   ]
 };
+
+export const GroupNotificationResponse: any = {
+  success: true
+};
