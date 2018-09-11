@@ -31,11 +31,6 @@ export interface IApplicationSessionOptions {
    * Expiration date for the `token`
    */
   expires?: Date;
-
-  /**
-   * Duration of requested tokens in minutes. Used when requesting tokens with `username` and `password` for when validating the identities of unknown servers. Defaults to 2 weeks.
-   */
-  duration?: number;
 }
 
 export class ApplicationSession implements IAuthenticationManager {
@@ -44,7 +39,6 @@ export class ApplicationSession implements IAuthenticationManager {
   private clientSecret: string;
   private token: string;
   private expires: Date;
-  private duration: number;
 
   /**
    * Internal object to keep track of pending token requests. Used to prevent
@@ -58,7 +52,6 @@ export class ApplicationSession implements IAuthenticationManager {
     this.token = options.token;
     this.expires = options.expires;
     this.portal = "https://www.arcgis.com/sharing/rest";
-    this.duration = options.duration || 20160;
   }
 
   // url isnt actually read or passed through.
