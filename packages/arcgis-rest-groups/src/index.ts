@@ -2,3 +2,4 @@
  * Apache-2.0 */
 
 export * from "./groups";
+export * from "./notification";
