@@ -13,6 +13,11 @@ export type GrantTypes =
   | "client_credentials"
   | "exchange_refresh_token";
 
+export interface IParams {
+  f?: ResponseFormats;
+  [key: string]: any;
+}
+
 export interface IGenerateTokenParams extends IParams {
   username?: string;
   password?: string;
@@ -72,11 +77,6 @@ export type ResponseFormats =
   | "html"
   | "image"
   | "zip";
-
-export interface IParams {
-  f?: ResponseFormats;
-  [key: string]: any;
-}
 
 /**
  * Options for the `request()` method.

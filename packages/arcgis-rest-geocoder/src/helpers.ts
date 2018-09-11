@@ -3,8 +3,6 @@
 
 import { request, IRequestOptions, warn } from "@esri/arcgis-rest-request";
 
-import { IPoint } from "@esri/arcgis-rest-common-types";
-
 // https always
 export const worldGeocoder =
   "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/";

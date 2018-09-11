@@ -21,11 +21,15 @@ describe("sharing helpers ::", () => {
         id: "ignoreme",
         groupId: "tb6",
         authentication: MOCK_USER_SESSION
-      }).then(result => {
-        expect(fetchMock.done()).toBeTruthy();
-        expect(result).toBe("nonmember", "should return nonmember");
-        done();
-      });
+      })
+        .then(result => {
+          expect(fetchMock.done()).toBeTruthy();
+          expect(result).toBe("nonmember", "should return nonmember");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
     });
 
     it("should request the group and return the member type", done => {
@@ -37,11 +41,15 @@ describe("sharing helpers ::", () => {
         id: "ignoreme",
         groupId: "tb6",
         authentication: MOCK_USER_SESSION
-      }).then(result => {
-        expect(fetchMock.done()).toBeTruthy();
-        expect(result).toBe("owner", "should return owner");
-        done();
-      });
+      })
+        .then(result => {
+          expect(fetchMock.done()).toBeTruthy();
+          expect(result).toBe("owner", "should return owner");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
     });
   });
 });

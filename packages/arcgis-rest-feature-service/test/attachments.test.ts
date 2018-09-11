@@ -49,19 +49,23 @@ describe("attachment methods", () => {
       httpMethod: "GET"
     } as IGetAttachmentsOptions;
     fetchMock.once("*", getAttachmentsResponse);
-    getAttachments(requestOptions).then(response => {
-      expect(fetchMock.called()).toBeTruthy();
-      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-      expect(url).toEqual(
-        `${requestOptions.url}/${
-          requestOptions.featureId
-        }/attachments?f=json&gdbVersion=SDE.DEFAULT`
-      );
-      expect(options.method).toBe("GET");
-      expect(getAttachmentsResponse.attachmentInfos.length).toEqual(2);
-      expect(getAttachmentsResponse.attachmentInfos[0].id).toEqual(409);
-      done();
-    });
+    getAttachments(requestOptions)
+      .then(() => {
+        expect(fetchMock.called()).toBeTruthy();
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          `${requestOptions.url}/${
+            requestOptions.featureId
+          }/attachments?f=json&gdbVersion=SDE.DEFAULT`
+        );
+        expect(options.method).toBe("GET");
+        expect(getAttachmentsResponse.attachmentInfos.length).toEqual(2);
+        expect(getAttachmentsResponse.attachmentInfos[0].id).toEqual(409);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
   });
 
   it("should return objectId of the added attachment and a truthy success", done => {
@@ -74,22 +78,31 @@ describe("attachment methods", () => {
       }
     } as IAddAttachmentOptions;
     fetchMock.once("*", addAttachmentResponse);
-    addAttachment(requestOptions).then(response => {
-      expect(fetchMock.called()).toBeTruthy();
-      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-      expect(url).toEqual(
-        `${requestOptions.url}/${requestOptions.featureId}/addAttachment`
-      );
-      expect(options.method).toBe("POST");
-      expect(options.body instanceof FormData).toBeTruthy();
-      const params = options.body as FormData;
-      // we could introspect FormData in Chrome this way, but not Node.js
-      // more info: https://github.com/form-data/form-data/issues/124
-      // expect(params.get("returnEditMoment")).toEqual("true");
-      expect(addAttachmentResponse.addAttachmentResult.objectId).toEqual(1001);
-      expect(addAttachmentResponse.addAttachmentResult.success).toEqual(true);
-      done();
-    });
+    addAttachment(requestOptions)
+      .then(() => {
+        expect(fetchMock.called()).toBeTruthy();
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          `${requestOptions.url}/${requestOptions.featureId}/addAttachment`
+        );
+        expect(options.method).toBe("POST");
+
+        const params = options.body as FormData;
+        expect(params instanceof FormData).toBeTruthy();
+        // we can introspect FormData in Chrome this way, but not Node.js
+        // more info: https://github.com/form-data/form-data/issues/124
+        if (params.get) {
+          expect(params.get("returnEditMoment")).toEqual("true");
+        }
+        expect(addAttachmentResponse.addAttachmentResult.objectId).toEqual(
+          1001
+        );
+        expect(addAttachmentResponse.addAttachmentResult.success).toEqual(true);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
   });
 
   it("should return an error for a service/feature which does not have attachments", done => {
@@ -104,7 +117,7 @@ describe("attachment methods", () => {
     } as IAddAttachmentOptions;
     fetchMock.once("*", genericInvalidResponse);
     addAttachment(requestOptions)
-      .then(response => {
+      .then(() => {
         // nothing to test here forcing error
         fail();
       })
@@ -134,21 +147,25 @@ describe("attachment methods", () => {
       }
     } as IUpdateAttachmentOptions;
     fetchMock.once("*", updateAttachmentResponse);
-    updateAttachment(requestOptions).then(response => {
-      expect(fetchMock.called()).toBeTruthy();
-      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-      expect(url).toEqual(
-        `${requestOptions.url}/${requestOptions.featureId}/updateAttachment`
-      );
-      expect(options.method).toBe("POST");
-      expect(updateAttachmentResponse.updateAttachmentResult.objectId).toEqual(
-        1001
-      );
-      expect(updateAttachmentResponse.updateAttachmentResult.success).toEqual(
-        true
-      );
-      done();
-    });
+    updateAttachment(requestOptions)
+      .then(() => {
+        expect(fetchMock.called()).toBeTruthy();
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          `${requestOptions.url}/${requestOptions.featureId}/updateAttachment`
+        );
+        expect(options.method).toBe("POST");
+        expect(
+          updateAttachmentResponse.updateAttachmentResult.objectId
+        ).toEqual(1001);
+        expect(updateAttachmentResponse.updateAttachmentResult.success).toEqual(
+          true
+        );
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
   });
 
   it("should return objectId of the deleted attachment and a truthy success", done => {
@@ -161,22 +178,26 @@ describe("attachment methods", () => {
       }
     } as IDeleteAttachmentsOptions;
     fetchMock.once("*", deleteAttachmentsResponse);
-    deleteAttachments(requestOptions).then(response => {
-      expect(fetchMock.called()).toBeTruthy();
-      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-      expect(url).toEqual(
-        `${requestOptions.url}/${requestOptions.featureId}/deleteAttachments`
-      );
-      expect(options.body).toContain("attachmentIds=1001");
-      expect(options.body).toContain("returnEditMoment=true");
-      expect(options.method).toBe("POST");
-      expect(
-        deleteAttachmentsResponse.deleteAttachmentResults[0].objectId
-      ).toEqual(1001);
-      expect(
-        deleteAttachmentsResponse.deleteAttachmentResults[0].success
-      ).toEqual(true);
-      done();
-    });
+    deleteAttachments(requestOptions)
+      .then(() => {
+        expect(fetchMock.called()).toBeTruthy();
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          `${requestOptions.url}/${requestOptions.featureId}/deleteAttachments`
+        );
+        expect(options.body).toContain("attachmentIds=1001");
+        expect(options.body).toContain("returnEditMoment=true");
+        expect(options.method).toBe("POST");
+        expect(
+          deleteAttachmentsResponse.deleteAttachmentResults[0].objectId
+        ).toEqual(1001);
+        expect(
+          deleteAttachmentsResponse.deleteAttachmentResults[0].success
+        ).toEqual(true);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
   });
 });

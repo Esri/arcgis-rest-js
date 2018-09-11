@@ -102,6 +102,9 @@ describe("UserSession", () => {
         .then(token => {
           expect(token).toBe("token");
           done();
+        })
+        .catch(e => {
+          fail(e);
         });
     });
 
@@ -184,6 +187,9 @@ describe("UserSession", () => {
         .then(token => {
           expect(token).toBe("serverToken");
           done();
+        })
+        .catch(e => {
+          fail(e);
         });
     });
 
@@ -224,6 +230,9 @@ describe("UserSession", () => {
         .then(token => {
           expect(token).toBe("serverToken");
           done();
+        })
+        .catch(e => {
+          fail(e);
         });
     });
 
@@ -278,14 +287,18 @@ describe("UserSession", () => {
         session.getToken(
           "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
         )
-      ]).then(([token1, token2]) => {
-        expect(token1).toBe("serverToken");
-        expect(token2).toBe("serverToken");
-        expect(
-          fetchMock.calls("https://gis.city.gov/sharing/generateToken").length
-        ).toBe(1);
-        done();
-      });
+      ])
+        .then(([token1, token2]) => {
+          expect(token1).toBe("serverToken");
+          expect(token2).toBe("serverToken");
+          expect(
+            fetchMock.calls("https://gis.city.gov/sharing/generateToken").length
+          ).toBe(1);
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
     });
 
     it("should throw an ArcGISAuthError when the owning system doesn't match", done => {
@@ -835,13 +848,21 @@ describe("UserSession", () => {
         password: "123456"
       });
 
-      session.getUser().then(response => {
-        expect(response.role).toEqual("org_publisher");
-        session.getUser().then(cachedResponse => {
-          expect(cachedResponse.fullName).toEqual("John Smith");
-          done();
+      session
+        .getUser()
+        .then(response => {
+          expect(response.role).toEqual("org_publisher");
+          session.getUser().then(cachedResponse => {
+            expect(cachedResponse.fullName).toEqual("John Smith");
+            done();
+          });
+          // .catch(e => {
+          //   fail(e);
+          // });
+        })
+        .catch(e => {
+          fail(e);
         });
-      });
     });
   });
 
