@@ -7,6 +7,55 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.9.0] - September 11th 2018
+
+### @esri/arcgis-rest-feature-service-admin
+
+* New Package!
+   * with `createFeatureService()` method.
+
+### @esri/arcgis-rest-common-types
+
+* New Features
+   * **users**: add getUserNotifications function [`9fbc5e2`](https://github.com/Esri/arcgis-rest-js/commit/9fbc5e2afe67be4ff4667af5a4e7cbea39ec5b08)
+
+### @esri/arcgis-rest-feature-service
+
+* Chores
+   * **lint**: make sure *all* the code is linted each commit [`0374759`](https://github.com/Esri/arcgis-rest-js/commit/03747597ea62962c7411a13be70a25873243be58) [#301](https://github.com/Esri/arcgis-rest-js/issues/301)
+
+### @esri/arcgis-rest-groups
+
+* New Features
+   * **groups**: add createGroupNotification [`4baab64`](https://github.com/Esri/arcgis-rest-js/commit/4baab6495d8ae394061bd74052b00b2356a0eb4d)
+
+### @esri/arcgis-rest-request
+
+* Bug Fixes
+   * **check-for-errors**: throw an error for a response with a \`failure\` status [`9ee1c0c`](https://github.com/Esri/arcgis-rest-js/commit/9ee1c0c181ab921fbf67fefe8b8e5e525749fed7)
+   * **ArcGISRequestError**: replace null or empty messages and codes with UNKNOWN_ERROR and UNKNOWN_ERR [`bcea1da`](https://github.com/Esri/arcgis-rest-js/commit/bcea1dadc94925b4d9c13fe1d297a834107064a2)
+
+### @esri/arcgis-rest-sharing
+
+* Bug Fixes
+   * **sharing**: rework group membership checking, fix UserSession.getUser scope issue [`909a37e`](https://github.com/Esri/arcgis-rest-js/commit/909a37ec2f928ad223c674ae0d4033e24761ae9a)
+
+### @esri/arcgis-rest-users
+
+* New Features
+   * **users**: add getUserNotifications function [`9fbc5e2`](https://github.com/Esri/arcgis-rest-js/commit/9fbc5e2afe67be4ff4667af5a4e7cbea39ec5b08)
+   * **users**: adds removeNotification function [`b4a55d0`](https://github.com/Esri/arcgis-rest-js/commit/b4a55d0b336d0bec2cbf4b10a059894d8589efba)
+
+### Other Changes
+
+* Chores
+   * **lint**: make sure *all* the code is linted each commit [`0dc4531`](https://github.com/Esri/arcgis-rest-js/commit/0dc4531114ad0474aaf26e925d0e1974ed81912d)
+* Documentation
+   * **api**: ensure example code appears in docs for addFeatures [`af61e3e`](https://github.com/Esri/arcgis-rest-js/commit/af61e3e9b2a7fbc164b1d3e7ccad8e9b6a2079ea)
+* New Features
+   * **users**: add getUserNotifications function [`40bc5c1`](https://github.com/Esri/arcgis-rest-js/commit/40bc5c1e0c760107a7f7f38d1115a6105eef5528)
+   * **groups**: add createGroupNotification [`6a17fe5`](https://github.com/Esri/arcgis-rest-js/commit/6a17fe577b6c6f839d2667fd6d14099ab41f3bab)
+
 ## [1.8.0] - August 17th 2018
 
 ### @esri/arcgis-rest-items
@@ -22,8 +71,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Chores
    * **publish**: check for npm login before allowing publish [`7b13a1a`](https://github.com/Esri/arcgis-rest-js/commit/7b13a1a2b5d4153e56bec347cf2a903a826251a7)
-   * **doc**: misc doc fixes 🙏gavinr🙏 
-   
+   * **doc**: misc doc fixes 🙏gavinr🙏
+
 ## [1.7.1] - August 10th 2018
 
 ### @esri/arcgis-rest-auth
@@ -691,8 +740,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 Initial Public Release
 
 [1.0.0]: https://github.com/Esri/arcgis-rest-js/compare/265d6aed1856d3ae1ff81f03ce85aba449b01f21...v1.0.0 "v1.0.0"
-[1.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.1 "v1.0.1"
-[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.1...v1.0.2 "v1.0.2"
+[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.2 "v1.0.2"
 [1.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.2...v1.0.3 "v1.0.3"
 [1.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.3...v1.1.0 "v1.1.0"
 [1.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.0...v1.1.1 "v1.1.1"
@@ -709,4 +757,5 @@ Initial Public Release
 [1.7.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.6.0...v1.7.0 "v1.7.0"
 [1.7.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.0...v1.7.1 "v1.7.1"
 [1.8.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.1...v1.8.0 "v1.8.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.8.0...HEAD "Unreleased Changes"
+[1.9.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.8.0...v1.9.0 "v1.9.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.9.0...HEAD "Unreleased Changes"
