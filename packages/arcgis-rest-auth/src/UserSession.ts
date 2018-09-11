@@ -495,16 +495,9 @@ export class UserSession implements IAuthenticationManager {
     options: IOauth2Options,
     authorizationCode: string
   ): Promise<UserSession> {
-    const {
-      portal,
-      clientId,
-      duration,
-      redirectUri,
-      refreshTokenTTL
-    }: IOauth2Options = {
+    const { portal, clientId, redirectUri, refreshTokenTTL }: IOauth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
-        duration: 20160,
         refreshTokenTTL: 1440
       },
       ...options

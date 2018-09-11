@@ -3,7 +3,7 @@
 
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 
-import { IEditFeatureResult, appendCustomParams } from "./helpers";
+import { IEditFeatureResult } from "./helpers";
 
 /**
  * Request options to for updating a related attachment to a feature by id. See [Update Attachment](https://developers.arcgis.com/rest/services-reference/update-attachment.htm) for more information.

@@ -257,7 +257,7 @@ describe("request()", () => {
     });
     it("should throw for missing dependencies", () => {
       expect(() => {
-        request("https://www.arcgis.com/sharing/rest/info");
+        request("https://www.arcgis.com/sharing/rest/info").catch();
       }).toThrowError(
         "`arcgis-rest-request` requires global variables for `fetch`, `Promise` and `FormData` to be present in the global scope. You are missing `fetch`, `Promise`, `FormData`. We recommend installing the `isomorphic-fetch`, `es6-promise`, `isomorphic-form-data` modules at the root of your application to add these to the global scope. See https://bit.ly/2KNwWaJ for more info."
       );
