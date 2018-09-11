@@ -23,7 +23,7 @@ export interface IAddToFeatureServiceRequestOptions
 
 export interface IAddToFeatureServiceItemSummary {
   name: string;
-  id: number;
+  id: any;
 }
 
 export interface IAddToFeatureServiceSuccessResult {
@@ -79,5 +79,15 @@ export function addToFeatureService(
     requestOptions.params.addToDefinition.tables = requestOptions.tables;
   }
 
-  return request(url, requestOptions);
+  return new Promise(resolve => {
+    request(url, requestOptions).then(
+      response => {
+        resolve(response);
+      },
+      response => {
+        // We're not interested in the full ArcGISRequestError response, nor having an exception thrown
+        resolve(response.response);
+      }
+    );
+  });
 }
