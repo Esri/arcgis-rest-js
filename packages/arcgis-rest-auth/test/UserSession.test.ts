@@ -852,13 +852,15 @@ describe("UserSession", () => {
         .getUser()
         .then(response => {
           expect(response.role).toEqual("org_publisher");
-          session.getUser().then(cachedResponse => {
-            expect(cachedResponse.fullName).toEqual("John Smith");
-            done();
-          });
-          // .catch(e => {
-          //   fail(e);
-          // });
+          session
+            .getUser()
+            .then(cachedResponse => {
+              expect(cachedResponse.fullName).toEqual("John Smith");
+              done();
+            })
+            .catch(e => {
+              fail(e);
+            });
         })
         .catch(e => {
           fail(e);
