@@ -3,7 +3,7 @@
 
 import * as fetchMock from "fetch-mock";
 
-import { addToFeatureService } from "../src/update";
+import { addToServiceDefinition } from "../src/update";
 
 import {
   AddToFeatureServiceSuccessResponseFredAndGinger,
@@ -86,12 +86,13 @@ describe("add to feature service", () => {
     it("should add a pair of layers", done => {
       fetchMock.once("*", AddToFeatureServiceSuccessResponseFredAndGinger);
 
-      addToFeatureService({
-        url:
-          "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
-        layers: [layerDescriptionFred, layerDescriptionGinger],
-        ...MOCK_USER_REQOPTS
-      })
+      addToServiceDefinition(
+        "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
+        {
+          layers: [layerDescriptionFred, layerDescriptionGinger],
+          ...MOCK_USER_REQOPTS
+        }
+      )
         .then(
           response => {
             // Check service call
@@ -134,12 +135,13 @@ describe("add to feature service", () => {
     it("should add a pair of tables", done => {
       fetchMock.once("*", AddToFeatureServiceSuccessResponseFayardAndHarold);
 
-      addToFeatureService({
-        url:
-          "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
-        tables: [tableDescriptionFayard, tableDescriptionHarold],
-        ...MOCK_USER_REQOPTS
-      })
+      addToServiceDefinition(
+        "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
+        {
+          tables: [tableDescriptionFayard, tableDescriptionHarold],
+          ...MOCK_USER_REQOPTS
+        }
+      )
         .then(
           response => {
             // Check service call
@@ -182,13 +184,14 @@ describe("add to feature service", () => {
     it("should add a layer and a table", done => {
       fetchMock.once("*", AddToFeatureServiceSuccessResponseCydAndGene);
 
-      addToFeatureService({
-        url:
-          "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
-        layers: [layerDescriptionCyd],
-        tables: [tableDescriptionGene],
-        ...MOCK_USER_REQOPTS
-      })
+      addToServiceDefinition(
+        "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
+        {
+          layers: [layerDescriptionCyd],
+          tables: [tableDescriptionGene],
+          ...MOCK_USER_REQOPTS
+        }
+      )
         .then(
           response => {
             // Check service call
@@ -232,12 +235,13 @@ describe("add to feature service", () => {
     it("should fail to add a bad layer", done => {
       fetchMock.once("*", AddToFeatureServiceFailResponse);
 
-      addToFeatureService({
-        url:
-          "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
-        layers: [layerDescriptionFail],
-        ...MOCK_USER_REQOPTS
-      })
+      addToServiceDefinition(
+        "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
+        {
+          layers: [layerDescriptionFail],
+          ...MOCK_USER_REQOPTS
+        }
+      )
         .then(
           response => {
             // Check service call
@@ -276,12 +280,13 @@ describe("add to feature service", () => {
     it("should fail to add a bad table", done => {
       fetchMock.once("*", AddToFeatureServiceFailResponse);
 
-      addToFeatureService({
-        url:
-          "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
-        tables: [tableDescriptionFail],
-        ...MOCK_USER_REQOPTS
-      })
+      addToServiceDefinition(
+        "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
+        {
+          tables: [tableDescriptionFail],
+          ...MOCK_USER_REQOPTS
+        }
+      )
         .then(
           response => {
             // Check service call
@@ -320,13 +325,14 @@ describe("add to feature service", () => {
     it("should fail to add a bad layer and a bad table", done => {
       fetchMock.once("*", AddToFeatureServiceFailResponse);
 
-      addToFeatureService({
-        url:
-          "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
-        layers: [layerDescriptionFail],
-        tables: [tableDescriptionFail],
-        ...MOCK_USER_REQOPTS
-      })
+      addToServiceDefinition(
+        "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
+        {
+          layers: [layerDescriptionFail],
+          tables: [tableDescriptionFail],
+          ...MOCK_USER_REQOPTS
+        }
+      )
         .then(
           response => {
             // Check service call

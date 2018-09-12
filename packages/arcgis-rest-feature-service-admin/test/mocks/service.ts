@@ -3,8 +3,8 @@
 
 import { ICreateServiceResult } from "../../src/create";
 import {
-  IAddToFeatureServiceSuccessResult,
-  IAddToFeatureServiceFailureResult
+  IAddToServiceDefinitionSuccessResult,
+  IAddToServiceDefinitionFailureResult
 } from "../../src/update";
 
 export const FeatureServiceSuccessResponse: ICreateServiceResult = {
@@ -24,7 +24,7 @@ export const FeatureServiceFailResponse: any = {
   success: false
 };
 
-export const AddToFeatureServiceSuccessResponseFredAndGinger: IAddToFeatureServiceSuccessResult = {
+export const AddToFeatureServiceSuccessResponseFredAndGinger: IAddToServiceDefinitionSuccessResult = {
   layers: [
     {
       name: "Fred",
@@ -37,7 +37,7 @@ export const AddToFeatureServiceSuccessResponseFredAndGinger: IAddToFeatureServi
   ],
   success: true
 };
-export const AddToFeatureServiceSuccessResponseFayardAndHarold: IAddToFeatureServiceSuccessResult = {
+export const AddToFeatureServiceSuccessResponseFayardAndHarold: IAddToServiceDefinitionSuccessResult = {
   tables: [
     {
       name: "Fayard",
@@ -50,7 +50,7 @@ export const AddToFeatureServiceSuccessResponseFayardAndHarold: IAddToFeatureSer
   ],
   success: true
 };
-export const AddToFeatureServiceSuccessResponseCydAndGene: IAddToFeatureServiceSuccessResult = {
+export const AddToFeatureServiceSuccessResponseCydAndGene: IAddToServiceDefinitionSuccessResult = {
   layers: [
     {
       name: "Cyd",
@@ -65,7 +65,7 @@ export const AddToFeatureServiceSuccessResponseCydAndGene: IAddToFeatureServiceS
   ],
   success: true
 };
-export const AddToFeatureServiceFailResponse: IAddToFeatureServiceFailureResult = {
+export const AddToFeatureServiceFailResponse: IAddToServiceDefinitionFailureResult = {
   error: {
     code: 400,
     message: "Unable to add feature service definition.",

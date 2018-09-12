@@ -5,12 +5,8 @@ import { request } from "@esri/arcgis-rest-request";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { ILayer, ITable } from "@esri/arcgis-rest-common-types";
 
-export interface IAddToFeatureServiceRequestOptions
+export interface IAddToServiceDefinitionRequestOptions
   extends IUserRequestOptions {
-  /**
-   * Feature service URL
-   */
-  url: string;
   /**
    * Layers to add
    */
@@ -21,18 +17,18 @@ export interface IAddToFeatureServiceRequestOptions
   tables?: ITable[];
 }
 
-export interface IAddToFeatureServiceItemSummary {
+export interface IAddToServiceDefinitionItemSummary {
   name: string;
   id: any;
 }
 
-export interface IAddToFeatureServiceSuccessResult {
-  layers?: IAddToFeatureServiceItemSummary[];
-  tables?: IAddToFeatureServiceItemSummary[];
+export interface IAddToServiceDefinitionSuccessResult {
+  layers?: IAddToServiceDefinitionItemSummary[];
+  tables?: IAddToServiceDefinitionItemSummary[];
   success: boolean;
 }
 
-export interface IAddToFeatureServiceFailureResult {
+export interface IAddToServiceDefinitionFailureResult {
   error: {
     code: number;
     message: string;
@@ -44,27 +40,27 @@ export interface IAddToFeatureServiceFailureResult {
  * Add layer(s) and/or table(s) to a hosted feature service.
  *
  * ```js
- * import { addLayerToFeatureService } from '@esri/arcgis-rest-items';
+ * import { addToServiceDefinition } from '@esri/arcgis-rest-feature-service-admin';
  *
- * addLayerToFeatureService({
+ * addToServiceDefinition(serviceurl, {
  *   authentication: userSession,
- *   url: serviceurl,
  *   layers: [],
  *   tables: []
  * });
  * ```
  *
+ * @param url - URL of feature service
  * @param requestOptions - Options for the request
  * @returns A Promise that resolves with service details once the service has been created
  */
-export function addToFeatureService(
-  requestOptions: IAddToFeatureServiceRequestOptions
+export function addToServiceDefinition(
+  url: string,
+  requestOptions: IAddToServiceDefinitionRequestOptions
 ): Promise<
-  IAddToFeatureServiceSuccessResult | IAddToFeatureServiceFailureResult
+  IAddToServiceDefinitionSuccessResult | IAddToServiceDefinitionFailureResult
 > {
-  const url =
-    requestOptions.url.replace("/rest/services", "/rest/admin/services") +
-    "/addToDefinition";
+  const adminUrl =
+    url.replace("/rest/services", "/rest/admin/services") + "/addToDefinition";
 
   requestOptions.params = {
     addToDefinition: {},
@@ -80,7 +76,7 @@ export function addToFeatureService(
   }
 
   return new Promise(resolve => {
-    request(url, requestOptions).then(
+    request(adminUrl, requestOptions).then(
       response => {
         resolve(response);
       },
