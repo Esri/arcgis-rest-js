@@ -243,6 +243,9 @@ describe("add to feature service", () => {
         }
       )
         .then(
+          e => {
+            fail(e); // call is supposed to fail
+          },
           response => {
             // Check service call
             expect(fetchMock.called()).toEqual(true);
@@ -267,9 +270,6 @@ describe("add to feature service", () => {
             expect(response).toEqual(AddToFeatureServiceFailResponse);
 
             done();
-          },
-          e => {
-            fail(e); // call is supposed to succeed
           }
         )
         .catch(e => {
@@ -288,6 +288,9 @@ describe("add to feature service", () => {
         }
       )
         .then(
+          e => {
+            fail(e); // call is supposed to fail
+          },
           response => {
             // Check service call
             expect(fetchMock.called()).toEqual(true);
@@ -312,9 +315,6 @@ describe("add to feature service", () => {
             expect(response).toEqual(AddToFeatureServiceFailResponse);
 
             done();
-          },
-          e => {
-            fail(e); // call is supposed to succeed
           }
         )
         .catch(e => {
@@ -334,6 +334,9 @@ describe("add to feature service", () => {
         }
       )
         .then(
+          e => {
+            fail(e); // call is supposed to fail
+          },
           response => {
             // Check service call
             expect(fetchMock.called()).toEqual(true);
@@ -361,9 +364,6 @@ describe("add to feature service", () => {
             expect(response).toEqual(AddToFeatureServiceFailResponse);
 
             done();
-          },
-          e => {
-            fail(e); // call is supposed to succeed
           }
         )
         .catch(e => {

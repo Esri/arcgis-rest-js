@@ -51,7 +51,8 @@ export interface IAddToServiceDefinitionFailureResult {
  *
  * @param url - URL of feature service
  * @param requestOptions - Options for the request
- * @returns A Promise that resolves with service details once the service has been created
+ * @returns A Promise that resolves with service layer and/or table details once the definition
+ * has been updated
  */
 export function addToServiceDefinition(
   url: string,
@@ -75,14 +76,14 @@ export function addToServiceDefinition(
     requestOptions.params.addToDefinition.tables = requestOptions.tables;
   }
 
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     request(adminUrl, requestOptions).then(
       response => {
         resolve(response);
       },
       response => {
-        // We're not interested in the full ArcGISRequestError response, nor having an exception thrown
-        resolve(response.response);
+        // We're not interested in the full ArcGISRequestError response
+        reject(response.response);
       }
     );
   });
