@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { ICreateServiceResult } from "../../src/create";
-import { IAddToServiceDefinitionResult } from "../../src/update";
+import { IAddToServiceDefinitionResult } from "../../src/addTo";
 
 export const FeatureServiceSuccessResponse: ICreateServiceResult = {
   encodedServiceURL:

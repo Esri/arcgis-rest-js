@@ -3,7 +3,7 @@
 
 import * as fetchMock from "fetch-mock";
 
-import { addToServiceDefinition } from "../src/update";
+import { addToServiceDefinition } from "../src/addTo";
 
 import {
   AddToFeatureServiceSuccessResponseFredAndGinger,
