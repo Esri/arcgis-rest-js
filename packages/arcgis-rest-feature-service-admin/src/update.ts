@@ -22,18 +22,10 @@ export interface IAddToServiceDefinitionItemSummary {
   id: any;
 }
 
-export interface IAddToServiceDefinitionSuccessResult {
+export interface IAddToServiceDefinitionResult {
   layers?: IAddToServiceDefinitionItemSummary[];
   tables?: IAddToServiceDefinitionItemSummary[];
   success: boolean;
-}
-
-export interface IAddToServiceDefinitionFailureResult {
-  error: {
-    code: number;
-    message: string;
-    details: string[];
-  };
 }
 
 /**
@@ -57,9 +49,7 @@ export interface IAddToServiceDefinitionFailureResult {
 export function addToServiceDefinition(
   url: string,
   requestOptions: IAddToServiceDefinitionRequestOptions
-): Promise<
-  IAddToServiceDefinitionSuccessResult | IAddToServiceDefinitionFailureResult
-> {
+): Promise<IAddToServiceDefinitionResult> {
   const adminUrl =
     url.replace("/rest/services", "/rest/admin/services") + "/addToDefinition";
 
@@ -76,15 +66,5 @@ export function addToServiceDefinition(
     requestOptions.params.addToDefinition.tables = requestOptions.tables;
   }
 
-  return new Promise((resolve, reject) => {
-    request(adminUrl, requestOptions).then(
-      response => {
-        resolve(response);
-      },
-      response => {
-        // We're not interested in the full ArcGISRequestError response
-        reject(response.response);
-      }
-    );
-  });
+  return request(adminUrl, requestOptions);
 }

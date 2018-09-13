@@ -2,10 +2,7 @@
  * Apache-2.0 */
 
 import { ICreateServiceResult } from "../../src/create";
-import {
-  IAddToServiceDefinitionSuccessResult,
-  IAddToServiceDefinitionFailureResult
-} from "../../src/update";
+import { IAddToServiceDefinitionResult } from "../../src/update";
 
 export const FeatureServiceSuccessResponse: ICreateServiceResult = {
   encodedServiceURL:
@@ -24,7 +21,7 @@ export const FeatureServiceFailResponse: any = {
   success: false
 };
 
-export const AddToFeatureServiceSuccessResponseFredAndGinger: IAddToServiceDefinitionSuccessResult = {
+export const AddToFeatureServiceSuccessResponseFredAndGinger: IAddToServiceDefinitionResult = {
   layers: [
     {
       name: "Fred",
@@ -37,7 +34,7 @@ export const AddToFeatureServiceSuccessResponseFredAndGinger: IAddToServiceDefin
   ],
   success: true
 };
-export const AddToFeatureServiceSuccessResponseFayardAndHarold: IAddToServiceDefinitionSuccessResult = {
+export const AddToFeatureServiceSuccessResponseFayardAndHarold: IAddToServiceDefinitionResult = {
   tables: [
     {
       name: "Fayard",
@@ -50,7 +47,7 @@ export const AddToFeatureServiceSuccessResponseFayardAndHarold: IAddToServiceDef
   ],
   success: true
 };
-export const AddToFeatureServiceSuccessResponseCydAndGene: IAddToServiceDefinitionSuccessResult = {
+export const AddToFeatureServiceSuccessResponseCydAndGene: IAddToServiceDefinitionResult = {
   layers: [
     {
       name: "Cyd",
@@ -65,7 +62,8 @@ export const AddToFeatureServiceSuccessResponseCydAndGene: IAddToServiceDefiniti
   ],
   success: true
 };
-export const AddToFeatureServiceFailResponse: IAddToServiceDefinitionFailureResult = {
+
+export const AddToFeatureServiceError: any = {
   error: {
     code: 400,
     message: "Unable to add feature service definition.",

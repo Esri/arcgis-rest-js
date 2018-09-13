@@ -9,12 +9,12 @@ import {
   AddToFeatureServiceSuccessResponseFredAndGinger,
   AddToFeatureServiceSuccessResponseFayardAndHarold,
   AddToFeatureServiceSuccessResponseCydAndGene,
-  AddToFeatureServiceFailResponse
+  AddToFeatureServiceError
 } from "./mocks/service";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { encodeParam } from "@esri/arcgis-rest-request";
+import { encodeParam, ErrorTypes } from "@esri/arcgis-rest-request";
 import { ILayer, ITable } from "@esri/arcgis-rest-common-types";
 
 describe("add to feature service", () => {
@@ -192,48 +192,40 @@ describe("add to feature service", () => {
           ...MOCK_USER_REQOPTS
         }
       )
-        .then(
-          response => {
-            // Check service call
-            expect(fetchMock.called()).toEqual(true);
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-              "*"
-            );
+        .then(response => {
+          // Check service call
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
 
-            expect(url).toEqual(
-              "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/addToDefinition"
-            );
-            expect(options.method).toBe("POST");
-            expect(options.body).toContain("f=json");
-            expect(options.body).toContain(encodeParam("token", "fake-token"));
-            expect(options.body).toContain(
-              encodeParam(
-                "addToDefinition",
-                JSON.stringify({
-                  layers: [layerDescriptionCyd],
-                  tables: [tableDescriptionGene]
-                })
-              )
-            );
+          expect(url).toEqual(
+            "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/addToDefinition"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain(
+            encodeParam(
+              "addToDefinition",
+              JSON.stringify({
+                layers: [layerDescriptionCyd],
+                tables: [tableDescriptionGene]
+              })
+            )
+          );
 
-            // Check response
-            expect(response).toEqual(
-              AddToFeatureServiceSuccessResponseCydAndGene
-            );
-
-            done();
-          },
-          () => {
-            fail(); // call is supposed to succeed
-          }
-        )
+          // Check response
+          expect(response).toEqual(
+            AddToFeatureServiceSuccessResponseCydAndGene
+          );
+          done();
+        })
         .catch(e => {
           fail(e);
         });
     });
 
     it("should fail to add a bad layer", done => {
-      fetchMock.once("*", AddToFeatureServiceFailResponse);
+      fetchMock.once("*", AddToFeatureServiceError);
 
       addToServiceDefinition(
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
@@ -241,44 +233,26 @@ describe("add to feature service", () => {
           layers: [layerDescriptionFail],
           ...MOCK_USER_REQOPTS
         }
-      )
-        .then(
-          e => {
-            fail(e); // call is supposed to fail
-          },
-          response => {
-            // Check service call
-            expect(fetchMock.called()).toEqual(true);
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-              "*"
-            );
-
-            expect(url).toEqual(
-              "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/addToDefinition"
-            );
-            expect(options.method).toBe("POST");
-            expect(options.body).toContain("f=json");
-            expect(options.body).toContain(encodeParam("token", "fake-token"));
-            expect(options.body).toContain(
-              encodeParam(
-                "addToDefinition",
-                JSON.stringify({ layers: [layerDescriptionFail] })
-              )
-            );
-
-            // Check response
-            expect(response).toEqual(AddToFeatureServiceFailResponse);
-
-            done();
-          }
-        )
-        .catch(e => {
-          fail(e);
+      ).catch(error => {
+        expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
+        expect(error.message).toBe(
+          "400: Unable to add feature service definition."
+        );
+        expect(error instanceof Error).toBeTruthy();
+        expect(error.url).toBe(
+          "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/addToDefinition"
+        );
+        // params added internally aren't surfaced in the error
+        expect(error.options.params.addToDefinition).toEqual({
+          layers: [layerDescriptionFail]
         });
+        expect(error.options.httpMethod).toEqual("POST");
+        done();
+      });
     });
 
     it("should fail to add a bad table", done => {
-      fetchMock.once("*", AddToFeatureServiceFailResponse);
+      fetchMock.once("*", AddToFeatureServiceError);
 
       addToServiceDefinition(
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
@@ -286,44 +260,26 @@ describe("add to feature service", () => {
           tables: [tableDescriptionFail],
           ...MOCK_USER_REQOPTS
         }
-      )
-        .then(
-          e => {
-            fail(e); // call is supposed to fail
-          },
-          response => {
-            // Check service call
-            expect(fetchMock.called()).toEqual(true);
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-              "*"
-            );
-
-            expect(url).toEqual(
-              "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/addToDefinition"
-            );
-            expect(options.method).toBe("POST");
-            expect(options.body).toContain("f=json");
-            expect(options.body).toContain(encodeParam("token", "fake-token"));
-            expect(options.body).toContain(
-              encodeParam(
-                "addToDefinition",
-                JSON.stringify({ tables: [tableDescriptionFail] })
-              )
-            );
-
-            // Check response
-            expect(response).toEqual(AddToFeatureServiceFailResponse);
-
-            done();
-          }
-        )
-        .catch(e => {
-          fail(e);
+      ).catch(error => {
+        expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
+        expect(error.message).toBe(
+          "400: Unable to add feature service definition."
+        );
+        expect(error instanceof Error).toBeTruthy();
+        expect(error.url).toBe(
+          "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/addToDefinition"
+        );
+        // params added internally aren't surfaced in the error
+        expect(error.options.params.addToDefinition).toEqual({
+          tables: [tableDescriptionFail]
         });
+        expect(error.options.httpMethod).toEqual("POST");
+        done();
+      });
     });
 
     it("should fail to add a bad layer and a bad table", done => {
-      fetchMock.once("*", AddToFeatureServiceFailResponse);
+      fetchMock.once("*", AddToFeatureServiceError);
 
       addToServiceDefinition(
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
@@ -332,43 +288,23 @@ describe("add to feature service", () => {
           tables: [tableDescriptionFail],
           ...MOCK_USER_REQOPTS
         }
-      )
-        .then(
-          e => {
-            fail(e); // call is supposed to fail
-          },
-          response => {
-            // Check service call
-            expect(fetchMock.called()).toEqual(true);
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-              "*"
-            );
-
-            expect(url).toEqual(
-              "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/addToDefinition"
-            );
-            expect(options.method).toBe("POST");
-            expect(options.body).toContain("f=json");
-            expect(options.body).toContain(encodeParam("token", "fake-token"));
-            expect(options.body).toContain(
-              encodeParam(
-                "addToDefinition",
-                JSON.stringify({
-                  layers: [layerDescriptionFail],
-                  tables: [tableDescriptionFail]
-                })
-              )
-            );
-
-            // Check response
-            expect(response).toEqual(AddToFeatureServiceFailResponse);
-
-            done();
-          }
-        )
-        .catch(e => {
-          fail(e);
+      ).catch(error => {
+        expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
+        expect(error.message).toBe(
+          "400: Unable to add feature service definition."
+        );
+        expect(error instanceof Error).toBeTruthy();
+        expect(error.url).toBe(
+          "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/addToDefinition"
+        );
+        // params added internally aren't surfaced in the error
+        expect(error.options.params.addToDefinition).toEqual({
+          tables: [tableDescriptionFail],
+          layers: [layerDescriptionFail]
         });
+        expect(error.options.httpMethod).toEqual("POST");
+        done();
+      });
     });
   }); // auth requests
 });
