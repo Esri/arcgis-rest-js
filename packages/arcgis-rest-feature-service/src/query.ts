@@ -108,10 +108,9 @@ export interface IQueryResponse {
  * getFeature({
  *   url,
  *   id: 42
- * };)
- *   .then(feature => {
- *     console.log(feature.attributes.FID); // 42
- *   });
+ * }).then(feature => {
+ *  console.log(feature.attributes.FID); // 42
+ * });
  * ```
  *
  * @param requestOptions - Options for the request
@@ -141,10 +140,9 @@ export function getFeature(
  * queryFeatures({
  *   url,
  *   where: "STATE_NAME = 'Alaska"
- * };)
- *   .then(feature => {
- *     console.log(feature.attributes.FID); // 42
- *   });
+ * }).then(result => {
+ *   console.log(result.features); // array of features
+ * });
  * ```
  *
  * @param requestOptions - Options for the request
