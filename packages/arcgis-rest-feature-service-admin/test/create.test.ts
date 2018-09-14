@@ -18,7 +18,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 import { encodeParam } from "@esri/arcgis-rest-request";
 
-describe("search", () => {
+describe("create feature service", () => {
   afterEach(fetchMock.restore);
 
   describe("Authenticated methods", () => {

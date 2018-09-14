@@ -326,6 +326,8 @@ export interface IPresentation {
  * Root element in the web map specifying an array of table objects.
  */
 export interface ITable {
+  /** Table name */
+  name?: string;
   /** A comma-separated string listing which editing operations are allowed on an editable feature service. Available operations include: 'Create', 'Delete', 'Query', 'Update', and 'Editing'. */
   capabilities?: string;
   /** Object indicating the definitionEditor used as a layer's interactive filter. */
@@ -555,6 +557,8 @@ export interface IBaseMap {
 export interface ILayer {
   /** A unique identifying string for the layer. */
   id: any;
+  /** Layer name */
+  name?: string;
   /** Optional string containing the item ID of the service if it's registered on ArcGIS Online or your organization's portal. */
   itemId?: string;
   /** Indicates the layer type */
