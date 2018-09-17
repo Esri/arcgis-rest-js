@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.10.0] - September 17th 2018
+
+### @esri/arcgis-rest-feature-service-admin
+
+* New Features
+   * **users**: add `addToServiceDefinition()` function [`d3f2553`](https://github.com/Esri/arcgis-rest-js/commit/d3f2553e59235c7657a074160a3694e06144b87e)
+
+### Other Changes
+
+* Documentation
+   * **api**: bad to good [`c846b65`](https://github.com/Esri/arcgis-rest-js/commit/c846b653b35d5a14f7d83cad522a8b1fdc2934c2)
+
 ## [1.9.0] - September 11th 2018
 
 ### @esri/arcgis-rest-feature-service-admin
@@ -740,7 +752,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 Initial Public Release
 
 [1.0.0]: https://github.com/Esri/arcgis-rest-js/compare/265d6aed1856d3ae1ff81f03ce85aba449b01f21...v1.0.0 "v1.0.0"
-[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.2 "v1.0.2"
+[1.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.1 "v1.0.1"
+[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.1...v1.0.2 "v1.0.2"
 [1.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.2...v1.0.3 "v1.0.3"
 [1.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.3...v1.1.0 "v1.1.0"
 [1.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.0...v1.1.1 "v1.1.1"
@@ -758,4 +771,5 @@ Initial Public Release
 [1.7.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.0...v1.7.1 "v1.7.1"
 [1.8.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.1...v1.8.0 "v1.8.0"
 [1.9.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.8.0...v1.9.0 "v1.9.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.9.0...HEAD "Unreleased Changes"
+[1.10.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.9.0...v1.10.0 "v1.10.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...HEAD "Unreleased Changes"
