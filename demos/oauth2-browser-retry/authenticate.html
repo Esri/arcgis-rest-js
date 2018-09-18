@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ArcGIS Rest JS Vanilla JS - redirect</title>
+  </head>
+  <body>
+    <script src="https://unpkg.com/@esri/arcgis-rest-auth"></script>
+    <script>
+      // arcgis-rest-js ensures the clientId is associated with the state parameter by default.
+      const match = window.location.href.match(
+        /&state=(.+)/
+      );
+      const clientId = match[1];
+
+      arcgisRest.UserSession.completeOAuth2({
+        clientId: clientId,
+      });
+    </script>
+  </body>
+</html>
