@@ -169,17 +169,21 @@ export function request(
     recommendedPackages.push("`isomorphic-fetch`");
   }
 
-  if (!Promise) {
+  if (typeof Promise === "undefined") {
     missingGlobals.push("`Promise`");
     recommendedPackages.push("`es6-promise`");
   }
 
-  if (!FormData) {
+  if (typeof FormData === "undefined") {
     missingGlobals.push("`FormData`");
     recommendedPackages.push("`isomorphic-form-data`");
   }
 
-  if (!options.fetch || !Promise || !FormData) {
+  if (
+    !options.fetch ||
+    typeof Promise === "undefined" ||
+    typeof FormData === "undefined"
+  ) {
     throw new Error(
       `\`arcgis-rest-request\` requires global variables for \`fetch\`, \`Promise\` and \`FormData\` to be present in the global scope. You are missing ${missingGlobals.join(
         ", "
