@@ -8,7 +8,7 @@ import {
 } from "@esri/arcgis-rest-request";
 
 import { IUser } from "@esri/arcgis-rest-common-types";
-import { UserSession, IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { UserSession } from "@esri/arcgis-rest-auth";
 
 export interface IGetUserRequestOptions extends IRequestOptions {
   /**
@@ -64,64 +64,6 @@ export function getUser(
       ...options
     };
   }
-
   // send the request
   return request(url, options);
-}
-
-export interface INotification {
-  id: string;
-  type: string;
-  target: string;
-  targetType: string;
-  received: number;
-  data: { [key: string]: any };
-}
-
-export interface INotificationIdRequestOptions extends IUserRequestOptions {
-  /**
-   * Unique identifier of the item.
-   */
-  id: string;
-}
-export interface INotificationResult {
-  notifications: INotification[];
-}
-
-/**
- * Get notifications for a user.
- *
- * @param requestOptions - options to pass through in the request
- * @returns A Promise that will resolve with the user's notifications
- */
-export function getUserNotifications(
-  requestOptions: IUserRequestOptions
-): Promise<INotificationResult> {
-  let options = { httpMethod: "GET" } as IUserRequestOptions;
-
-  const username = encodeURIComponent(requestOptions.authentication.username);
-  const portalUrl = getPortalUrl(requestOptions);
-  const url = `${portalUrl}/community/users/${username}/notifications`;
-  options = { ...requestOptions, ...options };
-
-  // send the request
-  return request(url, options);
-}
-
-/**
- * Delete a notification.
- *
- * @param requestOptions - Options for the request
- * @returns A Promise that will resolve with the success/failure status of the request
- */
-export function removeNotification(
-  requestOptions: INotificationIdRequestOptions
-): Promise<any> {
-  const username = encodeURIComponent(requestOptions.authentication.username);
-  const portalUrl = getPortalUrl(requestOptions);
-  const url = `${portalUrl}/community/users/${username}/notifications/${
-    requestOptions.id
-  }/delete`;
-
-  return request(url, requestOptions);
 }

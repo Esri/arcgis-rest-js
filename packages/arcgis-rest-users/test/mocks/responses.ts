@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IUser } from "@esri/arcgis-rest-common-types";
-import { INotificationResult } from "../../src/users";
+import { INotificationResult } from "../../src/notification";
 
 export const AnonUserResponse: IUser = {
   username: "jsmith",
