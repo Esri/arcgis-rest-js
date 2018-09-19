@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.11.0] - September 19th 2018
+
+### @esri/arcgis-rest-request
+
+* Bug Fixes
+   * **item**: use fileName parameter to name Blobs when present [`9f5c093`](https://github.com/Esri/arcgis-rest-js/commit/9f5c09390696f7945d78b8f45b431d2705b53c16)
+
+### Other Changes
+
+* Bug Fixes
+   * **item**: use fileName parameter to name Blobs when present [`106cc8a`](https://github.com/Esri/arcgis-rest-js/commit/106cc8a92389bfdd5af651d7aaf3cd327caf5f02)
+
 ## [1.10.0] - September 17th 2018
 
 ### @esri/arcgis-rest-feature-service-admin
@@ -752,8 +764,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 Initial Public Release
 
 [1.0.0]: https://github.com/Esri/arcgis-rest-js/compare/265d6aed1856d3ae1ff81f03ce85aba449b01f21...v1.0.0 "v1.0.0"
-[1.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.1 "v1.0.1"
-[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.1...v1.0.2 "v1.0.2"
+[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.2 "v1.0.2"
 [1.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.2...v1.0.3 "v1.0.3"
 [1.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.3...v1.1.0 "v1.1.0"
 [1.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.0...v1.1.1 "v1.1.1"
@@ -772,4 +783,5 @@ Initial Public Release
 [1.8.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.1...v1.8.0 "v1.8.0"
 [1.9.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.8.0...v1.9.0 "v1.9.0"
 [1.10.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.9.0...v1.10.0 "v1.10.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...HEAD "Unreleased Changes"
+[1.11.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.0 "v1.11.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.0...HEAD "Unreleased Changes"
