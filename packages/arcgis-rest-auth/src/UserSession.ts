@@ -677,7 +677,8 @@ export class UserSession implements IAuthenticationManager {
     url: string,
     requestOptions?: ITokenRequestOptions
   ) {
-    const [root] = url.split("/rest/services/");
+    // requests to /rest/services/ and /rest/admin/services/ are both valid
+    const [root] = url.split(/\/rest(\/admin)?\/services\//);
     const existingToken = this.trustedServers[root];
 
     if (existingToken && existingToken.expires.getTime() > Date.now()) {
