@@ -16,8 +16,13 @@ export function encodeFormData(params: any): FormData | string {
     const formData = new FormData();
     Object.keys(newParams).forEach((key: any) => {
       if (typeof Blob !== "undefined" && newParams[key] instanceof Blob) {
-        // Pass on the explicit file name to override default name such as "blob"
-        formData.append(key, newParams[key], newParams[key].name || key);
+        /* To name the Blob:
+         1. look to an alternate request parameter called 'fileName'
+         2. see if 'name' has been tacked onto the Blob manually
+         3. if all else fails, use the request parameter
+        */
+        const filename = newParams["fileName"] || newParams[key].name || key;
+        formData.append(key, newParams[key], filename);
       } else {
         formData.append(key, newParams[key]);
       }
