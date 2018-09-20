@@ -166,6 +166,11 @@ export interface IUserSessionOptions {
   portal?: string;
 
   /**
+   * Whether requests should be made exlusively over HTTPS.
+   */
+  ssl?: boolean;
+
+  /**
    * ArcGIS Authentication is used by default. Specifying an alternative will take users directly to the corresponding provider's OAuth page.
    */
   provider?: AuthenticationProvider;
@@ -214,6 +219,11 @@ export class UserSession implements IAuthenticationManager {
    * The current portal the user is authenticated with.
    */
   readonly portal: string;
+
+  /**
+   * Whether requests should be made exlusively over HTTPS.
+   */
+  readonly ssl: boolean;
 
   /**
    * The authentication provider to use.
@@ -301,6 +311,7 @@ export class UserSession implements IAuthenticationManager {
     this._token = options.token;
     this._tokenExpires = options.tokenExpires;
     this.portal = options.portal || "https://www.arcgis.com/sharing/rest";
+    this.ssl = options.ssl;
     this.provider = options.provider || "arcgis";
     this.tokenDuration = options.tokenDuration || 20160;
     this.redirectUri = options.redirectUri;
@@ -373,6 +384,7 @@ export class UserSession implements IAuthenticationManager {
           new UserSession({
             clientId,
             portal,
+            ssl: oauthInfo.ssl,
             token: oauthInfo.token,
             tokenExpires: new Date(oauthInfo.expires),
             username: oauthInfo.username
@@ -430,6 +442,7 @@ export class UserSession implements IAuthenticationManager {
       return new UserSession({
         clientId,
         portal,
+        ssl: oauthInfo.ssl,
         token: oauthInfo.token,
         tokenExpires: oauthInfo.expires,
         username: oauthInfo.username
@@ -456,10 +469,14 @@ export class UserSession implements IAuthenticationManager {
       Date.now() + parseInt(match[2], 10) * 1000 - 60 * 1000
     );
     const username = decodeURIComponent(match[3]);
+    const ssl =
+      win.location.href.indexOf("&ssl=true") !== -1 ||
+      win.location.href.indexOf("#ssl=true") !== -1;
 
     return completeSignIn(undefined, {
       token,
       expires,
+      ssl,
       username
     });
   }
@@ -536,6 +553,7 @@ export class UserSession implements IAuthenticationManager {
       token: options.token,
       tokenExpires: new Date(options.tokenExpires),
       portal: options.portal,
+      ssl: options.ssl,
       tokenDuration: options.tokenDuration,
       redirectUri: options.redirectUri,
       refreshTokenTTL: options.refreshTokenTTL
@@ -557,6 +575,7 @@ export class UserSession implements IAuthenticationManager {
   static fromCredential(credential: ICredential) {
     return new UserSession({
       portal: credential.server + `/sharing/rest`,
+      ssl: credential.ssl,
       token: credential.token,
       username: credential.userId,
       tokenExpires: new Date(credential.expires)
@@ -576,7 +595,7 @@ export class UserSession implements IAuthenticationManager {
     return {
       expires: this.tokenExpires.getTime(),
       server: this.portal,
-      ssl: true,
+      ssl: this.ssl,
       token: this.token,
       userId: this.username
     };
@@ -644,6 +663,7 @@ export class UserSession implements IAuthenticationManager {
       token: this.token,
       tokenExpires: this.tokenExpires,
       portal: this.portal,
+      ssl: this.ssl,
       tokenDuration: this.tokenDuration,
       redirectUri: this.redirectUri,
       refreshTokenTTL: this.refreshTokenTTL

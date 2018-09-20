@@ -13,6 +13,7 @@ interface IFetchTokenRawResponse {
   expires_in: number;
   username: string;
   refresh_token?: string;
+  ssl?: boolean;
 }
 
 export interface IFetchTokenResponse {
@@ -20,6 +21,7 @@ export interface IFetchTokenResponse {
   expires: Date;
   username: string;
   refreshToken?: string;
+  ssl?: boolean;
 }
 
 export function fetchToken(

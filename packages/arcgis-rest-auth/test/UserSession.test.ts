@@ -19,6 +19,7 @@ describe("UserSession", () => {
     const session = new UserSession({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
+      ssl: false,
       token: "token",
       tokenExpires: TOMORROW,
       refreshToken: "refreshToken",
@@ -34,6 +35,7 @@ describe("UserSession", () => {
     expect(session2.redirectUri).toEqual(
       "https://example-app.com/redirect-uri"
     );
+    expect(session2.ssl).toEqual(false);
     expect(session2.token).toEqual("token");
     expect(session2.tokenExpires).toEqual(TOMORROW);
     expect(session2.refreshToken).toEqual("refreshToken");
@@ -525,6 +527,7 @@ describe("UserSession", () => {
         .then(session => {
           expect(session.token).toBe("token");
           expect(session.username).toBe("c@sey");
+          expect(session.ssl).toBe(true);
           expect(session.tokenExpires).toEqual(TOMORROW);
           done();
         })
@@ -543,7 +546,8 @@ describe("UserSession", () => {
         JSON.stringify({
           token: "token",
           expires: TOMORROW,
-          username: "c@sey"
+          username: "c@sey",
+          ssl: true
         })
       );
     });
@@ -652,7 +656,7 @@ describe("UserSession", () => {
       const MockWindow = {
         location: {
           href:
-            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey&persist=true"
+            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey&ssl=true&persist=true"
         },
         get parent() {
           return this;
@@ -670,6 +674,7 @@ describe("UserSession", () => {
       expect(session.token).toBe("token");
       expect(session.tokenExpires.getTime()).toBeGreaterThan(Date.now());
       expect(session.username).toBe("c@sey");
+      expect(session.ssl).toBe(true);
     });
 
     it("should callback to create a new user session if finds a valid opener", done => {
@@ -683,6 +688,7 @@ describe("UserSession", () => {
               const oauthInfo = JSON.parse(oauthInfoString);
               expect(oauthInfo.token).toBe("token");
               expect(oauthInfo.username).toBe("c@sey");
+              expect(oauthInfo.ssl).toBe(false);
               expect(new Date(oauthInfo.expires).getTime()).toBeGreaterThan(
                 Date.now()
               );
@@ -717,6 +723,7 @@ describe("UserSession", () => {
             const oauthInfo = JSON.parse(oauthInfoString);
             expect(oauthInfo.token).toBe("token");
             expect(oauthInfo.username).toBe("c@sey");
+            expect(oauthInfo.ssl).toBe(true);
             expect(new Date(oauthInfo.expires).getTime()).toBeGreaterThan(
               Date.now()
             );
@@ -727,7 +734,7 @@ describe("UserSession", () => {
         },
         location: {
           href:
-            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey"
+            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey&ssl=true"
         }
       };
 
@@ -872,7 +879,7 @@ describe("UserSession", () => {
     const MOCK_CREDENTIAL: ICredential = {
       expires: TOMORROW.getTime(),
       server: "https://www.arcgis.com",
-      ssl: true,
+      ssl: false,
       token: "token",
       userId: "jsmith"
     };
@@ -882,6 +889,7 @@ describe("UserSession", () => {
         clientId: "clientId",
         redirectUri: "https://example-app.com/redirect-uri",
         token: "token",
+        ssl: false,
         tokenExpires: TOMORROW,
         refreshToken: "refreshToken",
         refreshTokenExpires: TOMORROW,
@@ -893,7 +901,7 @@ describe("UserSession", () => {
       const creds = session.toCredential();
       expect(creds.userId).toEqual("jsmith");
       expect(creds.server).toEqual("https://www.arcgis.com/sharing/rest");
-      expect(creds.ssl).toEqual(true);
+      expect(creds.ssl).toEqual(false);
       expect(creds.token).toEqual("token");
       expect(creds.expires).toEqual(TOMORROW.getTime());
     });
@@ -902,6 +910,7 @@ describe("UserSession", () => {
       const session = UserSession.fromCredential(MOCK_CREDENTIAL);
       expect(session.username).toEqual("jsmith");
       expect(session.portal).toEqual("https://www.arcgis.com/sharing/rest");
+      expect(session.ssl).toEqual(false);
       expect(session.token).toEqual("token");
       expect(session.tokenExpires).toEqual(new Date(TOMORROW));
     });
