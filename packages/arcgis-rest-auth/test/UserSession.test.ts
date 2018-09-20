@@ -19,7 +19,6 @@ describe("UserSession", () => {
     const session = new UserSession({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
-      ssl: false,
       token: "token",
       tokenExpires: TOMORROW,
       refreshToken: "refreshToken",
@@ -35,7 +34,7 @@ describe("UserSession", () => {
     expect(session2.redirectUri).toEqual(
       "https://example-app.com/redirect-uri"
     );
-    expect(session2.ssl).toEqual(false);
+    expect(session2.ssl).toBe(undefined);
     expect(session2.token).toEqual("token");
     expect(session2.tokenExpires).toEqual(TOMORROW);
     expect(session2.refreshToken).toEqual("refreshToken");

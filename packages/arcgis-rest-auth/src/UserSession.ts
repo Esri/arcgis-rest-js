@@ -166,7 +166,7 @@ export interface IUserSessionOptions {
   portal?: string;
 
   /**
-   * Whether requests should be made exclusively over HTTPS.
+   * This value is set to true automatically if the ArcGIS Organization requires that requests be made over https.
    */
   ssl?: boolean;
 
@@ -221,7 +221,7 @@ export class UserSession implements IAuthenticationManager {
   readonly portal: string;
 
   /**
-   * Whether requests should be made exclusively over HTTPS.
+   * This value is set to true automatically if the ArcGIS Organization requires that requests be made over https.
    */
   readonly ssl: boolean;
 
