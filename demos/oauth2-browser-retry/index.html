@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ArcGIS REST JS Browser OAuth2 - retry</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.polyfill.io/v2/polyfill.js?features=es5,Promise,fetch"></script>
+  </head>
+  <body>
+    <div id="app-wrapper">
+      <div class="jumbotron">
+        <div class="container">
+          <div id="page-header" class="row">
+            <div id="logo-container" class="col-sm-3">
+              <img id="logo" src="./logo.svg">
+            </div>
+            <div class="col-sm-9">
+              <h2>
+                ArcGIS REST JS Browser OAuth 2.0
+              </h2>
+              <p>
+                An application demonstrating how to retry a request that requires authentication.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <div id="clientIdGroup" class="form-group">
+              <label class="control-label">ClientID</label>
+              <!-- This is input required for the app. -->
+              <input
+                id="clientId"
+                type="text"
+                class="form-control"
+                value="QVQNb3XfDzoboWS0"
+              >
+            </div>
+            <p class="help-block">
+              You can generate your own clientid by creating an application on the
+              <a target='_blank' href='https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/browser-based-user-logins/'>
+                ArcGIS for Developers
+              </a>
+              website and adding
+              <code id="redirect_uri">
+                <!-- Redirect URI will be injected here. -->
+              </code>
+              as a redirect uri.
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-6">
+            <!-- Event listeners will be added to these buttons. -->
+            <button class="btn btn-primary btn-block" id='try'>Make an anonymous request that requires authentication</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <p id="sessionInfo" class="info-panel">
+              <!-- Information will be injected here. -->
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/@esri/arcgis-rest-request"></script>
+    <script src="https://unpkg.com/@esri/arcgis-rest-auth"></script>
+    <script>
+
+      // Define the variable used for the redirect uri.
+      const redirect_uri = window.location.origin + window.location.pathname;
+
+      // Inject that value into the page text.
+      document.getElementById('redirect_uri').innerHTML = redirect_uri;
+      const sessionInfo = document.getElementById('sessionInfo');
+
+      // Attach a listener to the sign in buttons.
+      document.getElementById('try').addEventListener('click', function (event) {
+        event.preventDefault();
+
+        // url that is NOT accessible to anonymous users
+        const url = `https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World`
+
+        arcgisRest.request(url)
+          .catch(err => {
+            if (err.name === "ArcGISAuthError") {
+              sessionInfo.classList.add('bg-info');
+              sessionInfo.innerHTML = 'error: ' + err.message;
+
+              // make the same request again with a UserSession
+              err.retry(appendSession)
+                .then(response => {
+                  sessionInfo.classList.remove('bg-info');
+                  sessionInfo.classList.add('bg-success');
+                  sessionInfo.innerHTML = 'current version of private server: ' + response.currentVersion;
+                })
+            }
+          })
+      });
+
+      function appendSession () {
+        // Begin an OAuth2 login using a popup.
+        return arcgisRest.UserSession.beginOAuth2({
+          clientId: clientId.defaultValue,
+          redirectUri: redirect_uri + 'authenticate.html',
+          popup: true
+        });
+      }
+    </script>
+  </body>
+</html>

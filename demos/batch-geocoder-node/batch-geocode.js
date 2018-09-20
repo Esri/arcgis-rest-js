@@ -4,7 +4,7 @@ require('isomorphic-fetch');
 require('isomorphic-form-data');
 const fs = require('fs');
 const Papa = require('papaparse');
-const { UserSession } = require('@esri/arcgis-rest-auth');
+const { ApplicationSession } = require('@esri/arcgis-rest-auth');
 const { bulkGeocode } = require('@esri/arcgis-rest-geocoder');
 const config = require('./config');
 
@@ -77,10 +77,10 @@ const mapResults = results =>
 
 // IMPLEMENTATION!
 
-// Instantiate a user session to run Geocoding service
-const session = new UserSession({
-  username: config.un,
-  password: config.pw
+// Instantiate an ApplicationSession to run Geocoding service
+const session = new ApplicationSession({
+  clientId: config.clientId,
+  clientSecret: config.clientSecret
 });
 
 // Parse and geocode
@@ -91,7 +91,7 @@ parseCsv(config.csv)
     const chunks = chunkGeocode(addrs, 1000);
 
     // Geocode
-    const promises = chunks.map(chunk => 
+    const promises = chunks.map(chunk =>
       bulkGeocode({
         addresses: chunk,
         authentication: session //,
