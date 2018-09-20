@@ -529,6 +529,7 @@ export class UserSession implements IAuthenticationManager {
       return new UserSession({
         clientId,
         portal,
+        ssl: response.ssl,
         redirectUri,
         refreshToken: response.refreshToken,
         refreshTokenTTL,

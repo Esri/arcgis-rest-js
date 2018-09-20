@@ -861,7 +861,8 @@ describe("UserSession", () => {
         access_token: "token",
         expires_in: 1800,
         refresh_token: "refreshToken",
-        username: "Casey"
+        username: "Casey",
+        ssl: true
       });
 
       UserSession.exchangeAuthorizationCode(
@@ -872,6 +873,11 @@ describe("UserSession", () => {
         "code"
       )
         .then(session => {
+          expect(session.token).toBe("token");
+          expect(session.tokenExpires.getTime()).toBeGreaterThan(Date.now());
+          expect(session.username).toBe("Casey");
+          expect(session.refreshToken).toBe("refreshToken");
+          expect(session.ssl).toBe(true);
           done();
         })
         .catch(e => {

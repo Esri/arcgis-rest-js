@@ -12,7 +12,8 @@ describe("fetchToken()", () => {
   it("should request a token with `client_credentials`, `client_id` and `client_secret`", done => {
     fetchMock.postOnce(TOKEN_URL, {
       access_token: "token",
-      expires_in: 1800
+      expires_in: 1800,
+      ssl: false
     });
 
     fetchToken(TOKEN_URL, {
@@ -33,6 +34,7 @@ describe("fetchToken()", () => {
         expect(options.body).toContain("grant_type=client_credentials");
         expect(response.token).toEqual("token");
         expect(response.expires).toBeGreaterThan(Date.now());
+        expect(response.ssl).toEqual(false);
         done();
       })
       .catch(e => {
@@ -45,7 +47,8 @@ describe("fetchToken()", () => {
       access_token: "token",
       expires_in: 1800,
       refresh_token: "refreshToken",
-      username: "Casey"
+      username: "Casey",
+      ssl: true
     });
 
     fetchToken(TOKEN_URL, {
@@ -74,6 +77,7 @@ describe("fetchToken()", () => {
         expect(response.refreshToken).toEqual("refreshToken");
         expect(response.username).toEqual("Casey");
         expect(response.expires).toBeGreaterThan(Date.now());
+        expect(response.ssl).toEqual(true);
         done();
       })
       .catch(e => {
