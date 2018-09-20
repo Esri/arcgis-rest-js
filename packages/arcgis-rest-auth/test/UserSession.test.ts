@@ -728,6 +728,27 @@ describe("UserSession", () => {
       expect(session.ssl).toBe(true);
     });
 
+    it("should return a new user session with ssl as false when callback hash does not have ssl parameter", () => {
+      const MockWindow = {
+        location: {
+          href:
+            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey&persist=true"
+        },
+        get parent() {
+          return this;
+        }
+      };
+
+      const session = UserSession.completeOAuth2(
+        {
+          clientId: "clientId",
+          redirectUri: "https://example-app.com/redirect-uri"
+        },
+        MockWindow
+      );
+      expect(session.ssl).toBe(false);
+    });
+
     it("should callback to create a new user session if finds a valid opener", done => {
       const MockWindow = {
         opener: {
@@ -739,7 +760,7 @@ describe("UserSession", () => {
               const oauthInfo = JSON.parse(oauthInfoString);
               expect(oauthInfo.token).toBe("token");
               expect(oauthInfo.username).toBe("c@sey");
-              expect(oauthInfo.ssl).toBe(false);
+              expect(oauthInfo.ssl).toBe(true);
               expect(new Date(oauthInfo.expires).getTime()).toBeGreaterThan(
                 Date.now()
               );
@@ -751,7 +772,7 @@ describe("UserSession", () => {
         },
         location: {
           href:
-            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey"
+            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey&ssl=true"
         }
       };
 

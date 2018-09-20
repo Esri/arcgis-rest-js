@@ -12,7 +12,7 @@ interface IFetchTokenRawResponse {
   access_token: string;
   expires_in: number;
   username: string;
-  ssl: boolean;
+  ssl?: boolean;
   refresh_token?: string;
 }
 
