@@ -195,6 +195,57 @@ describe("UserSession", () => {
         });
     });
 
+    it("should generate a token for an untrusted, federated server admin call", done => {
+      const session = new UserSession({
+        clientId: "id",
+        token: "token",
+        refreshToken: "refresh",
+        tokenExpires: TOMORROW,
+        portal: "https://gis.city.gov/sharing/rest"
+      });
+
+      fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
+        currentVersion: 10.51,
+        fullVersion: "10.5.1.120",
+        owningSystemUrl: "https://gis.city.gov",
+        authInfo: {
+          isTokenBasedSecurity: true,
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
+        }
+      });
+
+      fetchMock.postOnce("https://gis.city.gov/sharing/rest/info", {
+        owningSystemUrl: "http://gis.city.gov",
+        authInfo: {
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+          isTokenBasedSecurity: true
+        }
+      });
+
+      fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
+        token: "serverToken",
+        expires: TOMORROW
+      });
+
+      session
+        .getToken(
+          "https://gisservices.city.gov/public/rest/admin/services/trees/FeatureServer/addToDefinition"
+        )
+        .then(token => {
+          expect(token).toBe("serverToken");
+          return session.getToken(
+            "https://gisservices.city.gov/public/rest/admin/services/trees/FeatureServer/addToDefinition"
+          );
+        })
+        .then(token => {
+          expect(token).toBe("serverToken");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
     it("should generate a token for an untrusted, federated server with user credentials", done => {
       const session = new UserSession({
         username: "c@sey",

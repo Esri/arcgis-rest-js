@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request, getPortalUrl } from "@esri/arcgis-rest-request";
-import { IGroupIdRequestOptions } from "./groups";
+import { IGroupIdRequestOptions } from "./helpers";
 
 export type NotificationChannelType = "push" | "email" | "builtin";
 
