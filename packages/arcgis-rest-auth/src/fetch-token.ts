@@ -12,6 +12,7 @@ interface IFetchTokenRawResponse {
   access_token: string;
   expires_in: number;
   username: string;
+  ssl?: boolean;
   refresh_token?: string;
 }
 
@@ -19,6 +20,7 @@ export interface IFetchTokenResponse {
   token: string;
   expires: Date;
   username: string;
+  ssl: boolean;
   refreshToken?: string;
 }
 
@@ -38,7 +40,8 @@ export function fetchToken(
       username: response.username,
       expires: new Date(
         Date.now() + (response.expires_in * 60 * 1000 - 60 * 1000)
-      )
+      ),
+      ssl: response.ssl === true
     };
     if (response.refresh_token) {
       r.refreshToken = response.refresh_token;

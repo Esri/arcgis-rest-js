@@ -12,7 +12,8 @@ describe("fetchToken()", () => {
   it("should request a token with `client_credentials`, `client_id` and `client_secret`", done => {
     fetchMock.postOnce(TOKEN_URL, {
       access_token: "token",
-      expires_in: 1800
+      expires_in: 1800,
+      ssl: true
     });
 
     fetchToken(TOKEN_URL, {
@@ -33,6 +34,7 @@ describe("fetchToken()", () => {
         expect(options.body).toContain("grant_type=client_credentials");
         expect(response.token).toEqual("token");
         expect(response.expires).toBeGreaterThan(Date.now());
+        expect(response.ssl).toEqual(true);
         done();
       })
       .catch(e => {
@@ -45,7 +47,8 @@ describe("fetchToken()", () => {
       access_token: "token",
       expires_in: 1800,
       refresh_token: "refreshToken",
-      username: "Casey"
+      username: "Casey",
+      ssl: true
     });
 
     fetchToken(TOKEN_URL, {
@@ -74,6 +77,32 @@ describe("fetchToken()", () => {
         expect(response.refreshToken).toEqual("refreshToken");
         expect(response.username).toEqual("Casey");
         expect(response.expires).toBeGreaterThan(Date.now());
+        expect(response.ssl).toEqual(true);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should return ssl: false when there is no ssl property returned from endpoint response", done => {
+    fetchMock.postOnce(TOKEN_URL, {
+      access_token: "token",
+      expires_in: 1800,
+      refresh_token: "refreshToken",
+      username: "Casey"
+    });
+
+    fetchToken(TOKEN_URL, {
+      params: {
+        client_id: "clientId",
+        redirect_uri: "https://example-app.com/redirect-uri",
+        code: "authorizationCode",
+        grant_type: "authorization_code"
+      }
+    })
+      .then(response => {
+        expect(response.ssl).toEqual(false);
         done();
       })
       .catch(e => {
