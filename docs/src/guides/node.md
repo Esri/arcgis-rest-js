@@ -22,15 +22,39 @@ require("isomorphic-form-data");
 
 const { request } = require("@esri/arcgis-rest-request");
 
-request("https://www.arcgis.com/sharing/rest/info").then(response => {
-  console.log(response);
-});
+request("https://www.arcgis.com/sharing/rest/info")
+  .then(response);
 ```
-Demo - [express](https://github.com/Esri/arcgis-rest-js/tree/master/demos/express)
+Demo - [Express Application](https://github.com/Esri/arcgis-rest-js/tree/master/demos/express)
 
-## User Authentication
+## Authentication
 
-A [`UserSession`](/arcgis-rest-js/api/auth/UserSession/) is required in order to access private content.
+To access premium content and services without asking for user credentials, using a [Proxy Service](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/working-with-proxies/) or [App Login](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/accessing-arcgis-online-services/) is typically the best approach.
+
+Proxy Service
+```js
+// no auth required
+request(`https://utility.arcgis.com/usrsvcs/appservices/{unique}/rest/services/World/Route/NAServer/Route_World/solve`)
+```
+App Login
+```js
+const authentication = new ApplicationSession({
+  clientId: "public",
+  clientSecret: "secret"
+})
+
+// url not accessible to anonymous users
+const url = `https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World`
+
+// token will be appended by rest-js
+request(url, {
+  authentication
+})
+```
+
+Demo - [batch geocoding](https://github.com/Esri/arcgis-rest-js/tree/master/demos/batch-geocoder-node)
+
+Applications cannot [create, update, share, modify of delete items](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/limitations-of-application-authentication/) in ArcGIS Online or ArcGIS Enterprise. For this, a [`UserSession`](/arcgis-rest-js/api/auth/UserSession/) is more appropriate.
 
 ```js
 // hardcoded username / password
@@ -38,31 +62,9 @@ const authentication = new UserSession({
   username: "jsmith",
   password: "123456"
 })
-
-// url not accessible to anonymous users
-const url = `https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World`
-
-request(url, {
-  authentication
-})
-  .then(response => response)
 ```
-If you don't _know_ if a web request requires authentication, you can try it anonymously and call `ArcGISAuthError.retry()` if you encounter a `403/499`.
+See the [Browser Authenication](../browser-authentication/) for more information about implementing OAuth 2.0.
 
-```js
-request(url)
-  .catch(err => {
-    if (err.name === "ArcGISAuthError") {
-      // make the same request again with a UserSession
-      err.retry(appendSession)
-        .then(response => console.log(response))
-    }
-  })
-
-// fancy fat arrow function with an implicit 'return'
-appendSession = () => Promise.resolve(authentication);
-```
-Demo - [batch geocoding](https://github.com/Esri/arcgis-rest-js/tree/master/demos/batch-geocoder-node)
 
 
 

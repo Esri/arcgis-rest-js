@@ -109,11 +109,7 @@
           clientId: clientId.defaultValue,
           redirectUri: redirect_uri + 'authenticate.html',
           popup: true
-        })
-          .then(function (session) {
-            // updateSessionInfo(session);
-            return session;
-          })
+        });
       }
     </script>
   </body>
