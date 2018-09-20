@@ -166,7 +166,7 @@ export interface IUserSessionOptions {
   portal?: string;
 
   /**
-   * Whether requests should be made exlusively over HTTPS.
+   * Whether requests should be made exclusively over HTTPS.
    */
   ssl?: boolean;
 
@@ -221,7 +221,7 @@ export class UserSession implements IAuthenticationManager {
   readonly portal: string;
 
   /**
-   * Whether requests should be made exlusively over HTTPS.
+   * Whether requests should be made exclusively over HTTPS.
    */
   readonly ssl: boolean;
 
@@ -470,8 +470,8 @@ export class UserSession implements IAuthenticationManager {
     );
     const username = decodeURIComponent(match[3]);
     const ssl =
-      win.location.href.indexOf("&ssl=true") !== -1 ||
-      win.location.href.indexOf("#ssl=true") !== -1;
+      win.location.href.indexOf("&ssl=true") > -1 ||
+      win.location.href.indexOf("#ssl=true") > -1;
 
     return completeSignIn(undefined, {
       token,
