@@ -1,6 +1,6 @@
 module.exports = {
-  "un": "<USERNAME>",
-  "pw": "<PASSWORD>",
+  "clientId": "[public]",
+  "clientSecret": "[secret]",
   "csv": "NYC_Restaurant_Inspection_Results.csv",
   "output": "NYC_Restaurant_Inspection_Results_Geocoded.csv",
   "fieldmap": {
