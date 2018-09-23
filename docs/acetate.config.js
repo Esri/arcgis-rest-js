@@ -203,6 +203,12 @@ module.exports = function(acetate) {
     }@${package.version}/dist/umd/${package.name.replace("@esri/arcgis-rest-", "")}.umd`;
   });
 
+  // <code> friendly script tag string
+  // future entry point for adding SRI hash
+  acetate.helper("scriptTag", function(context, package) {
+     return `&lt;script src="https://unpkg.com/${package.name}@${package.version}/dist/umd/${package.name.replace("@esri/arcgis-rest-", "")}.umd.min.js"&gt;&lt;/script&gt;`;
+  });
+
   acetate.helper("npmInstallCmd", function(context, package) {
     const peers = package.peerDependencies
       ? Object.keys(package.peerDependencies).map(
