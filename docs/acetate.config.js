@@ -3,11 +3,51 @@ const fs = require("fs");
 const { inspect } = require("util");
 const _ = require("lodash");
 const slug = require("slug");
+const sriToolbox = require("sri-toolbox");
 
 const IS_DEV = process.env.ENV !== "prod";
 const BASE_URL = process.env.ENV === "prod" ? "/arcgis-rest-js" : "";
 
+ const packages = [
+  "auth",
+  "feature-service",
+  "feature-service-admin",
+  "geocoder",
+  "groups",
+  "items",
+  "request",
+  "sharing",
+  "users"
+];
+
+const sriHashes = {};
+
+generateSriHashes = () => {
+  packages.forEach(pkg => {
+    // TODO is a production check nessessary
+    fs.readFile(`./packages/arcgis-rest-${
+      pkg
+    }/dist/umd/${
+      pkg
+    }.umd.min.js`, (err, data) => {
+      if (data) {
+        // generate sha384 SRI hash
+        sriHashes[pkg] = sriToolbox.generate({
+          algorithms: ["sha384"]
+        }, data);
+      } else if (err) {
+        console.log(err);
+      }
+    });
+  });
+};
+
 module.exports = function(acetate) {
+  /**
+   * Generate SRI hashes for dist minified js files.
+   */
+  generateSriHashes();
+
   /**
    * Load all .html and markdown pages in the `src` folder, assigning them a
    * default layout.
@@ -204,9 +244,22 @@ module.exports = function(acetate) {
   });
 
   // <code> friendly script tag string
-  // future entry point for adding SRI hash
   acetate.helper("scriptTag", function(context, package) {
-     return `&lt;script src="https://unpkg.com/${package.name}@${package.version}/dist/umd/${package.name.replace("@esri/arcgis-rest-", "")}.umd.min.js"&gt;&lt;/script&gt;`;
+    const hash = sriHashes[package.name.replace("@esri/arcgis-rest-", "")] || null;
+    // common-types has no browser
+    if (hash) {
+      return `&lt;script src="https://unpkg.com/${
+        package.name
+      }@${
+        package.version
+      }/dist/umd/${
+        package.name.replace("@esri/arcgis-rest-", "")
+      }.umd.min.js" integrity="${
+        hash
+      }" crossorigin="anonymous"&gt;&lt;/script&gt;`;
+    } else {
+      return `This is a development package. Not avaiable via CDN.`;
+    }
   });
 
   acetate.helper("npmInstallCmd", function(context, package) {
