@@ -7,17 +7,39 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.11.1] - September 25th 2018
+
+### @esri/arcgis-rest-request
+
+* Bug Fixes
+   * **item**: use fileName parameter to name Blobs when present [`106cc8a`](https://github.com/Esri/arcgis-rest-js/commit/106cc8a92389bfdd5af651d7aaf3cd327caf5f02)
+
+### @esri/arcgis-rest-auth
+
+* Bug Fixes
+   * **:lock:**: `UserSession` now respects the `ssl` flag set for specific Organizations[`a350f76`](https://github.com/Esri/arcgis-rest-js/commit/a350f766dcd8e04d34b5c5cc662e16e38947e407)
+   * **portal**: tokens are now fetched correctly for calls to ArcGIS Enterprise rest/admin/services [`9f5c093`](https://github.com/Esri/arcgis-rest-js/commit/79dda000e9cc3d8cf270ab3ace65d70d20d5ac57) 🙏dpbayer🙏
+
+### Other Changes
+
+* Documentation
+   * added conceptual guides to explain when and how to use `UserSession` and `ApplicationSession`.
+
+* Chores
+   * **tsc**: upgrade typescript to v3.x.0 [`586983c`](https://github.com/Esri/arcgis-rest-js/commit/586983c447cc32a45507bf18314c06c9f1a8f37d) [#265](https://github.com/Esri/arcgis-rest-js/issues/265)
+   * **api**: add cdn script tag to docs api page and package pages (#336) [`47bdb8d`](https://github.com/Esri/arcgis-rest-js/commit/47bdb8d7b5c6cb593686e01d4fbcb6bc1266d4e0)
+
 ## [1.11.0] - September 19th 2018
 
 ### @esri/arcgis-rest-request
 
 * Bug Fixes
    * **item**: use fileName parameter to name Blobs when present [`9f5c093`](https://github.com/Esri/arcgis-rest-js/commit/9f5c09390696f7945d78b8f45b431d2705b53c16)
+   * **request**: improve error message when FormData isn't available [`89ff196`](https://github.com/Esri/arcgis-rest-js/commit/89ff1969a7af41a2d2e6cf9d3a84849ef82168d6)
 
-### @esri/arcgis-rest-auth
+* Chores
+   * **:nail_care:**: refactor geocoder, groups and users to make the code more legible (#336) [`174e6cd`](https://github.com/Esri/arcgis-rest-js/commit/174e6cd626b4429801e65fcbb6b8f1a72ed1d0e3)
 
-* Bug Fixes
-   * **portal**: tokens are now fetched correctly for calls to ArcGIS Enterprise "rest/admin/services" [`9f5c093`](https://github.com/Esri/arcgis-rest-js/commit/79dda000e9cc3d8cf270ab3ace65d70d20d5ac57) 🙏dpbayer🙏
 
 ## [1.10.0] - September 17th 2018
 
@@ -784,5 +806,5 @@ Initial Public Release
 [1.8.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.1...v1.8.0 "v1.8.0"
 [1.9.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.8.0...v1.9.0 "v1.9.0"
 [1.10.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.9.0...v1.10.0 "v1.10.0"
-[1.11.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.0 "v1.11.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.0...HEAD "Unreleased Changes"
+[1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.1 "v1.11.1"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.1...HEAD "Unreleased Changes"
