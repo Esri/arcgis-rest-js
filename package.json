@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-js",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "description": "Compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",
@@ -20,7 +20,7 @@
     "date-fns": "^1.29.0",
     "fetch-mock": "^5.13.1",
     "gh-pages": "^1.1.0",
-    "gh-release": "^3.2.1",
+    "gh-release": "3.2.1",
     "husky": "^0.14.3",
     "inspect-process": "^0.5.0",
     "jasmine": "^2.8.0",

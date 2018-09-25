@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.11.0] - September 19th 2018
+
+### @esri/arcgis-rest-request
+
+* Bug Fixes
+   * **item**: use fileName parameter to name Blobs when present [`9f5c093`](https://github.com/Esri/arcgis-rest-js/commit/9f5c09390696f7945d78b8f45b431d2705b53c16)
+
+### @esri/arcgis-rest-auth
+
+* Bug Fixes
+   * **portal**: tokens are now fetched correctly for calls to ArcGIS Enterprise "rest/admin/services" [`9f5c093`](https://github.com/Esri/arcgis-rest-js/commit/79dda000e9cc3d8cf270ab3ace65d70d20d5ac57) 🙏dpbayer🙏
+
 ## [1.10.0] - September 17th 2018
 
 ### @esri/arcgis-rest-feature-service-admin
@@ -772,4 +784,5 @@ Initial Public Release
 [1.8.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.1...v1.8.0 "v1.8.0"
 [1.9.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.8.0...v1.9.0 "v1.9.0"
 [1.10.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.9.0...v1.10.0 "v1.10.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...HEAD "Unreleased Changes"
+[1.11.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.0 "v1.11.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.0...HEAD "Unreleased Changes"

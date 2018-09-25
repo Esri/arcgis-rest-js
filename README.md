@@ -74,6 +74,7 @@ Some useful commands include:
 * [`@esri/arcgis-rest-sharing`](./packages/arcgis-rest-sharing) - Methods for updating permissions for ArcGIS Online/Enterprise content.
 * [`@esri/arcgis-rest-feature-service`](./packages/arcgis-rest-feature-service) - Functions for working with feature services
 * [`@esri/arcgis-rest-geocoder`](./packages/arcgis-rest-geocoder) - Geocoding wrapper for `@esri/arcgis-rest-js`
+* [`@esri/arcgis-rest-feature-service-admin`](./packages/arcgis-rest-feature-service-admin) - Functions for creating and updating feature services
 
 
 ### Frequently Asked Questions
