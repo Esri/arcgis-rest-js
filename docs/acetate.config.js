@@ -243,18 +243,29 @@ module.exports = function(acetate) {
   // <code> friendly script tag string
   acetate.helper("scriptTag", function(context, package) {
     const hash = sriHashes[package.name.replace("@esri/arcgis-rest-", "")] || null;
-    // common-types has no browser
     if (hash) {
-      return `&lt;script src="https://unpkg.com/${
-        package.name
-      }@${
-        package.version
-      }/dist/umd/${
-        package.name.replace("@esri/arcgis-rest-", "")
-      }.umd.min.js" integrity="${
-        hash
-      }" crossorigin="anonymous"&gt;&lt;/script&gt;`;
+      // if file request failed on doc deploy return basic script tag
+      if (hash === "SRI_HASH_FAILED") {
+        return `&lt;script src="https://unpkg.com/${
+          package.name
+        }@${
+          package.version
+        }/dist/umd/${
+          package.name.replace("@esri/arcgis-rest-", "")
+        }.umd.min.js"&gt;&lt;/script&gt;`;
+      } else {
+        return `&lt;script src="https://unpkg.com/${
+          package.name
+        }@${
+          package.version
+        }/dist/umd/${
+          package.name.replace("@esri/arcgis-rest-", "")
+        }.umd.min.js" integrity="${
+          hash
+        }" crossorigin="anonymous"&gt;&lt;/script&gt;`;
+      }
     } else {
+      // common-types has no browser
       return `This is a development package. Not avaiable via CDN.`;
     }
   });
