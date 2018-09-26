@@ -3,6 +3,8 @@ const fs = require("fs");
 const { inspect } = require("util");
 const _ = require("lodash");
 const slug = require("slug");
+const pkgVersion = process.env.npm_package_version;
+const request = require("request");
 const sriToolbox = require("sri-toolbox");
 
 const IS_DEV = process.env.ENV !== "prod";
@@ -24,19 +26,14 @@ const sriHashes = {};
 
 generateSriHashes = () => {
   packages.forEach(pkg => {
-    // TODO is a production check nessessary
-    fs.readFile(`./packages/arcgis-rest-${
-      pkg
-    }/dist/umd/${
-      pkg
-    }.umd.min.js`, (err, data) => {
-      if (data) {
-        // generate sha384 SRI hash
+    const url = `http://unpkg.com/@esri/arcgis-rest-${pkg}@${pkgVersion}/dist/umd/${pkg}.umd.min.js`;
+    request(url, (err, res, body) => {
+      if (err) {
+        sriHashes[pkg] = "SRI_HASH_FAILED";
+      } else {
         sriHashes[pkg] = sriToolbox.generate({
           algorithms: ["sha384"]
-        }, data);
-      } else if (err) {
-        console.log(err);
+        }, body);
       }
     });
   });
