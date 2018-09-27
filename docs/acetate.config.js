@@ -2,10 +2,8 @@ const path = require("path");
 const fs = require("fs");
 const { inspect } = require("util");
 const _ = require("lodash");
-const slug = require("slug");
 
 const IS_DEV = process.env.ENV !== "prod";
-const BASE_URL = process.env.ENV === "prod" ? "/arcgis-rest-js" : "";
 
 module.exports = function(acetate) {
   /**
@@ -13,12 +11,14 @@ module.exports = function(acetate) {
    * default layout.
    */
   acetate.load("**/*.+(html|md)", {
+    basePath: "arcgis-rest-js",
     metadata: {
       layout: "_layout:main"
     }
   });
 
-  acetate.load("js/*", {
+  acetate.load("js/index.js", {
+    basePath: "arcgis-rest-js",
     metadata: {
       layout: false,
       prettyUrl: false
@@ -26,7 +26,6 @@ module.exports = function(acetate) {
   });
 
   acetate.metadata("**/*", {
-    baseUrl: BASE_URL,
     isDev: IS_DEV
   });
 
@@ -110,6 +109,7 @@ module.exports = function(acetate) {
    * start looking for changes and we can listen for the events later.
    */
   acetate.load("typedoc.json", {
+    basePath: "arcgis-rest-js",
     metadata: {
       layout: false,
       prettyUrl: false

@@ -18,7 +18,7 @@ deploy:
   github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
   on:
     branch: master
-  local-dir: docs/build
+  local-dir: docs/build/arcgis-rest-js
   target_branch: gh-pages
 before_deploy:
  - npm run docs:build
