@@ -187,6 +187,7 @@ describe("search", () => {
         id: "3ef",
         // File() is only available in the browser
         resource: file,
+        access: "private",
         name: "thebigkahuna",
         ...MOCK_USER_REQOPTS
       })
@@ -203,6 +204,7 @@ describe("search", () => {
             expect(params.get("token")).toEqual("fake-token");
             expect(params.get("f")).toEqual("json");
             expect(params.get("file")).toEqual(file);
+            expect(params.get("access")).toEqual("private");
             expect(params.get("fileName")).toEqual("thebigkahuna");
           }
 

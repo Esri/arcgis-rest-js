@@ -155,6 +155,7 @@ describe("search", () => {
         owner: "dbouwman",
         name: "image/banner.png",
         content: "jumbotron",
+        access: "inherit",
         ...MOCK_USER_REQOPTS
       })
         .then(response => {
@@ -168,6 +169,7 @@ describe("search", () => {
             encodeParam("fileName", "image/banner.png")
           );
           expect(options.body).toContain(encodeParam("text", "jumbotron"));
+          expect(options.body).toContain(encodeParam("access", "inherit"));
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })

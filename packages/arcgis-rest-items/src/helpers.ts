@@ -31,6 +31,11 @@ export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
    * Text input to be added as a file resource.
    */
   content?: string;
+  /**
+   * Set file resource to be private regardless of the item access level, or revert it by setting
+   * it to inherit which makes the item resource have the same access as the item.
+   */
+  access?: "private" | "inherit";
   resource?: any;
 }
 
