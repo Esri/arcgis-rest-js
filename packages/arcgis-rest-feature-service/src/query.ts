@@ -8,13 +8,24 @@ import {
   esriUnits,
   IExtent
 } from "@esri/arcgis-rest-common-types";
-import { request, IRequestOptions } from "@esri/arcgis-rest-request";
+import { request } from "@esri/arcgis-rest-request";
 
-import { ISharedQueryParams, appendCustomParams } from "./helpers";
+import {
+  IFeatureRequestOptions,
+  IQueryJSONFormatParams,
+  IQueryGeoJSONFormatParams,
+  ISharedQueryParams,
+  appendCustomParams
+} from "./helpers";
+
 /**
  * Request options to fetch a feature by id.
  */
-export interface IFeatureRequestOptions extends IRequestOptions {
+export interface IGetFeatureRequestOptions<
+  P extends
+    | IQueryJSONFormatParams
+    | IQueryGeoJSONFormatParams = IQueryJSONFormatParams
+> extends IFeatureRequestOptions<P> {
   /**
    * Layer service url.
    */
@@ -23,6 +34,7 @@ export interface IFeatureRequestOptions extends IRequestOptions {
    * Unique identifier of the feature.
    */
   id: number;
+  params?: P;
 }
 
 export interface IStatisticDefinition {
@@ -43,9 +55,11 @@ export interface IStatisticDefinition {
 /**
  * feature query request options. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
  */
-export interface IQueryFeaturesRequestOptions
-  extends ISharedQueryParams,
-    IRequestOptions {
+export interface IQueryFeaturesRequestOptions<
+  P extends
+    | IQueryJSONFormatParams
+    | IQueryGeoJSONFormatParams = IQueryJSONFormatParams
+> extends ISharedQueryParams, IFeatureRequestOptions<P> {
   /**
    * Layer service url.
    */
@@ -84,6 +98,7 @@ export interface IQueryFeaturesRequestOptions
   returnTrueCurves?: false;
   sqlFormat?: "none" | "standard" | "native";
   returnExceededLimitFeatures?: boolean;
+  params?: P;
 }
 
 export interface IQueryFeaturesResponse extends IFeatureSet {
@@ -117,12 +132,22 @@ export interface IQueryResponse {
  * @returns A Promise that will resolve with the feature.
  */
 export function getFeature(
-  requestOptions: IFeatureRequestOptions
-): Promise<IFeature> {
+  geojsonRequestOptions: IGetFeatureRequestOptions<IQueryJSONFormatParams>
+): Promise<IFeature>;
+export function getFeature(
+  geojsonRequestOptions: IGetFeatureRequestOptions<IQueryGeoJSONFormatParams>
+): Promise<GeoJSON.Feature>;
+export function getFeature(
+  requestOptions: IGetFeatureRequestOptions<
+    IQueryJSONFormatParams | IQueryGeoJSONFormatParams
+  >
+): Promise<IFeature | GeoJSON.Feature> {
   const url = `${requestOptions.url}/${requestOptions.id}`;
 
   // default to a GET request
-  const options: IFeatureRequestOptions = {
+  const options: IGetFeatureRequestOptions<
+    IQueryJSONFormatParams | IQueryGeoJSONFormatParams
+  > = {
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
@@ -149,11 +174,22 @@ export function getFeature(
  * @returns A Promise that will resolve with the query response.
  */
 export function queryFeatures(
-  requestOptions: IQueryFeaturesRequestOptions
-): Promise<IQueryFeaturesResponse | IQueryResponse> {
+  geojsonRequestOptions: IQueryFeaturesRequestOptions<IQueryJSONFormatParams>
+): Promise<IQueryFeaturesResponse | IQueryResponse>;
+export function queryFeatures(
+  geojsonRequestOptions: IQueryFeaturesRequestOptions<IQueryGeoJSONFormatParams>
+): Promise<GeoJSON.FeatureCollection>;
+export function queryFeatures(
+  requestOptions: IQueryFeaturesRequestOptions<
+    IQueryJSONFormatParams | IQueryGeoJSONFormatParams
+  >
+): Promise<
+  IQueryFeaturesResponse | IQueryResponse | GeoJSON.FeatureCollection
+> {
   // default to a GET request
-  const options: IQueryFeaturesRequestOptions = {
-    params: {},
+  const options: IQueryFeaturesRequestOptions<
+    IQueryJSONFormatParams | IQueryGeoJSONFormatParams
+  > = {
     httpMethod: "GET",
     url: requestOptions.url,
     ...requestOptions
