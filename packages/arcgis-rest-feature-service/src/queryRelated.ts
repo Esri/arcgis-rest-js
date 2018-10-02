@@ -8,18 +8,28 @@ import {
   esriGeometryType,
   IField
 } from "@esri/arcgis-rest-common-types";
-import { request, IRequestOptions } from "@esri/arcgis-rest-request";
-import { appendCustomParams } from "./helpers";
+import { request } from "@esri/arcgis-rest-request";
+import {
+  IFeatureRequestOptions,
+  IQueryJSONFormatParams,
+  IQueryGeoJSONFormatParams,
+  appendCustomParams
+} from "./helpers";
 
 /**
  * Related record query request options. Additional arguments can be passed via the [params](/arcgis-rest-js/api/feature-service/IQueryRelatedRequestOptions/#params) property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-feature-service-.htm) for more information and a full list of parameters.
  */
-export interface IQueryRelatedRequestOptions extends IRequestOptions {
+export interface IQueryRelatedRequestOptions<
+  P extends
+    | IQueryJSONFormatParams
+    | IQueryGeoJSONFormatParams = IQueryJSONFormatParams
+> extends IFeatureRequestOptions<P> {
   url: string;
   relationshipId?: number;
   objectIds?: number[];
   outFields?: "*" | string[];
   definitionExpression?: string;
+  params?: P;
 }
 
 /**
@@ -64,10 +74,19 @@ export interface IQueryRelatedResponse extends IHasZM {
  * @returns A Promise that will resolve with the query response
  */
 export function queryRelated(
-  requestOptions: IQueryRelatedRequestOptions
-): Promise<IQueryRelatedResponse> {
-  const options: IQueryRelatedRequestOptions = {
-    params: {},
+  requestOptions: IQueryRelatedRequestOptions<IQueryJSONFormatParams>
+): Promise<IQueryRelatedResponse>;
+export function queryRelated(
+  requestOptions: IQueryRelatedRequestOptions<IQueryGeoJSONFormatParams>
+): Promise<GeoJSON.FeatureCollection>;
+export function queryRelated(
+  requestOptions: IQueryRelatedRequestOptions<
+    IQueryJSONFormatParams | IQueryGeoJSONFormatParams
+  >
+): Promise<IQueryRelatedResponse | GeoJSON.FeatureCollection> {
+  const options: IQueryRelatedRequestOptions<
+    IQueryJSONFormatParams | IQueryGeoJSONFormatParams
+  > = {
     httpMethod: "GET",
     url: requestOptions.url,
     ...requestOptions
