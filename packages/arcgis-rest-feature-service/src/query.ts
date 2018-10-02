@@ -9,6 +9,7 @@ import {
   IExtent
 } from "@esri/arcgis-rest-common-types";
 import { request } from "@esri/arcgis-rest-request";
+import { Feature, FeatureCollection } from "geojson";
 
 import {
   IFeatureRequestOptions,
@@ -136,12 +137,12 @@ export function getFeature(
 ): Promise<IFeature>;
 export function getFeature(
   geojsonRequestOptions: IGetFeatureRequestOptions<IQueryGeoJSONFormatParams>
-): Promise<GeoJSON.Feature>;
+): Promise<Feature>;
 export function getFeature(
   requestOptions: IGetFeatureRequestOptions<
     IQueryJSONFormatParams | IQueryGeoJSONFormatParams
   >
-): Promise<IFeature | GeoJSON.Feature> {
+): Promise<IFeature | Feature> {
   const url = `${requestOptions.url}/${requestOptions.id}`;
 
   // default to a GET request
@@ -178,14 +179,12 @@ export function queryFeatures(
 ): Promise<IQueryFeaturesResponse | IQueryResponse>;
 export function queryFeatures(
   geojsonRequestOptions: IQueryFeaturesRequestOptions<IQueryGeoJSONFormatParams>
-): Promise<GeoJSON.FeatureCollection>;
+): Promise<FeatureCollection>;
 export function queryFeatures(
   requestOptions: IQueryFeaturesRequestOptions<
     IQueryJSONFormatParams | IQueryGeoJSONFormatParams
   >
-): Promise<
-  IQueryFeaturesResponse | IQueryResponse | GeoJSON.FeatureCollection
-> {
+): Promise<IQueryFeaturesResponse | IQueryResponse | FeatureCollection> {
   // default to a GET request
   const options: IQueryFeaturesRequestOptions<
     IQueryJSONFormatParams | IQueryGeoJSONFormatParams
