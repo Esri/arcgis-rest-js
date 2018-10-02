@@ -84,7 +84,8 @@ export function updateItemResource(
   requestOptions.params = {
     ...requestOptions.params,
     fileName: requestOptions.name,
-    text: requestOptions.content
+    text: requestOptions.content,
+    access: requestOptions.access
   };
 
   return request(url, requestOptions);

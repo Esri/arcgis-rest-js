@@ -95,6 +95,7 @@ export function addItemResource(
     file: requestOptions.resource,
     fileName: requestOptions.name,
     text: requestOptions.content,
+    access: requestOptions.access,
     ...requestOptions.params
   };
 
