@@ -16,7 +16,7 @@ import { IDeleteFeaturesRequestOptions } from "./delete";
 import { IQueryRelatedRequestOptions } from "./queryRelated";
 
 export interface IQueryJSONFormatParams extends IParams {
-  f: "json";
+  f?: "json";
 }
 
 export interface IQueryGeoJSONFormatParams extends IParams {
