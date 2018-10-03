@@ -189,6 +189,9 @@ export function queryFeatures(
   const options: IQueryFeaturesRequestOptions<
     IQueryJSONFormatParams | IQueryGeoJSONFormatParams
   > = {
+    params: {
+      ...requestOptions.params
+    },
     httpMethod: "GET",
     url: requestOptions.url,
     ...requestOptions
