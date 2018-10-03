@@ -3,7 +3,6 @@
   "version": "1.11.1",
   "description": "Compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.",
   "devDependencies": {
-    "@types/es6-promise": "0.0.32",
     "@types/fetch-mock": "^5.12.2",
     "@types/isomorphic-fetch": "0.0.34",
     "@types/jasmine": "^2.8.2",

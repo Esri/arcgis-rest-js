@@ -15,7 +15,6 @@ import {
   IQueryGeoJSONFormatParams,
   appendCustomParams
 } from "./helpers";
-import { FeatureCollection } from "geojson";
 
 /**
  * Related record query request options. Additional arguments can be passed via the [params](/arcgis-rest-js/api/feature-service/IQueryRelatedRequestOptions/#params) property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-feature-service-.htm) for more information and a full list of parameters.
@@ -79,12 +78,12 @@ export function queryRelated(
 ): Promise<IQueryRelatedResponse>;
 export function queryRelated(
   requestOptions: IQueryRelatedRequestOptions<IQueryGeoJSONFormatParams>
-): Promise<FeatureCollection>;
+): Promise<GeoJSON.FeatureCollection>;
 export function queryRelated(
   requestOptions: IQueryRelatedRequestOptions<
     IQueryJSONFormatParams | IQueryGeoJSONFormatParams
   >
-): Promise<IQueryRelatedResponse | FeatureCollection> {
+): Promise<IQueryRelatedResponse | GeoJSON.FeatureCollection> {
   const options: IQueryRelatedRequestOptions<
     IQueryJSONFormatParams | IQueryGeoJSONFormatParams
   > = {
