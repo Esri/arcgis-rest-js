@@ -7,13 +7,27 @@ import {
   IGeometry,
   ISpatialReference
 } from "@esri/arcgis-rest-common-types";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IRequestOptions, IParams } from "@esri/arcgis-rest-request";
 
 import { IQueryFeaturesRequestOptions } from "./query";
 import { IAddFeaturesRequestOptions } from "./add";
 import { IUpdateFeaturesRequestOptions } from "./update";
 import { IDeleteFeaturesRequestOptions } from "./delete";
 import { IQueryRelatedRequestOptions } from "./queryRelated";
+
+export interface IQueryJSONFormatParams extends IParams {
+  f?: "json";
+}
+
+export interface IQueryGeoJSONFormatParams extends IParams {
+  f: "geojson";
+}
+
+export interface IFeatureRequestOptions<
+  P extends IQueryJSONFormatParams | IQueryGeoJSONFormatParams
+> extends IRequestOptions {
+  params?: P;
+}
 
 export interface ISharedQueryParams {
   where?: string;
@@ -56,7 +70,9 @@ export interface IEditFeaturesParams {
  */
 export function appendCustomParams(
   oldOptions:
-    | IQueryFeaturesRequestOptions
+    | IQueryFeaturesRequestOptions<
+        IQueryJSONFormatParams | IQueryGeoJSONFormatParams
+      >
     | IAddFeaturesRequestOptions
     | IUpdateFeaturesRequestOptions
     | IDeleteFeaturesRequestOptions
