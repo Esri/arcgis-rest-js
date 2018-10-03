@@ -9,6 +9,7 @@ import {
   IField
 } from "@esri/arcgis-rest-common-types";
 import { request } from "@esri/arcgis-rest-request";
+import { FeatureCollection } from "geojson";
 import {
   IFeatureRequestOptions,
   IQueryJSONFormatParams,
@@ -78,12 +79,12 @@ export function queryRelated(
 ): Promise<IQueryRelatedResponse>;
 export function queryRelated(
   requestOptions: IQueryRelatedRequestOptions<IQueryGeoJSONFormatParams>
-): Promise<GeoJSON.FeatureCollection>;
+): Promise<FeatureCollection>;
 export function queryRelated(
   requestOptions: IQueryRelatedRequestOptions<
     IQueryJSONFormatParams | IQueryGeoJSONFormatParams
   >
-): Promise<IQueryRelatedResponse | GeoJSON.FeatureCollection> {
+): Promise<IQueryRelatedResponse | FeatureCollection> {
   const options: IQueryRelatedRequestOptions<
     IQueryJSONFormatParams | IQueryGeoJSONFormatParams
   > = {
