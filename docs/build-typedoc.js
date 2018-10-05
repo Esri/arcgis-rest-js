@@ -138,7 +138,7 @@ const md = new MarkdownIt();
        */
       return declarations.map(declaration => {
         const abbreviatedPackageName = declaration.package.replace("arcgis-rest-", "")
-        const src = `api/${abbreviatedPackageName}/${declaration.name}.html`;
+        const src = `arcgis-rest-js/api/${abbreviatedPackageName}/${declaration.name}.html`;
         let children;
 
         if (declaration.children) {
@@ -207,7 +207,7 @@ const md = new MarkdownIt();
           .uniq()
           .reduce((packages, package) => {
             const abbreviatedPackageName = package.replace("arcgis-rest-", "")
-            const src = `api/${abbreviatedPackageName}.html`;
+            const src = `arcgis-rest-js/api/${abbreviatedPackageName}.html`;
             const pkg = require(`${process.cwd()}/packages/${package}/package.json`);
 
             packages.push({
