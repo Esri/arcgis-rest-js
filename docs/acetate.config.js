@@ -17,14 +17,6 @@ module.exports = function(acetate) {
     }
   });
 
-  acetate.load("js/index.js", {
-    basePath: "arcgis-rest-js",
-    metadata: {
-      layout: false,
-      prettyUrl: false
-    }
-  });
-
   acetate.metadata("**/*", {
     isDev: IS_DEV
   });
@@ -118,7 +110,7 @@ module.exports = function(acetate) {
 
   /**
    * Use Acetates generate helper to generate a page for each `declaration`
-   * and `package` in the typedoc.json.
+   * and `package` in the typedoc.json and generate the search index file
    */
   acetate.generate((createPage, callback) => {
     fs.readFile(
@@ -146,9 +138,18 @@ module.exports = function(acetate) {
           );
         });
 
+        const searchIndex = createPage.fromTemplateString(
+          "arcgis-rest-js/js/index.js",
+          `const ESRI_REST_API_REF_INDEX = ${JSON.stringify(
+            typedoc.quickSearchIndex
+          )}`,
+          path.join(acetate.sourceDir, "js", "index.js"),
+          { layout: false, prettyUrl: false }
+        );
+
         // once all the pages have been generated provide them to Acetate.
         Promise.all(declarationPages.concat(packagePages)).then(pages => {
-          callback(null, pages);
+          callback(null, pages.concat(searchIndex));
         });
       }
     );
@@ -206,7 +207,9 @@ module.exports = function(acetate) {
   // <code> friendly script tag string
   // future entry point for adding SRI hash
   acetate.helper("scriptTag", function(context, package) {
-     return `&lt;script src="https://unpkg.com/${package.name}@${package.version}/dist/umd/${package.name.replace("@esri/arcgis-rest-", "")}.umd.min.js"&gt;&lt;/script&gt;`;
+    return `&lt;script src="https://unpkg.com/${
+      package.name
+    }@${package.version}/dist/umd/${package.name.replace("@esri/arcgis-rest-", "")}.umd.min.js"&gt;&lt;/script&gt;`;
   });
 
   acetate.helper("npmInstallCmd", function(context, package) {
