@@ -82,6 +82,7 @@ export function updateItemResource(
 
   // mix in user supplied params
   requestOptions.params = {
+    file: requestOptions.resource,
     fileName: requestOptions.name,
     text: requestOptions.content,
     ...requestOptions.params

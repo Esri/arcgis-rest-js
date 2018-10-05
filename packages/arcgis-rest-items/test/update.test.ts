@@ -3,6 +3,8 @@
 
 import * as fetchMock from "fetch-mock";
 
+import { attachmentFile } from "../../arcgis-rest-feature-service/test/attachments.test";
+
 import { updateItem, updateItemResource, moveItem } from "../src/update";
 
 import { ItemSuccessResponse } from "./mocks/item";
@@ -170,6 +172,43 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("text", "jumbotron"));
           expect(options.body).not.toContain(encodeParam("access", "inherit"));
           expect(options.body).toContain(encodeParam("token", "fake-token"));
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should update a binary resource to an item", done => {
+      fetchMock.once("*", {
+        success: true
+      });
+
+      const file = attachmentFile();
+
+      updateItemResource({
+        id: "3ef",
+        // File() is only available in the browser
+        resource: file,
+        name: "thebigkahuna",
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body instanceof FormData).toBeTruthy();
+          const params = options.body as FormData;
+          if (params.get) {
+            expect(params.get("token")).toEqual("fake-token");
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("file")).toEqual(file);
+            expect(params.get("fileName")).toEqual("thebigkahuna");
+          }
+
           done();
         })
         .catch(e => {

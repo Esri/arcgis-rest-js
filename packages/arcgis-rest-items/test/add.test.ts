@@ -242,7 +242,7 @@ describe("search", () => {
             expect(params.get("token")).toEqual("fake-token");
             expect(params.get("f")).toEqual("json");
             expect(params.get("file")).toEqual(file);
-            expect(params.get("access")).toEqual("inherit");
+            expect(params.get("access")).toEqual("private");
             expect(params.get("fileName")).toEqual("thebigkahuna");
           }
 
