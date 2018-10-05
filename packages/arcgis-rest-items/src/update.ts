@@ -82,11 +82,17 @@ export function updateItemResource(
 
   // mix in user supplied params
   requestOptions.params = {
-    ...requestOptions.params,
     fileName: requestOptions.name,
     text: requestOptions.content,
-    access: requestOptions.access
+    ...requestOptions.params
   };
+
+  // only override whatever access was specified previously if 'private' was passed explicitly
+  if (typeof requestOptions.private !== "undefined") {
+    requestOptions.params.access = requestOptions.private
+      ? "private"
+      : "inherit";
+  }
 
   return request(url, requestOptions);
 }

@@ -32,10 +32,9 @@ export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
    */
   content?: string;
   /**
-   * Set file resource to be private regardless of the item access level, or revert it by setting
-   * it to inherit which makes the item resource have the same access as the item.
+   * Controls whether access to the file resource is restricted to the owner or inherited from the sharing permissions set for the associated item.
    */
-  access?: "private" | "inherit";
+  private?: boolean;
   resource?: any;
 }
 

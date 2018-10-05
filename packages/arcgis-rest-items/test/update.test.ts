@@ -155,7 +155,6 @@ describe("search", () => {
         owner: "dbouwman",
         name: "image/banner.png",
         content: "jumbotron",
-        access: "inherit",
         ...MOCK_USER_REQOPTS
       })
         .then(response => {
@@ -169,7 +168,7 @@ describe("search", () => {
             encodeParam("fileName", "image/banner.png")
           );
           expect(options.body).toContain(encodeParam("text", "jumbotron"));
-          expect(options.body).toContain(encodeParam("access", "inherit"));
+          expect(options.body).not.toContain(encodeParam("access", "inherit"));
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
@@ -216,7 +215,7 @@ describe("search", () => {
           resourcesPrefix: "foolder"
         }
       })
-        .then(response => {
+        .then(() => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
@@ -229,6 +228,65 @@ describe("search", () => {
           expect(options.body).toContain("resourcesPrefix=foolder");
           expect(options.body).toContain(encodeParam("text", "jumbotron"));
           expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).not.toContain(encodeParam("access", "inherit"));
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("update an item resource to make it secret", done => {
+      fetchMock.once("*", UpdateItemResourceResponse);
+      updateItemResource({
+        id: "3ef",
+        name: "image/banner.png",
+        content: "jumbotron",
+        private: true,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain(
+            encodeParam("fileName", "image/banner.png")
+          );
+          expect(options.body).toContain(encodeParam("text", "jumbotron"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("access", "private"));
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("update an item resource to spill the beans", done => {
+      fetchMock.once("*", UpdateItemResourceResponse);
+      updateItemResource({
+        id: "3ef",
+        name: "image/banner.png",
+        content: "jumbotron",
+        private: false,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain(
+            encodeParam("fileName", "image/banner.png")
+          );
+          expect(options.body).toContain(encodeParam("text", "jumbotron"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("access", "inherit"));
           done();
         })
         .catch(e => {
