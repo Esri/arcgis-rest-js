@@ -10,6 +10,7 @@
     "@types/node": "^6.0.95",
     "acetate": "^2.0.0",
     "acetate-cli": "^1.0.1",
+    "sri-toolbox": "^0.2.0",
     "changelog-parser": "^2.1.0",
     "cheerio": "^1.0.0-rc.2",
     "commitizen": "^2.10.0",
