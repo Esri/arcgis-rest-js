@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.12.0] - October 5th 2018
+
+### @esri/arcgis-rest-common-types
+
+* Chores
+   * **js**: remove rogue .js files from common-types [`abedb46`](https://github.com/Esri/arcgis-rest-js/commit/abedb462ebf9e78b08f51e221cf8421bc434fd67)
+
+### @esri/arcgis-rest-items
+
+* New Features
+   * **js**: It is now possible to add/update private item resources [`b120e9f`](https://github.com/Esri/arcgis-rest-js/commit/b120e9f5462a8bd6631e549ae1bef8dbaa51799e)
+
+* Bug Fixes
+   * **js**: updateItemResource now respects the [`resource`](https://esri.github.io/arcgis-rest-js/api/items/IItemResourceRequestOptions/#resource) request option. [`6555683`] (https://github.com/Esri/arcgis-rest-js/commit/65556830e85401951efe4a10209004aed4301877) 🙏ssylvia🙏
+
 ## [1.11.1] - September 25th 2018
 
 ### @esri/arcgis-rest-request
@@ -35,11 +50,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Bug Fixes
    * **item**: use fileName parameter to name Blobs when present [`9f5c093`](https://github.com/Esri/arcgis-rest-js/commit/9f5c09390696f7945d78b8f45b431d2705b53c16)
-   * **request**: improve error message when FormData isn't available [`89ff196`](https://github.com/Esri/arcgis-rest-js/commit/89ff1969a7af41a2d2e6cf9d3a84849ef82168d6)
+   * **request**: improve error message when FormData isnt available [`89ff196`](https://github.com/Esri/arcgis-rest-js/commit/89ff1969a7af41a2d2e6cf9d3a84849ef82168d6)
 
 * Chores
    * **:nail_care:**: refactor geocoder, groups and users to make the code more legible (#336) [`174e6cd`](https://github.com/Esri/arcgis-rest-js/commit/174e6cd626b4429801e65fcbb6b8f1a72ed1d0e3)
-
 
 ## [1.10.0] - September 17th 2018
 
@@ -807,4 +821,5 @@ Initial Public Release
 [1.9.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.8.0...v1.9.0 "v1.9.0"
 [1.10.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.9.0...v1.10.0 "v1.10.0"
 [1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.1 "v1.11.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.1...HEAD "Unreleased Changes"
+[1.12.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.1...v1.12.0 "v1.12.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.12.0...HEAD "Unreleased Changes"
