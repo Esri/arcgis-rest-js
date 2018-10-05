@@ -31,6 +31,10 @@ export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
    * Text input to be added as a file resource.
    */
   content?: string;
+  /**
+   * Controls whether access to the file resource is restricted to the owner or inherited from the sharing permissions set for the associated item.
+   */
+  private?: boolean;
   resource?: any;
 }
 

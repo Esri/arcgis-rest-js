@@ -203,6 +203,46 @@ describe("search", () => {
             expect(params.get("token")).toEqual("fake-token");
             expect(params.get("f")).toEqual("json");
             expect(params.get("file")).toEqual(file);
+            expect(params.get("access")).toEqual("inherit");
+            expect(params.get("fileName")).toEqual("thebigkahuna");
+          }
+
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should add a binary resource to a secret item", done => {
+      fetchMock.once("*", {
+        success: true
+      });
+
+      const file = attachmentFile();
+
+      addItemResource({
+        id: "3ef",
+        // File() is only available in the browser
+        resource: file,
+        name: "thebigkahuna",
+        private: true,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/addResources"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body instanceof FormData).toBeTruthy();
+          const params = options.body as FormData;
+          if (params.get) {
+            expect(params.get("token")).toEqual("fake-token");
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("file")).toEqual(file);
+            expect(params.get("access")).toEqual("private");
             expect(params.get("fileName")).toEqual("thebigkahuna");
           }
 
