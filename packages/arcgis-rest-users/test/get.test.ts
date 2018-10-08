@@ -7,7 +7,7 @@ import {
   AnonUserResponse,
   GroupMemberUserResponse,
   GroupAdminUserResponse
-} from "./mocks/responses";
+} from "./mocks/user";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 import * as fetchMock from "fetch-mock";

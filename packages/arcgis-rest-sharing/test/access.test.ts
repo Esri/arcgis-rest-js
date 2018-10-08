@@ -7,7 +7,7 @@ import { MOCK_USER_SESSION } from "./mocks/sharing";
 import {
   AnonUserResponse,
   OrgAdminUserResponse
-} from "../../arcgis-rest-users/test/mocks/responses";
+} from "../../arcgis-rest-users/test/mocks/user";
 
 const SharingResponse = {
   notSharedWith: [] as any,

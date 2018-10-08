@@ -11,7 +11,7 @@ import {
 import {
   UserInvitationsResponse,
   UserInvitationResponse
-} from "./mocks/responses";
+} from "./mocks/invitation";
 
 import { encodeParam } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";

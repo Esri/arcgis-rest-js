@@ -6,7 +6,7 @@ import { getUserNotifications, removeNotification } from "../src/index";
 import {
   UserNotificationsResponse,
   IDeleteSuccessResponse
-} from "./mocks/responses";
+} from "./mocks/notification";
 
 import { encodeParam } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
