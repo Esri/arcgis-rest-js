@@ -53,7 +53,7 @@ export function getUserInvitations(
 }
 
 export interface IInvitationRequestOptions extends IUserRequestOptions {
-  invitationId: string; // mandatory param with more explicit name
+  invitationId: string;
 }
 
 /**
