@@ -90,6 +90,12 @@ export function acceptInvitation(
   return request(url, requestOptions);
 }
 
+/**
+ * Decline an invitation.
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise that will resolve with the success/failure status of the request
+ */
 export function declineInvitation(
   id: string,
   requestOptions: IUserRequestOptions
