@@ -2,28 +2,32 @@ language: node_js
 sudo: false
 notifications:
   email: false
+  slack:
+    secure: Cx9TQpIg3ac5u10tMBNNHgAX/ITZm+0IWM4ovMrKm3Fe9HZ+3Yt5Zzzci+oWx6lIkMYj2Hi0cHKxo2T0i0Zw91saTCDV3lFnBDqYK2VivibfJ3KdF60gTkrSIoMfRTjNgqAv0QfmeANDoRKyTNl0k3DaiYgeqqiLJIcaR3MXtR+NChcbibfKDzrDvapckU/SvHFjp3iovoqUmt8zLQGWm675wJGlvBb/E0Drr97WEWLaso+IDxB2gphdYFynJdrIvbPRhih0CfuHhCoqPAblYU6Y3RbficKD6hHuBpA+vY/4MY0MaCXKu5yyU/UBMew69mctjP0/KTL9vQHWhJFf0MrlTlSNHlXAR0JxKe4uc/s3Lb3ZYA/+01hZYm3i+YZWmM7KFeJZfzBiLIOYhG+sJX/pWLun6sIN4kk/AToWD9m99wRxxXccmG/FRZGysdIK7kvu9iphpzuNM8ps2qE8IE10Xo9vJUCwskMcBb1ngf2TAN7bUpWE1OZlLPmY1yVe8HDjWOcJ+W5u3+5GzAv8QLb0Z8pfsdPYd1Mqjjz+DdWrOLS7+cnjZJjxLlA3pM2qvQdBc/Yn5Us7UKRYnjTff8kuIclTaBMtlYEIMfoSeNAus+zeFpN1LQ0vtEGemYPsqEpWR07CX8abMPjbxw5I6J8xFLVgdEARLL9Zj8qxX9I=
+    on_success: change
+    on_failure: always
 node_js:
-  - "8"
-  - "10"
+- '8'
+- '10'
 cache:
-  directories: # Cache dependencies
-    - node_modules
+  directories:
+  - node_modules
 before_script:
-  - npm run bootstrap
+- npm run bootstrap
 script:
-  - npm run test:ci
+- npm run test:ci
 deploy:
   provider: pages
   skip_cleanup: true
-  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+  github_token: "$GITHUB_TOKEN"
   on:
     branch: master
   local-dir: docs/build/arcgis-rest-js
   target_branch: gh-pages
 before_deploy:
- - npm run docs:build
+- npm run docs:build
 env:
-  - MOZ_HEADLESS=1
+- MOZ_HEADLESS=1
 addons:
   chrome: stable
   firefox: latest
