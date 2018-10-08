@@ -42,7 +42,7 @@ export interface IGroup extends IGroupAdd {
   protected: boolean;
   isInvitationOnly: boolean;
   isViewOnly: boolean;
-  isOpenData: boolean;
+  isOpenData?: boolean;
   isFav: boolean;
   autoJoin: boolean;
   userMembership?: {

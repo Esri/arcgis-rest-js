@@ -11,7 +11,7 @@ import {
   GroupMemberUserResponse,
   GroupAdminUserResponse,
   OrgAdminUserResponse
-} from "../../arcgis-rest-users/test/mocks/responses";
+} from "../../arcgis-rest-users/test/mocks/user";
 
 import { SearchResponse } from "../../arcgis-rest-items/test/mocks/search";
 
