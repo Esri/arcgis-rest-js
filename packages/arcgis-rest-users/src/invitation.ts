@@ -52,6 +52,10 @@ export function getUserInvitations(
   return request(url, options);
 }
 
+export interface IInvitationRequestOptions extends IUserRequestOptions {
+  invitationId: string; // mandatory param with more explicit name
+}
+
 /**
  * Get an invitation for a user by id.
  *
@@ -59,14 +63,15 @@ export function getUserInvitations(
  * @returns A Promise that will resolve with the invitation
  */
 export function getUserInvitation(
-  id: string,
-  requestOptions: IUserRequestOptions
+  requestOptions: IInvitationRequestOptions
 ): Promise<IInvitation> {
-  let options = { httpMethod: "GET" } as IUserRequestOptions;
-
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
-  const url = `${portalUrl}/community/users/${username}/invitations/${id}`;
+  const url = `${portalUrl}/community/users/${username}/invitations/${
+    requestOptions.invitationId
+  }`;
+
+  let options = { httpMethod: "GET" } as IInvitationRequestOptions;
   options = { ...requestOptions, ...options };
 
   // send the request
@@ -80,14 +85,16 @@ export function getUserInvitation(
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function acceptInvitation(
-  id: string,
-  requestOptions: IUserRequestOptions
+  requestOptions: IInvitationRequestOptions
 ): Promise<any> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
-  const url = `${portalUrl}/community/users/${username}/invitations/${id}/accept`;
+  const url = `${portalUrl}/community/users/${username}/invitations/${
+    requestOptions.invitationId
+  }/accept`;
 
-  return request(url, requestOptions);
+  const options: IInvitationRequestOptions = { ...requestOptions };
+  return request(url, options);
 }
 
 /**
@@ -97,12 +104,14 @@ export function acceptInvitation(
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function declineInvitation(
-  id: string,
-  requestOptions: IUserRequestOptions
+  requestOptions: IInvitationRequestOptions
 ): Promise<any> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
-  const url = `${portalUrl}/community/users/${username}/invitations/${id}/decline`;
+  const url = `${portalUrl}/community/users/${username}/invitations/${
+    requestOptions.invitationId
+  }/decline`;
 
-  return request(url, requestOptions);
+  const options: IInvitationRequestOptions = { ...requestOptions };
+  return request(url, options);
 }

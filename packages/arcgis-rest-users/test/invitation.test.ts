@@ -79,7 +79,7 @@ describe("invitations", () => {
     it("should make an authenticated request for a user invitation", done => {
       fetchMock.once("*", UserInvitationResponse);
 
-      getUserInvitation("3ef", { authentication: session })
+      getUserInvitation({ invitationId: "3ef", authentication: session })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -112,7 +112,7 @@ describe("invitations", () => {
     it("should accept an invitation", done => {
       fetchMock.once("*", { success: true });
 
-      acceptInvitation("3ef", { authentication: session })
+      acceptInvitation({ invitationId: "3ef", authentication: session })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -147,7 +147,7 @@ describe("invitations", () => {
     it("should decline an invitation", done => {
       fetchMock.once("*", { success: true });
 
-      declineInvitation("3ef", { authentication: session })
+      declineInvitation({ invitationId: "3ef", authentication: session })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
