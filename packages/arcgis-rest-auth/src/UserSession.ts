@@ -188,15 +188,20 @@ export interface IUserSessionOptions {
 
 /**
  * ```js
+ * // OAuth 2.0 allows users to sign in directly to arcgis.com or ArcGIS Enterprise
+ * UserSession.beginOAuth2({
+ *   // register a new app to create a unique clientId
+ *   clientId: "abc123",
+ *   redirectUri: 'https://yourapp.com/authenticate.html'
+ * })
+ *   .then(session)
+ * // or
  * const session = new UserSession({
  *   username: "jsmith",
  *   password: "123456"
  * })
  * ```
- * Used to manage the authentication of ArcGIS Online and ArcGIS Enterprise users
- * in `request`. This class also includes several
- * helper methods for authenticating users with [OAuth 2.0](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/browser-based-user-logins/) in both browser and
- * server applications.
+ * Used to authenticate both ArcGIS Online and ArcGIS Enterprise users. `UserSession` includes helper methods for [OAuth 2.0](/arcgis-rest-js/guides/browser-authentication/) in both browser and server applications.
  *
  */
 export class UserSession implements IAuthenticationManager {
