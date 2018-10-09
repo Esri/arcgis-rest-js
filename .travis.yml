@@ -29,3 +29,6 @@ env:
 addons:
   chrome: stable
   firefox: latest
+branches:
+  only:
+    - master
