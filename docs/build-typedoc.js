@@ -1,5 +1,5 @@
 const spawn = require("cross-spawn");
-const { join, resolve } = require("path");
+const { join } = require("path");
 const { readFile, writeFile } = require("fs");
 const _ = require("lodash");
 const OUTPUT = join(process.cwd(), "docs", "src", `typedoc.json`);
@@ -17,6 +17,8 @@ const md = new MarkdownIt();
       [
         "-json",
         OUTPUT,
+        "--exclude",
+        "**/*test.ts",
         "--ignoreCompilerErrors",
         "--module",
         "common",

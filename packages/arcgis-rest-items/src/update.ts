@@ -31,9 +31,9 @@ export interface IItemMoveRequestOptions extends IItemCrudRequestOptions {
 }
 
 /**
- * Update an Item
+ * Update an Item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-item.htm) for more information.
  *
- * * ```js
+ * ```js
  * import { updateItem } from '@esri/arcgis-rest-items';
  *
  * updateItem({
