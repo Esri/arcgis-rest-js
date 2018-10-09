@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.13.0] - October 9th 2018
+
+### @esri/arcgis-rest-common-types
+
+* New Features
+   * **users**: add user invitation functions [`80aa6dc`](https://github.com/Esri/arcgis-rest-js/commit/80aa6dcfa1b0297df4f71f191c32ce91c5e62d64)
+
+### @esri/arcgis-rest-users
+
+* New Features
+   * **users**: add user invitation functions [`80aa6dc`](https://github.com/Esri/arcgis-rest-js/commit/80aa6dcfa1b0297df4f71f191c32ce91c5e62d64)
+
+### Other Changes
+
+* Documentation
+   * **bug**: ensure sticky links are flagged as active in production [`dd7a5ac`](https://github.com/Esri/arcgis-rest-js/commit/dd7a5ac1a3be36736e13292826bae72bd4d21be1)
+
 ## [1.12.0] - October 5th 2018
 
 ### @esri/arcgis-rest-common-types
@@ -800,8 +817,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 Initial Public Release
 
 [1.0.0]: https://github.com/Esri/arcgis-rest-js/compare/265d6aed1856d3ae1ff81f03ce85aba449b01f21...v1.0.0 "v1.0.0"
-[1.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.1 "v1.0.1"
-[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.1...v1.0.2 "v1.0.2"
+[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.2 "v1.0.2"
 [1.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.2...v1.0.3 "v1.0.3"
 [1.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.3...v1.1.0 "v1.1.0"
 [1.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.0...v1.1.1 "v1.1.1"
@@ -822,4 +838,5 @@ Initial Public Release
 [1.10.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.9.0...v1.10.0 "v1.10.0"
 [1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.1 "v1.11.1"
 [1.12.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.1...v1.12.0 "v1.12.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.12.0...HEAD "Unreleased Changes"
+[1.13.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.12.0...v1.13.0 "v1.13.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.0...HEAD "Unreleased Changes"

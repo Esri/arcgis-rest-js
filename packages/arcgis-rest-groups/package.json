@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-groups",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "description": "Portal Group helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
   "browser": "dist/umd/groups.umd.js",
@@ -20,9 +20,9 @@
     "@esri/arcgis-rest-request": "^1.11.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^1.12.0",
-    "@esri/arcgis-rest-common-types": "^1.12.0",
-    "@esri/arcgis-rest-request": "^1.11.1"
+    "@esri/arcgis-rest-auth": "^1.13.0",
+    "@esri/arcgis-rest-common-types": "^1.13.0",
+    "@esri/arcgis-rest-request": "^1.13.0"
   },
   "scripts": {
     "prepare": "npm run build",

@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-auth",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "description": "Authentication helpers for @esri/arcgis-rest-*.",
   "main": "dist/node/index.js",
   "browser": "dist/umd/auth.umd.js",
@@ -19,8 +19,8 @@
     "@esri/arcgis-rest-request": "^1.11.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-common-types": "^1.12.0",
-    "@esri/arcgis-rest-request": "^1.11.1"
+    "@esri/arcgis-rest-common-types": "^1.13.0",
+    "@esri/arcgis-rest-request": "^1.13.0"
   },
   "scripts": {
     "prepare": "npm run build",
