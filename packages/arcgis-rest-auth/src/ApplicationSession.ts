@@ -37,12 +37,11 @@ export interface IApplicationSessionOptions {
  * ```js
  * // visit https://developers.arcgis.com to generate your own clientid and secret
  * const session = new ApplicationSession({
- *   clientId,
- *   clientSecret
+ *   clientId: "abc123",
+ *   clientSecret: "sshhhhhh"
  * })
  * ```
- * You can use [App Login](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/accessing-arcgis-online-services/) to access premium content and services in ArcGIS Online.
- * in `request`.
+ * You can use [App Login](/arcgis-rest-/js/guides/node/) to access premium content and services in ArcGIS Online.
  *
  */
 export class ApplicationSession implements IAuthenticationManager {

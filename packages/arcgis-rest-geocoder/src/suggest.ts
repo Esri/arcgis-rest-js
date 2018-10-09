@@ -29,7 +29,7 @@ export interface ISuggestResponse {
 }
 
 /**
- * Used to return a placename [suggestion]((https://developers.arcgis.com/rest/geocode/api-reference/geocoding-suggest.htm) for a partial string.
+ * Used to return a placename [suggestion](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-suggest.htm) for a partial string.
  *
  * ```js
  * import { suggest } from '@esri/arcgis-rest-geocoder';
