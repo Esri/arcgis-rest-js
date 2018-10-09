@@ -3,14 +3,18 @@
 
 import { request } from "@esri/arcgis-rest-request";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { ILayer, ITable } from "@esri/arcgis-rest-common-types";
+import {
+  ILayer,
+  ILayerDefinition,
+  ITable
+} from "@esri/arcgis-rest-common-types";
 
 export interface IAddToServiceDefinitionRequestOptions
   extends IUserRequestOptions {
   /**
    * Layers to add
    */
-  layers?: ILayer[];
+  layers?: ILayer[] | ILayerDefinition[];
   /**
    * Tables to add
    */

@@ -12,6 +12,8 @@ import {
   AddToFeatureServiceError
 } from "./mocks/service";
 
+import { layerDefinitionSid } from "./mocks/layerDefinition";
+
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 import { encodeParam, ErrorTypes } from "@esri/arcgis-rest-request";
@@ -209,6 +211,47 @@ describe("add to feature service", () => {
               JSON.stringify({
                 layers: [layerDescriptionCyd],
                 tables: [tableDescriptionGene]
+              })
+            )
+          );
+
+          // Check response
+          expect(response).toEqual(
+            AddToFeatureServiceSuccessResponseCydAndGene
+          );
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should add a layer definition", done => {
+      fetchMock.once("*", AddToFeatureServiceSuccessResponseCydAndGene);
+
+      addToServiceDefinition(
+        "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
+        {
+          layers: [layerDefinitionSid],
+          ...MOCK_USER_REQOPTS
+        }
+      )
+        .then(response => {
+          // Check service call
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+
+          expect(url).toEqual(
+            "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/addToDefinition"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain(
+            encodeParam(
+              "addToDefinition",
+              JSON.stringify({
+                layers: [layerDefinitionSid]
               })
             )
           );

@@ -93,6 +93,8 @@ export interface IField {
   length?: number;
   /** A Boolean defining whether this field can have a null value. */
   nullable?: boolean;
+  /** The value written in for new records by default. */
+  defaultValue?: any;
 }
 
 /**
