@@ -886,7 +886,7 @@ export interface ILayerDefinition extends IHasZM {
   /** Boolean value indicating whether the validateSQL operation is supported across a feature service layer. */
   supportsValidateSql?: boolean;
   /** A property of the layer definition when there are no types defined; otherwise, templates are defined as properties of the types. */
-  templates?: ITemplate;
+  templates?: ITemplate[];
   /** The time info metadata of the layer. May be set for feature layers inside a feature collection item. */
   timeInfo?: any;
   /** Indicates whether the layerDefinition applies to a Feature Layer or a Table. */
@@ -900,6 +900,7 @@ export interface ILayerDefinition extends IHasZM {
    * The field's values are 0 = do not display, 1 = display.
    */
   visibilityField?: string;
+  relationships?: any[];
 }
 
 export interface ITypeInfoDomain {
