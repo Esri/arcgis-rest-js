@@ -12,6 +12,12 @@ In the [Node.js](/arcgis-rest-js/node/) guide we explained how to instantiate an
 
 ![browser based login](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/images/authorization-screen.png)
 
+
+### Resources
+
+* [Implementing Named User Login](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/)
+* [Browser-based Named User Login](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/browser-based-user-logins/)
+
 ```js
 // register your own app to create a unique clientId
 const clientId = "abc123"
@@ -23,7 +29,11 @@ UserSession.beginOAuth2({
   .then(session)
 ```
 
-After they've signed in the `session` will keep track of individual `trustedServers` that are known to be federated and pass tokens through automatically.
+After the user has logged in, the `session` will keep track of individual `trustedServers` that are known to be federated and pass a token through when making requests.
+
+```js
+request(url, { authentication: session })
+```
 
 ### Demos
 
