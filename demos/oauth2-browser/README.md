@@ -3,6 +3,8 @@
 This demo uses Vanilla JS to implement OAuth2 using
 the `arcgis-rest-js` libraries.
 
+See the ArcGIS Rest JS guide to [Authentication in Browser-based Apps](https://esri.github.io/arcgis-rest-js/guides/browser-authentication/) for more info.
+
 ## Running this demo
 1. Like all the other demo apps, run `npm run bootstrap` in the root directory.
 1. Register a new application using https://developers.arcgis.com/applications/new (you will be prompted to sign in or create a free account first).
