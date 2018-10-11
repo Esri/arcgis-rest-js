@@ -69,6 +69,18 @@ export interface ICreateServiceParams {
    * A JSON object specifying the properties of cross-site scripting prevention.
    */
   xssPreventionInfo?: any;
+  /**
+   * Editor tracking info.
+   */
+  editorTrackingInfo?: {
+    enableEditorTracking?: boolean;
+    enableOwnershipAccessControl?: boolean;
+    allowOthersToUpdate?: boolean;
+    allowOthersToDelete?: boolean;
+    allowOthersToQuery?: boolean;
+    allowAnonymousToUpdate?: boolean;
+    allowAnonymousToDelete?: boolean;
+  };
 }
 
 export interface ICreateServiceRequestOptions extends IItemCrudRequestOptions {

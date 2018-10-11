@@ -901,6 +901,12 @@ export interface ILayerDefinition extends IHasZM {
    */
   visibilityField?: string;
   relationships?: any[];
+  editFieldsInfo?: {
+    creationDateField?: string;
+    creatorField?: string;
+    editDateField?: string;
+    editorField?: string;
+  };
 }
 
 export interface ITypeInfoDomain {
