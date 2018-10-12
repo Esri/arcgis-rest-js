@@ -41,5 +41,5 @@ export interface IItem extends IItemAdd {
   tags: string[];
   created: number;
   modified: number;
-  protected: boolean;
+  protected?: boolean; // not present in search results
 }
