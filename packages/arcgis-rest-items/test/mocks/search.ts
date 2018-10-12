@@ -56,8 +56,7 @@ export const SearchResponse: ISearchResult = {
       numComments: 0,
       numRatings: 0,
       avgRating: 0,
-      numViews: 4,
-      protected: false
+      numViews: 4
     }
   ]
 };
