@@ -2,15 +2,19 @@
  * Apache-2.0 */
 
 import {
+  request,
+  IRequestOptions,
+  appendCustomParams
+} from "@esri/arcgis-rest-request";
+import {
   ISpatialReference,
   IFeatureSet,
   IFeature,
   esriUnits,
   IExtent
 } from "@esri/arcgis-rest-common-types";
-import { request, IRequestOptions } from "@esri/arcgis-rest-request";
+import { ISharedQueryParams } from "./helpers";
 
-import { ISharedQueryParams, appendCustomParams } from "./helpers";
 /**
  * Request options to fetch a feature by id.
  */

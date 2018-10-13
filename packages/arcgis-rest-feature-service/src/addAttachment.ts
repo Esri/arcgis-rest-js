@@ -2,7 +2,6 @@
  * Apache-2.0 */
 
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
-
 import { IEditFeatureResult } from "./helpers";
 
 /**

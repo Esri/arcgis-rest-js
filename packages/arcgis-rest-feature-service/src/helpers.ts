@@ -7,13 +7,6 @@ import {
   IGeometry,
   ISpatialReference
 } from "@esri/arcgis-rest-common-types";
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-
-import { IQueryFeaturesRequestOptions } from "./query";
-import { IAddFeaturesRequestOptions } from "./add";
-import { IUpdateFeaturesRequestOptions } from "./update";
-import { IDeleteFeaturesRequestOptions } from "./delete";
-import { IQueryRelatedRequestOptions } from "./queryRelated";
 
 export interface ISharedQueryParams {
   where?: string;
@@ -49,32 +42,4 @@ export interface IEditFeaturesParams {
    * Optional parameter to specify if the edits should be applied only if all submitted edits succeed.
    */
   rollbackOnFailure?: boolean;
-}
-
-/**
- * Used internally by the package to ensure that first order request options are passed through as request parameters.
- */
-export function appendCustomParams(
-  oldOptions:
-    | IQueryFeaturesRequestOptions
-    | IAddFeaturesRequestOptions
-    | IUpdateFeaturesRequestOptions
-    | IDeleteFeaturesRequestOptions
-    | IQueryRelatedRequestOptions,
-  newOptions: IRequestOptions
-) {
-  // only pass query parameters through in the request, not generic IRequestOptions props
-  Object.keys(oldOptions).forEach(function(key: string) {
-    if (
-      key !== "url" &&
-      key !== "params" &&
-      key !== "authentication" &&
-      key !== "httpMethod" &&
-      key !== "fetch" &&
-      key !== "portal" &&
-      key !== "maxUrlLength"
-    ) {
-      newOptions.params[key] = (oldOptions as { [key: string]: any })[key];
-    }
-  });
 }

@@ -2,14 +2,17 @@
  * Apache-2.0 */
 
 import {
+  request,
+  IRequestOptions,
+  appendCustomParams
+} from "@esri/arcgis-rest-request";
+import {
   ISpatialReference,
   IFeature,
   IHasZM,
   esriGeometryType,
   IField
 } from "@esri/arcgis-rest-common-types";
-import { request, IRequestOptions } from "@esri/arcgis-rest-request";
-import { appendCustomParams } from "./helpers";
 
 /**
  * Related record query request options. Additional arguments can be passed via the [params](/arcgis-rest-js/api/feature-service/IQueryRelatedRequestOptions/#params) property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-feature-service-.htm) for more information and a full list of parameters.
