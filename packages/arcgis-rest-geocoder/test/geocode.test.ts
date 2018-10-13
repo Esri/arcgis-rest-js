@@ -35,6 +35,33 @@ describe("geocode", () => {
       });
   });
 
+  it("should a geocoding request with custom parameters", done => {
+    fetchMock.once("*", FindAddressCandidates);
+
+    geocode({ address: "1600 Pennsylvania Avenue", city: "Washington D.C." })
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
+        );
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain(
+          `address=${encodeURIComponent("1600 Pennsylvania Avenue")}`
+        );
+        expect(options.body).toContain(
+          `city=${encodeURIComponent("Washington D.C.")}`
+        );
+        // the only property this lib tacks on
+        expect(response.spatialReference.wkid).toEqual(4326);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   it("should make a simple, single geocoding request with a custom parameter", done => {
     fetchMock.once("*", FindAddressCandidates);
 

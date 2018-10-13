@@ -49,20 +49,15 @@ export function suggest(
 ): Promise<ISuggestResponse> {
   const options: ISuggestRequestOptions = {
     endpoint: worldGeocoder,
-    params: {},
+    params: { text: partialText },
     ...requestOptions
   };
 
-  // is this the most concise way to mixin these optional parameters?
-  if (requestOptions && requestOptions.params) {
-    options.params = requestOptions.params;
-  }
+  options.params.text = partialText;
 
   if (requestOptions && requestOptions.magicKey) {
     options.params.magicKey = requestOptions.magicKey;
   }
-
-  options.params.text = partialText;
 
   return request(options.endpoint + "suggest", options);
 }

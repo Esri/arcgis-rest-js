@@ -1,7 +1,11 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IParams } from "@esri/arcgis-rest-request";
+import {
+  request,
+  IParams,
+  appendCustomParams
+} from "@esri/arcgis-rest-request";
 
 import {
   IExtent,
@@ -27,6 +31,10 @@ export interface IGeocodeParams extends IParams {
 }
 
 export interface IGeocodeRequestOptions extends IEndpointRequestOptions {
+  /**
+   * use this if all your address info is contained in a single string.
+   */
+  singleLine?: string;
   address?: string;
   address2?: string;
   address3?: string;
@@ -53,25 +61,23 @@ export interface IGeocodeResponse {
 }
 
 /**
- * Used to determine the [location](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-find-address-candidates.htm)  of a single address or point of interest.
+ * Used to determine the location of a single address or point of interest. See the [REST Documentation](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-find-address-candidates.htm) for more information.
  *
  * ```js
  * import { geocode } from '@esri/arcgis-rest-geocoder';
  *
  * geocode("LAX")
  *   .then((response) => {
- *     response.candidates[0].location; // => { x: -118.409, y: 33.943, spatialReference: { wkid: 4326 }  }
+ *     response.candidates[0].location; // => { x: -118.409, y: 33.943, spatialReference: ...  }
  *   });
  *
  * geocode({
- *   params: {
- *     address: "1600 Pennsylvania Ave",
- *     postal: 20500,
- *     countryCode: "USA"
- *   }
+ *   address: "1600 Pennsylvania Ave",
+ *   postal: 20500,
+ *   countryCode: "USA"
  * })
  *   .then((response) => {
- *     response.candidates[0].location; // => { x: -77.036533, y: 38.898719, spatialReference: { wkid: 4326 } }
+ *     response.candidates[0].location; // => { x: -77.036533, y: 38.898719, spatialReference: ... }
  *   });
  * ```
  *
@@ -94,6 +100,8 @@ export function geocode(
       ...options,
       ...address
     };
+
+    appendCustomParams(address, options);
   }
 
   // add spatialReference property to individual matches
