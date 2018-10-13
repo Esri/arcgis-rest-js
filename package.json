@@ -116,9 +116,79 @@
   },
   "contributors": [
     {
+      "name": "Anthony Lukach"
+    },
+    {
+      "name": "Bill Reynolds",
+      "email": "wreynolds@esri.com"
+    },
+    {
+      "name": "City of Veronia GIS"
+    },
+    {
+      "name": "Dave Bouwman",
+      "email": "dbouwman@esri.com"
+    },
+    {
+      "name": "Enguerrand des Vaux"
+    },
+    {
+      "name": "Gavin Rehkemper",
+      "email": "grehkemper@esri.com"
+    },
+    {
+      "name": "Ian Trewella"
+    },
+    {
+      "name": "Idi Eradiri",
+      "email": "ieradiri@esri.com"
+    },
+    {
+      "name": "Jeff Jacobson"
+    },
+    {
+      "name": "John Gravois",
+      "email": "john@esri.com"
+    },
+    {
+      "name": "Junshan Liu",
+      "email": "jliu@esri.com"
+    },
+    {
+      "name": "Max Payson",
+      "email": "mpayson@esri.com"
+    },
+    {
+      "name": "Mike 'Jupe' Juniper",
+      "email": "mjuniper@esri.com"
+    },
+    {
+      "name": "Mike Tschudi",
+      "email": "mtschudi@esri.com"
+    },
+    {
+      "name": "Noah Mulfinger",
+      "email": "nmulfinger@esri.com"
+    },
+    {
       "name": "Patrick Arlt",
       "email": "parlt@esri.com",
       "url": "http://patrickarlt.com/"
+    },
+    {
+      "name": "Richard Hincamp"
+    },
+    {
+      "name": "Steven Kitterman",
+      "email": "skitterman@esri.com"
+    },
+    {
+      "name": "Stephen Sylvia",
+      "email": "ssylvia@esri.com"
+    },
+    {
+      "name": "Tom Wayson",
+      "email": "twayson@esri.com"
     }
   ],
   "license": "Apache-2.0",
