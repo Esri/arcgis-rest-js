@@ -1,11 +1,14 @@
 [![npm version][npm-img]][npm-url]
 [![build status][travis-img]][travis-url]
+[![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/arcgis-rest-js/master/LICENSE)
 
 [npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-geocoder.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-geocoder
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
+[coverage-img]: https://coveralls.io/repos/github/Esri/arcgis-rest-js/badge.svg
+[coverage-url]: https://coveralls.io/github/Esri/arcgis-rest-js
 
 # @esri/arcgis-rest-geocoder
 
