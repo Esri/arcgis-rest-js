@@ -7,6 +7,44 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.13.1] - October 15th 2018
+
+### @esri/arcgis-rest-common-types
+
+* Added
+    * a few new typings for layer definitions [`8bdb30b`](https://github.com/Esri/arcgis-rest-js/commit/8bdb30bbc65ce0bdda6f0976ad631bb2bc987951)
+
+### @esri/arcgis-rest-request
+
+* Changes
+    * added utility method for passing through _lots_ of custom request params that was previously housed in @esri/arcgis-rest-feature-service [`b2a6942`](https://github.com/Esri/arcgis-rest-js/commit/b2a69427eb469adf57367abb2b1ceb168997c14e)
+
+### @esri/arcgis-rest-geocoder
+
+* Fixes
+    * ensure all request options are passed through to `geocode()` [`ad28f27`](https://github.com/Esri/arcgis-rest-js/commit/ad28f27bb855436ca64d75898ac3f1e24cb184a8)
+
+### @esri/arcgis-rest-feature-service-admin
+
+* Fixes
+    * its now possible to update a service definition without pointing at an existing item id [`462af65`](https://github.com/Esri/arcgis-rest-js/commit/462af65be6f458546db2f2c79e345f17016b153d)
+
+
+### @esri/arcgis-rest-demo-vanilla
+
+* Documentation
+   * **oauth2-browser**: make demo directions for creating an application more specific [`d1acf0ad`](https://github.com/Esri/arcgis-rest-js/commit/d1acf0adf7a7d64e269f8b95137227425d215097)
+
+### Other Changes
+
+* Chores
+   * **ci**: only build the master branch when a pull request is submitted [`5a7c82c8`](https://github.com/Esri/arcgis-rest-js/commit/5a7c82c822041ab3cd982df7bc3e7e05fe8065a8)
+   * **docs**: add in missing types library from npm install notes [`67788a56`](https://github.com/Esri/arcgis-rest-js/commit/67788a56f91687679ff550e82ccce90b2461d091)
+   * **docs**: fix suggest docs [`8cd94a02`](https://github.com/Esri/arcgis-rest-js/commit/8cd94a02ed3f855ea98b7915af4bed0bd4e31d79) 🙏deeg🙏
+   * **docs**: more suggest doc fixes [`8abca8fa`](https://github.com/Esri/arcgis-rest-js/commit/8abca8fa71710febea279c06b19a9f6617fb60bf) 🙏deeg🙏
+   * add all our contributors to the repo package.json
+   * make sure our tslint pre-commit hook only runs once.
+
 ## [1.13.0] - October 9th 2018
 
 ### @esri/arcgis-rest-common-types
@@ -817,7 +855,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 Initial Public Release
 
 [1.0.0]: https://github.com/Esri/arcgis-rest-js/compare/265d6aed1856d3ae1ff81f03ce85aba449b01f21...v1.0.0 "v1.0.0"
-[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.2 "v1.0.2"
+[1.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.1 "v1.0.1"
+[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.1...v1.0.2 "v1.0.2"
 [1.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.2...v1.0.3 "v1.0.3"
 [1.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.3...v1.1.0 "v1.1.0"
 [1.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.0...v1.1.1 "v1.1.1"
@@ -839,4 +878,5 @@ Initial Public Release
 [1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.1 "v1.11.1"
 [1.12.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.1...v1.12.0 "v1.12.0"
 [1.13.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.12.0...v1.13.0 "v1.13.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.0...HEAD "Unreleased Changes"
+[1.13.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.0...v1.13.1 "v1.13.1"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.1...HEAD "Unreleased Changes"
