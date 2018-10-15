@@ -12,9 +12,11 @@ export interface ISuggestRequestOptions extends IEndpointRequestOptions {
    * import { suggest, geocode } from '@esri/arcgis-rest-geocoder';
    * suggest("LAX")
    *   .then((response) => {
-   *     response.suggestions[2].magicKey; // =>  "dHA9MCNsb2M9Mjk3ODc2MCNsbmc9MzMjcGw9ODkxNDg4I2xicz0xNDoxNDc4MTI1MA=="
-   *   });
-   * geocode("LAX, 1 World Way, Los Angeles, CA, 90045, USA", {magicKey: "dHA9MCN..."})
+   *     geocode({
+   *       singleLine: response.suggestions[1].text,
+   *       magicKey: response.suggestions[1].magicKey
+   *     })
+   *   })
    * ```
    */
   magicKey?: string;

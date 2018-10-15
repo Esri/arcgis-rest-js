@@ -22,9 +22,11 @@ export interface IGeocodeParams extends IParams {
    * import { suggest, geocode } from '@esri/arcgis-rest-geocoder';
    * suggest("LAX")
    *   .then((response) => {
-   *     response.suggestions[2].magicKey; // =>  "dHA9MCNsb2M9Mjk3ODc2MCNsbmc9MzMjcGw9ODkxNDg4I2xicz0xNDoxNDc4MTI1MA=="
-   *   });
-   * geocode("LAX, 1 World Way, Los Angeles, CA, 90045, USA", {magicKey: "dHA9MCN..."})
+   *     geocode({
+   *       singleLine: response.suggestions[1].text,
+   *       magicKey: response.suggestions[0].magicKey
+   *     })
+   *   })
    * ```
    */
   magicKey?: string;
@@ -77,7 +79,7 @@ export interface IGeocodeResponse {
  *   countryCode: "USA"
  * })
  *   .then((response) => {
- *     response.candidates[0].location; // => { x: -77.036533, y: 38.898719, spatialReference: ... }
+ *     response.candidates[1].location; // => { x: -77.036533, y: 38.898719, spatialReference: ... }
  *   });
  * ```
  *
