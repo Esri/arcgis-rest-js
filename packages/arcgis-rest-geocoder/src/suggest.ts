@@ -49,7 +49,7 @@ export function suggest(
 ): Promise<ISuggestResponse> {
   const options: ISuggestRequestOptions = {
     endpoint: worldGeocoder,
-    params: { text: partialText },
+    params: {},
     ...requestOptions
   };
 
