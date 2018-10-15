@@ -36,7 +36,7 @@ export interface ISuggestResponse {
  *
  * suggest("Starb")
  *   .then((response) => {
- *     response.address.PlaceName; // => "Starbucks"
+ *     response.text; // => "Starbucks"
  *   });
  * ```
  *
