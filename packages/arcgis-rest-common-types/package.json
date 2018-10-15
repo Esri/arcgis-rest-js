@@ -11,7 +11,8 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:esm",
-    "build:esm": "tsc"
+    "build:esm": "tsc",
+    "dev:esm": "tsc -w"
   },
   "publishConfig": {
     "access": "public"

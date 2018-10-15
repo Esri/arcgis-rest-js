@@ -44,9 +44,9 @@
     "prettier": "^1.9.2",
     "resolve": "^1.5.0",
     "rimraf": "^2.6.2",
-    "rollup": "^0.53.4",
+    "rollup": "^0.66.4",
     "rollup-plugin-commonjs": "^8.2.6",
-    "rollup-plugin-filesize": "^1.5.0",
+    "rollup-plugin-filesize": "^5.0.1",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.3",
     "rollup-plugin-typescript2": "^0.4.6",
@@ -108,7 +108,8 @@
     "release:prepare": "lerna publish --skip-git --skip-npm --yes && node ./support/changelog.js",
     "release:review": "git --no-pager diff --word-diff",
     "release:publish": "./support/publish.sh",
-    "c": "git-cz"
+    "c": "git-cz",
+    "dev": "support/dev.sh"
   },
   "repository": {
     "type": "git",
