@@ -14,6 +14,7 @@
 ### Example
 
 ```bash
+npm install @esri/arcgis-rest-common-types
 npm install @esri/arcgis-rest-request
 npm install @esri/arcgis-rest-geocoder
 ```
