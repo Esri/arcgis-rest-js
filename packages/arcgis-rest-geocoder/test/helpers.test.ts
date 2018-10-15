@@ -2,9 +2,7 @@
  * Apache-2.0 */
 
 import { serviceInfo, getGeocodeService } from "../src/helpers";
-
 import * as fetchMock from "fetch-mock";
-
 import { SharingInfo } from "./mocks/responses";
 
 const customGeocoderUrl =

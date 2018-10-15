@@ -11,3 +11,4 @@ export * from "./utils/ErrorTypes";
 export * from "./utils/process-params";
 export * from "./utils/get-portal";
 export * from "./utils/get-portal-url";
+export * from "./utils/append-custom-params";

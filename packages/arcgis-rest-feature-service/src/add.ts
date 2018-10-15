@@ -2,13 +2,12 @@
  * Apache-2.0 */
 
 import { IFeature } from "@esri/arcgis-rest-common-types";
-import { request, IRequestOptions } from "@esri/arcgis-rest-request";
-
 import {
-  IEditFeaturesParams,
-  IEditFeatureResult,
+  request,
+  IRequestOptions,
   appendCustomParams
-} from "./helpers";
+} from "@esri/arcgis-rest-request";
+import { IEditFeaturesParams, IEditFeatureResult } from "./helpers";
 
 /**
  * Add features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-features.htm) for more information.
