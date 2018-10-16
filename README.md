@@ -62,6 +62,7 @@ Some useful commands include:
 * There is also a `Debug Node Tests` configuration in the `.vscode/launch.json` which will run the Node tests in the VS Code debugger.
 * `npm run docs:serve` will run the documentation site locally at http://localhost:3000
 * `npm run build` will created UMD bundles for _all_ the packages
+* `npm run dev -- <esm|node|umd> <glob>` will re-run the specified build type anytime the source code changes. Example: `npm run dev -- umd @esri/*`
 
 ### Packages
 

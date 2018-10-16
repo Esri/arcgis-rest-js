@@ -39,8 +39,26 @@ Using [`npm run c`](https://github.com/Esri/arcgis-rest-js/blob/fd9005fef74c33c6
 
 This isn't mandatory, but it is pretty cool. :sparkles:
 
-### Building the documentation site locally.
+### Building the documentation site locally
 
 We use TypeDoc and acetate to turn the inline documentation into a snazzy website.
 
-* `npm run docs:serve` > http://localhost:3000
+* `npm run docs:serve` > http://localhost:3000/arcgis-rest-js/
+
+### Watching local source for changes
+
+you can run the command below in the root of the repo to automatically recompile when the raw TypeScript source changes
+
+```
+# watch 'request' and rebuild a UMD for the browser
+npm run dev -- umd @esri/arcgis-rest-request
+
+# rebuild ES6 files
+npm run dev -- esm @esri/arcgis-rest-request
+
+# rebuild CommonJS
+npm run dev -- node @esri/arcgis-rest-request
+
+# watch all the packages
+npm run dev -- umd @esri/*
+```
