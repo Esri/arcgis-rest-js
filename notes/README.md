@@ -2,9 +2,9 @@
 
 * Use `npm test` as normal to run all tests.
 * `npm test` will run `lerna run test` which will in turn will execute `npm test` in each package if it exists with the root of the package as the `process.cwd()`
-* Browser based tests are setup to run with Karma as a test runner as Jasmine as teh testing framework. There is a common config that all packages can use in the root folder called `karma.conf.js`.
+* Browser based tests are setup to run with Karma as a test runner as Jasmine as the testing framework. There is a common config that all packages can use in the root folder called `karma.conf.js`.
 * Node tests use the `jasmine` CLI tool. Each package will require a `jasmine.json` to tell jasmine where the test files are for that package. The `jasmine.json` should register the `support/register-tsnode.js` helper so TypeScript files are compiled before the tests execute.
-* Currently the Node tests take quite awhile. I think this is becuase the `ignore` param isn't being respected and thus the entirety of `node_modules` get processed by TypeScript. This needs to happen in ordr to make `lodash-es` work.
+* Currently the Node tests take quite awhile. I think this is becuase the `ignore` param isn't being respected and thus the entirety of `node_modules` get processed by TypeScript. This needs to happen in order to make `lodash-es` work.
 
 # Build
 
@@ -34,7 +34,7 @@ These 4 outputs (2, rollup builds, ES2015 modules and type declarations) are ref
 
 Currently we are bundling Node in order to use `lodash-es` as a utility library which needs to be bundled in.
 
-The ES2015 build also has the references to `form-data` and `url-search-params` removed. Rollup handles ignoring these in the UMD and CJS builds but Typescirpt is not a bundler so these needed to be removed some other way. If we run into issues with sourcemaps this replacement process might need to be replaced by a custom script with [`magic-string`](https://github.com/Rich-Harris/magic-string).
+The ES2015 build also has the references to `form-data` and `url-search-params` removed. Rollup handles ignoring these in the UMD and CJS builds but TypeScript is not a bundler so these needed to be removed some other way. If we run into issues with sourcemaps this replacement process might need to be replaced by a custom script with [`magic-string`](https://github.com/Rich-Harris/magic-string).
 
 # Support files
 
@@ -73,16 +73,16 @@ the last command increments the version in the root package.json, pushes the new
 npm run release:publish
 ```
 
-# Potential improvments
+# Potential improvements
 
 * Finding a decent alternative to `lodash/defaults` without broken typings would be ideal. This forces all kinds of weirdness on us.
 * Figure out why the Node tests take so long (might be becuase of hacks needed for `lodash-es`) `lerna run test:node`
-* Since we are importing `lodash-es` we need to use `karma-typescript-es6-transform` to trasform the ES2015 module syntax into CommonJS. We should look into if this is neccessary at all (i.e. replace `lodash-es`) or think about replacing it with https://github.com/jlmakes/karma-rollup-preprocessor.
+* Since we are importing `lodash-es` we need to use `karma-typescript-es6-transform` to transform the ES2015 module syntax into CommonJS. We should look into if this is necessary at all (i.e. replace `lodash-es`) or think about replacing it with https://github.com/jlmakes/karma-rollup-preprocessor.
 
 # Thoughts
 
 Basic utility libraries are going to be a problem. Most recommendation are to use something like `import defaults = require('lodash/defaults')` because you are importing a common JS module. However if you use this syntax you cannot have Typescript compile ES2015 modules which is goal for us. Not every library publishes itself as ES2015 modules.
 
-We need to make a call on what we bundle into the library (`Promise`, `fetch`) ect... Do we ask people to bring their own polyfills or do we bundle them ourselves for simplicity. If we want to do both it will likly complicate the builds a great deal.
+We need to make a call on what we bundle into the library (`Promise`, `fetch`) ect... Do we ask people to bring their own polyfills or do we bundle them ourselves for simplicity. If we want to do both it will likely complicate the builds a great deal.
 
 
