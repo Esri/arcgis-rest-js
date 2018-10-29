@@ -271,16 +271,16 @@ export function request(
           return response.text();
         case "text":
           return response.text();
-        /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
+        /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust that isomorphic fetch will do its job */
         case "image":
-          return response.blob();
+          return polymorphicBlob(response);
         /* istanbul ignore next */
         case "zip":
-          return response.blob();
+          return polymorphicBlob(response);
         /* istanbul ignore next */
         default:
           // hopefully we never need to handle JSON payloads when no f= parameter is set
-          return response.blob();
+          return polymorphicBlob(response);
       }
     })
     .then(data => {
@@ -290,4 +290,21 @@ export function request(
         return data;
       }
     });
+}
+
+function polymorphicBlob(response: any) {
+  /* istanbul ignore else
+    fetch in the browser includes support for response.blob()
+  */
+  if (typeof window !== "undefined") {
+    return response.blob();
+  } else {
+  /*
+    node-fetch recommends streaming response.body instead
+    https://github.com/bitinn/node-fetch/issues/78
+
+    karma coverage only measures browser tests
+  */
+    return response;
+  }
 }

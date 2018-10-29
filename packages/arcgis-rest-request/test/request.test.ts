@@ -11,6 +11,17 @@ import { ArcGISOnlineError } from "./mocks/errors";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap";
 import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection";
 
+function imageResponse() {
+  if (typeof File !== "undefined" && File) {
+    return new File(["foo"], "foo.png", { type: "image/png" });
+  } else {
+    const fs = require("fs");
+    return fs.createReadStream(
+      "./packages/arcgis-rest-request/test/mocks/foo.png"
+    );
+  }
+}
+
 describe("request()", () => {
   afterEach(fetchMock.restore);
 
@@ -85,6 +96,36 @@ describe("request()", () => {
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=html");
         expect(options.method).toBe("GET");
         expect(response).toEqual(SharingRestInfoHTML);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+  it("should make a basic POST request for binary data", done => {
+    fetchMock.once("*", imageResponse());
+
+    request(
+      "https://server/arcgis/rest/services/Custom/ImageServer/exportImage",
+      {
+        params: {
+          bbox: "-8529110,4764085,-8528610,4764085",
+          bboxSR: "102100",
+          size: "400,400",
+          imageSR: "102100",
+          format: "png8",
+          f: "image"
+        }
+      }
+    )
+      .then(response => {
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://server/arcgis/rest/services/Custom/ImageServer/exportImage"
+        );
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=image");
+        // to do: introspect blob response?
         done();
       })
       .catch(e => {
