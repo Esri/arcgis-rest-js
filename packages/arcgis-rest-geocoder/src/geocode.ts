@@ -57,7 +57,8 @@ export interface IGeocodeResponse {
   candidates: Array<{
     address: string;
     location: IPoint;
-    extent: IExtent;
+    extent?: IExtent;
+    score: number;
     attributes: object;
   }>;
 }
@@ -112,10 +113,12 @@ export function geocode(
       const sr = response.spatialReference;
       response.candidates.forEach(function(candidate: {
         location: IPoint;
-        extent: IExtent;
+        extent?: IExtent;
       }) {
         candidate.location.spatialReference = sr;
-        candidate.extent.spatialReference = sr;
+        if (candidate.extent) {
+          candidate.extent.spatialReference = sr;
+        }
       });
       return response;
     }

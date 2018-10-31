@@ -1,7 +1,9 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-export const FindAddressCandidates = {
+import { IGeocodeResponse } from "../../src/geocode";
+
+export const FindAddressCandidates: IGeocodeResponse = {
   spatialReference: {
     wkid: 4326,
     latestWkid: 4326
@@ -51,6 +53,42 @@ export const FindAddressCandidates = {
         xmax: -83.101539999999986,
         ymax: 31.493250000000064
       }
+    }
+  ]
+};
+
+export const FindAddressCandidatesNullExtent: IGeocodeResponse = {
+  spatialReference: {
+    wkid: 4326,
+    latestWkid: 4326
+  },
+  candidates: [
+    {
+      address: "LAX",
+      location: {
+        x: -118.40896999999995,
+        y: 33.942510000000027
+      },
+      score: 100,
+      attributes: {}
+    },
+    {
+      address: "LAX",
+      location: {
+        x: -118.39223999999996,
+        y: 33.945610000000045
+      },
+      score: 100,
+      attributes: {}
+    },
+    {
+      address: "Lax, Georgia",
+      location: {
+        x: -83.121539999999982,
+        y: 31.473250000000064
+      },
+      score: 100,
+      attributes: {}
     }
   ]
 };
