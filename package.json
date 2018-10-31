@@ -4,8 +4,7 @@
   "description": "Compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.",
   "devDependencies": {
     "@types/es6-promise": "0.0.32",
-    "@types/fetch-mock": "^5.12.2",
-    "@types/isomorphic-fetch": "0.0.34",
+    "@types/fetch-mock": "^6.0.4",
     "@types/jasmine": "^2.8.2",
     "@types/node": "^6.0.95",
     "acetate": "^2.0.0",
@@ -62,8 +61,8 @@
   },
   "dependencies": {
     "es6-promise": "^4.2.1",
-    "isomorphic-fetch": "^2.2.1",
-    "isomorphic-form-data": "^1.0.0",
+    "isomorphic-form-data": "^2.0.0",
+    "isomorphic-unfetch": "^3.0.0",
     "tslib": "^1.8.1"
   },
   "lint-staged": {

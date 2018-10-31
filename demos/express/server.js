@@ -1,4 +1,4 @@
-require("isomorphic-fetch");
+require("isomorphic-unfetch");
 require("isomorphic-form-data");
 const express = require("express");
 const app = express();
@@ -15,12 +15,17 @@ app.get("/authorize", function(req, res) {
 });
 
 app.get("/authenticate", function(req, res) {
-  UserSession.exchangeAuthorizationCode(
-    credentials,
-    req.query.code
-  ).then(session => {
-    res.send(session.token);
-  });
+  if (credentials) {
+    UserSession.exchangeAuthorizationCode(
+      credentials,
+      req.query.code
+    ).then(session => {
+      res.send(session.token);
+    });
+  } else {
+    res.send("please visit http://localhost:3000/authorize");
+  }
+
 });
 
 app.listen(3000, function() {

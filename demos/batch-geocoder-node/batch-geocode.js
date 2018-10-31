@@ -1,6 +1,4 @@
-require('isomorphic-fetch');
-// const customFetch = require('node-fetch');
-
+require('isomorphic-unfetch');
 require('isomorphic-form-data');
 const fs = require('fs');
 const Papa = require('papaparse');
@@ -94,8 +92,7 @@ parseCsv(config.csv)
     const promises = chunks.map(chunk =>
       bulkGeocode({
         addresses: chunk,
-        authentication: session //,
-        // fetch: customFetch
+        authentication: session
       })
     );
 
