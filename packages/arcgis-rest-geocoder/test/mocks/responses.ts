@@ -3,7 +3,7 @@
 
 import { IGeocodeResponse } from "../../src/geocode";
 
-export const FindAddressCandidates : IGeocodeResponse = {
+export const FindAddressCandidates: IGeocodeResponse = {
   spatialReference: {
     wkid: 4326,
     latestWkid: 4326
@@ -57,7 +57,7 @@ export const FindAddressCandidates : IGeocodeResponse = {
   ]
 };
 
-export const FindAddressCandidatesNullExtent : IGeocodeResponse = {
+export const FindAddressCandidatesNullExtent: IGeocodeResponse = {
   spatialReference: {
     wkid: 4326,
     latestWkid: 4326
@@ -70,8 +70,7 @@ export const FindAddressCandidatesNullExtent : IGeocodeResponse = {
         y: 33.942510000000027
       },
       score: 100,
-      attributes: {},
-      extent: null
+      attributes: {}
     },
     {
       address: "LAX",
@@ -80,8 +79,7 @@ export const FindAddressCandidatesNullExtent : IGeocodeResponse = {
         y: 33.945610000000045
       },
       score: 100,
-      attributes: {},
-      extent: null
+      attributes: {}
     },
     {
       address: "Lax, Georgia",
@@ -90,8 +88,7 @@ export const FindAddressCandidatesNullExtent : IGeocodeResponse = {
         y: 31.473250000000064
       },
       score: 100,
-      attributes: {},
-      extent: null
+      attributes: {}
     }
   ]
 };
