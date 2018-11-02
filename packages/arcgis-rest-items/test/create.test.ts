@@ -182,7 +182,7 @@ describe("search", () => {
       const fakeItem = {
         title: "my fake item",
         description: "yep its fake",
-        snipped: "so very fake",
+        snippet: "so very fake",
         type: "Web Mapping Application",
         properties: {
           key: "somevalue"
