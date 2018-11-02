@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.13.2] - November 2nd 2018
+
+### @esri/arcgis-rest-geocoder
+
+* Bug Fixes
+   * **Fixes geocoder issue where it tries to assign a spatial reference to a null extent**: implemented [`bfad9774`](https://github.com/Esri/arcgis-rest-js/commit/bfad9774063c1d5875468136e95f803b4d5dbd65) [#376](https://github.com/Esri/arcgis-rest-js/issues/376)
+
+### @esri/arcgis-rest-groups
+
+* Bug Fixes
+  * Ensure createGroup() succeeds when no input tags are passed
+
+### @esri/arcgis-rest-common-types
+
+* Bug Fixes
+  * Clarify that `access` is a required property of `IGroupAdd`.
+
+### @esri/arcgis-rest-groups
+
+* Ensure createGroup() succeeds when no input tags are passed
+
 ## [1.13.1] - October 15th 2018
 
 ### @esri/arcgis-rest-common-types
@@ -879,4 +900,5 @@ Initial Public Release
 [1.12.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.1...v1.12.0 "v1.12.0"
 [1.13.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.12.0...v1.13.0 "v1.13.0"
 [1.13.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.0...v1.13.1 "v1.13.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.1...HEAD "Unreleased Changes"
+[1.13.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.1...v1.13.2 "v1.13.2"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.2...HEAD "Unreleased Changes"
