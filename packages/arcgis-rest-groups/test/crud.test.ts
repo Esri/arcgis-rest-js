@@ -8,6 +8,7 @@ import { removeGroup } from "../src/remove";
 import { GroupEditResponse } from "./mocks/responses";
 
 import { encodeParam } from "@esri/arcgis-rest-request";
+import { IGroupAdd } from "@esri/arcgis-rest-common-types";
 import * as fetchMock from "fetch-mock";
 
 describe("groups", () => {
@@ -30,8 +31,9 @@ describe("groups", () => {
         title: "fake group",
         owner: "fakeUser",
         tags: ["foo", "bar"],
-        description: "my fake group"
-      };
+        description: "my fake group",
+        access: "public"
+      } as IGroupAdd;
       createGroup({ group: fakeGroup, ...MOCK_REQOPTS })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
