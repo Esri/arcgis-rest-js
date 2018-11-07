@@ -1,4 +1,4 @@
-/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import { request } from "@esri/arcgis-rest-request";
@@ -16,10 +16,10 @@ import {
 } from "./helpers";
 
 export interface ISolveRouteRequestOptions extends IEndpointRequestOptions {
+  /**
+   * Specify two or more locations between which the route is to be found.
+   */
   stops: Array<IPoint | ILocation | [number, number]>;
-  travelMode?: string;
-  barriers?: string[];
-  endpoint?: string;
 }
 
 export interface ISolveRouteResponse {
@@ -79,7 +79,7 @@ function isLocation(
  *   });
  * ```
  *
- * @param address String representing the address or point of interest or RequestOptions to pass to the endpoint.
+ * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with routes and directions for the request.
  */
 export function solveRoute(
@@ -107,7 +107,7 @@ export function solveRoute(
     } else if (isLocation(coords)) {
       if (coords.lat) {
         return coords.long + "," + coords.lat;
-      } else if (coords.latitude) {
+      } else {
         return coords.longitude + "," + coords.latitude;
       }
     } else {
