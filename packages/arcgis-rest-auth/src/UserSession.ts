@@ -580,7 +580,9 @@ export class UserSession implements IAuthenticationManager {
    */
   static fromCredential(credential: ICredential) {
     return new UserSession({
-      portal: credential.server + `/sharing/rest`,
+      portal: credential.server.includes("sharing/rest")
+        ? credential.server
+        : credential.server + `/sharing/rest`,
       ssl: credential.ssl,
       token: credential.token,
       username: credential.userId,
