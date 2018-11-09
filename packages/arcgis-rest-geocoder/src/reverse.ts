@@ -2,24 +2,16 @@
  * Apache-2.0 */
 
 import { request } from "@esri/arcgis-rest-request";
-
 import { IPoint } from "@esri/arcgis-rest-common-types";
 
-import { worldGeocoder, ILocation, IEndpointRequestOptions } from "./helpers";
+import { ILocation, worldGeocoder, IEndpointRequestOptions } from "./helpers";
 
-export interface IReverseGeocodeResponse {
-  address: {
-    [key: string]: any;
-  };
-  location: IPoint;
-}
-
+// to do: remove utility functions and import from arcgis-rest-common at v2
 function isLocationArray(
   coords: ILocation | IPoint | [number, number]
 ): coords is [number, number] {
   return (coords as [number, number]).length === 2;
 }
-
 function isLocation(
   coords: ILocation | IPoint | [number, number]
 ): coords is ILocation {
@@ -27,6 +19,13 @@ function isLocation(
     (coords as ILocation).latitude !== undefined ||
     (coords as ILocation).lat !== undefined
   );
+}
+
+export interface IReverseGeocodeResponse {
+  address: {
+    [key: string]: any;
+  };
+  location: IPoint;
 }
 
 /**

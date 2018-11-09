@@ -1,9 +1,9 @@
 {
-  "name": "@esri/arcgis-rest-routing",
+  "name": "@esri/arcgis-rest-common",
   "version": "1.13.2",
-  "description": "Routing helpers for @esri/arcgis-rest-request",
+  "description": "Shared utility methods and types for @esri/arcgis-rest-js",
   "main": "dist/node/index.js",
-  "browser": "dist/umd/routing.umd.js",
+  "browser": "dist/umd/common.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
@@ -14,16 +14,8 @@
   "dependencies": {
     "tslib": "^1.9.3"
   },
-  "devDependencies": {
-    "@esri/arcgis-rest-auth": "^1.13.2",
-    "@esri/arcgis-rest-common": "^1.13.2",
-    "@esri/arcgis-rest-request": "^1.13.2"
-  },
-  "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^1.13.2",
-    "@esri/arcgis-rest-common": "^1.13.2",
-    "@esri/arcgis-rest-request": "^1.13.2"
-  },
+  "devDependencies": {},
+  "peerDependencies": {},
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:node && npm run build:umd && npm run build:esm",
@@ -42,10 +34,7 @@
     "url": "git+https://github.com/Esri/arcgis-rest-js.git"
   },
   "contributors": [
-    {
-      "name": "Gavin Rehkemper",
-      "email": "gavin@gavinr.com"
-    }
+    "John Gravois <john@esri.com>"
   ],
   "bugs": {
     "url": "https://github.com/Esri/arcgis-rest-js/issues"

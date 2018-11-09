@@ -3,38 +3,24 @@
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/arcgis-rest-js/master/LICENSE)
 
-[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-routing.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-routing
+[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-common.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-common
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
 [coverage-img]: https://coveralls.io/repos/github/Esri/arcgis-rest-js/badge.svg
 [coverage-url]: https://coveralls.io/github/Esri/arcgis-rest-js
 
-# @esri/arcgis-rest-routing
+# @esri/arcgis-rest-common
 
-> Routing helpers for [`@esri/arcgis-rest-request`](https://github.com/Esri/arcgis-rest-js).
+> Shared utility methods and types for [`@esri/arcgis-rest-js`](https://github.com/Esri/arcgis-rest-js).
 
 ### Example
 
 ```bash
-npm install @esri/arcgis-rest-request
 npm install @esri/arcgis-rest-common
-npm install @esri/arcgis-rest-routing
 ```
 
-```js
-solveRoute({
-  stops: [
-    [-117.195677, 34.056383],
-    [-117.918976, 33.812092],
-  ],
-  authentication
-})
-.then(response)
-// {routes: {features: [{attributes: { ... }, geometry:{ ... }}]}}
-```
-
-### [API Reference](https://esri.github.io/arcgis-rest-js/api/routing/)
+### [API Reference](https://esri.github.io/arcgis-rest-js/api/common/)
 
 ### Issues
 

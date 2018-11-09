@@ -4,16 +4,15 @@
 import { request } from "@esri/arcgis-rest-request";
 
 import {
+  ILocation,
   ISpatialReference,
   IPoint,
-  IFeature
-} from "@esri/arcgis-rest-common-types";
+  IFeature,
+  isLocation,
+  isLocationArray
+} from "@esri/arcgis-rest-common";
 
-import {
-  worldRoutingService,
-  ILocation,
-  IEndpointRequestOptions
-} from "./helpers";
+import { worldRoutingService, IEndpointRequestOptions } from "./helpers";
 
 export interface ISolveRouteRequestOptions extends IEndpointRequestOptions {
   /**
@@ -39,21 +38,6 @@ export interface ISolveRouteResponse {
   }>;
 }
 
-function isLocationArray(
-  coords: ILocation | IPoint | [number, number]
-): coords is [number, number] {
-  return (coords as [number, number]).length === 2;
-}
-
-function isLocation(
-  coords: ILocation | IPoint | [number, number]
-): coords is ILocation {
-  return (
-    (coords as ILocation).latitude !== undefined ||
-    (coords as ILocation).lat !== undefined
-  );
-}
-
 /**
  * Used to find the best way to get from one location to another or to visit several locations. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/route-synchronous-service.htm) for more information.
  *
@@ -63,14 +47,8 @@ function isLocation(
  *
  *   solveRoute({
  *      stops: [
- *        {
- *          latitude: 34.056383,
- *          longitude: -117.195677
- *        },
- *        {
- *          latitude: 33.812092,
- *          longitude: -117.918976
- *        }
+ *       [-117.195677, 34.056383],
+ *       [-117.918976, 33.812092],
  *      ],
  *      authentication: session
  *   })
