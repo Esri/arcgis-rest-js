@@ -22,6 +22,8 @@ export const ItemResponse: IItem = {
   },
   created: 123,
   modified: 456,
+  size: 123,
+  numViews: 1337,
   protected: false
 };
 
