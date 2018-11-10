@@ -11,8 +11,12 @@ import {
   IFeatureSet,
   IFeature,
   esriUnits,
-  IExtent
+  IExtent,
+  IField,
+  ILayerDefinition
 } from "@esri/arcgis-rest-common-types";
+
+import { getFeatureService } from "./getFeatureService";
 import { ISharedQueryParams } from "./helpers";
 
 /**
@@ -88,6 +92,11 @@ export interface IQueryFeaturesRequestOptions
   returnTrueCurves?: false;
   sqlFormat?: "none" | "standard" | "native";
   returnExceededLimitFeatures?: boolean;
+  // if fields false, skip metadata check, dont massage query response
+  // if fields populated, skip metadata check, make cvds and dates readable in response
+  // if fields true, fetch metadata and make cvds and dates readable
+  // if fields missing, fetch metadata and make cvds and dates readable
+  fields?: any;
 }
 
 export interface IQueryFeaturesResponse extends IFeatureSet {
@@ -143,7 +152,7 @@ export function getFeature(
  *
  * queryFeatures({
  *   url,
- *   where: "STATE_NAME = 'Alaska"
+ *   where: "STATE_NAME = 'Alaska'"
  * }).then(result => {
  *   console.log(result.features); // array of features
  * });
@@ -155,22 +164,118 @@ export function getFeature(
 export function queryFeatures(
   requestOptions: IQueryFeaturesRequestOptions
 ): Promise<IQueryFeaturesResponse | IQueryResponse> {
-  // default to a GET request
-  const options: IQueryFeaturesRequestOptions = {
+  if (
+    typeof requestOptions.fields === "undefined" ||
+    (typeof requestOptions.fields === "boolean" && requestOptions.fields)
+  ) {
+    // ensure custom fetch and authentication are passed through
+    const metadataOptions: IRequestOptions = {
+      httpMethod: "GET",
+      authentication: requestOptions.authentication || null,
+      fetch: requestOptions.fetch || null
+    };
+    // fetch metadata to retrieve information about coded value domains
+    return getFeatureService(requestOptions.url, metadataOptions).then(
+      (metadata: ILayerDefinition) => {
+        requestOptions.fields = metadata.fields;
+        return _queryFeatures(requestOptions);
+      }
+    );
+  } else {
+    return _queryFeatures(requestOptions);
+  }
+}
+
+function _queryFeatures(
+  requestOptions: IQueryFeaturesRequestOptions
+): Promise<IQueryFeaturesResponse | IQueryResponse> {
+  const queryOptions: IQueryFeaturesRequestOptions = {
     params: {},
     httpMethod: "GET",
     url: requestOptions.url,
+    fields: false,
     ...requestOptions
   };
 
-  appendCustomParams(requestOptions, options);
+  appendCustomParams(requestOptions, queryOptions);
 
   // set default query parameters
-  if (!options.params.where) {
-    options.params.where = "1=1";
+  if (!queryOptions.params.where) {
+    queryOptions.params.where = "1=1";
   }
-  if (!options.params.outFields) {
-    options.params.outFields = "*";
+  if (!queryOptions.params.outFields) {
+    queryOptions.params.outFields = "*";
   }
-  return request(`${options.url}/query`, options);
+
+  if (!requestOptions.fields) {
+    return request(`${queryOptions.url}/query`, queryOptions);
+  } else {
+    // turn the fields array into a POJO to avoid multiple calls to Array.find()
+    const fieldsObject: any = {};
+    queryOptions.fields.forEach((field: IField) => {
+      fieldsObject[field.name] = field;
+    });
+
+    return request(`${queryOptions.url}/query`, queryOptions).then(response => {
+      response.features.forEach((feature: IFeature) => {
+        for (const key in feature.attributes) {
+          if (!feature.attributes.hasOwnProperty(key)) continue;
+          feature.attributes[key] = convertAttribute(
+            feature.attributes,
+            fieldsObject[key]
+          );
+        }
+      });
+      return response;
+    });
+  }
+}
+
+/**
+ * ripped off from https://github.com/GeoXForm/esri-to-geojson/blob/55d32955d8ef0acb26de70025539e7c7a37d838e/src/index.js#L193-L220
+ *
+ * Decodes an attributes CVD and standardizes any date fields
+ *
+ * @params {object} attribute - a single esri feature attribute
+ * @params {object} field - the field metadata describing that attribute
+ * @returns {object} outAttribute - the converted attribute
+ * @private
+ */
+
+function convertAttribute(attribute: any, field: IField) {
+  const inValue = attribute[field.name];
+  let value;
+
+  if (inValue === null) return inValue;
+
+  if (field.domain && field.domain.type === "codedValue") {
+    value = cvd(inValue, field);
+  } else if (field.type === "esriFieldTypeDate") {
+    try {
+      value = new Date(inValue).toISOString();
+    } catch (e) {
+      value = inValue;
+    }
+  } else {
+    value = inValue;
+  }
+  return value;
+}
+
+/**
+ * also ripped off from https://github.com/GeoXForm/esri-to-geojson/blob/55d32955d8ef0acb26de70025539e7c7a37d838e/src/index.js#L222-L235
+ *
+ * Looks up a value from a coded domain
+ *
+ * @params {integer} value - The original field value
+ * @params {object} field - metadata describing the attribute field
+ * @returns {string/integerfloat} - The decoded field value
+ * @private
+ */
+
+function cvd(value: any, field: IField) {
+  const domain = field.domain.codedValues.find((d: any) => {
+    return value === d.code;
+  });
+  return domain ? domain.name : value;
 }

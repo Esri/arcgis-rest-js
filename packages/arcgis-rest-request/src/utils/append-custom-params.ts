@@ -20,7 +20,8 @@ export function appendCustomParams(
       key !== "fetch" &&
       key !== "portal" &&
       key !== "maxUrlLength" &&
-      key !== "endpoint"
+      key !== "endpoint" &&
+      key !== "fields"
     ) {
       newOptions.params[key] = (oldOptions as { [key: string]: any })[key];
     }

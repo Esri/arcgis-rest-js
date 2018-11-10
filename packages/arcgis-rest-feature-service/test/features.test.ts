@@ -52,7 +52,8 @@ describe("feature", () => {
 
   it("should supply default query parameters", done => {
     const requestOptions = {
-      url: serviceUrl
+      url: serviceUrl,
+      fields: false
     };
     fetchMock.once("*", queryResponse);
     queryFeatures(requestOptions)
@@ -74,7 +75,8 @@ describe("feature", () => {
     const requestOptions = {
       url: serviceUrl,
       where: "Condition='Poor'",
-      outFields: ["FID", "Tree_ID", "Cmn_Name", "Condition"]
+      outFields: ["FID", "Tree_ID", "Cmn_Name", "Condition"],
+      fields: false
     };
     fetchMock.once("*", queryResponse);
     queryFeatures(requestOptions)
