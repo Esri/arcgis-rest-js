@@ -21,7 +21,7 @@ export function appendCustomParams(
       key !== "portal" &&
       key !== "maxUrlLength" &&
       key !== "endpoint" &&
-      key !== "fields"
+      key !== "formatCodedValues"
     ) {
       newOptions.params[key] = (oldOptions as { [key: string]: any })[key];
     }
