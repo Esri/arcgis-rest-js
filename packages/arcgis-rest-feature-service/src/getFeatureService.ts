@@ -1,10 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  IRequestOptions
-} from "@esri/arcgis-rest-request";
+import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 
 import { ILayerDefinition } from "@esri/arcgis-rest-common-types";
 
@@ -25,7 +22,7 @@ import { ILayerDefinition } from "@esri/arcgis-rest-common-types";
  */
 export function getFeatureService(
   url: string,
-  requestOptions: IRequestOptions
+  requestOptions?: IRequestOptions
 ): Promise<ILayerDefinition> {
   return request(url, requestOptions);
 }
