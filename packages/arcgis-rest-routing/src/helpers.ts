@@ -7,13 +7,6 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 export const worldRoutingService =
   "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/";
 
-export interface ILocation {
-  latitude?: number;
-  longitude?: number;
-  lat?: number;
-  long?: number;
-}
-
 // nice to have: verify custom endpoints contain 'NAServer' and end in a '/'
 export interface IEndpointRequestOptions extends IRequestOptions {
   /**
