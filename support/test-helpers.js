@@ -1,4 +1,4 @@
-require("isomorphic-unfetch");
+require("isomorphic-fetch");
 require("isomorphic-form-data");
 
 require("ts-node").register({

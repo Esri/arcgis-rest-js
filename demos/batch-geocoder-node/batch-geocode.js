@@ -1,4 +1,4 @@
-require('isomorphic-unfetch');
+require('isomorphic-fetch');
 require('isomorphic-form-data');
 const fs = require('fs');
 const Papa = require('papaparse');

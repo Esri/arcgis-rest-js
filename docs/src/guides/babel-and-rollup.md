@@ -8,16 +8,16 @@ group: 1-get-started
 
 # Get Started with Babel and Rollup
 
-ArcGIS REST JS is ready-to-use with popular module bundlers like [webpack](https://webpack.js.org/) and [rollup](https://rollupjs.org/). Make sure you also install the polyfills for [`fetch`](https://github.com/developit/unfetch/tree/master/packages/isomorphic-unfetch) and [`Promise`](https://github.com/stefanpenner/es6-promise). You can find `npm install` commands for all packages in the [API reference](../../api).
+ArcGIS REST JS is ready-to-use with popular module bundlers like [webpack](https://webpack.js.org/) and [rollup](https://rollupjs.org/). Make sure you also install the polyfills for [`fetch`](https://github.com/matthew-andrews/isomorphic-fetch) and [`Promise`](https://github.com/stefanpenner/es6-promise). You can find `npm install` commands for all packages in the [API reference](../../api).
 
 ```bash
 npm install @esri/arcgis-rest-request isomorphic-unfetch es6-promise
 ```
 
-Import the `isomorphic-unfetch` and `es6-promise` polyfills before using ArcGIS REST JS.
+Import the `isomorphic-fetch` and `es6-promise` polyfills before using ArcGIS REST JS.
 
 ```js
-import "isomorphic-unfetch";
+import "isomorphic-fetch";
 import "es6-promise";
 
 import { request } from "@esri/arcgis-rest-request";
