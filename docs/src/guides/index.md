@@ -46,7 +46,7 @@ ArcGIS REST JS is supported in Node.js 6.x and 8.x. It requires additional packa
 
 We recommend the ones below:
 
-* [`isomorphic-fetch`](https://github.com/matthew-andrews/isomorphic-fetch) - to polyfill `Fetch`
+* [`isomorphic-fetch`](https://www.npmjs.com/package/isomorphic-fetch) - to polyfill `Fetch`
 * [`isomorphic-form-data`](https://github.com/form-data/isomorphic-form-data) - to polyfill `FormData`
 
 Other versions of Node.js may also work with appropriate polyfills but we cannot guarantee support.

@@ -11,7 +11,7 @@ group: 1-get-started
 ArcGIS REST JS is ready-to-use with popular module bundlers like [webpack](https://webpack.js.org/) and [rollup](https://rollupjs.org/). Make sure you also install the polyfills for [`fetch`](https://github.com/matthew-andrews/isomorphic-fetch) and [`Promise`](https://github.com/stefanpenner/es6-promise). You can find `npm install` commands for all packages in the [API reference](../../api).
 
 ```bash
-npm install @esri/arcgis-rest-request isomorphic-unfetch es6-promise
+npm install @esri/arcgis-rest-request isomorphic-fetch es6-promise
 ```
 
 Import the `isomorphic-fetch` and `es6-promise` polyfills before using ArcGIS REST JS.

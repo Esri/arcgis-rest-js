@@ -61,8 +61,8 @@
   },
   "dependencies": {
     "es6-promise": "^4.2.1",
-    "isomorphic-form-data": "^2.0.0",
     "isomorphic-fetch": "^2.2.1",
+    "isomorphic-form-data": "^2.0.0",
     "tslib": "^1.8.1"
   },
   "lint-staged": {
