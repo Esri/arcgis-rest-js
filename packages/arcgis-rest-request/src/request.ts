@@ -242,8 +242,11 @@ export function request(
       }
 
       /* istanbul ignore else blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
+      fetchOptions.headers = {};
+      if (typeof window === "undefined") {
+        fetchOptions.headers["referer"] = "@esri.arcgis-rest-auth";
+      }  
       if (!requiresFormData(params)) {
-        fetchOptions.headers = {};
         fetchOptions.headers["Content-Type"] =
           "application/x-www-form-urlencoded";
       }
