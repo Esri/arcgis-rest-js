@@ -241,11 +241,14 @@ export function request(
         fetchOptions.body = encodeFormData(params);
       }
 
-      /* istanbul ignore else blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
       fetchOptions.headers = {};
+
+      /* istanbul ignore next - karma reports coverage on browser tests only */
       if (typeof window === "undefined") {
-        fetchOptions.headers["referer"] = "@esri.arcgis-rest-auth";
-      }  
+        fetchOptions.headers["referer"] = "@esri/arcgis-rest";
+      }
+
+      /* istanbul ignore else blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
       if (!requiresFormData(params)) {
         fetchOptions.headers["Content-Type"] =
           "application/x-www-form-urlencoded";
