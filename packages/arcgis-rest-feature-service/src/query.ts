@@ -94,7 +94,7 @@ export interface IQueryFeaturesRequestOptions
    *
    * If 'true' the query will be preceded by a metadata check to gather info about coded value domains and result values will be decoded. If a fieldset is provided it will be used to decode values and no internal metadata request will be issued.
    */
-  // formatCodedValues?: boolean | IField[];
+  // decodeValues?: boolean | IField[];
 }
 
 export interface IQueryFeaturesResponse extends IFeatureSet {

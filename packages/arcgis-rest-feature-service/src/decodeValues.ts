@@ -13,7 +13,7 @@ import { getFeatureService } from "./getFeatureService";
 /**
  * Request options to fetch a feature by id.
  */
-export interface IFormatCodedValuesRequestOptions extends IRequestOptions {
+export interface IDecodeValuesRequestOptions extends IRequestOptions {
   /**
    * Layer service url.
    */
@@ -51,7 +51,7 @@ export interface IFormatCodedValuesRequestOptions extends IRequestOptions {
  *
  * queryFeatures({ url })
  *   .then(queryResponse => {
- *     formatCodedValues({
+ *     decodeValues({
  *       url,
  *       queryResponse
  *     })
@@ -62,8 +62,8 @@ export interface IFormatCodedValuesRequestOptions extends IRequestOptions {
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the addFeatures response.
  */
-export function formatCodedValues(
-  requestOptions: IFormatCodedValuesRequestOptions
+export function decodeValues(
+  requestOptions: IDecodeValuesRequestOptions
 ): Promise<IQueryFeaturesResponse> {
   return new Promise(resolve => {
     if (!requestOptions.fields) {

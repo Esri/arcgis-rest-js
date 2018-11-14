@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { formatCodedValues } from "../src/formatCodedValues";
+import { decodeValues } from "../src/decodeValues";
 
 import * as fetchMock from "fetch-mock";
 
@@ -19,7 +19,7 @@ describe("formatCodedValues()", () => {
   afterEach(fetchMock.restore);
 
   it("should format the cvd codes in a raw response", done => {
-    formatCodedValues({
+    decodeValues({
       url: serviceUrl,
       fields: serviceFields,
       queryResponse: cvdQueryResponse
@@ -36,7 +36,7 @@ describe("formatCodedValues()", () => {
   it("should fetch metadata and then format cvd codes in a raw response", done => {
     fetchMock.once("*", getFeatureServiceResponse);
 
-    formatCodedValues({
+    decodeValues({
       url: serviceUrl,
       queryResponse: cvdQueryResponse
     })
