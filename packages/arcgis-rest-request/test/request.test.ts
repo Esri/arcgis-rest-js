@@ -340,4 +340,28 @@ describe("request()", () => {
         });
     });
   });
+
+  if (typeof window === "undefined") {
+    it("should tack on a generic referer header in Node.js only", done => {
+      fetchMock.once("*", WebMapAsJSON);
+
+      request("https://www.arcgis.com/sharing/rest/content/items/43a/data")
+        .then(() => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://www.arcgis.com/sharing/rest/content/items/43a/data"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.headers).toEqual({
+            referer: "@esri/arcgis-rest",
+            "Content-Type": "application/x-www-form-urlencoded"
+          });
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+  }
 });

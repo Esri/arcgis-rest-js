@@ -8,6 +8,7 @@ import { removeGroup } from "../src/remove";
 import { GroupEditResponse } from "./mocks/responses";
 
 import { encodeParam } from "@esri/arcgis-rest-request";
+import { IGroupAdd } from "@esri/arcgis-rest-common-types";
 import * as fetchMock from "fetch-mock";
 
 describe("groups", () => {
@@ -30,8 +31,9 @@ describe("groups", () => {
         title: "fake group",
         owner: "fakeUser",
         tags: ["foo", "bar"],
-        description: "my fake group"
-      };
+        description: "my fake group",
+        access: "public"
+      } as IGroupAdd;
       createGroup({ group: fakeGroup, ...MOCK_REQOPTS })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
@@ -45,6 +47,34 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("owner", "fakeUser"));
           // ensure the array props are serialized into strings
           expect(options.body).toContain(encodeParam("tags", "foo, bar"));
+          expect(options.body).toContain(encodeParam("access", "public"));
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should create a group without an owner or tags", done => {
+      fetchMock.once("*", GroupEditResponse);
+      const fakeGroup = {
+        title: "bone stock fake group",
+        access: "org"
+      } as IGroupAdd;
+      createGroup({ group: fakeGroup, ...MOCK_REQOPTS })
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/community/createGroup"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain(
+            encodeParam("title", "bone stock fake group")
+          );
+          expect(options.body).toContain(encodeParam("access", "org"));
           done();
         })
         .catch(e => {

@@ -1,45 +1,12 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { checkForErrors } from "./utils/check-for-errors";
 import { encodeFormData } from "./utils/encode-form-data";
 import { encodeQueryString } from "./utils/encode-query-string";
 import { requiresFormData } from "./utils/process-params";
 import { ArcGISRequestError } from "./utils/ArcGISRequestError";
-
-export type GrantTypes =
-  | "authorization_code"
-  | "refresh_token"
-  | "client_credentials"
-  | "exchange_refresh_token";
-
-export interface IParams {
-  f?: ResponseFormats;
-  [key: string]: any;
-}
-
-export interface IGenerateTokenParams extends IParams {
-  username?: string;
-  password?: string;
-  expiration?: number;
-  token?: string;
-  serverUrl?: string;
-}
-
-export interface IFetchTokenParams extends IParams {
-  client_id: string;
-  client_secret?: string;
-  grant_type: GrantTypes;
-  redirect_uri?: string;
-  refresh_token?: string;
-  code?: string;
-}
-
-export interface ITokenRequestOptions {
-  params?: IGenerateTokenParams | IFetchTokenParams;
-  httpMethod?: HTTPMethods;
-  fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
-}
+import { IRetryAuthError } from "./utils/retryAuthError";
+import { HTTPMethods, IParams, ITokenRequestOptions } from "./utils/params";
 
 /**
  * Authentication can be supplied to `request` via [`UserSession`](../../auth/UserSession/) or [`ApplicationSession`](../../auth/ApplicationSession/). Both classes extend `IAuthenticationManager`.
@@ -61,22 +28,6 @@ export interface IAuthenticationManager {
   portal: string;
   getToken(url: string, requestOptions?: ITokenRequestOptions): Promise<string>;
 }
-
-/**
- * HTTP methods used by the ArcGIS REST API.
- */
-export type HTTPMethods = "GET" | "POST";
-
-/**
- * Valid response formats for the `f` parameter.
- */
-export type ResponseFormats =
-  | "json"
-  | "geojson"
-  | "text"
-  | "html"
-  | "image"
-  | "zip";
 
 /**
  * Options for the `request()` method.
@@ -241,9 +192,15 @@ export function request(
         fetchOptions.body = encodeFormData(params);
       }
 
+      fetchOptions.headers = {};
+
+      /* istanbul ignore next - karma reports coverage on browser tests only */
+      if (typeof window === "undefined") {
+        fetchOptions.headers["referer"] = "@esri/arcgis-rest";
+      }
+
       /* istanbul ignore else blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
       if (!requiresFormData(params)) {
-        fetchOptions.headers = {};
         fetchOptions.headers["Content-Type"] =
           "application/x-www-form-urlencoded";
       }
@@ -290,4 +247,112 @@ export function request(
         return data;
       }
     });
+}
+
+export class ArcGISAuthError extends ArcGISRequestError {
+  /**
+   * Create a new `ArcGISAuthError`  object.
+   *
+   * @param message - The error message from the API
+   * @param code - The error code from the API
+   * @param response - The original response from the API that caused the error
+   * @param url - The original url of the request
+   * @param options - The original options of the request
+   */
+  constructor(
+    message = "AUTHENTICATION_ERROR",
+    code: string | number = "AUTHENTICATION_ERROR_CODE",
+    response?: any,
+    url?: string,
+    options?: IRequestOptions
+  ) {
+    super(message, code, response, url, options);
+    this.name = "ArcGISAuthError";
+    this.message =
+      code === "AUTHENTICATION_ERROR_CODE" ? message : `${code}: ${message}`;
+  }
+
+  retry(getSession: IRetryAuthError, retryLimit = 3) {
+    let tries = 0;
+
+    const retryRequest = (resolve: any, reject: any) => {
+      getSession(this.url, this.options)
+        .then(session => {
+          const newOptions = {
+            ...this.options,
+            ...{ authentication: session }
+          };
+
+          tries = tries + 1;
+          return request(this.url, newOptions);
+        })
+        .then(response => {
+          resolve(response);
+        })
+        .catch(e => {
+          if (e.name === "ArcGISAuthError" && tries < retryLimit) {
+            retryRequest(resolve, reject);
+          } else if (e.name === "ArcGISAuthError" && tries >= retryLimit) {
+            reject(this);
+          } else {
+            reject(e);
+          }
+        });
+    };
+
+    return new Promise((resolve, reject) => {
+      retryRequest(resolve, reject);
+    });
+  }
+}
+
+/**
+ * Checks for errors in a JSON response from the ArcGIS REST API. If there are no errors, it will return the `data` passed in. If there is an error, it will throw an `ArcGISRequestError` or `ArcGISAuthError`.
+ *
+ * @param data The response JSON to check for errors.
+ * @param url The url of the original request
+ * @param params The parameters of the original request
+ * @param options The options of the original request
+ * @returns The data that was passed in the `data` parameter
+ */
+export function checkForErrors(
+  response: any,
+  url?: string,
+  params?: IParams,
+  options?: IRequestOptions
+): any {
+  // this is an error message from billing.arcgis.com backend
+  if (response.code >= 400) {
+    const { message, code } = response;
+    throw new ArcGISRequestError(message, code, response, url, options);
+  }
+
+  // error from ArcGIS Online or an ArcGIS Portal or server instance.
+  if (response.error) {
+    const { message, code, messageCode } = response.error;
+    const errorCode = messageCode || code || "UNKNOWN_ERROR_CODE";
+
+    if (code === 498 || code === 499 || messageCode === "GWM_0003") {
+      throw new ArcGISAuthError(message, errorCode, response, url, options);
+    }
+
+    throw new ArcGISRequestError(message, errorCode, response, url, options);
+  }
+
+  // error from a status check
+  if (response.status === "failed" || response.status === "failure") {
+    let message: string;
+    let code: string = "UNKNOWN_ERROR_CODE";
+
+    try {
+      message = JSON.parse(response.statusMessage).message;
+      code = JSON.parse(response.statusMessage).code;
+    } catch (e) {
+      message = response.statusMessage || response.message;
+    }
+
+    throw new ArcGISRequestError(message, code, response, url, options);
+  }
+
+  return response;
 }

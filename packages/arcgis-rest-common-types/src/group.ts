@@ -9,10 +9,10 @@ export type GroupMembership = "owner" | "admin" | "member" | "nonmember";
  */
 export interface IGroupAdd {
   title: string;
+  access: "private" | "org" | "public";
   owner?: string;
   tags?: string[];
   description?: string;
-  access?: "private" | "org" | "public";
   phone?: string;
   sortField?:
     | "title"

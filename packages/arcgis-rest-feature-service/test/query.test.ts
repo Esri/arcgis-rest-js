@@ -4,12 +4,8 @@
 import {
   getFeature,
   queryFeatures,
-  addFeatures,
-  updateFeatures,
-  deleteFeatures,
   queryRelated,
-  IDeleteFeaturesRequestOptions,
-  IUpdateFeaturesRequestOptions,
+  IQueryFeaturesRequestOptions,
   IQueryRelatedRequestOptions
 } from "../src/index";
 
@@ -18,16 +14,13 @@ import * as fetchMock from "fetch-mock";
 import {
   featureResponse,
   queryResponse,
-  addFeaturesResponse,
-  updateFeaturesResponse,
-  deleteFeaturesResponse,
   queryRelatedResponse
 } from "./mocks/feature";
 
 const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
 
-describe("feature", () => {
+describe("getFeature() and queryFeatures()", () => {
   afterEach(fetchMock.restore);
 
   it("should return a feature by id", done => {
@@ -51,7 +44,7 @@ describe("feature", () => {
   });
 
   it("should supply default query parameters", done => {
-    const requestOptions = {
+    const requestOptions: IQueryFeaturesRequestOptions = {
       url: serviceUrl
     };
     fetchMock.once("*", queryResponse);
@@ -71,7 +64,7 @@ describe("feature", () => {
   });
 
   it("should use passed in query parameters", done => {
-    const requestOptions = {
+    const requestOptions: IQueryFeaturesRequestOptions = {
       url: serviceUrl,
       where: "Condition='Poor'",
       outFields: ["FID", "Tree_ID", "Cmn_Name", "Condition"]
@@ -95,113 +88,8 @@ describe("feature", () => {
       });
   });
 
-  it("should return objectId of the added feature and a truthy success", done => {
-    const requestOptions = {
-      url: serviceUrl,
-      adds: [
-        {
-          geometry: {
-            x: -9177311.62541634,
-            y: 4247151.205222242,
-            spatialReference: {
-              wkid: 102100,
-              latestWkid: 3857
-            }
-          },
-          attributes: {
-            Tree_ID: 102,
-            Collected: 1349395200000,
-            Crew: "Linden+ Forrest+ Johnny"
-          }
-        }
-      ]
-    };
-    fetchMock.once("*", addFeaturesResponse);
-    addFeatures(requestOptions)
-      .then(response => {
-        expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-        expect(url).toEqual(`${requestOptions.url}/addFeatures`);
-        expect(options.body).toContain(
-          "features=" +
-            encodeURIComponent(
-              '[{"geometry":{"x":-9177311.62541634,"y":4247151.205222242,"spatialReference":{"wkid":102100,"latestWkid":3857}},"attributes":{"Tree_ID":102,"Collected":1349395200000,"Crew":"Linden+ Forrest+ Johnny"}}]'
-            )
-        );
-        expect(options.method).toBe("POST");
-        expect(response.addResults[0].objectId).toEqual(1001);
-        expect(response.addResults[0].success).toEqual(true);
-        done();
-      })
-      .catch(e => {
-        fail(e);
-      });
-  });
-
-  it("should return objectId of the updated feature and a truthy success", done => {
-    const requestOptions = {
-      url: serviceUrl,
-      updates: [
-        {
-          attributes: {
-            OBJECTID: 1001,
-            Street: "NO",
-            Native: "YES"
-          }
-        }
-      ],
-      rollbackOnFailure: false
-    } as IUpdateFeaturesRequestOptions;
-    fetchMock.once("*", updateFeaturesResponse);
-    updateFeatures(requestOptions)
-      .then(response => {
-        expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-        expect(url).toEqual(`${requestOptions.url}/updateFeatures`);
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain(
-          "features=" +
-            encodeURIComponent(
-              '[{"attributes":{"OBJECTID":1001,"Street":"NO","Native":"YES"}}]'
-            )
-        );
-        expect(options.body).toContain("rollbackOnFailure=false");
-        expect(response.updateResults[0].success).toEqual(true);
-        done();
-      })
-      .catch(e => {
-        fail(e);
-      });
-  });
-
-  it("should return objectId of the deleted feature and a truthy success", done => {
-    const requestOptions = {
-      url: serviceUrl,
-      deletes: [1001],
-      where: "1=1"
-    } as IDeleteFeaturesRequestOptions;
-    fetchMock.once("*", deleteFeaturesResponse);
-    deleteFeatures(requestOptions)
-      .then(response => {
-        expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-        expect(url).toEqual(`${requestOptions.url}/deleteFeatures`);
-        expect(options.body).toContain("objectIds=1001");
-        expect(options.body).toContain("where=1%3D1");
-        expect(options.method).toBe("POST");
-        expect(response.deleteResults[0].objectId).toEqual(
-          requestOptions.deletes[0]
-        );
-        expect(response.deleteResults[0].success).toEqual(true);
-        done();
-      })
-      .catch(e => {
-        fail(e);
-      });
-  });
-
   it("should supply default query related parameters", done => {
-    const requestOptions = {
+    const requestOptions: IQueryRelatedRequestOptions = {
       url: serviceUrl
     };
     fetchMock.once("*", queryRelatedResponse);
@@ -223,13 +111,13 @@ describe("feature", () => {
   });
 
   it("should use passed in query related parameters", done => {
-    const requestOptions = {
+    const requestOptions: IQueryRelatedRequestOptions = {
       url: serviceUrl,
       relationshipId: 1,
       definitionExpression: "APPROXACRE<10000",
       outFields: ["APPROXACRE", "FIELD_NAME"],
       httpMethod: "POST"
-    } as IQueryRelatedRequestOptions;
+    };
     fetchMock.once("*", queryRelatedResponse);
     queryRelated(requestOptions)
       .then(() => {

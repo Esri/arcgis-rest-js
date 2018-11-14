@@ -850,7 +850,7 @@ export interface ILayerDefinition extends IHasZM {
     | "esriServerHTMLPopupTypeAsHTMLText";
 
   /** The identifier assigned to the layer. */
-  id?: string;
+  id?: number;
   /** Boolean value indicating whether the data is versioned. */
   isDataVersioned?: boolean;
   /** Numeric value indicating tbe maximum number of records that will be returned at once for a query. */
@@ -907,6 +907,34 @@ export interface ILayerDefinition extends IHasZM {
     editDateField?: string;
     editorField?: string;
   };
+  parentLayerId?: number;
+  ownershipBasedAccessControlForFeatures?: boolean;
+  syncCanReturnChanges?: boolean;
+  archivingInfo?: {
+    supportsQueryWithHistoricMoment?: boolean;
+    startArchivingMoment?: number;
+  };
+  supportsValidateSQL?: boolean;
+  advancedQueryCapabilities?: {
+    supportsPagination?: boolean;
+    supportsTrueCurve?: boolean;
+    supportsQueryWithDistance?: boolean;
+    supportsReturningQueryExtent?: boolean;
+    supportsStatistics?: boolean;
+    supportsOrderBy?: boolean;
+    supportsDistinct?: boolean;
+    supportsSqlExpression?: boolean;
+  };
+  allowTrueCurvesUpdates?: boolean;
+  onlyAllowTrueCurveUpdatesByTrueCurveClients?: boolean;
+  supportsApplyEditsWithGlobalIds?: boolean;
+  subtypeField?: string;
+  indexes?: any[];
+  dateFieldsTimeReference?: {
+    timeZone?: string;
+    respectsDaylightSaving?: boolean;
+  };
+  useStandardizedQueries?: boolean;
 }
 
 export interface ITypeInfoDomain {

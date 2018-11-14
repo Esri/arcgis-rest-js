@@ -5,7 +5,10 @@ import { geocode } from "../src/geocode";
 
 import * as fetchMock from "fetch-mock";
 
-import { FindAddressCandidates } from "./mocks/responses";
+import {
+  FindAddressCandidates,
+  FindAddressCandidatesNullExtent
+} from "./mocks/responses";
 
 const customGeocoderUrl =
   "https://foo.com/arcgis/rest/services/Custom/GeocodeServer/";
@@ -139,6 +142,31 @@ describe("geocode", () => {
         expect(options.method).toBe("GET");
         // the only property this lib tacks on
         expect(response.spatialReference.wkid).toEqual(4326);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should handle geocoders that return null extents for location candidates", done => {
+    fetchMock.once("*", FindAddressCandidatesNullExtent);
+
+    geocode("LAX")
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
+        );
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain("singleLine=LAX");
+        // the only property this lib tacks on
+        expect(response.spatialReference.wkid).toEqual(4326);
+        expect(
+          response.candidates.every(candidate => candidate.extent == null)
+        );
         done();
       })
       .catch(e => {

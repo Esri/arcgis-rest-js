@@ -1,0 +1,54 @@
+{
+  "name": "@esri/arcgis-rest-routing",
+  "version": "1.13.2",
+  "description": "Routing helpers for @esri/arcgis-rest-request",
+  "main": "dist/node/index.js",
+  "browser": "dist/umd/routing.umd.js",
+  "module": "dist/esm/index.js",
+  "js:next": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "license": "Apache-2.0",
+  "files": [
+    "dist/**"
+  ],
+  "dependencies": {
+    "tslib": "^1.9.3"
+  },
+  "devDependencies": {
+    "@esri/arcgis-rest-auth": "^1.13.2",
+    "@esri/arcgis-rest-common": "^1.13.2",
+    "@esri/arcgis-rest-request": "^1.13.2"
+  },
+  "peerDependencies": {
+    "@esri/arcgis-rest-auth": "^1.13.2",
+    "@esri/arcgis-rest-common": "^1.13.2",
+    "@esri/arcgis-rest-request": "^1.13.2"
+  },
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "npm run build:node && npm run build:umd && npm run build:esm",
+    "build:esm": "tsc -p ./tsconfig.json --module es2015 --outDir ./dist/esm --declaration",
+    "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
+    "build:node": "tsc -p ./tsconfig.json --module commonjs --outDir ./dist/node",
+    "dev:esm": "tsc -w --module es2015 --outDir ./dist/esm --declaration",
+    "dev:umd": "rollup -w -c ../../umd-base-profile.js",
+    "dev:node": "tsc -w --module commonjs --outDir ./dist/node"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/arcgis-rest-js.git"
+  },
+  "contributors": [
+    {
+      "name": "Gavin Rehkemper",
+      "email": "gavin@gavinr.com"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/Esri/arcgis-rest-js/issues"
+  },
+  "homepage": "https://github.com/Esri/arcgis-rest-js#readme"
+}

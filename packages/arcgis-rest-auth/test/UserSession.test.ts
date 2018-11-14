@@ -961,21 +961,21 @@ describe("UserSession", () => {
       userId: "jsmith"
     };
 
-    it("should create a credential object from a session", () => {
-      const session = new UserSession({
-        clientId: "clientId",
-        redirectUri: "https://example-app.com/redirect-uri",
-        token: "token",
-        ssl: false,
-        tokenExpires: TOMORROW,
-        refreshToken: "refreshToken",
-        refreshTokenExpires: TOMORROW,
-        refreshTokenTTL: 1440,
-        username: "jsmith",
-        password: "123456"
-      });
+    const MOCK_USER_SESSION = new UserSession({
+      clientId: "clientId",
+      redirectUri: "https://example-app.com/redirect-uri",
+      token: "token",
+      ssl: false,
+      tokenExpires: TOMORROW,
+      refreshToken: "refreshToken",
+      refreshTokenExpires: TOMORROW,
+      refreshTokenTTL: 1440,
+      username: "jsmith",
+      password: "123456"
+    });
 
-      const creds = session.toCredential();
+    it("should create a credential object from a session", () => {
+      const creds = MOCK_USER_SESSION.toCredential();
       expect(creds.userId).toEqual("jsmith");
       expect(creds.server).toEqual("https://www.arcgis.com/sharing/rest");
       expect(creds.ssl).toEqual(false);
@@ -990,6 +990,16 @@ describe("UserSession", () => {
       expect(session.ssl).toEqual(false);
       expect(session.token).toEqual("token");
       expect(session.tokenExpires).toEqual(new Date(TOMORROW));
+    });
+
+    it("should create a UserSession from a credential that came from a UserSession", () => {
+      const creds = MOCK_USER_SESSION.toCredential();
+      const credSession = UserSession.fromCredential(creds);
+      expect(credSession.username).toEqual("jsmith");
+      expect(credSession.portal).toEqual("https://www.arcgis.com/sharing/rest");
+      expect(credSession.ssl).toEqual(false);
+      expect(credSession.token).toEqual("token");
+      expect(credSession.tokenExpires).toEqual(new Date(TOMORROW));
     });
   });
 });

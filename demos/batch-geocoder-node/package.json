@@ -1,6 +1,6 @@
 {
   "name": "batch-geocoder",
-  "version": "1.13.1",
+  "version": "1.13.2",
   "description": "arcgis-rest-js batch geocode sample",
   "main": "batch-geocode.js",
   "scripts": {
@@ -27,11 +27,11 @@
   },
   "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
   "dependencies": {
-    "@esri/arcgis-rest-auth": "^1.13.1",
-    "@esri/arcgis-rest-common-types": "^1.13.1",
-    "@esri/arcgis-rest-geocoder": "^1.13.1",
-    "@esri/arcgis-rest-request": "^1.13.1",
-    "isomorphic-unfetch": "^3.0.0",
+    "@esri/arcgis-rest-auth": "^1.13.2",
+    "@esri/arcgis-rest-common-types": "^1.13.2",
+    "@esri/arcgis-rest-geocoder": "^1.13.2",
+    "@esri/arcgis-rest-request": "^1.13.2",
+    "isomorphic-fetch": "^2.2.1",
     "isomorphic-form-data": "^2.0.0",
     "papaparse": "^4.6.0"
   }
