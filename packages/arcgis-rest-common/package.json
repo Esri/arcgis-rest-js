@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-common",
-  "version": "1.13.2",
+  "version": "1.14.0",
   "description": "Shared utility methods and types for @esri/arcgis-rest-js",
   "main": "dist/node/index.js",
   "browser": "dist/umd/common.umd.js",
@@ -14,8 +14,6 @@
   "dependencies": {
     "tslib": "^1.9.3"
   },
-  "devDependencies": {},
-  "peerDependencies": {},
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:node && npm run build:umd && npm run build:esm",

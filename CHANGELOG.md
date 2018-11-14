@@ -7,6 +7,48 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.14.0] - November 14th 2018
+
+### @esri/arcgis-rest-routing
+
+* Added
+ * New package!
+ * `solveRoute()` can be used to fetch directions from A to B (or A to Z, or Z to ? to A)
+
+### @esri/arcgis-rest-common
+
+* Added
+ * _Another_ new package to house both shared utility methods and typings for TypeScript users. This package will likely supercede @esri/arcgis-rest-common-types at v2.0.0
+
+### @esri/arcgis-rest-feature-service
+
+* Added
+ * New `getLayer()` method to fetch metadata for a MapServer or FeatureServer layer.
+ * New `decodeValues()` utility method which translates raw Coded Value Domain codes in a query response into their more legible descriptions. [`717404f`](https://github.com/Esri/arcgis-rest-js/commit/717404f9827ebe4282fb43ace7df048a6ab679b1)
+
+### @esri/arcgis-rest-request
+
+* Fixed
+ * ensure a generic `referer` header is passed along in requests from Node.js applications.
+
+* Chores
+ * refactored a circular dependency out. [`9b58c63`](https://github.com/Esri/arcgis-rest-js/commit/9b58c636f1e5fecb6336979bbd45235e68994452)
+
+### @esri/arcgis-rest-auth
+
+* Fixed
+ * ensure `session.portal` url is correct when `cred.server` contains sharing/rest.
+
+### @esri/arcgis-rest-common-types
+
+* Added
+ * added `numViews` and `size` properties to IItem [`1d38da1`](https://github.com/Esri/arcgis-rest-js/commit/1d38da1ed98807dbbf001a694cb97ce0bba1f7e4)
+
+### Other Changes
+
+* Chores
+   * **prettier**: updated prettier to better handle newer TS syntax, specifically optional tuple elem [`d2bb7ade`](https://github.com/Esri/arcgis-rest-js/commit/d2bb7ade73c68e94517d089b430b90e585dbc755)
+
 ## [1.13.2] - November 2nd 2018
 
 ### @esri/arcgis-rest-geocoder
@@ -901,4 +943,5 @@ Initial Public Release
 [1.13.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.12.0...v1.13.0 "v1.13.0"
 [1.13.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.0...v1.13.1 "v1.13.1"
 [1.13.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.1...v1.13.2 "v1.13.2"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.2...HEAD "Unreleased Changes"
+[1.14.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.2...v1.14.0 "v1.14.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.0...HEAD "Unreleased Changes"
