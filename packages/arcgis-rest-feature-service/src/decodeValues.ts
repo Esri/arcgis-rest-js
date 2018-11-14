@@ -8,7 +8,7 @@ import {
   IFeature
 } from "@esri/arcgis-rest-common-types";
 import { IQueryFeaturesResponse } from "./query";
-import { getFeatureService } from "./getFeatureService";
+import { getLayer } from "./getLayer";
 
 /**
  * Request options to fetch a feature by id.
@@ -67,7 +67,7 @@ export function decodeValues(
 ): Promise<IQueryFeaturesResponse> {
   return new Promise(resolve => {
     if (!requestOptions.fields) {
-      return getFeatureService(requestOptions.url, requestOptions).then(
+      return getLayer(requestOptions.url, requestOptions).then(
         (metadata: ILayerDefinition) => {
           resolve((requestOptions.fields = metadata.fields));
         }
