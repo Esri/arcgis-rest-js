@@ -7,6 +7,7 @@ import { request, IRequestOptions, warn } from "@esri/arcgis-rest-request";
 export const worldGeocoder =
   "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/";
 
+// to do: remove at v2.0.0 (and import from arcgis-rest-common instead)
 export interface ILocation {
   latitude?: number;
   longitude?: number;
