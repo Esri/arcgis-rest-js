@@ -76,7 +76,7 @@ describe("ApplicationSession", () => {
           access_token: "new",
           expires_in: 1800
         },
-        { method: "POST", times: 1 }
+        { method: "POST", repeat: 1 }
       );
 
       Promise.all([

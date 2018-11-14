@@ -124,7 +124,7 @@ describe("UserSession", () => {
           expires_in: 1800,
           username: "c@sey"
         },
-        { times: 2, method: "POST" }
+        { repeat: 2, method: "POST" }
       );
 
       Promise.all([
@@ -308,7 +308,7 @@ describe("UserSession", () => {
             tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
           }
         },
-        { times: 1, method: "POST" }
+        { repeat: 1, method: "POST" }
       );
 
       fetchMock.mock(
@@ -320,7 +320,7 @@ describe("UserSession", () => {
             isTokenBasedSecurity: true
           }
         },
-        { times: 1, method: "POST" }
+        { repeat: 1, method: "POST" }
       );
 
       fetchMock.mock(
@@ -329,7 +329,7 @@ describe("UserSession", () => {
           token: "serverToken",
           expires: TOMORROW
         },
-        { times: 1, method: "POST" }
+        { repeat: 1, method: "POST" }
       );
 
       Promise.all([
@@ -538,7 +538,7 @@ describe("UserSession", () => {
           expires_in: 1800,
           username: "c@sey"
         },
-        { times: 1, method: "POST" }
+        { repeat: 1, method: "POST" }
       );
 
       Promise.all([

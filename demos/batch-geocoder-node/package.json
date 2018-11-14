@@ -33,7 +33,6 @@
     "@esri/arcgis-rest-request": "^1.13.2",
     "isomorphic-fetch": "^2.2.1",
     "isomorphic-form-data": "^2.0.0",
-    "node-fetch": "^2.2.0",
     "papaparse": "^4.6.0"
   }
 }

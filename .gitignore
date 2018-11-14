@@ -84,6 +84,7 @@ packages/arcgis-rest-portal/
 
 #
 test.html
+test.js
 
 #
 demos/test/*

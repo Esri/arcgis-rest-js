@@ -5,7 +5,10 @@ import { geocode } from "../src/geocode";
 
 import * as fetchMock from "fetch-mock";
 
-import { FindAddressCandidates, FindAddressCandidatesNullExtent } from "./mocks/responses";
+import {
+  FindAddressCandidates,
+  FindAddressCandidatesNullExtent
+} from "./mocks/responses";
 
 const customGeocoderUrl =
   "https://foo.com/arcgis/rest/services/Custom/GeocodeServer/";
@@ -161,7 +164,9 @@ describe("geocode", () => {
         expect(options.body).toContain("singleLine=LAX");
         // the only property this lib tacks on
         expect(response.spatialReference.wkid).toEqual(4326);
-        expect(response.candidates.every( candidate => candidate.extent == null ));
+        expect(
+          response.candidates.every(candidate => candidate.extent == null)
+        );
         done();
       })
       .catch(e => {
