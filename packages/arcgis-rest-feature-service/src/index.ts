@@ -10,3 +10,5 @@ export * from "./addAttachment";
 export * from "./updateAttachment";
 export * from "./deleteAttachments";
 export * from "./queryRelated";
+export * from "./getFeatureService";
+export * from "./decodeValues";

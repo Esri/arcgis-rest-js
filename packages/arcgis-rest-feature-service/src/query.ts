@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import {
@@ -13,6 +13,7 @@ import {
   esriUnits,
   IExtent
 } from "@esri/arcgis-rest-common-types";
+
 import { ISharedQueryParams } from "./helpers";
 
 /**
@@ -88,6 +89,12 @@ export interface IQueryFeaturesRequestOptions
   returnTrueCurves?: false;
   sqlFormat?: "none" | "standard" | "native";
   returnExceededLimitFeatures?: boolean;
+  /**
+   * someday...
+   *
+   * If 'true' the query will be preceded by a metadata check to gather info about coded value domains and result values will be decoded. If a fieldset is provided it will be used to decode values and no internal metadata request will be issued.
+   */
+  // decodeValues?: boolean | IField[];
 }
 
 export interface IQueryFeaturesResponse extends IFeatureSet {
@@ -143,7 +150,7 @@ export function getFeature(
  *
  * queryFeatures({
  *   url,
- *   where: "STATE_NAME = 'Alaska"
+ *   where: "STATE_NAME = 'Alaska'"
  * }).then(result => {
  *   console.log(result.features); // array of features
  * });
@@ -155,22 +162,22 @@ export function getFeature(
 export function queryFeatures(
   requestOptions: IQueryFeaturesRequestOptions
 ): Promise<IQueryFeaturesResponse | IQueryResponse> {
-  // default to a GET request
-  const options: IQueryFeaturesRequestOptions = {
+  const queryOptions: IQueryFeaturesRequestOptions = {
     params: {},
     httpMethod: "GET",
     url: requestOptions.url,
     ...requestOptions
   };
 
-  appendCustomParams(requestOptions, options);
+  appendCustomParams(requestOptions, queryOptions);
 
   // set default query parameters
-  if (!options.params.where) {
-    options.params.where = "1=1";
+  if (!queryOptions.params.where) {
+    queryOptions.params.where = "1=1";
   }
-  if (!options.params.outFields) {
-    options.params.outFields = "*";
+  if (!queryOptions.params.outFields) {
+    queryOptions.params.outFields = "*";
   }
-  return request(`${options.url}/query`, options);
+
+  return request(`${queryOptions.url}/query`, queryOptions);
 }
