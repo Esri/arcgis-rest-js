@@ -51,15 +51,6 @@ export const serviceFields: IField[] = [
     length: 100
   },
   {
-    name: "comments",
-    type: "esriFieldTypeString",
-    alias: "Comments",
-    domain: null,
-    editable: true,
-    nullable: true,
-    length: 255
-  },
-  {
     name: "name",
     type: "esriFieldTypeString",
     alias: "Name",

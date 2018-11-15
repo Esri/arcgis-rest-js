@@ -83,6 +83,12 @@ export const cvdQueryResponse: IQueryFeaturesResponse = {
       alias: "Floor Number",
       type: "esriFieldTypeString",
       length: 5
+    },
+    {
+      name: "floor_SUM",
+      alias: "Floor Number Summary (not in raw dataset, only from stat query",
+      type: "esriFieldTypeString",
+      length: 10
     }
   ],
   features: [
@@ -99,7 +105,8 @@ export const cvdQueryResponse: IQueryFeaturesResponse = {
         status: "Closed",
         globalid: "{2F47ACF0-CEE3-4548-90A8-785ED7BE01C9}",
         building: null,
-        floor: null
+        floor: null,
+        floor_SUM: "something"
       },
       geometry: {
         x: -9603128.0234949309,
@@ -119,7 +126,8 @@ export const cvdQueryResponse: IQueryFeaturesResponse = {
         status: "Closed",
         globalid: "{9937CFDD-E811-49D1-8CC8-A1ABF0DE7F14}",
         building: null,
-        floor: null
+        floor: null,
+        floor_SUM: "something"
       },
       geometry: {
         x: -9603103.0477722641,
@@ -139,7 +147,8 @@ export const cvdQueryResponse: IQueryFeaturesResponse = {
         status: "Unassigned",
         globalid: "{D840094C-F94D-42EA-AB21-7A84B2E27962}",
         building: null,
-        floor: "0"
+        floor: "0",
+        floor_SUM: "something"
       },
       geometry: {
         x: -9814396.0827533137,
@@ -163,7 +172,8 @@ export const cvdFeaturesFormatted: IFeature[] = [
       status: "Closed",
       globalid: "{2F47ACF0-CEE3-4548-90A8-785ED7BE01C9}",
       building: null,
-      floor: null
+      floor: null,
+      floor_SUM: "something"
     },
     geometry: {
       x: -9603128.0234949309,
@@ -183,7 +193,8 @@ export const cvdFeaturesFormatted: IFeature[] = [
       status: "Closed",
       globalid: "{9937CFDD-E811-49D1-8CC8-A1ABF0DE7F14}",
       building: null,
-      floor: null
+      floor: null,
+      floor_SUM: "something"
     },
     geometry: {
       x: -9603103.0477722641,
@@ -203,7 +214,8 @@ export const cvdFeaturesFormatted: IFeature[] = [
       status: "Unassigned",
       globalid: "{D840094C-F94D-42EA-AB21-7A84B2E27962}",
       building: null,
-      floor: "0"
+      floor: "0",
+      floor_SUM: "something"
     },
     geometry: {
       x: -9814396.0827533137,
