@@ -92,10 +92,14 @@ export function decodeValues(
       for (const key in feature.attributes) {
         /* istanbul ignore next */
         if (!feature.attributes.hasOwnProperty(key)) continue;
-        feature.attributes[key] = convertAttribute(
-          feature.attributes,
-          fieldsObject[key]
-        );
+
+        // trap for summary statistics fields or anything else not present in the raw dataset
+        if (fieldsObject[key]) {
+          feature.attributes[key] = convertAttribute(
+            feature.attributes,
+            fieldsObject[key]
+          );
+        }
       }
     });
     return clonedResponse;
