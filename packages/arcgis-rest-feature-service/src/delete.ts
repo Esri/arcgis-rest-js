@@ -40,8 +40,6 @@ export interface IDeleteFeaturesRequestOptions
   objectIds: number[];
   /**
    * Deprecated. Please use `objectIds` instead.
-   *
-   * Array of objectIds to delete.
    */
   deletes?: number[];
 }

@@ -30,8 +30,6 @@ export interface IUpdateFeaturesRequestOptions
   features: IFeature[];
   /**
    * Deprecated. Please use `features` instead.
-   *
-   * Array of JSON features to update.
    */
   updates?: IFeature[];
 }
