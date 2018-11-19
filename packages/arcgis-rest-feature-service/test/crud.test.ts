@@ -26,6 +26,130 @@ describe("feature", () => {
   it("should return objectId of the added feature and a truthy success", done => {
     const requestOptions = {
       url: serviceUrl,
+      features: [
+        {
+          geometry: {
+            x: -9177311.62541634,
+            y: 4247151.205222242,
+            spatialReference: {
+              wkid: 102100,
+              latestWkid: 3857
+            }
+          },
+          attributes: {
+            Tree_ID: 102,
+            Collected: 1349395200000,
+            Crew: "Linden+ Forrest+ Johnny"
+          }
+        }
+      ]
+    };
+    fetchMock.once("*", addFeaturesResponse);
+    addFeatures(requestOptions)
+      .then(response => {
+        expect(fetchMock.called()).toBeTruthy();
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(`${requestOptions.url}/addFeatures`);
+        expect(options.body).toContain(
+          "features=" +
+            encodeURIComponent(
+              '[{"geometry":{"x":-9177311.62541634,"y":4247151.205222242,"spatialReference":{"wkid":102100,"latestWkid":3857}},"attributes":{"Tree_ID":102,"Collected":1349395200000,"Crew":"Linden+ Forrest+ Johnny"}}]'
+            )
+        );
+        expect(options.method).toBe("POST");
+        expect(response.addResults[0].objectId).toEqual(1001);
+        expect(response.addResults[0].success).toEqual(true);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should return objectId of the updated feature and a truthy success", done => {
+    const requestOptions = {
+      url: serviceUrl,
+      features: [
+        {
+          attributes: {
+            OBJECTID: 1001,
+            Street: "NO",
+            Native: "YES"
+          }
+        }
+      ],
+      rollbackOnFailure: false
+    } as IUpdateFeaturesRequestOptions;
+    fetchMock.once("*", updateFeaturesResponse);
+    updateFeatures(requestOptions)
+      .then(response => {
+        expect(fetchMock.called()).toBeTruthy();
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(`${requestOptions.url}/updateFeatures`);
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain(
+          "features=" +
+            encodeURIComponent(
+              '[{"attributes":{"OBJECTID":1001,"Street":"NO","Native":"YES"}}]'
+            )
+        );
+        expect(options.body).toContain("rollbackOnFailure=false");
+        expect(response.updateResults[0].success).toEqual(true);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should return objectId of the deleted feature and a truthy success", done => {
+    const requestOptions = {
+      url: serviceUrl,
+      objectIds: [1001],
+      where: "1=1"
+    } as IDeleteFeaturesRequestOptions;
+    fetchMock.once("*", deleteFeaturesResponse);
+    deleteFeatures(requestOptions)
+      .then(response => {
+        expect(fetchMock.called()).toBeTruthy();
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(`${requestOptions.url}/deleteFeatures`);
+        expect(options.body).toContain("objectIds=1001");
+        expect(options.body).toContain("where=1%3D1");
+        expect(options.method).toBe("POST");
+        expect(response.deleteResults[0].objectId).toEqual(
+          requestOptions.objectIds[0]
+        );
+        expect(response.deleteResults[0].success).toEqual(true);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  // tests for depreciated params
+  // remove when `adds`, `updates` and `deletes` params removed
+  it("should return objectId of the added feature and a truthy success", done => {
+    const requestOptions = {
+      url: serviceUrl,
+      features: [
+        {
+          geometry: {
+            x: -9177311.62541634,
+            y: 4247151.205222242,
+            spatialReference: {
+              wkid: 102100,
+              latestWkid: 3857
+            }
+          },
+          attributes: {
+            Tree_ID: 102,
+            Collected: 1349395200000,
+            Crew: "Linden+ Forrest+ Johnny"
+          }
+        }
+      ], // for linting
       adds: [
         {
           geometry: {
@@ -69,6 +193,15 @@ describe("feature", () => {
   it("should return objectId of the updated feature and a truthy success", done => {
     const requestOptions = {
       url: serviceUrl,
+      features: [
+        {
+          attributes: {
+            OBJECTID: 1001,
+            Street: "NO",
+            Native: "YES"
+          }
+        }
+      ], // for linting
       updates: [
         {
           attributes: {

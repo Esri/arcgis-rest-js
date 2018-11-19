@@ -4,7 +4,8 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams
+  appendCustomParams,
+  warn
 } from "@esri/arcgis-rest-request";
 import {
   IEditFeaturesParams,
@@ -23,7 +24,7 @@ export interface IDeleteFeaturesParams
  * Delete features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/delete-features.htm) for more information.
  *
  * @param url - Feature service url.
- * @param deletes - Array of objectIds to delete.
+ * @param objectIds - Array of objectIds to delete.
  * @param params - Query parameters to be sent to the feature service via the request.
  */
 export interface IDeleteFeaturesRequestOptions
@@ -36,7 +37,13 @@ export interface IDeleteFeaturesRequestOptions
   /**
    * Array of objectIds to delete.
    */
-  deletes: number[];
+  objectIds: number[];
+  /**
+   * Deprecated. Please use `objectIds` instead.
+   *
+   * Array of objectIds to delete.
+   */
+  deletes?: number[];
 }
 
 /**
@@ -59,7 +66,7 @@ export interface IDeleteFeaturesResult {
  *
  * deleteFeatures({
  *   url,
- *   deletes: [1,2,3]
+ *   objectIds: [1,2,3]
  * });
  * ```
  *
@@ -79,9 +86,14 @@ export function deleteFeatures(
 
   appendCustomParams(requestOptions, options);
 
-  // mixin, don't overwrite
-  options.params.objectIds = requestOptions.deletes;
-  delete options.params.deletes;
+  if (options.params.deletes && options.params.deletes.length) {
+    // mixin, don't overwrite
+    options.params.objectIds = requestOptions.deletes;
+    delete options.params.deletes;
+    warn(
+      "The `deletes` parameter is deprecated and will be removed in a future release. Please use `objectIds` instead."
+    );
+  }
 
   return request(url, options);
 }
