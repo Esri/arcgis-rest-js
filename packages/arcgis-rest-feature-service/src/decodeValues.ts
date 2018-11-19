@@ -76,75 +76,54 @@ export function decodeValues(
       resolve(requestOptions.fields);
     }
   }).then(fields => {
-    // turn the fields array into a POJO to avoid multiple calls to Array.find()
-    const fieldsObject: any = {};
-    const fieldsArray = fields as IField[];
-    fieldsArray.forEach((field: IField) => {
-      fieldsObject[field.name] = field;
-    });
+    // extract coded value domains
+    const domains = extractCodedValueDomains(fields as IField[]);
+    if (Object.keys(domains).length < 1) {
+      // no values to decode
+      return requestOptions.queryResponse;
+    }
 
-    // dont mutate original response
-    const clonedResponse = JSON.parse(
-      JSON.stringify(requestOptions.queryResponse)
-    );
-
-    clonedResponse.features.forEach((feature: IFeature) => {
-      for (const key in feature.attributes) {
-        /* istanbul ignore next */
-        if (!feature.attributes.hasOwnProperty(key)) continue;
-
-        // trap for summary statistics fields or anything else not present in the raw dataset
-        if (fieldsObject[key]) {
-          feature.attributes[key] = convertAttribute(
-            feature.attributes,
-            fieldsObject[key]
-          );
+    // don't mutate original features
+    const decodedFeatures = requestOptions.queryResponse.features.map(
+      (feature: IFeature) => {
+        const decodedAttributes: { [index: string]: any } = {};
+        for (const key in feature.attributes) {
+          /* istanbul ignore next */
+          if (!feature.attributes.hasOwnProperty(key)) continue;
+          const value = feature.attributes[key];
+          const domain = domains[key];
+          decodedAttributes[key] =
+            value !== null && domain ? decodeValue(value, domain) : value;
         }
+        // merge decoded attributes into the feature
+        return { ...feature, ...{ attributes: decodedAttributes } };
       }
-    });
-    return clonedResponse;
+    );
+    // merge decoded features into the response
+    return {
+      ...requestOptions.queryResponse,
+      ...{ features: decodedFeatures }
+    };
   });
 }
 
-/**
- * ripped off from https://github.com/GeoXForm/esri-to-geojson/blob/55d32955d8ef0acb26de70025539e7c7a37d838e/src/index.js#L193-L220
- *
- * Decodes an attributes CVD and standardizes any date fields
- *
- * @params {object} attribute - a single esri feature attribute
- * @params {object} field - the field metadata describing that attribute
- * @returns {object} outAttribute - the converted attribute
- * @private
- */
-
-function convertAttribute(attribute: any, field: IField) {
-  const inValue = attribute[field.name];
-  let value;
-
-  if (inValue === null) return inValue;
-
-  if (field.domain && field.domain.type === "codedValue") {
-    value = cvd(inValue, field);
-  } else {
-    value = inValue;
-  }
-  return value;
+function extractCodedValueDomains(fields: IField[]) {
+  return fields.reduce(
+    (domains, field) => {
+      const domain = field.domain;
+      if (domain && domain.type === "codedValue") {
+        domains[field.name] = domain;
+      }
+      return domains;
+    },
+    {} as { [index: string]: any }
+  );
 }
 
-/**
- * also ripped off from https://github.com/GeoXForm/esri-to-geojson/blob/55d32955d8ef0acb26de70025539e7c7a37d838e/src/index.js#L222-L235
- *
- * Looks up a value from a coded domain
- *
- * @params {integer} value - The original field value
- * @params {object} field - metadata describing the attribute field
- * @returns {string/integerfloat} - The decoded field value
- * @private
- */
-
-function cvd(value: any, field: IField) {
-  const domain = field.domain.codedValues.find((d: any) => {
+// TODO: add type for domain?
+function decodeValue(value: any, domain: any) {
+  const codedValue = domain.codedValues.find((d: any) => {
     return value === d.code;
   });
-  return domain ? domain.name : value;
+  return codedValue ? codedValue.name : value;
 }

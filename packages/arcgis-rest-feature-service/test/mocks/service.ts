@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { ILayerDefinition } from "@esri/arcgis-rest-common-types";
-import { serviceFields } from "./fields";
+import { cvdServiceFields } from "./fields";
 
 export const getFeatureServiceResponse: ILayerDefinition = {
   currentVersion: 10.6,
@@ -141,7 +141,7 @@ export const getFeatureServiceResponse: ILayerDefinition = {
   displayField: "name",
   typeIdField: "status",
   subtypeField: "",
-  fields: serviceFields,
+  fields: cvdServiceFields,
   indexes: [
     {
       name: "i99requestid",
