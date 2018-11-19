@@ -5,7 +5,8 @@ import { IFeature } from "@esri/arcgis-rest-common-types";
 import {
   request,
   IRequestOptions,
-  appendCustomParams
+  appendCustomParams,
+  warn
 } from "@esri/arcgis-rest-request";
 import { IEditFeaturesParams, IEditFeatureResult } from "./helpers";
 
@@ -13,7 +14,7 @@ import { IEditFeaturesParams, IEditFeatureResult } from "./helpers";
  * Add features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-features.htm) for more information.
  *
  * @param url - Feature service url.
- * @param adds - Array of JSON features to add.
+ * @param features - Array of JSON features to add.
  * @param params - Query parameters to be sent to the feature service via the request.
  */
 export interface IAddFeaturesRequestOptions
@@ -26,7 +27,11 @@ export interface IAddFeaturesRequestOptions
   /**
    * Array of JSON features to add.
    */
-  adds: IFeature[];
+  features: IFeature[];
+  /**
+   * Deprecated. Please use `features` instead.
+   */
+  adds?: IFeature[];
 }
 
 /**
@@ -49,7 +54,7 @@ export interface IAddFeaturesResult {
  *
  * addFeatures({
  *   url,
- *   adds: [{
+ *   features: [{
  *     geometry: { x: -120, y: 45, spatialReference: { wkid: 4326 } },
  *     attributes: { status: "alive" }
  *   }]
@@ -72,9 +77,14 @@ export function addFeatures(
 
   appendCustomParams(requestOptions, options);
 
-  // mixin, don't overwrite
-  options.params.features = requestOptions.adds;
-  delete options.params.adds;
+  if (options.params.adds && options.params.adds.length) {
+    // mixin, don't overwrite
+    options.params.features = requestOptions.adds;
+    delete options.params.adds;
+    warn(
+      "The `adds` parameter is deprecated and will be removed in a future release. Please use `features` instead."
+    );
+  }
 
   return request(url, options);
 }
