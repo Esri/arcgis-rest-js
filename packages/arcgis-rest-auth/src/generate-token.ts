@@ -32,7 +32,7 @@ export function generateToken(
   ) {
     options.params.referer = window.location.host;
   } else {
-    options.params.referer = "@esri.arcgis-rest";
+    options.params.referer = "@esri/arcgis-rest";
   }
 
   return request(url, options);
