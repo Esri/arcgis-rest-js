@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.14.1] - November 21st 2018
+
+### @esri/arcgis-rest-request
+
+* Fixed
+ * ensure the same `referer` header is used in requests that was supplied when calling `generateToken()`.
+
+
+### @esri/arcgis-rest-feature-service
+
+* Misc.
+   * **decodeValues**: short circut out of decoding values if there are no CVD fields [`1bac187`](https://github.com/Esri/arcgis-rest-js/commit/1bac187a47be09436d21c721703547aec1334b53)
+
+### Other Changes
+
+* Misc.
+   * **decodeValues**: short circut out of decoding values if there are no CVD fields [`891bfb7`](https://github.com/Esri/arcgis-rest-js/commit/891bfb73ba00c74a6281722ff8a067688e9dc71d)
+
 ## [1.14.0] - November 14th 2018
 
 ### @esri/arcgis-rest-routing
@@ -918,8 +936,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 Initial Public Release
 
 [1.0.0]: https://github.com/Esri/arcgis-rest-js/compare/265d6aed1856d3ae1ff81f03ce85aba449b01f21...v1.0.0 "v1.0.0"
-[1.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.1 "v1.0.1"
-[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.1...v1.0.2 "v1.0.2"
+[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.2 "v1.0.2"
 [1.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.2...v1.0.3 "v1.0.3"
 [1.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.3...v1.1.0 "v1.1.0"
 [1.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.0...v1.1.1 "v1.1.1"
@@ -944,4 +961,5 @@ Initial Public Release
 [1.13.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.0...v1.13.1 "v1.13.1"
 [1.13.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.1...v1.13.2 "v1.13.2"
 [1.14.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.2...v1.14.0 "v1.14.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.0...HEAD "Unreleased Changes"
+[1.14.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.0...v1.14.1 "v1.14.1"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.1...HEAD "Unreleased Changes"
