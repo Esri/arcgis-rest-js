@@ -21,6 +21,7 @@
   "peerDependencies": {
     "@esri/arcgis-rest-common-types": "^1.14.1",
     "@esri/arcgis-rest-request": "^1.14.1"
+  },
   "scripts": {
     "prepare": "npm run build",
     "prebuild": "rimraf dist",
