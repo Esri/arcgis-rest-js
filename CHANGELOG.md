@@ -14,8 +14,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Fixed
  * ensure the same `referer` header is used in requests that was supplied when calling `generateToken()`.
 
-
 ### @esri/arcgis-rest-feature-service
+
+* Changed
+   * **`features`** is now the preferred argument for `addFeatures()` and `updateFeatures()` and **`objectIds`** for `deleteFeatures()`.
+
+This change was made for consistency with the REST API itself. the old constructor options will still be honored until v2.0.0.
 
 * Misc.
    * **decodeValues**: short circut out of decoding values if there are no CVD fields [`1bac187`](https://github.com/Esri/arcgis-rest-js/commit/1bac187a47be09436d21c721703547aec1334b53)
