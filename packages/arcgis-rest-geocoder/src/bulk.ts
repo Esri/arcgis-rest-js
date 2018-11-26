@@ -1,7 +1,7 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request } from "@esri/arcgis-rest-request";
+import { request, cleanUrl } from "@esri/arcgis-rest-request";
 
 import { ISpatialReference, IPoint } from "@esri/arcgis-rest-common-types";
 
@@ -86,15 +86,16 @@ export function bulkGeocode(
     );
   }
 
-  return request(options.endpoint + "geocodeAddresses", options).then(
-    response => {
-      const sr = response.spatialReference;
-      response.locations.forEach(function(address: { location: IPoint }) {
-        address.location.spatialReference = sr;
-      });
-      return response;
-    }
-  );
+  return request(
+    `${cleanUrl(options.endpoint)}/geocodeAddresses`,
+    options
+  ).then(response => {
+    const sr = response.spatialReference;
+    response.locations.forEach(function(address: { location: IPoint }) {
+      address.location.spatialReference = sr;
+    });
+    return response;
+  });
 }
 
 export default {

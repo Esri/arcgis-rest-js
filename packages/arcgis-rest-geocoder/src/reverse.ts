@@ -1,7 +1,7 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request } from "@esri/arcgis-rest-request";
+import { request, cleanUrl } from "@esri/arcgis-rest-request";
 import { IPoint } from "@esri/arcgis-rest-common-types";
 
 import { ILocation, worldGeocoder, IEndpointRequestOptions } from "./helpers";
@@ -75,7 +75,7 @@ export function reverseGeocode(
     options.params.location = coords;
   }
 
-  return request(options.endpoint + "reverseGeocode", options);
+  return request(`${cleanUrl(options.endpoint)}/reverseGeocode`, options);
 }
 
 export default {

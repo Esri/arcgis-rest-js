@@ -1,7 +1,7 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request } from "@esri/arcgis-rest-request";
+import { request, cleanUrl } from "@esri/arcgis-rest-request";
 
 import { worldGeocoder, IEndpointRequestOptions } from "./helpers";
 
@@ -61,7 +61,7 @@ export function suggest(
     options.params.magicKey = requestOptions.magicKey;
   }
 
-  return request(options.endpoint + "suggest", options);
+  return request(`${cleanUrl(options.endpoint)}/suggest`, options);
 }
 
 export default {
