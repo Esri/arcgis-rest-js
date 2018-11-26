@@ -17,6 +17,7 @@
     "cross-spawn": "^5.1.0",
     "cz-lerna-changelog": "github:patrickarlt/cz-lerna-changelog#3fe7650a2e2e624b1f46e5031c96119759698288",
     "date-fns": "^1.29.0",
+    "event-stream": "3.3.4",
     "fetch-mock": "^5.13.1",
     "gh-pages": "^1.1.0",
     "gh-release": "^3.4.0",
