@@ -4,7 +4,8 @@
 import {
   request,
   IParams,
-  appendCustomParams
+  appendCustomParams,
+  cleanUrl
 } from "@esri/arcgis-rest-request";
 
 import {
@@ -108,21 +109,22 @@ export function geocode(
   }
 
   // add spatialReference property to individual matches
-  return request(options.endpoint + "findAddressCandidates", options).then(
-    response => {
-      const sr = response.spatialReference;
-      response.candidates.forEach(function(candidate: {
-        location: IPoint;
-        extent?: IExtent;
-      }) {
-        candidate.location.spatialReference = sr;
-        if (candidate.extent) {
-          candidate.extent.spatialReference = sr;
-        }
-      });
-      return response;
-    }
-  );
+  return request(
+    `${cleanUrl(options.endpoint)}/findAddressCandidates`,
+    options
+  ).then(response => {
+    const sr = response.spatialReference;
+    response.candidates.forEach(function(candidate: {
+      location: IPoint;
+      extent?: IExtent;
+    }) {
+      candidate.location.spatialReference = sr;
+      if (candidate.extent) {
+        candidate.extent.spatialReference = sr;
+      }
+    });
+    return response;
+  });
 }
 
 export default {
