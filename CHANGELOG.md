@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.14.2] - November 27th 2018
+
+### @esri/arcgis-rest-request
+
+* Added
+   * **`cleanUrl()`** utility method to trim whitespace and remove trailing slashes to standardize input to other methods.
+
+### Other Changes
+
+* Security
+   * **:closed_lock_with_key: version locked the devDependency event-stream@3.3.4. see https://github.com/dominictarr/event-stream/issues/116 for more information.
+
 ## [1.14.1] - November 21st 2018
 
 ### @esri/arcgis-rest-request
@@ -940,7 +952,8 @@ This change was made for consistency with the REST API itself. the old construct
 Initial Public Release
 
 [1.0.0]: https://github.com/Esri/arcgis-rest-js/compare/265d6aed1856d3ae1ff81f03ce85aba449b01f21...v1.0.0 "v1.0.0"
-[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.2 "v1.0.2"
+[1.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.1 "v1.0.1"
+[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.1...v1.0.2 "v1.0.2"
 [1.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.2...v1.0.3 "v1.0.3"
 [1.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.3...v1.1.0 "v1.1.0"
 [1.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.0...v1.1.1 "v1.1.1"
@@ -966,4 +979,5 @@ Initial Public Release
 [1.13.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.1...v1.13.2 "v1.13.2"
 [1.14.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.2...v1.14.0 "v1.14.0"
 [1.14.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.0...v1.14.1 "v1.14.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.1...HEAD "Unreleased Changes"
+[1.14.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.1...v1.14.2 "v1.14.2"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.2...HEAD "Unreleased Changes"

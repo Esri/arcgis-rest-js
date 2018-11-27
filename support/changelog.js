@@ -81,7 +81,7 @@ function getCommitData(from, to) {
        .replace(/"returns"/g, "returns")
        .replace(/\\/g, "\\\\")
        */
-      const commits = JSON.parse("[" + stdout.slice(0, -1).replace(/"access"/g, "'access'") + "]").reverse();
+      const commits = JSON.parse("[" + stdout.slice(0, -1)/*.replace()*/ + "]").reverse();
       const today = new Date();
       resolve({
         previousVersion: /v\d\.\d\.\d/.test(from)
@@ -130,7 +130,7 @@ function processCommitMessages(releaseData) {
             ]
           }
         );
-
+        console.log(parsedCommit.notes);
         if (!parsedCommit.type || !parsedCommit.scope) {
           return;
         }

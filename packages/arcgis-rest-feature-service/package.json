@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-feature-service",
-  "version": "1.14.1",
+  "version": "1.14.2",
   "description": "Feature service helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
   "browser": "dist/umd/feature-service.umd.js",
@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@esri/arcgis-rest-common-types": "^1.14.1",
-    "@esri/arcgis-rest-request": "^1.14.1"
+    "@esri/arcgis-rest-request": "^1.14.2"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-common-types": "^1.14.1",

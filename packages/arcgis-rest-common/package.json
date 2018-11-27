@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-common",
-  "version": "1.14.1",
+  "version": "1.14.2",
   "description": "Shared utility methods and types for @esri/arcgis-rest-js",
   "main": "dist/node/index.js",
   "browser": "dist/umd/common.umd.js",
