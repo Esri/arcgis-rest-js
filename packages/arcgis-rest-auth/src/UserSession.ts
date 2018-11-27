@@ -7,7 +7,8 @@ import {
   IRequestOptions,
   ArcGISAuthError,
   IAuthenticationManager,
-  ITokenRequestOptions
+  ITokenRequestOptions,
+  cleanUrl
 } from "@esri/arcgis-rest-request";
 import { generateToken } from "./generate-token";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token";
@@ -315,7 +316,9 @@ export class UserSession implements IAuthenticationManager {
     this.password = options.password;
     this._token = options.token;
     this._tokenExpires = options.tokenExpires;
-    this.portal = options.portal || "https://www.arcgis.com/sharing/rest";
+    this.portal = options.portal
+      ? cleanUrl(options.portal)
+      : "https://www.arcgis.com/sharing/rest";
     this.ssl = options.ssl;
     this.provider = options.provider || "arcgis";
     this.tokenDuration = options.tokenDuration || 20160;

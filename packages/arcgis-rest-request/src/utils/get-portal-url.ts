@@ -17,7 +17,8 @@ export function getPortalUrl(requestOptions: IRequestOptions = {}): string {
 
   // if auth was passed, use that portal
   if (requestOptions.authentication) {
-    return cleanUrl(requestOptions.authentication.portal);
+    // the portal url is already scrubbed in the auth package
+    return requestOptions.authentication.portal;
   }
 
   // default to arcgis.com
