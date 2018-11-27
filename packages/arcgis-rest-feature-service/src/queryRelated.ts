@@ -4,7 +4,8 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams
+  appendCustomParams,
+  cleanUrl
 } from "@esri/arcgis-rest-request";
 import {
   ISpatialReference,
@@ -90,5 +91,5 @@ export function queryRelated(
     options.params.relationshipId = 0;
   }
 
-  return request(`${options.url}/queryRelatedRecords`, options);
+  return request(`${cleanUrl(options.url)}/queryRelatedRecords`, options);
 }

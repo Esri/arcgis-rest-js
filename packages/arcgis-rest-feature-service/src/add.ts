@@ -6,6 +6,7 @@ import {
   request,
   IRequestOptions,
   appendCustomParams,
+  cleanUrl,
   warn
 } from "@esri/arcgis-rest-request";
 import { IEditFeaturesParams, IEditFeatureResult } from "./helpers";
@@ -67,7 +68,7 @@ export interface IAddFeaturesResult {
 export function addFeatures(
   requestOptions: IAddFeaturesRequestOptions
 ): Promise<IAddFeaturesResult> {
-  const url = `${requestOptions.url}/addFeatures`;
+  const url = `${cleanUrl(requestOptions.url)}/addFeatures`;
 
   // edit operations are POST only
   const options: IAddFeaturesRequestOptions = {

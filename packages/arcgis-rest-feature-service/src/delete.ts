@@ -5,6 +5,7 @@ import {
   request,
   IRequestOptions,
   appendCustomParams,
+  cleanUrl,
   warn
 } from "@esri/arcgis-rest-request";
 import {
@@ -74,7 +75,7 @@ export interface IDeleteFeaturesResult {
 export function deleteFeatures(
   requestOptions: IDeleteFeaturesRequestOptions
 ): Promise<IDeleteFeaturesResult> {
-  const url = `${requestOptions.url}/deleteFeatures`;
+  const url = `${cleanUrl(requestOptions.url)}/deleteFeatures`;
 
   // edit operations POST only
   const options: IDeleteFeaturesRequestOptions = {
