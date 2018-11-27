@@ -66,6 +66,8 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 | -- | -- |
 | [React](https://twitter.com/oppoudel/status/1022209378378805249) component | [@oppoudel](https://github.com/oppoudel) |
 
+### [Changelog](https://github.com/Esri/arcgis-rest-js/blob/master/CHANGELOG.md)
+
 ### License
 
 Copyright &copy; 2017-2018 Esri

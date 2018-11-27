@@ -45,9 +45,11 @@ For more information on SemVer, please visit <http://semver.org/>.
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](CONTRIBUTING.md).
 
+### [Changelog](https://github.com/Esri/arcgis-rest-js/blob/master/CHANGELOG.md)
+
 ### License
 
-Copyright 2017 Esri
+Copyright &copy; 2017-2018 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

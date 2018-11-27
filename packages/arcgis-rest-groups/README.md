@@ -50,6 +50,8 @@ For more information on SemVer, please visit <http://semver.org/>.
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](CONTRIBUTING.md).
 
+### [Changelog](https://github.com/Esri/arcgis-rest-js/blob/master/CHANGELOG.md)
+
 ### License
 
 Copyright &copy; 2017-2018 Esri

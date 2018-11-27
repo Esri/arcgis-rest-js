@@ -29,6 +29,7 @@
 - [Versioning](#versioning)
 - [Contributing](#contributing)
 - [Code of Conduct](/CODE_OF_CONDUCT.md)
+- [CHANGELOG](/CHANGELOG.md)
 - [License](#license)
 
 ### Example
