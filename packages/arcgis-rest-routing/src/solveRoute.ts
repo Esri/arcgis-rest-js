@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request } from "@esri/arcgis-rest-request";
+import { request, cleanUrl } from "@esri/arcgis-rest-request";
 
 import {
   ILocation,
@@ -94,7 +94,7 @@ export function solveRoute(
   });
   options.params.stops = stops.join(";");
 
-  return request(options.endpoint + "solve", options);
+  return request(`${cleanUrl(options.endpoint)}/solve`, options);
 }
 
 export default {

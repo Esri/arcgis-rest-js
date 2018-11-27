@@ -5,7 +5,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 // https always
 export const worldRoutingService =
-  "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/";
+  "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World";
 
 // nice to have: verify custom endpoints contain 'NAServer' and end in a '/'
 export interface IEndpointRequestOptions extends IRequestOptions {
