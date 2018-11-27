@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IRequestOptions } from "@esri/arcgis-rest-request";
+import { request, IRequestOptions, cleanUrl } from "@esri/arcgis-rest-request";
 import { IEditFeatureResult } from "./helpers";
 
 /**
@@ -60,5 +60,8 @@ export function addAttachment(
   // `attachment` --> params: {}
   options.params.attachment = requestOptions.attachment;
 
-  return request(`${options.url}/${options.featureId}/addAttachment`, options);
+  return request(
+    `${cleanUrl(options.url)}/${options.featureId}/addAttachment`,
+    options
+  );
 }

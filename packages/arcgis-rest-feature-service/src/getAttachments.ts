@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IRequestOptions } from "@esri/arcgis-rest-request";
+import { request, IRequestOptions, cleanUrl } from "@esri/arcgis-rest-request";
 
 /**
  * Request options to fetch `attachmentInfos` of a feature by id. See [Attachment Infos](https://developers.arcgis.com/rest/services-reference/attachment-infos-feature-service-.htm) for more information.
@@ -58,7 +58,7 @@ export function getAttachments(
 ): Promise<IGetAttachmentsResponse> {
   // pass through
   return request(
-    `${requestOptions.url}/${requestOptions.featureId}/attachments`,
+    `${cleanUrl(requestOptions.url)}/${requestOptions.featureId}/attachments`,
     requestOptions
   );
 }

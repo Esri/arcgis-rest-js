@@ -4,7 +4,8 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams
+  appendCustomParams,
+  cleanUrl
 } from "@esri/arcgis-rest-request";
 import {
   ISpatialReference,
@@ -130,7 +131,7 @@ export interface IQueryResponse {
 export function getFeature(
   requestOptions: IFeatureRequestOptions
 ): Promise<IFeature> {
-  const url = `${requestOptions.url}/${requestOptions.id}`;
+  const url = `${cleanUrl(requestOptions.url)}/${requestOptions.id}`;
 
   // default to a GET request
   const options: IFeatureRequestOptions = {
@@ -179,5 +180,5 @@ export function queryFeatures(
     queryOptions.params.outFields = "*";
   }
 
-  return request(`${queryOptions.url}/query`, queryOptions);
+  return request(`${cleanUrl(queryOptions.url)}/query`, queryOptions);
 }
