@@ -1,5 +1,6 @@
 [![npm version][npm-img]][npm-url]
 [![build status][travis-img]][travis-url]
+[![gzip bundle size][gzip-image]][npm-url]
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/arcgis-rest-js/master/LICENSE)
 
@@ -7,6 +8,7 @@
 [npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-items
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-items/dist/umd/items.umd.min.js?compression=gzip
 [coverage-img]: https://coveralls.io/repos/github/Esri/arcgis-rest-js/badge.svg
 [coverage-url]: https://coveralls.io/github/Esri/arcgis-rest-js
 
@@ -49,6 +51,8 @@ For more information on SemVer, please visit <http://semver.org/>.
 ### Contributing
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](CONTRIBUTING.md).
+
+### [Changelog](https://github.com/Esri/arcgis-rest-js/blob/master/CHANGELOG.md)
 
 ### License
 

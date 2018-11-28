@@ -1,5 +1,6 @@
 [![npm version][npm-img]][npm-url]
 [![build status][travis-img]][travis-url]
+[![gzip bundle size][gzip-image]][npm-url]
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache 2.0 licensed][license-img]][license-url]
 
@@ -7,6 +8,7 @@
 [npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-request
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-request/dist/umd/request.umd.min.js?compression=gzip
 [coverage-img]: https://coveralls.io/repos/github/Esri/arcgis-rest-js/badge.svg
 [coverage-url]: https://coveralls.io/github/Esri/arcgis-rest-js
 [license-img]: https://img.shields.io/badge/license-Apache%202.0-orange.svg?style=flat-square
@@ -27,6 +29,7 @@
 - [Versioning](#versioning)
 - [Contributing](#contributing)
 - [Code of Conduct](/CODE_OF_CONDUCT.md)
+- [CHANGELOG](/CHANGELOG.md)
 - [License](#license)
 
 ### Example
@@ -76,6 +79,8 @@ Some useful commands include:
 * [`@esri/arcgis-rest-feature-service`](./packages/arcgis-rest-feature-service) - Functions for working with feature services
 * [`@esri/arcgis-rest-geocoder`](./packages/arcgis-rest-geocoder) - Geocoding wrapper for `@esri/arcgis-rest-js`
 * [`@esri/arcgis-rest-feature-service-admin`](./packages/arcgis-rest-feature-service-admin) - Functions for creating and updating feature services
+* [`@esri/arcgis-rest-routing`](./packages/arcgis-rest-routing) - Stores objects common across the ArcGIS API.
+* [`@esri/arcgis-rest-common`](./packages/arcgis-rest-common) - Stores shared methods and types used throughout the ArcGIS API.
 
 
 ### Frequently Asked Questions
