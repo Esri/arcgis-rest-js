@@ -65,36 +65,22 @@ export interface IRequestOptions {
 }
 
 /**
- * Generic method for making HTTP requests to ArcGIS REST API endpoints.
- *
  * ```js
  * import { request } from '@esri/arcgis-rest-request';
- *
+ * //
  * request('https://www.arcgis.com/sharing/rest')
- *   .then((response) => {
- *     console.log(response.currentVersion); // => 5.2
- *   });
- * ```
- *
- * ```js
- * import { request, HTTPMethods } from '@esri/arcgis-rest-request';
- *
+ *   .then(response) // response.currentVersion === 5.2
+ * //
  * request('https://www.arcgis.com/sharing/rest', {
  *   httpMethod: "GET"
- * }).then((response) => {
- *   console.log(response.currentVersion); // => 5.2
- * });
- * ```
- *
- * ```js
- * import { request, HTTPMethods } from '@esri/arcgis-rest-request';
- *
+ * })
+ * //
  * request('https://www.arcgis.com/sharing/rest/search', {
  *   params: { q: 'parks' }
- * }).then((response) => {
- *   console.log(response.total); // => 78379
- * });
+ * })
+ *   .then(response) // response.total => 78379
  * ```
+ * Generic method for making HTTP requests to ArcGIS REST API endpoints.
  *
  * @param url - The URL of the ArcGIS REST API endpoint.
  * @param requestOptions - Options for the request, including parameters relevant to the endpoint.

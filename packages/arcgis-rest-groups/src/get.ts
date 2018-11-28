@@ -28,6 +28,13 @@ export interface IGroupUsersResult {
 }
 
 /**
+ * ```js
+ * import { getGroup } from "@esri/arcgis-rest-groups";
+ * //
+ * getGroup("fxb988") // id
+ *   .then(response)
+ * ```
+ * Fetch a group using its id. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/group.htm) for more information.
  *
  * @param id - Group Id
  * @param requestOptions  - Options for the request

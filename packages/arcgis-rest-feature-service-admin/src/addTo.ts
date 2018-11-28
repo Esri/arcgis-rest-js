@@ -33,17 +33,16 @@ export interface IAddToServiceDefinitionResult {
 }
 
 /**
- * Add layer(s) and/or table(s) to a hosted feature service.
- *
  * ```js
  * import { addToServiceDefinition } from '@esri/arcgis-rest-feature-service-admin';
- *
+ * //
  * addToServiceDefinition(serviceurl, {
  *   authentication: userSession,
  *   layers: [],
  *   tables: []
  * });
  * ```
+ * Add layer(s) and/or table(s) to a hosted feature service.
  *
  * @param url - URL of feature service
  * @param requestOptions - Options for the request

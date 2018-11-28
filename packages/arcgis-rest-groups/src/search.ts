@@ -29,16 +29,16 @@ export interface IGroupSearchResult {
 }
 
 /**
- * Search for groups via the portal api
  *
  * ```js
  * import { searchGroups } from '@esri/arcgis-rest-groups';
- *
- * searchgroups({q:'water'})
- * .then((results) => {
- *  console.log(response.results.total); // 355
+ * //
+ * searchGroups({
+ *   q:'water'
  * })
+ *   .then(response) // response.results.total => 355
  * ```
+ * Search a portal for groups. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/group-search.htm) for more information.
  *
  * @param searchForm - Search request
  * @param requestOptions - Options for the request

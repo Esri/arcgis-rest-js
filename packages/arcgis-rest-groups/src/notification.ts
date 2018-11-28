@@ -35,11 +35,8 @@ export interface IGroupNotificationRequestOptions
 }
 
 /**
- * Create a group notification.
- *
  * ```js
  * import { createGroupNotification } from '@esri/arcgis-rest-groups';
- *
  * // send an email to an entire group
  * createGroupNotification({
  *   authentication: UserSession,
@@ -48,6 +45,8 @@ export interface IGroupNotificationRequestOptions
  *   id: groupId
  * })
  * ```
+ * Create a group notification.
+ *
  * @param requestOptions - Options for the request
  *
  * @returns A Promise that will resolve with the success/failure status of the request

@@ -6,7 +6,17 @@ import { request, getPortalUrl } from "@esri/arcgis-rest-request";
 import { IGroupIdRequestOptions } from "./helpers";
 
 /**
- * Delete a group.
+ * ```js
+ * import { removeGroup } from '@esri/arcgis-rest-groups';
+ * //
+ * removeGroup({
+ *   id: groupId,
+ *   authentication
+ * })
+ *   .then(response)
+ * ```
+ * Delete a group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-group.htm) for more information.
+ *
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the success/failure status of the request
  */

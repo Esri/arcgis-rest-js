@@ -32,16 +32,13 @@ export interface ISearchResult {
 }
 
 /**
- * Search for items via the portal api
- *
  * ```js
  * import { searchItems } from '@esri/arcgis-rest-items';
- *
+ * //
  * searchItems('water')
- * .then((results) => {
- *  console.log(results.total); // 355
- * })
+ *   .then(response) // response.total => 355
  * ```
+ * Search a portal for items. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/search.htm) for more information.
  *
  * @param search - A string or RequestOptions object to pass through to the endpoint.
  * @returns A Promise that will resolve with the data from the response.

@@ -25,17 +25,13 @@ export interface INotificationResult {
 }
 
 /**
- * Get notifications for a user.
- *
  * ```js
  * import { getUserNotifications } from '@esri/arcgis-rest-users';
- *
  * // username is inferred from UserSession
  * getUserNotifications({ authentication })
- * .then((results) => {
- *   console.log(results.notifications.length); // 3
- * })
+ *   .then(results) // results.notifications.length) => 3
  * ```
+ * Get notifications for a user.
  *
  * @param requestOptions - options to pass through in the request
  * @returns A Promise that will resolve with the user's notifications

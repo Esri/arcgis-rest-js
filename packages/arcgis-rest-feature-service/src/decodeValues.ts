@@ -17,7 +17,7 @@ export interface IDecodeValuesRequestOptions extends IRequestOptions {
   /**
    * Layer service url.
    */
-  url: string;
+  url?: string;
   /**
    * Unique identifier of the feature.
    */
@@ -42,13 +42,10 @@ export interface IDecodeValuesRequestOptions extends IRequestOptions {
 }
 
 /**
- * Replaces the raw coded domain values in a query response with descriptions (for legibility).
- *
  * ```js
  * import { queryFeatures, decodeValues } from '@esri/arcgis-rest-feature-service';
- *
+ * //
  * const url = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0";
- *
  * queryFeatures({ url })
  *   .then(queryResponse => {
  *     decodeValues({
@@ -58,6 +55,7 @@ export interface IDecodeValuesRequestOptions extends IRequestOptions {
  *       .then(decodedResponse)
  *   })
  * ```
+ * Replaces the raw coded domain values in a query response with descriptions (for legibility).
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the addFeatures response.
