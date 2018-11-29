@@ -15,7 +15,7 @@
       this relies on the fact that the ClientId is associated with the state parameter internally when another value isn't supplied manually.
       */
       const match = window.location.href.match(
-        /&state=(.+)/
+        /&state=([^&]+)/
       );
       const clientId = match[1];
       let session;
