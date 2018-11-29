@@ -20,7 +20,7 @@
       const clientId = match[1];
       let session;
       function processAuthentication() {
-        window.location.href = '/';
+        window.location.href = './';
         session = arcgisRest.UserSession.completeOAuth2({
           clientId: clientId,
         });
