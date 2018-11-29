@@ -65,16 +65,14 @@ export interface IGeocodeResponse {
 }
 
 /**
- * Used to determine the location of a single address or point of interest. See the [REST Documentation](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-find-address-candidates.htm) for more information.
- *
  * ```js
  * import { geocode } from '@esri/arcgis-rest-geocoder';
- *
+ * //
  * geocode("LAX")
  *   .then((response) => {
  *     response.candidates[0].location; // => { x: -118.409, y: 33.943, spatialReference: ...  }
  *   });
- *
+ * //
  * geocode({
  *   address: "1600 Pennsylvania Ave",
  *   postal: 20500,
@@ -84,7 +82,7 @@ export interface IGeocodeResponse {
  *     response.candidates[1].location; // => { x: -77.036533, y: 38.898719, spatialReference: ... }
  *   });
  * ```
- *
+ * Used to determine the location of a single address or point of interest. See the [REST Documentation](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-find-address-candidates.htm) for more information.
  * @param address String representing the address or point of interest or RequestOptions to pass to the endpoint.
  * @returns A Promise that will resolve with address candidates for the request.
  */

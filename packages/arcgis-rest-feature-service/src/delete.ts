@@ -56,18 +56,15 @@ export interface IDeleteFeaturesResult {
 }
 
 /**
- * Delete features request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/delete-features.htm) for more information.
- *
  * ```js
  * import { deleteFeatures } from '@esri/arcgis-rest-feature-service';
- *
- * const url = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0";
- *
+ * //
  * deleteFeatures({
- *   url,
+ *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
  *   objectIds: [1,2,3]
  * });
  * ```
+ * Delete features request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/delete-features.htm) for more information.
  *
  * @param deleteFeaturesRequestOptions - Options for the request.
  * @returns A Promise that will resolve with the deleteFeatures response.

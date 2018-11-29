@@ -31,19 +31,19 @@ export interface IItemMoveRequestOptions extends IItemCrudRequestOptions {
 }
 
 /**
- * Update an Item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-item.htm) for more information.
- *
  * ```js
  * import { updateItem } from '@esri/arcgis-rest-items';
- *
+ * //
  * updateItem({
- *   authentication: userSession,
  *   item: {
  *     id: "3ef",
  *     description: "A three hour tour"
- *   }
+ *   },
+ *   authentication
  * })
+ *   .then(response)
  * ```
+ * Update an Item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-item.htm) for more information.
  *
  * @param item - The item to update.
  * @param requestOptions - Options for the request.

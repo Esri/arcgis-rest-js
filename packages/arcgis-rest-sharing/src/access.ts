@@ -19,17 +19,16 @@ export interface ISetAccessRequestOptions extends ISharingRequestOptions {
 }
 
 /**
- * Set access level of an item to 'public', 'org', or 'private'.
- *
  * ```js
  * import { setItemAccess } from '@esri/arcgis-rest-sharing';
- *
+ * //
  * setItemAccess({
  *   id: "abc123",
- *   access: "public",
+ *   access: "public", // 'org' || 'private'
  *   authentication: session
  * })
  * ```
+ * Change who is able to access an item.
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the data from the response.

@@ -6,7 +6,7 @@ import { request, getPortalUrl } from "@esri/arcgis-rest-request";
 import { IItemIdRequestOptions, determineOwner } from "./helpers";
 
 /**
- * Protect an item
+ * Protect an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/protect.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise to protect an item.
@@ -22,7 +22,7 @@ export function protectItem(
 }
 
 /**
- * Unprotect an item
+ * Unprotect an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/unprotect.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise to unprotect an item.

@@ -6,7 +6,17 @@ import { request, getPortalUrl } from "@esri/arcgis-rest-request";
 import { IGroupIdRequestOptions } from "./helpers";
 
 /**
- * Protect a Group. This simply means a user must unprotect the group prior to deleting it
+ * ```js
+ * import { protectGroup } from '@esri/arcgis-rest-groups';
+ * //
+ * protectGroup({
+ *   id: groupId,
+ *   authentication
+ * })
+ *   .then(response)
+ * ```
+ * Protect a group to avoid accidental deletion. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/protect-group.htm) for more information.
+ *
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the success/failure status of the request
  */

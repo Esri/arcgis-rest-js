@@ -145,11 +145,9 @@ export interface ICreateServiceResult {
 }
 
 /**
- * Create a new hosted feature service.
- *
  * ```js
  * import { createFeatureService } from '@esri/arcgis-rest-feature-service-admin';
- *
+ * //
  * createFeatureService({
  *   authentication: userSession,
  *   item: {
@@ -158,7 +156,7 @@ export interface ICreateServiceResult {
  *   }
  * });
  * ```
- *
+ * Create a new hosted feature service.
  * @param requestOptions - Options for the request
  * @returns A Promise that resolves with service details once the service has been created
  */

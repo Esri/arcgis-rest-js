@@ -5,16 +5,13 @@ import { request, IRequestOptions, cleanUrl } from "@esri/arcgis-rest-request";
 import { ILayerDefinition } from "@esri/arcgis-rest-common-types";
 
 /**
- * Layer (Feature Service) request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/layer-feature-service-.htm) for more information.
- *
  * ```js
  * import { getLayer } from '@esri/arcgis-rest-feature-service';
- *
- * const url = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0";
- *
- * getLayer(url)
+ * //
+ * getLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0")
  *   .then(response) // { name: "311", id: 0, ... }
  * ```
+ * Layer (Feature Service) request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/layer-feature-service-.htm) for more information.
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the addFeatures response.

@@ -39,23 +39,19 @@ export interface ISolveRouteResponse {
 }
 
 /**
- * Used to find the best way to get from one location to another or to visit several locations. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/route-synchronous-service.htm) for more information.
- *
  * ```js
- *   import { solveRoute } from '@esri/arcgis-rest-routing';
- *   import { ApplicationSession } from '@esri/arcgis-rest-auth';
- *
- *   solveRoute({
- *      stops: [
- *       [-117.195677, 34.056383],
- *       [-117.918976, 33.812092],
- *      ],
- *      authentication: session
- *   })
- *   .then((response) => {
- *     response.routes.features; // => {routes: {features: [{attributes: { ... }, geometry:{ ... }}]}}
- *   });
+ * import { solveRoute } from '@esri/arcgis-rest-routing';
+ * //
+ * solveRoute({
+ *   stops: [
+ *     [-117.195677, 34.056383],
+ *     [-117.918976, 33.812092],
+ *    ],
+ *    authentication
+ * })
+ *   .then(response) // => {routes: {features: [{attributes: { ... }, geometry:{ ... }}]}
  * ```
+ * Used to find the best way to get from one location to another or to visit several locations. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/route-synchronous-service.htm) for more information.
  *
  * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with routes and directions for the request.

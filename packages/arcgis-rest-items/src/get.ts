@@ -12,7 +12,7 @@ import { IItem } from "@esri/arcgis-rest-common-types";
 import { IItemIdRequestOptions, IItemDataRequestOptions } from "./helpers";
 
 /**
- * Get an item by id
+ * Get an item by id. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/item.htm) for more information.
  *
  * @param id - Item Id
  * @param requestOptions - Options for the request
@@ -33,7 +33,7 @@ export function getItem(
 }
 
 /**
- * Get the /data for an item.
+ * Get the /data for an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/item-data.htm) for more information.
  * @param id - Item Id
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the json data for the item.

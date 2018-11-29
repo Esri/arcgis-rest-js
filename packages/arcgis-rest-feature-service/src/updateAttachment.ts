@@ -38,11 +38,10 @@ export interface IUpdateAttachmentResponse {
 }
 
 /**
- * Update a related attachment to a feature by id. See [Update Attachment](https://developers.arcgis.com/rest/services-reference/update-attachment.htm) for more information.
  *
  * ```js
  * import { updateAttachment } from '@esri/arcgis-rest-feature-service';
- *
+ * //
  * updateAttachment({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
  *   featureId: 8484,
@@ -50,6 +49,7 @@ export interface IUpdateAttachmentResponse {
  *   attachmentId: 306
  * });
  * ```
+ * Update a related attachment to a feature by id. See [Update Attachment](https://developers.arcgis.com/rest/services-reference/update-attachment.htm) for more information.
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the `updateAttachment()` response.

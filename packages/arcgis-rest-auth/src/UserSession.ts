@@ -189,7 +189,7 @@ export interface IUserSessionOptions {
 
 /**
  * ```js
- * // OAuth 2.0 allows users to sign in directly to arcgis.com or ArcGIS Enterprise
+ * import { UserSession } from '@esri/arcgis-rest-auth';
  * UserSession.beginOAuth2({
  *   // register a new app to create a unique clientId
  *   clientId: "abc123",
@@ -203,7 +203,6 @@ export interface IUserSessionOptions {
  * })
  * ```
  * Used to authenticate both ArcGIS Online and ArcGIS Enterprise users. `UserSession` includes helper methods for [OAuth 2.0](/arcgis-rest-js/guides/browser-authentication/) in both browser and server applications.
- *
  */
 export class UserSession implements IAuthenticationManager {
   /**

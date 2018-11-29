@@ -34,17 +34,16 @@ export interface IDeleteAttachmentsResponse {
 }
 
 /**
- * Delete existing attachment files of a feature by id. See [Delete Attachments](https://developers.arcgis.com/rest/services-reference/delete-attachments.htm) for more information.
- *
  * ```js
  * import { deleteAttachments } from '@esri/arcgis-rest-feature-service';
- *
+ * //
  * deleteAttachments({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
  *   featureId: 8484,
  *   attachmentIds: [306]
  * });
  * ```
+ * Delete existing attachment files of a feature by id. See [Delete Attachments](https://developers.arcgis.com/rest/services-reference/delete-attachments.htm) for more information.
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the `deleteAttachments()` response.

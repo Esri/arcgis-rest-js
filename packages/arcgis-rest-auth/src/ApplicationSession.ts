@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import {
@@ -35,11 +35,12 @@ export interface IApplicationSessionOptions {
 
 /**
  * ```js
- * // visit https://developers.arcgis.com to generate your own clientid and secret
+ * import { ApplicationSession } from '@esri/arcgis-rest-auth';
  * const session = new ApplicationSession({
  *   clientId: "abc123",
  *   clientSecret: "sshhhhhh"
  * })
+ * // visit https://developers.arcgis.com to generate your own clientid and secret
  * ```
  * You can use [App Login](/arcgis-rest-/js/guides/node/) to access premium content and services in ArcGIS Online.
  *

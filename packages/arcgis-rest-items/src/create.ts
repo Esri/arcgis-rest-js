@@ -25,15 +25,16 @@ export interface IItemAddRequestOptions extends IItemCrudRequestOptions {
 }
 
 /**
- * Create a folder
- *
  * ```js
  * import { createFolder } from '@esri/arcgis-rest-items';
- *
+ * //
  * createFolder({
  *   title: 'Map Collection',
  *   authentication: userSession
- * }) ```
+ * })
+ *   .then(response)
+ * ```
+ * Create a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/create-folder.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that resolves with folder details once the folder has been created

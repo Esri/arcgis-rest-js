@@ -110,8 +110,6 @@ export interface IQueryResponse {
 }
 
 /**
- * Get a feature by id.
- *
  * ```js
  * import { getFeature } from '@esri/arcgis-rest-feature-service';
  *
@@ -124,6 +122,7 @@ export interface IQueryResponse {
  *  console.log(feature.attributes.FID); // 42
  * });
  * ```
+ * Get a feature by id.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the feature.
@@ -142,20 +141,16 @@ export function getFeature(
 }
 
 /**
- * Query a feature service. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
- *
  * ```js
  * import { queryFeatures } from '@esri/arcgis-rest-feature-service';
- *
- * const url = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3";
- *
+ * //
  * queryFeatures({
- *   url,
+ *   url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3",
  *   where: "STATE_NAME = 'Alaska'"
- * }).then(result => {
- *   console.log(result.features); // array of features
- * });
+ * })
+ *   .then(result)
  * ```
+ * Query a feature service. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the query response.

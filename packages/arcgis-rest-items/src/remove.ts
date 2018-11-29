@@ -10,17 +10,15 @@ import {
 } from "./helpers";
 
 /**
- * Remove an item from the portal
- *
- * *
  * ```js
  * import { removeItem } from '@esri/arcgis-rest-items';
- *
+ * //
  * removeItem({
- *   authentication: userSession,
- *   id: "3ef"
+ *   id: "3ef",
+ *   authentication
  * })
  * ```
+ * Delete an item from the portal. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-item.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that deletes an item.
