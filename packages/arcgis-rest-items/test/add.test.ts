@@ -120,7 +120,7 @@ describe("search", () => {
           relationshipType: "WMA2Code"
         }
       })
-        .then(response => {
+        .then(() => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(

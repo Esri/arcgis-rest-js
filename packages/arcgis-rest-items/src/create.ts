@@ -56,7 +56,20 @@ export function createFolder(
 }
 
 /**
- * Create an item in a folder
+ * ```js
+ * import { createItemInFolder } from '@esri/arcgis-rest-items';
+ * //
+ * createItem({
+ *   item: {
+ *     title: "The Amazing Voyage",
+ *     type: "Web Map",
+ *     data: {}
+ *   },
+ *   folder: 'underwater',
+ *   authentication
+ * })
+ * ```
+ * Create an item in a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-item.htm) for more information.
  *
  * @param requestOptions = Options for the request
  */
@@ -82,19 +95,19 @@ export function createItemInFolder(
 }
 
 /**
- * Create an Item in the user's root folder
- *
  * ```js
  * import { createItem } from '@esri/arcgis-rest-items';
- *
+ * //
  * createItem({
- *   authentication: userSession,
  *   item: {
  *     title: "The Amazing Voyage",
- *     type: "Web Map"
- *   }
+ *     type: "Web Map",
+ *     data: {}
+ *   },
+ *   authentication
  * })
  * ```
+ * Create an Item in the user's root folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-item.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that creates an item.
