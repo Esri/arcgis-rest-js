@@ -656,7 +656,7 @@ export class UserSession implements IAuthenticationManager {
       /^https?:\/\/\S+\.arcgis\.com.+/.test(url)
     ) {
       return this.getFreshToken(requestOptions);
-    } else if (new RegExp(this.portal).test(url)) {
+    } else if (new RegExp(this.portal, "i").test(url)) {
       return this.getFreshToken(requestOptions);
     } else {
       return this.getTokenForServer(url, requestOptions);
@@ -708,7 +708,8 @@ export class UserSession implements IAuthenticationManager {
     requestOptions?: ITokenRequestOptions
   ) {
     // requests to /rest/services/ and /rest/admin/services/ are both valid
-    const [root] = url.split(/\/rest(\/admin)?\/services\//);
+    // Federated servers may have inconsistent casing, so lowerCase it
+    const [root] = url.toLowerCase().split(/\/rest(\/admin)?\/services\//);
     const existingToken = this.trustedServers[root];
 
     if (existingToken && existingToken.expires.getTime() > Date.now()) {
@@ -732,7 +733,7 @@ export class UserSession implements IAuthenticationManager {
          */
         if (
           !owningSystemUrl ||
-          !new RegExp(owningSystemUrl).test(this.portal)
+          !new RegExp(owningSystemUrl, "i").test(this.portal)
         ) {
           throw new ArcGISAuthError(
             `${url} is not federated with ${this.portal}.`,
