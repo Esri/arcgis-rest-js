@@ -67,7 +67,18 @@ export function updateItem(
 }
 
 /**
- * Update a resource associated with an item
+ * ```js
+ * import { updateItemResource } from '@esri/arcgis-rest-items';
+ * //
+ * updateItemResource({
+ *   id: '3ef',
+ *   resource: file,
+ *   name: 'bigkahuna.jpg',
+ *   authentication
+ * })
+ *   .then(response)
+ * ```
+ * Update a resource associated with an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that updates an item resource.
@@ -99,16 +110,16 @@ export function updateItemResource(
 }
 
 /**
- * Move an item to a folder
- *
  * ```js
  * import { moveItem } from '@esri/arcgis-rest-items';
- *
+ * //
  * moveItem({
  *   itemId: "3ef",
  *   folderId: "7c5",
  *   authentication: userSession
- * }) ```
+ * })
+ * ```
+ * Move an item to a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/move-item.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that resolves with owner and folder details once the move has been completed

@@ -27,7 +27,17 @@ export interface IItemResourceAddRequestOptions
 }
 
 /**
- * Send json to an item to be stored as the `/data` resource
+ * ```js
+ * import { addItemJsonData } from '@esri/arcgis-rest-items';
+ * //
+ * addItemJsonData({
+ *   id: '3ef',
+ *   data: {}
+ *   authentication
+ * })
+ *   .then(response)
+ * ```
+ * Send json to an item to be stored as the `/data` resource. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-item.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with an object reporting
@@ -53,7 +63,17 @@ export function addItemJsonData(
 }
 
 /**
- * Send a file or blob to an item to be stored as the `/data` resource
+ * ```js
+ * import { addItemData } from '@esri/arcgis-rest-items';
+ * //
+ * addItemData({
+ *   id: '3ef',
+ *   data: file,
+ *   authentication
+ * })
+ *   .then(response)
+ * ```
+ * Send a file or blob to an item to be stored as the `/data` resource. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-item.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with an object reporting
@@ -78,7 +98,18 @@ export function addItemData(
 }
 
 /**
- * Add a resource associated with an item
+ * ```js
+ * import { addItemResource } from '@esri/arcgis-rest-items';
+ * //
+ * addItemResource({
+ *   id: '3ef',
+ *   resource: file,
+ *   name: 'bigkahuna.jpg',
+ *   authentication
+ * })
+ *   .then(response)
+ * ```
+ * Add a resource associated with an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-resources.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise to add item resources.
