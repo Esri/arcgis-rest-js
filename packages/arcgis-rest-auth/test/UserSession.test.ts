@@ -129,7 +129,7 @@ describe("UserSession", () => {
         });
     });
 
-    it("should use fetch token when contacting a server that is federated, even if on same domain, regardless of domain casing", done => {
+    it("should fetch token when contacting a server that is federated, even if on same domain, regardless of domain casing", done => {
       // This was a real configuration discovered on a portal instance
       // apparently when federating servers, the UI does not force the
       // server url to lowercase, and this any feature service items generated

@@ -708,7 +708,7 @@ export class UserSession implements IAuthenticationManager {
     requestOptions?: ITokenRequestOptions
   ) {
     // requests to /rest/services/ and /rest/admin/services/ are both valid
-    // Federated servers may have inconsisten casing, so loweCase it
+    // Federated servers may have inconsistent casing, so lowerCase it
     const [root] = url.toLowerCase().split(/\/rest(\/admin)?\/services\//);
     const existingToken = this.trustedServers[root];
 
