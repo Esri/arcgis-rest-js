@@ -109,6 +109,90 @@ describe("UserSession", () => {
         });
     });
 
+    it("should return unexpired tokens for the configured portal domain, regardless of CASING", done => {
+      // This was a real configuration discovered on a portal instance
+      const session = new UserSession({
+        clientId: "id",
+        token: "token",
+        tokenExpires: TOMORROW,
+        portal: "https://pnp00035.esri.com/sharing/rest"
+      });
+
+      session
+        .getToken("https://PNP00035.esri.com/sharing/rest/portals/self")
+        .then(token => {
+          expect(token).toBe("token");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should use fetch token when contacting a server that is federated, even if on same domain, regardless of domain casing", done => {
+      // This was a real configuration discovered on a portal instance
+      // apparently when federating servers, the UI does not force the
+      // server url to lowercase, and this any feature service items generated
+      // will have the server name using the casing the admin entered.
+      // this is just a test to ensure that the mis-matched casing does not
+      // break the federation flow.
+      const session = new UserSession({
+        clientId: "id",
+        token: "existing-session-token",
+        refreshToken: "refresh",
+        tokenExpires: TOMORROW,
+        portal: "https://pnp00035.esri.com/portal/sharing/rest"
+      });
+
+      fetchMock.postOnce("https://pnp00035.esri.com/server/rest/info", {
+        currentVersion: 10.61,
+        fullVersion: "10.6.1",
+        owningSystemUrl: "https://pnp00035.esri.com/portal",
+        authInfo: {
+          isTokenBasedSecurity: true,
+          tokenServicesUrl:
+            "https://pnp00035.esri.com/portal/sharing/rest/generateToken"
+        }
+      });
+
+      fetchMock.postOnce("https://pnp00035.esri.com/portal/sharing/rest/info", {
+        owningSystemUrl: "https://pnp00035.esri.com/portal",
+        authInfo: {
+          tokenServicesUrl:
+            "https://pnp00035.esri.com/portal/sharing/rest/generateToken",
+          isTokenBasedSecurity: true
+        }
+      });
+
+      fetchMock.postOnce(
+        "https://pnp00035.esri.com/portal/sharing/rest/generateToken",
+        {
+          token: "new-server-token",
+          expires: TOMORROW
+        }
+      );
+
+      // request the token twice, for the same domain, but with different casing
+      // and we expect a single POST to generate a token once
+      session
+        .getToken(
+          "https://PNP00035.esri.com/server/rest/services/Hosted/perimeters_dd83/FeatureServer"
+        )
+        .then(token => {
+          expect(token).toBe("new-server-token");
+          return session.getToken(
+            "https://pnp00035.esri.com/server/rest/services/Hosted/otherService/FeatureServer"
+          );
+        })
+        .then(token => {
+          expect(token).toBe("new-server-token");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
     it("should fetch new tokens when tokens for trusted arcgis.com domains are expired", done => {
       const session = new UserSession({
         clientId: "id",
