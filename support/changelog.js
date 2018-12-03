@@ -130,7 +130,6 @@ function processCommitMessages(releaseData) {
             ]
           }
         );
-        console.log(parsedCommit.notes);
         if (!parsedCommit.type || !parsedCommit.scope) {
           return;
         }

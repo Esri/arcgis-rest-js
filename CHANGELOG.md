@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.14.3] - December 3rd 2018
+
+### @esri/arcgis-rest-auth
+
+* Bug Fixes
+   * **arcgis-rest-auth**: ensure that mixed casing of federated server urls does not break the system [`07c92f55`](https://github.com/Esri/arcgis-rest-js/commit/07c92f559cc0288fa379d19464f88642c6fe2803)
+
+### demos/oauth2-browser
+
+* Bug Fixes
+   ensure that the response is parsed correctly when 'keep me signed in' is checked. [`924f790`](https://github.com/Esri/arcgis-rest-js/commit/924f790efb5a62e885e803de5a744efcf337ebb0)
+
+### Other Changes
+
+* Documentation
+   * moved existing code snippets above the fold.
+   * added lots more code snippets.
+   * made it clearer that JSON `data()` can be passed along when an item is created.
+
+### Other Changes
+
+* Bug Fixes
+   * **arcgis-rest-auth**: Allow mixed casing of federated server urls [`c4e0697d`](https://github.com/Esri/arcgis-rest-js/commit/c4e0697dc1ec66d5cc1919698c79d177d8f57220)
+
 ## [1.14.2] - November 27th 2018
 
 ### @esri/arcgis-rest-request
@@ -980,4 +1004,5 @@ Initial Public Release
 [1.14.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.2...v1.14.0 "v1.14.0"
 [1.14.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.0...v1.14.1 "v1.14.1"
 [1.14.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.1...v1.14.2 "v1.14.2"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.2...HEAD "Unreleased Changes"
+[1.14.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.2...v1.14.3 "v1.14.3"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.3...HEAD "Unreleased Changes"

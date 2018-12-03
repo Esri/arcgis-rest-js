@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-geocoder",
-  "version": "1.14.2",
+  "version": "1.14.3",
   "description": "Geocoding helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
   "browser": "dist/umd/geocoder.umd.js",
@@ -15,9 +15,9 @@
     "tslib": "^1.7.1"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^1.14.2",
-    "@esri/arcgis-rest-common-types": "^1.14.1",
-    "@esri/arcgis-rest-request": "^1.14.2"
+    "@esri/arcgis-rest-auth": "^1.14.3",
+    "@esri/arcgis-rest-common-types": "^1.14.3",
+    "@esri/arcgis-rest-request": "^1.14.3"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^1.14.1",

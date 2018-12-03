@@ -1,6 +1,6 @@
 {
   "name": "node-cli",
-  "version": "1.14.2",
+  "version": "1.14.3",
   "description": "arcgis-rest-js node command-line item search example",
   "main": "ago.js",
   "scripts": {
@@ -18,9 +18,9 @@
   "author": "Dave Bouwman <dbouwman@esri.com>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@esri/arcgis-rest-auth": "^1.14.2",
-    "@esri/arcgis-rest-items": "^1.14.2",
-    "@esri/arcgis-rest-request": "^1.14.2",
+    "@esri/arcgis-rest-auth": "^1.14.3",
+    "@esri/arcgis-rest-items": "^1.14.3",
+    "@esri/arcgis-rest-request": "^1.14.3",
     "chalk": "^2.3.0",
     "commander": "^2.12.2",
     "isomorphic-fetch": "^2.2.1",
