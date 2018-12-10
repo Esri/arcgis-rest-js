@@ -8,6 +8,8 @@ import { ArcGISRequestError } from "./utils/ArcGISRequestError";
 import { IRetryAuthError } from "./utils/retryAuthError";
 import { HTTPMethods, IParams, ITokenRequestOptions } from "./utils/params";
 
+export { IParams } from "./utils/params";
+
 /**
  * Authentication can be supplied to `request` via [`UserSession`](../../auth/UserSession/) or [`ApplicationSession`](../../auth/ApplicationSession/). Both classes extend `IAuthenticationManager`.
  * ```js
@@ -215,14 +217,7 @@ export function request(
         case "text":
           return response.text();
         /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust that isomorphic fetch will do its job */
-        case "image":
-          return response.blob();
-        /* istanbul ignore next */
-        case "zip":
-          return response.blob();
-        /* istanbul ignore next */
         default:
-          // hopefully we never need to handle JSON payloads when no f= parameter is set
           return response.blob();
       }
     })
