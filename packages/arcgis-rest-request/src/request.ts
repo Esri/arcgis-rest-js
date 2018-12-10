@@ -8,8 +8,6 @@ import { ArcGISRequestError } from "./utils/ArcGISRequestError";
 import { IRetryAuthError } from "./utils/retryAuthError";
 import { HTTPMethods, IParams, ITokenRequestOptions } from "./utils/params";
 
-export { IParams } from "./utils/params";
-
 /**
  * Authentication can be supplied to `request` via [`UserSession`](../../auth/UserSession/) or [`ApplicationSession`](../../auth/ApplicationSession/). Both classes extend `IAuthenticationManager`.
  * ```js
