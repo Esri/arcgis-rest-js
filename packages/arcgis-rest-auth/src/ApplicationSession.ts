@@ -42,7 +42,7 @@ export interface IApplicationSessionOptions {
  * })
  * // visit https://developers.arcgis.com to generate your own clientid and secret
  * ```
- * You can use [App Login](/arcgis-rest-/js/guides/node/) to access premium content and services in ArcGIS Online.
+ * You can use [App Login](/arcgis-rest-js/guides/node/) to access premium content and services in ArcGIS Online.
  *
  */
 export class ApplicationSession implements IAuthenticationManager {
