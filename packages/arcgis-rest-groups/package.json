@@ -3,7 +3,7 @@
   "version": "1.14.3",
   "description": "Portal Group helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
-  "browser": "dist/umd/groups.umd.js",
+  "unpkg": "dist/umd/groups.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",

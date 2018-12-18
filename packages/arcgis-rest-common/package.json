@@ -3,7 +3,7 @@
   "version": "1.14.3",
   "description": "Shared utility methods and types for @esri/arcgis-rest-js",
   "main": "dist/node/index.js",
-  "browser": "dist/umd/common.umd.js",
+  "unpkg": "dist/umd/common.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",

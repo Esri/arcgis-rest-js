@@ -3,7 +3,7 @@
   "version": "1.14.3",
   "description": "Common methods and utilities for @esri/arcgis-rest-* packages.",
   "main": "dist/node/index.js",
-  "browser": "dist/umd/request.umd.js",
+  "unpkg": "dist/umd/request.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
