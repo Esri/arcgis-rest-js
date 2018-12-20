@@ -502,7 +502,7 @@ describe("UserSession", () => {
           expect(e.name).toEqual(ErrorTypes.ArcGISAuthError);
           expect(e.code).toEqual("NOT_FEDERATED");
           expect(e.message).toEqual(
-            "NOT_FEDERATED: https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query is not federated with https://www.arcgis.com/sharing/rest."
+            "NOT_FEDERATED: https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query is not federated with any portal and is not explicitly trusted."
           );
           done();
         });
@@ -1084,6 +1084,141 @@ describe("UserSession", () => {
       expect(credSession.ssl).toEqual(false);
       expect(credSession.token).toEqual("token");
       expect(credSession.tokenExpires).toEqual(new Date(TOMORROW));
+    });
+  });
+
+  describe("non-federated server", () => {
+    it("shouldnt fetch a fresh token if the current one isnt expired.", done => {
+      const MOCK_USER_SESSION = new UserSession({
+        username: "c@sey",
+        password: "123456",
+        token: "token",
+        tokenExpires: TOMORROW,
+        server: "https://fakeserver.com/arcgis"
+      });
+
+      MOCK_USER_SESSION.getToken(
+        "https://fakeserver.com/arcgis/rest/services/Fake/MapServer/"
+      )
+        .then(token => {
+          expect(token).toBe("token");
+          done();
+        })
+        .catch(err => {
+          fail(err);
+        });
+    });
+
+    it("should fetch a fresh token if the current one is expired.", done => {
+      const MOCK_USER_SESSION = new UserSession({
+        username: "jsmith",
+        password: "123456",
+        token: "token",
+        tokenExpires: YESTERDAY,
+        server: "https://fakeserver.com/arcgis"
+      });
+
+      fetchMock.postOnce("https://fakeserver.com/arcgis/rest/info", {
+        currentVersion: 10.61,
+        fullVersion: "10.6.1",
+        authInfo: {
+          isTokenBasedSecurity: true,
+          tokenServicesUrl: "https://fakeserver.com/arcgis/tokens/"
+        }
+      });
+
+      fetchMock.postOnce("https://fakeserver.com/arcgis/tokens/", {
+        token: "fresh-token",
+        expires: TOMORROW.getTime(),
+        username: " jsmith"
+      });
+
+      MOCK_USER_SESSION.getToken(
+        "https://fakeserver.com/arcgis/rest/services/Fake/MapServer/"
+      )
+        .then(token => {
+          expect(token).toBe("fresh-token");
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+            "https://fakeserver.com/arcgis/tokens/"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("username=jsmith");
+          expect(options.body).toContain("password=123456");
+          expect(options.body).toContain("client=referer");
+          done();
+        })
+        .catch(err => {
+          fail(err);
+        });
+    });
+
+    it("should trim down the server url if necessary.", done => {
+      const MOCK_USER_SESSION = new UserSession({
+        username: "jsmith",
+        password: "123456",
+        token: "token",
+        tokenExpires: YESTERDAY,
+        server: "https://fakeserver.com/arcgis/rest/services/blah/"
+      });
+
+      fetchMock.postOnce("https://fakeserver.com/arcgis/rest/info", {
+        currentVersion: 10.61,
+        fullVersion: "10.6.1",
+        authInfo: {
+          isTokenBasedSecurity: true,
+          tokenServicesUrl: "https://fakeserver.com/arcgis/tokens/"
+        }
+      });
+
+      fetchMock.postOnce("https://fakeserver.com/arcgis/tokens/", {
+        token: "fresh-token",
+        expires: TOMORROW.getTime(),
+        username: " jsmith"
+      });
+
+      MOCK_USER_SESSION.getToken(
+        "https://fakeserver.com/arcgis/rest/services/Fake/MapServer/"
+      )
+        .then(token => {
+          expect(token).toBe("fresh-token");
+          done();
+        })
+        .catch(err => {
+          fail(err);
+        });
+    });
+
+    it("should throw an error if the server isnt trusted.", done => {
+      fetchMock.postOnce("https://fakeserver2.com/arcgis/rest/info", {
+        currentVersion: 10.61,
+        fullVersion: "10.6.1",
+        authInfo: {
+          isTokenBasedSecurity: true,
+          tokenServicesUrl: "https://fakeserver2.com/arcgis/tokens/"
+        }
+      });
+      const MOCK_USER_SESSION = new UserSession({
+        username: "c@sey",
+        password: "123456",
+        token: "token",
+        tokenExpires: TOMORROW,
+        server: "https://fakeserver.com/arcgis"
+      });
+
+      MOCK_USER_SESSION.getToken(
+        "https://fakeserver2.com/arcgis/rest/services/Fake/MapServer/"
+      )
+        .then(token => {
+          fail(token);
+        })
+        .catch(err => {
+          expect(err.code).toBe("NOT_FEDERATED");
+          expect(err.originalMessage).toBe(
+            "https://fakeserver2.com/arcgis/rest/services/Fake/MapServer/ is not federated with any portal and is not explicitly trusted."
+          );
+          done();
+        });
     });
   });
 });
