@@ -6,6 +6,7 @@
   "unpkg": "dist/umd/request.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
+  "sideEffects": false,
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
