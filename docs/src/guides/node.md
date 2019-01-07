@@ -63,7 +63,7 @@ const authentication = new UserSession({
   password: "123456"
 })
 ```
-See the [Browser Authenication](../browser-authentication/) for more information about implementing OAuth 2.0.
+See the [Browser Authentication](../browser-authentication/) for more information about implementing OAuth 2.0.
 
 
 
