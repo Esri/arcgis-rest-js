@@ -3,7 +3,7 @@
   "version": "1.14.3",
   "description": "Helper utilities for managing access to ArcGIS content in Node.js and modern browsers.",
   "main": "dist/node/index.js",
-  "browser": "dist/umd/sharing.umd.js",
+  "unpkg": "dist/umd/sharing.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
