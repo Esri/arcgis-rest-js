@@ -11,6 +11,8 @@ group: 0-introduction
 
 There's no better way to explain what that means than comparing an `@esri/arcgis-rest` call to the same web request made using plain old JavaScript.
 
+### @esri/arcgis-rest
+
 ```js
 import { getUser } from "@esri/arcgis-rest-users";
 
@@ -18,6 +20,8 @@ import { getUser } from "@esri/arcgis-rest-users";
 getUser(`jgravois`)
   .then(response) // { firstName: "john", description: "open source geodev" ... }
 ```
+
+### vs. Vanilla JavaScript
 
 ```js
 // construct the url yourself and don't forget to tack on f=json
@@ -89,7 +93,7 @@ As you can see, `@esri/arcgis-rest` is still handling a _lot_ of the details int
 * `200` responses that contain an error are trapped for
 * the generic `f=json` parameter is appended
 
-And we haven't even begun to discuss [authentication](../node/).
+And we haven't even begun to discuss [authentication](../browser-authentication/).
 
 Whether you're trying to automate interacting with premium services in Node.js or creating a website that will allow users to sign into [ArcGIS Online](https://www.arcgis.com) safely and manage their own content, `@esri/arcgis-rest` has you covered.
 
