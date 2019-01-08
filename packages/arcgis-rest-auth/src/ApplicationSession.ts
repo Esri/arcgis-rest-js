@@ -31,6 +31,11 @@ export interface IApplicationSessionOptions {
    * Expiration date for the `token`
    */
   expires?: Date;
+  
+  /**
+   * URL of ArcGIS REST base, defaults to "https://www.arcgis.com/sharing/rest"
+   */
+  portal?: string;
 }
 
 /**
@@ -63,7 +68,7 @@ export class ApplicationSession implements IAuthenticationManager {
     this.clientSecret = options.clientSecret;
     this.token = options.token;
     this.expires = options.expires;
-    this.portal = "https://www.arcgis.com/sharing/rest";
+    this.portal = options.portal || "https://www.arcgis.com/sharing/rest";
   }
 
   // url isnt actually read or passed through.
