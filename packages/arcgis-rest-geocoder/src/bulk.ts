@@ -91,7 +91,9 @@ export function bulkGeocode(
   ).then(response => {
     const sr = response.spatialReference;
     response.locations.forEach(function(address: { location: IPoint }) {
-      address.location.spatialReference = sr;
+      if (address.location) {
+        address.location.spatialReference = sr;
+      }
     });
     return response;
   });
