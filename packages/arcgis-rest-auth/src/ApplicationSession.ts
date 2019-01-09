@@ -36,6 +36,11 @@ export interface IApplicationSessionOptions {
    * URL of ArcGIS REST base, defaults to "https://www.arcgis.com/sharing/rest"
    */
   portal?: string;
+
+  /**
+   * Duration of requested tokens in minutes. defaults to 7200 (5 days).
+  */
+  duration?: number;
 }
 
 /**
@@ -56,6 +61,7 @@ export class ApplicationSession implements IAuthenticationManager {
   private clientSecret: string;
   private token: string;
   private expires: Date;
+  private duration: number;
 
   /**
    * Internal object to keep track of pending token requests. Used to prevent
@@ -69,6 +75,7 @@ export class ApplicationSession implements IAuthenticationManager {
     this.token = options.token;
     this.expires = options.expires;
     this.portal = options.portal || "https://www.arcgis.com/sharing/rest";
+    this.duration = options.duration || 7200;
   }
 
   // url isnt actually read or passed through.
@@ -94,7 +101,8 @@ export class ApplicationSession implements IAuthenticationManager {
       params: {
         client_id: this.clientId,
         client_secret: this.clientSecret,
-        grant_type: "client_credentials"
+        grant_type: "client_credentials",
+        expiration: this.duration
       },
       ...requestOptions
     };
