@@ -206,129 +206,6 @@ export interface IUserSessionOptions {
  */
 export class UserSession implements IAuthenticationManager {
   /**
-   * Client ID being used for authentication if provided in the `constructor`.
-   */
-  readonly clientId: string;
-
-  /**
-   * The currently authenticated user if provided in the `constructor`.
-   */
-  readonly username: string;
-
-  /**
-   * The currently authenticated user's password if provided in the `constructor`.
-   */
-  readonly password: string;
-
-  /**
-   * The current portal the user is authenticated with.
-   */
-  readonly portal: string;
-
-  /**
-   * This value is set to true automatically if the ArcGIS Organization requires that requests be made over https.
-   */
-  readonly ssl: boolean;
-
-  /**
-   * The authentication provider to use.
-   */
-  readonly provider: AuthenticationProvider;
-
-  /**
-   * Determines how long new tokens requested are valid.
-   */
-  readonly tokenDuration: number;
-
-  /**
-   * A valid redirect URI for this application if provided in the `constructor`.
-   */
-  readonly redirectUri: string;
-
-  /**
-   * Duration of new OAuth 2.0 refresh token validity.
-   */
-  readonly refreshTokenTTL: number;
-
-  /**
-   * Hydrated by a call to [getUser()](#getUser-summary).
-   */
-  _user: IUser;
-
-  private _token: string;
-  private _tokenExpires: Date;
-  private _refreshToken: string;
-  private _refreshTokenExpires: Date;
-
-  /**
-   * Internal object to keep track of pending token requests. Used to prevent
-   *  duplicate token requests.
-   */
-  private _pendingTokenRequests: {
-    [key: string]: Promise<string>;
-  };
-
-  /**
-   * Internal list of trusted 3rd party servers (federated servers) that have
-   *  been validated with `generateToken`.
-   */
-  private trustedServers: {
-    [key: string]: {
-      token: string;
-      expires: Date;
-    };
-  };
-
-  /**
-   * The current ArcGIS Online or ArcGIS Enterprise `token`.
-   */
-  get token() {
-    return this._token;
-  }
-
-  /**
-   * The expiration time of the current `token`.
-   */
-  get tokenExpires() {
-    return this._tokenExpires;
-  }
-
-  /**
-   * The current token to ArcGIS Online or ArcGIS Enterprise.
-   */
-  get refreshToken() {
-    return this._refreshToken;
-  }
-
-  /**
-   * The expiration time of the current `refreshToken`.
-   */
-  get refreshTokenExpires() {
-    return this._refreshTokenExpires;
-  }
-
-  constructor(options: IUserSessionOptions) {
-    this.clientId = options.clientId;
-    this._refreshToken = options.refreshToken;
-    this._refreshTokenExpires = options.refreshTokenExpires;
-    this.username = options.username;
-    this.password = options.password;
-    this._token = options.token;
-    this._tokenExpires = options.tokenExpires;
-    this.portal = options.portal
-      ? cleanUrl(options.portal)
-      : "https://www.arcgis.com/sharing/rest";
-    this.ssl = options.ssl;
-    this.provider = options.provider || "arcgis";
-    this.tokenDuration = options.tokenDuration || 20160;
-    this.redirectUri = options.redirectUri;
-    this.refreshTokenTTL = options.refreshTokenTTL || 1440;
-
-    this.trustedServers = {};
-    this._pendingTokenRequests = {};
-  }
-
-  /**
    * Begins a new browser-based OAuth 2.0 sign in. If `options.popup` is true the
    * authentication window will open in a new tab/window otherwise the user will
    * be redirected to the authorization page in their current tab.
@@ -336,7 +213,7 @@ export class UserSession implements IAuthenticationManager {
    * @browserOnly
    */
   /* istanbul ignore next */
-  static beginOAuth2(options: IOauth2Options, win: any = window) {
+  public static beginOAuth2(options: IOauth2Options, win: any = window) {
     const {
       portal,
       provider,
@@ -417,7 +294,7 @@ export class UserSession implements IAuthenticationManager {
    * @browserOnly
    */
   /* istanbul ignore next */
-  static completeOAuth2(options: IOauth2Options, win: any = window) {
+  public static completeOAuth2(options: IOauth2Options, win: any = window) {
     const { portal, clientId }: IOauth2Options = {
       ...{ portal: "https://www.arcgis.com/sharing/rest" },
       ...options
@@ -494,7 +371,10 @@ export class UserSession implements IAuthenticationManager {
    *
    * @nodeOnly
    */
-  static authorize(options: IOauth2Options, response: http.ServerResponse) {
+  public static authorize(
+    options: IOauth2Options,
+    response: http.ServerResponse
+  ) {
     const { portal, clientId, duration, redirectUri }: IOauth2Options = {
       ...{ portal: "https://arcgis.com/sharing/rest", duration: 20160 },
       ...options
@@ -515,7 +395,7 @@ export class UserSession implements IAuthenticationManager {
    *
    * @nodeOnly
    */
-  static exchangeAuthorizationCode(
+  public static exchangeAuthorizationCode(
     options: IOauth2Options,
     authorizationCode: string
   ): Promise<UserSession> {
@@ -550,7 +430,7 @@ export class UserSession implements IAuthenticationManager {
     });
   }
 
-  static deserialize(str: string) {
+  public static deserialize(str: string) {
     const options = JSON.parse(str);
     return new UserSession({
       clientId: options.clientId,
@@ -580,7 +460,7 @@ export class UserSession implements IAuthenticationManager {
    *
    * @returns UserSession
    */
-  static fromCredential(credential: ICredential) {
+  public static fromCredential(credential: ICredential) {
     return new UserSession({
       portal: credential.server.includes("sharing/rest")
         ? credential.server
@@ -593,6 +473,129 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
+   * Client ID being used for authentication if provided in the `constructor`.
+   */
+  public readonly clientId: string;
+
+  /**
+   * The currently authenticated user if provided in the `constructor`.
+   */
+  public readonly username: string;
+
+  /**
+   * The currently authenticated user's password if provided in the `constructor`.
+   */
+  public readonly password: string;
+
+  /**
+   * The current portal the user is authenticated with.
+   */
+  public readonly portal: string;
+
+  /**
+   * This value is set to true automatically if the ArcGIS Organization requires that requests be made over https.
+   */
+  public readonly ssl: boolean;
+
+  /**
+   * The authentication provider to use.
+   */
+  public readonly provider: AuthenticationProvider;
+
+  /**
+   * Determines how long new tokens requested are valid.
+   */
+  public readonly tokenDuration: number;
+
+  /**
+   * A valid redirect URI for this application if provided in the `constructor`.
+   */
+  public readonly redirectUri: string;
+
+  /**
+   * Duration of new OAuth 2.0 refresh token validity.
+   */
+  public readonly refreshTokenTTL: number;
+
+  /**
+   * Hydrated by a call to [getUser()](#getUser-summary).
+   */
+  private _user: IUser;
+
+  private _token: string;
+  private _tokenExpires: Date;
+  private _refreshToken: string;
+  private _refreshTokenExpires: Date;
+
+  /**
+   * Internal object to keep track of pending token requests. Used to prevent
+   *  duplicate token requests.
+   */
+  private _pendingTokenRequests: {
+    [key: string]: Promise<string>;
+  };
+
+  /**
+   * Internal list of trusted 3rd party servers (federated servers) that have
+   *  been validated with `generateToken`.
+   */
+  private trustedServers: {
+    [key: string]: {
+      token: string;
+      expires: Date;
+    };
+  };
+
+  /**
+   * The current ArcGIS Online or ArcGIS Enterprise `token`.
+   */
+  get token() {
+    return this._token;
+  }
+
+  /**
+   * The expiration time of the current `token`.
+   */
+  get tokenExpires() {
+    return this._tokenExpires;
+  }
+
+  /**
+   * The current token to ArcGIS Online or ArcGIS Enterprise.
+   */
+  get refreshToken() {
+    return this._refreshToken;
+  }
+
+  /**
+   * The expiration time of the current `refreshToken`.
+   */
+  get refreshTokenExpires() {
+    return this._refreshTokenExpires;
+  }
+
+  constructor(options: IUserSessionOptions) {
+    this.clientId = options.clientId;
+    this._refreshToken = options.refreshToken;
+    this._refreshTokenExpires = options.refreshTokenExpires;
+    this.username = options.username;
+    this.password = options.password;
+    this._token = options.token;
+    this._tokenExpires = options.tokenExpires;
+    this.portal = options.portal
+      ? cleanUrl(options.portal)
+      : "https://www.arcgis.com/sharing/rest";
+    this.ssl = options.ssl;
+    this.provider = options.provider || "arcgis";
+    this.tokenDuration = options.tokenDuration || 20160;
+    this.redirectUri = options.redirectUri;
+    this.refreshTokenTTL = options.refreshTokenTTL || 1440;
+
+    this.trustedServers = {};
+    this._pendingTokenRequests = {};
+  }
+
+  /**
    * Returns authentication in a format useable in the [ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/).
    *
    * ```js
@@ -601,7 +604,7 @@ export class UserSession implements IAuthenticationManager {
    *
    * @returns ICredential
    */
-  toCredential(): ICredential {
+  public toCredential(): ICredential {
     return {
       expires: this.tokenExpires.getTime(),
       server: this.portal,
@@ -623,7 +626,7 @@ export class UserSession implements IAuthenticationManager {
    *
    * @returns A Promise that will resolve with the data from the response.
    */
-  getUser(requestOptions?: IRequestOptions): Promise<IUser> {
+  public getUser(requestOptions?: IRequestOptions): Promise<IUser> {
     if (this._user && this._user.username === this.username) {
       return Promise.resolve(this._user);
     } else {
@@ -650,7 +653,7 @@ export class UserSession implements IAuthenticationManager {
    * the request is to an unknown server we will validate the server with a request
    * to our current `portal`.
    */
-  getToken(url: string, requestOptions?: ITokenRequestOptions) {
+  public getToken(url: string, requestOptions?: ITokenRequestOptions) {
     if (
       /^https?:\/\/\S+\.arcgis\.com\/sharing\/rest/.test(this.portal) &&
       /^https?:\/\/\S+\.arcgis\.com.+/.test(url)
@@ -663,7 +666,7 @@ export class UserSession implements IAuthenticationManager {
     }
   }
 
-  toJSON(): IUserSessionOptions {
+  public toJSON(): IUserSessionOptions {
     return {
       clientId: this.clientId,
       refreshToken: this.refreshToken,
@@ -680,14 +683,16 @@ export class UserSession implements IAuthenticationManager {
     };
   }
 
-  serialize() {
+  public serialize() {
     return JSON.stringify(this);
   }
 
   /**
    * Manually refreshes the current `token` and `tokenExpires`.
    */
-  refreshSession(requestOptions?: ITokenRequestOptions): Promise<UserSession> {
+  public refreshSession(
+    requestOptions?: ITokenRequestOptions
+  ): Promise<UserSession> {
     if (this.username && this.password) {
       return this.refreshWithUsernameAndPassword(requestOptions);
     }

@@ -11,37 +11,37 @@ export class ArcGISRequestError {
   /**
    * The name of this error. Will always be `"ArcGISRequestError"` to conform with the [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) class.
    */
-  name: string;
+  public name: string;
 
   /**
    * Formatted error message. See the [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) class for more details.
    */
-  message: string;
+  public message: string;
 
   /**
    * The errror message return from the request.
    */
-  originalMessage: string;
+  public originalMessage: string;
 
   /**
    * The error code returned from the request.
    */
-  code: string | number;
+  public code: string | number;
 
   /**
    * The original JSON response the caused the error.
    */
-  response: any;
+  public response: any;
 
   /**
    * The URL of the original request that caused the error
    */
-  url: string;
+  public url: string;
 
   /**
    * The options of the original request that caused the error
    */
-  options: IRequestOptions;
+  public options: IRequestOptions;
 
   /**
    * Create a new `ArcGISRequestError`  object.

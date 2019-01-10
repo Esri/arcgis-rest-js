@@ -29,21 +29,12 @@ describe("invitations", () => {
   const session = new UserSession({
     username: "c@sey",
     password: "123456",
+    token: "fake-token",
+    tokenExpires: TOMORROW,
     portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
 
-  fetchMock.postOnce(
-    "https://myorg.maps.arcgis.com/sharing/rest/generateToken",
-    {
-      token: "fake-token",
-      expires: TOMORROW.getTime(),
-      username: "c@sey"
-    }
-  );
-
   describe("getUserInvitations", () => {
-    session.refreshSession();
-
     it("should make an authenticated request for user invitations", done => {
       fetchMock.once("*", UserInvitationsResponse);
 
@@ -65,17 +56,6 @@ describe("invitations", () => {
   });
 
   describe("getUserInvitation", () => {
-    fetchMock.postOnce(
-      "https://myorg.maps.arcgis.com/sharing/rest/generateToken",
-      {
-        token: "fake-token",
-        expires: TOMORROW.getTime(),
-        username: "c@sey"
-      }
-    );
-
-    session.refreshSession();
-
     it("should make an authenticated request for a user invitation", done => {
       fetchMock.once("*", UserInvitationResponse);
 
@@ -98,17 +78,6 @@ describe("invitations", () => {
   });
 
   describe("acceptInvitation", () => {
-    fetchMock.postOnce(
-      "https://myorg.maps.arcgis.com/sharing/rest/generateToken",
-      {
-        token: "fake-token",
-        expires: TOMORROW.getTime(),
-        username: "c@sey"
-      }
-    );
-
-    session.refreshSession();
-
     it("should accept an invitation", done => {
       fetchMock.once("*", { success: true });
 
@@ -133,17 +102,6 @@ describe("invitations", () => {
   });
 
   describe("declineInvitation", () => {
-    fetchMock.postOnce(
-      "https://myorg.maps.arcgis.com/sharing/rest/generateToken",
-      {
-        token: "fake-token",
-        expires: TOMORROW.getTime(),
-        username: "c@sey"
-      }
-    );
-
-    session.refreshSession();
-
     it("should decline an invitation", done => {
       fetchMock.once("*", { success: true });
 

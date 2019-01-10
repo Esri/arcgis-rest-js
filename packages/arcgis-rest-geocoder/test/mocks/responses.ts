@@ -291,6 +291,11 @@ export const GeocodeAddresses = {
         Ymin: 33.943172211706106,
         Ymax: 33.945172211706101
       }
+    },
+    {
+      address: "foo bar baz",
+      score: 0,
+      attributes: {}
     }
   ]
 };

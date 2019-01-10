@@ -15,13 +15,17 @@ const addresses = [
   {
     OBJECTID: 2,
     SingleLine: "1 World Way Los Angeles 90045"
+  },
+  {
+    OBJECTID: 3,
+    SingleLine: "foo bar baz"
   }
 ];
 
 describe("geocode", () => {
   afterEach(fetchMock.restore);
 
-  it("should make a bulk geocoding request", done => {
+  it("should make a bulk geocoding request, even with an unmatchable record", done => {
     fetchMock.once("*", GeocodeAddresses);
 
     const MOCK_AUTH = {
@@ -42,7 +46,7 @@ describe("geocode", () => {
         expect(options.body).toContain("f=json");
         expect(options.body).toContain(
           `addresses=${encodeURIComponent(
-            '{"records":[{"attributes":{"OBJECTID":1,"SingleLine":"380 New York St. Redlands 92373"}},{"attributes":{"OBJECTID":2,"SingleLine":"1 World Way Los Angeles 90045"}}]}'
+            '{"records":[{"attributes":{"OBJECTID":1,"SingleLine":"380 New York St. Redlands 92373"}},{"attributes":{"OBJECTID":2,"SingleLine":"1 World Way Los Angeles 90045"}},{"attributes":{"OBJECTID":3,"SingleLine":"foo bar baz"}}]}'
           )}`
         );
         expect(options.body).toContain("token=token");
@@ -55,6 +59,7 @@ describe("geocode", () => {
         expect(response.locations[0].location.spatialReference.wkid).toEqual(
           4326
         );
+        expect(response.locations[2].score).toEqual(0);
         done();
       })
       .catch(e => {
@@ -94,7 +99,7 @@ describe("geocode", () => {
         expect(options.body).toContain("f=json");
         expect(options.body).toContain(
           `addresses=${encodeURIComponent(
-            '{"records":[{"attributes":{"OBJECTID":1,"SingleLine":"380 New York St. Redlands 92373"}},{"attributes":{"OBJECTID":2,"SingleLine":"1 World Way Los Angeles 90045"}}]}'
+            '{"records":[{"attributes":{"OBJECTID":1,"SingleLine":"380 New York St. Redlands 92373"}},{"attributes":{"OBJECTID":2,"SingleLine":"1 World Way Los Angeles 90045"}},{"attributes":{"OBJECTID":3,"SingleLine":"foo bar baz"}}]}'
           )}`
         );
         // expect(options.body).toContain("token=token");
@@ -107,6 +112,7 @@ describe("geocode", () => {
         expect(response.locations[0].location.spatialReference.wkid).toEqual(
           4326
         );
+        expect(response.locations[2].address).toEqual("foo bar baz");
         done();
       });
   });
