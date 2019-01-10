@@ -50,7 +50,7 @@ export function isItemOwner(requestOptions: ISharingRequestOptions): boolean {
 export function isOrgAdmin(
   requestOptions: ISharingRequestOptions
 ): Promise<boolean> {
-  const session = requestOptions.authentication as UserSession;
+  const session = requestOptions.authentication;
 
   return session.getUser(requestOptions).then((user: IUser) => {
     if (!user || user.role !== "org_admin") {

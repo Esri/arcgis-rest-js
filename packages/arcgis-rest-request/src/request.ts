@@ -251,7 +251,7 @@ export class ArcGISAuthError extends ArcGISRequestError {
       code === "AUTHENTICATION_ERROR_CODE" ? message : `${code}: ${message}`;
   }
 
-  retry(getSession: IRetryAuthError, retryLimit = 3) {
+  public retry(getSession: IRetryAuthError, retryLimit = 3) {
     let tries = 0;
 
     const retryRequest = (resolve: any, reject: any) => {

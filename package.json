@@ -56,7 +56,7 @@
     "ts-node": "^3.3.0",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.6.0",
-    "tslint-config-standard": "^6.0.1",
+    "tslint-config-standard": "^8.0.1",
     "typedoc": "^0.12.0",
     "typescript": "^3.0.0"
   },
@@ -75,7 +75,7 @@
   },
   "scripts": {
     "build": "lerna run build",
-    "test": "npm run test:node && npm run test:chrome",
+    "test": "npm run lint && npm run test:node && npm run test:chrome",
     "test:chrome:debug": "karma start --auto-watch --no-single-run --browsers=Chrome",
     "test:chrome": "karma start --single-run --browsers=Chrome",
     "test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.js",

@@ -31,7 +31,7 @@ export interface IApplicationSessionOptions {
    * Expiration date for the `token`
    */
   expires?: Date;
-  
+
   /**
    * URL of ArcGIS REST base, defaults to "https://www.arcgis.com/sharing/rest"
    */
@@ -39,7 +39,7 @@ export interface IApplicationSessionOptions {
 
   /**
    * Duration of requested tokens in minutes. defaults to 7200 (5 days).
-  */
+   */
   duration?: number;
 }
 
@@ -79,7 +79,7 @@ export class ApplicationSession implements IAuthenticationManager {
   }
 
   // url isnt actually read or passed through.
-  getToken(
+  public getToken(
     url: string,
     requestOptions?: ITokenRequestOptions
   ): Promise<string> {
@@ -96,7 +96,7 @@ export class ApplicationSession implements IAuthenticationManager {
     return this._pendingTokenRequest;
   }
 
-  refreshToken(requestOptions?: ITokenRequestOptions): Promise<string> {
+  public refreshToken(requestOptions?: ITokenRequestOptions): Promise<string> {
     const options = {
       params: {
         client_id: this.clientId,
@@ -116,7 +116,7 @@ export class ApplicationSession implements IAuthenticationManager {
     );
   }
 
-  refreshSession() {
+  public refreshSession() {
     return this.refreshToken().then(() => this);
   }
 }

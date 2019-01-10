@@ -25,19 +25,10 @@ describe("users", () => {
     const session = new UserSession({
       username: "c@sey",
       password: "123456",
+      token: "fake-token",
+      tokenExpires: TOMORROW,
       portal: "https://myorg.maps.arcgis.com/sharing/rest"
     });
-
-    fetchMock.postOnce(
-      "https://myorg.maps.arcgis.com/sharing/rest/generateToken",
-      {
-        token: "fake-token",
-        expires: TOMORROW.getTime(),
-        username: "c@sey"
-      }
-    );
-
-    session.refreshSession();
 
     it("should make an authenticated request for user notifications", done => {
       fetchMock.once("*", UserNotificationsResponse);
