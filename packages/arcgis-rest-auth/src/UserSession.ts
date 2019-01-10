@@ -688,6 +688,8 @@ export class UserSession implements IAuthenticationManager {
    * Manually refreshes the current `token` and `tokenExpires`.
    */
   refreshSession(requestOptions?: ITokenRequestOptions): Promise<UserSession> {
+    // make sure subsequent calls to getUser() don't returned cached metadata
+    this._user = null;
     if (this.username && this.password) {
       return this.refreshWithUsernameAndPassword(requestOptions);
     }
