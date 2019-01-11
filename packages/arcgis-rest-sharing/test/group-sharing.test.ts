@@ -4,6 +4,7 @@
 import * as fetchMock from "fetch-mock";
 import { shareItemWithGroup, unshareItemWithGroup } from "../src/index";
 import { MOCK_USER_SESSION } from "./mocks/sharing";
+import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 
 import {
   AnonUserResponse,
@@ -86,8 +87,17 @@ export const GroupNoAccessResponse = {
 
 describe("shareItemWithGroup() ::", () => {
   // make sure session doesnt cache metadata
-  beforeEach(function() {
-    MOCK_USER_SESSION._user = null;
+  beforeEach(done => {
+    fetchMock.post("https://myorg.maps.arcgis.com/sharing/rest/generateToken", {
+      token: "fake-token",
+      expires: TOMORROW.getTime(),
+      username: " jsmith"
+    });
+
+    // make sure session doesnt cache metadata
+    MOCK_USER_SESSION.refreshSession()
+      .then(() => done())
+      .catch();
   });
 
   afterEach(fetchMock.restore);
@@ -371,8 +381,17 @@ describe("shareItemWithGroup() ::", () => {
 
 describe("unshareItemWithGroup() ::", () => {
   // make sure session doesnt cache metadata
-  beforeEach(function() {
-    MOCK_USER_SESSION._user = null;
+  beforeEach(done => {
+    fetchMock.post("https://myorg.maps.arcgis.com/sharing/rest/generateToken", {
+      token: "fake-token",
+      expires: TOMORROW.getTime(),
+      username: " jsmith"
+    });
+
+    // make sure session doesnt cache metadata
+    MOCK_USER_SESSION.refreshSession()
+      .then(() => done())
+      .catch();
   });
 
   afterEach(fetchMock.restore);
