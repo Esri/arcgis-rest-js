@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.14.4] - January 11th 2019
+
+### @esri/arcgis-rest-request
+
+* Docs
+   * a conceptual guide was written to explain the purpose of this library. [`5502c13`](https://github.com/Esri/arcgis-rest-js/commit/5502c132ec445e43effd7d0566e4681c9dd499d9)
+
+### @esri/arcgis-rest-auth
+
+* Added
+   * UserSession.refreshSession() now clears cached user metadata. [`9564158`](https://github.com/Esri/arcgis-rest-js/commit/956415862bd6a07284805b11fd23a949de8157fe)
+   * `ApplicationSession` now calculates accurate token expirations. [`5af14d7`](https://github.com/Esri/arcgis-rest-js/commit/5af14d7b10ccee179f7b2da82f4f1478352a8b67)
+   * `ApplicationSession`'s constuctor now exposes the ability to customize the associated `portal`. [`3ffdddb`](https://github.com/Esri/arcgis-rest-js/commit/3ffdddb9a3faedc39c8782743c419f0a716fbd66)
+   * `ApplicationSession`'s constructor now exposes the ability to customize the lifespan of generated tokens. [`5af14d7`](https://github.com/Esri/arcgis-rest-js/commit/5af14d7b10ccee179f7b2da82f4f1478352a8b67)
+
+### @esri/arcgis-rest-geocoder
+
+* Bug Fixes
+   * ensure that the batch geocoder handles addresses with no match whatsoever [`cba60dc`](https://github.com/Esri/arcgis-rest-js/commit/cba60dca7939e72ca36fa4db0c2fdf817ef182fa)
+
+### Other Changes
+
+* Changed
+   * Packages no longer expose a `browser` field in their package.json files. `unpkg` is now used instead to clue the CDN into which specific file to serve up. [`c4e0697d`](https://github.com/Esri/arcgis-rest-js/commit/c4e0697dc1ec66d5cc1919698c79d177d8f57220)
+
+
 ## [1.14.3] - December 3rd 2018
 
 ### @esri/arcgis-rest-auth
@@ -17,7 +43,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### demos/oauth2-browser
 
 * Bug Fixes
-   ensure that the response is parsed correctly when 'keep me signed in' is checked. [`924f790`](https://github.com/Esri/arcgis-rest-js/commit/924f790efb5a62e885e803de5a744efcf337ebb0)
+   ensure that the response is parsed correctly when &#39;keep me signed in&#39; is checked. [`924f790`](https://github.com/Esri/arcgis-rest-js/commit/924f790efb5a62e885e803de5a744efcf337ebb0)
 
 ### Other Changes
 
@@ -1005,4 +1031,5 @@ Initial Public Release
 [1.14.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.0...v1.14.1 "v1.14.1"
 [1.14.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.1...v1.14.2 "v1.14.2"
 [1.14.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.2...v1.14.3 "v1.14.3"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.3...HEAD "Unreleased Changes"
+[1.14.4]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.3...v1.14.4 "v1.14.4"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.4...HEAD "Unreleased Changes"
