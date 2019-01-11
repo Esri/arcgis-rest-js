@@ -15,15 +15,16 @@
     "tslib": "^1.7.1"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-common-types": "^1.14.3",
+    "@esri/arcgis-rest-common-types": "^1.14.4",
     "@esri/arcgis-rest-request": "^1.14.4"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-common-types": "^1.14.1",
-    "@esri/arcgis-rest-request": "^1.14.1"
+    "@esri/arcgis-rest-common-types": "^1.14.4",
+    "@esri/arcgis-rest-request": "^1.14.4"
   },
   "scripts": {
     "prepare": "npm run build",
+    "prebuild": "rimraf dist",
     "build": "npm run build:node && npm run build:umd && npm run build:esm",
     "build:esm": "tsc -p ./tsconfig.json --module es2015 --outDir ./dist/esm --declaration",
     "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",

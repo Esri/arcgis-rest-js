@@ -1,7 +1,7 @@
 {
   "name": "@esri/arcgis-rest-common",
   "version": "1.14.4",
-  "description": "Shared utility methods and types for @esri/arcgis-rest-js",
+  "description": "Shared utility methods and types for @esri/arcgis-rest",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/common.umd.js",
   "module": "dist/esm/index.js",
@@ -16,6 +16,7 @@
   },
   "scripts": {
     "prepare": "npm run build",
+    "prebuild": "rimraf dist",
     "build": "npm run build:node && npm run build:umd && npm run build:esm",
     "build:esm": "tsc -p ./tsconfig.json --module es2015 --outDir ./dist/esm --declaration",
     "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",

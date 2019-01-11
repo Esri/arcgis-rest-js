@@ -16,13 +16,13 @@
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^1.14.4",
-    "@esri/arcgis-rest-common-types": "^1.14.3",
+    "@esri/arcgis-rest-common-types": "^1.14.4",
     "@esri/arcgis-rest-request": "^1.14.4"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^1.14.1",
-    "@esri/arcgis-rest-common-types": "^1.14.1",
-    "@esri/arcgis-rest-request": "^1.14.1"
+    "@esri/arcgis-rest-auth": "^1.14.4",
+    "@esri/arcgis-rest-common-types": "^1.14.4",
+    "@esri/arcgis-rest-request": "^1.14.4"
   },
   "scripts": {
     "prepare": "npm run build",

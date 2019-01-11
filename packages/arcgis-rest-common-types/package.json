@@ -1,7 +1,7 @@
 {
   "name": "@esri/arcgis-rest-common-types",
   "version": "1.14.4",
-  "description": "Common TypeScript types for @esri/arcgis-rest-* packages.",
+  "description": "Common TypeScript types for @esri/arcgis-rest-js packages.",
   "types": "dist/types/index.d.ts",
   "author": "",
   "license": "Apache-2.0",
@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "prepare": "npm run build",
+    "prebuild": "rimraf dist",
     "build": "npm run build:esm",
     "build:esm": "tsc",
     "dev:esm": "tsc -w"
