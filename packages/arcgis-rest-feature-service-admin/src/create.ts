@@ -183,23 +183,27 @@ export function createFeatureService(
     // If the service is destined for a subfolder, catch the results of the request and then move
     // the item to the desired folder
     return new Promise((resolve, reject) => {
-      request(url, requestOptions).then(createResults => {
-        if (createResults.success) {
-          moveItem({
-            itemId: createResults.itemId,
-            folderId: requestOptions.folderId,
-            authentication: requestOptions.authentication
-          }).then(moveResults => {
-            if (moveResults.success) {
-              resolve(createResults);
-            } else {
-              reject({ success: false });
-            }
-          });
-        } else {
-          reject({ success: false });
-        }
-      });
+      request(url, requestOptions)
+        .then(createResults => {
+          if (createResults.success) {
+            moveItem({
+              itemId: createResults.itemId,
+              folderId: requestOptions.folderId,
+              authentication: requestOptions.authentication
+            })
+              .then(moveResults => {
+                if (moveResults.success) {
+                  resolve(createResults);
+                } else {
+                  reject({ success: false });
+                }
+              })
+              .catch();
+          } else {
+            reject({ success: false });
+          }
+        })
+        .catch();
     });
   }
 }

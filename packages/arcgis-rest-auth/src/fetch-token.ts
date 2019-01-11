@@ -39,7 +39,8 @@ export function fetchToken(
       token: response.access_token,
       username: response.username,
       expires: new Date(
-        Date.now() + (response.expires_in * 60 * 1000 - 60 * 1000)
+        // convert seconds in response to milliseconds and add the value to the current time to calculate a static expiration timestamp
+        Date.now() + (response.expires_in * 1000 - 1000)
       ),
       ssl: response.ssl === true
     };
