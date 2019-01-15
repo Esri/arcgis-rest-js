@@ -5,7 +5,47 @@ const _ = require("lodash");
 
 const IS_DEV = process.env.ENV !== "prod";
 
+const pkgVersion = process.env.npm_package_version;
+const request = require("request");
+const sriToolbox = require("sri-toolbox");
+
+const packages = [
+  "auth",
+  "common",
+  "feature-service",
+  "feature-service-admin",
+  "geocoder",
+  "groups",
+  "items",
+  "request",
+  "routing",
+  "sharing",
+  "users"
+];
+
+const sriHashes = {};
+
+generateSriHashes = () => {
+  packages.forEach(pkg => {
+    const url = `http://unpkg.com/@esri/arcgis-rest-${pkg}@${pkgVersion}/dist/umd/${pkg}.umd.min.js`;
+    request(url, (err, res, body) => {
+      if (err) {
+        sriHashes[pkg] = "SRI_HASH_FAILED";
+      } else {
+        sriHashes[pkg] = sriToolbox.generate({
+          algorithms: ["sha384"]
+        }, body);
+      }
+    });
+  });
+};
+
 module.exports = function(acetate) {
+  /**
+   * Generate SRI hashes for dist minified js files.
+   */
+  generateSriHashes();
+
   /**
    * Load all .html and markdown pages in the `src` folder, assigning them a
    * default layout.
@@ -211,6 +251,35 @@ module.exports = function(acetate) {
       package.name
     }@${package.version}/dist/umd/${package.name.replace("@esri/arcgis-rest-", "")}.umd.min.js"&gt;&lt;/script&gt;`;
   });
+
+  acetate.helper("scriptTagSRI", function(context, package) {
+   const hash = sriHashes[package.name.replace("@esri/arcgis-rest-", "")] || null;
+   if (hash) {
+     // if file request failed on doc deploy return basic script tag
+     if (hash === "SRI_HASH_FAILED") {
+       return `&lt;script src="https://unpkg.com/${
+         package.name
+       }@${
+         package.version
+       }/dist/umd/${
+         package.name.replace("@esri/arcgis-rest-", "")
+       }.umd.min.js"&gt;&lt;/script&gt;`;
+     } else {
+       return `&lt;script src="https://unpkg.com/${
+         package.name
+       }@${
+         package.version
+       }/dist/umd/${
+         package.name.replace("@esri/arcgis-rest-", "")
+       }.umd.min.js" integrity="${
+         hash
+       }" crossorigin="anonymous"&gt;&lt;/script&gt;`;
+     }
+   } else {
+     // common-types has no browser
+     return `This is a development package. Not avaiable via CDN.`;
+   }
+ });
 
   acetate.helper("npmInstallCmd", function(context, package) {
     const peers = package.peerDependencies
