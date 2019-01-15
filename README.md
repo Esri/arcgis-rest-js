@@ -85,6 +85,7 @@ Some useful commands include:
 
 ### Frequently Asked Questions
 
+* [Why should I use this library?](https://esri.github.io/arcgis-rest-js/guides/package-overview/)
 * [Is this a _supported_ Esri product?](docs/FAQ.md#is-this-a-supported-esri-product)
 * [How does this project compare with the ArcGIS API for JavaScript?](docs/FAQ.md#comparison-with-the-arcgis-api-for-javascript)
 * [Is this similar to the ArcGIS API for Python?](docs/FAQ.md#comparison-with-the-arcgis-api-for-python)

@@ -7,9 +7,9 @@ group: 0-introduction
 
 # Why `@esri/arcgis-rest`?
 
-`@esri/arcgis-rest` simplifies interacting with ArcGIS Online and Enterprise in both browsers and Node.js.
+`@esri/arcgis-rest-js` simplifies making requests to ArcGIS Online and Enterprise in both browsers and Node.js.
 
-There's no better way to explain what that means than comparing an `@esri/arcgis-rest` call to the same web request made using plain old JavaScript.
+There's no better way to explain what that means than comparing an `@esri/arcgis-rest-js` call to the same web request made using plain old JavaScript.
 
 ### @esri/arcgis-rest
 
@@ -37,12 +37,12 @@ xhr.open('GET', url, true);
 xhr.send(null);
 ```
 
-wow, thats a lot easier! `@esri/arcgis-rest` is able to intuit the actual url (by default it assumes you're interacting with ArcGIS Online) prior to making the request and internalizes a lot of tedious logic for handling the response.
+wow, thats a lot easier! `@esri/arcgis-rest-js` is able to intuit the actual url (by default it assumes you're interacting with ArcGIS Online) prior to making the request and internalizes a lot of tedious logic for handling the response.
 
 Our packages tap into a new JavaScript spec called [`fetch()`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) under the hood though, so lets compare 🍎s to 🍎s.
 
 ```js
-import { deleteFeatures } from "@esri/arcgis/rest-feature-service";
+import { deleteFeatures } from "@esri/arcgis-rest-feature-service";
 
 const url = `http://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/1/`
 
@@ -83,7 +83,7 @@ fetch(url, {
   })
 ```
 
-As you can see, `@esri/arcgis-rest` is still handling a _lot_ of the details internally.
+As you can see, `@esri/arcgis-rest-js` is still handling a _lot_ of the details internally.
 
 * the operation name is appended to urls
 * a `"POST"` is made automatically (when appropriate)
@@ -95,7 +95,7 @@ As you can see, `@esri/arcgis-rest` is still handling a _lot_ of the details int
 
 And we haven't even begun to discuss [authentication](../browser-authentication/).
 
-Whether you're trying to automate interacting with premium services in Node.js or creating a website that will allow users to sign into [ArcGIS Online](https://www.arcgis.com) safely and manage their own content, `@esri/arcgis-rest` has you covered.
+Whether you're trying to automate interacting with premium services in Node.js or creating a website that will allow users to sign into [ArcGIS Online](https://www.arcgis.com) safely and manage their own content, `@esri/arcgis-rest-js` has you covered.
 
 # Package Overview
 
