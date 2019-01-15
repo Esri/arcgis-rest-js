@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import { request, getPortalUrl } from "@esri/arcgis-rest-request";
@@ -146,7 +146,10 @@ export interface ICreateServiceResult {
 
 /**
  * ```js
- * import { createFeatureService } from '@esri/arcgis-rest-feature-service-admin';
+ * import {
+ *   createFeatureService,
+ *   addToServiceDefinition
+ * } from '@esri/arcgis-rest-feature-service-admin';
  * //
  * createFeatureService({
  *   authentication: userSession,
@@ -156,7 +159,7 @@ export interface ICreateServiceResult {
  *   }
  * });
  * ```
- * Create a new hosted feature service.
+ * Create a new [hosted feature service](https://developers.arcgis.com/rest/users-groups-and-items/create-service.htm). After the service has been created, call [`addToServiceDefinition()`](../addToServiceDefinition/) if you'd like to update it's schema.
  * @param requestOptions - Options for the request
  * @returns A Promise that resolves with service details once the service has been created
  */

@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
@@ -42,7 +42,7 @@ export interface IAddToServiceDefinitionResult {
  *   tables: []
  * });
  * ```
- * Add layer(s) and/or table(s) to a hosted feature service.
+ * Add layer(s) and/or table(s) to a hosted feature service. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-to-definition-feature-service-.htm) for more information.
  *
  * @param url - URL of feature service
  * @param requestOptions - Options for the request
@@ -54,8 +54,7 @@ export function addToServiceDefinition(
   requestOptions: IAddToServiceDefinitionRequestOptions
 ): Promise<IAddToServiceDefinitionResult> {
   const adminUrl =
-    cleanUrl(url).replace("/rest/services", "/rest/admin/services") +
-    "/addToDefinition";
+    `${cleanUrl(url).replace(`/rest/services`, `/rest/admin/services`)}/addToDefinition`;
 
   requestOptions.params = {
     addToDefinition: {},
