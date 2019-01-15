@@ -2,5 +2,6 @@
  * Apache-2.0 */
 
 export * from "./get";
+export * from "./update";
 export * from "./notification";
 export * from "./invitation";
