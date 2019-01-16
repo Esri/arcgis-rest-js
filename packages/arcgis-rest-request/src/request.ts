@@ -6,7 +6,12 @@ import { encodeQueryString } from "./utils/encode-query-string";
 import { requiresFormData } from "./utils/process-params";
 import { ArcGISRequestError } from "./utils/ArcGISRequestError";
 import { IRetryAuthError } from "./utils/retryAuthError";
-import { HTTPMethods, IParams, ITokenRequestOptions } from "./utils/params";
+import {
+  HTTPMethods,
+  IParams,
+  ITokenRequestOptions,
+  IHeaders
+} from "./utils/params";
 
 /**
  * Authentication can be supplied to `request` via [`UserSession`](../../auth/UserSession/) or [`ApplicationSession`](../../auth/ApplicationSession/). Both classes extend `IAuthenticationManager`.
@@ -62,6 +67,11 @@ export interface IRequestOptions {
    * If the length of a GET request's URL exceeds `maxUrlLength` the request will use POST instead.
    */
   maxUrlLength?: number;
+
+  /**
+   * Additional headers to pass into the request.
+   */
+  headers?: IHeaders;
 }
 
 /**
@@ -178,10 +188,15 @@ export function request(
         fetchOptions.body = encodeFormData(params);
       }
 
-      fetchOptions.headers = {};
+      // Mixin headers from request options
+      fetchOptions.headers = { ...requestOptions.headers };
 
       /* istanbul ignore next - karma reports coverage on browser tests only */
-      if (typeof window === "undefined") {
+      if (
+        typeof window === "undefined" &&
+        requestOptions.headers === undefined
+      ) {
+        // set default header only in Node and when optional headers haven't been passed
         fetchOptions.headers["referer"] = "@esri/arcgis-rest";
       }
 
