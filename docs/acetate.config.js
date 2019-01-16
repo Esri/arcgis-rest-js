@@ -7,6 +7,16 @@ const IS_DEV = process.env.ENV !== "prod";
 
 module.exports = function(acetate) {
   /**
+   * Load SRI hashes.
+   */
+  let srihashes;
+  fs.readFile('docs/src/srihashes.json', (err, data) => {
+    srihashes = err ? {
+      packages: {}
+    } : JSON.parse(data);
+  });
+
+  /**
    * Load all .html and markdown pages in the `src` folder, assigning them a
    * default layout.
    */
@@ -205,12 +215,30 @@ module.exports = function(acetate) {
   });
 
   // <code> friendly script tag string
-  // future entry point for adding SRI hash
   acetate.helper("scriptTag", function(context, package) {
     return `&lt;script src="https://unpkg.com/${
       package.name
     }@${package.version}/dist/umd/${package.name.replace("@esri/arcgis-rest-", "")}.umd.min.js"&gt;&lt;/script&gt;`;
   });
+
+  // CDN with SRI only if hash exists
+  acetate.helper("scriptTagSRI", function(context, package) {
+    const hash = srihashes.packages[package.name];
+    if (hash) {
+      return `<h2 class="font-size--1 trailer-half">CDN with SRI:</h2>
+      <pre><code>&lt;script src="https://unpkg.com/${
+        package.name
+      }@${
+        package.version
+      }/dist/umd/${
+        package.name.replace("@esri/arcgis-rest-", "")
+      }.umd.min.js" integrity="${
+        hash
+      }" crossorigin="anonymous"&gt;&lt;/script&gt;</code></pre>`;
+    } else {
+      return "";
+    }
+ });
 
   acetate.helper("npmInstallCmd", function(context, package) {
     const peers = package.peerDependencies

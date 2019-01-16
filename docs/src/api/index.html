@@ -12,6 +12,7 @@ layout: "api/_layout:content"
   <pre><code>{% npmInstallCmd package.pkg %}</code></pre>
   <h3 class="font-size--1 trailer-half">CDN:</h3>
   <pre><code>{% scriptTag package.pkg %}</code></pre>
+  {% scriptTagSRI package.pkg %}
   <hr class="leader-half trailer-half">
   <ul class="list-plain package-contents">
   {% for declaration in package.declarations %}

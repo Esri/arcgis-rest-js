@@ -5,7 +5,7 @@ order: 10
 group: 0-introduction
 ---
 
-# Why `@esri/arcgis-rest`?
+# Why `@esri/arcgis-rest-js`?
 
 `@esri/arcgis-rest-js` simplifies making requests to ArcGIS Online and Enterprise in both browsers and Node.js.
 
