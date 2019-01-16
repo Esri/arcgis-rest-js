@@ -333,7 +333,6 @@ describe("request()", () => {
             "https://www.arcgis.com/sharing/rest/content/items/43a/data"
           );
           expect(options.method).toBe("POST");
-          console.log("HERE!!!!" + JSON.stringify(options.headers));
           expect(options.headers).toEqual({
             referer: "test/referer",
             "Content-Type": "application/x-www-form-urlencoded"
