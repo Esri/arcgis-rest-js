@@ -255,6 +255,7 @@ describe("request()", () => {
       FormData = oldFormData;
       Function("return this")().fetch = oldFetch;
     });
+
     it("should throw for missing dependencies", () => {
       expect(() => {
         request("https://www.arcgis.com/sharing/rest/info").catch();
@@ -298,7 +299,7 @@ describe("request()", () => {
   });
 
   if (typeof window === "undefined") {
-    it("should tack on a generic referer header in Node.js only", done => {
+    it("should tack on a generic referer header - in Node.js only", done => {
       fetchMock.once("*", WebMapAsJSON);
 
       request("https://www.arcgis.com/sharing/rest/content/items/43a/data")
@@ -310,8 +311,57 @@ describe("request()", () => {
           );
           expect(options.method).toBe("POST");
           expect(options.headers).toEqual({
-            referer: "@esri/arcgis-rest",
+            referer: "@esri/arcgis-rest-js",
             "Content-Type": "application/x-www-form-urlencoded"
+          });
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should use referer header from request options - in Node.js only", done => {
+      fetchMock.once("*", WebMapAsJSON);
+
+      request("https://www.arcgis.com/sharing/rest/content/items/43a/data", {
+        headers: { referer: "test/referer" }
+      })
+        .then(() => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://www.arcgis.com/sharing/rest/content/items/43a/data"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.headers).toEqual({
+            referer: "test/referer",
+            "Content-Type": "application/x-www-form-urlencoded"
+          });
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("if no referer header is provided, but other headers are passed, a default should still be set - in Node.js only", done => {
+      fetchMock.once("*", WebMapAsJSON);
+
+      request("https://www.arcgis.com/sharing/rest/content/items/43a/data", {
+        headers: { foo: "bar" }
+      })
+        .then(() => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://www.arcgis.com/sharing/rest/content/items/43a/data"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.headers).toEqual({
+            "Content-Type": "application/x-www-form-urlencoded",
+            referer: "@esri/arcgis-rest-js",
+            foo: "bar"
           });
           done();
         })

@@ -62,7 +62,14 @@ export interface IRequestOptions {
    * If the length of a GET request's URL exceeds `maxUrlLength` the request will use POST instead.
    */
   maxUrlLength?: number;
+
+  /**
+   * Additional [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers) to pass into the request.
+   */
+  headers?: { [key: string]: any };
 }
+
+export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
 /**
  * ```js
@@ -178,12 +185,13 @@ export function request(
         fetchOptions.body = encodeFormData(params);
       }
 
-      fetchOptions.headers = {};
-
+      // Mixin headers from request options
       /* istanbul ignore next - karma reports coverage on browser tests only */
-      if (typeof window === "undefined") {
-        fetchOptions.headers["referer"] = "@esri/arcgis-rest";
-      }
+      fetchOptions.headers = {
+        referer:
+          typeof window === "undefined" ? NODEJS_DEFAULT_REFERER_HEADER : null,
+        ...requestOptions.headers
+      };
 
       /* istanbul ignore else blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
       if (!requiresFormData(params)) {
