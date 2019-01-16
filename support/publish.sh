@@ -6,8 +6,11 @@ npm whoami || exit 1
 # Extract the version from lerna.json (this was updated by `npm run release:prepare`)
 VERSION=$(node --eval "console.log(require('./lerna.json').version);")
 
+# publish each package on npm
+lerna publish --skip-git --yes --repo-version $VERSION --force-publish=*
+
 # generate `docs/src/srihashes.json` after release and before committing
-npm run release:srihash
+npm run docs:srihash
 
 # commit the changes from `npm run release:prepare`
 git add --all
@@ -29,8 +32,6 @@ git push https://github.com/Esri/arcgis-rest-js.git master
 # push the new tag, not the old tags
 git push https://github.com/Esri/arcgis-rest-js.git v$VERSION
 
-# publish each package on npm
-lerna publish --skip-git --yes --repo-version $VERSION --force-publish=*
 
 # create a ZIP archive of the dist files
 TEMP_FOLDER=arcgis-rest-js-v$VERSION;

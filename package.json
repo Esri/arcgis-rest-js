@@ -100,6 +100,7 @@
     "predocs:dev:sass": "npm run docs:build:sass",
     "docs:dev:sass": "node-sass --watch --recursive --output docs/build/arcgis-rest-js/css --source-map true --source-map-contents docs/src/sass",
     "docs:dev:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/arcgis-rest-js -w",
+    "docs:srihash": "node docs/generate-srihashes.js",
     "lint": "tslint --project tsconfig.json",
     "lint:fix": "tslint --project tsconfig.json --fix",
     "prettify": "prettier --write --parser typescript --tab-width 2 --use-tabs false \"packages/**/+(src|test)/**/*.ts\"",
@@ -109,7 +110,6 @@
     "prerelease:prepare": "git fetch --all && npm test",
     "release:prepare": "lerna publish --skip-git --skip-npm --yes && node ./support/changelog.js",
     "release:review": "git --no-pager diff --word-diff",
-    "release:srihash": "node docs/generate-srihashes.js",
     "release:publish": "./support/publish.sh",
     "c": "git-cz",
     "dev": "support/dev.sh"
