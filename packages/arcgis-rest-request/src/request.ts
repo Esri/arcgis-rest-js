@@ -194,7 +194,7 @@ export function request(
       /* istanbul ignore next - karma reports coverage on browser tests only */
       if (
         typeof window === "undefined" &&
-        requestOptions.headers === undefined
+        (!requestOptions.headers || !requestOptions.headers.referer)
       ) {
         // set default header only in Node and when optional headers haven't been passed
         fetchOptions.headers["referer"] = "@esri/arcgis-rest";
