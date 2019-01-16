@@ -255,6 +255,7 @@ describe("request()", () => {
       FormData = oldFormData;
       Function("return this")().fetch = oldFetch;
     });
+
     it("should throw for missing dependencies", () => {
       expect(() => {
         request("https://www.arcgis.com/sharing/rest/info").catch();
@@ -310,7 +311,7 @@ describe("request()", () => {
           );
           expect(options.method).toBe("POST");
           expect(options.headers).toEqual({
-            referer: "@esri/arcgis-rest",
+            referer: "@esri/arcgis-rest-js",
             "Content-Type": "application/x-www-form-urlencoded"
           });
           done();
@@ -333,7 +334,6 @@ describe("request()", () => {
             "https://www.arcgis.com/sharing/rest/content/items/43a/data"
           );
           expect(options.method).toBe("POST");
-          console.log("HERE!!!!" + JSON.stringify(options.headers));
           expect(options.headers).toEqual({
             referer: "test/referer",
             "Content-Type": "application/x-www-form-urlencoded"
@@ -345,11 +345,11 @@ describe("request()", () => {
         });
     });
 
-    it("should leave referer header undefined when request options include headers object without 'referer' - in Node.js only", done => {
+    it("if no referer header is provided, but other headers are passed, a default should still be set - in Node.js only", done => {
       fetchMock.once("*", WebMapAsJSON);
 
       request("https://www.arcgis.com/sharing/rest/content/items/43a/data", {
-        headers: {}
+        headers: { foo: "bar" }
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -359,7 +359,9 @@ describe("request()", () => {
           );
           expect(options.method).toBe("POST");
           expect(options.headers).toEqual({
-            "Content-Type": "application/x-www-form-urlencoded"
+            "Content-Type": "application/x-www-form-urlencoded",
+            referer: "@esri/arcgis-rest-js",
+            foo: "bar"
           });
           done();
         })

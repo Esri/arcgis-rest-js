@@ -5,7 +5,8 @@ import {
   request,
   IRequestOptions,
   IGenerateTokenParams,
-  ITokenRequestOptions
+  ITokenRequestOptions,
+  NODEJS_DEFAULT_REFERER_HEADER
 } from "@esri/arcgis-rest-request";
 
 export interface IGenerateTokenResponse {
@@ -18,7 +19,7 @@ export function generateToken(
   url: string,
   requestOptions: IGenerateTokenParams | ITokenRequestOptions
 ): Promise<IGenerateTokenResponse> {
-  // TODO: remove union type and type guard next breaking change and just expect IGenerateTokenRequestOptions
+  // TODO: remove union type and type guard next breaking change and just expect IGenerateTokenParams
   const options: IRequestOptions = (requestOptions as ITokenRequestOptions)
     .params
     ? (requestOptions as IRequestOptions)
@@ -32,7 +33,7 @@ export function generateToken(
   ) {
     options.params.referer = window.location.host;
   } else {
-    options.params.referer = "@esri/arcgis-rest";
+    options.params.referer = NODEJS_DEFAULT_REFERER_HEADER;
   }
 
   return request(url, options);

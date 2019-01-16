@@ -50,7 +50,3 @@ export interface ITokenRequestOptions {
   httpMethod?: HTTPMethods;
   fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 }
-
-export interface IHeaders {
-  [key: string]: any;
-}

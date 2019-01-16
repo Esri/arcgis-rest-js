@@ -6,12 +6,7 @@ import { encodeQueryString } from "./utils/encode-query-string";
 import { requiresFormData } from "./utils/process-params";
 import { ArcGISRequestError } from "./utils/ArcGISRequestError";
 import { IRetryAuthError } from "./utils/retryAuthError";
-import {
-  HTTPMethods,
-  IParams,
-  ITokenRequestOptions,
-  IHeaders
-} from "./utils/params";
+import { HTTPMethods, IParams, ITokenRequestOptions } from "./utils/params";
 
 /**
  * Authentication can be supplied to `request` via [`UserSession`](../../auth/UserSession/) or [`ApplicationSession`](../../auth/ApplicationSession/). Both classes extend `IAuthenticationManager`.
@@ -69,10 +64,12 @@ export interface IRequestOptions {
   maxUrlLength?: number;
 
   /**
-   * Additional headers to pass into the request.
+   * Additional [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers) to pass into the request.
    */
-  headers?: IHeaders;
+  headers?: { [key: string]: any };
 }
+
+export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
 /**
  * ```js
@@ -189,16 +186,12 @@ export function request(
       }
 
       // Mixin headers from request options
-      fetchOptions.headers = { ...requestOptions.headers };
-
       /* istanbul ignore next - karma reports coverage on browser tests only */
-      if (
-        typeof window === "undefined" &&
-        requestOptions.headers === undefined
-      ) {
-        // set default header only in Node and when optional headers haven't been passed
-        fetchOptions.headers["referer"] = "@esri/arcgis-rest";
-      }
+      fetchOptions.headers = {
+        referer:
+          typeof window === "undefined" ? NODEJS_DEFAULT_REFERER_HEADER : null,
+        ...requestOptions.headers
+      };
 
       /* istanbul ignore else blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
       if (!requiresFormData(params)) {
