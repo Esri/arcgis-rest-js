@@ -109,6 +109,7 @@
     "prerelease:prepare": "git fetch --all && npm test",
     "release:prepare": "lerna publish --skip-git --skip-npm --yes && node ./support/changelog.js",
     "release:review": "git --no-pager diff --word-diff",
+    "release:srihash": "node docs/generate-srihashes.js",
     "release:publish": "./support/publish.sh",
     "c": "git-cz",
     "dev": "support/dev.sh"

@@ -6,6 +6,9 @@ npm whoami || exit 1
 # Extract the version from lerna.json (this was updated by `npm run release:prepare`)
 VERSION=$(node --eval "console.log(require('./lerna.json').version);")
 
+# generate `docs/src/srihashes.json` after release and before committing
+npm run release:srihash
+
 # commit the changes from `npm run release:prepare`
 git add --all
 git commit -am "v$VERSION" --no-verify
