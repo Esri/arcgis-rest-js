@@ -45,7 +45,7 @@ export interface IDecodeValuesRequestOptions extends IRequestOptions {
  * ```js
  * import { queryFeatures, decodeValues } from '@esri/arcgis-rest-feature-service';
  * //
- * const url = "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0";
+ * const url = `https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0`
  * queryFeatures({ url })
  *   .then(queryResponse => {
  *     decodeValues({
