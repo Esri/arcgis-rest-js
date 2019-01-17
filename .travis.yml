@@ -8,7 +8,6 @@ notifications:
   slack:
     secure: KghYpsaoCZB1sPOqk1d+JhfBOkg76Cq8eMK665ozdf484RdPvObqLrxyrt9i+sDMDv/oZT+VuvGXsbHj6R+TUh87r2Yhfizcwvdotc4VTHei4y/oNX6cRhV8ryQox/0j6GClqI43A4kIsuOcUm8pI4FTGOhDQOK7+UDcuvcSa5VR7N7GJ97zfzC9gQtRsbfD5WKY4BEr+KlcWt0KCCbp1+Jh7craEO30ztUl38BuUuW7F1/AykrTX6kgS5E5ssUQ0pJPBlzpjb3G5UEeodzOD9wUBVLIBAbgQsofAPLi0pHeyCCeEOuTxXEo7SD8fG+kBstPlncR+V8goCEBnAJysIvBznUxLjrnxcU7V40g+iTENKwhVTIiZzZN3Z9buJd001MRaWjOTCWX80Ig6oraH8WJk7W1qtKzsDK9Lsp2N9pxNTPASbAQoFDlMCGcWYGixq6IhIAwsk1Pkb689F67vHaES8qMXkIHifB0j7yRMwrHinYFqUYASQOECPNEMJv3iqByXntmMP8X/r3VBujMehGodZ1dnbWvAOdWdEmG3KCVpn42ocKCj6k4WZL62nSxs3W00E1UVPnXujT3ENk/3L/VJE3tRWFCSbR9HnfBSDVA6WaFu4EFDg8WV6fn2T0FHKTBgCtTugQo8bsoyReYZvEU/27O/B+d5/9nqMHqyy4=
 node_js:
-- '10'
 - '11'
 cache:
   directories:
@@ -18,7 +17,7 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
-- npm run test:ci
+- npm run test:chrome
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 deploy:
