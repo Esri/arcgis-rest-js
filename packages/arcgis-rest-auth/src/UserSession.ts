@@ -63,49 +63,41 @@ export interface IOauth2Options {
    * [ArcGIS Online](http://doc.arcgis.com/en/arcgis-online/share-maps/add-items.htm#ESRI_SECTION1_0D1B620254F745AE84F394289F8AF44B) or on your instance of ArcGIS Enterprise.
    */
   clientId: string;
-
   /**
    * A valid URL to redirect to after a user authorizes your application. Can be set on [ArcGIS for Developers](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/#registering-your-application),
    * [ArcGIS Online](http://doc.arcgis.com/en/arcgis-online/share-maps/add-items.htm#ESRI_SECTION1_0D1B620254F745AE84F394289F8AF44B) or on your instance of ArcGIS Enterprise.
    */
   redirectUri: string;
-
   /**
    * The ArcGIS Online or ArcGIS Enterprise portal you want to use for authentication. Defaults to `https://www.arcgis.com/sharing/rest` for the ArcGIS Online portal.
    */
   portal?: string;
-
   /**
    * ArcGIS Authentication is used by default. Specifying an alternative will take users directly to the corresponding provider's OAuth page.
    */
   provider?: AuthenticationProvider;
-
   /**
    * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
    */
   duration?: number;
-
   /**
    * Determines whether to open the authorization window in a new tab/window or in the current window.
    *
    * @browserOnly
    */
   popup?: boolean;
-
   /**
    * Duration (in minutes) that a refresh token will be valid.
    *
    * @nodeOnly
    */
   refreshTokenTTL?: number;
-
   /**
    * The locale assumed to render the login page.
    *
    * @browserOnly
    */
   locale?: string;
-
   /**
    * Applications can specify an opaque value for this parameter to correlate the authorization request sent with the received response. By default, clientId is used.
    *
@@ -690,7 +682,9 @@ export class UserSession implements IAuthenticationManager {
   /**
    * Manually refreshes the current `token` and `tokenExpires`.
    */
-  public refreshSession(requestOptions?: ITokenRequestOptions): Promise<UserSession> {
+  public refreshSession(
+    requestOptions?: ITokenRequestOptions
+  ): Promise<UserSession> {
     // make sure subsequent calls to getUser() don't returned cached metadata
     this._user = null;
     if (this.username && this.password) {
