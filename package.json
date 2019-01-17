@@ -75,6 +75,7 @@
   },
   "scripts": {
     "build": "lerna run build",
+    "clean": "rm -rf packages/*/dist/",
     "test": "npm run lint && npm run test:node && npm run test:chrome",
     "test:chrome:debug": "karma start --auto-watch --no-single-run --browsers=Chrome",
     "test:chrome": "karma start --single-run --browsers=Chrome",
@@ -106,7 +107,7 @@
     "precommit": "lint-staged",
     "bootstrap": "lerna bootstrap",
     "postinstall": "npm run bootstrap",
-    "prerelease:prepare": "git fetch --all && npm test",
+    "prerelease:prepare": "git fetch --all && npm run clean && lerna bootstrap && npm test",
     "release:prepare": "lerna publish --skip-git --skip-npm --yes && node ./support/changelog.js",
     "release:review": "git --no-pager diff --word-diff",
     "release:publish": "./support/publish.sh",
