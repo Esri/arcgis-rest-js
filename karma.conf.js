@@ -29,10 +29,10 @@ module.exports = function(config) {
         }
       },
       reports: {
-        // "lcovonly": "coverage",
+        "text": "",
         "json": {
           "directory": "coverage",
-          "filename": "coverage-final.json"
+          "filename": "coverage.json"
       },
       },
       compilerOptions: {
