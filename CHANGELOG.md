@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.15.1] - January 16th 2019
+
+attempting to recover from botched release.
+
 ## [1.15.0] - January 16th 2019
 
 ### @esri/arcgis-rest-request
@@ -1049,4 +1053,5 @@ Initial Public Release
 [1.14.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.2...v1.14.3 "v1.14.3"
 [1.14.4]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.3...v1.14.4 "v1.14.4"
 [1.15.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.4...v1.15.0 "v1.15.0"
+[1.15.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.4...v1.15.1 "v1.15.0"
 [HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.15.0...HEAD "Unreleased Changes"

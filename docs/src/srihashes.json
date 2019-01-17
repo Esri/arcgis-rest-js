@@ -1,16 +1,16 @@
 {
-  "version": "1.14.4",
+  "version": "1.15.0",
   "packages": {
-    "@esri/arcgis-rest-auth": "sha384-oi1/hwe/4NjcaoldXu3kBjkvZKrP/9lb5+WUPmXHEzdspLl6nDhQbbZnvaZV37WL",
-    "@esri/arcgis-rest-common": "sha384-JxDq5SKXJBJ7kFE+zdG8GiY/65y7SppcEbtk7H5Zo62awNK2MjPg2I3lIVmNx6ga",
-    "@esri/arcgis-rest-feature-service": "sha384-/foKdS9YYdRMZxvgz265giHNOhp0d90lD2ZXJMRGlIC9fyB5/rGo4CsqYNF36lyl",
-    "@esri/arcgis-rest-feature-service-admin": "sha384-gXWkPaNplNs14xPXdBAiep3RvpLbvfFv0nUBFcdi+e0ZoZVxPR3ijQZPVA0pMxZF",
-    "@esri/arcgis-rest-geocoder": "sha384-jmp5GSxCTKaghL+70Ef16Ov5R212TTucCz7mUAw/G1yYSSFSRKnPtGDOjDJuce6F",
-    "@esri/arcgis-rest-groups": "sha384-owrjJnpOCogv7ESlQyqTAElB3FMfcG/tzvDwIJXHweS8v89jXTIwQw9gcvPs9So8",
-    "@esri/arcgis-rest-items": "sha384-9BVSztTx+j0cN1M2s+V/iUWXZtizbD8Zlf0n0P794MtpPhXA4EUeHb/GWfaE+ZCn",
-    "@esri/arcgis-rest-request": "sha384-uoYF9g6GiwkdeKYFiSTluNLjIeKCHtGoqp+IXqvney8g7/RI2+GLwU/27YidB4hR",
-    "@esri/arcgis-rest-routing": "sha384-IKgV/LwjRNjxMSSaUli88r+hxXNQYdEWvu5nXl2yHwPmCkl7hYe3YDkQ2Qjqngcl",
-    "@esri/arcgis-rest-sharing": "sha384-rfooshRFxTtZPzL/7AZL7evlvrU+/JU2BxL3FPI9pmqK9jdqEPpPoQ2Bjv8ZqGiS",
-    "@esri/arcgis-rest-users": "sha384-IWI9H79udtsm7K5eXfurt/o4iACPRy9dpXSSizmZukt2Q+PfTbvS3n37oVAbPIUG"
+    "@esri/arcgis-rest-auth": "sha384-9Bh8fErkpR9rosnA+3rs8331SbDWnk3rPJnp1MiOzx+JwOiSHJNnXKrNwVx2F1Xs",
+    "@esri/arcgis-rest-common": "sha384-w/thuTN/T0dBtQNwdw5hk4RuGrkQNA7OoHrtNLMmFZf+yNBmSYAE5Ste2TqcYSy8",
+    "@esri/arcgis-rest-feature-service": "sha384-FRg6jYS9OV3YDAZ77YNPIsHRlTR7e90rYtBXux7n3owhcL7tLb6q6iWqOgXr6uuu",
+    "@esri/arcgis-rest-feature-service-admin": "sha384-/pS6/RRAvcTlUiadCt5PVFeihrINaaAC4+DDbi6M+05wEXTtni4imJ8R8a0lrGjK",
+    "@esri/arcgis-rest-geocoder": "sha384-m4LEQZTvgHZz49K4GwdfoHdYXSlVwZoSs4aOXRc3YFCEJ3u+cHvG/0EHxDL4K5Sd",
+    "@esri/arcgis-rest-groups": "sha384-if5rqFezHT+cHMURtRie/oPYCEFs5zHsQfF56iiW8suH+VVL6COM8Vmy5kF4sElu",
+    "@esri/arcgis-rest-items": "sha384-KBJSQI7XS3SbKQXGVil2mWthCemi7uZJzURnxFZLb5iFWgLclQG97mzx4N7wXGO+",
+    "@esri/arcgis-rest-request": "sha384-4nB5vkkH1SGMf6BoAVmzSjeRlLmq4J/pC1Y5ZgNAU6lkTiz3wT8NG8LFRLBX9G1W",
+    "@esri/arcgis-rest-routing": "sha384-E9PzO3nLN6CHdX2BDzS10EKJI1OgnxptlXOc7nLMMx0xDdpPYsocWXfZ3QIP/Jv4",
+    "@esri/arcgis-rest-sharing": "sha384-m/SknjGcJsOrs9agyI/x51K5lwzR7WtOj4Z5RpJ41zzwHrMENrdddl7PPz1KMkN5",
+    "@esri/arcgis-rest-users": "sha384-5s1JTwlksFyRa1F3DlkCdNAJ9CYWr6n9njehVjKPiJhfUut/NjTkbDoL8jIrzUzk"
   }
 }
