@@ -7,11 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
-## [1.15.1] - January 16th 2019
-
-attempting to recover from botched release.
-
-## [1.15.0] - January 16th 2019
+## [1.15.2] - January 17th 2019
 
 ### @esri/arcgis-rest-request
 
@@ -27,6 +23,9 @@ attempting to recover from botched release.
 
 * Documentation
    * **cdn**: add sri hashes [`49fa5cd`](https://github.com/Esri/arcgis-rest-js/commit/49fa5cdd26fe364bcd8d898c6d79f2d23254d7d9) 🙏COV-GIS🙏
+
+## 1.15.1 - Deprecated
+## 1.15.0 - Deprecated
 
 ## [1.14.4] - January 11th 2019
 
@@ -1052,6 +1051,5 @@ Initial Public Release
 [1.14.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.1...v1.14.2 "v1.14.2"
 [1.14.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.2...v1.14.3 "v1.14.3"
 [1.14.4]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.3...v1.14.4 "v1.14.4"
-[1.15.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.4...v1.15.0 "v1.15.0"
-[1.15.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.4...v1.15.1 "v1.15.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.15.0...HEAD "Unreleased Changes"
+[1.15.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.4...v1.15.2 "v1.15.2"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.15.2...HEAD "Unreleased Changes"
