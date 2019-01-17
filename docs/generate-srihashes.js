@@ -4,8 +4,8 @@
 const { join } = require("path");
 const { readFile, writeFile } = require("fs");
 const { generate } = require("sri-toolbox");
-const version = process.env.npm_package_version;
 const OUTPUT = join(process.cwd(), "docs", "src", `srihashes.json`);
+const version = require(join(process.cwd(), "lerna.json")).version;
 
 const packages = [
   "auth",
