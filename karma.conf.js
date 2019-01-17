@@ -19,8 +19,7 @@ module.exports = function(config) {
 
     karmaTypescriptConfig: {
       reports: {
-        lcovonly: "coverage",
-        text: ""
+        json: "coverage",
       },
       compilerOptions: {
         module: "commonjs"
