@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.15.0] - January 16th 2019
+
+### @esri/arcgis-rest-request
+
+* New Features
+   * **arcgis-rest-js**: add a headers option to IRequestOptions and pass on the headers to the request [`266b85a`](https://github.com/Esri/arcgis-rest-js/commit/266b85a5ce2016606d6fcadddfd34932b08b4be8) 🙏rgwozdz🙏
+
+### @esri/arcgis-rest-users
+
+* New Features
+   * **arcgis-rest-users**: added `updateUser()` method  [`33ce92d`](https://github.com/Esri/arcgis-rest-js/commit/33ce92dfd36dadcd76ec98150097c38b1041e9d0)
+
+### Other Changes
+
+* Documentation
+   * **cdn**: add sri hashes [`49fa5cd`](https://github.com/Esri/arcgis-rest-js/commit/49fa5cdd26fe364bcd8d898c6d79f2d23254d7d9) 🙏COV-GIS🙏
+
 ## [1.14.4] - January 11th 2019
 
 ### @esri/arcgis-rest-request
@@ -19,8 +36,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Added
    * UserSession.refreshSession() now clears cached user metadata. [`9564158`](https://github.com/Esri/arcgis-rest-js/commit/956415862bd6a07284805b11fd23a949de8157fe)
    * `ApplicationSession` now calculates accurate token expirations. [`5af14d7`](https://github.com/Esri/arcgis-rest-js/commit/5af14d7b10ccee179f7b2da82f4f1478352a8b67)
-   * `ApplicationSession`'s constuctor now exposes the ability to customize the associated `portal`. [`3ffdddb`](https://github.com/Esri/arcgis-rest-js/commit/3ffdddb9a3faedc39c8782743c419f0a716fbd66)
-   * `ApplicationSession`'s constructor now exposes the ability to customize the lifespan of generated tokens. [`5af14d7`](https://github.com/Esri/arcgis-rest-js/commit/5af14d7b10ccee179f7b2da82f4f1478352a8b67)
+   * `ApplicationSession`s constuctor now exposes the ability to customize the associated `portal`. [`3ffdddb`](https://github.com/Esri/arcgis-rest-js/commit/3ffdddb9a3faedc39c8782743c419f0a716fbd66)
+   * `ApplicationSession`s constructor now exposes the ability to customize the lifespan of generated tokens. [`5af14d7`](https://github.com/Esri/arcgis-rest-js/commit/5af14d7b10ccee179f7b2da82f4f1478352a8b67)
 
 ### @esri/arcgis-rest-geocoder
 
@@ -32,7 +49,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 * Changed
    * Packages no longer expose a `browser` field in their package.json files. `unpkg` is now used instead to clue the CDN into which specific file to serve up. [`c4e0697d`](https://github.com/Esri/arcgis-rest-js/commit/c4e0697dc1ec66d5cc1919698c79d177d8f57220)
 
-
 ## [1.14.3] - December 3rd 2018
 
 ### @esri/arcgis-rest-auth
@@ -43,7 +59,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### demos/oauth2-browser
 
 * Bug Fixes
-   ensure that the response is parsed correctly when &#39;keep me signed in&#39; is checked. [`924f790`](https://github.com/Esri/arcgis-rest-js/commit/924f790efb5a62e885e803de5a744efcf337ebb0)
+   ensure that the response is parsed correctly when keep me signed in is checked. [`924f790`](https://github.com/Esri/arcgis-rest-js/commit/924f790efb5a62e885e803de5a744efcf337ebb0)
 
 ### Other Changes
 
@@ -97,7 +113,7 @@ This change was made for consistency with the REST API itself. the old construct
 
 * Added
  * New package!
- * `solveRoute()` can be used to fetch directions from A to B (or A to Z, or Z to ? to A)
+ * `solveRoute()` can be used to fetch directions from A to B (or A to Z, or Z to ? to A) 🙏gavinr🙏
 
 ### @esri/arcgis-rest-common
 
@@ -1032,4 +1048,5 @@ Initial Public Release
 [1.14.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.1...v1.14.2 "v1.14.2"
 [1.14.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.2...v1.14.3 "v1.14.3"
 [1.14.4]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.3...v1.14.4 "v1.14.4"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.4...HEAD "Unreleased Changes"
+[1.15.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.4...v1.15.0 "v1.15.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.15.0...HEAD "Unreleased Changes"

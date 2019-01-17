@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-feature-service-admin",
-  "version": "1.14.4",
+  "version": "1.15.0",
   "description": "Feature service administration helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/feature-service-admin.umd.js",
@@ -15,10 +15,10 @@
     "tslib": "^1.7.1"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^1.14.4",
-    "@esri/arcgis-rest-common-types": "^1.14.4",
-    "@esri/arcgis-rest-items": "^1.14.4",
-    "@esri/arcgis-rest-request": "^1.14.4"
+    "@esri/arcgis-rest-auth": "^1.15.0",
+    "@esri/arcgis-rest-common-types": "^1.15.0",
+    "@esri/arcgis-rest-items": "^1.15.0",
+    "@esri/arcgis-rest-request": "^1.15.0"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^1.14.4",
