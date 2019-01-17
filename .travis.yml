@@ -7,11 +7,10 @@ notifications:
 node_js:
 - '10'
 - '11'
-cache:
-  directories:
-  - node_modules
+cache: npm
 script:
 - npm run test:ci
+- codecov
 deploy:
   provider: pages
   skip_cleanup: true

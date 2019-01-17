@@ -78,6 +78,7 @@ export interface IOauth2Options {
   /**
    * ArcGIS Authentication is used by default. Specifying an alternative will take users directly to the corresponding provider's OAuth page.
    */
+
   provider?: AuthenticationProvider;
 
   /**
@@ -690,7 +691,9 @@ export class UserSession implements IAuthenticationManager {
   /**
    * Manually refreshes the current `token` and `tokenExpires`.
    */
-  public refreshSession(requestOptions?: ITokenRequestOptions): Promise<UserSession> {
+  public refreshSession(
+    requestOptions?: ITokenRequestOptions
+  ): Promise<UserSession> {
     // make sure subsequent calls to getUser() don't returned cached metadata
     this._user = null;
     if (this.username && this.password) {
