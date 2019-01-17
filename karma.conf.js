@@ -19,7 +19,7 @@ module.exports = function(config) {
 
     karmaTypescriptConfig: {
       reports: {
-        json: "coverage",
+        lcovonly: "coverage"
       },
       compilerOptions: {
         module: "commonjs"
@@ -42,7 +42,7 @@ module.exports = function(config) {
     },
 
     // coveralls uses this one. still need to figure out how to DRY this up.
-    coverageReporter: { type: 'lcov' },
+    // coverageReporter: { type: 'lcov' },
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
