@@ -5,13 +5,18 @@ import * as fetchMock from "fetch-mock";
 
 import { attachmentFile } from "../../arcgis-rest-feature-service/test/attachments.test";
 
-import { addItemJsonData, addItemData, addItemResource } from "../src/add";
+import { 
+  addItemJsonData,
+  addItemData,
+  addItemResource,
+  addItemRelationship
+} from "../src/add";
 
 import { ItemSuccessResponse } from "./mocks/item";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { encodeParam } from "@esri/arcgis-rest-request";
+import { encodeParam, appendCustomParams } from "@esri/arcgis-rest-request";
 
 describe("search", () => {
   afterEach(fetchMock.restore);
@@ -168,6 +173,35 @@ describe("search", () => {
             expect(params.get("f")).toEqual("json");
             expect(params.get("file")).toEqual(file);
           }
+
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should add a relationship to an item", done => {
+      fetchMock.once("*", { success: true });
+      
+      addItemRelationship({
+        originItemId: "3ef",
+        destinationItemId: "ae7",
+        relationshipType: "Area2CustomPackage",
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/addRelationship"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("originItemId=3ef");
+          expect(options.body).toContain("destinationItemId=ae7");
+          expect(options.body).toContain("relationshipType=Area2CustomPackage");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("token=fake-token");
 
           done();
         })

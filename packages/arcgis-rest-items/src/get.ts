@@ -80,12 +80,14 @@ export interface IGetRelatedItemsResponse {
   total: number;
   relatedItems: IItem[];
 }
+
 /**
-  * ```import { getRelatedItems } from "@esri/arcgis-rest-items";
+ * ```
+ * import { getRelatedItems } from "@esri/arcgis-rest-items";
  * //
  * getRelatedItems({
  *   id: "ae7",
- *   relationshipType: "Service2Layer" // or ["Service2Layer", "Map2Area"]
+ *   relationshipType: "Service2Layer" // or several ["Service2Layer", "Map2Area"]
  * })
  *   .then(response)
  * ```

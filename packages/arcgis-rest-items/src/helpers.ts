@@ -68,6 +68,12 @@ export interface IItemRelationshipRequestOptions extends IRequestOptions {
   direction?: "forward" | "reverse";
 }
 
+export interface IManageItemRelationshipRequestOptions extends IUserRequestOptions {
+  originItemId: string;
+  destinationItemId: string;
+  relationshipType: ItemRelationshipType;
+}
+
 export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
   /**
    * New resource filename.
