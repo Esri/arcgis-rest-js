@@ -33,6 +33,41 @@ export interface IFolderIdRequestOptions extends IUserRequestOptions {
   owner?: string;
 }
 
+export type ItemRelationshipType = "Map2Service" |
+"WMA2Code" |
+"Map2FeatureCollection" |
+"MobileApp2Code" |
+"Service2Data" |
+"Service2Service" |
+"Map2AppConfig" |
+"Item2Attachment" |
+"Item2Report" |
+"Listed2Provisioned" |
+"Style2Style" |
+"Service2Style" |
+"Survey2Service" |
+"Survey2Data" |
+"Service2Route" |
+"Area2Package" |
+"Map2Area" |
+"Service2Layer" |
+"Area2CustomPackage";
+
+export interface IItemRelationshipRequestOptions extends IRequestOptions {
+  /**
+   * Id of the item.
+   */
+  id: string;
+  /**
+   * The type of relationship between the two items.
+   */
+  relationshipType: ItemRelationshipType | ItemRelationshipType[]
+  /**
+   * The direction of the relationship. Either forward (from origin -> destination) or reverse (from destination -> origin).
+   */
+  direction?: "forward" | "reverse";
+}
+
 export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
   /**
    * New resource filename.

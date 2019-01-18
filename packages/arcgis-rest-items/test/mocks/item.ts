@@ -4,6 +4,8 @@
 import { IItem } from "@esri/arcgis-rest-common-types";
 import { IItemGroupResponse } from "../../src/get";
 
+import { IGetRelatedItemsResponse } from "../../src/get"
+
 export const ItemSuccessResponse: any = {
   success: true,
   id: "3efakeitemid0000"
@@ -27,6 +29,11 @@ export const ItemResponse: IItem = {
   numViews: 1337,
   protected: false
 };
+
+export const RelatedItemsResponse: IGetRelatedItemsResponse = {
+  total: 1,
+  relatedItems: [ItemResponse]
+}
 
 export const ItemDataResponse: any = {
   source: "3ef",

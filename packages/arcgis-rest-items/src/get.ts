@@ -9,9 +9,21 @@ import {
 
 import { IItem, IGroup } from "@esri/arcgis-rest-common-types";
 
-import { IItemIdRequestOptions, IItemDataRequestOptions } from "./helpers";
+import {
+  IItemIdRequestOptions,
+  IItemDataRequestOptions,
+  IItemRelationshipRequestOptions
+ } from "./helpers";
 
 /**
+ * ```import { getItem } from "@esri/arcgis-rest-items";
+ * //
+ * getItem("ae7")
+ *   .then(response);
+ * // or
+ * getItem("ae7", { authentication })
+ *   .then(response)
+ * ```
  * Get an item by id. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/item.htm) for more information.
  *
  * @param id - Item Id
@@ -33,6 +45,14 @@ export function getItem(
 }
 
 /**
+ * ```import { getItemData } from "@esri/arcgis-rest-items";
+ * //
+ * getItemData("ae7")
+ *   .then(response)
+ * // or
+ * getItemData("ae7", { authentication })
+ *   .then(response)
+ * ```
  * Get the /data for an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/item-data.htm) for more information.
  * @param id - Item Id
  * @param requestOptions - Options for the request
@@ -52,6 +72,49 @@ export function getItemData(
   if (options.file) {
     options.params.f = null;
   }
+
+  return request(url, options);
+}
+
+export interface IGetRelatedItemsResponse {
+  total: number;
+  relatedItems: IItem[];
+}
+/**
+  * ```import { getRelatedItems } from "@esri/arcgis-rest-items";
+ * //
+ * getRelatedItems({
+ *   id: "ae7",
+ *   relationshipType: "Service2Layer" // or ["Service2Layer", "Map2Area"]
+ * })
+ *   .then(response)
+ * ```
+ * Get the related items. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/related-items.htm) for more information.
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise to get some item resources.
+ */
+export function getRelatedItems(
+  requestOptions: IItemRelationshipRequestOptions
+): Promise<IGetRelatedItemsResponse> {
+  const url = `${getPortalUrl(requestOptions)}/content/items/${requestOptions.id}/relatedItems`;
+
+  const options:IItemRelationshipRequestOptions = {
+    httpMethod: "GET",
+    params: {
+      direction: requestOptions.direction
+    },
+    ...requestOptions
+  }
+
+  if (typeof requestOptions.relationshipType === "string") {
+    options.params.relationshipType = requestOptions.relationshipType;
+  } else {
+    options.params.relationshipTypes = requestOptions.relationshipType;
+  }
+
+  delete options.direction;
+  delete options.relationshipType;
 
   return request(url, options);
 }
