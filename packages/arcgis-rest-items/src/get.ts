@@ -7,7 +7,7 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IItem } from "@esri/arcgis-rest-common-types";
+import { IItem, IGroup } from "@esri/arcgis-rest-common-types";
 
 import { IItemIdRequestOptions, IItemDataRequestOptions } from "./helpers";
 
@@ -74,6 +74,28 @@ export function getItemResources(
     ...requestOptions.params,
     num: 1000
   };
+  // at v2, the argument signature of this method should match getItemData() and getItemGroups() if requests can be made anonymously
+  return request(url, requestOptions);
+}
+
+export interface IItemGroupResponse {
+  admin?:IGroup[];
+  member?:IGroup[];
+  other?:IGroup[];
+}
+
+/**
+ * Lists the groups of which the item is a part. Only shows the groups that the calling user can access. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/groups.htm) for more information.
+ *
+ * @param id - The Id of the item to query group association for.
+ * @param requestOptions - Options for the request
+ * @returns A Promise to get some item groups.
+ */
+export function getItemGroups(
+  id: string,
+  requestOptions?: IRequestOptions
+): Promise<IItemGroupResponse> {
+  const url = `${getPortalUrl(requestOptions)}/content/items/${id}/groups`;
 
   return request(url, requestOptions);
 }
