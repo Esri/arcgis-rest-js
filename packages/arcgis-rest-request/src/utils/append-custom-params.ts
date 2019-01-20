@@ -4,12 +4,14 @@
 import { IRequestOptions } from "../request";
 
 /**
- * Helper for methods with lots of first order request options to pass them through as request parameters.
+ * Helper for methods with lots of first order request options to pass through as request parameters.
  */
 export function appendCustomParams(
   oldOptions: IRequestOptions,
   newOptions: IRequestOptions
 ) {
+  // at v2.0.0, this should be refactored as a nonmutating method that takes a single argument, mixes in everything and returns a new instance of IRequestOptions
+
   // only pass query parameters through in the request, not generic IRequestOptions props
   Object.keys(oldOptions).forEach(function(key: string) {
     if (
@@ -20,6 +22,7 @@ export function appendCustomParams(
       key !== "fetch" &&
       key !== "portal" &&
       key !== "maxUrlLength" &&
+      key !== "headers" &&
       key !== "endpoint" &&
       key !== "decodeValues"
     ) {
