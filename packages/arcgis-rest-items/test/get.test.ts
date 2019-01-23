@@ -3,9 +3,14 @@
 
 import * as fetchMock from "fetch-mock";
 
-import { getItem, getItemData, getItemResources } from "../src/get";
+import { 
+  getItem,
+  getItemData,
+  getItemResources,
+  getItemGroups
+} from "../src/get";
 
-import { ItemResponse, ItemDataResponse } from "./mocks/item";
+import { ItemResponse, ItemDataResponse, ItemGroupResponse } from "./mocks/item";
 
 import { GetItemResourcesResponse } from "./mocks/resources";
 
@@ -171,6 +176,40 @@ describe("get", () => {
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
           expect(options.body).toContain("resourcesPrefix=foolder");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("get item groups anonymously", done => {
+      fetchMock.once("*", ItemGroupResponse);
+      getItemGroups("3ef")
+        .then(() => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://www.arcgis.com/sharing/rest/content/items/3ef/groups"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("get item groups with credentials", done => {
+      fetchMock.once("*", ItemGroupResponse);
+      getItemGroups("3ef", { authentication: MOCK_USER_SESSION })
+        .then(() => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/groups"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
           done();
         })
         .catch(e => {
