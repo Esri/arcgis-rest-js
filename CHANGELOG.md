@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.16.0] - January 23rd 2019
+
+### @esri/arcgis-rest-items
+
+* New Features
+   * new `getItemGroups()` method [`c0cd950`](https://github.com/Esri/arcgis-rest-js/commit/c0cd9509c6c4a1ef8cae33b9673e7a2f9fef90e7)
+   * new `removeFolder()` method [`b915ecb`](https://github.com/Esri/arcgis-rest-js/commit/b915ecbe1cad6cea468f1483001daf4f397a7157)
+
+### @esri/arcgis-rest-request
+
+* Fixes
+   * dont misinterpret custom referer headers as request parameters [`4ff33b1`](https://github.com/Esri/arcgis-rest-js/commit/4ff33b19809877e60a103ba10139bb4073d536e8)
+   * dont set referer headers to null in browser apps [`0b1bf2b`](https://github.com/Esri/arcgis-rest-js/commit/0b1bf2bcf7ba2e6f0889e3fd36bad6750cce4fcb)
+
 ## [1.15.2] - January 17th 2019
 
 ### @esri/arcgis-rest-request
@@ -25,7 +39,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    * **cdn**: add sri hashes [`49fa5cd`](https://github.com/Esri/arcgis-rest-js/commit/49fa5cdd26fe364bcd8d898c6d79f2d23254d7d9) 🙏COV-GIS🙏
 
 ## 1.15.1 - Deprecated
+
+
+
 ## 1.15.0 - Deprecated
+
+
 
 ## [1.14.4] - January 11th 2019
 
@@ -1052,4 +1071,5 @@ Initial Public Release
 [1.14.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.2...v1.14.3 "v1.14.3"
 [1.14.4]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.3...v1.14.4 "v1.14.4"
 [1.15.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.4...v1.15.2 "v1.15.2"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.15.2...HEAD "Unreleased Changes"
+[1.16.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.15.2...v1.16.0 "v1.16.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.16.0...HEAD "Unreleased Changes"
