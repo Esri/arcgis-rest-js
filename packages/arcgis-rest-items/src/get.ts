@@ -79,13 +79,19 @@ export function getItemResources(
 }
 
 export interface IItemGroupResponse {
-  admin?:IGroup[];
-  member?:IGroup[];
-  other?:IGroup[];
+  admin?: IGroup[];
+  member?: IGroup[];
+  other?: IGroup[];
 }
 
 /**
- * Lists the groups of which the item is a part. Only shows the groups that the calling user can access. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/groups.htm) for more information.
+ * ```js
+ * import { getItemGroups } from "@esri/arcgis-rest-items";
+ * //
+ * getItemGroups("30e5fe3149c34df1ba922e6f5bbf808f")
+ *   .then(response)
+ * ```
+ * Lists the groups of which the item is a part, only showing the groups that the calling user can access. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/groups.htm) for more information.
  *
  * @param id - The Id of the item to query group association for.
  * @param requestOptions - Options for the request
