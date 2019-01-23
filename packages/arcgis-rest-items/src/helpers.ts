@@ -22,6 +22,17 @@ export interface IItemIdRequestOptions extends IUserRequestOptions {
   owner?: string;
 }
 
+export interface IFolderIdRequestOptions extends IUserRequestOptions {
+  /**
+   * Unique identifier of the folder.
+   */
+  folderId: string;
+  /**
+   * Item owner username. If not present, `authentication.username` is utilized.
+   */
+  owner?: string;
+}
+
 export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
   /**
    * New resource filename.
