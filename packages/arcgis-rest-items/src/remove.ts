@@ -6,6 +6,7 @@ import { request, getPortalUrl } from "@esri/arcgis-rest-request";
 import {
   IItemIdRequestOptions,
   IItemResourceRequestOptions,
+  IFolderIdRequestOptions,
   determineOwner
 } from "./helpers";
 
@@ -52,5 +53,23 @@ export function removeItemResource(
     ...requestOptions.params,
     resource: requestOptions.resource
   };
+  return request(url, requestOptions);
+}
+
+/**
+ * Delete a non-root folder. See the [REST
+ * Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-folder.htm) for
+ * more information.
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise that deletes a folder
+ */
+export function removeFolder(
+  requestOptions: IFolderIdRequestOptions
+): Promise<any> {
+  const owner = determineOwner(requestOptions);
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/${
+    requestOptions.folderId
+  }/delete`;
   return request(url, requestOptions);
 }
