@@ -7,8 +7,8 @@
 [npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-common-types
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
-[coverage-img]: https://coveralls.io/repos/github/Esri/arcgis-rest-js/badge.svg
-[coverage-url]: https://coveralls.io/github/Esri/arcgis-rest-js
+[coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
+[coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
 # @esri/arcgis-rest-common-types
 

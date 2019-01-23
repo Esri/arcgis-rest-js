@@ -9,8 +9,8 @@
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
 [gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-routing/dist/umd/routing.umd.min.js?compression=gzip
-[coverage-img]: https://coveralls.io/repos/github/Esri/arcgis-rest-js/badge.svg
-[coverage-url]: https://coveralls.io/github/Esri/arcgis-rest-js
+[coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
+[coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
 # @esri/arcgis-rest-routing
 
