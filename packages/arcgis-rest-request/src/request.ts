@@ -186,12 +186,14 @@ export function request(
       }
 
       // Mixin headers from request options
-      /* istanbul ignore next - karma reports coverage on browser tests only */
       fetchOptions.headers = {
-        referer:
-          typeof window === "undefined" ? NODEJS_DEFAULT_REFERER_HEADER : null,
         ...requestOptions.headers
       };
+
+      /* istanbul ignore next - karma reports coverage on browser tests only */
+      if (typeof window === "undefined" && !fetchOptions.headers.referer) {
+        fetchOptions.headers.referer = NODEJS_DEFAULT_REFERER_HEADER;
+      }
 
       /* istanbul ignore else blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
       if (!requiresFormData(params)) {
