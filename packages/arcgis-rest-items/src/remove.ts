@@ -57,7 +57,18 @@ export function removeItemResource(
 }
 
 /**
- * Delete a non-root folder. See the [REST
+ * ```js
+ * import { removeFolder } from "@esri/arcgis-rest-items";
+ * //
+ * removeFolder({
+ *   folderId: "fe4",
+ *   owner: "c@sey",
+ *   authentication
+ * })
+ *   .then(response)
+ *
+ * ```
+ * Delete a non-root folder and all the items it contains. See the [REST
  * Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-folder.htm) for
  * more information.
  *
@@ -66,9 +77,18 @@ export function removeItemResource(
  */
 export function removeFolder(
   requestOptions: IFolderIdRequestOptions
-): Promise<any> {
+): Promise<{
+  success: boolean;
+  folder: {
+    username: string;
+    id: string;
+    title: string;
+  };
+}> {
   const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/${
+  const url = `${getPortalUrl(
+    requestOptions
+  )}/content/users/${encodeURIComponent(owner)}/${
     requestOptions.folderId
   }/delete`;
   return request(url, requestOptions);
