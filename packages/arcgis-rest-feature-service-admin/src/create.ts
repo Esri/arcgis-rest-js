@@ -201,12 +201,12 @@ export function createFeatureService(
                   reject({ success: false });
                 }
               })
-              .catch();
+              .catch(() => reject({ success: false }));
           } else {
             reject({ success: false });
           }
         })
-        .catch();
+        .catch(() => reject({ success: false }));
     });
   }
 }

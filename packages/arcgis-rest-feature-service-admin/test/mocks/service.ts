@@ -20,6 +20,7 @@ export const FeatureServiceSuccessResponse: ICreateServiceResult = {
 export const FeatureServiceFailResponse: any = {
   success: false
 };
+export const FeatureServiceFailResponse400: any = 400;
 
 export const AddToFeatureServiceSuccessResponseFredAndGinger: IAddToServiceDefinitionResult = {
   layers: [
@@ -69,4 +70,10 @@ export const AddToFeatureServiceError: any = {
     message: "Unable to add feature service definition.",
     details: ["Object reference not set to an instance of an object."]
   }
+};
+
+export const AddToFeatureServiceBadRequest: any = {
+  code: "HTTP 400",
+  name: "ArcGISRequestError",
+  message: "HTTP 400: Bad Request"
 };
