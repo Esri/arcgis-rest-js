@@ -4,7 +4,7 @@
 import { ICreateServiceResult } from "../../src/create";
 import { IAddToServiceDefinitionResult } from "../../src/addTo";
 
-export const FeatureServiceSuccessResponse: ICreateServiceResult = {
+export const FeatureServiceResponse: ICreateServiceResult = {
   encodedServiceURL:
     "https://services.arcgis.com/b6gLrKHqgkQb393u/arcgis/rest/services/EmptyServiceName/FeatureServer",
   isView: false,
@@ -17,10 +17,6 @@ export const FeatureServiceSuccessResponse: ICreateServiceResult = {
   success: true,
   type: "Feature Service"
 };
-export const FeatureServiceFailResponse: any = {
-  success: false
-};
-export const FeatureServiceFailResponse400: any = 400;
 
 export const AddToFeatureServiceSuccessResponseFredAndGinger: IAddToServiceDefinitionResult = {
   layers: [
