@@ -67,9 +67,3 @@ export const AddToFeatureServiceError: any = {
     details: ["Object reference not set to an instance of an object."]
   }
 };
-
-export const AddToFeatureServiceBadRequest: any = {
-  code: "HTTP 400",
-  name: "ArcGISRequestError",
-  message: "HTTP 400: Bad Request"
-};
