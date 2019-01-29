@@ -167,7 +167,6 @@ export function createFeatureService(
   requestOptions: ICreateServiceRequestOptions
 ): Promise<ICreateServiceResult> {
   const owner = determineOwner(requestOptions);
-
   const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
   const url = `${baseUrl}/createService`;
 
@@ -179,34 +178,30 @@ export function createFeatureService(
   };
 
   if (!requestOptions.folderId || requestOptions.folderId === "/") {
-    // If the service is destined for the root folder, just send the request and return the promise;
-    // services are created in the root folder
+    // If the service is destined for the root folder, just send the request
     return request(url, requestOptions);
   } else {
-    // If the service is destined for a subfolder, catch the results of the request and then move
-    // the item to the desired folder
-    return new Promise((resolve, reject) => {
-      request(url, requestOptions)
-        .then(createResults => {
-          if (createResults.success) {
-            moveItem({
-              itemId: createResults.itemId,
-              folderId: requestOptions.folderId,
-              authentication: requestOptions.authentication
-            })
-              .then(moveResults => {
-                if (moveResults.success) {
-                  resolve(createResults);
-                } else {
-                  reject({ success: false });
-                }
-              })
-              .catch();
+    // If the service is destined for a subfolder, move it (via another call)
+    return request(url, requestOptions).then(createResponse => {
+      if (createResponse.success) {
+        return moveItem({
+          itemId: createResponse.itemId,
+          folderId: requestOptions.folderId,
+          authentication: requestOptions.authentication
+        }).then(moveResponse => {
+          if (moveResponse.success) {
+            return createResponse;
           } else {
-            reject({ success: false });
+            throw Error(
+              `A problem was encountered when trying to move the service to a different folder.`
+            );
           }
-        })
-        .catch();
+        });
+      } else {
+        throw Error(
+          `A problem was encountered when trying to create the service.`
+        );
+      }
     });
   }
 }

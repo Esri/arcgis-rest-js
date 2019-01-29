@@ -29,11 +29,11 @@ module.exports = function(config) {
         }
       },
       reports: {
-        "text": "",
         "json": {
           "directory": "coverage",
           "filename": "coverage.json"
-      },
+        },
+        "html": "coverage"
       },
       compilerOptions: {
         module: "commonjs"
