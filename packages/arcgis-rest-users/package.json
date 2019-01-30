@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-users",
-  "version": "1.16.0",
+  "version": "1.16.1",
   "description": "Portal user helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/users.umd.js",
@@ -15,9 +15,9 @@
     "tslib": "^1.7.1"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^1.16.0",
-    "@esri/arcgis-rest-common-types": "^1.16.0",
-    "@esri/arcgis-rest-request": "^1.16.0"
+    "@esri/arcgis-rest-auth": "^1.16.1",
+    "@esri/arcgis-rest-common-types": "^1.16.1",
+    "@esri/arcgis-rest-request": "^1.16.1"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^1.16.0",

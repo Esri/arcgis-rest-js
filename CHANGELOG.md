@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.16.1] - January 30th 2019
+
+### @esri/arcgis-rest-feature-service-admin
+
+* Fixes
+   * ensure createFeatureService doesnt swallow errors [`8173aa5`](https://github.com/Esri/arcgis-rest-js/commit/8173aa5c2d92b2f3f47ff108a8fb575fe449b99b) 🙏MikeTschudi🙏
+
 ## [1.16.0] - January 23rd 2019
 
 ### @esri/arcgis-rest-items
@@ -1040,8 +1047,7 @@ This change was made for consistency with the REST API itself. the old construct
 Initial Public Release
 
 [1.0.0]: https://github.com/Esri/arcgis-rest-js/compare/265d6aed1856d3ae1ff81f03ce85aba449b01f21...v1.0.0 "v1.0.0"
-[1.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.1 "v1.0.1"
-[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.1...v1.0.2 "v1.0.2"
+[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.2 "v1.0.2"
 [1.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.2...v1.0.3 "v1.0.3"
 [1.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.3...v1.1.0 "v1.1.0"
 [1.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.0...v1.1.1 "v1.1.1"
@@ -1070,6 +1076,9 @@ Initial Public Release
 [1.14.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.1...v1.14.2 "v1.14.2"
 [1.14.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.2...v1.14.3 "v1.14.3"
 [1.14.4]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.3...v1.14.4 "v1.14.4"
-[1.15.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.4...v1.15.2 "v1.15.2"
+[1.15.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.4...v1.15.0 "v1.15.0"
+[1.15.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.15.0...v1.15.1 "v1.15.1"
+[1.15.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.15.1...v1.15.2 "v1.15.2"
 [1.16.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.15.2...v1.16.0 "v1.16.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.16.0...HEAD "Unreleased Changes"
+[1.16.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.16.0...v1.16.1 "v1.16.1"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.16.1...HEAD "Unreleased Changes"
