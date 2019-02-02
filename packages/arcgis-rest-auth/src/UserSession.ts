@@ -660,8 +660,6 @@ export class UserSession implements IAuthenticationManager {
       /^https?:\/\/\S+\.arcgis\.com.+/.test(url)
     ) {
       return this.getFreshToken(requestOptions);
-    } else if (new RegExp(this.portal, "i").test(url)) {
-      return this.getFreshToken(requestOptions);
     } else {
       return this.getTokenForServer(url, requestOptions);
     }
@@ -717,7 +715,7 @@ export class UserSession implements IAuthenticationManager {
   ) {
     // requests to /rest/services/ and /rest/admin/services/ are both valid
     // Federated servers may have inconsistent casing, so lowerCase it
-    const [root] = url.toLowerCase().split(/\/rest(\/admin)?\/services\//);
+    const [root] = url.toLowerCase().split(/\/rest\//);
     const existingToken = this.trustedServers[root];
 
     if (existingToken && existingToken.expires.getTime() > Date.now()) {
@@ -730,28 +728,16 @@ export class UserSession implements IAuthenticationManager {
 
     this._pendingTokenRequests[root] = request(`${root}/rest/info`)
       .then((response: any) => {
-        return response.owningSystemUrl;
+        return response.owningSystemUrl || `${url.split(/\/sharing\/rest/)[0]}`;
       })
       .then(owningSystemUrl => {
-        /**
-         * if this server is not owned by this portal or the stand-alone
-         * instance of ArcGIS Server doesn't advertise federation,
-         * bail out with an error since we know we wont
-         * be able to generate a token
-         */
-        if (
-          !owningSystemUrl ||
-          !new RegExp(owningSystemUrl, "i").test(this.portal)
-        ) {
-          throw new ArcGISAuthError(
-            `${url} is not federated with ${this.portal}.`,
-            "NOT_FEDERATED"
-          );
-        }
         return request(`${owningSystemUrl}/sharing/rest/info`, requestOptions);
       })
       .then((response: any) => {
-        return response.authInfo.tokenServicesUrl;
+        return (
+          (response.authInfo && response.authInfo.tokenServicesUrl) ||
+          `${url.split(/\/sharing\/rest/)[0]}/sharing/rest/generateToken`
+        );
       })
       .then((tokenServicesUrl: string) => {
         if (this.token) {
