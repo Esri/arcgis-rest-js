@@ -5,11 +5,19 @@ import * as fetchMock from "fetch-mock";
 
 import { attachmentFile } from "../../arcgis-rest-feature-service/test/attachments.test";
 
-import { updateItem, updateItemResource, moveItem } from "../src/update";
+import {
+  updateItem,
+  updateItemResource,
+  moveItem,
+  updateItemInfo
+} from "../src/update";
 
 import { ItemSuccessResponse } from "./mocks/item";
 
-import { UpdateItemResourceResponse } from "./mocks/resources";
+import {
+  UpdateItemResourceResponse,
+  UpdateItemInfoResponse
+} from "./mocks/resources";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
@@ -172,6 +180,157 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("text", "jumbotron"));
           expect(options.body).not.toContain(encodeParam("access", "inherit"));
           expect(options.body).toContain(encodeParam("token", "fake-token"));
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("update an item info with text", done => {
+      fetchMock.once("*", UpdateItemInfoResponse);
+      updateItemInfo({
+        id: "3ef",
+        owner: "dbouwman",
+        name: "banner.txt",
+        content: "Sweet Banner Dude",
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/updateInfo"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body instanceof FormData).toBeTruthy();
+          const params = options.body as FormData;
+          if (params.get) {
+            expect(params.get("token")).toEqual("fake-token");
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("fileName")).toEqual("banner.txt");
+            expect(params.get("file")).toBeTruthy();
+          }
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("update an item info with text no ext", done => {
+      fetchMock.once("*", UpdateItemInfoResponse);
+      updateItemInfo({
+        id: "3ef",
+        owner: "dbouwman",
+        name: "banner",
+        content: "Sweet Banner Dude",
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/updateInfo"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body instanceof FormData).toBeTruthy();
+          const params = options.body as FormData;
+          if (params.get) {
+            expect(params.get("token")).toEqual("fake-token");
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("fileName")).toEqual("banner");
+            expect(params.get("file")).toBeTruthy();
+          }
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("update an item info with xml", done => {
+      fetchMock.once("*", UpdateItemInfoResponse);
+      updateItemInfo({
+        id: "3ef",
+        owner: "dbouwman",
+        name: "banner.xml",
+        content: "<p>Sweet Banner Dude</p>",
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/updateInfo"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body instanceof FormData).toBeTruthy();
+          const params = options.body as FormData;
+          if (params.get) {
+            expect(params.get("token")).toEqual("fake-token");
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("fileName")).toEqual("banner.xml");
+            expect(params.get("file")).toBeTruthy();
+          }
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("update an item info with json", done => {
+      fetchMock.once("*", UpdateItemInfoResponse);
+      updateItemInfo({
+        id: "3ef",
+        owner: "dbouwman",
+        name: "person.json",
+        content: { name: "Dave" },
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/updateInfo"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body instanceof FormData).toBeTruthy();
+          const params = options.body as FormData;
+          if (params.get) {
+            expect(params.get("token")).toEqual("fake-token");
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("fileName")).toEqual("person.json");
+            expect(params.get("file")).toBeTruthy();
+          }
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("update an item info with blob", done => {
+      fetchMock.once("*", UpdateItemInfoResponse);
+      const file = attachmentFile();
+      updateItemInfo({
+        id: "3ef",
+        owner: "dbouwman",
+        name: "person.png",
+        content: file,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/updateInfo"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body instanceof FormData).toBeTruthy();
+          const params = options.body as FormData;
+          if (params.get) {
+            expect(params.get("token")).toEqual("fake-token");
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("fileName")).toEqual("person.png");
+            expect(params.get("file")).toBeTruthy();
+          }
           done();
         })
         .catch(e => {

@@ -9,6 +9,7 @@ import {
   IItemCrudRequestOptions,
   IItemMoveResponse,
   IItemResourceRequestOptions,
+  IItemUpdateInfoRequestOptions,
   IItemUpdateResponse,
   serializeItem,
   determineOwner
@@ -104,6 +105,68 @@ export function updateItemResource(
     requestOptions.params.access = requestOptions.private
       ? "private"
       : "inherit";
+  }
+
+  return request(url, requestOptions);
+}
+
+/**
+ * ```js
+ * import { updateItemInfo } from '@esri/arcgis-rest-items';
+ * //
+ * updateItemInfo({
+ *   id: '3ef',
+ *   content: {name: 'Darth Vader', children: ['Luke', 'Leia']}
+ *   fileName: 'seekret.json'
+ *   authentication
+ * })
+ *   .then(response) // --> {success:true|false}
+ * ```
+ * Add an info file associated with an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-info.htm) for more information.
+ *
+ * Valid File types: JSON, XML, CFG, TXT, PBF, and PNG
+ * Max File Size: 100K
+ *
+ * @param requestOptions  Options for the request
+ * @returns A Promise that add/updates an item info.
+ */
+export function updateItemInfo(
+  requestOptions: IItemUpdateInfoRequestOptions
+): Promise<any> {
+  const owner = determineOwner(requestOptions);
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/updateInfo`;
+
+  // mix in user supplied params
+  requestOptions.params = {
+    fileName: requestOptions.name,
+    ...requestOptions.params
+  };
+
+  // if we were passed a blob, use it
+  if (typeof Blob !== "undefined" && requestOptions.content instanceof Blob) {
+    requestOptions.params.file = requestOptions.content;
+  } else {
+    // since we love developers, we also allow sending an object, and handling
+    // the blobification here...
+    if (typeof requestOptions.content === "object") {
+      requestOptions.params.file = new Blob(
+        [JSON.stringify(requestOptions.content)],
+        { type: "application/json" }
+      );
+    } else {
+      // finally, we also accept text which we
+      // treat as string, but get the type from the filename extention...
+      const ext = requestOptions.name.split(".")[1] || "txt";
+      let type = "plain";
+      if (ext === "xml") {
+        type = "xml";
+      }
+      requestOptions.params.file = new Blob([requestOptions.content], {
+        type: `text/${type}`
+      });
+    }
   }
 
   return request(url, requestOptions);

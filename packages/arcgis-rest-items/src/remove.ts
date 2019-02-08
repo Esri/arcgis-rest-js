@@ -7,6 +7,7 @@ import {
   IItemIdRequestOptions,
   IItemResourceRequestOptions,
   IFolderIdRequestOptions,
+  IItemRemoveInfoRequestOptions,
   determineOwner
 } from "./helpers";
 
@@ -52,6 +53,38 @@ export function removeItemResource(
   requestOptions.params = {
     ...requestOptions.params,
     resource: requestOptions.resource
+  };
+  return request(url, requestOptions);
+}
+
+/**
+ * ```js
+ * import { removeItemInfo } from '@esri/arcgis-rest-items';
+ * //
+ * removeItemInfo({
+ *   id: '3ef',
+ *   infoFile: 'bigkahuna.json',
+ *   authentication
+ * })
+ *   .then(response) // --> {success:true|false}
+ * ```
+ * Remove an info file associated with an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-info.htm) for more information.
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise that deletes an item resource.
+ */
+export function removeItemInfo(
+  requestOptions: IItemRemoveInfoRequestOptions
+): Promise<any> {
+  const owner = determineOwner(requestOptions);
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/deleteInfo`;
+
+  // mix in user supplied params
+  requestOptions.params = {
+    ...requestOptions.params,
+    infoFile: requestOptions.fileName
   };
   return request(url, requestOptions);
 }

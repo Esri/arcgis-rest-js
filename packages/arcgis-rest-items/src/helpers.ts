@@ -49,6 +49,35 @@ export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
   resource?: any;
 }
 
+export interface IItemUpdateInfoRequestOptions extends IItemIdRequestOptions {
+  /**
+   * The name of the info file
+   */
+  name: string;
+  /**
+   * The content to upload.
+   * To upload images, you need to create a Blob
+   * To upload json, send the object.
+   * To upload XML or text, send a string
+   */
+  content: any;
+  /**
+   * If provided, adds the info in a sub-folder
+   */
+  folderName?: string;
+}
+
+export interface IItemRemoveInfoRequestOptions extends IItemIdRequestOptions {
+  /**
+   * The file to remove
+   */
+  fileName: string;
+  /**
+   * If provided, adds the info in a sub-folder
+   */
+  folderName?: boolean;
+}
+
 export interface IItemCrudRequestOptions extends IUserRequestOptions {
   /**
    * The owner of the item. If this property is not present, `item.owner` will be passed, or lastly `authentication.username`.

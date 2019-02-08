@@ -3,7 +3,12 @@
 
 import * as fetchMock from "fetch-mock";
 
-import { removeItem, removeItemResource, removeFolder } from "../src/remove";
+import {
+  removeItem,
+  removeItemInfo,
+  removeItemResource,
+  removeFolder
+} from "../src/remove";
 
 import { ItemSuccessResponse } from "./mocks/item";
 
@@ -70,6 +75,30 @@ describe("search", () => {
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should remove an item info", done => {
+      fetchMock.once("*", RemoveItemResourceResponse);
+      removeItemInfo({
+        id: "3ef",
+        owner: "dbouwman",
+        fileName: "banner.png",
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/deleteInfo"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("infoFile", "banner.png"));
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
