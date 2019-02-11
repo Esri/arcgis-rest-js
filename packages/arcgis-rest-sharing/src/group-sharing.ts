@@ -82,14 +82,16 @@ function changeGroupSharing(
       requestOptions.action === "share" ? "notSharedWith" : "notUnsharedFrom";
     // check if the item has already been shared with the group...
     return isItemSharedWithGroup(requestOptions).then(result => {
-      // console.log(admin);
       // if we are sharing and result is true OR we are unsharing and result is false... short circuit
       if (
         (requestOptions.action === "share" && result === true) ||
         (requestOptions.action === "unshare" && result === false)
       ) {
-        // and send back the same response structure ArcGIS Online would
-        const response = { itemId: requestOptions.id, shortcut: true } as any;
+        // and send back the same response ArcGIS Online would
+        const response = {
+          itemId: requestOptions.id,
+          shortcut: true
+        } as ISharingResponse;
         response[resultProp] = [];
         return response;
       } else {
@@ -106,16 +108,16 @@ function changeGroupSharing(
                 }.`
               );
             } else {
-              // if orgAdmin or owner (and member of group) share using the owner url
-              if (owner === username || admin) {
+              // if owner (and member of group) share using the owner url
+              if (owner === username) {
                 return `${getPortalUrl(
                   requestOptions
                 )}/content/users/${owner}/items/${requestOptions.id}/${
                   requestOptions.action
                 }`;
               } else {
-                // if they are a group admin/owner, use the bare item url
-                if (membership === "admin" || membership === "owner") {
+                // if org admin, group admin/owner, use the bare item url
+                if (membership === "admin" || membership === "owner" || admin) {
                   return `${getPortalUrl(requestOptions)}/content/items/${
                     requestOptions.id
                   }/${requestOptions.action}`;
