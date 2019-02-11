@@ -199,7 +199,7 @@ describe("shareItemWithGroup() ::", () => {
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/n3v/share",
+      "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share",
       SharingResponse
     );
 
@@ -214,10 +214,10 @@ describe("shareItemWithGroup() ::", () => {
           "All fetchMocks should have been called"
         );
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/n3v/share"
+          "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
         );
         expect(url).toBe(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/n3v/share"
+          "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
         );
         expect(options.method).toBe("POST");
         expect(response).toEqual(SharingResponse);
@@ -455,7 +455,7 @@ describe("unshareItemWithGroup() ::", () => {
     );
 
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/a5b/unshare",
+      "https://myorg.maps.arcgis.com/sharing/rest/content/items/a5b/unshare",
       UnsharingResponse
     );
 
@@ -472,10 +472,10 @@ describe("unshareItemWithGroup() ::", () => {
     })
       .then(response => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/a5b/unshare"
+          "https://myorg.maps.arcgis.com/sharing/rest/content/items/a5b/unshare"
         );
         expect(url).toBe(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/a5b/unshare"
+          "https://myorg.maps.arcgis.com/sharing/rest/content/items/a5b/unshare"
         );
         expect(options.method).toBe("POST");
         expect(response).toEqual(UnsharingResponse);
