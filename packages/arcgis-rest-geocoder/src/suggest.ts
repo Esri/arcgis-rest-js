@@ -5,23 +5,6 @@ import { request, cleanUrl } from "@esri/arcgis-rest-request";
 
 import { worldGeocoder, IEndpointRequestOptions } from "./helpers";
 
-export interface ISuggestRequestOptions extends IEndpointRequestOptions {
-  /**
-   * You can create an autocomplete experience by making a call to suggest with partial text and then passing through the magicKey and complete address that are returned to geocode.
-   * ```js
-   * import { suggest, geocode } from '@esri/arcgis-rest-geocoder';
-   * suggest("LAX")
-   *   .then((response) => {
-   *     geocode({
-   *       singleLine: response.suggestions[1].text,
-   *       magicKey: response.suggestions[1].magicKey
-   *     })
-   *   })
-   * ```
-   */
-  magicKey?: string;
-}
-
 export interface ISuggestResponse {
   suggestions: Array<{
     text: string;
@@ -44,19 +27,15 @@ export interface ISuggestResponse {
  */
 export function suggest(
   partialText: string,
-  requestOptions?: ISuggestRequestOptions
+  requestOptions?: IEndpointRequestOptions
 ): Promise<ISuggestResponse> {
-  const options: ISuggestRequestOptions = {
+  const options: IEndpointRequestOptions = {
     endpoint: worldGeocoder,
     params: {},
     ...requestOptions
   };
 
   options.params.text = partialText;
-
-  if (requestOptions && requestOptions.magicKey) {
-    options.params.magicKey = requestOptions.magicKey;
-  }
 
   return request(`${cleanUrl(options.endpoint)}/suggest`, options);
 }
