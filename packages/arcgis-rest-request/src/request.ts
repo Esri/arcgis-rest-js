@@ -44,6 +44,11 @@ export interface IRequestOptions {
   httpMethod?: HTTPMethods;
 
   /**
+   * The response should be a stream
+   */
+  stream?: boolean;
+
+  /**
    * The instance of `IAuthenticationManager` to use to authenticate this request.
    */
   authentication?: IAuthenticationManager;
@@ -137,7 +142,7 @@ export function request(
     );
   }
 
-  const { httpMethod, authentication } = options;
+  const { httpMethod, authentication, stream } = options;
 
   const params: IParams = {
     ...{ f: "json" },
@@ -215,6 +220,9 @@ export function request(
           options
         );
       }
+      if (stream) {
+        return response.body;
+      }
       switch (params.f) {
         case "json":
           return response.json();
@@ -230,7 +238,7 @@ export function request(
       }
     })
     .then(data => {
-      if (params.f === "json" || params.f === "geojson") {
+      if ((params.f === "json" || params.f === "geojson") && !stream) {
         return checkForErrors(data, url, params, options);
       } else {
         return data;
