@@ -240,7 +240,7 @@ describe("request()", () => {
       });
   });
 
-  it("should return a stream if defined", done => {
+  it("should return a raw response if requested", done => {
     fetchMock.once("*", GeoJSONFeatureCollection);
 
     request(
@@ -248,11 +248,11 @@ describe("request()", () => {
       {
         httpMethod: "GET",
         params: { where: "1=1", f: "geojson" },
-        stream: true
+        rawResponse: true
       }
     )
       .then(response => {
-        expect(/Readable/.test(response.constructor.name)).toBe(true);
+        expect(response instanceof Response).toBe(true);
         done();
       })
       .catch(e => {

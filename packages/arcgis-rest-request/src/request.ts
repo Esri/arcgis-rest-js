@@ -44,9 +44,9 @@ export interface IRequestOptions {
   httpMethod?: HTTPMethods;
 
   /**
-   * The response should be a stream
+   * Return the raw [response](https://developer.mozilla.org/en-US/docs/Web/API/Response)
    */
-  stream?: boolean;
+  rawResponse?: boolean;
 
   /**
    * The instance of `IAuthenticationManager` to use to authenticate this request.
@@ -142,7 +142,7 @@ export function request(
     );
   }
 
-  const { httpMethod, authentication, stream } = options;
+  const { httpMethod, authentication, rawResponse } = options;
 
   const params: IParams = {
     ...{ f: "json" },
@@ -220,8 +220,8 @@ export function request(
           options
         );
       }
-      if (stream) {
-        return response.body;
+      if (rawResponse) {
+        return response;
       }
       switch (params.f) {
         case "json":
@@ -238,7 +238,7 @@ export function request(
       }
     })
     .then(data => {
-      if ((params.f === "json" || params.f === "geojson") && !stream) {
+      if ((params.f === "json" || params.f === "geojson") && !rawResponse) {
         return checkForErrors(data, url, params, options);
       } else {
         return data;
