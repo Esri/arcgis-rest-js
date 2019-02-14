@@ -13,10 +13,11 @@ import {
   IItemIdRequestOptions,
   IItemDataRequestOptions,
   IItemRelationshipRequestOptions
- } from "./helpers";
+} from "./helpers";
 
 /**
- * ```import { getItem } from "@esri/arcgis-rest-items";
+ * ```
+ * import { getItem } from "@esri/arcgis-rest-items";
  * //
  * getItem("ae7")
  *   .then(response);
@@ -45,7 +46,8 @@ export function getItem(
 }
 
 /**
- * ```import { getItemData } from "@esri/arcgis-rest-items";
+ * ```
+ * import { getItemData } from "@esri/arcgis-rest-items";
  * //
  * getItemData("ae7")
  *   .then(response)
@@ -99,15 +101,17 @@ export interface IGetRelatedItemsResponse {
 export function getRelatedItems(
   requestOptions: IItemRelationshipRequestOptions
 ): Promise<IGetRelatedItemsResponse> {
-  const url = `${getPortalUrl(requestOptions)}/content/items/${requestOptions.id}/relatedItems`;
+  const url = `${getPortalUrl(requestOptions)}/content/items/${
+    requestOptions.id
+  }/relatedItems`;
 
-  const options:IItemRelationshipRequestOptions = {
+  const options: IItemRelationshipRequestOptions = {
     httpMethod: "GET",
     params: {
       direction: requestOptions.direction
     },
     ...requestOptions
-  }
+  };
 
   if (typeof requestOptions.relationshipType === "string") {
     options.params.relationshipType = requestOptions.relationshipType;
