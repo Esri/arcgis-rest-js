@@ -8,9 +8,9 @@ layout: "api/_layout:content"
   <small class="label right">Version {{package.pkg.version}}</small>
   <h2 class="{{package.icon}} font-size-3 trailer-half"> {% link package.pageUrl, package.pkg.name, class="tsd-kind-icon" %}</h2>
   <p>{{package.pkg.description}}</p>
-  <h3 class="font-size--1 trailer-half">npm install:</h3>
+  <h2 class="font-size--1 trailer-half">npm install:</h2>
   <pre><code>{% npmInstallCmd package.pkg %}</code></pre>
-  <h3 class="font-size--1 trailer-half">CDN:</h3>
+  <h2 class="font-size--1 trailer-half">CDN:</h2>
   <pre><code>{% scriptTag package.pkg %}</code></pre>
   {% scriptTagSRI package.pkg %}
   <hr class="leader-half trailer-half">
