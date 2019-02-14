@@ -240,6 +240,26 @@ describe("request()", () => {
       });
   });
 
+  it("should return a raw response if requested", done => {
+    fetchMock.once("*", GeoJSONFeatureCollection);
+
+    request(
+      "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
+      {
+        httpMethod: "GET",
+        params: { where: "1=1", f: "geojson" },
+        rawResponse: true
+      }
+    )
+      .then(response => {
+        expect(response instanceof Response).toBe(true);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   describe("should throw errors when required dependencies are missing", () => {
     const oldPromise = Promise;
     const oldFetch = fetch;

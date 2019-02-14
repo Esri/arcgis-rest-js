@@ -1,0 +1,29 @@
+{
+  "name": "stream-response-to-file",
+  "version": "1.16.1",
+  "description": "stream response to file with arcgis-rest-request",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/arcgis-rest-js.git"
+  },
+  "keywords": [
+    "arcgis",
+    "rest",
+    "stream",
+    "node"
+  ],
+  "author": "Joshua Tanner",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Esri/arcgis-rest-js/issues"
+  },
+  "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
+  "dependencies": {
+    "isomorphic-form-data": "^2.0.0",
+    "node-fetch": "^2.3.0"
+  }
+}
