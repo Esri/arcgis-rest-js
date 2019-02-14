@@ -16,23 +16,6 @@ import {
 
 import { worldGeocoder, IEndpointRequestOptions } from "./helpers";
 
-export interface IGeocodeParams extends IParams {
-  /**
-   * You can create an autocomplete experience by making a call to suggest with partial text and then passing through the magicKey and complete address that are returned to geocode.
-   * ```js
-   * import { suggest, geocode } from '@esri/arcgis-rest-geocoder';
-   * suggest("LAX")
-   *   .then((response) => {
-   *     geocode({
-   *       singleLine: response.suggestions[1].text,
-   *       magicKey: response.suggestions[0].magicKey
-   *     })
-   *   })
-   * ```
-   */
-  magicKey?: string;
-}
-
 export interface IGeocodeRequestOptions extends IEndpointRequestOptions {
   /**
    * use this if all your address info is contained in a single string.
@@ -51,6 +34,20 @@ export interface IGeocodeRequestOptions extends IEndpointRequestOptions {
   postal?: number;
   postalExt?: number;
   countryCode?: string;
+  /**
+   * You can create an autocomplete experience by making a call to suggest with partial text and then passing through the magicKey and complete address that are returned to geocode.
+   * ```js
+   * import { suggest, geocode } from '@esri/arcgis-rest-geocoder';
+   * suggest("LAX")
+   *   .then((response) => {
+   *     geocode({
+   *       singleLine: response.suggestions[1].text,
+   *       magicKey: response.suggestions[0].magicKey
+   *     })
+   *   })
+   * ```
+   */
+  magicKey?: string;
 }
 
 export interface IGeocodeResponse {
