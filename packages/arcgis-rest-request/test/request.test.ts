@@ -240,6 +240,26 @@ describe("request()", () => {
       });
   });
 
+  it("should return a stream if defined", done => {
+    fetchMock.once("*", GeoJSONFeatureCollection);
+
+    request(
+      "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
+      {
+        httpMethod: "GET",
+        params: { where: "1=1", f: "geojson" },
+        stream: true
+      }
+    )
+      .then(response => {
+        expect(/Readable/.test(response.constructor.name)).toBe(true);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   describe("should throw errors when required dependencies are missing", () => {
     const oldPromise = Promise;
     const oldFetch = fetch;
