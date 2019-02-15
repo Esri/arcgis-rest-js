@@ -112,9 +112,9 @@ export interface IQueryResponse {
 /**
  * ```js
  * import { getFeature } from '@esri/arcgis-rest-feature-service';
- *
+ * //
  * const url = "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0";
- *
+ * //
  * getFeature({
  *   url,
  *   id: 42
@@ -125,7 +125,7 @@ export interface IQueryResponse {
  * Get a feature by id.
  *
  * @param requestOptions - Options for the request
- * @returns A Promise that will resolve with the feature.
+ * @returns A Promise that will resolve with the feature or the [response](https://developer.mozilla.org/en-US/docs/Web/API/Response) itself if `rawResponse: true` was passed in.
  */
 export function getFeature(
   requestOptions: IFeatureRequestOptions
@@ -137,7 +137,12 @@ export function getFeature(
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
-  return request(url, options).then((response: any) => response.feature);
+  return request(url, options).then((response: any) => {
+    if (options.rawResponse) {
+      return response;
+    }
+    return response.feature;
+  });
 }
 
 /**

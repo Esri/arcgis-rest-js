@@ -116,4 +116,30 @@ describe("geocode", () => {
         done();
       });
   });
+
+  it("should support rawResponse", done => {
+    fetchMock.once("*", GeocodeAddresses);
+
+    const MOCK_AUTH = {
+      getToken() {
+        return Promise.resolve("token");
+      },
+      portal: "https://mapsdev.arcgis.com"
+    };
+
+    bulkGeocode({ addresses, authentication: MOCK_AUTH, rawResponse: true })
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/geocodeAddresses"
+        );
+        expect(options.method).toBe("POST");
+        expect(response instanceof Response).toBe(true);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
 });

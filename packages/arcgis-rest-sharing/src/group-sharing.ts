@@ -163,7 +163,7 @@ function changeGroupSharing(
 /**
  * Find out whether or not an item is already shared with a group.
  *
- * @param requestOptions - Options for the request.
+ * @param requestOptions - Options for the request. NOTE: `rawResponse` is not supported by this operation.
  * @returns A Promise that will resolve with the data from the response.
  */
 function isItemSharedWithGroup(
@@ -178,7 +178,7 @@ function isItemSharedWithGroup(
 
   // we need to append some params into requestOptions, so make a clone
   // instead of mutating the params on the inbound requestOptions object
-  const options = { ...requestOptions };
+  const options = { ...requestOptions, rawResponse: false };
   // instead of calling out to "@esri/arcgis-rest-items, make the request manually to forgoe another dependency
   options.params = {
     ...query,

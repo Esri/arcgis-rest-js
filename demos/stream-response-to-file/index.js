@@ -1,4 +1,4 @@
-const { request } = require("../../packages/arcgis-rest-request");
+const { queryFeatures } = require("@esri/arcgis-rest-feature-service");
 const fs = require("fs");
 const fetch = require('node-fetch');
 require('isomorphic-form-data')
@@ -15,7 +15,8 @@ const params = {
   f: "geojson"
 };
 
-request(serviceUrl, {
+queryFeatures({
+  url: serviceUrl,
   params,
   rawResponse: true,
   fetch: fetch

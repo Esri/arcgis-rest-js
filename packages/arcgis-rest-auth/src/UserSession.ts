@@ -662,6 +662,7 @@ export class UserSession implements IAuthenticationManager {
    *   })
    * ```
    *
+   * @param requestOptions - Options for the request. NOTE: `rawResponse` is not supported by this operation.
    * @returns A Promise that will resolve with the data from the response.
    */
   public getUser(requestOptions?: IRequestOptions): Promise<IUser> {
@@ -675,7 +676,8 @@ export class UserSession implements IAuthenticationManager {
       const options = {
         httpMethod: "GET",
         authentication: this,
-        ...requestOptions
+        ...requestOptions,
+        rawResponse: false
       } as IRequestOptions;
       return request(url, options).then(response => {
         this._user = response;
@@ -770,9 +772,6 @@ export class UserSession implements IAuthenticationManager {
     }
 
     this._pendingTokenRequests[root] = request(`${root}/rest/info`)
-      .then((response: any) => {
-        return response;
-      })
       .then(response => {
         if (response.owningSystemUrl) {
           /**

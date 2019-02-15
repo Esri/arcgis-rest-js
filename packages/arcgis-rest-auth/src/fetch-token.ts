@@ -33,6 +33,8 @@ export function fetchToken(
     .params
     ? (requestOptions as IRequestOptions)
     : { params: requestOptions };
+  // we generate a response, so we can't return the raw response
+  options.rawResponse = false;
 
   return request(url, options).then((response: IFetchTokenRawResponse) => {
     const r: IFetchTokenResponse = {
