@@ -160,7 +160,7 @@ export interface ICreateServiceResult {
  * });
  * ```
  * Create a new [hosted feature service](https://developers.arcgis.com/rest/users-groups-and-items/create-service.htm). After the service has been created, call [`addToServiceDefinition()`](../addToServiceDefinition/) if you'd like to update it's schema.
- * @param requestOptions - Options for the request
+ * @param requestOptions - Options for the request. NOTE: `rawResponse` is not supported by this operation.
  * @returns A Promise that resolves with service details once the service has been created
  */
 export function createFeatureService(
@@ -169,25 +169,29 @@ export function createFeatureService(
   const owner = determineOwner(requestOptions);
   const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
   const url = `${baseUrl}/createService`;
-
-  // Create the service
-  requestOptions.params = {
-    createParameters: requestOptions.item,
-    outputType: "featureService",
-    ...requestOptions.params
+  const options: ICreateServiceRequestOptions = {
+    ...requestOptions,
+    rawResponse: false
   };
 
-  if (!requestOptions.folderId || requestOptions.folderId === "/") {
+  // Create the service
+  options.params = {
+    createParameters: options.item,
+    outputType: "featureService",
+    ...options.params
+  };
+
+  if (!options.folderId || options.folderId === "/") {
     // If the service is destined for the root folder, just send the request
-    return request(url, requestOptions);
+    return request(url, options);
   } else {
     // If the service is destined for a subfolder, move it (via another call)
-    return request(url, requestOptions).then(createResponse => {
+    return request(url, options).then(createResponse => {
       if (createResponse.success) {
         return moveItem({
           itemId: createResponse.itemId,
-          folderId: requestOptions.folderId,
-          authentication: requestOptions.authentication
+          folderId: options.folderId,
+          authentication: options.authentication
         }).then(moveResponse => {
           if (moveResponse.success) {
             return createResponse;

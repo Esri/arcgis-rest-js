@@ -3,7 +3,6 @@
 
 import {
   request,
-  IParams,
   appendCustomParams,
   cleanUrl
 } from "@esri/arcgis-rest-request";
@@ -81,7 +80,7 @@ export interface IGeocodeResponse {
  * ```
  * Used to determine the location of a single address or point of interest. See the [REST Documentation](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-find-address-candidates.htm) for more information.
  * @param address String representing the address or point of interest or RequestOptions to pass to the endpoint.
- * @returns A Promise that will resolve with address candidates for the request.
+ * @returns A Promise that will resolve with address candidates for the request. The spatial reference will be added to candidate locations and extents unless `rawResponse: true` was passed.
  */
 export function geocode(
   address: string | IGeocodeRequestOptions
@@ -108,6 +107,9 @@ export function geocode(
     `${cleanUrl(options.endpoint)}/findAddressCandidates`,
     options
   ).then(response => {
+    if (options.rawResponse) {
+      return response;
+    }
     const sr = response.spatialReference;
     response.candidates.forEach(function(candidate: {
       location: IPoint;

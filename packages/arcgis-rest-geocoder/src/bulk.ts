@@ -60,10 +60,10 @@ export interface IBulkGeocodeResponse {
  * Used to geocode a [batch](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm) of addresses.
  *
  * @param requestOptions - Request options to pass to the geocoder, including an array of addresses and authentication session.
- * @returns A Promise that will resolve with the data from the response.
+ * @returns A Promise that will resolve with the data from the response. The spatial reference will be added to address locations unless `rawResponse: true` was passed.
  */
 export function bulkGeocode(
-  requestOptions: IBulkGeocodeRequestOptions // must POST
+  requestOptions: IBulkGeocodeRequestOptions // must POST, which is the default
 ) {
   const options: IBulkGeocodeRequestOptions = {
     endpoint: worldGeocoder,
@@ -89,6 +89,9 @@ export function bulkGeocode(
     `${cleanUrl(options.endpoint)}/geocodeAddresses`,
     options
   ).then(response => {
+    if (options.rawResponse) {
+      return response;
+    }
     const sr = response.spatialReference;
     response.locations.forEach(function(address: { location: IPoint }) {
       if (address.location) {

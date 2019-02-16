@@ -43,6 +43,27 @@ describe("getFeature() and queryFeatures()", () => {
       });
   });
 
+  it("return rawResponse when getting a feature", done => {
+    const requestOptions = {
+      url: serviceUrl,
+      id: 42,
+      rawResponse: true
+    };
+    fetchMock.once("*", featureResponse);
+    getFeature(requestOptions)
+      .then(response => {
+        expect(fetchMock.called()).toBeTruthy();
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(`${requestOptions.url}/42?f=json`);
+        expect(options.method).toBe("GET");
+        expect(response instanceof Response).toBe(true);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   it("should supply default query parameters", done => {
     const requestOptions: IQueryFeaturesRequestOptions = {
       url: serviceUrl
