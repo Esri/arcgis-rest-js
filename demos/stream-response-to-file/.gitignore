@@ -1,2 +1,1 @@
-output/*
-output/contents.txt
+output/*.geojson

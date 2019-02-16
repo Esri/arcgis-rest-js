@@ -24,8 +24,6 @@
   },
   "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
   "dependencies": {
-    "@esri/arcgis-rest-auth": "^1.16.1",
-    "@esri/arcgis-rest-common-types": "^1.16.1",
     "@esri/arcgis-rest-feature-service": "^1.16.1",
     "@esri/arcgis-rest-request": "^1.16.1",
     "isomorphic-form-data": "^2.0.0",
