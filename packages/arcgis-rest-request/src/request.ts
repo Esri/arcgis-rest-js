@@ -32,7 +32,17 @@ export interface IAuthenticationManager {
 /**
  * Options for the `request()` method.
  */
-export interface IRequestOptions {
+export interface IRequestOptions extends IRequestOptionsBase {
+  /**
+   * Return the raw [response](https://developer.mozilla.org/en-US/docs/Web/API/Response)
+   */
+  rawResponse?: boolean;
+}
+
+/**
+ * Base options for the `request()` method. Does not include an option for returning the raw response.
+ */
+export interface IRequestOptionsBase {
   /**
    * Additional parameters to pass in the request.
    */
@@ -42,11 +52,6 @@ export interface IRequestOptions {
    * The HTTP method to send the request with.
    */
   httpMethod?: HTTPMethods;
-
-  /**
-   * Return the raw [response](https://developer.mozilla.org/en-US/docs/Web/API/Response)
-   */
-  rawResponse?: boolean;
 
   /**
    * The instance of `IAuthenticationManager` to use to authenticate this request.

@@ -16,6 +16,7 @@ import * as http from "http";
 import {
   request,
   IRequestOptions,
+  IRequestOptionsBase,
   ArcGISAuthError,
   IAuthenticationManager,
   ITokenRequestOptions,
@@ -662,10 +663,10 @@ export class UserSession implements IAuthenticationManager {
    *   })
    * ```
    *
-   * @param requestOptions - Options for the request. NOTE: `rawResponse` is not supported by this operation.
+   * @param requestOptions - Options for the request.
    * @returns A Promise that will resolve with the data from the response.
    */
-  public getUser(requestOptions?: IRequestOptions): Promise<IUser> {
+  public getUser(requestOptions?: IRequestOptionsBase): Promise<IUser> {
     if (this._user && this._user.username === this.username) {
       return Promise.resolve(this._user);
     } else {
