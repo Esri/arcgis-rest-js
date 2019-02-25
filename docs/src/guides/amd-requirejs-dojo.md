@@ -20,7 +20,7 @@ group: 1-get-started
   Open your console to see the demo.
 </body>
   <!-- require polyfills for fetch and Promise from https://polyfill.io -->
-  <script src="https://cdn.polyfill.io/v2/polyfill.js?features=es5,Promise,fetch"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=default%2Cfetch%2CPromise"></script>
   <script>
     dojoConfig = {
         paths: {
