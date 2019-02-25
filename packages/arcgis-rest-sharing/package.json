@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-sharing",
-  "version": "1.16.1",
+  "version": "1.17.0",
   "description": "Helper utilities for managing access to ArcGIS content in Node.js and modern browsers.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/sharing.umd.js",
@@ -9,19 +9,19 @@
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "tslib": "^1.8.0"
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^1.16.1",
-    "@esri/arcgis-rest-common-types": "^1.16.1",
-    "@esri/arcgis-rest-groups": "^1.16.1",
-    "@esri/arcgis-rest-request": "^1.16.1"
+    "@esri/arcgis-rest-auth": "^1.17.0",
+    "@esri/arcgis-rest-common-types": "^1.17.0",
+    "@esri/arcgis-rest-groups": "^1.17.0",
+    "@esri/arcgis-rest-request": "^1.17.0"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^1.16.0",
-    "@esri/arcgis-rest-common-types": "^1.16.0",
-    "@esri/arcgis-rest-groups": "^1.16.0",
-    "@esri/arcgis-rest-request": "^1.16.0"
+    "@esri/arcgis-rest-auth": "^1.17.0",
+    "@esri/arcgis-rest-common-types": "^1.17.0",
+    "@esri/arcgis-rest-groups": "^1.17.0",
+    "@esri/arcgis-rest-request": "^1.17.0"
   },
   "files": [
     "dist/**"

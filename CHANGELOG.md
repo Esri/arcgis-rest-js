@@ -7,6 +7,44 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.17.0] - February 25th 2019
+
+### @esri/arcgis-rest-request
+
+* New Features
+   * **request**: adds option to return the raw fetch response [`6fb7c79`](https://github.com/Esri/arcgis-rest-js/commit/6fb7c792f4aab585a06bb1178b41a8687eabc419) [#462](https://github.com/Esri/arcgis-rest-js/issues/462)
+
+### @esri/arcgis-rest-auth
+
+* New Features
+   * basic support for interacting with secure, non-federated services [`fc2f06b`](https://github.com/Esri/arcgis-rest-js/commit/fc2f06b74a40261ae9b6bb959048d353be02153b) [#174](https://github.com/Esri/arcgis-rest-js/issues/174)
+
+### @esri/arcgis-rest-items
+
+* New Features
+   * add new methods to add and remove item relationships and query for related items [`4e67637`](https://github.com/Esri/arcgis-rest-js/commit/4e676374f90e583639eb2c2f3dc9a554f8aab17a)
+
+### @esri/arcgis-rest-sharing
+
+* Fixes
+   * allow organization admins to share public items from outside their organization [`e47a772`](https://github.com/Esri/arcgis-rest-js/commit/e47a772e71c529ff4406ae92ca823a0e9125cf82) [#454](https://github.com/Esri/arcgis-rest-js/issues/454)
+
+### @esri/arcgis-rest-geocoder
+
+* Fixes
+   * remove `magicKey` from `suggest()` [`fb2ba9a`](https://github.com/Esri/arcgis-rest-js/commit/fb2ba9ac2ccaf6ed17e02ecb170009b68f638b00) [#459](https://github.com/Esri/arcgis-rest-js/issues/459)
+
+
+### Other Changes
+
+* Docs
+   * the correct base path is now launched in the browser automatically when spinning up the documentation site locally [`68e0ace`](https://github.com/Esri/arcgis-rest-js/commit/68e0acec753334fda70116e3a742ac8643eaafdc)
+
+### stream-response-to-file
+
+* New Features
+   * **request**: adds option to return the raw fetch response [`6fb7c79`](https://github.com/Esri/arcgis-rest-js/commit/6fb7c792f4aab585a06bb1178b41a8687eabc419) [#462](https://github.com/Esri/arcgis-rest-js/issues/462)
+
 ## [1.16.1] - January 30th 2019
 
 ### @esri/arcgis-rest-feature-service-admin
@@ -1047,7 +1085,8 @@ This change was made for consistency with the REST API itself. the old construct
 Initial Public Release
 
 [1.0.0]: https://github.com/Esri/arcgis-rest-js/compare/265d6aed1856d3ae1ff81f03ce85aba449b01f21...v1.0.0 "v1.0.0"
-[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.2 "v1.0.2"
+[1.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.0...v1.0.1 "v1.0.1"
+[1.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.1...v1.0.2 "v1.0.2"
 [1.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.2...v1.0.3 "v1.0.3"
 [1.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.0.3...v1.1.0 "v1.1.0"
 [1.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.1.0...v1.1.1 "v1.1.1"
@@ -1076,9 +1115,8 @@ Initial Public Release
 [1.14.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.1...v1.14.2 "v1.14.2"
 [1.14.3]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.2...v1.14.3 "v1.14.3"
 [1.14.4]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.3...v1.14.4 "v1.14.4"
-[1.15.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.4...v1.15.0 "v1.15.0"
-[1.15.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.15.0...v1.15.1 "v1.15.1"
-[1.15.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.15.1...v1.15.2 "v1.15.2"
+[1.15.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.14.4...v1.15.2 "v1.15.2"
 [1.16.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.15.2...v1.16.0 "v1.16.0"
 [1.16.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.16.0...v1.16.1 "v1.16.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.16.1...HEAD "Unreleased Changes"
+[1.17.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.16.1...v1.17.0 "v1.17.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.17.0...HEAD "Unreleased Changes"
