@@ -276,7 +276,7 @@
   {% endif %}
 
   {% if (signatures[0].type.name === "Promise" and signatures[0].type.typeArguments[0].id) or signatures[0].type.id %}
-    {% set returnTypeId = signatures[0].type.typeArguments[0].id or signatures[0].type.id %}
+    {% set id = signatures[0].type.typeArguments[0].id or signatures[0].type.id %}
     {{ @propertyTableForId(id, undefined, "Property", "Type")}}
   {% endif %}
 {% endmacro %}
