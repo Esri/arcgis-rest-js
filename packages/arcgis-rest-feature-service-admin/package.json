@@ -52,5 +52,13 @@
   "bugs": {
     "url": "https://github.com/Esri/arcgis-rest-js/issues"
   },
-  "homepage": "https://github.com/Esri/arcgis-rest-js#readme"
+  "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
+  "keywords": [
+    "typescript",
+    "promise",
+    "fetch",
+    "arcgis",
+    "esri",
+    "ES6"
+  ]
 }
