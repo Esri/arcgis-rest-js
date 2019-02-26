@@ -31,9 +31,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### @esri/arcgis-rest-geocoder
 
-* Removed
-   * the (unused) `IGeocodeParams` interface has been removed. [`fb2ba9a`](https://github.com/Esri/arcgis-rest-js/commit/fb2ba9ac2ccaf6ed17e02ecb170009b68f638b00) [#459](https://github.com/Esri/arcgis-rest-js/issues/459)
-
 * Fixes
    * remove `magicKey` from `suggest()` [`fb2ba9a`](https://github.com/Esri/arcgis-rest-js/commit/fb2ba9ac2ccaf6ed17e02ecb170009b68f638b00) [#459](https://github.com/Esri/arcgis-rest-js/issues/459)
 
