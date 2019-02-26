@@ -10,10 +10,12 @@ module.exports = function(acetate) {
    * Load SRI hashes.
    */
   let srihashes;
-  fs.readFile('docs/src/srihashes.json', (err, data) => {
-    srihashes = err ? {
-      packages: {}
-    } : JSON.parse(data);
+  fs.readFile("docs/src/srihashes.json", (err, data) => {
+    srihashes = err
+      ? {
+          packages: {}
+        }
+      : JSON.parse(data);
   });
 
   /**
@@ -186,7 +188,6 @@ module.exports = function(acetate) {
   });
 
   acetate.filter("findPackage", (typedoc, name) => {
-    console.log(typedoc.packages, name);
     return typedoc.packages.find(p => p.pkg.name === name).pkg;
   });
 
@@ -226,19 +227,16 @@ module.exports = function(acetate) {
     const hash = srihashes.packages[package.name];
     if (hash) {
       return `<h2 class="font-size--1 trailer-half">CDN with SRI:</h2>
-      <pre><code>&lt;script src="https://unpkg.com/${
-        package.name
-      }@${
+      <pre><code>&lt;script src="https://unpkg.com/${package.name}@${
         package.version
-      }/dist/umd/${
-        package.name.replace("@esri/arcgis-rest-", "")
-      }.umd.min.js" integrity="${
-        hash
-      }" crossorigin="anonymous"&gt;&lt;/script&gt;</code></pre>`;
+      }/dist/umd/${package.name.replace(
+        "@esri/arcgis-rest-",
+        ""
+      )}.umd.min.js" integrity="${hash}" crossorigin="anonymous"&gt;&lt;/script&gt;</code></pre>`;
     } else {
       return "";
     }
- });
+  });
 
   acetate.helper("npmInstallCmd", function(context, package) {
     const peers = package.peerDependencies
