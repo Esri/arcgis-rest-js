@@ -11,7 +11,7 @@ group: 1-get-started
 Make sure you have polyfills for [`fetch`](https://github.com/matthew-andrews/isomorphic-fetch) and [`FormData`](https://github.com/form-data/isomorphic-form-data) installed before using any ArcGIS REST JS library. You can find `npm install` commands for all packages in the [API reference](/arcgis-rest-js/api).
 
 ```bash
-npm install @esri/arcgis-rest-request isomorphic-fetch isomorphic-form-data
+npm install @esri/arcgis-rest-request @esri/arcgis-rest-auth isomorphic-fetch isomorphic-form-data
 ```
 
 Require the `isomorphic-fetch` and `isomorphic-form-data` modules before using any of the ArcGIS REST JS methods.
@@ -38,6 +38,8 @@ request(`https://utility.arcgis.com/usrsvcs/appservices/{unique}/rest/services/W
 ```
 App Login
 ```js
+const { ApplicationSession } = require("@esri/arcgis-rest-auth");
+
 const authentication = new ApplicationSession({
   clientId: "public",
   clientSecret: "secret"
@@ -57,6 +59,8 @@ Demo - [batch geocoding](https://github.com/Esri/arcgis-rest-js/tree/master/demo
 Applications cannot [create, update, share, modify of delete items](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/limitations-of-application-authentication/) in ArcGIS Online or ArcGIS Enterprise. For this, a [`UserSession`](/arcgis-rest-js/api/auth/UserSession/) is more appropriate.
 
 ```js
+const { UserSession } = require("@esri/arcgis-rest-auth");
+
 // hardcoded username / password
 const authentication = new UserSession({
   username: "jsmith",
