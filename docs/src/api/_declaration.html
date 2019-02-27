@@ -94,7 +94,7 @@
 
 {% macro @propertyTableForId (id, header, column1Header, column2Header)%}
   {% if header %}
-    <h2 class="font-size-1 trailer-half">{{header}}</h2>
+    <h2 class="font-size-1 trailer-half">{{header | safe}}</h2>
   {% endif %}
   <table>
     <thead>
@@ -256,6 +256,11 @@
   {% endif %}
 
   {% for param in signatures[0].parameters %}
+    {% if param.name == "requestOptions" and param.type.type === "reference" %}
+      {% set id = API_TOOLS.findByName(data.typedoc, param.type.name).id %}
+      {{ @propertyTableForId(id, "Available <code>requestOptions</code>", "Property", "Type")}}
+    {% endif %}
+
     {% if param.name == "requestOptions" and param.type.id %}
       {{ @propertyTableForId(param.type.id, "Options", "Property", "Type")}}
     {% endif %}
@@ -275,9 +280,12 @@
     {%- endmarkdown %}
   {% endif %}
 
-  {% if (signatures[0].type.name === "Promise" and signatures[0].type.typeArguments[0].id) or signatures[0].type.id %}
+  {% if (signatures[0].type.name === "Promise" and signatures[0].type.typeArguments[0].type === "reference") %}
+    {% set id = API_TOOLS.findByName(data.typedoc, signatures[0].type.typeArguments[0].name).id %}
+    {{ @propertyTableForId(id, undefined, "Property", "Type") }}
+  {% elif (signatures[0].type.name === "Promise" and signatures[0].type.typeArguments[0].id) or signatures[0].type.id %}
     {% set id = signatures[0].type.typeArguments[0].id or signatures[0].type.id %}
-    {{ @propertyTableForId(id, undefined, "Property", "Type")}}
+    {{ @propertyTableForId(id, undefined, "Property", "Type") }}
   {% endif %}
 {% endmacro %}
 
@@ -546,6 +554,6 @@
 {% if isDev %}
   <details class="leader-1">
     <summary>Debug Info</summary>
-    <pre><code>{{signatures[0].type | inspect}}</code></pre>
+    <pre><code>{{signatures[0].parameters | inspect}}</code></pre>
   </details>
 {% endif %}
