@@ -21,7 +21,6 @@ require("isomorphic-fetch");
 require("isomorphic-form-data");
 
 const { request } = require("@esri/arcgis-rest-request");
-const { UserSession } = require("@esri/arcgis-rest-auth");
 
 request("https://www.arcgis.com/sharing/rest/info")
   .then(response);
@@ -39,6 +38,8 @@ request(`https://utility.arcgis.com/usrsvcs/appservices/{unique}/rest/services/W
 ```
 App Login
 ```js
+const { ApplicationSession } = require("@esri/arcgis-rest-auth");
+
 const authentication = new ApplicationSession({
   clientId: "public",
   clientSecret: "secret"
@@ -58,6 +59,8 @@ Demo - [batch geocoding](https://github.com/Esri/arcgis-rest-js/tree/master/demo
 Applications cannot [create, update, share, modify of delete items](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/limitations-of-application-authentication/) in ArcGIS Online or ArcGIS Enterprise. For this, a [`UserSession`](/arcgis-rest-js/api/auth/UserSession/) is more appropriate.
 
 ```js
+const { UserSession } = require("@esri/arcgis-rest-auth");
+
 // hardcoded username / password
 const authentication = new UserSession({
   username: "jsmith",
