@@ -9,8 +9,6 @@ import {
 
 import { IItemUpdate } from "@esri/arcgis-rest-common-types";
 
-import { serializeGroup } from "./helpers";
-
 export interface IGroupUpdateRequestOptions extends IRequestOptions {
   group: IItemUpdate;
 }
@@ -31,7 +29,7 @@ export interface IGroupUpdateRequestOptions extends IRequestOptions {
  */
 export function updateGroup(
   requestOptions: IGroupUpdateRequestOptions
-): Promise<any> {
+): Promise<{ success: boolean; groupId: string }> {
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.group.id
   }/update`;
@@ -39,7 +37,7 @@ export function updateGroup(
   const options: IGroupUpdateRequestOptions = {
     ...requestOptions
   };
-  // serialize the group into something Portal will accept
-  options.params = serializeGroup(requestOptions.group);
+
+  options.params = requestOptions.group;
   return request(url, options);
 }

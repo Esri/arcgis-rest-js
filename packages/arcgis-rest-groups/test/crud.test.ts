@@ -46,7 +46,7 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           expect(options.body).toContain(encodeParam("owner", "fakeUser"));
           // ensure the array props are serialized into strings
-          expect(options.body).toContain(encodeParam("tags", "foo, bar"));
+          expect(options.body).toContain(encodeParam("tags", "foo,bar"));
           expect(options.body).toContain(encodeParam("access", "public"));
           done();
         })
@@ -103,7 +103,7 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           expect(options.body).toContain(encodeParam("owner", "fakeUser"));
           // ensure the array props are serialized into strings
-          expect(options.body).toContain(encodeParam("tags", "foo, bar"));
+          expect(options.body).toContain(encodeParam("tags", "foo,bar"));
           done();
         })
         .catch(e => {

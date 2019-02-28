@@ -11,12 +11,15 @@ export interface IGroupIdRequestOptions extends IRequestOptions {
 
 /**
  * Serialize a group into a json format accepted by the Portal API
- * for create and update operations
+ * for create and update operations.
+ *
+ * Deprecated. Will be removed in v2.0.0.
  *
  * @param group IGroup to be serialized
  * @returns a formatted JSON object to be sent to Portal
  * @private
  */
+/* istanbul ignore next - deprecated method */
 export function serializeGroup(group: IGroupAdd | IItemUpdate | IGroup): any {
   // create a clone so we're not messing with the original
   const clone = JSON.parse(JSON.stringify(group));

@@ -7,9 +7,9 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IGroupAdd } from "@esri/arcgis-rest-common-types";
+import { IGroupAdd, IGroup } from "@esri/arcgis-rest-common-types";
 
-import { serializeGroup } from "./helpers";
+// import { serializeGroup } from "./helpers";
 
 export interface IGroupAddRequestOptions extends IRequestOptions {
   group: IGroupAdd;
@@ -36,12 +36,12 @@ export interface IGroupAddRequestOptions extends IRequestOptions {
  */
 export function createGroup(
   requestOptions: IGroupAddRequestOptions
-): Promise<any> {
+): Promise<{ success: boolean; group: IGroup }> {
   const url = `${getPortalUrl(requestOptions)}/community/createGroup`;
   const options: IGroupAddRequestOptions = {
     ...requestOptions
   };
-  // serialize the group into something Portal will accept
-  options.params = serializeGroup(requestOptions.group);
+
+  options.params = requestOptions.group;
   return request(url, options);
 }
