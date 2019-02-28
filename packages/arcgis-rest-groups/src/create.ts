@@ -9,8 +9,6 @@ import {
 
 import { IGroupAdd, IGroup } from "@esri/arcgis-rest-common-types";
 
-// import { serializeGroup } from "./helpers";
-
 export interface IGroupAddRequestOptions extends IRequestOptions {
   group: IGroupAdd;
 }
