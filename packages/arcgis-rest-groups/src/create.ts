@@ -36,10 +36,11 @@ export function createGroup(
   requestOptions: IGroupAddRequestOptions
 ): Promise<{ success: boolean; group: IGroup }> {
   const url = `${getPortalUrl(requestOptions)}/community/createGroup`;
-  const options: IGroupAddRequestOptions = {
-    ...requestOptions
+
+  requestOptions.params = {
+    ...requestOptions.params,
+    ...requestOptions.group
   };
 
-  options.params = requestOptions.group;
-  return request(url, options);
+  return request(url, requestOptions);
 }

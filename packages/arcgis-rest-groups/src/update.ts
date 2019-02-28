@@ -34,10 +34,10 @@ export function updateGroup(
     requestOptions.group.id
   }/update`;
 
-  const options: IGroupUpdateRequestOptions = {
-    ...requestOptions
+  requestOptions.params = {
+    ...requestOptions.params,
+    ...requestOptions.group
   };
 
-  options.params = requestOptions.group;
-  return request(url, options);
+  return request(url, requestOptions);
 }
