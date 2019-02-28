@@ -94,15 +94,17 @@ describe("processParams", () => {
     expect(processParams(params)).toEqual(expected);
   });
 
-  it("should exclude null and undefined, but not a zero", () => {
+  it("should exclude null and undefined, but not a zero or an empty array", () => {
     const params: any = {
       foo: null,
       bar: undefined,
-      baz: 0
+      baz: 0,
+      qux: []
     };
 
     const expected = {
-      baz: 0
+      baz: 0,
+      qux: "[]"
     };
 
     expect(processParams(params)).toEqual(expected);

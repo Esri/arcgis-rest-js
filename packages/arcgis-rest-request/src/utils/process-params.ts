@@ -65,12 +65,12 @@ export function processParams(params: any): any {
     // null, undefined, function are excluded. If you want to send an empty key you need to send an empty string "".
     switch (type) {
       case "Array":
-        // Based on the first element of the array, classify array as an array of objects to be stringified
-        // or an array of non-objects to be comma-separated
+        // classify array as empty or use the first element to determine whether it contains objects to be stringified or non-objects to be comma-separated
         value =
-          param[0] &&
-          param[0].constructor &&
-          param[0].constructor.name === "Object"
+          param.length === 0 ||
+          (param[0] &&
+            param[0].constructor &&
+            param[0].constructor.name === "Object")
             ? JSON.stringify(param)
             : param.join(",");
         break;
