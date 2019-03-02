@@ -1,0 +1,26 @@
+{
+  "name": "cli-item-management",
+  "version": "1.17.0",
+  "description": "Manage items in ArcGIS Online with a Node JS CLI and ArcGIS Rest JS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dave Bouwman <dbouwman@esri.com>",
+  "license": "Apache-2.0",
+  "private": true,
+  "keywords": [
+    "arcgis",
+    "node",
+    "arcgis-rest-js"
+  ],
+  "dependencies": {
+    "@esri/arcgis-rest-auth": "^1.17.0",
+    "@esri/arcgis-rest-items": "^1.17.0",
+    "@esri/arcgis-rest-request": "^1.17.0",
+    "chalk": "^2.3.0",
+    "isomorphic-fetch": "^2.2.1",
+    "isomorphic-form-data": "^1.0.0",
+    "prompts": "^2.0.3"
+  }
+}
