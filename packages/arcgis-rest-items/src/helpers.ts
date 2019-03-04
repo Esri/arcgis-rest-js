@@ -33,25 +33,26 @@ export interface IFolderIdRequestOptions extends IUserRequestOptions {
   owner?: string;
 }
 
-export type ItemRelationshipType = "Map2Service" |
-"WMA2Code" |
-"Map2FeatureCollection" |
-"MobileApp2Code" |
-"Service2Data" |
-"Service2Service" |
-"Map2AppConfig" |
-"Item2Attachment" |
-"Item2Report" |
-"Listed2Provisioned" |
-"Style2Style" |
-"Service2Style" |
-"Survey2Service" |
-"Survey2Data" |
-"Service2Route" |
-"Area2Package" |
-"Map2Area" |
-"Service2Layer" |
-"Area2CustomPackage";
+export type ItemRelationshipType =
+  | "Map2Service"
+  | "WMA2Code"
+  | "Map2FeatureCollection"
+  | "MobileApp2Code"
+  | "Service2Data"
+  | "Service2Service"
+  | "Map2AppConfig"
+  | "Item2Attachment"
+  | "Item2Report"
+  | "Listed2Provisioned"
+  | "Style2Style"
+  | "Service2Style"
+  | "Survey2Service"
+  | "Survey2Data"
+  | "Service2Route"
+  | "Area2Package"
+  | "Map2Area"
+  | "Service2Layer"
+  | "Area2CustomPackage";
 
 export interface IItemRelationshipRequestOptions extends IRequestOptions {
   /**
@@ -61,14 +62,15 @@ export interface IItemRelationshipRequestOptions extends IRequestOptions {
   /**
    * The type of relationship between the two items.
    */
-  relationshipType: ItemRelationshipType | ItemRelationshipType[]
+  relationshipType: ItemRelationshipType | ItemRelationshipType[];
   /**
    * The direction of the relationship. Either forward (from origin -> destination) or reverse (from destination -> origin).
    */
   direction?: "forward" | "reverse";
 }
 
-export interface IManageItemRelationshipRequestOptions extends IUserRequestOptions {
+export interface IManageItemRelationshipRequestOptions
+  extends IUserRequestOptions {
   originItemId: string;
   destinationItemId: string;
   relationshipType: ItemRelationshipType;
@@ -159,8 +161,7 @@ export interface IItemMoveResponse {
 }
 
 /**
- * Serialize an item into a json format accepted by the Portal API
- * for create and update operations
+ * Serialize an item and its data into a json format accepted by the Portal API for create and update operations
  *
  * @param item Item to be serialized
  * @returns a formatted json object to be sent to Portal
@@ -168,19 +169,13 @@ export interface IItemMoveResponse {
 export function serializeItem(item: IItemAdd | IItemUpdate | IItem): any {
   // create a clone so we're not messing with the original
   const clone = JSON.parse(JSON.stringify(item));
-  // join keywords and tags...
-  const { typeKeywords = [], tags = [] } = item;
-  clone.typeKeywords = typeKeywords.join(", ");
-  clone.tags = tags.join(", ");
+
   // convert .data to .text
   if (clone.data) {
     clone.text = JSON.stringify(clone.data);
     delete clone.data;
   }
-  // Convert properties to a string
-  if (clone.properties) {
-    clone.properties = JSON.stringify(clone.properties);
-  }
+
   return clone;
 }
 

@@ -69,10 +69,10 @@ describe("search", () => {
           expect(options.body).toContain("owner=dbouwman");
           // ensure the array props are serialized into strings
           expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake, kwds")
+            encodeParam("typeKeywords", "fake,kwds")
           );
           expect(options.body).toContain(
-            encodeParam("tags", "fakey, mcfakepants")
+            encodeParam("tags", "fakey,mcfakepants")
           );
           expect(options.body).toContain(
             encodeParam("properties", JSON.stringify(fakeItem.properties))
@@ -115,10 +115,10 @@ describe("search", () => {
           expect(options.body).toContain("owner=dbouwman");
           // ensure the array props are serialized into strings
           expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake, kwds")
+            encodeParam("typeKeywords", "fake,kwds")
           );
           expect(options.body).toContain(
-            encodeParam("tags", "fakey, mcfakepants")
+            encodeParam("tags", "fakey,mcfakepants")
           );
           expect(options.body).toContain(
             encodeParam("properties", JSON.stringify(fakeItem.properties))
@@ -161,10 +161,10 @@ describe("search", () => {
           // expect(options.body).toContain("owner=casey");
           // ensure the array props are serialized into strings
           expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake, kwds")
+            encodeParam("typeKeywords", "fake,kwds")
           );
           expect(options.body).toContain(
-            encodeParam("tags", "fakey, mcfakepants")
+            encodeParam("tags", "fakey,mcfakepants")
           );
           expect(options.body).toContain(
             encodeParam("properties", JSON.stringify(fakeItem.properties))
@@ -245,10 +245,10 @@ describe("search", () => {
           expect(options.body).toContain("owner=dbouwman");
           // ensure the array props are serialized into strings
           expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake, kwds")
+            encodeParam("typeKeywords", "fake,kwds")
           );
           expect(options.body).toContain(
-            encodeParam("tags", "fakey, mcfakepants")
+            encodeParam("tags", "fakey,mcfakepants")
           );
           done();
         })
@@ -290,10 +290,10 @@ describe("search", () => {
           expect(options.body).toContain("foo=bar");
           // ensure the array props are serialized into strings
           expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake, kwds")
+            encodeParam("typeKeywords", "fake,kwds")
           );
           expect(options.body).toContain(
-            encodeParam("tags", "fakey, mcfakepants")
+            encodeParam("tags", "fakey,mcfakepants")
           );
           done();
         })
@@ -329,10 +329,10 @@ describe("search", () => {
           expect(options.body).toContain("owner=casey");
           // ensure the array props are serialized into strings
           expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake, kwds")
+            encodeParam("typeKeywords", "fake,kwds")
           );
           expect(options.body).toContain(
-            encodeParam("tags", "fakey, mcfakepants")
+            encodeParam("tags", "fakey,mcfakepants")
           );
           done();
         })

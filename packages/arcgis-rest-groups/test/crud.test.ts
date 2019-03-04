@@ -46,7 +46,7 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           expect(options.body).toContain(encodeParam("owner", "fakeUser"));
           // ensure the array props are serialized into strings
-          expect(options.body).toContain(encodeParam("tags", "foo, bar"));
+          expect(options.body).toContain(encodeParam("tags", "foo,bar"));
           expect(options.body).toContain(encodeParam("access", "public"));
           done();
         })
@@ -103,7 +103,43 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           expect(options.body).toContain(encodeParam("owner", "fakeUser"));
           // ensure the array props are serialized into strings
-          expect(options.body).toContain(encodeParam("tags", "foo, bar"));
+          expect(options.body).toContain(encodeParam("tags", "foo,bar"));
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should update a group with a custom param", done => {
+      fetchMock.once("*", GroupEditResponse);
+      const fakeGroup = {
+        id: "5bc",
+        title: "fake group",
+        owner: "fakeUser",
+        tags: ["foo", "bar"],
+        description: "my fake group"
+      };
+      updateGroup({
+        group: fakeGroup,
+        authentication: MOCK_AUTH,
+        params: {
+          clearEmptyFields: true
+        }
+      })
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/update"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("owner", "fakeUser"));
+          // ensure the array props are serialized into strings
+          expect(options.body).toContain(encodeParam("tags", "foo,bar"));
+          expect(options.body).toContain(encodeParam("clearEmptyFields", true));
           done();
         })
         .catch(e => {

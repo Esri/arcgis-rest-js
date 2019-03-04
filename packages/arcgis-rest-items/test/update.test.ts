@@ -70,14 +70,69 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("owner", "dbouwman"));
           // ensure the array props are serialized into strings
           expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake, kwds")
+            encodeParam("typeKeywords", "fake,kwds")
           );
           expect(options.body).toContain(
-            encodeParam("tags", "fakey, mcfakepants")
+            encodeParam("tags", "fakey,mcfakepants")
           );
           expect(options.body).toContain(
             encodeParam("text", JSON.stringify(fakeItem.data))
           );
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should update an item with custom params", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+      const fakeItem = {
+        id: "5bc",
+        owner: "dbouwman",
+        title: "my fake item",
+        description: "yep its fake",
+        snipped: "so very fake",
+        type: "Web Mapping Application",
+        typeKeywords: ["fake", "kwds"],
+        tags: ["fakey", "mcfakepants"],
+        properties: {
+          key: "somevalue"
+        },
+        data: {
+          values: {
+            key: "value"
+          }
+        }
+      };
+      updateItem({
+        item: fakeItem,
+        authentication: MOCK_USER_SESSION,
+        params: {
+          clearEmptyFields: true
+        }
+      })
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/5bc/update"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body).toContain(encodeParam("owner", "dbouwman"));
+          // ensure the array props are serialized into strings
+          expect(options.body).toContain(
+            encodeParam("typeKeywords", "fake,kwds")
+          );
+          expect(options.body).toContain(
+            encodeParam("tags", "fakey,mcfakepants")
+          );
+          expect(options.body).toContain(
+            encodeParam("text", JSON.stringify(fakeItem.data))
+          );
+          expect(options.body).toContain(encodeParam("clearEmptyFields", true));
           done();
         })
         .catch(e => {
@@ -135,10 +190,10 @@ describe("search", () => {
           );
           // ensure the array props are serialized into strings
           expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake, kwds")
+            encodeParam("typeKeywords", "fake,kwds")
           );
           expect(options.body).toContain(
-            encodeParam("tags", "fakey, mcfakepants")
+            encodeParam("tags", "fakey,mcfakepants")
           );
           expect(options.body).toContain(
             encodeParam("text", JSON.stringify(fakeItem.data))
