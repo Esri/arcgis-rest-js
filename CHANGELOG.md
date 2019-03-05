@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.17.1] - March 4th 2019
+
+### @esri/arcgis-rest-items
+
+* Misc.
+   * `serializeItem()` has been simplified. [`c2d2671`](https://github.com/Esri/arcgis-rest-js/commit/c2d267175c6dc6ce99fb0fb6b3cadbd50707ecef)
+
+### @esri/arcgis-rest-groups
+
+* Fixes
+   * ensure create/updateGroup() pass along custom params [`1ccf71e`](https://github.com/Esri/arcgis-rest-js/commit/1ccf71e55ef1ee1e035054a86dd5d8928daa56a1)
+
+* Misc.
+   * `serializeGroup()` has been deprecated. it will be removed in v2.0.0. [`c2d2671`](https://github.com/Esri/arcgis-rest-js/commit/c2d267175c6dc6ce99fb0fb6b3cadbd50707ecef)
+
+### Other Changes
+
+* Docs
+   * `requestOptions` are now displayed inline on documentation pages.
+   * samples now utilize polyfill.io's v3 API.
+
 ## [1.17.0] - February 25th 2019
 
 ### @esri/arcgis-rest-request
@@ -1119,4 +1140,5 @@ Initial Public Release
 [1.16.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.15.2...v1.16.0 "v1.16.0"
 [1.16.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.16.0...v1.16.1 "v1.16.1"
 [1.17.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.16.1...v1.17.0 "v1.17.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.17.0...HEAD "Unreleased Changes"
+[1.17.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.17.0...v1.17.1 "v1.17.1"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.17.1...HEAD "Unreleased Changes"

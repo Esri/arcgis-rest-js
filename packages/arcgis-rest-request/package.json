@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-request",
-  "version": "1.17.0",
+  "version": "1.17.1",
   "description": "Common methods and utilities for @esri/arcgis-rest-js packages.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/request.umd.js",

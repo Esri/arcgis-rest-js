@@ -1,6 +1,6 @@
 {
   "name": "stream-response-to-file",
-  "version": "1.17.0",
+  "version": "1.17.1",
   "description": "stream response to file with arcgis-rest-request",
   "main": "index.js",
   "scripts": {
@@ -24,8 +24,8 @@
   },
   "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
   "dependencies": {
-    "@esri/arcgis-rest-feature-service": "^1.17.0",
-    "@esri/arcgis-rest-request": "^1.17.0",
+    "@esri/arcgis-rest-feature-service": "^1.17.1",
+    "@esri/arcgis-rest-request": "^1.17.1",
     "isomorphic-form-data": "^2.0.0",
     "node-fetch": "^2.3.0"
   }
