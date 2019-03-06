@@ -21,6 +21,9 @@ express() // You can also use Express
     compression({ threshold: 0 }),
     sirv("static", { dev }),
     session({
+      secret: SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
       cookie: {
         maxAge: 2592000000 // 30 days in milliseconds
       },
@@ -39,10 +42,7 @@ express() // You can also use Express
           );
           return sessionObj;
         }
-      }),
-      secret: SESSION_SECRET,
-      resave: false,
-      saveUninitialized: false
+      })
     }),
     function(request, response, next) {
       if (request.session && request.session.userSession) {
@@ -54,6 +54,8 @@ express() // You can also use Express
           request.session.orgInfo = orgInfo;
           next();
         });
+      } else {
+        next();
       }
     },
 

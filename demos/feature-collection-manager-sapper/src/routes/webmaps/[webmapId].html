@@ -3,10 +3,12 @@
 <h2>{item.title}</h2>
 <p class="mb-4">Sharing Status: {item.access}</p>
 
+<WebMap itemId="{item.id}" />
+
 <ul class="list-reset">
   {#each layers as layer}
   <li class="py-2">
-    <LayerInfo title="{layer.title}" itemId="{layer.itemId}" url="{layer.url}" />
+    <LayerStatus title="{layer.title}" itemId="{layer.itemId}" url="{layer.url}" serviceStatus="unknown" />
   </li>
   {/each}
 </ul>
@@ -16,12 +18,14 @@
 <script>
   import { UserSession } from "@esri/arcgis-rest-auth";
   import { getItem, getItemData } from "@esri/arcgis-rest-items";
-  import LayerInfo from "../../components/LayerStatus.html";
+  import LayerStatus from "../../components/LayerStatus.html";
+  import WebMap from "../../components/WebMap.html";
   import { retryWithNewSession } from "../../utils.js";
 
   export default {
     components: {
-      LayerInfo
+      LayerStatus,
+      WebMap
     },
     preload({ params }) {
       const { session } = this.store.get();
@@ -32,7 +36,9 @@
       }
 
       const { webmapId } = params;
-      const userSession = new UserSession(session)
+
+      const userSession = process.browser ? session : new UserSession(session);
+
       return Promise.all([
         getItem(webmapId, {
           authentication: userSession
@@ -49,7 +55,7 @@
           .concat(webmap.baseMap.baseMapLayers)
           .map(layer => {
             return {
-              title: layer.title,
+              title: layer.title || layer.id,
               url: layer.url,
               itemId: layer.itemId
             };

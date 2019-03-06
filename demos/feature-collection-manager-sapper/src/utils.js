@@ -1,8 +1,8 @@
 import { UserSession } from "@esri/arcgis-rest-auth";
 
-export function retryWithNewSession(error, sapperFetch) {
+export function retryWithNewSession(error, fetch) {
   if (error.name === "ArcGISAuthError") {
-    return sapperFetch("/auth/exchange-token")
+    return fetch("/auth/exchange-token")
       .then(exchangeTokenResponse => {
         return exchangeTokenResponse.json();
       })
