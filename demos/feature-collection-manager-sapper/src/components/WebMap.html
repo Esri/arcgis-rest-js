@@ -1,0 +1,49 @@
+<div ref:mapContainer class="webmap-contianer"></div>
+
+<style>
+  .webmap-contianer {
+    width: 100%;
+    height: 25vh;
+  }
+</style>
+<script>
+  import { loadModules, loadCss } from "esri-loader";
+
+  export default {
+    oncreate() {
+      this.intializeWebMap();
+    },
+    methods: {
+      intializeWebMap() {
+        const { itemId } = this.get();
+        const { session } = this.store.get();
+        loadCss("https://js.arcgis.com/4.10/esri/css/main.css");
+        loadModules([
+          "esri/views/MapView",
+          "esri/WebMap",
+          "esri/identity/IdentityManager"
+        ])
+          .then(([MapView, WebMap, esriId]) => {
+            esriId.registerToken(session.toCredential());
+
+            // then we load a web map from an id
+            var webmap = new WebMap({
+              portalItem: {
+                // autocasts as new PortalItem()
+                id: itemId
+              }
+            });
+            // and we show that map in a container w/ id #viewDiv
+            var view = new MapView({
+              map: webmap,
+              container: this.refs.mapContainer
+            });
+          })
+          .catch(err => {
+            // handle any errors
+            console.error(err);
+          });
+      }
+    }
+  };
+</script>
