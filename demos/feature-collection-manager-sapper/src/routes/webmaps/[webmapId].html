@@ -1,0 +1,65 @@
+<a href="webmaps" class="text-blue">Back to list</a>
+
+<h2>{item.title}</h2>
+<p class="mb-4">Sharing Status: {item.access}</p>
+
+<ul class="list-reset">
+  {#each layers as layer}
+  <li class="py-2">
+    <LayerInfo title="{layer.title}" itemId="{layer.itemId}" url="{layer.url}" />
+  </li>
+  {/each}
+</ul>
+
+<pre class="max-w p-6 border border-grey-light rounded overflow-scroll shadow-lg">{webmapText}</pre>
+
+<script>
+  import { UserSession } from "@esri/arcgis-rest-auth";
+  import { getItem, getItemData } from "@esri/arcgis-rest-items";
+  import LayerInfo from "../../components/LayerStatus.html";
+  import { retryWithNewSession } from "../../utils.js";
+
+  export default {
+    components: {
+      LayerInfo
+    },
+    preload({ params }) {
+      const { session } = this.store.get();
+
+      if (!session) {
+        this.redirect(302, "/");
+        return;
+      }
+
+      const { webmapId } = params;
+      const userSession = new UserSession(session)
+      return Promise.all([
+        getItem(webmapId, {
+          authentication: userSession
+        }).catch(error => {
+          return retryWithNewSession(error, this.fetch);
+        }),
+        getItemData(webmapId, {
+          authentication: userSession
+        }).catch(error => {
+          return retryWithNewSession(error, this.fetch);
+        })
+      ]).then(([item, webmap]) => {
+        const layers = webmap.operationalLayers
+          .concat(webmap.baseMap.baseMapLayers)
+          .map(layer => {
+            return {
+              title: layer.title,
+              url: layer.url,
+              itemId: layer.itemId
+            };
+          });
+        return {
+          item,
+          webmapText: JSON.stringify(webmap, null, 2),
+          layers: layers
+        };
+      });
+    }
+  };
+</script>

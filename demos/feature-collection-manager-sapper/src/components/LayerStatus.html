@@ -1,0 +1,87 @@
+<h3>{title}</h3>
+
+<!-- Render this items url if it is an online item-->
+{#if itemId}
+<p>
+  <a href="https://{$org.urlKey}.maps.arcgis.com/home/item.html?id={itemId}"
+    >View in ArcGIS Online</a
+  >
+</p>
+{/if}
+
+<!-- Render this items url if it is an online item-->
+{#if url || (item && item.url)}
+<p>
+  <a href="{url || item.url}?token={$session.token}">
+    View Service URL
+  </a>
+</p>
+{/if}
+
+<!-- Render this items sharing status-->
+{#if itemId && item}
+<p>Sharing Status: {item.access}</p>
+{/if}
+
+<!-- Render this items service status-->
+{#if serviceHealth}
+<p>Service Health: {serviceHealth}</p>
+{/if}
+
+<script>
+  import { getItem } from "@esri/arcgis-rest-items";
+  import { request } from "@esri/arcgis-rest-request";
+
+  import { retryWithNewSession } from "../utils.js";
+
+  export default {
+    onstate({ changed, current, previous }) {
+      // this fires before oncreate, and on every state change.
+      // the first time it runs, `previous` is undefined
+      if (changed.url && current.url && !current.heartbeatTimer) {
+        // check URL for heart beat
+        this.heartBeat();
+      }
+
+      if (changed.itemId && current.itemId) {
+        this.loadItemId();
+      }
+    },
+    methods: {
+      loadItemId() {
+        const { itemId, url } = this.get();
+        const { session } = this.store.get();
+        if (itemId) {
+          getItem(itemId, {
+            authentication: session
+          })
+            .catch(error => {
+              return retryWithNewSession(error, fetch);
+            })
+            .then(item => {
+              this.set({ item, url: url || item.url });
+            });
+        }
+      },
+      heartBeat() {
+        const { url } = this.get();
+        const { session } = this.store.get();
+        if (url) {
+          request(url, { method: "get", authentication: session })
+            .then(response => {
+              this.set({ serviceHealth: "good" });
+            })
+            .catch(() => {
+              this.set({ serviceHealth: "bad" });
+            })
+            .finally(() => {
+              const heartbeatTimer = setTimeout(() => {
+                this.heartBeat();
+              }, 3000);
+              this.set({ heartbeatTimer });
+            });
+        }
+      }
+    }
+  };
+</script>
