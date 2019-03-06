@@ -15,6 +15,7 @@
     "@esri/arcgis-rest-auth": "^1.17.0",
     "@esri/arcgis-rest-items": "^1.17.0",
     "@esri/arcgis-rest-request": "^1.17.0",
+    "@esri/arcgis-rest-users": "^1.17.0",
     "compression": "^1.7.1",
     "cookies": "^0.7.3",
     "dotenv": "^6.2.0",

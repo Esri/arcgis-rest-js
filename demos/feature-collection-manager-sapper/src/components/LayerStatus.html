@@ -1,6 +1,6 @@
 <h3>{title}</h3>
 
-<!-- Render this items url if it is an online item-->
+<!-- Render a link to ArcGIS Online -->
 {#if itemId}
 <p>
   <a href="https://{$org.urlKey}.maps.arcgis.com/home/item.html?id={itemId}"
@@ -9,7 +9,7 @@
 </p>
 {/if}
 
-<!-- Render this items url if it is an online item-->
+<!-- Render a link to the service URL -->
 {#if url || (item && item.url)}
 <p>
   <a href="{url || item.url}?token={$session.token}">
@@ -34,22 +34,39 @@
   import { retryWithNewSession } from "../utils.js";
 
   export default {
+    data: function() {
+      return {
+        serviceHealth: "unknown",
+        item: null
+      };
+    },
+    // runs every time the components state changes and only on the client
     onstate({ changed, current, previous }) {
       // this fires before oncreate, and on every state change.
       // the first time it runs, `previous` is undefined
-      if (changed.url && current.url && !current.heartbeatTimer) {
-        // check URL for heart beat
-        this.heartBeat();
+      if (changed.url && current.url && !current.serviceHealthTimer) {
+        // check  the service URL to see it is up
+        this.checkServiceStatus();
       }
 
+      // load the item details async
       if (changed.itemId && current.itemId) {
         this.loadItemId();
       }
     },
+    // removes the setTimeout function when this component is destroyed
+    ondestroy() {
+      const { serviceHealthTimer } = this.get();
+      if (serviceHealthTimer) {
+        serviceHealthTimer.clear();
+      }
+    },
     methods: {
+      // load more info about an item with ArcGIS REST JS
       loadItemId() {
         const { itemId, url } = this.get();
         const { session } = this.store.get();
+
         if (itemId) {
           getItem(itemId, {
             authentication: session
@@ -62,7 +79,11 @@
             });
         }
       },
-      heartBeat() {
+
+      // Hit the service endpoint for a URL to see if the service is live
+      // Using the generic request method is useful for arbitrary methods
+      // or methods that aren't supported directly by ArcGIS Rest JS.
+      checkServiceStatus() {
         const { url } = this.get();
         const { session } = this.store.get();
         if (url) {
@@ -74,10 +95,11 @@
               this.set({ serviceHealth: "bad" });
             })
             .finally(() => {
-              const heartbeatTimer = setTimeout(() => {
-                this.heartBeat();
+              // setup a setTimeout so that this runs continuously
+              const serviceHealthTimer = setTimeout(() => {
+                this.checkServiceStatus();
               }, 3000);
-              this.set({ heartbeatTimer });
+              this.set({ serviceHealthTimer });
             });
         }
       }

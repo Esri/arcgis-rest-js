@@ -1,7 +1,7 @@
 <svelte:head>
   <title>Web Map Dependency Checker</title>
 </svelte:head>
-
+<!-- The $ prefix tells sapper to load this from the global store-->
 {#if $session}
 <p>
   Signed in as {$session.username}

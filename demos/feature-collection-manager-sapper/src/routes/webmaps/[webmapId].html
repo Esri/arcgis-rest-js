@@ -3,11 +3,15 @@
 <h2>{item.title}</h2>
 <p class="mb-4">Sharing Status: {item.access}</p>
 
-<WebMap itemId="{item.id}" />
+<!-- show a preview of the webmap -->
+{#if item}
+  <WebMap itemId="{item.id}" />
+{/if}
 
 <ul class="list-reset">
   {#each layers as layer}
   <li class="py-2">
+    <!-- show a list of layers and their statuses -->
     <LayerStatus title="{layer.title}" itemId="{layer.itemId}" url="{layer.url}" serviceStatus="unknown" />
   </li>
   {/each}
@@ -18,18 +22,22 @@
 <script>
   import { UserSession } from "@esri/arcgis-rest-auth";
   import { getItem, getItemData } from "@esri/arcgis-rest-items";
+  import { retryWithNewSession } from "../../utils.js";
   import LayerStatus from "../../components/LayerStatus.html";
   import WebMap from "../../components/WebMap.html";
-  import { retryWithNewSession } from "../../utils.js";
 
   export default {
     components: {
       LayerStatus,
       WebMap
     },
+    // preload runs on the server to generate the inital state of the page and
+    // when a user navigates on the client to create the new view of the page.
+    // We can use arcgis-rest-js here to preload data.
     preload({ params }) {
       const { session } = this.store.get();
 
+      // redirect to the homepage unless the user is signed in
       if (!session) {
         this.redirect(302, "/");
         return;
@@ -37,8 +45,12 @@
 
       const { webmapId } = params;
 
+      // if we are on the server we won't have an actuall UserSession just a
+      // JSON representation of one. So we need to hydrate a UserSession.
       const userSession = process.browser ? session : new UserSession(session);
 
+      // next we can request both the webmap item and the webmap data (the JSON)
+      // and process the data to get a list of layers.
       return Promise.all([
         getItem(webmapId, {
           authentication: userSession

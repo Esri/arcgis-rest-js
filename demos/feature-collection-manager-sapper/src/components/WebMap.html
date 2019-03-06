@@ -1,29 +1,41 @@
+<!-- We need to use a ref here so we can acces this div inside out component -->
 <div ref:mapContainer class="webmap-contianer"></div>
 
 <style>
   .webmap-contianer {
     width: 100%;
-    height: 25vh;
+    height: 400px;
   }
 </style>
 <script>
   import { loadModules, loadCss } from "esri-loader";
 
   export default {
+    // oncreate run only the client
     oncreate() {
       this.intializeWebMap();
     },
     methods: {
       intializeWebMap() {
+        // get the id of the webmap from the component
         const { itemId } = this.get();
+
+        // set the session from the global store
         const { session } = this.store.get();
+
+        // load the CSS dynamically with Esri Loader
         loadCss("https://js.arcgis.com/4.10/esri/css/main.css");
+
+        // load JS API modules with Esri Loader
         loadModules([
           "esri/views/MapView",
           "esri/WebMap",
           "esri/identity/IdentityManager"
         ])
           .then(([MapView, WebMap, esriId]) => {
+            // since our webmap might be private we can pass teh credentials
+            // from the ArcGIS REST JS session to the JS API Identity Manager
+            // the JS API will then use these credentials for future requests
             esriId.registerToken(session.toCredential());
 
             // then we load a web map from an id
@@ -33,7 +45,8 @@
                 id: itemId
               }
             });
-            // and we show that map in a container w/ id #viewDiv
+
+            // and we show that map in a container
             var view = new MapView({
               map: webmap,
               container: this.refs.mapContainer

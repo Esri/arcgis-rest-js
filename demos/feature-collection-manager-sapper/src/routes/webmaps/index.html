@@ -14,32 +14,48 @@
   import { retryWithNewSession } from "../../utils.js";
 
   export default {
+    // preload runs on the server to generate the inital state of the page and
+    // when a user navigates on the client to create the new view of the page.
+    // We can use arcgis-rest-js here to preload data.
     preload() {
       const { session } = this.store.get();
 
+      // redirect to the homepage unless the user is signed in
       if (!session) {
         this.redirect(302, "/");
+        return;
       }
 
-      return searchItems({
-        searchForm: {
-          q: `owner:${session.username} type:"Web Map"`,
-          num: 100
-        },
-        authentication: new UserSession(session)
-      })
-        .catch(error => {
-          return retryWithNewSession(error, this.fetch);
-        })
-        .then(response => {
-          return {
-            webmaps: response.results
-          };
-        })
+      // if we are on the server we won't have an actuall UserSession just a
+      // JSON representation of one. So we need to hydrate a UserSession.
+      const userSession = process.browser ? session : new UserSession(session);
 
-        .catch(error => {
-          console.error(error);
-        });
+      // now we can search for webmaps. Sapper will wait until this promise
+      // resolves before rendering the page.
+      return (
+        searchItems({
+          searchForm: {
+            q: `owner:${session.username} type:"Web Map"`,
+            num: 100
+          },
+          authentication: userSession
+        })
+          // if there is an error we can retry the request with a fresh session
+          // from /auth/exchange-token
+          .catch(error => {
+            return retryWithNewSession(error, this.fetch);
+          })
+          // then we can process out response.
+          .then(response => {
+            return {
+              webmaps: response.results
+            };
+          })
+
+          .catch(error => {
+            console.error(error);
+          })
+      );
     }
   };
 </script>
