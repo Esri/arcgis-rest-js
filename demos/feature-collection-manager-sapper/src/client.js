@@ -8,7 +8,9 @@ sapper.start({
     // `data` is whatever was in the server-side store
     console.log(data);
     return new Store({
-      session: data && data.session ? new UserSession(data.session) : null
+      session: data && data.session ? new UserSession(data.session) : null,
+      user: data.user,
+      org: data.org
     });
   }
 });

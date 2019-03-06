@@ -1,11 +1,17 @@
-export async function post(request, response, next) {
-  request.sesssion.userSession.refreshSession().then(newSession => {
-    request.session = newSession;
-
-    const serializedSession = newSession.toJSON();
-    delete serializedSession.refreshTokn;
-    delete serializedSessionre.freshTokenExpires;
-
-    response.json(serializedSession);
-  });
+export function get(request, response, next) {
+  console.log("refreshing session");
+  request.session.userSession
+    .refreshSession()
+    .then(newSession => {
+      console.log("session refreshed");
+      request.session.userSession = newSession;
+      const serializedSession = newSession.toJSON();
+      delete serializedSession.refreshToken;
+      delete serializedSession.refreshTokenExpires;
+      response.json(serializedSession);
+    })
+    .catch(error => {
+      console.error(error);
+      response.json(error);
+    });
 }

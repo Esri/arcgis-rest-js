@@ -11,6 +11,7 @@
 <script>
   import { UserSession } from "@esri/arcgis-rest-auth";
   import { searchItems } from "@esri/arcgis-rest-items";
+  import { retryWithNewSession } from "../../utils.js";
 
   export default {
     preload() {
@@ -26,11 +27,19 @@
           num: 100
         },
         authentication: new UserSession(session)
-      }).then(response => {
-        return {
-          webmaps: response.results
-        };
-      });
+      })
+        .catch(error => {
+          return retryWithNewSession(error, this.fetch);
+        })
+        .then(response => {
+          return {
+            webmaps: response.results
+          };
+        })
+
+        .catch(error => {
+          console.error(error);
+        });
     },
 
     onstate({ changed, current, previous }) {

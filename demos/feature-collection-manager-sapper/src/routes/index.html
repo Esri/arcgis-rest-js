@@ -4,12 +4,6 @@
 
 <script>
   export default {
-    preload() {
-      const { session } = this.store.get();
-
-      if (session) {
-        this.redirect(302, "/webmaps");
-      }
-    }
+    preload() {}
   };
 </script>

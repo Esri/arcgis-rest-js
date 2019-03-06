@@ -7,6 +7,7 @@ import compression from "compression";
 import * as sapper from "../__sapper__/server.js";
 import SessionFileStore from "session-file-store";
 import { UserSession } from "@esri/arcgis-rest-auth";
+import { getSelf } from "@esri/arcgis-rest-request";
 import { Store } from "svelte/store.js";
 
 require("dotenv").config();
@@ -20,7 +21,12 @@ express() // You can also use Express
     compression({ threshold: 0 }),
     sirv("static", { dev }),
     session({
+      cookie: {
+        maxAge: 2592000000 // 30 days in milliseconds
+      },
       store: new FileStore({
+        ttl: 2592000000 / 1000, // 30 days in seconds
+        retries: 1,
         secret: ENCRYPTION_KEY,
         encoder: sessionObj => {
           sessionObj.userSession = sessionObj.userSession.serialize();
@@ -38,16 +44,33 @@ express() // You can also use Express
       resave: false,
       saveUninitialized: false
     }),
+    function(request, response, next) {
+      if (request.session && request.session.userSession) {
+        Promise.all([
+          request.session.userSession.getUser(),
+          getSelf({ authentication: request.session.userSession })
+        ]).then(([userInfo, orgInfo]) => {
+          request.session.userInfo = userInfo;
+          request.session.orgInfo = orgInfo;
+          next();
+        });
+      }
+    },
+
     sapper.middleware({
       store: request => {
         let userSession;
+
         if (request.session && request.session.userSession) {
           userSession = request.session.userSession.toJSON();
           delete userSession.refreshToken;
           delete userSession.refreshTokenExpires;
         }
+
         return new Store({
-          session: userSession
+          session: userSession,
+          user: request.session ? request.session.userInfo : undefined,
+          org: request.session ? request.session.orgInfo : undefined
         });
       }
     })
