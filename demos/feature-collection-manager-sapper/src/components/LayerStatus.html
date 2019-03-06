@@ -58,7 +58,7 @@
     ondestroy() {
       const { serviceHealthTimer } = this.get();
       if (serviceHealthTimer) {
-        serviceHealthTimer.clear();
+        clearTimeout(serviceHealthTimer);
       }
     },
     methods: {
