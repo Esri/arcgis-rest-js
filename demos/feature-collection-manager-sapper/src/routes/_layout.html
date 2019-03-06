@@ -1,0 +1,27 @@
+<svelte:head>
+  <link
+    href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css"
+    rel="stylesheet"
+  />
+</svelte:head>
+
+<Nav/>
+
+<main class="p-6">
+  <svelte:component this="{child.component}" {...child.props} />
+</main>
+
+<script>
+	export default {
+		components: {
+			Nav: '../components/Nav.html'
+		},
+
+		oncreate () {
+			const { session } = this.store.get()
+			this.store.set({
+				session: new UserSession(session)
+			});
+		}
+	};
+</script>

@@ -1,0 +1,21 @@
+<nav class="flex items-center justify-between flex-wrap bg-teal p-6">
+  <div class="flex items-center flex-no-shrink text-white mr-6">
+    <span class="font-semibold text-4xl">Web Map Dependecy Checker</span>
+  </div>
+  {#if $session}
+  <p class="text-white">
+    Signed in as {$session.username}
+    <a
+      href="/auth/authorize"
+      class="inline-block px-6 py-3 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-1"
+      >Sign Out</a
+    >
+  </p>
+  {:else}
+  <a
+    href="/auth/authorize"
+    class="inline-block px-6 py-3 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-1"
+    >Sign In</a
+  >
+  {/if}
+</nav>

@@ -1,0 +1,43 @@
+<h1>Webmaps</h1>
+
+<ul class="list-reset">
+  {#each webmaps as webmap}
+  <li class="py-2">
+    <a href="webmaps/{webmap.id}" class="text-blue">{webmap.title}</a>
+  </li>
+  {/each}
+</ul>
+
+<script>
+  import { UserSession } from "@esri/arcgis-rest-auth";
+  import { searchItems } from "@esri/arcgis-rest-items";
+
+  export default {
+    preload() {
+      const { session } = this.store.get();
+
+      if (!session) {
+        this.redirect(302, "/");
+      }
+
+      return searchItems({
+        searchForm: {
+          q: `owner:${session.username} type:"Web Map"`,
+          num: 100
+        },
+        authentication: new UserSession(session)
+      }).then(response => {
+        return {
+          webmaps: response.results
+        };
+      });
+    },
+
+    onstate({ changed, current, previous }) {
+      // this fires before oncreate, and on every state change.
+      // the first time it runs, `previous` is undefined
+
+      console.log({ changed, current, previous });
+    }
+  };
+</script>
