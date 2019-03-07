@@ -29,8 +29,7 @@ and 3 Svelte endpoints:
 
 * `src/routes/index.html` - renders the main page for signed out users which shows a sign in buttons.
 * `src/routes/webmaps/index.html` - renders a list of the users webmaps
-* `src/routes/webmaps//[webmapId].html` - renders a detailed view for a webmap. The brackets indicate that will be replaced by an actual URL like `/webmaps/`
-
+* `src/routes/webmaps/[webmapId].html` - renders a detailed view for a webmap. The brackets indicate that will be replaced by an actual URL like `/webmaps/`
 
 The `server.js` file defines the server and sets up [`express-session`](https://www.npmjs.com/package/express-session) with [`session-file-store`](https://www.npmjs.com/package/session-file-store) as well as defining the server side Svelte `Store` used to power the server side rendering.
 
