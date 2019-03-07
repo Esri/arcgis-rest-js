@@ -1,7 +1,8 @@
 {
-  "name": "TODO",
-  "description": "TODO",
-  "version": "0.0.1",
+  "name": "sapper-webmap-checker",
+  "description": "this thing is cray cray",
+  "private": true,
+  "version": "1.17.1",
   "scripts": {
     "dev": "sapper dev",
     "build": "sapper build --legacy",
@@ -12,10 +13,9 @@
     "test": "run-p --race dev cy:run"
   },
   "dependencies": {
-    "@esri/arcgis-rest-auth": "^1.17.0",
-    "@esri/arcgis-rest-items": "^1.17.0",
-    "@esri/arcgis-rest-request": "^1.17.0",
-    "@esri/arcgis-rest-users": "^1.17.0",
+    "@esri/arcgis-rest-auth": "^1.17.1",
+    "@esri/arcgis-rest-items": "^1.17.1",
+    "@esri/arcgis-rest-request": "^1.17.1",
     "compression": "^1.7.1",
     "cookies": "^0.7.3",
     "dotenv": "^6.2.0",

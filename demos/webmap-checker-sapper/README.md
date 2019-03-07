@@ -1,8 +1,8 @@
 # Web map checker
 
-This app demonstrates the user of ArcGIS REST JS with [sapper](https://sapper.svelte.technology/) a cutting edge web framework. [sapper is built on the [svelte](https://svelte.technology) component library and is a universal app framework that supports both client and sererside rendering.
+This app demonstrates the use of ArcGIS REST JS with [sapper](https://sapper.svelte.technology/) a cutting edge web framework. [sapper is built on the [svelte](https://svelte.technology) component library and is a universal app framework that supports both client and sererside rendering.
 
-You may want to use a universal framework in your for a few reasons:
+You may want to use a universal framework in your app for a few reasons:
 
 1. Better SEO, because the app is rendered on the server search engines like Google can read the content for index your pages
 2. Very fast performance. Because the app is rendered on the server browsers will render the initial HTML on the page providing a very fast experience, then JavaScript loads making hte app interactive.
@@ -37,6 +37,9 @@ The `server.js` file defines the server and sets up [`express-session`](https://
 
 Once the app boots subsequent naviation by the user are handled client side by the app for better performance.
 
-
-
 https://github.com/sveltejs/sapper-template
+
+## Running this demo
+1. Like all the other demo apps, run `npm run bootstrap` in the root directory.
+2. `cd demos/node-cli-item-management`
+3. `npm run dev`

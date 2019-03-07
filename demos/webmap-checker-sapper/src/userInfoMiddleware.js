@@ -1,7 +1,8 @@
 import { getSelf } from "@esri/arcgis-rest-request";
+// we could use UserSession.getUser() instead
 import { getUser } from "@esri/arcgis-rest-users";
 
-// this middleare checks for a session and if we find a session add
+// this middleware checks for a session and if we find a session add
 // additional info to that session from the getUser and getSelf calls
 // request here is the incoming request in express.
 export function userInfoMiddleware(incomingRequest, outgoingResponse, next) {
