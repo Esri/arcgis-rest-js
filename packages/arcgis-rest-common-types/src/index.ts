@@ -149,8 +149,10 @@ export type SpatialRelationship =
 export interface IExtent {
   xmin: number;
   ymin: number;
+  zmin?: number;
   xmax: number;
   ymax: number;
+  zmax?: number;
   spatialReference?: ISpatialReference;
 }
 
@@ -272,6 +274,7 @@ export interface IPictureMarkerSymbol extends IMarkerSymbol, IPictureSourced {
 export interface IPoint extends IHasZM, IGeometry {
   x: number;
   y: number;
+  z?: number;
 }
 
 /**
