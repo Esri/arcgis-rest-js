@@ -18,7 +18,9 @@ export interface ISolveRouteRequestOptions extends IEndpointRequestOptions {
   /**
    * Specify two or more locations between which the route is to be found.
    */
-  stops: Array<IPoint | ILocation | [number, number]>;
+  stops: Array<
+    IPoint | ILocation | [number, number] | [number, number, number]
+  >;
 }
 
 export interface ISolveRouteResponse {
@@ -80,12 +82,19 @@ export function solveRoute(
       return coords.join();
     } else if (isLocation(coords)) {
       if (coords.lat) {
-        return coords.long + "," + coords.lat;
+        return (
+          coords.long + "," + coords.lat + (coords.z ? "," + coords.z : "")
+        );
       } else {
-        return coords.longitude + "," + coords.latitude;
+        return (
+          coords.longitude +
+          "," +
+          coords.latitude +
+          (coords.z ? "," + coords.z : "")
+        );
       }
     } else {
-      return coords.x + "," + coords.y;
+      return coords.x + "," + coords.y + (coords.z ? "," + coords.z : "");
     }
   });
   options.params.stops = stops.join(";");
