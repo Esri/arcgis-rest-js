@@ -66,24 +66,24 @@ const stopsObjectsLatitudeLongitude3: ILocation[] = [
 
 const stopsObjectsPoint: IPoint[] = [
   {
-    x: 34.056383,
-    y: -117.195677
+    x: -117.195677,
+    y: 34.056383
   },
   {
-    x: 33.812092,
-    y: -117.918976
+    x: -117.918976,
+    y: 33.812092
   }
 ];
 
 const stopsObjectsPoint3: IPoint[] = [
   {
-    x: 34.056383,
-    y: -117.195677,
+    x: -117.195677,
+    y: 34.056383,
     z: 10.11
   },
   {
-    x: 33.812092,
-    y: -117.918976,
+    x: -117.918976,
+    y: 33.812092,
     z: 8.43
   }
 ];
