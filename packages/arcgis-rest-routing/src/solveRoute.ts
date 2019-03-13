@@ -85,7 +85,7 @@ export function solveRoute(
         return coords.longitude + "," + coords.latitude;
       }
     } else {
-      return coords.y + "," + coords.x;
+      return coords.x + "," + coords.y;
     }
   });
   options.params.stops = stops.join(";");
