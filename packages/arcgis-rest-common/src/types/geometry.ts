@@ -34,6 +34,7 @@ export interface IGeometry {
 export interface IPoint extends IHasZM, IGeometry {
   x: number;
   y: number;
+  z?: number;
 }
 
 /**
@@ -44,4 +45,5 @@ export interface ILocation {
   longitude?: number;
   lat?: number;
   long?: number;
+  z?: number;
 }
