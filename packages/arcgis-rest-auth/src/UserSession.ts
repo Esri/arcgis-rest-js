@@ -112,11 +112,6 @@ export interface IOauth2Options {
   refreshTokenTTL?: number;
 
   /**
-   * An unfederated ArcGIS Server instance that recognizes the supplied credentials.
-   */
-  server?: string;
-
-  /**
    * The locale assumed to render the login page.
    *
    * @browserOnly
@@ -204,7 +199,14 @@ export interface IUserSessionOptions {
   refreshTokenTTL?: number;
 
   /**
-   * An unfederated ArcGIS Server instance that recognizes the supplied credentials.
+   * An unfederated ArcGIS Server instance known to recognize credentials supplied manually.
+   * ```js
+   * {
+   *   server: "https://sampleserver6.arcgisonline.com/arcgis",
+   *   token: "SOSlV3v..",
+   *   tokenExpires: new Date(1545415669763)
+   * }
+   * ```
    */
   server?: string;
 }
@@ -213,16 +215,18 @@ export interface IUserSessionOptions {
  * ```js
  * import { UserSession } from '@esri/arcgis-rest-auth';
  * UserSession.beginOAuth2({
- *   // register a new app to create a unique clientId
+ *   // register an app of your own to create a unique clientId
  *   clientId: "abc123",
  *   redirectUri: 'https://yourapp.com/authenticate.html'
  * })
  *   .then(session)
  * // or
- * const session = new UserSession({
+ * new UserSession({
  *   username: "jsmith",
  *   password: "123456"
  * })
+ * // or
+ * UserSession.deserialize(cache)
  * ```
  * Used to authenticate both ArcGIS Online and ArcGIS Enterprise users. `UserSession` includes helper methods for [OAuth 2.0](/arcgis-rest-js/guides/browser-authentication/) in both browser and server applications.
  */
@@ -540,7 +544,14 @@ export class UserSession implements IAuthenticationManager {
   public readonly refreshTokenTTL: number;
 
   /**
-   * An unfederated ArcGIS Server instance that recognizes the supplied credentials.
+   * An unfederated ArcGIS Server instance known to recognize credentials supplied manually.
+   * ```js
+   * {
+   *   server: "https://sampleserver6.arcgisonline.com/arcgis",
+   *   token: "SOSlV3v..",
+   *   tokenExpires: new Date(1545415669763)
+   * }
+   * ```
    */
   public readonly server: string;
 

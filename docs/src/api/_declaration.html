@@ -261,7 +261,7 @@
       {{ @propertyTableForId(id, "Available <code>requestOptions</code>", "Property", "Type")}}
     {% endif %}
 
-    {% if param.name == "requestOptions" and param.type.id %}
+    {% if param.name == "requestOptions" and param.type.type !== "reference" and param.type.id %}
       {{ @propertyTableForId(param.type.id, "Options", "Property", "Type")}}
     {% endif %}
   {% endfor %}
