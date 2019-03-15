@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import { request, IRequestOptions } from "../request";
@@ -22,7 +22,14 @@ export function getSelf(requestOptions?: IRequestOptions): Promise<IPortal> {
 }
 
 /**
- * Get a portal by id. If no id is passed, it will call portals/self
+ * * ```js
+ * import { getPortal } from "@esri/arcgis-rest-request";
+ * //
+ * getPortal()
+ * getPortal("fe8") 
+ * getPortal(null, { portal: "https://custom.maps.arcgis.com/sharing/rest/" }) 
+ * ```
+ * Fetch information about the current portal by id. If no id is passed, portals/self will be called
  * @param id
  * @param requestOptions
  */
