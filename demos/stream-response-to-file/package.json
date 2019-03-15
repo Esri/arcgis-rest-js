@@ -1,6 +1,7 @@
 {
   "name": "stream-response-to-file",
   "version": "1.17.1",
+  "private": true,
   "description": "stream response to file with arcgis-rest-request",
   "main": "index.js",
   "scripts": {
