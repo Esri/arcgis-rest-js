@@ -1,9 +1,15 @@
-/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import { ArcGISAuthError, IRetryAuthError, ErrorTypes } from "../../src/index";
-import { ArcGISOnlineAuthError, ArcGISOnlineError } from "./../mocks/errors";
+import {
+  ArcGISOnlineAuthError,
+  ArcGISOnlineError,
+  GenerateTokenError
+} from "./../mocks/errors";
 import * as fetchMock from "fetch-mock";
+import { request } from "https";
+import { request as esriRequest } from "../../src/request";
 
 describe("ArcGISRequestError", () => {
   afterEach(fetchMock.restore);
@@ -163,6 +169,22 @@ describe("ArcGISRequestError", () => {
         expect(options.body).toContain("f=json");
         expect(e.name).toBe(ErrorTypes.ArcGISRequestError);
         expect(e.message).toBe("400: 'type' and 'title' property required.");
+        done();
+      });
+    });
+
+    it("should throw an authentication error for invalid credentials", done => {
+      fetchMock.post("*", GenerateTokenError);
+
+      esriRequest("https://www.arcgis.com/sharing/rest/generateToken", {
+        params: {
+          username: "correct",
+          password: "incorrect",
+          expiration: 10260,
+          referer: "localhost"
+        }
+      }).catch(err => {
+        expect(err.name).toBe(ErrorTypes.ArcGISAuthError);
         done();
       });
     });

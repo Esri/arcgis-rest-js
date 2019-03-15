@@ -66,3 +66,11 @@ export const TaskError: any = {
   status: "failed",
   statusMessage: "failed"
 };
+
+export const GenerateTokenError: any = {
+  error: {
+    code: 400,
+    message: "Unable to generate token.",
+    details: ["Invalid username or password."]
+  }
+};
