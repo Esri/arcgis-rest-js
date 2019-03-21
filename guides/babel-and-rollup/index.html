@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Using ArcGIS REST JS with Babel and Rollup | Guide | ArcGIS REST JS</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with the ArcGIS REST API.">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.7/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/arcgis-rest-js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">ArcGIS REST JS</h2>
+          <a href="/arcgis-rest-js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/arcgis-rest-js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/arcgis-rest-js/" class="top-nav-title">ArcGIS REST JS</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/arcgis-rest-js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/arcgis-rest-js/api/" class="top-nav-link">API Reference</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/arcgis-rest-js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/arcgis-rest-js/" class="top-nav-link">ArcGIS REST API JavaScript Client</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Introduction</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/arcgis-rest-js/guides/package-overview/">Package Overview</a></li>
+            
+          </ul>
+        
+          <li>Get Started</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/arcgis-rest-js/guides/from-a-cdn/">From a CDN</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/babel-and-webpack/">Babel + WebPack</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/typescript-and-webpack/">TypeScript + WebPack</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/amd-requirejs-dojo/">AMD (Require.js or Dojo)</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/node/">Node.js</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/babel-and-rollup/" class="is-active">Babel + Rollup</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/browserify/">Browserify</a></li>
+            
+          </ul>
+        
+          <li>Authentication</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/arcgis-rest-js/guides/browser-authentication/">Browser-based OAuth 2.0</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/server-authentication/">Server-based OAuth 2.0</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/client-server-authentication/">Shared client server authentication</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/cli-authentication/">Authentication for CLI Apps</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h1>Get Started with Babel and Rollup</h1>
+<p>ArcGIS REST JS is ready-to-use with popular module bundlers like <a href="https://webpack.js.org/">webpack</a> and <a href="https://rollupjs.org/">rollup</a>. Make sure you also install the polyfills for <a href="https://github.com/matthew-andrews/isomorphic-fetch"><code>fetch</code></a> and <a href="https://github.com/stefanpenner/es6-promise"><code>Promise</code></a>. You can find <code>npm install</code> commands for all packages in the <a href="../../api">API reference</a>.</p>
+<pre><code class="bash">npm install @esri/arcgis-rest-request isomorphic-fetch es6-promise
+</code></pre>
+<p>Import the <code>isomorphic-fetch</code> and <code>es6-promise</code> polyfills before using ArcGIS REST JS.</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> <span class="hljs-string">"isomorphic-fetch"</span>;
+<span class="hljs-keyword">import</span> <span class="hljs-string">"es6-promise"</span>;
+
+<span class="hljs-keyword">import</span> { request } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-request"</span>;
+
+request(<span class="hljs-string">"https://www.arcgis.com/sharing/rest/info"</span>).then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(response);
+});
+</code></pre>
+<p><strong>Note</strong>: many other libraries or tools (such as <a href="https://babeljs.io/docs/usage/polyfill/">Babel</a>) require an ES6 <code>Promise</code> polyfill. Any <code>Promise</code> polyfill will work with ArcGIS REST JS, <code>es6-promise</code> is simply a lightweight standalone version.</p>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer leader-1">
+      
+      <div class="grid-container">
+        <div class="column-24 trailer-half">
+          <a href="https://github.com/Esri/arcgis-rest-js" class="font-size--1">Fork this project on GitHub</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.7/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>

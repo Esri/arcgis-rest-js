@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Package Overview | Guide | ArcGIS REST JS</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with the ArcGIS REST API.">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.7/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/arcgis-rest-js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">ArcGIS REST JS</h2>
+          <a href="/arcgis-rest-js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/arcgis-rest-js/api/" class="side-nav-link">API Reference</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/arcgis-rest-js/" class="top-nav-title">ArcGIS REST JS</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/arcgis-rest-js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/arcgis-rest-js/api/" class="top-nav-link">API Reference</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/arcgis-rest-js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/arcgis-rest-js/" class="top-nav-link">ArcGIS REST API JavaScript Client</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Introduction</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/arcgis-rest-js/guides/package-overview/" class="is-active">Package Overview</a></li>
+            
+          </ul>
+        
+          <li>Get Started</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/arcgis-rest-js/guides/from-a-cdn/">From a CDN</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/babel-and-webpack/">Babel + WebPack</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/typescript-and-webpack/">TypeScript + WebPack</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/amd-requirejs-dojo/">AMD (Require.js or Dojo)</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/node/">Node.js</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/babel-and-rollup/">Babel + Rollup</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/browserify/">Browserify</a></li>
+            
+          </ul>
+        
+          <li>Authentication</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/arcgis-rest-js/guides/browser-authentication/">Browser-based OAuth 2.0</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/server-authentication/">Server-based OAuth 2.0</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/client-server-authentication/">Shared client server authentication</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/cli-authentication/">Authentication for CLI Apps</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h1>Why <code>@esri/arcgis-rest-js</code>?</h1>
+<p><code>@esri/arcgis-rest-js</code> simplifies making requests to ArcGIS Online and Enterprise in both browsers and Node.js.</p>
+<p>There's no better way to explain what that means than comparing an <code>@esri/arcgis-rest-js</code> call to the same web request made using plain old JavaScript.</p>
+<h3>@esri/arcgis-rest</h3>
+<pre><code class="js"><span class="hljs-keyword">import</span> { getUser } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-users"</span>;
+
+<span class="hljs-comment">// pass in a username and get back information about the user</span>
+getUser(<span class="hljs-string">`jgravois`</span>)
+  .then(response) <span class="hljs-comment">// { firstName: "john", description: "open source geodev" ... }</span>
+</code></pre>
+<h3>vs. Vanilla JavaScript</h3>
+<pre><code class="js"><span class="hljs-comment">// construct the url yourself and don't forget to tack on f=json</span>
+<span class="hljs-keyword">const</span> url = <span class="hljs-string">"https://www.arcgis.com/sharing/rest/community/users/jgravois?f=json"</span>;
+
+<span class="hljs-keyword">var</span> xhr = <span class="hljs-keyword">new</span> XMLHttpRequest();
+xhr.onreadystatechange = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">if</span> (xhr.readyState == XMLHttpRequest.DONE) {
+    xhr.responseText; <span class="hljs-comment">// { firstName: "john", description: "open source geodev" ... }</span>
+  }
+}
+xhr.open(<span class="hljs-string">'GET'</span>, url, <span class="hljs-literal">true</span>);
+xhr.send(<span class="hljs-literal">null</span>);
+</code></pre>
+<p>wow, thats a lot easier! <code>@esri/arcgis-rest-js</code> is able to intuit the actual url (by default it assumes you're interacting with ArcGIS Online) prior to making the request and internalizes a lot of tedious logic for handling the response.</p>
+<p>Our packages tap into a new JavaScript spec called <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch"><code>fetch()</code></a> under the hood though, so lets compare 🍎s to 🍎s.</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> { deleteFeatures } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-feature-service"</span>;
+
+<span class="hljs-keyword">const</span> url = <span class="hljs-string">`http://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/1/`</span>
+
+<span class="hljs-comment">// https://esri.github.io/arcgis-rest-js/api/feature-service/deleteFeatures/</span>
+deleteFeatures({
+  url,
+  <span class="hljs-attr">objectIds</span>: [ <span class="hljs-number">2360245</span> ]
+})
+  .then(response)
+</code></pre>
+<pre><code class="js"><span class="hljs-comment">// append operation name to url</span>
+url += <span class="hljs-string">`deleteFeatures`</span>;
+
+fetch(url, {
+  <span class="hljs-comment">// set the request type</span>
+  method: <span class="hljs-string">"POST"</span>,
+  <span class="hljs-comment">// append appropriate headers</span>
+  headers: {
+    <span class="hljs-string">"Content-Type"</span>: <span class="hljs-string">"application/x-www-form-urlencoded"</span>
+  },
+  <span class="hljs-comment">// concatentate and encode each parameter manually</span>
+  <span class="hljs-comment">// and remember to append f=json</span>
+  body: <span class="hljs-string">`objectIds=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(<span class="hljs-number">2360245</span>)}</span>&amp;f=json`</span>
+})
+  .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+    <span class="hljs-comment">// cast the response as JSON</span>
+    <span class="hljs-keyword">if</span> (response.ok) {
+      <span class="hljs-keyword">return</span> response.json()
+    }
+  })
+  .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+    <span class="hljs-comment">// trap for ArcGIS error objects in 200 responses</span>
+    <span class="hljs-keyword">if</span> (!response.error) {
+      <span class="hljs-built_in">console</span>.log(response);
+    }
+  })
+</code></pre>
+<p>As you can see, <code>@esri/arcgis-rest-js</code> is still handling a <em>lot</em> of the details internally.</p>
+<ul>
+<li>the operation name is appended to urls</li>
+<li>a <code>&quot;POST&quot;</code> is made automatically (when appropriate)</li>
+<li>query string parameters are encoded</li>
+<li>appropriate <code>headers</code> are appended</li>
+<li><code>FormData</code> is created internally (when necessary)</li>
+<li><code>200</code> responses that contain an error are trapped for</li>
+<li>the generic <code>f=json</code> parameter is appended</li>
+</ul>
+<p>And we haven't even begun to discuss <a href="../browser-authentication/">authentication</a>.</p>
+<p>Whether you're trying to automate interacting with premium services in Node.js or creating a website that will allow users to sign into <a href="https://www.arcgis.com">ArcGIS Online</a> safely and manage their own content, <code>@esri/arcgis-rest-js</code> has you covered.</p>
+<h1>Package Overview</h1>
+<p>The library is a collection of <em>very</em> small mix and match packages that are framework agnostic and make a variety of ArcGIS tasks more convenient.</p>
+<ul>
+<li><a href="../../api/request/"><code>@esri/arcgis-rest-request</code></a> - Underpins other packages and supports making generic web requests.</li>
+<li><a href="../../api/auth"><code>@esri/arcgis-rest-auth</code></a> - Provides methods for authenticating named users and applications.</li>
+<li><a href="../../api/common-types"><code>@esri/arcgis-rest-common-types</code></a> - TypeScript types that are common across the ArcGIS API.</li>
+<li><a href="../../api/items"><code>@esri/arcgis-rest-items</code></a> - Methods for working with ArcGIS Online/Enterprise content.</li>
+<li><a href="../../api/groups"><code>@esri/arcgis-rest-groups</code></a> - Methods for working with ArcGIS Online/Enterprise groups.</li>
+<li><a href="../../api/users"><code>@esri/arcgis-rest-users</code></a> - Methods for working with ArcGIS Online/Enterprise users.</li>
+<li><a href="../../api/sharing"><code>@esri/arcgis-rest-sharing</code></a> - Methods for updating the permissions of ArcGIS Online/Enterprise content.</li>
+<li><a href="../../api/feature-service"><code>@esri/arcgis-rest-feature-service</code></a> - Functions for querying and editing the features inside feature services</li>
+<li><a href="../../api/geocoder"><code>@esri/arcgis-rest-geocoder</code></a> - Geocoding wrapper for <code>@esri/arcgis-rest-js</code>.</li>
+<li><a href="../../api/feature-service-admin"><code>@esri/arcgis-rest-feature-service-admin</code></a> - Functions for creating and updating feature services</li>
+<li><a href="../../api/routing"><code>@esri/arcgis-rest-routing</code></a> - Routing and directions wrapper for <code>@esri/arcgis-rest-js</code>.</li>
+<li><a href="../../api/common"><code>@esri/arcgis-rest-common</code></a> - Stores shared methods and types used throughout the ArcGIS API.</li>
+</ul>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer leader-1">
+      
+      <div class="grid-container">
+        <div class="column-24 trailer-half">
+          <a href="https://github.com/Esri/arcgis-rest-js" class="font-size--1">Fork this project on GitHub</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.7/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>
