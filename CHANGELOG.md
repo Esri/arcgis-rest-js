@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.18.0] - March 21st 2019
+
+### @esri/arcgis-rest-auth
+
+* New Features
+   * **util**: add `getUserUrl` method to auth package [`d742b34`](https://github.com/Esri/arcgis-rest-js/commit/d742b343130a8a0d5baaf9391ac48f5c5c334c6d)
+
+### @esri/arcgis-rest-routing
+
+* New Features
+   * **routing**: Support 3D routing [`6b2a77c`](https://github.com/Esri/arcgis-rest-js/commit/6b2a77ce90923bdd80fabd3d47c4be07b0cd8137)
+
+* Fixes
+   * **routing**: Fix switched x and y [`cc22727`](https://github.com/Esri/arcgis-rest-js/commit/cc22727cb05a3f7faa43ee7559aedb8f32da7350)
+
+### Other Changes
+
+* Documentation
+   * **book**: abbreviate package names in sidebar [`d98f04f`](https://github.com/Esri/arcgis-rest-js/commit/d98f04f2d4cca5b4357bf01f84648e5d67cb32e3)
+   * **dupe**: dont display duplicate requestOptions tables [`3bab4f4`](https://github.com/Esri/arcgis-rest-js/commit/3bab4f4ce6325f1cdae97ef03180f3671c3a9cff) [#479](https://github.com/Esri/arcgis-rest-js/issues/479)
+
+* Bug Fixes
+   * **common**: Fix location test xy [`27cab54`](https://github.com/Esri/arcgis-rest-js/commit/27cab54b7da1a5fc69fc80d0325f10f0b7adc233)
+
 ## [1.17.1] - March 4th 2019
 
 ### @esri/arcgis-rest-items
@@ -26,7 +50,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Docs
    * `requestOptions` are now displayed inline on documentation pages.
-   * samples now utilize polyfill.io's v3 API.
+   * samples now utilize the polyfill.io v3 API.
 
 ## [1.17.0] - February 25th 2019
 
@@ -1141,4 +1165,5 @@ Initial Public Release
 [1.16.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.16.0...v1.16.1 "v1.16.1"
 [1.17.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.16.1...v1.17.0 "v1.17.0"
 [1.17.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.17.0...v1.17.1 "v1.17.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.17.1...HEAD "Unreleased Changes"
+[1.18.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.17.1...v1.18.0 "v1.18.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.18.0...HEAD "Unreleased Changes"
