@@ -14,11 +14,11 @@ script:
 deploy:
   provider: pages
   skip_cleanup: true
+  keep-history: true
   github_token: "$GITHUB_TOKEN"
   on:
     branch: master
   local-dir: docs/build/arcgis-rest-js
-  target_branch: gh-pages
 before_deploy:
 - npm run docs:build
 env:
