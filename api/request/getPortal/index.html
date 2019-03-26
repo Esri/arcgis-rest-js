@@ -919,19 +919,13 @@
 
 
   
- <ul>
-<li>
-<pre><code class="js"></code></pre>
-</li>
-</ul>
-<p>import { getPortal } from &quot;@esri/arcgis-rest-request&quot;;
-//
+ <pre><code class="js"><span class="hljs-keyword">import</span> { getPortal } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-request"</span>;
+<span class="hljs-comment">//</span>
 getPortal()
-getPortal(&quot;fe8&quot;)
-getPortal(null, { portal: &quot;<a href="https://custom.maps.arcgis.com/sharing/rest/">https://custom.maps.arcgis.com/sharing/rest/</a>&quot; })</p>
-<pre><code><span class="hljs-keyword">Fetch</span> information about the <span class="hljs-keyword">current</span> portal <span class="hljs-keyword">by</span> id. <span class="hljs-keyword">If</span> <span class="hljs-keyword">no</span> id <span class="hljs-keyword">is</span> passed, portals/self will be <span class="hljs-keyword">called</span>
-@param id
-@param requestOptions</code></pre>
+getPortal(<span class="hljs-string">"fe8"</span>)
+getPortal(<span class="hljs-literal">null</span>, { <span class="hljs-attr">portal</span>: <span class="hljs-string">"https://custom.maps.arcgis.com/sharing/rest/"</span> })
+</code></pre>
+<p>Fetch information about the current portal by id. If no id is passed, portals/self will be called</p>
 
 
   <ul class="list-plain tsd-signatures tsd-kind-function trailer-half">
