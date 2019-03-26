@@ -22,12 +22,12 @@ export function getSelf(requestOptions?: IRequestOptions): Promise<IPortal> {
 }
 
 /**
- * * ```js
+ * ```js
  * import { getPortal } from "@esri/arcgis-rest-request";
  * //
  * getPortal()
- * getPortal("fe8") 
- * getPortal(null, { portal: "https://custom.maps.arcgis.com/sharing/rest/" }) 
+ * getPortal("fe8")
+ * getPortal(null, { portal: "https://custom.maps.arcgis.com/sharing/rest/" })
  * ```
  * Fetch information about the current portal by id. If no id is passed, portals/self will be called
  * @param id
