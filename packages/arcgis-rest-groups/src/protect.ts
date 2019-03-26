@@ -26,10 +26,8 @@ export function protectGroup(
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
   }/protect`;
-  const options: IGroupIdRequestOptions = {
-    ...requestOptions
-  };
-  return request(url, options);
+
+  return request(url, requestOptions);
 }
 
 /**
@@ -52,8 +50,6 @@ export function unprotectGroup(
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
   }/unprotect`;
-  const options: IGroupIdRequestOptions = {
-    ...requestOptions
-  };
-  return request(url, options);
+
+  return request(url, requestOptions);
 }

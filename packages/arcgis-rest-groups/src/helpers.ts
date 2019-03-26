@@ -1,11 +1,11 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 import { IItemUpdate, IGroupAdd, IGroup } from "@esri/arcgis-rest-common-types";
 
-export interface IGroupIdRequestOptions extends IRequestOptions {
+export interface IGroupIdRequestOptions extends IUserRequestOptions {
   id: string;
 }
 

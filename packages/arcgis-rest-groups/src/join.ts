@@ -15,10 +15,10 @@ import { IGroupIdRequestOptions } from "./helpers";
  * })
  *   .then(response)
  * ```
- * Join a Group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/join-group.htm) for more information.
+ * Make a request as the authenticated user to join a Group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/join-group.htm) for more information.
  *
  * @param requestOptions - Options for the request
- * @returns A Promise that will resolve with the success/failure status of the request
+ * @returns A Promise that will resolve with the success/failure status of the request and the groupId.
  */
 export function joinGroup(
   requestOptions: IGroupIdRequestOptions
@@ -26,26 +26,24 @@ export function joinGroup(
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
   }/join`;
-  const options: IGroupIdRequestOptions = {
-    ...requestOptions
-  };
-  return request(url, options);
+
+  return request(url, requestOptions);
 }
 
 /**
  * ```js
- * import { joinGroup } from '@esri/arcgis-rest-groups';
+ * import { leaveGroup } from '@esri/arcgis-rest-groups';
  * //
- * joinGroup({
+ * leaveGroup({
  *   id: groupId,
  *   authentication
  * })
  *   .then(response)
  * ```
- * Leave a Group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/leave-group.htm) for more information.
+ * Make a request as the authenticated user to leave a Group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/leave-group.htm) for more information.
  *
  * @param requestOptions - Options for the request
- * @returns A Promise that will resolve with the success/failure status of the request
+ * @returns A Promise that will resolve with the success/failure status of the request and the groupId.
  */
 export function leaveGroup(
   requestOptions: IGroupIdRequestOptions
@@ -53,8 +51,6 @@ export function leaveGroup(
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
   }/leave`;
-  const options: IGroupIdRequestOptions = {
-    ...requestOptions
-  };
-  return request(url, options);
+
+  return request(url, requestOptions);
 }

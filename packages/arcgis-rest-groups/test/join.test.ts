@@ -6,20 +6,28 @@ import { joinGroup, leaveGroup } from "../src/join";
 import { GroupEditResponse } from "./mocks/responses";
 
 import { encodeParam } from "@esri/arcgis-rest-request";
+import { UserSession } from "@esri/arcgis-rest-auth";
+import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
+
 import * as fetchMock from "fetch-mock";
 
 describe("groups", () => {
   afterEach(fetchMock.restore);
 
   describe("authenticted methods", () => {
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("fake-token");
-      },
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
-    };
     const MOCK_REQOPTS = {
-      authentication: MOCK_AUTH
+      authentication: new UserSession({
+        clientId: "clientId",
+        redirectUri: "https://example-app.com/redirect-uri",
+        token: "fake-token",
+        tokenExpires: TOMORROW,
+        refreshToken: "refreshToken",
+        refreshTokenExpires: TOMORROW,
+        refreshTokenTTL: 1440,
+        username: "casey",
+        password: "123456",
+        portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      })
     };
 
     it("should help a user join a group", done => {
