@@ -7,25 +7,25 @@ import { IGroupIdRequestOptions } from "./helpers";
 
 /**
  * ```js
- * import { protectGroup } from '@esri/arcgis-rest-groups';
+ * import { joinGroup } from '@esri/arcgis-rest-groups';
  * //
- * protectGroup({
+ * joinGroup({
  *   id: groupId,
  *   authentication
  * })
  *   .then(response)
  * ```
- * Protect a group to avoid accidental deletion. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/protect-group.htm) for more information.
+ * Join a Group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/join-group.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the success/failure status of the request
  */
-export function protectGroup(
+export function joinGroup(
   requestOptions: IGroupIdRequestOptions
-): Promise<{ success: boolean }> {
+): Promise<{ success: boolean; groupId: string }> {
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
-  }/protect`;
+  }/join`;
   const options: IGroupIdRequestOptions = {
     ...requestOptions
   };
@@ -34,24 +34,25 @@ export function protectGroup(
 
 /**
  * ```js
- * import { unprotectGroup } from '@esri/arcgis-rest-groups';
+ * import { joinGroup } from '@esri/arcgis-rest-groups';
  * //
- * unprotectGroup({
+ * joinGroup({
  *   id: groupId,
  *   authentication
  * })
  *   .then(response)
  * ```
- * Unprotect a Group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/unprotect-group.htm) for more information.
+ * Leave a Group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/leave-group.htm) for more information.
+ *
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the success/failure status of the request
  */
-export function unprotectGroup(
+export function leaveGroup(
   requestOptions: IGroupIdRequestOptions
-): Promise<{ success: boolean }> {
+): Promise<{ success: boolean; groupId: string }> {
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
-  }/unprotect`;
+  }/leave`;
   const options: IGroupIdRequestOptions = {
     ...requestOptions
   };
