@@ -566,6 +566,10 @@
             
               <li class="tsd-kind-function padding-left-1 padding-right-1 visually-hidden"><a href="/arcgis-rest-js/api/groups/serializeGroup/" class="tsd-kind-icon padding-right-1">serializeGroup</a></li>
             
+              <li class="tsd-kind-function padding-left-1 padding-right-1 visually-hidden"><a href="/arcgis-rest-js/api/groups/joinGroup/" class="tsd-kind-icon padding-right-1">joinGroup</a></li>
+            
+              <li class="tsd-kind-function padding-left-1 padding-right-1 visually-hidden"><a href="/arcgis-rest-js/api/groups/leaveGroup/" class="tsd-kind-icon padding-right-1">leaveGroup</a></li>
+            
               <li class="tsd-kind-interface padding-left-1 padding-right-1 visually-hidden"><a href="/arcgis-rest-js/api/groups/IGroupNotificationRequestOptions/" class="tsd-kind-icon padding-right-1">IGroupNotificationRequestOptions</a></li>
             
               <li class="tsd-kind-type-alias padding-left-1 padding-right-1 visually-hidden"><a href="/arcgis-rest-js/api/groups/NotificationChannelType/" class="tsd-kind-icon padding-right-1">NotificationChannelType</a></li>
@@ -919,12 +923,20 @@
 
 
   
- <p>Unprotect a Group.</p>
+ <pre><code class="js"><span class="hljs-keyword">import</span> { unprotectGroup } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/arcgis-rest-groups'</span>;
+<span class="hljs-comment">//</span>
+unprotectGroup({
+  <span class="hljs-attr">id</span>: groupId,
+  authentication
+})
+  .then(response)
+</code></pre>
+<p>Unprotect a Group. See the <a href="https://developers.arcgis.com/rest/users-groups-and-items/unprotect-group.htm">REST Documentation</a> for more information.</p>
 
 
   <ul class="list-plain tsd-signatures tsd-kind-function trailer-half">
     
-      <li class="code-face tsd-signature tsd-kind-icon">unprotectGroup<span class="text-light-gray">(</span>requestOptions: <i><a href="/arcgis-rest-js/api/groups/IGroupIdRequestOptions/">IGroupIdRequestOptions</a></i><span class="text-light-gray">) : </span><i>Promise</i><i><span class="text-light-gray">&lt;</span><i class="text-purple">any</i><span class="text-light-gray">&gt;</span></i></li>
+      <li class="code-face tsd-signature tsd-kind-icon">unprotectGroup<span class="text-light-gray">(</span>requestOptions: <i><a href="/arcgis-rest-js/api/groups/IGroupIdRequestOptions/">IGroupIdRequestOptions</a></i><span class="text-light-gray">) : </span><i>Promise</i><i><span class="text-light-gray">&lt;</span>{<dl class="type-child-list clearfix"><dt class="type-child-name">success:</dt><dd class="type-child-type"><i class="text-purple">boolean</i></dd></dl>}<i></i><span class="text-light-gray">&gt;</span></i></li>
     
   </ul>
 
@@ -1001,8 +1013,6 @@
             <span class="tsd-kind-icon">authentication</span>
             
   
-  <span class="label">Optional</span>
-  
 
   
 
@@ -1018,11 +1028,11 @@
           </td>
           <td class="code-face">
             
-              <i><a href="/arcgis-rest-js/api/request/IAuthenticationManager/">IAuthenticationManager</a></i>
+              <i><a href="/arcgis-rest-js/api/auth/UserSession/">UserSession</a></i>
             
           </td>
           <td class="body-face api-param-comment">
-            <p>The instance of <code>IAuthenticationManager</code> to use to authenticate this request.</p>
+            <p>A session representing a logged in user.</p>
 
           </td>
         </tr>
@@ -1303,7 +1313,7 @@
     
   
 
-  <h2 class="font-size-1 trailer-half">Returns</h2><p><code><i>Promise</i><i><span class="text-light-gray">&lt;</span><i class="text-purple">any</i><span class="text-light-gray">&gt;</span></i></code> - A Promise that will resolve with the success/failure status of the request</p>
+  <h2 class="font-size-1 trailer-half">Returns</h2><p><code><i>Promise</i><i><span class="text-light-gray">&lt;</span>{<dl class="type-child-list clearfix"><dt class="type-child-name">success:</dt><dd class="type-child-type"><i class="text-purple">boolean</i></dd></dl>}<i></i><span class="text-light-gray">&gt;</span></i></code> - A Promise that will resolve with the success/failure status of the request</p>
 
 
   
@@ -1316,7 +1326,7 @@
 
 <hr class="leader-half trailer-half">
 
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-groups/src/protect.ts#L40">packages/arcgis-rest-groups/src/protect.ts:40</a></small>
+<small class="font-size--2">Function defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-groups/src/protect.ts#L47">packages/arcgis-rest-groups/src/protect.ts:47</a></small>
 
 
       </div>
