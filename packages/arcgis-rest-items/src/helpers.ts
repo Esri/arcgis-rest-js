@@ -172,7 +172,7 @@ export function serializeItem(item: IItemAdd | IItemUpdate | IItem): any {
 
   // convert .data to .text
   if (clone.data) {
-    clone.text = JSON.stringify(clone.data);
+    clone.text = clone.data;
     delete clone.data;
   }
 

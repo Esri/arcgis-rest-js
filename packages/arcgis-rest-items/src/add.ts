@@ -1,7 +1,11 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, getPortalUrl, appendCustomParams } from "@esri/arcgis-rest-request";
+import {
+  request,
+  getPortalUrl,
+  appendCustomParams
+} from "@esri/arcgis-rest-request";
 
 import {
   IItemIdRequestOptions,
@@ -56,7 +60,7 @@ export function addItemJsonData(
   // a `text` form field. It can also be sent with the `.create` call by sending
   // a `.data` property.
   requestOptions.params = {
-    text: JSON.stringify(requestOptions.data),
+    text: requestOptions.data,
     ...requestOptions.params
   };
 
@@ -117,11 +121,13 @@ export function addItemData(
  */
 export function addItemRelationship(
   requestOptions: IManageItemRelationshipRequestOptions
-): Promise<{ "success": boolean }> {
+): Promise<{ success: boolean }> {
   const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/addRelationship`;
+  const url = `${getPortalUrl(
+    requestOptions
+  )}/content/users/${owner}/addRelationship`;
 
-  const options = { params: {}, ...requestOptions }
+  const options = { params: {}, ...requestOptions };
   appendCustomParams(requestOptions, options);
 
   return request(url, options);

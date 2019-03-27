@@ -5,7 +5,7 @@ import * as fetchMock from "fetch-mock";
 
 import { attachmentFile } from "../../arcgis-rest-feature-service/test/attachments.test";
 
-import { 
+import {
   addItemJsonData,
   addItemData,
   addItemResource,
@@ -16,7 +16,7 @@ import { ItemSuccessResponse } from "./mocks/item";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { encodeParam, appendCustomParams } from "@esri/arcgis-rest-request";
+import { encodeParam } from "@esri/arcgis-rest-request";
 
 describe("search", () => {
   afterEach(fetchMock.restore);
@@ -183,7 +183,7 @@ describe("search", () => {
 
     it("should add a relationship to an item", done => {
       fetchMock.once("*", { success: true });
-      
+
       addItemRelationship({
         originItemId: "3ef",
         destinationItemId: "ae7",
