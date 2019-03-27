@@ -22,29 +22,34 @@ import { IGroupIdRequestOptions } from "./helpers";
  */
 export function protectGroup(
   requestOptions: IGroupIdRequestOptions
-): Promise<any> {
+): Promise<{ success: boolean }> {
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
   }/protect`;
-  const options: IGroupIdRequestOptions = {
-    ...requestOptions
-  };
-  return request(url, options);
+
+  return request(url, requestOptions);
 }
 
 /**
- * Unprotect a Group.
+ * ```js
+ * import { unprotectGroup } from '@esri/arcgis-rest-groups';
+ * //
+ * unprotectGroup({
+ *   id: groupId,
+ *   authentication
+ * })
+ *   .then(response)
+ * ```
+ * Unprotect a Group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/unprotect-group.htm) for more information.
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function unprotectGroup(
   requestOptions: IGroupIdRequestOptions
-): Promise<any> {
+): Promise<{ success: boolean }> {
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
   }/unprotect`;
-  const options: IGroupIdRequestOptions = {
-    ...requestOptions
-  };
-  return request(url, options);
+
+  return request(url, requestOptions);
 }
