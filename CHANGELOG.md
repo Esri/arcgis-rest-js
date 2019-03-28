@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.19.0] - March 28th 2019
+
+### @esri/arcgis-rest-*
+
+* New Features
+   * **tree**: better support for tree shaking in webpack [`7fe91548`](https://github.com/Esri/arcgis-rest-js/commit/7fe91548986bd3efdddc2a7efd07ce90f6adf568) [#424](https://github.com/Esri/arcgis-rest-js/issues/424)
+
+### @esri/arcgis-rest-groups
+
+* New Features
+   * **join**: new joinGroup and leaveGroup methods [`fa604dec`](https://github.com/Esri/arcgis-rest-js/commit/fa604dec4424b7c1df8d9ce82a93daaa79103ecf)
+* Bug Fixes
+   * **lock**: make passing authentication mandatory when updating groups [`14bdf888`](https://github.com/Esri/arcgis-rest-js/commit/14bdf888ef77905da89b51bff4d82c0e5db810ea)
+
+### @esri/arcgis-rest-items
+
+* Bug Fixes
+   * **null**: dont stringify values in item calls [`c0f48fc0`](https://github.com/Esri/arcgis-rest-js/commit/c0f48fc07d3599dae09ede958eebecd2e02c522f)
+
+### @esri/arcgis-rest-webpack-demo
+
+* Documentation
+   * **tree**: add tree shaking demo [`7fe91548`](https://github.com/Esri/arcgis-rest-js/commit/7fe91548986bd3efdddc2a7efd07ce90f6adf568) [#424](https://github.com/Esri/arcgis-rest-js/issues/424)
+
 ## [1.18.0] - March 21st 2019
 
 ### @esri/arcgis-rest-auth
@@ -1166,4 +1190,5 @@ Initial Public Release
 [1.17.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.16.1...v1.17.0 "v1.17.0"
 [1.17.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.17.0...v1.17.1 "v1.17.1"
 [1.18.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.17.1...v1.18.0 "v1.18.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.18.0...HEAD "Unreleased Changes"
+[1.19.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.18.0...v1.19.0 "v1.19.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.0...HEAD "Unreleased Changes"
