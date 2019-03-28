@@ -6,6 +6,7 @@
   "unpkg": "dist/umd/routing.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
+  "sideEffects": false,
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "files": [
@@ -27,9 +28,9 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:node && npm run build:umd && npm run build:esm",
-    "build:esm": "tsc -p ./tsconfig.json --module es2015 --outDir ./dist/esm --declaration",
+    "build:esm": "tsc --module es2015 --outDir ./dist/esm --declaration",
     "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
-    "build:node": "tsc -p ./tsconfig.json --module commonjs --outDir ./dist/node",
+    "build:node": "tsc --module commonjs --outDir ./dist/node",
     "dev:esm": "tsc -w --module es2015 --outDir ./dist/esm --declaration",
     "dev:umd": "rollup -w -c ../../umd-base-profile.js",
     "dev:node": "tsc -w --module commonjs --outDir ./dist/node"
