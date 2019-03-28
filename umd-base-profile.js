@@ -72,12 +72,5 @@ export default {
   },
   context: "window",
   external: packageNames,
-  plugins: [
-    typescript({
-      importHelpers: true // forces typescript to use tslib for UMD builds
-    }),
-    json(),
-    resolve(),
-    commonjs()
-  ]
+  plugins: [typescript(), json(), resolve(), commonjs()]
 };
