@@ -21,6 +21,5 @@
   "dependencies": {
     "@esri/arcgis-rest-items": "^1.19.0",
     "@esri/arcgis-rest-request": "^1.19.0"
-
   }
 }
