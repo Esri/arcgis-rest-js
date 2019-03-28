@@ -58,7 +58,7 @@ describe("search", () => {
         }
       };
       updateItem({ item: fakeItem, ...MOCK_USER_REQOPTS })
-        .then(response => {
+        .then(() => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
