@@ -76,7 +76,8 @@ express()
         let userSession;
 
         // since the store is shared between the client and server
-        // we dont want to put refresh tokens in it.
+        // we dont want to put refresh tokens in it. The store also needs to be
+        // in a serizliable format so sapper and send it to the client.
         if (request.session && request.session.userSession) {
           userSession = request.session.userSession.toJSON();
           delete userSession.refreshToken;

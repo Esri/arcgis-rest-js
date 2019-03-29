@@ -15,6 +15,7 @@
   "dependencies": {
     "@esri/arcgis-rest-auth": "^1.17.1",
     "@esri/arcgis-rest-items": "^1.17.1",
+    "@esri/arcgis-rest-users": "^1.17.1",
     "@esri/arcgis-rest-request": "^1.17.1",
     "compression": "^1.7.1",
     "cookies": "^0.7.3",
