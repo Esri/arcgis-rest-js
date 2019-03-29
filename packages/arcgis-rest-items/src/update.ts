@@ -1,7 +1,11 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, getPortalUrl } from "@esri/arcgis-rest-request";
+import {
+  request,
+  getPortalUrl,
+  IRequestOptions
+} from "@esri/arcgis-rest-request";
 
 import { IItemUpdate } from "@esri/arcgis-rest-common-types";
 
@@ -87,9 +91,9 @@ export function updateItemResource(
   requestOptions: IItemResourceRequestOptions
 ): Promise<any> {
   const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.id
-  }/updateResources`;
+  const url = `${getPortalUrl(
+    requestOptions as IRequestOptions
+  )}/content/users/${owner}/items/${requestOptions.id}/updateResources`;
 
   // mix in user supplied params
   requestOptions.params = {
@@ -99,13 +103,12 @@ export function updateItemResource(
     ...requestOptions.params
   };
 
-  // only override whatever access was specified previously if 'private' was passed explicitly
+  // only override the access specified previously if 'private' is passed explicitly
   if (typeof requestOptions.private !== "undefined") {
     requestOptions.params.access = requestOptions.private
       ? "private"
       : "inherit";
   }
-
   return request(url, requestOptions);
 }
 

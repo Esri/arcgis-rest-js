@@ -214,19 +214,21 @@ describe("search", () => {
         content: "jumbotron",
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then(() => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/updateResources"
           );
           expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(
-            encodeParam("fileName", "image/banner.png")
-          );
-          expect(options.body).toContain(encodeParam("text", "jumbotron"));
-          expect(options.body).not.toContain(encodeParam("access", "inherit"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body instanceof FormData).toBeTruthy();
+          const params = options.body as FormData;
+          if (params.get) {
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("fileName")).toEqual("image/banner.png");
+            expect(params.get("text")).toEqual("jumbotron");
+            expect(params.get("access")).toEqual(null);
+            expect(params.get("token")).toEqual("fake-token");
+          }
           done();
         })
         .catch(e => {
@@ -235,10 +237,7 @@ describe("search", () => {
     });
 
     it("should update a binary resource to an item", done => {
-      fetchMock.once("*", {
-        success: true
-      });
-
+      fetchMock.once("*", { success: true });
       const file = attachmentFile();
 
       updateItemResource({
@@ -279,18 +278,21 @@ describe("search", () => {
         content: "jumbotron",
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then(() => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
           );
           expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(
-            encodeParam("fileName", "image/banner.png")
-          );
-          expect(options.body).toContain(encodeParam("text", "jumbotron"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.body instanceof FormData).toBeTruthy();
+          const params = options.body as FormData;
+          if (params.get) {
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("fileName")).toEqual("image/banner.png");
+            expect(params.get("text")).toEqual("jumbotron");
+            expect(params.get("access")).toEqual(null);
+            expect(params.get("token")).toEqual("fake-token");
+          }
           done();
         })
         .catch(e => {
@@ -315,14 +317,16 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
           );
           expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(
-            encodeParam("fileName", "image/banner.png")
-          );
-          expect(options.body).toContain("resourcesPrefix=foolder");
-          expect(options.body).toContain(encodeParam("text", "jumbotron"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).not.toContain(encodeParam("access", "inherit"));
+          expect(options.body instanceof FormData).toBeTruthy();
+          const params = options.body as FormData;
+          if (params.get) {
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("fileName")).toEqual("image/banner.png");
+            expect(params.get("resourcesPrefix")).toEqual("foolder");
+            expect(params.get("text")).toEqual("jumbotron");
+            expect(params.get("access")).toEqual(null);
+            expect(params.get("token")).toEqual("fake-token");
+          }
           done();
         })
         .catch(e => {
@@ -335,7 +339,6 @@ describe("search", () => {
       updateItemResource({
         id: "3ef",
         name: "image/banner.png",
-        content: "jumbotron",
         private: true,
         ...MOCK_USER_REQOPTS
       })
@@ -345,13 +348,14 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
           );
           expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(
-            encodeParam("fileName", "image/banner.png")
-          );
-          expect(options.body).toContain(encodeParam("text", "jumbotron"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain(encodeParam("access", "private"));
+          expect(options.body instanceof FormData).toBeTruthy();
+          const params = options.body as FormData;
+          if (params.get) {
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("fileName")).toEqual("image/banner.png");
+            expect(params.get("access")).toEqual("private");
+            expect(params.get("token")).toEqual("fake-token");
+          }
           done();
         })
         .catch(e => {
@@ -374,13 +378,15 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
           );
           expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(
-            encodeParam("fileName", "image/banner.png")
-          );
-          expect(options.body).toContain(encodeParam("text", "jumbotron"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain(encodeParam("access", "inherit"));
+          expect(options.body instanceof FormData).toBeTruthy();
+          const params = options.body as FormData;
+          if (params.get) {
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("fileName")).toEqual("image/banner.png");
+            expect(params.get("text")).toEqual("jumbotron");
+            expect(params.get("access")).toEqual("inherit");
+            expect(params.get("token")).toEqual("fake-token");
+          }
           done();
         })
         .catch(e => {

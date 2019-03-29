@@ -1,5 +1,5 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
-* Apache-2.0 */
+ * Apache-2.0 */
 
 /**
  * Checks parameters to see if we should use FormData to send the request
