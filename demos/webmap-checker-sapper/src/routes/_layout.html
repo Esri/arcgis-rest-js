@@ -1,0 +1,21 @@
+<svelte:head>
+  <link
+    href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css"
+    rel="stylesheet"
+  />
+</svelte:head>
+
+<Nav/>
+
+<main class="p-6">
+  <svelte:component this="{child.component}" {...child.props} />
+</main>
+
+<script>
+	import Nav from '../components/Nav.html';
+	export default {
+		components: {
+			Nav
+		}
+	};
+</script>
