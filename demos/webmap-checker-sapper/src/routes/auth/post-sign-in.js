@@ -3,7 +3,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 // setup config variables
 require("dotenv").config();
 const { CLIENT_ID, REDIRECT_URI } = process.env;
-
+debugger;
 // a user will be redirected to /auth/post-sign-in after completing the sign in
 // form in ArcGIS Online. We will allow UserSession.exchangeAuthorizationCode to
 // trade the oAuth authorization code for a token and create a user session.

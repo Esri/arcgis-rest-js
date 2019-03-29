@@ -21,7 +21,7 @@ Sapper works by starting up an [Express JS](https://expressjs.com/) web server a
 The app has 4 API endpoints
 
 * `src/routes/auth/authorize.js` - starts the oAuth 2.0 process to sign in a user.
-* `src/routes/auth/post-sign-in.js` - competes the oAuth 2.0 process.
+* `src/routes/auth/post-sign-in.js` - completes the oAuth 2.0 process.
 * `src/routes/auth/exchange-token.js` - provides a fresh token based on the secure session cookie when the current token expires.
 * `src/routes/auth/sign-out.js` - signs the user out, destroying the saved session on the server and the session cookie on the client.
 
@@ -46,7 +46,7 @@ This app is based on https://github.com/sveltejs/sapper-template.
 1. Create a `.env` file at the root of the `webmap-checker-sapper` folder that contains the following:
    ```text
    CLIENT_ID=YfFEWoHwtOY4KP1t
-   REDIRECT_URI=http://localhost:3000/auth/post-sign-in/
+   REDIRECT_URI=http://localhost:3000/auth/post-sign-in
    ENCRYPTION_KEY=vf00tpMiGRSCO36yrbNm9jWyAStIJWJ5
    SESSION_SECRET=Sb66uSlcA3RqyIXLOtwK5P1a37FvYqHD
    PORT=3000
@@ -56,7 +56,7 @@ This app is based on https://github.com/sveltejs/sapper-template.
 
 ## Configuration
 
-There are 5 config values stored in `.env`:
+There are five config values stored in `.env`:
 
 * `CLIENT_ID` - The client id from an app registered in ArcGIS Online. Directions for setting this up are part of the [named user login documentation](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/).
 * `REDIRECT_URL` - A valid redirect URL from the app that owns the `CLIENT_ID`. Directions for setting this up are part of the [named user login documentation](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/).
@@ -66,7 +66,7 @@ There are 5 config values stored in `.env`:
 
 ## Authentication Workflow
 
-This sample differs from other workflows in how authentication works but shows the flexibility of the ArcGIS REST JS library to [perform server based authentication], store sessions on the server and seamlessly share sessions with the client and ArcGIS API for JavaScript
+This sample differs from other workflows in how authentication works but shows the flexibility of the ArcGIS REST JS library to perform server based authentication, store sessions on the server and seamlessly share sessions with the client and ArcGIS API for JavaScript
 
 1. First a user sign in with OAuth 2.0. This starts by sending the user to `/auth/authorize`:
 
@@ -88,7 +88,7 @@ This sample differs from other workflows in how authentication works but shows t
    })
    ```
 
-   `error` will be an instace of either [`ArcGISRequestError`](https://esri.github.io/arcgis-rest-js/api/request/ArcGISRequestError/) or [`ArcGISAuthError`](https://esri.github.io/arcgis-rest-js/api/request/ArcGISAuthError/). `ArcGISAuthError` includes a special `retry()` method that can accept a new session and retry the request. You can them implement your logic to refresh a session and retry the request as in this example:
+   `error` will be an instance of either [`ArcGISRequestError`](https://esri.github.io/arcgis-rest-js/api/request/ArcGISRequestError/) or [`ArcGISAuthError`](https://esri.github.io/arcgis-rest-js/api/request/ArcGISAuthError/). `ArcGISAuthError` includes a special `retry()` method that can accept a new session and retry the request. You can them implement your logic to refresh a session and retry the request as in this example:
 
    ```js
    getItem(webmapId, {
@@ -107,8 +107,8 @@ This sample differs from other workflows in how authentication works but shows t
      // handle an actual request failure or error.
    });
    ```
-8. The retry retry workflow is handled entirely by a simple utility function called `retryWithNewSession()`. In order to get a new token a request is made to `/auth/exchange-token`. This request includes the session cookie so the server can find the instance of [`UserSession`](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/) and call [`UserSession.refreshSession`](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/#refreshSession) to refresh the session, strip out the refresh token and return the new session to the client which then retries the request with the new authentication.
-9. In order to load the webmaps we also need to pass our [`UserSession`](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/) to the ArcGIS API for JavaScript [`IdentityManager`](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-IdentityManager.html) to allow it load resources that require authentication. YOu can use [`UserSession.toCredential()`](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/#toCredential-summary) to convert the session into a [`Credential`](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-Credential.html) to pass to [`IdentityManager`](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-IdentityManager.html) as shown below:
+8. The retry workflow is handled entirely by a simple utility function called `retryWithNewSession()`. In order to get a new token a request is made to `/auth/exchange-token`. This request includes the session cookie so the server can find the instance of [`UserSession`](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/) and call [`UserSession.refreshSession`](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/#refreshSession) to refresh the session, strip out the refresh token and return the new session to the client which then retries the request with the new authentication.
+9. In order to load the webmaps we also need to pass our [`UserSession`](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/) to the ArcGIS API for JavaScript [`IdentityManager`](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-IdentityManager.html) to allow it load resources that require authentication. You can use [`UserSession.toCredential()`](https://esri.github.io/arcgis-rest-js/api/auth/UserSession/#toCredential-summary) to convert the session into a [`Credential`](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-Credential.html) to pass to [`IdentityManager`](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-IdentityManager.html) as shown below:
 
    ```js
    require([
@@ -118,6 +118,6 @@ This sample differs from other workflows in how authentication works but shows t
    });
    ```
 
-   New credentials should also be registered with [`IdentityManager`](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-IdentityManager.html) when they are retrieved from the server as older sessions expires.
+   New credentials should also be registered with [`IdentityManager`](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-IdentityManager.html) when they are retrieved from the server as older sessions expire.
 
 
