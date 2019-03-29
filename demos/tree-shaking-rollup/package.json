@@ -1,0 +1,25 @@
+{
+  "name": "@esri/arcgis-rest-tree-shaking-rollup",
+  "version": "1.19.0",
+  "private": true,
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "babel-loader": "^8.0.5",
+    "rollup": "^1.7.4",
+    "rollup-plugin-node-resolve": "^4.0.1",
+    "rollup-plugin-babel": "^4.3.2"
+  },
+  "dependencies": {
+    "@esri/arcgis-rest-items": "^1.19.0",
+    "@esri/arcgis-rest-request": "^1.19.0"
+  }
+}

@@ -28,7 +28,6 @@ const copyright = `/* @preserve
 * ${new Date().toString()}
 */`;
 
-
 /**
  * The module name will be the name of the global variable used in UMD builds.
  * All exported members of each package will be attached to this global.
@@ -73,10 +72,5 @@ export default {
   },
   context: "window",
   external: packageNames,
-  plugins: [
-    typescript(),
-    json(),
-    resolve(),
-    commonjs()
-  ]
+  plugins: [typescript(), json(), resolve(), commonjs()]
 };
