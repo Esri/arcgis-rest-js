@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-routing",
-  "version": "1.19.0",
+  "version": "1.19.1",
   "description": "Routing helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/routing.umd.js",
@@ -16,9 +16,9 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^1.19.0",
-    "@esri/arcgis-rest-common": "^1.19.0",
-    "@esri/arcgis-rest-request": "^1.19.0"
+    "@esri/arcgis-rest-auth": "^1.19.1",
+    "@esri/arcgis-rest-common": "^1.19.1",
+    "@esri/arcgis-rest-request": "^1.19.1"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^1.19.0",

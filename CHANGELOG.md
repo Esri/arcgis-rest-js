@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.19.1] - April 2nd 2019
+
+### @esri/arcgis-rest-items
+
+* Fixes
+   * ensure `updateItemResource()` always utilizes FormData  [`24af241`](https://github.com/Esri/arcgis-rest-js/commit/24af24167116e4537bc774b423eaa1fce13d5cd9) [#499](https://github.com/Esri/arcgis-rest-js/issues/499)
+
 ## [1.19.0] - March 28th 2019
 
 ### @esri/arcgis-rest-*
@@ -1191,4 +1198,5 @@ Initial Public Release
 [1.17.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.17.0...v1.17.1 "v1.17.1"
 [1.18.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.17.1...v1.18.0 "v1.18.0"
 [1.19.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.18.0...v1.19.0 "v1.19.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.0...HEAD "Unreleased Changes"
+[1.19.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.0...v1.19.1 "v1.19.1"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.1...HEAD "Unreleased Changes"
