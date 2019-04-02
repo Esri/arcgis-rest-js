@@ -186,8 +186,13 @@ export function request(
         }
       }
 
+      /* updateResources currently requires FormData even when the input parameters dont warrant it.
+  https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
+      see https://github.com/Esri/arcgis-rest-js/pull/500 for more info. */
+      const forceFormData = new RegExp("/items/.+/updateResources").test(url);
+
       if (fetchOptions.method === "POST") {
-        fetchOptions.body = encodeFormData(params);
+        fetchOptions.body = encodeFormData(params, forceFormData);
       }
 
       // Mixin headers from request options
@@ -201,7 +206,7 @@ export function request(
       }
 
       /* istanbul ignore else blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
-      if (!requiresFormData(params)) {
+      if (!requiresFormData(params) && !forceFormData) {
         fetchOptions.headers["Content-Type"] =
           "application/x-www-form-urlencoded";
       }

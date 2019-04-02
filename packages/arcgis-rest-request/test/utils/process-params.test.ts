@@ -52,7 +52,7 @@ describe("processParams", () => {
     expect(processParams(params)).toEqual(expected);
   });
 
-  it("should stringify  arrays of objects", () => {
+  it("should stringify arrays of objects", () => {
     const params = {
       foo: [
         {

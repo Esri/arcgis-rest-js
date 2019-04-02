@@ -9,8 +9,12 @@ import { encodeQueryString } from "./encode-query-string";
  * @param params An object to be encoded.
  * @returns The complete [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object.
  */
-export function encodeFormData(params: any): FormData | string {
-  const useFormData = requiresFormData(params);
+export function encodeFormData(
+  params: any,
+  forceFormData?: boolean
+): FormData | string {
+  // see https://github.com/Esri/arcgis-rest-js/issues/499 for more info.
+  const useFormData = requiresFormData(params) || forceFormData;
   const newParams = processParams(params);
   if (useFormData) {
     const formData = new FormData();
