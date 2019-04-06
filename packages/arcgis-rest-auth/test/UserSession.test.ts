@@ -5,6 +5,7 @@ import { UserSession } from "../src/index";
 import { ICredential } from "../src/UserSession";
 
 import {
+  request,
   ArcGISRequestError,
   ArcGISAuthError,
   ErrorTypes
@@ -475,6 +476,41 @@ describe("UserSession", () => {
           );
           done();
         });
+    });
+
+    it("should throw a fully hydrated ArcGISAuthError when no owning system is advertised", done => {
+      const session = new UserSession({
+        clientId: "id",
+        token: "token",
+        refreshToken: "refresh",
+        tokenExpires: YESTERDAY
+      });
+
+      fetchMock.post("https://gisservices.city.gov/public/rest/info", {
+        currentVersion: 10.51,
+        fullVersion: "10.5.1.120"
+      });
+
+      request(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
+        {
+          authentication: session,
+          params: {
+            foo: "bar"
+          }
+        }
+      ).catch(e => {
+        expect(e.name).toEqual(ErrorTypes.ArcGISAuthError);
+        expect(e.code).toEqual("NOT_FEDERATED");
+        expect(e.message).toEqual(
+          "NOT_FEDERATED: https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query is not federated with any portal and is not explicitly trusted."
+        );
+        expect(e.url).toEqual(
+          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+        );
+        expect(e.options.params.foo).toEqual("bar");
+        done();
+      });
     });
 
     it("should throw an ArcGISAuthError when no owning system is advertised", done => {

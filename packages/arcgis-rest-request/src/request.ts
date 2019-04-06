@@ -151,13 +151,18 @@ export function request(
 
   const fetchOptions: RequestInit = {
     method: httpMethod,
-    // ensures behavior mimics XMLHttpRequest. needed to support sending IWA cookies
+    /* ensures behavior mimics XMLHttpRequest.
+    needed to support sending IWA cookies */
     credentials: "same-origin"
   };
 
   return (authentication
-    ? authentication.getToken(url, {
-        fetch: options.fetch
+    ? authentication.getToken(url, { fetch: options.fetch }).catch(err => {
+        /* if necessary, append original request url and
+         requestOptions to the error thrown by getToken() */
+        err.url = url;
+        err.options = options;
+        throw err;
       })
     : Promise.resolve("")
   )
