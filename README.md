@@ -89,6 +89,7 @@ Some useful commands include:
 * [Is this a _supported_ Esri product?](docs/FAQ.md#is-this-a-supported-esri-product)
 * [How does this project compare with the ArcGIS API for JavaScript?](docs/FAQ.md#comparison-with-the-arcgis-api-for-javascript)
 * [Is this similar to the ArcGIS API for Python?](docs/FAQ.md#comparison-with-the-arcgis-api-for-python)
+* [Who uses ArcGIS REST JS?](docs/FAQ.md#who-is-using-these-packages)
 * [Why TypeScript?](docs/FAQ.md#why-typescript) What if I prefer [VanillaJS](https://stackoverflow.com/questions/20435653/what-is-vanillajs)?
 * [More](https://github.com/Esri/arcgis-rest-js/issues?q=is%3Aissue+sort%3Aupdated-desc+label%3Afaq+is%3Aclosed)
 

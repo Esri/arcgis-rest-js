@@ -17,6 +17,26 @@ We aim to make interacting with the platform as intuitive as possible, but the s
 
 This project is similar to the ArcGIS API for Python in many ways. Like the ArcGIS API for Python, this library aims to be a scripting tool that simplifies interacting with the ArcGIS REST API, but where the ArcGIS API for Python highlights integration with dataframes and Jupyter Notebooks for visualization and sharing this project provides only generic tools for JavaScript applications running on a server, CLI, in a browser or as a script.
 
+## Who is using these packages?
+
+REST JS is trusted in ArcGIS applications serving **many** thousands of users.
+
+* ArcGIS [Hub](https://hub.arcgis.com)
+* ArcGIS for [Developers](https://developers.arcgis.com)
+* ArcGIS [Storymaps](https://storymaps.arcgis.com/en/)
+* ArcGIS [Solutions](https://solutions.arcgis.com/)
+* ArcGIS Enterprise
+* ArcGIS [Urban](https://www.esri.com/en-us/landing-page/product/2018/arcgis-urban)
+* ArcGIS [Analytics for IoT](https://www.esri.com/en-us/landing-page/product/2018/arcgis-analytics-for-iot)
+
+And since its on GitHub, Esri developers are _far_ from the only ones using ArcGIS REST JS. Besides the usual culprits, we've seen the library running in:
+
+* [Chrome Extensions](https://chrome.google.com/webstore/detail/echo-for-arcgis/mkeckgendkgcofhhenfkknonnkoboobm?hl=en-US)
+* [Lamda Functions](https://medium.com/@adamjpfister/know-your-apis-6dc6ea3d084c)
+* [Web Components](https://github.com/esridc/hub-components)
+* [React Components](https://twitter.com/oppoudel/status/1022209378378805249)
+* [Observable](https://observablehq.com/@jgravois/introduction-to-esri-arcgis-rest-js)
+
 ## Why TypeScript
 
 Using TypeScript allows us to add type information to request params and response structures. This vastly simplifies development. TypeScript also has excellent support for newer `async`/`await` patterns and for generating API documentation with [TypeDoc](http://typedoc.org/).
