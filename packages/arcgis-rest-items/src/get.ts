@@ -76,13 +76,13 @@ export function getItemData(
   }
 
   return request(url, options).catch(err => {
+    /* if the item doesn't include data, the response will be empty
+       and the internal call to response.json() will fail */
+    const emptyResponseErr = RegExp(
+      /Unexpected end of (JSON input|data at line 1 column 1)/i
+    );
     /* istanbul ignore else */
-    if (err.message.indexOf("Unexpected end of JSON input") > -1) {
-      /*
-       * if the item doesn't include data, the response
-       * will be empty and the internal call to
-       * response.json() will fail with the error below
-       */
+    if (emptyResponseErr.test(err.message)) {
       return null;
     } else throw err;
   });
