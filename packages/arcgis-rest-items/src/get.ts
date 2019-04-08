@@ -77,7 +77,7 @@ export function getItemData(
 
   return request(url, options).catch(err => {
     /* istanbul ignore else */
-    if (err.message === "Unexpected end of JSON input") {
+    if (err.message.indexOf("Unexpected end of JSON input") > -1) {
       /*
        * if the item doesn't include data, the response
        * will be empty and the internal call to
