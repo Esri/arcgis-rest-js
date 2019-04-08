@@ -30,7 +30,7 @@ describe("get", () => {
     fetchMock.once("*", ItemResponse);
 
     getItem("3ef")
-      .then(response => {
+      .then(() => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -88,6 +88,29 @@ describe("get", () => {
     } else {
       done();
     }
+  });
+
+  it("should return a valid response even when no data is retrieved", done => {
+    fetchMock.once("*", {
+      sendAsJson: false,
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: null
+    });
+
+    getItemData("3ef")
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://www.arcgis.com/sharing/rest/content/items/3ef/data?f=json"
+        );
+        expect(options.method).toBe("GET");
+        expect(response).toBe(undefined);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
   });
 
   it("should return related items", done => {

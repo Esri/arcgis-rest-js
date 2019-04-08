@@ -75,7 +75,14 @@ export function getItemData(
     options.params.f = null;
   }
 
-  return request(url, options);
+  return request(url, options).catch(err => {
+    /*
+     * if the item doesn't include data, the response
+     * will be empty and the internal call to
+     * response.json() will fail with the error below
+     */
+    if (err.message === "Unexpected end of JSON input") return;
+  });
 }
 
 export interface IGetRelatedItemsResponse {
