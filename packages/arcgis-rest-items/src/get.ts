@@ -76,12 +76,15 @@ export function getItemData(
   }
 
   return request(url, options).catch(err => {
-    /*
-     * if the item doesn't include data, the response
-     * will be empty and the internal call to
-     * response.json() will fail with the error below
-     */
-    if (err.message === "Unexpected end of JSON input") return;
+    /* istanbul ignore else */
+    if (err.message === "Unexpected end of JSON input") {
+      /*
+       * if the item doesn't include data, the response
+       * will be empty and the internal call to
+       * response.json() will fail with the error below
+       */
+      return null;
+    } else throw err;
   });
 }
 

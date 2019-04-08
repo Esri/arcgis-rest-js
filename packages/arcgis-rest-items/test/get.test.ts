@@ -94,7 +94,7 @@ describe("get", () => {
     fetchMock.once("*", {
       sendAsJson: false,
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: null
+      body: ""
     });
 
     getItemData("3ef")
@@ -105,7 +105,7 @@ describe("get", () => {
           "https://www.arcgis.com/sharing/rest/content/items/3ef/data?f=json"
         );
         expect(options.method).toBe("GET");
-        expect(response).toBe(undefined);
+        expect(response).toBe(null);
         done();
       })
       .catch(e => {
