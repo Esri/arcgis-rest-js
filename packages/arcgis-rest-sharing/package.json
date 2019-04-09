@@ -19,10 +19,10 @@
     "@esri/arcgis-rest-request": "^1.19.2"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^1.19.2",
-    "@esri/arcgis-rest-common-types": "^1.19.2",
-    "@esri/arcgis-rest-groups": "^1.19.2",
-    "@esri/arcgis-rest-request": "^1.19.2"
+    "@esri/arcgis-rest-auth": "^1.0.0",
+    "@esri/arcgis-rest-common-types": "^1.9.0",
+    "@esri/arcgis-rest-groups": "^1.0.0",
+    "@esri/arcgis-rest-request": "^1.0.0"
   },
   "files": [
     "dist/**"

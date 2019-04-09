@@ -22,10 +22,10 @@
     "@esri/arcgis-rest-request": "^1.19.2"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^1.19.2",
-    "@esri/arcgis-rest-common-types": "^1.19.2",
-    "@esri/arcgis-rest-items": "^1.19.2",
-    "@esri/arcgis-rest-request": "^1.19.2"
+    "@esri/arcgis-rest-auth": "^1.0.3",
+    "@esri/arcgis-rest-common-types": "^1.3.0",
+    "@esri/arcgis-rest-items": "^1.10.0",
+    "@esri/arcgis-rest-request": "^1.14.2"
   },
   "scripts": {
     "prepare": "npm run build",
