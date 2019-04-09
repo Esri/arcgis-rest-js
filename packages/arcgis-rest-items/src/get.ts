@@ -55,7 +55,7 @@ export function getItem(
  * getItemData("ae7", { authentication })
  *   .then(response)
  * ```
- * Get the /data for an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/item-data.htm) for more information.
+ * Get the /data for an item. If no data exists, returns `undefined`. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/item-data.htm) for more information.
  * @param id - Item Id
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the json data for the item.
@@ -75,7 +75,17 @@ export function getItemData(
     options.params.f = null;
   }
 
-  return request(url, options);
+  return request(url, options).catch(err => {
+    /* if the item doesn't include data, the response will be empty
+       and the internal call to response.json() will fail */
+    const emptyResponseErr = RegExp(
+      /Unexpected end of (JSON input|data at line 1 column 1)/i
+    );
+    /* istanbul ignore else */
+    if (emptyResponseErr.test(err.message)) {
+      return;
+    } else throw err;
+  });
 }
 
 export interface IGetRelatedItemsResponse {
