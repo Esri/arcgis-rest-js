@@ -222,9 +222,7 @@ export default {
             // session.
             this.$store.dispatch("updateSession", session);
           })
-          .catch(error => {
-            console.error(error);
-          });
+          .catch(error);
       }
     },
     // The signup with an inline redirect workflow. In this case the user is just redirected to
@@ -270,7 +268,6 @@ export default {
         })
         .catch(error => {
           this.searching = false;
-          console.error(error);
         });
     }
   }

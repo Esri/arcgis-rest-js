@@ -7,9 +7,8 @@ import {
   ArcGISOnlineError,
   GenerateTokenError
 } from "./../mocks/errors";
+import { request } from "../../src/request";
 import * as fetchMock from "fetch-mock";
-import { request } from "https";
-import { request as esriRequest } from "../../src/request";
 
 describe("ArcGISRequestError", () => {
   afterEach(fetchMock.restore);
@@ -176,7 +175,7 @@ describe("ArcGISRequestError", () => {
     it("should throw an authentication error for invalid credentials", done => {
       fetchMock.post("*", GenerateTokenError);
 
-      esriRequest("https://www.arcgis.com/sharing/rest/generateToken", {
+      request("https://www.arcgis.com/sharing/rest/generateToken", {
         params: {
           username: "correct",
           password: "incorrect",
