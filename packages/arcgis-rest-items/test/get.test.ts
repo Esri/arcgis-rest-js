@@ -105,7 +105,7 @@ describe("get", () => {
           "https://www.arcgis.com/sharing/rest/content/items/3ef/data?f=json"
         );
         expect(options.method).toBe("GET");
-        expect(response).toBe(null);
+        expect(response).toBe(undefined);
         done();
       })
       .catch(e => {

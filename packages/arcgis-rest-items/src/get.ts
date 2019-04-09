@@ -83,7 +83,7 @@ export function getItemData(
     );
     /* istanbul ignore else */
     if (emptyResponseErr.test(err.message)) {
-      return null;
+      return;
     } else throw err;
   });
 }
