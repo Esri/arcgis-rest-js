@@ -2,15 +2,26 @@
  * Apache-2.0 */
 
 export * from "./request";
+export * from "./utils/append-custom-params";
+export * from "./utils/ArcGISRequestError";
+export * from "./utils/ArcGISAuthError";
+export * from "./utils/check-for-errors";
+export * from "./utils/clean-url";
 export * from "./utils/encode-form-data";
 export * from "./utils/encode-query-string";
-export * from "./utils/warn";
-export * from "./utils/ArcGISRequestError";
-export * from "./utils/retryAuthError";
 export * from "./utils/ErrorTypes";
-export * from "./utils/params";
-export * from "./utils/process-params";
-export * from "./utils/get-portal";
 export * from "./utils/get-portal-url";
-export * from "./utils/append-custom-params";
-export * from "./utils/clean-url";
+export * from "./utils/get-portal";
+export * from "./utils/GrantTypes";
+export * from "./utils/HTTPMethods";
+export * from "./utils/IAuthenticationManager";
+export * from "./utils/IFetchTokenParams";
+export * from "./utils/IGenerateTokenParams";
+export * from "./utils/IParams";
+export * from "./utils/IRequestOptions";
+export * from "./utils/process-params";
+export * from "./utils/ResponseFormats";
+export * from "./utils/retryAuthError";
+export * from "./utils/warn";
+// export * from "./utils/with-request-options";
+export * from "./utils/with-url";

@@ -1,7 +1,8 @@
 /* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IRequestOptions } from "../request";
+import { request } from "../request";
+import { IRequestOptions } from "./IRequestOptions";
 
 import { getPortalUrl } from "./get-portal-url";
 

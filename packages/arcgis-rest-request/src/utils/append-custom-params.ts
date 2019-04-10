@@ -1,7 +1,7 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions } from "../request";
+import { IRequestOptions } from "./IRequestOptions";
 
 /**
  * Helper for methods with lots of first order request options to pass through as request parameters.
