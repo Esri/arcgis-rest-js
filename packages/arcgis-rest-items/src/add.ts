@@ -23,6 +23,9 @@ export interface IItemDataAddRequestOptions extends IItemIdRequestOptions {
   data: any;
 }
 
+/**
+ * Deprecated. Please use `IItemResourceRequestOptions` instead.
+ */
 export interface IItemResourceAddRequestOptions
   extends IItemResourceRequestOptions {
   /**
@@ -136,11 +139,21 @@ export function addItemRelationship(
 /**
  * ```js
  * import { addItemResource } from '@esri/arcgis-rest-items';
- * //
+ *
+ * // Add a file resource
  * addItemResource({
  *   id: '3ef',
  *   resource: file,
  *   name: 'bigkahuna.jpg',
+ *   authentication
+ * })
+ *   .then(response)
+ *
+ * // Add a text resource
+ * addItemResource({
+ *   id: '4fg',
+ *   content: "Text content",
+ *   name: 'bigkahuna.txt',
  *   authentication
  * })
  *   .then(response)
@@ -151,7 +164,7 @@ export function addItemRelationship(
  * @returns A Promise to add item resources.
  */
 export function addItemResource(
-  requestOptions: IItemResourceAddRequestOptions
+  requestOptions: IItemResourceRequestOptions
 ): Promise<IItemResourceResponse> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
