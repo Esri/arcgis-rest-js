@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [1.19.2] - April 9th 2019
+
+### @esri/arcgis-rest-items
+
+* Bug Fixes
+   * ensure `getItemData()` returns `undefined` when no data is present (instead of throwing) [`914a5be`](https://github.com/Esri/arcgis-rest-js/commit/914a5be114362e1c124d0003d448cbb5b35aeeb2)
+
+### @esri/arcgis-rest-auth
+
+* Bug Fixes
+   * **lock**: pass through url and options when throwing for non-federated requests [`802006cd`](https://github.com/Esri/arcgis-rest-js/commit/802006cdc68e69851e80c499a236ba4c8fa1cb6f)
+
+### @esri/arcgis-rest-request
+
+* Bug Fixes
+   * **lock**: pass through url and options when throwing for non-federated requests [`802006cd`](https://github.com/Esri/arcgis-rest-js/commit/802006cdc68e69851e80c499a236ba4c8fa1cb6f)
+
 ## [1.19.1] - April 2nd 2019
 
 ### @esri/arcgis-rest-items
@@ -1199,4 +1216,5 @@ Initial Public Release
 [1.18.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.17.1...v1.18.0 "v1.18.0"
 [1.19.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.18.0...v1.19.0 "v1.19.0"
 [1.19.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.0...v1.19.1 "v1.19.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.1...HEAD "Unreleased Changes"
+[1.19.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.1...v1.19.2 "v1.19.2"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.2...HEAD "Unreleased Changes"
