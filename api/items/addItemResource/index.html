@@ -923,22 +923,12 @@
 
 
   
- <pre><code class="js"><span class="hljs-keyword">import</span> { addItemResource } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/arcgis-rest-items'</span>;
-<span class="hljs-comment">//</span>
-addItemResource({
-  <span class="hljs-attr">id</span>: <span class="hljs-string">'3ef'</span>,
-  <span class="hljs-attr">resource</span>: file,
-  <span class="hljs-attr">name</span>: <span class="hljs-string">'bigkahuna.jpg'</span>,
-  authentication
-})
-  .then(response)
-</code></pre>
-<p>Add a resource associated with an item. See the <a href="https://developers.arcgis.com/rest/users-groups-and-items/add-resources.htm">REST Documentation</a> for more information.</p>
+ <pre><code class="js"><span class="hljs-keyword">import</span> { addItemResource } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/arcgis-rest-items'</span>;</code></pre>
 
 
   <ul class="list-plain tsd-signatures tsd-kind-function trailer-half">
     
-      <li class="code-face tsd-signature tsd-kind-icon">addItemResource<span class="text-light-gray">(</span>requestOptions: <i><a href="/arcgis-rest-js/api/items/IItemResourceAddRequestOptions/">IItemResourceAddRequestOptions</a></i><span class="text-light-gray">) : </span><i>Promise</i><i><span class="text-light-gray">&lt;</span><i><a href="/arcgis-rest-js/api/items/IItemResourceResponse/">IItemResourceResponse</a></i><span class="text-light-gray">&gt;</span></i></li>
+      <li class="code-face tsd-signature tsd-kind-icon">addItemResource<span class="text-light-gray">(</span>requestOptions: <i><a href="/arcgis-rest-js/api/items/IItemResourceRequestOptions/">IItemResourceRequestOptions</a></i><span class="text-light-gray">) : </span><i>Promise</i><i><span class="text-light-gray">&lt;</span><i><a href="/arcgis-rest-js/api/items/IItemResourceResponse/">IItemResourceResponse</a></i><span class="text-light-gray">&gt;</span></i></li>
     
   </ul>
 
@@ -977,7 +967,7 @@ addItemResource({
 
             
           </td>
-          <td class="code-face"><i><a href="/arcgis-rest-js/api/items/IItemResourceAddRequestOptions/">IItemResourceAddRequestOptions</a></i></td>
+          <td class="code-face"><i><a href="/arcgis-rest-js/api/items/IItemResourceRequestOptions/">IItemResourceRequestOptions</a></i></td>
           <td class="code-face"></td>
           <td class="body-face api-param-comment">
             
@@ -1059,8 +1049,6 @@ addItemResource({
   
 
             
-    <span class="label">Inherited</span>
-  
           </td>
           <td class="code-face">
             
@@ -1261,8 +1249,6 @@ addItemResource({
   
 
             
-    <span class="label">Inherited</span>
-  
           </td>
           <td class="code-face">
             
@@ -1397,8 +1383,6 @@ addItemResource({
   
 
             
-    <span class="label">Inherited</span>
-  
           </td>
           <td class="code-face">
             
@@ -1453,6 +1437,8 @@ addItemResource({
             <span class="tsd-kind-icon">resource</span>
             
   
+  <span class="label">Optional</span>
+  
 
   
 
@@ -1486,6 +1472,27 @@ addItemResource({
 
   <h2 class="font-size-1 trailer-half">Returns</h2><p><code><i>Promise</i><i><span class="text-light-gray">&lt;</span><i><a href="/arcgis-rest-js/api/items/IItemResourceResponse/">IItemResourceResponse</a></i><span class="text-light-gray">&gt;</span></i></code> - A Promise to add item resources.</p>
 
+
+  
+    <hr class="leader-half trailer-half">
+
+    <p>// Add a file resource
+addItemResource({
+id: '3ef',
+resource: file,
+name: 'bigkahuna.jpg',
+authentication
+})
+.then(response)</p>
+<p>// Add a text resource
+addItemResource({
+id: '4fg',
+content: &quot;Text content&quot;,
+name: 'bigkahuna.txt',
+authentication
+})
+.then(response)</p>
+<pre><code>Add a resource associated with an item. See the [<span class="hljs-string">REST Documentation</span>](<span class="hljs-link">https://developers.arcgis.com/rest/users-groups-and-items/add-resources.htm</span>) for more information.</code></pre>
 
   
 
@@ -1631,7 +1638,7 @@ addItemResource({
 
 <hr class="leader-half trailer-half">
 
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-items/src/add.ts#L153">packages/arcgis-rest-items/src/add.ts:153</a></small>
+<small class="font-size--2">Function defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-items/src/add.ts#L166">packages/arcgis-rest-items/src/add.ts:166</a></small>
 
 
       </div>
