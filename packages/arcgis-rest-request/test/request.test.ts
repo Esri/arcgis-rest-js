@@ -1,7 +1,11 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, ErrorTypes } from "../src/index";
+import {
+  request,
+  ErrorTypes,
+  DEFAULT_ARCGIS_REQUEST_OPTIONS
+} from "../src/index";
 import * as fetchMock from "fetch-mock";
 import {
   SharingRestInfo,
@@ -258,6 +262,31 @@ describe("request()", () => {
       .catch(e => {
         fail(e);
       });
+  });
+
+  it("should allow setting defaults for all requests", done => {
+    fetchMock.once("*", SharingRestInfo);
+
+    DEFAULT_ARCGIS_REQUEST_OPTIONS.headers = {
+      "Test-Header": "Test"
+    };
+
+    request("https://www.arcgis.com/sharing/rest/info")
+      .then(response => {
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
+        expect(options.method).toBe("POST");
+        expect(response).toEqual(SharingRestInfo);
+        expect(options.body).toContain("f=json");
+        expect((options.headers as any)["Test-Header"]).toBe("Test");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+
+    // since calling request is  sync we can delete this right away
+    delete DEFAULT_ARCGIS_REQUEST_OPTIONS.headers;
   });
 
   describe("should throw errors when required dependencies are missing", () => {

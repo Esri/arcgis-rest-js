@@ -11,6 +11,33 @@ import { IParams } from "./utils/IParams";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
+export const DEFAULT_ARCGIS_REQUEST_OPTIONS: Pick<
+  IRequestOptions,
+  Exclude<keyof IRequestOptions, "url">
+> = {
+  httpMethod: "POST",
+  params: {
+    f: "json"
+  }
+};
+
+function mergeOptions(options: IRequestOptions): IRequestOptions {
+  const params = {
+    ...DEFAULT_ARCGIS_REQUEST_OPTIONS.params,
+    ...options.params
+  };
+  const headers = {
+    ...DEFAULT_ARCGIS_REQUEST_OPTIONS.headers,
+    ...options.headers
+  };
+
+  return {
+    ...DEFAULT_ARCGIS_REQUEST_OPTIONS,
+    ...options,
+    ...{ params, headers }
+  };
+}
+
 /**
  * ```js
  * import { request } from '@esri/arcgis-rest-request';
@@ -34,23 +61,33 @@ export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
  * @returns A Promise that will resolve with the data from the response.
  */
 export function request(url: string | IRequestOptions): Promise<any>;
-export function request(
-  requestUrl: string,
-  requestOptions: IRequestOptions
-): Promise<any>;
+export function request(url: string, options?: IRequestOptions): Promise<any>;
 export function request(
   requestUrl: string | IRequestOptions,
   requestOptions?: IRequestOptions
 ): Promise<any> {
-  let url = typeof requestUrl === "string" ? requestUrl : requestOptions.url;
-  const options: IRequestOptions = {
-    httpMethod: "POST",
-    ...{ params: { f: "json" } },
-    ...(typeof url === "string" ? requestOptions : url)
-  };
-
   const missingGlobals: string[] = [];
   const recommendedPackages: string[] = [];
+
+  let options: IRequestOptions;
+  let url: string;
+
+  if (typeof requestUrl === "string") {
+    url = requestUrl;
+    if (requestOptions) {
+      options = mergeOptions(requestOptions);
+    } else {
+      options = mergeOptions({});
+    }
+  } else {
+    url = requestUrl.url;
+    options = mergeOptions(requestUrl);
+  }
+
+  // @TODO discuss this!
+  // if (options.url) {
+  //   url = options.url;
+  // }
 
   // don't check for a global fetch if a custom implementation was passed through
   if (!options.fetch && typeof fetch !== "undefined") {
@@ -88,7 +125,7 @@ export function request(
 
   const params: IParams = {
     ...{ f: "json" },
-    ...requestOptions.params
+    ...(options && options.params ? options.params : {})
   };
 
   const fetchOptions: RequestInit = {
@@ -144,7 +181,7 @@ export function request(
 
       // Mixin headers from request options
       fetchOptions.headers = {
-        ...requestOptions.headers
+        ...options.headers
       };
 
       /* istanbul ignore next - karma reports coverage on browser tests only */

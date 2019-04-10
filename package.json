@@ -48,7 +48,7 @@
     "rollup-plugin-filesize": "^5.0.1",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.3",
-    "rollup-plugin-typescript2": "^0.4.6",
+    "rollup-plugin-typescript": "^1.0.1",
     "rollup-plugin-uglify": "^3.0.0",
     "shelljs": "^0.7.8",
     "slug": "^0.9.1",
