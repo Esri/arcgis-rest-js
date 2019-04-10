@@ -286,5 +286,35 @@ describe("search", () => {
           fail(e);
         });
     });
+
+    it("should add a text resource", done => {
+      fetchMock.once("*", {
+        success: true
+      });
+
+      addItemResource({
+        id: "3ef",
+        content: "Text content",
+        name: "thebigkahuna.txt",
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/addResources"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("text=Text%20content");
+          expect(options.body).toContain("fileName=thebigkahuna");
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
   }); // auth requests
 });

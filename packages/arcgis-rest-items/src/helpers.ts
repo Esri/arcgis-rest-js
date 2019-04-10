@@ -89,6 +89,9 @@ export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
    * Controls whether access to the file resource is restricted to the owner or inherited from the sharing permissions set for the associated item.
    */
   private?: boolean;
+  /**
+   * Object to store
+   */
   resource?: any;
 }
 
