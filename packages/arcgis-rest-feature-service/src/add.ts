@@ -29,10 +29,6 @@ export interface IAddFeaturesRequestOptions
    * Array of JSON features to add.
    */
   features: IFeature[];
-  /**
-   * Deprecated. Please use `features` instead.
-   */
-  adds?: IFeature[];
 }
 
 /**
@@ -75,15 +71,6 @@ export function addFeatures(
   };
 
   appendCustomParams(requestOptions, options);
-
-  if (options.params.adds && options.params.adds.length) {
-    // mixin, don't overwrite
-    options.params.features = requestOptions.adds;
-    delete options.params.adds;
-    warn(
-      "The `adds` parameter is deprecated and will be removed in a future release. Please use `features` instead."
-    );
-  }
 
   return request(url, options);
 }

@@ -29,10 +29,6 @@ export interface IUpdateFeaturesRequestOptions
    * Array of JSON features to update.
    */
   features: IFeature[];
-  /**
-   * Deprecated. Please use `features` instead.
-   */
-  updates?: IFeature[];
 }
 
 /**
@@ -75,15 +71,6 @@ export function updateFeatures(
   };
 
   appendCustomParams(requestOptions, options);
-
-  if (options.params.updates && options.params.updates.length) {
-    // mixin, don't overwrite
-    options.params.features = requestOptions.updates;
-    delete options.params.updates;
-    warn(
-      "The `updates` parameter is deprecated and will be removed in a future release. Please use `features` instead."
-    );
-  }
 
   return request(url, options);
 }
