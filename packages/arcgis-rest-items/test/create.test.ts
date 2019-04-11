@@ -230,14 +230,14 @@ describe("search", () => {
       createItemInFolder({
         owner: "dbouwman",
         item: fakeItem,
-        folder: "someFolder",
+        folderId: "fe8",
         ...MOCK_USER_REQOPTS
       })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/someFolder/addItem"
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/fe8/addItem"
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
@@ -271,7 +271,7 @@ describe("search", () => {
       createItemInFolder({
         owner: "dbouwman",
         item: fakeItem,
-        folder: "someFolder",
+        folderId: "fe8",
         params: {
           foo: "bar"
         },
@@ -281,7 +281,7 @@ describe("search", () => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/someFolder/addItem"
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/fe8/addItem"
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");

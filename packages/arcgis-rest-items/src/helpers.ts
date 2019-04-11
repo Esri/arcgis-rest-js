@@ -103,7 +103,7 @@ export interface IItemCrudRequestOptions extends IUserRequestOptions {
   /**
    * Id of the folder to house the item.
    */
-  folder?: string;
+  folderId?: string;
 }
 
 export interface IItemDataRequestOptions extends IRequestOptions {

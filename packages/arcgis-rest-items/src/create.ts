@@ -65,7 +65,7 @@ export function createFolder(
  *     type: "Web Map",
  *     data: {}
  *   },
- *   folder: 'underwater',
+ *   folderId: 'fe8',
  *   authentication
  * })
  * ```
@@ -81,8 +81,8 @@ export function createItemInFolder(
   const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
   let url = `${baseUrl}/addItem`;
 
-  if (requestOptions.folder) {
-    url = `${baseUrl}/${requestOptions.folder}/addItem`;
+  if (requestOptions.folderId) {
+    url = `${baseUrl}/${requestOptions.folderId}/addItem`;
   }
 
   // serialize the item into something Portal will accept
@@ -117,7 +117,7 @@ export function createItem(
 ): Promise<IItemAddResponse> {
   // delegate to createItemInFolder placing in the root of the filestore
   const options = {
-    folder: null,
+    folderId: null,
     ...requestOptions
   } as IItemAddRequestOptions;
   return createItemInFolder(options);
