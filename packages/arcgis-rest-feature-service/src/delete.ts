@@ -39,10 +39,6 @@ export interface IDeleteFeaturesRequestOptions
    * Array of objectIds to delete.
    */
   objectIds: number[];
-  /**
-   * Deprecated. Please use `objectIds` instead.
-   */
-  deletes?: number[];
 }
 
 /**
@@ -81,15 +77,6 @@ export function deleteFeatures(
   };
 
   appendCustomParams(requestOptions, options);
-
-  if (options.params.deletes && options.params.deletes.length) {
-    // mixin, don't overwrite
-    options.params.objectIds = requestOptions.deletes;
-    delete options.params.deletes;
-    warn(
-      "The `deletes` parameter is deprecated and will be removed in a future release. Please use `objectIds` instead."
-    );
-  }
 
   return request(url, options);
 }
