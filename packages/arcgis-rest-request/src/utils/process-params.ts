@@ -8,10 +8,14 @@
  */
 export function requiresFormData(params: any) {
   return Object.keys(params).some(key => {
-    const value = params[key];
+    let value = params[key];
 
     if (!value) {
       return false;
+    }
+
+    if (value.toParam) {
+      value = value.toParam();
     }
 
     const type = value.constructor.name;
@@ -46,7 +50,12 @@ export function processParams(params: any): any {
   const newParams: any = {};
 
   Object.keys(params).forEach(key => {
-    const param = params[key];
+    let param = params[key];
+
+    if (param.toParams) {
+      param = param.toParam();
+    }
+
     if (
       !param &&
       param !== 0 &&

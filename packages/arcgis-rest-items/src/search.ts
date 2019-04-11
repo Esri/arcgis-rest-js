@@ -8,10 +8,11 @@ import {
 } from "@esri/arcgis-rest-request";
 
 import { IPagingParams, IItem } from "@esri/arcgis-rest-common-types";
+import { SearchQueryBuilder } from "./SearchBuilder";
 
 // this interface still needs to be docced
 export interface ISearchRequest extends IPagingParams {
-  q: string;
+  q: string | SearchQueryBuilder;
   [key: string]: any;
 }
 
@@ -29,6 +30,7 @@ export interface ISearchResult {
   num: number;
   nextStart: number;
   results: IItem[];
+  nextPage?: () => Promise<ISearchRequest>;
 }
 
 /**
@@ -44,14 +46,14 @@ export interface ISearchResult {
  * @returns A Promise that will resolve with the data from the response.
  */
 export function searchItems(
-  search: string | ISearchRequestOptions
+  search: string | ISearchRequestOptions | SearchQueryBuilder
 ): Promise<ISearchResult> {
   let options: ISearchRequestOptions = {
     httpMethod: "GET",
     params: {}
   };
 
-  if (typeof search === "string") {
+  if (typeof search === "string" || search instanceof SearchQueryBuilder) {
     options.params.q = search;
   } else {
     // mixin user supplied requestOptions with defaults
@@ -71,5 +73,26 @@ export function searchItems(
   const url = `${getPortalUrl(options)}/search`;
 
   // send the request
-  return request(url, options);
+  return request(url, options).then(r => {
+    if (options.rawResponse) {
+      return r;
+    }
+
+    if (r.nextStart === -1) {
+      r.nextPage = function() {
+        const newOptions = {
+          ...options,
+          ...{
+            params: {
+              ...options.params,
+              ...{ start: r.nextStart }
+            }
+          }
+        };
+        return request(url, newOptions);
+      };
+    }
+
+    return r;
+  });
 }
