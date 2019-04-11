@@ -6,7 +6,7 @@ import {
   IField,
   IExtent,
   ISpatialReference,
-  esriGeometryType,
+  GeometryType,
   IHasZM,
   IFeature,
   IGeometry,
@@ -836,7 +836,7 @@ export interface ILayerDefinition extends IHasZM {
   /** An array of field objects containing information about the attribute fields for the feature collection or layer. */
   fields?: IField[];
   /** A string defining the type of geometry. Possible geometry types are: esriGeometryPoint, esriGeometryMultipoint, esriGeometryPolyline, esriGeometryPolygon, and esriGeometryEnvelope. */
-  geometryType?: esriGeometryType;
+  geometryType?: GeometryType;
   /** The unique identifier for a feature or table row within a geodatabase. */
   globalIdField?: string;
   /** Indicates whether attachments should be loaded for the layer. */

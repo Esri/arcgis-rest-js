@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import {
-  esriGeometryType,
+  GeometryType,
   SpatialRelationship,
   IGeometry,
   ISpatialReference
@@ -11,7 +11,7 @@ import {
 export interface ISharedQueryParams {
   where?: string;
   geometry?: IGeometry;
-  geometryType?: esriGeometryType;
+  geometryType?: GeometryType;
   // NOTE: either WKID or ISpatialReference
   inSR?: string | ISpatialReference;
   spatialRel?: SpatialRelationship;

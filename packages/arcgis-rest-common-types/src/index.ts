@@ -123,7 +123,7 @@ export interface IEnvelope extends IGeometry {
 /**
  *
  */
-export type esriGeometryType =  // why is this type camelCased?
+export type GeometryType =  // why is this type camelCased?
   | "esriGeometryPoint"
   | "esriGeometryMultipoint"
   | "esriGeometryPolyline"
@@ -171,7 +171,7 @@ export interface IFeatureSet extends IHasZM {
   objectIdFieldName?: string; // optional
   globalIdFieldName?: string; // optional
   displayFieldName?: string; // optional
-  geometryType?: esriGeometryType; // for feature layers only
+  geometryType?: GeometryType; // for feature layers only
   spatialReference?: ISpatialReference; // for feature layers only.
   fields?: IField[];
   features: IFeature[];

@@ -11,7 +11,7 @@ import {
   ISpatialReference,
   IFeature,
   IHasZM,
-  esriGeometryType,
+  GeometryType,
   IField
 } from "@esri/arcgis-rest-common-types";
 
@@ -41,7 +41,7 @@ export interface IRelatedRecordGroup {
  */
 
 export interface IQueryRelatedResponse extends IHasZM {
-  geometryType?: esriGeometryType;
+  geometryType?: GeometryType;
   spatialReference?: ISpatialReference;
   fields?: IField[];
   relatedRecordGroups: IRelatedRecordGroup[];
