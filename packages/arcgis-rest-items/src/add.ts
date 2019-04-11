@@ -24,17 +24,6 @@ export interface IItemDataAddRequestOptions extends IItemIdRequestOptions {
 }
 
 /**
- * Deprecated. Please use `IItemResourceRequestOptions` instead.
- */
-export interface IItemResourceAddRequestOptions
-  extends IItemResourceRequestOptions {
-  /**
-   * Object to store
-   */
-  resource: any;
-}
-
-/**
  * ```js
  * import { addItemJsonData } from '@esri/arcgis-rest-items';
  * //
