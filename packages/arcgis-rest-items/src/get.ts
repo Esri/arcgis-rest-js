@@ -10,7 +10,6 @@ import {
 import { IItem, IGroup } from "@esri/arcgis-rest-common-types";
 
 import {
-  IItemIdRequestOptions,
   IItemDataRequestOptions,
   IItemRelationshipRequestOptions
 } from "./helpers";
@@ -142,18 +141,17 @@ export function getRelatedItems(
  * @returns A Promise to get some item resources.
  */
 export function getItemResources(
-  requestOptions: IItemIdRequestOptions
+  id: string,
+  requestOptions?: IRequestOptions
 ): Promise<any> {
-  const url = `${getPortalUrl(requestOptions)}/content/items/${
-    requestOptions.id
-  }/resources`;
+  const url = `${getPortalUrl(requestOptions)}/content/items/${id}/resources`;
 
   // mix in user supplied params
   requestOptions.params = {
     ...requestOptions.params,
     num: 1000
   };
-  // at v2, the argument signature of this method should match getItemData() and getItemGroups() if requests can be made anonymously
+
   return request(url, requestOptions);
 }
 

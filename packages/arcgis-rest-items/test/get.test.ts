@@ -232,8 +232,7 @@ describe("get", () => {
 
     it("get item resources", done => {
       fetchMock.once("*", GetItemResourcesResponse);
-      getItemResources({
-        id: "3ef",
+      getItemResources("3ef", {
         ...MOCK_USER_REQOPTS
       })
         .then(() => {
@@ -252,8 +251,7 @@ describe("get", () => {
 
     it("get item resources with extra parameters", done => {
       fetchMock.once("*", GetItemResourcesResponse);
-      getItemResources({
-        id: "3ef",
+      getItemResources("3ef", {
         ...MOCK_USER_REQOPTS,
         params: {
           resourcesPrefix: "foolder"
