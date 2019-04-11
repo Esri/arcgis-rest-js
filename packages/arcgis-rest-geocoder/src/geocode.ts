@@ -4,8 +4,7 @@
 import {
   request,
   appendCustomParams,
-  cleanUrl,
-  IParams
+  cleanUrl
 } from "@esri/arcgis-rest-request";
 
 import {
