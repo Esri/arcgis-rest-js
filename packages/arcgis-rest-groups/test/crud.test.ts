@@ -10,7 +10,7 @@ import { GroupEditResponse } from "./mocks/responses";
 import { encodeParam } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { IGroupAdd } from "@esri/arcgis-rest-common-types";
+import { IGroupAdd } from "@esri/arcgis-rest-common";
 import * as fetchMock from "fetch-mock";
 
 describe("groups", () => {

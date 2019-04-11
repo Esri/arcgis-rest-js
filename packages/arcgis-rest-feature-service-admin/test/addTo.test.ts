@@ -17,7 +17,7 @@ import { layerDefinitionSid } from "./mocks/layerDefinition";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 import { encodeParam, ErrorTypes } from "@esri/arcgis-rest-request";
-import { ILayer, ITable } from "@esri/arcgis-rest-common-types";
+import { ILayer, ITable } from "@esri/arcgis-rest-common";
 
 describe("add to feature service", () => {
   afterEach(fetchMock.restore);

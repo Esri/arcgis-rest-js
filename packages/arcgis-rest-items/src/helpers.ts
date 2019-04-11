@@ -3,7 +3,7 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
-import { IItemAdd, IItemUpdate, IItem } from "@esri/arcgis-rest-common-types";
+import { IItemAdd, IItemUpdate, IItem } from "@esri/arcgis-rest-common";
 
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 

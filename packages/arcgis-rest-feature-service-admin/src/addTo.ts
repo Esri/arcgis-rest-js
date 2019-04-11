@@ -3,11 +3,7 @@
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import {
-  ILayer,
-  ILayerDefinition,
-  ITable
-} from "@esri/arcgis-rest-common-types";
+import { ILayer, ILayerDefinition, ITable } from "@esri/arcgis-rest-common";
 
 export interface IAddToServiceDefinitionRequestOptions
   extends IUserRequestOptions {
@@ -53,8 +49,10 @@ export function addToServiceDefinition(
   url: string,
   requestOptions: IAddToServiceDefinitionRequestOptions
 ): Promise<IAddToServiceDefinitionResult> {
-  const adminUrl =
-    `${cleanUrl(url).replace(`/rest/services`, `/rest/admin/services`)}/addToDefinition`;
+  const adminUrl = `${cleanUrl(url).replace(
+    `/rest/services`,
+    `/rest/admin/services`
+  )}/addToDefinition`;
 
   requestOptions.params = {
     addToDefinition: {},

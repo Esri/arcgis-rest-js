@@ -7,7 +7,7 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IPagingParams, IItem } from "@esri/arcgis-rest-common-types";
+import { IPagingParams, IItem } from "@esri/arcgis-rest-common";
 
 // this interface still needs to be docced
 export interface ISearchRequest extends IPagingParams {

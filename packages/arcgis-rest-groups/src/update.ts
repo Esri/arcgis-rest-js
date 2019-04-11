@@ -7,7 +7,7 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IItemUpdate } from "@esri/arcgis-rest-common-types";
+import { IItemUpdate } from "@esri/arcgis-rest-common";
 
 export interface IGroupUpdateRequestOptions extends IRequestOptions {
   group: IItemUpdate;

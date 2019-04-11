@@ -2,20 +2,24 @@
  * Apache-2.0 */
 
 import {
-  IFeatureSet,
-  IField,
   IExtent,
   ISpatialReference,
   GeometryType,
   IHasZM,
-  IFeature,
   IGeometry,
-  IPoint,
+  IPoint
+} from "./geometry";
+
+import { IFeature, IFeatureSet } from "./feature";
+
+import { IField } from "./miscellaneous";
+
+import {
   ISimpleLineSymbol,
   IPictureMarkerSymbol,
   ISimpleFillSymbol,
   Color
-} from "./index";
+} from "./symbol";
 
 /**
  * The format object can be used with numerical or date fields to provide more detail about how values should be displayed in popup windows.

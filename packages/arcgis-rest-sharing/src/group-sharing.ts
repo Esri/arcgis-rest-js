@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request, getPortalUrl } from "@esri/arcgis-rest-request";
-import { IItem } from "@esri/arcgis-rest-common-types";
+import { IItem } from "@esri/arcgis-rest-common";
 
 import {
   ISharingRequestOptions,

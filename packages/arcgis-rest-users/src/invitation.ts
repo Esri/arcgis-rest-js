@@ -4,7 +4,7 @@
 import { request, getPortalUrl } from "@esri/arcgis-rest-request";
 
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IGroup } from "@esri/arcgis-rest-common-types";
+import { IGroup } from "@esri/arcgis-rest-common";
 
 export interface IInvitation {
   id: string;

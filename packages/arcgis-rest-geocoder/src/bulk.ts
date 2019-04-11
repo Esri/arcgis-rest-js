@@ -3,7 +3,7 @@
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
 
-import { ISpatialReference, IPoint } from "@esri/arcgis-rest-common-types";
+import { ISpatialReference, IPoint } from "@esri/arcgis-rest-common";
 
 import { worldGeocoder, IEndpointRequestOptions } from "./helpers";
 

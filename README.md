@@ -71,7 +71,7 @@ Some useful commands include:
 
 * [`@esri/arcgis-rest-request`](./packages/arcgis-rest-request/) - Underpins other packages and supports making low-level requests.
 * [`@esri/arcgis-rest-auth`](./packages/arcgis-rest-auth) - Provides methods for authenticating named users and applications.
-* [`@esri/arcgis-rest-common-types`](./packages/arcgis-rest-common-types) - Stores objects common across the ArcGIS API.
+* [`@esri/arcgis-rest-common`](./packages/arcgis-rest-common-types) - - Stores shared methods and types used throughout the ArcGIS API.
 * [`@esri/arcgis-rest-items`](./packages/arcgis-rest-items) - Methods for working with ArcGIS Online/Enterprise content.
 * [`@esri/arcgis-rest-groups`](./packages/arcgis-rest-groups) - Methods for working with ArcGIS Online/Enterprise groups.
 * [`@esri/arcgis-rest-users`](./packages/arcgis-rest-users) - Methods for working with ArcGIS Online/Enterprise users.
@@ -80,8 +80,6 @@ Some useful commands include:
 * [`@esri/arcgis-rest-geocoder`](./packages/arcgis-rest-geocoder) - Geocoding wrapper for `@esri/arcgis-rest-js`
 * [`@esri/arcgis-rest-feature-service-admin`](./packages/arcgis-rest-feature-service-admin) - Functions for creating and updating feature services.
 * [`@esri/arcgis-rest-routing`](./packages/arcgis-rest-routing) - Routing and directions wrapper for `@esri/arcgis-rest-js`.
-* [`@esri/arcgis-rest-common`](./packages/arcgis-rest-common) - Stores shared methods and types used throughout the ArcGIS API.
-
 
 ### Frequently Asked Questions
 

@@ -7,7 +7,7 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IItem, IGroup } from "@esri/arcgis-rest-common-types";
+import { IItem, IGroup } from "@esri/arcgis-rest-common";
 
 import {
   IItemDataRequestOptions,

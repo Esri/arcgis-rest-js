@@ -7,7 +7,7 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IGroupAdd, IGroup } from "@esri/arcgis-rest-common-types";
+import { IGroupAdd, IGroup } from "@esri/arcgis-rest-common";
 
 export interface IGroupAddRequestOptions extends IRequestOptions {
   group: IGroupAdd;

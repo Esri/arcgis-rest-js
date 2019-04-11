@@ -1,8 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IPoint } from "../../arcgis-rest-common-types/src";
-import { ILocation } from "../src/types/geometry";
+import { ILocation, IPoint } from "../src/types/geometry";
 import { isLocation, isLocationArray } from "../src/util/location";
 
 // -117.195677,34.056383;-117.918976,33.812092
@@ -48,19 +47,6 @@ const stopsObjectsLatitudeLongitude: ILocation[] = [
   {
     latitude: 33.812092,
     longitude: -117.918976
-  }
-];
-
-const stopsObjectsLatitudeLongitude3: ILocation[] = [
-  {
-    latitude: 34.056383,
-    longitude: -117.195677,
-    z: 10.11
-  },
-  {
-    latitude: 33.812092,
-    longitude: -117.918976,
-    z: 8.43
   }
 ];
 

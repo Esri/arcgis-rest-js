@@ -5,8 +5,7 @@ import {
   request,
   IRequestOptions,
   appendCustomParams,
-  cleanUrl,
-  warn
+  cleanUrl
 } from "@esri/arcgis-rest-request";
 import {
   IEditFeaturesParams,

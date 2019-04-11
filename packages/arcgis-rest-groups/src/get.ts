@@ -7,7 +7,7 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IPagingParams, IGroup, IItem } from "@esri/arcgis-rest-common-types";
+import { IPagingParams, IGroup, IItem } from "@esri/arcgis-rest-common";
 
 export interface IPagingParamsRequestOptions extends IRequestOptions {
   paging: IPagingParams;

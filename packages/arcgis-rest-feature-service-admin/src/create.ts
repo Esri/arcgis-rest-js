@@ -7,7 +7,7 @@ import {
   IItemCrudRequestOptions,
   determineOwner
 } from "@esri/arcgis-rest-items";
-import { IExtent, ISpatialReference } from "@esri/arcgis-rest-common-types";
+import { IExtent, ISpatialReference } from "@esri/arcgis-rest-common";
 
 /**
  * A [`createParameters` JSON object for a new

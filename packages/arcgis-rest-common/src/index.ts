@@ -8,3 +8,7 @@ export * from "./util/location";
 export * from "./types/feature";
 export * from "./types/geometry";
 export * from "./types/symbol";
+export * from "./types/webmap";
+export * from "./types/item";
+export * from "./types/group";
+export * from "./types/miscellaneous";

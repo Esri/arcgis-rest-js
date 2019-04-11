@@ -7,7 +7,7 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IPagingParams, IGroup } from "@esri/arcgis-rest-common-types";
+import { IPagingParams, IGroup } from "@esri/arcgis-rest-common";
 
 export interface IGroupSearchRequest extends IPagingParams {
   q: string;
