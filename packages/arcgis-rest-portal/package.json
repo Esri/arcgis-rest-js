@@ -1,9 +1,9 @@
 {
-  "name": "@esri/arcgis-rest-feature-service",
+  "name": "@esri/arcgis-rest-portal",
   "version": "1.19.2",
-  "description": "Feature service helpers for @esri/arcgis-rest-request",
+  "description": "ArcGIS Online and Enterprise content and user helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
-  "unpkg": "dist/umd/feature-service.umd.js",
+  "unpkg": "dist/umd/items.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "sideEffects": false,
@@ -16,17 +16,14 @@
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-request": "^1.19.2",
-    "@esri/arcgis-rest-common": "^1.19.2",
     "@esri/arcgis-rest-auth": "^1.19.2",
-    "@esri/arcgis-rest-portal": "^1.19.2"
-
+    "@esri/arcgis-rest-common": "^1.19.2",
+    "@esri/arcgis-rest-request": "^1.19.2"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-request": "^1.19.2",
-    "@esri/arcgis-rest-common": "^1.19.2",
     "@esri/arcgis-rest-auth": "^1.19.2",
-    "@esri/arcgis-rest-portal": "^1.19.2"
+    "@esri/arcgis-rest-common": "^1.19.2",
+    "@esri/arcgis-rest-request": "^1.19.2"
   },
   "scripts": {
     "prepare": "npm run build",
@@ -47,9 +44,9 @@
   },
   "contributors": [
     {
-      "name": "Tom Wayson",
-      "email": "twayson@esri.com",
-      "url": "http://tomwayson.com/"
+      "name": "Dave Bouwman",
+      "email": "dbouwman@esri.com",
+      "url": "http://blog.davebouwman.com/"
     }
   ],
   "bugs": {

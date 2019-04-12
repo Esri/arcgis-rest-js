@@ -6,7 +6,7 @@ import {
   moveItem,
   IItemCrudRequestOptions,
   determineOwner
-} from "@esri/arcgis-rest-items";
+} from "@esri/arcgis-rest-portal";
 import { IExtent, ISpatialReference } from "@esri/arcgis-rest-common";
 
 /**
