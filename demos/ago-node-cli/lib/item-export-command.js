@@ -1,4 +1,4 @@
-const { getItem, getItemData } = require("@esri/arcgis-rest-items");
+const { getItem, getItemData } = require("@esri/arcgis-rest-portal");
 const jsonfile = require('jsonfile');
 
 module.exports = {

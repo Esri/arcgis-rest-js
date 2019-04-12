@@ -1,4 +1,4 @@
-/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 export * from "./query";
@@ -12,3 +12,6 @@ export * from "./deleteAttachments";
 export * from "./queryRelated";
 export * from "./getLayer";
 export * from "./decodeValues";
+
+export * from "./admin/addToServiceDefinition";
+export * from "./admin/createServiceDefinition";
