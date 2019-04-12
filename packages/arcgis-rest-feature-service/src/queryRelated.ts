@@ -11,9 +11,9 @@ import {
   ISpatialReference,
   IFeature,
   IHasZM,
-  esriGeometryType,
+  GeometryType,
   IField
-} from "@esri/arcgis-rest-common-types";
+} from "@esri/arcgis-rest-common";
 
 /**
  * Related record query request options. Additional arguments can be passed via the [params](/arcgis-rest-js/api/feature-service/IQueryRelatedRequestOptions/#params) property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-feature-service-.htm) for more information and a full list of parameters.
@@ -41,7 +41,7 @@ export interface IRelatedRecordGroup {
  */
 
 export interface IQueryRelatedResponse extends IHasZM {
-  geometryType?: esriGeometryType;
+  geometryType?: GeometryType;
   spatialReference?: ISpatialReference;
   fields?: IField[];
   relatedRecordGroups: IRelatedRecordGroup[];
