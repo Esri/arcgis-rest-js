@@ -2,7 +2,7 @@
 /**
  * Bring in searchItems fn
  */
-const { searchItems } = require("@esri/arcgis-rest-items");
+const { searchItems } = require("@esri/arcgis-rest-portal");
 
 module.exports = {
   /**
@@ -10,7 +10,7 @@ module.exports = {
    */
   execute: function (query) {
     // construct the search call..
-    return searchItems({ 
+    return searchItems({
       searchForm: {
         q: query,
         start: 1,

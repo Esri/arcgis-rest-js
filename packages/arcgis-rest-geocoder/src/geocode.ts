@@ -7,11 +7,7 @@ import {
   cleanUrl
 } from "@esri/arcgis-rest-request";
 
-import {
-  IExtent,
-  ISpatialReference,
-  IPoint
-} from "@esri/arcgis-rest-common-types";
+import { IExtent, ISpatialReference, IPoint } from "@esri/arcgis-rest-common";
 
 import { worldGeocoder, IEndpointRequestOptions } from "./helpers";
 

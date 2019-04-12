@@ -13,7 +13,7 @@ import {
   IFeature,
   esriUnits,
   IExtent
-} from "@esri/arcgis-rest-common-types";
+} from "@esri/arcgis-rest-common";
 
 import { ISharedQueryParams } from "./helpers";
 

@@ -19,7 +19,7 @@
     "rollup-plugin-node-resolve": "^4.0.1"
   },
   "dependencies": {
-    "@esri/arcgis-rest-items": "^1.19.2",
+    "@esri/arcgis-rest-portal": "^1.19.2",
     "@esri/arcgis-rest-request": "^1.19.2"
   }
 }
