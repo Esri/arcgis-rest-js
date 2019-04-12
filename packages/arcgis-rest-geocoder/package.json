@@ -13,18 +13,15 @@
     "dist/**"
   ],
   "dependencies": {
-    "tslib": "^1.9.3"
+    "tslib": "^1.9.3",
+    "@esri/arcgis-rest-common": "^1.19.2"
   },
   "devDependencies": {
     "@esri/arcgis-rest-request": "^1.19.2",
-    "@esri/arcgis-rest-common": "^1.19.2",
     "@esri/arcgis-rest-auth": "^1.19.2"
-
-
   },
   "peerDependencies": {
     "@esri/arcgis-rest-request": "^1.19.2",
-    "@esri/arcgis-rest-common": "^1.19.2",
     "@esri/arcgis-rest-auth": "^1.19.2"
   },
   "scripts": {
