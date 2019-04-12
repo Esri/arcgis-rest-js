@@ -3,7 +3,7 @@
   "version": "1.19.2",
   "description": "ArcGIS Online and Enterprise content and user helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
-  "unpkg": "dist/umd/items.umd.js",
+  "unpkg": "dist/umd/portal.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "sideEffects": false,
