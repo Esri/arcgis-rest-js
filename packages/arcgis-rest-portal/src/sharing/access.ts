@@ -20,7 +20,7 @@ export interface ISetAccessRequestOptions extends ISharingRequestOptions {
 
 /**
  * ```js
- * import { setItemAccess } from '@esri/arcgis-rest-sharing';
+ * import { setItemAccess } from "@esri/arcgis-rest-portal";
  * //
  * setItemAccess({
  *   id: "abc123",

@@ -25,7 +25,7 @@ export interface IItemDataAddRequestOptions extends IItemIdRequestOptions {
 
 /**
  * ```js
- * import { addItemJsonData } from '@esri/arcgis-rest-items';
+ * import { addItemJsonData } from "@esri/arcgis-rest-portal";
  * //
  * addItemJsonData({
  *   id: '3ef',
@@ -61,7 +61,7 @@ export function addItemJsonData(
 
 /**
  * ```js
- * import { addItemData } from '@esri/arcgis-rest-items';
+ * import { addItemData } from "@esri/arcgis-rest-portal";
  * //
  * addItemData({
  *   id: '3ef',
@@ -96,7 +96,7 @@ export function addItemData(
 
 /**
  * ```js
- * import { addItemRelationship } from '@esri/arcgis-rest-items';
+ * import { addItemRelationship } from "@esri/arcgis-rest-portal";
  * //
  * addItemRelationship({
  *   originItemId: '3ef',
@@ -127,7 +127,7 @@ export function addItemRelationship(
 
 /**
  * ```js
- * import { addItemResource } from '@esri/arcgis-rest-items';
+ * import { addItemResource } from "@esri/arcgis-rest-portal";
  *
  * // Add a file resource
  * addItemResource({

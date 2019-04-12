@@ -29,7 +29,7 @@ export interface IGroupUsersResult {
 
 /**
  * ```js
- * import { getGroup } from "@esri/arcgis-rest-groups";
+ * import { getGroup } from "@esri/arcgis-rest-portal";
  * //
  * getGroup("fxb988") // id
  *   .then(response)

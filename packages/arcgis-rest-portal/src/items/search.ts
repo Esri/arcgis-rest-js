@@ -33,7 +33,7 @@ export interface ISearchResult {
 
 /**
  * ```js
- * import { searchItems } from '@esri/arcgis-rest-items';
+ * import { searchItems } from "@esri/arcgis-rest-portal";
  * //
  * searchItems('water')
  *   .then(response) // response.total => 355

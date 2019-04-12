@@ -36,7 +36,7 @@ export interface IItemMoveRequestOptions extends IItemCrudRequestOptions {
 
 /**
  * ```js
- * import { updateItem } from '@esri/arcgis-rest-items';
+ * import { updateItem } from "@esri/arcgis-rest-portal";
  * //
  * updateItem({
  *   item: {
@@ -72,7 +72,7 @@ export function updateItem(
 
 /**
  * ```js
- * import { updateItemResource } from '@esri/arcgis-rest-items';
+ * import { updateItemResource } from "@esri/arcgis-rest-portal";
  * //
  * updateItemResource({
  *   id: '3ef',
@@ -114,7 +114,7 @@ export function updateItemResource(
 
 /**
  * ```js
- * import { moveItem } from '@esri/arcgis-rest-items';
+ * import { moveItem } from "@esri/arcgis-rest-portal";
  * //
  * moveItem({
  *   itemId: "3ef",

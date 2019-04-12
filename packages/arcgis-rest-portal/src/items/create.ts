@@ -26,7 +26,7 @@ export interface IItemAddRequestOptions extends IItemCrudRequestOptions {
 
 /**
  * ```js
- * import { createFolder } from '@esri/arcgis-rest-items';
+ * import { createFolder } from "@esri/arcgis-rest-portal";
  * //
  * createFolder({
  *   title: 'Map Collection',
@@ -57,7 +57,7 @@ export function createFolder(
 
 /**
  * ```js
- * import { createItemInFolder } from '@esri/arcgis-rest-items';
+ * import { createItemInFolder } from "@esri/arcgis-rest-portal";
  * //
  * createItem({
  *   item: {
@@ -96,7 +96,7 @@ export function createItemInFolder(
 
 /**
  * ```js
- * import { createItem } from '@esri/arcgis-rest-items';
+ * import { createItem } from "@esri/arcgis-rest-portal";
  * //
  * createItem({
  *   item: {

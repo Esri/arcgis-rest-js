@@ -17,7 +17,7 @@ import {
 
 /**
  * ```js
- * import { removeItem } from '@esri/arcgis-rest-items';
+ * import { removeItem } from "@esri/arcgis-rest-portal";
  * //
  * removeItem({
  *   id: "3ef",
@@ -41,7 +41,7 @@ export function removeItem(
 
 /**
  * ```js
- * import { removeItemRelationship } from '@esri/arcgis-rest-items';
+ * import { removeItemRelationship } from "@esri/arcgis-rest-portal";
  * //
  * removeItemRelationship({
  *   originItemId: '3ef',
@@ -94,7 +94,7 @@ export function removeItemResource(
 
 /**
  * ```js
- * import { removeFolder } from "@esri/arcgis-rest-items";
+ * import { removeFolder } from "@esri/arcgis-rest-portal";
  * //
  * removeFolder({
  *   folderId: "fe4",

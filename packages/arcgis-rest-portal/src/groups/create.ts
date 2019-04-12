@@ -15,7 +15,7 @@ export interface IGroupAddRequestOptions extends IRequestOptions {
 
 /**
  * ```js
- * import { createGroup } from "@esri/arcgis-rest-groups";
+ * import { createGroup } from "@esri/arcgis-rest-portal";
  * //
  * createGroup({
  *   group: {

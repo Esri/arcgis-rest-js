@@ -16,7 +16,7 @@ import {
 
 /**
  * ```
- * import { getItem } from "@esri/arcgis-rest-items";
+ * import { getItem } from "@esri/arcgis-rest-portal";
  * //
  * getItem("ae7")
  *   .then(response);
@@ -46,7 +46,7 @@ export function getItem(
 
 /**
  * ```
- * import { getItemData } from "@esri/arcgis-rest-items";
+ * import { getItemData } from "@esri/arcgis-rest-portal";
  * //
  * getItemData("ae7")
  *   .then(response)
@@ -94,7 +94,7 @@ export interface IGetRelatedItemsResponse {
 
 /**
  * ```
- * import { getRelatedItems } from "@esri/arcgis-rest-items";
+ * import { getRelatedItems } from "@esri/arcgis-rest-portal";
  * //
  * getRelatedItems({
  *   id: "ae7",
@@ -163,7 +163,7 @@ export interface IItemGroupResponse {
 
 /**
  * ```js
- * import { getItemGroups } from "@esri/arcgis-rest-items";
+ * import { getItemGroups } from "@esri/arcgis-rest-portal";
  * //
  * getItemGroups("30e5fe3149c34df1ba922e6f5bbf808f")
  *   .then(response)
