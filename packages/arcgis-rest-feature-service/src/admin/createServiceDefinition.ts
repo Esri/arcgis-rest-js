@@ -6,7 +6,7 @@ import {
   moveItem,
   IItemCrudRequestOptions,
   determineOwner
-} from "@esri/arcgis-rest-items";
+} from "@esri/arcgis-rest-portal";
 import { IExtent, ISpatialReference } from "@esri/arcgis-rest-common";
 
 /**
@@ -149,7 +149,7 @@ export interface ICreateServiceResult {
  * import {
  *   createFeatureService,
  *   addToServiceDefinition
- * } from '@esri/arcgis-rest-feature-service-admin';
+ * } from '@esri/arcgis-rest-feature-service';
  * //
  * createFeatureService({
  *   authentication: userSession,

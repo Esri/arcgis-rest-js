@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IItemMoveResponse } from "@esri/arcgis-rest-items";
+import { IItemMoveResponse } from "@esri/arcgis-rest-portal";
 
 export const MoveToFolderResponse: IItemMoveResponse = {
   folder: "83216cba44bf4357bf06687ec88a847b",

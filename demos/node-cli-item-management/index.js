@@ -3,7 +3,7 @@ require("isomorphic-form-data");
 const prompts = require("prompts");
 const chalk = require("chalk");
 const { UserSession } = require("@esri/arcgis-rest-auth");
-const { searchItems, removeItem } = require("@esri/arcgis-rest-items");
+const { searchItems, removeItem } = require("@esri/arcgis-rest-portal");
 
 // 1. Promt the user for sign in. Create a `UserSession`
 authenticate()
