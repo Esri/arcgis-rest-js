@@ -76,9 +76,8 @@ Some useful commands include:
 * [`@esri/arcgis-rest-groups`](./packages/arcgis-rest-groups) - Methods for working with ArcGIS Online/Enterprise groups.
 * [`@esri/arcgis-rest-users`](./packages/arcgis-rest-users) - Methods for working with ArcGIS Online/Enterprise users.
 * [`@esri/arcgis-rest-sharing`](./packages/arcgis-rest-sharing) - Methods for updating permissions for ArcGIS Online/Enterprise content.
-* [`@esri/arcgis-rest-feature-service`](./packages/arcgis-rest-feature-service) - Functions for querying and editing the features inside feature services.
+* [`@esri/arcgis-rest-feature-service`](./packages/arcgis-rest-feature-service) - Functions for creating and updating feature services and querying and editing the features they contain.
 * [`@esri/arcgis-rest-geocoder`](./packages/arcgis-rest-geocoder) - Geocoding wrapper for `@esri/arcgis-rest-js`
-* [`@esri/arcgis-rest-feature-service-admin`](./packages/arcgis-rest-feature-service-admin) - Functions for creating and updating feature services.
 * [`@esri/arcgis-rest-routing`](./packages/arcgis-rest-routing) - Routing and directions wrapper for `@esri/arcgis-rest-js`.
 
 ### Frequently Asked Questions
