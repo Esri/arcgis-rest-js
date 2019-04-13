@@ -10,6 +10,7 @@ export * from "./utils/retryAuthError";
 export * from "./utils/ErrorTypes";
 export * from "./utils/params";
 export * from "./utils/IParamBuilder";
+export * from "./utils/IParamsBuilder";
 export * from "./utils/process-params";
 export * from "./utils/get-portal";
 export * from "./utils/get-portal-url";

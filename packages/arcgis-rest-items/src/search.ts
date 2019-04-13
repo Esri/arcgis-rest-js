@@ -8,7 +8,7 @@ import {
 } from "@esri/arcgis-rest-request";
 
 import { IPagingParams, IItem } from "@esri/arcgis-rest-common-types";
-import { SearchQueryBuilder } from "./SearchBuilder";
+import { SearchQueryBuilder } from "./SearchQueryBuilder";
 
 // this interface still needs to be docced
 export interface ISearchRequest extends IPagingParams {
@@ -74,11 +74,7 @@ export function searchItems(
 
   // send the request
   return request(url, options).then(r => {
-    if (options.rawResponse) {
-      return r;
-    }
-
-    if (r.nextStart === -1) {
+    if (r.nextStart && r.nextStart !== -1) {
       r.nextPage = function() {
         const newOptions = {
           ...options,
@@ -89,7 +85,7 @@ export function searchItems(
             }
           }
         };
-        return request(url, newOptions);
+        return searchItems(newOptions);
       };
     }
 

@@ -146,7 +146,9 @@ export function request(
 
   const params: IParams = {
     ...{ f: "json" },
-    ...requestOptions.params
+    ...(requestOptions.params && requestOptions.params.toParams
+      ? requestOptions.params.toParams()
+      : requestOptions.params)
   };
 
   const fetchOptions: RequestInit = {

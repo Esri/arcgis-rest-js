@@ -14,7 +14,7 @@ export function requiresFormData(params: any) {
       return false;
     }
 
-    if (value.toParam) {
+    if (value && value.toParam) {
       value = value.toParam();
     }
 
@@ -52,7 +52,7 @@ export function processParams(params: any): any {
   Object.keys(params).forEach(key => {
     let param = params[key];
 
-    if (param.toParams) {
+    if (param && param.toParam) {
       param = param.toParam();
     }
 
@@ -64,6 +64,7 @@ export function processParams(params: any): any {
     ) {
       return;
     }
+
     const type = param.constructor.name;
 
     let value: any;
