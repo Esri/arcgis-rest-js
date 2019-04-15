@@ -60,13 +60,11 @@ describe("search", () => {
     fetchMock.once("*", SearchResponse);
 
     searchItems({
-      searchForm: {
-        q: "DC AND typekeywords:hubSiteApplication",
-        num: 12,
-        start: 22,
-        sortField: "title",
-        sortDir: "desc"
-      }
+      q: "DC AND typekeywords:hubSiteApplication",
+      num: 12,
+      start: 22,
+      sortField: "title",
+      sortDir: "desc"
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
@@ -86,13 +84,11 @@ describe("search", () => {
     fetchMock.once("*", SearchResponse);
 
     searchItems({
-      searchForm: {
-        q: "DC AND typekeywords:hubSiteApplication",
-        num: 12,
-        start: 22,
-        sortField: "title",
-        sortDir: "desc"
-      },
+      q: "DC AND typekeywords:hubSiteApplication",
+      num: 12,
+      start: 22,
+      sortField: "title",
+      sortDir: "desc",
       httpMethod: "POST"
     })
       .then(() => {
@@ -119,13 +115,12 @@ describe("search", () => {
       .match("hubSiteApplication")
       .in("typekeywords");
     searchItems({
-      searchForm: {
-        q,
-        num: 12,
-        start: 22,
-        sortField: "title",
-        sortDir: "desc"
-      },
+      q,
+      num: 12,
+      start: 22,
+      sortField: "title",
+      sortDir: "desc",
+
       httpMethod: "POST"
     })
       .then(() => {
@@ -145,13 +140,11 @@ describe("search", () => {
     fetchMock.once("*", SearchResponse);
 
     searchItems({
-      searchForm: {
-        q: "DC AND typekeywords:hubSiteApplication",
-        num: 12,
-        start: 22,
-        sortField: "title",
-        sortDir: "desc"
-      },
+      q: "DC AND typekeywords:hubSiteApplication",
+      num: 12,
+      start: 22,
+      sortField: "title",
+      sortDir: "desc",
       params: {
         foo: "bar"
       }
@@ -205,6 +198,41 @@ describe("search", () => {
       });
   });
 
+  it("should provide a nextSearch() method to fetch the next page when using options", done => {
+    fetchMock.once("*", BigSearchResponse);
+
+    searchItems({ q: "DC AND typekeywords:hubSiteApplication" })
+      .then(r => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://www.arcgis.com/sharing/rest/search?f=json&q=DC%20AND%20typekeywords%3AhubSiteApplication"
+        );
+        if (r.nextPage) {
+          fetchMock.once("*", BigSearchResponse);
+
+          r.nextPage()
+            .then(() => {
+              const [nextUrl]: [string, RequestInit] = fetchMock.lastCall("*");
+
+              expect(nextUrl).toEqual(
+                "https://www.arcgis.com/sharing/rest/search?f=json&q=DC%20AND%20typekeywords%3AhubSiteApplication&start=2"
+              );
+
+              done();
+            })
+            .catch(e => {
+              fail(e);
+            });
+        } else {
+          fail("search result did not have a nextPage() function");
+        }
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   describe("Authenticated methods", () => {
     // setup a UserSession to use in all these tests
     const MOCK_USER_SESSION = new UserSession({
@@ -220,20 +248,13 @@ describe("search", () => {
       portal: "https://myorg.maps.arcgis.com/sharing/rest"
     });
 
-    const MOCK_USER_REQOPTS = {
-      authentication: MOCK_USER_SESSION
-    };
-
     it("search should use the portal and token from Auth Manager", done => {
       fetchMock.once("*", SearchResponse);
 
-      const MOCK_USER_REQOPTS_SEARCH = MOCK_USER_REQOPTS as ISearchRequestOptions;
-
-      MOCK_USER_REQOPTS_SEARCH.searchForm = {
-        q: "DC AND typekeywords:hubSiteApplication"
-      };
-
-      searchItems(MOCK_USER_REQOPTS_SEARCH)
+      searchItems({
+        q: "DC AND typekeywords:hubSiteApplication",
+        authentication: MOCK_USER_SESSION
+      })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");

@@ -72,6 +72,8 @@ export interface IRequestOptions {
    * Additional [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers) to pass into the request.
    */
   headers?: { [key: string]: any };
+
+  [key: string]: any;
 }
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;

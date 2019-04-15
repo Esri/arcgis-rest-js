@@ -6,18 +6,15 @@ import {
   IRequestOptions,
   getPortalUrl
 } from "@esri/arcgis-rest-request";
-
+import { appendCustomParams } from "@esri/arcgis-rest-common";
 import { IPagingParams, IItem } from "@esri/arcgis-rest-common-types";
 import { SearchQueryBuilder } from "./SearchQueryBuilder";
 
-// this interface still needs to be docced
-export interface ISearchRequest extends IPagingParams {
+export interface ISearchRequestOptions extends IRequestOptions, IPagingParams {
   q: string | SearchQueryBuilder;
+  sortField?: string;
+  sortDir?: string;
   [key: string]: any;
-}
-
-export interface ISearchRequestOptions extends IRequestOptions {
-  searchForm?: ISearchRequest;
 }
 
 /**
@@ -30,7 +27,7 @@ export interface ISearchResult {
   num: number;
   nextStart: number;
   results: IItem[];
-  nextPage?: () => Promise<ISearchRequest>;
+  nextPage?: () => Promise<ISearchResult>;
 }
 
 /**
@@ -48,25 +45,23 @@ export interface ISearchResult {
 export function searchItems(
   search: string | ISearchRequestOptions | SearchQueryBuilder
 ): Promise<ISearchResult> {
-  let options: ISearchRequestOptions = {
-    httpMethod: "GET",
-    params: {}
-  };
+  let options: IRequestOptions;
 
   if (typeof search === "string" || search instanceof SearchQueryBuilder) {
-    options.params.q = search;
-  } else {
-    // mixin user supplied requestOptions with defaults
     options = {
-      ...options,
-      ...search
+      httpMethod: "GET",
+      params: {
+        q: search
+      }
     };
-
-    // mixin arbitrary request parameters with search form
-    options.params = {
-      ...search.params,
-      ...search.searchForm
-    };
+  } else {
+    options = appendCustomParams<ISearchRequestOptions>(
+      search,
+      ["q", "num", "start", "sortField", "sortDir"],
+      {
+        httpMethod: "GET"
+      }
+    );
   }
 
   // construct the search url
@@ -76,15 +71,21 @@ export function searchItems(
   return request(url, options).then(r => {
     if (r.nextStart && r.nextStart !== -1) {
       r.nextPage = function() {
-        const newOptions = {
-          ...options,
-          ...{
-            params: {
-              ...options.params,
-              ...{ start: r.nextStart }
-            }
-          }
-        };
+        let newOptions: ISearchRequestOptions;
+
+        if (
+          typeof search === "string" ||
+          search instanceof SearchQueryBuilder
+        ) {
+          newOptions = {
+            q: search,
+            start: r.nextStart
+          };
+        } else {
+          newOptions = search;
+          newOptions.start = r.nextStart;
+        }
+
         return searchItems(newOptions);
       };
     }
