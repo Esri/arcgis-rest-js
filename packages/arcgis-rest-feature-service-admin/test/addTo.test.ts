@@ -3,16 +3,16 @@
 
 import * as fetchMock from "fetch-mock";
 
-import { addToServiceDefinition } from "../../src/admin/addToServiceDefinition";
+import { addToServiceDefinition } from "../src/addTo";
 
 import {
   AddToFeatureServiceSuccessResponseFredAndGinger,
   AddToFeatureServiceSuccessResponseFayardAndHarold,
   AddToFeatureServiceSuccessResponseCydAndGene,
   AddToFeatureServiceError
-} from "../mocks/service";
+} from "./mocks/service";
 
-import { layerDefinitionSid } from "../mocks/layerDefinition";
+import { layerDefinitionSid } from "./mocks/layerDefinition";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
