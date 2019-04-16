@@ -12,10 +12,7 @@ import { warn } from "./utils/warn";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
-let DEFAULT_ARCGIS_REQUEST_OPTIONS: Pick<
-  IRequestOptions,
-  Exclude<keyof IRequestOptions, "url">
-> = {
+let DEFAULT_ARCGIS_REQUEST_OPTIONS: IRequestOptions = {
   httpMethod: "POST",
   params: {
     f: "json"
