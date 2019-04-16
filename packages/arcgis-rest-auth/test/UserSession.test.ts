@@ -9,7 +9,7 @@ import {
   ArcGISRequestError,
   ArcGISAuthError,
   ErrorTypes
-} from "@esri/arcgis-rest-request";
+} from "@esri/arcgis-rest-request/src";
 import * as fetchMock from "fetch-mock";
 import { YESTERDAY, TOMORROW } from "./utils";
 

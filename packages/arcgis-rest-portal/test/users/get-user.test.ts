@@ -9,7 +9,7 @@ import {
   GroupAdminUserResponse
 } from "../mocks/users/user";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { UserSession } from "@esri/arcgis-rest-auth/src";
 import * as fetchMock from "fetch-mock";
 
 const TOMORROW = (function() {
