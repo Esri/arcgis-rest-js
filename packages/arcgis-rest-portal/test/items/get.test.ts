@@ -20,7 +20,7 @@ import {
 
 import { GetItemResourcesResponse } from "../mocks/items/resources";
 
-import { UserSession } from "@esri/arcgis-rest-auth/src";
+import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 
 describe("get", () => {

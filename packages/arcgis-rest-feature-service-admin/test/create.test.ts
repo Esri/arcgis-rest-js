@@ -8,9 +8,9 @@ import { createFeatureService } from "../src/create";
 import { FeatureServiceResponse } from "./mocks/service";
 import { MoveToFolderResponse } from "./mocks/move";
 
-import { UserSession } from "@esri/arcgis-rest-auth/src";
+import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { encodeParam } from "@esri/arcgis-rest-request/src";
+import { encodeParam } from "@esri/arcgis-rest-request";
 
 describe("create feature service", () => {
   afterEach(fetchMock.restore);

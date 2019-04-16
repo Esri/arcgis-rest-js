@@ -2,8 +2,8 @@
  * Apache-2.0 */
 
 import { updateUser, IUpdateUserResponse } from "../../src/users/update";
-import { encodeParam } from "@esri/arcgis-rest-request/src";
-import { UserSession } from "@esri/arcgis-rest-auth/src";
+import { encodeParam } from "@esri/arcgis-rest-request";
+import { UserSession } from "@esri/arcgis-rest-auth";
 import * as fetchMock from "fetch-mock";
 
 const TOMORROW = (function() {

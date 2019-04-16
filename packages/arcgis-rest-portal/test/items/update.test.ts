@@ -15,9 +15,9 @@ import { ItemSuccessResponse } from "../mocks/items/item";
 
 import { UpdateItemResourceResponse } from "../mocks/items/resources";
 
-import { UserSession } from "@esri/arcgis-rest-auth/src";
+import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { encodeParam } from "@esri/arcgis-rest-request/src";
+import { encodeParam } from "@esri/arcgis-rest-request";
 
 describe("search", () => {
   afterEach(fetchMock.restore);

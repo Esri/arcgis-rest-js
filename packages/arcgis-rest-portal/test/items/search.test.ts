@@ -6,7 +6,7 @@ import * as fetchMock from "fetch-mock";
 import { searchItems } from "../../src/items/search";
 
 import { SearchResponse, BigSearchResponse } from "../mocks/items/search";
-import { UserSession } from "@esri/arcgis-rest-auth/src";
+import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 import { SearchQueryBuilder } from "../../src/items/SearchQueryBuilder";
 

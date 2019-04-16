@@ -7,7 +7,7 @@ import {
   appendCustomParams,
   IPagingParams,
   IItem
-} from "@esri/arcgis-rest-request";
+} from "@esri/arcgis-rest-request/src";
 
 import { getPortalUrl } from "../util/get-portal-url";
 import { SearchQueryBuilder } from "./SearchQueryBuilder";

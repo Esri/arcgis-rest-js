@@ -1,5 +1,5 @@
-import { encodeParam } from "@esri/arcgis-rest-request/src";
-import { UserSession } from "@esri/arcgis-rest-auth/src";
+import { encodeParam } from "@esri/arcgis-rest-request";
+import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 
 import * as fetchMock from "fetch-mock";

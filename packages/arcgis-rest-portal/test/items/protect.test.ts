@@ -7,9 +7,9 @@ import { protectItem, unprotectItem } from "../../src/items/protect";
 
 import { ItemSuccessResponse } from "../mocks/items/item";
 
-import { UserSession } from "@esri/arcgis-rest-auth/src";
+import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { encodeParam } from "@esri/arcgis-rest-request/src";
+import { encodeParam } from "@esri/arcgis-rest-request";
 
 describe("search", () => {
   afterEach(fetchMock.restore);

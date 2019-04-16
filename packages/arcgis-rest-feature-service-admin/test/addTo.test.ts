@@ -3,14 +3,14 @@
 
 import * as fetchMock from "fetch-mock";
 
-import { UserSession } from "@esri/arcgis-rest-auth/src";
+import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 import {
   encodeParam,
   ErrorTypes,
   ILayer,
   ITable
-} from "@esri/arcgis-rest-request/src";
+} from "@esri/arcgis-rest-request";
 
 import { addToServiceDefinition } from "../src/addTo";
 import {
