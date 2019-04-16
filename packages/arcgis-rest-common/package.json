@@ -15,6 +15,12 @@
   "dependencies": {
     "tslib": "^1.9.3"
   },
+  "devDependencies": {
+    "@esri/arcgis-rest-request": "^1.19.2"
+  },
+  "peerDependencies": {
+    "@esri/arcgis-rest-request": "^1.19.2"
+  },
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:node && npm run build:umd && npm run build:esm",

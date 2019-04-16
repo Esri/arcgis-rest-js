@@ -7,6 +7,7 @@ export * from "./items/get";
 export * from "./items/protect";
 export * from "./items/remove";
 export * from "./items/search";
+export * from "./items/SearchQueryBuilder";
 export * from "./items/update";
 export * from "./items/helpers";
 

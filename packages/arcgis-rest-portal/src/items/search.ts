@@ -6,17 +6,18 @@ import {
   IRequestOptions,
   getPortalUrl
 } from "@esri/arcgis-rest-request";
+import {
+  appendCustomParams,
+  IPagingParams,
+  IItem
+} from "@esri/arcgis-rest-common";
+import { SearchQueryBuilder } from "./SearchQueryBuilder";
 
-import { IPagingParams, IItem } from "@esri/arcgis-rest-common";
-
-// this interface still needs to be docced
-export interface ISearchRequest extends IPagingParams {
-  q: string;
+export interface ISearchRequestOptions extends IRequestOptions, IPagingParams {
+  q: string | SearchQueryBuilder;
+  sortField?: string;
+  sortDir?: string;
   [key: string]: any;
-}
-
-export interface ISearchRequestOptions extends IRequestOptions {
-  searchForm?: ISearchRequest;
 }
 
 /**
@@ -29,6 +30,7 @@ export interface ISearchResult {
   num: number;
   nextStart: number;
   results: IItem[];
+  nextPage?: () => Promise<ISearchResult>;
 }
 
 /**
@@ -44,32 +46,52 @@ export interface ISearchResult {
  * @returns A Promise that will resolve with the data from the response.
  */
 export function searchItems(
-  search: string | ISearchRequestOptions
+  search: string | ISearchRequestOptions | SearchQueryBuilder
 ): Promise<ISearchResult> {
-  let options: ISearchRequestOptions = {
-    httpMethod: "GET",
-    params: {}
-  };
-
-  if (typeof search === "string") {
-    options.params.q = search;
-  } else {
-    // mixin user supplied requestOptions with defaults
+  let options: IRequestOptions;
+  if (typeof search === "string" || search instanceof SearchQueryBuilder) {
     options = {
-      ...options,
-      ...search
+      httpMethod: "GET",
+      params: {
+        q: search
+      }
     };
-
-    // mixin arbitrary request parameters with search form
-    options.params = {
-      ...search.params,
-      ...search.searchForm
-    };
+  } else {
+    options = appendCustomParams<ISearchRequestOptions>(
+      search,
+      ["q", "num", "start", "sortField", "sortDir"],
+      {
+        httpMethod: "GET"
+      }
+    );
   }
 
   // construct the search url
   const url = `${getPortalUrl(options)}/search`;
 
   // send the request
-  return request(url, options);
+  return request(url, options).then(r => {
+    if (r.nextStart && r.nextStart !== -1) {
+      r.nextPage = function() {
+        let newOptions: ISearchRequestOptions;
+
+        if (
+          typeof search === "string" ||
+          search instanceof SearchQueryBuilder
+        ) {
+          newOptions = {
+            q: search,
+            start: r.nextStart
+          };
+        } else {
+          newOptions = search;
+          newOptions.start = r.nextStart;
+        }
+
+        return searchItems(newOptions);
+      };
+    }
+
+    return r;
+  });
 }

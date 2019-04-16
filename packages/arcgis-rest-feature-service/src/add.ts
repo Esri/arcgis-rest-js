@@ -1,13 +1,9 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IFeature } from "@esri/arcgis-rest-common";
-import {
-  request,
-  IRequestOptions,
-  appendCustomParams,
-  cleanUrl
-} from "@esri/arcgis-rest-request";
+import { request, IRequestOptions, cleanUrl } from "@esri/arcgis-rest-request";
+import { IFeature, appendCustomParams } from "@esri/arcgis-rest-common";
+
 import { IEditFeaturesParams, IEditFeatureResult } from "./helpers";
 
 /**
@@ -64,12 +60,11 @@ export function addFeatures(
   const url = `${cleanUrl(requestOptions.url)}/addFeatures`;
 
   // edit operations are POST only
-  const options: IAddFeaturesRequestOptions = {
-    params: {},
-    ...requestOptions
-  };
-
-  appendCustomParams(requestOptions, options);
+  const options = appendCustomParams<IAddFeaturesRequestOptions>(
+    requestOptions,
+    ["features", "gdbVersion", "returnEditMoment", "rollbackOnFailure"],
+    { params: { ...requestOptions.params } }
+  );
 
   return request(url, options);
 }

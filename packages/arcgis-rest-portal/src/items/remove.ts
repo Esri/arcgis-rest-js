@@ -1,12 +1,8 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  getPortalUrl,
-  appendCustomParams
-} from "@esri/arcgis-rest-request";
-
+import { request, getPortalUrl } from "@esri/arcgis-rest-request";
+import { appendCustomParams } from "@esri/arcgis-rest-common";
 import {
   IItemIdRequestOptions,
   IItemResourceRequestOptions,
@@ -64,8 +60,11 @@ export function removeItemRelationship(
     requestOptions
   )}/content/users/${owner}/removeRelationship`;
 
-  const options = { params: {}, ...requestOptions };
-  appendCustomParams(requestOptions, options);
+  const options = appendCustomParams<IManageItemRelationshipRequestOptions>(
+    requestOptions,
+    ["originItemId", "destinationItemId", "relationshipType"],
+    { params: { ...requestOptions.params } }
+  );
 
   return request(url, options);
 }
