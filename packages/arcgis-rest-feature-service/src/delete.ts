@@ -4,10 +4,10 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams,
   cleanUrl,
   warn
 } from "@esri/arcgis-rest-request";
+import { appendCustomParams } from "@esri/arcgis-rest-common";
 import {
   IEditFeaturesParams,
   IEditFeatureResult,
@@ -75,21 +75,17 @@ export function deleteFeatures(
   const url = `${cleanUrl(requestOptions.url)}/deleteFeatures`;
 
   // edit operations POST only
-  const options: IDeleteFeaturesRequestOptions = {
-    params: {},
-    ...requestOptions
-  };
-
-  appendCustomParams(requestOptions, options);
-
-  if (options.params.deletes && options.params.deletes.length) {
-    // mixin, don't overwrite
-    options.params.objectIds = requestOptions.deletes;
-    delete options.params.deletes;
-    warn(
-      "The `deletes` parameter is deprecated and will be removed in a future release. Please use `objectIds` instead."
-    );
-  }
+  const options = appendCustomParams<IDeleteFeaturesRequestOptions>(
+    requestOptions,
+    [
+      "where",
+      "objectIds",
+      "gdbVersion",
+      "returnEditMoment",
+      "rollbackOnFailure"
+    ],
+    { params: { ...requestOptions.params } }
+  );
 
   return request(url, options);
 }

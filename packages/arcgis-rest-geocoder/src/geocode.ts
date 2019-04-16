@@ -1,18 +1,13 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  appendCustomParams,
-  cleanUrl,
-  IParams
-} from "@esri/arcgis-rest-request";
-
+import { request, cleanUrl, IParams } from "@esri/arcgis-rest-request";
 import {
   IExtent,
   ISpatialReference,
   IPoint
 } from "@esri/arcgis-rest-common-types";
+import { appendCustomParams } from "@esri/arcgis-rest-common";
 
 import { worldGeocoder, IEndpointRequestOptions } from "./helpers";
 
@@ -104,45 +99,50 @@ export interface IGeocodeResponse {
 export function geocode(
   address: string | IGeocodeRequestOptions
 ): Promise<IGeocodeResponse> {
-  let options: IGeocodeRequestOptions = {
-    endpoint: worldGeocoder,
-    params: {}
-  };
+  let options: IGeocodeRequestOptions = {};
+  let endpoint: string;
 
   if (typeof address === "string") {
-    options.params.singleLine = address;
+    options.params = { singleLine: address };
+    endpoint = worldGeocoder;
   } else {
-    options.endpoint = address.endpoint || worldGeocoder;
-    options = {
-      ...options,
-      ...address
-    };
-
-    appendCustomParams(address, options);
+    endpoint = address.endpoint || worldGeocoder;
+    options = appendCustomParams<IGeocodeRequestOptions>(
+      address,
+      [
+        "singleLine",
+        "address",
+        "address2",
+        "address3",
+        "neighborhood",
+        "city",
+        "subregion",
+        "region",
+        "postal",
+        "postalExt",
+        "countryCode"
+      ],
+      { params: { ...address.params } }
+    );
   }
 
   // add spatialReference property to individual matches
-  return request(
-    `${cleanUrl(options.endpoint)}/findAddressCandidates`,
-    options
-  ).then(response => {
-    if (options.rawResponse) {
+  return request(`${cleanUrl(endpoint)}/findAddressCandidates`, options).then(
+    response => {
+      if (typeof address !== "string" && address.rawResponse) {
+        return response;
+      }
+      const sr = response.spatialReference;
+      response.candidates.forEach(function(candidate: {
+        location: IPoint;
+        extent?: IExtent;
+      }) {
+        candidate.location.spatialReference = sr;
+        if (candidate.extent) {
+          candidate.extent.spatialReference = sr;
+        }
+      });
       return response;
     }
-    const sr = response.spatialReference;
-    response.candidates.forEach(function(candidate: {
-      location: IPoint;
-      extent?: IExtent;
-    }) {
-      candidate.location.spatialReference = sr;
-      if (candidate.extent) {
-        candidate.extent.spatialReference = sr;
-      }
-    });
-    return response;
-  });
+  );
 }
-
-export default {
-  geocode
-};

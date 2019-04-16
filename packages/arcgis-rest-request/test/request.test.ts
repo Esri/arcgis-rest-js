@@ -8,13 +8,9 @@ import {
   SharingRestInfoHTML
 } from "./mocks/sharing-rest-info";
 import { MockParamBuilder } from "./mocks/param-builder";
-import { MockParamsBuilder } from "./mocks/params-builder";
-import { MockNestedBuilder } from "./mocks/params-builder-nested";
-
 import { ArcGISOnlineError } from "./mocks/errors";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap";
 import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection";
-import { IParams } from "../dist/esm/utils/IParams";
 
 describe("request()", () => {
   afterEach(fetchMock.restore);

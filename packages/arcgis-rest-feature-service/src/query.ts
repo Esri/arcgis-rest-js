@@ -1,12 +1,8 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  IRequestOptions,
-  appendCustomParams,
-  cleanUrl
-} from "@esri/arcgis-rest-request";
+import { request, IRequestOptions, cleanUrl } from "@esri/arcgis-rest-request";
+import { appendCustomParams } from "@esri/arcgis-rest-common";
 import {
   ISpatialReference,
   IFeatureSet,
@@ -163,22 +159,51 @@ export function getFeature(
 export function queryFeatures(
   requestOptions: IQueryFeaturesRequestOptions
 ): Promise<IQueryFeaturesResponse | IQueryResponse> {
-  const queryOptions: IQueryFeaturesRequestOptions = {
-    params: {},
-    httpMethod: "GET",
-    url: requestOptions.url,
-    ...requestOptions
-  };
+  const queryOptions = appendCustomParams<IQueryFeaturesRequestOptions>(
+    requestOptions,
+    [
+      "where",
+      "objectIds",
+      "relationParam",
+      "time",
+      "distance",
+      "units",
+      "outFields",
+      "returnGeometry",
+      "maxAllowableOffset",
+      "geometryPrecision",
+      "outSR",
+      "gdbVersion",
+      "returnDistinctValues",
+      "returnIdsOnly",
+      "returnCountOnly",
+      "returnExtentOnly",
+      "orderByFields",
+      "groupByFieldsForStatistics",
+      "outStatistics",
+      "returnZ",
+      "returnM",
+      "multipatchOption",
+      "resultOffset",
+      "resultRecordCount",
+      "quantizationParameters",
+      "returnCentroid",
+      "resultType",
+      "historicMoment",
+      "returnTrueCurves",
+      "sqlFormat",
+      "returnExceededLimitFeatures"
+    ],
+    {
+      httpMethod: "GET",
+      params: {
+        // set default query parameters
+        where: "1=1",
+        outFields: "*",
+        ...requestOptions.params
+      }
+    }
+  );
 
-  appendCustomParams(requestOptions, queryOptions);
-
-  // set default query parameters
-  if (!queryOptions.params.where) {
-    queryOptions.params.where = "1=1";
-  }
-  if (!queryOptions.params.outFields) {
-    queryOptions.params.outFields = "*";
-  }
-
-  return request(`${cleanUrl(queryOptions.url)}/query`, queryOptions);
+  return request(`${cleanUrl(requestOptions.url)}/query`, queryOptions);
 }

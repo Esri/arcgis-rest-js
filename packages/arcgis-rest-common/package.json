@@ -13,6 +13,14 @@
     "dist/**"
   ],
   "dependencies": {
+    "tslib": "^1.9.3"
+  },
+
+  "devDependencies": {
+    "tslib": "^1.9.3",
+    "@esri/arcgis-rest-request": "^1.19.2"
+  },
+  "peerDependencies": {
     "tslib": "^1.9.3",
     "@esri/arcgis-rest-request": "^1.19.2"
   },

@@ -1,12 +1,8 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  IRequestOptions,
-  appendCustomParams,
-  cleanUrl
-} from "@esri/arcgis-rest-request";
+import { request, IRequestOptions, cleanUrl } from "@esri/arcgis-rest-request";
+import { appendCustomParams } from "@esri/arcgis-rest-common";
 import {
   ISpatialReference,
   IFeature,
@@ -66,26 +62,23 @@ export interface IQueryRelatedResponse extends IHasZM {
 export function queryRelated(
   requestOptions: IQueryRelatedRequestOptions
 ): Promise<IQueryRelatedResponse> {
-  const options: IQueryRelatedRequestOptions = {
-    params: {},
-    httpMethod: "GET",
-    url: requestOptions.url,
-    ...requestOptions
-  };
+  const options = appendCustomParams<IQueryRelatedRequestOptions>(
+    requestOptions,
+    ["objectIds", "relationshipId", "definitionExpression", "outFields"],
+    {
+      httpMethod: "GET",
+      params: {
+        // set default query parameters
+        definitionExpression: "1=1",
+        outFields: "*",
+        relationshipId: 0,
+        ...requestOptions.params
+      }
+    }
+  );
 
-  appendCustomParams(requestOptions, options);
-
-  if (!options.params.definitionExpression) {
-    options.params.definitionExpression = "1=1";
-  }
-
-  if (!options.params.outFields) {
-    options.params.outFields = "*";
-  }
-
-  if (!options.params.relationshipId) {
-    options.params.relationshipId = 0;
-  }
-
-  return request(`${cleanUrl(options.url)}/queryRelatedRecords`, options);
+  return request(
+    `${cleanUrl(requestOptions.url)}/queryRelatedRecords`,
+    options
+  );
 }

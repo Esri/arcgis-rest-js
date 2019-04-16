@@ -18,11 +18,13 @@
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^1.19.2",
     "@esri/arcgis-rest-common-types": "^1.19.2",
+    "@esri/arcgis-rest-common": "^1.19.2",
     "@esri/arcgis-rest-request": "^1.19.2"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^1.19.2",
     "@esri/arcgis-rest-common-types": "^1.19.2",
+    "@esri/arcgis-rest-common": "^1.19.2",
     "@esri/arcgis-rest-request": "^1.19.2"
   },
   "scripts": {

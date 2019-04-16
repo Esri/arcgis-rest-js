@@ -5,10 +5,11 @@ import { IFeature } from "@esri/arcgis-rest-common-types";
 import {
   request,
   IRequestOptions,
-  appendCustomParams,
   cleanUrl,
   warn
 } from "@esri/arcgis-rest-request";
+import { appendCustomParams } from "@esri/arcgis-rest-common";
+
 import { IEditFeaturesParams, IEditFeatureResult } from "./helpers";
 
 /**
@@ -69,21 +70,11 @@ export function addFeatures(
   const url = `${cleanUrl(requestOptions.url)}/addFeatures`;
 
   // edit operations are POST only
-  const options: IAddFeaturesRequestOptions = {
-    params: {},
-    ...requestOptions
-  };
-
-  appendCustomParams(requestOptions, options);
-
-  if (options.params.adds && options.params.adds.length) {
-    // mixin, don't overwrite
-    options.params.features = requestOptions.adds;
-    delete options.params.adds;
-    warn(
-      "The `adds` parameter is deprecated and will be removed in a future release. Please use `features` instead."
-    );
-  }
+  const options = appendCustomParams<IAddFeaturesRequestOptions>(
+    requestOptions,
+    ["features", "gdbVersion", "returnEditMoment", "rollbackOnFailure"],
+    { params: { ...requestOptions.params } }
+  );
 
   return request(url, options);
 }

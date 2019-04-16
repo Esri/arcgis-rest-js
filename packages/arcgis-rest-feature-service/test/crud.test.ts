@@ -201,15 +201,6 @@ describe("feature", () => {
             Native: "YES"
           }
         }
-      ], // for linting
-      updates: [
-        {
-          attributes: {
-            OBJECTID: 1001,
-            Street: "NO",
-            Native: "YES"
-          }
-        }
       ],
       rollbackOnFailure: false
     } as IUpdateFeaturesRequestOptions;
@@ -238,7 +229,7 @@ describe("feature", () => {
   it("should return objectId of the deleted feature and a truthy success", done => {
     const requestOptions = {
       url: serviceUrl,
-      deletes: [1001],
+      objectIds: [1001],
       where: "1=1"
     } as IDeleteFeaturesRequestOptions;
     fetchMock.once("*", deleteFeaturesResponse);
@@ -251,7 +242,7 @@ describe("feature", () => {
         expect(options.body).toContain("where=1%3D1");
         expect(options.method).toBe("POST");
         expect(response.deleteResults[0].objectId).toEqual(
-          requestOptions.deletes[0]
+          requestOptions.objectIds[0]
         );
         expect(response.deleteResults[0].success).toEqual(true);
         done();
