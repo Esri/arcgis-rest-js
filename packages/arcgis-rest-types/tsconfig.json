@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+      "module": "es2015",
+      "declaration": true,
+      "declarationDir": "./dist/types",
+      "emitDeclarationOnly": true
+  },
+  "include": [
+      "types/**/*.ts"
+  ]
+}

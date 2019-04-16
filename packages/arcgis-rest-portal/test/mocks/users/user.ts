@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IUser } from "@esri/arcgis-rest-common";
+import { IUser } from "@esri/arcgis-rest-types";
 
 export const AnonUserResponse: IUser = {
   username: "jsmith",

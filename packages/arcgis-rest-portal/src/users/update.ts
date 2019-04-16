@@ -7,7 +7,7 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 
-import { IUser } from "@esri/arcgis-rest-common";
+import { IUser } from "@esri/arcgis-rest-types";
 import { UserSession } from "@esri/arcgis-rest-auth";
 
 export interface IUpdateUserRequestOptions extends IRequestOptions {

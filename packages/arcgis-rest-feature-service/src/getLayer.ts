@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request, IRequestOptions, cleanUrl } from "@esri/arcgis-rest-request";
-import { ILayerDefinition } from "@esri/arcgis-rest-common";
+import { ILayerDefinition } from "@esri/arcgis-rest-types";
 
 /**
  * ```js

@@ -23,7 +23,7 @@ import {
 } from "@esri/arcgis-rest-request";
 import { generateToken } from "./generate-token";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token";
-import { IUser } from "@esri/arcgis-rest-common";
+import { IUser } from "@esri/arcgis-rest-types";
 
 /**
  * Internal utility for resolving a Promise from outside its constructor.

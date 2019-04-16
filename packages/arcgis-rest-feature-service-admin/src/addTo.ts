@@ -3,7 +3,7 @@
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { ILayer, ILayerDefinition, ITable } from "@esri/arcgis-rest-common";
+import { ILayer, ILayerDefinition, ITable } from "@esri/arcgis-rest-types";
 
 export interface IAddToServiceDefinitionRequestOptions
   extends IUserRequestOptions {

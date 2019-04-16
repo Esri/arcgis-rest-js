@@ -3,7 +3,7 @@
 
 import { IRequestOptions, getPortalUrl } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
-import { IGroup, IUser, GroupMembership } from "@esri/arcgis-rest-common";
+import { IGroup, IUser, GroupMembership } from "@esri/arcgis-rest-types";
 import { getGroup } from "../groups/get";
 import { IGroupSharingRequestOptions } from "./group-sharing";
 

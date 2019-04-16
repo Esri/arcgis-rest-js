@@ -3,7 +3,7 @@
 
 import { request, getPortalUrl } from "@esri/arcgis-rest-request";
 
-import { IItemAdd } from "@esri/arcgis-rest-common";
+import { IItemAdd } from "@esri/arcgis-rest-types";
 
 import {
   IAddFolderResponse,

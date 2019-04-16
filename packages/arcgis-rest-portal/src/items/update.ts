@@ -7,7 +7,7 @@ import {
   IRequestOptions
 } from "@esri/arcgis-rest-request";
 
-import { IItemUpdate } from "@esri/arcgis-rest-common";
+import { IItemUpdate } from "@esri/arcgis-rest-types";
 
 import {
   IItemCrudRequestOptions,
