@@ -8,10 +8,11 @@ import { checkForErrors } from "./utils/check-for-errors";
 import { ArcGISRequestError } from "./utils/ArcGISRequestError";
 import { IRequestOptions } from "./utils/IRequestOptions";
 import { IParams } from "./utils/IParams";
+import { warn } from "./utils/warn";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
-export const DEFAULT_ARCGIS_REQUEST_OPTIONS: Pick<
+let DEFAULT_ARCGIS_REQUEST_OPTIONS: Pick<
   IRequestOptions,
   Exclude<keyof IRequestOptions, "url">
 > = {
@@ -21,21 +22,16 @@ export const DEFAULT_ARCGIS_REQUEST_OPTIONS: Pick<
   }
 };
 
-function mergeOptions(options: IRequestOptions): IRequestOptions {
-  const params = {
-    ...DEFAULT_ARCGIS_REQUEST_OPTIONS.params,
-    ...options.params
-  };
-  const headers = {
-    ...DEFAULT_ARCGIS_REQUEST_OPTIONS.headers,
-    ...options.headers
-  };
-
-  return {
-    ...DEFAULT_ARCGIS_REQUEST_OPTIONS,
-    ...options,
-    ...{ params, headers }
-  };
+export function setDefaultRequestOptions(
+  options: typeof DEFAULT_ARCGIS_REQUEST_OPTIONS,
+  hideWarnings?: boolean
+) {
+  if (options.authentication && !hideWarnings) {
+    warn(
+      "You should not set `authentication` as a default in a shared environment such as a web server which will process multupile users requests. You can call `setDefaultRequestOptions` with `true` as a second argument to disable this warning."
+    );
+  }
+  DEFAULT_ARCGIS_REQUEST_OPTIONS = options;
 }
 
 /**
@@ -60,34 +56,28 @@ function mergeOptions(options: IRequestOptions): IRequestOptions {
  * @param requestOptions - Options for the request, including parameters relevant to the endpoint.
  * @returns A Promise that will resolve with the data from the response.
  */
-export function request(url: string | IRequestOptions): Promise<any>;
-export function request(url: string, options?: IRequestOptions): Promise<any>;
 export function request(
-  requestUrl: string | IRequestOptions,
-  requestOptions?: IRequestOptions
+  url: string,
+  requestOptions: IRequestOptions = { params: { f: "json" } }
 ): Promise<any> {
+  const options: IRequestOptions = {
+    ...{ httpMethod: "POST" },
+    ...DEFAULT_ARCGIS_REQUEST_OPTIONS,
+    ...requestOptions,
+    ...{
+      params: {
+        ...DEFAULT_ARCGIS_REQUEST_OPTIONS.params,
+        ...requestOptions.params
+      },
+      headers: {
+        ...DEFAULT_ARCGIS_REQUEST_OPTIONS.headers,
+        ...requestOptions.headers
+      }
+    }
+  };
+
   const missingGlobals: string[] = [];
   const recommendedPackages: string[] = [];
-
-  let options: IRequestOptions;
-  let url: string;
-
-  if (typeof requestUrl === "string") {
-    url = requestUrl;
-    if (requestOptions) {
-      options = mergeOptions(requestOptions);
-    } else {
-      options = mergeOptions({});
-    }
-  } else {
-    url = requestUrl.url;
-    options = mergeOptions(requestUrl);
-  }
-
-  // @TODO discuss this!
-  // if (options.url) {
-  //   url = options.url;
-  // }
 
   // don't check for a global fetch if a custom implementation was passed through
   if (!options.fetch && typeof fetch !== "undefined") {
@@ -125,7 +115,7 @@ export function request(
 
   const params: IParams = {
     ...{ f: "json" },
-    ...(options && options.params ? options.params : {})
+    ...options.params
   };
 
   const fetchOptions: RequestInit = {

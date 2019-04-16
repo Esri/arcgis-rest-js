@@ -3,6 +3,7 @@
 
 // utility methods
 export * from "./util/location";
+export * from "./util/with-options";
 
 // types
 export * from "./types/feature";

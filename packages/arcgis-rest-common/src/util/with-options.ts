@@ -1,11 +1,14 @@
-import { IRequestOptions } from "./IRequestOptions";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 
-export function withOptions<T extends (...args: any[]) => any>(
-  func: T,
-  defaultOptions: IRequestOptions
+export function withOptions<
+  K extends IRequestOptions,
+  T extends (...args: any[]) => any
+>(
+  defaultOptions: IRequestOptions,
+  func: T
 ): (...funcArgs: Parameters<T>) => ReturnType<T> {
   return (...args: Parameters<T>): ReturnType<T> => {
-    const options: IRequestOptions =
+    const options: K =
       typeof args[args.length - 1] === "object"
         ? {
             ...defaultOptions,

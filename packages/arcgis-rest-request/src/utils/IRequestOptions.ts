@@ -7,10 +7,6 @@ import { IAuthenticationManager } from "./IAuthenticationManager";
  */
 export interface IRequestOptions {
   /**
-   * URL to use for the request
-   */
-  url?: string;
-  /**
    * Additional parameters to pass in the request.
    */
   params?: IParams;

@@ -1,11 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  ErrorTypes,
-  DEFAULT_ARCGIS_REQUEST_OPTIONS
-} from "../src/index";
+import { request, ErrorTypes, setDefaultRequestOptions } from "../src/index";
 import * as fetchMock from "fetch-mock";
 import {
   SharingRestInfo,
@@ -267,9 +263,11 @@ describe("request()", () => {
   it("should allow setting defaults for all requests", done => {
     fetchMock.once("*", SharingRestInfo);
 
-    DEFAULT_ARCGIS_REQUEST_OPTIONS.headers = {
-      "Test-Header": "Test"
-    };
+    setDefaultRequestOptions({
+      headers: {
+        "Test-Header": "Test"
+      }
+    });
 
     request("https://www.arcgis.com/sharing/rest/info")
       .then(response => {
@@ -286,7 +284,50 @@ describe("request()", () => {
       });
 
     // since calling request is  sync we can delete this right away
-    delete DEFAULT_ARCGIS_REQUEST_OPTIONS.headers;
+    setDefaultRequestOptions({
+      httpMethod: "POST",
+      params: {
+        f: "json"
+      }
+    });
+  });
+
+  it("should warn users when attempting to set default auth", () => {
+    const oldWarn = console.warn;
+
+    console.warn = jasmine.createSpy().and.callFake(() => {
+      return;
+    });
+
+    const MOCK_AUTH = {
+      portal: "https://www.arcgis.com/sharing/rest",
+      getToken() {
+        return Promise.resolve("token");
+      }
+    };
+
+    setDefaultRequestOptions({
+      authentication: MOCK_AUTH
+    });
+
+    setDefaultRequestOptions(
+      {
+        authentication: MOCK_AUTH
+      },
+      true
+    );
+
+    expect(console.warn).toHaveBeenCalledTimes(1);
+
+    // since calling request is  sync we can delete this right away
+    setDefaultRequestOptions({
+      httpMethod: "POST",
+      params: {
+        f: "json"
+      }
+    });
+
+    console.warn = oldWarn;
   });
 
   describe("should throw errors when required dependencies are missing", () => {

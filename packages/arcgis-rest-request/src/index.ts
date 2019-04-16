@@ -24,5 +24,3 @@ export * from "./utils/process-params";
 export * from "./utils/ResponseFormats";
 export * from "./utils/retryAuthError";
 export * from "./utils/warn";
-export * from "./utils/with-options";
-export * from "./utils/with-url";
