@@ -12,6 +12,3 @@ export * from "./deleteAttachments";
 export * from "./queryRelated";
 export * from "./getLayer";
 export * from "./decodeValues";
-
-export * from "./admin/addToServiceDefinition";
-export * from "./admin/createServiceDefinition";

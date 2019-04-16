@@ -3,10 +3,10 @@
 
 import * as fetchMock from "fetch-mock";
 
-import { createFeatureService } from "../../src/admin/createServiceDefinition";
+import { createFeatureService } from "../src/create";
 
-import { FeatureServiceResponse } from "../mocks/service";
-import { MoveToFolderResponse } from "../mocks/move";
+import { FeatureServiceResponse } from "./mocks/service";
+import { MoveToFolderResponse } from "./mocks/move";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";

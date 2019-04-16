@@ -30,7 +30,7 @@ export interface IAddToServiceDefinitionResult {
 
 /**
  * ```js
- * import { addToServiceDefinition } from '@esri/arcgis-rest-feature-service';
+ * import { addToServiceDefinition } from '@esri/arcgis-rest-feature-service-admin';
  * //
  * addToServiceDefinition(serviceurl, {
  *   authentication: userSession,
