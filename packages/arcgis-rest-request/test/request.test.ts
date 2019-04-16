@@ -7,6 +7,7 @@ import {
   SharingRestInfo,
   SharingRestInfoHTML
 } from "./mocks/sharing-rest-info";
+import { MockParamBuilder } from "./mocks/param-builder";
 import { ArcGISOnlineError } from "./mocks/errors";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap";
 import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection";
@@ -328,6 +329,30 @@ describe("request()", () => {
     });
 
     console.warn = oldWarn;
+  });
+
+  describe("should impliment the IParamBuilder and IParamsBuilder interfaces builder", () => {
+    it("should encode a param that impliments IParamBuilder", done => {
+      fetchMock.once("*", GeoJSONFeatureCollection);
+
+      const builder = new MockParamBuilder();
+
+      request(
+        "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
+        {
+          params: { where: builder, f: "geojson" }
+        }
+      )
+        .then(response => {
+          const options: RequestInit = fetchMock.lastCall("*")[1];
+          expect(options.body).toContain(`where=${encodeURIComponent("1=1")}`);
+          expect(response).toEqual(GeoJSONFeatureCollection);
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
   });
 
   describe("should throw errors when required dependencies are missing", () => {

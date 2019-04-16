@@ -3,36 +3,14 @@
 
 import {
   request,
-  appendCustomParams,
   cleanUrl,
-  IParams
-} from "@esri/arcgis-rest-request";
-
-import {
+  appendCustomParams,
   IExtent,
   ISpatialReference,
   IPoint
-} from "@esri/arcgis-rest-common-types";
+} from "@esri/arcgis-rest-request";
 
 import { worldGeocoder, IEndpointRequestOptions } from "./helpers";
-
-// unused, will be removed in v2.0.0
-export interface IGeocodeParams extends IParams {
-  /**
-   * You can create an autocomplete experience by making a call to suggest with partial text and then passing through the magicKey and complete address that are returned to geocode.
-   * ```js
-   * import { suggest, geocode } from '@esri/arcgis-rest-geocoder';
-   * suggest("LAX")
-   *   .then((response) => {
-   *     geocode({
-   *       singleLine: response.suggestions[1].text,
-   *       magicKey: response.suggestions[0].magicKey
-   *     })
-   *   })
-   * ```
-   */
-  magicKey?: string;
-}
 
 export interface IGeocodeRequestOptions extends IEndpointRequestOptions {
   /**
@@ -104,45 +82,50 @@ export interface IGeocodeResponse {
 export function geocode(
   address: string | IGeocodeRequestOptions
 ): Promise<IGeocodeResponse> {
-  let options: IGeocodeRequestOptions = {
-    endpoint: worldGeocoder,
-    params: {}
-  };
+  let options: IGeocodeRequestOptions = {};
+  let endpoint: string;
 
   if (typeof address === "string") {
-    options.params.singleLine = address;
+    options.params = { singleLine: address };
+    endpoint = worldGeocoder;
   } else {
-    options.endpoint = address.endpoint || worldGeocoder;
-    options = {
-      ...options,
-      ...address
-    };
-
-    appendCustomParams(address, options);
+    endpoint = address.endpoint || worldGeocoder;
+    options = appendCustomParams<IGeocodeRequestOptions>(
+      address,
+      [
+        "singleLine",
+        "address",
+        "address2",
+        "address3",
+        "neighborhood",
+        "city",
+        "subregion",
+        "region",
+        "postal",
+        "postalExt",
+        "countryCode"
+      ],
+      { params: { ...address.params } }
+    );
   }
 
   // add spatialReference property to individual matches
-  return request(
-    `${cleanUrl(options.endpoint)}/findAddressCandidates`,
-    options
-  ).then(response => {
-    if (options.rawResponse) {
+  return request(`${cleanUrl(endpoint)}/findAddressCandidates`, options).then(
+    response => {
+      if (typeof address !== "string" && address.rawResponse) {
+        return response;
+      }
+      const sr = response.spatialReference;
+      response.candidates.forEach(function(candidate: {
+        location: IPoint;
+        extent?: IExtent;
+      }) {
+        candidate.location.spatialReference = sr;
+        if (candidate.extent) {
+          candidate.extent.spatialReference = sr;
+        }
+      });
       return response;
     }
-    const sr = response.spatialReference;
-    response.candidates.forEach(function(candidate: {
-      location: IPoint;
-      extent?: IExtent;
-    }) {
-      candidate.location.spatialReference = sr;
-      if (candidate.extent) {
-        candidate.extent.spatialReference = sr;
-      }
-    });
-    return response;
-  });
+  );
 }
-
-export default {
-  geocode
-};

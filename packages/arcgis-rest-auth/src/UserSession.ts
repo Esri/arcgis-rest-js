@@ -19,11 +19,12 @@ import {
   ArcGISAuthError,
   IAuthenticationManager,
   ITokenRequestOptions,
-  cleanUrl
+  cleanUrl,
+  IUser
 } from "@esri/arcgis-rest-request";
+
 import { generateToken } from "./generate-token";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token";
-import { IUser } from "@esri/arcgis-rest-common-types";
 
 /**
  * Internal utility for resolving a Promise from outside its constructor.
@@ -67,7 +68,7 @@ function defer<T>(): IDeferred<T> {
 /**
  * Options for static OAuth 2.0 helper methods on `UserSession`.
  */
-export interface IOauth2Options {
+export interface IOAuth2Options {
   /**
    * Client ID of your application. Can be obtained by registering an application
    * on [ArcGIS for Developers](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/#registering-your-application),
@@ -239,7 +240,7 @@ export class UserSession implements IAuthenticationManager {
    * @browserOnly
    */
   /* istanbul ignore next */
-  public static beginOAuth2(options: IOauth2Options, win: any = window) {
+  public static beginOAuth2(options: IOAuth2Options, win: any = window) {
     const {
       portal,
       provider,
@@ -249,7 +250,7 @@ export class UserSession implements IAuthenticationManager {
       popup,
       state,
       locale
-    }: IOauth2Options = {
+    }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
         provider: "arcgis",
@@ -320,8 +321,8 @@ export class UserSession implements IAuthenticationManager {
    * @browserOnly
    */
   /* istanbul ignore next */
-  public static completeOAuth2(options: IOauth2Options, win: any = window) {
-    const { portal, clientId }: IOauth2Options = {
+  public static completeOAuth2(options: IOAuth2Options, win: any = window) {
+    const { portal, clientId }: IOAuth2Options = {
       ...{ portal: "https://www.arcgis.com/sharing/rest" },
       ...options
     };
@@ -398,10 +399,10 @@ export class UserSession implements IAuthenticationManager {
    * @nodeOnly
    */
   public static authorize(
-    options: IOauth2Options,
+    options: IOAuth2Options,
     response: http.ServerResponse
   ) {
-    const { portal, clientId, duration, redirectUri }: IOauth2Options = {
+    const { portal, clientId, duration, redirectUri }: IOAuth2Options = {
       ...{ portal: "https://arcgis.com/sharing/rest", duration: 20160 },
       ...options
     };
@@ -422,10 +423,10 @@ export class UserSession implements IAuthenticationManager {
    * @nodeOnly
    */
   public static exchangeAuthorizationCode(
-    options: IOauth2Options,
+    options: IOAuth2Options,
     authorizationCode: string
   ): Promise<UserSession> {
-    const { portal, clientId, redirectUri, refreshTokenTTL }: IOauth2Options = {
+    const { portal, clientId, redirectUri, refreshTokenTTL }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
         refreshTokenTTL: 1440

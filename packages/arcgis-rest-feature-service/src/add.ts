@@ -1,14 +1,14 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IFeature } from "@esri/arcgis-rest-common-types";
 import {
   request,
   IRequestOptions,
-  appendCustomParams,
   cleanUrl,
-  warn
+  appendCustomParams,
+  IFeature
 } from "@esri/arcgis-rest-request";
+
 import { IEditFeaturesParams, IEditFeatureResult } from "./helpers";
 
 /**
@@ -29,10 +29,6 @@ export interface IAddFeaturesRequestOptions
    * Array of JSON features to add.
    */
   features: IFeature[];
-  /**
-   * Deprecated. Please use `features` instead.
-   */
-  adds?: IFeature[];
 }
 
 /**
@@ -69,21 +65,11 @@ export function addFeatures(
   const url = `${cleanUrl(requestOptions.url)}/addFeatures`;
 
   // edit operations are POST only
-  const options: IAddFeaturesRequestOptions = {
-    params: {},
-    ...requestOptions
-  };
-
-  appendCustomParams(requestOptions, options);
-
-  if (options.params.adds && options.params.adds.length) {
-    // mixin, don't overwrite
-    options.params.features = requestOptions.adds;
-    delete options.params.adds;
-    warn(
-      "The `adds` parameter is deprecated and will be removed in a future release. Please use `features` instead."
-    );
-  }
+  const options = appendCustomParams<IAddFeaturesRequestOptions>(
+    requestOptions,
+    ["features", "gdbVersion", "returnEditMoment", "rollbackOnFailure"],
+    { params: { ...requestOptions.params } }
+  );
 
   return request(url, options);
 }

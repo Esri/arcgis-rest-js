@@ -1,13 +1,14 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, cleanUrl } from "@esri/arcgis-rest-request";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import {
+  request,
+  cleanUrl,
   ILayer,
   ILayerDefinition,
   ITable
-} from "@esri/arcgis-rest-common-types";
+} from "@esri/arcgis-rest-request";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 export interface IAddToServiceDefinitionRequestOptions
   extends IUserRequestOptions {
@@ -53,8 +54,10 @@ export function addToServiceDefinition(
   url: string,
   requestOptions: IAddToServiceDefinitionRequestOptions
 ): Promise<IAddToServiceDefinitionResult> {
-  const adminUrl =
-    `${cleanUrl(url).replace(`/rest/services`, `/rest/admin/services`)}/addToDefinition`;
+  const adminUrl = `${cleanUrl(url).replace(
+    `/rest/services`,
+    `/rest/admin/services`
+  )}/addToDefinition`;
 
   requestOptions.params = {
     addToDefinition: {},

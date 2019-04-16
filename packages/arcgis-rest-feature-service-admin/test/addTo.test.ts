@@ -3,21 +3,23 @@
 
 import * as fetchMock from "fetch-mock";
 
-import { addToServiceDefinition } from "../src/addTo";
+import { UserSession } from "@esri/arcgis-rest-auth";
+import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
+import {
+  encodeParam,
+  ErrorTypes,
+  ILayer,
+  ITable
+} from "@esri/arcgis-rest-request";
 
+import { addToServiceDefinition } from "../src/addTo";
 import {
   AddToFeatureServiceSuccessResponseFredAndGinger,
   AddToFeatureServiceSuccessResponseFayardAndHarold,
   AddToFeatureServiceSuccessResponseCydAndGene,
   AddToFeatureServiceError
 } from "./mocks/service";
-
 import { layerDefinitionSid } from "./mocks/layerDefinition";
-
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { encodeParam, ErrorTypes } from "@esri/arcgis-rest-request";
-import { ILayer, ITable } from "@esri/arcgis-rest-common-types";
 
 describe("add to feature service", () => {
   afterEach(fetchMock.restore);

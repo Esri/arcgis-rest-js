@@ -1,12 +1,13 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
+  IRequestOptions,
   IField,
   ILayerDefinition,
   IFeature
-} from "@esri/arcgis-rest-common-types";
+} from "@esri/arcgis-rest-request";
+
 import { IQueryFeaturesResponse } from "./query";
 import { getLayer } from "./getLayer";
 

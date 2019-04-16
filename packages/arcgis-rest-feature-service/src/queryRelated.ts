@@ -4,16 +4,14 @@
 import {
   request,
   IRequestOptions,
+  cleanUrl,
   appendCustomParams,
-  cleanUrl
-} from "@esri/arcgis-rest-request";
-import {
   ISpatialReference,
   IFeature,
   IHasZM,
-  esriGeometryType,
+  GeometryType,
   IField
-} from "@esri/arcgis-rest-common-types";
+} from "@esri/arcgis-rest-request";
 
 /**
  * Related record query request options. Additional arguments can be passed via the [params](/arcgis-rest-js/api/feature-service/IQueryRelatedRequestOptions/#params) property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-feature-service-.htm) for more information and a full list of parameters.
@@ -41,7 +39,7 @@ export interface IRelatedRecordGroup {
  */
 
 export interface IQueryRelatedResponse extends IHasZM {
-  geometryType?: esriGeometryType;
+  geometryType?: GeometryType;
   spatialReference?: ISpatialReference;
   fields?: IField[];
   relatedRecordGroups: IRelatedRecordGroup[];
@@ -66,26 +64,23 @@ export interface IQueryRelatedResponse extends IHasZM {
 export function queryRelated(
   requestOptions: IQueryRelatedRequestOptions
 ): Promise<IQueryRelatedResponse> {
-  const options: IQueryRelatedRequestOptions = {
-    params: {},
-    httpMethod: "GET",
-    url: requestOptions.url,
-    ...requestOptions
-  };
+  const options = appendCustomParams<IQueryRelatedRequestOptions>(
+    requestOptions,
+    ["objectIds", "relationshipId", "definitionExpression", "outFields"],
+    {
+      httpMethod: "GET",
+      params: {
+        // set default query parameters
+        definitionExpression: "1=1",
+        outFields: "*",
+        relationshipId: 0,
+        ...requestOptions.params
+      }
+    }
+  );
 
-  appendCustomParams(requestOptions, options);
-
-  if (!options.params.definitionExpression) {
-    options.params.definitionExpression = "1=1";
-  }
-
-  if (!options.params.outFields) {
-    options.params.outFields = "*";
-  }
-
-  if (!options.params.relationshipId) {
-    options.params.relationshipId = 0;
-  }
-
-  return request(`${cleanUrl(options.url)}/queryRelatedRecords`, options);
+  return request(
+    `${cleanUrl(requestOptions.url)}/queryRelatedRecords`,
+    options
+  );
 }

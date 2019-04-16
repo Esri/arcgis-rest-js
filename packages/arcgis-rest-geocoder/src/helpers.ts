@@ -1,19 +1,11 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IRequestOptions, warn } from "@esri/arcgis-rest-request";
+import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 
 // https always
 export const worldGeocoder =
   "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/";
-
-// to do: remove at v2.0.0 (and import from arcgis-rest-common instead)
-export interface ILocation {
-  latitude?: number;
-  longitude?: number;
-  lat?: number;
-  long?: number;
-}
 
 // nice to have: verify custom endpoints contain 'GeocodeServer' and end in a '/'
 export interface IEndpointRequestOptions extends IRequestOptions {
@@ -59,22 +51,3 @@ export function getGeocodeService(
 
   return request(url, options);
 }
-
-/**
- * Deprecated. Please use [`getGeocodeService()`](../getGeocodeService/) instead.
- *
- * @param requestOptions - Request options can contain a custom geocoding service to fetch metadata from.
- * @returns A Promise that will resolve with the data from the response.
- */
-export function serviceInfo(
-  requestOptions?: IEndpointRequestOptions
-): Promise<IGetGeocodeServiceResponse> {
-  warn(
-    "serviceInfo() will be deprecated in the next major release. please use getGeocoderServiceInfo() instead."
-  );
-  return getGeocodeService(requestOptions);
-}
-
-export default {
-  getGeocodeService
-};
