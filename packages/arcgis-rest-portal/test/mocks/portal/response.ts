@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IPortal } from "../../src/utils/get-portal";
+import { IPortal } from "../../../src/util/get-portal";
 
 export const PortalResponse: IPortal = {
   access: "public",

@@ -1,7 +1,7 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { IRequestOptions } from "../request";
-import { cleanUrl } from "./clean-url";
+import { IRequestOptions, cleanUrl } from "@esri/arcgis-rest-request";
+
 /**
  * Helper that returns the appropriate portal url for a given request. `requestOptions.portal` is given
  * precedence over `authentication.portal`. If neither are present, `www.arcgis.com/sharing/rest` is returned.

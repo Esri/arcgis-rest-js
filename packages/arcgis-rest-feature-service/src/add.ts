@@ -5,9 +5,9 @@ import {
   request,
   IRequestOptions,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
+  IFeature
 } from "@esri/arcgis-rest-request";
-import { IFeature } from "@esri/arcgis-rest-types";
 
 import { IEditFeaturesParams, IEditFeatureResult } from "./helpers";
 

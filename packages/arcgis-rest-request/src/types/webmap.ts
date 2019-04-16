@@ -12,14 +12,62 @@ import {
 
 import { IFeature, IFeatureSet } from "./feature";
 
-import { IField } from "./miscellaneous";
-
 import {
   ISimpleLineSymbol,
   IPictureMarkerSymbol,
   ISimpleFillSymbol,
   Color
 } from "./symbol";
+
+/**
+ * Field type.
+ */
+export type esriFieldType =
+  | "esriFieldTypeBlob"
+  | "esriFieldTypeDate"
+  | "esriFieldTypeDouble"
+  | "esriFieldTypeGeometry"
+  | "esriFieldTypeGlobalID"
+  | "esriFieldTypeGUID"
+  | "esriFieldTypeInteger"
+  | "esriFieldTypeOID"
+  | "esriFieldTypeRaster"
+  | "esriFieldTypeSingle"
+  | "esriFieldTypeSmallInteger"
+  | "esriFieldTypeString"
+  | "esriFieldTypeXML";
+
+/**
+ * Contains information about an attribute field.
+ */
+export interface IField {
+  /** A string defining the field name. */
+  name: string;
+  /** A string defining the field type. */
+  type: esriFieldType;
+  /** A string defining the field alias. */
+  alias?: string;
+  /** The domain objects if applicable. */
+  domain?: any;
+  /** A Boolean defining whether this field is editable. */
+  editable?: boolean;
+  /** A Boolean defining whether or not the field is an exact match. */
+  exactMatch?: boolean;
+  /** A number defining how many characters are allowed in a string. field. */
+  length?: number;
+  /** A Boolean defining whether this field can have a null value. */
+  nullable?: boolean;
+  /** The value written in for new records by default. */
+  defaultValue?: any;
+}
+
+/**
+ * Params for paging operations
+ */
+export interface IPagingParams {
+  start?: number;
+  num?: number;
+}
 
 /**
  * The format object can be used with numerical or date fields to provide more detail about how values should be displayed in popup windows.

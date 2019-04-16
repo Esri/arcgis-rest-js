@@ -3,12 +3,11 @@
 
 import {
   request,
-  getPortalUrl,
-  IRequestOptions
+  IRequestOptions,
+  IItemUpdate
 } from "@esri/arcgis-rest-request";
 
-import { IItemUpdate } from "@esri/arcgis-rest-types";
-
+import { getPortalUrl } from "../util/get-portal-url";
 import {
   IItemCrudRequestOptions,
   IItemMoveResponse,

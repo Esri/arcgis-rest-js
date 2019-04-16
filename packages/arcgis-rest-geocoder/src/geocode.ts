@@ -4,9 +4,11 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
+  IExtent,
+  ISpatialReference,
+  IPoint
 } from "@esri/arcgis-rest-request";
-import { IExtent, ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
 
 import { worldGeocoder, IEndpointRequestOptions } from "./helpers";
 

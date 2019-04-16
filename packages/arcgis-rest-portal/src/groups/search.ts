@@ -4,10 +4,11 @@
 import {
   request,
   IRequestOptions,
-  getPortalUrl
+  IPagingParams,
+  IGroup
 } from "@esri/arcgis-rest-request";
 
-import { IPagingParams, IGroup } from "@esri/arcgis-rest-types";
+import { getPortalUrl } from "../util/get-portal-url";
 
 export interface IGroupSearchRequest extends IPagingParams {
   q: string;

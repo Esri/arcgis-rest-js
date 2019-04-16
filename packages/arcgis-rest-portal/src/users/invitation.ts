@@ -1,10 +1,10 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, getPortalUrl } from "@esri/arcgis-rest-request";
-
+import { request, IGroup } from "@esri/arcgis-rest-request";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { IGroup } from "@esri/arcgis-rest-types";
+
+import { getPortalUrl } from "../util/get-portal-url";
 
 export interface IInvitation {
   id: string;

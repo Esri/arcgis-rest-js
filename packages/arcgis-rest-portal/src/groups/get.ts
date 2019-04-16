@@ -4,10 +4,12 @@
 import {
   request,
   IRequestOptions,
-  getPortalUrl
+  IPagingParams,
+  IGroup,
+  IItem
 } from "@esri/arcgis-rest-request";
 
-import { IPagingParams, IGroup, IItem } from "@esri/arcgis-rest-types";
+import { getPortalUrl } from "../util/get-portal-url";
 
 export interface IPagingParamsRequestOptions extends IRequestOptions {
   paging: IPagingParams;

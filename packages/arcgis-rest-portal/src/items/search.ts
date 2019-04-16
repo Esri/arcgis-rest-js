@@ -4,10 +4,12 @@
 import {
   request,
   IRequestOptions,
-  getPortalUrl,
-  appendCustomParams
+  appendCustomParams,
+  IPagingParams,
+  IItem
 } from "@esri/arcgis-rest-request";
-import { IPagingParams, IItem } from "@esri/arcgis-rest-types";
+
+import { getPortalUrl } from "../util/get-portal-url";
 import { SearchQueryBuilder } from "./SearchQueryBuilder";
 
 export interface ISearchRequestOptions extends IRequestOptions, IPagingParams {

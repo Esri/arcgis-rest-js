@@ -1,13 +1,13 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, getPortalUrl } from "@esri/arcgis-rest-request";
+import { request, IExtent, ISpatialReference } from "@esri/arcgis-rest-request";
 import {
   moveItem,
   IItemCrudRequestOptions,
-  determineOwner
+  determineOwner,
+  getPortalUrl
 } from "@esri/arcgis-rest-portal";
-import { IExtent, ISpatialReference } from "@esri/arcgis-rest-types";
 
 /**
  * A [`createParameters` JSON object for a new

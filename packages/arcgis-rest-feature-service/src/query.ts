@@ -5,15 +5,13 @@ import {
   request,
   IRequestOptions,
   cleanUrl,
-  appendCustomParams
-} from "@esri/arcgis-rest-request";
-import {
+  appendCustomParams,
   ISpatialReference,
   IFeatureSet,
   IFeature,
   esriUnits,
   IExtent
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-request";
 
 import { ISharedQueryParams } from "./helpers";
 

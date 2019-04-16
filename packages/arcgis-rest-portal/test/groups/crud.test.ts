@@ -7,10 +7,9 @@ import { removeGroup } from "../../src/groups/remove";
 
 import { GroupEditResponse } from "../mocks/groups/responses";
 
-import { encodeParam } from "@esri/arcgis-rest-request";
+import { encodeParam, IGroupAdd } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { IGroupAdd } from "@esri/arcgis-rest-types";
 import * as fetchMock from "fetch-mock";
 
 describe("groups", () => {

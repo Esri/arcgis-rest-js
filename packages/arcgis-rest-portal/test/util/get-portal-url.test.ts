@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { getPortalUrl } from "../../src/index";
+import { getPortalUrl } from "../../src/util/get-portal-url";
 
 describe("getPortalUrl", () => {
   it("should default to arcgis.com", () => {

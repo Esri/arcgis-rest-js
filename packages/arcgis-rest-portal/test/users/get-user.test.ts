@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { getUser } from "../../src/users/get";
+import { getUser } from "../../src/users/get-user";
 
 import {
   AnonUserResponse,

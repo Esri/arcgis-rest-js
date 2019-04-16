@@ -5,15 +5,13 @@ import {
   request,
   IRequestOptions,
   cleanUrl,
-  appendCustomParams
-} from "@esri/arcgis-rest-request";
-import {
+  appendCustomParams,
   ISpatialReference,
   IFeature,
   IHasZM,
   GeometryType,
   IField
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-request";
 
 /**
  * Related record query request options. Additional arguments can be passed via the [params](/arcgis-rest-js/api/feature-service/IQueryRelatedRequestOptions/#params) property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-feature-service-.htm) for more information and a full list of parameters.
