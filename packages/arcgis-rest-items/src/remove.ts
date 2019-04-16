@@ -63,7 +63,7 @@ export function removeItemRelationship(
   const options = appendCustomParams<IManageItemRelationshipRequestOptions>(
     requestOptions,
     ["originItemId", "destinationItemId", "relationshipType"],
-    {}
+    { params: { ...requestOptions.params } }
   );
 
   return request(url, options);

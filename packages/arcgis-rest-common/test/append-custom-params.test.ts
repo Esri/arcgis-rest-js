@@ -21,4 +21,41 @@ describe("appendCustomParams() helper", () => {
       }
     });
   });
+
+  it("should assign custom params even if theyre falsey", () => {
+    interface IFalseyCustomOptions extends IRequestOptions {
+      foo: boolean;
+    }
+
+    expect(
+      appendCustomParams<IFalseyCustomOptions>({ foo: false }, ["foo"], {
+        httpMethod: "GET"
+      })
+    ).toEqual({
+      httpMethod: "GET",
+      params: {
+        foo: false
+      }
+    });
+  });
+
+  it("should pass through manual params if nothing is present to overwrite them", () => {
+    interface IEmptyCustomOptions extends IRequestOptions {
+      foo?: boolean;
+    }
+
+    expect(
+      appendCustomParams<IEmptyCustomOptions>({}, ["foo"], {
+        httpMethod: "GET",
+        params: {
+          foo: "bar"
+        }
+      })
+    ).toEqual({
+      httpMethod: "GET",
+      params: {
+        foo: "bar"
+      }
+    });
+  });
 });
