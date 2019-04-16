@@ -4,10 +4,10 @@
 import {
   request,
   IRequestOptions,
-  getPortalUrl
+  IItemUpdate
 } from "@esri/arcgis-rest-request";
 
-import { IItemUpdate } from "@esri/arcgis-rest-common";
+import { getPortalUrl } from "../util/get-portal-url";
 
 export interface IGroupUpdateRequestOptions extends IRequestOptions {
   group: IItemUpdate;

@@ -1,16 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, cleanUrl } from "@esri/arcgis-rest-request";
-
 import {
+  request,
+  cleanUrl,
   ILocation,
   ISpatialReference,
   IPoint,
-  IFeature,
-  isLocation,
-  isLocationArray
-} from "@esri/arcgis-rest-common";
+  IFeature
+} from "@esri/arcgis-rest-request";
 
 import { worldRoutingService, IEndpointRequestOptions } from "./helpers";
 
@@ -38,6 +36,24 @@ export interface ISolveRouteResponse {
     summary: object;
     features: IFeature[];
   }>;
+}
+
+function isLocationArray(
+  coords: ILocation | IPoint | [number, number] | [number, number, number]
+): coords is [number, number] | [number, number, number] {
+  return (
+    (coords as [number, number]).length === 2 ||
+    (coords as [number, number, number]).length === 3
+  );
+}
+
+function isLocation(
+  coords: ILocation | IPoint | [number, number] | [number, number, number]
+): coords is ILocation {
+  return (
+    (coords as ILocation).latitude !== undefined ||
+    (coords as ILocation).lat !== undefined
+  );
 }
 
 /**

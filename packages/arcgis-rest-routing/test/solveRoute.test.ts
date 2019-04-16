@@ -6,7 +6,7 @@ import { solveRoute } from "../src/solveRoute";
 import * as fetchMock from "fetch-mock";
 
 import { Solve } from "./mocks/responses";
-import { IPoint, ILocation } from "@esri/arcgis-rest-common";
+import { IPoint, ILocation } from "@esri/arcgis-rest-request/src";
 
 // -117.195677,34.056383;-117.918976,33.812092
 const stops: Array<[number, number]> = [

@@ -71,7 +71,6 @@ Some useful commands include:
 
 * [`@esri/arcgis-rest-request`](./packages/arcgis-rest-request/) - Underpins other packages and supports making low-level requests.
 * [`@esri/arcgis-rest-auth`](./packages/arcgis-rest-auth) - Provides methods for authenticating named users and applications.
-* [`@esri/arcgis-rest-common`](./packages/arcgis-rest-common-types) - - Stores shared methods and types used throughout the ArcGIS API.
 * [`@esri/arcgis-rest-portal`](./packages/arcgis-rest-portal) - Methods for working with ArcGIS Online/Enterprise content and users.
 * [`@esri/arcgis-rest-feature-service`](./packages/arcgis-rest-feature-service) - Functions for querying and editing features inside of hosted feature services.
 * [`@esri/arcgis-rest-feature-service-admin`](./packages/arcgis-rest-feature-service-admin) - Functions for administering hosted feature services.

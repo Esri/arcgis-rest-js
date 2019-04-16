@@ -4,10 +4,11 @@
 import {
   request,
   IRequestOptions,
-  getPortalUrl
+  IGroupAdd,
+  IGroup
 } from "@esri/arcgis-rest-request";
 
-import { IGroupAdd, IGroup } from "@esri/arcgis-rest-common";
+import { getPortalUrl } from "../util/get-portal-url";
 
 export interface IGroupAddRequestOptions extends IRequestOptions {
   group: IGroupAdd;

@@ -3,7 +3,7 @@
 
 import { IGeometry, IHasZM, ISpatialReference, GeometryType } from "./geometry";
 import { ISymbol } from "./symbol";
-import { IField } from "./miscellaneous";
+import { IField } from "./webmap";
 
 /**
  * a spatial entity and its corresponding properties

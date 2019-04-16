@@ -21,7 +21,8 @@ export * from "./groups/search";
 export * from "./groups/update";
 export * from "./groups/join";
 
-export * from "./users/get";
+export * from "./users/get-user";
+export * from "./users/get-user-url";
 export * from "./users/invitation";
 export * from "./users/notification";
 export * from "./users/update";
@@ -29,3 +30,6 @@ export * from "./users/update";
 export * from "./sharing/access";
 export * from "./sharing/group-sharing";
 export * from "./sharing/helpers";
+
+export * from "./util/get-portal";
+export * from "./util/get-portal-url";

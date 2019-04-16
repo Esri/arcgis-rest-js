@@ -7,7 +7,7 @@ import {
   IGroupUsersResult
 } from "../../../src/groups/get";
 
-import { IGroup } from "@esri/arcgis-rest-common";
+import { IGroup } from "@esri/arcgis-rest-request/src";
 
 export const GroupSearchResponse: IGroupSearchResult = {
   query: "* AND owner:dcadmin",

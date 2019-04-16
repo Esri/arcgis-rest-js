@@ -1,8 +1,14 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IRequestOptions, cleanUrl } from "@esri/arcgis-rest-request";
-import { appendCustomParams, IFeature } from "@esri/arcgis-rest-common";
+import {
+  request,
+  IRequestOptions,
+  cleanUrl,
+  appendCustomParams,
+  IFeature
+} from "@esri/arcgis-rest-request";
+
 import { IEditFeaturesParams, IEditFeatureResult } from "./helpers";
 
 /**

@@ -42,7 +42,10 @@ const packageNames = fs
   .readdirSync(path.join(__dirname, "packages"))
   .filter(p => p[0] !== ".")
   .map(p => {
-    return require(path.join(__dirname, "packages", p, "package.json")).name;
+    // common methods should be bundled in each umd, all other dependencies are treated as external.
+    if (p !== "arcgis-rest-common") {
+      return require(path.join(__dirname, "packages", p, "package.json")).name;
+    }
   }, {});
 
 /**

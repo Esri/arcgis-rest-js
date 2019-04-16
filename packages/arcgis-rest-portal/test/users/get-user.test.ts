@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { getUser } from "../../src/users/get";
+import { getUser } from "../../src/users/get-user";
 
 import {
   AnonUserResponse,
@@ -9,7 +9,7 @@ import {
   GroupAdminUserResponse
 } from "../mocks/users/user";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { UserSession } from "@esri/arcgis-rest-auth/src";
 import * as fetchMock from "fetch-mock";
 
 const TOMORROW = (function() {

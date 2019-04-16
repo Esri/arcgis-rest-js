@@ -1,8 +1,10 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, getPortalUrl } from "@esri/arcgis-rest-request";
+import { request } from "@esri/arcgis-rest-request";
 import { IGroupIdRequestOptions } from "./helpers";
+
+import { getPortalUrl } from "../util/get-portal-url";
 
 export type NotificationChannelType = "push" | "email" | "builtin";
 

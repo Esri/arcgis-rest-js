@@ -6,7 +6,7 @@ import {
   SpatialRelationship,
   IGeometry,
   ISpatialReference
-} from "@esri/arcgis-rest-common";
+} from "@esri/arcgis-rest-request";
 
 export interface ISharedQueryParams {
   where?: string;

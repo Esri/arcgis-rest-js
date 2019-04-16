@@ -4,11 +4,11 @@
 import {
   request,
   IRequestOptions,
-  getPortalUrl
+  IItem,
+  IGroup
 } from "@esri/arcgis-rest-request";
 
-import { IItem, IGroup } from "@esri/arcgis-rest-common";
-
+import { getPortalUrl } from "../util/get-portal-url";
 import {
   IItemDataRequestOptions,
   IItemRelationshipRequestOptions

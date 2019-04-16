@@ -1,15 +1,17 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IRequestOptions, cleanUrl } from "@esri/arcgis-rest-request";
 import {
+  request,
+  IRequestOptions,
+  cleanUrl,
   appendCustomParams,
   ISpatialReference,
   IFeature,
   IHasZM,
   GeometryType,
   IField
-} from "@esri/arcgis-rest-common";
+} from "@esri/arcgis-rest-request";
 
 /**
  * Related record query request options. Additional arguments can be passed via the [params](/arcgis-rest-js/api/feature-service/IQueryRelatedRequestOptions/#params) property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-feature-service-.htm) for more information and a full list of parameters.
