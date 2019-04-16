@@ -2,14 +2,14 @@
  * Apache-2.0 */
 
 import { request, IRequestOptions, cleanUrl } from "@esri/arcgis-rest-request";
-import { appendCustomParams } from "@esri/arcgis-rest-common";
 import {
+  appendCustomParams,
   ISpatialReference,
   IFeatureSet,
   IFeature,
   esriUnits,
   IExtent
-} from "@esri/arcgis-rest-common-types";
+} from "@esri/arcgis-rest-common";
 
 import { ISharedQueryParams } from "./helpers";
 

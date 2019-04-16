@@ -1,17 +1,17 @@
-/* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import {
-  esriGeometryType,
+  GeometryType,
   SpatialRelationship,
   IGeometry,
   ISpatialReference
-} from "@esri/arcgis-rest-common-types";
+} from "@esri/arcgis-rest-common";
 
 export interface ISharedQueryParams {
   where?: string;
   geometry?: IGeometry;
-  geometryType?: esriGeometryType;
+  geometryType?: GeometryType;
   // NOTE: either WKID or ISpatialReference
   inSR?: string | ISpatialReference;
   spatialRel?: SpatialRelationship;

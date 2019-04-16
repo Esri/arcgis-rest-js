@@ -1,14 +1,8 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IFeature } from "@esri/arcgis-rest-common-types";
-import {
-  request,
-  IRequestOptions,
-  cleanUrl,
-  warn
-} from "@esri/arcgis-rest-request";
-import { appendCustomParams } from "@esri/arcgis-rest-common";
+import { request, IRequestOptions, cleanUrl } from "@esri/arcgis-rest-request";
+import { appendCustomParams, IFeature } from "@esri/arcgis-rest-common";
 import { IEditFeaturesParams, IEditFeatureResult } from "./helpers";
 
 /**
@@ -29,10 +23,6 @@ export interface IUpdateFeaturesRequestOptions
    * Array of JSON features to update.
    */
   features: IFeature[];
-  /**
-   * Deprecated. Please use `features` instead.
-   */
-  updates?: IFeature[];
 }
 
 /**
