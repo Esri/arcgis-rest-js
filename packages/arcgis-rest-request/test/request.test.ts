@@ -287,52 +287,6 @@ describe("request()", () => {
           fail(e);
         });
     });
-
-    it("should encode a param that impliments IParamsBuilder", done => {
-      fetchMock.once("*", GeoJSONFeatureCollection);
-
-      const builder = new MockParamsBuilder();
-
-      request(
-        "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
-        {
-          params: builder
-        }
-      )
-        .then(response => {
-          const options: RequestInit = fetchMock.lastCall("*")[1];
-          expect(options.body).toContain(`where=${encodeURIComponent("1=1")}`);
-          expect(options.body).toContain(`f=geojson`);
-          expect(response).toEqual(GeoJSONFeatureCollection);
-          done();
-        })
-        .catch(e => {
-          fail(e);
-        });
-    });
-
-    it("should chain IParamBuilder and IParamsBuilder", done => {
-      fetchMock.once("*", GeoJSONFeatureCollection);
-
-      const builder = new MockNestedBuilder();
-
-      request(
-        "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
-        {
-          params: builder
-        }
-      )
-        .then(response => {
-          const options: RequestInit = fetchMock.lastCall("*")[1];
-          expect(options.body).toContain(`where=${encodeURIComponent("1=1")}`);
-          expect(options.body).toContain(`f=geojson`);
-          expect(response).toEqual(GeoJSONFeatureCollection);
-          done();
-        })
-        .catch(e => {
-          fail(e);
-        });
-    });
   });
 
   describe("should throw errors when required dependencies are missing", () => {

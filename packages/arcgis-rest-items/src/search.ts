@@ -7,7 +7,7 @@ import {
   getPortalUrl
 } from "@esri/arcgis-rest-request";
 import { appendCustomParams } from "@esri/arcgis-rest-common";
-import { IPagingParams, IItem } from "@esri/arcgis-rest-common-types";
+import { IPagingParams, IItem, ISearch } from "@esri/arcgis-rest-common-types";
 import { SearchQueryBuilder } from "./SearchQueryBuilder";
 
 export interface ISearchRequestOptions extends IRequestOptions, IPagingParams {
@@ -46,7 +46,6 @@ export function searchItems(
   search: string | ISearchRequestOptions | SearchQueryBuilder
 ): Promise<ISearchResult> {
   let options: IRequestOptions;
-
   if (typeof search === "string" || search instanceof SearchQueryBuilder) {
     options = {
       httpMethod: "GET",
