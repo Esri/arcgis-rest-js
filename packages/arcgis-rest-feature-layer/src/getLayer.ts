@@ -10,7 +10,7 @@ import {
 
 /**
  * ```js
- * import { getLayer } from '@esri/arcgis-rest-feature-service';
+ * import { getLayer } from '@esri/arcgis-rest-feature-layer';
  * //
  * getLayer("https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0")
  *   .then(response) // { name: "311", id: 0, ... }

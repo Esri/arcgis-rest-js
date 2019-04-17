@@ -40,7 +40,7 @@ export interface IUpdateAttachmentResponse {
 /**
  *
  * ```js
- * import { updateAttachment } from '@esri/arcgis-rest-feature-service';
+ * import { updateAttachment } from '@esri/arcgis-rest-feature-layer';
  * //
  * updateAttachment({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",

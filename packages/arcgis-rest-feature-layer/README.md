@@ -12,29 +12,29 @@
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
-# @esri/arcgis-rest-feature-service
+# @esri/arcgis-rest-feature-layer
 
-> A module for working with ArcGIS feature services that runs in Node.js and modern browsers.
+> A module for querying and editing features in ArcGIS feature layers that runs in Node.js and modern browsers.
 
 ### Example
 
 ```bash
 npm install @esri/arcgis-rest-request
-npm install @esri/arcgis-rest-feature-service
+npm install @esri/arcgis-rest-feature-layer
 ```
 
 ```js
-import { getFeature } from '@esri/arcgis-rest-feature-service';
+import { queryFeatures } from '@esri/arcgis-rest-feature-layer';
 
 const options = {
   url:
     "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
-  id: 42
+  where: "Species = 'Oak'"
 };
 
-getFeature(options)
-  .then(feature => {
-    console.log(feature.attributes.FID); // 42
+queryFeatures(options)
+  .then(response => {
+    console.log(response.features.length); // 500
   });
 ```
 

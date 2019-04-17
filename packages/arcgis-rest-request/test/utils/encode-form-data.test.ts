@@ -6,7 +6,7 @@ import {
   requiresFormData,
   processParams
 } from "../../src/utils/process-params";
-import { attachmentFile } from "../../../arcgis-rest-feature-service/test/attachments.test";
+import { attachmentFile } from "../../../arcgis-rest-feature-layer/test/attachments.test";
 
 describe("encodeFormData", () => {
   it("should encode in form data for multipart file requests", () => {

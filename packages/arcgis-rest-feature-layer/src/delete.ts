@@ -52,7 +52,7 @@ export interface IDeleteFeaturesResult {
 
 /**
  * ```js
- * import { deleteFeatures } from '@esri/arcgis-rest-feature-service';
+ * import { deleteFeatures } from '@esri/arcgis-rest-feature-layer';
  * //
  * deleteFeatures({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",

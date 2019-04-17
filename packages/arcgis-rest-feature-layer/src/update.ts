@@ -12,13 +12,13 @@ import {
 import { IEditFeaturesParams, IEditFeatureResult } from "./helpers";
 
 /**
- * Add features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-features.htm) for more information.
+ * Update features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/update-features.htm) for more information.
  *
  * @param url - Feature service url.
- * @param features - Array of JSON features to add.
+ * @param features - Array of JSON features to update.
  * @param params - Query parameters to be sent to the feature service via the request.
  */
-export interface IAddFeaturesRequestOptions
+export interface IUpdateFeaturesRequestOptions
   extends IEditFeaturesParams,
     IRequestOptions {
   /**
@@ -26,46 +26,46 @@ export interface IAddFeaturesRequestOptions
    */
   url: string;
   /**
-   * Array of JSON features to add.
+   * Array of JSON features to update.
    */
   features: IFeature[];
 }
 
 /**
- * Add features results.
+ * Update features results.
  */
-export interface IAddFeaturesResult {
+export interface IUpdateFeaturesResult {
   /**
-   * Array of JSON response Object(s) for each feature added.
+   * Array of JSON response Object(s) for each feature updated.
    */
-  addResults?: IEditFeatureResult[];
+  updateResults?: IEditFeatureResult[];
 }
 
 /**
+ *
  * ```js
- * import { addFeatures } from '@esri/arcgis-rest-feature-service';
+ * import { updateFeatures } from '@esri/arcgis-rest-feature-layer';
  * //
- * addFeatures({
+ * updateFeatures({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
  *   features: [{
  *     geometry: { x: -120, y: 45, spatialReference: { wkid: 4326 } },
  *     attributes: { status: "alive" }
  *   }]
- * })
- *   .then(response)
+ * });
  * ```
- * Add features request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-features.htm) for more information.
+ * Update features request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/update-features.htm) for more information.
  *
  * @param requestOptions - Options for the request.
- * @returns A Promise that will resolve with the addFeatures response.
+ * @returns A Promise that will resolve with the updateFeatures response.
  */
-export function addFeatures(
-  requestOptions: IAddFeaturesRequestOptions
-): Promise<IAddFeaturesResult> {
-  const url = `${cleanUrl(requestOptions.url)}/addFeatures`;
+export function updateFeatures(
+  requestOptions: IUpdateFeaturesRequestOptions
+): Promise<IUpdateFeaturesResult> {
+  const url = `${cleanUrl(requestOptions.url)}/updateFeatures`;
 
   // edit operations are POST only
-  const options = appendCustomParams<IAddFeaturesRequestOptions>(
+  const options = appendCustomParams<IUpdateFeaturesRequestOptions>(
     requestOptions,
     ["features", "gdbVersion", "returnEditMoment", "rollbackOnFailure"],
     { params: { ...requestOptions.params } }

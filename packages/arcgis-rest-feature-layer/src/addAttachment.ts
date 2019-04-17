@@ -35,7 +35,7 @@ export interface IAddAttachmentResponse {
 
 /**
  * ```js
- * import { addAttachment } from '@esri/arcgis-rest-feature-service';
+ * import { addAttachment } from '@esri/arcgis-rest-feature-layer';
  * //
  * addAttachment({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
