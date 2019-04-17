@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@esri/arcgis-rest-auth": "^1.19.2",
-    "@esri/arcgis-rest-geocoder": "^1.19.2",
+    "@esri/arcgis-rest-geocoding": "^1.19.2",
     "@esri/arcgis-rest-request": "^1.19.2"
   },
   "devDependencies": {

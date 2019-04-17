@@ -6,7 +6,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@esri/arcgis-rest-feature-service": "^1.19.2",
+    "@esri/arcgis-rest-feature-layer": "^1.19.2",
     "@esri/arcgis-rest-request": "^1.19.2"
   },
   "devDependencies": {
