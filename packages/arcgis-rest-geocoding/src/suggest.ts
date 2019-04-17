@@ -15,7 +15,7 @@ export interface ISuggestResponse {
 
 /**
  * ```js
- * import { suggest } from '@esri/arcgis-rest-geocoder';
+ * import { suggest } from '@esri/arcgis-rest-geocoding';
  * //
  * suggest("Starb")
  *   .then(response) // response.text === "Starbucks"

@@ -12,7 +12,7 @@
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
-# @esri/arcgis-rest-geocoder
+# @esri/arcgis-rest-geocoding
 
 > Geocoding helpers for [`@esri/arcgis-rest-request`](https://github.com/Esri/arcgis-rest-js).
 
@@ -21,11 +21,11 @@
 ```bash
 npm install @esri/arcgis-rest-common-types
 npm install @esri/arcgis-rest-request
-npm install @esri/arcgis-rest-geocoder
+npm install @esri/arcgis-rest-geocoding
 ```
 
 ```js
-import { geocode } from '@esri/arcgis-rest-geocoder';
+import { geocode } from '@esri/arcgis-rest-geocoding';
 
 geocode("LAX")
   .then((response) => {
@@ -34,15 +34,15 @@ geocode("LAX")
   });
 ```
 
-### [API Reference](https://esri.github.io/arcgis-rest-js/api/geocoder/)
+### [API Reference](https://esri.github.io/arcgis-rest-js/api/geocoding/)
 
-* [`geocode("1 World Way Los Angeles 90045")`](https://esri.github.io/arcgis-rest-js/api/geocoder/geocode/)
+* [`geocode("1 World Way Los Angeles 90045")`](https://esri.github.io/arcgis-rest-js/api/geocoding/geocode/)
 
-* [`suggest("Starb")`](https://esri.github.io/arcgis-rest-js/api/geocoder/suggest/)
+* [`suggest("Starb")`](https://esri.github.io/arcgis-rest-js/api/geocoding/suggest/)
 
-* [`reverseGeocode([-118.409,33.943 ])`](https://esri.github.io/arcgis-rest-js/api/geocoder/reverseGeocode/)
+* [`reverseGeocode([-118.409,33.943 ])`](https://esri.github.io/arcgis-rest-js/api/geocoding/reverseGeocode/)
 
-* [`bulkGeocode()`](https://esri.github.io/arcgis-rest-js/api/geocoder/bulkGeocode/)
+* [`bulkGeocode()`](https://esri.github.io/arcgis-rest-js/api/geocoding/bulkGeocode/)
 
 ### Issues
 

@@ -37,7 +37,7 @@ function isLocation(
 
 /**
  * ```js
- * import { reverseGeocode } from '@esri/arcgis-rest-geocoder';
+ * import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
  * //
  * reverseGeocode([-118.409,33.943 ]) // long, lat
  *   .then((response) => {

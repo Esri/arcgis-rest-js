@@ -1,9 +1,9 @@
 {
-  "name": "@esri/arcgis-rest-geocoder",
+  "name": "@esri/arcgis-rest-geocoding",
   "version": "1.19.2",
   "description": "Geocoding helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
-  "unpkg": "dist/umd/geocoder.umd.js",
+  "unpkg": "dist/umd/geocoding.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "sideEffects": false,
