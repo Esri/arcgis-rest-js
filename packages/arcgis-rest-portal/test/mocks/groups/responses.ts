@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IGroupSearchResult } from "../../../src/groups/search";
+import { ISearchResult } from "../../../src/util/search";
 import {
   IGroupContentResult,
   IGroupUsersResult
@@ -9,7 +9,7 @@ import {
 
 import { IGroup } from "@esri/arcgis-rest-request";
 
-export const GroupSearchResponse: IGroupSearchResult = {
+export const GroupSearchResponse: ISearchResult<IGroup> = {
   query: "* AND owner:dcadmin",
   total: 358,
   start: 1,

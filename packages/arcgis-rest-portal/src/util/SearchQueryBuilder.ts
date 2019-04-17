@@ -1,4 +1,4 @@
-import { IParamBuilder, warn } from "@esri/arcgis-rest-request/src";
+import { IParamBuilder, warn } from "@esri/arcgis-rest-request";
 
 export class SearchQueryBuilder implements IParamBuilder {
   private termStack: any[] = [];

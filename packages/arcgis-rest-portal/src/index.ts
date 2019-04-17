@@ -7,7 +7,6 @@ export * from "./items/get";
 export * from "./items/protect";
 export * from "./items/remove";
 export * from "./items/search";
-export * from "./items/SearchQueryBuilder";
 export * from "./items/update";
 export * from "./items/helpers";
 
@@ -33,3 +32,7 @@ export * from "./sharing/helpers";
 
 export * from "./util/get-portal";
 export * from "./util/get-portal-url";
+export * from "./util/search";
+export * from "./util/SearchQueryBuilder";
+// we dont export 'generic-search' because its an internal utility method
+// export * from "./util/generic-search"; because its an internal utility method
