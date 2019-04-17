@@ -4,15 +4,15 @@
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/arcgis-rest-js/master/LICENSE)
 
-[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-feature-service-admin.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-feature-service-admin
+[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-service-admin.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-service-admin
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
-[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-feature-service-admin/dist/umd/feature-service-admin.umd.min.js?compression=gzip
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-service-admin/dist/umd/feature-service-admin.umd.min.js?compression=gzip
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
-# @esri/arcgis-rest-feature-service-admin
+# @esri/arcgis-rest-service-admin
 
 > A module for administering ArcGIS feature services that runs in Node.js and modern browsers.
 
@@ -22,11 +22,11 @@
 npm install @esri/arcgis-rest-request
 npm install @esri/arcgis-rest-auth
 npm install @esri/arcgis-rest-portal
-npm install @esri/arcgis-rest-feature-service-admin
+npm install @esri/arcgis-rest-service-admin
 ```
 
 ```js
-import { createFeatureService } from '@esri/arcgis-rest-feature-service-admin';
+import { createFeatureService } from '@esri/arcgis-rest-service-admin';
 
 createFeatureService({
   authentication,
@@ -34,7 +34,7 @@ createFeatureService({
 })
 ```
 
-### [API Reference](https://esri.github.io/arcgis-rest-js/api/feature-service-admin/)
+### [API Reference](https://esri.github.io/arcgis-rest-js/api/service-admin/)
 
 ### Issues
 

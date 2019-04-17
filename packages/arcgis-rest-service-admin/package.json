@@ -1,9 +1,9 @@
 {
-  "name": "@esri/arcgis-rest-feature-service-admin",
+  "name": "@esri/arcgis-rest-service-admin",
   "version": "1.19.2",
-  "description": "Feature service administration helpers for @esri/arcgis-rest-request",
+  "description": "Service administration helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
-  "unpkg": "dist/umd/feature-service-admin.umd.js",
+  "unpkg": "dist/umd/service-admin.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "sideEffects": false,
