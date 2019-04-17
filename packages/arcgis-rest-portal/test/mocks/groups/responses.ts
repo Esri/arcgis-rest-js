@@ -9,7 +9,7 @@ import {
 
 import { IGroup } from "@esri/arcgis-rest-request";
 
-export const GroupSearchResponse: ISearchResult = {
+export const GroupSearchResponse: ISearchResult<IGroup> = {
   query: "* AND owner:dcadmin",
   total: 358,
   start: 1,

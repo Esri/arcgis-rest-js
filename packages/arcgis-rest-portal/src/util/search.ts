@@ -20,12 +20,12 @@ export interface ISearchRequestOptions extends IRequestOptions, IPagingParams {
 /**
  * Results from an item or group search.
  */
-export interface ISearchResult {
+export interface ISearchResult<T extends IItem | IGroup> {
   query: string; // matches the api's form param
   total: number;
   start: number;
   num: number;
   nextStart: number;
-  results: IItem[] | IGroup[];
-  nextPage?: () => Promise<ISearchResult>;
+  results: T[];
+  nextPage?: () => Promise<ISearchResult<T>>;
 }

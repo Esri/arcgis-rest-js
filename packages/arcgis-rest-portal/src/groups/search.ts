@@ -1,6 +1,7 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { IGroup } from "@esri/arcgis-rest-request";
 import { SearchQueryBuilder } from "../util/SearchQueryBuilder";
 import { ISearchRequestOptions, ISearchResult } from "../util/search";
 import { genericSearch } from "../util/generic-search";
@@ -19,6 +20,6 @@ import { genericSearch } from "../util/generic-search";
  */
 export function searchGroups(
   search: string | ISearchRequestOptions | SearchQueryBuilder
-): Promise<ISearchResult> {
-  return genericSearch(search, "group");
+): Promise<ISearchResult<IGroup>> {
+  return genericSearch<IGroup>(search, "group");
 }

@@ -1,9 +1,10 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { IItem } from "@esri/arcgis-rest-request";
 import { ISearchResult } from "../../../src/util/search";
 
-export const SearchResponse: ISearchResult = {
+export const SearchResponse: ISearchResult<IItem> = {
   query: "",
   total: 10795,
   start: 1,
@@ -61,7 +62,7 @@ export const SearchResponse: ISearchResult = {
   ]
 };
 
-export const BigSearchResponse: ISearchResult = {
+export const BigSearchResponse: ISearchResult<IItem> = {
   query: "",
   total: 10795,
   start: 1,

@@ -4,17 +4,19 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams
+  appendCustomParams,
+  IItem,
+  IGroup
 } from "@esri/arcgis-rest-request";
 
 import { SearchQueryBuilder } from "./SearchQueryBuilder";
 import { getPortalUrl } from "../util/get-portal-url";
 import { ISearchRequestOptions, ISearchResult } from "../util/search";
 
-export function genericSearch(
+export function genericSearch<T extends IItem | IGroup>(
   search: string | ISearchRequestOptions | SearchQueryBuilder,
   searchType: "item" | "group"
-): Promise<ISearchResult> {
+): Promise<ISearchResult<T>> {
   let url: string;
   let options: IRequestOptions;
   if (typeof search === "string" || search instanceof SearchQueryBuilder) {
@@ -34,9 +36,9 @@ export function genericSearch(
     );
   }
 
-  searchType === "item"
-    ? (url = `${getPortalUrl(options)}/search`)
-    : (url = `${getPortalUrl(options)}/community/groups`);
+  url =
+    getPortalUrl(options) +
+    (searchType === "item" ? "/search" : "/community/groups");
 
   // send the request
   return request(url, options).then(r => {
@@ -57,7 +59,7 @@ export function genericSearch(
           newOptions.start = r.nextStart;
         }
 
-        return genericSearch(newOptions, searchType);
+        return genericSearch<T>(newOptions, searchType);
       };
     }
 
