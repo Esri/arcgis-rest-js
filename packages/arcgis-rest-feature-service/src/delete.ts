@@ -3,11 +3,11 @@
 
 import {
   request,
-  IRequestOptions,
   cleanUrl,
   appendCustomParams
 } from "@esri/arcgis-rest-request";
 import {
+  ILayerRequestOptions,
   IEditFeaturesParams,
   IEditFeatureResult,
   ISharedQueryParams
@@ -29,11 +29,7 @@ export interface IDeleteFeaturesParams
  */
 export interface IDeleteFeaturesRequestOptions
   extends IDeleteFeaturesParams,
-    IRequestOptions {
-  /**
-   * Feature service url.
-   */
-  url: string;
+    ILayerRequestOptions {
   /**
    * Array of objectIds to delete.
    */
