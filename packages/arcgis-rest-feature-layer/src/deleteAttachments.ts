@@ -31,7 +31,7 @@ export interface IDeleteAttachmentsResponse {
 
 /**
  * ```js
- * import { deleteAttachments } from '@esri/arcgis-rest-feature-service';
+ * import { deleteAttachments } from '@esri/arcgis-rest-feature-layer';
  * //
  * deleteAttachments({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",

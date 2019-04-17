@@ -5,7 +5,7 @@ import { request, cleanUrl, ILayerDefinition } from "@esri/arcgis-rest-request";
 import { ILayerRequestOptions } from "./helpers";
 /**
  * ```js
- * import { getLayer } from '@esri/arcgis-rest-feature-service';
+ * import { getLayer } from '@esri/arcgis-rest-feature-layer';
  * //
  * getLayer({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0"

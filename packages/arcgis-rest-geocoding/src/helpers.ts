@@ -27,7 +27,7 @@ export interface IGetGeocodeServiceResponse {
  * Used to fetch metadata from a geocoding service.
  *
  * ```js
- * import { getGeocoderServiceInfo } from '@esri/arcgis-rest-geocoder';
+ * import { getGeocoderServiceInfo } from '@esri/arcgis-rest-geocoding';
  *
  * getGeocoderServiceInfo()
  *   .then((response) => {

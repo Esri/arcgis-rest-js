@@ -1,9 +1,9 @@
 {
-  "name": "@esri/arcgis-rest-geocoder",
+  "name": "@esri/arcgis-rest-service-admin",
   "version": "1.19.2",
-  "description": "Geocoding helpers for @esri/arcgis-rest-request",
+  "description": "Service administration helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
-  "unpkg": "dist/umd/geocoder.umd.js",
+  "unpkg": "dist/umd/service-admin.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "sideEffects": false,
@@ -17,11 +17,13 @@
   },
   "devDependencies": {
     "@esri/arcgis-rest-request": "^1.19.2",
-    "@esri/arcgis-rest-auth": "^1.19.2"
+    "@esri/arcgis-rest-auth": "^1.19.2",
+    "@esri/arcgis-rest-portal": "^1.19.2"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-request": "^1.19.2",
-    "@esri/arcgis-rest-auth": "^1.19.2"
+    "@esri/arcgis-rest-auth": "^1.19.2",
+    "@esri/arcgis-rest-portal": "^1.19.2"
   },
   "scripts": {
     "prepare": "npm run build",
@@ -42,9 +44,8 @@
   },
   "contributors": [
     {
-      "name": "Patrick Arlt",
-      "email": "parlt@esri.com",
-      "url": "http://patrickarlt.com/"
+      "name": "Mike Tschudi",
+      "email": "mtschudi@esri.com"
     }
   ],
   "bugs": {

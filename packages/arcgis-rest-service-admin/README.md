@@ -4,45 +4,37 @@
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/arcgis-rest-js/master/LICENSE)
 
-[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-geocoder.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-geocoder
+[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-service-admin.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-service-admin
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
-[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-geocoder/dist/umd/geocoder.umd.min.js?compression=gzip
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-service-admin/dist/umd/feature-service-admin.umd.min.js?compression=gzip
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
-# @esri/arcgis-rest-geocoder
+# @esri/arcgis-rest-service-admin
 
-> Geocoding helpers for [`@esri/arcgis-rest-request`](https://github.com/Esri/arcgis-rest-js).
+> A module for administering ArcGIS feature services that runs in Node.js and modern browsers.
 
 ### Example
 
 ```bash
-npm install @esri/arcgis-rest-common-types
 npm install @esri/arcgis-rest-request
-npm install @esri/arcgis-rest-geocoder
+npm install @esri/arcgis-rest-auth
+npm install @esri/arcgis-rest-portal
+npm install @esri/arcgis-rest-service-admin
 ```
 
 ```js
-import { geocode } from '@esri/arcgis-rest-geocoder';
+import { createFeatureService } from '@esri/arcgis-rest-service-admin';
 
-geocode("LAX")
-  .then((response) => {
-    response.candidates[0].location;
-    // => { x: -118.409, y: 33.943  }
-  });
+createFeatureService({
+  authentication,
+  item: { name: "GreenField" }
+})
 ```
 
-### [API Reference](https://esri.github.io/arcgis-rest-js/api/geocoder/)
-
-* [`geocode("1 World Way Los Angeles 90045")`](https://esri.github.io/arcgis-rest-js/api/geocoder/geocode/)
-
-* [`suggest("Starb")`](https://esri.github.io/arcgis-rest-js/api/geocoder/suggest/)
-
-* [`reverseGeocode([-118.409,33.943 ])`](https://esri.github.io/arcgis-rest-js/api/geocoder/reverseGeocode/)
-
-* [`bulkGeocode()`](https://esri.github.io/arcgis-rest-js/api/geocoder/bulkGeocode/)
+### [API Reference](https://esri.github.io/arcgis-rest-js/api/service-admin/)
 
 ### Issues
 
@@ -60,17 +52,11 @@ For more information on SemVer, please visit <http://semver.org/>.
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](CONTRIBUTING.md).
 
-### In the wild
-
-| What | Who  |
-| -- | -- |
-| [React](https://twitter.com/oppoudel/status/1022209378378805249) component | [@oppoudel](https://github.com/oppoudel) |
-
 ### [Changelog](https://github.com/Esri/arcgis-rest-js/blob/master/CHANGELOG.md)
 
 ### License
 
-Copyright &copy; 2017-2019 Esri
+Copyright &copy; 2018-2019 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

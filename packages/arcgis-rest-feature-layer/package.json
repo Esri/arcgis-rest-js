@@ -1,9 +1,9 @@
 {
-  "name": "@esri/arcgis-rest-feature-service",
+  "name": "@esri/arcgis-rest-feature-layer",
   "version": "1.19.2",
-  "description": "Feature service helpers for @esri/arcgis-rest-request",
+  "description": "Feature layer query and edit helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
-  "unpkg": "dist/umd/feature-service.umd.js",
+  "unpkg": "dist/umd/feature-layer.umd.js",
   "module": "dist/esm/index.js",
   "js:next": "dist/esm/index.js",
   "sideEffects": false,
@@ -13,8 +13,7 @@
     "dist/**"
   ],
   "dependencies": {
-    "tslib": "^1.9.3",
-    "@esri/arcgis-rest-common": "^1.19.2"
+    "tslib": "^1.9.3"
   },
   "devDependencies": {
     "@esri/arcgis-rest-request": "^1.19.2",

@@ -37,7 +37,7 @@ export interface IGetAttachmentsResponse {
 
 /**
  * ```js
- * import { getAttachments } from '@esri/arcgis-rest-feature-service';
+ * import { getAttachments } from '@esri/arcgis-rest-feature-layer';
  * //
  * getAttachments({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",

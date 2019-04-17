@@ -15,56 +15,56 @@ import {
 } from "./helpers";
 
 /**
- * Update features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/update-features.htm) for more information.
+ * Add features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-features.htm) for more information.
  *
  * @param url - Feature service url.
- * @param features - Array of JSON features to update.
+ * @param features - Array of JSON features to add.
  * @param params - Query parameters to be sent to the feature service via the request.
  */
-export interface IUpdateFeaturesRequestOptions
+export interface IAddFeaturesRequestOptions
   extends IEditFeaturesParams,
     ILayerRequestOptions {
   /**
-   * Array of JSON features to update.
+   * Array of JSON features to add.
    */
   features: IFeature[];
 }
 
 /**
- * Update features results.
+ * Add features results.
  */
-export interface IUpdateFeaturesResult {
+export interface IAddFeaturesResult {
   /**
-   * Array of JSON response Object(s) for each feature updated.
+   * Array of JSON response Object(s) for each feature added.
    */
-  updateResults?: IEditFeatureResult[];
+  addResults?: IEditFeatureResult[];
 }
 
 /**
- *
  * ```js
- * import { updateFeatures } from '@esri/arcgis-rest-feature-service';
+ * import { addFeatures } from '@esri/arcgis-rest-feature-layer';
  * //
- * updateFeatures({
+ * addFeatures({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
  *   features: [{
  *     geometry: { x: -120, y: 45, spatialReference: { wkid: 4326 } },
  *     attributes: { status: "alive" }
  *   }]
- * });
+ * })
+ *   .then(response)
  * ```
- * Update features request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/update-features.htm) for more information.
+ * Add features request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-features.htm) for more information.
  *
  * @param requestOptions - Options for the request.
- * @returns A Promise that will resolve with the updateFeatures response.
+ * @returns A Promise that will resolve with the addFeatures response.
  */
-export function updateFeatures(
-  requestOptions: IUpdateFeaturesRequestOptions
-): Promise<IUpdateFeaturesResult> {
-  const url = `${cleanUrl(requestOptions.url)}/updateFeatures`;
+export function addFeatures(
+  requestOptions: IAddFeaturesRequestOptions
+): Promise<IAddFeaturesResult> {
+  const url = `${cleanUrl(requestOptions.url)}/addFeatures`;
 
   // edit operations are POST only
-  const options = appendCustomParams<IUpdateFeaturesRequestOptions>(
+  const options = appendCustomParams<IAddFeaturesRequestOptions>(
     requestOptions,
     ["features", "gdbVersion", "returnEditMoment", "rollbackOnFailure"],
     { params: { ...requestOptions.params } }

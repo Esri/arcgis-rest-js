@@ -4,37 +4,41 @@
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/arcgis-rest-js/master/LICENSE)
 
-[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-feature-service-admin.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-feature-service-admin
+[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-feature-layer.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-feature-layer
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
-[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-feature-service-admin/dist/umd/feature-service-admin.umd.min.js?compression=gzip
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-feature-layer/dist/umd/feature-layer.umd.min.js?compression=gzip
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
-# @esri/arcgis-rest-feature-service-admin
+# @esri/arcgis-rest-feature-layer
 
-> A module for administering ArcGIS feature services that runs in Node.js and modern browsers.
+> A module for querying and editing features in ArcGIS feature layers that runs in Node.js and modern browsers.
 
 ### Example
 
 ```bash
 npm install @esri/arcgis-rest-request
-npm install @esri/arcgis-rest-auth
-npm install @esri/arcgis-rest-portal
-npm install @esri/arcgis-rest-feature-service-admin
+npm install @esri/arcgis-rest-feature-layer
 ```
 
 ```js
-import { createFeatureService } from '@esri/arcgis-rest-feature-service-admin';
+import { queryFeatures } from '@esri/arcgis-rest-feature-layer';
 
-createFeatureService({
-  authentication,
-  item: { name: "GreenField" }
-})
+const options = {
+  url:
+    "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",
+  where: "Species = 'Oak'"
+};
+
+queryFeatures(options)
+  .then(response => {
+    console.log(response.features.length); // 500
+  });
 ```
 
-### [API Reference](https://esri.github.io/arcgis-rest-js/api/feature-service-admin/)
+### [API Reference](https://esri.github.io/arcgis-rest-js/api/feature-service/)
 
 ### Issues
 
@@ -56,7 +60,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### License
 
-Copyright &copy; 2018-2019 Esri
+Copyright &copy; 2017-2019 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

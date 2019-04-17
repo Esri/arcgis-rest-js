@@ -47,7 +47,7 @@ export interface IBulkGeocodeResponse {
 
 /**
  * ```js
- * import { bulkGeocode } from '@esri/arcgis-rest-geocoder';
+ * import { bulkGeocode } from '@esri/arcgis-rest-geocoding';
  * import { ApplicationSession } from '@esri/arcgis-rest-auth';
  * //
  * const addresses = [

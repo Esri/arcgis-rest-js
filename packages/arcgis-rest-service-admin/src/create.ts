@@ -149,7 +149,7 @@ export interface ICreateServiceResult {
  * import {
  *   createFeatureService,
  *   addToServiceDefinition
- * } from '@esri/arcgis-rest-feature-service-admin';
+ * } from '@esri/arcgis-rest-service-admin';
  * //
  * createFeatureService({
  *   authentication: userSession,

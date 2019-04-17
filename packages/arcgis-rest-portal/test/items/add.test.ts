@@ -3,7 +3,7 @@
 
 import * as fetchMock from "fetch-mock";
 
-import { attachmentFile } from "../../../arcgis-rest-feature-service/test/attachments.test";
+import { attachmentFile } from "../../../arcgis-rest-feature-layer/test/attachments.test";
 
 import {
   addItemJsonData,
