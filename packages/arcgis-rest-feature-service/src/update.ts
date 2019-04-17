@@ -3,13 +3,16 @@
 
 import {
   request,
-  IRequestOptions,
   cleanUrl,
   appendCustomParams,
   IFeature
 } from "@esri/arcgis-rest-request";
 
-import { IEditFeaturesParams, IEditFeatureResult } from "./helpers";
+import {
+  ILayerRequestOptions,
+  IEditFeaturesParams,
+  IEditFeatureResult
+} from "./helpers";
 
 /**
  * Update features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/update-features.htm) for more information.
@@ -20,11 +23,7 @@ import { IEditFeaturesParams, IEditFeatureResult } from "./helpers";
  */
 export interface IUpdateFeaturesRequestOptions
   extends IEditFeaturesParams,
-    IRequestOptions {
-  /**
-   * Feature service url.
-   */
-  url: string;
+    ILayerRequestOptions {
   /**
    * Array of JSON features to update.
    */

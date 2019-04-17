@@ -3,7 +3,6 @@
 
 import {
   request,
-  IRequestOptions,
   cleanUrl,
   appendCustomParams,
   ISpatialReference,
@@ -13,16 +12,12 @@ import {
   IExtent
 } from "@esri/arcgis-rest-request";
 
-import { ISharedQueryParams } from "./helpers";
+import { ILayerRequestOptions, ISharedQueryParams } from "./helpers";
 
 /**
  * Request options to fetch a feature by id.
  */
-export interface IFeatureRequestOptions extends IRequestOptions {
-  /**
-   * Layer service url.
-   */
-  url: string;
+export interface IFeatureRequestOptions extends ILayerRequestOptions {
   /**
    * Unique identifier of the feature.
    */
@@ -49,11 +44,7 @@ export interface IStatisticDefinition {
  */
 export interface IQueryFeaturesRequestOptions
   extends ISharedQueryParams,
-    IRequestOptions {
-  /**
-   * Layer service url.
-   */
-  url: string;
+    ILayerRequestOptions {
   objectIds?: number[];
   relationParam?: string;
   // NOTE: either time=1199145600000 or time=1199145600000, 1230768000000

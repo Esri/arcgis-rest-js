@@ -5,8 +5,19 @@ import {
   GeometryType,
   SpatialRelationship,
   IGeometry,
-  ISpatialReference
+  ISpatialReference,
+  IRequestOptions
 } from "@esri/arcgis-rest-request";
+
+/**
+ * Base options for making requests against feature layers
+ */
+export interface ILayerRequestOptions extends IRequestOptions {
+  /**
+   * Layer service url.
+   */
+  url: string;
+}
 
 export interface ISharedQueryParams {
   where?: string;

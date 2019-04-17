@@ -15,7 +15,7 @@ describe("feature", () => {
 
   it("should fetch service metadata", done => {
     fetchMock.once("*", getFeatureServiceResponse);
-    getLayer(layerUrl)
+    getLayer({ url: layerUrl })
       .then(response => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
