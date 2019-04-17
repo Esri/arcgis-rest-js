@@ -8,27 +8,18 @@ import {
 } from "@esri/arcgis-rest-request";
 import {
   ILayerRequestOptions,
-  IEditFeaturesParams,
+  ISharedEditOptions,
   IEditFeatureResult,
-  ISharedQueryParams
+  ISharedQueryOptions
 } from "./helpers";
-
-/**
- * Delete features parameters.
- */
-export interface IDeleteFeaturesParams
-  extends IEditFeaturesParams,
-    ISharedQueryParams {}
 
 /**
  * Delete features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/delete-features.htm) for more information.
  *
- * @param url - Feature service url.
- * @param objectIds - Array of objectIds to delete.
- * @param params - Query parameters to be sent to the feature service via the request.
  */
 export interface IDeleteFeaturesRequestOptions
-  extends IDeleteFeaturesParams,
+  extends ISharedEditOptions,
+    ISharedQueryOptions,
     ILayerRequestOptions {
   /**
    * Array of objectIds to delete.

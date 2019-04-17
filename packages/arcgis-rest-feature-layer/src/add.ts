@@ -10,19 +10,16 @@ import {
 
 import {
   ILayerRequestOptions,
-  IEditFeaturesParams,
+  ISharedEditOptions,
   IEditFeatureResult
 } from "./helpers";
 
 /**
  * Add features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-features.htm) for more information.
  *
- * @param url - Feature service url.
- * @param features - Array of JSON features to add.
- * @param params - Query parameters to be sent to the feature service via the request.
  */
 export interface IAddFeaturesRequestOptions
-  extends IEditFeaturesParams,
+  extends ISharedEditOptions,
     ILayerRequestOptions {
   /**
    * Array of JSON features to add.
