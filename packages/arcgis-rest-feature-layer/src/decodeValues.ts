@@ -66,7 +66,7 @@ export function decodeValues(
 ): Promise<IQueryFeaturesResponse> {
   return new Promise(resolve => {
     if (!requestOptions.fields) {
-      return getLayer(requestOptions.url, requestOptions).then(
+      return getLayer({ url: requestOptions.url }).then(
         (metadata: ILayerDefinition) => {
           resolve((requestOptions.fields = metadata.fields));
         }

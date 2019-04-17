@@ -3,7 +3,6 @@
 
 import {
   request,
-  IRequestOptions,
   cleanUrl,
   appendCustomParams,
   ISpatialReference,
@@ -12,12 +11,12 @@ import {
   GeometryType,
   IField
 } from "@esri/arcgis-rest-request";
+import { ILayerRequestOptions } from "./helpers";
 
 /**
  * Related record query request options. Additional arguments can be passed via the [params](/arcgis-rest-js/api/feature-service/IQueryRelatedRequestOptions/#params) property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-feature-service-.htm) for more information and a full list of parameters.
  */
-export interface IQueryRelatedRequestOptions extends IRequestOptions {
-  url: string;
+export interface IQueryRelatedRequestOptions extends ILayerRequestOptions {
   relationshipId?: number;
   objectIds?: number[];
   outFields?: "*" | string[];

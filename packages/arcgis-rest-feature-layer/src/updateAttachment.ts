@@ -1,18 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IRequestOptions, cleanUrl } from "@esri/arcgis-rest-request";
-import { IEditFeatureResult } from "./helpers";
+import { request, cleanUrl } from "@esri/arcgis-rest-request";
+import { ILayerRequestOptions, IEditFeatureResult } from "./helpers";
 
 /**
  * Request options to for updating a related attachment to a feature by id. See [Update Attachment](https://developers.arcgis.com/rest/services-reference/update-attachment.htm) for more information.
  *
  */
-export interface IUpdateAttachmentOptions extends IRequestOptions {
-  /**
-   * Feature service url.
-   */
-  url: string;
+export interface IUpdateAttachmentOptions extends ILayerRequestOptions {
   /**
    * Unique identifier of feature to update related attachment.
    */
