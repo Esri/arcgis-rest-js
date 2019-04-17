@@ -2,8 +2,8 @@
  * Apache-2.0 */
 
 import { searchGroups } from "../../src/groups/search";
-
 import { GroupSearchResponse } from "../mocks/groups/responses";
+import { SearchQueryBuilder } from "../../src/util/SearchQueryBuilder";
 
 import * as fetchMock from "fetch-mock";
 
@@ -14,8 +14,8 @@ describe("groups", () => {
     it("should make a simple, unauthenticated group search request", done => {
       fetchMock.once("*", GroupSearchResponse);
 
-      searchGroups({ q: "water" })
-        .then(response => {
+      searchGroups("water")
+        .then(() => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -42,7 +42,7 @@ describe("groups", () => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
-            "https://www.arcgis.com/sharing/rest/community/groups?f=json&q=water&start=4&num=7&sortField=owner&sortOrder=desc"
+            "https://www.arcgis.com/sharing/rest/community/groups?f=json&q=water&num=7&start=4&sortField=owner&sortOrder=desc"
           );
           expect(options.method).toBe("GET");
           done();
@@ -51,6 +51,31 @@ describe("groups", () => {
           fail(e);
         });
     });
+  });
+
+  it("should make a simple, single search request with a builder", done => {
+    fetchMock.once("*", GroupSearchResponse);
+    const expectedParam = "Trees AND owner: USFS";
+    const q = new SearchQueryBuilder()
+      .match("Trees")
+      .and()
+      .match("USFS")
+      .in("owner");
+    searchGroups(q)
+      .then(() => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          `https://www.arcgis.com/sharing/rest/community/groups?f=json&q=${encodeURIComponent(
+            expectedParam
+          )}`
+        );
+        expect(options.method).toBe("GET");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
   });
 
   describe("authenticted methods", () => {
@@ -67,7 +92,7 @@ describe("groups", () => {
     it("should make a simple, authenticated group search request", done => {
       fetchMock.once("*", GroupSearchResponse);
 
-      searchGroups({ q: "water" }, MOCK_REQOPTS)
+      searchGroups({ q: "water", authentication: MOCK_AUTH })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");

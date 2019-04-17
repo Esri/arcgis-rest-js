@@ -1,7 +1,7 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { SearchQueryBuilder } from "../../src/items/SearchQueryBuilder";
+import { SearchQueryBuilder } from "../../src/util/SearchQueryBuilder";
 
 describe("SearchQueryBuilder", () => {
   const originalWarn = console.warn;

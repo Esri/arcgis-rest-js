@@ -1,36 +1,9 @@
-/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  IRequestOptions,
-  appendCustomParams,
-  IPagingParams,
-  IItem
-} from "@esri/arcgis-rest-request/src";
-
-import { getPortalUrl } from "../util/get-portal-url";
-import { SearchQueryBuilder } from "./SearchQueryBuilder";
-
-export interface ISearchRequestOptions extends IRequestOptions, IPagingParams {
-  q: string | SearchQueryBuilder;
-  sortField?: string;
-  sortDir?: string;
-  [key: string]: any;
-}
-
-/**
- * Options to pass through when searching for items.
- */
-export interface ISearchResult {
-  query: string; // matches the api's form param
-  total: number;
-  start: number;
-  num: number;
-  nextStart: number;
-  results: IItem[];
-  nextPage?: () => Promise<ISearchResult>;
-}
+import { SearchQueryBuilder } from "../util/SearchQueryBuilder";
+import { ISearchRequestOptions, ISearchResult } from "../util/search";
+import { genericSearch } from "../util/generic-search";
 
 /**
  * ```js
@@ -47,50 +20,5 @@ export interface ISearchResult {
 export function searchItems(
   search: string | ISearchRequestOptions | SearchQueryBuilder
 ): Promise<ISearchResult> {
-  let options: IRequestOptions;
-  if (typeof search === "string" || search instanceof SearchQueryBuilder) {
-    options = {
-      httpMethod: "GET",
-      params: {
-        q: search
-      }
-    };
-  } else {
-    options = appendCustomParams<ISearchRequestOptions>(
-      search,
-      ["q", "num", "start", "sortField", "sortDir"],
-      {
-        httpMethod: "GET"
-      }
-    );
-  }
-
-  // construct the search url
-  const url = `${getPortalUrl(options)}/search`;
-
-  // send the request
-  return request(url, options).then(r => {
-    if (r.nextStart && r.nextStart !== -1) {
-      r.nextPage = function() {
-        let newOptions: ISearchRequestOptions;
-
-        if (
-          typeof search === "string" ||
-          search instanceof SearchQueryBuilder
-        ) {
-          newOptions = {
-            q: search,
-            start: r.nextStart
-          };
-        } else {
-          newOptions = search;
-          newOptions.start = r.nextStart;
-        }
-
-        return searchItems(newOptions);
-      };
-    }
-
-    return r;
-  });
+  return genericSearch(search, "item");
 }
