@@ -13,7 +13,7 @@ import { genericSearch } from "../util/generic-search";
  * searchGroups('water')
  *   .then(response) // response.total => 355
  * ```
- * Search a portal for items. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/search.htm) for more information.
+ * Search a portal for groups. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/group-search.htm) for more information.
  *
  * @param search - A string or RequestOptions object to pass through to the endpoint.
  * @returns A Promise that will resolve with the data from the response.
