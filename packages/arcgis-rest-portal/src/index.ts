@@ -36,3 +36,15 @@ export * from "./util/search";
 export * from "./util/SearchQueryBuilder";
 // we dont export 'generic-search' because its an internal utility method
 // export * from "./util/generic-search"; because its an internal utility method
+import {
+  IPagingParams,
+  IUser,
+  IItemAdd,
+  IItemUpdate,
+  IItem,
+  IGroupAdd,
+  IGroup,
+  GroupMembership
+} from "@esri/arcgis-rest-types";
+
+export { IItem };

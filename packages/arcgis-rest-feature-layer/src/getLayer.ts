@@ -1,8 +1,10 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, cleanUrl, ILayerDefinition } from "@esri/arcgis-rest-request";
+import { request, cleanUrl } from "@esri/arcgis-rest-request";
 import { ILayerRequestOptions } from "./helpers";
+import { ILayerDefinition } from "@esri/arcgis-rest-types";
+
 /**
  * ```js
  * import { getLayer } from '@esri/arcgis-rest-feature-layer';

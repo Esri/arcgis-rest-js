@@ -4,10 +4,9 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams,
-  IItem,
-  IGroup
+  appendCustomParams
 } from "@esri/arcgis-rest-request";
+import { IItem, IGroup } from "@esri/arcgis-rest-types";
 
 import { SearchQueryBuilder } from "./SearchQueryBuilder";
 import { getPortalUrl } from "../util/get-portal-url";
