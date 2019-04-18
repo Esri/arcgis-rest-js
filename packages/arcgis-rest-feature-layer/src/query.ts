@@ -11,7 +11,7 @@ import {
   ISpatialReference,
   IFeatureSet,
   IFeature,
-  esriUnits,
+  Units,
   IExtent
 } from "@esri/arcgis-rest-types";
 
