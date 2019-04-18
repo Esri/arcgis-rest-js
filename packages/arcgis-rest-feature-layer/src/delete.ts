@@ -26,16 +26,6 @@ export interface IDeleteFeaturesRequestOptions
 }
 
 /**
- * Delete features results.
- */
-export interface IDeleteFeaturesResult {
-  /**
-   * Array of JSON response Object(s) for each feature deleted.
-   */
-  deleteResults?: IEditFeatureResult[];
-}
-
-/**
  * ```js
  * import { deleteFeatures } from '@esri/arcgis-rest-feature-layer';
  * //
@@ -51,7 +41,7 @@ export interface IDeleteFeaturesResult {
  */
 export function deleteFeatures(
   requestOptions: IDeleteFeaturesRequestOptions
-): Promise<IDeleteFeaturesResult> {
+): Promise<{ deleteResults?: IEditFeatureResult[] }> {
   const url = `${cleanUrl(requestOptions.url)}/deleteFeatures`;
 
   // edit operations POST only

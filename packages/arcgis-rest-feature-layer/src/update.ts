@@ -23,16 +23,6 @@ export interface IUpdateFeaturesRequestOptions extends ISharedEditOptions {
 }
 
 /**
- * Update features results.
- */
-export interface IUpdateFeaturesResult {
-  /**
-   * Array of JSON response Object(s) for each feature updated.
-   */
-  updateResults?: IEditFeatureResult[];
-}
-
-/**
  *
  * ```js
  * import { updateFeatures } from '@esri/arcgis-rest-feature-layer';
@@ -52,7 +42,7 @@ export interface IUpdateFeaturesResult {
  */
 export function updateFeatures(
   requestOptions: IUpdateFeaturesRequestOptions
-): Promise<IUpdateFeaturesResult> {
+): Promise<{ updateResults?: IEditFeatureResult[] }> {
   const url = `${cleanUrl(requestOptions.url)}/updateFeatures`;
 
   // edit operations are POST only

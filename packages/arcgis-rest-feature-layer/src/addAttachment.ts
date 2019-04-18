@@ -20,16 +20,6 @@ export interface IAddAttachmentOptions extends ILayerRequestOptions {
 }
 
 /**
- * `addAttachment()` request response.
- */
-export interface IAddAttachmentResponse {
-  /**
-   * Standard AGS add/update/edit result Object for the attachment.
-   */
-  addAttachmentResult: IEditFeatureResult;
-}
-
-/**
  * ```js
  * import { addAttachment } from '@esri/arcgis-rest-feature-layer';
  * //
@@ -47,7 +37,7 @@ export interface IAddAttachmentResponse {
  */
 export function addAttachment(
   requestOptions: IAddAttachmentOptions
-): Promise<IAddAttachmentResponse> {
+): Promise<{ addAttachmentResult: IEditFeatureResult }> {
   const options: IAddAttachmentOptions = {
     params: {},
     ...requestOptions

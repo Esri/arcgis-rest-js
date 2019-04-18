@@ -20,16 +20,6 @@ export interface IDeleteAttachmentsOptions extends ILayerRequestOptions {
 }
 
 /**
- * `updateAttachment()` request response.
- */
-export interface IDeleteAttachmentsResponse {
-  /**
-   * Array of standard AGS add/update/edit result Object(s) for the attachment(s).
-   */
-  deleteAttachmentResults: IEditFeatureResult[];
-}
-
-/**
  * ```js
  * import { deleteAttachments } from '@esri/arcgis-rest-feature-layer';
  * //
@@ -46,7 +36,7 @@ export interface IDeleteAttachmentsResponse {
  */
 export function deleteAttachments(
   requestOptions: IDeleteAttachmentsOptions
-): Promise<IDeleteAttachmentsResponse> {
+): Promise<{ deleteAttachmentResults: IEditFeatureResult[] }> {
   const options: IDeleteAttachmentsOptions = {
     params: {},
     ...requestOptions

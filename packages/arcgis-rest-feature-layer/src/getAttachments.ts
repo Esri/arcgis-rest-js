@@ -26,16 +26,6 @@ export interface IAttachmentInfo {
 }
 
 /**
- * `getAttachments()` request response.
- */
-export interface IGetAttachmentsResponse {
-  /**
-   * Array of `attachmentInfo` Object(s) for each related attachment. Empty Array means no attachments.
-   */
-  attachmentInfos: IAttachmentInfo[];
-}
-
-/**
  * ```js
  * import { getAttachments } from '@esri/arcgis-rest-feature-layer';
  * //
@@ -51,7 +41,7 @@ export interface IGetAttachmentsResponse {
  */
 export function getAttachments(
   requestOptions: IGetAttachmentsOptions
-): Promise<IGetAttachmentsResponse> {
+): Promise<{ attachmentInfos: IAttachmentInfo[] }> {
   // pass through
   return request(
     `${cleanUrl(requestOptions.url)}/${requestOptions.featureId}/attachments`,
