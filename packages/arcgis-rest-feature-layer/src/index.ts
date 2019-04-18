@@ -19,7 +19,7 @@ export {
   GeometryType,
   IField,
   IFeatureSet,
-  esriUnits,
+  Units,
   IExtent,
   SpatialRelationship,
   IGeometry,

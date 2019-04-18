@@ -5,7 +5,10 @@ import { request, cleanUrl } from "@esri/arcgis-rest-request";
 
 import { IPoint, ILocation } from "@esri/arcgis-rest-types";
 
-import { worldGeocoder, IEndpointRequestOptions } from "./helpers";
+import {
+  ARCGIS_ONLINE_GEOCODING_URL,
+  IEndpointRequestOptions
+} from "./helpers";
 
 export interface IReverseGeocodeResponse {
   address: {
@@ -57,7 +60,7 @@ export function reverseGeocode(
   requestOptions?: IEndpointRequestOptions
 ): Promise<IReverseGeocodeResponse> {
   const options: IEndpointRequestOptions = {
-    endpoint: worldGeocoder,
+    endpoint: ARCGIS_ONLINE_GEOCODING_URL,
     params: {},
     ...requestOptions
   };

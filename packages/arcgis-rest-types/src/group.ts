@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 /**
- * `GroupMembership` can also be imported following packages:
+ * `GroupMembership` can also be imported from the following packages:
  *
  * ```js
  * import { GroupMembership } from "@esri/arcgis-rest-portal";
@@ -13,7 +13,7 @@ export type GroupMembership = "owner" | "admin" | "member" | "nonmember";
 /**
  * A [Group](https://developers.arcgis.com/rest/users-groups-and-items/common-parameters.htm) that has not been created yet.
  *
- * `IGroupAdd` can also be imported following packages:
+ * `IGroupAdd` can also be imported from the following packages:
  *
  * ```js
  * import { IGroupAdd } from "@esri/arcgis-rest-portal";
@@ -45,7 +45,7 @@ export interface IGroupAdd {
 /**
  * Existing Portal [Group](https://developers.arcgis.com/rest/users-groups-and-items/group.htm).
  *
- * `IGroup` can also be imported following packages:
+ * `IGroup` can also be imported from the following packages:
  *
  * ```js
  * import { IGroup } from "@esri/arcgis-rest-portal";

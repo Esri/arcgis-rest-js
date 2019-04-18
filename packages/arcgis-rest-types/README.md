@@ -10,9 +10,9 @@
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
-# @esri/arcgis-rest-common-types
+# @esri/arcgis-rest-types
 
-> Common TypeScript types for [`@esri/arcgis-rest-*`](https://github.com/Esri/arcgis-rest-js) packages.
+> Shared TypeScript types for [`@esri/arcgis-rest-*`](https://github.com/Esri/arcgis-rest-js) packages.
 
 ### Example
 
@@ -27,7 +27,7 @@ const myPoint = { x: -118.409, y: 33.943 } as IPoint
 
 ```
 
-### [API Reference](https://esri.github.io/arcgis-rest-js/api/common-types/)
+### [API Reference](https://esri.github.io/arcgis-rest-js/api/types/)
 
 ### Issues
 

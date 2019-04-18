@@ -4,7 +4,7 @@
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 
 // https always
-export const worldGeocoder =
+export const ARCGIS_ONLINE_GEOCODING_URL =
   "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/";
 
 // nice to have: verify custom endpoints contain 'GeocodeServer' and end in a '/'
@@ -41,7 +41,8 @@ export interface IGetGeocodeServiceResponse {
 export function getGeocodeService(
   requestOptions?: IEndpointRequestOptions
 ): Promise<IGetGeocodeServiceResponse> {
-  const url = (requestOptions && requestOptions.endpoint) || worldGeocoder;
+  const url =
+    (requestOptions && requestOptions.endpoint) || ARCGIS_ONLINE_GEOCODING_URL;
 
   const options: IEndpointRequestOptions = {
     httpMethod: "GET",

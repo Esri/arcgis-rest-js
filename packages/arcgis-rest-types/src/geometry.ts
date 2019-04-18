@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 /**
- * `IHasZM` can also be imported following packages:
+ * `IHasZM` can also be imported from the following packages:
  *
  * ```js
  * import { IHasZM } from "@esri/arcgis-rest-feature-layer";
@@ -16,7 +16,7 @@ export interface IHasZM {
 /**
  * Spatial reference systems define mathematical transformations and coordinate systems for displaying spatial information in 2D and 3D.
  *
- * `ISpatialReference` can also be imported following packages:
+ * `ISpatialReference` can also be imported from the following packages:
  *
  * ```js
  * import { ISpatialReference } from "@esri/arcgis-rest-geocoding";
@@ -37,7 +37,7 @@ export interface ISpatialReference {
 /**
  * a building block for discrete geometries
  *
- * `IGeometry` can also be imported following packages:
+ * `IGeometry` can also be imported from the following packages:
  *
  * ```js
  * import { IGeometry } from "@esri/arcgis-rest-feature-layer";
@@ -50,7 +50,7 @@ export interface IGeometry {
 /**
  * A simple point geometry, with spatial reference defined.
  *
- * `IPoint` can also be imported following packages:
+ * `IPoint` can also be imported from the following packages:
  *
  * ```js
  * import { IPoint } from "@esri/arcgis-rest-routing";
@@ -64,7 +64,7 @@ export interface IPoint extends IHasZM, IGeometry {
 }
 
 /**
- * `ILocation` can also be imported following packages:
+ * `ILocation` can also be imported from the following packages:
  *
  * ```js
  * import { ILocation } from "@esri/arcgis-rest-routing";
@@ -171,13 +171,13 @@ export interface IEnvelope extends IGeometry {
 }
 
 /**
- * `GeometryType` can also be imported following packages:
+ * `GeometryType` can also be imported from the following packages:
  *
  * ```js
  * import { GeometryType } from "@esri/arcgis-rest-feature-layer";
  * ```
  */
-export type GeometryType =  // why is this type camelCased?
+export type GeometryType =
   | "esriGeometryPoint"
   | "esriGeometryMultipoint"
   | "esriGeometryPolyline"
@@ -187,7 +187,7 @@ export type GeometryType =  // why is this type camelCased?
 /**
  * The spatial relationship used to compare input geometries
  *
- * `SpatialRelationship` can also be imported following packages:
+ * `SpatialRelationship` can also be imported from the following packages:
  *
  * ```js
  * import { SpatialRelationship } from "@esri/arcgis-rest-feature-layer";
@@ -206,7 +206,7 @@ export type SpatialRelationship =
 /**
  * Extents are used to define rectangles and bounding boxes.
  *
- * `IExtent` can also be imported following packages:
+ * `IExtent` can also be imported from the following packages:
  *
  * ```js
  * import { IExtent } from "@esri/arcgis-rest-geocoding";
@@ -257,13 +257,13 @@ export interface IMultipoint extends IHasZM, IGeometry {
 }
 
 /**
- * `esriUnits` can also be imported following packages:
+ * `Units` can also be imported from the following packages:
  *
  * ```js
- * import { esriUnits } from "@esri/arcgis-rest-feature-layer";
+ * import { Units } from "@esri/arcgis-rest-feature-layer";
  * ```
  */
-export type esriUnits =
+export type Units =
   | "esriSRUnit_Meter"
   | "esriSRUnit_StatuteMile"
   | "esriSRUnit_Foot"

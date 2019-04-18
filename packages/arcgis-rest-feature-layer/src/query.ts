@@ -53,7 +53,7 @@ export interface IQueryFeaturesRequestOptions
   // NOTE: either time=1199145600000 or time=1199145600000, 1230768000000
   time?: number | number[];
   distance?: number;
-  units?: esriUnits;
+  units?: Units;
   outFields?: "*" | string[];
   returnGeometry?: boolean;
   maxAllowableOffset?: number;

@@ -6,7 +6,7 @@ import { ISpatialReference } from "./geometry";
 /**
  * A Portal [Item](https://developers.arcgis.com/rest/users-groups-and-items/common-parameters.htm) that has not been created yet.
  *
- * `IItemAdd` can also be imported following packages:
+ * `IItemAdd` can also be imported from the following packages:
  *
  * ```js
  * import { IItemAdd } from "@esri/arcgis-rest-portal";
@@ -33,7 +33,7 @@ export interface IItemAdd {
 /**
  * A Portal [Item](https://developers.arcgis.com/rest/users-groups-and-items/common-parameters.htm) to be updated.
  *
- * `IItemUpdate` can also be imported following packages:
+ * `IItemUpdate` can also be imported from the following packages:
  *
  * ```js
  * import { IItemUpdate } from "@esri/arcgis-rest-portal";
@@ -47,7 +47,7 @@ export interface IItemUpdate {
 /**
  * Existing Portal [Item](https://developers.arcgis.com/rest/users-groups-and-items/item.htm).
  *
- * `IItem` can also be imported following packages:
+ * `IItem` can also be imported from the following packages:
  *
  * ```js
  * import { IItem } from "@esri/arcgis-rest-portal";
