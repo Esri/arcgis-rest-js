@@ -24,16 +24,6 @@ export interface IUpdateAttachmentOptions extends ILayerRequestOptions {
 }
 
 /**
- * `updateAttachment()` request response.
- */
-export interface IUpdateAttachmentResponse {
-  /**
-   * Standard AGS add/update/edit result Object for the attachment.
-   */
-  updateAttachmentResult: IEditFeatureResult;
-}
-
-/**
  *
  * ```js
  * import { updateAttachment } from '@esri/arcgis-rest-feature-layer';
@@ -52,7 +42,7 @@ export interface IUpdateAttachmentResponse {
  */
 export function updateAttachment(
   requestOptions: IUpdateAttachmentOptions
-): Promise<IUpdateAttachmentResponse> {
+): Promise<{ updateAttachmentResult: IEditFeatureResult }> {
   const options: IUpdateAttachmentOptions = {
     params: {},
     ...requestOptions

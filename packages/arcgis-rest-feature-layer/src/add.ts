@@ -28,16 +28,6 @@ export interface IAddFeaturesRequestOptions
 }
 
 /**
- * Add features results.
- */
-export interface IAddFeaturesResult {
-  /**
-   * Array of JSON response Object(s) for each feature added.
-   */
-  addResults?: IEditFeatureResult[];
-}
-
-/**
  * ```js
  * import { addFeatures } from '@esri/arcgis-rest-feature-layer';
  * //
@@ -57,7 +47,7 @@ export interface IAddFeaturesResult {
  */
 export function addFeatures(
   requestOptions: IAddFeaturesRequestOptions
-): Promise<IAddFeaturesResult> {
+): Promise<{ addResults?: IEditFeatureResult[] }> {
   const url = `${cleanUrl(requestOptions.url)}/addFeatures`;
 
   // edit operations are POST only
