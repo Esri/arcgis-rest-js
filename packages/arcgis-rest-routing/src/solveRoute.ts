@@ -10,9 +10,9 @@ import {
   IFeature
 } from "@esri/arcgis-rest-types";
 
-import { ARCGIS_ONLINE_ROUTING_URL, IEndpointRequestOptions } from "./helpers";
+import { ARCGIS_ONLINE_ROUTING_URL, IEndpointOptions } from "./helpers";
 
-export interface ISolveRouteRequestOptions extends IEndpointRequestOptions {
+export interface ISolveRouteRequestOptions extends IEndpointOptions {
   /**
    * Specify two or more locations between which the route is to be found.
    */

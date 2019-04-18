@@ -2,13 +2,9 @@
  * Apache-2.0 */
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
-
 import { ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
 
-import {
-  ARCGIS_ONLINE_GEOCODING_URL,
-  IEndpointRequestOptions
-} from "./helpers";
+import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers";
 
 // it'd be better if doc didnt display these properties in alphabetical order
 export interface IAddressBulk {
@@ -31,7 +27,7 @@ export interface IAddressBulk {
   countryCode?: string;
 }
 
-export interface IBulkGeocodeRequestOptions extends IEndpointRequestOptions {
+export interface IBulkGeocodeOptions extends IEndpointOptions {
   addresses: IAddressBulk[];
 }
 
@@ -39,7 +35,7 @@ export interface IBulkGeocodeResponse {
   spatialReference: ISpatialReference;
   locations: Array<{
     address: string;
-    location: IPoint;
+    location?: IPoint; // candidates with a score of 0 wont include a location
     score: number;
     attributes: object;
   }>;
@@ -66,9 +62,9 @@ export interface IBulkGeocodeResponse {
  * @returns A Promise that will resolve with the data from the response. The spatial reference will be added to address locations unless `rawResponse: true` was passed.
  */
 export function bulkGeocode(
-  requestOptions: IBulkGeocodeRequestOptions // must POST, which is the default
-) {
-  const options: IBulkGeocodeRequestOptions = {
+  requestOptions: IBulkGeocodeOptions // must POST, which is the default
+): Promise<IBulkGeocodeResponse> {
+  const options: IBulkGeocodeOptions = {
     endpoint: ARCGIS_ONLINE_GEOCODING_URL,
     params: {
       forStorage: true,
@@ -107,7 +103,3 @@ export function bulkGeocode(
     return response;
   });
 }
-
-export default {
-  bulkGeocode
-};
