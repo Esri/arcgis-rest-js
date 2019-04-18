@@ -310,8 +310,6 @@
               {% for signature in child.signatures -%}
                 <li class="code-face tsd-signature tsd-kind-icon">
                   <a href="#{{signature.name}}">{{ signature.name }}</a><span class="text-light-gray">(</span>{{ @signatureParams(signature.parameters) }}<span class="text-light-gray">)</span>
-                  {{ @flags(child.flags) }}
-                  {{ @inherited(child.inheritedFrom) }}
                 </li>
               {%- endfor %}
             </ul>
