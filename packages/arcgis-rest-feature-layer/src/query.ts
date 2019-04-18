@@ -15,7 +15,7 @@ import {
   IExtent
 } from "@esri/arcgis-rest-types";
 
-import { ILayerRequestOptions, ISharedQueryParams } from "./helpers";
+import { ILayerRequestOptions, ISharedQueryOptions } from "./helpers";
 
 /**
  * Request options to fetch a feature by id.
@@ -45,9 +45,7 @@ export interface IStatisticDefinition {
 /**
  * feature query request options. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
  */
-export interface IQueryFeaturesRequestOptions
-  extends ISharedQueryParams,
-    ILayerRequestOptions {
+export interface IQueryFeaturesRequestOptions extends ISharedQueryOptions {
   objectIds?: number[];
   relationParam?: string;
   // NOTE: either time=1199145600000 or time=1199145600000, 1230768000000

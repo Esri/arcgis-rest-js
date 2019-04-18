@@ -18,7 +18,7 @@ export interface ILayerRequestOptions extends IRequestOptions {
   url: string;
 }
 
-export interface ISharedQueryParams {
+export interface ISharedQueryOptions extends ILayerRequestOptions {
   where?: string;
   geometry?: IGeometry;
   geometryType?: GeometryType;
@@ -37,9 +37,9 @@ export interface IEditFeatureResult {
 }
 
 /**
- * Common add and update features parameters.
+ * Common add, update, and delete features options.
  */
-export interface IEditFeaturesParams {
+export interface ISharedEditOptions extends ILayerRequestOptions {
   /**
    * The geodatabase version to apply the edits.
    */
