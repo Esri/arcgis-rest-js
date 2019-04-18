@@ -8,19 +8,13 @@ import {
   IFeature
 } from "@esri/arcgis-rest-request";
 
-import {
-  ILayerRequestOptions,
-  ISharedEditOptions,
-  IEditFeatureResult
-} from "./helpers";
+import { ISharedEditOptions, IEditFeatureResult } from "./helpers";
 
 /**
  * Update features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/update-features.htm) for more information.
  *
  */
-export interface IUpdateFeaturesRequestOptions
-  extends ISharedEditOptions,
-    ILayerRequestOptions {
+export interface IUpdateFeaturesRequestOptions extends ISharedEditOptions {
   /**
    * Array of JSON features to update.
    */

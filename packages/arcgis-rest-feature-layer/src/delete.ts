@@ -7,7 +7,6 @@ import {
   appendCustomParams
 } from "@esri/arcgis-rest-request";
 import {
-  ILayerRequestOptions,
   ISharedEditOptions,
   IEditFeatureResult,
   ISharedQueryOptions
@@ -19,8 +18,7 @@ import {
  */
 export interface IDeleteFeaturesRequestOptions
   extends ISharedEditOptions,
-    ISharedQueryOptions,
-    ILayerRequestOptions {
+    ISharedQueryOptions {
   /**
    * Array of objectIds to delete.
    */

@@ -6,7 +6,8 @@ import {
   SpatialRelationship,
   IGeometry,
   ISpatialReference,
-  IRequestOptions
+  IRequestOptions,
+  ILayer
 } from "@esri/arcgis-rest-request";
 
 /**
@@ -19,7 +20,7 @@ export interface ILayerRequestOptions extends IRequestOptions {
   url: string;
 }
 
-export interface ISharedQueryOptions {
+export interface ISharedQueryOptions extends ILayerRequestOptions {
   where?: string;
   geometry?: IGeometry;
   geometryType?: GeometryType;
@@ -40,7 +41,7 @@ export interface IEditFeatureResult {
 /**
  * Common add, update, and delete features options.
  */
-export interface ISharedEditOptions {
+export interface ISharedEditOptions extends ILayerRequestOptions {
   /**
    * The geodatabase version to apply the edits.
    */

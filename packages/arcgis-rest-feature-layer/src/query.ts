@@ -42,9 +42,7 @@ export interface IStatisticDefinition {
 /**
  * feature query request options. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
  */
-export interface IQueryFeaturesRequestOptions
-  extends ISharedQueryOptions,
-    ILayerRequestOptions {
+export interface IQueryFeaturesRequestOptions extends ISharedQueryOptions {
   objectIds?: number[];
   relationParam?: string;
   // NOTE: either time=1199145600000 or time=1199145600000, 1230768000000
