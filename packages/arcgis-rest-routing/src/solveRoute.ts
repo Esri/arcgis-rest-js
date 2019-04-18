@@ -10,7 +10,7 @@ import {
   IFeature
 } from "@esri/arcgis-rest-request";
 
-import { worldRoutingService, IEndpointRequestOptions } from "./helpers";
+import { ARCGIS_ONLINE_ROUTING_URL, IEndpointRequestOptions } from "./helpers";
 
 export interface ISolveRouteRequestOptions extends IEndpointRequestOptions {
   /**
@@ -78,7 +78,7 @@ export function solveRoute(
   requestOptions: ISolveRouteRequestOptions
 ): Promise<ISolveRouteResponse> {
   const options: ISolveRouteRequestOptions = {
-    endpoint: requestOptions.endpoint || worldRoutingService,
+    endpoint: requestOptions.endpoint || ARCGIS_ONLINE_ROUTING_URL,
     params: {},
     ...requestOptions
   };
@@ -86,7 +86,7 @@ export function solveRoute(
   // the SAAS service does not support anonymous requests
   if (
     !requestOptions.authentication &&
-    options.endpoint === worldRoutingService
+    options.endpoint === ARCGIS_ONLINE_ROUTING_URL
   ) {
     return Promise.reject(
       "Routing using the ArcGIS service requires authentication"
