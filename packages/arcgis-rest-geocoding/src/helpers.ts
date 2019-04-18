@@ -8,7 +8,7 @@ export const ARCGIS_ONLINE_GEOCODING_URL =
   "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/";
 
 // nice to have: verify custom endpoints contain 'GeocodeServer' and end in a '/'
-export interface IEndpointRequestOptions extends IRequestOptions {
+export interface IEndpointOptions extends IRequestOptions {
   /**
    * Any ArcGIS Geocoding service (example: http://sampleserver6.arcgisonline.com/arcgis/rest/services/Locators/SanDiego/GeocodeServer )
    */
@@ -39,12 +39,12 @@ export interface IGetGeocodeServiceResponse {
  * @returns A Promise that will resolve with the data from the response.
  */
 export function getGeocodeService(
-  requestOptions?: IEndpointRequestOptions
+  requestOptions?: IEndpointOptions
 ): Promise<IGetGeocodeServiceResponse> {
   const url =
     (requestOptions && requestOptions.endpoint) || ARCGIS_ONLINE_GEOCODING_URL;
 
-  const options: IEndpointRequestOptions = {
+  const options: IEndpointOptions = {
     httpMethod: "GET",
     maxUrlLength: 2000,
     ...requestOptions

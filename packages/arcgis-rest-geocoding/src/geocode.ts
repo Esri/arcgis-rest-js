@@ -9,12 +9,9 @@ import {
 
 import { IExtent, ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
 
-import {
-  ARCGIS_ONLINE_GEOCODING_URL,
-  IEndpointRequestOptions
-} from "./helpers";
+import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers";
 
-export interface IGeocodeRequestOptions extends IEndpointRequestOptions {
+export interface IGeocodeOptions extends IEndpointOptions {
   /**
    * use this if all your address info is contained in a single string.
    */
@@ -82,9 +79,9 @@ export interface IGeocodeResponse {
  * @returns A Promise that will resolve with address candidates for the request. The spatial reference will be added to candidate locations and extents unless `rawResponse: true` was passed.
  */
 export function geocode(
-  address: string | IGeocodeRequestOptions
+  address: string | IGeocodeOptions
 ): Promise<IGeocodeResponse> {
-  let options: IGeocodeRequestOptions = {};
+  let options: IGeocodeOptions = {};
   let endpoint: string;
 
   if (typeof address === "string") {
@@ -92,7 +89,7 @@ export function geocode(
     endpoint = ARCGIS_ONLINE_GEOCODING_URL;
   } else {
     endpoint = address.endpoint || ARCGIS_ONLINE_GEOCODING_URL;
-    options = appendCustomParams<IGeocodeRequestOptions>(
+    options = appendCustomParams<IGeocodeOptions>(
       address,
       [
         "singleLine",

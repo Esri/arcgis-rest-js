@@ -2,6 +2,9 @@
  * Apache-2.0 */
 
 import { IGeocodeResponse } from "../../src/geocode";
+import { ISuggestResponse } from "../../src/suggest";
+import { IReverseGeocodeResponse } from "../../src/reverse";
+import { IBulkGeocodeResponse } from "../../src/bulk";
 
 export const FindAddressCandidates: IGeocodeResponse = {
   spatialReference: {
@@ -93,7 +96,7 @@ export const FindAddressCandidatesNullExtent: IGeocodeResponse = {
   ]
 };
 
-export const Suggest = {
+export const Suggest: ISuggestResponse = {
   suggestions: [
     {
       text: "LAX, Los Angeles, CA, USA",
@@ -128,7 +131,7 @@ export const Suggest = {
   ]
 };
 
-export const ReverseGeocode = {
+export const ReverseGeocode: IReverseGeocodeResponse = {
   address: {
     Match_addr: "LA Airport",
     LongLabel: "LA Airport, Los Angeles, CA, USA",
@@ -161,7 +164,7 @@ export const ReverseGeocode = {
   }
 };
 
-export const GeocodeAddresses = {
+export const GeocodeAddresses: IBulkGeocodeResponse = {
   spatialReference: { wkid: 4326, latestWkid: 4326 },
   locations: [
     {
@@ -295,7 +298,7 @@ export const GeocodeAddresses = {
     {
       address: "foo bar baz",
       score: 0,
-      attributes: {}
+      attributes: {} as any
     }
   ]
 };
