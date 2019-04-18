@@ -81,7 +81,7 @@ export interface IGeocodeResponse {
 export function geocode(
   address: string | IGeocodeOptions
 ): Promise<IGeocodeResponse> {
-  let options: IGeocodeOptions;
+  let options: IGeocodeOptions = {};
   let endpoint: string;
 
   if (typeof address === "string") {
