@@ -1,13 +1,12 @@
 /* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-
+import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
   GeometryType,
   SpatialRelationship,
   IGeometry,
-  ISpatialReference,
-  IRequestOptions
-} from "@esri/arcgis-rest-request";
+  ISpatialReference
+} from "@esri/arcgis-rest-types";
 
 /**
  * Base options for making requests against feature layers

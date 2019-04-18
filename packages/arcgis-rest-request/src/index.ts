@@ -24,11 +24,3 @@ export * from "./utils/process-params";
 export * from "./utils/ResponseFormats";
 export * from "./utils/retryAuthError";
 export * from "./utils/warn";
-
-export * from "./types/feature";
-export * from "./types/geometry";
-export * from "./types/group";
-export * from "./types/item";
-export * from "./types/symbol";
-export * from "./types/user";
-export * from "./types/webmap";

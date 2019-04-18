@@ -19,10 +19,9 @@ import {
   ArcGISAuthError,
   IAuthenticationManager,
   ITokenRequestOptions,
-  cleanUrl,
-  IUser
+  cleanUrl
 } from "@esri/arcgis-rest-request";
-
+import { IUser } from "@esri/arcgis-rest-types";
 import { generateToken } from "./generate-token";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token";
 

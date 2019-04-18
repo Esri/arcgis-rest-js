@@ -13,7 +13,8 @@
     "dist/**"
   ],
   "dependencies": {
-    "tslib": "^1.9.3"
+    "tslib": "^1.9.3",
+    "@esri/arcgis-rest-types": "^1.19.2"
   },
   "devDependencies": {
     "@esri/arcgis-rest-request": "^1.19.2"

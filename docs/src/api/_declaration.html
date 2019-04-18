@@ -451,6 +451,12 @@
   {%- endmarkdown %}
 {% endif %}
 
+{% if comment and comment.text %}
+  {% markdown -%}
+      {{ comment.text | safe }}
+  {%- endmarkdown %}
+{% endif %}
+
 {% if implementedTypes %}
   <h2>Implements</h2>
   <ul class="list-plain trailer-1">
@@ -539,12 +545,6 @@
 
 {% if signatures %}
   {{@signatures(signatures)}}
-{% endif %}
-
-{% if comment and comment.text %}
-  {% markdown -%}
-    {{ comment.text | safe }}
-  {%- endmarkdown %}
 {% endif %}
 
 <hr class="leader-half trailer-half">

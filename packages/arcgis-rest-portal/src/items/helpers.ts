@@ -1,12 +1,8 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  IRequestOptions,
-  IItemAdd,
-  IItemUpdate,
-  IItem
-} from "@esri/arcgis-rest-request";
+import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IItemAdd, IItemUpdate, IItem } from "@esri/arcgis-rest-types";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 export interface IItemRequestOptions extends IUserRequestOptions {

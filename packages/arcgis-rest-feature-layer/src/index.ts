@@ -12,3 +12,16 @@ export * from "./deleteAttachments";
 export * from "./queryRelated";
 export * from "./getLayer";
 export * from "./decodeValues";
+export {
+  IFeature,
+  ISpatialReference,
+  IHasZM,
+  GeometryType,
+  IField,
+  IFeatureSet,
+  Units,
+  IExtent,
+  SpatialRelationship,
+  IGeometry,
+  ILayerDefinition
+} from "@esri/arcgis-rest-types";

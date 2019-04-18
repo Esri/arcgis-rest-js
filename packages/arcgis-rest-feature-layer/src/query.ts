@@ -4,13 +4,16 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
+  appendCustomParams
+} from "@esri/arcgis-rest-request";
+
+import {
   ISpatialReference,
   IFeatureSet,
   IFeature,
-  esriUnits,
+  Units,
   IExtent
-} from "@esri/arcgis-rest-request";
+} from "@esri/arcgis-rest-types";
 
 import { ILayerRequestOptions, ISharedQueryParams } from "./helpers";
 
@@ -50,7 +53,7 @@ export interface IQueryFeaturesRequestOptions
   // NOTE: either time=1199145600000 or time=1199145600000, 1230768000000
   time?: number | number[];
   distance?: number;
-  units?: esriUnits;
+  units?: Units;
   outFields?: "*" | string[];
   returnGeometry?: boolean;
   maxAllowableOffset?: number;

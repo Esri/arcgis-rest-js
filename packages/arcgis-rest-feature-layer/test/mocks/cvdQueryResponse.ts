@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IQueryFeaturesResponse } from "../../src/query";
-import { IFeature, IGeometry } from "@esri/arcgis-rest-request";
+import { IFeature, IGeometry } from "@esri/arcgis-rest-types";
 
 export const cvdQueryResponse: IQueryFeaturesResponse = {
   objectIdFieldName: "objectid",

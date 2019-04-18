@@ -1,7 +1,6 @@
 import { ArcGISRequestError } from "./ArcGISRequestError";
 import { IRetryAuthError } from "./retryAuthError";
 import { IRequestOptions } from "./IRequestOptions";
-import { IParams } from "./IParams";
 import { request } from "../request";
 
 export class ArcGISAuthError extends ArcGISRequestError {

@@ -2,7 +2,11 @@
  * Apache-2.0 */
 
 /**
+ * `IHasZM` can also be imported from the following packages:
  *
+ * ```js
+ * import { IHasZM } from "@esri/arcgis-rest-feature-layer";
+ * ```
  */
 export interface IHasZM {
   hasZ?: boolean;
@@ -11,6 +15,15 @@ export interface IHasZM {
 
 /**
  * Spatial reference systems define mathematical transformations and coordinate systems for displaying spatial information in 2D and 3D.
+ *
+ * `ISpatialReference` can also be imported from the following packages:
+ *
+ * ```js
+ * import { ISpatialReference } from "@esri/arcgis-rest-geocoding";
+ * import { ISpatialReference } from "@esri/arcgis-rest-routing";
+ * import { ISpatialReference } from "@esri/arcgis-rest-service-admin";
+ * import { ISpatialReference } from "@esri/arcgis-rest-feature-layer";
+ * ```
  */
 export interface ISpatialReference {
   wkid?: number;
@@ -23,6 +36,12 @@ export interface ISpatialReference {
 
 /**
  * a building block for discrete geometries
+ *
+ * `IGeometry` can also be imported from the following packages:
+ *
+ * ```js
+ * import { IGeometry } from "@esri/arcgis-rest-feature-layer";
+ * ```
  */
 export interface IGeometry {
   spatialReference?: ISpatialReference;
@@ -30,6 +49,13 @@ export interface IGeometry {
 
 /**
  * A simple point geometry, with spatial reference defined.
+ *
+ * `IPoint` can also be imported from the following packages:
+ *
+ * ```js
+ * import { IPoint } from "@esri/arcgis-rest-routing";
+ * import { IPoint } from "@esri/arcgis-rest-geocoding";
+ * ```
  */
 export interface IPoint extends IHasZM, IGeometry {
   x: number;
@@ -38,22 +64,18 @@ export interface IPoint extends IHasZM, IGeometry {
 }
 
 /**
+ * `ILocation` can also be imported from the following packages:
  *
+ * ```js
+ * import { ILocation } from "@esri/arcgis-rest-routing";
+ * import { ILocation } from "@esri/arcgis-rest-geocoding";
+ * ```
  */
 export interface ILocation {
   latitude?: number;
   longitude?: number;
   lat?: number;
   long?: number;
-  z?: number;
-}
-
-/**
- * A simple point geometry, with spatial reference defined.
- */
-export interface IPoint extends IHasZM, IGeometry {
-  x: number;
-  y: number;
   z?: number;
 }
 
@@ -133,13 +155,6 @@ export interface ICircularArc {
 export type ElipticArc = IArc;
 
 /**
- * a building block for discrete geometries
- */
-export interface IGeometry {
-  spatialReference?: ISpatialReference;
-}
-
-/**
  * An envelope is a rectangle defined by a range of values for each coordinate and attribute.
  */
 export interface IEnvelope extends IGeometry {
@@ -156,9 +171,13 @@ export interface IEnvelope extends IGeometry {
 }
 
 /**
+ * `GeometryType` can also be imported from the following packages:
  *
+ * ```js
+ * import { GeometryType } from "@esri/arcgis-rest-feature-layer";
+ * ```
  */
-export type GeometryType =  // why is this type camelCased?
+export type GeometryType =
   | "esriGeometryPoint"
   | "esriGeometryMultipoint"
   | "esriGeometryPolyline"
@@ -167,6 +186,12 @@ export type GeometryType =  // why is this type camelCased?
 
 /**
  * The spatial relationship used to compare input geometries
+ *
+ * `SpatialRelationship` can also be imported from the following packages:
+ *
+ * ```js
+ * import { SpatialRelationship } from "@esri/arcgis-rest-feature-layer";
+ * ```
  */
 export type SpatialRelationship =
   | "esriSpatialRelIntersects"
@@ -180,6 +205,14 @@ export type SpatialRelationship =
 
 /**
  * Extents are used to define rectangles and bounding boxes.
+ *
+ * `IExtent` can also be imported from the following packages:
+ *
+ * ```js
+ * import { IExtent } from "@esri/arcgis-rest-geocoding";
+ * import { IExtent } from "@esri/arcgis-rest-service-admin";
+ * import { IExtent } from "@esri/arcgis-rest-feature-layer";
+ * ```
  */
 export interface IExtent {
   xmin: number;
@@ -223,7 +256,14 @@ export interface IMultipoint extends IHasZM, IGeometry {
   points: Position[];
 }
 
-export type esriUnits =
+/**
+ * `Units` can also be imported from the following packages:
+ *
+ * ```js
+ * import { Units } from "@esri/arcgis-rest-feature-layer";
+ * ```
+ */
+export type Units =
   | "esriSRUnit_Meter"
   | "esriSRUnit_StatuteMile"
   | "esriSRUnit_Foot"

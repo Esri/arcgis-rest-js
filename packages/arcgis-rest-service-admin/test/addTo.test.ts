@@ -5,13 +5,8 @@ import * as fetchMock from "fetch-mock";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import {
-  encodeParam,
-  ErrorTypes,
-  ILayer,
-  ITable
-} from "@esri/arcgis-rest-request";
-
+import { encodeParam, ErrorTypes } from "@esri/arcgis-rest-request";
+import { ILayer, ITable } from "@esri/arcgis-rest-types";
 import { addToServiceDefinition } from "../src/addTo";
 import {
   AddToFeatureServiceSuccessResponseFredAndGinger,

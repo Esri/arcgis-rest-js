@@ -1,8 +1,8 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IItem } from "@esri/arcgis-rest-request";
-
+import { request } from "@esri/arcgis-rest-request";
+import { IItem } from "@esri/arcgis-rest-types";
 import { getPortalUrl } from "../util/get-portal-url";
 import {
   ISharingRequestOptions,

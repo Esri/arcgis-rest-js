@@ -22,7 +22,7 @@ import {
 /**
  * Field type.
  */
-export type esriFieldType =
+export type FieldType =
   | "esriFieldTypeBlob"
   | "esriFieldTypeDate"
   | "esriFieldTypeDouble"
@@ -39,12 +39,18 @@ export type esriFieldType =
 
 /**
  * Contains information about an attribute field.
+ *
+ * `IField` can also be imported from the following packages:
+ *
+ * ```js
+ * import { IField } from "@esri/arcgis-rest-feature-layer";
+ * ```
  */
 export interface IField {
   /** A string defining the field name. */
   name: string;
   /** A string defining the field type. */
-  type: esriFieldType;
+  type: FieldType;
   /** A string defining the field alias. */
   alias?: string;
   /** The domain objects if applicable. */
@@ -63,6 +69,12 @@ export interface IField {
 
 /**
  * Params for paging operations
+ *
+ * `IPagingParams` can also be imported from the following packages:
+ *
+ * ```js
+ * import { IPagingParams } from "@esri/arcgis-rest-portal";
+ * ```
  */
 export interface IPagingParams {
   start?: number;
@@ -376,6 +388,12 @@ export interface IPresentation {
 
 /**
  * Root element in the web map specifying an array of table objects.
+ *
+ * `ITable` can also be imported from the following packages:
+ *
+ * ```js
+ * import { ITable } from "@esri-arcgis-rest-service-admin"
+ * ```
  */
 export interface ITable {
   /** Table name */
@@ -860,6 +878,14 @@ export interface IDrawingInfo {
   transparency?: number;
 }
 
+/**
+ * `ILayerDefinition` can also be imported from the following packages:
+ *
+ * ```js
+ * import { ILayerDefinition } from "@esri/arcgis-rest-service-admin";
+ * import { ILayerDefinition } from "@esri/arcgis-rest-feature-layer";
+ * ```
+ */
 export interface ILayerDefinition extends IHasZM {
   /** Boolean value indicating whether the geometry of the features in the layer can be edited. */
   allowGeometryUpdates?: boolean;
