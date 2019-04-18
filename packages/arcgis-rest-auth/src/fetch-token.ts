@@ -4,7 +4,6 @@
 import {
   request,
   IRequestOptions,
-  IFetchTokenParams,
   ITokenRequestOptions
 } from "@esri/arcgis-rest-request";
 
@@ -26,13 +25,9 @@ export interface IFetchTokenResponse {
 
 export function fetchToken(
   url: string,
-  requestOptions: IFetchTokenParams | ITokenRequestOptions
+  requestOptions: ITokenRequestOptions
 ): Promise<IFetchTokenResponse> {
-  // TODO: remove union type and type guard next breaking change and just expect IGenerateTokenRequestOptions
-  const options: IRequestOptions = (requestOptions as ITokenRequestOptions)
-    .params
-    ? (requestOptions as IRequestOptions)
-    : { params: requestOptions };
+  const options: IRequestOptions = requestOptions;
   // we generate a response, so we can't return the raw response
   options.rawResponse = false;
 

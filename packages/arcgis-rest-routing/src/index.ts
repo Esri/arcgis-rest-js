@@ -2,3 +2,10 @@
  * Apache-2.0 */
 
 export * from "./solveRoute";
+export * from "./helpers";
+export {
+  ILocation,
+  ISpatialReference,
+  IPoint,
+  IFeature
+} from "@esri/arcgis-rest-types";

@@ -1,7 +1,9 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IExtent, ISpatialReference } from "@esri/arcgis-rest-request";
+import { request } from "@esri/arcgis-rest-request";
+import { IExtent, ISpatialReference } from "@esri/arcgis-rest-types";
+
 import {
   moveItem,
   IItemCrudRequestOptions,

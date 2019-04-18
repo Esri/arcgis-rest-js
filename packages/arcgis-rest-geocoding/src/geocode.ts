@@ -4,13 +4,15 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
-  IExtent,
-  ISpatialReference,
-  IPoint
+  appendCustomParams
 } from "@esri/arcgis-rest-request";
 
-import { worldGeocoder, IEndpointRequestOptions } from "./helpers";
+import { IExtent, ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
+
+import {
+  ARCGIS_ONLINE_GEOCODING_URL,
+  IEndpointRequestOptions
+} from "./helpers";
 
 export interface IGeocodeRequestOptions extends IEndpointRequestOptions {
   /**
@@ -87,9 +89,9 @@ export function geocode(
 
   if (typeof address === "string") {
     options.params = { singleLine: address };
-    endpoint = worldGeocoder;
+    endpoint = ARCGIS_ONLINE_GEOCODING_URL;
   } else {
-    endpoint = address.endpoint || worldGeocoder;
+    endpoint = address.endpoint || ARCGIS_ONLINE_GEOCODING_URL;
     options = appendCustomParams<IGeocodeRequestOptions>(
       address,
       [

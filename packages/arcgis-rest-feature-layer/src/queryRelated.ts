@@ -4,13 +4,17 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
+  appendCustomParams
+} from "@esri/arcgis-rest-request";
+
+import {
   ISpatialReference,
   IFeature,
   IHasZM,
   GeometryType,
   IField
-} from "@esri/arcgis-rest-request";
+} from "@esri/arcgis-rest-types";
+
 import { ILayerRequestOptions } from "./helpers";
 
 /**

@@ -4,9 +4,10 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
-  IFeature
+  appendCustomParams
 } from "@esri/arcgis-rest-request";
+
+import { IFeature } from "@esri/arcgis-rest-types";
 
 import { ISharedEditOptions, IEditFeatureResult } from "./helpers";
 

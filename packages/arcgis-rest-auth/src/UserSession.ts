@@ -19,10 +19,9 @@ import {
   ArcGISAuthError,
   IAuthenticationManager,
   ITokenRequestOptions,
-  cleanUrl,
-  IUser
+  cleanUrl
 } from "@esri/arcgis-rest-request";
-
+import { IUser } from "@esri/arcgis-rest-types";
 import { generateToken } from "./generate-token";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token";
 
@@ -435,10 +434,12 @@ export class UserSession implements IAuthenticationManager {
     };
 
     return fetchToken(`${portal}/oauth2/token`, {
-      grant_type: "authorization_code",
-      client_id: clientId,
-      redirect_uri: redirectUri,
-      code: authorizationCode
+      params: {
+        grant_type: "authorization_code",
+        client_id: clientId,
+        redirect_uri: redirectUri,
+        code: authorizationCode
+      }
     }).then(response => {
       return new UserSession({
         clientId,

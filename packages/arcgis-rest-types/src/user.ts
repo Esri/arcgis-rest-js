@@ -5,6 +5,13 @@ import { IGroup } from "./group";
 
 /**
  * An ArcGIS Online or Enterprise user
+ *
+ * `IUser` can also be imported from the following packages:
+ *
+ * ```js
+ * import { IUser } from "@esri/arcgis-rest-auth";
+ * import { IUser } from "@esri/arcgis-rest-portal";
+ * ```
  */
 export interface IUser {
   username?: string;

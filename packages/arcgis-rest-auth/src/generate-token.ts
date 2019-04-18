@@ -4,7 +4,6 @@
 import {
   request,
   IRequestOptions,
-  IGenerateTokenParams,
   ITokenRequestOptions,
   NODEJS_DEFAULT_REFERER_HEADER
 } from "@esri/arcgis-rest-request";
@@ -17,13 +16,9 @@ export interface IGenerateTokenResponse {
 
 export function generateToken(
   url: string,
-  requestOptions: IGenerateTokenParams | ITokenRequestOptions
+  requestOptions: ITokenRequestOptions
 ): Promise<IGenerateTokenResponse> {
-  // TODO: remove union type and type guard next breaking change and just expect IGenerateTokenParams
-  const options: IRequestOptions = (requestOptions as ITokenRequestOptions)
-    .params
-    ? (requestOptions as IRequestOptions)
-    : { params: requestOptions };
+  const options: IRequestOptions = requestOptions;
 
   /* istanbul ignore else */
   if (

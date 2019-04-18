@@ -1,14 +1,14 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  cleanUrl,
-  IPoint,
-  ILocation
-} from "@esri/arcgis-rest-request";
+import { request, cleanUrl } from "@esri/arcgis-rest-request";
 
-import { worldGeocoder, IEndpointRequestOptions } from "./helpers";
+import { IPoint, ILocation } from "@esri/arcgis-rest-types";
+
+import {
+  ARCGIS_ONLINE_GEOCODING_URL,
+  IEndpointRequestOptions
+} from "./helpers";
 
 export interface IReverseGeocodeResponse {
   address: {
@@ -60,7 +60,7 @@ export function reverseGeocode(
   requestOptions?: IEndpointRequestOptions
 ): Promise<IReverseGeocodeResponse> {
   const options: IEndpointRequestOptions = {
-    endpoint: worldGeocoder,
+    endpoint: ARCGIS_ONLINE_GEOCODING_URL,
     params: {},
     ...requestOptions
   };
