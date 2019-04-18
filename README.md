@@ -76,6 +76,7 @@ Some useful commands include:
 * [`@esri/arcgis-rest-service-admin`](./packages/arcgis-rest-feature-service-admin) - Functions for administering hosted services.
 * [`@esri/arcgis-rest-geocoding`](./packages/arcgis-rest-geocoding) - Geocoding wrapper for `@esri/arcgis-rest-js`
 * [`@esri/arcgis-rest-routing`](./packages/arcgis-rest-routing) - Routing and directions wrapper for `@esri/arcgis-rest-js`.
+* [`@esri/arcgis-rest-types`](./packages/arcgis-rest-request/) - Common Typings for TypeScript developers.
 
 ### Frequently Asked Questions
 

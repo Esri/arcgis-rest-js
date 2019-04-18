@@ -28,9 +28,11 @@ ArcGIS REST JS is hosted on [unpkg](https://unpkg.com/). You can find URLs for i
   <script src="{% cdnUrl data.typedoc | findPackage('@esri/arcgis-rest-request') %}.js"></script>
 
   <script>
-    // when including ArcGIS REST JS all exports are available from an arcgisRest global
-    arcgisRest.request("https://www.arcgis.com/sharing/rest/info").then(response => {
-      console.log(response);
-    });
+    /* when including ArcGIS REST JS all exports are available
+    from the same arcgisRest global */
+    arcgisRest.request("https://www.arcgis.com/sharing/rest/info")
+      .then(response => {
+        console.log(response);
+      });
   </script>
 </html>
