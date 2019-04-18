@@ -3,7 +3,10 @@
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
 
-import { worldGeocoder, IEndpointRequestOptions } from "./helpers";
+import {
+  ARCGIS_ONLINE_GEOCODING_URL,
+  IEndpointRequestOptions
+} from "./helpers";
 
 export interface ISuggestResponse {
   suggestions: Array<{
@@ -30,7 +33,7 @@ export function suggest(
   requestOptions?: IEndpointRequestOptions
 ): Promise<ISuggestResponse> {
   const options: IEndpointRequestOptions = {
-    endpoint: worldGeocoder,
+    endpoint: ARCGIS_ONLINE_GEOCODING_URL,
     params: {},
     ...requestOptions
   };

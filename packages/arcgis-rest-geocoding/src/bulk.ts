@@ -8,7 +8,10 @@ import {
   IPoint
 } from "@esri/arcgis-rest-request";
 
-import { worldGeocoder, IEndpointRequestOptions } from "./helpers";
+import {
+  ARCGIS_ONLINE_GEOCODING_URL,
+  IEndpointRequestOptions
+} from "./helpers";
 
 // it'd be better if doc didnt display these properties in alphabetical order
 export interface IAddressBulk {
@@ -69,7 +72,7 @@ export function bulkGeocode(
   requestOptions: IBulkGeocodeRequestOptions // must POST, which is the default
 ) {
   const options: IBulkGeocodeRequestOptions = {
-    endpoint: worldGeocoder,
+    endpoint: ARCGIS_ONLINE_GEOCODING_URL,
     params: {
       forStorage: true,
       addresses: { records: [] }
@@ -82,7 +85,10 @@ export function bulkGeocode(
   });
 
   // the SAS service doesnt support anonymous requests
-  if (!requestOptions.authentication && options.endpoint === worldGeocoder) {
+  if (
+    !requestOptions.authentication &&
+    options.endpoint === ARCGIS_ONLINE_GEOCODING_URL
+  ) {
     return Promise.reject(
       "bulk geocoding using the ArcGIS service requires authentication"
     );
