@@ -42,11 +42,6 @@ const md = new MarkdownIt();
             reject(error);
             return;
           }
-          writeFile(
-            "temp.json",
-            JSON.stringify(JSON.parse(content.toString()), null, 2),
-            console.log.bind(console)
-          );
 
           resolve(JSON.parse(content.toString()));
         });
@@ -119,9 +114,6 @@ const md = new MarkdownIt();
          * into a giant array of all declarations in all packages.
          */
         return children.reduce((allChildren, child) => {
-          console.group(child.name);
-          console.log(child.children.map(c => c.name).join("\n"));
-          console.groupEnd();
           return allChildren.concat(
             child.children.map(c => {
               c.package = child.package;
