@@ -136,7 +136,6 @@ const md = new MarkdownIt();
     .then(declarations => {
       const blacklist = [
         "genericSearch",
-        "DEFAULT_ARCGIS_REQUEST_OPTIONS",
         "appendCustomParams",
         "requiresFormData",
         "processParams",
