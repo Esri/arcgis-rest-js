@@ -19,7 +19,6 @@ const md = new MarkdownIt();
         OUTPUT,
         "--exclude",
         "**/*test.ts",
-        "--excludeNotExported",
         "--ignoreCompilerErrors",
         "--module",
         "common",
@@ -114,6 +113,10 @@ const md = new MarkdownIt();
        * into a giant array of all declarations in all packages.
        */
       return children.reduce((allChildren, child) => {
+        if (!child.children) {
+          console.log(child);
+          return allChildren;
+        }
         return allChildren.concat(
           child.children.map(c => {
             c.package = child.package;
@@ -128,6 +131,15 @@ const md = new MarkdownIt();
        */
       return declarations.filter(
         declaration => declaration.flags && declaration.flags.isExported
+      );
+    })
+    .then(declarations => {
+      const blacklist = ["genericSearch", "DEFAULT_ARCGIS_REQUEST_OPTIONS"];
+      /**
+       * Next we remove any declarations we want to blacklist from the API ref
+       */
+      return declarations.filter(
+        declaration => !blacklist.includes(declaration.name)
       );
     })
     .then(declarations => {
