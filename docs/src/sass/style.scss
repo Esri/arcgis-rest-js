@@ -222,7 +222,10 @@ textarea,
 }
 
 .overflow-auto {
+  width: calc(100% + 1rem);
+
   table {
     margin: 0;
+    max-width: calc(100% - 1rem);
   }
 }
