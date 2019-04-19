@@ -11,7 +11,7 @@ ArcGIS REST JS can be deployed with a variety of build tools, including:
 * [webpack, Rollup and Parcel](./bundlers/)
 * [AMD (Require.js or Dojo)](./amd-requirejs-dojo/)
 * [Node.js](./node/)
-* [What's new in v2.0.0](./whats-new-v2/)
+* [What's New in v2.0.0](./whats-new-v2-0/)
 ## Requirements
 
 ArcGIS REST JS takes advantage of web standards that are supported in all modern desktop browsers and most mobile browsers.

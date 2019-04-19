@@ -41,7 +41,7 @@ describe("withOptions()", () => {
       });
   });
 
-  it("should wrap a custom request implimentation with default options", done => {
+  it("should wrap a custom request implementation with default options", done => {
     const MockResponse = {
       test: "bar"
     };
@@ -87,7 +87,7 @@ describe("withOptions()", () => {
       });
   });
 
-  it("should wrap a custom request implimentation with multiple parameters with a default URL", done => {
+  it("should wrap a custom request implementation with multiple parameters with a default URL", done => {
     const MockResponse = {
       test: "bar"
     };

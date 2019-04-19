@@ -163,7 +163,7 @@ describe("search", () => {
       });
   });
 
-  it("should provide a nextSearch() method to fetch the next page", done => {
+  it("should provide a nextPage() method to fetch the next page", done => {
     fetchMock.once("*", BigSearchResponse);
 
     searchItems("DC AND typekeywords:hubSiteApplication")

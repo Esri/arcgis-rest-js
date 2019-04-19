@@ -25,7 +25,7 @@ export function setDefaultRequestOptions(
 ) {
   if (options.authentication && !hideWarnings) {
     warn(
-      "You should not set `authentication` as a default in a shared environment such as a web server which will process multupile users requests. You can call `setDefaultRequestOptions` with `true` as a second argument to disable this warning."
+      "You should not set `authentication` as a default in a shared environment such as a web server which will process multiple users requests. You can call `setDefaultRequestOptions` with `true` as a second argument to disable this warning."
     );
   }
   DEFAULT_ARCGIS_REQUEST_OPTIONS = options;
