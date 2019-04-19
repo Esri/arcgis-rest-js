@@ -59,7 +59,7 @@ export function getUserNotifications(
  */
 export function removeNotification(
   requestOptions: IRemoveNotificationOptions
-): Promise<any> {
+): Promise<{ success: boolean; notificationId: string }> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/notifications/${

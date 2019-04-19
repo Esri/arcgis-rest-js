@@ -26,7 +26,9 @@ import {
  * @param requestOptions - Options for the request
  * @returns A Promise that deletes an item.
  */
-export function removeItem(requestOptions: IUserItemOptions): Promise<any> {
+export function removeItem(
+  requestOptions: IUserItemOptions
+): Promise<{ success: boolean; itemId: string }> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id

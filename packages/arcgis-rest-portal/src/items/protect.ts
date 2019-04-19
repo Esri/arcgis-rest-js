@@ -12,7 +12,9 @@ import { IUserItemOptions, determineOwner } from "./helpers";
  * @param requestOptions - Options for the request
  * @returns A Promise to protect an item.
  */
-export function protectItem(requestOptions: IUserItemOptions): Promise<any> {
+export function protectItem(
+  requestOptions: IUserItemOptions
+): Promise<{ success: boolean }> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id
@@ -26,7 +28,9 @@ export function protectItem(requestOptions: IUserItemOptions): Promise<any> {
  * @param requestOptions - Options for the request
  * @returns A Promise to unprotect an item.
  */
-export function unprotectItem(requestOptions: IUserItemOptions): Promise<any> {
+export function unprotectItem(
+  requestOptions: IUserItemOptions
+): Promise<{ success: boolean }> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id

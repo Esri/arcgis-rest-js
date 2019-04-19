@@ -112,7 +112,12 @@ export function getUserInvitation(
  */
 export function acceptInvitation(
   requestOptions: IGetUserInvitationOptions
-): Promise<any> {
+): Promise<{
+  success: boolean;
+  username: string;
+  groupId: string;
+  id: string;
+}> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/invitations/${
@@ -140,7 +145,12 @@ export function acceptInvitation(
  */
 export function declineInvitation(
   requestOptions: IGetUserInvitationOptions
-): Promise<any> {
+): Promise<{
+  success: boolean;
+  username: string;
+  groupId: string;
+  id: string;
+}> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/invitations/${
