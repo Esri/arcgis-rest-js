@@ -12,7 +12,7 @@ import {
 
 import { ARCGIS_ONLINE_ROUTING_URL, IEndpointOptions } from "./helpers";
 
-export interface ISolveRouteRequestOptions extends IEndpointOptions {
+export interface ISolveRouteOptions extends IEndpointOptions {
   /**
    * Specify two or more locations between which the route is to be found.
    */
@@ -75,9 +75,9 @@ function isLocation(
  * @returns A Promise that will resolve with routes and directions for the request.
  */
 export function solveRoute(
-  requestOptions: ISolveRouteRequestOptions
+  requestOptions: ISolveRouteOptions
 ): Promise<ISolveRouteResponse> {
-  const options: ISolveRouteRequestOptions = {
+  const options: ISolveRouteOptions = {
     endpoint: requestOptions.endpoint || ARCGIS_ONLINE_ROUTING_URL,
     params: {},
     ...requestOptions

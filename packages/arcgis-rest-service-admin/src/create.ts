@@ -85,7 +85,7 @@ export interface ICreateServiceParams {
   };
 }
 
-export interface ICreateServiceRequestOptions extends IItemCrudRequestOptions {
+export interface ICreateServiceOptions extends IItemCrudRequestOptions {
   /**
    * A JSON object specifying the properties of the newly-created service. See the [REST
    * Documentation](https://developers.arcgis.com/rest/users-groups-and-items/working-with-users-groups-and-items.htm)
@@ -166,12 +166,12 @@ export interface ICreateServiceResult {
  * @returns A Promise that resolves with service details once the service has been created
  */
 export function createFeatureService(
-  requestOptions: ICreateServiceRequestOptions
+  requestOptions: ICreateServiceOptions
 ): Promise<ICreateServiceResult> {
   const owner = determineOwner(requestOptions);
   const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
   const url = `${baseUrl}/createService`;
-  const options: ICreateServiceRequestOptions = {
+  const options: ICreateServiceOptions = {
     ...requestOptions,
     rawResponse: false
   };
