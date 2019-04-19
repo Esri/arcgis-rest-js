@@ -42,7 +42,7 @@ tr:target,
 
 .table-link {
   position: absolute;
-  left: -1.25rem;
+  left: 1px;
   top: 50%;
   margin-top: -0.8375rem;
   display: none;
@@ -54,6 +54,7 @@ tr:target,
   height: 1.5rem;
   text-align: center;
   line-height: 1.5rem;
+  z-index: 100;
   &:hover {
     color: white;
     background: #005e95;
