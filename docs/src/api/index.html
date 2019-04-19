@@ -4,11 +4,13 @@ layout: "api/_layout:content"
 
 <h1 class="font-size-4">Packages</h1>
 {% for package in data.typedoc.packages %}
-<section class="panel panel-white leader-1">
+  {% if not loop.first %}
+  <hr>
+  {% endif %}
   {% set pkg = package.pkg %}
   {% set declarations = package.declarations %}
   {% set url = package.pageUrl %}
   {% include "api/_package.html" %}
-</section>
+
 {% endfor %}
 </div>

@@ -6,7 +6,8 @@
   display: none;
 }
 
-body {
+body,
+.footer {
   background: #fafafa;
 }
 
@@ -178,15 +179,23 @@ a > code {
   }
 }
 
+.api-package-content-list {
+  .api-list-item {
+    padding-left: 0.5rem;
+  }
+}
+
 .api-list-item {
   font-size: 0.875rem;
   white-space: nowrap;
 }
 
-.list-item-active {
+.api-list-item.list-item-active {
   border-width: 1px;
   border-color: #0079c1;
   border-style: solid;
+  padding-left: 0;
+  margin-left: calc(0.5rem - 2px);
 }
 
 pre {
@@ -210,4 +219,10 @@ textarea,
 .input-group-button .btn,
 .input-group-button button {
   line-height: 0;
+}
+
+.overflow-auto {
+  table {
+    margin: 0;
+  }
 }
