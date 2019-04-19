@@ -118,11 +118,11 @@ The table below lists methods in this package that have been deprecated, given a
 
 | Old | New | Package
 | -- | -- | -- |
-| ~~`serializeGroup()`~~ |  |
-| ~~`createItemInFolder({ folder })`~~ | `createItemInFolder({ folderId })` |
-| ~~`searchItems( string|opts )`~~ | `searchItems( string|opts|Builder )` |
-| ~~`searchGroups( form, opts )`~~ | `searchGroups( string|opts|Builder )` |
-| ~~`getItemResources( opts )`~~ | `getItemResources( id, opts? )` |
+| ~~`serializeGroup()`~~ |  | ~~`groups`~~ |
+| ~~`createItemInFolder({ folder })`~~ | `createItemInFolder({ folderId })` | ~~`items`~~ `portal` |
+| ~~`searchItems( string|opts )`~~ | `searchItems( string|opts|Builder )` | ~~`items`~~ `portal` |
+| ~~`searchGroups( form, opts )`~~ | `searchGroups( string|opts|Builder )` | ~~`groups`~~ `portal` |
+| ~~`getItemResources( opts )`~~ | `getItemResources( id, opts? )` | ~~`items`~~ `portal` |
 | `getUserUrl()` | `getUserUrl()` | ~~`auth`~~ `portal` |
 | `getPortalUrl()` | `getPortalUrl()` | ~~`request`~~ `portal` |
 | `getPortal()` | `getPortal()` | ~~`request`~~ `portal` |
@@ -130,7 +130,7 @@ The table below lists methods in this package that have been deprecated, given a
 
 #### `@esri/arcgis-rest-request`
 
-The only breaking changes we made to `request` were to refactor an internal method and move a couple over to the new `portal` package.
+The only breaking changes we made to `request` were to refactor an internal method and move a couple others over to the new `portal` package.
 
 | Old | New | Package Name |
 | -- | -- | -- |
@@ -265,4 +265,4 @@ The table below lists interfaces and types that have been removed or renamed in 
 |  | `IParamBuilder` |
 |  | `IParamsBuilder` |
 
-That's it! We know that moving so much 🧀 is a hassle, but future devs send their thanks! 🎩
+That's it! We know that moving so much 🧀 is a hassle, but developers of the future send their thanks! 🎩
