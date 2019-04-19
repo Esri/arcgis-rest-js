@@ -4,11 +4,11 @@
 import { request } from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url";
-import { IGroupIdRequestOptions } from "./helpers";
+import { IUserGroupOptions } from "./helpers";
 
 /**
  * ```js
- * import { protectGroup } from '@esri/arcgis-rest-groups';
+ * import { protectGroup } from '@esri/arcgis-rest-portal';
  * //
  * protectGroup({
  *   id: groupId,
@@ -22,7 +22,7 @@ import { IGroupIdRequestOptions } from "./helpers";
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function protectGroup(
-  requestOptions: IGroupIdRequestOptions
+  requestOptions: IUserGroupOptions
 ): Promise<{ success: boolean }> {
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
@@ -33,7 +33,7 @@ export function protectGroup(
 
 /**
  * ```js
- * import { unprotectGroup } from '@esri/arcgis-rest-groups';
+ * import { unprotectGroup } from '@esri/arcgis-rest-portal';
  * //
  * unprotectGroup({
  *   id: groupId,
@@ -46,7 +46,7 @@ export function protectGroup(
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function unprotectGroup(
-  requestOptions: IGroupIdRequestOptions
+  requestOptions: IUserGroupOptions
 ): Promise<{ success: boolean }> {
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id

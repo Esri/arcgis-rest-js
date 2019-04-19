@@ -4,7 +4,7 @@
 import { IItem } from "@esri/arcgis-rest-types";
 import {
   IGetRelatedItemsResponse,
-  IItemGroupResponse
+  IGetItemGroupsResponse
 } from "../../../src/items/get";
 
 export const ItemSuccessResponse: any = {
@@ -43,7 +43,7 @@ export const ItemDataResponse: any = {
   }
 };
 
-export const ItemGroupResponse: IItemGroupResponse = {
+export const ItemGroupResponse: IGetItemGroupsResponse = {
   admin: [
     {
       id: "2ecb37a8c8fb4051af9c086c25503bb0",

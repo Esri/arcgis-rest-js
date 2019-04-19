@@ -5,11 +5,10 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItemAdd, IItemUpdate, IItem } from "@esri/arcgis-rest-types";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
-export interface IItemRequestOptions extends IUserRequestOptions {
-  item: IItem;
-}
-
-export interface IItemIdRequestOptions extends IUserRequestOptions {
+/**
+ * Base options interface for making authenticated requests for items.
+ */
+export interface IUserItemOptions extends IUserRequestOptions {
   /**
    * Unique identifier of the item.
    */
@@ -20,7 +19,7 @@ export interface IItemIdRequestOptions extends IUserRequestOptions {
   owner?: string;
 }
 
-export interface IFolderIdRequestOptions extends IUserRequestOptions {
+export interface IFolderIdOptions extends IUserRequestOptions {
   /**
    * Unique identifier of the folder.
    */
@@ -52,9 +51,9 @@ export type ItemRelationshipType =
   | "Service2Layer"
   | "Area2CustomPackage";
 
-export interface IItemRelationshipRequestOptions extends IRequestOptions {
+export interface IItemRelationshipOptions extends IRequestOptions {
   /**
-   * Id of the item.
+   * Unique identifier of the item.
    */
   id: string;
   /**
@@ -67,14 +66,13 @@ export interface IItemRelationshipRequestOptions extends IRequestOptions {
   direction?: "forward" | "reverse";
 }
 
-export interface IManageItemRelationshipRequestOptions
-  extends IUserRequestOptions {
+export interface IManageItemRelationshipOptions extends IUserRequestOptions {
   originItemId: string;
   destinationItemId: string;
   relationshipType: ItemRelationshipType;
 }
 
-export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
+export interface IItemResourceOptions extends IUserItemOptions {
   /**
    * New resource filename.
    */
@@ -93,7 +91,7 @@ export interface IItemResourceRequestOptions extends IItemIdRequestOptions {
   resource?: any;
 }
 
-export interface IItemCrudRequestOptions extends IUserRequestOptions {
+export interface ICreateUpdateItemOptions extends IUserRequestOptions {
   /**
    * The owner of the item. If this property is not present, `item.owner` will be passed, or lastly `authentication.username`.
    */
@@ -104,20 +102,16 @@ export interface IItemCrudRequestOptions extends IUserRequestOptions {
   folderId?: string;
 }
 
-export interface IItemDataRequestOptions extends IRequestOptions {
+export interface IItemDataOptions extends IRequestOptions {
   /**
    * Used to request binary data.
    */
   file?: boolean;
 }
 
-export interface IItemUpdateResponse {
+export interface IUpdateItemResponse {
   success: boolean;
   id: string;
-}
-
-export interface IItemAddResponse extends IItemUpdateResponse {
-  folder: string;
 }
 
 export interface IItemResourceResponse {
@@ -142,7 +136,7 @@ export interface IAddFolderResponse {
   };
 }
 
-export interface IItemMoveResponse {
+export interface IMoveItemResponse {
   /**
    * Success or failure of request.
    */

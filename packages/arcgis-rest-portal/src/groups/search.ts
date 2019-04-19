@@ -3,7 +3,7 @@
 
 import { IGroup } from "@esri/arcgis-rest-types";
 import { SearchQueryBuilder } from "../util/SearchQueryBuilder";
-import { ISearchRequestOptions, ISearchResult } from "../util/search";
+import { ISearchOptions, ISearchResult } from "../util/search";
 import { genericSearch } from "../util/generic-search";
 
 /**
@@ -19,7 +19,7 @@ import { genericSearch } from "../util/generic-search";
  * @returns A Promise that will resolve with the data from the response.
  */
 export function searchGroups(
-  search: string | ISearchRequestOptions | SearchQueryBuilder
+  search: string | ISearchOptions | SearchQueryBuilder
 ): Promise<ISearchResult<IGroup>> {
   return genericSearch<IGroup>(search, "group");
 }

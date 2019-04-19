@@ -6,7 +6,7 @@ import { IGroupAdd, IGroup } from "@esri/arcgis-rest-types";
 
 import { getPortalUrl } from "../util/get-portal-url";
 
-export interface IGroupAddRequestOptions extends IRequestOptions {
+export interface ICreateGroupOptions extends IRequestOptions {
   group: IGroupAdd;
 }
 
@@ -30,7 +30,7 @@ export interface IGroupAddRequestOptions extends IRequestOptions {
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function createGroup(
-  requestOptions: IGroupAddRequestOptions
+  requestOptions: ICreateGroupOptions
 ): Promise<{ success: boolean; group: IGroup }> {
   const url = `${getPortalUrl(requestOptions)}/community/createGroup`;
 

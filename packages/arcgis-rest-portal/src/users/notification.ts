@@ -15,7 +15,7 @@ export interface INotification {
   data: { [key: string]: any };
 }
 
-export interface INotificationIdRequestOptions extends IUserRequestOptions {
+export interface IRemoveNotificationOptions extends IUserRequestOptions {
   /**
    * Unique identifier of the item.
    */
@@ -27,7 +27,7 @@ export interface INotificationResult {
 
 /**
  * ```js
- * import { getUserNotifications } from '@esri/arcgis-rest-users';
+ * import { getUserNotifications } from '@esri/arcgis-rest-portal';
  * // username is inferred from UserSession
  * getUserNotifications({ authentication })
  *   .then(results) // results.notifications.length) => 3
@@ -58,8 +58,8 @@ export function getUserNotifications(
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function removeNotification(
-  requestOptions: INotificationIdRequestOptions
-): Promise<any> {
+  requestOptions: IRemoveNotificationOptions
+): Promise<{ success: boolean; notificationId: string }> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/notifications/${

@@ -1,18 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IRequestOptions } from "@esri/arcgis-rest-request";
+import { request } from "@esri/arcgis-rest-request";
 import { IUser } from "@esri/arcgis-rest-types";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 import { getPortalUrl } from "../util/get-portal-url";
 
-export interface IUpdateUserRequestOptions extends IRequestOptions {
-  /**
-   * A session representing a logged in user.
-   */
-  authentication: UserSession;
+export interface IUpdateUserOptions extends IUserRequestOptions {
   /**
    * The user properties to be updated.
    */
@@ -26,7 +22,7 @@ export interface IUpdateUserResponse {
 
 /**
  * ```js
- * import { updateUser } from '@esri/arcgis-rest-users';
+ * import { updateUser } from '@esri/arcgis-rest-portal';
  * // any user can update their own profile
  * updateUser({
  *   authentication,
@@ -47,7 +43,7 @@ export interface IUpdateUserResponse {
  * @returns A Promise that will resolve with metadata about the user
  */
 export function updateUser(
-  requestOptions?: IUpdateUserRequestOptions
+  requestOptions?: IUpdateUserOptions
 ): Promise<IUpdateUserResponse> {
   // default to the authenticated username unless another username is provided manually
   const username =

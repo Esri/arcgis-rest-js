@@ -58,5 +58,8 @@
     "arcgis",
     "esri",
     "ES6"
-  ]
+  ],
+  "esri": {
+    "keyExports": ["UserSession", "ApplicationSession"]
+  }
 }

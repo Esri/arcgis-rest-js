@@ -1,23 +1,17 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IGroup, IUser, GroupMembership } from "@esri/arcgis-rest-types";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 import { getPortalUrl } from "../util/get-portal-url";
 import { getGroup } from "../groups/get";
-import { IGroupSharingRequestOptions } from "./group-sharing";
 
-export interface ISharingRequestOptions extends IRequestOptions {
+export interface ISharingOptions extends IUserRequestOptions {
   /**
    * Unique identifier for the item.
    */
   id: string;
-  /**
-   * Represents a user with privileges to update item sharing.
-   */
-  authentication: UserSession;
   /**
    * Item owner, if different from the authenticated user.
    */
@@ -30,7 +24,7 @@ export interface ISharingResponse {
   itemId: string;
 }
 
-export function getSharingUrl(requestOptions: ISharingRequestOptions): string {
+export function getSharingUrl(requestOptions: ISharingOptions): string {
   const username = requestOptions.authentication.username;
   const owner = requestOptions.owner || username;
   return `${getPortalUrl(requestOptions)}/content/users/${encodeURIComponent(
@@ -38,7 +32,7 @@ export function getSharingUrl(requestOptions: ISharingRequestOptions): string {
   )}/items/${requestOptions.id}/share`;
 }
 
-export function isItemOwner(requestOptions: ISharingRequestOptions): boolean {
+export function isItemOwner(requestOptions: ISharingOptions): boolean {
   const username = requestOptions.authentication.username;
   const owner = requestOptions.owner || username;
   return owner === username;
@@ -49,9 +43,7 @@ export function isItemOwner(requestOptions: ISharingRequestOptions): boolean {
  * @param requestOptions
  * @returns Promise resolving in a boolean indicating if the user is an ArcGIS Organization administrator
  */
-export function isOrgAdmin(
-  requestOptions: ISharingRequestOptions
-): Promise<boolean> {
+export function isOrgAdmin(requestOptions: ISharingOptions): Promise<boolean> {
   const session = requestOptions.authentication;
 
   return session.getUser(requestOptions).then((user: IUser) => {
@@ -67,11 +59,11 @@ export function isOrgAdmin(
  * Get the User Membership for a particular group. Use this if all you have is the groupId.
  * If you have the group object, check the `userMembership.memberType` property instead of calling this method.
  *
- * @param IGroupIdRequestOptions options to pass through in the request
+ * @param requestOptions
  * @returns A Promise that resolves with "owner" | "admin" | "member" | "nonmember"
  */
 export function getUserMembership(
-  requestOptions: IGroupSharingRequestOptions
+  requestOptions: IGroupSharingOptions
 ): Promise<GroupMembership> {
   // fetch the group...
   return getGroup(requestOptions.groupId, requestOptions)
@@ -81,4 +73,12 @@ export function getUserMembership(
     .catch(() => {
       return "nonmember" as GroupMembership;
     });
+}
+
+export interface IGroupSharingOptions extends ISharingOptions {
+  /**
+   * Group identifier
+   */
+  groupId: string;
+  confirmItemControl?: boolean;
 }

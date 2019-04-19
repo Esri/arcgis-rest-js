@@ -36,7 +36,7 @@ export interface IInvitationResult {
 
 /**
  * ```js
- * import { getUserInvitations } from '@esri/arcgis-rest-users';
+ * import { getUserInvitations } from '@esri/arcgis-rest-portal';
  * // username is inferred from UserSession
  * getUserInvitations({ authentication })
  *   .then(response) // response.userInvitations.length => 3
@@ -60,13 +60,13 @@ export function getUserInvitations(
   return request(url, options);
 }
 
-export interface IInvitationRequestOptions extends IUserRequestOptions {
+export interface IGetUserInvitationOptions extends IUserRequestOptions {
   invitationId: string;
 }
 
 /**
  * ```js
- * import { getUserInvitation } from '@esri/arcgis-rest-users';
+ * import { getUserInvitation } from '@esri/arcgis-rest-portal';
  * // username is inferred from UserSession
  * getUserInvitation({
  *   invitationId: "3ef",
@@ -80,7 +80,7 @@ export interface IInvitationRequestOptions extends IUserRequestOptions {
  * @returns A Promise that will resolve with the invitation
  */
 export function getUserInvitation(
-  requestOptions: IInvitationRequestOptions
+  requestOptions: IGetUserInvitationOptions
 ): Promise<IInvitation> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
@@ -88,7 +88,7 @@ export function getUserInvitation(
     requestOptions.invitationId
   }`;
 
-  let options = { httpMethod: "GET" } as IInvitationRequestOptions;
+  let options = { httpMethod: "GET" } as IGetUserInvitationOptions;
   options = { ...requestOptions, ...options };
 
   // send the request
@@ -97,7 +97,7 @@ export function getUserInvitation(
 
 /**
  * ```js
- * import { acceptInvitation } from '@esri/arcgis-rest-users';
+ * import { acceptInvitation } from '@esri/arcgis-rest-portal';
  * // username is inferred from UserSession
  * acceptInvitation({
  *   invitationId: "3ef",
@@ -111,21 +111,26 @@ export function getUserInvitation(
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function acceptInvitation(
-  requestOptions: IInvitationRequestOptions
-): Promise<any> {
+  requestOptions: IGetUserInvitationOptions
+): Promise<{
+  success: boolean;
+  username: string;
+  groupId: string;
+  id: string;
+}> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/invitations/${
     requestOptions.invitationId
   }/accept`;
 
-  const options: IInvitationRequestOptions = { ...requestOptions };
+  const options: IGetUserInvitationOptions = { ...requestOptions };
   return request(url, options);
 }
 
 /**
  * ```js
- * import { declineInvitation } from '@esri/arcgis-rest-users';
+ * import { declineInvitation } from '@esri/arcgis-rest-portal';
  * // username is inferred from UserSession
  * declineInvitation({
  *   invitationId: "3ef",
@@ -139,14 +144,19 @@ export function acceptInvitation(
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function declineInvitation(
-  requestOptions: IInvitationRequestOptions
-): Promise<any> {
+  requestOptions: IGetUserInvitationOptions
+): Promise<{
+  success: boolean;
+  username: string;
+  groupId: string;
+  id: string;
+}> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/invitations/${
     requestOptions.invitationId
   }/decline`;
 
-  const options: IInvitationRequestOptions = { ...requestOptions };
+  const options: IGetUserInvitationOptions = { ...requestOptions };
   return request(url, options);
 }

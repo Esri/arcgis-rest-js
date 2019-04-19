@@ -5,22 +5,13 @@ import { request } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-types";
 import { getPortalUrl } from "../util/get-portal-url";
 import {
-  ISharingRequestOptions,
+  IGroupSharingOptions,
   ISharingResponse,
   isOrgAdmin,
   getUserMembership
 } from "./helpers";
 
-export interface IGroupSharingRequestOptions extends ISharingRequestOptions {
-  /**
-   * Group identifier
-   */
-  groupId: string;
-  confirmItemControl?: boolean;
-}
-
-interface IGroupSharingUnsharingRequestOptions
-  extends IGroupSharingRequestOptions {
+interface IGroupSharingUnsharingOptions extends IGroupSharingOptions {
   action: "share" | "unshare";
 }
 
@@ -40,7 +31,7 @@ interface IGroupSharingUnsharingRequestOptions
  * @returns A Promise that will resolve with the data from the response.
  */
 export function shareItemWithGroup(
-  requestOptions: IGroupSharingRequestOptions
+  requestOptions: IGroupSharingOptions
 ): Promise<ISharingResponse> {
   return changeGroupSharing({ action: "share", ...requestOptions });
 }
@@ -62,7 +53,7 @@ export function shareItemWithGroup(
  * @returns A Promise that will resolve with the data from the response.
  */
 export function unshareItemWithGroup(
-  requestOptions: IGroupSharingRequestOptions
+  requestOptions: IGroupSharingOptions
 ): Promise<ISharingResponse> {
   return changeGroupSharing({ action: "unshare", ...requestOptions });
 }
@@ -72,7 +63,7 @@ export function unshareItemWithGroup(
  * @returns A Promise that will resolve with the data from the response.
  */
 function changeGroupSharing(
-  requestOptions: IGroupSharingUnsharingRequestOptions
+  requestOptions: IGroupSharingUnsharingOptions
 ): Promise<ISharingResponse> {
   const username = requestOptions.authentication.username;
   const owner = requestOptions.owner || username;
@@ -167,7 +158,7 @@ function changeGroupSharing(
  * @returns A Promise that will resolve with the data from the response.
  */
 function isItemSharedWithGroup(
-  requestOptions: IGroupSharingRequestOptions
+  requestOptions: IGroupSharingOptions
 ): Promise<boolean> {
   const query = {
     q: `id: ${requestOptions.id} AND group: ${requestOptions.groupId}`,
@@ -187,6 +178,7 @@ function isItemSharedWithGroup(
 
   const url = `${getPortalUrl(options)}/search`;
 
+  // to do: just call searchItems now that its in the same package
   return request(url, options).then(searchResponse => {
     // if there are no search results at all, we know the item hasnt already been shared with the group
     if (searchResponse.total === 0) {
