@@ -187,6 +187,7 @@ function isItemSharedWithGroup(
 
   const url = `${getPortalUrl(options)}/search`;
 
+  // to do: just call searchItems now that its in the same package
   return request(url, options).then(searchResponse => {
     // if there are no search results at all, we know the item hasnt already been shared with the group
     if (searchResponse.total === 0) {

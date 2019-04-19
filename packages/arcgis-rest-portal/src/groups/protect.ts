@@ -8,7 +8,7 @@ import { IGroupIdRequestOptions } from "./helpers";
 
 /**
  * ```js
- * import { protectGroup } from '@esri/arcgis-rest-groups';
+ * import { protectGroup } from '@esri/arcgis-rest-portal';
  * //
  * protectGroup({
  *   id: groupId,
@@ -33,7 +33,7 @@ export function protectGroup(
 
 /**
  * ```js
- * import { unprotectGroup } from '@esri/arcgis-rest-groups';
+ * import { unprotectGroup } from '@esri/arcgis-rest-portal';
  * //
  * unprotectGroup({
  *   id: groupId,

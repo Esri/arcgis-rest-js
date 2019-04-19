@@ -27,7 +27,7 @@ export interface INotificationResult {
 
 /**
  * ```js
- * import { getUserNotifications } from '@esri/arcgis-rest-users';
+ * import { getUserNotifications } from '@esri/arcgis-rest-portal';
  * // username is inferred from UserSession
  * getUserNotifications({ authentication })
  *   .then(results) // results.notifications.length) => 3

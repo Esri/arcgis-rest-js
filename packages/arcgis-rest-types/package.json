@@ -44,5 +44,8 @@
     "arcgis",
     "esri",
     "ES6"
-  ]
+  ],
+  "esri": {
+    "keyExports": ["IUser, IItem"]
+  }
 }

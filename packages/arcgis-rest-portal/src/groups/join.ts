@@ -8,7 +8,7 @@ import { IGroupIdRequestOptions } from "./helpers";
 
 /**
  * ```js
- * import { joinGroup } from '@esri/arcgis-rest-groups';
+ * import { joinGroup } from '@esri/arcgis-rest-portal';
  * //
  * joinGroup({
  *   id: groupId,
@@ -33,7 +33,7 @@ export function joinGroup(
 
 /**
  * ```js
- * import { leaveGroup } from '@esri/arcgis-rest-groups';
+ * import { leaveGroup } from '@esri/arcgis-rest-portal';
  * //
  * leaveGroup({
  *   id: groupId,
