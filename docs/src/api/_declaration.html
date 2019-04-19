@@ -1,4 +1,4 @@
-{% macro @type(type) -%}
+{% macro @type(type, isArray) -%}
   {%- if type.type === 'stringLiteral' -%}
     <span class="text-green">"{{type.value}}"</span>
   {%- endif -%}
@@ -11,9 +11,11 @@
     </dl>}
   {%- endif -%}
 
-  {% if type.type === 'array' %}
+  {%- if type.type === 'array' and (type.elementType.type === "union" or (type.elementType.type === "typeParameter" and type.elementType.constraint.type === "union")) -%}
+    <i class="no-wrap">{{ @type(type.elementType, true) }}</i>
+  {%- elif  type.type === 'array'  -%}
     <i class="no-wrap">{{ @type(type.elementType) }}<span class="text-light-gray">{{ '[]' }}</span></i>
-  {% endif %}
+  {%- endif -%}
 
   {%- if type.type === 'intrinsic' -%}
     <i class="text-purple">{{type.name}}</i>
@@ -42,7 +44,7 @@
 
   {%- if type.type === 'union' -%}
     <i>{%- for t in type.types -%}
-      {{ @type(t) }}
+      {{ @type(t) }}{% if isArray %}<span class="text-light-gray">{{ '[]' }}</span>{% endif %}
 
       {%- if (loop.last === false) -%}
         <span class="text-light-gray">{{ ' | ' }}</span>
@@ -63,6 +65,10 @@
         <span class="text-light-gray">{{ ']' }}</span>
       {%- endif -%}
     {%- endfor -%}</i>
+  {%- endif -%}
+
+  {%- if type.type === 'typeParameter' and type.constraint -%}
+    {{ @type(type.constraint, isArray) }}
   {%- endif -%}
 
   {%- if type.typeArguments -%}
