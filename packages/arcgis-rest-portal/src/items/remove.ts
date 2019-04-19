@@ -5,11 +5,11 @@ import { request, appendCustomParams } from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url";
 import {
-  IItemIdRequestOptions,
-  IItemResourceRequestOptions,
-  IFolderIdRequestOptions,
+  IUserItemOptions,
+  IItemResourceOptions,
+  IFolderIdOptions,
   determineOwner,
-  IManageItemRelationshipRequestOptions
+  IManageItemRelationshipOptions
 } from "./helpers";
 
 /**
@@ -27,8 +27,8 @@ import {
  * @returns A Promise that deletes an item.
  */
 export function removeItem(
-  requestOptions: IItemIdRequestOptions
-): Promise<any> {
+  requestOptions: IUserItemOptions
+): Promise<{ success: boolean; itemId: string }> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id
@@ -54,14 +54,14 @@ export function removeItem(
  * @returns A Promise to add item resources.
  */
 export function removeItemRelationship(
-  requestOptions: IManageItemRelationshipRequestOptions
+  requestOptions: IManageItemRelationshipOptions
 ): Promise<{ success: boolean }> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(
     requestOptions
   )}/content/users/${owner}/removeRelationship`;
 
-  const options = appendCustomParams<IManageItemRelationshipRequestOptions>(
+  const options = appendCustomParams<IManageItemRelationshipOptions>(
     requestOptions,
     ["originItemId", "destinationItemId", "relationshipType"],
     { params: { ...requestOptions.params } }
@@ -77,8 +77,8 @@ export function removeItemRelationship(
  * @returns A Promise that deletes an item resource.
  */
 export function removeItemResource(
-  requestOptions: IItemResourceRequestOptions
-): Promise<any> {
+  requestOptions: IItemResourceOptions
+): Promise<{ success: boolean }> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id
@@ -112,7 +112,7 @@ export function removeItemResource(
  * @returns A Promise that deletes a folder
  */
 export function removeFolder(
-  requestOptions: IFolderIdRequestOptions
+  requestOptions: IFolderIdOptions
 ): Promise<{
   success: boolean;
   folder: {

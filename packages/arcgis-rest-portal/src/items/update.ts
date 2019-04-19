@@ -6,19 +6,20 @@ import { IItemUpdate } from "@esri/arcgis-rest-types";
 
 import { getPortalUrl } from "../util/get-portal-url";
 import {
-  IItemCrudRequestOptions,
-  IItemMoveResponse,
-  IItemResourceRequestOptions,
-  IItemUpdateResponse,
+  ICreateUpdateItemOptions,
+  IMoveItemResponse,
+  IItemResourceOptions,
+  IItemResourceResponse,
+  IUpdateItemResponse,
   serializeItem,
   determineOwner
 } from "./helpers";
 
-export interface IItemUpdateRequestOptions extends IItemCrudRequestOptions {
+export interface IUpdateItemOptions extends ICreateUpdateItemOptions {
   item: IItemUpdate;
 }
 
-export interface IItemMoveRequestOptions extends IItemCrudRequestOptions {
+export interface IMoveItemOptions extends ICreateUpdateItemOptions {
   /**
    * Alphanumeric id of item to be moved.
    */
@@ -50,8 +51,8 @@ export interface IItemMoveRequestOptions extends IItemCrudRequestOptions {
  * @returns A Promise that updates an item.
  */
 export function updateItem(
-  requestOptions: IItemUpdateRequestOptions
-): Promise<IItemUpdateResponse> {
+  requestOptions: IUpdateItemOptions
+): Promise<IUpdateItemResponse> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.item.id
@@ -84,8 +85,8 @@ export function updateItem(
  * @returns A Promise that updates an item resource.
  */
 export function updateItemResource(
-  requestOptions: IItemResourceRequestOptions
-): Promise<any> {
+  requestOptions: IItemResourceOptions
+): Promise<IItemResourceResponse> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(
     requestOptions as IRequestOptions
@@ -124,8 +125,8 @@ export function updateItemResource(
  * @returns A Promise that resolves with owner and folder details once the move has been completed
  */
 export function moveItem(
-  requestOptions: IItemMoveRequestOptions
-): Promise<IItemMoveResponse> {
+  requestOptions: IMoveItemOptions
+): Promise<IMoveItemResponse> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.itemId

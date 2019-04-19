@@ -5,10 +5,7 @@ import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem, IGroup } from "@esri/arcgis-rest-types";
 
 import { getPortalUrl } from "../util/get-portal-url";
-import {
-  IItemDataRequestOptions,
-  IItemRelationshipRequestOptions
-} from "./helpers";
+import { IItemDataOptions, IItemRelationshipOptions } from "./helpers";
 
 /**
  * ```
@@ -57,11 +54,11 @@ export function getItem(
  */
 export function getItemData(
   id: string,
-  requestOptions?: IItemDataRequestOptions
+  requestOptions?: IItemDataOptions
 ): Promise<any> {
   const url = `${getPortalUrl(requestOptions)}/content/items/${id}/data`;
   // default to a GET request
-  const options: IItemDataRequestOptions = {
+  const options: IItemDataOptions = {
     ...{ httpMethod: "GET", params: {} },
     ...requestOptions
   };
@@ -104,13 +101,13 @@ export interface IGetRelatedItemsResponse {
  * @returns A Promise to get some item resources.
  */
 export function getRelatedItems(
-  requestOptions: IItemRelationshipRequestOptions
+  requestOptions: IItemRelationshipOptions
 ): Promise<IGetRelatedItemsResponse> {
   const url = `${getPortalUrl(requestOptions)}/content/items/${
     requestOptions.id
   }/relatedItems`;
 
-  const options: IItemRelationshipRequestOptions = {
+  const options: IItemRelationshipOptions = {
     httpMethod: "GET",
     params: {
       direction: requestOptions.direction
@@ -151,7 +148,7 @@ export function getItemResources(
   return request(url, requestOptions);
 }
 
-export interface IItemGroupResponse {
+export interface IGetItemGroupsResponse {
   admin?: IGroup[];
   member?: IGroup[];
   other?: IGroup[];
@@ -173,7 +170,7 @@ export interface IItemGroupResponse {
 export function getItemGroups(
   id: string,
   requestOptions?: IRequestOptions
-): Promise<IItemGroupResponse> {
+): Promise<IGetItemGroupsResponse> {
   const url = `${getPortalUrl(requestOptions)}/content/items/${id}/groups`;
 
   return request(url, requestOptions);

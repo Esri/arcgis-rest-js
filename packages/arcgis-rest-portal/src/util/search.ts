@@ -5,7 +5,7 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IPagingParams, IItem, IGroup } from "@esri/arcgis-rest-types";
 import { SearchQueryBuilder } from "./SearchQueryBuilder";
 
-export interface ISearchRequestOptions extends IRequestOptions, IPagingParams {
+export interface ISearchOptions extends IRequestOptions, IPagingParams {
   q: string | SearchQueryBuilder;
   sortField?: string;
   sortDir?: string;

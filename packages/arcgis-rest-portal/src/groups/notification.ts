@@ -2,14 +2,13 @@
  * Apache-2.0 */
 
 import { request } from "@esri/arcgis-rest-request";
-import { IGroupIdRequestOptions } from "./helpers";
+import { IUserGroupOptions } from "./helpers";
 
 import { getPortalUrl } from "../util/get-portal-url";
 
 export type NotificationChannelType = "push" | "email" | "builtin";
 
-export interface IGroupNotificationRequestOptions
-  extends IGroupIdRequestOptions {
+export interface ICreateGroupNotificationOptions extends IUserGroupOptions {
   /**
    * Subject of the notification. This only applies to email and builtin notifications. For push notifications, subject/title is provided as a part of the message payload.
    */
@@ -54,13 +53,13 @@ export interface IGroupNotificationRequestOptions
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function createGroupNotification(
-  requestOptions: IGroupNotificationRequestOptions
+  requestOptions: ICreateGroupNotificationOptions
 ): Promise<any> {
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
   }/createNotification`;
 
-  const options: IGroupNotificationRequestOptions = {
+  const options: ICreateGroupNotificationOptions = {
     params: {
       subject: requestOptions.subject,
       message: requestOptions.message,

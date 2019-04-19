@@ -4,7 +4,7 @@
 import { request } from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url";
-import { IGroupIdRequestOptions } from "./helpers";
+import { IUserGroupOptions } from "./helpers";
 
 /**
  * ```js
@@ -22,7 +22,7 @@ import { IGroupIdRequestOptions } from "./helpers";
  * @returns A Promise that will resolve with the success/failure status of the request and the groupId.
  */
 export function joinGroup(
-  requestOptions: IGroupIdRequestOptions
+  requestOptions: IUserGroupOptions
 ): Promise<{ success: boolean; groupId: string }> {
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
@@ -47,7 +47,7 @@ export function joinGroup(
  * @returns A Promise that will resolve with the success/failure status of the request and the groupId.
  */
 export function leaveGroup(
-  requestOptions: IGroupIdRequestOptions
+  requestOptions: IUserGroupOptions
 ): Promise<{ success: boolean; groupId: string }> {
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
