@@ -258,9 +258,17 @@
 {% endmacro %}
 
 {% macro @signatures(signatures) %}
- {% markdown -%}
-    {{ signatures[0].comment.shortText | safe }}
-  {%- endmarkdown %}
+  {%- if signatures[0].comment.shortText -%}
+    {% markdown -%}
+      {{ signatures[0].comment.shortText | safe }}
+    {%- endmarkdown %}
+  {%- endif %}
+
+  {% if signatures[0].comment.text %}
+    {% markdown -%}
+      {{ signatures[0].comment.text | safe }}
+    {%- endmarkdown %}
+  {% endif %}
 
   <div class="panel padding-leader-half padding-trailer-half padding-right-quarter padding-left-half trailer-half">
     <ul class="list-plain tsd-signatures {{icon}} trailer-0 leader-0">
@@ -295,14 +303,6 @@
   <div class="fonts-size--1 panel padding-leader-half padding-trailer-half padding-right-half padding-left-half trailer-half">
   {{@type(signatures[0].type)}}
   </div>
-
-  {% if signatures[0].comment.text %}
-    <hr class="leader-half trailer-half">
-
-    {% markdown -%}
-      {{ signatures[0].comment.text | safe }}
-    {%- endmarkdown %}
-  {% endif %}
 
   {% if (signatures[0].type.name === "Promise" and signatures[0].type.typeArguments[0].type === "reference") %}
     {% set id = API_TOOLS.findByName(data.typedoc, signatures[0].type.typeArguments[0].name).id %}
