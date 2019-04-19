@@ -1,4 +1,8 @@
 {% macro @type(type) -%}
+  {%- if type.type === 'stringLiteral' -%}
+    <span class="text-green">"{{type.value}}"</span>
+  {%- endif -%}
+
   {%- if type.declaration and type.declaration.children -%}
     {<dl class="type-child-list clearfix">
     {%- for child in type.declaration.children -%}
@@ -38,11 +42,7 @@
 
   {%- if type.type === 'union' -%}
     <i>{%- for t in type.types -%}
-      {%- if t.type === 'stringLiteral' -%}
-        <span class="text-green">"{{t.value}}"</span>
-      {%- else -%}
-        {{ @type(t) }}
-      {%- endif -%}
+      {{ @type(t) }}
 
       {%- if (loop.last === false) -%}
         <span class="text-light-gray">{{ ' | ' }}</span>
@@ -507,8 +507,8 @@
 {% endif %}
 
 {% if type %}
-  Value(s):<br>
-  <pre>{{@type(type)}}</pre>
+  Value(s):
+  <pre style="display: inline;">{{@type(type)}}</pre>
 {% endif %}
 
 {% if groups %}
