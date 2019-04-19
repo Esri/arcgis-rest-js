@@ -10,7 +10,7 @@ import { getLayer } from "./getLayer";
 /**
  * Request options to fetch a feature by id.
  */
-export interface IDecodeValuesRequestOptions extends IRequestOptions {
+export interface IDecodeValuesOptions extends IRequestOptions {
   /**
    * Layer service url.
    */
@@ -58,7 +58,7 @@ export interface IDecodeValuesRequestOptions extends IRequestOptions {
  * @returns A Promise that will resolve with the addFeatures response.
  */
 export function decodeValues(
-  requestOptions: IDecodeValuesRequestOptions
+  requestOptions: IDecodeValuesOptions
 ): Promise<IQueryFeaturesResponse> {
   return new Promise(resolve => {
     if (!requestOptions.fields) {

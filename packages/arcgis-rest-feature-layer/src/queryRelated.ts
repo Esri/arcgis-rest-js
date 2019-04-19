@@ -15,12 +15,12 @@ import {
   IField
 } from "@esri/arcgis-rest-types";
 
-import { ILayerRequestOptions } from "./helpers";
+import { IGetLayerOptions } from "./helpers";
 
 /**
- * Related record query request options. Additional arguments can be passed via the [params](/arcgis-rest-js/api/feature-service/IQueryRelatedRequestOptions/#params) property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-feature-service-.htm) for more information and a full list of parameters.
+ * Related record query request options. Additional arguments can be passed via the [params](/arcgis-rest-js/api/feature-service/IQueryRelatedOptions/#params) property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-feature-service-.htm) for more information and a full list of parameters.
  */
-export interface IQueryRelatedRequestOptions extends ILayerRequestOptions {
+export interface IQueryRelatedOptions extends IGetLayerOptions {
   relationshipId?: number;
   objectIds?: number[];
   outFields?: "*" | string[];
@@ -65,9 +65,9 @@ export interface IQueryRelatedResponse extends IHasZM {
  * @returns A Promise that will resolve with the query response
  */
 export function queryRelated(
-  requestOptions: IQueryRelatedRequestOptions
+  requestOptions: IQueryRelatedOptions
 ): Promise<IQueryRelatedResponse> {
-  const options = appendCustomParams<IQueryRelatedRequestOptions>(
+  const options = appendCustomParams<IQueryRelatedOptions>(
     requestOptions,
     ["objectIds", "relationshipId", "definitionExpression", "outFields"],
     {

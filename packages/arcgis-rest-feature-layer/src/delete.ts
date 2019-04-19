@@ -16,7 +16,7 @@ import {
  * Delete features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/delete-features.htm) for more information.
  *
  */
-export interface IDeleteFeaturesRequestOptions
+export interface IDeleteFeaturesOptions
   extends ISharedEditOptions,
     ISharedQueryOptions {
   /**
@@ -40,12 +40,12 @@ export interface IDeleteFeaturesRequestOptions
  * @returns A Promise that will resolve with the deleteFeatures response.
  */
 export function deleteFeatures(
-  requestOptions: IDeleteFeaturesRequestOptions
+  requestOptions: IDeleteFeaturesOptions
 ): Promise<{ deleteResults?: IEditFeatureResult[] }> {
   const url = `${cleanUrl(requestOptions.url)}/deleteFeatures`;
 
   // edit operations POST only
-  const options = appendCustomParams<IDeleteFeaturesRequestOptions>(
+  const options = appendCustomParams<IDeleteFeaturesOptions>(
     requestOptions,
     [
       "where",

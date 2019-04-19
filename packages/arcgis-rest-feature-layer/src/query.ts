@@ -15,12 +15,12 @@ import {
   IExtent
 } from "@esri/arcgis-rest-types";
 
-import { ILayerRequestOptions, ISharedQueryOptions } from "./helpers";
+import { IGetLayerOptions, ISharedQueryOptions } from "./helpers";
 
 /**
  * Request options to fetch a feature by id.
  */
-export interface IFeatureRequestOptions extends ILayerRequestOptions {
+export interface IGetFeatureOptions extends IGetLayerOptions {
   /**
    * Unique identifier of the feature.
    */
@@ -45,7 +45,7 @@ export interface IStatisticDefinition {
 /**
  * feature query request options. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
  */
-export interface IQueryFeaturesRequestOptions extends ISharedQueryOptions {
+export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   objectIds?: number[];
   relationParam?: string;
   // NOTE: either time=1199145600000 or time=1199145600000, 1230768000000
@@ -118,12 +118,12 @@ export interface IQueryResponse {
  * @returns A Promise that will resolve with the feature or the [response](https://developer.mozilla.org/en-US/docs/Web/API/Response) itself if `rawResponse: true` was passed in.
  */
 export function getFeature(
-  requestOptions: IFeatureRequestOptions
+  requestOptions: IGetFeatureOptions
 ): Promise<IFeature> {
   const url = `${cleanUrl(requestOptions.url)}/${requestOptions.id}`;
 
   // default to a GET request
-  const options: IFeatureRequestOptions = {
+  const options: IGetFeatureOptions = {
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
@@ -151,9 +151,9 @@ export function getFeature(
  * @returns A Promise that will resolve with the query response.
  */
 export function queryFeatures(
-  requestOptions: IQueryFeaturesRequestOptions
+  requestOptions: IQueryFeaturesOptions
 ): Promise<IQueryFeaturesResponse | IQueryResponse> {
-  const queryOptions = appendCustomParams<IQueryFeaturesRequestOptions>(
+  const queryOptions = appendCustomParams<IQueryFeaturesOptions>(
     requestOptions,
     [
       "where",
