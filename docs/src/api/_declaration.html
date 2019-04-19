@@ -1,4 +1,4 @@
-{% macro @type(type, isArray) -%}
+{% macro @type(type, isArray, isRest) -%}
   {%- if type.type === 'stringLiteral' -%}
     <span class="text-green">"{{type.value}}"</span>
   {%- endif -%}
@@ -15,6 +15,10 @@
     <i class="no-wrap">{{ @type(type.elementType, true) }}</i>
   {%- elif  type.type === 'array'  -%}
     <i class="no-wrap">{{ @type(type.elementType) }}<span class="text-light-gray">{{ '[]' }}</span></i>
+  {%- endif -%}
+
+  {%- if type.type === 'array'  -%}
+    <span class="text-light-gray">{{ ' | ' }}</span>{{ @type(type.elementType) }}
   {%- endif -%}
 
   {%- if type.type === 'intrinsic' -%}
@@ -81,11 +85,13 @@
 {%- endmacro %}
 
 {% macro @param(param) -%}
-  {{param.name}}: {{@type(param.type)}}
+  {%- if param -%}
+    {{param.name}}: {{@type(param.type, undefined, param.flags.isRest)}}
+  {%- endif -%}
 {%- endmacro %}
 
 {% macro @signatureParams(params) -%}
-  {% for param in params -%}{{ @param(param) }}{{ ', ' if (loop.last === false)}}{%- endfor %}
+  {% for param in params | stripThisFromParams -%}{{ @param(param) }}{{ ', ' if (loop.last === false)}}{%- endfor %}
 {%- endmacro %}
 
 {% macro @signature(signature) -%}
@@ -347,6 +353,7 @@
       </tbody>
     </table>
   </div>
+
   {% for childId in group.children %}
     {% set child = API_TOOLS.findChildById(childId, children) %}
     {% set signatures = child.signatures %}
@@ -380,13 +387,15 @@
         {%- endmarkdown %}
       </div>
 
-      <ul class="list-plain tsd-signatures trailer-half {{signatures[0].icon}}">
-        {% for signature in signatures %}
-          {{ @signature(signature) }}
-        {% endfor %}
-      </ul>
+      <div class="fonts-size--1 panel padding-leader-half padding-trailer-half padding-right-half padding-left-half trailer-half">
+        <ul class="list-plain trailer-0 tsd-signatures trailer-half {{signatures[0].icon}}">
+          {% for signature in signatures %}
+            {{ @signature(signature) }}
+          {% endfor %}
+        </ul>
+      </div>
 
-      {% if signatures[0].parameters %}
+      {% if (signatures[0].parameters | stripThisFromParams).length > 0 %}
         <h2 class="font-size-1 trailer-half">Parameters</h2>
         {{@parametersTable(signatures[0].parameters, signatures[0].name)}}
       {% endif %}
@@ -394,8 +403,12 @@
       <h2 class="font-size-1 trailer-half">Returns</h2>
 
       {%- markdown -%}
-        <code>{{@type(signatures[0].type)}}</code>{{" - " if signatures[0].comment.returns}}{{ signatures[0].comment.returns | safe }}
+        {{ signatures[0].comment.returns | safe }}
       {%- endmarkdown %}
+
+      <div class="fonts-size--1 panel padding-leader-half padding-trailer-half padding-right-half padding-left-half trailer-half">
+      {{@type(signatures[0].type)}}
+      </div>
 
       {% if signatures[0].comment.text %}
         <hr class="leader-half trailer-half">
@@ -425,7 +438,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for param in parameters -%}
+        {% for param in parameters | stripThisFromParams -%}
           <tr id="{{fnName}}-{{param.name}}">
             <td class="code-face">
               <a href="#{{fnName}}-{{param.name}}" class="table-link">
@@ -531,14 +544,16 @@
 
     {% if group.title == 'Constructors' %}
       {% set firstSignature = API_TOOLS.findChildById(group.children[0], children).signatures[0] %}
-      <ul class="list-plain trailer-1 {{ API_TOOLS.findChildById(group.children[0], children).icon }}">
-        {% for id in group.children %}
-          {% set signatures = API_TOOLS.findChildById(id, children).signatures %}
-          {% for signature in signatures %}
-            {{ @signature(signature) }}
+      <div class="fonts-size--1 panel padding-leader-half padding-trailer-half padding-right-half padding-left-half trailer-half">
+        <ul class="list-plain trailer-0 {{ API_TOOLS.findChildById(group.children[0], children).icon }}">
+          {% for id in group.children %}
+            {% set signatures = API_TOOLS.findChildById(id, children).signatures %}
+            {% for signature in signatures %}
+              {{ @signature(signature) }}
+            {% endfor %}
           {% endfor %}
-        {% endfor %}
-      </ul>
+        </ul>
+      </div>
 
       <h2 class="font-size-1">Constructor Parameters</h2>
       {{@parametersTable(firstSignature.parameters, 'Constructor')}}

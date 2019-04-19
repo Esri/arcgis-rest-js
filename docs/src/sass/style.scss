@@ -118,6 +118,7 @@ a > code {
 
 .method-table-signatures {
   margin: 0;
+  padding: 0;
   li {
     margin: 0;
   }
@@ -229,4 +230,13 @@ textarea,
     margin: 0;
     max-width: calc(100% - 1rem);
   }
+}
+
+table p {
+  font-size: 0.875rem;
+}
+
+table pre {
+  margin-bottom: 0;
+  margin-top: 0.5rem;
 }

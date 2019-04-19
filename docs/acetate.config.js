@@ -252,4 +252,11 @@ module.exports = function(acetate) {
       : [];
     return `npm install ${package.name} ${peers.join(" ")}`;
   });
+
+  acetate.filter("stripThisFromParams", function(params) {
+    if (!params || !params.length) {
+      return [];
+    }
+    return params.filter(p => p.name !== "this");
+  });
 };
