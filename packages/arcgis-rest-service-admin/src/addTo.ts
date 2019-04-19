@@ -5,8 +5,7 @@ import { request, cleanUrl } from "@esri/arcgis-rest-request";
 import { ILayer, ILayerDefinition, ITable } from "@esri/arcgis-rest-types";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
-export interface IAddToServiceDefinitionRequestOptions
-  extends IUserRequestOptions {
+export interface IAddToServiceDefinitionOptions extends IUserRequestOptions {
   /**
    * Layers to add
    */
@@ -47,7 +46,7 @@ export interface IAddToServiceDefinitionResult {
  */
 export function addToServiceDefinition(
   url: string,
-  requestOptions: IAddToServiceDefinitionRequestOptions
+  requestOptions: IAddToServiceDefinitionOptions
 ): Promise<IAddToServiceDefinitionResult> {
   const adminUrl = `${cleanUrl(url).replace(
     `/rest/services`,
