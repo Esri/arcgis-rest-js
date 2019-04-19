@@ -2,13 +2,13 @@
  * Apache-2.0 */
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
-import { ILayerRequestOptions, IEditFeatureResult } from "./helpers";
+import { IGetLayerOptions, IEditFeatureResult } from "./helpers";
 
 /**
  * Request options to for updating a related attachment to a feature by id. See [Update Attachment](https://developers.arcgis.com/rest/services-reference/update-attachment.htm) for more information.
  *
  */
-export interface IUpdateAttachmentOptions extends ILayerRequestOptions {
+export interface IUpdateAttachmentOptions extends IGetLayerOptions {
   /**
    * Unique identifier of feature to update related attachment.
    */

@@ -5,8 +5,8 @@ import {
   addFeatures,
   updateFeatures,
   deleteFeatures,
-  IDeleteFeaturesRequestOptions,
-  IUpdateFeaturesRequestOptions
+  IDeleteFeaturesOptions,
+  IUpdateFeaturesOptions
 } from "../src/index";
 
 import * as fetchMock from "fetch-mock";
@@ -79,7 +79,7 @@ describe("feature", () => {
         }
       ],
       rollbackOnFailure: false
-    } as IUpdateFeaturesRequestOptions;
+    } as IUpdateFeaturesOptions;
     fetchMock.once("*", updateFeaturesResponse);
     updateFeatures(requestOptions)
       .then(response => {
@@ -107,7 +107,7 @@ describe("feature", () => {
       url: serviceUrl,
       objectIds: [1001],
       where: "1=1"
-    } as IDeleteFeaturesRequestOptions;
+    } as IDeleteFeaturesOptions;
     fetchMock.once("*", deleteFeaturesResponse);
     deleteFeatures(requestOptions)
       .then(response => {

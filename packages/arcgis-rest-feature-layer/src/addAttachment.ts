@@ -2,13 +2,13 @@
  * Apache-2.0 */
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
-import { ILayerRequestOptions, IEditFeatureResult } from "./helpers";
+import { IGetLayerOptions, IEditFeatureResult } from "./helpers";
 
 /**
  * Request options for adding a related attachment to a feature by id. See [Add Attachment](https://developers.arcgis.com/rest/services-reference/add-attachment.htm) for more information.
  *
  */
-export interface IAddAttachmentOptions extends ILayerRequestOptions {
+export interface IAddAttachmentOptions extends IGetLayerOptions {
   /**
    * Unique identifier of feature to add related attachment.
    */

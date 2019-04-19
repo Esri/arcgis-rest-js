@@ -2,8 +2,8 @@
  * Apache-2.0 */
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
-import { ILayerRequestOptions } from "./helpers";
 import { ILayerDefinition } from "@esri/arcgis-rest-types";
+import { IGetLayerOptions } from "./helpers";
 
 /**
  * ```js
@@ -19,8 +19,6 @@ import { ILayerDefinition } from "@esri/arcgis-rest-types";
  * @param options - Options for the request.
  * @returns A Promise that will resolve with the addFeatures response.
  */
-export function getLayer(
-  options: ILayerRequestOptions
-): Promise<ILayerDefinition> {
+export function getLayer(options: IGetLayerOptions): Promise<ILayerDefinition> {
   return request(cleanUrl(options.url), options);
 }

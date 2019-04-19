@@ -2,13 +2,13 @@
  * Apache-2.0 */
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
-import { ILayerRequestOptions } from "./helpers";
+import { IGetLayerOptions } from "./helpers";
 
 /**
  * Request options to fetch `attachmentInfos` of a feature by id. See [Attachment Infos](https://developers.arcgis.com/rest/services-reference/attachment-infos-feature-service-.htm) for more information.
  *
  */
-export interface IGetAttachmentsOptions extends ILayerRequestOptions {
+export interface IGetAttachmentsOptions extends IGetLayerOptions {
   /**
    * Unique identifier of feature to request related `attachmentInfos`.
    */

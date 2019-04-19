@@ -5,8 +5,8 @@ import {
   getFeature,
   queryFeatures,
   queryRelated,
-  IQueryFeaturesRequestOptions,
-  IQueryRelatedRequestOptions
+  IQueryFeaturesOptions,
+  IQueryRelatedOptions
 } from "../src/index";
 
 import * as fetchMock from "fetch-mock";
@@ -65,7 +65,7 @@ describe("getFeature() and queryFeatures()", () => {
   });
 
   it("should supply default query parameters", done => {
-    const requestOptions: IQueryFeaturesRequestOptions = {
+    const requestOptions: IQueryFeaturesOptions = {
       url: serviceUrl
     };
     fetchMock.once("*", queryResponse);
@@ -85,7 +85,7 @@ describe("getFeature() and queryFeatures()", () => {
   });
 
   it("should use passed in query parameters", done => {
-    const requestOptions: IQueryFeaturesRequestOptions = {
+    const requestOptions: IQueryFeaturesOptions = {
       url: serviceUrl,
       where: "Condition='Poor'",
       outFields: ["FID", "Tree_ID", "Cmn_Name", "Condition"]
@@ -110,7 +110,7 @@ describe("getFeature() and queryFeatures()", () => {
   });
 
   it("should supply default query related parameters", done => {
-    const requestOptions: IQueryRelatedRequestOptions = {
+    const requestOptions: IQueryRelatedOptions = {
       url: serviceUrl
     };
     fetchMock.once("*", queryRelatedResponse);
@@ -132,7 +132,7 @@ describe("getFeature() and queryFeatures()", () => {
   });
 
   it("should use passed in query related parameters", done => {
-    const requestOptions: IQueryRelatedRequestOptions = {
+    const requestOptions: IQueryRelatedOptions = {
       url: serviceUrl,
       relationshipId: 1,
       definitionExpression: "APPROXACRE<10000",

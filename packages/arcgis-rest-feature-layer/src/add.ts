@@ -15,7 +15,7 @@ import { ISharedEditOptions, IEditFeatureResult } from "./helpers";
  * Add features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-features.htm) for more information.
  *
  */
-export interface IAddFeaturesRequestOptions extends ISharedEditOptions {
+export interface IAddFeaturesOptions extends ISharedEditOptions {
   /**
    * Array of JSON features to add.
    */
@@ -41,12 +41,12 @@ export interface IAddFeaturesRequestOptions extends ISharedEditOptions {
  * @returns A Promise that will resolve with the addFeatures response.
  */
 export function addFeatures(
-  requestOptions: IAddFeaturesRequestOptions
+  requestOptions: IAddFeaturesOptions
 ): Promise<{ addResults?: IEditFeatureResult[] }> {
   const url = `${cleanUrl(requestOptions.url)}/addFeatures`;
 
   // edit operations are POST only
-  const options = appendCustomParams<IAddFeaturesRequestOptions>(
+  const options = appendCustomParams<IAddFeaturesOptions>(
     requestOptions,
     ["features", "gdbVersion", "returnEditMoment", "rollbackOnFailure"],
     { params: { ...requestOptions.params } }
