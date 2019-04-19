@@ -134,7 +134,22 @@ const md = new MarkdownIt();
       );
     })
     .then(declarations => {
-      const blacklist = ["genericSearch", "DEFAULT_ARCGIS_REQUEST_OPTIONS"];
+      const blacklist = [
+        "genericSearch",
+        "DEFAULT_ARCGIS_REQUEST_OPTIONS",
+        "appendCustomParams",
+        "requiresFormData",
+        "processParams",
+        "encodeParam",
+        "encodeQueryString",
+        "encodeFormData",
+        "warn",
+        "cleanUrl",
+        "checkForErrors",
+        "determineOwner",
+        "isItemOwner",
+        "isOrgAdmin"
+      ];
       /**
        * Next we remove any declarations we want to blacklist from the API ref
        */
@@ -409,10 +424,10 @@ function rankChild(child) {
   if (isStatic) {
     score -= 15;
   }
-  if (!isOptional) {
+  if (!isInherited) {
     score -= 5;
   }
-  if (!isInherited) {
+  if (!isOptional) {
     score -= 15;
   }
   return score;

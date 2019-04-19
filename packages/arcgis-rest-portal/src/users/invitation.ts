@@ -36,7 +36,7 @@ export interface IInvitationResult {
 
 /**
  * ```js
- * import { getUserInvitations } from '@esri/arcgis-rest-users';
+ * import { getUserInvitations } from '@esri/arcgis-rest-portal';
  * // username is inferred from UserSession
  * getUserInvitations({ authentication })
  *   .then(response) // response.userInvitations.length => 3
@@ -66,7 +66,7 @@ export interface IInvitationRequestOptions extends IUserRequestOptions {
 
 /**
  * ```js
- * import { getUserInvitation } from '@esri/arcgis-rest-users';
+ * import { getUserInvitation } from '@esri/arcgis-rest-portal';
  * // username is inferred from UserSession
  * getUserInvitation({
  *   invitationId: "3ef",
@@ -97,7 +97,7 @@ export function getUserInvitation(
 
 /**
  * ```js
- * import { acceptInvitation } from '@esri/arcgis-rest-users';
+ * import { acceptInvitation } from '@esri/arcgis-rest-portal';
  * // username is inferred from UserSession
  * acceptInvitation({
  *   invitationId: "3ef",
@@ -125,7 +125,7 @@ export function acceptInvitation(
 
 /**
  * ```js
- * import { declineInvitation } from '@esri/arcgis-rest-users';
+ * import { declineInvitation } from '@esri/arcgis-rest-portal';
  * // username is inferred from UserSession
  * declineInvitation({
  *   invitationId: "3ef",

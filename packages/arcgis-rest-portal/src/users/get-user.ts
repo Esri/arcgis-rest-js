@@ -21,7 +21,7 @@ export interface IGetUserRequestOptions extends IRequestOptions {
 
 /**
  * ```js
- * import { getUser } from '@esri/arcgis-rest-users';
+ * import { getUser } from '@esri/arcgis-rest-portal';
  * //
  * getUser("jsmith")
  *   .then(response)

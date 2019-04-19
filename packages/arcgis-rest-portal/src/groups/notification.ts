@@ -38,7 +38,7 @@ export interface IGroupNotificationRequestOptions
 
 /**
  * ```js
- * import { createGroupNotification } from '@esri/arcgis-rest-groups';
+ * import { createGroupNotification } from '@esri/arcgis-rest-portal';
  * // send an email to an entire group
  * createGroupNotification({
  *   authentication: UserSession,

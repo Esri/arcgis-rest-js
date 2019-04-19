@@ -8,7 +8,7 @@ import { IGroupIdRequestOptions } from "./helpers";
 
 /**
  * ```js
- * import { removeGroup } from '@esri/arcgis-rest-groups';
+ * import { removeGroup } from '@esri/arcgis-rest-portal';
  * //
  * removeGroup({
  *   id: groupId,
