@@ -3,6 +3,12 @@
 
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
-export interface IGroupIdRequestOptions extends IUserRequestOptions {
+/**
+ * Base options interface for making authenticated requests for groups.
+ */
+export interface IUserGroupOptions extends IUserRequestOptions {
+  /**
+   * Unique identifier of the group.
+   */
   id: string;
 }

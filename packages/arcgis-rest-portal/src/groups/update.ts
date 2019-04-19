@@ -5,7 +5,7 @@ import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItemUpdate } from "@esri/arcgis-rest-types";
 import { getPortalUrl } from "../util/get-portal-url";
 
-export interface IGroupUpdateRequestOptions extends IRequestOptions {
+export interface IUpdateGroupOptions extends IRequestOptions {
   group: IItemUpdate;
 }
 
@@ -24,7 +24,7 @@ export interface IGroupUpdateRequestOptions extends IRequestOptions {
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function updateGroup(
-  requestOptions: IGroupUpdateRequestOptions
+  requestOptions: IUpdateGroupOptions
 ): Promise<{ success: boolean; groupId: string }> {
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.group.id

@@ -60,7 +60,7 @@ export function getUserInvitations(
   return request(url, options);
 }
 
-export interface IInvitationRequestOptions extends IUserRequestOptions {
+export interface IGetUserInvitationOptions extends IUserRequestOptions {
   invitationId: string;
 }
 
@@ -80,7 +80,7 @@ export interface IInvitationRequestOptions extends IUserRequestOptions {
  * @returns A Promise that will resolve with the invitation
  */
 export function getUserInvitation(
-  requestOptions: IInvitationRequestOptions
+  requestOptions: IGetUserInvitationOptions
 ): Promise<IInvitation> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
@@ -88,7 +88,7 @@ export function getUserInvitation(
     requestOptions.invitationId
   }`;
 
-  let options = { httpMethod: "GET" } as IInvitationRequestOptions;
+  let options = { httpMethod: "GET" } as IGetUserInvitationOptions;
   options = { ...requestOptions, ...options };
 
   // send the request
@@ -111,15 +111,20 @@ export function getUserInvitation(
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function acceptInvitation(
-  requestOptions: IInvitationRequestOptions
-): Promise<any> {
+  requestOptions: IGetUserInvitationOptions
+): Promise<{
+  success: boolean;
+  username: string;
+  groupId: string;
+  id: string;
+}> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/invitations/${
     requestOptions.invitationId
   }/accept`;
 
-  const options: IInvitationRequestOptions = { ...requestOptions };
+  const options: IGetUserInvitationOptions = { ...requestOptions };
   return request(url, options);
 }
 
@@ -139,14 +144,19 @@ export function acceptInvitation(
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function declineInvitation(
-  requestOptions: IInvitationRequestOptions
-): Promise<any> {
+  requestOptions: IGetUserInvitationOptions
+): Promise<{
+  success: boolean;
+  username: string;
+  groupId: string;
+  id: string;
+}> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/invitations/${
     requestOptions.invitationId
   }/decline`;
 
-  const options: IInvitationRequestOptions = { ...requestOptions };
+  const options: IGetUserInvitationOptions = { ...requestOptions };
   return request(url, options);
 }

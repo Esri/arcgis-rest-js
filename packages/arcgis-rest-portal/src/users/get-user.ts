@@ -8,7 +8,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 
 import { getPortalUrl } from "../util/get-portal-url";
 
-export interface IGetUserRequestOptions extends IRequestOptions {
+export interface IGetUserOptions extends IRequestOptions {
   /**
    * A session representing a logged in user.
    */
@@ -33,10 +33,10 @@ export interface IGetUserRequestOptions extends IRequestOptions {
  * @returns A Promise that will resolve with metadata about the user
  */
 export function getUser(
-  requestOptions?: string | IGetUserRequestOptions
+  requestOptions?: string | IGetUserOptions
 ): Promise<IUser> {
   let url;
-  let options = { httpMethod: "GET" } as IGetUserRequestOptions;
+  let options = { httpMethod: "GET" } as IGetUserOptions;
 
   // if a username is passed, assume ArcGIS Online
   if (typeof requestOptions === "string") {

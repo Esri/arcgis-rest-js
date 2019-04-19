@@ -5,15 +5,15 @@ import { request, appendCustomParams } from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url";
 import {
-  IItemIdRequestOptions,
-  IItemResourceRequestOptions,
-  IItemAddResponse,
+  IUserItemOptions,
+  IItemResourceOptions,
+  IUpdateItemResponse,
   IItemResourceResponse,
   determineOwner,
-  IManageItemRelationshipRequestOptions
+  IManageItemRelationshipOptions
 } from "./helpers";
 
-export interface IItemDataAddRequestOptions extends IItemIdRequestOptions {
+export interface IAddItemDataOptions extends IUserItemOptions {
   /**
    * Object to store
    */
@@ -38,8 +38,8 @@ export interface IItemDataAddRequestOptions extends IItemIdRequestOptions {
  *        success/failure and echoing the item id.
  */
 export function addItemJsonData(
-  requestOptions: IItemDataAddRequestOptions
-): Promise<IItemAddResponse> {
+  requestOptions: IAddItemDataOptions
+): Promise<IUpdateItemResponse> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id
@@ -74,8 +74,8 @@ export function addItemJsonData(
  *        success/failure and echoing the item id.
  */
 export function addItemData(
-  requestOptions: IItemDataAddRequestOptions
-): Promise<IItemAddResponse> {
+  requestOptions: IAddItemDataOptions
+): Promise<IUpdateItemResponse> {
   const owner = determineOwner(requestOptions);
 
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
@@ -109,14 +109,14 @@ export function addItemData(
  * @returns A Promise to add item resources.
  */
 export function addItemRelationship(
-  requestOptions: IManageItemRelationshipRequestOptions
+  requestOptions: IManageItemRelationshipOptions
 ): Promise<{ success: boolean }> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(
     requestOptions
   )}/content/users/${owner}/addRelationship`;
 
-  const options = appendCustomParams<IManageItemRelationshipRequestOptions>(
+  const options = appendCustomParams<IManageItemRelationshipOptions>(
     requestOptions,
     ["originItemId", "destinationItemId", "relationshipType"],
     { params: { ...requestOptions.params } }
@@ -153,7 +153,7 @@ export function addItemRelationship(
  * @returns A Promise to add item resources.
  */
 export function addItemResource(
-  requestOptions: IItemResourceRequestOptions
+  requestOptions: IItemResourceOptions
 ): Promise<IItemResourceResponse> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
