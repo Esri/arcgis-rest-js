@@ -11,7 +11,7 @@ export interface IGroupUpdateRequestOptions extends IRequestOptions {
 
 /**
  * ```js
- * import { updateGroup } from '@esri/arcgis-rest-groups';
+ * import { updateGroup } from '@esri/arcgis-rest-portal';
  * //
  * updateGroup({
  *   group: { id: "fgr344", title: "new" }

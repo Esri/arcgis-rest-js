@@ -26,7 +26,7 @@ export interface IUpdateUserResponse {
 
 /**
  * ```js
- * import { updateUser } from '@esri/arcgis-rest-users';
+ * import { updateUser } from '@esri/arcgis-rest-portal';
  * // any user can update their own profile
  * updateUser({
  *   authentication,
