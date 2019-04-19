@@ -4,7 +4,7 @@
 import { request } from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url";
-import { IItemIdRequestOptions, determineOwner } from "./helpers";
+import { IUserItemOptions, determineOwner } from "./helpers";
 
 /**
  * Protect an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/protect.htm) for more information.
@@ -12,9 +12,7 @@ import { IItemIdRequestOptions, determineOwner } from "./helpers";
  * @param requestOptions - Options for the request
  * @returns A Promise to protect an item.
  */
-export function protectItem(
-  requestOptions: IItemIdRequestOptions
-): Promise<any> {
+export function protectItem(requestOptions: IUserItemOptions): Promise<any> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id
@@ -28,9 +26,7 @@ export function protectItem(
  * @param requestOptions - Options for the request
  * @returns A Promise to unprotect an item.
  */
-export function unprotectItem(
-  requestOptions: IItemIdRequestOptions
-): Promise<any> {
+export function unprotectItem(requestOptions: IUserItemOptions): Promise<any> {
   const owner = determineOwner(requestOptions);
   const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
     requestOptions.id

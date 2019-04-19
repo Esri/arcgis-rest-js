@@ -4,7 +4,7 @@
 import { request } from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url";
-import { IGroupIdRequestOptions } from "./helpers";
+import { IUserGroupOptions } from "./helpers";
 
 /**
  * ```js
@@ -21,13 +21,11 @@ import { IGroupIdRequestOptions } from "./helpers";
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the success/failure status of the request
  */
-export function removeGroup(
-  requestOptions: IGroupIdRequestOptions
-): Promise<any> {
+export function removeGroup(requestOptions: IUserGroupOptions): Promise<any> {
   const url = `${getPortalUrl(requestOptions)}/community/groups/${
     requestOptions.id
   }/delete`;
-  const options: IGroupIdRequestOptions = {
+  const options: IUserGroupOptions = {
     ...requestOptions
   };
   return request(url, options);

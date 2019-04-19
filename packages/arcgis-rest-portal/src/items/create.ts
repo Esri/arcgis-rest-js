@@ -7,21 +7,25 @@ import { IItemAdd } from "@esri/arcgis-rest-types";
 import { getPortalUrl } from "../util/get-portal-url";
 import {
   IAddFolderResponse,
-  IItemAddResponse,
-  IItemCrudRequestOptions,
+  IUpdateItemResponse,
+  ICreateUpdateItemOptions,
   serializeItem,
   determineOwner
 } from "./helpers";
 
-export interface IAddFolderRequestOptions extends IItemCrudRequestOptions {
+export interface ICreateFolderOptions extends ICreateUpdateItemOptions {
   /**
    * Name of the folder to create.
    */
   title: string;
 }
 
-export interface IItemAddRequestOptions extends IItemCrudRequestOptions {
+export interface ICreateItemOptions extends ICreateUpdateItemOptions {
   item: IItemAdd;
+}
+
+export interface ICreateItemResponse extends IUpdateItemResponse {
+  folder: string;
 }
 
 /**
@@ -40,7 +44,7 @@ export interface IItemAddRequestOptions extends IItemCrudRequestOptions {
  * @returns A Promise that resolves with folder details once the folder has been created
  */
 export function createFolder(
-  requestOptions: IAddFolderRequestOptions
+  requestOptions: ICreateFolderOptions
 ): Promise<IAddFolderResponse> {
   const owner = determineOwner(requestOptions);
 
@@ -74,8 +78,8 @@ export function createFolder(
  * @param requestOptions = Options for the request
  */
 export function createItemInFolder(
-  requestOptions: IItemAddRequestOptions
-): Promise<IItemAddResponse> {
+  requestOptions: ICreateItemOptions
+): Promise<ICreateItemResponse> {
   const owner = determineOwner(requestOptions);
 
   const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
@@ -113,12 +117,12 @@ export function createItemInFolder(
  * @returns A Promise that creates an item.
  */
 export function createItem(
-  requestOptions: IItemAddRequestOptions
-): Promise<IItemAddResponse> {
+  requestOptions: ICreateItemOptions
+): Promise<ICreateItemResponse> {
   // delegate to createItemInFolder placing in the root of the filestore
   const options = {
     folderId: null,
     ...requestOptions
-  } as IItemAddRequestOptions;
+  } as ICreateItemOptions;
   return createItemInFolder(options);
 }

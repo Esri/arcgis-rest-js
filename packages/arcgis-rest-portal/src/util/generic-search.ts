@@ -10,10 +10,10 @@ import { IItem, IGroup } from "@esri/arcgis-rest-types";
 
 import { SearchQueryBuilder } from "./SearchQueryBuilder";
 import { getPortalUrl } from "../util/get-portal-url";
-import { ISearchRequestOptions, ISearchResult } from "../util/search";
+import { ISearchOptions, ISearchResult } from "../util/search";
 
 export function genericSearch<T extends IItem | IGroup>(
-  search: string | ISearchRequestOptions | SearchQueryBuilder,
+  search: string | ISearchOptions | SearchQueryBuilder,
   searchType: "item" | "group"
 ): Promise<ISearchResult<T>> {
   let url: string;
@@ -26,7 +26,7 @@ export function genericSearch<T extends IItem | IGroup>(
       }
     };
   } else {
-    options = appendCustomParams<ISearchRequestOptions>(
+    options = appendCustomParams<ISearchOptions>(
       search,
       ["q", "num", "start", "sortField", "sortDir", "sortOrder"],
       {
@@ -43,7 +43,7 @@ export function genericSearch<T extends IItem | IGroup>(
   return request(url, options).then(r => {
     if (r.nextStart && r.nextStart !== -1) {
       r.nextPage = function() {
-        let newOptions: ISearchRequestOptions;
+        let newOptions: ISearchOptions;
 
         if (
           typeof search === "string" ||

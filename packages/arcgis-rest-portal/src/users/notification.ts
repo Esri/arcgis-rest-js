@@ -15,7 +15,7 @@ export interface INotification {
   data: { [key: string]: any };
 }
 
-export interface INotificationIdRequestOptions extends IUserRequestOptions {
+export interface IRemoveNotificationOptions extends IUserRequestOptions {
   /**
    * Unique identifier of the item.
    */
@@ -58,7 +58,7 @@ export function getUserNotifications(
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function removeNotification(
-  requestOptions: INotificationIdRequestOptions
+  requestOptions: IRemoveNotificationOptions
 ): Promise<any> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);

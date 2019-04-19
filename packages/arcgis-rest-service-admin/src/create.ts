@@ -6,7 +6,7 @@ import { IExtent, ISpatialReference } from "@esri/arcgis-rest-types";
 
 import {
   moveItem,
-  IItemCrudRequestOptions,
+  ICreateUpdateItemOptions,
   determineOwner,
   getPortalUrl
 } from "@esri/arcgis-rest-portal";
@@ -85,7 +85,7 @@ export interface ICreateServiceParams {
   };
 }
 
-export interface ICreateServiceOptions extends IItemCrudRequestOptions {
+export interface ICreateServiceOptions extends ICreateUpdateItemOptions {
   /**
    * A JSON object specifying the properties of the newly-created service. See the [REST
    * Documentation](https://developers.arcgis.com/rest/users-groups-and-items/working-with-users-groups-and-items.htm)

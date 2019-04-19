@@ -6,7 +6,7 @@ import { IPagingParams, IGroup, IItem } from "@esri/arcgis-rest-types";
 
 import { getPortalUrl } from "../util/get-portal-url";
 
-export interface IPagingParamsRequestOptions extends IRequestOptions {
+export interface IGetGroupContentOptions extends IRequestOptions {
   paging: IPagingParams;
 }
 
@@ -59,7 +59,7 @@ export function getGroup(
  */
 export function getGroupContent(
   id: string,
-  requestOptions?: IPagingParamsRequestOptions
+  requestOptions?: IGetGroupContentOptions
 ): Promise<IGroup> {
   const url = `${getPortalUrl(requestOptions)}/content/groups/${id}`;
 
@@ -68,7 +68,7 @@ export function getGroupContent(
     ...{ httpMethod: "GET" },
     params: { start: 1, num: 100 },
     ...requestOptions
-  } as IPagingParamsRequestOptions;
+  } as IGetGroupContentOptions;
 
   // is this the most concise way to mixin with the defaults above?
   if (requestOptions && requestOptions.paging) {

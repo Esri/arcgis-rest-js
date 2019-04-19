@@ -4,14 +4,14 @@
 import { request } from "@esri/arcgis-rest-request";
 
 import {
-  ISharingRequestOptions,
+  ISharingOptions,
   ISharingResponse,
   isItemOwner,
   getSharingUrl,
   isOrgAdmin
 } from "./helpers";
 
-export interface ISetAccessRequestOptions extends ISharingRequestOptions {
+export interface ISetAccessOptions extends ISharingOptions {
   /**
    * "private" indicates that the item can only be accessed by the user. "public" means accessible to anyone. An item shared to the organization has an access level of "org".
    */
@@ -34,7 +34,7 @@ export interface ISetAccessRequestOptions extends ISharingRequestOptions {
  * @returns A Promise that will resolve with the data from the response.
  */
 export function setItemAccess(
-  requestOptions: ISetAccessRequestOptions
+  requestOptions: ISetAccessOptions
 ): Promise<ISharingResponse> {
   const url = getSharingUrl(requestOptions);
 
@@ -60,7 +60,7 @@ export function setItemAccess(
 
 function updateItemAccess(
   url: string,
-  requestOptions: ISetAccessRequestOptions
+  requestOptions: ISetAccessOptions
 ): Promise<any> {
   requestOptions.params = {
     org: false,
