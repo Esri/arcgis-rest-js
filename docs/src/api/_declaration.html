@@ -569,7 +569,7 @@
 {% if signatures[0].comment.tags %}
   {% for tag in signatures[0].comment.tags %}
     {% if tag.tag === "restlink" %}
-      <small class="font-size--2">REST API documentation for <code>{{name}}()</code> at <a href="{{tag.text}}">{{tag.text}}</a></small>
+      <small class="font-size--2">REST API documentation for <code>{{name}}()</code> available at <a href="{{tag.text}}">{{tag.text}}</a></small>
       <br>
     {% endif %}
   {% endfor %}
