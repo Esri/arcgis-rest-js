@@ -73,6 +73,7 @@ function isLocation(
  *
  * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with routes and directions for the request.
+ * @restLink https://developers.arcgis.com/rest/network/api-reference/route-synchronous-service.htm
  */
 export function solveRoute(
   requestOptions: ISolveRouteRequestOptions

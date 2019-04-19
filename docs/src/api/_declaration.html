@@ -566,11 +566,20 @@
 
 <hr class="leader-half trailer-half">
 
+{% if signatures[0].comment.tags %}
+  {% for tag in signatures[0].comment.tags %}
+    {% if tag.tag === "restlink" %}
+      <small class="font-size--2">REST API documentation for <code>{{name}}()</code> at <a href="{{tag.text}}">{{tag.text}}</a></small>
+      <br>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
 <small class="font-size--2">{{kindString}} defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/master/packages/{{sources[0].fileName}}#L{{sources[0].line}}">packages/{{sources[0].fileName}}:{{sources[0].line}}</a></small>
 
 {% if isDev %}
   <details class="leader-1">
     <summary>Debug Info</summary>
-    <pre><code>{{signatures[0].parameters | inspect}}</code></pre>
+    <pre><code>{{signatures[0].comment.tags | inspect}}</code></pre>
   </details>
 {% endif %}
