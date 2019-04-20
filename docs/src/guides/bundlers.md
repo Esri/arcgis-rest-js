@@ -6,7 +6,7 @@ order: 30
 group: 1-get-started
 ---
 
-# Get Started with Bundlers and Babel
+# Get Started with webpack, Rollup or Parcel
 
 ArcGIS REST JS works well with popular module bundlers like [webpack](https://webpack.js.org/), [Rollup](https://rollupjs.org/) and [Parcel](https://parceljs.org/). Make sure you also install the polyfills for [`fetch`](https://github.com/matthew-andrews/isomorphic-fetch) and [`Promise`](https://github.com/stefanpenner/es6-promise). You can find `npm install` commands for all packages in the [API reference](../../api).
 
