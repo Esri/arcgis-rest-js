@@ -1,6 +1,6 @@
 import { IParamBuilder, warn } from "@esri/arcgis-rest-request";
 /**
- * `SearchQueryBuilder` can be used to constuct the `q` param for [`ISearchRequestOptions`](/arcgis-rest-js/api/portal/ISearchRequestOptions#q), [`searchItems`](/arcgis-rest-js/api/portal/searchItems#searchItems-search) or [`searchGroups`](/arcgis-rest-js/api/portal/searchGroups#searchGroups-search). You can chain methods to build complex search queries.
+ * `SearchQueryBuilder` can be used to construct the `q` param for [`searchItems`](/arcgis-rest-js/api/portal/searchItems#searchItems-search) or [`searchGroups`](/arcgis-rest-js/api/portal/searchGroups#searchGroups-search). By chaining methods, it helps build complex search queries.
  *
  * ```js
  * const query = new SearchQueryBuilder()
@@ -25,7 +25,10 @@ import { IParamBuilder, warn } from "@esri/arcgis-rest-request";
  * });
  * ```
  *
- * Will search for items matching `owner: Patrick AND (type: "Web Mapping Application" OR type: "Mobile Application" OR type: Application) AND Demo App`.
+ * Will search for items matching
+ * ```
+ * "owner: Patrick AND (type: "Web Mapping Application" OR type: "Mobile Application" OR type: Application) AND Demo App"
+ * ```
  */
 export class SearchQueryBuilder implements IParamBuilder {
   private termStack: any[] = [];
@@ -42,7 +45,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   }
 
   /**
-   * Define strings to search for.
+   * Defines strings to search for.
    *
    * ```js
    * const query = new SearchQueryBuilder()
@@ -57,7 +60,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   }
 
   /**
-   * Define fields to search in. You can pass `"*"` or call without argumnets to search a default set of fields
+   * Defines fields to search in. You can pass `"*"` or call this method without arguments to search a default set of fields
    *
    * ```js
    * const query = new SearchQueryBuilder()
@@ -86,7 +89,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   }
 
   /**
-   * Start a new search group.
+   * Starts a new search group.
    *
    * ```js
    * const query = new SearchQueryBuilder()
@@ -112,7 +115,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   }
 
   /**
-   * Ends the previously started search group.
+   * Ends a search group.
    *
    * ```js
    * const query = new SearchQueryBuilder()
@@ -140,7 +143,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   }
 
   /**
-   * Joins 2 sets of queries with and `AND` clause.
+   * Joins two sets of queries with an `AND` clause.
    *
    * ```js
    * const query = new SearchQueryBuilder()
@@ -156,7 +159,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   }
 
   /**
-   * Joins 2 sets of queries with and `OR` clause.
+   * Joins two sets of queries with an `OR` clause.
    *
    * ```js
    * const query = new SearchQueryBuilder()
@@ -172,7 +175,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   }
 
   /**
-   * Joins 2 sets of queries with and `NOT` clause.
+   * Joins two sets of queries with a `NOT` clause.
    *
    * ```js
    * const query = new SearchQueryBuilder()
@@ -232,7 +235,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   }
 
   /**
-   * Boosts the previous term making it rank higher in results.
+   * Boosts the previous term to increase its rank in the results.
    *
    * ```js
    * const query = new SearchQueryBuilder()
@@ -251,7 +254,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   }
 
   /**
-   * Returns the current query string. Called internall when the request is made.
+   * Returns the current query string. Called internally when the request is made.
    */
   public toParam() {
     this.commit();

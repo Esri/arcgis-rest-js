@@ -1,23 +1,17 @@
 import { IRequestOptions } from "../utils/IRequestOptions";
 
 /**
- * `withOptions()` allows you to wrap request methods with a default set of options. This is useful to avoid setting the same option more then once for a particular request method.
- *
- * This allows for interacting and setting defaults in a functional manner that can greatly reduce the amount of duplication from passing in options to every request.
+ * Allows you to wrap individual methods with a default set of request options. This is useful to avoid setting the same option more then once and allows for interacting and setting defaults in a functional manner.
  *
  * ```js
  * import { withOptions } from "@esri/arcgis-rest-request";
- * import { queryFeatures } from '@esri/arcgis-rest-feature-layer'; *
+ * import { queryFeatures } from '@esri/arcgis-rest-feature-layer';
  *
  * const queryTrails = withOptions({
  *   url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0/"}, queryFeatures);
  *
  * queryTrails({
  *   where: "ELEV_FT > 1000"
- * }).then(result);
- *
- * queryTrails({
- *   where: "PARK_NAME = 'National Parks Service'"
  * }).then(result);
  *
  * const queryTrailsAsUser = withOptions({
