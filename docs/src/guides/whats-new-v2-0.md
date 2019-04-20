@@ -19,14 +19,12 @@ Our family of users and contributors [has grown (a lot!)](https://github.com/Esr
 In `v2.0.0` we introduced a new class called `SearchQueryBuilder` to help compose complex parameters.
 
 ```ts
-// old
 import { searchItems } from "@esri/arcgis-rest-items";
 
 searchItems({ q: "Trees AND owner:US Forest Service" })
 ```
 
 ```ts
-// new
 import { searchItems, SearchQueryBuilder } from "@esri/arcgis-rest-portal";
 
 const q = new SearchQueryBuilder()
@@ -34,7 +32,15 @@ const q = new SearchQueryBuilder()
   .and()
   .match("US Forest Service")
   .in("owner");
+  .startGroup()
+   .match("Web Mapping Application")
+   .in("type")
+   .or()
+   .match("Mobile Application")
+   .in("type")
+ .endGroup()
 
+// "owner: US Forest Service AND (type: "Web Mapping Application" OR type: "Mobile Application")"
 searchItems({ q })
 ```
 
@@ -119,6 +125,7 @@ The table below lists methods in this package that have been deprecated, given a
 | Old | New | Package
 | -- | -- | -- |
 | ~~`serializeGroup()`~~ |  | ~~`groups`~~ |
+| ~~`addItemJsonData()`~~ | `addItemData()` | ~~`items`~~ |
 | ~~`createItemInFolder({ folder })`~~ | `createItemInFolder({ folderId })` | ~~`items`~~ `portal` |
 | ~~`searchItems( string|opts )`~~ | `searchItems( string|opts|Builder )` | ~~`items`~~ `portal` |
 | ~~`searchGroups( form, opts )`~~ | `searchGroups( string|opts|Builder )` | ~~`groups`~~ `portal` |
@@ -136,7 +143,6 @@ The only breaking changes we made to `request` were to refactor an internal meth
 | -- | -- | -- |
 | `getPortalUrl()` | `getPortalUrl()` | ~~`request`~~ `portal` |
 | `getPortal()` | `getPortal()` | ~~`request`~~ `portal` |
-| `appendCustomParams()` | `appendCustomParams()`* | ~~`feature-service`~~ `request` (new signature) |
 
 #### If you work with private services (shhhh)
 
@@ -158,7 +164,7 @@ In this package, we renamed one constant.
 
 #### Geocoding addresses
 
-In the interest of consistency, we renamed our geocoding package.
+In the interest of consistency, we renamed the geocoding package too.
 
 ```bash
 # new
@@ -179,7 +185,7 @@ We renamed one method (and one constant) as well.
 
 #### Querying and editing feature layers
 
-This package was renamed too. If you're already using `queryFeatures()` or making edits inside hosted feature layers, now you'll install this:
+This package was also renamed. If you're already using `queryFeatures()` or making edits inside hosted feature layers, now you'll install this:
 
 ```bash
 # new
@@ -198,11 +204,10 @@ The `feature-layer` methods that were refactored or re-homed are listed below.
 | ~~`addFeatures({ adds })`~~ | `addFeatures({ features })` |
 | ~~`updateFeatures({ updates })`~~ | `updateFeatures({ features })` |
 | ~~`deleteFeatures({ deletes })`~~ | `updateFeatures({ objectIds })` |
-| `appendCustomParams()` | `appendCustomParams()`* | ~~`feature-service`~~ `request` (new signature) |
 
 #### Publishing and updating new hosted feature services
 
-If you're already using `rest-js` to publish _new_ hosted feature services, the package for that has a new (shorter) name too.
+If you're already using `rest-js` to publish _new_ hosted feature services, that package has a new (shorter) name too.
 
 ```bash
 # new
@@ -213,7 +218,7 @@ instead of this:
 # old
 npm install @esri/arcgis-rest-feature-service-admin
 ```
-After you save those seven keystrokes, everything else is the same.
+After you save those seven keystrokes, everything else will be familiar.
 
 ## Breaking Changes for TypeScript developers
 
@@ -232,14 +237,14 @@ import { IPoint, reverseGeocode } from "@esri/arcgis-rest-geocoding";
 reverseGeocode({ x: 34, y: -118} as IPoint);
 ```
 
-If you'd _like_ to install the typings yourself, You'll use a more concise package name.
+If you'd _like_ to install the typings yourself, there is a more concise package name for that too.
 
 ```bash
 # new package name
 npm install @esri/arcgis-rest-types
 ```
 
-The table below lists interfaces and types that have been removed or renamed in the name of consistency and brevity. This also better aligns the names of options and response interfaces with the functions they are used with.
+The table below lists interfaces and types that have been removed or renamed in the name of consistency and brevity. This also better aligns the names of options and response interfaces with their corresponding  function.
 
 | Old Interface/Type | New Interface/Type |
 | -- | -- |
