@@ -2,7 +2,7 @@
 title: Using ArcGIS REST JS in Node.js
 navTitle: Node.js
 description: Learn how to integrate the ArcGIS REST JS library into a Node.js app.
-order: 60
+order: 50
 group: 1-get-started
 ---
 
@@ -25,7 +25,8 @@ const { request } = require("@esri/arcgis-rest-request");
 request("https://www.arcgis.com/sharing/rest/info")
   .then(response);
 ```
-Demo - [Express Application](https://github.com/Esri/arcgis-rest-js/tree/master/demos/express)
+
+#### Demo - [Express](https://github.com/Esri/arcgis-rest-js/tree/master/demos/express)
 
 ## Authentication
 
@@ -54,7 +55,7 @@ request(url, {
 })
 ```
 
-Demo - [batch geocoding](https://github.com/Esri/arcgis-rest-js/tree/master/demos/batch-geocoder-node)
+#### Demo - [batch geocoding](https://github.com/Esri/arcgis-rest-js/tree/master/demos/batch-geocoder-node)
 
 Applications cannot [create, share, access or modify items](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/limitations-of-application-authentication/) in ArcGIS Online or ArcGIS Enterprise. For this, a [`UserSession`](/arcgis-rest-js/api/auth/UserSession/) is more appropriate.
 
