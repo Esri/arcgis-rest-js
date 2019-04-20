@@ -12,48 +12,13 @@ import {
   determineOwner,
   IManageItemRelationshipOptions
 } from "./helpers";
+import { updateItem, IUpdateItemOptions } from "./update";
 
 export interface IAddItemDataOptions extends IUserItemOptions {
   /**
    * Object to store
    */
   data: any;
-}
-
-/**
- * ```js
- * import { addItemJsonData } from "@esri/arcgis-rest-portal";
- * //
- * addItemJsonData({
- *   id: '3ef',
- *   data: {}
- *   authentication
- * })
- *   .then(response)
- * ```
- * Send json to an item to be stored as the `/data` resource. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-item.htm) for more information.
- *
- * @param requestOptions - Options for the request
- * @returns A Promise that will resolve with an object reporting
- *        success/failure and echoing the item id.
- */
-export function addItemJsonData(
-  requestOptions: IAddItemDataOptions
-): Promise<IUpdateItemResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.id
-  }/update`;
-
-  // Portal API requires that the 'data' be stringified and POSTed in
-  // a `text` form field. It can also be sent with the `.create` call by sending
-  // a `.data` property.
-  requestOptions.params = {
-    text: requestOptions.data,
-    ...requestOptions.params
-  };
-
-  return request(url, requestOptions);
 }
 
 /**
@@ -77,18 +42,18 @@ export function addItemData(
   requestOptions: IAddItemDataOptions
 ): Promise<IUpdateItemResponse> {
   const owner = determineOwner(requestOptions);
-
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.id
-  }/update`;
-
-  // Portal API requires that the 'data' be POSTed in a `file` form field.
-  requestOptions.params = {
-    file: requestOptions.data,
-    ...requestOptions.params
+  const options: any = {
+    item: {
+      id: requestOptions.id,
+      data: requestOptions.data
+    },
+    ...requestOptions
   };
 
-  return request(url, requestOptions);
+  delete options.id;
+  delete options.data;
+
+  return updateItem(options as IUpdateItemOptions);
 }
 
 /**
