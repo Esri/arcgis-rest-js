@@ -79,7 +79,7 @@ You should _not_ pass `authentication` to this method if your code runs in a sha
 
 ### `withOptions()`
 
-If you'd like to pass common options through in only _some_ requests, you can use a new `withOptions()` method.
+If you'd like to selectively append common options to _a specific method_, you can use the new `withOptions()` method.
 
 ```ts
 import { request, withOptions } from "@esri/arcgis-rest-request";
@@ -92,7 +92,7 @@ const authenticatedRequest = withOptions({
 authenticatedRequest(url)
 
 // does NOT include authenticated session
-authenticatedRequest(url)
+request(url)
 ```
 
 ## Breaking Changes
@@ -239,9 +239,9 @@ If you'd _like_ to install the typings yourself, You'll use a more concise packa
 npm install @esri/arcgis-rest-types
 ```
 
-The table below lists interfaces and types that have been removed or renamed in the name of consistency and brevity.
+The table below lists interfaces and types that have been removed or renamed in the name of consistency and brevity. This also better aligns the names of options and response interfaces with the functions they are used with.
 
-| Old Interface | New Interface |
+| Old Interface/Type | New Interface/Type |
 | -- | -- |
 | ~~`esriFieldTypes`~~ | `FieldTypes` |
 | ~~`esriGeometryType`~~ | `GeometryType` |
@@ -262,6 +262,36 @@ The table below lists interfaces and types that have been removed or renamed in 
 | ~~`IAddToServiceDefinitionRequestOptions`~~ | `IAddToServiceDefinitionOptions` |
 | ~~`ICreateServiceRequestOptions`~~ | `ICreateServiceOptions` |
 | ~~`IItemResourceAddRequestOptions`~~ |  |
+| ~~`IGroupAddRequestOptions`~~ | `ICreateGroupOptions` |
+| ~~`IPagingParamsRequestOptions`~~ | `IGetGroupContentOptions` |
+| ~~`IGroupIdRequestOptions`~~ | `IUserGroupOptions` |
+| ~~`IGroupNotificationRequestOptions`~~ | `ICreateGroupNotificationOptions` |
+| ~~`ISearchRequestOptions`~~ | `ISearchOptions` |
+| ~~`IGroupUpdateRequestOptions`~~ | `IUpdateGroupOptions` |
+| ~~`IItemIdRequestOptions`~~ | `IUserItemOptions` |
+| ~~`IItemResourceRequestOptions`~~ | `IItemResourceOptions` |
+| ~~`IItemAddResponse`~~ | `ICreateItemResponse` |
+| ~~`IManageItemRelationshipRequestOptions`~~ | `IManageItemRelationshipOptions` |
+| ~~`IItemDataAddRequestOptions`~~ | `IAddItemDataOptions` |
+| ~~`IItemCrudRequestOptions`~~ | `ICreateUpdateItemOptions` |
+| ~~`IAddFolderRequestOptions`~~ | `ICreateFolderOptions` |
+| ~~`IItemAddRequestOptions`~~ | `ICreateItemOptions` |
+| ~~`IItemDataRequestOptions`~~ | `IItemDataOptions` |
+| ~~`IItemRelationshipRequestOptions`~~ | `IItemRelationshipOptions` |
+| ~~`IItemGroupResponse`~~ | `IGetItemGroupsResponse` |
+| ~~`IItemRequestOptions`~~ |  |
+| ~~`IFolderIdRequestOptions`~~ | `IFolderIdOptions` |
+| ~~`IItemUpdateResponse`~~ | `IUpdateItemResponse` |
+| ~~`IItemMoveResponse`~~ | `IMoveItemResponse` |
+| ~~`IItemUpdateRequestOptions`~~ | `IUpdateItemOptions` |
+| ~~`IItemMoveRequestOptions`~~ | `IMoveItemOptions` |
+| ~~`ISharingRequestOptions`~~ | `ISharingOptions` |
+| ~~`ISetAccessRequestOptions`~~ | `ISetAccessOptions` |
+| ~~`IGroupSharingRequestOptions`~~ | `IGroupSharingOptions` |
+| ~~`IGetUserRequestOptions`~~ | `IGetUserOptions` |
+| ~~`IInvitationRequestOptions`~~ | `IGetUserInvitationOptions` |
+| ~~`INotificationIdRequestOptions`~~ | `IRemoveNotificationOptions` |
+| ~~`IUpdateUserRequestOptions`~~ | `IUpdateUserOptions` |
 |  | `IParamBuilder` |
 |  | `IParamsBuilder` |
 
