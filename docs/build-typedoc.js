@@ -23,7 +23,8 @@ const md = new MarkdownIt();
         "--module",
         "common",
         "--tsconfig",
-        "./tsconfig.json"
+        "./tsconfig.json",
+        "--excludePrivate"
       ],
       {
         stdio: "inherit"
