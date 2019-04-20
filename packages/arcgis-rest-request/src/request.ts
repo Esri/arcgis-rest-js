@@ -19,6 +19,21 @@ let DEFAULT_ARCGIS_REQUEST_OPTIONS: IRequestOptions = {
   }
 };
 
+/**
+ * Sets the default options that will be passed in **all requests across all `@esri/arcgis-rest-js` modules**.
+ *
+ *
+ * ```js
+ * import { setDefaultRequestOptions } from "@esri/arcgis-rest-request";
+ * setDefaultRequestOptions({
+ *   authentication: userSession // all requests will use this session by default
+ * })
+ * ```
+ * You should **never** set a default `authentication` when you are in a server side environment where you may be handling requests for many different authenticated users.
+ *
+ * @param options The default options to pass with every request. Existing default will be overwritten.
+ * @param hideWarnings Silence warnings about setting default `authentication` in shared environments.
+ */
 export function setDefaultRequestOptions(
   options: typeof DEFAULT_ARCGIS_REQUEST_OPTIONS,
   hideWarnings?: boolean

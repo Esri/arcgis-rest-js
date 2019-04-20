@@ -165,12 +165,16 @@ export function serializeItem(item: IItemAdd | IItemUpdate | IItem): any {
   // create a clone so we're not messing with the original
   const clone = JSON.parse(JSON.stringify(item));
 
-  // convert .data to .text
+  // binary data needs POSTed as a `file`
+  // JSON object literals should be passed as `text`.
   if (clone.data) {
-    clone.text = clone.data;
+    (typeof Blob !== "undefined" && item.data instanceof Blob) ||
+    // Node.js doesn't implement Blob
+    item.data.constructor.name === "ReadStream"
+      ? (clone.file = item.data)
+      : (clone.text = item.data);
     delete clone.data;
   }
-
   return clone;
 }
 

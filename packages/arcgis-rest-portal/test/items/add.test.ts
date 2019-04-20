@@ -6,7 +6,6 @@ import * as fetchMock from "fetch-mock";
 import { attachmentFile } from "../../../arcgis-rest-feature-layer/test/attachments.test";
 
 import {
-  addItemJsonData,
   addItemData,
   addItemResource,
   addItemRelationship
@@ -47,8 +46,8 @@ describe("search", () => {
           key: "someValue"
         }
       };
-      // addItemJsonData("3ef", "dbouwman", fakeData, MOCK_REQOPTS)
-      addItemJsonData({
+      // addItemData("3ef", "dbouwman", fakeData, MOCK_REQOPTS)
+      addItemData({
         id: "3ef",
         owner: "dbouwman",
         data: fakeData,
@@ -82,8 +81,8 @@ describe("search", () => {
           key: "someValue"
         }
       };
-      // addItemJsonData("3ef", "dbouwman", fakeData, MOCK_REQOPTS)
-      addItemJsonData({
+      // addItemData("3ef", "dbouwman", fakeData, MOCK_REQOPTS)
+      addItemData({
         id: "3ef",
         data: fakeData,
         ...MOCK_USER_REQOPTS
@@ -116,8 +115,8 @@ describe("search", () => {
           key: "someValue"
         }
       };
-      // addItemJsonData("3ef", "dbouwman", fakeData, MOCK_REQOPTS)
-      addItemJsonData({
+      // addItemData("3ef", "dbouwman", fakeData, MOCK_REQOPTS)
+      addItemData({
         id: "3ef",
         data: fakeData,
         ...MOCK_USER_REQOPTS,
@@ -154,6 +153,7 @@ describe("search", () => {
       const file = attachmentFile();
 
       addItemData({
+        // this would work on item: { type: "Code Sample" }
         id: "3ef",
         // File() is only available in the browser
         data: file,
@@ -167,6 +167,7 @@ describe("search", () => {
           );
           expect(options.method).toBe("POST");
           expect(options.body instanceof FormData).toBeTruthy();
+          // to do: figure out how to inspect these parameters from Node.js
           const params = options.body as FormData;
           if (params.get) {
             expect(params.get("token")).toEqual("fake-token");
