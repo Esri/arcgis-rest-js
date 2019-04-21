@@ -8,7 +8,7 @@
     
     <meta name="description" content="A modular, high quality toolkit for working with the ArcGIS REST API.">
     
-    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.7/css/calcite-web.min.css">
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
     <link rel="stylesheet" href="/arcgis-rest-js/css/style.css">
     
   </head>
@@ -20,6 +20,7 @@
           <h2 class="side-nav-title">ArcGIS REST JS</h2>
           <a href="/arcgis-rest-js/guides/" class="is-active side-nav-link">Guides</a>
           <a href="/arcgis-rest-js/api/" class="side-nav-link">API Reference</a>
+          <a href="https://github.com/Esri/arcgis-rest-js" class="side-nav-link">GitHub</a>
         </aside>
       </nav>
     </div>
@@ -37,6 +38,7 @@
               <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
                 <a href="/arcgis-rest-js/guides/" class="is-active top-nav-link">Guides</a>
                 <a href="/arcgis-rest-js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/arcgis-rest-js" class="top-nav-link">GitHub</a>
               </nav>
             </div>
 
@@ -75,17 +77,13 @@
             
               <li><a href="/arcgis-rest-js/guides/from-a-cdn/">From a CDN</a></li>
             
-              <li><a href="/arcgis-rest-js/guides/babel-and-webpack/">Babel + WebPack</a></li>
-            
-              <li><a href="/arcgis-rest-js/guides/typescript-and-webpack/">TypeScript + WebPack</a></li>
+              <li><a href="/arcgis-rest-js/guides/bundlers/">Bundlers</a></li>
             
               <li><a href="/arcgis-rest-js/guides/amd-requirejs-dojo/">AMD (Require.js or Dojo)</a></li>
             
               <li><a href="/arcgis-rest-js/guides/node/">Node.js</a></li>
             
-              <li><a href="/arcgis-rest-js/guides/babel-and-rollup/">Babel + Rollup</a></li>
-            
-              <li><a href="/arcgis-rest-js/guides/browserify/">Browserify</a></li>
+              <li><a href="/arcgis-rest-js/guides/whats-new-v2-0/">What's New in v2.0.0</a></li>
             
           </ul>
         
@@ -111,7 +109,7 @@
 <p><code>@esri/arcgis-rest-js</code> simplifies making requests to ArcGIS Online and Enterprise in both browsers and Node.js.</p>
 <p>There's no better way to explain what that means than comparing an <code>@esri/arcgis-rest-js</code> call to the same web request made using plain old JavaScript.</p>
 <h3>@esri/arcgis-rest</h3>
-<pre><code class="js"><span class="hljs-keyword">import</span> { getUser } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-users"</span>;
+<pre><code class="js"><span class="hljs-keyword">import</span> { getUser } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-portal"</span>;
 
 <span class="hljs-comment">// pass in a username and get back information about the user</span>
 getUser(<span class="hljs-string">`jgravois`</span>)
@@ -132,7 +130,7 @@ xhr.send(<span class="hljs-literal">null</span>);
 </code></pre>
 <p>wow, thats a lot easier! <code>@esri/arcgis-rest-js</code> is able to intuit the actual url (by default it assumes you're interacting with ArcGIS Online) prior to making the request and internalizes a lot of tedious logic for handling the response.</p>
 <p>Our packages tap into a new JavaScript spec called <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch"><code>fetch()</code></a> under the hood though, so lets compare 🍎s to 🍎s.</p>
-<pre><code class="js"><span class="hljs-keyword">import</span> { deleteFeatures } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-feature-service"</span>;
+<pre><code class="js"><span class="hljs-keyword">import</span> { deleteFeatures } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-feature-layer"</span>;
 
 <span class="hljs-keyword">const</span> url = <span class="hljs-string">`http://sampleserver6.arcgisonline.com/arcgis/rest/services/SF311/FeatureServer/1/`</span>
 
@@ -185,18 +183,14 @@ fetch(url, {
 <h1>Package Overview</h1>
 <p>The library is a collection of <em>very</em> small mix and match packages that are framework agnostic and make a variety of ArcGIS tasks more convenient.</p>
 <ul>
-<li><a href="../../api/request/"><code>@esri/arcgis-rest-request</code></a> - Underpins other packages and supports making generic web requests.</li>
-<li><a href="../../api/auth"><code>@esri/arcgis-rest-auth</code></a> - Provides methods for authenticating named users and applications.</li>
-<li><a href="../../api/common-types"><code>@esri/arcgis-rest-common-types</code></a> - TypeScript types that are common across the ArcGIS API.</li>
-<li><a href="../../api/items"><code>@esri/arcgis-rest-items</code></a> - Methods for working with ArcGIS Online/Enterprise content.</li>
-<li><a href="../../api/groups"><code>@esri/arcgis-rest-groups</code></a> - Methods for working with ArcGIS Online/Enterprise groups.</li>
-<li><a href="../../api/users"><code>@esri/arcgis-rest-users</code></a> - Methods for working with ArcGIS Online/Enterprise users.</li>
-<li><a href="../../api/sharing"><code>@esri/arcgis-rest-sharing</code></a> - Methods for updating the permissions of ArcGIS Online/Enterprise content.</li>
-<li><a href="../../api/feature-service"><code>@esri/arcgis-rest-feature-service</code></a> - Functions for querying and editing the features inside feature services</li>
-<li><a href="../../api/geocoder"><code>@esri/arcgis-rest-geocoder</code></a> - Geocoding wrapper for <code>@esri/arcgis-rest-js</code>.</li>
-<li><a href="../../api/feature-service-admin"><code>@esri/arcgis-rest-feature-service-admin</code></a> - Functions for creating and updating feature services</li>
-<li><a href="../../api/routing"><code>@esri/arcgis-rest-routing</code></a> - Routing and directions wrapper for <code>@esri/arcgis-rest-js</code>.</li>
-<li><a href="../../api/common"><code>@esri/arcgis-rest-common</code></a> - Stores shared methods and types used throughout the ArcGIS API.</li>
+<li><a href="./packages/arcgis-rest-request/"><code>@esri/arcgis-rest-request</code></a> - Underpins other packages and supports making low-level requests.</li>
+<li><a href="./packages/arcgis-rest-auth"><code>@esri/arcgis-rest-auth</code></a> - Provides methods for authenticating named users and applications.</li>
+<li><a href="./packages/arcgis-rest-portal"><code>@esri/arcgis-rest-portal</code></a> - Methods for working with ArcGIS Online/Enterprise content and users.</li>
+<li><a href="./packages/arcgis-rest-feature-layer"><code>@esri/arcgis-rest-feature-layer</code></a> - Functions for querying and editing features inside of hosted feature layers.</li>
+<li><a href="./packages/arcgis-rest-feature-service-admin"><code>@esri/arcgis-rest-service-admin</code></a> - Functions for administering hosted services.</li>
+<li><a href="./packages/arcgis-rest-geocoding"><code>@esri/arcgis-rest-geocoding</code></a> - Geocoding wrapper for <code>@esri/arcgis-rest-js</code></li>
+<li><a href="./packages/arcgis-rest-routing"><code>@esri/arcgis-rest-routing</code></a> - Routing and directions wrapper for <code>@esri/arcgis-rest-js</code>.</li>
+<li><a href="./packages/arcgis-rest-request/"><code>@esri/arcgis-rest-types</code></a> - Common Typings for TypeScript developers.</li>
 </ul>
       </div>
     </div>
@@ -205,16 +199,18 @@ fetch(url, {
       </main>
     </div>
 
-    <footer class="footer leader-1">
+    <footer class="footer">
       
-      <div class="grid-container">
-        <div class="column-24 trailer-half">
-          <a href="https://github.com/Esri/arcgis-rest-js" class="font-size--1">Fork this project on GitHub</a>
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/arcgis-rest-js" class="font-size--2">Fork this project</a>
+          </div>
         </div>
       </div>
     </footer>
 
-    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-rc.7/js/calcite-web.min.js"></script>
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
 
     <script>
        calcite.init()
