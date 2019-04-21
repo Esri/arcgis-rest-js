@@ -14,9 +14,8 @@
   },
   "dependencies": {
     "@esri/arcgis-rest-auth": "^1.19.2",
-    "@esri/arcgis-rest-items": "^1.19.2",
+    "@esri/arcgis-rest-portal": "^1.19.2",
     "@esri/arcgis-rest-request": "^1.19.2",
-    "@esri/arcgis-rest-users": "^1.19.2",
     "compression": "^1.7.1",
     "cookies": "^0.7.3",
     "dotenv": "^6.2.0",

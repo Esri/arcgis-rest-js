@@ -7,14 +7,12 @@ import {
   ILocation,
   ISpatialReference,
   IPoint,
-  IFeature,
-  isLocation,
-  isLocationArray
-} from "@esri/arcgis-rest-common";
+  IFeature
+} from "@esri/arcgis-rest-types";
 
-import { worldRoutingService, IEndpointRequestOptions } from "./helpers";
+import { ARCGIS_ONLINE_ROUTING_URL, IEndpointOptions } from "./helpers";
 
-export interface ISolveRouteRequestOptions extends IEndpointRequestOptions {
+export interface ISolveRouteOptions extends IEndpointOptions {
   /**
    * Specify two or more locations between which the route is to be found.
    */
@@ -40,6 +38,24 @@ export interface ISolveRouteResponse {
   }>;
 }
 
+function isLocationArray(
+  coords: ILocation | IPoint | [number, number] | [number, number, number]
+): coords is [number, number] | [number, number, number] {
+  return (
+    (coords as [number, number]).length === 2 ||
+    (coords as [number, number, number]).length === 3
+  );
+}
+
+function isLocation(
+  coords: ILocation | IPoint | [number, number] | [number, number, number]
+): coords is ILocation {
+  return (
+    (coords as ILocation).latitude !== undefined ||
+    (coords as ILocation).lat !== undefined
+  );
+}
+
 /**
  * ```js
  * import { solveRoute } from '@esri/arcgis-rest-routing';
@@ -57,12 +73,13 @@ export interface ISolveRouteResponse {
  *
  * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with routes and directions for the request.
+ * @restlink https://developers.arcgis.com/rest/network/api-reference/route-synchronous-service.htm
  */
 export function solveRoute(
-  requestOptions: ISolveRouteRequestOptions
+  requestOptions: ISolveRouteOptions
 ): Promise<ISolveRouteResponse> {
-  const options: ISolveRouteRequestOptions = {
-    endpoint: requestOptions.endpoint || worldRoutingService,
+  const options: ISolveRouteOptions = {
+    endpoint: requestOptions.endpoint || ARCGIS_ONLINE_ROUTING_URL,
     params: {},
     ...requestOptions
   };
@@ -70,7 +87,7 @@ export function solveRoute(
   // the SAAS service does not support anonymous requests
   if (
     !requestOptions.authentication &&
-    options.endpoint === worldRoutingService
+    options.endpoint === ARCGIS_ONLINE_ROUTING_URL
   ) {
     return Promise.reject(
       "Routing using the ArcGIS service requires authentication"

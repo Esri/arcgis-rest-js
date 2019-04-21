@@ -23,7 +23,8 @@ const md = new MarkdownIt();
         "--module",
         "common",
         "--tsconfig",
-        "./tsconfig.json"
+        "./tsconfig.json",
+        "--excludePrivate"
       ],
       {
         stdio: "inherit"
@@ -113,6 +114,10 @@ const md = new MarkdownIt();
        * into a giant array of all declarations in all packages.
        */
       return children.reduce((allChildren, child) => {
+        if (!child.children) {
+          console.log(child);
+          return allChildren;
+        }
         return allChildren.concat(
           child.children.map(c => {
             c.package = child.package;
@@ -121,11 +126,36 @@ const md = new MarkdownIt();
         );
       }, []);
     })
-    .then(children => {
+    .then(declarations => {
       /**
        * Next we remove all children that are not exported out of their files.
        */
-      return children.filter(c => c.flags && c.flags.isExported);
+      return declarations.filter(
+        declaration => declaration.flags && declaration.flags.isExported
+      );
+    })
+    .then(declarations => {
+      const blacklist = [
+        "genericSearch",
+        "appendCustomParams",
+        "requiresFormData",
+        "processParams",
+        "encodeParam",
+        "encodeQueryString",
+        "encodeFormData",
+        "warn",
+        "cleanUrl",
+        "checkForErrors",
+        "determineOwner",
+        "isItemOwner",
+        "isOrgAdmin"
+      ];
+      /**
+       * Next we remove any declarations we want to blacklist from the API ref
+       */
+      return declarations.filter(
+        declaration => !blacklist.includes(declaration.name)
+      );
     })
     .then(declarations => {
       /**
@@ -139,8 +169,13 @@ const md = new MarkdownIt();
        * and `titleSegments` to each page which are used in the template for SEO.
        */
       return declarations.map(declaration => {
-        const abbreviatedPackageName = declaration.package.replace("arcgis-rest-", "")
-        const src = `arcgis-rest-js/api/${abbreviatedPackageName}/${declaration.name}.html`;
+        const abbreviatedPackageName = declaration.package.replace(
+          "arcgis-rest-",
+          ""
+        );
+        const src = `arcgis-rest-js/api/${abbreviatedPackageName}/${
+          declaration.name
+        }.html`;
         let children;
 
         if (declaration.children) {
@@ -208,7 +243,7 @@ const md = new MarkdownIt();
           .map(d => d.package)
           .uniq()
           .reduce((packages, package) => {
-            const abbreviatedPackageName = package.replace("arcgis-rest-", "")
+            const abbreviatedPackageName = package.replace("arcgis-rest-", "");
             const src = `arcgis-rest-js/api/${abbreviatedPackageName}.html`;
             const pkg = require(`${process.cwd()}/packages/${package}/package.json`);
 
@@ -219,7 +254,30 @@ const md = new MarkdownIt();
               description: pkg.description,
               titleSegments: ["API Reference"],
               name: package,
-              declarations: declarations.filter(d => d.package === package),
+              declarations: declarations
+                .filter(d => d.package === package)
+                .sort((da, db) => {
+                  const types = [
+                    "Class",
+                    "Function",
+                    "Object literal",
+                    "Variable",
+                    "Enumeration",
+                    "Type alias",
+                    "Interface"
+                  ];
+
+                  const aIndex = types.findIndex(t => da.kindString === t);
+                  const bIndex = types.findIndex(t => db.kindString === t);
+
+                  if (aIndex > bIndex) {
+                    return 1;
+                  } else if (aIndex < bIndex) {
+                    return -1;
+                  } else {
+                    return 0;
+                  }
+                }),
               icon: "tsd-kind-module",
               src,
               pageUrl: prettyifyUrl(src)
@@ -276,6 +334,55 @@ const md = new MarkdownIt();
     })
     .then(api => {
       /**
+       * Next we can sort the children of each declaration to sort by required/optional/inherited
+       */
+      api.declarations = api.declarations.map(declaration => {
+        if (declaration.children) {
+          declaration.children.sort((ca, cb) => {
+            const aIndex = rankChild(ca);
+            const bIndex = rankChild(cb);
+
+            if (aIndex > bIndex) {
+              return 1; // sort a below b
+            } else if (aIndex < bIndex) {
+              return -1; // sort a above b
+            } else {
+              return 0;
+            }
+            return 0;
+          });
+        }
+
+        if (declaration.groups) {
+          declaration.groups.forEach(group => {
+            if (group.children) {
+              group.children.sort((ca, cb) => {
+                const childA = declaration.children.find(c => c.id === ca);
+                const childB = declaration.children.find(c => c.id === cb);
+
+                const aIndex = rankChild(childA);
+                const bIndex = rankChild(childB);
+
+                if (aIndex > bIndex) {
+                  return 1;
+                } else if (aIndex < bIndex) {
+                  return -1;
+                } else {
+                  return 0;
+                }
+                return 0;
+              });
+            }
+          });
+        }
+
+        return declaration;
+      });
+
+      return api;
+    })
+    .then(api => {
+      /**
        * Our final object looks like this:
        *
        * {
@@ -301,3 +408,27 @@ const md = new MarkdownIt();
       console.error(e);
     });
 })();
+
+function rankChild(child) {
+  const { isPrivate, isPublic, isOptional, isStatic } = child
+    ? child.flags
+    : {};
+
+  const isInherited = child.inheritedFrom ? true : false;
+
+  let score = 0;
+
+  if (isPrivate) {
+    score += 30;
+  }
+  if (isStatic) {
+    score -= 15;
+  }
+  if (!isInherited) {
+    score -= 5;
+  }
+  if (!isOptional) {
+    score -= 15;
+  }
+  return score;
+}

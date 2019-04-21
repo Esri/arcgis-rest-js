@@ -217,22 +217,28 @@ module.exports = function(acetate) {
 
   // <code> friendly script tag string
   acetate.helper("scriptTag", function(context, package) {
-    return `&lt;script src="https://unpkg.com/${
-      package.name
-    }@${package.version}/dist/umd/${package.name.replace("@esri/arcgis-rest-", "")}.umd.min.js"&gt;&lt;/script&gt;`;
+    return acetate.nunjucks.renderString(
+      `{% highlight "html" %}<script src="https://unpkg.com/${package.name}@${
+        package.version
+      }/dist/umd/${package.name.replace(
+        "@esri/arcgis-rest-",
+        ""
+      )}.umd.min.js>{% endhighlight %}`
+    );
   });
 
   // CDN with SRI only if hash exists
   acetate.helper("scriptTagSRI", function(context, package) {
     const hash = srihashes.packages[package.name];
     if (hash) {
-      return `<h2 class="font-size--1 trailer-half">CDN with SRI:</h2>
-      <pre><code>&lt;script src="https://unpkg.com/${package.name}@${
+      return acetate.nunjucks.renderString(`
+        {%highlight "html" %}
+        <script src="https://unpkg.com/${package.name}@${
         package.version
       }/dist/umd/${package.name.replace(
         "@esri/arcgis-rest-",
         ""
-      )}.umd.min.js" integrity="${hash}" crossorigin="anonymous"&gt;&lt;/script&gt;</code></pre>`;
+      )}.umd.min.js" integrity="${hash}" crossorigin="anonymous"></script>{% endhighlight %}`);
     } else {
       return "";
     }
@@ -245,5 +251,12 @@ module.exports = function(acetate) {
         )
       : [];
     return `npm install ${package.name} ${peers.join(" ")}`;
+  });
+
+  acetate.filter("stripThisFromParams", function(params) {
+    if (!params || !params.length) {
+      return [];
+    }
+    return params.filter(p => p.name !== "this");
   });
 };

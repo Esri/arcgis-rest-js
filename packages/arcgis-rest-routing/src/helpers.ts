@@ -4,11 +4,11 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 
 // https always
-export const worldRoutingService =
+export const ARCGIS_ONLINE_ROUTING_URL =
   "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World";
 
 // nice to have: verify custom endpoints contain 'NAServer' and end in a '/'
-export interface IEndpointRequestOptions extends IRequestOptions {
+export interface IEndpointOptions extends IRequestOptions {
   /**
    * Any ArcGIS Routing service (example: https://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Network/USA/NAServer/Route/ ) to use for the routing service request.
    */

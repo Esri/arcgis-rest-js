@@ -1,12 +1,13 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, ErrorTypes } from "../src/index";
+import { request, ErrorTypes, setDefaultRequestOptions } from "../src/index";
 import * as fetchMock from "fetch-mock";
 import {
   SharingRestInfo,
   SharingRestInfoHTML
 } from "./mocks/sharing-rest-info";
+import { MockParamBuilder } from "./mocks/param-builder";
 import { ArcGISOnlineError } from "./mocks/errors";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap";
 import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection";
@@ -258,6 +259,100 @@ describe("request()", () => {
       .catch(e => {
         fail(e);
       });
+  });
+
+  it("should allow setting defaults for all requests", done => {
+    fetchMock.once("*", SharingRestInfo);
+
+    setDefaultRequestOptions({
+      headers: {
+        "Test-Header": "Test"
+      }
+    });
+
+    request("https://www.arcgis.com/sharing/rest/info")
+      .then(response => {
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
+        expect(options.method).toBe("POST");
+        expect(response).toEqual(SharingRestInfo);
+        expect(options.body).toContain("f=json");
+        expect((options.headers as any)["Test-Header"]).toBe("Test");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+
+    // since calling request is  sync we can delete this right away
+    setDefaultRequestOptions({
+      httpMethod: "POST",
+      params: {
+        f: "json"
+      }
+    });
+  });
+
+  it("should warn users when attempting to set default auth", () => {
+    const oldWarn = console.warn;
+
+    console.warn = jasmine.createSpy().and.callFake(() => {
+      return;
+    });
+
+    const MOCK_AUTH = {
+      portal: "https://www.arcgis.com/sharing/rest",
+      getToken() {
+        return Promise.resolve("token");
+      }
+    };
+
+    setDefaultRequestOptions({
+      authentication: MOCK_AUTH
+    });
+
+    setDefaultRequestOptions(
+      {
+        authentication: MOCK_AUTH
+      },
+      true
+    );
+
+    expect(console.warn).toHaveBeenCalledTimes(1);
+
+    // since calling request is  sync we can delete this right away
+    setDefaultRequestOptions({
+      httpMethod: "POST",
+      params: {
+        f: "json"
+      }
+    });
+
+    console.warn = oldWarn;
+  });
+
+  describe("should impliment the IParamBuilder and IParamsBuilder interfaces builder", () => {
+    it("should encode a param that impliments IParamBuilder", done => {
+      fetchMock.once("*", GeoJSONFeatureCollection);
+
+      const builder = new MockParamBuilder();
+
+      request(
+        "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
+        {
+          params: { where: builder, f: "geojson" }
+        }
+      )
+        .then(response => {
+          const options: RequestInit = fetchMock.lastCall("*")[1];
+          expect(options.body).toContain(`where=${encodeURIComponent("1=1")}`);
+          expect(response).toEqual(GeoJSONFeatureCollection);
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
   });
 
   describe("should throw errors when required dependencies are missing", () => {
