@@ -7,6 +7,89 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [2.0.0] - April 22nd 2019
+
+For a more readable explanation of the new features and breaking changes in this release, please take a look at [What's new in `v2.0.0`](https://esri.github.io/arcgis-rest-js/guides/whats-new-v2-0/).
+
+### @esri/arcgis-rest-request
+
+* New Features
+   * A new [`withOptions`](https://esri.github.io/arcgis-rest-js/api/request/withOptions/) method has been added to aid in passing through common request options to other individual methods repeatedly.
+   * A new [`setDefaultRequestOptions`](https://esri.github.io/arcgis-rest-js/api/request/setDefaultRequestOptions/) method has been added to aid in passing through common request options in **all* requests.
+
+* Breaking Changes
+   * The utility methods `getPortalUrl` and `getPortal` have been moved to the `portal` package.
+
+### @esri/arcgis-rest-auth
+
+* Breaking Changes
+   * The utility method `getUserUrl` has been moved to the `portal` package.
+   * The internal methods `generateToken` and `fetchToken` now expect _only_ options.
+   * `IOauth2Options` has been renamed `IOAuth2Options`.
+
+### @esri/arcgis-rest-portal
+
+This new package contains the methods previously found in `@esri/arcgis-rest-items`, `groups`, `users` and `sharing`. The individual packages have been deprecated.
+
+* New Features
+   * A new class [`SearchQueryBuilder`](https://esri.github.io/arcgis-rest-js/api/portal/SearchQueryBuilder/) has been introduced to help generate complex ArcGIS query strings.
+
+* Bug Fixes
+   * **add resource**: `resource` is now an optional parameter when calling `addItemResource` to better support plain text [`1db78b7a`](https://github.com/Esri/arcgis-rest-js/commit/1db78b7a647035f2094058b66cc5ac0286aa03cb)
+   * `createItem` and `updateItem` now support binary item `/data`.
+
+* Breaking Changes
+   *
+   * **group**: The signatures of `searchGroups` and `searchItems` now match, making use of `SearchQueryBuilder` instead of a searchForm. [`72f28985`](https://github.com/Esri/arcgis-rest-js/commit/72f28985bde12b44cca0180dd52e33f660f2ad9a) [#104](https://github.com/Esri/arcgis-rest-js/issues/104)
+   * `createItemInFolder` now expects a `folderId` (instead of `folder`).
+   * The signature of `getItemResources` has been updated (for consistency with the rest of `rest-js`.
+   * **portal interfaces**: request/response interfaces have been renamed to match their functions [`faa5b3dd`](https://github.com/Esri/arcgis-rest-js/commit/faa5b3dd5b51800db4931735f05a367c8fcd42e2)
+
+### @esri/arcgis-rest-feature-layer
+
+* Breaking Changes
+   * This package has been renamed from `feature-service` to `feature-layer` (to disambiguate).
+   * `addFeatures` and `updateFeatures` now expect a `features` argument (instead of adds/updates)
+   * `deleteFeatures` now expects a `objectIds` argument (instead of deletes)
+
+   * **feature-layer**: Shared `IParams` interfaces have been removed (for consistency) [`4adff112`](https://github.com/Esri/arcgis-rest-js/commit/4adff112e30c5f6bc565c593a899d6372a9c48cc)
+   * **feature responses**: `Result` and `Response` interfaces have been removed [`1948010b`](https://github.com/Esri/arcgis-rest-js/commit/1948010b1077a4ab5edea82ea46ca0a3c9cf437c)
+   * **interfaces**: `Request` has been removed from option interface names [`8bce221e`](https://github.com/Esri/arcgis-rest-js/commit/8bce221e3f07510f392bf561a9f3863fb26cfa7e)
+
+### @esri/arcgis-rest-geocoding
+
+* Breaking Changes
+   * This package has been renamed from `geocoder` to `geocoding` (for consistency).
+   * The world `Request` has been removed from Options interfaces
+   * The constant `worldGeocoder` has been renamed `ARCGIS_ONLINE_GEOCODING_URL`
+   * the `serviceInfo` method has been removed (in favor of `getGeocodeService`).
+   * The `IGeocodeParams` interface has been removed.
+
+### @esri/arcgis-rest-routing
+
+* Breaking Changes
+   * The constant `worldRoutingService` has been renamed `ARCGIS_ONLINE_ROUTING_URL`
+   * **interface names**: removes `Request` from interface names in routing and service-admin [`57025262`](https://github.com/Esri/arcgis-rest-js/commit/57025262b0774d2036c117556e256ce7b749719d)
+
+### @esri/arcgis-rest-service-admin
+
+* Breaking Changes
+   * This package has been renamed from `feature-service-admin` to `service-admin` (for brevity and flexibility).
+   * **interface names**: removes `Request` from interface names in routing and service-admin [`57025262`](https://github.com/Esri/arcgis-rest-js/commit/57025262b0774d2036c117556e256ce7b749719d)
+   * **portal interfaces**: renames portal request/response interfaces to match their functions [`faa5b3dd`](https://github.com/Esri/arcgis-rest-js/commit/faa5b3dd5b51800db4931735f05a367c8fcd42e2)
+
+### @esri/arcgis-rest-types
+
+* Breaking Changes
+   * This package has been renamed from `common-types` to `types` (for brevity).
+   * This package is now a dependency of other upstream `rest-js` packages that will be installed automatically. Relevent interfaces are re-exported so it is no longer necessary to import directly from the helper package.
+   * The `esri` prefix has been removed from the `esriUnits`, `esriFieldTypes` and `esriGeometryTypes` types.
+
+### Other Changes
+
+* Breaking Changes
+   * Internal helper methods like `appendCustomParams` are no longer documented. In the future, undocumented methods may change without notice.
+
 ## [1.19.2] - April 9th 2019
 
 ### @esri/arcgis-rest-items
@@ -1217,4 +1300,5 @@ Initial Public Release
 [1.19.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.18.0...v1.19.0 "v1.19.0"
 [1.19.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.0...v1.19.1 "v1.19.1"
 [1.19.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.1...v1.19.2 "v1.19.2"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.2...HEAD "Unreleased Changes"
+[2.0.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.2...v2.0.0 "v2.0.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.0...HEAD "Unreleased Changes"

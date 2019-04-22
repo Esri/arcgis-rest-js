@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-request",
-  "version": "1.19.2",
+  "version": "2.0.0",
   "description": "Common methods and utilities for @esri/arcgis-rest-js packages.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/request.umd.js",
@@ -52,6 +52,8 @@
     "ES6"
   ],
   "esri": {
-    "keyExports": ["request"]
+    "keyExports": [
+      "request"
+    ]
   }
 }

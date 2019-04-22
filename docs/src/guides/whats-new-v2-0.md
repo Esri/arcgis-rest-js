@@ -220,6 +220,10 @@ npm install @esri/arcgis-rest-feature-service-admin
 ```
 After you save those seven keystrokes, everything else will be familiar.
 
+#### Helper methods
+
+In this release we also made the decision to stop documenting internal helper methods like `appendCustomParams`. In the future, undocumented methods may change without notice.
+
 ## Breaking Changes for TypeScript developers
 
 Each package now installs shared TypeScript typings automatically and  re-exports them, so its no longer necessary to install a separate package yourself.
@@ -253,9 +257,11 @@ The table below lists interfaces and types that have been removed or renamed in 
 | ~~`esriUnits`~~ | `Units` |
 | ~~`IOauth2Options`~~ | `IOAuth2Options` |
 | ~~`IBulkGeocodingRequestOptions`~~ | `IBulkGeocodeOptions` |
-| ~~`IGeocodeRequesttOptions`~~ | `IGeocodeOptions` |
+| ~~`IGeocodeRequestOptions`~~ | `IGeocodeOptions` |
 | ~~`IGeocodeParams`~~ |  |
 | ~~`ISolveRouteRequestOptions`~~ | `ISolveRouteOptions` |
+| ~~`IEditFeaturesParams`~~ | `ISharedEditOptions` |
+| ~~`IQueryFeaturesParams`~~ | `ISharedQueryOptions` |
 | ~~`IQueryFeaturesRequestOptions`~~ | `IQueryFeaturesOptions` |
 | ~~`IQueryRelatedRequestOptions`~~ | `IQueryRelatedOptions` |
 | ~~`IAddFeaturesRequestOptions`~~ | `IAddFeaturesOptions` |
