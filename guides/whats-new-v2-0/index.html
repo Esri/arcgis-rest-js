@@ -106,25 +106,22 @@
     <div class="column-18">
       <div class="panel">
         <h1>What's new in <code>v2.0.0?</code></h1>
-<p>Our family of users and contributors <a href="https://github.com/Esri/arcgis-rest-js/blob/master/docs/FAQ.md#who-is-using-these-packages">has grown (a lot!)</a> since our first release so we decided to rollup our sleeves (groan) and overhaul the API. Our goals were to:</p>
+<p>Our family of users and contributors has grown <a href="https://github.com/Esri/arcgis-rest-js/blob/master/docs/FAQ.md#who-is-using-these-packages">(a lot!)</a> since our first release so we decided to rollup our sleeves (groan) and overhaul the API. Our goals were to:</p>
 <ol>
 <li>Make ArcGIS REST JS as consistent (and simple) as possible</li>
 <li>Introduce building blocks for compositional/fluent APIs</li>
 <li>Provide a few new options to reuse common parameters</li>
 </ol>
 <h2>Fluent APIs</h2>
-<p>In <code>v2.0.0</code> we introduced a new class called <code>SearchQueryBuilder</code> to help compose complex parameters.</p>
-<pre><code class="ts"><span class="hljs-keyword">import</span> { searchItems } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-items"</span>;
-
-searchItems({ q: <span class="hljs-string">"Trees AND owner:US Forest Service"</span> })
-</code></pre>
+<p>In <a href="https://github.com/Esri/arcgis-rest-js/releases/v2.0.0"><code>v2.0.0</code></a> we introduced a new class called <a href="../../api/portal/SearchQueryBuilder/"><code>SearchQueryBuilder</code></a> to help compose complex parameters.</p>
 <pre><code class="ts"><span class="hljs-keyword">import</span> { searchItems, SearchQueryBuilder } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-portal"</span>;
 
 <span class="hljs-keyword">const</span> q = <span class="hljs-keyword">new</span> SearchQueryBuilder()
   .match(<span class="hljs-string">"Trees"</span>)
   .and()
   .match(<span class="hljs-string">"US Forest Service"</span>)
-  .in(<span class="hljs-string">"owner"</span>);
+  .in(<span class="hljs-string">"owner"</span>)
+  .and()
   .startGroup()
    .match(<span class="hljs-string">"Web Mapping Application"</span>)
    .in(<span class="hljs-string">"type"</span>)
@@ -133,12 +130,12 @@ searchItems({ q: <span class="hljs-string">"Trees AND owner:US Forest Service"</
    .in(<span class="hljs-string">"type"</span>)
  .endGroup()
 
-<span class="hljs-comment">// "owner: US Forest Service AND (type: "Web Mapping Application" OR type: "Mobile Application")"</span>
+<span class="hljs-comment">// "Trees AND owner: US Forest Service AND (type: "Web Mapping Application" OR type: "Mobile Application")"</span>
 searchItems({ q })
 </code></pre>
-<p>Currently only <code>searchItems()</code> and <code>searchGroups()</code> accept <code>SearchQueryBuilder</code> as an input, but we've included building blocks (groan) to create additional implementations as well.</p>
+<p>Currently only <a href="../../api/portal/searchItems/"><code>searchItems()</code></a> and <a href="../../api/portal/searchGroups/"><code>searchGroups()</code></a> accept <code>SearchQueryBuilder</code> as an input, but we've included building blocks (groan) to create additional implementations as well.</p>
 <h2>Paging</h2>
-<p>The promises returned by <code>searchItems()</code> and <code>searchGroups()</code> also got a handy new <code>nextPage()</code> method to make it easier to sift through paginated results.</p>
+<p>The promises returned by <a href="../../api/portal/searchItems/"><code>searchItems()</code></a> and <a href="../../api/portal/searchGroups/"><code>searchGroups()</code></a> also got a handy new <a href="../../api/portal/searchItems/#nextPage"><code>nextPage()</code></a> method to make it easier to sift through paginated results.</p>
 <pre><code class="ts">searchItems({ q })
   .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
     <span class="hljs-keyword">if</span> (response.nextPage) {
@@ -149,8 +146,8 @@ searchItems({ q })
 </code></pre>
 <h2>Reuse parameters</h2>
 <p>We added two new methods to <code>@esri/arcgis-rest-request</code> as helpers for passing repeat options through.</p>
-<h3><code>setDefaultOptions()</code></h3>
-<p>Now, if you want to ensure that <em>all</em> requests include a custom option, you can use <code>setDefaultOptions()</code>.</p>
+<h3><a href="../../api/request/setDefaultRequestOptions/"><code>setDefaultRequestOptions()</code></a></h3>
+<p>Now, if you want to ensure that <em>all</em> requests include a custom option, you can use <code>setDefaultRequestOptions()</code>.</p>
 <pre><code class="ts"><span class="hljs-keyword">import</span> { request, setDefaultRequestOptions } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-request"</span>;
 
 setDefaultRequestOptions({
@@ -163,7 +160,7 @@ setDefaultRequestOptions({
 request(url)
 </code></pre>
 <p>You should <em>not</em> pass <code>authentication</code> to this method if your code runs in a shared environment like a web server that handles requests for more than one user.</p>
-<h3><code>withOptions()</code></h3>
+<h3><a href="../../api/request/withOptions/"><code>withOptions()</code></a></h3>
 <p>If you'd like to selectively append common options to <em>a specific method</em>, you can use the new <code>withOptions()</code> method.</p>
 <pre><code class="ts"><span class="hljs-keyword">import</span> { request, withOptions } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-request"</span>;
 
@@ -180,7 +177,7 @@ request(url)
 <h2>Breaking Changes</h2>
 <p>In order to make the API more consistent and a little easier to navigate, we had to break a few 🍳s.</p>
 <h4>One <code>portal</code> package to rule them all (even for ArcGIS Online)</h4>
-<p>We consolidated four existing packages into a new one called <code>@esri/arcgis-rest-portal</code>. Whether you want to talk to ArcGIS Online <em>or</em> Enterprise, now you'll do this:</p>
+<p>We consolidated four existing packages into a new one called <a href="../../api/portal/"><code>@esri/arcgis-rest-portal</code></a>. Whether you want to talk to ArcGIS Online <em>or</em> Enterprise, now you'll do this:</p>
 <pre><code class="bash"><span class="hljs-comment"># new</span>
 npm install @esri/arcgis-rest-portal
 </code></pre>
@@ -254,7 +251,7 @@ npm install @esri/arcgis-rest-items &amp;&amp;
 </tbody>
 </table>
 <h4><code>@esri/arcgis-rest-request</code></h4>
-<p>The only breaking changes we made to <code>request</code> were to refactor an internal method and move a couple others over to the new <code>portal</code> package.</p>
+<p>The only breaking changes we made to <code>request</code> were to refactor an internal method and move a couple others into the new <a href="../../api/portal/"><code>portal</code></a> package.</p>
 <table>
 <thead>
 <tr>
