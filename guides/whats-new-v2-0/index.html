@@ -393,6 +393,8 @@ npm install @esri/arcgis-rest-service-admin
 npm install @esri/arcgis-rest-feature-service-admin
 </code></pre>
 <p>After you save those seven keystrokes, everything else will be familiar.</p>
+<h4>Helper methods</h4>
+<p>In this release we also made the decision to stop documenting internal helper methods like <code>appendCustomParams</code>. In the future, undocumented methods may change without notice.</p>
 <h2>Breaking Changes for TypeScript developers</h2>
 <p>Each package now installs shared TypeScript typings automatically and  re-exports them, so its no longer necessary to install a separate package yourself.</p>
 <pre><code class="ts"><span class="hljs-comment">// old</span>
@@ -440,7 +442,7 @@ npm install @esri/arcgis-rest-types
 <td><code>IBulkGeocodeOptions</code></td>
 </tr>
 <tr>
-<td><s><code>IGeocodeRequesttOptions</code></s></td>
+<td><s><code>IGeocodeRequestOptions</code></s></td>
 <td><code>IGeocodeOptions</code></td>
 </tr>
 <tr>
@@ -450,6 +452,14 @@ npm install @esri/arcgis-rest-types
 <tr>
 <td><s><code>ISolveRouteRequestOptions</code></s></td>
 <td><code>ISolveRouteOptions</code></td>
+</tr>
+<tr>
+<td><s><code>IEditFeaturesParams</code></s></td>
+<td><code>ISharedEditOptions</code></td>
+</tr>
+<tr>
+<td><s><code>IQueryFeaturesParams</code></s></td>
+<td><code>ISharedQueryOptions</code></td>
 </tr>
 <tr>
 <td><s><code>IQueryFeaturesRequestOptions</code></s></td>
