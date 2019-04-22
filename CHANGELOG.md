@@ -39,10 +39,11 @@ This new package contains the methods previously found in `@esri/arcgis-rest-ite
    * `createItem` and `updateItem` now support binary item `/data`.
 
 * Breaking Changes
-   *
    * **group**: The signatures of `searchGroups` and `searchItems` now match, making use of `SearchQueryBuilder` instead of a searchForm. [`72f28985`](https://github.com/Esri/arcgis-rest-js/commit/72f28985bde12b44cca0180dd52e33f660f2ad9a) [#104](https://github.com/Esri/arcgis-rest-js/issues/104)
    * `createItemInFolder` now expects a `folderId` (instead of `folder`).
    * The signature of `getItemResources` has been updated (for consistency with the rest of `rest-js`.
+   * **portal interfaces**: request/response interfaces have been renamed to match their functions [`faa5b3dd`](https://github.com/Esri/arcgis-rest-js/commit/faa5b3dd5b51800db4931735f05a367c8fcd42e2)
+   * The method `addItemJsonData` has been deprecated. `addItemData` (and other methods now handle _both_ binary files and object literals.
    * **portal interfaces**: request/response interfaces have been renamed to match their functions [`faa5b3dd`](https://github.com/Esri/arcgis-rest-js/commit/faa5b3dd5b51800db4931735f05a367c8fcd42e2)
 
 ### @esri/arcgis-rest-feature-layer
