@@ -8,7 +8,7 @@ group: 1-get-started
 
 # What's new in `v2.0.0?`
 
-Our family of users and contributors [has grown (a lot!)](https://github.com/Esri/arcgis-rest-js/blob/master/docs/FAQ.md#who-is-using-these-packages) since our first release so we decided to rollup our sleeves (groan) and overhaul the API. Our goals were to:
+Our family of users and contributors has grown [(a lot!)](https://github.com/Esri/arcgis-rest-js/blob/master/docs/FAQ.md#who-is-using-these-packages) since our first release so we decided to rollup our sleeves (groan) and overhaul the API. Our goals were to:
 
 1. Make ArcGIS REST JS as consistent (and simple) as possible
 2. Introduce building blocks for compositional/fluent APIs
@@ -16,13 +16,7 @@ Our family of users and contributors [has grown (a lot!)](https://github.com/Esr
 
 ## Fluent APIs
 
-In `v2.0.0` we introduced a new class called `SearchQueryBuilder` to help compose complex parameters.
-
-```ts
-import { searchItems } from "@esri/arcgis-rest-items";
-
-searchItems({ q: "Trees AND owner:US Forest Service" })
-```
+In [`v2.0.0`](https://github.com/Esri/arcgis-rest-js/releases/v2.0.0) we introduced a new class called [`SearchQueryBuilder`](../../api/portal/SearchQueryBuilder/) to help compose complex parameters.
 
 ```ts
 import { searchItems, SearchQueryBuilder } from "@esri/arcgis-rest-portal";
@@ -31,7 +25,8 @@ const q = new SearchQueryBuilder()
   .match("Trees")
   .and()
   .match("US Forest Service")
-  .in("owner");
+  .in("owner")
+  .and()
   .startGroup()
    .match("Web Mapping Application")
    .in("type")
@@ -40,15 +35,15 @@ const q = new SearchQueryBuilder()
    .in("type")
  .endGroup()
 
-// "owner: US Forest Service AND (type: "Web Mapping Application" OR type: "Mobile Application")"
+// "Trees AND owner: US Forest Service AND (type: "Web Mapping Application" OR type: "Mobile Application")"
 searchItems({ q })
 ```
 
-Currently only `searchItems()` and `searchGroups()` accept `SearchQueryBuilder` as an input, but we've included building blocks (groan) to create additional implementations as well.
+Currently only [`searchItems()`](../../api/portal/searchItems/) and [`searchGroups()`](../../api/portal/searchGroups/) accept `SearchQueryBuilder` as an input, but we've included building blocks (groan) to create additional implementations as well.
 
 ## Paging
 
-The promises returned by `searchItems()` and `searchGroups()` also got a handy new `nextPage()` method to make it easier to sift through paginated results.
+The promises returned by [`searchItems()`](../../api/portal/searchItems/) and [`searchGroups()`](../../api/portal/searchGroups/) also got a handy new [`nextPage()`](../../api/portal/searchItems/#nextPage) method to make it easier to sift through paginated results.
 
 ```ts
 searchItems({ q })
@@ -64,9 +59,9 @@ searchItems({ q })
 
 We added two new methods to `@esri/arcgis-rest-request` as helpers for passing repeat options through.
 
-### `setDefaultOptions()`
+### [`setDefaultRequestOptions()`](../../api/request/setDefaultRequestOptions/)
 
-Now, if you want to ensure that _all_ requests include a custom option, you can use `setDefaultOptions()`.
+Now, if you want to ensure that _all_ requests include a custom option, you can use `setDefaultRequestOptions()`.
 
 ```ts
 import { request, setDefaultRequestOptions } from "@esri/arcgis-rest-request";
@@ -83,7 +78,7 @@ request(url)
 
 You should _not_ pass `authentication` to this method if your code runs in a shared environment like a web server that handles requests for more than one user.
 
-### `withOptions()`
+### [`withOptions()`](../../api/request/withOptions/)
 
 If you'd like to selectively append common options to _a specific method_, you can use the new `withOptions()` method.
 
@@ -107,7 +102,7 @@ In order to make the API more consistent and a little easier to navigate, we had
 
 #### One `portal` package to rule them all (even for ArcGIS Online)
 
-We consolidated four existing packages into a new one called `@esri/arcgis-rest-portal`. Whether you want to talk to ArcGIS Online _or_ Enterprise, now you'll do this:
+We consolidated four existing packages into a new one called [`@esri/arcgis-rest-portal`](../../api/portal/). Whether you want to talk to ArcGIS Online _or_ Enterprise, now you'll do this:
 ```bash
 # new
 npm install @esri/arcgis-rest-portal
@@ -137,7 +132,7 @@ The table below lists methods in this package that have been deprecated, given a
 
 #### `@esri/arcgis-rest-request`
 
-The only breaking changes we made to `request` were to refactor an internal method and move a couple others over to the new `portal` package.
+The only breaking changes we made to `request` were to refactor an internal method and move a couple others into the new [`portal`](../../api/portal/) package.
 
 | Old | New | Package Name |
 | -- | -- | -- |
