@@ -3,7 +3,11 @@ require("isomorphic-form-data");
 const prompts = require("prompts");
 const chalk = require("chalk");
 const { UserSession } = require("@esri/arcgis-rest-auth");
-const { searchItems, removeItem } = require("@esri/arcgis-rest-portal");
+const {
+  searchItems,
+  removeItem,
+  SearchQueryBuilder
+} = require("@esri/arcgis-rest-portal");
 
 // 1. Promt the user for sign in. Create a `UserSession`
 authenticate()
@@ -99,37 +103,48 @@ function searchForItems(session) {
   return prompts(searchPrompts).then(
     //use ES2015 destructuring so we don't make any extra variables
     ({ searchText, itemTypes, itemTags, number }) => {
+      const query = new SearchQueryBuilder()
+        .match(session.username)
+        .in("owner");
+
       // format the search query for the item owner
       const owner = `owner:${session.username}`;
 
       // format the search query for the search text
-      const search = searchText.length
-        ? `(${searchText} OR ${searchText}*)`
-        : undefined;
+      if (searchText.length) {
+        query.and().match(searchText);
+      }
 
       // format the search query for item types
-      const types = itemTypes
-        .filter(type => type.length) // remove empty inputs
-        .map(type => `type: "${type}"`)
-        .join(" OR ");
+      const types = itemTypes.filter(type => type.length);
+
+      // format the search query for item types
+      if (types.length) {
+        query.and().startGroup();
+        types.forEach((type, index, types) => {
+          query.match(type).in("type");
+          if (index !== types.length - 1) {
+            query.or();
+          }
+        });
+        query.endGroup();
+      }
 
       // format the search query for item tags
-      const tags = itemTags
-        .filter(tag => tag.length) // remove empty inputs
-        .map(tag => `tags: "${tag}"`)
-        .join(" OR ");
+      const tags = itemTags.filter(tag => tag.length);
 
-      // format the entire query
-      const query = [
-        owner,
-        search,
-        types.length ? `(${types})` : undefined, // wrap type in ()
-        tags.length ? `(${tags})` : undefined // warp tags in ()
-      ]
-        .filter(segment => !!segment) // remove empty param segments
-        .join(" AND "); // items must meet all of thes criteria
+      if (tags.length) {
+        query.and().startGroup();
+        tags.forEach((tag, index, tags) => {
+          query.match(tag).in("tags");
+          if (index !== tags.length - 1) {
+            query.or();
+          }
+        });
+        query.endGroup();
+      }
 
-      console.log(chalk.blue(`Searching ArcGIS Online: ${query}`));
+      console.log(chalk.blue(`Searching ArcGIS Online: ${query.toParam()}`));
 
       return searchItems({
         authentication: session,
