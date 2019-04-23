@@ -32,7 +32,7 @@ REST JS is trusted in ArcGIS applications serving **many** thousands of users.
 And since its on GitHub, Esri developers are _far_ from the only ones using ArcGIS REST JS. Besides the usual culprits, we've seen the library running in:
 
 * [Chrome Extensions](https://chrome.google.com/webstore/detail/echo-for-arcgis/mkeckgendkgcofhhenfkknonnkoboobm?hl=en-US)
-* [Lamda Functions](https://medium.com/@adamjpfister/know-your-apis-6dc6ea3d084c)
+* [Lambda Functions](https://medium.com/@adamjpfister/know-your-apis-6dc6ea3d084c)
 * [Web Components](https://github.com/esridc/hub-components)
 * [React Components](https://twitter.com/oppoudel/status/1022209378378805249)
 * [Observable](https://observablehq.com/@jgravois/introduction-to-esri-arcgis-rest-js)
