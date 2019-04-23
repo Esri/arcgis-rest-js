@@ -23,4 +23,5 @@ export interface ISearchResult<T extends IItem | IGroup> {
   nextStart: number;
   results: T[];
   nextPage?: () => Promise<ISearchResult<T>>;
+  aggregations?: { counts: any };
 }
