@@ -9,16 +9,12 @@ const version = require(join(process.cwd(), "lerna.json")).version;
 
 const packages = [
   "auth",
-  "common",
-  "feature-service",
-  "feature-service-admin",
-  "geocoder",
-  "groups",
-  "items",
+  "feature-layer",
+  "geocoding",
+  "portal",
   "request",
   "routing",
-  "sharing",
-  "users"
+  "service-admin"
 ];
 
 const promises = [];
