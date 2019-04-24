@@ -137,9 +137,10 @@ export class SearchQueryBuilder implements IParamBuilder {
       );
       return this;
     }
+    this.commit();
     this.openGroups--;
     this.q += ")";
-    return this.commit();
+    return this;
   }
 
   /**

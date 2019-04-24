@@ -16,7 +16,7 @@ describe("SearchQueryBuilder", () => {
     console.warn = originalWarn;
   });
 
-  it("should return and empty string when called with no other functions", () => {
+  it("should return an empty string when called with no other functions", () => {
     const query = new SearchQueryBuilder().toParam();
     expect(query).toEqual("");
   });
@@ -84,6 +84,19 @@ describe("SearchQueryBuilder", () => {
       .endGroup()
       .toParam();
     expect(query).toEqual("(title:[a TO z])");
+  });
+
+  it("should format a more complex group", () => {
+    const query = new SearchQueryBuilder()
+      .startGroup()
+      .match("California")
+      .or()
+      .match("recent")
+      .endGroup()
+      .and()
+      .match("fires")
+      .toParam();
+    expect(query).toEqual("(California OR recent) AND fires");
   });
 
   it("should boost the previous search", () => {
