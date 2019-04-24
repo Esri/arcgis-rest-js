@@ -223,7 +223,7 @@ module.exports = function(acetate) {
       }/dist/umd/${package.name.replace(
         "@esri/arcgis-rest-",
         ""
-      )}.umd.min.js">{% endhighlight %}`
+      )}.umd.min.js"></script>{% endhighlight %}`
     );
   });
 
