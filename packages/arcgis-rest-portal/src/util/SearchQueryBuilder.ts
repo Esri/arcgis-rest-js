@@ -27,7 +27,7 @@ import { IParamBuilder, warn } from "@esri/arcgis-rest-request";
  *
  * Will search for items matching
  * ```
- * "owner: Patrick AND (type: "Web Mapping Application" OR type: "Mobile Application" OR type: Application) AND Demo App"
+ * "owner: Patrick AND (type:"Web Mapping Application" OR type:"Mobile Application" OR type:Application) AND Demo App"
  * ```
  */
 export class SearchQueryBuilder implements IParamBuilder {
@@ -82,7 +82,7 @@ export class SearchQueryBuilder implements IParamBuilder {
     }
 
     if (field && field !== "*") {
-      this.q += `${field}: `;
+      this.q += `${field}:`;
     }
 
     return this.commit();

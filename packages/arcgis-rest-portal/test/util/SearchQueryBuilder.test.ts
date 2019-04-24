@@ -31,7 +31,7 @@ describe("SearchQueryBuilder", () => {
       .match("test")
       .in("tags")
       .toParam();
-    expect(query).toEqual("tags: test");
+    expect(query).toEqual("tags:test");
   });
 
   it("should warp multi word search terms in quotes", () => {
@@ -63,7 +63,7 @@ describe("SearchQueryBuilder", () => {
       .in("tags")
       .toParam();
 
-    expect(query).toEqual("bar AND tags: foo");
+    expect(query).toEqual("bar AND tags:foo");
   });
 
   it("should format a simple range", () => {
@@ -72,7 +72,7 @@ describe("SearchQueryBuilder", () => {
       .to("z")
       .in("title")
       .toParam();
-    expect(query).toEqual("title: [a TO z]");
+    expect(query).toEqual("title:[a TO z]");
   });
 
   it("should format a simple group", () => {
@@ -83,7 +83,7 @@ describe("SearchQueryBuilder", () => {
       .in("title")
       .endGroup()
       .toParam();
-    expect(query).toEqual("(title: [a TO z])");
+    expect(query).toEqual("(title:[a TO z])");
   });
 
   it("should boost the previous search", () => {
@@ -110,7 +110,7 @@ describe("SearchQueryBuilder", () => {
       .toParam();
 
     expect(query).toEqual(
-      `created: [${expectedDate1} TO ${expectedDate2}] AND tags: test`
+      `created:[${expectedDate1} TO ${expectedDate2}] AND tags:test`
     );
   });
 
@@ -135,7 +135,7 @@ describe("SearchQueryBuilder", () => {
       .toParam();
 
     expect(query).toEqual(
-      `owner: fred AND (type: "Web Mapping Application" OR type: "Mobile Application" OR type: Application) AND test`
+      `owner:fred AND (type:"Web Mapping Application" OR type:"Mobile Application" OR type:Application) AND test`
     );
   });
 
@@ -162,11 +162,11 @@ describe("SearchQueryBuilder", () => {
       .in("*");
 
     expect(myAppsQuery.toParam()).toEqual(
-      `owner: fred AND (type: "Web Mapping Application" OR type: "Mobile Application" OR type: Application)`
+      `owner:fred AND (type:"Web Mapping Application" OR type:"Mobile Application" OR type:Application)`
     );
 
     expect(myTestAppsQuery.toParam()).toEqual(
-      `owner: fred AND (type: "Web Mapping Application" OR type: "Mobile Application" OR type: Application) AND test`
+      `owner:fred AND (type:"Web Mapping Application" OR type:"Mobile Application" OR type:Application) AND test`
     );
   });
 
@@ -296,7 +296,7 @@ describe("SearchQueryBuilder", () => {
       .toParam();
 
     expect(console.warn).toHaveBeenCalled();
-    expect(query).toEqual("title: a");
+    expect(query).toEqual("title:a");
   });
 
   it("should not allow .match().from().in(), and warn user", () => {
@@ -307,7 +307,7 @@ describe("SearchQueryBuilder", () => {
       .toParam();
 
     expect(console.warn).toHaveBeenCalled();
-    expect(query).toEqual("title: test");
+    expect(query).toEqual("title:test");
   });
 
   it("should", () => {

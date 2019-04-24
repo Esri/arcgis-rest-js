@@ -33,7 +33,7 @@ describe("search", () => {
 
   it("should make a simple, single search request with a builder", done => {
     fetchMock.once("*", SearchResponse);
-    const expectedParam = "DC AND typekeywords: hubSiteApplication";
+    const expectedParam = "DC AND typekeywords:hubSiteApplication";
     const q = new SearchQueryBuilder()
       .match("DC")
       .and()
@@ -108,7 +108,7 @@ describe("search", () => {
 
   it("should pass through other requestOptions at the same time with a builder", done => {
     fetchMock.once("*", SearchResponse);
-    const expectedParam = "DC AND typekeywords: hubSiteApplication";
+    const expectedParam = "DC AND typekeywords:hubSiteApplication";
     const q = new SearchQueryBuilder()
       .match("DC")
       .and()

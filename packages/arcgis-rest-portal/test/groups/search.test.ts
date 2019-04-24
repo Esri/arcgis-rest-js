@@ -55,7 +55,7 @@ describe("groups", () => {
 
   it("should make a simple, single search request with a builder", done => {
     fetchMock.once("*", GroupSearchResponse);
-    const expectedParam = "Trees AND owner: USFS";
+    const expectedParam = "Trees AND owner:USFS";
     const q = new SearchQueryBuilder()
       .match("Trees")
       .and()
