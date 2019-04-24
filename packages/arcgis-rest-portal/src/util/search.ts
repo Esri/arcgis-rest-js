@@ -23,5 +23,16 @@ export interface ISearchResult<T extends IItem | IGroup> {
   nextStart: number;
   results: T[];
   nextPage?: () => Promise<ISearchResult<T>>;
-  aggregations?: { counts: any[] };
+  /**
+   * Aggregations will only be present on item searches when [`fieldCounts`](https://developers.arcgis.com/rest/users-groups-and-items/search.htm#GUID-1C625F8A-4A12-45BB-B537-74C82315759A) are requested.
+   */
+  aggregations?: {
+    counts: {
+      fieldName: string;
+      fieldValues: Array<{
+        value: any;
+        count: number;
+      }>;
+    };
+  };
 }
