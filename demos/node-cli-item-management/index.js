@@ -107,9 +107,6 @@ function searchForItems(session) {
         .match(session.username)
         .in("owner");
 
-      // format the search query for the item owner
-      const owner = `owner:${session.username}`;
-
       // format the search query for the search text
       if (searchText.length) {
         query.and().match(searchText);
@@ -144,14 +141,10 @@ function searchForItems(session) {
         query.endGroup();
       }
 
-      console.log(chalk.blue(`Searching ArcGIS Online: ${query.toParam()}`));
-
       return searchItems({
         authentication: session,
-        searchForm: {
-          q: query, // issue with ideas for improving building query params https://github.com/Esri/arcgis-rest-js/issues/384
-          num: number
-        }
+        q: query,
+        num: number
       }).then(response => {
         return { response, session };
       });
