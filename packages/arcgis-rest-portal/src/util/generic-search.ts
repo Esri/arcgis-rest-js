@@ -28,7 +28,7 @@ export function genericSearch<T extends IItem | IGroup>(
   } else {
     options = appendCustomParams<ISearchOptions>(
       search,
-      ["q", "num", "start", "sortField", "sortDir", "sortOrder"],
+      ["q", "num", "start", "sortField", "sortOrder"],
       {
         httpMethod: "GET"
       }

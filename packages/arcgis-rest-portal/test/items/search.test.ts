@@ -56,7 +56,7 @@ describe("search", () => {
       });
   });
 
-  it("should take num, start, sortField, sortDir and construct the request", done => {
+  it("should take num, start, sortField, sortOrder and construct the request", done => {
     fetchMock.once("*", SearchResponse);
 
     searchItems({
@@ -64,13 +64,13 @@ describe("search", () => {
       num: 12,
       start: 22,
       sortField: "title",
-      sortDir: "desc"
+      sortOrder: "desc"
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          "https://www.arcgis.com/sharing/rest/search?f=json&q=DC%20AND%20typekeywords%3AhubSiteApplication&num=12&start=22&sortField=title&sortDir=desc"
+          "https://www.arcgis.com/sharing/rest/search?f=json&q=DC%20AND%20typekeywords%3AhubSiteApplication&num=12&start=22&sortField=title&sortOrder=desc"
         );
         expect(options.method).toBe("GET");
         done();
@@ -88,7 +88,7 @@ describe("search", () => {
       num: 12,
       start: 22,
       sortField: "title",
-      sortDir: "desc",
+      sortOrder: "desc",
       httpMethod: "POST"
     })
       .then(() => {
@@ -96,7 +96,7 @@ describe("search", () => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/search");
         expect(options.body).toContain(
-          "q=DC%20AND%20typekeywords%3AhubSiteApplication&num=12&start=22&sortField=title&sortDir=desc"
+          "q=DC%20AND%20typekeywords%3AhubSiteApplication&num=12&start=22&sortField=title&sortOrder=desc"
         );
         expect(options.method).toBe("POST");
         done();
@@ -119,7 +119,7 @@ describe("search", () => {
       num: 12,
       start: 22,
       sortField: "title",
-      sortDir: "desc",
+      sortOrder: "desc",
 
       httpMethod: "POST"
     })
@@ -144,7 +144,7 @@ describe("search", () => {
       num: 12,
       start: 22,
       sortField: "title",
-      sortDir: "desc",
+      sortOrder: "desc",
       params: {
         foo: "bar"
       }
@@ -153,7 +153,7 @@ describe("search", () => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          "https://www.arcgis.com/sharing/rest/search?f=json&foo=bar&q=DC%20AND%20typekeywords%3AhubSiteApplication&num=12&start=22&sortField=title&sortDir=desc"
+          "https://www.arcgis.com/sharing/rest/search?f=json&foo=bar&q=DC%20AND%20typekeywords%3AhubSiteApplication&num=12&start=22&sortField=title&sortOrder=desc"
         );
         expect(options.method).toBe("GET");
         done();
