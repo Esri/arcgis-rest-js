@@ -152,6 +152,19 @@ describe("SearchQueryBuilder", () => {
     );
   });
 
+  it("should allow .not to be called without a preceding search value", () => {
+    const query = new SearchQueryBuilder()
+      .not()
+      .match("public")
+      .in("access")
+      .not()
+      .match("code attachment")
+      .in("type")
+      .toParam();
+
+    expect(query).toEqual(`NOT access:public NOT type:"code attachment"`);
+  });
+
   it("should clone searches for modification", () => {
     const myAppsQuery = new SearchQueryBuilder()
       .match("fred")
@@ -195,10 +208,7 @@ describe("SearchQueryBuilder", () => {
 
   it("should not allow chains of logic modifiers, and warn user", () => {
     const query = new SearchQueryBuilder()
-      .not()
       .and()
-      .or()
-      .not()
       .or()
       .or()
       .toParam();
@@ -323,7 +333,7 @@ describe("SearchQueryBuilder", () => {
     expect(query).toEqual("title:test");
   });
 
-  it("should", () => {
+  it("should produce an empty string when no methods are called", () => {
     const query = new SearchQueryBuilder().toParam();
     expect(query).toEqual("");
   });

@@ -176,15 +176,19 @@ export class SearchQueryBuilder implements IParamBuilder {
   }
 
   /**
-   * Joins two sets of queries with a `NOT` clause.
+   * Joins two sets of queries with a `NOT` clause. Another option for filtering results is the [prohibit operator '-'](https://developers.arcgis.com/rest/users-groups-and-items/search-reference.htm#ESRI_SECTION1_5C6C35DB9E4A4F4492C5B937BDA2BF67).
    *
    * ```js
+   * // omit results with "Rivers" in their title
    * const query = new SearchQueryBuilder()
-   *   .match("Water")
-   *   .in("title")
    *   .not()
    *   .match("Rivers")
    *   .in("title")
+   *
+   * // equivalent
+   * const query = new SearchQueryBuilder()
+   *   .match("Rivers")
+   *   .in("-title")
    * ```
    */
   public not(this: SearchQueryBuilder) {
@@ -283,7 +287,7 @@ export class SearchQueryBuilder implements IParamBuilder {
 
     this.commit();
 
-    if (this.q === "") {
+    if (this.q === "" && modifier !== "not") {
       warn(
         `You have called \`${modifier}()\` without calling another method to modify your query first. Try calling \`match()\` first.`
       );
@@ -291,7 +295,8 @@ export class SearchQueryBuilder implements IParamBuilder {
     }
 
     this.currentModifer = modifier;
-    this.q += ` ${modifier.toUpperCase()} `;
+    this.q += this.q === "" ? "" : " ";
+    this.q += `${modifier.toUpperCase()} `;
     return this;
   }
 
