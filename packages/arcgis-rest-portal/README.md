@@ -8,7 +8,7 @@
 [npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-portal
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
-[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-portal/dist/umd/items.umd.min.js?compression=gzip
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-portal/dist/umd/portal.umd.min.js?compression=gzip
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
