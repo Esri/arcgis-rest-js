@@ -1,8 +1,4 @@
 {
   "version": "2.0.0",
-  "packages": {
-    "@esri/arcgis-rest-auth": "sha384-oDD5I3Ocoqeo/1R4yPd54SMbFpkguv9alfmb8bL5ttiICTtn7x+b2YOCPg4BUDGF",
-    "@esri/arcgis-rest-request": "sha384-26UE8//evyvwlFqApBHXhnBzIyHbiNcrkVi9VbbZowhLnA0+dzKBsX/IggBzmrYx",
-    "@esri/arcgis-rest-routing": "sha384-ZgDXZ3VtE20AM+gW+cFHIwGS0cyhVKtOfaZ8dHS00AE79gZgPw6D6vLD9I5LrBNZ"
-  }
+  "packages": {}
 }

@@ -1,4 +1,4 @@
-import typescript from "rollup-plugin-typescript";
+import typescript2 from "rollup-plugin-typescript2";
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import json from "rollup-plugin-json";
@@ -42,10 +42,7 @@ const packageNames = fs
   .readdirSync(path.join(__dirname, "packages"))
   .filter(p => p[0] !== ".")
   .map(p => {
-    // common methods should be bundled in each umd, all other dependencies are treated as external.
-    if (p !== "arcgis-rest-common") {
-      return require(path.join(__dirname, "packages", p, "package.json")).name;
-    }
+    return require(path.join(__dirname, "packages", p, "package.json")).name;
   }, {});
 
 /**
@@ -75,5 +72,10 @@ export default {
   },
   context: "window",
   external: packageNames,
-  plugins: [typescript(), json(), resolve(), commonjs()]
+  plugins: [
+    typescript2(),
+    json(),
+    resolve(),
+    commonjs()
+  ]
 };
