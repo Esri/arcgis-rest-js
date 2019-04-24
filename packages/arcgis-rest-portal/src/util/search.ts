@@ -8,7 +8,7 @@ import { SearchQueryBuilder } from "./SearchQueryBuilder";
 export interface ISearchOptions extends IRequestOptions, IPagingParams {
   q: string | SearchQueryBuilder;
   sortField?: string;
-  sortDir?: string;
+  sortOrder?: string;
   [key: string]: any;
 }
 
