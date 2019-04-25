@@ -16,7 +16,7 @@ describe("SearchQueryBuilder", () => {
     console.warn = originalWarn;
   });
 
-  it("should return and empty string when called with no other functions", () => {
+  it("should return an empty string when called with no other functions", () => {
     const query = new SearchQueryBuilder().toParam();
     expect(query).toEqual("");
   });
@@ -31,7 +31,7 @@ describe("SearchQueryBuilder", () => {
       .match("test")
       .in("tags")
       .toParam();
-    expect(query).toEqual("tags: test");
+    expect(query).toEqual("tags:test");
   });
 
   it("should warp multi word search terms in quotes", () => {
@@ -63,7 +63,7 @@ describe("SearchQueryBuilder", () => {
       .in("tags")
       .toParam();
 
-    expect(query).toEqual("bar AND tags: foo");
+    expect(query).toEqual("bar AND tags:foo");
   });
 
   it("should format a simple range", () => {
@@ -72,7 +72,7 @@ describe("SearchQueryBuilder", () => {
       .to("z")
       .in("title")
       .toParam();
-    expect(query).toEqual("title: [a TO z]");
+    expect(query).toEqual("title:[a TO z]");
   });
 
   it("should format a simple group", () => {
@@ -83,7 +83,20 @@ describe("SearchQueryBuilder", () => {
       .in("title")
       .endGroup()
       .toParam();
-    expect(query).toEqual("(title: [a TO z])");
+    expect(query).toEqual("(title:[a TO z])");
+  });
+
+  it("should format a more complex group", () => {
+    const query = new SearchQueryBuilder()
+      .startGroup()
+      .match("California")
+      .or()
+      .match("recent")
+      .endGroup()
+      .and()
+      .match("fires")
+      .toParam();
+    expect(query).toEqual("(California OR recent) AND fires");
   });
 
   it("should boost the previous search", () => {
@@ -110,7 +123,7 @@ describe("SearchQueryBuilder", () => {
       .toParam();
 
     expect(query).toEqual(
-      `created: [${expectedDate1} TO ${expectedDate2}] AND tags: test`
+      `created:[${expectedDate1} TO ${expectedDate2}] AND tags:test`
     );
   });
 
@@ -135,8 +148,21 @@ describe("SearchQueryBuilder", () => {
       .toParam();
 
     expect(query).toEqual(
-      `owner: fred AND (type: "Web Mapping Application" OR type: "Mobile Application" OR type: Application) AND test`
+      `owner:fred AND (type:"Web Mapping Application" OR type:"Mobile Application" OR type:Application) AND test`
     );
+  });
+
+  it("should allow .not to be called without a preceding search value", () => {
+    const query = new SearchQueryBuilder()
+      .not()
+      .match("public")
+      .in("access")
+      .not()
+      .match("code attachment")
+      .in("type")
+      .toParam();
+
+    expect(query).toEqual(`NOT access:public NOT type:"code attachment"`);
   });
 
   it("should clone searches for modification", () => {
@@ -162,11 +188,11 @@ describe("SearchQueryBuilder", () => {
       .in("*");
 
     expect(myAppsQuery.toParam()).toEqual(
-      `owner: fred AND (type: "Web Mapping Application" OR type: "Mobile Application" OR type: Application)`
+      `owner:fred AND (type:"Web Mapping Application" OR type:"Mobile Application" OR type:Application)`
     );
 
     expect(myTestAppsQuery.toParam()).toEqual(
-      `owner: fred AND (type: "Web Mapping Application" OR type: "Mobile Application" OR type: Application) AND test`
+      `owner:fred AND (type:"Web Mapping Application" OR type:"Mobile Application" OR type:Application) AND test`
     );
   });
 
@@ -182,10 +208,7 @@ describe("SearchQueryBuilder", () => {
 
   it("should not allow chains of logic modifiers, and warn user", () => {
     const query = new SearchQueryBuilder()
-      .not()
       .and()
-      .or()
-      .not()
       .or()
       .or()
       .toParam();
@@ -296,7 +319,7 @@ describe("SearchQueryBuilder", () => {
       .toParam();
 
     expect(console.warn).toHaveBeenCalled();
-    expect(query).toEqual("title: a");
+    expect(query).toEqual("title:a");
   });
 
   it("should not allow .match().from().in(), and warn user", () => {
@@ -307,10 +330,10 @@ describe("SearchQueryBuilder", () => {
       .toParam();
 
     expect(console.warn).toHaveBeenCalled();
-    expect(query).toEqual("title: test");
+    expect(query).toEqual("title:test");
   });
 
-  it("should", () => {
+  it("should produce an empty string when no methods are called", () => {
     const query = new SearchQueryBuilder().toParam();
     expect(query).toEqual("");
   });
