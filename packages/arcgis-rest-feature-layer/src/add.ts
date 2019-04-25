@@ -42,7 +42,7 @@ export interface IAddFeaturesOptions extends ISharedEditOptions {
  */
 export function addFeatures(
   requestOptions: IAddFeaturesOptions
-): Promise<{ addResults?: IEditFeatureResult[] }> {
+): Promise<{ addResults: IEditFeatureResult[] }> {
   const url = `${cleanUrl(requestOptions.url)}/addFeatures`;
 
   // edit operations are POST only

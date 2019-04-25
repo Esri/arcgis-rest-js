@@ -41,7 +41,7 @@ export interface IDeleteFeaturesOptions
  */
 export function deleteFeatures(
   requestOptions: IDeleteFeaturesOptions
-): Promise<{ deleteResults?: IEditFeatureResult[] }> {
+): Promise<{ deleteResults: IEditFeatureResult[] }> {
   const url = `${cleanUrl(requestOptions.url)}/deleteFeatures`;
 
   // edit operations POST only

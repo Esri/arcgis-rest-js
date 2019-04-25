@@ -12,6 +12,7 @@ export * from "./deleteAttachments";
 export * from "./queryRelated";
 export * from "./getLayer";
 export * from "./decodeValues";
+export * from "./helpers";
 export {
   IFeature,
   ISpatialReference,
