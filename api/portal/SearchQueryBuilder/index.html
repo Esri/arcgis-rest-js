@@ -1453,7 +1453,7 @@ searchItems(query).then(<span class="hljs-function">(<span class="hljs-params">r
 });
 </code></pre>
 <p>Will search for items matching</p>
-<pre><code><span class="hljs-string">"owner: Patrick AND (type: "</span><span class="hljs-variable">Web</span> <span class="hljs-variable">Mapping</span> <span class="hljs-variable"><span class="hljs-class">Application</span></span><span class="hljs-string">" OR type: "</span><span class="hljs-variable">Mobile</span> <span class="hljs-variable"><span class="hljs-class">Application</span></span><span class="hljs-string">" OR type: Application) AND Demo App"</span>
+<pre><code><span class="hljs-string">"owner: Patrick AND (type:"</span><span class="hljs-variable">Web</span> <span class="hljs-variable">Mapping</span> <span class="hljs-variable"><span class="hljs-class">Application</span></span><span class="hljs-string">" OR type:"</span><span class="hljs-variable">Mobile</span> <span class="hljs-variable"><span class="hljs-class">Application</span></span><span class="hljs-string">" OR type:Application) AND Demo App"</span>
 </code></pre>
 
 
@@ -1766,14 +1766,18 @@ searchItems(query).then(<span class="hljs-function">(<span class="hljs-params">r
             </td>
             <td class="code-face"><i><a href="/arcgis-rest-js/api/portal/SearchQueryBuilder/">SearchQueryBuilder</a></i></td>
             <td class="body-face api-param-comment">
-              <p>Joins two sets of queries with a <code>NOT</code> clause.</p>
+              <p>Joins two sets of queries with a <code>NOT</code> clause. Another option for filtering results is the <a href="https://developers.arcgis.com/rest/users-groups-and-items/search-reference.htm#ESRI_SECTION1_5C6C35DB9E4A4F4492C5B937BDA2BF67">prohibit operator '-'</a>.</p>
 
-              <pre><code class="js"><span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> SearchQueryBuilder()
-  .match(<span class="hljs-string">"Water"</span>)
-  .in(<span class="hljs-string">"title"</span>)
+              <pre><code class="js"><span class="hljs-comment">// omit results with "Rivers" in their title</span>
+<span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> SearchQueryBuilder()
   .not()
   .match(<span class="hljs-string">"Rivers"</span>)
   .in(<span class="hljs-string">"title"</span>)
+
+<span class="hljs-comment">// equivalent</span>
+<span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> SearchQueryBuilder()
+  .match(<span class="hljs-string">"Rivers"</span>)
+  .in(<span class="hljs-string">"-title"</span>)
 </code></pre>
 
             </td>
@@ -2548,7 +2552,7 @@ searchItems(query).then(<span class="hljs-function">(<span class="hljs-params">r
       <hr class="leader-half trailer-half">
 
       <div class="api-function-comment">
-        <p>Joins two sets of queries with a <code>NOT</code> clause.</p>
+        <p>Joins two sets of queries with a <code>NOT</code> clause. Another option for filtering results is the <a href="https://developers.arcgis.com/rest/users-groups-and-items/search-reference.htm#ESRI_SECTION1_5C6C35DB9E4A4F4492C5B937BDA2BF67">prohibit operator '-'</a>.</p>
 
       </div>
 
@@ -2571,12 +2575,16 @@ searchItems(query).then(<span class="hljs-function">(<span class="hljs-params">r
       
         <hr class="leader-half trailer-half">
 
-        <pre><code class="js"><span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> SearchQueryBuilder()
-  .match(<span class="hljs-string">"Water"</span>)
-  .in(<span class="hljs-string">"title"</span>)
+        <pre><code class="js"><span class="hljs-comment">// omit results with "Rivers" in their title</span>
+<span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> SearchQueryBuilder()
   .not()
   .match(<span class="hljs-string">"Rivers"</span>)
   .in(<span class="hljs-string">"title"</span>)
+
+<span class="hljs-comment">// equivalent</span>
+<span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> SearchQueryBuilder()
+  .match(<span class="hljs-string">"Rivers"</span>)
+  .in(<span class="hljs-string">"-title"</span>)
 </code></pre>
 
       
