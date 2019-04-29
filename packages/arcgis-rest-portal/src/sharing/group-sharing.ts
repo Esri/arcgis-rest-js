@@ -25,7 +25,10 @@ interface IGroupSharingUnsharingOptions extends IGroupSharingOptions {
  *   authentication
  * })
  * ```
- * Share an item with a group, either as an [item owner](https://developers.arcgis.com/rest/users-groups-and-items/share-item-as-item-owner-.htm), [group admin]((https://developers.arcgis.com/rest/users-groups-and-items/share-item-as-group-admin-.htm)) or organization admin.
+ * Share an item with a group, either as an
+ * [item owner](https://developers.arcgis.com/rest/users-groups-and-items/share-item-as-item-owner-.htm),
+ * [group admin](https://developers.arcgis.com/rest/users-groups-and-items/share-item-as-group-admin-.htm) or
+ * organization admin.
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the data from the response.
@@ -37,7 +40,10 @@ export function shareItemWithGroup(
 }
 
 /**
- * Stop sharing an item with a group, either as an [item owner](https://developers.arcgis.com/rest/users-groups-and-items/unshare-item-as-item-owner-.htm), [group admin]((https://developers.arcgis.com/rest/users-groups-and-items/unshare-item-as-group-admin-.htm)) or organization admin.
+ * Stop sharing an item with a group, either as an
+ * [item owner](https://developers.arcgis.com/rest/users-groups-and-items/unshare-item-as-item-owner-.htm),
+ * [group admin](https://developers.arcgis.com/rest/users-groups-and-items/unshare-item-as-group-admin-.htm) or
+ * organization admin.
  *
  * ```js
  * import { unshareItemWithGroup } from '@esri/arcgis-rest-portal';
