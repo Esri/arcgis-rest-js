@@ -39,7 +39,8 @@ interface IDeferred<T> {
 export type AuthenticationProvider = "arcgis" | "facebook" | "google";
 
 /**
- * Represents a [credential]((https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-Credential.html)) object used to access a secure ArcGIS resource.
+ * Represents a [credential](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-Credential.html)
+ * object used to access a secure ArcGIS resource.
  */
 export interface ICredential {
   expires: number;
