@@ -6,6 +6,7 @@ import { encodeQueryString } from "./utils/encode-query-string";
 import { requiresFormData } from "./utils/process-params";
 import { checkForErrors } from "./utils/check-for-errors";
 import { ArcGISRequestError } from "./utils/ArcGISRequestError";
+import { ArcGISAuthError } from "./utils/ArcGISAuthError";
 import { IRequestOptions } from "./utils/IRequestOptions";
 import { IParams } from "./utils/IParams";
 import { warn } from "./utils/warn";
@@ -130,6 +131,8 @@ export function request(
     ...options.params
   };
 
+  let originalAuthError: ArcGISAuthError = null;
+
   const fetchOptions: RequestInit = {
     method: httpMethod,
     /* ensures behavior mimics XMLHttpRequest.
@@ -139,11 +142,20 @@ export function request(
 
   return (authentication
     ? authentication.getToken(url, { fetch: options.fetch }).catch(err => {
-        /* if necessary, append original request url and
-         requestOptions to the error thrown by getToken() */
+        /**
+         * append original request url and requestOptions
+         * to the error thrown by getToken()
+         * to assist with retrying
+         */
         err.url = url;
         err.options = options;
-        throw err;
+        /**
+         * if an attempt is made to talk to an unfederated server
+         * first try the request anonymously. if a 'token required'
+         * error is thrown, throw the UNFEDERATED error then.
+         */
+        originalAuthError = err;
+        return Promise.resolve("");
       })
     : Promise.resolve("")
   )
@@ -230,7 +242,7 @@ export function request(
     })
     .then(data => {
       if ((params.f === "json" || params.f === "geojson") && !rawResponse) {
-        return checkForErrors(data, url, params, options);
+        return checkForErrors(data, url, params, options, originalAuthError);
       } else {
         return data;
       }
