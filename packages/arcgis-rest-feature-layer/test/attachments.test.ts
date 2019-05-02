@@ -45,8 +45,7 @@ describe("attachment methods", () => {
       featureId: 42,
       params: {
         gdbVersion: "SDE.DEFAULT"
-      },
-      httpMethod: "GET"
+      }
     } as IGetAttachmentsOptions;
     fetchMock.once("*", getAttachmentsResponse);
     getAttachments(requestOptions)
