@@ -120,15 +120,15 @@ The table below lists methods in this package that have been deprecated, given a
 | Old | New | Package
 | -- | -- | -- |
 | ~~`serializeGroup()`~~ |  | ~~`groups`~~ |
-| ~~`addItemJsonData()`~~ | `addItemData()` | ~~`items`~~ |
-| ~~`createItemInFolder({ folder })`~~ | `createItemInFolder({ folderId })` | ~~`items`~~ `portal` |
-| ~~`searchItems( string|opts )`~~ | `searchItems( string|opts|Builder )` | ~~`items`~~ `portal` |
-| ~~`searchGroups( form, opts )`~~ | `searchGroups( string|opts|Builder )` | ~~`groups`~~ `portal` |
-| ~~`getItemResources( opts )`~~ | `getItemResources( id, opts? )` | ~~`items`~~ `portal` |
-| `getUserUrl()` | `getUserUrl()` | ~~`auth`~~ `portal` |
-| `getPortalUrl()` | `getPortalUrl()` | ~~`request`~~ `portal` |
-| `getPortal()` | `getPortal()` | ~~`request`~~ `portal` |
-|  | `SearchQueryBuilder` | `portal` |
+| ~~`addItemJsonData()`~~ | [`addItemData()`](https://esri.github.io/arcgis-rest-js/api/portal/addItemData/) | ~~`items`~~ |
+| ~~`createItemInFolder({ folder })`~~ | [`createItemInFolder({ folderId })`](https://esri.github.io/arcgis-rest-js/api/portal/createItemInFolder/) | ~~`items`~~ `portal` |
+| ~~`searchItems( string|opts )`~~ | [`searchItems( string|opts|Builder )`](https://esri.github.io/arcgis-rest-js/api/portal/searchItems/) | ~~`items`~~ `portal` |
+| ~~`searchGroups( form, opts )`~~ | [`searchGroups( string|opts|Builder )`](https://esri.github.io/arcgis-rest-js/api/portal/searchGroups/) | ~~`groups`~~ `portal` |
+| ~~`getItemResources( opts )`~~ | [`getItemResources( id, opts? )`](https://esri.github.io/arcgis-rest-js/api/portal/getItemResources/) | ~~`items`~~ `portal` |
+| `getUserUrl()` | [`getUserUrl()`](https://esri.github.io/arcgis-rest-js/api/portal/getUserUrl/) | ~~`auth`~~ `portal` |
+| `getPortalUrl()` | [`getPortalUrl()`](https://esri.github.io/arcgis-rest-js/api/portal/getPortalUrl/) | ~~`request`~~ `portal` |
+| `getPortal()` | [`getPortal()`](https://esri.github.io/arcgis-rest-js/api/portal/getPortal/) | ~~`request`~~ `portal` |
+|  | [`SearchQueryBuilder`](https://esri.github.io/arcgis-rest-js/api/portal/SearchQueryBuilder/) | `portal` |
 
 #### `@esri/arcgis-rest-request`
 
@@ -136,8 +136,8 @@ The only breaking changes we made to `request` were to refactor an internal meth
 
 | Old | New | Package Name |
 | -- | -- | -- |
-| `getPortalUrl()` | `getPortalUrl()` | ~~`request`~~ `portal` |
-| `getPortal()` | `getPortal()` | ~~`request`~~ `portal` |
+| `getPortalUrl()` | [`getPortalUrl()`](https://esri.github.io/arcgis-rest-js/api/portal/getPortalUrl/) | ~~`request`~~ `portal` |
+| `getPortal()` | [`getPortal()`](https://esri.github.io/arcgis-rest-js/api/portal/getPortal/) | ~~`request`~~ `portal` |
 
 #### If you work with private services (shhhh)
 
@@ -145,7 +145,7 @@ We didn't make many changes in `@esri/arcgis-rest-auth`, but one method moved an
 
 | Old | New | Package Name |
 | -- | -- | -- |
-| `getUserUrl()` | `getUserUrl()` | ~~`auth`~~ `portal` |
+| `getUserUrl()` | [`getUserUrl()`](https://esri.github.io/arcgis-rest-js/api/portal/getUserUrl/) | ~~`auth`~~ `portal` |
 | `fetchToken(params|opts)` | `fetchToken(opts)` |
 | `generateToken(params|opts)` | `generateToken(opts)` |
 
@@ -155,7 +155,7 @@ In this package, we renamed one constant.
 
 | Old | New |
 | -- | -- |
-| ~~`worldRoutingService`~~ | `ARCGIS_ONLINE_ROUTING_URL` |
+| ~~`worldRoutingService`~~ | [`ARCGIS_ONLINE_ROUTING_URL`](https://esri.github.io/arcgis-rest-js/api/routing/ARCGIS_ONLINE_ROUTING_URL/) |
 
 #### Geocoding addresses
 
@@ -175,8 +175,8 @@ We renamed one method (and one constant) as well.
 
 | Old | New |
 | -- | -- |
-| ~~`serviceInfo()`~~ | `getGeocodeService()` |
-| ~~`worldGeocoder`~~ | `ARCGIS_ONLINE_GEOCODING_URL` |
+| ~~`serviceInfo()`~~ | [`getGeocodeService()`](https://esri.github.io/arcgis-rest-js/api/geocoding/getGeocodeService/) |
+| ~~`worldGeocoder`~~ | [`ARCGIS_ONLINE_GEOCODING_URL`](https://esri.github.io/arcgis-rest-js/api/geocoding/ARCGIS_ONLINE_GEOCODING_URL/) |
 
 #### Querying and editing feature layers
 
@@ -196,9 +196,10 @@ The `feature-layer` methods that were refactored or re-homed are listed below.
 
 | Old | New | Package |
 | -- | -- | -- |
-| ~~`addFeatures({ adds })`~~ | `addFeatures({ features })` |
-| ~~`updateFeatures({ updates })`~~ | `updateFeatures({ features })` |
-| ~~`deleteFeatures({ deletes })`~~ | `updateFeatures({ objectIds })` |
+| ~~`addFeatures({ adds })`~~ | [`addFeatures({ features })`](https://esri.github.io/arcgis-rest-js/api/feature-layer/addFeatures/) |
+| ~~`updateFeatures({ updates })`~~ | [`updateFeatures({ features })`](https://esri.github.io/arcgis-rest-js/api/feature-layer/updateFeatures/) |
+| ~~`deleteFeatures({ deletes })`~~ | [`deleteFeatures({ objectIds })`](https://esri.github.io/arcgis-rest-js/api/feature-layer/deleteFeatures/) |
+| ~~`getLayer(url, options)`~~ | [`getLayer(options)`](https://esri.github.io/arcgis-rest-js/api/feature-layer/getLayer/) |
 
 #### Publishing and updating new hosted feature services
 
