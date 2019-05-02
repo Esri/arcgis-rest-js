@@ -52,7 +52,7 @@ This new package contains the methods previously found in `@esri/arcgis-rest-ite
    * This package has been renamed from `feature-service` to `feature-layer` (to disambiguate).
    * `addFeatures` and `updateFeatures` now expect a `features` argument (instead of adds/updates)
    * `deleteFeatures` now expects a `objectIds` argument (instead of deletes)
-
+   * `getLayer` now expects a single argument.
    * **feature-layer**: Shared `IParams` interfaces have been removed (for consistency) [`4adff112`](https://github.com/Esri/arcgis-rest-js/commit/4adff112e30c5f6bc565c593a899d6372a9c48cc)
    * **feature responses**: `Result` and `Response` interfaces have been removed [`1948010b`](https://github.com/Esri/arcgis-rest-js/commit/1948010b1077a4ab5edea82ea46ca0a3c9cf437c)
    * **interfaces**: `Request` has been removed from option interface names [`8bce221e`](https://github.com/Esri/arcgis-rest-js/commit/8bce221e3f07510f392bf561a9f3863fb26cfa7e)
