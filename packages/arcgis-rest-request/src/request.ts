@@ -242,7 +242,29 @@ export function request(
     })
     .then(data => {
       if ((params.f === "json" || params.f === "geojson") && !rawResponse) {
-        return checkForErrors(data, url, params, options, originalAuthError);
+        const response = checkForErrors(
+          data,
+          url,
+          params,
+          options,
+          originalAuthError
+        );
+        if (originalAuthError) {
+          /* if the request was made to an unfederated service that 
+          didnt require authentication, add the base url and a dummy token
+          to the list of trusted servers to avoid another federation check
+          in the event of a repeat request */
+          const truncatedUrl: string = url
+            .toLowerCase()
+            .split(/\/rest(\/admin)?\/services\//)[0];
+          (options.authentication as any).trustedServers[truncatedUrl] = {
+            token: [],
+            // default to 24 hours
+            expires: new Date(Date.now() + 86400 * 1000)
+          };
+          originalAuthError = null;
+        }
+        return response;
       } else {
         return data;
       }

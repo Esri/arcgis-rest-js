@@ -515,6 +515,44 @@ describe("UserSession", () => {
         done();
       });
     });
+
+    it("should not throw an ArcGISAuthError when the unfederated service is public", done => {
+      const session = new UserSession({
+        clientId: "id",
+        token: "token",
+        refreshToken: "refresh",
+        tokenExpires: YESTERDAY
+      });
+
+      fetchMock.post("https://gisservices.city.gov/public/rest/info", {
+        currentVersion: 10.51,
+        fullVersion: "10.5.1.120"
+      });
+
+      fetchMock.post(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
+        {
+          count: 123
+        }
+      );
+
+      request(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
+        {
+          authentication: session,
+          params: {
+            returnCount: true
+          }
+        }
+      )
+        .then(res => {
+          expect(res.count).toEqual(123);
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
   });
 
   describe(".refreshSession()", () => {
