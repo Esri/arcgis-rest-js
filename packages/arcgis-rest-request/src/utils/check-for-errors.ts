@@ -16,7 +16,8 @@ export function checkForErrors(
   response: any,
   url?: string,
   params?: IParams,
-  options?: IRequestOptions
+  options?: IRequestOptions,
+  originalAuthError?: ArcGISAuthError
 ): any {
   // this is an error message from billing.arcgis.com backend
   if (response.code >= 400) {
@@ -35,7 +36,11 @@ export function checkForErrors(
       messageCode === "GWM_0003" ||
       (code === 400 && message === "Unable to generate token.")
     ) {
-      throw new ArcGISAuthError(message, errorCode, response, url, options);
+      if (originalAuthError) {
+        throw originalAuthError;
+      } else {
+        throw new ArcGISAuthError(message, errorCode, response, url, options);
+      }
     }
 
     throw new ArcGISRequestError(message, errorCode, response, url, options);
