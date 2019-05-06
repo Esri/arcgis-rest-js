@@ -1,4 +1,12 @@
 {
-  "version": "2.0.0",
-  "packages": {}
+  "version": "2.0.1",
+  "packages": {
+    "@esri/arcgis-rest-auth": "sha384-Y2LQibr7945sTf21vVmedkWcmy08+xGLVj/lbP7MQeOsauf/0imbNpHBsYfciLt0",
+    "@esri/arcgis-rest-feature-layer": "sha384-pfGwpPxu8bPjs8kplet5EPLd8VSPVvCb6b87E8jtZDr3PdPPIHjIn5DDl6XRTo5e",
+    "@esri/arcgis-rest-geocoding": "sha384-EXdVYaBG0ttaDko394bzkE5VCBKvZ07U7m+Nz566IphglMv7p3B+lcFIj2/kTg/X",
+    "@esri/arcgis-rest-portal": "sha384-fVaUOxbMcsd2gZEW3ne5l57N7/W+8DxU5wQUXbVHNqYJynPcR1HH7za80SIdHvoU",
+    "@esri/arcgis-rest-request": "sha384-kV+pl5P5jAueXPVcKoPvXnuGvN3v4iRhIX1rURQUk0gDBXV6O7s6ysXBUdihkSax",
+    "@esri/arcgis-rest-routing": "sha384-mxy9Ls4wOru5vP71m34zOeHfEsKaKk/4DuZ/1rbHQX8FCUHoepJAKENRCn3vIZkO",
+    "@esri/arcgis-rest-service-admin": "sha384-6UlO82FidklFScPmvM5vxveD+iWGdsSF9VC+clB200KA4lL04W2s3nVEXpSEz1YR"
+  }
 }

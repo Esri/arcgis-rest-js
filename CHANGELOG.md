@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [2.0.1] - May 6th 2019
+
+### @esri/arcgis-rest-auth
+
+* New Features
+   * when an authenticated session is passed through in a request to an unfederated instance of ArcGIS Server, an attempt to see if it is public is made before throwing a `NOT_FEDERATED` error. [`6a24b02`](https://github.com/Esri/arcgis-rest-js/commit/6a24b0215992cb12d79cac547f77b03617928766)
+
+### @esri/arcgis-rest-portal
+
+* Bug Fixes
+   * `sortOrder` is now used consistently as a request option in search functions. [`9caeafd`](https://github.com/Esri/arcgis-rest-js/commit/9caeafdea4568252b792606dcd485486c4e1f5c8)
+   * `ISearchResult` now exposes `aggregations`. [`60d4072`](https://github.com/Esri/arcgis-rest-js/commit/60d407276d6e5687021a316ead15ee0a9cac911a)
+   * `SearchQueryBuilder` no longer inserts a space between search fields and terms. [`391e3f8`](https://github.com/Esri/arcgis-rest-js/commit/391e3f8ef494e2de4339f36b19aa3d34aed722fd)
+   * `SearchQueryBuilder` now allows NOT as a standalone modifier. [`36a6bca`](https://github.com/Esri/arcgis-rest-js/commit/36a6bca771dd4282af71dcf454828f58047b525b)
+   * `SearchQueryBuilder` now allows untyped, grouped search strings. [`39fc213`](https://github.com/Esri/arcgis-rest-js/commit/39fc21379a3e78a27636d62cf46d86e23ad666a0)
+
+### @esri/arcgis-rest-feature-layer
+
+* Bug Fixes
+   * `IEditFeatureResult` is now exported. [`2c65102`](https://github.com/Esri/arcgis-rest-js/commit/2c651023f3a04cb0ad5884195c13ed01f5d57543)
+   * `getAttachments` now defaults to a GET instead of a POST [`044f1a0`](https://github.com/Esri/arcgis-rest-js/commit/044f1a0653b4762682c22d40c88fa34b5aef1f6d)
+   * Properties on CRUD response interfaces are no longer optional [`be71c17`](https://github.com/Esri/arcgis-rest-js/commit/be71c17706eb66a828eb56102159fd00cb494b27)
+
+### Other Changes
+
+* Bug Fixes
+   * UMD builds no longer include a dependency on types [`3b41f3d`](https://github.com/Esri/arcgis-rest-js/commit/3b41f3d6befa5e4bcbced15a9147ca7b6f47f33d)
+
 ## [2.0.0] - April 22nd 2019
 
 For a more readable explanation of the new features and breaking changes in this release, please take a look at [What's new in `v2.0.0`](https://esri.github.io/arcgis-rest-js/guides/whats-new-v2-0/).
@@ -1302,4 +1330,5 @@ Initial Public Release
 [1.19.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.0...v1.19.1 "v1.19.1"
 [1.19.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.1...v1.19.2 "v1.19.2"
 [2.0.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.2...v2.0.0 "v2.0.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.0...HEAD "Unreleased Changes"
+[2.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.0...v2.0.1 "v2.0.1"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.1...HEAD "Unreleased Changes"
