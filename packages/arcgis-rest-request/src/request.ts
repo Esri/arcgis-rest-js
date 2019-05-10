@@ -4,9 +4,7 @@
 import { encodeFormData } from "./utils/encode-form-data";
 import { encodeQueryString } from "./utils/encode-query-string";
 import { requiresFormData } from "./utils/process-params";
-// import { checkForErrors } from "./utils/check-for-errors";
 import { ArcGISRequestError } from "./utils/ArcGISRequestError";
-import { ArcGISAuthError } from "./utils/ArcGISAuthError";
 import { IRequestOptions } from "./utils/IRequestOptions";
 import { IParams } from "./utils/IParams";
 import { warn } from "./utils/warn";
@@ -118,7 +116,8 @@ export function checkForErrors(
   response: any,
   url?: string,
   params?: IParams,
-  options?: IRequestOptions
+  options?: IRequestOptions,
+  originalAuthError?: ArcGISAuthError
 ): any {
   // this is an error message from billing.arcgis.com backend
   if (response.code >= 400) {
@@ -137,7 +136,11 @@ export function checkForErrors(
       messageCode === "GWM_0003" ||
       (code === 400 && message === "Unable to generate token.")
     ) {
-      throw new ArcGISAuthError(message, errorCode, response, url, options);
+      if (originalAuthError) {
+        throw originalAuthError;
+      } else {
+        throw new ArcGISAuthError(message, errorCode, response, url, options);
+      }
     }
 
     throw new ArcGISRequestError(message, errorCode, response, url, options);
@@ -364,7 +367,7 @@ export function request(
           originalAuthError
         );
         if (originalAuthError) {
-          /* if the request was made to an unfederated service that 
+          /* if the request was made to an unfederated service that
           didnt require authentication, add the base url and a dummy token
           to the list of trusted servers to avoid another federation check
           in the event of a repeat request */
