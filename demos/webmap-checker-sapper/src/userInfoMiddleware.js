@@ -1,6 +1,5 @@
-import { getSelf } from "@esri/arcgis-rest-request";
 // we could use UserSession.getUser() instead
-import { getUser } from "@esri/arcgis-rest-portal";
+import { getSelf, getUser } from "@esri/arcgis-rest-portal";
 
 // this middleware checks for a session and if we find a session add
 // additional info to that session from the getUser and getSelf calls
