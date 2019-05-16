@@ -39,7 +39,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Esri/arcgis-rest-js.git"
+    "url": "git+https://github.com/Esri/arcgis-rest-js.git",
+    "directory": "packages/arcgis-rest-geocoding"
   },
   "contributors": [
     {

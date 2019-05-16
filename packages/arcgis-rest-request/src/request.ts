@@ -4,12 +4,11 @@
 import { encodeFormData } from "./utils/encode-form-data";
 import { encodeQueryString } from "./utils/encode-query-string";
 import { requiresFormData } from "./utils/process-params";
-import { checkForErrors } from "./utils/check-for-errors";
 import { ArcGISRequestError } from "./utils/ArcGISRequestError";
-import { ArcGISAuthError } from "./utils/ArcGISAuthError";
 import { IRequestOptions } from "./utils/IRequestOptions";
 import { IParams } from "./utils/IParams";
 import { warn } from "./utils/warn";
+import { IRetryAuthError } from "./utils/retryAuthError";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
@@ -45,6 +44,124 @@ export function setDefaultRequestOptions(
     );
   }
   DEFAULT_ARCGIS_REQUEST_OPTIONS = options;
+}
+
+export class ArcGISAuthError extends ArcGISRequestError {
+  /**
+   * Create a new `ArcGISAuthError`  object.
+   *
+   * @param message - The error message from the API
+   * @param code - The error code from the API
+   * @param response - The original response from the API that caused the error
+   * @param url - The original url of the request
+   * @param options - The original options of the request
+   */
+  constructor(
+    message = "AUTHENTICATION_ERROR",
+    code: string | number = "AUTHENTICATION_ERROR_CODE",
+    response?: any,
+    url?: string,
+    options?: IRequestOptions
+  ) {
+    super(message, code, response, url, options);
+    this.name = "ArcGISAuthError";
+    this.message =
+      code === "AUTHENTICATION_ERROR_CODE" ? message : `${code}: ${message}`;
+  }
+
+  public retry(getSession: IRetryAuthError, retryLimit = 3) {
+    let tries = 0;
+
+    const retryRequest = (resolve: any, reject: any) => {
+      getSession(this.url, this.options)
+        .then(session => {
+          const newOptions = {
+            ...this.options,
+            ...{ authentication: session }
+          };
+
+          tries = tries + 1;
+          return request(this.url, newOptions);
+        })
+        .then(response => {
+          resolve(response);
+        })
+        .catch(e => {
+          if (e.name === "ArcGISAuthError" && tries < retryLimit) {
+            retryRequest(resolve, reject);
+          } else if (e.name === "ArcGISAuthError" && tries >= retryLimit) {
+            reject(this);
+          } else {
+            reject(e);
+          }
+        });
+    };
+
+    return new Promise((resolve, reject) => {
+      retryRequest(resolve, reject);
+    });
+  }
+}
+
+/**
+ * Checks for errors in a JSON response from the ArcGIS REST API. If there are no errors, it will return the `data` passed in. If there is an error, it will throw an `ArcGISRequestError` or `ArcGISAuthError`.
+ *
+ * @param data The response JSON to check for errors.
+ * @param url The url of the original request
+ * @param params The parameters of the original request
+ * @param options The options of the original request
+ * @returns The data that was passed in the `data` parameter
+ */
+export function checkForErrors(
+  response: any,
+  url?: string,
+  params?: IParams,
+  options?: IRequestOptions,
+  originalAuthError?: ArcGISAuthError
+): any {
+  // this is an error message from billing.arcgis.com backend
+  if (response.code >= 400) {
+    const { message, code } = response;
+    throw new ArcGISRequestError(message, code, response, url, options);
+  }
+
+  // error from ArcGIS Online or an ArcGIS Portal or server instance.
+  if (response.error) {
+    const { message, code, messageCode } = response.error;
+    const errorCode = messageCode || code || "UNKNOWN_ERROR_CODE";
+
+    if (
+      code === 498 ||
+      code === 499 ||
+      messageCode === "GWM_0003" ||
+      (code === 400 && message === "Unable to generate token.")
+    ) {
+      if (originalAuthError) {
+        throw originalAuthError;
+      } else {
+        throw new ArcGISAuthError(message, errorCode, response, url, options);
+      }
+    }
+
+    throw new ArcGISRequestError(message, errorCode, response, url, options);
+  }
+
+  // error from a status check
+  if (response.status === "failed" || response.status === "failure") {
+    let message: string;
+    let code: string = "UNKNOWN_ERROR_CODE";
+
+    try {
+      message = JSON.parse(response.statusMessage).message;
+      code = JSON.parse(response.statusMessage).code;
+    } catch (e) {
+      message = response.statusMessage || response.message;
+    }
+
+    throw new ArcGISRequestError(message, code, response, url, options);
+  }
+
+  return response;
 }
 
 /**
@@ -250,7 +367,7 @@ export function request(
           originalAuthError
         );
         if (originalAuthError) {
-          /* if the request was made to an unfederated service that 
+          /* if the request was made to an unfederated service that
           didnt require authentication, add the base url and a dummy token
           to the list of trusted servers to avoid another federation check
           in the event of a repeat request */
