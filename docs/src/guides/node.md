@@ -8,16 +8,15 @@ group: 1-get-started
 
 # Get Started with Node.js
 
-Make sure you have polyfills for [`fetch`](https://github.com/matthew-andrews/isomorphic-fetch) and [`FormData`](https://github.com/form-data/isomorphic-form-data) installed before using any ArcGIS REST JS library. You can find `npm install` commands for all packages in the [API reference](/arcgis-rest-js/api).
+Make sure you have polyfills for [`fetch`](https://github.com/lquixada/cross-fetch) and [`FormData`](https://github.com/form-data/isomorphic-form-data) installed before using any ArcGIS REST JS library. You can find `npm install` commands for all packages in the [API reference](/arcgis-rest-js/api).
 
 ```bash
-npm install @esri/arcgis-rest-request @esri/arcgis-rest-auth isomorphic-fetch isomorphic-form-data
+npm install @esri/arcgis-rest-request @esri/arcgis-rest-auth cross-fetch isomorphic-form-data
 ```
 
-Require the `isomorphic-fetch` and `isomorphic-form-data` modules before using any of the ArcGIS REST JS methods.
-
+Require the `cross-fetch` and `isomorphic-form-data` modules before using any of the ArcGIS REST JS methods.
 ```js
-require("isomorphic-fetch");
+global.fetch = global.fetch || require("cross-fetch");
 require("isomorphic-form-data");
 
 const { request } = require("@esri/arcgis-rest-request");
