@@ -66,6 +66,13 @@ function defer<T>(): IDeferred<T> {
 }
 
 /**
+ *
+ */
+const arcgisOnlineUrlRegex = /^https?:\/\/\S+\.arcgis\.com.+/;
+const arcgisOnlinePortalRegex = /^https?:\/\/www\.arcgis\.com\/sharing\/rest+/;
+const arcgisOnlineOrgPortalRegex = /^https?:\/\/(?:[a-z0-9-]+\.maps)?.\arcgis\.com\/sharing\/rest/;
+
+/**
  * Options for static OAuth 2.0 helper methods on `UserSession`.
  */
 export interface IOAuth2Options {
@@ -709,8 +716,9 @@ export class UserSession implements IAuthenticationManager {
    */
   public getToken(url: string, requestOptions?: ITokenRequestOptions) {
     if (
-      /^https?:\/\/\S+\.arcgis\.com\/sharing\/rest/.test(this.portal) &&
-      /^https?:\/\/\S+\.arcgis\.com.+/.test(url)
+      (arcgisOnlinePortalRegex.test(this.portal) ||
+        arcgisOnlineOrgPortalRegex.test(this.portal)) &&
+      arcgisOnlineUrlRegex.test(url)
     ) {
       return this.getFreshToken(requestOptions);
     } else if (new RegExp(this.portal, "i").test(url)) {
