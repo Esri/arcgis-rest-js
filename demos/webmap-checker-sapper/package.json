@@ -2,7 +2,7 @@
   "name": "sapper-webmap-checker",
   "description": "this thing is cray cray",
   "private": true,
-  "version": "2.0.1",
+  "version": "2.0.2",
   "scripts": {
     "dev": "sapper dev",
     "build:legacy": "sapper build --legacy",
@@ -13,9 +13,9 @@
     "test": "run-p --race dev cy:run"
   },
   "dependencies": {
-    "@esri/arcgis-rest-auth": "^2.0.1",
-    "@esri/arcgis-rest-portal": "^2.0.1",
-    "@esri/arcgis-rest-request": "^2.0.1",
+    "@esri/arcgis-rest-auth": "^2.0.2",
+    "@esri/arcgis-rest-portal": "^2.0.2",
+    "@esri/arcgis-rest-request": "^2.0.2",
     "compression": "^1.7.1",
     "cookies": "^0.7.3",
     "dotenv": "^6.2.0",

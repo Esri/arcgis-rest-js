@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [2.0.2] - May 20th 2019
+
+### @esri/arcgis-rest-auth
+
+* Bug Fixes
+   * Federation is now forced across different ArcGIS Online environments [` 1db161b`](https://github.com/Esri/arcgis-rest-js/commit/1db161b5a424c672432be4f552e63736c641ad48)
+
+### @esri/arcgis-rest-request
+
+* Misc.
+   * **chore**: remove circular dependency in request package [`1d47666a`](https://github.com/Esri/arcgis-rest-js/commit/1d47666a125834bb605e78e7b827ebe4f8c999ce) [#565](https://github.com/Esri/arcgis-rest-js/issues/565)
+
 ## [2.0.1] - May 6th 2019
 
 ### @esri/arcgis-rest-auth
@@ -37,7 +49,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.0.0] - April 22nd 2019
 
-For a more readable explanation of the new features and breaking changes in this release, please take a look at [What's new in `v2.0.0`](https://esri.github.io/arcgis-rest-js/guides/whats-new-v2-0/).
+For a more readable explanation of the new features and breaking changes in this release, please take a look at [What&#39;s new in `v2.0.0`](https://esri.github.io/arcgis-rest-js/guides/whats-new-v2-0/).
 
 ### @esri/arcgis-rest-request
 
@@ -1331,4 +1343,5 @@ Initial Public Release
 [1.19.2]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.1...v1.19.2 "v1.19.2"
 [2.0.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.19.2...v2.0.0 "v2.0.0"
 [2.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.0...v2.0.1 "v2.0.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.1...HEAD "Unreleased Changes"
+[2.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.1...v2.0.2 "v2.0.2"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.2...HEAD "Unreleased Changes"
