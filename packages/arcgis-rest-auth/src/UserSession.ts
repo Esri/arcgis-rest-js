@@ -71,7 +71,7 @@ function defer<T>(): IDeferred<T> {
 const arcgisOnlineUrlRegex = /^https?:\/\/\S+\.arcgis\.com.+/;
 
 /**
- * Used to test if a URL is an ArcGIS Online Portal
+ * Used to test if a URL is production ArcGIS Online Portal
  */
 const arcgisOnlinePortalRegex = /^https?:\/\/www\.arcgis\.com\/sharing\/rest+/;
 
