@@ -2,10 +2,10 @@
  * Apache-2.0 */
 
 import { bulkGeocode } from "../src/bulk";
+import { GeocodeAddresses } from "./mocks/responses";
 
 import * as fetchMock from "fetch-mock";
-
-import { GeocodeAddresses } from "./mocks/responses";
+import { Response } from "node-fetch";
 
 const addresses = [
   {

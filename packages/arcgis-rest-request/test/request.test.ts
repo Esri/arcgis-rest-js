@@ -12,6 +12,8 @@ import { ArcGISOnlineError } from "./mocks/errors";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap";
 import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection";
 
+import { Response } from "node-fetch";
+
 describe("request()", () => {
   afterEach(fetchMock.restore);
 
@@ -284,12 +286,13 @@ describe("request()", () => {
         fail(e);
       });
 
-    // since calling request is  sync we can delete this right away
+    // since calling request is sync we can delete this right away
     setDefaultRequestOptions({
       httpMethod: "POST",
       params: {
         f: "json"
-      }
+      },
+      fetch
     });
   });
 
@@ -375,7 +378,7 @@ describe("request()", () => {
       expect(() => {
         request("https://www.arcgis.com/sharing/rest/info").catch();
       }).toThrowError(
-        "`arcgis-rest-request` requires global variables for `fetch`, `Promise` and `FormData` to be present in the global scope. You are missing `fetch`, `Promise`, `FormData`. We recommend installing the `isomorphic-fetch`, `es6-promise`, `isomorphic-form-data` modules at the root of your application to add these to the global scope. See https://bit.ly/2KNwWaJ for more info."
+        "`arcgis-rest-request` requires a `fetch` implementation and global variables for `Promise` and `FormData` to be present in the global scope. You are missing `fetch`, `Promise`, `FormData`. We recommend installing the `node-fetch`, `es6-promise`, `isomorphic-form-data` modules at the root of your application to add these to the global scope. See https://bit.ly/2KNwWaJ for more info."
       );
     });
 

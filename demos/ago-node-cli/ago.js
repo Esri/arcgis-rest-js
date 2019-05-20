@@ -1,10 +1,17 @@
 #!/usr/bin/env node
-require('isomorphic-fetch');
+const fetch = require('node-fetch');
 require('isomorphic-form-data');
+
+const { setDefaultRequestOptions } = require('./packages/arcgis-rest-request/dist/node/index');
+
+// use node-fetch for each request instead of relying on a global
+setDefaultRequestOptions({ fetch })
+
 /**
  * This demo uses the commander module, which streamlines the creation of command-line-applications
  */
 const program = require('commander');
+
 
 program
   .version('0.0.1');

@@ -20,7 +20,7 @@
     "@esri/arcgis-rest-portal": "^2.0.2",
     "@esri/arcgis-rest-request": "^2.0.2",
     "chalk": "^2.3.0",
-    "isomorphic-fetch": "^2.2.1",
+    "node-fetch": "*",
     "isomorphic-form-data": "^1.0.0",
     "prompts": "^2.0.3"
   }

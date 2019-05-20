@@ -31,7 +31,7 @@
     "@esri/arcgis-rest-common": "^1.19.2",
     "@esri/arcgis-rest-geocoding": "^2.0.2",
     "@esri/arcgis-rest-request": "^2.0.2",
-    "isomorphic-fetch": "^2.2.1",
+    "node-fetch": "*",
     "isomorphic-form-data": "^2.0.0",
     "papaparse": "^4.6.0"
   }

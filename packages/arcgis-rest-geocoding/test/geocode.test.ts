@@ -3,6 +3,7 @@
 
 import { geocode } from "../src/geocode";
 
+import { Response } from "node-fetch";
 import * as fetchMock from "fetch-mock";
 
 import {
