@@ -1,13 +1,9 @@
-const fetch = require("node-fetch");
+require("cross-fetch/polyfill");
 require("isomorphic-form-data");
 const express = require("express");
 const app = express();
-const { setDefaultRequestOptions } = require('@esri/arcgis-rest-request');
 const { UserSession } = require("@esri/arcgis-rest-auth");
 const { clientId } = require("./config.json");
-
-// use node-fetch for each request instead of relying on a global
-setDefaultRequestOptions({ fetch })
 
 const credentials = {
   clientId,

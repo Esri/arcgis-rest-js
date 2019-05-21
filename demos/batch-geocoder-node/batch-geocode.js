@@ -1,14 +1,10 @@
-const fetch = require('node-fetch');
+require('cross-fetch/polyfill');
 require('isomorphic-form-data');
 const fs = require('fs');
 const Papa = require('papaparse');
-const { setDefaultRequestOptions } = require('@esri/arcgis-rest-request');
 const { ApplicationSession } = require('@esri/arcgis-rest-auth');
 const { bulkGeocode } = require('@esri/arcgis-rest-geocoding');
 const config = require('./config');
-
-// use node-fetch for each request instead of relying on a global
-setDefaultRequestOptions({ fetch })
 
 // FUNCTIONS!
 

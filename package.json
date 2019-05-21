@@ -61,10 +61,10 @@
     "typescript": "^3.0.0"
   },
   "dependencies": {
-    "@types/node-fetch": "^2.3.4",
     "es6-promise": "^4.2.1",
     "isomorphic-form-data": "^2.0.0",
-    "node-fetch": "*",
+    "cross-fetch": "^3.0.0",
+    "isomorphic-fetch": "*",
     "tslib": "^1.8.1"
   },
   "lint-staged": {

@@ -17,6 +17,7 @@ npm install @esri/arcgis-rest-request
 ```
 You can find `npm install` commands for all packages in the [API reference](../../api).
 ```js
+import 'cross-fetch/polyfill';
 import { request } from "@esri/arcgis-rest-request";
 
 request("https://www.arcgis.com/sharing/rest/info")

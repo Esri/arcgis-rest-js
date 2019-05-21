@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+require('cross-fetch/polyfill');
 import "isomorphic-form-data";
 import sirv from "sirv";
 import express from "express";
@@ -6,13 +6,10 @@ import session from "express-session";
 import compression from "compression";
 import * as sapper from "../__sapper__/server.js";
 import SessionFileStore from "session-file-store";
-const { setDefaultRequestOptions } = require('@esri/arcgis-rest-request');
+
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { Store } from "svelte/store.js";
 import { userInfoMiddleware } from "./userInfoMiddleware";
-
-// use node-fetch for each request instead of relying on a global
-setDefaultRequestOptions({ fetch })
 
 // setup file storeage for user sessions
 const FileStore = SessionFileStore(session);

@@ -12,8 +12,6 @@ import { ArcGISOnlineError } from "./mocks/errors";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap";
 import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection";
 
-import { Response } from "node-fetch";
-
 describe("request()", () => {
   afterEach(fetchMock.restore);
 
@@ -255,8 +253,15 @@ describe("request()", () => {
       }
     )
       .then(response => {
-        expect(response instanceof Response).toBe(true);
-        done();
+        expect(response.status).toBe(200);
+        expect(response.ok).toBe(true);
+        expect(response.body.Readable).not.toBe(null);
+        response.json().then((raw: any) => {
+          expect(raw).toEqual(GeoJSONFeatureCollection);
+          done();
+        });
+        // this used to work with isomorphic-fetch
+        // expect(response instanceof Response).toBe(true);
       })
       .catch(e => {
         fail(e);

@@ -17,8 +17,6 @@ import {
   queryRelatedResponse
 } from "./mocks/feature";
 
-import { Response } from "node-fetch";
-
 const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
 
@@ -53,13 +51,20 @@ describe("getFeature() and queryFeatures()", () => {
     };
     fetchMock.once("*", featureResponse);
     getFeature(requestOptions)
-      .then(response => {
+      .then((response: any) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/42?f=json`);
         expect(options.method).toBe("GET");
-        expect(response instanceof Response).toBe(true);
-        done();
+        expect(response.status).toBe(200);
+        expect(response.ok).toBe(true);
+        expect(response.body.Readable).not.toBe(null);
+        response.json().then((raw: any) => {
+          expect(raw).toEqual(featureResponse);
+          done();
+        });
+        // this used to work with isomorphic-fetch
+        // expect(response instanceof Response).toBe(true);
       })
       .catch(e => {
         fail(e);

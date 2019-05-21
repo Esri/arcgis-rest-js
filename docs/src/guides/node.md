@@ -8,24 +8,38 @@ group: 1-get-started
 
 # Get Started with Node.js
 
-Make sure you have polyfills for [`fetch`](https://github.com/bitinn/node-fetch) and [`FormData`](https://github.com/form-data/isomorphic-form-data) installed before using any ArcGIS REST JS library. You can find `npm install` commands for all packages in the [API reference](/arcgis-rest-js/api).
+Make sure you have polyfills for [`fetch`](https://github.com/lquixada/cross-fetch) and [`FormData`](https://github.com/form-data/isomorphic-form-data) installed before using any ArcGIS REST JS library. You can find `npm install` commands for all packages in the [API reference](/arcgis-rest-js/api).
 
 ```bash
-npm install @esri/arcgis-rest-request @esri/arcgis-rest-auth node-fetch isomorphic-form-data
+npm install @esri/arcgis-rest-request @esri/arcgis-rest-auth cross-fetch isomorphic-form-data
 ```
 
-Require `node-fetch` and `isomorphic-form-data` before using any of the ArcGIS REST JS methods.
+Require `cross-fetch` and `isomorphic-form-data` before using any of the ArcGIS REST JS methods.
 ```js
-const fetch = require("node-fetch");
+// ensures fetch is available as a global
+require("cross-fetch/polyfill");
 require("isomorphic-form-data");
 
-const { request, setDefaultRequestOptions } = require("@esri/arcgis-rest-request");
-
-// use node-fetch for each request instead of relying on a global
-setDefaultRequestOptions({ fetch })
+const { request } = require("@esri/arcgis-rest-request");
 
 request("https://www.arcgis.com/sharing/rest/info")
   .then(response);
+```
+
+You can also pass through your own named `fetch` implementation.
+
+```js
+const fetch = require("node-fetch")
+const {
+  request,
+  setDefaultRequestOptions
+} = require("@esri/arcgis-rest-request");
+
+// one by one
+request("https://www.arcgis.com/sharing/rest/info", { fetch })
+
+// or in *every* request
+setDefaultRequestOptions({ fetch })
 ```
 
 #### Demo - [Express](https://github.com/Esri/arcgis-rest-js/tree/master/demos/express)
@@ -71,9 +85,3 @@ const authentication = new UserSession({
 })
 ```
 See the [Browser Authentication](../browser-authentication/) for more information about implementing OAuth 2.0.
-
-## Isomorphic/Universal Applications
-
-If your JavaScript codebase needs to run in both a browser _and_ Node.js, something like [`cross-fetch`](https://github.com/lquixada/cross-fetch) might be useful.
-
-

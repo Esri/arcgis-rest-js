@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+require('cross-fetch/polyfill');
 require("isomorphic-form-data");
 const prompts = require("prompts");
 const chalk = require("chalk");
@@ -9,9 +9,6 @@ const {
   removeItem,
   SearchQueryBuilder
 } = require("@esri/arcgis-rest-portal");
-
-// use node-fetch for each request instead of relying on a global
-setDefaultRequestOptions({ fetch })
 
 // 1. Promt the user for sign in. Create a `UserSession`
 authenticate()

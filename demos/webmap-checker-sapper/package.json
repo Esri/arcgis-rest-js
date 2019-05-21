@@ -23,7 +23,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "fs-extra": "^7.0.1",
-    "node-fetch": "^2.2.1",
+    "cross-fetch": "^3.0.0",
     "isomorphic-form-data": "^1.0.0",
     "polka": "^0.4.0",
     "session-file-store": "^1.2.0",

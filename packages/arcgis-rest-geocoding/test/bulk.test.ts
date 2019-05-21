@@ -5,7 +5,6 @@ import { bulkGeocode } from "../src/bulk";
 import { GeocodeAddresses } from "./mocks/responses";
 
 import * as fetchMock from "fetch-mock";
-import { Response } from "node-fetch";
 
 const addresses = [
   {
@@ -128,15 +127,22 @@ describe("geocode", () => {
     };
 
     bulkGeocode({ addresses, authentication: MOCK_AUTH, rawResponse: true })
-      .then(response => {
+      .then((response: any) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/geocodeAddresses"
         );
         expect(options.method).toBe("POST");
-        expect(response instanceof Response).toBe(true);
-        done();
+        expect(response.status).toBe(200);
+        expect(response.ok).toBe(true);
+        expect(response.body.Readable).not.toBe(null);
+        response.json().then((raw: any) => {
+          expect(raw).toEqual(GeocodeAddresses);
+          done();
+        });
+        // this used to work with isomorphic-fetch
+        // expect(response instanceof Response).toBe(true);
       })
       .catch(e => {
         fail(e);
