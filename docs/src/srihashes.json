@@ -5,7 +5,7 @@
     "@esri/arcgis-rest-feature-layer": "sha384-dRwyGQUTIkHGqiQ/VNvoBOwT7Xm86M1t7Dh9YL9Q6/yBRFyb7zzmGgCfNaiGQwnP",
     "@esri/arcgis-rest-geocoding": "sha384-qoPGIx+hpFXTRgN3rAM+nvM/1JNEjjKnhLJTJErj2fdCtGaqiFf7A3Nd/lb4AeXg",
     "@esri/arcgis-rest-portal": "sha384-srIOlQ+dsJWDkVIK5C59CWc33pJdW2JWIONGlTdey7sRPrSMXYaJr8hxN9WeNps+",
-    "@esri/arcgis-rest-request": "sha384-toSgRi3UNOGZtvIS/CJ5PvtEGTMhv0mbYaXM12CzV3ZvvdoVckhTVMdBLOpmIMP8",
+    "@esri/arcgis-rest-request": "sha384-4jIlRERwtR6uKJJCUuX8NQZpEFPmwVL1xksV1ooawShW6Qy/wCBMOs+f3oVCvUsK",
     "@esri/arcgis-rest-routing": "sha384-PVhhcZSnu9j1qJriyBxMGuIZqNZ/AHlP1eCDmRi+8o0IkPDdftX09niy8Z/IrDwp",
     "@esri/arcgis-rest-service-admin": "sha384-oUFOmDCUxfAWR/TZqGLFb3QqVEhK83gy/oA8b7qma6GqOMlQ668xEpPlhfaSXdlE"
   }
