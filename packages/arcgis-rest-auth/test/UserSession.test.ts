@@ -1133,6 +1133,51 @@ describe("UserSession", () => {
     });
   });
 
+  describe("getServerRootUrl()", () => {
+    it("should lowercase domain names", () => {
+      const session = new UserSession({
+        clientId: "id",
+        token: "token",
+        tokenExpires: TOMORROW
+      });
+
+      const root = session.getServerRootUrl(
+        "https://PNP00035.esri.com/server/rest/services/Hosted/perimeters_dd83/FeatureServer"
+      );
+      expect(root).toEqual("https://pnp00035.esri.com/server");
+    });
+
+    it("should not lowercase path names", () => {
+      const session = new UserSession({
+        clientId: "id",
+        token: "token",
+        tokenExpires: TOMORROW
+      });
+
+      const root = session.getServerRootUrl(
+        "https://pnp00035.esri.com/tiles/LkFyxb9zDq7vAOAm/arcgis/rest/services/NB_Stereographic/VectorTileServer"
+      );
+      expect(root).toEqual(
+        "https://pnp00035.esri.com/tiles/LkFyxb9zDq7vAOAm/arcgis"
+      );
+    });
+
+    it("should respect the original https/http protocol", () => {
+      const session = new UserSession({
+        clientId: "id",
+        token: "token",
+        tokenExpires: TOMORROW
+      });
+
+      const root = session.getServerRootUrl(
+        "http://pnp00035.esri.com/tiles/LkFyxb9zDq7vAOAm/arcgis/rest/services/NB_Stereographic/VectorTileServer"
+      );
+      expect(root).toEqual(
+        "http://pnp00035.esri.com/tiles/LkFyxb9zDq7vAOAm/arcgis"
+      );
+    });
+  });
+
   describe("non-federated server", () => {
     it("shouldnt fetch a fresh token if the current one isnt expired.", done => {
       const MOCK_USER_SESSION = new UserSession({
