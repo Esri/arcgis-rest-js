@@ -214,7 +214,7 @@ export function request(
     options.fetch = fetch.bind(Function("return this")());
   } else {
     missingGlobals.push("`fetch`");
-    recommendedPackages.push("`isomorphic-fetch`");
+    recommendedPackages.push("`node-fetch`");
   }
 
   if (typeof Promise === "undefined") {
@@ -233,7 +233,7 @@ export function request(
     typeof FormData === "undefined"
   ) {
     throw new Error(
-      `\`arcgis-rest-request\` requires global variables for \`fetch\`, \`Promise\` and \`FormData\` to be present in the global scope. You are missing ${missingGlobals.join(
+      `\`arcgis-rest-request\` requires a \`fetch\` implementation and global variables for \`Promise\` and \`FormData\` to be present in the global scope. You are missing ${missingGlobals.join(
         ", "
       )}. We recommend installing the ${recommendedPackages.join(
         ", "

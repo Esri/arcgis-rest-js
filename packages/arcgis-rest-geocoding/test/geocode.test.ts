@@ -2,13 +2,12 @@
  * Apache-2.0 */
 
 import { geocode } from "../src/geocode";
-
-import * as fetchMock from "fetch-mock";
-
 import {
   FindAddressCandidates,
   FindAddressCandidatesNullExtent
 } from "./mocks/responses";
+
+import * as fetchMock from "fetch-mock";
 
 const customGeocoderUrl =
   "https://foo.com/arcgis/rest/services/Custom/GeocodeServer/";
@@ -181,7 +180,7 @@ describe("geocode", () => {
       city: "Washington D.C.",
       rawResponse: true
     })
-      .then(response => {
+      .then((response: any) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -195,8 +194,16 @@ describe("geocode", () => {
         expect(options.body).toContain(
           `city=${encodeURIComponent("Washington D.C.")}`
         );
-        expect(response instanceof Response).toBe(true);
-        done();
+        expect(options.method).toBe("POST");
+        expect(response.status).toBe(200);
+        expect(response.ok).toBe(true);
+        expect(response.body.Readable).not.toBe(null);
+        response.json().then((raw: any) => {
+          expect(raw).toEqual(FindAddressCandidates);
+          done();
+        });
+        // this used to work with isomorphic-fetch
+        // expect(response instanceof Response).toBe(true);
       })
       .catch(e => {
         fail(e);

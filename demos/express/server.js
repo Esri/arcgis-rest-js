@@ -1,4 +1,4 @@
-require("isomorphic-fetch");
+require("cross-fetch/polyfill");
 require("isomorphic-form-data");
 const express = require("express");
 const app = express();
@@ -29,5 +29,5 @@ app.get("/authenticate", function(req, res) {
 });
 
 app.listen(3000, function() {
-  console.log("Example app listening on port 3000!");
+  console.log("visit http://localhost:3000/authorize to test the application!");
 });

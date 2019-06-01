@@ -34,10 +34,8 @@
       // resolves before rendering the page.
       return (
         searchItems({
-          searchForm: {
-            q: `owner:${session.username} type:"Web Map"`,
-            num: 100
-          },
+          q: `owner:${session.username} type:"Web Map"`,
+          num: 100,
           authentication: userSession
         })
           // if there is an error we can retry the request with a fresh session

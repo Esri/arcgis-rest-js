@@ -1,7 +1,8 @@
-require("isomorphic-fetch");
+require('cross-fetch/polyfill');
 require("isomorphic-form-data");
 const prompts = require("prompts");
 const chalk = require("chalk");
+const { setDefaultRequestOptions } = require('@esri/arcgis-rest-request');
 const { UserSession } = require("@esri/arcgis-rest-auth");
 const {
   searchItems,

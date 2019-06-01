@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-require('isomorphic-fetch');
+require('cross-fetch/polyfill');
 require('isomorphic-form-data');
+
 /**
  * This demo uses the commander module, which streamlines the creation of command-line-applications
  */
