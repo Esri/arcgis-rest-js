@@ -1,5 +1,5 @@
 import config from './umd-base-profile.js';
-import uglify from "rollup-plugin-uglify";
+import { uglify } from "rollup-plugin-uglify";
 import filesize from "rollup-plugin-filesize";
 
 // use umd.min.js
