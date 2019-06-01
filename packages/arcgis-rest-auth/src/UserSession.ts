@@ -651,10 +651,9 @@ export class UserSession implements IAuthenticationManager {
     // if a non-federated server was passed explicitly, it should be trusted.
     if (options.server) {
       // if the url includes more than '/arcgis/', trim the rest
-      const [serverRoot] = options.server
-        .toLowerCase()
-        .split(/\/rest(\/admin)?\/services\//);
-      this.trustedServers[serverRoot] = {
+      const root = this.getServerRootUrl(options.server);
+
+      this.trustedServers[root] = {
         token: options.token,
         expires: options.tokenExpires
       };
@@ -777,6 +776,21 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
+   * Determines the root of the ArcGIS Server or Portal for a given URL.
+   *
+   * @param url the URl to determine the root url for.
+   */
+  public getServerRootUrl(url: string) {
+    const [root] = url.split(/\/rest(\/admin)?\/services\//);
+    const [match, protocol, domainAndPath] = root.match(/(https?:\/\/)(.+)/);
+    const [domain, ...path] = domainAndPath.split("/");
+
+    // only the domain is lowercased becasue in some cases an org id might be
+    // in the path which cannot be lowercased.
+    return `${protocol}${domain.toLowerCase()}/${path.join("/")}`;
+  }
+
+  /**
    * Validates that a given URL is properly federated with our current `portal`.
    * Attempts to use the internal `trustedServers` cache first.
    */
@@ -786,7 +800,7 @@ export class UserSession implements IAuthenticationManager {
   ) {
     // requests to /rest/services/ and /rest/admin/services/ are both valid
     // Federated servers may have inconsistent casing, so lowerCase it
-    const [root] = url.toLowerCase().split(/\/rest(\/admin)?\/services\//);
+    const root = this.getServerRootUrl(url);
     const existingToken = this.trustedServers[root];
 
     if (
