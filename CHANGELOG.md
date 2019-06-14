@@ -7,13 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [2.0.4] - June 14th 2019
+
+### @esri/arcgis-rest-auth
+
+* Bug Fixes
+   * **server root url**: improve discovery of services endpoint root url [`b2eed908`](https://github.com/Esri/arcgis-rest-js/commit/b2eed9085f4103a982c00cfcdf176df87b251cda) [#581](https://github.com/Esri/arcgis-rest-js/issues/581)
+
+### Other Changes
+
+* Chores
+   * **chore**: bump rollup (and family) (#575) [`f7a88f74`](https://github.com/Esri/arcgis-rest-js/commit/f7a88f74fe0687db102a7371b47b27d0a9ad36cb)
+
 ## [2.0.3] - May 23rd 2019
 
 ### @esri/arcgis-rest-auth
 
 * Bug Fixes
    * Federation will no longer lowercase the URL path, only the domain [` 7788b21`](https://github.com/Esri/arcgis-rest-js/commit/7788b21dc49baefcbdfbd383effe4e652db72b99)
-
 
 ## [2.0.2] - May 20th 2019
 
@@ -57,7 +68,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.0.0] - April 22nd 2019
 
-For a more readable explanation of the new features and breaking changes in this release, please take a look at [What&amp;#39;s new in `v2.0.0`](https://esri.github.io/arcgis-rest-js/guides/whats-new-v2-0/).
+For a more readable explanation of the new features and breaking changes in this release, please take a look at [What's new in `v2.0.0`](https://esri.github.io/arcgis-rest-js/guides/whats-new-v2-0/).
 
 ### @esri/arcgis-rest-request
 
@@ -1353,4 +1364,5 @@ Initial Public Release
 [2.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.0...v2.0.1 "v2.0.1"
 [2.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.1...v2.0.2 "v2.0.2"
 [2.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.2...v2.0.3 "v2.0.3"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.3...HEAD "Unreleased Changes"
+[2.0.4]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.3...v2.0.4 "v2.0.4"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.4...HEAD "Unreleased Changes"
