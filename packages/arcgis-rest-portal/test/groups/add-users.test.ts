@@ -151,15 +151,22 @@ describe("add-users", () => {
 
   it("should return request failure", done => {
     const responses = [
-      { notAdded: [] },
+      { notAdded: ["username2"] },
       {
         error: {
           code: 400,
           messageCode: "ORG_3100",
-          message: "error message"
+          message: "error message for add-user request"
         }
       },
-      { notAdded: ["username30"] }
+      { notAdded: ["username30"] },
+      {
+        error: {
+          code: 400,
+          messageCode: "ORG_3200",
+          message: "error message for add-admin request"
+        }
+      }
     ];
 
     fetchMock.post("*", () => responses.shift());
@@ -167,22 +174,46 @@ describe("add-users", () => {
     const params = {
       id: "group-id",
       users: createUsernames(0, 30),
-      admins: createUsernames(30, 35),
+      admins: createUsernames(30, 60),
       authentication: MOCK_AUTH
     };
 
     addGroupUsers(params)
       .then(result => {
         expect(responses.length).toEqual(0);
-        expect(result.notAdded).toEqual(createUsernames(25, 31));
-        expect(result.errors.length).toEqual(1);
 
-        const error = result.errors[0];
-        expect(error.url).toEqual(
+        const expectedNotAdded = ["username2"]
+          .concat(createUsernames(25, 31))
+          .concat(createUsernames(55, 60));
+        expect(result.notAdded).toEqual(expectedNotAdded);
+
+        expect(result.errors.length).toEqual(2);
+
+        const errorA = result.errors[0];
+        expect(errorA.url).toEqual(
           "https://myorg.maps.arcgis.com/sharing/rest/community/groups/group-id/addUsers"
         );
-        expect(error.code).toEqual("ORG_3100");
-        expect(error.originalMessage).toEqual("error message");
+        expect(errorA.code).toEqual("ORG_3100");
+        expect(errorA.originalMessage).toEqual(
+          "error message for add-user request"
+        );
+
+        const errorAOptions: any = errorA.options;
+        expect(errorAOptions.users).toEqual(createUsernames(25, 30));
+        expect(errorAOptions.admins).toBeUndefined();
+
+        const errorB = result.errors[1];
+        expect(errorB.url).toEqual(
+          "https://myorg.maps.arcgis.com/sharing/rest/community/groups/group-id/addUsers"
+        );
+        expect(errorB.code).toEqual("ORG_3200");
+        expect(errorB.originalMessage).toEqual(
+          "error message for add-admin request"
+        );
+
+        const errorBOptions: any = errorB.options;
+        expect(errorBOptions.users).toBeUndefined();
+        expect(errorBOptions.admins).toEqual(createUsernames(55, 60));
 
         done();
       })
