@@ -107,14 +107,13 @@ function _generateRequestOptions(
   });
 }
 
+// this request is safe since the request error will be handled
 function _sendSafeRequest(
   url: string,
   requestOptions: IAddGroupUsersOptions
 ): Promise<IAddGroupUsersResult> {
   return request(url, requestOptions).catch(error => {
     return {
-      // the request should either add users or admins, not both
-      notAdded: requestOptions.users || requestOptions.admins,
       errors: [error]
     };
   });

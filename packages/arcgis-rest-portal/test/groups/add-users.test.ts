@@ -182,9 +182,7 @@ describe("add-users", () => {
       .then(result => {
         expect(responses.length).toEqual(0);
 
-        const expectedNotAdded = ["username2"]
-          .concat(createUsernames(25, 31))
-          .concat(createUsernames(55, 60));
+        const expectedNotAdded = ["username2", "username30"];
         expect(result.notAdded).toEqual(expectedNotAdded);
 
         expect(result.errors.length).toEqual(2);
