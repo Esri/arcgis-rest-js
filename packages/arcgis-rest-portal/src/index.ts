@@ -10,6 +10,7 @@ export * from "./items/search";
 export * from "./items/update";
 export * from "./items/helpers";
 
+export * from "./groups/add-users";
 export * from "./groups/create";
 export * from "./groups/get";
 export * from "./groups/helpers";
