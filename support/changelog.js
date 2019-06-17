@@ -75,12 +75,12 @@ function getCommitData(from, to) {
       if (err) return reject(err);
       if (stderr) return reject(stderr);
       /*
-       order commits from most recent to least recent
-
-       graveyard
+       NOTE: you will get parsing errors on the next step if your commit messages have special chars like "
+       so you may need to uncomment the call to .replace() in the next line w/ something like:
        .replace(/"returns"/g, "returns")
        .replace(/\\/g, "\\\\")
        */
+      // order commits from most recent to least recent
       const commits = JSON.parse("[" + stdout.slice(0, -1)/*.replace()*/ + "]").reverse();
       const today = new Date();
       resolve({
