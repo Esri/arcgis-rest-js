@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+* New Features
+   * A new [`addGroupUsers`](https://esri.github.io/arcgis-rest-js/api/portal/addGroupUsers/) method has been added to add members to a given group.
+
 ## [2.0.4] - June 14th 2019
 
 ### @esri/arcgis-rest-auth
