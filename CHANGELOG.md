@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [2.1.0] - June 18th 2019
+
+### @esri/arcgis-rest-portal
+
 * New Features
-   * A new [`addGroupUsers`](https://esri.github.io/arcgis-rest-js/api/portal/addGroupUsers/) method has been added to add members to a given group.
+   * **portal**: a new function to add members to a given group [`998d3a70`](https://github.com/Esri/arcgis-rest-js/commit/998d3a705aac0ebdd59bacdbae2f48924cad86ff) [#584](https://github.com/Esri/arcgis-rest-js/issues/584)
 
 ## [2.0.4] - June 14th 2019
 
@@ -71,7 +75,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.0.0] - April 22nd 2019
 
-For a more readable explanation of the new features and breaking changes in this release, please take a look at [What's new in `v2.0.0`](https://esri.github.io/arcgis-rest-js/guides/whats-new-v2-0/).
+For a more readable explanation of the new features and breaking changes in this release, please take a look at [What&#39;s new in `v2.0.0`](https://esri.github.io/arcgis-rest-js/guides/whats-new-v2-0/).
 
 ### @esri/arcgis-rest-request
 
@@ -1368,4 +1372,5 @@ Initial Public Release
 [2.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.1...v2.0.2 "v2.0.2"
 [2.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.2...v2.0.3 "v2.0.3"
 [2.0.4]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.3...v2.0.4 "v2.0.4"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.4...HEAD "Unreleased Changes"
+[2.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.4...v2.1.0 "v2.1.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.0...HEAD "Unreleased Changes"
