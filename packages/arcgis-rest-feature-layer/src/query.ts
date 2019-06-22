@@ -186,7 +186,8 @@ export function queryFeatures(
       "historicMoment",
       "returnTrueCurves",
       "sqlFormat",
-      "returnExceededLimitFeatures"
+      "returnExceededLimitFeatures",
+      "f"
     ],
     {
       httpMethod: "GET",
