@@ -140,6 +140,13 @@ export interface IOAuth2Options {
    * @browserOnly
    */
   state?: string;
+
+  /**
+   * Show a link to create an account
+   *
+   * @browserOnly
+   */
+  showSignupOption?: boolean;
 }
 
 /**
@@ -264,7 +271,8 @@ export class UserSession implements IAuthenticationManager {
       redirectUri,
       popup,
       state,
-      locale
+      locale,
+      showSignupOption
     }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
@@ -285,6 +293,9 @@ export class UserSession implements IAuthenticationManager {
       url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${duration}&redirect_uri=${encodeURIComponent(
         redirectUri
       )}&state=${state}&locale=${locale}`;
+    }
+    if (showSignupOption) {
+      url = `${url}&showSignupOption=true`;
     }
 
     if (!popup) {
