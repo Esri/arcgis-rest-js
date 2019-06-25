@@ -95,7 +95,10 @@ describe("getFeature() and queryFeatures()", () => {
     const requestOptions: IQueryFeaturesOptions = {
       url: serviceUrl,
       where: "Condition='Poor'",
-      outFields: ["FID", "Tree_ID", "Cmn_Name", "Condition"]
+      outFields: ["FID", "Tree_ID", "Cmn_Name", "Condition"],
+      orderByFields: "test",
+      geometry: {},
+      geometryType: "esriGeometryPolygon"
     };
     fetchMock.once("*", queryResponse);
     queryFeatures(requestOptions)
@@ -105,7 +108,7 @@ describe("getFeature() and queryFeatures()", () => {
         expect(url).toEqual(
           `${
             requestOptions.url
-          }/query?f=json&where=Condition%3D'Poor'&outFields=FID%2CTree_ID%2CCmn_Name%2CCondition`
+          }/query?f=json&where=Condition%3D'Poor'&outFields=FID%2CTree_ID%2CCmn_Name%2CCondition&geometry=%7B%7D&geometryType=esriGeometryPolygon&orderByFields=test`
         );
         expect(options.method).toBe("GET");
         // expect(response.attributes.FID).toEqual(42);
