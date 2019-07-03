@@ -24,7 +24,7 @@ import {
 import { IUser } from "@esri/arcgis-rest-types";
 import { generateToken } from "./generate-token";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token";
-
+import { canUseOnlineToken, isFederated } from "./federation-utils";
 /**
  * Internal utility for resolving a Promise from outside its constructor.
  *
@@ -722,11 +722,7 @@ export class UserSession implements IAuthenticationManager {
    * to our current `portal`.
    */
   public getToken(url: string, requestOptions?: ITokenRequestOptions) {
-    if (
-      (arcgisOnlinePortalRegex.test(this.portal) ||
-        arcgisOnlineOrgPortalRegex.test(this.portal)) &&
-      arcgisOnlineUrlRegex.test(url)
-    ) {
+    if (canUseOnlineToken(this.portal, url)) {
       return this.getFreshToken(requestOptions);
     } else if (new RegExp(this.portal, "i").test(url)) {
       return this.getFreshToken(requestOptions);
@@ -823,7 +819,7 @@ export class UserSession implements IAuthenticationManager {
            * bail out with an error since we know we wont
            * be able to generate a token
            */
-          if (!new RegExp(response.owningSystemUrl, "i").test(this.portal)) {
+          if (!isFederated(response.owningSystemUrl, this.portal)) {
             throw new ArcGISAuthError(
               `${url} is not federated with ${this.portal}.`,
               "NOT_FEDERATED"
