@@ -25,6 +25,7 @@ import { IUser } from "@esri/arcgis-rest-types";
 import { generateToken } from "./generate-token";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token";
 import { canUseOnlineToken, isFederated } from "./federation-utils";
+
 /**
  * Internal utility for resolving a Promise from outside its constructor.
  *
