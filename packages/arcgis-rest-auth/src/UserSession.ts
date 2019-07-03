@@ -142,12 +142,7 @@ export interface IOAuth2Options {
    */
   state?: string;
 
-  /**
-   * Additional query parameters to pass when authenticating
-   *
-   * @browserOnly
-   */
-  params?: { [key: string]: any };
+  [key: string]: any;
 }
 
 /**
