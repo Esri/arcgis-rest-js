@@ -19,14 +19,14 @@ module.exports = function(config) {
 
     karmaTypescriptConfig: {
       coverageOptions: {
-        // threshold: {
-        //   global: {
-        //       statements: 100,
-        //       branches: 100,
-        //       functions: 100,
-        //       lines: 100
-        //   }
-        // }
+        threshold: {
+          global: {
+            statements: 100,
+            branches: 100,
+            functions: 100,
+            lines: 100
+          }
+        }
       },
       reports: {
         json: {
