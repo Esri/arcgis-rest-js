@@ -80,6 +80,7 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   returnTrueCurves?: false;
   sqlFormat?: "none" | "standard" | "native";
   returnExceededLimitFeatures?: boolean;
+  f?: "json" | "geojson" | "html" | "pbf";
   /**
    * someday...
    *
@@ -189,7 +190,8 @@ export function queryFeatures(
       "historicMoment",
       "returnTrueCurves",
       "sqlFormat",
-      "returnExceededLimitFeatures"
+      "returnExceededLimitFeatures",
+      "f"
     ],
     {
       httpMethod: "GET",
