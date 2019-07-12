@@ -91,6 +91,48 @@ describe("UserSession", () => {
         });
     });
 
+    it("should return unexpired tokens when an org url is passed on other ArcGIS Online environments", done => {
+      const session = new UserSession({
+        clientId: "id",
+        token: "token",
+        tokenExpires: TOMORROW,
+        portal: "https://custom.mapsdev.arcgis.com/sharing/rest"
+      });
+
+      session
+        .getToken(
+          "https://services1dev.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
+        )
+        .then(token => {
+          expect(token).toBe("token");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should return unexpired tokens when there is an http/https mismatch", done => {
+      const session = new UserSession({
+        clientId: "id",
+        token: "token",
+        tokenExpires: TOMORROW,
+        portal: "http://custom.mapsdev.arcgis.com/sharing/rest"
+      });
+
+      session
+        .getToken(
+          "https://services1dev.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
+        )
+        .then(token => {
+          expect(token).toBe("token");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
     it("should return unexpired tokens for the configured portal domain", done => {
       const session = new UserSession({
         clientId: "id",

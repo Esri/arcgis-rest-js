@@ -21,19 +21,19 @@ module.exports = function(config) {
       coverageOptions: {
         threshold: {
           global: {
-              statements: 100,
-              branches: 100,
-              functions: 100,
-              lines: 100
+            statements: 100,
+            branches: 100,
+            functions: 100,
+            lines: 100
           }
         }
       },
       reports: {
-        "json": {
-          "directory": "coverage",
-          "filename": "coverage.json"
+        json: {
+          directory: "coverage",
+          filename: "coverage.json"
         },
-        "html": "coverage"
+        html: "coverage"
       },
       compilerOptions: {
         module: "commonjs"
@@ -98,9 +98,9 @@ module.exports = function(config) {
     concurrency: Infinity,
     customLaunchers: {
       ChromeHeadlessCI: {
-        base: 'ChromeHeadless',
-        flags: ['--no-sandbox']
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox"]
       }
-    },
+    }
   });
 };
