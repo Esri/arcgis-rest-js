@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [2.1.1] - July 15th 2019
+
+### @esri/arcgis-rest-feature-layer
+
+* Bug Fixes
+   * **queryFeatures**: pass along f, geometry, geometryType, and spatialRel params [`f4b775d1`](https://github.com/Esri/arcgis-rest-js/commit/f4b775d1b4ee6b45cd2be04009023ac12958ce31) [#588](https://github.com/Esri/arcgis-rest-js/issues/588)
+
+### @esri/arcgis-rest-auth
+
+* Bug Fixes
+   * **federation**: Fixes for federation and shortcutting federations  [`9d91ba6`](https://github.com/Esri/arcgis-rest-js/commit/9d91ba68510e82b85053a5ec9da3d13e60a62441) [#596](https://github.com/Esri/arcgis-rest-js/issues/596)
+
 ## [2.1.0] - June 18th 2019
 
 ### @esri/arcgis-rest-portal
@@ -75,7 +87,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.0.0] - April 22nd 2019
 
-For a more readable explanation of the new features and breaking changes in this release, please take a look at [What&#39;s new in `v2.0.0`](https://esri.github.io/arcgis-rest-js/guides/whats-new-v2-0/).
+For a more readable explanation of the new features and breaking changes in this release, please take a look at [What&amp;#39;s new in `v2.0.0`](https://esri.github.io/arcgis-rest-js/guides/whats-new-v2-0/).
 
 ### @esri/arcgis-rest-request
 
@@ -1373,4 +1385,5 @@ Initial Public Release
 [2.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.2...v2.0.3 "v2.0.3"
 [2.0.4]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.3...v2.0.4 "v2.0.4"
 [2.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.4...v2.1.0 "v2.1.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.0...HEAD "Unreleased Changes"
+[2.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.0...v2.1.1 "v2.1.1"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.1...HEAD "Unreleased Changes"
