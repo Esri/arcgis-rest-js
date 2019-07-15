@@ -19,7 +19,8 @@ import {
   ArcGISAuthError,
   IAuthenticationManager,
   ITokenRequestOptions,
-  cleanUrl
+  cleanUrl,
+  encodeQueryString
 } from "@esri/arcgis-rest-request";
 import { IUser } from "@esri/arcgis-rest-types";
 import { generateToken } from "./generate-token";
@@ -141,6 +142,8 @@ export interface IOAuth2Options {
    * @browserOnly
    */
   state?: string;
+
+  [key: string]: any;
 }
 
 /**
@@ -265,7 +268,8 @@ export class UserSession implements IAuthenticationManager {
       redirectUri,
       popup,
       state,
-      locale
+      locale,
+      params
     }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
@@ -286,6 +290,11 @@ export class UserSession implements IAuthenticationManager {
       url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${duration}&redirect_uri=${encodeURIComponent(
         redirectUri
       )}&state=${state}&locale=${locale}`;
+    }
+
+    // append additional params
+    if (params) {
+      url = `${url}&${encodeQueryString(params)}`;
     }
 
     if (!popup) {
