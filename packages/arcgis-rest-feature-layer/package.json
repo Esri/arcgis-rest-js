@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-feature-layer",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Feature layer query and edit helpers for @esri/arcgis-rest-js",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/feature-layer.umd.js",
@@ -13,12 +13,12 @@
     "dist/**"
   ],
   "dependencies": {
-    "@esri/arcgis-rest-types": "^2.1.1",
+    "@esri/arcgis-rest-types": "^2.2.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^2.1.1",
-    "@esri/arcgis-rest-request": "^2.1.1"
+    "@esri/arcgis-rest-auth": "^2.2.0",
+    "@esri/arcgis-rest-request": "^2.2.0"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^2.0.0",

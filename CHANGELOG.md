@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [2.2.0] - July 18th 2019
+
+### @esri/arcgis-rest-portal
+
+* New Features
+   * **portal**: searchGroupUsers searches the users in the given group [`d9151a15`](https://github.com/Esri/arcgis-rest-js/commit/d9151a15fb34ae0ddc551f350e877ff7dd10405e)
+
 ## [2.1.1] - July 15th 2019
 
 ### @esri/arcgis-rest-feature-layer
@@ -87,7 +94,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.0.0] - April 22nd 2019
 
-For a more readable explanation of the new features and breaking changes in this release, please take a look at [What&amp;#39;s new in `v2.0.0`](https://esri.github.io/arcgis-rest-js/guides/whats-new-v2-0/).
+For a more readable explanation of the new features and breaking changes in this release, please take a look at [What is new in `v2.0.0`](https://esri.github.io/arcgis-rest-js/guides/whats-new-v2-0/).
 
 ### @esri/arcgis-rest-request
 
@@ -1386,4 +1393,5 @@ Initial Public Release
 [2.0.4]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.3...v2.0.4 "v2.0.4"
 [2.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.4...v2.1.0 "v2.1.0"
 [2.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.0...v2.1.1 "v2.1.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.1...HEAD "Unreleased Changes"
+[2.2.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.1...v2.2.0 "v2.2.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.0...HEAD "Unreleased Changes"
