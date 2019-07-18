@@ -4,7 +4,8 @@
 import { ISearchResult } from "../../../src/util/search";
 import {
   IGroupContentResult,
-  IGroupUsersResult
+  IGroupUsersResult,
+  ISearchGroupUsersResult
 } from "../../../src/groups/get";
 
 import { IGroup } from "@esri/arcgis-rest-types";
@@ -141,4 +142,31 @@ export const GroupContentResponse: IGroupContentResult = {
 
 export const GroupNotificationResponse: any = {
   success: true
+};
+
+export const SearchGroupUsersResponse: ISearchGroupUsersResult = {
+  total: 4,
+  start: 1,
+  num: 2,
+  nextStart: 3,
+  owner: {
+    username: "Vulcan",
+    fullName: "Spock Vulcan"
+  },
+  users: [
+    {
+      username: "mjuniper5",
+      fullName: "Mike Juniper",
+      memberType: "member",
+      thumbnail: "ArcGIS-Hub-Glyph-gray.png",
+      joined: 1561555887000
+    },
+    {
+      username: "mjuniper50",
+      fullName: "Mike Juniper",
+      memberType: "member",
+      thumbnail: null,
+      joined: 1561555863000
+    }
+  ]
 };

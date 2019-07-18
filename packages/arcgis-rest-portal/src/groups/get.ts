@@ -1,9 +1,12 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IRequestOptions } from "@esri/arcgis-rest-request";
-import { IPagingParams, IGroup, IItem } from "@esri/arcgis-rest-types";
-
+import {
+  request,
+  IRequestOptions,
+  appendCustomParams
+} from "@esri/arcgis-rest-request";
+import { IPagingParams, IGroup, IItem, IUser } from "@esri/arcgis-rest-types";
 import { getPortalUrl } from "../util/get-portal-url";
 
 export interface IGetGroupContentOptions extends IRequestOptions {
@@ -95,5 +98,51 @@ export function getGroupUsers(
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
+  return request(url, options);
+}
+
+export interface ISearchGroupUsersOptions
+  extends IRequestOptions,
+    IPagingParams {
+  name?: string;
+  sortField?: string;
+  sortOrder?: string;
+  [key: string]: any;
+}
+
+export interface ISearchGroupUsersResult {
+  total: number;
+  start: number;
+  num: number;
+  nextStart: number;
+  owner: IUser;
+  users: any[];
+}
+
+/**
+ * ```js
+ * import { searchGroupUsers } from "@esri/arcgis-rest-portal";
+ * //
+ * searchGroupUsers('abc123')
+ *   .then(response)
+ * ```
+ * Search the users in a group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/group-users-list.htm) for more information.
+ *
+ * @param id - The group id
+ * @param searchOptions - Options for the request, including paging parameters.
+ * @returns A Promise that will resolve with the data from the response.
+ */
+export function searchGroupUsers(
+  id: string,
+  searchOptions: ISearchGroupUsersOptions
+): Promise<ISearchGroupUsersResult> {
+  const url = `${getPortalUrl(searchOptions)}/community/groups/${id}/userlist`;
+  const options = appendCustomParams<ISearchGroupUsersOptions>(
+    searchOptions,
+    ["name", "num", "start", "sortField", "sortOrder"],
+    {
+      httpMethod: "GET"
+    }
+  );
   return request(url, options);
 }
