@@ -1,12 +1,18 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { getGroup, getGroupContent, getGroupUsers } from "../../src/groups/get";
+import {
+  getGroup,
+  getGroupContent,
+  getGroupUsers,
+  searchGroupUsers
+} from "../../src/groups/get";
 
 import {
   GroupResponse,
   GroupContentResponse,
-  GroupUsersResponse
+  GroupUsersResponse,
+  SearchGroupUsersResponse
 } from "../mocks/groups/responses";
 
 import * as fetchMock from "fetch-mock";
@@ -89,6 +95,33 @@ describe("groups", () => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/users?f=json&token=fake-token"
+          );
+          expect(options.method).toBe("GET");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should search group users", done => {
+      fetchMock.once("*", SearchGroupUsersResponse);
+
+      searchGroupUsers("5bc", {
+        params: {
+          name: "jupe",
+          sortField: "fullname",
+          sortOrder: "asc",
+          num: 2,
+          start: 2
+        },
+        ...MOCK_REQOPTS
+      })
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/userlist?f=json&name=jupe&sortField=fullname&sortOrder=asc&num=2&start=2&token=fake-token"
           );
           expect(options.method).toBe("GET");
           done();
