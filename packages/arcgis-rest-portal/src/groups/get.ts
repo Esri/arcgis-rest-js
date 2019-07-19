@@ -107,6 +107,8 @@ export interface ISearchGroupUsersOptions
   name?: string;
   sortField?: string;
   sortOrder?: string;
+  joined?: number | number[];
+  memberType?: string;
   [key: string]: any;
 }
 
@@ -139,7 +141,7 @@ export function searchGroupUsers(
   const url = `${getPortalUrl(searchOptions)}/community/groups/${id}/userlist`;
   const options = appendCustomParams<ISearchGroupUsersOptions>(
     searchOptions,
-    ["name", "num", "start", "sortField", "sortOrder"],
+    ["name", "num", "start", "sortField", "sortOrder", "joined", "memberType"],
     {
       httpMethod: "GET"
     }
