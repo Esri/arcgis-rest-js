@@ -113,7 +113,9 @@ describe("groups", () => {
           sortField: "fullname",
           sortOrder: "asc",
           num: 2,
-          start: 2
+          start: 2,
+          joined: [null, 123456],
+          memberType: "member"
         },
         ...MOCK_REQOPTS
       })
@@ -121,7 +123,7 @@ describe("groups", () => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/userlist?f=json&name=jupe&sortField=fullname&sortOrder=asc&num=2&start=2&token=fake-token"
+            "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/userlist?f=json&name=jupe&sortField=fullname&sortOrder=asc&num=2&start=2&joined=%2C123456&memberType=member&token=fake-token"
           );
           expect(options.method).toBe("GET");
           done();
