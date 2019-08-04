@@ -24,5 +24,6 @@ export {
   IExtent,
   SpatialRelationship,
   IGeometry,
-  ILayerDefinition
+  ILayerDefinition,
+  IFeatureServiceDefinition
 } from "@esri/arcgis-rest-types";
