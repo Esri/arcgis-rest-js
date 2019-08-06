@@ -102,7 +102,8 @@ export function geocode(
         "region",
         "postal",
         "postalExt",
-        "countryCode"
+        "countryCode",
+        "magicKey"
       ],
       { params: { ...address.params } }
     );
