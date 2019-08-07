@@ -787,7 +787,7 @@ export class UserSession implements IAuthenticationManager {
    * @param url the URl to determine the root url for.
    */
   public getServerRootUrl(url: string) {
-    const [root] = url.split(/\/rest(\/admin)?\/services(?:\/|#|\?|$)/);
+    const [root] = cleanUrl(url).split(/\/rest(\/admin)?\/services(?:\/|#|\?|$)/);
     const [match, protocol, domainAndPath] = root.match(/(https?:\/\/)(.+)/);
     const [domain, ...path] = domainAndPath.split("/");
 
