@@ -1,8 +1,144 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { ILayerDefinition } from "@esri/arcgis-rest-types";
+import {
+  ILayerDefinition,
+  IFeatureServiceDefinition
+} from "@esri/arcgis-rest-types";
 import { cvdServiceFields } from "./fields";
+
+export const getFeatureServerResponse: IFeatureServiceDefinition = {
+  currentVersion: 10.21,
+  serviceDescription: "Birds",
+  hasVersionedData: false,
+  supportsDisconnectedEditing: false,
+  supportsReturnDeleteResults: true,
+  supportsRelationshipsResource: true,
+  syncEnabled: false,
+  hasStaticData: false,
+  maxRecordCount: 1000,
+  supportedQueryFormats: "JSON",
+  capabilities: "Query,Create,Delete,Update,Uploads,Editing",
+  description: "",
+  copyrightText: "",
+  advancedEditingCapabilities: { supportsSplit: true },
+  spatialReference: {
+    wkid: 4326,
+    latestWkid: 4326
+  },
+  initialExtent: {
+    xmin: -118.016756138237,
+    ymin: 32.8933824408207,
+    xmax: -116.532738278622,
+    ymax: 34.3261469363675,
+    spatialReference: {
+      wkid: 4326,
+      latestWkid: 4326
+    }
+  },
+  fullExtent: {
+    xmin: -117.855689264791,
+    ymin: 32.5702577626442,
+    xmax: -116.87086222794,
+    ymax: 34.1460567673275,
+    spatialReference: {
+      wkid: 4326,
+      latestWkid: 4326
+    }
+  },
+  allowGeometryUpdates: true,
+  units: "esriDecimalDegrees",
+  validationSystemLayers: {
+    validationPointErrorlayerId: 1,
+    validationLineErrorlayerId: 2,
+    validationPolygonErrorlayerId: 3,
+    validationObjectErrortableId: 5
+  },
+  extractChangesCapabilities: {
+    supportsReturnIdsOnly: true,
+    supportsReturnExtentOnly: false,
+    supportsReturnAttachments: false,
+    supportsLayerQueries: false,
+    supportsSpatialFilter: false,
+    supportsReturnFeature: false
+  },
+  syncCapabilities: {
+    supportsASync: true,
+    supportsRegisteringExistingData: true,
+    supportsSyncDirectionControl: true,
+    supportsPerLayerSync: true,
+    supportsPerReplicaSync: false,
+    supportsRollbackOnFailure: false,
+    supportedSyncDataOptions: 3
+  },
+  editorTrackingInfo: {
+    enableEditorTracking: false,
+    enableOwnershipAccessControl: false,
+    allowOthersToUpdate: true,
+    allowOthersToDelete: false
+  },
+  layers: [
+    {
+      id: 0,
+      name: "Sitings",
+      parentLayerId: -1,
+      defaultVisibility: true,
+      minScale: 0,
+      maxScale: 0,
+      geometryType: "esriGeometryPoint"
+    },
+    {
+      id: 1,
+      name: "NestingGrounds",
+      parentLayerId: -1,
+      defaultVisibility: true,
+      minScale: 0,
+      maxScale: 0,
+      geometryType: "esriGeometryPolygon"
+    },
+    {
+      id: 2,
+      name: "LandCover",
+      parentLayerId: -1,
+      defaultVisibility: true,
+      minScale: 0,
+      maxScale: 0,
+      geometryType: "esriGeometryPolygon"
+    }
+  ],
+  tables: [],
+  relationships: [
+    {
+      id: 0,
+      name: "county_division",
+      backwardPathLabel: "belongs",
+      originLayerId: 0,
+      originPrimaryKey: "GlobalID",
+      forwardPathLabel: "has",
+      destinationLayerId: 2,
+      originForeignKey: "GlobalID_sor",
+      relationshipTableId: 3,
+      destinationPrimaryKey: "GlobalID",
+      destinationForeignKey: "GlobalID_des",
+      rules: [
+        {
+          ruleID: 1,
+          originSubtypeCode: 1,
+          originMinimumCardinality: 0,
+          originMaximumCardinality: 2,
+          destinationSubtypeCode: 0,
+          destinationMinimumCardinality: 0,
+          destinationMaximumCardinality: 1
+        }
+      ],
+      cardinality: "esriRelCardinalityOneToMany",
+      attributed: false,
+      composite: true
+    }
+  ],
+  isLocationTrackingService: true,
+  isLocationTrackingView: true
+};
 
 export const getFeatureServiceResponse: ILayerDefinition = {
   currentVersion: 10.6,
