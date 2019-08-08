@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [2.3.0] - August 8th 2019
+
+### @esri/arcgis-rest-geocoding
+
+* Bug Fixes
+   * **geocode**: ensure the magicKey property is passed through. (#603) [`cc2c352a`](https://github.com/Esri/arcgis-rest-js/commit/cc2c352accd8b0090177f3b45fec68d95431b96e) [#601](https://github.com/Esri/arcgis-rest-js/issues/601) [#603](https://github.com/Esri/arcgis-rest-js/issues/603)
+
+### @esri/arcgis-rest-portal
+
+* Bug Fixes
+   * **portal**: setting item access to public shares correctly [`025406e0`](https://github.com/Esri/arcgis-rest-js/commit/025406e00a369b6a1b40097e7b03d5698ea41744)
+
+### @esri/arcgis-rest-types
+
+* Chores
+   * **node**: support Node 12 [`9e21d3d5`](https://github.com/Esri/arcgis-rest-js/commit/9e21d3d539ae98f090ecdc8a74ee86f5f045949c)
+
+### Other Changes
+
+* Chores
+   * **node**: support Node 12 [`8dbce6ae`](https://github.com/Esri/arcgis-rest-js/commit/8dbce6ae9aa0fab8c319abb89a87008def419ef9)
+
+## [2.2.1] - July 22nd 2019
+
+### @esri/arcgis-rest-portal
+
+* Bug Fixes
+   * **portal**: searchGroupUsers will now respect joined and memberType parameters [`79b15b5`](https://github.com/Esri/arcgis-rest-js/commit/79b15b5a00ec3efed2193d3d16f61417bfcc933d)
+
+### Other Changes
+
+* Bug Fixes
+   * **portal**: searchGroupUsers will now respect additional parameters [`0768eab`](https://github.com/Esri/arcgis-rest-js/commit/0768eab390912591e0aadbfbed114a306d991a01)
+
 ## [2.2.0] - July 18th 2019
 
 ### @esri/arcgis-rest-portal
@@ -1367,7 +1401,8 @@ Initial Public Release
 [1.8.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.1...v1.8.0 "v1.8.0"
 [1.9.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.8.0...v1.9.0 "v1.9.0"
 [1.10.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.9.0...v1.10.0 "v1.10.0"
-[1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.1 "v1.11.1"
+[1.11.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.0 "v1.11.0"
+[1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.0...v1.11.1 "v1.11.1"
 [1.12.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.1...v1.12.0 "v1.12.0"
 [1.13.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.12.0...v1.13.0 "v1.13.0"
 [1.13.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.0...v1.13.1 "v1.13.1"
@@ -1394,4 +1429,6 @@ Initial Public Release
 [2.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.4...v2.1.0 "v2.1.0"
 [2.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.0...v2.1.1 "v2.1.1"
 [2.2.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.1...v2.2.0 "v2.2.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.0...HEAD "Unreleased Changes"
+[2.2.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.0...v2.2.1 "v2.2.1"
+[2.3.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.1...v2.3.0 "v2.3.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.3.0...HEAD "Unreleased Changes"
