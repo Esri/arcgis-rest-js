@@ -47,7 +47,7 @@ describe("setItemAccess()", () => {
         expect(response).toEqual(SharingResponse);
         expect(options.body).toContain("f=json");
         expect(options.body).toContain("everyone=true");
-        expect(options.body).toContain("org=true");
+        expect(options.body).toContain("account=true");
         done();
       })
       .catch(e => {

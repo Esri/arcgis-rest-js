@@ -77,7 +77,9 @@ function updateItemAccess(
   }
   // if sharing with everyone, share with the entire organization as well.
   if (requestOptions.access === "public") {
-    requestOptions.params.org = true;
+    // this is how the ArcGIS Online Home app sets public access
+    // setting org = true instead of account = true will cancel out all sharing
+    requestOptions.params.account = true;
     requestOptions.params.everyone = true;
   }
   return request(url, requestOptions);
