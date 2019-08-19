@@ -63,11 +63,10 @@ export function createFolder(
  * ```js
  * import { createItemInFolder } from "@esri/arcgis-rest-portal";
  * //
- * createItem({
+ * createItemInFolder({
  *   item: {
  *     title: "The Amazing Voyage",
- *     type: "Web Map",
- *     data: {}
+ *     type: "Web Map"
  *   },
  *   folderId: 'fe8',
  *   authentication
@@ -80,8 +79,19 @@ export function createFolder(
 export function createItemInFolder(
   requestOptions: ICreateItemOptions
 ): Promise<ICreateItemResponse> {
-  const owner = determineOwner(requestOptions);
+  if (requestOptions.file && !requestOptions.multipart) {
+    return Promise.reject(
+      new Error("The request must be a multipart request for file uploading.")
+    );
+  }
 
+  if (requestOptions.multipart && !requestOptions.filename) {
+    return Promise.reject(
+      new Error("The file name is required for a multipart request.")
+    );
+  }
+
+  const owner = determineOwner(requestOptions);
   const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
   let url = `${baseUrl}/addItem`;
 
@@ -91,6 +101,12 @@ export function createItemInFolder(
 
   // serialize the item into something Portal will accept
   requestOptions.params = {
+    file: requestOptions.file,
+    dataUrl: requestOptions.dataUrl,
+    text: requestOptions.text,
+    async: requestOptions.async,
+    multipart: requestOptions.multipart,
+    filename: requestOptions.filename,
     ...requestOptions.params,
     ...serializeItem(requestOptions.item)
   };
@@ -105,8 +121,7 @@ export function createItemInFolder(
  * createItem({
  *   item: {
  *     title: "The Amazing Voyage",
- *     type: "Web Map",
- *     data: {}
+ *     type: "Web Map"
  *   },
  *   authentication
  * })
