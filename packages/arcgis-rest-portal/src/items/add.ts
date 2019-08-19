@@ -10,7 +10,8 @@ import {
   IUpdateItemResponse,
   IItemResourceResponse,
   determineOwner,
-  IManageItemRelationshipOptions
+  IManageItemRelationshipOptions,
+  IItemPartOptions
 } from "./helpers";
 import { updateItem, IUpdateItemOptions } from "./update";
 
@@ -130,6 +131,41 @@ export function addItemResource(
     fileName: requestOptions.name,
     text: requestOptions.content,
     access: requestOptions.private ? "private" : "inherit",
+    ...requestOptions.params
+  };
+
+  return request(url, requestOptions);
+}
+
+/**
+ * ```js
+ * import { addItemPart } from "@esri/arcgis-rest-portal";
+ * //
+ * addItemPart({
+ *   id: "30e5fe3149c34df1ba922e6f5bbf808f",
+ *   part: data,
+ *   partNum: 1,
+ *   authentication
+ * })
+ *   .then(response)
+ * ```
+ * Inquire about status when publishing an item, adding an item in async mode, or adding with a multipart upload. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/status.htm) for more information.
+ *
+ * @param id - The Id of the item to get status for.
+ * @param requestOptions - Options for the request
+ * @returns A Promise to get the item status.
+ */
+export function addItemPart(
+  requestOptions?: IItemPartOptions
+): Promise<IUpdateItemResponse> {
+  const owner = determineOwner(requestOptions);
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/addPart`;
+
+  requestOptions.params = {
+    file: requestOptions.part,
+    partNum: requestOptions.partNum,
     ...requestOptions.params
   };
 

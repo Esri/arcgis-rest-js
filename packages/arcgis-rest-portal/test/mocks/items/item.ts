@@ -4,7 +4,9 @@
 import { IItem } from "@esri/arcgis-rest-types";
 import {
   IGetRelatedItemsResponse,
-  IGetItemGroupsResponse
+  IGetItemGroupsResponse,
+  IGetItemStatusResponse,
+  IGetItemPartsResponse
 } from "../../../src/items/get";
 
 export const ItemSuccessResponse: any = {
@@ -119,4 +121,14 @@ export const ItemGroupResponse: IGetItemGroupsResponse = {
       protected: false
     }
   ]
+};
+
+export const ItemStatusResponse: IGetItemStatusResponse = {
+  status: "completed",
+  statusMessage: "completed",
+  itemId: "1df"
+};
+
+export const ItemPartsResponse: IGetItemPartsResponse = {
+  parts: [1]
 };
