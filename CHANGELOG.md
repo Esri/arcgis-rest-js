@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+* New Features
+   * **portal**: new functions and parameters to support async and multiple upload during item creation [#611](https://github.com/Esri/arcgis-rest-js/issues/611)
+
 ## [2.3.0] - August 8th 2019
 
 ### @esri/arcgis-rest-geocoding
