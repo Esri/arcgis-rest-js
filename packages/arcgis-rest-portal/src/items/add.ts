@@ -149,7 +149,7 @@ export function addItemResource(
  * })
  *   .then(response)
  * ```
- * Inquire about status when publishing an item, adding an item in async mode, or adding with a multipart upload. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/status.htm) for more information.
+ * Inquire about status when publishing an item, adding an item in async mode, or adding with a multipart upload. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-item-part.htm) for more information.
  *
  * @param id - The Id of the item to get status for.
  * @param requestOptions - Options for the request
