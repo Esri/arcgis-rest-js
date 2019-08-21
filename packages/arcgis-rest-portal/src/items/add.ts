@@ -163,11 +163,11 @@ export function addItemPart(
     requestOptions.id
   }/addPart`;
 
-  requestOptions.params = {
-    file: requestOptions.part,
-    partNum: requestOptions.partNum,
-    ...requestOptions.params
-  };
+  const options = appendCustomParams<IItemPartOptions>(
+    requestOptions,
+    ["file", "partNum"],
+    { params: { ...requestOptions.params } }
+  );
 
-  return request(url, requestOptions);
+  return request(url, options);
 }

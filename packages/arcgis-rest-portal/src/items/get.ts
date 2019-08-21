@@ -1,7 +1,11 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IRequestOptions } from "@esri/arcgis-rest-request";
+import {
+  request,
+  IRequestOptions,
+  appendCustomParams
+} from "@esri/arcgis-rest-request";
 import { IItem, IGroup } from "@esri/arcgis-rest-types";
 
 import { getPortalUrl } from "../util/get-portal-url";
@@ -226,13 +230,13 @@ export function getItemStatus(
     requestOptions.id
   }/status`;
 
-  requestOptions.params = {
-    jobId: requestOptions.jobId,
-    jobType: requestOptions.jobType,
-    ...requestOptions.params
-  };
+  const options = appendCustomParams<IItemStatusOptions>(
+    requestOptions,
+    ["jobId", "jobType"],
+    { params: { ...requestOptions.params } }
+  );
 
-  return request(url, requestOptions);
+  return request(url, options);
 }
 
 export interface IGetItemPartsResponse {

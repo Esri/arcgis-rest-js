@@ -137,7 +137,7 @@ export interface IItemPartOptions extends IUserItemOptions {
   /**
    * The file part to be uploaded.
    */
-  part: any;
+  file: any;
   /**
    * Part numbers can be any number from 1 to 10,000, inclusive. A part number uniquely identifies a part and also defines its position within the object being created. If you upload a new part using the same part number that was used with a previous part, the previously uploaded part is overwritten.
    */

@@ -329,7 +329,7 @@ describe("search", () => {
       addItemPart({
         id: "3ef",
         // File() is only available in the browser
-        part: file,
+        file,
         partNum: 1,
         ...MOCK_USER_REQOPTS
       })
@@ -368,7 +368,7 @@ describe("search", () => {
         id: "3ef",
         owner: "joe",
         // File() is only available in the browser
-        part: file,
+        file,
         partNum: 1,
         ...MOCK_USER_REQOPTS
       })
