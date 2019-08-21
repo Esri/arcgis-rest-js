@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request } from "@esri/arcgis-rest-request";
+import { request, appendCustomParams } from "@esri/arcgis-rest-request";
 import { IItemAdd } from "@esri/arcgis-rest-types";
 
 import { getPortalUrl } from "../util/get-portal-url";
@@ -99,19 +99,30 @@ export function createItemInFolder(
     url = `${baseUrl}/${requestOptions.folderId}/addItem`;
   }
 
-  // serialize the item into something Portal will accept
   requestOptions.params = {
-    file: requestOptions.file,
-    dataUrl: requestOptions.dataUrl,
-    text: requestOptions.text,
-    async: requestOptions.async,
-    multipart: requestOptions.multipart,
-    filename: requestOptions.filename,
     ...requestOptions.params,
     ...serializeItem(requestOptions.item)
   };
 
-  return request(url, requestOptions);
+  // serialize the item into something Portal will accept
+  const options = appendCustomParams<ICreateItemOptions>(
+    requestOptions,
+    [
+      "owner",
+      "folderId",
+      "file",
+      "dataUrl",
+      "text",
+      "async",
+      "multipart",
+      "filename"
+    ],
+    {
+      params: { ...requestOptions.params }
+    }
+  );
+
+  return request(url, options);
 }
 
 /**
