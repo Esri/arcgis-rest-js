@@ -22,6 +22,7 @@ export * from "./groups/update";
 export * from "./groups/join";
 
 export * from "./users/get-user";
+export * from "./users/get-user-tags";
 export * from "./users/get-user-url";
 export * from "./users/invitation";
 export * from "./users/notification";
