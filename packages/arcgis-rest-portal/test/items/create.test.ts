@@ -281,7 +281,7 @@ describe("search", () => {
         },
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then(() => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -321,7 +321,7 @@ describe("search", () => {
         item: fakeItem,
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then(() => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -369,6 +369,53 @@ describe("search", () => {
         })
         .catch(e => {
           fail(e);
+        });
+    });
+
+    it("should throw an error for a file upload request with multipart=false", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+      const fakeItem = {
+        owner: "casey",
+        title: "my fake item",
+        type: "Web Mapping Application"
+      };
+      createItemInFolder({
+        item: fakeItem,
+        file: "some file",
+        // multipart is required to be true for file upload
+        multipart: false,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          fail();
+        })
+        .catch(() => {
+          expect(fetchMock.called()).toEqual(false);
+          done();
+        });
+    });
+
+    it("should throw an error for a multipart request with no file name", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+      const fakeItem = {
+        owner: "casey",
+        title: "my fake item",
+        type: "Web Mapping Application"
+      };
+      createItemInFolder({
+        item: fakeItem,
+        file: "some file",
+        multipart: true,
+        // multipart is required for a multipart request
+        filename: "",
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          fail();
+        })
+        .catch(() => {
+          expect(fetchMock.called()).toEqual(false);
+          done();
         });
     });
   }); // auth requests

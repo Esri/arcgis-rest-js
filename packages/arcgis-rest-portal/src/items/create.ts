@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request } from "@esri/arcgis-rest-request";
+import { request, appendCustomParams } from "@esri/arcgis-rest-request";
 import { IItemAdd } from "@esri/arcgis-rest-types";
 
 import { getPortalUrl } from "../util/get-portal-url";
@@ -63,11 +63,10 @@ export function createFolder(
  * ```js
  * import { createItemInFolder } from "@esri/arcgis-rest-portal";
  * //
- * createItem({
+ * createItemInFolder({
  *   item: {
  *     title: "The Amazing Voyage",
- *     type: "Web Map",
- *     data: {}
+ *     type: "Web Map"
  *   },
  *   folderId: 'fe8',
  *   authentication
@@ -80,8 +79,19 @@ export function createFolder(
 export function createItemInFolder(
   requestOptions: ICreateItemOptions
 ): Promise<ICreateItemResponse> {
-  const owner = determineOwner(requestOptions);
+  if (requestOptions.file && !requestOptions.multipart) {
+    return Promise.reject(
+      new Error("The request must be a multipart request for file uploading.")
+    );
+  }
 
+  if (requestOptions.multipart && !requestOptions.filename) {
+    return Promise.reject(
+      new Error("The file name is required for a multipart request.")
+    );
+  }
+
+  const owner = determineOwner(requestOptions);
   const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
   let url = `${baseUrl}/addItem`;
 
@@ -89,13 +99,30 @@ export function createItemInFolder(
     url = `${baseUrl}/${requestOptions.folderId}/addItem`;
   }
 
-  // serialize the item into something Portal will accept
   requestOptions.params = {
     ...requestOptions.params,
     ...serializeItem(requestOptions.item)
   };
 
-  return request(url, requestOptions);
+  // serialize the item into something Portal will accept
+  const options = appendCustomParams<ICreateItemOptions>(
+    requestOptions,
+    [
+      "owner",
+      "folderId",
+      "file",
+      "dataUrl",
+      "text",
+      "async",
+      "multipart",
+      "filename"
+    ],
+    {
+      params: { ...requestOptions.params }
+    }
+  );
+
+  return request(url, options);
 }
 
 /**
@@ -105,8 +132,7 @@ export function createItemInFolder(
  * createItem({
  *   item: {
  *     title: "The Amazing Voyage",
- *     type: "Web Map",
- *     data: {}
+ *     type: "Web Map"
  *   },
  *   authentication
  * })

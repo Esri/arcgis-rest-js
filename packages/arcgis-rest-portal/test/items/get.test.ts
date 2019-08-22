@@ -8,6 +8,8 @@ import {
   getItemData,
   getItemResources,
   getItemGroups,
+  getItemStatus,
+  getItemParts,
   getRelatedItems
 } from "../../src/items/get";
 
@@ -15,6 +17,8 @@ import {
   ItemResponse,
   ItemDataResponse,
   ItemGroupResponse,
+  ItemStatusResponse,
+  ItemPartsResponse,
   RelatedItemsResponse
 } from "../mocks/items/item";
 
@@ -296,6 +300,86 @@ describe("get", () => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/groups"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("get item status", done => {
+      fetchMock.once("*", ItemGroupResponse);
+      getItemStatus({ id: "3ef", authentication: MOCK_USER_SESSION })
+        .then(() => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/status"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("get item status with optional parameters", done => {
+      fetchMock.once("*", ItemGroupResponse);
+      getItemStatus({
+        id: "3ef",
+        owner: "joe",
+        jobType: "publish",
+        jobId: "1dw",
+        authentication: MOCK_USER_SESSION
+      })
+        .then(() => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/joe/items/3ef/status"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("jobType=publish");
+          expect(options.body).toContain("jobId=1dw");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("get item parts", done => {
+      fetchMock.once("*", ItemGroupResponse);
+      getItemParts({ id: "3ef", authentication: MOCK_USER_SESSION })
+        .then(() => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/parts"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("get item parts with the owner parameter", done => {
+      fetchMock.once("*", ItemGroupResponse);
+      getItemParts({
+        id: "3ef",
+        owner: "joe",
+        authentication: MOCK_USER_SESSION
+      })
+        .then(() => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/joe/items/3ef/parts"
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");

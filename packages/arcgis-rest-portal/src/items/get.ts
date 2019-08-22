@@ -1,11 +1,20 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IRequestOptions } from "@esri/arcgis-rest-request";
+import {
+  request,
+  IRequestOptions,
+  appendCustomParams
+} from "@esri/arcgis-rest-request";
 import { IItem, IGroup } from "@esri/arcgis-rest-types";
 
 import { getPortalUrl } from "../util/get-portal-url";
-import { IItemDataOptions, IItemRelationshipOptions } from "./helpers";
+import {
+  IItemDataOptions,
+  IItemRelationshipOptions,
+  IUserItemOptions,
+  determineOwner
+} from "./helpers";
 
 /**
  * ```
@@ -173,5 +182,89 @@ export function getItemGroups(
 ): Promise<IGetItemGroupsResponse> {
   const url = `${getPortalUrl(requestOptions)}/content/items/${id}/groups`;
 
+  return request(url, requestOptions);
+}
+
+export interface IItemStatusOptions extends IUserItemOptions {
+  /**
+   * The type of asynchronous job for which the status has to be checked. Default is none, which check the item's status.
+   */
+  jobType?: "publish" | "generateFeatures" | "export" | "createService";
+  /**
+   * The job ID returned during publish, generateFeatures, export, and createService calls.
+   */
+  jobId?: string;
+  /**
+   * The response format. The default and the only response format for this resource is HTML.
+   */
+  format?: "html";
+}
+
+export interface IGetItemStatusResponse {
+  status: "partial" | "processing" | "failed" | "completed";
+  statusMessage: string;
+  itemId: string;
+}
+
+/**
+ * ```js
+ * import { getItemStatus } from "@esri/arcgis-rest-portal";
+ * //
+ * getItemStatus({
+ *   id: "30e5fe3149c34df1ba922e6f5bbf808f",
+ *   authentication
+ * })
+ *   .then(response)
+ * ```
+ * Inquire about status when publishing an item, adding an item in async mode, or adding with a multipart upload. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/status.htm) for more information.
+ *
+ * @param id - The Id of the item to get status for.
+ * @param requestOptions - Options for the request
+ * @returns A Promise to get the item status.
+ */
+export function getItemStatus(
+  requestOptions: IItemStatusOptions
+): Promise<IGetItemStatusResponse> {
+  const owner = determineOwner(requestOptions);
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/status`;
+
+  const options = appendCustomParams<IItemStatusOptions>(
+    requestOptions,
+    ["jobId", "jobType"],
+    { params: { ...requestOptions.params } }
+  );
+
+  return request(url, options);
+}
+
+export interface IGetItemPartsResponse {
+  parts: number[];
+}
+
+/**
+ * ```js
+ * import { getItemParts } from "@esri/arcgis-rest-portal";
+ * //
+ * getItemParts({
+ *   id: "30e5fe3149c34df1ba922e6f5bbf808f",
+ *   authentication
+ * })
+ *   .then(response)
+ * ```
+ * Lists the part numbers of the file parts that have already been uploaded in a multipart file upload. This method can be used to verify the parts that have been received as well as those parts that were not received by the server. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/parts.htm) for more information.
+ *
+ * @param id - The Id of the item to get part list.
+ * @param requestOptions - Options for the request
+ * @returns A Promise to get the item part list.
+ */
+export function getItemParts(
+  requestOptions: IUserItemOptions
+): Promise<IGetItemPartsResponse> {
+  const owner = determineOwner(requestOptions);
+  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+    requestOptions.id
+  }/parts`;
   return request(url, requestOptions);
 }

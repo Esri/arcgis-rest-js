@@ -100,6 +100,30 @@ export interface ICreateUpdateItemOptions extends IUserRequestOptions {
    * Id of the folder to house the item.
    */
   folderId?: string;
+  /**
+   * The file to be uploaded. If uploading a file, the request must be a multipart request.
+   */
+  file?: any;
+  /**
+   * The URL where the item can be downloaded. The resource will be downloaded and stored as a file type. Similar to uploading a file to be added, but instead of transferring the contents of the file, the URL of the data file is referenced and creates a file item.
+   */
+  dataUrl?: string;
+  /**
+   * The text content for the item to be submitted.
+   */
+  text?: string;
+  /**
+   * If true, the file is uploaded asynchronously. If false, the file is uploaded synchronously.
+   */
+  async?: boolean;
+  /**
+   * If true, the file is uploaded in multiple parts.
+   */
+  multipart?: boolean;
+  /**
+   * The filename being uploaded in multipart mode. Required if multipart=true.
+   */
+  filename?: string;
 }
 
 export interface IItemDataOptions extends IRequestOptions {
@@ -107,6 +131,17 @@ export interface IItemDataOptions extends IRequestOptions {
    * Used to request binary data.
    */
   file?: boolean;
+}
+
+export interface IItemPartOptions extends IUserItemOptions {
+  /**
+   * The file part to be uploaded.
+   */
+  file: any;
+  /**
+   * Part numbers can be any number from 1 to 10,000, inclusive. A part number uniquely identifies a part and also defines its position within the object being created. If you upload a new part using the same part number that was used with a previous part, the previously uploaded part is overwritten.
+   */
+  partNum: number;
 }
 
 export interface IUpdateItemResponse {
