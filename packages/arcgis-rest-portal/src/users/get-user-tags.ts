@@ -5,7 +5,7 @@ import { request } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "../util/get-portal-url";
 import { IGetUserOptions } from "./get-user";
 
-export interface IUserItemTag {
+export interface ITagCount {
   /**
    * the name of a tag
    */
@@ -20,7 +20,7 @@ export interface IGetUserTagsResponse {
   /**
    * Array of user item tag objects
    */
-  tags: IUserItemTag[];
+  tags: ITagCount[];
 }
 
 /**
