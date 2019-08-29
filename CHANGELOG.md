@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    * **portal**: new functions and parameters to support async and multiple upload during item creation [#611](https://github.com/Esri/arcgis-rest-js/issues/611)
    * **portal**: `getUserTags` function to get tags used by the given user
 
+## [2.4.0] - August 29th 2019
+
+### @esri/arcgis-rest-portal
+
+* New Features
+   * **portal**: add the function to get user tags (#614) [`d49159f`](https://github.com/Esri/arcgis-rest-js/commit/d49159f91b3236feaf6dfb5df202672faae82797)
+
 ## [2.3.0] - August 8th 2019
 
 ### @esri/arcgis-rest-geocoding
@@ -1435,4 +1442,5 @@ Initial Public Release
 [2.2.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.1...v2.2.0 "v2.2.0"
 [2.2.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.0...v2.2.1 "v2.2.1"
 [2.3.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.1...v2.3.0 "v2.3.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.3.0...HEAD "Unreleased Changes"
+[2.4.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.3.0...v2.4.0 "v2.4.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.4.0...HEAD "Unreleased Changes"
