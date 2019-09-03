@@ -104,33 +104,52 @@ describe("groups", () => {
         });
     });
 
-    it("should search group users", done => {
-      fetchMock.once("*", SearchGroupUsersResponse);
+    describe("search group users", function() {
+      it("should search group users", done => {
+        fetchMock.once("*", SearchGroupUsersResponse);
 
-      searchGroupUsers("5bc", {
-        params: {
+        searchGroupUsers("5bc", {
           name: "jupe",
           sortField: "fullname",
           sortOrder: "asc",
           num: 2,
           start: 2,
           joined: [null, 123456],
-          memberType: "member"
-        },
-        ...MOCK_REQOPTS
-      })
-        .then(response => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/userlist?f=json&name=jupe&sortField=fullname&sortOrder=asc&num=2&start=2&joined=%2C123456&memberType=member&token=fake-token"
-          );
-          expect(options.method).toBe("GET");
-          done();
+          memberType: "member",
+          ...MOCK_REQOPTS
         })
-        .catch(e => {
-          fail(e);
-        });
+          .then(response => {
+            expect(fetchMock.called()).toEqual(true);
+            const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+              "*"
+            );
+            expect(url).toEqual(
+              "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/userlist?f=json&name=jupe&num=2&start=2&sortField=fullname&sortOrder=asc&joined=%2C123456&memberType=member&token=fake-token"
+            );
+            expect(options.method).toBe("GET");
+            done();
+          })
+          .catch(e => {
+            fail(e);
+          });
+      });
+
+      it("shouldn't require searchOptions", done => {
+        fetchMock.once("*", SearchGroupUsersResponse);
+
+        searchGroupUsers("5bc")
+          .then(_ => {
+            expect(fetchMock.called()).toEqual(true);
+            const [__, options]: [string, RequestInit] = fetchMock.lastCall(
+              "*"
+            );
+            expect(options.method).toBe("GET");
+            done();
+          })
+          .catch(e => {
+            fail(e);
+          });
+      });
     });
   });
 });
