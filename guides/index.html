@@ -135,15 +135,24 @@
 <p>IE11 and older mobile browsers require polyfills.</p>
 <ul>
 <li><a href="https://github.com/stefanpenner/es6-promise"><code>Promise</code> polyfill</a></li>
-<li><a href="https://github.com/matthew-andrews/isomorphic-fetch"><code>Fetch</code> polyfill</a></li>
+<li><a href="https://github.com/bitinn/node-fetch"><code>Fetch</code> polyfill</a></li>
 </ul>
 <h2>Node.js Support</h2>
 <p>ArcGIS REST JS is supported in Node.js 6.x and 8.x. It requires additional packages to polyfill <code>Fetch</code> and <code>FormData</code>.</p>
 <p>We recommend the ones below:</p>
 <ul>
-<li><a href="https://www.npmjs.com/package/isomorphic-fetch"><code>isomorphic-fetch</code></a> - to polyfill <code>Fetch</code></li>
+<li><a href="https://github.com/bitinn/node-fetch"><code>node-fetch</code></a> - to polyfill <code>Fetch</code></li>
 <li><a href="https://github.com/form-data/isomorphic-form-data"><code>isomorphic-form-data</code></a> - to polyfill <code>FormData</code></li>
 </ul>
+<pre><code class="js"><span class="hljs-keyword">const</span> fetch = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-fetch'</span>);
+<span class="hljs-keyword">const</span> { setDefaultRequestOptions, request } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@esri/arcgis-rest-request'</span>);
+
+<span class="hljs-comment">// use node-fetch for each request instead of relying on a global</span>
+setDefaultRequestOptions({ fetch })
+
+request(url)
+  .then(response)
+</code></pre>
 <p>Other versions of Node.js may also work with appropriate polyfills but we cannot guarantee support.</p>
       </div>
     </div>

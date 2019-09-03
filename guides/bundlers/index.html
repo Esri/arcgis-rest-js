@@ -106,13 +106,12 @@
     <div class="column-18">
       <div class="panel">
         <h1>Get Started with webpack, Rollup or Parcel</h1>
-<p>ArcGIS REST JS works well with popular module bundlers like <a href="https://webpack.js.org/">webpack</a>, <a href="https://rollupjs.org/">Rollup</a> and <a href="https://parceljs.org/">Parcel</a>. Make sure you also install the polyfills for <a href="https://github.com/matthew-andrews/isomorphic-fetch"><code>fetch</code></a> and <a href="https://github.com/stefanpenner/es6-promise"><code>Promise</code></a>. You can find <code>npm install</code> commands for all packages in the <a href="../../api">API reference</a>.</p>
-<pre><code class="bash">npm install @esri/arcgis-rest-request isomorphic-fetch es6-promise
+<p>ArcGIS REST JS works well with popular module bundlers like <a href="https://webpack.js.org/">webpack</a>, <a href="https://rollupjs.org/">Rollup</a> and <a href="https://parceljs.org/">Parcel</a>.</p>
+<p>If you need to support environments where <a href="https://github.com/lquixada/cross-fetch"><code>fetch</code></a> and <a href="https://github.com/stefanpenner/es6-promise"><code>Promise</code></a> aren't already present, you can install polyfills for them.</p>
+<pre><code class="bash">npm install @esri/arcgis-rest-request
 </code></pre>
-<p>Import the <code>isomorphic-fetch</code> and <code>es6-promise</code> polyfills before using ArcGIS REST JS.</p>
-<pre><code class="js"><span class="hljs-keyword">import</span> <span class="hljs-string">"isomorphic-fetch"</span>;
-<span class="hljs-keyword">import</span> <span class="hljs-string">"es6-promise"</span>;
-
+<p>You can find <code>npm install</code> commands for all packages in the <a href="../../api">API reference</a>.</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> <span class="hljs-string">'cross-fetch/polyfill'</span>;
 <span class="hljs-keyword">import</span> { request } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-request"</span>;
 
 request(<span class="hljs-string">"https://www.arcgis.com/sharing/rest/info"</span>)
@@ -121,7 +120,7 @@ request(<span class="hljs-string">"https://www.arcgis.com/sharing/rest/info"</sp
   });
 </code></pre>
 <h1>Tree Shaking</h1>
-<p>Bundlers like webpack and Rollup can statically analyze the code inside ArcGIS REST JS and exclude anything that isn't used. This is called dead-code elimination](<a href="https://rollupjs.org/guide/en#tree-shaking">https://rollupjs.org/guide/en#tree-shaking</a>)and it means <code>rest-js</code> won't bloat your bundle.</p>
+<p>Bundlers like webpack and Rollup can statically analyze the code inside ArcGIS REST JS and exclude anything that isn't used. This is called <a href="https://rollupjs.org/guide/en#tree-shaking">dead-code elimination</a> and it means <code>rest-js</code> won't bloat your bundle.</p>
 <p>Its worth noting, to activate tree-shaking in webpack, <a href="https://webpack.js.org/configuration/mode/#mode-production">production</a> mode and <a href="https://webpack.js.org/configuration/optimization/#optimizationusedexports">usedExports</a> optimization need to be enabled.</p>
 <pre><code class="js"><span class="hljs-comment">// webpack.config.js</span>
 <span class="hljs-built_in">module</span>.exports = {

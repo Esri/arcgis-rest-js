@@ -106,17 +106,31 @@
     <div class="column-18">
       <div class="panel">
         <h1>Get Started with Node.js</h1>
-<p>Make sure you have polyfills for <a href="https://github.com/matthew-andrews/isomorphic-fetch"><code>fetch</code></a> and <a href="https://github.com/form-data/isomorphic-form-data"><code>FormData</code></a> installed before using any ArcGIS REST JS library. You can find <code>npm install</code> commands for all packages in the <a href="/arcgis-rest-js/api">API reference</a>.</p>
-<pre><code class="bash">npm install @esri/arcgis-rest-request @esri/arcgis-rest-auth isomorphic-fetch isomorphic-form-data
+<p>Make sure you have polyfills for <a href="https://github.com/lquixada/cross-fetch"><code>fetch</code></a> and <a href="https://github.com/form-data/isomorphic-form-data"><code>FormData</code></a> installed before using any ArcGIS REST JS library. You can find <code>npm install</code> commands for all packages in the <a href="/arcgis-rest-js/api">API reference</a>.</p>
+<pre><code class="bash">npm install @esri/arcgis-rest-request @esri/arcgis-rest-auth cross-fetch isomorphic-form-data
 </code></pre>
-<p>Require the <code>isomorphic-fetch</code> and <code>isomorphic-form-data</code> modules before using any of the ArcGIS REST JS methods.</p>
-<pre><code class="js"><span class="hljs-built_in">require</span>(<span class="hljs-string">"isomorphic-fetch"</span>);
+<p>Require <code>cross-fetch</code> and <code>isomorphic-form-data</code> before using any of the ArcGIS REST JS methods.</p>
+<pre><code class="js"><span class="hljs-comment">// ensures fetch is available as a global</span>
+<span class="hljs-built_in">require</span>(<span class="hljs-string">"cross-fetch/polyfill"</span>);
 <span class="hljs-built_in">require</span>(<span class="hljs-string">"isomorphic-form-data"</span>);
 
 <span class="hljs-keyword">const</span> { request } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@esri/arcgis-rest-request"</span>);
 
 request(<span class="hljs-string">"https://www.arcgis.com/sharing/rest/info"</span>)
   .then(response);
+</code></pre>
+<p>You can also pass through your own named <code>fetch</code> implementation.</p>
+<pre><code class="js"><span class="hljs-keyword">const</span> fetch = <span class="hljs-built_in">require</span>(<span class="hljs-string">"node-fetch"</span>)
+<span class="hljs-keyword">const</span> {
+  request,
+  setDefaultRequestOptions
+} = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@esri/arcgis-rest-request"</span>);
+
+<span class="hljs-comment">// one by one</span>
+request(<span class="hljs-string">"https://www.arcgis.com/sharing/rest/info"</span>, { fetch })
+
+<span class="hljs-comment">// or in *every* request</span>
+setDefaultRequestOptions({ fetch })
 </code></pre>
 <h4>Demo - <a href="https://github.com/Esri/arcgis-rest-js/tree/master/demos/express">Express</a></h4>
 <h2>Authentication</h2>
