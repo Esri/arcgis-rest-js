@@ -136,11 +136,11 @@ export interface ISearchGroupUsersResult {
  */
 export function searchGroupUsers(
   id: string,
-  searchOptions: ISearchGroupUsersOptions
+  searchOptions?: ISearchGroupUsersOptions
 ): Promise<ISearchGroupUsersResult> {
   const url = `${getPortalUrl(searchOptions)}/community/groups/${id}/userlist`;
   const options = appendCustomParams<ISearchGroupUsersOptions>(
-    searchOptions,
+    searchOptions || {},
     ["name", "num", "start", "sortField", "sortOrder", "joined", "memberType"],
     {
       httpMethod: "GET"
