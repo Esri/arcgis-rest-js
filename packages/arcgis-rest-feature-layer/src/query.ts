@@ -80,7 +80,10 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   returnTrueCurves?: false;
   sqlFormat?: "none" | "standard" | "native";
   returnExceededLimitFeatures?: boolean;
-  f?: "json" | "geojson" | "html" | "pbf";
+  /**
+   * Response format. Protocol buffer (pbf) is not currently supported.
+   */
+  f?: "json" | "geojson" | "html";
   /**
    * someday...
    *
