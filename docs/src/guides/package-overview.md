@@ -102,10 +102,10 @@ Whether you're trying to automate interacting with premium services in Node.js o
 The library is a collection of _very_ small mix and match packages that are framework agnostic and make a variety of ArcGIS tasks more convenient.
 
 * [`@esri/arcgis-rest-request`](../../api/request/) - Underpins other packages and supports making low-level requests.
-* [`@esri/arcgis-rest-auth`](../../api/auth) - Provides methods for authenticating named users and applications.
-* [`@esri/arcgis-rest-portal`](../../api/portal) - Methods for working with ArcGIS Online/Enterprise content and users.
-* [`@esri/arcgis-rest-feature-layer`](../../api/feature-layer) - Functions for querying and editing features inside of hosted feature layers.
-* [`@esri/arcgis-rest-service-admin`](../../api/service-admin) - Functions for administering hosted services.
-* [`@esri/arcgis-rest-geocoding`](../../api/geocoding) - Geocoding wrapper for `@esri/arcgis-rest-js`
-* [`@esri/arcgis-rest-routing`](../../api/routing) - Routing and directions wrapper for `@esri/arcgis-rest-js`.
-* [`@esri/arcgis-rest-types`](../../api/types) - Common Typings for TypeScript developers.
+* [`@esri/arcgis-rest-auth`](../../api/auth/) - Provides methods for authenticating named users and applications.
+* [`@esri/arcgis-rest-portal`](../../api/portal/) - Methods for working with ArcGIS Online/Enterprise content and users.
+* [`@esri/arcgis-rest-feature-layer`](../../api/feature-layer/) - Functions for querying and editing features inside of hosted feature layers.
+* [`@esri/arcgis-rest-service-admin`](../../api/service-admin/) - Functions for administering hosted services.
+* [`@esri/arcgis-rest-geocoding`](../../api/geocoding/) - Geocoding wrapper for `@esri/arcgis-rest-js`
+* [`@esri/arcgis-rest-routing`](../../api/routing/) - Routing and directions wrapper for `@esri/arcgis-rest-js`.
+* [`@esri/arcgis-rest-types`](../../api/types/) - Common Typings for TypeScript developers.
