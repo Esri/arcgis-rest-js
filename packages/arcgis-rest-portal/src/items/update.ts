@@ -16,7 +16,15 @@ import {
 } from "./helpers";
 
 export interface IUpdateItemOptions extends ICreateUpdateItemOptions {
+  /**
+   * Portions of item to update; contents are serialized before being sent
+   */
   item: IItemUpdate;
+  /**
+   * Additional content to merge into parameters; in particular, useful for content that you don't
+   * want to serialize (e.g., blobs such as an item's thumbnail or metadata)
+   */
+  params?: any;
 }
 
 export interface IMoveItemOptions extends ICreateUpdateItemOptions {
