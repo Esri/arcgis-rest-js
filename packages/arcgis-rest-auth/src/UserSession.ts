@@ -894,6 +894,7 @@ export class UserSession implements IAuthenticationManager {
           expires: new Date(response.expires),
           token: response.token
         };
+        delete this._pendingTokenRequests[root];
         return response.token;
       });
 
