@@ -9,6 +9,7 @@ export * from "./items/remove";
 export * from "./items/search";
 export * from "./items/update";
 export * from "./items/helpers";
+export * from "./items/commit";
 
 export * from "./groups/add-users";
 export * from "./groups/create";
