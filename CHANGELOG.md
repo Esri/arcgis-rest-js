@@ -7,15 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
-* New Features
-   * **portal**: new functions and parameters to support async and multiple upload during item creation [#611](https://github.com/Esri/arcgis-rest-js/issues/611)
-   * **portal**: `getUserTags` function to get tags used by the given user
-
 ## [2.4.0] - August 29th 2019
 
 ### @esri/arcgis-rest-portal
 
 * New Features
+   * **portal**: new functions and parameters to support async and multiple upload during item creation [#611](https://github.com/Esri/arcgis-rest-js/issues/611)
    * **portal**: add the function to get user tags (#614) [`d49159f`](https://github.com/Esri/arcgis-rest-js/commit/d49159f91b3236feaf6dfb5df202672faae82797)
 
 ## [2.3.0] - August 8th 2019
