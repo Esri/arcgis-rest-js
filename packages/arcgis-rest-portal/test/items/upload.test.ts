@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import * as fetchMock from "fetch-mock";
-import { commitItem } from "../../src/items/commit";
+import { commitItemUpload, cancelItemUpload } from "../../src/items/upload";
 import { ItemSuccessResponse } from "../mocks/items/item";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
@@ -32,7 +32,7 @@ describe("search", () => {
     it("should commit the item upload", done => {
       fetchMock.once("*", ItemSuccessResponse);
 
-      commitItem({
+      commitItemUpload({
         id: "3ef",
         ...MOCK_USER_REQOPTS
       })
@@ -57,7 +57,7 @@ describe("search", () => {
     it("should commit the item upload for the other owner", done => {
       fetchMock.once("*", ItemSuccessResponse);
 
-      commitItem({
+      commitItemUpload({
         id: "3ef",
         owner: "fanny",
         ...MOCK_USER_REQOPTS
@@ -67,6 +67,57 @@ describe("search", () => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/fanny/items/3ef/commit"
+          );
+          expect(options.method).toBe("POST");
+
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("token=fake-token");
+
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should cancel the item upload", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+
+      cancelItemUpload({
+        id: "3ef",
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/cancel"
+          );
+          expect(options.method).toBe("POST");
+
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("token=fake-token");
+
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should cancel the item upload for the other owner", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+
+      cancelItemUpload({
+        id: "3ef",
+        owner: "fanny",
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/fanny/items/3ef/cancel"
           );
           expect(options.method).toBe("POST");
 
