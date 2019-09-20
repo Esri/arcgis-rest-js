@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+   * **portal**: add `commitItemUpload()` and `cancelItemUpload()` functions for item file upload
+   * **portal**: add `overwrite` paramter for item creation
+
 ## [2.4.0] - August 29th 2019
 
 ### @esri/arcgis-rest-portal
