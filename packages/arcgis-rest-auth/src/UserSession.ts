@@ -360,9 +360,9 @@ export class UserSession implements IAuthenticationManager {
             error ? JSON.stringify(error) : undefined,
             JSON.stringify(oauthInfo)
           );
-          win.close();
-          return undefined;
         }
+        win.close();
+        return undefined;
       }
 
       if (win !== win.parent) {
@@ -372,9 +372,9 @@ export class UserSession implements IAuthenticationManager {
             error ? JSON.stringify(error) : undefined,
             JSON.stringify(oauthInfo)
           );
-          win.close();
-          return undefined;
         }
+        win.close();
+        return undefined;
       }
 
       if (error) {
