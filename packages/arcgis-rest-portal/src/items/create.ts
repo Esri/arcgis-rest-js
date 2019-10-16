@@ -115,7 +115,8 @@ export function createItemInFolder(
       "text",
       "async",
       "multipart",
-      "filename"
+      "filename",
+      "overwrite"
     ],
     {
       params: { ...requestOptions.params }
