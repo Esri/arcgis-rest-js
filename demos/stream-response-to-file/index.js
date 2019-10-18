@@ -1,4 +1,4 @@
-const { queryFeatures } = require("@esri/arcgis-rest-feature-service");
+const { queryFeatures } = require("@esri/arcgis-rest-feature-layer");
 const fs = require("fs");
 const fetch = require('node-fetch');
 require('isomorphic-form-data')
