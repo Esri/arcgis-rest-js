@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
   <title>Share auth between rest-js and the jsapi</title>
 
-  <style>
-    html,
-    body,
-    #viewDiv {
-      padding: 0;
-      margin: 0;
-      height: 100%;
-      width: 100%;
-    }
-  </style>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
 
   <link rel="stylesheet" href="https://js.arcgis.com/4.7/esri/css/main.css">
 
-  <script src="node_modules/@esri/arcgis-rest-request/dist/umd/request.umd.js"></script>
-  <script src="node_modules/@esri/arcgis-rest-auth/dist/umd/auth.umd.js"></script>
-  <script src="node_modules/@esri/arcgis-rest-portal/dist/umd/portal.umd.js"></script>
+    <script src="node_modules/@esri/arcgis-rest-request/dist/umd/request.umd.js"></script>
+    <script src="node_modules/@esri/arcgis-rest-auth/dist/umd/auth.umd.js"></script>
+    <script src="node_modules/@esri/arcgis-rest-portal/dist/umd/portal.umd.js"></script>
 
-  <!--
+    <!--
     NOTE: rather than include the ArcGIS API for JavaScript via a <script> tag
     typically you would using something like https://github.com/Esri/esri-loader
     to lazy-load the API _after_ you had used the light-weight arcgis-rest-js
     libraries above to log in and fetch some data (see NOTE below)
   -->
-  <script src="https://js.arcgis.com/4.7/"></script>
-</head>
+    <script src="https://js.arcgis.com/4.7/"></script>
+  </head>
 
-<body>
-  <div id="viewDiv"></div>
-  <script>
+  <body>
+    <div id="viewDiv"></div>
+    <script>
       // first, log in
       // using canned username/password from
       // https://developers.arcgis.com/python/sample-notebooks/chennai-floods-analysis/
@@ -50,36 +50,40 @@
 
         // once we have the private item, we can create a map
         // NOTE: this is where you would lazy-load the ArcGIS API for JavaScript
-        require([
-          "esri/identity/IdentityManager",
-          "esri/views/MapView",
-          "esri/WebMap"
-        ], function(
-          esriId, MapView, WebMap
-        ) {
-            // pass the authenticated session over to the JSAPI Identity Manager
-            esriId.registerToken(session.toCredential());
+          require([
+            "esri/identity/IdentityManager",
+            "esri/views/MapView",
+            "esri/WebMap"
+          ], function(
+            esriId, MapView, WebMap
+          ) {
+          // pass the authenticated session over to the JSAPI Identity Manager
+          esriId.registerToken(session.toCredential());
 
-            // dig the webmap id out of the response
-            var webmap = new WebMap({
-              portalItem: {
-                id: response.map.itemId
-              }
-            });
+          // display the title of its basemap
+          console.debug(response);
+          console.debug(response.baseMap.title);
 
-            // and pass it to the map view
-            var view = new MapView({
-              map: webmap,
-              container: "viewDiv"
-            });
-
-            // you can also pass credentials in the other direction
-            esriId.getCredential("https://arcgis.com/sharing/rest/")
-              .then(cred => {
-                const session2 = new arcgisRest.UserSession.fromCredential(cred);
-              })
+          // create a map with the item
+          var webmap = new WebMap({
+            portalItem: {
+              id: itemId
+            }
           });
+
+          // and pass it to the map view
+          var view = new MapView({
+            map: webmap,
+            container: "viewDiv"
+          });
+
+          // you can also pass credentials in the other direction
+          esriId.getCredential("https://arcgis.com/sharing/rest/")
+            .then(cred => {
+              const session2 = new arcgisRest.UserSession.fromCredential(cred);
+            });
+        });
       });
     </script>
-</body>
+  </body>
 </html>
