@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [2.6.0] - October 22nd 2019
+
+### @esri/arcgis-rest-portal
+
+* New Features
+   * **arcgis-rest-portal**: add searchUsers function [`b91af15a`](https://github.com/Esri/arcgis-rest-js/commit/b91af15a0524ace69edfdaa5ccdea9da257746a9)
+
 ## [2.5.0] - October 15th 2019
 
 ### @esri/arcgis-rest-portal
@@ -1423,8 +1430,7 @@ Initial Public Release
 [1.8.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.1...v1.8.0 "v1.8.0"
 [1.9.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.8.0...v1.9.0 "v1.9.0"
 [1.10.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.9.0...v1.10.0 "v1.10.0"
-[1.11.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.0 "v1.11.0"
-[1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.0...v1.11.1 "v1.11.1"
+[1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.1 "v1.11.1"
 [1.12.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.1...v1.12.0 "v1.12.0"
 [1.13.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.12.0...v1.13.0 "v1.13.0"
 [1.13.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.0...v1.13.1 "v1.13.1"
@@ -1451,7 +1457,7 @@ Initial Public Release
 [2.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.4...v2.1.0 "v2.1.0"
 [2.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.0...v2.1.1 "v2.1.1"
 [2.2.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.1...v2.2.0 "v2.2.0"
-[2.2.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.0...v2.2.1 "v2.2.1"
-[2.3.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.1...v2.3.0 "v2.3.0"
+[2.3.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.0...v2.3.0 "v2.3.0"
 [2.5.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.3.0...v2.5.0 "v2.5.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.5.0...HEAD "Unreleased Changes"
+[2.6.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.5.0...v2.6.0 "v2.6.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.6.0...HEAD "Unreleased Changes"
