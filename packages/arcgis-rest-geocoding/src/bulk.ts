@@ -66,11 +66,16 @@ export function bulkGeocode(
 ): Promise<IBulkGeocodeResponse> {
   const options: IBulkGeocodeOptions = {
     endpoint: ARCGIS_ONLINE_GEOCODING_URL,
-    params: {
-      forStorage: true,
-      addresses: { records: [] }
-    },
+    params: {},
     ...requestOptions
+  };
+
+  if (!options.params.forStorage) {
+    options.params.forStorage = true;
+  }
+
+  options.params.addresses = {
+    records: []
   };
 
   requestOptions.addresses.forEach(address => {

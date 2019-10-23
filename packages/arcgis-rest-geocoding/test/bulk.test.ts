@@ -96,6 +96,7 @@ describe("geocode", () => {
         );
         expect(options.method).toBe("POST");
         expect(options.body).toContain("f=json");
+        expect(options.body).toContain("forStorage=true");
         expect(options.body).toContain(
           `addresses=${encodeURIComponent(
             '{"records":[{"attributes":{"OBJECTID":1,"SingleLine":"380 New York St. Redlands 92373"}},{"attributes":{"OBJECTID":2,"SingleLine":"1 World Way Los Angeles 90045"}},{"attributes":{"OBJECTID":3,"SingleLine":"foo bar baz"}}]}'
@@ -124,7 +125,8 @@ describe("geocode", () => {
       endpoint:
         "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/",
       params: {
-        outSR: 4326
+        outSR: 4326,
+        forStorage: true
       }
     })
       // tslint:disable-next-line
@@ -136,7 +138,8 @@ describe("geocode", () => {
         );
         expect(options.method).toBe("POST");
         expect(options.body).toContain("f=json");
-        // expect(options.body).toContain("outSR=4326");
+        expect(options.body).toContain("outSR=4326");
+        expect(options.body).toContain("forStorage=true");
         expect(options.body).toContain(
           `addresses=${encodeURIComponent(
             '{"records":[{"attributes":{"OBJECTID":1,"SingleLine":"380 New York St. Redlands 92373"}},{"attributes":{"OBJECTID":2,"SingleLine":"1 World Way Los Angeles 90045"}},{"attributes":{"OBJECTID":3,"SingleLine":"foo bar baz"}}]}'
