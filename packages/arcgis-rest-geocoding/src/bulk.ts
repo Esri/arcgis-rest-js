@@ -70,10 +70,6 @@ export function bulkGeocode(
     ...requestOptions
   };
 
-  if (!options.params.forStorage) {
-    options.params.forStorage = true;
-  }
-
   options.params.addresses = {
     records: []
   };
