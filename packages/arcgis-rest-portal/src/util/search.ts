@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IPagingParams, IItem, IGroup } from "@esri/arcgis-rest-types";
+import { IPagingParams, IItem, IGroup, IUser } from "@esri/arcgis-rest-types";
 import { SearchQueryBuilder } from "./SearchQueryBuilder";
 
 export interface ISearchOptions extends IRequestOptions, IPagingParams {
@@ -15,7 +15,7 @@ export interface ISearchOptions extends IRequestOptions, IPagingParams {
 /**
  * Results from an item or group search.
  */
-export interface ISearchResult<T extends IItem | IGroup> {
+export interface ISearchResult<T extends IItem | IGroup | IUser> {
   query: string; // matches the api's form param
   total: number;
   start: number;
