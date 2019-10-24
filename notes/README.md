@@ -61,6 +61,12 @@ the command below bumps the version in each individual package.json file and par
 npm run release:prepare
 ```
 
+I don't know why, but sometimes lerna fails to increment a new version number for individual packages (like @esri/arcgis-rest-auth). When this happens, it is necessary to increment the version number in the package (and anything that depends on it) manually.
+
+You should not increment peerDependency version numbers manually. they should remain as loose as possible. Unless you know that your new version of the package needs to use the updated peer dependency.
+
+For some reason, in CHANGELOG.md, the unreleased section appears below this release. So please move it to the top.
+
 afterwards, you can display a diff to give you a sense of what will be committed to master when you actually publish.
 
 ```bash
@@ -84,5 +90,3 @@ npm run release:publish
 Basic utility libraries are going to be a problem. Most recommendation are to use something like `import defaults = require('lodash/defaults')` because you are importing a common JS module. However if you use this syntax you cannot have Typescript compile ES2015 modules which is goal for us. Not every library publishes itself as ES2015 modules.
 
 We need to make a call on what we bundle into the library (`Promise`, `fetch`) ect... Do we ask people to bring their own polyfills or do we bundle them ourselves for simplicity. If we want to do both it will likely complicate the builds a great deal.
-
-

@@ -27,6 +27,7 @@ export * from "./users/get-user-tags";
 export * from "./users/get-user-url";
 export * from "./users/invitation";
 export * from "./users/notification";
+export * from "./users/search-users";
 export * from "./users/update";
 
 export * from "./sharing/access";
