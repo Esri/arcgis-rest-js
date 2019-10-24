@@ -11,6 +11,7 @@ export * from "./updateAttachment";
 export * from "./deleteAttachments";
 export * from "./queryRelated";
 export * from "./getLayer";
+export * from "./getService";
 export * from "./decodeValues";
 export * from "./helpers";
 export {
