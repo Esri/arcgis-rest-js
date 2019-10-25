@@ -17,7 +17,7 @@
         </div>
         <div class="form-group">
           <label for="featureId">Feature ID</label>
-          <input type="number" min="0" step="1" id="featureId" name="featureId" class="form-control" value="3339970" required>
+          <input type="number" min="0" step="1" id="featureId" name="featureId" class="form-control" value="8254973" required>
         </div>
         <div class="form-group">
           <button type="submit" class="btn"><span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span> Get Attachments</button>
@@ -57,7 +57,7 @@
 
 <script src="https://rawgit.com/kriszyp/put-selector/master/put.js"></script>
 <script src="node_modules/@esri/arcgis-rest-request/dist/umd/request.umd.js"></script>
-<script src="node_modules/@esri/arcgis-rest-feature-service/dist/umd/feature-service.umd.js"></script>
+<script src="node_modules/@esri/arcgis-rest-feature-layer/dist/umd/feature-layer.umd.js"></script>
 
 <script>
   let serviceUrl, featureId;
@@ -129,6 +129,7 @@
   // handle get attachments form submit
   getForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
+
     arcgisRest.getAttachments({
       url: serviceUrl = getForm.serviceUrl.value,
       featureId: featureId = getForm.featureId.value
