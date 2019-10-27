@@ -124,6 +124,10 @@ export interface ICreateUpdateItemOptions extends IUserRequestOptions {
    * The filename being uploaded in multipart mode. Required if multipart=true.
    */
   filename?: string;
+  /**
+   * If true, overwrite the existing file.
+   */
+  overwrite?: boolean;
 }
 
 export interface IItemDataOptions extends IRequestOptions {
