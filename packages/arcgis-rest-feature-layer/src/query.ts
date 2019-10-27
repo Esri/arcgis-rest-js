@@ -52,6 +52,9 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   time?: number | number[];
   distance?: number;
   units?: Units;
+  /**
+   * Attribute fields to include in the response. Defaults to "*"
+   */
   outFields?: "*" | string[];
   returnGeometry?: boolean;
   maxAllowableOffset?: number;
@@ -80,7 +83,12 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   returnTrueCurves?: false;
   sqlFormat?: "none" | "standard" | "native";
   returnExceededLimitFeatures?: boolean;
-  f?: "json" | "geojson" | "html" | "pbf";
+  /**
+   * Response format. Defaults to "json"
+   * NOTE: for "pbf" you must also supply `rawResponse: true`
+   * and parse the response yourself using `response.arrayBuffer()`
+   */
+  f?: "json" | "geojson" | "pbf";
   /**
    * someday...
    *
