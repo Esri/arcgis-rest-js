@@ -52,6 +52,9 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   time?: number | number[];
   distance?: number;
   units?: Units;
+  /**
+   * Attribute fields to include in the response. Defaults to "*"
+   */
   outFields?: "*" | string[];
   returnGeometry?: boolean;
   maxAllowableOffset?: number;
@@ -81,9 +84,11 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   sqlFormat?: "none" | "standard" | "native";
   returnExceededLimitFeatures?: boolean;
   /**
-   * Response format. Protocol buffer (pbf) is not currently supported.
+   * Response format. Defaults to "json"
+   * NOTE: for "pbf" you must also supply `rawResponse: true`
+   * and parse the response yourself using `response.arrayBuffer()`
    */
-  f?: "json" | "geojson" | "html";
+  f?: "json" | "geojson" | "pbf";
   /**
    * someday...
    *
