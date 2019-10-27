@@ -6,15 +6,15 @@ import {
   IRequestOptions,
   appendCustomParams
 } from "@esri/arcgis-rest-request";
-import { IItem, IGroup } from "@esri/arcgis-rest-types";
+import { IItem, IGroup, IUser } from "@esri/arcgis-rest-types";
 
 import { SearchQueryBuilder } from "./SearchQueryBuilder";
 import { getPortalUrl } from "../util/get-portal-url";
 import { ISearchOptions, ISearchResult } from "../util/search";
 
-export function genericSearch<T extends IItem | IGroup>(
+export function genericSearch<T extends IItem | IGroup | IUser>(
   search: string | ISearchOptions | SearchQueryBuilder,
-  searchType: "item" | "group"
+  searchType: "item" | "group" | "user"
 ): Promise<ISearchResult<T>> {
   let url: string;
   let options: IRequestOptions;
@@ -35,9 +35,20 @@ export function genericSearch<T extends IItem | IGroup>(
     );
   }
 
-  url =
-    getPortalUrl(options) +
-    (searchType === "item" ? "/search" : "/community/groups");
+  let path = searchType === "item" ? "/search" : "/community/groups";
+  switch (searchType) {
+    case "item":
+      path = "/search";
+      break;
+    case "group":
+      path = "/community/groups";
+      break;
+    default:
+      // "users"
+      path = "/portals/self/users/search";
+      break;
+  }
+  url = getPortalUrl(options) + path;
 
   // send the request
   return request(url, options).then(r => {
