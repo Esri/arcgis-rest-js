@@ -1668,11 +1668,14 @@
             </td>
             <td class="code-face">
               
-                <i><span class="text-green">"json"</span><span class="text-light-gray"> | </span><span class="text-green">"geojson"</span><span class="text-light-gray"> | </span><span class="text-green">"html"</span><span class="text-light-gray"> | </span><span class="text-green">"pbf"</span></i>
+                <i><span class="text-green">"json"</span><span class="text-light-gray"> | </span><span class="text-green">"geojson"</span><span class="text-light-gray"> | </span><span class="text-green">"pbf"</span></i>
               
             </td>
             <td class="body-face api-param-comment">
-              
+              <p>Response format. Defaults to &quot;json&quot;
+NOTE: for &quot;pbf&quot; you must also supply <code>rawResponse: true</code>
+and parse the response yourself using <code>response.arrayBuffer()</code></p>
+
             </td>
           </tr>
         
@@ -1960,7 +1963,8 @@
               
             </td>
             <td class="body-face api-param-comment">
-              
+              <p>Attribute fields to include in the response. Defaults to &quot;*&quot;</p>
+
             </td>
           </tr>
         
@@ -3052,7 +3056,8 @@
               
             </td>
             <td class="body-face api-param-comment">
-              
+              <p>A where clause for the query. Defaults to &quot;1=1&quot;</p>
+
             </td>
           </tr>
         
