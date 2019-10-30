@@ -71,12 +71,10 @@ export function bulkGeocode(
   };
 
   options.params.addresses = {
-    records: []
+    records: requestOptions.addresses.map(address => {
+      return { attributes: address };
+    })
   };
-
-  requestOptions.addresses.forEach(address => {
-    options.params.addresses.records.push({ attributes: address });
-  });
 
   // the SAS service doesnt support anonymous requests
   if (
