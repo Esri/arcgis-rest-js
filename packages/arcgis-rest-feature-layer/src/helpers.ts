@@ -19,6 +19,9 @@ export interface IGetLayerOptions extends IRequestOptions {
 }
 
 export interface ISharedQueryOptions extends IGetLayerOptions {
+  /**
+   * A where clause for the query. Defaults to "1=1"
+   */
   where?: string;
   geometry?: IGeometry;
   geometryType?: GeometryType;
