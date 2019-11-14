@@ -40,6 +40,27 @@ export interface IEditFeatureResult {
 }
 
 /**
+ * `globalId` always returned with attachments via apply edits.
+ */
+export interface IApplyEditsAttachmentResult extends IEditFeatureResult {
+  globalId: string;
+}
+
+/**
+ * Apply edits result Object.
+ */
+export interface IApplyEditsResult {
+  addResults?: IEditFeatureResult[];
+  updateResults?: IEditFeatureResult[];
+  deleteResults?: IEditFeatureResult[];
+  attachments?: {
+    addResults?: IApplyEditsAttachmentResult[];
+    updateResults?: IApplyEditsAttachmentResult[];
+    deleteResults?: IApplyEditsAttachmentResult[];
+  };
+}
+
+/**
  * Common add, update, and delete features options.
  */
 export interface ISharedEditOptions extends IGetLayerOptions {
