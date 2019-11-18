@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [2.6.1] - November 14th 2019
+
+### @esri/arcgis-rest-portal
+
+* Bug Fixes
+   * **arcgis-rest-portal**: aggs counts should be an array [`c9f26b9a`](https://github.com/Esri/arcgis-rest-js/commit/c9f26b9ab15cfb6a7bc0d9422c3f06e8a56d0d52)
+
 ## [2.6.0] - October 22nd 2019
 
 ### @esri/arcgis-rest-portal
