@@ -22,6 +22,7 @@ export interface IGeocodeOptions extends IEndpointOptions {
   neighborhood?: string;
   city?: string;
   subregion?: string;
+  outFields?: "*" | string[];
   /**
    * The World Geocoding Service expects US states to be passed in as a 'region'.
    */
@@ -103,6 +104,7 @@ export function geocode(
         "postal",
         "postalExt",
         "countryCode",
+        "outFields",
         "magicKey"
       ],
       { params: { ...address.params } }
