@@ -64,6 +64,33 @@ describe("geocode", () => {
       });
   });
 
+  it("should make a simple, single geocoding request with a named parameter", done => {
+    fetchMock.once("*", FindAddressCandidates);
+
+    geocode({
+      singleLine: "380 New York Street",
+      outFields: ["Addr_type", "Score"]
+    })
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
+        );
+        const singleLineEncoded = encodeURIComponent("380 New York Street");
+        expect(options.body).toContain(`singleLine=${singleLineEncoded}`);
+        const outFieldsEncoded = encodeURIComponent(
+          ["Addr_type", "Score"].join(",")
+        );
+        expect(options.body).toContain(`outFields=${outFieldsEncoded}`);
+        expect(response.spatialReference.wkid).toEqual(4326);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   it("should make a simple, single geocoding request with a custom parameter", done => {
     fetchMock.once("*", FindAddressCandidates);
 
