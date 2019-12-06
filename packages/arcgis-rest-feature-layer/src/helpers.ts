@@ -50,9 +50,9 @@ export interface IApplyEditsAttachmentResult extends IEditFeatureResult {
  * Apply edits result Object.
  */
 export interface IApplyEditsResult {
-  addResults?: IEditFeatureResult[];
-  updateResults?: IEditFeatureResult[];
-  deleteResults?: IEditFeatureResult[];
+  addResults: IEditFeatureResult[];
+  updateResults: IEditFeatureResult[];
+  deleteResults: IEditFeatureResult[];
   attachments?: {
     addResults?: IApplyEditsAttachmentResult[];
     updateResults?: IApplyEditsAttachmentResult[];
