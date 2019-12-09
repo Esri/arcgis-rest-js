@@ -1,13 +1,13 @@
 {
   "name": "@esri/arcgis-rest-demo-vanilla",
-  "version": "2.3.0",
+  "version": "2.6.1",
   "private": true,
   "description": "Vanilla JavaScript demo of @esri/arcgis-rest-* packages",
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@esri/arcgis-rest-auth": "^2.3.0",
-    "@esri/arcgis-rest-request": "^2.3.0"
+    "@esri/arcgis-rest-auth": "^2.6.1",
+    "@esri/arcgis-rest-request": "^2.6.1"
   },
   "devDependencies": {
     "http-server": "*"

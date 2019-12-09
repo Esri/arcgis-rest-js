@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IPagingParams, IItem, IGroup } from "@esri/arcgis-rest-types";
+import { IPagingParams, IItem, IGroup, IUser } from "@esri/arcgis-rest-types";
 import { SearchQueryBuilder } from "./SearchQueryBuilder";
 
 export interface ISearchOptions extends IRequestOptions, IPagingParams {
@@ -15,7 +15,7 @@ export interface ISearchOptions extends IRequestOptions, IPagingParams {
 /**
  * Results from an item or group search.
  */
-export interface ISearchResult<T extends IItem | IGroup> {
+export interface ISearchResult<T extends IItem | IGroup | IUser> {
   query: string; // matches the api's form param
   total: number;
   start: number;
@@ -27,12 +27,12 @@ export interface ISearchResult<T extends IItem | IGroup> {
    * Aggregations will only be present on item searches when [`fieldCounts`](https://developers.arcgis.com/rest/users-groups-and-items/search.htm#GUID-1C625F8A-4A12-45BB-B537-74C82315759A) are requested.
    */
   aggregations?: {
-    counts: {
+    counts: Array<{
       fieldName: string;
       fieldValues: Array<{
         value: any;
         count: number;
       }>;
-    };
+    }>;
   };
 }

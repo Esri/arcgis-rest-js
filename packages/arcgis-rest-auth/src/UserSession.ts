@@ -354,19 +354,25 @@ export class UserSession implements IAuthenticationManager {
 
     function completeSignIn(error: any, oauthInfo?: IFetchTokenResponse) {
       if (win.opener && win.opener.parent) {
-        win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`](
-          error ? JSON.stringify(error) : undefined,
-          JSON.stringify(oauthInfo)
-        );
+        const handlerFn = win.opener[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
+        if (handlerFn) {
+          handlerFn(
+            error ? JSON.stringify(error) : undefined,
+            JSON.stringify(oauthInfo)
+          );
+        }
         win.close();
         return undefined;
       }
 
       if (win !== win.parent) {
-        win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`](
-          error ? JSON.stringify(error) : undefined,
-          JSON.stringify(oauthInfo)
-        );
+        const handlerFn = win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
+        if (handlerFn) {
+          handlerFn(
+            error ? JSON.stringify(error) : undefined,
+            JSON.stringify(oauthInfo)
+          );
+        }
         win.close();
         return undefined;
       }
@@ -787,7 +793,9 @@ export class UserSession implements IAuthenticationManager {
    * @param url the URl to determine the root url for.
    */
   public getServerRootUrl(url: string) {
-    const [root] = cleanUrl(url).split(/\/rest(\/admin)?\/services(?:\/|#|\?|$)/);
+    const [root] = cleanUrl(url).split(
+      /\/rest(\/admin)?\/services(?:\/|#|\?|$)/
+    );
     const [match, protocol, domainAndPath] = root.match(/(https?:\/\/)(.+)/);
     const [domain, ...path] = domainAndPath.split("/");
 

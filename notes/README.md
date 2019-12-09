@@ -53,25 +53,7 @@ A potentially better option might be to just use JSDoc and work from the compile
 
 # Release system
 
-the release process has been entirely automated.
-
-the command below bumps the version in each individual package.json file and parses all `npm run c` invoked commit messages since the last release to update the changelog.
-
-```bash
-npm run release:prepare
-```
-
-afterwards, you can display a diff to give you a sense of what will be committed to master when you actually publish.
-
-```bash
-npm run release:review
-```
-
-the last command increments the version in the root package.json, pushes the new tag to GitHub and publishes a release of each individual package on npm.
-
-```bash
-npm run release:publish
-```
+This has moved to [RELEASE.md](../RELEASE.md).
 
 # Potential improvements
 
@@ -84,5 +66,3 @@ npm run release:publish
 Basic utility libraries are going to be a problem. Most recommendation are to use something like `import defaults = require('lodash/defaults')` because you are importing a common JS module. However if you use this syntax you cannot have Typescript compile ES2015 modules which is goal for us. Not every library publishes itself as ES2015 modules.
 
 We need to make a call on what we bundle into the library (`Promise`, `fetch`) ect... Do we ask people to bring their own polyfills or do we bundle them ourselves for simplicity. If we want to do both it will likely complicate the builds a great deal.
-
-

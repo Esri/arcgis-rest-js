@@ -7,9 +7,41 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [2.6.1] - November 14th 2019
+
+### @esri/arcgis-rest-portal
+
+* Bug Fixes
+   * **arcgis-rest-portal**: aggs counts should be an array [`c9f26b9a`](https://github.com/Esri/arcgis-rest-js/commit/c9f26b9ab15cfb6a7bc0d9422c3f06e8a56d0d52)
+
+## [2.6.0] - October 22nd 2019
+
+### @esri/arcgis-rest-portal
+
+* New Features
+   * **arcgis-rest-portal**: add searchUsers function [`b91af15a`](https://github.com/Esri/arcgis-rest-js/commit/b91af15a0524ace69edfdaa5ccdea9da257746a9)
+
+## [2.5.0] - October 15th 2019
+
+### @esri/arcgis-rest-portal
+
+* New Features
+   * **portal**: add the function to get user tags (#614) [`d49159f9`](https://github.com/Esri/arcgis-rest-js/commit/d49159f91b3236feaf6dfb5df202672faae82797)
+   * **portal**: add `commitItemUpload()` and `cancelItemUpload()` functions for item file upload
+   * **portal**: add `overwrite` paramter for item creation
+
+### Other Changes
+
+* Bug Fixes
+   * **searchGroupUsers func**: searchOptions is now an optional parameter [`d54bddb6`](https://github.com/Esri/arcgis-rest-js/commit/d54bddb69f003109aac7a3b27be420b465e4f59f) [#615](https://github.com/Esri/arcgis-rest-js/issues/615)
+
+## [2.4.0] - August 29th 2019
+
+### @esri/arcgis-rest-portal
+
 * New Features
    * **portal**: new functions and parameters to support async and multiple upload during item creation [#611](https://github.com/Esri/arcgis-rest-js/issues/611)
-   * **portal**: `getUserTags` function to get tags used by the given user
+   * **portal**: add the function to get user tags (#614) [`d49159f`](https://github.com/Esri/arcgis-rest-js/commit/d49159f91b3236feaf6dfb5df202672faae82797)
 
 ## [2.3.0] - August 8th 2019
 
@@ -1405,8 +1437,7 @@ Initial Public Release
 [1.8.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.1...v1.8.0 "v1.8.0"
 [1.9.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.8.0...v1.9.0 "v1.9.0"
 [1.10.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.9.0...v1.10.0 "v1.10.0"
-[1.11.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.0 "v1.11.0"
-[1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.0...v1.11.1 "v1.11.1"
+[1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.1 "v1.11.1"
 [1.12.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.1...v1.12.0 "v1.12.0"
 [1.13.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.12.0...v1.13.0 "v1.13.0"
 [1.13.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.0...v1.13.1 "v1.13.1"
@@ -1433,6 +1464,7 @@ Initial Public Release
 [2.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.4...v2.1.0 "v2.1.0"
 [2.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.0...v2.1.1 "v2.1.1"
 [2.2.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.1...v2.2.0 "v2.2.0"
-[2.2.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.0...v2.2.1 "v2.2.1"
-[2.3.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.1...v2.3.0 "v2.3.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.3.0...HEAD "Unreleased Changes"
+[2.3.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.0...v2.3.0 "v2.3.0"
+[2.5.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.3.0...v2.5.0 "v2.5.0"
+[2.6.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.5.0...v2.6.0 "v2.6.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.6.0...HEAD "Unreleased Changes"
