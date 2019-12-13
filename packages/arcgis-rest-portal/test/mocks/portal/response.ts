@@ -2,6 +2,7 @@
  * Apache-2.0 */
 
 import { IPortal } from "../../../src/util/get-portal";
+import { ISubscriptionInfo } from "../../../src/util/get-subscription-info";
 
 export const PortalResponse: IPortal = {
   access: "public",
@@ -109,4 +110,17 @@ export const PortalResponse: IPortal = {
   mfaEnabled: false,
   user: {},
   appInfo: {}
+};
+
+export const SubscriptionInfoResponse: ISubscriptionInfo = {
+  id: "LjjARY1mkhxulWPq",
+  type: "In House",
+  state: "active",
+  expDate: 1591253999000,
+  userLicenseTypes: {},
+  maxUsersPerLevel: {},
+  maxUsers: 60,
+  availableCredits: 9999.99,
+  collaborationSettings: {},
+  orgCapabilities: []
 };
