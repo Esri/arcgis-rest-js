@@ -64,10 +64,43 @@ describe("geocode", () => {
       });
   });
 
+  it("should make a simple, single geocoding request with a named parameter", done => {
+    fetchMock.once("*", FindAddressCandidates);
+
+    geocode({
+      singleLine: "380 New York Street",
+      outFields: ["Addr_type", "Score"]
+    })
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
+        );
+        const singleLineEncoded = encodeURIComponent("380 New York Street");
+        expect(options.body).toContain(`singleLine=${singleLineEncoded}`);
+        const outFieldsEncoded = encodeURIComponent(
+          ["Addr_type", "Score"].join(",")
+        );
+        expect(options.body).toContain(`outFields=${outFieldsEncoded}`);
+        expect(response.spatialReference.wkid).toEqual(4326);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   it("should make a simple, single geocoding request with a custom parameter", done => {
     fetchMock.once("*", FindAddressCandidates);
 
-    geocode({ params: { singleLine: "LAX", countryCode: "USA" } })
+    geocode({
+      params: {
+        singleLine: "LAX",
+        countryCode: "USA",
+        outFields: ["Addr_type", "Score"]
+      }
+    })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -78,6 +111,10 @@ describe("geocode", () => {
         expect(options.body).toContain("f=json");
         expect(options.body).toContain("singleLine=LAX");
         expect(options.body).toContain("countryCode=USA");
+        const outFieldsEncoded = encodeURIComponent(
+          ["Addr_type", "Score"].join(",")
+        );
+        expect(options.body).toContain(`outFields=${outFieldsEncoded}`);
         // the only property this lib tacks on
         expect(response.spatialReference.wkid).toEqual(4326);
         done();
