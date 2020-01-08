@@ -60,6 +60,7 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   maxAllowableOffset?: number;
   geometryPrecision?: number;
   // NOTE: either WKID or ISpatialReference
+  inSR?: string | ISpatialReference;
   outSR?: string | ISpatialReference;
   gdbVersion?: string;
   returnDistinctValues?: boolean;
@@ -178,6 +179,7 @@ export function queryFeatures(
       "returnGeometry",
       "maxAllowableOffset",
       "geometryPrecision",
+      "inSR",
       "outSR",
       "gdbVersion",
       "returnDistinctValues",

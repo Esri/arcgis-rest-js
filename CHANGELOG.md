@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [Unreleased][HEAD]
 
+## [2.7.0] - December 23rd 2019
+
+### @esri/arcgis-rest-portal
+
+* New Features
+
+   * **Add Portal getSubscriptionInfo fn**: Added a Portal `getSubscriptionInfo` method -- essentially the same thing as `getPortal` or `getSelf` but with `/subscriptionInfo` appended to the URL. [e7f6df5](https://github.com/Esri/arcgis-rest-js/pull/642/commits/e7f6df5459eda1a8e26dfeee37593250762ec9a1)
+
+### @esri/arcgis-rest-feature-layer
+
+* New Features
+   * **add applyEdits function**: adds \`applyEdits()\` to feature-layer for bulk crud transactions. [`ec368418`](https://github.com/Esri/arcgis-rest-js/commit/ec3684183c5689cd27d20ebfdc79af69a41135e2)
+
+### Other Changes
+
+* New Features
+   * **Quick Param Updates**: Added a Portal `getSubscriptionInfo` method -- essentially the same thing as `getPortal` or `getSelf` but with `/subscriptionInfo` appended to the URL. [e7f6df5](https://github.com/Esri/arcgis-rest-js/pull/642/commits/e7f6df5459eda1a8e26dfeee37593250762ec9a1)
+
+
+
 ## [2.6.1] - November 14th 2019
 
 ### @esri/arcgis-rest-portal
@@ -1437,7 +1457,8 @@ Initial Public Release
 [1.8.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.1...v1.8.0 "v1.8.0"
 [1.9.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.8.0...v1.9.0 "v1.9.0"
 [1.10.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.9.0...v1.10.0 "v1.10.0"
-[1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.1 "v1.11.1"
+[1.11.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.0 "v1.11.0"
+[1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.0...v1.11.1 "v1.11.1"
 [1.12.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.1...v1.12.0 "v1.12.0"
 [1.13.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.12.0...v1.13.0 "v1.13.0"
 [1.13.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.0...v1.13.1 "v1.13.1"
@@ -1464,7 +1485,11 @@ Initial Public Release
 [2.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.4...v2.1.0 "v2.1.0"
 [2.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.0...v2.1.1 "v2.1.1"
 [2.2.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.1...v2.2.0 "v2.2.0"
-[2.3.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.0...v2.3.0 "v2.3.0"
-[2.5.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.3.0...v2.5.0 "v2.5.0"
+[2.2.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.0...v2.2.1 "v2.2.1"
+[2.3.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.1...v2.3.0 "v2.3.0"
+[2.4.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.3.0...v2.4.0 "v2.4.0"
+[2.5.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.4.0...v2.5.0 "v2.5.0"
 [2.6.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.5.0...v2.6.0 "v2.6.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.6.0...HEAD "Unreleased Changes"
+[2.6.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.6.0...v2.6.1 "v2.6.1"
+[2.7.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.6.1...v2.7.0 "v2.7.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.7.0...HEAD "Unreleased Changes"
