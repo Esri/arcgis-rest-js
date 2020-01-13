@@ -5,7 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-### [Unreleased][HEAD]
+## [Unreleased][HEAD]
+
+## [2.7.1] - January 13th 2020
+
+### @esri/arcgis-rest-auth
+
+* Bug Fixes
+   * **UserSession**: will now update expired tokens on non-federated servers [`af121c1d`](https://github.com/Esri/arcgis-rest-js/commit/af121c1de1c96027a2ca107ed46a7877b61c5a4f)
 
 ## [2.7.0] - December 23rd 2019
 
@@ -24,8 +31,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * New Features
    * **Quick Param Updates**: Added a Portal `getSubscriptionInfo` method -- essentially the same thing as `getPortal` or `getSelf` but with `/subscriptionInfo` appended to the URL. [e7f6df5](https://github.com/Esri/arcgis-rest-js/pull/642/commits/e7f6df5459eda1a8e26dfeee37593250762ec9a1)
-
-
 
 ## [2.6.1] - November 14th 2019
 
@@ -1492,4 +1497,5 @@ Initial Public Release
 [2.6.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.5.0...v2.6.0 "v2.6.0"
 [2.6.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.6.0...v2.6.1 "v2.6.1"
 [2.7.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.6.1...v2.7.0 "v2.7.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.7.0...HEAD "Unreleased Changes"
+[2.7.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.7.0...v2.7.1 "v2.7.1"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.7.1...HEAD "Unreleased Changes"
