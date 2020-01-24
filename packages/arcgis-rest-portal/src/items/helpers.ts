@@ -49,7 +49,9 @@ export type ItemRelationshipType =
   | "Area2Package"
   | "Map2Area"
   | "Service2Layer"
-  | "Area2CustomPackage";
+  | "Area2CustomPackage"
+  | "TrackView2Map"
+  | "SurveyAddIn2Data";
 
 export interface IItemRelationshipOptions extends IRequestOptions {
   /**
