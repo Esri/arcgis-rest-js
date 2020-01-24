@@ -72,7 +72,8 @@ function changeGroupSharing(
   requestOptions: IGroupSharingUnsharingOptions
 ): Promise<ISharingResponse> {
   const username = requestOptions.authentication.username;
-  const owner = requestOptions.owner || username;
+  const itemOwner = requestOptions.owner || username;
+  const isSharedEditingGroup = requestOptions.confirmItemControl || false;
 
   return isOrgAdmin(requestOptions).then(admin => {
     const resultProp =
@@ -95,57 +96,50 @@ function changeGroupSharing(
         // next check to ensure the user is a member of the group
         return getUserMembership(requestOptions)
           .then(membership => {
-            if (membership === "nonmember") {
+            // if user is not a member of the group and not an admin
+            if (membership === "none" && !admin) {
               // abort and reject promise
               throw Error(
-                `This item can not be ${
-                  requestOptions.action
-                }d by ${username} as they are not a member of the specified group ${
-                  requestOptions.groupId
-                }.`
+                `This item can not be ${requestOptions.action}d by ${username} as they are not a member of the specified group ${requestOptions.groupId}.`
               );
             } else {
-              // if owner (and member of group) share using the owner url
-              if (owner === username) {
-                return `${getPortalUrl(
+              // they are some level of member or org-admin
+              // but only item owners can share/unshare items w/ shared editing groups
+              if (isSharedEditingGroup && itemOwner !== username) {
+                throw Error(
+                  `This item can not be ${requestOptions.action}d to shared editing group ${requestOptions.groupId} by ${username} as they not the item owner.`
+                );
+              }
+              // at this point, the user should be able to share the item to the group
+              // only question is what url to use
+
+              // default to the non-owner url...
+              let url = `${getPortalUrl(requestOptions)}/content/items/${
+                requestOptions.id
+              }/${requestOptions.action}`;
+
+              // but if they are the owner, we use a different path...
+              if (itemOwner === username) {
+                url = `${getPortalUrl(
                   requestOptions
-                )}/content/users/${owner}/items/${requestOptions.id}/${
+                )}/content/users/${itemOwner}/items/${requestOptions.id}/${
                   requestOptions.action
                 }`;
-              } else {
-                // if org admin, group admin/owner, use the bare item url
-                if (membership === "admin" || membership === "owner" || admin) {
-                  return `${getPortalUrl(requestOptions)}/content/items/${
-                    requestOptions.id
-                  }/${requestOptions.action}`;
-                } else {
-                  // otherwise abort
-                  throw Error(
-                    `This item can not be ${
-                      requestOptions.action
-                    }d by ${username} as they are neither the owner, a groupAdmin of ${
-                      requestOptions.groupId
-                    }, nor an org_admin.`
-                  );
-                }
               }
+
+              // now its finally time to do the sharing
+              requestOptions.params = {
+                groups: requestOptions.groupId,
+                confirmItemControl: requestOptions.confirmItemControl
+              };
+
+              return request(url, requestOptions);
             }
-          })
-          .then(url => {
-            // now its finally time to do the sharing
-            requestOptions.params = {
-              groups: requestOptions.groupId,
-              confirmItemControl: requestOptions.confirmItemControl
-            };
-            // dont mixin to ensure that old query parameters from the search request arent included
-            return request(url, requestOptions);
           })
           .then(sharingResponse => {
             if (sharingResponse[resultProp].length) {
               throw Error(
-                `Item ${requestOptions.id} could not be ${
-                  requestOptions.action
-                }d to group ${requestOptions.groupId}.`
+                `Item ${requestOptions.id} could not be ${requestOptions.action}d to group ${requestOptions.groupId}.`
               );
             } else {
               // all is well

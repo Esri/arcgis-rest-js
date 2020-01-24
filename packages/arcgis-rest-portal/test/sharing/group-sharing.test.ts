@@ -94,7 +94,7 @@ describe("shareItemWithGroup() ::", () => {
     fetchMock.post("https://myorg.maps.arcgis.com/sharing/rest/generateToken", {
       token: "fake-token",
       expires: TOMORROW.getTime(),
-      username: " jsmith"
+      username: "jsmith"
     });
 
     // make sure session doesnt cache metadata
@@ -210,7 +210,6 @@ describe("shareItemWithGroup() ::", () => {
       "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share",
       SharingResponse
     );
-
     shareItemWithGroup({
       authentication: MOCK_USER_SESSION,
       id: "n3v",
@@ -238,7 +237,7 @@ describe("shareItemWithGroup() ::", () => {
       });
   });
 
-  it("should share an item with a group by org administrator and pass through confirmItemControl", done => {
+  it("should fail share an item with a group by org administrator and pass through confirmItemControl", done => {
     fetchMock.once(
       "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       OrgAdminUserResponse
@@ -255,38 +254,21 @@ describe("shareItemWithGroup() ::", () => {
       GroupOwnerResponse
     );
 
-    fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share",
-      SharingResponse
-    );
-
     shareItemWithGroup({
       authentication: MOCK_USER_SESSION,
       id: "n3v",
       groupId: "t6b",
       owner: "casey",
       confirmItemControl: true
-    })
-      .then(response => {
-        expect(fetchMock.done()).toBeTruthy(
-          "All fetchMocks should have been called"
-        );
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
-        );
-        expect(url).toBe(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
-        );
-        expect(options.method).toBe("POST");
-        expect(response).toEqual(SharingResponse);
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain("groups=t6b");
-        expect(options.body).toContain("confirmItemControl=true");
-        done();
-      })
-      .catch(e => {
-        fail(e);
-      });
+    }).catch(e => {
+      expect(fetchMock.done()).toBeTruthy(
+        "All fetchMocks should have been called"
+      );
+      expect(e.message).toBe(
+        "This item can not be shared to shared editing group t6b by jsmith as they not the item owner."
+      );
+      done();
+    });
   });
 
   it("should share an item with a group by group owner/admin", done => {
@@ -370,7 +352,56 @@ describe("shareItemWithGroup() ::", () => {
       });
   });
 
-  it("should throw if the person trying to share doesnt own the item, is not an admin or member of said group", done => {
+  it("should allow group owner/admin/member to share item they do not own", done => {
+    fetchMock.once(
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
+      GroupMemberUserResponse
+    );
+
+    fetchMock.once(
+      "https://myorg.maps.arcgis.com/sharing/rest/search",
+      SearchResponse
+    );
+
+    // called when we determine if the user is a member of the group
+    fetchMock.get(
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b?f=json&token=fake-token",
+      GroupMemberResponse
+    );
+
+    fetchMock.once(
+      "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share",
+      SharingResponse
+    );
+
+    shareItemWithGroup({
+      authentication: MOCK_USER_SESSION,
+      id: "n3v",
+      groupId: "t6b",
+      owner: "casey"
+    })
+      .then(response => {
+        expect(fetchMock.done()).toBeTruthy(
+          "All fetchMocks should have been called"
+        );
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
+        );
+        expect(url).toBe(
+          "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
+        );
+        expect(options.method).toBe("POST");
+        expect(response).toEqual(SharingResponse);
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain("groups=t6b");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should throw is non-owner tries to share to shared editing group", done => {
     fetchMock.once(
       "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       GroupMemberUserResponse
@@ -391,13 +422,14 @@ describe("shareItemWithGroup() ::", () => {
       authentication: MOCK_USER_SESSION,
       id: "n3v",
       groupId: "t6b",
-      owner: "casey"
+      owner: "casey",
+      confirmItemControl: true
     }).catch(e => {
       expect(fetchMock.done()).toBeTruthy(
         "All fetchMocks should have been called"
       );
       expect(e.message).toContain(
-        "This item can not be shared by jsmith as they are neither the owner, a groupAdmin of t6b, nor an org_admin."
+        "This item can not be shared to shared editing group t6b by jsmith as they not the item owner."
       );
       done();
     });

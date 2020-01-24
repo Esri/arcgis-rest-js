@@ -71,7 +71,7 @@ export function getUserMembership(
       return group.userMembership.memberType;
     })
     .catch(() => {
-      return "nonmember" as GroupMembership;
+      return "none" as GroupMembership;
     });
 }
 
