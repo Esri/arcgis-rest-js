@@ -103,14 +103,30 @@ function changeGroupSharing(
                 `This item can not be ${requestOptions.action}d by ${username} as they are not a member of the specified group ${requestOptions.groupId}.`
               );
             } else {
-              // they are some level of member or org-admin
-              // but only item owners can share/unshare items w/ shared editing groups
-              if (isSharedEditingGroup && itemOwner !== username) {
-                throw Error(
-                  `This item can not be ${requestOptions.action}d to shared editing group ${requestOptions.groupId} by ${username} as they not the item owner.`
-                );
+              // ...they are some level of membership or org-admin
+
+              // if the current user does not own the item, we had more checks...
+              if (itemOwner !== username) {
+                // only item owners can share/unshare items w/ shared editing groups
+                if (isSharedEditingGroup) {
+                  throw Error(
+                    `This item can not be ${requestOptions.action}d to shared editing group ${requestOptions.groupId} by ${username} as they not the item owner.`
+                  );
+                }
+                // only item-owners, group-admin's, group-owners can unshare an item from a normal group
+                if (
+                  requestOptions.action === "unshare" &&
+                  membership !== "admin" &&
+                  membership !== "owner"
+                ) {
+                  throw Error(
+                    `This item can not be ${requestOptions.action}d from group ${requestOptions.groupId} by ${username} as they not the item owner, group admin or group owner.`
+                  );
+                }
               }
-              // at this point, the user should be able to share the item to the group
+
+              // at this point, the user *should* be able to take the action
+
               // only question is what url to use
 
               // default to the non-owner url...

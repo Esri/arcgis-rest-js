@@ -71,6 +71,14 @@ export const GroupMemberResponse = {
   }
 };
 
+export const GroupNonMemberResponse = {
+  id: "tb6",
+  title: "fake group",
+  userMembership: {
+    memberType: "none"
+  }
+};
+
 export const GroupAdminResponse = {
   id: "tb6",
   title: "fake group",
@@ -269,6 +277,46 @@ describe("shareItemWithGroup() ::", () => {
       );
       done();
     });
+  });
+
+  it("should fail unshare an item with a group by org administrator thats not a group member ", done => {
+    fetchMock.once(
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
+      OrgAdminUserResponse
+    );
+
+    fetchMock.once("https://myorg.maps.arcgis.com/sharing/rest/search", {
+      total: 1,
+      results: [
+        {
+          id: "n3v"
+        }
+      ]
+    });
+
+    // called when we determine if the user is a member of the group
+    fetchMock.get(
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b?f=json&token=fake-token",
+      GroupNonMemberResponse
+    );
+    unshareItemWithGroup({
+      authentication: MOCK_USER_SESSION,
+      id: "n3v",
+      groupId: "t6b",
+      owner: "vader"
+    })
+      .then(_ => {
+        fail();
+      })
+      .catch(e => {
+        expect(fetchMock.done()).toBeTruthy(
+          "All fetchMocks should have been called"
+        );
+        expect(e.message).toBe(
+          "This item can not be unshared from group t6b by jsmith as they not the item owner, group admin or group owner."
+        );
+        done();
+      });
   });
 
   it("should share an item with a group by group owner/admin", done => {
