@@ -63,7 +63,7 @@
     "isomorphic-form-data": "^2.0.0",
     "cross-fetch": "^3.0.0",
     "isomorphic-fetch": "*",
-    "tslib": "^1.8.1"
+    "tslib": "^1.10.0"
   },
   "lint-staged": {
     "*.ts": [
