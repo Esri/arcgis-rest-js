@@ -113,7 +113,7 @@ export const ItemGroupResponse: IGetItemGroupsResponse = {
       access: "public",
       userMembership: {
         username: "jsmith",
-        memberType: "nonmember"
+        memberType: "none"
       },
       isFav: false,
       autoJoin: false,
