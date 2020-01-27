@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [2.7.2] - January 26th 2020
+
+### @esri/arcgis-rest-portal
+
+* Bug Fixes
+   * **sharing**: correct the item sharing logic to reflect what the api actually allows [`48b67e54`](https://github.com/Esri/arcgis-rest-js/commit/48b67e542ed41dda798ebfd51321d51729af2b5b)
+   * **sharing**: only item owner, group owner or group admin can unshare [`d264137c`](https://github.com/Esri/arcgis-rest-js/commit/d264137cbc51955320c48bad0bd868116832de79)
+
+### @esri/arcgis-rest-types
+
+* Bug Fixes
+   * **sharing**: correct the item sharing logic to reflect what the api actually allows [`48b67e54`](https://github.com/Esri/arcgis-rest-js/commit/48b67e542ed41dda798ebfd51321d51729af2b5b)
+   * **types**: add missing relationship types [`bf3e6c6a`](https://github.com/Esri/arcgis-rest-js/pull/649/commits/bf3e6c6a47b8626b508664d7ce37181047e5c825)
+
 ## [2.7.1] - January 13th 2020
 
 ### @esri/arcgis-rest-auth
@@ -1498,4 +1512,5 @@ Initial Public Release
 [2.6.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.6.0...v2.6.1 "v2.6.1"
 [2.7.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.6.1...v2.7.0 "v2.7.0"
 [2.7.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.7.0...v2.7.1 "v2.7.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.7.1...HEAD "Unreleased Changes"
+[2.7.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.7.1...v2.7.2 "v2.7.2"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.7.2...HEAD "Unreleased Changes"
