@@ -353,7 +353,7 @@ export class UserSession implements IAuthenticationManager {
     };
 
     function completeSignIn(error: any, oauthInfo?: IFetchTokenResponse) {
-      if (win.opener && win.opener.parent && win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`] && popup) {
+      if (popup && win.opener && win.opener.parent && win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`]) {
         const handlerFn = win.opener[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
         if (handlerFn) {
           handlerFn(
@@ -365,7 +365,7 @@ export class UserSession implements IAuthenticationManager {
         return undefined;
       }
 
-      if (win !== win.parent && win.parent && win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`] && popup) {
+      if (popup && win !== win.parent && win.parent && win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`]) {
         const handlerFn = win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
         if (handlerFn) {
           handlerFn(
