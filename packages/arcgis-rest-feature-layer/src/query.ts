@@ -29,9 +29,25 @@ export interface IGetFeatureOptions extends IGetLayerOptions {
 
 export interface IStatisticDefinition {
   /**
-   * Statistical operation to perform (count, sum, min, max, avg, stddev, var).
+   * Statistical operation to perform (count, sum, min, max, avg, stddev, var, percentile_cont, percentile_disc).
    */
-  statisticType: "count" | "sum" | "min" | "max" | "avg" | "stddev" | "var";
+  statisticType:
+    | "count"
+    | "sum"
+    | "min"
+    | "max"
+    | "avg"
+    | "stddev"
+    | "var"
+    | "percentile_cont"
+    | "percentile_disc";
+  /**
+   * Parameter to be used along with statisticType. Currently, only applicable for percentile_cont (continuous percentile) and percentile_disc (discrete percentile).
+   */
+  statisticParameter?: {
+    value: number;
+    orderBy?: "asc" | "desc";
+  };
   /**
    * Field on which to perform the statistical operation.
    */

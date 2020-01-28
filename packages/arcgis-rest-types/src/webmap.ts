@@ -1002,6 +1002,7 @@ export interface ILayerDefinition extends IHasZM {
     supportsOrderBy?: boolean;
     supportsDistinct?: boolean;
     supportsSqlExpression?: boolean;
+    supportsPercentileStatistics?: boolean;
   };
   allowTrueCurvesUpdates?: boolean;
   onlyAllowTrueCurveUpdatesByTrueCurveClients?: boolean;
