@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][HEAD]
 
+## [2.8.0] - January 28th 2020
+
+### @esri/arcgis-rest-types
+
+* New Features
+
+   * **Add properties to IStatisticDefinition to support percentiles**: Added optional `statisticParameter` property to support new `"percentile_cont" | "percentile_disc"` types. [8edec3ff](https://github.com/Esri/arcgis-rest-js/pull/650/commits/8edec3ff7d91bc583dfd30db23067bee0e86887e)
+
+   * **Export `IStatisticDefinition` interface**: [a6ac91b7](https://github.com/Esri/arcgis-rest-js/pull/651/commits/a6ac91b713510391e86819fa51595440cc1533ce)
+
 ## [2.7.2] - January 26th 2020
 
 ### @esri/arcgis-rest-portal
@@ -1513,4 +1523,5 @@ Initial Public Release
 [2.7.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.6.1...v2.7.0 "v2.7.0"
 [2.7.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.7.0...v2.7.1 "v2.7.1"
 [2.7.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.7.1...v2.7.2 "v2.7.2"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.7.2...HEAD "Unreleased Changes"
+[2.8.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.7.2...v2.8.0 "v2.8.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.8.0...HEAD "Unreleased Changes"
