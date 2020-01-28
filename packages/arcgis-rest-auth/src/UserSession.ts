@@ -348,7 +348,7 @@ export class UserSession implements IAuthenticationManager {
   /* istanbul ignore next */
   public static completeOAuth2(options: IOAuth2Options, win: any = window) {
     const { portal, clientId }: IOAuth2Options = {
-      ...{ portal: "https://www.arcgis.com/sharing/rest" },
+      ...{ portal: "https://www.arcgis.com/sharing/rest", popup: true },
       ...options
     };
 
