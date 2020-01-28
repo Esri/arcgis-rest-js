@@ -252,9 +252,9 @@ export interface IUserSessionOptions {
  */
 export class UserSession implements IAuthenticationManager {
   /**
-   * Begins a new browser-based OAuth 2.0 sign in. If `options.popup` is true the
+   * Begins a new browser-based OAuth 2.0 sign in. If `options.popup` is `true` the
    * authentication window will open in a new tab/window otherwise the user will
-   * be redirected to the authorization page in their current tab.
+   * be redirected to the authorization page in their current tab/window.
    *
    * @browserOnly
    */
@@ -339,42 +339,59 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
-   * Completes a browser-based OAuth 2.0 sign if `options.popup` is true the user
+   * Completes a browser-based OAuth 2.0  in. If `options.popup` is `true` the user
    * will be returned to the previous window. Otherwise a new `UserSession`
-   * will be returned.
+   * will be returned. You must pass the same values for `options.popup` and
+   * `options.portal` as you used in `beginOAuth2()`.
    *
    * @browserOnly
    */
   /* istanbul ignore next */
   public static completeOAuth2(options: IOAuth2Options, win: any = window) {
-    const { portal, clientId }: IOAuth2Options = {
+    const { portal, clientId, popup }: IOAuth2Options = {
       ...{ portal: "https://www.arcgis.com/sharing/rest", popup: true },
       ...options
     };
 
     function completeSignIn(error: any, oauthInfo?: IFetchTokenResponse) {
-      if (popup && win.opener && win.opener.parent && win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`]) {
-        const handlerFn = win.opener[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
-        if (handlerFn) {
-          handlerFn(
-            error ? JSON.stringify(error) : undefined,
-            JSON.stringify(oauthInfo)
-          );
+      try {
+        if (
+          popup &&
+          win.opener &&
+          win.opener.parent &&
+          win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`]
+        ) {
+          const handlerFn = win.opener[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
+          if (handlerFn) {
+            handlerFn(
+              error ? JSON.stringify(error) : undefined,
+              JSON.stringify(oauthInfo)
+            );
+          }
+          win.close();
+          return undefined;
         }
-        win.close();
-        return undefined;
-      }
 
-      if (popup && win !== win.parent && win.parent && win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`]) {
-        const handlerFn = win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
-        if (handlerFn) {
-          handlerFn(
-            error ? JSON.stringify(error) : undefined,
-            JSON.stringify(oauthInfo)
-          );
+        if (
+          popup &&
+          win !== win.parent &&
+          win.parent &&
+          win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`]
+        ) {
+          const handlerFn = win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
+          if (handlerFn) {
+            handlerFn(
+              error ? JSON.stringify(error) : undefined,
+              JSON.stringify(oauthInfo)
+            );
+          }
+          win.close();
+          return undefined;
         }
-        win.close();
-        return undefined;
+      } catch (e) {
+        throw new ArcGISAuthError(
+          `Unable to complete authentication. You specified popup based oAuth2 but no handler from "beginOAuth2()" present. This generally happens because the "popup" option differs between "beginOAuth2()" and "completeOAuth2()".`
+        );
       }
 
       if (error) {

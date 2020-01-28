@@ -1011,6 +1011,36 @@ describe("UserSession", () => {
         );
       }).toThrowError(ArcGISRequestError, "Invalid_Signin: Invalid_Signin");
     });
+
+    it("should throw an error if the handler or parent window cannot be accessed", () => {
+      const MockParent = {
+        get opener() {
+          throw new Error(
+            "This window isn't where auth started, but was opened from somewhere else via window.open() perhaps from another domain which would cause a cross domain error when read."
+          );
+        }
+      };
+
+      const MockWindow = {
+        location: {
+          href:
+            "https://example-app.com/redirect-uri#error=Invalid_Signin&error_description=Invalid_Signin"
+        },
+        get parent() {
+          return MockParent;
+        }
+      };
+
+      expect(function() {
+        UserSession.completeOAuth2(
+          {
+            clientId: "clientId",
+            redirectUri: "https://example-app.com/redirect-uri"
+          },
+          MockWindow
+        );
+      }).toThrowError(ArcGISAuthError);
+    });
   });
 
   describe(".authorize()", () => {
