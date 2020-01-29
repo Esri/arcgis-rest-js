@@ -361,7 +361,8 @@ export class UserSession implements IAuthenticationManager {
           win.opener.parent &&
           win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`]
         ) {
-          const handlerFn = win.opener[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
+          const handlerFn =
+            win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
           if (handlerFn) {
             handlerFn(
               error ? JSON.stringify(error) : undefined,
@@ -390,7 +391,7 @@ export class UserSession implements IAuthenticationManager {
         }
       } catch (e) {
         throw new ArcGISAuthError(
-          `Unable to complete authentication. You specified popup based oAuth2 but no handler from "beginOAuth2()" present. This generally happens because the "popup" option differs between "beginOAuth2()" and "completeOAuth2()".`
+          `Unable to complete authentication. It's possible you specified popup based oAuth2 but no handler from "beginOAuth2()" present. This generally happens because the "popup" option differs between "beginOAuth2()" and "completeOAuth2()".`
         );
       }
 

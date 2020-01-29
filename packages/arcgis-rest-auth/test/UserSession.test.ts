@@ -1014,7 +1014,7 @@ describe("UserSession", () => {
 
     it("should throw an error if the handler or parent window cannot be accessed", () => {
       const MockParent = {
-        get opener() {
+        get parent() {
           throw new Error(
             "This window isn't where auth started, but was opened from somewhere else via window.open() perhaps from another domain which would cause a cross domain error when read."
           );
@@ -1026,7 +1026,7 @@ describe("UserSession", () => {
           href:
             "https://example-app.com/redirect-uri#error=Invalid_Signin&error_description=Invalid_Signin"
         },
-        get parent() {
+        get opener() {
           return MockParent;
         }
       };

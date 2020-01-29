@@ -11,7 +11,6 @@
     "object-literal-sort-keys": false,
     "interface-name": [true, "always-prefix"],
     "no-string-literal": false,
-    "no-console": false,
-    "no-var-keyword": false
+    "no-console": false
   }
 }
