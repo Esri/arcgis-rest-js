@@ -2238,9 +2238,9 @@ the ArcGIS Online or ArcGIS Enterprise authorization page.</p>
             </td>
             <td class="code-face"><i>Promise</i><i><span class="text-light-gray">&lt;</span><i><a href="/arcgis-rest-js/api/auth/UserSession/">UserSession</a></i><span class="text-light-gray">&gt;</span></i></td>
             <td class="body-face api-param-comment">
-              <p>Begins a new browser-based OAuth 2.0 sign in. If <code>options.popup</code> is true the
+              <p>Begins a new browser-based OAuth 2.0 sign in. If <code>options.popup</code> is <code>true</code> the
 authentication window will open in a new tab/window otherwise the user will
-be redirected to the authorization page in their current tab.</p>
+be redirected to the authorization page in their current tab/window.</p>
 
               
             </td>
@@ -2260,9 +2260,10 @@ be redirected to the authorization page in their current tab.</p>
             </td>
             <td class="code-face"><i><a href="/arcgis-rest-js/api/auth/UserSession/">UserSession</a></i></td>
             <td class="body-face api-param-comment">
-              <p>Completes a browser-based OAuth 2.0 sign if <code>options.popup</code> is true the user
+              <p>Completes a browser-based OAuth 2.0  in. If <code>options.popup</code> is <code>true</code> the user
 will be returned to the previous window. Otherwise a new <code>UserSession</code>
-will be returned.</p>
+will be returned. You must pass the same values for <code>options.popup</code> and
+<code>options.portal</code> as you used in <code>beginOAuth2()</code>.</p>
 
               
             </td>
@@ -2652,9 +2653,9 @@ the ArcGIS Online or ArcGIS Enterprise authorization page.</p>
       <hr class="leader-half trailer-half">
 
       <div class="api-function-comment">
-        <p>Begins a new browser-based OAuth 2.0 sign in. If <code>options.popup</code> is true the
+        <p>Begins a new browser-based OAuth 2.0 sign in. If <code>options.popup</code> is <code>true</code> the
 authentication window will open in a new tab/window otherwise the user will
-be redirected to the authorization page in their current tab.</p>
+be redirected to the authorization page in their current tab/window.</p>
 
       </div>
 
@@ -2785,9 +2786,10 @@ be redirected to the authorization page in their current tab.</p>
       <hr class="leader-half trailer-half">
 
       <div class="api-function-comment">
-        <p>Completes a browser-based OAuth 2.0 sign if <code>options.popup</code> is true the user
+        <p>Completes a browser-based OAuth 2.0  in. If <code>options.popup</code> is <code>true</code> the user
 will be returned to the previous window. Otherwise a new <code>UserSession</code>
-will be returned.</p>
+will be returned. You must pass the same values for <code>options.popup</code> and
+<code>options.portal</code> as you used in <code>beginOAuth2()</code>.</p>
 
       </div>
 
