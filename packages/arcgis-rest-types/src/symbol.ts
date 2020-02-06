@@ -4,7 +4,47 @@
 /**
  *
  */
+export const enum SymbolType {
+  SLS = "esriSLS",
+  SMS = "esriSMS",
+  SFS = "esriSFS",
+  PMS = "esriPMS",
+  PFS = "esriPFS",
+  TS = "esriTS"
+}
+
+/**
+ *
+ */
 export type Color = [number, number, number, number];
+
+/**
+ *
+ */
+export const enum FontStyle {
+  Italic = "italic",
+  Normal = "normal",
+  Oblique = "oblique"
+}
+
+/**
+ *
+ */
+export const enum FontWeight {
+  Bold = "bold",
+  Bolder = "bolder",
+  Lighter = "lighter",
+  Normal = "normal"
+}
+
+/**
+ *
+ */
+export const enum FontDecoration {
+  LineThrough = "line-through",
+  Underline = "underline",
+  None = "none"
+}
 
 /**
  *
@@ -12,9 +52,9 @@ export type Color = [number, number, number, number];
 export interface IFont {
   family?: string; // "<fontFamily>";
   size?: number; // <fontSize>;
-  style?: "italic" | "normal" | "oblique";
-  weight?: "bold" | "bolder" | "lighter" | "normal";
-  decoration?: "line-through" | "underline" | "none";
+  style?: FontStyle;
+  weight?: FontWeight;
+  decoration?: FontDecoration;
 }
 
 /**
@@ -60,7 +100,7 @@ export interface IMarkerSymbol extends ISymbol {
  *
  */
 export interface IPictureFillSymbol extends ISymbol, IPictureSourced {
-  type: "esriPFS";
+  type: SymbolType.PFS;
   outline?: ISimpleLineSymbol; // if outline has been specified
   xscale?: number;
   yscale?: number;
@@ -70,60 +110,52 @@ export interface IPictureFillSymbol extends ISymbol, IPictureSourced {
  *
  */
 export interface IPictureMarkerSymbol extends IMarkerSymbol, IPictureSourced {
-  type: "esriPMS";
+  type: SymbolType.PMS;
 }
 
 /**
  *
  */
-export type SimpleMarkerSymbolStyle =
-  | "esriSMSCircle"
-  | "esriSMSCross"
-  | "esriSMSDiamond"
-  | "esriSMSSquare"
-  | "esriSMSX"
-  | "esriSMSTriangle";
+export const enum SimpleMarkerSymbolStyle {
+  Circle = "esriSMSCircle",
+  Cross = "esriSMSCross",
+  Diamond = "esriSMSDiamond",
+  Square = "esriSMSSquare",
+  X = "esriSMSX",
+  Triangle = "esriSMSTriangle"
+}
 
 /**
  *
  */
-export type SimpleLineSymbolStyle =
-  | "esriSLSDash"
-  | "esriSLSDashDot"
-  | "esriSLSDashDotDot"
-  | "esriSLSDot"
-  | "esriSLSNull"
-  | "esriSLSSolid";
+export const enum SimpleLineSymbolStyle {
+  Dash = "esriSLSDash",
+  DashDot = "esriSLSDashDot",
+  DashDotDot = "esriSLSDashDotDot",
+  Dot = "esriSLSDot",
+  Null = "esriSLSNull",
+  Solid = "esriSLSSolid"
+}
 
 /**
  *
  */
-export type SimpleFillSymbolStyle =
-  | "esriSFSBackwardDiagonal"
-  | "esriSFSCross"
-  | "esriSFSDiagonalCross"
-  | "esriSFSForwardDiagonal"
-  | "esriSFSHorizontal"
-  | "esriSFSNull"
-  | "esriSFSSolid"
-  | "esriSFSVertical";
-
-/**
- *
- */
-export type SymbolType =
-  | "esriSLS"
-  | "esriSMS"
-  | "esriSFS"
-  | "esriPMS"
-  | "esriPFS"
-  | "esriTS";
+export const enum SimpleFillSymbolStyle {
+  BackwardDiagonal = "esriSFSBackwardDiagonal",
+  Cross = "esriSFSCross",
+  DiagonalCross = "esriSFSDiagonalCross",
+  ForwardDiagonal = "esriSFSForwardDiagonal",
+  Horizontal = "esriSFSHorizontal",
+  Null = "esriSFSNull",
+  Solid = "esriSFSSolid",
+  Vertical = "esriSFSVertical"
+}
 
 /**
  *
  */
 export interface ISimpleFillSymbol extends ISymbol {
-  type: "esriSFS";
+  type: SymbolType.SFS;
   style?: SimpleFillSymbolStyle;
   color?: Color;
   outline?: ISimpleLineSymbol; // if outline has been specified
@@ -133,7 +165,7 @@ export interface ISimpleFillSymbol extends ISymbol {
  *
  */
 export interface ISimpleLineSymbol extends ISymbol {
-  type: "esriSLS";
+  type: SymbolType.SLS;
   style?: SimpleLineSymbolStyle;
   color?: Color;
   width?: number;
@@ -143,7 +175,7 @@ export interface ISimpleLineSymbol extends ISymbol {
  *
  */
 export interface ISimpleMarkerSymbol extends IMarkerSymbol {
-  type: "esriSMS";
+  type: SymbolType.SMS;
   style?: SimpleMarkerSymbolStyle;
   color?: Color;
   size?: number;
@@ -154,7 +186,7 @@ export interface ISimpleMarkerSymbol extends IMarkerSymbol {
  *
  */
 export interface ITextSymbol extends IMarkerSymbol {
-  type: "esriTS";
+  type: SymbolType.TS;
   color?: Color;
   backgroundColor?: Color;
   borderLineSize?: number; // <size>;
