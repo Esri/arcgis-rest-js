@@ -4,18 +4,6 @@
 /**
  *
  */
-export const enum SymbolType {
-  SLS = "esriSLS",
-  SMS = "esriSMS",
-  SFS = "esriSFS",
-  PMS = "esriPMS",
-  PFS = "esriPFS",
-  TS = "esriTS"
-}
-
-/**
- *
- */
 export type Color = [number, number, number, number];
 
 /**
@@ -69,6 +57,18 @@ export interface IPictureSourced {
   angle?: number;
   xoffset?: number;
   yoffset?: number;
+}
+
+/**
+ *
+ */
+export const enum SymbolType {
+  SLS = "esriSLS",
+  SMS = "esriSMS",
+  SFS = "esriSFS",
+  PMS = "esriPMS",
+  PFS = "esriPFS",
+  TS = "esriTS"
 }
 
 /**
