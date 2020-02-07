@@ -185,6 +185,23 @@ export interface ISimpleMarkerSymbol extends IMarkerSymbol {
 /**
  *
  */
+export const enum VerticalAlignment {
+  Baseline = "baseline",
+  Top = "top",
+  Middle = "middle",
+  Bottom = "bottom"
+}
+
+export const enum HorizontalAlignment {
+  Left = "left",
+  Right = "right",
+  Center = "center",
+  Justify = "justify"
+}
+
+/**
+ *
+ */
 export interface ITextSymbol extends IMarkerSymbol {
   type: SymbolType.TS;
   color?: Color;
@@ -193,8 +210,8 @@ export interface ITextSymbol extends IMarkerSymbol {
   borderLineColor?: Color;
   haloSize?: number; // <size>;
   haloColor?: Color;
-  verticalAlignment?: "baseline" | "top" | "middle" | "bottom";
-  horizontalAlignment?: "left" | "right" | "center" | "justify";
+  verticalAlignment?: VerticalAlignment;
+  horizontalAlignment?: HorizontalAlignment;
   rightToLeft?: boolean;
   kerning?: boolean;
   font?: IFont;
