@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 /**
- * Enum of all different statisticsType
+ * Enum of all different statistics operations
  */
 export const enum StatisticType {
   Count = "count",
@@ -16,6 +16,14 @@ export const enum StatisticType {
   DiscretePercentile = "percentile_disc"
 }
 
+/**
+ * Enum of sorting orders
+ */
+export const enum SortingOrder {
+  Ascending = "asc",
+  Descending = "desc"
+}
+
 export interface IStatisticDefinition {
   /**
    * Statistical operation to perform (count, sum, min, max, avg, stddev, var, percentile_cont, percentile_disc).
@@ -26,7 +34,7 @@ export interface IStatisticDefinition {
    */
   statisticParameter?: {
     value: number;
-    orderBy?: "asc" | "desc";
+    orderBy?: SortingOrder;
   };
   /**
    * Field on which to perform the statistical operation.
