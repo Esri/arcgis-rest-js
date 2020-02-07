@@ -1,20 +1,26 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+/**
+ * Enum of all different statisticsType
+ */
+export const enum StatisticType {
+  Count = "count",
+  Sum = "sum",
+  Minimum = "min",
+  Maximum = "max",
+  Average = "avg",
+  StandardDeviation = "stddev",
+  Variance = "var",
+  ContinuousPercentile = "percentile_cont",
+  DiscretePercentile = "percentile_disc"
+}
+
 export interface IStatisticDefinition {
   /**
    * Statistical operation to perform (count, sum, min, max, avg, stddev, var, percentile_cont, percentile_disc).
    */
-  statisticType:
-    | "count"
-    | "sum"
-    | "min"
-    | "max"
-    | "avg"
-    | "stddev"
-    | "var"
-    | "percentile_cont"
-    | "percentile_disc";
+  statisticType: StatisticType;
   /**
    * Parameter to be used along with statisticType. Currently, only applicable for percentile_cont (continuous percentile) and percentile_disc (discrete percentile).
    */
