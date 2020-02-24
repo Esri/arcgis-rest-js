@@ -148,13 +148,16 @@ export function getItemResources(
 ): Promise<any> {
   const url = `${getPortalUrl(requestOptions)}/content/items/${id}/resources`;
 
-  // mix in user supplied params
-  requestOptions.params = {
-    ...requestOptions.params,
-    num: 1000
+  // Mix in num:1000 with any user supplied params
+  // Key thing - we don't want to mutate the passed in requestOptions
+  // as that may be used in other (subsequent) calls in the course
+  // of a long promise chains
+  const options: IRequestOptions = {
+    ...requestOptions
   };
+  options.params = { ...options.params, ...{ num: 1000 } };
 
-  return request(url, requestOptions);
+  return request(url, options);
 }
 
 export interface IGetItemGroupsResponse {
