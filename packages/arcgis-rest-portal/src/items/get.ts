@@ -155,7 +155,7 @@ export function getItemResources(
   const options: IRequestOptions = {
     ...requestOptions
   };
-  options.params = { ...options.params, ...{ num: 1000 } };
+  options.params = { num: 1000, ...options.params };
 
   return request(url, options);
 }
