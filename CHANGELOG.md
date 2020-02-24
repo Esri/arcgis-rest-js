@@ -5,7 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.8.2] - February 24th 2020
+
+### @esri/arcgis-rest-portal
+
+* Bug Fixes
+   * **getItemResources**: do not mutate requestOptions in getItemResources [`cac63e80`](https://github.com/Esri/arcgis-rest-js/commit/cac63e8090b81a6fe2258529060bc6f3f0611fb0)
+   * **getItemResources**: allow user to override paging [`97cbec0b`](https://github.com/Esri/arcgis-rest-js/commit/97cbec0b918e0ec914beb60abdb36d1265ce5645)
+
+### Other Changes
+
+* Bug Fixes
+   * **getItemResources**: do not mutate requestOptions in getItemResources [`47841cd3`](https://github.com/Esri/arcgis-rest-js/commit/47841cd39b37a4d18ea0c2acf95a5844543045a3)
+
 ## [Unreleased][head]
+
+
 
 ## [2.8.1] - January 29th 2020
 
@@ -21,7 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - New Features
 
-  - **Add properties to IStatisticDefinition to support percentiles**: Added optional `statisticParameter` property to support new `&quot;percentile_cont&quot; | &quot;percentile_disc&quot;` types. [8edec3ff](https://github.com/Esri/arcgis-rest-js/pull/650/commits/8edec3ff7d91bc583dfd30db23067bee0e86887e)
+  - **Add properties to IStatisticDefinition to support percentiles**: Added optional `statisticParameter` property to support new `&amp;quot;percentile_cont&amp;quot; | &amp;quot;percentile_disc&amp;quot;` types. [8edec3ff](https://github.com/Esri/arcgis-rest-js/pull/650/commits/8edec3ff7d91bc583dfd30db23067bee0e86887e)
 
   - **Export `IStatisticDefinition` interface**: [a6ac91b7](https://github.com/Esri/arcgis-rest-js/pull/651/commits/a6ac91b713510391e86819fa51595440cc1533ce)
 
@@ -479,7 +494,11 @@ This new package contains the methods previously found in `@esri/arcgis-rest-ite
 
 ## 1.15.1 - Deprecated
 
+
+
 ## 1.15.0 - Deprecated
+
+
 
 ## [1.14.4] - January 11th 2019
 
@@ -1539,4 +1558,5 @@ Initial Public Release
 [2.7.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.7.1...v2.7.2 "v2.7.2"
 [2.8.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.7.2...v2.8.0 "v2.8.0"
 [2.8.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.8.0...v2.8.1 "v2.8.1"
-[head]: https://github.com/Esri/arcgis-rest-js/compare/v2.8.1...HEAD "Unreleased Changes"
+[2.8.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.8.1...v2.8.2 "v2.8.2"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.8.2...HEAD "Unreleased Changes"
