@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-tree-shaking-rollup",
-  "version": "2.8.0",
+  "version": "2.8.2",
   "private": true,
   "description": "",
   "scripts": {
@@ -19,7 +19,7 @@
     "rollup-plugin-node-resolve": "^4.0.1"
   },
   "dependencies": {
-    "@esri/arcgis-rest-portal": "^2.8.0",
-    "@esri/arcgis-rest-request": "^2.8.0"
+    "@esri/arcgis-rest-portal": "^2.8.2",
+    "@esri/arcgis-rest-request": "^2.8.2"
   }
 }

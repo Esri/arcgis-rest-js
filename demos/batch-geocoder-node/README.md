@@ -4,7 +4,7 @@
 
 1. Make sure you run `npm run bootstrap` in the root folder to setup the dependencies
 2. Create and register a [new application](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/accessing-arcgis-online-services/).
-3. Replace values in [config-template.js](/demos/batch-geocoder/config-template.js) and rename to `config.js`
+3. Replace values in [config-template.js](/demos/batch-geocoder-node/config-template.js) and rename to `config.js`
    1. `"clientId"`: ArcGIS ClientId
    2. `"clientSecret"`: ArcGIS ClientSecret
    3. `"csv"`: csv path

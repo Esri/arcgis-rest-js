@@ -1,13 +1,13 @@
 {
   "name": "feature-service-browser",
-  "version": "2.8.0",
+  "version": "2.8.2",
   "private": true,
   "description": "Vanilla JavaScript demo of @esri/arcgis-rest-feature-service",
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@esri/arcgis-rest-feature-layer": "^2.8.0",
-    "@esri/arcgis-rest-request": "^2.8.0"
+    "@esri/arcgis-rest-feature-layer": "^2.8.2",
+    "@esri/arcgis-rest-request": "^2.8.2"
   },
   "devDependencies": {
     "http-server": "*"
