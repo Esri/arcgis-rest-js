@@ -225,7 +225,7 @@ export const enum HorizontalAlignment {
  *
  */
 export interface ITextSymbol extends IMarkerSymbol {
-  type: SymbolType.TS;
+  type: "esriTS" | SymbolType.TS;
   color?: Color;
   backgroundColor?: Color;
   borderLineSize?: number; // <size>;
