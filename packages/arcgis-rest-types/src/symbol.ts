@@ -9,30 +9,38 @@ export type Color = [number, number, number, number];
 /**
  *
  */
-export const enum FontStyle {
-  Italic = "italic",
-  Normal = "normal",
-  Oblique = "oblique"
-}
+const FontStyle = {
+  Italic: "italic",
+  Normal:  "normal",
+  Oblique: "oblique"
+} as const;
+
+export type FontStyle = typeof FontStyle[keyof typeof FontStyle];
 
 /**
  *
  */
-export const enum FontWeight {
-  Bold = "bold",
-  Bolder = "bolder",
-  Lighter = "lighter",
-  Normal = "normal"
-}
+const FontWeight = {
+  Bold: "bold",
+  Bolder: "bolder",
+  Lighter: "lighter",
+  Normal: "normal"
+} as const;
+
+export type FontWeight = typeof FontWeight[keyof typeof FontWeight];
+
 
 /**
  *
  */
-export const enum FontDecoration {
-  LineThrough = "line-through",
-  Underline = "underline",
-  None = "none"
-}
+const FontDecoration = {
+  LineThrough: "line-through",
+  Underline: "underline",
+  None: "none"
+} as const;
+
+export type FontDecoration = typeof FontDecoration[keyof typeof FontDecoration];
+
 
 /**
  *
@@ -40,10 +48,11 @@ export const enum FontDecoration {
 export interface IFont {
   family?: string; // "<fontFamily>";
   size?: number; // <fontSize>;
-  style?: "italic" | "normal" | "oblique" | FontStyle;
-  weight?: "bold" | "bolder" | "lighter" | "normal" | FontWeight;
-  decoration?: "line-through" | "underline" | "none" | FontDecoration;
+  style?:  FontStyle;
+  weight?: FontWeight;
+  decoration?: FontDecoration;
 }
+
 
 /**
  *
@@ -62,13 +71,13 @@ export interface IPictureSourced {
 /**
  *
  */
-export const enum SymbolType {
-  SLS = "esriSLS",
-  SMS = "esriSMS",
-  SFS = "esriSFS",
-  PMS = "esriPMS",
-  PFS = "esriPFS",
-  TS = "esriTS"
+const SymbolType {
+  SLS: "esriSLS",
+  SMS: "esriSMS",
+  SFS: "esriSFS",
+  PMS: "esriPMS",
+  PFS: "esriPFS",
+  TS: "esriTS"
 }
 
 /**
@@ -115,39 +124,39 @@ export interface IPictureMarkerSymbol extends IMarkerSymbol, IPictureSourced {
 /**
  *
  */
-export const enum SimpleMarkerSymbolStyle {
-  Circle = "esriSMSCircle",
-  Cross = "esriSMSCross",
-  Diamond = "esriSMSDiamond",
-  Square = "esriSMSSquare",
-  X = "esriSMSX",
-  Triangle = "esriSMSTriangle"
+const SimpleMarkerSymbolStyle {
+  Circle: "esriSMSCircle",
+  Cross: "esriSMSCross",
+  Diamond: "esriSMSDiamond",
+  Square: "esriSMSSquare",
+  X: "esriSMSX",
+  Triangle: "esriSMSTriangle"
 }
 
 /**
  *
  */
-export const enum SimpleLineSymbolStyle {
-  Dash = "esriSLSDash",
-  DashDot = "esriSLSDashDot",
-  DashDotDot = "esriSLSDashDotDot",
-  Dot = "esriSLSDot",
-  Null = "esriSLSNull",
-  Solid = "esriSLSSolid"
+const SimpleLineSymbolStyle {
+  Dash: "esriSLSDash",
+  DashDot: "esriSLSDashDot",
+  DashDotDot: "esriSLSDashDotDot",
+  Dot: "esriSLSDot",
+  Null: "esriSLSNull",
+  Solid: "esriSLSSolid"
 }
 
 /**
  *
  */
-export const enum SimpleFillSymbolStyle {
-  BackwardDiagonal = "esriSFSBackwardDiagonal",
-  Cross = "esriSFSCross",
-  DiagonalCross = "esriSFSDiagonalCross",
-  ForwardDiagonal = "esriSFSForwardDiagonal",
-  Horizontal = "esriSFSHorizontal",
-  Null = "esriSFSNull",
-  Solid = "esriSFSSolid",
-  Vertical = "esriSFSVertical"
+const SimpleFillSymbolStyle {
+  BackwardDiagonal: "esriSFSBackwardDiagonal",
+  Cross: "esriSFSCross",
+  DiagonalCross: "esriSFSDiagonalCross",
+  ForwardDiagonal: "esriSFSForwardDiagonal",
+  Horizontal: "esriSFSHorizontal",
+  Null: "esriSFSNull",
+  Solid: "esriSFSSolid",
+  Vertical: "esriSFSVertical"
 }
 
 /**
@@ -207,18 +216,18 @@ export interface ISimpleMarkerSymbol extends IMarkerSymbol {
 /**
  *
  */
-export const enum VerticalAlignment {
-  Baseline = "baseline",
-  Top = "top",
-  Middle = "middle",
-  Bottom = "bottom"
+const VerticalAlignment {
+  Baseline: "baseline",
+  Top: "top",
+  Middle: "middle",
+  Bottom: "bottom"
 }
 
-export const enum HorizontalAlignment {
-  Left = "left",
-  Right = "right",
-  Center = "center",
-  Justify = "justify"
+const HorizontalAlignment {
+  Left: "left",
+  Right: "right",
+  Center: "center",
+  Justify: "justify"
 }
 
 /**

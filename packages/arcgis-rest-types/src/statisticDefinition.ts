@@ -4,47 +4,42 @@
 /**
  * Enum of all different statistics operations
  */
-export const enum StatisticType {
-  Count = "count",
-  Sum = "sum",
-  Minimum = "min",
-  Maximum = "max",
-  Average = "avg",
-  StandardDeviation = "stddev",
-  Variance = "var",
-  ContinuousPercentile = "percentile_cont",
-  DiscretePercentile = "percentile_disc"
-}
+const StatisticType = {
+  Count: "count",
+  Sum: "sum",
+  Minimum: "min",
+  Maximum: "max",
+  Average: "avg",
+  StandardDeviation: "stddev",
+  Variance: "var",
+  ContinuousPercentile: "percentile_cont",
+  DiscretePercentile: "percentile_disc"
+} as const;
+
+
+export type StatisticType = typeof StatisticType[keyof typeof StatisticType];
 
 /**
  * Enum of sorting orders
  */
-export const enum SortingOrder {
-  Ascending = "asc",
-  Descending = "desc"
-}
+const SortingOrder = {
+  Ascending: "asc",
+  Descending: "desc"
+} as const;
+
+export type SortingOrder = typeof SortingOrder[keyof typeof SortingOrder];
 
 export interface IStatisticDefinition {
   /**
    * Statistical operation to perform (count, sum, min, max, avg, stddev, var, percentile_cont, percentile_disc).
    */
-  statisticType:
-    | "count"
-    | "sum"
-    | "min"
-    | "max"
-    | "avg"
-    | "stddev"
-    | "var"
-    | "percentile_cont"
-    | "percentile_disc"
-    | StatisticType;
+  statisticType: StatisticType;
   /**
    * Parameter to be used along with statisticType. Currently, only applicable for percentile_cont (continuous percentile) and percentile_disc (discrete percentile).
    */
   statisticParameter?: {
     value: number;
-    orderBy?: "asc" | "desc" | SortingOrder;
+    orderBy?: SortingOrder;
   };
   /**
    * Field on which to perform the statistical operation.
