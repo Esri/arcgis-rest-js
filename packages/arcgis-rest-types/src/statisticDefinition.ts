@@ -28,13 +28,23 @@ export interface IStatisticDefinition {
   /**
    * Statistical operation to perform (count, sum, min, max, avg, stddev, var, percentile_cont, percentile_disc).
    */
-  statisticType: StatisticType;
+  statisticType:
+    | "count"
+    | "sum"
+    | "min"
+    | "max"
+    | "avg"
+    | "stddev"
+    | "var"
+    | "percentile_cont"
+    | "percentile_disc"
+    | StatisticType;
   /**
    * Parameter to be used along with statisticType. Currently, only applicable for percentile_cont (continuous percentile) and percentile_disc (discrete percentile).
    */
   statisticParameter?: {
     value: number;
-    orderBy?: SortingOrder;
+    orderBy?: "asc" | "desc" | SortingOrder;
   };
   /**
    * Field on which to perform the statistical operation.

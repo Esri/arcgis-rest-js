@@ -40,9 +40,9 @@ export const enum FontDecoration {
 export interface IFont {
   family?: string; // "<fontFamily>";
   size?: number; // <fontSize>;
-  style?: FontStyle;
-  weight?: FontWeight;
-  decoration?: FontDecoration;
+  style?: "italic" | "normal" | "oblique" | FontStyle;
+  weight?: "bold" | "bolder" | "lighter" | "normal" | FontWeight;
+  decoration?: "line-through" | "underline" | "none" | FontDecoration;
 }
 
 /**
@@ -75,15 +75,14 @@ export const enum SymbolType {
  *
  */
 export interface ISymbol {
-  type: SymbolType;
-  style?: string;
-}
-
-/**
- *
- */
-export interface ISymbol {
-  type: SymbolType;
+  type:
+    | "esriSLS"
+    | "esriSMS"
+    | "esriSFS"
+    | "esriPMS"
+    | "esriPFS"
+    | "esriTS"
+    | SymbolType;
   style?: string;
 }
 
@@ -100,7 +99,7 @@ export interface IMarkerSymbol extends ISymbol {
  *
  */
 export interface IPictureFillSymbol extends ISymbol, IPictureSourced {
-  type: SymbolType.PFS;
+  type: "esriPFS" | SymbolType.PFS;
   outline?: ISimpleLineSymbol; // if outline has been specified
   xscale?: number;
   yscale?: number;
@@ -110,7 +109,7 @@ export interface IPictureFillSymbol extends ISymbol, IPictureSourced {
  *
  */
 export interface IPictureMarkerSymbol extends IMarkerSymbol, IPictureSourced {
-  type: SymbolType.PMS;
+  type: "esriPMS" | SymbolType.PMS;
 }
 
 /**
@@ -155,8 +154,17 @@ export const enum SimpleFillSymbolStyle {
  *
  */
 export interface ISimpleFillSymbol extends ISymbol {
-  type: SymbolType.SFS;
-  style?: SimpleFillSymbolStyle;
+  type: "esriSFS" | SymbolType.SFS;
+  style?:
+    | "esriSFSBackwardDiagonal"
+    | "esriSFSCross"
+    | "esriSFSDiagonalCross"
+    | "esriSFSForwardDiagonal"
+    | "esriSFSHorizontal"
+    | "esriSFSNull"
+    | "esriSFSSolid"
+    | "esriSFSVertical"
+    | SimpleFillSymbolStyle;
   color?: Color;
   outline?: ISimpleLineSymbol; // if outline has been specified
 }
@@ -165,8 +173,15 @@ export interface ISimpleFillSymbol extends ISymbol {
  *
  */
 export interface ISimpleLineSymbol extends ISymbol {
-  type: SymbolType.SLS;
-  style?: SimpleLineSymbolStyle;
+  type: "esriSLS" | SymbolType.SLS;
+  style?:
+    | "esriSLSDash"
+    | "esriSLSDashDot"
+    | "esriSLSDashDotDot"
+    | "esriSLSDot"
+    | "esriSLSNull"
+    | "esriSLSSolid"
+    | SimpleLineSymbolStyle;
   color?: Color;
   width?: number;
 }
@@ -175,8 +190,15 @@ export interface ISimpleLineSymbol extends ISymbol {
  *
  */
 export interface ISimpleMarkerSymbol extends IMarkerSymbol {
-  type: SymbolType.SMS;
-  style?: SimpleMarkerSymbolStyle;
+  type: "esriSMS" | SymbolType.SMS;
+  style?:
+    | "esriSMSCircle"
+    | "esriSMSCross"
+    | "esriSMSDiamond"
+    | "esriSMSSquare"
+    | "esriSMSX"
+    | "esriSMSTriangle"
+    | SimpleMarkerSymbolStyle;
   color?: Color;
   size?: number;
   outline?: ISimpleLineSymbol;
@@ -210,8 +232,18 @@ export interface ITextSymbol extends IMarkerSymbol {
   borderLineColor?: Color;
   haloSize?: number; // <size>;
   haloColor?: Color;
-  verticalAlignment?: VerticalAlignment;
-  horizontalAlignment?: HorizontalAlignment;
+  verticalAlignment?:
+    | "baseline"
+    | "top"
+    | "middle"
+    | "bottom"
+    | VerticalAlignment;
+  horizontalAlignment?:
+    | "left"
+    | "right"
+    | "center"
+    | "justify"
+    | HorizontalAlignment;
   rightToLeft?: boolean;
   kerning?: boolean;
   font?: IFont;
