@@ -11,11 +11,11 @@ export type Color = [number, number, number, number];
  */
 const FontStyle = {
   Italic: "italic",
-  Normal:  "normal",
+  Normal: "normal",
   Oblique: "oblique"
 } as const;
 
-export type FontStyle = typeof FontStyle[keyof typeof FontStyle];
+export type FontStyle = (typeof FontStyle)[keyof typeof FontStyle];
 
 /**
  *
@@ -27,8 +27,7 @@ const FontWeight = {
   Normal: "normal"
 } as const;
 
-export type FontWeight = typeof FontWeight[keyof typeof FontWeight];
-
+export type FontWeight = (typeof FontWeight)[keyof typeof FontWeight];
 
 /**
  *
@@ -39,8 +38,7 @@ const FontDecoration = {
   None: "none"
 } as const;
 
-export type FontDecoration = typeof FontDecoration[keyof typeof FontDecoration];
-
+export type FontDecoration = (typeof FontDecoration)[keyof typeof FontDecoration];
 
 /**
  *
@@ -48,11 +46,10 @@ export type FontDecoration = typeof FontDecoration[keyof typeof FontDecoration];
 export interface IFont {
   family?: string; // "<fontFamily>";
   size?: number; // <fontSize>;
-  style?:  FontStyle;
+  style?: FontStyle;
   weight?: FontWeight;
   decoration?: FontDecoration;
 }
-
 
 /**
  *
@@ -71,27 +68,22 @@ export interface IPictureSourced {
 /**
  *
  */
-const SymbolType {
+const SymbolType = {
   SLS: "esriSLS",
   SMS: "esriSMS",
   SFS: "esriSFS",
   PMS: "esriPMS",
   PFS: "esriPFS",
   TS: "esriTS"
-}
+} as const;
+
+export type SymbolType = (typeof SymbolType)[keyof typeof SymbolType];
 
 /**
  *
  */
 export interface ISymbol {
-  type:
-    | "esriSLS"
-    | "esriSMS"
-    | "esriSFS"
-    | "esriPMS"
-    | "esriPFS"
-    | "esriTS"
-    | SymbolType;
+  type: SymbolType;
   style?: string;
 }
 
@@ -108,7 +100,7 @@ export interface IMarkerSymbol extends ISymbol {
  *
  */
 export interface IPictureFillSymbol extends ISymbol, IPictureSourced {
-  type: "esriPFS" | SymbolType.PFS;
+  type: "esriPFS";
   outline?: ISimpleLineSymbol; // if outline has been specified
   xscale?: number;
   yscale?: number;
@@ -118,37 +110,41 @@ export interface IPictureFillSymbol extends ISymbol, IPictureSourced {
  *
  */
 export interface IPictureMarkerSymbol extends IMarkerSymbol, IPictureSourced {
-  type: "esriPMS" | SymbolType.PMS;
+  type: "esriPMS";
 }
 
 /**
  *
  */
-const SimpleMarkerSymbolStyle {
+const SimpleMarkerSymbolStyle = {
   Circle: "esriSMSCircle",
   Cross: "esriSMSCross",
   Diamond: "esriSMSDiamond",
   Square: "esriSMSSquare",
   X: "esriSMSX",
   Triangle: "esriSMSTriangle"
-}
+} as const;
+
+export type SimpleMarkerSymbolStyle = (typeof SimpleMarkerSymbolStyle)[keyof typeof SimpleMarkerSymbolStyle];
 
 /**
  *
  */
-const SimpleLineSymbolStyle {
+const SimpleLineSymbolStyle = {
   Dash: "esriSLSDash",
   DashDot: "esriSLSDashDot",
   DashDotDot: "esriSLSDashDotDot",
   Dot: "esriSLSDot",
   Null: "esriSLSNull",
   Solid: "esriSLSSolid"
-}
+} as const;
+
+export type SimpleLineSymbolStyle = (typeof SimpleLineSymbolStyle)[keyof typeof SimpleLineSymbolStyle];
 
 /**
  *
  */
-const SimpleFillSymbolStyle {
+const SimpleFillSymbolStyle = {
   BackwardDiagonal: "esriSFSBackwardDiagonal",
   Cross: "esriSFSCross",
   DiagonalCross: "esriSFSDiagonalCross",
@@ -157,23 +153,16 @@ const SimpleFillSymbolStyle {
   Null: "esriSFSNull",
   Solid: "esriSFSSolid",
   Vertical: "esriSFSVertical"
-}
+} as const;
+
+export type SimpleFillSymbolStyle = (typeof SimpleFillSymbolStyle)[keyof typeof SimpleFillSymbolStyle];
 
 /**
  *
  */
 export interface ISimpleFillSymbol extends ISymbol {
-  type: "esriSFS" | SymbolType.SFS;
-  style?:
-    | "esriSFSBackwardDiagonal"
-    | "esriSFSCross"
-    | "esriSFSDiagonalCross"
-    | "esriSFSForwardDiagonal"
-    | "esriSFSHorizontal"
-    | "esriSFSNull"
-    | "esriSFSSolid"
-    | "esriSFSVertical"
-    | SimpleFillSymbolStyle;
+  type: "esriSFS";
+  style?: SimpleFillSymbolStyle;
   color?: Color;
   outline?: ISimpleLineSymbol; // if outline has been specified
 }
@@ -182,15 +171,8 @@ export interface ISimpleFillSymbol extends ISymbol {
  *
  */
 export interface ISimpleLineSymbol extends ISymbol {
-  type: "esriSLS" | SymbolType.SLS;
-  style?:
-    | "esriSLSDash"
-    | "esriSLSDashDot"
-    | "esriSLSDashDotDot"
-    | "esriSLSDot"
-    | "esriSLSNull"
-    | "esriSLSSolid"
-    | SimpleLineSymbolStyle;
+  type: "esriSLS";
+  style?: SimpleLineSymbolStyle;
   color?: Color;
   width?: number;
 }
@@ -199,15 +181,8 @@ export interface ISimpleLineSymbol extends ISymbol {
  *
  */
 export interface ISimpleMarkerSymbol extends IMarkerSymbol {
-  type: "esriSMS" | SymbolType.SMS;
-  style?:
-    | "esriSMSCircle"
-    | "esriSMSCross"
-    | "esriSMSDiamond"
-    | "esriSMSSquare"
-    | "esriSMSX"
-    | "esriSMSTriangle"
-    | SimpleMarkerSymbolStyle;
+  type: "esriSMS";
+  style?: SimpleMarkerSymbolStyle;
   color?: Color;
   size?: number;
   outline?: ISimpleLineSymbol;
@@ -216,43 +191,37 @@ export interface ISimpleMarkerSymbol extends IMarkerSymbol {
 /**
  *
  */
-const VerticalAlignment {
+const VerticalAlignment = {
   Baseline: "baseline",
   Top: "top",
   Middle: "middle",
   Bottom: "bottom"
-}
+} as const;
 
-const HorizontalAlignment {
+export type VerticalAlignment = (typeof VerticalAlignment)[keyof typeof VerticalAlignment];
+
+const HorizontalAlignment = {
   Left: "left",
   Right: "right",
   Center: "center",
   Justify: "justify"
-}
+} as const;
+
+export type HorizontalAlignment = (typeof HorizontalAlignment)[keyof typeof HorizontalAlignment];
 
 /**
  *
  */
 export interface ITextSymbol extends IMarkerSymbol {
-  type: "esriTS" | SymbolType.TS;
+  type: "esriTS";
   color?: Color;
   backgroundColor?: Color;
   borderLineSize?: number; // <size>;
   borderLineColor?: Color;
   haloSize?: number; // <size>;
   haloColor?: Color;
-  verticalAlignment?:
-    | "baseline"
-    | "top"
-    | "middle"
-    | "bottom"
-    | VerticalAlignment;
-  horizontalAlignment?:
-    | "left"
-    | "right"
-    | "center"
-    | "justify"
-    | HorizontalAlignment;
+  verticalAlignment?: VerticalAlignment;
+  horizontalAlignment?: HorizontalAlignment;
   rightToLeft?: boolean;
   kerning?: boolean;
   font?: IFont;

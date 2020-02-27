@@ -16,8 +16,7 @@ const StatisticType = {
   DiscretePercentile: "percentile_disc"
 } as const;
 
-
-export type StatisticType = typeof StatisticType[keyof typeof StatisticType];
+export type StatisticType = (typeof StatisticType)[keyof typeof StatisticType];
 
 /**
  * Enum of sorting orders
@@ -27,7 +26,7 @@ const SortingOrder = {
   Descending: "desc"
 } as const;
 
-export type SortingOrder = typeof SortingOrder[keyof typeof SortingOrder];
+export type SortingOrder = (typeof SortingOrder)[keyof typeof SortingOrder];
 
 export interface IStatisticDefinition {
   /**
