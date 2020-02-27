@@ -104,20 +104,19 @@ function changeGroupSharing(
               );
             } else {
               // ...they are some level of membership or org-admin
-
-              // if the current user does not own the item, we had more checks...
+              // if the current user does not own the item...
               if (itemOwner !== username) {
-                // only item owners can share/unshare items w/ shared editing groups
+                // only item owners or org_admins can share/unshare items w/ shared editing groups
                 if (isSharedEditingGroup) {
                   throw Error(
                     `This item can not be ${requestOptions.action}d to shared editing group ${requestOptions.groupId} by ${username} as they not the item owner.`
                   );
                 }
-                // only item-owners, group-admin's, group-owners can unshare an item from a normal group
+                // only item-owners, group-admin's, group-owners or org_admin's can unshare an item from a group
                 if (
                   requestOptions.action === "unshare" &&
-                  membership !== "admin" &&
-                  membership !== "owner"
+                  membership !== "admin" && // not group admin
+                  membership !== "owner" // not group owner
                 ) {
                   throw Error(
                     `This item can not be ${requestOptions.action}d from group ${requestOptions.groupId} by ${username} as they not the item owner, group admin or group owner.`

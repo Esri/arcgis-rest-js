@@ -5,6 +5,7 @@ export * from "./items/add";
 export * from "./items/create";
 export * from "./items/get";
 export * from "./items/protect";
+export * from "./items/reassign";
 export * from "./items/remove";
 export * from "./items/search";
 export * from "./items/update";
