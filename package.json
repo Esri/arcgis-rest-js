@@ -56,8 +56,8 @@
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.6.0",
     "tslint-config-standard": "^8.0.1",
-    "typedoc": "^0.14.2",
-    "typescript": "^3.0.0"
+    "typedoc": "^0.16.11",
+    "typescript": "^3.5.3"
   },
   "dependencies": {
     "isomorphic-form-data": "^2.0.0",
