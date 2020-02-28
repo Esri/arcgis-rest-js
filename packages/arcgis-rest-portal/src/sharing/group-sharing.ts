@@ -1,8 +1,8 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request } from "@esri/arcgis-rest-request";
-import { IItem } from "@esri/arcgis-rest-types";
+import { request, setDefaultRequestOptions } from "@esri/arcgis-rest-request";
+import { IItem, IUser } from "@esri/arcgis-rest-types";
 import { getPortalUrl } from "../util/get-portal-url";
 import {
   IGroupSharingOptions,
@@ -10,6 +10,13 @@ import {
   isOrgAdmin,
   getUserMembership
 } from "./helpers";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import { searchGroupUsers } from "../groups/get";
+import { getUser } from "../users/get-user";
+import { addGroupUsers, IAddGroupUsersResult } from "../groups/add-users";
+import { updateUserMemberships } from "../groups/update-user-membership";
+import { searchItems } from "../items/search";
+import { ISearchOptions } from "../util/search";
 
 interface IGroupSharingUnsharingOptions extends IGroupSharingOptions {
   action: "share" | "unshare";
@@ -75,7 +82,7 @@ function changeGroupSharing(
   const itemOwner = requestOptions.owner || username;
   const isSharedEditingGroup = requestOptions.confirmItemControl || false;
 
-  return isOrgAdmin(requestOptions).then(admin => {
+  return isOrgAdmin(requestOptions).then(isAdmin => {
     const resultProp =
       requestOptions.action === "share" ? "notSharedWith" : "notUnsharedFrom";
     // check if the item has already been shared with the group...
@@ -96,59 +103,51 @@ function changeGroupSharing(
         // next check to ensure the user is a member of the group
         return getUserMembership(requestOptions)
           .then(membership => {
-            // if user is not a member of the group and not an admin
-            if (membership === "none" && !admin) {
+            // Stack all the exception conditions up top so we can
+            // strealine the promise chain
+            // if user is not a member of the group and not an orgAdmin
+            if (membership === "none" && !isAdmin) {
               // abort and reject promise
               throw Error(
                 `This item can not be ${requestOptions.action}d by ${username} as they are not a member of the specified group ${requestOptions.groupId}.`
               );
+            }
+            // it's a sharedEditing Group and user is not owner, org orgAdmin
+            if (isSharedEditingGroup && itemOwner !== username && !isAdmin) {
+              // abort and reject promise
+              throw Error(
+                `This item can not be ${requestOptions.action}d to shared editing group ${requestOptions.groupId} by ${username} as they not the item owner.`
+              );
+            }
+
+            // only item-owners, group-admin's, group-owners can unshare an item from a group
+            if (
+              requestOptions.action === "unshare" &&
+              itemOwner !== username && // not item owner
+              membership !== "admin" && // not group admin
+              membership !== "owner" // not group owner
+            ) {
+              throw Error(
+                `This item can not be ${requestOptions.action}d from group ${requestOptions.groupId} by ${username} as they not the item owner, group admin or group owner.`
+              );
+            }
+
+            // if it's a sharedEditing Group, and the current user is not the owner, but an OrgAdmin
+            // then we can let call shareToGroupAsAdmin which will add the owner to the group
+            // and then share the item to the group
+            if (isSharedEditingGroup && itemOwner !== username && isAdmin) {
+              return shareToGroupAsAdmin(requestOptions);
             } else {
-              // ...they are some level of membership or org-admin
-              // if the current user does not own the item...
-              if (itemOwner !== username) {
-                // only item owners can share/unshare items w/ shared editing groups
-                if (isSharedEditingGroup) {
-                  throw Error(
-                    `This item can not be ${requestOptions.action}d to shared editing group ${requestOptions.groupId} by ${username} as they not the item owner.`
-                  );
-                }
-                // only item-owners, group-admin's, group-owners can unshare an item from a group
-                if (
-                  requestOptions.action === "unshare" &&
-                  membership !== "admin" && // not group admin
-                  membership !== "owner" // not group owner
-                ) {
-                  throw Error(
-                    `This item can not be ${requestOptions.action}d from group ${requestOptions.groupId} by ${username} as they not the item owner, group admin or group owner.`
-                  );
-                }
+              // if the current user is a member of the target group
+              if (membership !== "none") {
+                // we let the sharing call go
+                return shareToGroup(requestOptions);
+              } else {
+                // otherwise - even if they are org_admin - we throw staying the current user must be a member of the group
+                throw Error(
+                  `This item can not be ${requestOptions.action}d by ${username} as they are not a member of the specified group ${requestOptions.groupId}.`
+                );
               }
-
-              // at this point, the user *should* be able to take the action
-
-              // only question is what url to use
-
-              // default to the non-owner url...
-              let url = `${getPortalUrl(requestOptions)}/content/items/${
-                requestOptions.id
-              }/${requestOptions.action}`;
-
-              // but if they are the owner, we use a different path...
-              if (itemOwner === username) {
-                url = `${getPortalUrl(
-                  requestOptions
-                )}/content/users/${itemOwner}/items/${requestOptions.id}/${
-                  requestOptions.action
-                }`;
-              }
-
-              // now its finally time to do the sharing
-              requestOptions.params = {
-                groups: requestOptions.groupId,
-                confirmItemControl: requestOptions.confirmItemControl
-              };
-
-              return request(url, requestOptions);
             }
           })
           .then(sharingResponse => {
@@ -166,54 +165,135 @@ function changeGroupSharing(
   });
 }
 
+function shareToGroupAsAdmin(
+  requestOptions: IGroupSharingUnsharingOptions
+): Promise<ISharingResponse> {
+  const username = requestOptions.authentication.username;
+  const itemOwner = requestOptions.owner;
+
+  return getUser({
+    username: itemOwner,
+    authentication: requestOptions.authentication
+  })
+    .then(userDetails => {
+      const userGroups = userDetails.groups;
+      const group = userGroups.find(g => {
+        return g.id === requestOptions.groupId;
+      });
+      if (group) {
+        // they are in the group...
+        // check member type
+        if (group.userMembership.memberType !== "admin") {
+          // promote them
+          return updateUserMemberships({
+            id: requestOptions.groupId,
+            users: [itemOwner],
+            newMemberType: "admin",
+            authentication: requestOptions.authentication
+          }).then(response => {
+            // convert the result into the right type
+            const notAdded = response.results.reduce(
+              (acc: any[], entry: any) => {
+                if (!entry.success) {
+                  acc.push(entry.username);
+                }
+                return acc;
+              },
+              []
+            );
+            // and return it
+            return {
+              notAdded
+            } as IAddGroupUsersResult;
+          });
+        } else {
+          // they are already an admin in the group
+          // return the same response the API would if we added them
+          return { notAdded: [] } as IAddGroupUsersResult;
+        }
+      } else {
+        // add user to group as an admin
+        return addGroupUsers({
+          id: requestOptions.groupId,
+          admins: [itemOwner],
+          authentication: requestOptions.authentication
+        });
+      }
+    })
+    .then(membershipResponse => {
+      if (membershipResponse.notAdded.length) {
+        throw Error(
+          `Error adding user ${itemOwner} to group ${requestOptions.groupId}. Consequently item ${requestOptions.id} was not shared to the group.`
+        );
+      } else {
+        // then make the sharing call
+        return shareToGroup(requestOptions);
+      }
+    });
+}
+
+function shareToGroup(
+  requestOptions: IGroupSharingUnsharingOptions
+): Promise<ISharingResponse> {
+  const username = requestOptions.authentication.username;
+  const itemOwner = requestOptions.owner || username;
+  // decide what url to use
+  // default to the non-owner url...
+  let url = `${getPortalUrl(requestOptions)}/content/items/${
+    requestOptions.id
+  }/${requestOptions.action}`;
+
+  // but if they are the owner, we use a different path...
+  if (itemOwner === username) {
+    url = `${getPortalUrl(requestOptions)}/content/users/${itemOwner}/items/${
+      requestOptions.id
+    }/${requestOptions.action}`;
+  }
+
+  // now its finally time to do the sharing
+  requestOptions.params = {
+    groups: requestOptions.groupId,
+    confirmItemControl: requestOptions.confirmItemControl
+  };
+
+  return request(url, requestOptions);
+}
+
 /**
+ * ```js
+ * import { isItemSharedWithGroup } from "@esri/arcgis-rest-portal";
+ * //
+ * isItemSharedWithGroup({
+ *   groupId: 'bc3,
+ *   itemId: 'f56,
+ *   authentication
+ * })
+ * .then(isShared => {})
+ * ```
  * Find out whether or not an item is already shared with a group.
  *
  * @param requestOptions - Options for the request. NOTE: `rawResponse` is not supported by this operation.
- * @returns A Promise that will resolve with the data from the response.
+ * @returns Promise that will resolve with true/false
  */
-function isItemSharedWithGroup(
+export function isItemSharedWithGroup(
   requestOptions: IGroupSharingOptions
 ): Promise<boolean> {
-  const query = {
+  const searchOpts = {
     q: `id: ${requestOptions.id} AND group: ${requestOptions.groupId}`,
     start: 1,
     num: 10,
-    sortField: "title"
-  };
+    sortField: "title",
+    authentication: requestOptions.authentication,
+    httpMethod: "POST"
+  } as ISearchOptions;
 
-  // we need to append some params into requestOptions, so make a clone
-  // instead of mutating the params on the inbound requestOptions object
-  const options = { ...requestOptions, rawResponse: false };
-  // instead of calling out to "@esri/arcgis-rest-items, make the request manually to forgoe another dependency
-  options.params = {
-    ...query,
-    ...requestOptions.params
-  };
-
-  const url = `${getPortalUrl(options)}/search`;
-
-  // to do: just call searchItems now that its in the same package
-  return request(url, options).then(searchResponse => {
-    // if there are no search results at all, we know the item hasnt already been shared with the group
-    if (searchResponse.total === 0) {
-      return false;
-    } else {
-      let sharedItem: IItem;
-      // otherwise loop through and search for the id
-      searchResponse.results.some((item: IItem) => {
-        const matchedItem = item.id === requestOptions.id;
-        if (matchedItem) {
-          sharedItem = item;
-        }
-        return matchedItem;
+  return searchItems(searchOpts).then(searchResponse => {
+    let result = false;
+    if (searchResponse.total > 0) {
+      result = !!searchResponse.results.find((itm: any) => {
+        return itm.id === requestOptions.id;
       });
-
-      if (sharedItem) {
-        return true;
-      } else {
-        return false;
-      }
+      return result;
     }
   });
 }

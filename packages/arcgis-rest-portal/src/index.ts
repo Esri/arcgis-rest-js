@@ -21,6 +21,7 @@ export * from "./groups/protect";
 export * from "./groups/remove";
 export * from "./groups/search";
 export * from "./groups/update";
+export * from "./groups/update-user-membership";
 export * from "./groups/join";
 
 export * from "./users/get-user";

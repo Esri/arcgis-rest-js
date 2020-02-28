@@ -9,6 +9,7 @@ import {
 
 import { getPortalUrl } from "../util/get-portal-url";
 import { chunk } from "../util/array";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 export interface IAddGroupUsersOptions extends IRequestOptions {
   /**
