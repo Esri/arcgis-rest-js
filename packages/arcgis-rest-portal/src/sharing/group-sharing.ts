@@ -1,8 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, setDefaultRequestOptions } from "@esri/arcgis-rest-request";
-import { IItem, IUser } from "@esri/arcgis-rest-types";
+import { request } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "../util/get-portal-url";
 import {
   IGroupSharingOptions,
@@ -10,8 +9,6 @@ import {
   isOrgAdmin,
   getUserMembership
 } from "./helpers";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { searchGroupUsers } from "../groups/get";
 import { getUser } from "../users/get-user";
 import { addGroupUsers, IAddGroupUsersResult } from "../groups/add-users";
 import { updateUserMemberships } from "../groups/update-user-membership";
@@ -168,7 +165,6 @@ function changeGroupSharing(
 function shareToGroupAsAdmin(
   requestOptions: IGroupSharingUnsharingOptions
 ): Promise<ISharingResponse> {
-  const username = requestOptions.authentication.username;
   const itemOwner = requestOptions.owner;
 
   return getUser({
@@ -290,7 +286,7 @@ export function isItemSharedWithGroup(
   return searchItems(searchOpts).then(searchResponse => {
     let result = false;
     if (searchResponse.total > 0) {
-      result = !!searchResponse.results.find((itm: any) => {
+      result = searchResponse.results.some((itm: any) => {
         return itm.id === requestOptions.id;
       });
       return result;
