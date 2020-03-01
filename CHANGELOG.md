@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.9.0] - March 1st 2020
+
+### @esri/arcgis-rest-feature-layer
+
+* New Features
+   * **portal**: add updateGroupMembership, isItemSharedWithGroup [`14848dbd`](https://github.com/Esri/arcgis-rest-js/commit/14848dbd6034362628ef99c8d57d445c8ed37776)
+
+### @esri/arcgis-rest-portal
+
+* Documentation
+   * **portal**: fix comment in code [`5afe3be9`](https://github.com/Esri/arcgis-rest-js/commit/5afe3be91121223d89f4db2df43553ce1082641d)
+* New Features
+   * **portal**: add reassignItem [`1756cc48`](https://github.com/Esri/arcgis-rest-js/commit/1756cc48f43436f3041e44ed14827f415b106a90)
+   * **portal**: add updateGroupMembership, isItemSharedWithGroup [`14848dbd`](https://github.com/Esri/arcgis-rest-js/commit/14848dbd6034362628ef99c8d57d445c8ed37776)
+
+### @esri/arcgis-rest-service-admin
+
+* New Features
+   * **portal**: add updateGroupMembership, isItemSharedWithGroup [`14848dbd`](https://github.com/Esri/arcgis-rest-js/commit/14848dbd6034362628ef99c8d57d445c8ed37776)
+
+### Other Changes
+
+* New Features
+   * **portal**: add reassignItem [`2fe62ae7`](https://github.com/Esri/arcgis-rest-js/commit/2fe62ae7897506c3133f18aeed94ce4f3e793aca)
+   * **portal**: add updateGroupMembership, isItemSharedWithGroup [`ab3fefc0`](https://github.com/Esri/arcgis-rest-js/commit/ab3fefc0c6751ae84c69bd9a84797e53abf57e83)
+
 ## [2.8.2] - February 24th 2020
 
 ### @esri/arcgis-rest-portal
@@ -36,7 +62,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - New Features
 
-  - **Add properties to IStatisticDefinition to support percentiles**: Added optional `statisticParameter` property to support new `&amp;quot;percentile_cont&amp;quot; | &amp;quot;percentile_disc&amp;quot;` types. [8edec3ff](https://github.com/Esri/arcgis-rest-js/pull/650/commits/8edec3ff7d91bc583dfd30db23067bee0e86887e)
+  - **Add properties to IStatisticDefinition to support percentiles**: Added optional `statisticParameter` property to support new `&amp;amp;quot;percentile_cont&amp;amp;quot; | &amp;amp;quot;percentile_disc&amp;amp;quot;` types. [8edec3ff](https://github.com/Esri/arcgis-rest-js/pull/650/commits/8edec3ff7d91bc583dfd30db23067bee0e86887e)
 
   - **Export `IStatisticDefinition` interface**: [a6ac91b7](https://github.com/Esri/arcgis-rest-js/pull/651/commits/a6ac91b713510391e86819fa51595440cc1533ce)
 
@@ -1559,4 +1585,5 @@ Initial Public Release
 [2.8.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.7.2...v2.8.0 "v2.8.0"
 [2.8.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.8.0...v2.8.1 "v2.8.1"
 [2.8.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.8.1...v2.8.2 "v2.8.2"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.8.2...HEAD "Unreleased Changes"
+[2.9.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.8.2...v2.9.0 "v2.9.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.9.0...HEAD "Unreleased Changes"
