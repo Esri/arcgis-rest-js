@@ -14,6 +14,7 @@ import { addGroupUsers, IAddGroupUsersResult } from "../groups/add-users";
 import { updateUserMemberships } from "../groups/update-user-membership";
 import { searchItems } from "../items/search";
 import { ISearchOptions } from "../util/search";
+import { IUser } from "@esri/arcgis-rest-types";
 
 interface IGroupSharingUnsharingOptions extends IGroupSharingOptions {
   action: "share" | "unshare";
@@ -79,7 +80,11 @@ function changeGroupSharing(
   const itemOwner = requestOptions.owner || username;
   const isSharedEditingGroup = requestOptions.confirmItemControl || false;
 
-  return isOrgAdmin(requestOptions).then(isAdmin => {
+  return getUser({
+    username,
+    authentication: requestOptions.authentication
+  }).then(currentUser => {
+    const isAdmin = currentUser.role === "org_admin";
     const resultProp =
       requestOptions.action === "share" ? "notSharedWith" : "notUnsharedFrom";
     // check if the item has already been shared with the group...
@@ -130,10 +135,15 @@ function changeGroupSharing(
             }
 
             // if it's a sharedEditing Group, and the current user is not the owner, but an OrgAdmin
-            // then we can let call shareToGroupAsAdmin which will add the owner to the group
+            // then we can let call shareToGroupAsNonOwner which will add the owner to the group
             // and then share the item to the group
-            if (isSharedEditingGroup && itemOwner !== username && isAdmin) {
-              return shareToGroupAsAdmin(requestOptions);
+            if (
+              requestOptions.action === "share" &&
+              isSharedEditingGroup &&
+              itemOwner !== username &&
+              isAdmin
+            ) {
+              return shareToGroupAsNonOwner(currentUser, requestOptions);
             } else {
               // if the current user is a member of the target group
               if (membership !== "none") {
@@ -162,7 +172,18 @@ function changeGroupSharing(
   });
 }
 
-function shareToGroupAsAdmin(
+/**
+ * Under very specific circumstances, and item may be shared
+ * to a group by a user other than the owner.
+ * Specifically:
+ * - current user must be org_admin
+ * - item owner must be in same org as current user
+ * - item owner must be able to be added to the group (less than 512 groups)
+ * @param currentUser Current user attempting to do the share
+ * @param requestOptions IGroupSharingUnshareingOptions
+ */
+function shareToGroupAsNonOwner(
+  currentUser: IUser,
   requestOptions: IGroupSharingUnsharingOptions
 ): Promise<ISharingResponse> {
   const itemOwner = requestOptions.owner;
@@ -171,11 +192,28 @@ function shareToGroupAsAdmin(
     username: itemOwner,
     authentication: requestOptions.authentication
   })
-    .then(userDetails => {
-      const userGroups = userDetails.groups;
-      const group = userGroups.find(g => {
+    .then(ownerUser => {
+      // if they are in different orgs, eject
+      if (currentUser.orgId !== ownerUser.orgId) {
+        throw Error(
+          `User ${itemOwner} is not a member of the same org as ${currentUser.username}. Consequently they can not be added added to group ${requestOptions.groupId} nor can item ${requestOptions.id} be shared to the group.`
+        );
+      }
+
+      // see if the owner is a member of the group
+      const ownerGroups = ownerUser.groups || [];
+      const group = ownerGroups.find(g => {
         return g.id === requestOptions.groupId;
       });
+
+      // if owner is not a member, and has 512 groups
+      if (!group && ownerGroups.length > 511) {
+        throw Error(
+          `User ${itemOwner} already has 512 groups, and can not be added to group ${requestOptions.groupId}. Consequently item ${requestOptions.id} can not be shared to the group.`
+        );
+      }
+
+      // decide if we need to add them or upgrade them
       if (group) {
         // they are in the group...
         // check member type
