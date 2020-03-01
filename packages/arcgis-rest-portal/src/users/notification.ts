@@ -62,9 +62,7 @@ export function removeNotification(
 ): Promise<{ success: boolean; notificationId: string }> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
-  const url = `${portalUrl}/community/users/${username}/notifications/${
-    requestOptions.id
-  }/delete`;
+  const url = `${portalUrl}/community/users/${username}/notifications/${requestOptions.id}/delete`;
 
   return request(url, requestOptions);
 }
