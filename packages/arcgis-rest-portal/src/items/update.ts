@@ -75,7 +75,7 @@ export function updateItem(
  * //
  * updateItemInfo({
  *   id: '3ef',
- *   infoFile: file,
+ *   file: file,
  *   authentication
  * })
  *   .then(response)
