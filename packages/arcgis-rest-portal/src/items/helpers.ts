@@ -74,6 +74,17 @@ export interface IManageItemRelationshipOptions extends IUserRequestOptions {
   relationshipType: ItemRelationshipType;
 }
 
+export interface IItemInfoOptions extends IUserItemOptions {
+  /**
+   * Subfolder for added information.
+   */
+  folderName?: string;
+  /**
+   * Object to store
+   */
+  file: any;
+}
+
 export interface IItemResourceOptions extends IUserItemOptions {
   /**
    * New resource filename.
@@ -153,6 +164,13 @@ export interface IItemPartOptions extends IUserItemOptions {
 export interface IUpdateItemResponse {
   success: boolean;
   id: string;
+}
+
+export interface IItemInfoResponse {
+  success: boolean;
+  itemId: string;
+  owner: string;
+  folder: string;
 }
 
 export interface IItemResourceResponse {
