@@ -8,7 +8,9 @@ import { getPortalUrl } from "../util/get-portal-url";
 import {
   ICreateUpdateItemOptions,
   IMoveItemResponse,
+  IItemInfoOptions,
   IItemResourceOptions,
+  IItemInfoResponse,
   IItemResourceResponse,
   IUpdateItemResponse,
   serializeItem,
@@ -62,6 +64,40 @@ export function updateItem(
   requestOptions.params = {
     ...requestOptions.params,
     ...serializeItem(requestOptions.item)
+  };
+
+  return request(url, requestOptions);
+}
+
+/**
+ * ```js
+ * import { updateItemInfo } from "@esri/arcgis-rest-portal";
+ * //
+ * updateItemInfo({
+ *   id: '3ef',
+ *   file: file,
+ *   authentication
+ * })
+ *   .then(response)
+ * ```
+ * Update an info file associated with an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-info.htm) for more information.
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise that updates an item info file.
+ */
+export function updateItemInfo(
+  requestOptions: IItemInfoOptions
+): Promise<IItemInfoResponse> {
+  const owner = determineOwner(requestOptions);
+  const url = `${getPortalUrl(
+    requestOptions as IRequestOptions
+  )}/content/users/${owner}/items/${requestOptions.id}/updateinfo`;
+
+  // mix in user supplied params
+  requestOptions.params = {
+    folderName: requestOptions.folderName,
+    file: requestOptions.file,
+    ...requestOptions.params
   };
 
   return request(url, requestOptions);

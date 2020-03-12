@@ -23,6 +23,13 @@ export const RemoveItemResourceResponse: any = {
   success: true
 };
 
+export const UpdateItemInfoResponse: any = {
+  success: true,
+  itemId: "0c66beb52dff4994be67937cdadbdbf1",
+  owner: "jsmith",
+  folder: null
+};
+
 export const UpdateItemResourceResponse: any = {
   success: true,
   itemId: "0c66beb52dff4994be67937cdadbdbf1",
