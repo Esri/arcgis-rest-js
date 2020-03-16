@@ -217,7 +217,7 @@ function shareToGroupAsNonOwner(
       if (group) {
         // they are in the group...
         // check member type
-        if (group.userMembership.memberType !== "admin") {
+        if (group.userMembership.memberType === "member") {
           // promote them
           return updateUserMemberships({
             id: requestOptions.groupId,
