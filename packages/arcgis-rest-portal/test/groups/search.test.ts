@@ -51,6 +51,27 @@ describe("groups", () => {
           fail(e);
         });
     });
+
+    it("should search for group contents", done => {
+      fetchMock.once("*", GroupSearchResponse);
+
+      searchGroups({
+        groupId: "grp1234567890",
+        q: "water"
+      })
+        .then(() => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://www.arcgis.com/sharing/rest/content/groups/grp1234567890/search?f=json&q=water"
+          );
+          expect(options.method).toBe("GET");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
   });
 
   it("should make a simple, single search request with a builder", done => {

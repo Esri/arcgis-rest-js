@@ -35,13 +35,20 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
     );
   }
 
-  let path = searchType === "item" ? "/search" : "/community/groups";
+  let path;
   switch (searchType) {
     case "item":
       path = "/search";
       break;
     case "group":
       path = "/community/groups";
+      if (
+        typeof search !== "string" &&
+        !(search instanceof SearchQueryBuilder) &&
+        search.groupId
+      ) {
+        path = `/content/groups/${search.groupId}/search`;
+      }
       break;
     default:
       // "users"
