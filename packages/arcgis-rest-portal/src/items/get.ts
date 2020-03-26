@@ -80,7 +80,7 @@ export function getItemData(
     /* if the item doesn't include data, the response will be empty
        and the internal call to response.json() will fail */
     const emptyResponseErr = RegExp(
-      /Unexpected end of (JSON input|data at line 1 column 1)/i
+      /The string did not match the expected pattern|(Unexpected end of (JSON input|data at line 1 column 1))/i
     );
     /* istanbul ignore else */
     if (emptyResponseErr.test(err.message)) {
