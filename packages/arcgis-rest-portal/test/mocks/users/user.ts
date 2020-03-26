@@ -97,7 +97,7 @@ export const GroupNonMemberUserResponse: IUser = {
       access: "org",
       userMembership: {
         username: "jsmith",
-        memberType: "member",
+        memberType: "none",
         applications: 0
       },
       protected: false,

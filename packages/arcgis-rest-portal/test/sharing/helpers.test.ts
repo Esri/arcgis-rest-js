@@ -24,7 +24,7 @@ describe("sharing helpers ::", () => {
       })
         .then(result => {
           expect(fetchMock.done()).toBeTruthy();
-          expect(result).toBe("nonmember", "should return nonmember");
+          expect(result).toBe("none", "should return none");
           done();
         })
         .catch(e => {

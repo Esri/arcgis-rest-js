@@ -5,6 +5,7 @@ export * from "./items/add";
 export * from "./items/create";
 export * from "./items/get";
 export * from "./items/protect";
+export * from "./items/reassign";
 export * from "./items/remove";
 export * from "./items/search";
 export * from "./items/update";
@@ -20,6 +21,7 @@ export * from "./groups/protect";
 export * from "./groups/remove";
 export * from "./groups/search";
 export * from "./groups/update";
+export * from "./groups/update-user-membership";
 export * from "./groups/join";
 
 export * from "./users/get-user";

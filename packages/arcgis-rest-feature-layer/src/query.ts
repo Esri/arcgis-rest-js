@@ -12,7 +12,8 @@ import {
   IFeatureSet,
   IFeature,
   Units,
-  IExtent
+  IExtent,
+  IStatisticDefinition
 } from "@esri/arcgis-rest-types";
 
 import { IGetLayerOptions, ISharedQueryOptions } from "./helpers";
@@ -27,21 +28,6 @@ export interface IGetFeatureOptions extends IGetLayerOptions {
   id: number;
 }
 
-export interface IStatisticDefinition {
-  /**
-   * Statistical operation to perform (count, sum, min, max, avg, stddev, var).
-   */
-  statisticType: "count" | "sum" | "min" | "max" | "avg" | "stddev" | "var";
-  /**
-   * Field on which to perform the statistical operation.
-   */
-  onStatisticField: string;
-  /**
-   * Field name for the returned statistic field. If outStatisticFieldName is empty or missing, the server will assign one. A valid field name can only contain alphanumeric characters and an underscore. If the outStatisticFieldName is a reserved keyword of the underlying DBMS, the operation can fail. Try specifying an alternative outStatisticFieldName.
-   */
-  outStatisticFieldName: string;
-}
-
 /**
  * feature query request options. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
  */
@@ -52,11 +38,15 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   time?: number | number[];
   distance?: number;
   units?: Units;
+  /**
+   * Attribute fields to include in the response. Defaults to "*"
+   */
   outFields?: "*" | string[];
   returnGeometry?: boolean;
   maxAllowableOffset?: number;
   geometryPrecision?: number;
   // NOTE: either WKID or ISpatialReference
+  inSR?: string | ISpatialReference;
   outSR?: string | ISpatialReference;
   gdbVersion?: string;
   returnDistinctValues?: boolean;
@@ -80,7 +70,12 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   returnTrueCurves?: false;
   sqlFormat?: "none" | "standard" | "native";
   returnExceededLimitFeatures?: boolean;
-  f?: "json" | "geojson" | "html" | "pbf";
+  /**
+   * Response format. Defaults to "json"
+   * NOTE: for "pbf" you must also supply `rawResponse: true`
+   * and parse the response yourself using `response.arrayBuffer()`
+   */
+  f?: "json" | "geojson" | "pbf";
   /**
    * someday...
    *
@@ -170,6 +165,7 @@ export function queryFeatures(
       "returnGeometry",
       "maxAllowableOffset",
       "geometryPrecision",
+      "inSR",
       "outSR",
       "gdbVersion",
       "returnDistinctValues",

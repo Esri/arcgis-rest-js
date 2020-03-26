@@ -356,9 +356,7 @@ describe("create feature service", () => {
             RequestInit
           ] = fetchMock.lastCall("end:move");
           expect(urlMove).toEqual(
-            `https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/${
-              FeatureServiceResponse.serviceItemId
-            }/move`
+            `https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/${FeatureServiceResponse.serviceItemId}/move`
           );
           expect(optionsMove.method).toBe("POST");
           expect(optionsMove.body).toContain("folder=" + folderId);

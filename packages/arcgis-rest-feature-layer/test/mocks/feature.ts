@@ -215,6 +215,27 @@ export const deleteAttachmentsResponse = {
   ]
 };
 
+export const applyEditsResponse = {
+  addResults: [
+    {
+      objectId: 2156,
+      success: true
+    }
+  ],
+  updateResults: [
+    {
+      objectId: 1001,
+      success: true
+    }
+  ],
+  deleteResults: [
+    {
+      objectId: 455,
+      success: true
+    }
+  ]
+};
+
 export const genericInvalidResponse = {
   error: {
     code: 400,

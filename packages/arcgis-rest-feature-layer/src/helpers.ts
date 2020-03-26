@@ -19,6 +19,9 @@ export interface IGetLayerOptions extends IRequestOptions {
 }
 
 export interface ISharedQueryOptions extends IGetLayerOptions {
+  /**
+   * A where clause for the query. Defaults to "1=1"
+   */
   where?: string;
   geometry?: IGeometry;
   geometryType?: GeometryType;
@@ -34,6 +37,27 @@ export interface IEditFeatureResult {
   objectId: number;
   globalId?: string;
   success: boolean;
+}
+
+/**
+ * `globalId` always returned with attachments via apply edits.
+ */
+export interface IApplyEditsAttachmentResult extends IEditFeatureResult {
+  globalId: string;
+}
+
+/**
+ * Apply edits result Object.
+ */
+export interface IApplyEditsResult {
+  addResults: IEditFeatureResult[];
+  updateResults: IEditFeatureResult[];
+  deleteResults: IEditFeatureResult[];
+  attachments?: {
+    addResults?: IApplyEditsAttachmentResult[];
+    updateResults?: IApplyEditsAttachmentResult[];
+    deleteResults?: IApplyEditsAttachmentResult[];
+  };
 }
 
 /**
