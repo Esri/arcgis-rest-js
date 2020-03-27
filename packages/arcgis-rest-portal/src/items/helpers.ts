@@ -245,7 +245,7 @@ export function determineOwner(requestOptions: any): Promise<string> {
     return Promise.resolve(requestOptions.owner);
   } else if (requestOptions.item && requestOptions.item.owner) {
     return Promise.resolve(requestOptions.item.owner);
-  } else if (requestOptions.authentication) {
+  } else if (requestOptions.authentication && requestOptions.authentication.getUsername) {
     return requestOptions.authentication.getUsername();
   } else {
     return Promise.reject(
