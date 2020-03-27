@@ -1,7 +1,7 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IRequestOptions, ArcGISRequestError } from "@esri/arcgis-rest-request";
 import { IItemAdd, IItemUpdate, IItem } from "@esri/arcgis-rest-types";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
@@ -238,15 +238,20 @@ export function serializeItem(item: IItemAdd | IItemUpdate | IItem): any {
 }
 
 /**
- * requestOptions.owner is given priority, requestOptions.item.owner will be checked next. If neither are present, authentication.username will be assumed.
+ * `requestOptions.owner` is given priority, `requestOptions.item.owner` will be checked next. If neither are present, `authentication.getUserName()` will be used instead.
  */
-export function determineOwner(requestOptions: any): string {
+export function determineOwner(requestOptions: any): Promise<string> {
   if (requestOptions.owner) {
-    return requestOptions.owner;
-  }
-  if (requestOptions.item && requestOptions.item.owner) {
-    return requestOptions.item.owner;
+    return Promise.resolve(requestOptions.owner);
+  } else if (requestOptions.item && requestOptions.item.owner) {
+    return Promise.resolve(requestOptions.item.owner);
+  } else if (requestOptions.authentication) {
+    return requestOptions.authentication.getUsername();
   } else {
-    return requestOptions.authentication.username;
+    return Promise.reject(
+      new Error(
+        "Could not determine the owner of this item. Pass the `owner`, `item.owner`, or `authentication` option."
+      )
+    );
   }
 }

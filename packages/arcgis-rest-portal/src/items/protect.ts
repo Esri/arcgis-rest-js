@@ -15,11 +15,12 @@ import { IUserItemOptions, determineOwner } from "./helpers";
 export function protectItem(
   requestOptions: IUserItemOptions
 ): Promise<{ success: boolean }> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.id
-  }/protect`;
-  return request(url, requestOptions);
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.id
+    }/protect`;
+    return request(url, requestOptions);
+  });
 }
 
 /**
@@ -31,9 +32,10 @@ export function protectItem(
 export function unprotectItem(
   requestOptions: IUserItemOptions
 ): Promise<{ success: boolean }> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.id
-  }/unprotect`;
-  return request(url, requestOptions);
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.id
+    }/unprotect`;
+    return request(url, requestOptions);
+  });
 }
