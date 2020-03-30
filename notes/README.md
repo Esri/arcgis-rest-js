@@ -5,6 +5,7 @@
 * Browser based tests are setup to run with Karma as a test runner as Jasmine as the testing framework. There is a common config that all packages can use in the root folder called `karma.conf.js`.
 * Node tests use the `jasmine` CLI tool. Each package will require a `jasmine.json` to tell jasmine where the test files are for that package. The `jasmine.json` should register the `support/register-tsnode.js` helper so TypeScript files are compiled before the tests execute.
 * Currently the Node tests take quite awhile. I think this is becuase the `ignore` param isn't being respected and thus the entirety of `node_modules` get processed by TypeScript. This needs to happen in order to make `lodash-es` work.
+* 
 
 # Build
 
