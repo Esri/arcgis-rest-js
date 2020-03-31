@@ -1,9 +1,13 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IGroup } from "@esri/arcgis-rest-types";
+import { IItem, IGroup } from "@esri/arcgis-rest-types";
 import { SearchQueryBuilder } from "../util/SearchQueryBuilder";
-import { ISearchOptions, ISearchResult } from "../util/search";
+import {
+  ISearchOptions,
+  ISearchGroupContentOptions,
+  ISearchResult
+} from "../util/search";
 import { genericSearch } from "../util/generic-search";
 
 /**
@@ -22,4 +26,22 @@ export function searchGroups(
   search: string | ISearchOptions | SearchQueryBuilder
 ): Promise<ISearchResult<IGroup>> {
   return genericSearch<IGroup>(search, "group");
+}
+
+/**
+ * ```js
+ * import { searchGroupContent } from "@esri/arcgis-rest-portal";
+ * //
+ * searchGroupContent('water')
+ *   .then(response) // response.total => 355
+ * ```
+ * Search a portal for items in a group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/group-content-search.htm) for more information.
+ *
+ * @param search - A string or RequestOptions object to pass through to the endpoint.
+ * @returns A Promise that will resolve with the data from the response.
+ */
+export function searchGroupContent(
+  options: ISearchGroupContentOptions
+): Promise<ISearchResult<IItem>> {
+  return genericSearch<IItem>(options, "groupContent");
 }

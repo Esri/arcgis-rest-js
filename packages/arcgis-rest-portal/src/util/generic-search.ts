@@ -10,11 +10,19 @@ import { IItem, IGroup, IUser } from "@esri/arcgis-rest-types";
 
 import { SearchQueryBuilder } from "./SearchQueryBuilder";
 import { getPortalUrl } from "../util/get-portal-url";
-import { ISearchOptions, ISearchResult } from "../util/search";
+import {
+  ISearchOptions,
+  ISearchGroupContentOptions,
+  ISearchResult
+} from "../util/search";
 
 export function genericSearch<T extends IItem | IGroup | IUser>(
-  search: string | ISearchOptions | SearchQueryBuilder,
-  searchType: "item" | "group" | "user"
+  search:
+    | string
+    | ISearchOptions
+    | ISearchGroupContentOptions
+    | SearchQueryBuilder,
+  searchType: "item" | "group" | "groupContent" | "user"
 ): Promise<ISearchResult<T>> {
   let url: string;
   let options: IRequestOptions;
@@ -42,12 +50,25 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
       break;
     case "group":
       path = "/community/groups";
+      break;
+    case "groupContent":
+      // Need to have groupId property to do group contents search,
+      // cso filter out all but ISearchGroupContentOptions
       if (
         typeof search !== "string" &&
         !(search instanceof SearchQueryBuilder) &&
         search.groupId
       ) {
         path = `/content/groups/${search.groupId}/search`;
+      } else {
+        return Promise.reject({
+          query: options.params.q,
+          total: 0,
+          start: 1,
+          num: 1,
+          nextStart: -1,
+          results: [] as IItem[]
+        } as ISearchResult<IItem>);
       }
       break;
     default:

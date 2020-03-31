@@ -1,9 +1,13 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { searchGroups } from "../../src/groups/search";
-import { GroupSearchResponse } from "../mocks/groups/responses";
+import { searchGroups, searchGroupContent } from "../../src/groups/search";
+import {
+  GroupSearchResponse,
+  EmptyGroupSearchResponse
+} from "../mocks/groups/responses";
 import { SearchQueryBuilder } from "../../src/util/SearchQueryBuilder";
+import { genericSearch } from "../../src/util/generic-search";
 
 import * as fetchMock from "fetch-mock";
 
@@ -55,7 +59,7 @@ describe("groups", () => {
     it("should search for group contents", done => {
       fetchMock.once("*", GroupSearchResponse);
 
-      searchGroups({
+      searchGroupContent({
         groupId: "grp1234567890",
         q: "water"
       })
@@ -71,6 +75,21 @@ describe("groups", () => {
         .catch(e => {
           fail(e);
         });
+    });
+
+    it("should catch search for group contents without group id", done => {
+      genericSearch(
+        {
+          q: "water"
+        },
+        "groupContent"
+      ).then(
+        () => fail(),
+        err => {
+          expect(err).toEqual(EmptyGroupSearchResponse);
+          done();
+        }
+      );
     });
   });
 

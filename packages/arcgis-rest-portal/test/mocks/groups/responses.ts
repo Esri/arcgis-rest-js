@@ -46,6 +46,15 @@ export const GroupSearchResponse: ISearchResult<IGroup> = {
   ]
 };
 
+export const EmptyGroupSearchResponse: ISearchResult<IGroup> = {
+  query: "water",
+  total: 0,
+  start: 1,
+  num: 1,
+  nextStart: -1,
+  results: []
+};
+
 export const GroupEditResponse: any = {
   success: true,
   id: "3efakegroupid"
