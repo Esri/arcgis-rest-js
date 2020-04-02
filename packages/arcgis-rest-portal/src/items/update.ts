@@ -55,18 +55,19 @@ export interface IMoveItemOptions extends ICreateUpdateItemOptions {
 export function updateItem(
   requestOptions: IUpdateItemOptions
 ): Promise<IUpdateItemResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.item.id
-  }/update`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.item.id
+    }/update`;
 
-  // serialize the item into something Portal will accept
-  requestOptions.params = {
-    ...requestOptions.params,
-    ...serializeItem(requestOptions.item)
-  };
+    // serialize the item into something Portal will accept
+    requestOptions.params = {
+      ...requestOptions.params,
+      ...serializeItem(requestOptions.item)
+    };
 
-  return request(url, requestOptions);
+    return request(url, requestOptions);
+  });
 }
 
 /**
@@ -88,19 +89,20 @@ export function updateItem(
 export function updateItemInfo(
   requestOptions: IItemInfoOptions
 ): Promise<IItemInfoResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(
-    requestOptions as IRequestOptions
-  )}/content/users/${owner}/items/${requestOptions.id}/updateinfo`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(
+      requestOptions as IRequestOptions
+    )}/content/users/${owner}/items/${requestOptions.id}/updateinfo`;
 
-  // mix in user supplied params
-  requestOptions.params = {
-    folderName: requestOptions.folderName,
-    file: requestOptions.file,
-    ...requestOptions.params
-  };
+    // mix in user supplied params
+    requestOptions.params = {
+      folderName: requestOptions.folderName,
+      file: requestOptions.file,
+      ...requestOptions.params
+    };
 
-  return request(url, requestOptions);
+    return request(url, requestOptions);
+  });
 }
 
 /**
@@ -123,26 +125,27 @@ export function updateItemInfo(
 export function updateItemResource(
   requestOptions: IItemResourceOptions
 ): Promise<IItemResourceResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(
-    requestOptions as IRequestOptions
-  )}/content/users/${owner}/items/${requestOptions.id}/updateResources`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(
+      requestOptions as IRequestOptions
+    )}/content/users/${owner}/items/${requestOptions.id}/updateResources`;
 
-  // mix in user supplied params
-  requestOptions.params = {
-    file: requestOptions.resource,
-    fileName: requestOptions.name,
-    text: requestOptions.content,
-    ...requestOptions.params
-  };
+    // mix in user supplied params
+    requestOptions.params = {
+      file: requestOptions.resource,
+      fileName: requestOptions.name,
+      text: requestOptions.content,
+      ...requestOptions.params
+    };
 
-  // only override the access specified previously if 'private' is passed explicitly
-  if (typeof requestOptions.private !== "undefined") {
-    requestOptions.params.access = requestOptions.private
-      ? "private"
-      : "inherit";
-  }
-  return request(url, requestOptions);
+    // only override the access specified previously if 'private' is passed explicitly
+    if (typeof requestOptions.private !== "undefined") {
+      requestOptions.params.access = requestOptions.private
+        ? "private"
+        : "inherit";
+    }
+    return request(url, requestOptions);
+  });
 }
 
 /**
@@ -163,19 +166,20 @@ export function updateItemResource(
 export function moveItem(
   requestOptions: IMoveItemOptions
 ): Promise<IMoveItemResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.itemId
-  }/move`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.itemId
+    }/move`;
 
-  let folderId = requestOptions.folderId;
-  if (!folderId) {
-    folderId = "/";
-  }
-  requestOptions.params = {
-    folder: folderId,
-    ...requestOptions.params
-  };
+    let folderId = requestOptions.folderId;
+    if (!folderId) {
+      folderId = "/";
+    }
+    requestOptions.params = {
+      folder: folderId,
+      ...requestOptions.params
+    };
 
-  return request(url, requestOptions);
+    return request(url, requestOptions);
+  });
 }
