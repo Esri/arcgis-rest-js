@@ -228,18 +228,19 @@ export interface IGetItemStatusResponse {
 export function getItemStatus(
   requestOptions: IItemStatusOptions
 ): Promise<IGetItemStatusResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.id
-  }/status`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.id
+    }/status`;
 
-  const options = appendCustomParams<IItemStatusOptions>(
-    requestOptions,
-    ["jobId", "jobType"],
-    { params: { ...requestOptions.params } }
-  );
+    const options = appendCustomParams<IItemStatusOptions>(
+      requestOptions,
+      ["jobId", "jobType"],
+      { params: { ...requestOptions.params } }
+    );
 
-  return request(url, options);
+    return request(url, options);
+  });
 }
 
 export interface IGetItemPartsResponse {
@@ -265,9 +266,10 @@ export interface IGetItemPartsResponse {
 export function getItemParts(
   requestOptions: IUserItemOptions
 ): Promise<IGetItemPartsResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.id
-  }/parts`;
-  return request(url, requestOptions);
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.id
+    }/parts`;
+    return request(url, requestOptions);
+  });
 }

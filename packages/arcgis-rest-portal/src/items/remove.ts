@@ -29,11 +29,12 @@ import {
 export function removeItem(
   requestOptions: IUserItemOptions
 ): Promise<{ success: boolean; itemId: string }> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.id
-  }/delete`;
-  return request(url, requestOptions);
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.id
+    }/delete`;
+    return request(url, requestOptions);
+  });
 }
 
 /**
@@ -56,18 +57,19 @@ export function removeItem(
 export function removeItemRelationship(
   requestOptions: IManageItemRelationshipOptions
 ): Promise<{ success: boolean }> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${owner}/removeRelationship`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(
+      requestOptions
+    )}/content/users/${owner}/removeRelationship`;
 
-  const options = appendCustomParams<IManageItemRelationshipOptions>(
-    requestOptions,
-    ["originItemId", "destinationItemId", "relationshipType"],
-    { params: { ...requestOptions.params } }
-  );
+    const options = appendCustomParams<IManageItemRelationshipOptions>(
+      requestOptions,
+      ["originItemId", "destinationItemId", "relationshipType"],
+      { params: { ...requestOptions.params } }
+    );
 
-  return request(url, options);
+    return request(url, options);
+  });
 }
 
 /**
@@ -79,17 +81,18 @@ export function removeItemRelationship(
 export function removeItemResource(
   requestOptions: IItemResourceOptions
 ): Promise<{ success: boolean }> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.id
-  }/removeResources`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.id
+    }/removeResources`;
 
-  // mix in user supplied params
-  requestOptions.params = {
-    ...requestOptions.params,
-    resource: requestOptions.resource
-  };
-  return request(url, requestOptions);
+    // mix in user supplied params
+    requestOptions.params = {
+      ...requestOptions.params,
+      resource: requestOptions.resource
+    };
+    return request(url, requestOptions);
+  });
 }
 
 /**
@@ -121,11 +124,12 @@ export function removeFolder(
     title: string;
   };
 }> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${encodeURIComponent(owner)}/${
-    requestOptions.folderId
-  }/delete`;
-  return request(url, requestOptions);
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(
+      requestOptions
+    )}/content/users/${encodeURIComponent(owner)}/${
+      requestOptions.folderId
+    }/delete`;
+    return request(url, requestOptions);
+  });
 }
