@@ -61,14 +61,7 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
       ) {
         path = `/content/groups/${search.groupId}/search`;
       } else {
-        return Promise.reject({
-          query: options.params.q,
-          total: 0,
-          start: 1,
-          num: 1,
-          nextStart: -1,
-          results: [] as IItem[]
-        } as ISearchResult<IItem>);
+        return Promise.reject(new Error("you must pass a `groupId` option to `searchGroupContent`"));
       }
       break;
     default:
