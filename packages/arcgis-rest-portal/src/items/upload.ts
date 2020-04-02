@@ -29,12 +29,13 @@ import {
 export function commitItemUpload(
   requestOptions?: IUserItemOptions
 ): Promise<IUpdateItemResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.id
-  }/commit`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.id
+    }/commit`;
 
-  return request(url, requestOptions);
+    return request(url, requestOptions);
+  });
 }
 
 /**
@@ -56,10 +57,11 @@ export function commitItemUpload(
 export function cancelItemUpload(
   requestOptions?: IUserItemOptions
 ): Promise<IUpdateItemResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.id
-  }/cancel`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.id
+    }/cancel`;
 
-  return request(url, requestOptions);
+    return request(url, requestOptions);
+  });
 }

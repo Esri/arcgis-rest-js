@@ -270,6 +270,22 @@ describe("UserSession", () => {
         });
     });
 
+    it("should pass through a token when no token expiration is present", done => {
+      const session = new UserSession({
+        token: "token"
+      });
+
+      session
+        .getToken("https://www.arcgis.com/sharing/rest/portals/self")
+        .then(token1 => {
+          expect(token1).toBe("token");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
     it("should generate a token for an untrusted, federated server", done => {
       const session = new UserSession({
         clientId: "id",
@@ -1114,7 +1130,7 @@ describe("UserSession", () => {
     it("should cache metadata about the user", done => {
       // we intentionally only mock one response
       fetchMock.once(
-        "https://www.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=token",
+        "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
         {
           username: "jsmith",
           fullName: "John Smith",
@@ -1147,6 +1163,93 @@ describe("UserSession", () => {
             .catch(e => {
               fail(e);
             });
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should never make more then 1 request", done => {
+      // we intentionally only mock one response
+      fetchMock.once(
+        "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
+        {
+          username: "jsmith",
+          fullName: "John Smith",
+          role: "org_publisher"
+        }
+      );
+
+      const session = new UserSession({
+        clientId: "clientId",
+        redirectUri: "https://example-app.com/redirect-uri",
+        token: "token",
+        tokenExpires: TOMORROW,
+        refreshToken: "refreshToken",
+        refreshTokenExpires: TOMORROW,
+        refreshTokenTTL: 1440,
+        username: "jsmith",
+        password: "123456"
+      });
+
+      Promise.all([session.getUser(), session.getUser()])
+        .then(() => {
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+  });
+
+  describe(".getUsername()", () => {
+    afterEach(fetchMock.restore);
+
+    it("should fetch the username via getUser()", done => {
+      // we intentionally only mock one response
+      fetchMock.once(
+        "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
+        {
+          username: "jsmith"
+        }
+      );
+
+      const session = new UserSession({
+        token: "token"
+      });
+
+      session
+        .getUsername()
+        .then(response => {
+          expect(response).toEqual("jsmith");
+
+          // also test getting it from the cache.
+          session
+            .getUsername()
+            .then(username => {
+              done();
+
+              expect(username).toEqual("jsmith");
+            })
+            .catch(e => {
+              fail(e);
+            });
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should use a username if passed in the session", done => {
+      const session = new UserSession({
+        username: "jsmith"
+      });
+
+      session
+        .getUsername()
+        .then(response => {
+          expect(response).toEqual("jsmith");
+          done();
         })
         .catch(e => {
           fail(e);
@@ -1251,7 +1354,7 @@ describe("UserSession", () => {
   });
 
   describe("non-federated server", () => {
-    it("shouldnt fetch a fresh token if the current one isnt expired.", done => {
+    it("shouldnt fetch a fresh token if the current one isn't expired.", done => {
       const MOCK_USER_SESSION = new UserSession({
         username: "c@sey",
         password: "123456",
@@ -1377,7 +1480,7 @@ describe("UserSession", () => {
         })
         .catch(err => {
           expect(err.code).toBe("NOT_FEDERATED");
-          expect(err.originalMessage).toBe(
+          expect(err.originalMessage).toEqual(
             "https://fakeserver2.com/arcgis/rest/services/Fake/MapServer/ is not federated with any portal and is not explicitly trusted."
           );
           done();

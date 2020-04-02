@@ -108,7 +108,7 @@ describe("setItemAccess()", () => {
 
   it("should share another persons item if an org admin makes the request", done => {
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/self?f=json&token=fake-token",
       OrgAdminUserResponse
     );
 
@@ -143,7 +143,7 @@ describe("setItemAccess()", () => {
 
   it("should throw if the person trying to share doesnt own the item and is not an admin", done => {
     fetchMock.once(
-      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
+      "https://myorg.maps.arcgis.com/sharing/rest/community/self?f=json&token=fake-token",
       AnonUserResponse
     );
 
