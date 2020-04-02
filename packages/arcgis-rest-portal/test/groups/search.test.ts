@@ -2,10 +2,7 @@
  * Apache-2.0 */
 
 import { searchGroups, searchGroupContent } from "../../src/groups/search";
-import {
-  GroupSearchResponse,
-  EmptyGroupSearchResponse
-} from "../mocks/groups/responses";
+import { GroupSearchResponse } from "../mocks/groups/responses";
 import { SearchQueryBuilder } from "../../src/util/SearchQueryBuilder";
 import { genericSearch } from "../../src/util/generic-search";
 
@@ -86,7 +83,11 @@ describe("groups", () => {
       ).then(
         () => fail(),
         err => {
-          expect(err).toEqual(EmptyGroupSearchResponse);
+          expect(err).toEqual(
+            new Error(
+              "you must pass a `groupId` option to `searchGroupContent`"
+            )
+          );
           done();
         }
       );
