@@ -3,6 +3,7 @@
 
 import { ISearchResult } from "../../../src/util/search";
 import {
+  IGroupCategorySchema,
   IGroupContentResult,
   IGroupUsersResult,
   ISearchGroupUsersResult
@@ -88,6 +89,41 @@ export const GroupResponse: IGroup = {
   protected: false,
   autoJoin: false,
   notificationsEnabled: false
+};
+
+// JSON Response Example from https://developers.arcgis.com/rest/users-groups-and-items/group-category-schema.htm
+export const GroupCategorySchemaResponse: IGroupCategorySchema = {
+  categorySchema: [
+    {
+      title: "Categories",
+      categories: [
+        {
+          title: "Basemaps",
+          categories: [
+            { title: "Partner Basemap" },
+            {
+              title: "Esri Basemaps",
+              categories: [
+                { title: "Esri Raster Basemap" },
+                { title: "Esri Vector Basemap" }
+              ]
+            }
+          ]
+        },
+        {
+          title: "Imagery",
+          categories: [
+            { title: "Multispectral Imagery" },
+            { title: "Temporal Imagery" }
+          ]
+        }
+      ]
+    },
+    {
+      title: "Region",
+      categories: [{ title: "US" }, { title: "World" }]
+    }
+  ]
 };
 
 export const GroupContentResponse: IGroupContentResult = {
