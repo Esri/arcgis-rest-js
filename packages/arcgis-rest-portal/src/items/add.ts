@@ -128,6 +128,7 @@ export function addItemResource(
     requestOptions.params = {
       file: requestOptions.resource,
       fileName: requestOptions.name,
+      resourcesPrefix: requestOptions.prefix,
       text: requestOptions.content,
       access: requestOptions.private ? "private" : "inherit",
       ...requestOptions.params
