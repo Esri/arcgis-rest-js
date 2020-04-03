@@ -91,6 +91,10 @@ export interface IItemResourceOptions extends IUserItemOptions {
    */
   name?: string;
   /**
+   * Folder in which to store the new resource.
+   */
+  prefix?: string;
+  /**
    * Text input to be added as a file resource.
    */
   content?: string;

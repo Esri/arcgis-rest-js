@@ -224,6 +224,7 @@ describe("search", () => {
         // File() is only available in the browser
         resource: file,
         name: "thebigkahuna",
+        prefix: "myfiles",
         ...MOCK_USER_REQOPTS
       })
         .then(() => {
@@ -241,6 +242,7 @@ describe("search", () => {
             expect(params.get("file")).toEqual(file);
             expect(params.get("access")).toEqual("inherit");
             expect(params.get("fileName")).toEqual("thebigkahuna");
+            expect(params.get("resourcesPrefix")).toEqual("myfiles");
           }
 
           done();
