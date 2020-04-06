@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-types",
-  "version": "2.10.1",
+  "version": "2.11.0",
   "description": "Shared TypeScript types for @esri/arcgis-rest-js",
   "types": "dist/types/index.d.ts",
   "author": "",
