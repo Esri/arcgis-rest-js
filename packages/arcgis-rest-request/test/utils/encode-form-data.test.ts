@@ -132,12 +132,15 @@ describe("encodeFormData", () => {
 
     const encodedFormData = encodeFormData(params);
     expect(encodedFormData instanceof FormData).toBeTruthy();
-    let numCategoriesParams = 0;
-    (encodedFormData as FormData).forEach(
-      (value: FormDataEntryValue, key: string, parent: FormData) => {
-        numCategoriesParams += key === "categories" ? 1 : 0;
-      }
-    );
-    expect(numCategoriesParams).toEqual(2);
+    // Test where supported
+    if ((encodedFormData as FormData).forEach) {
+      let numCategoriesParams = 0;
+      (encodedFormData as FormData).forEach(
+        (value: FormDataEntryValue, key: string, parent: FormData) => {
+          numCategoriesParams += key === "categories" ? 1 : 0;
+        }
+      );
+      expect(numCategoriesParams).toEqual(2);
+    }
   });
 });
