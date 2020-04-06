@@ -28,7 +28,16 @@ export function encodeFormData(
         const filename = newParams["fileName"] || newParams[key].name || key;
         formData.append(key, newParams[key], filename);
       } else {
-        formData.append(key, newParams[key]);
+        // Check for and handle `categories` parameter to match API expectation for AND and OR
+        // @see https://developers.arcgis.com/rest/users-groups-and-items/search.htm
+        // @see https://developers.arcgis.com/rest/users-groups-and-items/group-content-search.htm
+        if (key === "categories" && Array.isArray(newParams[key])) {
+          newParams[key].forEach(
+            (categoryGroup: any) => formData.append(key,categoryGroup)
+          );
+        } else {
+          formData.append(key, newParams[key]);
+        }
       }
     });
     return formData;

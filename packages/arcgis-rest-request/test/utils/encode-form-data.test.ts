@@ -110,7 +110,8 @@ describe("encodeFormData", () => {
       myString: "Hello, world!",
       myEmptyString: "",
       myNumber: 380,
-      file
+      file,
+      categories: ["/Categories/Water,/Categories/Forest", "/Region/United States"]
     };
 
     expect(requiresFormData(params)).toBeTruthy();
@@ -126,8 +127,17 @@ describe("encodeFormData", () => {
     expect(formData.myEmptyString).toBe("");
     expect(formData.myNumber).toBe(380);
     expect(typeof formData.file).toBe("object");
+    expect(Array.isArray(formData.categories)).toBeTruthy();
+    expect(formData.categories.length).toEqual(2);
 
     const encodedFormData = encodeFormData(params);
     expect(encodedFormData instanceof FormData).toBeTruthy();
+    let numCategoriesParams = 0;
+    (encodedFormData as FormData).forEach(
+      (value: FormDataEntryValue, key: string, parent: FormData) => {
+        numCategoriesParams += key === "categories" ? 1 : 0;
+      }
+    );
+    expect(numCategoriesParams).toEqual(2);
   });
 });

@@ -4,6 +4,17 @@
 import { processParams } from "./process-params";
 
 export function encodeParam(key: string, value: any) {
+   // Check for and handle `categories` parameter to match API expectation for AND and OR
+   // @see https://developers.arcgis.com/rest/users-groups-and-items/search.htm
+   // @see https://developers.arcgis.com/rest/users-groups-and-items/group-content-search.htm
+   if (key === "categories") {
+     return value.map(
+       (categoryGroup: string) => {
+         return encodeURIComponent(key) + "=" + encodeURIComponent(categoryGroup);
+       }
+     )
+     .join("&");
+   }
   return encodeURIComponent(key) + "=" + encodeURIComponent(value);
 }
 

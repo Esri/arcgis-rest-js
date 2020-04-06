@@ -75,14 +75,22 @@ export function processParams(params: any): any {
     // null, undefined, function are excluded. If you want to send an empty key you need to send an empty string "".
     switch (type) {
       case "Array":
-        // Based on the first element of the array, classify array as an array of objects to be stringified
-        // or an array of non-objects to be comma-separated
-        value =
-          param[0] &&
-          param[0].constructor &&
-          param[0].constructor.name === "Object"
-            ? JSON.stringify(param)
-            : param.join(",");
+        // Don't process `categories` parameter because API expectation for AND and OR permits multiple `categories`
+        // parameters in a query. We can't assign more than one to newParams, so we'll postpone handling
+        // @see https://developers.arcgis.com/rest/users-groups-and-items/search.htm
+        // @see https://developers.arcgis.com/rest/users-groups-and-items/group-content-search.htm
+        if (key === "categories") {
+          value = param;
+        } else {
+          // Otherwise, based on the first element of the array, classify array as an array of objects to be stringified
+          // or an array of non-objects to be comma-separated
+          value =
+            param[0] &&
+            param[0].constructor &&
+            param[0].constructor.name === "Object"
+              ? JSON.stringify(param)
+              : param.join(",");
+        }
         break;
       case "Object":
         value = JSON.stringify(param);
