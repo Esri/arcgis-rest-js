@@ -8,9 +8,9 @@ The command below bumps the version in each individual package.json file and par
 npm run release:prepare
 ```
 
-Afterwards, you can display a diff to give you a sense of what will be committed to master when you actually publish.
-
 Sometimes this step fails due to errors while parsing commit messages. See [these inline comments](https://github.com/Esri/arcgis-rest-js/blob/d8566a99dd1534e5eeae2ebfc5bfbffc679426d8/support/changelog.js#L78-L81) for how to modify the script and re-run the changelog generation script.
+
+Afterwards, you can display a diff to give you a sense of what will be committed to master when you actually publish.
 
 ```bash
 npm run release:review
