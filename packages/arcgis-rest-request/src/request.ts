@@ -241,7 +241,7 @@ export function request(
     );
   }
 
-  const { httpMethod, authentication, rawResponse } = options;
+  const { httpMethod, fetchMode, authentication, rawResponse } = options;
 
   const params: IParams = {
     ...{ f: "json" },
@@ -252,6 +252,7 @@ export function request(
 
   const fetchOptions: RequestInit = {
     method: httpMethod,
+    mode: fetchMode,
     /* ensures behavior mimics XMLHttpRequest.
     needed to support sending IWA cookies */
     credentials: "same-origin"
@@ -281,7 +282,17 @@ export function request(
         params.token = token;
       }
 
+      // Mixin headers from request options
+      fetchOptions.headers = {
+        ...options.headers
+      };
+      
       if (fetchOptions.method === "GET") {
+        // Fetch `mode: "no-cors"` only allows a limited set of headers in the request.
+        if (params.token && options.secureToken && typeof fetchOptions.mode !== 'undefined' && fetchOptions.mode !== 'no-cors') {
+          fetchOptions.headers["X-Esri-Authorization"] = `Bearer ${params.token}`
+          delete params.token;
+        }
         // encode the parameters into the query string
         const queryParams = encodeQueryString(params);
         // dont append a '?' unless parameters are actually present
@@ -289,8 +300,9 @@ export function request(
           queryParams === "" ? url : url + "?" + encodeQueryString(params);
 
         if (
-          options.maxUrlLength &&
-          urlWithQueryString.length > options.maxUrlLength
+          (options.maxUrlLength &&
+            urlWithQueryString.length > options.maxUrlLength) || 
+            (params.token && options.secureToken)
         ) {
           // the consumer specified a maximum length for URLs
           // and this would exceed it, so use post instead
@@ -309,11 +321,6 @@ export function request(
       if (fetchOptions.method === "POST") {
         fetchOptions.body = encodeFormData(params, forceFormData);
       }
-
-      // Mixin headers from request options
-      fetchOptions.headers = {
-        ...options.headers
-      };
 
       /* istanbul ignore next - karma reports coverage on browser tests only */
       if (typeof window === "undefined" && !fetchOptions.headers.referer) {

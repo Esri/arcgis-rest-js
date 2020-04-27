@@ -171,6 +171,68 @@ describe("request()", () => {
       });
   });
 
+  it("should use the `authentication` option to authenticate a request and convert to POST to hide token in POST body", done => {
+    fetchMock.once("*", WebMapAsText);
+
+    const MOCK_AUTH = {
+      portal: "https://www.arcgis.com/sharing/rest",
+      getToken() {
+        return Promise.resolve("token");
+      }
+    };
+
+    request(
+      "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data",
+      {
+        authentication: MOCK_AUTH,
+        fetchMode: 'no-cors',
+        httpMethod: 'GET',
+        secureToken: true
+      }
+    )
+      .then(response => {
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
+        );
+        expect(options.body).toContain("token=token");
+        expect(response).toEqual(WebMapAsJSON);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should use the `authentication` option to authenticate a request and use `X-ESRI_AUTHORIZATION` header", done => {
+    fetchMock.once("*", SharingRestInfo);
+
+    const MOCK_AUTH = {
+      portal: "https://www.arcgis.com/sharing/rest",
+      getToken() {
+        return Promise.resolve("token");
+      }
+    };
+
+    request("https://www.arcgis.com/sharing/rest/info", {
+      authentication: MOCK_AUTH,
+      fetchMode: 'cors',
+      httpMethod: 'GET',
+      secureToken: true
+    })
+      .then(response => {
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json");
+        expect(options.method).toBe("GET");
+        expect(response).toEqual(SharingRestInfo);
+        expect((options.headers as any)["X-Esri-Authorization"]).toBe("Bearer token");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   it("should re-throw HTTP errors (404, 500, etc)", done => {
     fetchMock.once("*", 404);
 
