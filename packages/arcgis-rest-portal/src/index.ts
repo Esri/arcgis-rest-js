@@ -37,6 +37,7 @@ export * from "./sharing/group-sharing";
 export * from "./sharing/helpers";
 
 export * from "./util/get-portal";
+export * from "./util/get-portal-settings";
 export * from "./util/get-portal-url";
 export * from "./util/search";
 export * from "./util/SearchQueryBuilder";
