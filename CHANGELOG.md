@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][head]
 
+
+## [2.12.0] - April 27th 2020
+
+### @esri/arcgis-rest-portal
+
+* New Features
+   * **arcgis-rest-portal**: add getPortalSettings function [`e956dc56`](https://github.com/Esri/arcgis-rest-js/commit/e956dc56e2fb925478767d989e4cf42cb8ac1a1c)
+
 ## [2.11.0] - April 6th 2020
 
 ### @esri/arcgis-rest-auth
@@ -96,7 +104,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - New Features
 
-  - **Add properties to IStatisticDefinition to support percentiles**: Added optional `statisticParameter` property to support new `&amp;amp;amp;amp;amp;quot;percentile_cont&amp;amp;amp;amp;amp;quot; | &amp;amp;amp;amp;amp;quot;percentile_disc&amp;amp;amp;amp;amp;quot;` types. [8edec3ff](https://github.com/Esri/arcgis-rest-js/pull/650/commits/8edec3ff7d91bc583dfd30db23067bee0e86887e)
+  - **Add properties to IStatisticDefinition to support percentiles**: Added optional `statisticParameter` property to support new `&amp;amp;amp;amp;amp;amp;quot;percentile_cont&amp;amp;amp;amp;amp;amp;quot; | &amp;amp;amp;amp;amp;amp;quot;percentile_disc&amp;amp;amp;amp;amp;amp;quot;` types. [8edec3ff](https://github.com/Esri/arcgis-rest-js/pull/650/commits/8edec3ff7d91bc583dfd30db23067bee0e86887e)
 
   - **Export `IStatisticDefinition` interface**: [a6ac91b7](https://github.com/Esri/arcgis-rest-js/pull/651/commits/a6ac91b713510391e86819fa51595440cc1533ce)
 
@@ -1579,8 +1587,7 @@ Initial Public Release
 [1.8.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.1...v1.8.0 "v1.8.0"
 [1.9.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.8.0...v1.9.0 "v1.9.0"
 [1.10.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.9.0...v1.10.0 "v1.10.0"
-[1.11.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.0 "v1.11.0"
-[1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.0...v1.11.1 "v1.11.1"
+[1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.1 "v1.11.1"
 [1.12.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.1...v1.12.0 "v1.12.0"
 [1.13.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.12.0...v1.13.0 "v1.13.0"
 [1.13.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.0...v1.13.1 "v1.13.1"
@@ -1607,10 +1614,8 @@ Initial Public Release
 [2.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.4...v2.1.0 "v2.1.0"
 [2.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.0...v2.1.1 "v2.1.1"
 [2.2.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.1...v2.2.0 "v2.2.0"
-[2.2.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.0...v2.2.1 "v2.2.1"
-[2.3.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.1...v2.3.0 "v2.3.0"
-[2.4.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.3.0...v2.4.0 "v2.4.0"
-[2.5.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.4.0...v2.5.0 "v2.5.0"
+[2.3.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.0...v2.3.0 "v2.3.0"
+[2.5.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.3.0...v2.5.0 "v2.5.0"
 [2.6.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.5.0...v2.6.0 "v2.6.0"
 [2.6.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.6.0...v2.6.1 "v2.6.1"
 [2.7.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.6.1...v2.7.0 "v2.7.0"
@@ -1624,4 +1629,5 @@ Initial Public Release
 [2.10.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.10.0...v2.10.1 "v2.10.1"
 [2.10.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.10.1...v2.10.2 "v2.10.2"
 [2.11.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.10.2...v2.11.0 "v2.11.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.11.0...HEAD "Unreleased Changes"
+[2.12.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.11.0...v2.12.0 "v2.12.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.12.0...HEAD "Unreleased Changes"
