@@ -287,7 +287,7 @@ export function request(
       } = {};
       
       if (fetchOptions.method === "GET") {
-        // Fetch `mode: "no-cors"` only allows a limited set of headers in the request.
+        // Prevents token from being passed in query params when secureToken option is used.
         if (params.token && options.secureToken) {
           requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`
           delete params.token;
@@ -300,7 +300,7 @@ export function request(
 
         if (
           options.maxUrlLength &&
-            urlWithQueryString.length > options.maxUrlLength
+          urlWithQueryString.length > options.maxUrlLength
         ) {
           // the consumer specified a maximum length for URLs
           // and this would exceed it, so use post instead
