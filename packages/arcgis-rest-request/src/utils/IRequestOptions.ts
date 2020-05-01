@@ -1,7 +1,6 @@
 import { HTTPMethods } from "./HTTPMethods";
 import { IParams } from "./IParams";
 import { IAuthenticationManager } from "./IAuthenticationManager";
-import { FetchMode } from './FetchMode';
 
 /**
  * Options for the `request()` method.
@@ -16,10 +15,6 @@ export interface IRequestOptions {
    */
   httpMethod?: HTTPMethods;
   /**
-   * The fetch mode to send the request with.
-   */
-  fetchMode?: FetchMode;
-  /**
    * Return the raw [response](https://developer.mozilla.org/en-US/docs/Web/API/Response)
    */
   rawResponse?: boolean;
@@ -29,7 +24,7 @@ export interface IRequestOptions {
   authentication?: IAuthenticationManager;
   /**
    * Prevents the token from being passed in a URL Query param that is saved in browser history.
-   * Instead, the token will be passed in POST request body or through X-ESRI-AUTHORIZATION header
+   * Instead, the token will be passed in POST request body or through X-Esri-Authorization header
    */
   secureToken?: boolean;
   /**

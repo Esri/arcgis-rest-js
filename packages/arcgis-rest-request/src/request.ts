@@ -241,7 +241,7 @@ export function request(
     );
   }
 
-  const { httpMethod, fetchMode, authentication, rawResponse } = options;
+  const { httpMethod, authentication, rawResponse } = options;
 
   const params: IParams = {
     ...{ f: "json" },
@@ -252,7 +252,6 @@ export function request(
 
   const fetchOptions: RequestInit = {
     method: httpMethod,
-    mode: fetchMode,
     /* ensures behavior mimics XMLHttpRequest.
     needed to support sending IWA cookies */
     credentials: "same-origin"
@@ -282,15 +281,15 @@ export function request(
         params.token = token;
       }
 
-      // Mixin headers from request options
-      fetchOptions.headers = {
-        ...options.headers
-      };
+      // Custom headers to add to request. IRequestOptions.headers with merge over requestHeaders.
+      const requestHeaders: {
+        [key: string]: any;
+      } = {};
       
       if (fetchOptions.method === "GET") {
         // Fetch `mode: "no-cors"` only allows a limited set of headers in the request.
-        if (params.token && options.secureToken && typeof fetchOptions.mode !== 'undefined' && fetchOptions.mode !== 'no-cors') {
-          fetchOptions.headers["X-Esri-Authorization"] = `Bearer ${params.token}`
+        if (params.token && options.secureToken) {
+          requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`
           delete params.token;
         }
         // encode the parameters into the query string
@@ -300,13 +299,18 @@ export function request(
           queryParams === "" ? url : url + "?" + encodeQueryString(params);
 
         if (
-          (options.maxUrlLength &&
-            urlWithQueryString.length > options.maxUrlLength) || 
-            (params.token && options.secureToken)
+          options.maxUrlLength &&
+            urlWithQueryString.length > options.maxUrlLength
         ) {
           // the consumer specified a maximum length for URLs
           // and this would exceed it, so use post instead
           fetchOptions.method = "POST";
+
+          // Add token back to body with other params instead of header
+          if (token.length && options.secureToken) {
+            params.token = token;
+            delete requestHeaders["X-Esri-Authorization"];
+          }
         } else {
           // just use GET
           url = urlWithQueryString;
@@ -321,6 +325,12 @@ export function request(
       if (fetchOptions.method === "POST") {
         fetchOptions.body = encodeFormData(params, forceFormData);
       }
+
+      // Mixin headers from request options
+      fetchOptions.headers = {
+        ...requestHeaders,
+        ...options.headers
+      };
 
       /* istanbul ignore next - karma reports coverage on browser tests only */
       if (typeof window === "undefined" && !fetchOptions.headers.referer) {
