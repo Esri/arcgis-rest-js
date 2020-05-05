@@ -287,8 +287,8 @@ export function request(
       } = {};
       
       if (fetchOptions.method === "GET") {
-        // Prevents token from being passed in query params when secureToken option is used.
-        if (params.token && options.secureToken) {
+        // Prevents token from being passed in query params when hideToken option is used.
+        if (params.token && options.hideToken) {
           requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`
           delete params.token;
         }
@@ -307,7 +307,7 @@ export function request(
           fetchOptions.method = "POST";
 
           // Add token back to body with other params instead of header
-          if (token.length && options.secureToken) {
+          if (token.length && options.hideToken) {
             params.token = token;
             delete requestHeaders["X-Esri-Authorization"];
           }

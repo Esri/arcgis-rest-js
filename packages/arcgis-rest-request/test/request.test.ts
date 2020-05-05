@@ -184,7 +184,7 @@ describe("request()", () => {
     request("https://www.arcgis.com/sharing/rest/info", {
       authentication: MOCK_AUTH,
       httpMethod: 'GET',
-      secureToken: true
+      hideToken: true
     })
       .then(response => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -213,7 +213,7 @@ describe("request()", () => {
     request(restInfoUrl, {
       authentication: MOCK_AUTH,
       httpMethod: "GET",
-      secureToken: true,
+      hideToken: true,
       // typically consumers would base maxUrlLength on browser/server limits
       // but for testing, we use an artificially low limit
       // like this one that assumes no parameters will be added
