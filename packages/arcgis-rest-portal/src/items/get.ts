@@ -137,8 +137,31 @@ export function getRelatedItems(
 }
 
 /**
+ * Get a specified resources associated with an item
+ *
+ * @param id - Item id
+ * @param name - Resource name, including folder if it has one
+ * @param requestOptions - Options for the request
+ * @returns A Promise to get some item resources.
+ */
+export function getItemResource(
+  id: string,
+  resourceName: string,
+  requestOptions?: IRequestOptions
+): Promise<any> {
+  const url = `${getPortalUrl(requestOptions)}/content/items/${id}/resources/${resourceName}`;
+
+  const options: IRequestOptions = {
+    ...requestOptions
+  };
+
+  return request(url, options);
+}
+
+/**
  * Get the resources associated with an item
  *
+ * @param id - Item id
  * @param requestOptions - Options for the request
  * @returns A Promise to get some item resources.
  */

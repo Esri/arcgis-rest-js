@@ -6,6 +6,7 @@ import * as fetchMock from "fetch-mock";
 import {
   getItem,
   getItemData,
+  getItemResource,
   getItemResources,
   getItemGroups,
   getItemStatus,
@@ -227,6 +228,25 @@ describe("get", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/relatedItems?f=json&relationshipType=Service2Layer&token=fake-token"
           );
           expect(options.method).toBe("GET");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("get item resource", done => {
+      fetchMock.once("*", GetItemResourcesResponse);
+      getItemResource("3ef", "myFolder/myResource", {
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/myFolder/myResource"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
           done();
         })
         .catch(e => {
