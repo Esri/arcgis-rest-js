@@ -152,7 +152,10 @@ export function getItemResource(
   const url = `${getPortalUrl(requestOptions)}/content/items/${id}/resources/${resourceName}`;
 
   const options: IRequestOptions = {
-    ...requestOptions
+    ...requestOptions,
+    params: {
+      f: null
+    }
   };
 
   return request(url, options);

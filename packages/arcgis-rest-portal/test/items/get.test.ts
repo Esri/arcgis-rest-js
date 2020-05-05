@@ -236,22 +236,27 @@ describe("get", () => {
     });
 
     it("get item resource", done => {
-      fetchMock.once("*", GetItemResourcesResponse);
-      getItemResource("3ef", "myFolder/myResource", {
-        ...MOCK_USER_REQOPTS
-      })
-        .then(() => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/myFolder/myResource"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          done();
-        })
-        .catch(e => {
-          fail(e);
-        });
+      // Blob() is only available in the browser
+      if (typeof window !== "undefined") {
+        fetchMock.once("*", GetItemResourcesResponse);
+        getItemResource("3ef", "myFolder/myResource", {
+          ...MOCK_USER_REQOPTS
+        }).then(response => {
+            const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+            expect(url).toEqual(
+              "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/myFolder/myResource"
+            );
+            expect(options.method).toBe("POST");
+            expect(options.body).toContain("token=fake-token");
+            expect(response instanceof Blob).toBeTruthy();
+            done();
+          })
+          .catch(e => {
+            fail(e);
+          });
+      } else {
+        done();
+      }
     });
 
     it("get item resources", done => {
