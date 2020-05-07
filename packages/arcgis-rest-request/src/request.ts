@@ -281,7 +281,17 @@ export function request(
         params.token = token;
       }
 
+      // Custom headers to add to request. IRequestOptions.headers with merge over requestHeaders.
+      const requestHeaders: {
+        [key: string]: any;
+      } = {};
+      
       if (fetchOptions.method === "GET") {
+        // Prevents token from being passed in query params when hideToken option is used.
+        if (params.token && options.hideToken) {
+          requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`
+          delete params.token;
+        }
         // encode the parameters into the query string
         const queryParams = encodeQueryString(params);
         // dont append a '?' unless parameters are actually present
@@ -295,6 +305,12 @@ export function request(
           // the consumer specified a maximum length for URLs
           // and this would exceed it, so use post instead
           fetchOptions.method = "POST";
+
+          // Add token back to body with other params instead of header
+          if (token.length && options.hideToken) {
+            params.token = token;
+            delete requestHeaders["X-Esri-Authorization"];
+          }
         } else {
           // just use GET
           url = urlWithQueryString;
@@ -312,6 +328,7 @@ export function request(
 
       // Mixin headers from request options
       fetchOptions.headers = {
+        ...requestHeaders,
         ...options.headers
       };
 
