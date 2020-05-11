@@ -290,7 +290,7 @@ export function request(
         // Prevents token from being passed in query params when hideToken option is used.
         /* istanbul ignore if - window is always defined in a browser. Test case is covered by Jasmine in node test */
         if (params.token && options.hideToken && 
-          // Sharing API does support preflight check required by modern browsers https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
+          // Sharing API does not support preflight check required by modern browsers https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
           typeof window === 'undefined') {
           requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`
           delete params.token;
