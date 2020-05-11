@@ -7,12 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][head]
 
+## [2.13.0] - May 6th 2020
+
+### @esri/arcgis-rest-request
+
+* New Features
+  * **request**: Add `hideToken` option to prevent passing token in query parameters [8595fab](https://github.com/Esri/arcgis-rest-js/commit/8595fabe347a4b0d1718060b12956624308e8ab1)
+
 ## [2.12.1] - May 3rd 2020
 
 ### @esri/arcgis-rest-types
 
 * Bug Fixes
-  * Add the missing "s" in IStatisticDefinition. [c807192](https://github.com/Esri/arcgis-rest-js/commit/c8071921df9424961a325ef2875591a3a3809d94)
+  * Add the missing `s` in IStatisticDefinition. [c807192](https://github.com/Esri/arcgis-rest-js/commit/c8071921df9424961a325ef2875591a3a3809d94)
 
 ## [2.12.0] - April 27th 2020
 
@@ -110,7 +117,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - New Features
 
-  - **Add properties to IStatisticDefinition to support percentiles**: Added optional `statisticParameter` property to support new `&amp;amp;amp;amp;amp;amp;amp;quot;percentile_cont&amp;amp;amp;amp;amp;amp;amp;quot; | &amp;amp;amp;amp;amp;amp;amp;quot;percentile_disc&amp;amp;amp;amp;amp;amp;amp;quot;` types. [8edec3ff](https://github.com/Esri/arcgis-rest-js/pull/650/commits/8edec3ff7d91bc583dfd30db23067bee0e86887e)
+  - **Add properties to IStatisticDefinition to support percentiles**: Added optional `statisticParameter` property to support new `percentile_disc` types. [8edec3ff](https://github.com/Esri/arcgis-rest-js/pull/650/commits/8edec3ff7d91bc583dfd30db23067bee0e86887e)
 
   - **Export `IStatisticDefinition` interface**: [a6ac91b7](https://github.com/Esri/arcgis-rest-js/pull/651/commits/a6ac91b713510391e86819fa51595440cc1533ce)
 
@@ -1640,4 +1647,5 @@ Initial Public Release
 [2.11.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.10.2...v2.11.0 "v2.11.0"
 [2.12.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.11.0...v2.12.0 "v2.12.0"
 [2.12.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.12.0...v2.12.1 "v2.12.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.12.1...HEAD "Unreleased Changes"
+[2.13.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.12.1...v2.13.0 "v2.13.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.13.0...HEAD "Unreleased Changes"
