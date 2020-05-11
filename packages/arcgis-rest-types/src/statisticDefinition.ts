@@ -16,9 +16,9 @@ export interface IStatisticDefinition {
     | "percentile_cont"
     | "percentile_disc";
   /**
-   * Parameter to be used along with statisticType. Currently, only applicable for percentile_cont (continuous percentile) and percentile_disc (discrete percentile).
+   * Parameters to be used along with statisticType. Currently, only applicable for percentile_cont (continuous percentile) and percentile_disc (discrete percentile).
    */
-  statisticParameter?: {
+  statisticParameters?: {
     value: number;
     orderBy?: "asc" | "desc";
   };
