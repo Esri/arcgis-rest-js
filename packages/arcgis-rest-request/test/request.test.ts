@@ -188,7 +188,7 @@ describe("request()", () => {
     })
       .then(response => {
         // Test Node path with Jasmine in Node
-        if (typeof window !== 'undefined') {
+        if (typeof window === 'undefined') {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json");
           expect(options.method).toBe("GET");
