@@ -1881,7 +1881,8 @@ getItemGroups(<span class="hljs-string">"30e5fe3149c34df1ba922e6f5bbf808f"</span
             </td>
             <td class="body-face api-param-comment">
               <p>Prevents the token from being passed in a URL Query param that is saved in browser history.
-Instead, the token will be passed in POST request body or through X-Esri-Authorization header</p>
+Instead, the token will be passed in POST request body or through X-Esri-Authorization header.
+NOTE: This will force POST requests in browsers since auth header is not yet supported by preflight OPTIONS check with CORS.</p>
 
             </td>
           </tr>
