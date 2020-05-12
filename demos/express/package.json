@@ -1,13 +1,13 @@
 {
   "name": "@esri/arcgis-rest-demo-express",
-  "version": "2.13.0",
+  "version": "2.13.1",
   "private": true,
   "description": "Demo of @esri/arcgis-rest-* packages in an Express server",
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@esri/arcgis-rest-auth": "^2.13.0",
-    "@esri/arcgis-rest-request": "^2.13.0",
+    "@esri/arcgis-rest-auth": "^2.13.1",
+    "@esri/arcgis-rest-request": "^2.13.1",
     "cross-fetch": "^3.0.0",
     "express": "^4.16.3",
     "isomorphic-form-data": "^2.0.0"
