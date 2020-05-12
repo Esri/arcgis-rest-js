@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-js",
-  "version": "2.13.0",
+  "version": "2.13.1",
   "description": "Compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.",
   "devDependencies": {
     "@types/fetch-mock": "^6.0.4",
