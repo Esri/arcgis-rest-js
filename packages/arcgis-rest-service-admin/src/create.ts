@@ -169,12 +169,13 @@ export function createFeatureService(
   requestOptions: ICreateServiceOptions
 ): Promise<ICreateServiceResult> {
   return determineOwner(requestOptions).then(owner => {
-    const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
-    const url = `${baseUrl}/createService`;
     const options: ICreateServiceOptions = {
       ...requestOptions,
       rawResponse: false
     };
+    const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
+    const folder = (!options.folderId || options.folderId === "/") ? "" : "/" + options.folderId;
+    const url = `${baseUrl}${folder}/createService`;
 
     // Create the service
     options.params = {
@@ -183,32 +184,6 @@ export function createFeatureService(
       ...options.params
     };
 
-    if (!options.folderId || options.folderId === "/") {
-      // If the service is destined for the root folder, just send the request
-      return request(url, options);
-    } else {
-      // If the service is destined for a subfolder, move it (via another call)
-      return request(url, options).then(createResponse => {
-        if (createResponse.success) {
-          return moveItem({
-            itemId: createResponse.itemId,
-            folderId: options.folderId,
-            authentication: options.authentication
-          }).then(moveResponse => {
-            if (moveResponse.success) {
-              return createResponse;
-            } else {
-              throw Error(
-                `A problem was encountered when trying to move the service to a different folder.`
-              );
-            }
-          });
-        } else {
-          throw Error(
-            `A problem was encountered when trying to create the service.`
-          );
-        }
-      });
-    }
+    return request(url, options);
   });
 }
