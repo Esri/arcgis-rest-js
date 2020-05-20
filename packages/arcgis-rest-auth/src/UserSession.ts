@@ -111,7 +111,7 @@ export interface IOAuth2Options {
   provider?: AuthenticationProvider;
 
   /**
-   * Duration (in minutes) that the token will be valid for browser-based OAuth 2.0 or the refresh token will be valid for server-based OAuth 2.0. The defaults are 2 hours and 2 weeks respectively.
+   * Duration (in minutes) that a token will be valid for browser-based OAuth 2.0 or the refresh token will be valid for server-based OAuth 2.0. The defaults are 2 hours and 2 weeks respectively.
    */
   duration?: number;
 
