@@ -1067,7 +1067,7 @@ describe("UserSession", () => {
         end() {
           expect(spy.calls.mostRecent().args[0]).toBe(301);
           expect(spy.calls.mostRecent().args[1].Location).toBe(
-            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&duration=20160&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
+            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=20160&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
           );
           done();
         }
@@ -1077,6 +1077,56 @@ describe("UserSession", () => {
         {
           clientId: "clientId",
           redirectUri: "https://example-app.com/redirect-uri"
+        },
+        MockResponse
+      );
+    });
+  });
+
+  describe(".authorize()", () => {
+    it("should redirect the request to the authorization page with state", done => {
+      const spy = jasmine.createSpy("spy");
+      const MockResponse: any = {
+        writeHead: spy,
+        end() {
+          expect(spy.calls.mostRecent().args[0]).toBe(301);
+          expect(spy.calls.mostRecent().args[1].Location).toBe(
+            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=20160&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri&state=helloworld"
+          );
+          done();
+        }
+      };
+
+      UserSession.authorize(
+        {
+          clientId: "clientId",
+          redirectUri: "https://example-app.com/redirect-uri",
+          state: "helloworld"
+        },
+        MockResponse
+      );
+    });
+  });
+
+  describe(".authorize()", () => {
+    it("should respect the refreshTokenTTL if specified instead of the duration", done => {
+      const spy = jasmine.createSpy("spy");
+      const MockResponse: any = {
+        writeHead: spy,
+        end() {
+          expect(spy.calls.mostRecent().args[0]).toBe(301);
+          expect(spy.calls.mostRecent().args[1].Location).toBe(
+            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=1440&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
+          );
+          done();
+        }
+      };
+
+      UserSession.authorize(
+        {
+          clientId: "clientId",
+          redirectUri: "https://example-app.com/redirect-uri",
+          refreshTokenTTL: 1440
         },
         MockResponse
       );
