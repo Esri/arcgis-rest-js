@@ -7,9 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][head]
 
+## [2.13.2] - June 11th 2020
+
+### @esri/arcgis-rest-service-admin  
+* Optimization
+  * **arcgis-rest-service-admin**: Function `createFeatureService` creates the feature service directly in a specified folder rather than creating it at the root and moving it to the folder [aa478ca]( https://github.com/Esri/arcgis-rest-js/pull/689/commits/aa478caf5dfd9290d4adce2ad704973008d68887)
+
+
 ## [2.13.1] - May 12th 2020
 
-### @esri/arcgis-rest-request
+### @esri/arcgis-rest-request  
 
 * Bug Fixes
   * **request**: Patch hideToken for browser CORS support [b97860](https://github.com/Esri/arcgis-rest-js/commit/b978605f08810bbd5f0b568b36afd3f8f2adbdb2)
@@ -1656,4 +1663,5 @@ Initial Public Release
 [2.12.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.12.0...v2.12.1 "v2.12.1"
 [2.13.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.12.1...v2.13.0 "v2.13.0"
 [2.13.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.13.0...v2.13.1 "v2.13.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.13.1...HEAD "Unreleased Changes"
+[2.13.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.13.1...v2.13.2 "v2.13.2"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.13.2...HEAD "Unreleased Changes"
