@@ -49,7 +49,9 @@ export type ItemRelationshipType =
   | "Area2Package"
   | "Map2Area"
   | "Service2Layer"
-  | "Area2CustomPackage";
+  | "Area2CustomPackage"
+  | "TrackView2Map"
+  | "SurveyAddIn2Data";
 
 export interface IItemRelationshipOptions extends IRequestOptions {
   /**
@@ -70,6 +72,17 @@ export interface IManageItemRelationshipOptions extends IUserRequestOptions {
   originItemId: string;
   destinationItemId: string;
   relationshipType: ItemRelationshipType;
+}
+
+export interface IItemInfoOptions extends IUserItemOptions {
+  /**
+   * Subfolder for added information.
+   */
+  folderName?: string;
+  /**
+   * Object to store
+   */
+  file: any;
 }
 
 export interface IItemResourceOptions extends IUserItemOptions {
@@ -124,6 +137,10 @@ export interface ICreateUpdateItemOptions extends IUserRequestOptions {
    * The filename being uploaded in multipart mode. Required if multipart=true.
    */
   filename?: string;
+  /**
+   * If true, overwrite the existing file.
+   */
+  overwrite?: boolean;
 }
 
 export interface IItemDataOptions extends IRequestOptions {
@@ -147,6 +164,13 @@ export interface IItemPartOptions extends IUserItemOptions {
 export interface IUpdateItemResponse {
   success: boolean;
   id: string;
+}
+
+export interface IItemInfoResponse {
+  success: boolean;
+  itemId: string;
+  owner: string;
+  folder: string;
 }
 
 export interface IItemResourceResponse {

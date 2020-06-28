@@ -66,16 +66,15 @@ export function bulkGeocode(
 ): Promise<IBulkGeocodeResponse> {
   const options: IBulkGeocodeOptions = {
     endpoint: ARCGIS_ONLINE_GEOCODING_URL,
-    params: {
-      forStorage: true,
-      addresses: { records: [] }
-    },
+    params: {},
     ...requestOptions
   };
 
-  requestOptions.addresses.forEach(address => {
-    options.params.addresses.records.push({ attributes: address });
-  });
+  options.params.addresses = {
+    records: requestOptions.addresses.map(address => {
+      return { attributes: address };
+    })
+  };
 
   // the SAS service doesnt support anonymous requests
   if (

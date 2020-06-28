@@ -5,12 +5,14 @@ export * from "./query";
 export * from "./add";
 export * from "./update";
 export * from "./delete";
+export * from "./applyEdits";
 export * from "./getAttachments";
 export * from "./addAttachment";
 export * from "./updateAttachment";
 export * from "./deleteAttachments";
 export * from "./queryRelated";
 export * from "./getLayer";
+export * from "./getService";
 export * from "./decodeValues";
 export * from "./helpers";
 export {

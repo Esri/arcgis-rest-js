@@ -116,6 +116,49 @@ describe("geocode", () => {
       });
   });
 
+  it("should send a bulk geocoding request with params correctly", done => {
+    fetchMock.once("*", GeocodeAddresses);
+
+    bulkGeocode({
+      addresses,
+      endpoint:
+        "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/",
+      params: {
+        outSR: 4326,
+        forStorage: true
+      }
+    })
+      // tslint:disable-next-line
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/geocodeAddresses"
+        );
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain("outSR=4326");
+        expect(options.body).toContain("forStorage=true");
+        expect(options.body).toContain(
+          `addresses=${encodeURIComponent(
+            '{"records":[{"attributes":{"OBJECTID":1,"SingleLine":"380 New York St. Redlands 92373"}},{"attributes":{"OBJECTID":2,"SingleLine":"1 World Way Los Angeles 90045"}},{"attributes":{"OBJECTID":3,"SingleLine":"foo bar baz"}}]}'
+          )}`
+        );
+        // expect(options.body).toContain("token=token");
+        expect(response.spatialReference.latestWkid).toEqual(4326);
+        expect(response.locations[0].address).toEqual(
+          "380 New York St, Redlands, California, 92373"
+        );
+        expect(response.locations[0].location.x).toEqual(-117.19567031799994);
+        // the only property this lib tacks on
+        expect(response.locations[0].location.spatialReference.wkid).toEqual(
+          4326
+        );
+        expect(response.locations[2].address).toEqual("foo bar baz");
+        done();
+      });
+  });
+
   it("should support rawResponse", done => {
     fetchMock.once("*", GeocodeAddresses);
 

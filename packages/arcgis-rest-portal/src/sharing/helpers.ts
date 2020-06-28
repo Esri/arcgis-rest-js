@@ -3,7 +3,6 @@
 
 import { IGroup, IUser, GroupMembership } from "@esri/arcgis-rest-types";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-
 import { getPortalUrl } from "../util/get-portal-url";
 import { getGroup } from "../groups/get";
 
@@ -43,7 +42,9 @@ export function isItemOwner(requestOptions: ISharingOptions): boolean {
  * @param requestOptions
  * @returns Promise resolving in a boolean indicating if the user is an ArcGIS Organization administrator
  */
-export function isOrgAdmin(requestOptions: ISharingOptions): Promise<boolean> {
+export function isOrgAdmin(
+  requestOptions: IUserRequestOptions
+): Promise<boolean> {
   const session = requestOptions.authentication;
 
   return session.getUser(requestOptions).then((user: IUser) => {
@@ -71,7 +72,7 @@ export function getUserMembership(
       return group.userMembership.memberType;
     })
     .catch(() => {
-      return "nonmember" as GroupMembership;
+      return "none" as GroupMembership;
     });
 }
 
