@@ -1,29 +1,6 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-/**
- * Enum of all different statistics operations
- */
-export const enum StatisticType {
-  Count = "count",
-  Sum = "sum",
-  Minimum = "min",
-  Maximum = "max",
-  Average = "avg",
-  StandardDeviation = "stddev",
-  Variance = "var",
-  ContinuousPercentile = "percentile_cont",
-  DiscretePercentile = "percentile_disc"
-}
-
-/**
- * Enum of sorting orders
- */
-export const enum SortingOrder {
-  Ascending = "asc",
-  Descending = "desc"
-}
-
 export interface IStatisticDefinition {
   /**
    * Statistical operation to perform (count, sum, min, max, avg, stddev, var, percentile_cont, percentile_disc).
@@ -37,14 +14,13 @@ export interface IStatisticDefinition {
     | "stddev"
     | "var"
     | "percentile_cont"
-    | "percentile_disc"
-    | StatisticType;
+    | "percentile_disc";
   /**
-   * Parameter to be used along with statisticType. Currently, only applicable for percentile_cont (continuous percentile) and percentile_disc (discrete percentile).
+   * Parameters to be used along with statisticType. Currently, only applicable for percentile_cont (continuous percentile) and percentile_disc (discrete percentile).
    */
-  statisticParameter?: {
+  statisticParameters?: {
     value: number;
-    orderBy?: "asc" | "desc" | SortingOrder;
+    orderBy?: "asc" | "desc";
   };
   /**
    * Field on which to perform the statistical operation.

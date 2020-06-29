@@ -1,9 +1,10 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { searchGroups } from "../../src/groups/search";
+import { searchGroups, searchGroupContent } from "../../src/groups/search";
 import { GroupSearchResponse } from "../mocks/groups/responses";
 import { SearchQueryBuilder } from "../../src/util/SearchQueryBuilder";
+import { genericSearch } from "../../src/util/generic-search";
 
 import * as fetchMock from "fetch-mock";
 
@@ -50,6 +51,46 @@ describe("groups", () => {
         .catch(e => {
           fail(e);
         });
+    });
+
+    it("should search for group contents", done => {
+      fetchMock.once("*", GroupSearchResponse);
+
+      searchGroupContent({
+        groupId: "grp1234567890",
+        q: "water"
+      })
+        .then(() => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://www.arcgis.com/sharing/rest/content/groups/grp1234567890/search?f=json&q=water"
+          );
+          expect(options.method).toBe("GET");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should catch search for group contents without group id", done => {
+      genericSearch(
+        {
+          q: "water"
+        },
+        "groupContent"
+      ).then(
+        () => fail(),
+        err => {
+          expect(err).toEqual(
+            new Error(
+              "you must pass a `groupId` option to `searchGroupContent`"
+            )
+          );
+          done();
+        }
+      );
     });
   });
 

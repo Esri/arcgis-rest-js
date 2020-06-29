@@ -42,7 +42,6 @@ export interface IAddItemDataOptions extends IUserItemOptions {
 export function addItemData(
   requestOptions: IAddItemDataOptions
 ): Promise<IUpdateItemResponse> {
-  const owner = determineOwner(requestOptions);
   const options: any = {
     item: {
       id: requestOptions.id,
@@ -77,18 +76,18 @@ export function addItemData(
 export function addItemRelationship(
   requestOptions: IManageItemRelationshipOptions
 ): Promise<{ success: boolean }> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/users/${owner}/addRelationship`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(
+      requestOptions
+    )}/content/users/${owner}/addRelationship`;
 
-  const options = appendCustomParams<IManageItemRelationshipOptions>(
-    requestOptions,
-    ["originItemId", "destinationItemId", "relationshipType"],
-    { params: { ...requestOptions.params } }
-  );
-
-  return request(url, options);
+    const options = appendCustomParams<IManageItemRelationshipOptions>(
+      requestOptions,
+      ["originItemId", "destinationItemId", "relationshipType"],
+      { params: { ...requestOptions.params } }
+    );
+    return request(url, options);
+  });
 }
 
 /**
@@ -121,20 +120,22 @@ export function addItemRelationship(
 export function addItemResource(
   requestOptions: IItemResourceOptions
 ): Promise<IItemResourceResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.id
-  }/addResources`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.id
+    }/addResources`;
 
-  requestOptions.params = {
-    file: requestOptions.resource,
-    fileName: requestOptions.name,
-    text: requestOptions.content,
-    access: requestOptions.private ? "private" : "inherit",
-    ...requestOptions.params
-  };
+    requestOptions.params = {
+      file: requestOptions.resource,
+      fileName: requestOptions.name,
+      resourcesPrefix: requestOptions.prefix,
+      text: requestOptions.content,
+      access: requestOptions.private ? "private" : "inherit",
+      ...requestOptions.params
+    };
 
-  return request(url, requestOptions);
+    return request(url, requestOptions);
+  });
 }
 
 /**
@@ -158,16 +159,17 @@ export function addItemResource(
 export function addItemPart(
   requestOptions?: IItemPartOptions
 ): Promise<IUpdateItemResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.id
-  }/addPart`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.id
+    }/addPart`;
 
-  const options = appendCustomParams<IItemPartOptions>(
-    requestOptions,
-    ["file", "partNum"],
-    { params: { ...requestOptions.params } }
-  );
+    const options = appendCustomParams<IItemPartOptions>(
+      requestOptions,
+      ["file", "partNum"],
+      { params: { ...requestOptions.params } }
+    );
 
-  return request(url, options);
+    return request(url, options);
+  });
 }
