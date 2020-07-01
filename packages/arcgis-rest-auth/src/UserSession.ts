@@ -355,31 +355,25 @@ export class UserSession implements IAuthenticationManager {
 
     function completeSignIn(error: any, oauthInfo?: IFetchTokenResponse) {
       try {
-        if (
-          popup &&
-          win.opener &&
-          win.opener.parent &&
-          win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`]
-        ) {
-          const handlerFn =
-            win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
-          if (handlerFn) {
-            handlerFn(
-              error ? JSON.stringify(error) : undefined,
-              JSON.stringify(oauthInfo)
-            );
-          }
-          win.close();
-          return undefined;
-        }
+        let handlerFn;
+        const handlerFnName = `__ESRI_REST_AUTH_HANDLER_${clientId}`;
 
-        if (
-          popup &&
-          win !== win.parent &&
-          win.parent &&
-          win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`]
-        ) {
-          const handlerFn = win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
+        if (popup) {
+          // Guard b/c IE does not support window.opener
+          if (win.opener) {
+            if (win.opener.parent && win.opener.parent[handlerFnName]) {
+              handlerFn = win.opener.parent[handlerFnName];
+            } else if (win.opener && win.opener[handlerFnName]) {
+              // support pop-out oauth from within an iframe
+              handlerFn = win.opener[handlerFnName];
+            }
+          } else {
+            // IE
+            if (win !== win.parent && win.parent && win.parent[handlerFnName]) {
+              handlerFn = win.parent[handlerFnName];
+            }
+          }
+          // if we have a handler fn, call it and close the window
           if (handlerFn) {
             handlerFn(
               error ? JSON.stringify(error) : undefined,
