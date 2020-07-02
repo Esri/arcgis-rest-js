@@ -936,7 +936,7 @@ describe("UserSession", () => {
       expect(session.ssl).toBe(false);
     });
 
-    it("should callback to create a new user session if finds a valid opener", done => {
+    it("should callback to create a new user session if finds a valid opener.parent", done => {
       const MockWindow = {
         opener: {
           parent: {
@@ -952,6 +952,40 @@ describe("UserSession", () => {
                 Date.now()
               );
             }
+          }
+        },
+        close() {
+          done();
+        },
+        location: {
+          href:
+            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey&ssl=true"
+        }
+      };
+
+      UserSession.completeOAuth2(
+        {
+          clientId: "clientId",
+          redirectUri: "https://example-app.com/redirect-uri"
+        },
+        MockWindow
+      );
+    });
+
+    it("should callback to create a new user session if finds a valid opener (Iframe support)", done => {
+      const MockWindow = {
+        opener: {
+          __ESRI_REST_AUTH_HANDLER_clientId(
+            errorString: string,
+            oauthInfoString: string
+          ) {
+            const oauthInfo = JSON.parse(oauthInfoString);
+            expect(oauthInfo.token).toBe("token");
+            expect(oauthInfo.username).toBe("c@sey");
+            expect(oauthInfo.ssl).toBe(true);
+            expect(new Date(oauthInfo.expires).getTime()).toBeGreaterThan(
+              Date.now()
+            );
           }
         },
         close() {
