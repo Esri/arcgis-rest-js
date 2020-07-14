@@ -1,7 +1,7 @@
 import * as fetchMock from "fetch-mock";
 
 import {
-  exportItem, IExportItemResponse
+  exportItem, IExportItemResponse, IExportItemRequestOptions
 } from "../../src/items/export";
 
 import { ItemSuccessResponse } from "../mocks/items/item";
@@ -39,9 +39,10 @@ describe("exportItem", () => {
 
       fetchMock.once("*", mockResponse);
 
-      exportItem({
-        id: 'g33M1k3',
+      const exportOptions: IExportItemRequestOptions = {
+        id: '3af',
         owner: 'geemike',
+        title: 'test title',
         exportFormat: 'CSV',
         exportParameters: {
           layers: [
@@ -49,8 +50,9 @@ describe("exportItem", () => {
             { id: 1, where: 'POP1999 > 100000' }
           ]
         },
-        authentication,
-      }).then(response => {
+        authentication
+      };
+      exportItem(exportOptions).then(response => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -59,7 +61,16 @@ describe("exportItem", () => {
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
           expect(options.body).toContain(encodeParam("token", "fake-token"));
-
+          expect(options.body).toContain("itemId=3af");
+          expect(options.body).toContain(
+            encodeParam("exportFormat", "CSV")
+          );
+          expect(options.body).toContain(
+            encodeParam("title", "test title")
+          );
+          expect(options.body).toContain(
+            encodeParam("exportParameters", JSON.stringify(exportOptions.exportParameters))
+          )
           done();
         })
         .catch(e => {
@@ -98,7 +109,6 @@ describe("exportItem", () => {
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
           expect(options.body).toContain(encodeParam("token", "fake-token"));
-
           done();
         })
         .catch(e => {
