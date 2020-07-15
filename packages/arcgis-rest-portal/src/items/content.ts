@@ -32,12 +32,14 @@ export interface IUserContentResponse extends IPagedResponse {
  * //
  * getUserContent({
  *    username: 'geemike',
+ *    folder: 'bao7',
  *    start: 1,
  *    num: 20,
  *    authentication
  * })
  * ```
- * Returns a listing of the user's content. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/user-content.htm) for more information.
+ * Returns a listing of the user's content. If the `username` is not supplied, it defaults to the username of the authenticated user. If `start` is not specificed it defaults to the first page.
+ * If the `num` is not supplied it is defaulted to 10. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/user-content.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise<IUserContentResponse>
