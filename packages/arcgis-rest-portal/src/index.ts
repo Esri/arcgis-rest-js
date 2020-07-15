@@ -45,6 +45,7 @@ export * from "./util/SearchQueryBuilder";
 // export * from "./util/generic-search"; because its an internal utility method
 export {
   IPagingParams,
+  IPagedResponse,
   IUser,
   IItemAdd,
   IItemUpdate,
