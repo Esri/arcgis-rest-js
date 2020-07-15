@@ -27,7 +27,7 @@ describe("exportItem", () => {
       portal: "https://myorg.maps.arcgis.com/sharing/rest"
     });
 
-    it("should export an item using supplied owner", done => {
+    it("should export an item using the supplied owner", done => {
       const mockResponse: IExportItemResponse = {
         type: 'CSV',
         size: 100,
@@ -56,7 +56,7 @@ describe("exportItem", () => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/geemike/export"
+            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${exportOptions.owner}/export`
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
@@ -78,7 +78,7 @@ describe("exportItem", () => {
         });
     });
 
-    it("should export an item using supplied owner", done => {
+    it("should export an item falling back to the authenticated owner", done => {
       const mockResponse: IExportItemResponse = {
         type: 'CSV',
         size: 100,
@@ -104,7 +104,7 @@ describe("exportItem", () => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/moses/export"
+            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${authentication.username}/export`
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
