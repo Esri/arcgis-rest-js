@@ -56,6 +56,14 @@ describe("getContent", () => {
           title: "Test Title #2",
           type: "CSV"
         }          
+      ],
+      folders: [
+        {
+          username: 'geemike',
+          id: 'ba07',
+          title: 'testing',
+          created: 1576264694000
+        }
       ]
     };
 
@@ -95,6 +103,51 @@ describe("getContent", () => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             `https://myorg.maps.arcgis.com/sharing/rest/content/users/${requestOptions.username}?f=json&start=2&num=1&token=fake-token`
+          );
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should get the user content using the authenticated username", done => {
+      fetchMock.once("*", mockResponse);
+
+      const requestOptions: IUserContentRequestOptions = {
+        start: 2,
+        num: 1,
+        authentication
+      };
+
+      getUserContent(requestOptions).then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${authentication.username}?f=json&start=2&num=1&token=fake-token`
+          );
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should get the user content using the supplied folder", done => {
+      fetchMock.once("*", mockResponse);
+
+      const requestOptions: IUserContentRequestOptions = {
+        folder: "ba07",
+        start: 2,
+        num: 1,
+        authentication
+      };
+
+      getUserContent(requestOptions).then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${authentication.username}/${requestOptions.folder}?f=json&start=2&num=1&token=fake-token`
           );
           done();
         })

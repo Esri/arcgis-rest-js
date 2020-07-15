@@ -2,6 +2,7 @@
  * Apache-2.0 */
 
 export * from "./items/add";
+export * from "./items/content";
 export * from "./items/create";
 export * from "./items/get";
 export * from "./items/protect";

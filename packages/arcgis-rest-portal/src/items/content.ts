@@ -8,7 +8,8 @@ import { getPortalUrl } from "../util/get-portal-url";
 export type UnixTime = number;
 
 export interface IUserContentRequestOptions extends IPagingParams, IRequestOptions {
-  username: string;
+  username?: string;
+  folder?: string;
 }
 
 export interface IFolder {
@@ -22,6 +23,7 @@ export interface IUserContentResponse extends IPagedResponse {
   username: string;
   currentFolder?: IFolder;
   items: IItem[];
+  folders: IFolder[];
 }
 
 /**
@@ -41,15 +43,24 @@ export interface IUserContentResponse extends IPagedResponse {
  * @returns A Promise<IUserContentResponse>
  */
 export const getUserContent = (requestOptions: IUserContentRequestOptions): Promise<IUserContentResponse> => {
-  const { start = 1, num = 10, username, authentication } = requestOptions;
-  const url = `${getPortalUrl(requestOptions)}/content/users/${username}`;
+  const {
+    username,
+    folder,
+    start = 1,
+    num = 10,
+    authentication
+  } = requestOptions;
+  const suffix = folder ? `/${folder}` : ''
+  const usernamePromise: Promise<string> = username ? Promise.resolve(username) : (authentication as any).getUsername();
 
-  return request(url, {
-    httpMethod: 'GET',
-    authentication,
-    params: {
-      start,
-      num
-    }
-  });
+  return usernamePromise
+    .then(root => `${getPortalUrl(requestOptions)}/content/users/${root}${suffix}`)
+    .then(url => request(url, {
+      httpMethod: 'GET',
+      authentication,
+      params: {
+        start,
+        num
+      }
+    }));
 }
