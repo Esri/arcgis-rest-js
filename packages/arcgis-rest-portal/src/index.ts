@@ -51,6 +51,7 @@ export {
   IItemAdd,
   IItemUpdate,
   IItem,
+  IFolder,
   IGroupAdd,
   IGroup,
   GroupMembership

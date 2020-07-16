@@ -4,11 +4,8 @@ import {
   getUserContent, IUserContentResponse, IUserContentRequestOptions
 } from "../../src/items/content";
 
-import { ItemSuccessResponse } from "../mocks/items/item";
-
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { encodeParam } from "@esri/arcgis-rest-request";
 
 describe("getContent", () => {
   afterEach(fetchMock.restore);
@@ -71,7 +68,7 @@ describe("getContent", () => {
       fetchMock.once("*", mockResponse);
 
       const requestOptions: IUserContentRequestOptions = {
-        username: 'geemike',
+        owner: 'geemike',
         authentication
       };
 
@@ -79,7 +76,7 @@ describe("getContent", () => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
-            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${requestOptions.username}?f=json&start=1&num=10&token=fake-token`
+            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${requestOptions.owner}?f=json&start=1&num=10&token=fake-token`
           );
           done();
         })
@@ -92,7 +89,7 @@ describe("getContent", () => {
       fetchMock.once("*", mockResponse);
 
       const requestOptions: IUserContentRequestOptions = {
-        username: 'geemike',
+        owner: 'geemike',
         start: 2,
         num: 1,
         authentication
@@ -102,7 +99,7 @@ describe("getContent", () => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
-            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${requestOptions.username}?f=json&start=2&num=1&token=fake-token`
+            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${requestOptions.owner}?f=json&start=2&num=1&token=fake-token`
           );
           done();
         })
@@ -133,11 +130,11 @@ describe("getContent", () => {
         });
     });
 
-    it("should get the user content using the supplied folder", done => {
+    it("should get the user content using the supplied folderId", done => {
       fetchMock.once("*", mockResponse);
 
       const requestOptions: IUserContentRequestOptions = {
-        folder: "ba07",
+        folderId: "ba07",
         start: 2,
         num: 1,
         authentication
@@ -147,7 +144,7 @@ describe("getContent", () => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
-            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${authentication.username}/${requestOptions.folder}?f=json&start=2&num=1&token=fake-token`
+            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${authentication.username}/${requestOptions.folderId}?f=json&start=2&num=1&token=fake-token`
           );
           done();
         })

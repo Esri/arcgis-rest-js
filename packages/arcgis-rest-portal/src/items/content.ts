@@ -1,22 +1,20 @@
+import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import {
-  request,
-  IRequestOptions
-} from "@esri/arcgis-rest-request";
-import { IPagingParams, IItem, IPagedResponse } from '@esri/arcgis-rest-types';
+  IPagingParams,
+  IItem,
+  IFolder,
+  IPagedResponse,
+} from "@esri/arcgis-rest-types";
 import { getPortalUrl } from "../util/get-portal-url";
+import { determineOwner } from "./helpers";
 
 export type UnixTime = number;
 
-export interface IUserContentRequestOptions extends IPagingParams, IRequestOptions {
-  username?: string;
-  folder?: string;
-}
-
-export interface IFolder {
-  username: string;
-  id: string;
-  title: string;
-  created: UnixTime;
+export interface IUserContentRequestOptions
+  extends IPagingParams,
+    IRequestOptions {
+  owner?: string;
+  folderId?: string;
 }
 
 export interface IUserContentResponse extends IPagedResponse {
@@ -31,8 +29,8 @@ export interface IUserContentResponse extends IPagedResponse {
  * import { getUserContent } from "@esri/arcgis-rest-portal";
  * //
  * getUserContent({
- *    username: 'geemike',
- *    folder: 'bao7',
+ *    owner: 'geemike',
+ *    folderId: 'bao7',
  *    start: 1,
  *    num: 20,
  *    authentication
@@ -44,25 +42,26 @@ export interface IUserContentResponse extends IPagedResponse {
  * @param requestOptions - Options for the request
  * @returns A Promise<IUserContentResponse>
  */
-export const getUserContent = (requestOptions: IUserContentRequestOptions): Promise<IUserContentResponse> => {
+export const getUserContent = (
+  requestOptions: IUserContentRequestOptions
+): Promise<IUserContentResponse> => {
   const {
-    username,
-    folder,
+    folderId: folder,
     start = 1,
     num = 10,
-    authentication
+    authentication,
   } = requestOptions;
-  const suffix = folder ? `/${folder}` : ''
-  const usernamePromise: Promise<string> = username ? Promise.resolve(username) : (authentication as any).getUsername();
+  const suffix = folder ? `/${folder}` : "";
 
-  return usernamePromise
-    .then(root => `${getPortalUrl(requestOptions)}/content/users/${root}${suffix}`)
-    .then(url => request(url, {
-      httpMethod: 'GET',
+  return determineOwner(requestOptions)
+    .then((owner) => `${getPortalUrl(requestOptions)}/content/users/${owner}${suffix}`)
+    .then((url) => request(url, {
+      httpMethod: "GET",
       authentication,
       params: {
         start,
-        num
-      }
-    }));
-}
+        num,
+      },
+    })
+  );
+};
