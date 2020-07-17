@@ -2,6 +2,7 @@
  * Apache-2.0 */
 
 export * from "./items/add";
+export * from "./items/content";
 export * from "./items/create";
 export * from "./items/export";
 export * from "./items/get";
@@ -46,10 +47,12 @@ export * from "./util/SearchQueryBuilder";
 // export * from "./util/generic-search"; because its an internal utility method
 export {
   IPagingParams,
+  IPagedResponse,
   IUser,
   IItemAdd,
   IItemUpdate,
   IItem,
+  IFolder,
   IGroupAdd,
   IGroup,
   GroupMembership
