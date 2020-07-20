@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-portal",
-  "version": "2.13.2",
+  "version": "2.14.0",
   "description": "ArcGIS Online and Enterprise content and user helpers for @esri/arcgis-rest-request",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/portal.umd.js",
@@ -13,12 +13,12 @@
     "dist/**"
   ],
   "dependencies": {
-    "@esri/arcgis-rest-types": "^2.13.2",
+    "@esri/arcgis-rest-types": "^2.14.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^2.13.2",
-    "@esri/arcgis-rest-request": "^2.13.2"
+    "@esri/arcgis-rest-auth": "^2.14.0",
+    "@esri/arcgis-rest-request": "^2.14.0"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^2.0.0",

@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-auth",
-  "version": "2.13.2",
+  "version": "2.14.0",
   "description": "Authentication helpers for @esri/arcgis-rest-js.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/auth.umd.js",
@@ -13,11 +13,11 @@
     "dist/**"
   ],
   "dependencies": {
-    "@esri/arcgis-rest-types": "^2.13.2",
+    "@esri/arcgis-rest-types": "^2.14.0",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-request": "^2.13.2"
+    "@esri/arcgis-rest-request": "^2.14.0"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-request": "^2.0.0"
