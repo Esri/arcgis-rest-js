@@ -21,6 +21,8 @@ npm run release:review
 Before publishing, you will likely need to make a few chages to `CHANGELOG.md` b/c the system to automates this is [far from perfect](https://github.com/Esri/arcgis-rest-js/issues/688). For example:
 - It is very rare that anyone uses `npm run c`, so it is very likely that you will have to manually add changelog entries for whatever has changed since the last release
 - Often the Unreleased section appears below the current release. So please move it to the top.
+- **Note:** Many times the package version is only bumped on *some* of the packages. Make sure that all the `./packages/**/package.json` files have the same, new, version number.
+
 
 Once the changelog looks good, run `git add .` to stage it, and proceed.
 

@@ -5,8 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+
+
 ## [Unreleased][head]
 
+## [2.14.1] - July 23rd 2020
+
+### @esri/arcgis-rest-portal
+
+* Bug Fixes
+  * added `exportItem` allows  `targetSR` to be a `string` or an `ISpatialReference`
 
 ## [2.14.0] - July 20th 2020
 
@@ -19,7 +27,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * New Features
   * added `exportItem` and `getUserContent` functions
-
 
 ## [2.13.2] - June 11th 2020
 
@@ -1678,4 +1685,5 @@ Initial Public Release
 [2.13.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.13.0...v2.13.1 "v2.13.1"
 [2.13.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.13.1...v2.13.2 "v2.13.2"
 [2.14.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.13.2...v2.14.0 "v2.14.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.14.0...HEAD "Unreleased Changes"
+[2.14.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.14.0...v2.14.1 "v2.14.1"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.14.1...HEAD "Unreleased Changes"
