@@ -48,7 +48,10 @@ describe("exportItem", () => {
           layers: [
             { id: 0 },
             { id: 1, where: 'POP1999 > 100000' }
-          ]
+          ],
+          targetSR: {
+            wkid: 102100
+          }
         },
         authentication
       };
