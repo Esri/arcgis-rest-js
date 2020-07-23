@@ -1,6 +1,7 @@
 import { request } from "@esri/arcgis-rest-request";
 import { determineOwner, IUserItemOptions } from './helpers';
 import { getPortalUrl } from "../util/get-portal-url";
+import { ISpatialReference } from '@esri/arcgis-rest-types';
 
 type ExportFormat = 'Shapefile' | 'CSV' | 'File Geodatabase' | 'Feature Collection' | 'GeoJson' | 'Scene Package' | 'KML' | 'Excel';
 
@@ -14,7 +15,7 @@ export interface IExportLayerInfo {
 
 export interface IExportParameters {
   layers: IExportLayerInfo[];
-  targetSR?: string;
+  targetSR?: ISpatialReference | string;
 }
 
 export interface IExportItemRequestOptions extends IUserItemOptions {
