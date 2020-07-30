@@ -2,6 +2,7 @@
  * Apache-2.0 */
 
 export * from "./ApplicationSession";
+export * from "./ApiKey";
 export * from "./UserSession";
 export * from "./fetch-token";
 export * from "./generate-token";
