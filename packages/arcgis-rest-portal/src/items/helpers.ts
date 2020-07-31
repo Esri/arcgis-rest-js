@@ -1,7 +1,7 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IRequestOptions, ArcGISRequestError } from "@esri/arcgis-rest-request";
 import { IItemAdd, IItemUpdate, IItem } from "@esri/arcgis-rest-types";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
@@ -74,11 +74,26 @@ export interface IManageItemRelationshipOptions extends IUserRequestOptions {
   relationshipType: ItemRelationshipType;
 }
 
+export interface IItemInfoOptions extends IUserItemOptions {
+  /**
+   * Subfolder for added information.
+   */
+  folderName?: string;
+  /**
+   * Object to store
+   */
+  file: any;
+}
+
 export interface IItemResourceOptions extends IUserItemOptions {
   /**
    * New resource filename.
    */
   name?: string;
+  /**
+   * Folder in which to store the new resource.
+   */
+  prefix?: string;
   /**
    * Text input to be added as a file resource.
    */
@@ -155,6 +170,13 @@ export interface IUpdateItemResponse {
   id: string;
 }
 
+export interface IItemInfoResponse {
+  success: boolean;
+  itemId: string;
+  owner: string;
+  folder: string;
+}
+
 export interface IItemResourceResponse {
   success: boolean;
   itemId: string;
@@ -220,15 +242,20 @@ export function serializeItem(item: IItemAdd | IItemUpdate | IItem): any {
 }
 
 /**
- * requestOptions.owner is given priority, requestOptions.item.owner will be checked next. If neither are present, authentication.username will be assumed.
+ * `requestOptions.owner` is given priority, `requestOptions.item.owner` will be checked next. If neither are present, `authentication.getUserName()` will be used instead.
  */
-export function determineOwner(requestOptions: any): string {
+export function determineOwner(requestOptions: any): Promise<string> {
   if (requestOptions.owner) {
-    return requestOptions.owner;
-  }
-  if (requestOptions.item && requestOptions.item.owner) {
-    return requestOptions.item.owner;
+    return Promise.resolve(requestOptions.owner);
+  } else if (requestOptions.item && requestOptions.item.owner) {
+    return Promise.resolve(requestOptions.item.owner);
+  } else if (requestOptions.authentication && requestOptions.authentication.getUsername) {
+    return requestOptions.authentication.getUsername();
   } else {
-    return requestOptions.authentication.username;
+    return Promise.reject(
+      new Error(
+        "Could not determine the owner of this item. Pass the `owner`, `item.owner`, or `authentication` option."
+      )
+    );
   }
 }

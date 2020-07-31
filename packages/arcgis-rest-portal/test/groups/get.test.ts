@@ -3,6 +3,7 @@
 
 import {
   getGroup,
+  getGroupCategorySchema,
   getGroupContent,
   getGroupUsers,
   searchGroupUsers
@@ -10,6 +11,7 @@ import {
 
 import {
   GroupResponse,
+  GroupCategorySchemaResponse,
   GroupContentResponse,
   GroupUsersResponse,
   SearchGroupUsersResponse
@@ -29,6 +31,25 @@ describe("groups", () => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://www.arcgis.com/sharing/rest/community/groups/3ef?f=json"
+          );
+          expect(options.method).toBe("GET");
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+  });
+
+  describe("getGroupCategorySchema", () => {
+    it("should return group's category schema", done => {
+      fetchMock.once("*", GroupCategorySchemaResponse);
+      getGroupCategorySchema("3ef")
+        .then(response => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://www.arcgis.com/sharing/rest/community/groups/3ef/categorySchema?f=json"
           );
           expect(options.method).toBe("GET");
           done();

@@ -7,13 +7,17 @@ import { attachmentFile } from "../../../arcgis-rest-feature-layer/test/attachme
 
 import {
   updateItem,
+  updateItemInfo,
   updateItemResource,
   moveItem
 } from "../../src/items/update";
 
 import { ItemSuccessResponse } from "../mocks/items/item";
 
-import { UpdateItemResourceResponse } from "../mocks/items/resources";
+import {
+  UpdateItemResourceResponse,
+  UpdateItemInfoResponse
+} from "../mocks/items/resources";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
@@ -202,6 +206,40 @@ describe("search", () => {
           expect(options.body).toContain(
             encodeParam("text", JSON.stringify(fakeItem.data))
           );
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("update an item info file", done => {
+      fetchMock.once("*", UpdateItemInfoResponse);
+      const fakeData = {
+        values: {
+          key: "someValue"
+        }
+      };
+      updateItemInfo({
+        id: "3ef",
+        folderName: "subfolder",
+        file: fakeData,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateinfo"
+          );
+          expect(options.method).toBe("POST");
+
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("token=fake-token");
+          expect(options.body).toContain(
+            encodeParam("file", JSON.stringify(fakeData))
+          );
+
           done();
         })
         .catch(e => {

@@ -281,7 +281,20 @@ export function request(
         params.token = token;
       }
 
+      // Custom headers to add to request. IRequestOptions.headers with merge over requestHeaders.
+      const requestHeaders: {
+        [key: string]: any;
+      } = {};
+      
       if (fetchOptions.method === "GET") {
+        // Prevents token from being passed in query params when hideToken option is used.
+        /* istanbul ignore if - window is always defined in a browser. Test case is covered by Jasmine in node test */
+        if (params.token && options.hideToken && 
+          // Sharing API does not support preflight check required by modern browsers https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
+          typeof window === 'undefined') {
+          requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`
+          delete params.token;
+        }
         // encode the parameters into the query string
         const queryParams = encodeQueryString(params);
         // dont append a '?' unless parameters are actually present
@@ -289,12 +302,22 @@ export function request(
           queryParams === "" ? url : url + "?" + encodeQueryString(params);
 
         if (
-          options.maxUrlLength &&
-          urlWithQueryString.length > options.maxUrlLength
+          // This would exceed the maximum length for URLs specified by the consumer and requires POST
+          (options.maxUrlLength &&
+          urlWithQueryString.length > options.maxUrlLength) ||
+          // Or if the customer requires the token to be hidden and it has not already been hidden in the header (for browsers)
+          (params.token && options.hideToken)
         ) {
           // the consumer specified a maximum length for URLs
           // and this would exceed it, so use post instead
           fetchOptions.method = "POST";
+
+          // If the token was already added as a Auth header, add the token back to body with other params instead of header
+          if (token.length && options.hideToken) {
+            params.token = token;
+            // Remove existing header that was added before url query length was checked
+            delete requestHeaders["X-Esri-Authorization"];
+          }
         } else {
           // just use GET
           url = urlWithQueryString;
@@ -312,6 +335,7 @@ export function request(
 
       // Mixin headers from request options
       fetchOptions.headers = {
+        ...requestHeaders,
         ...options.headers
       };
 

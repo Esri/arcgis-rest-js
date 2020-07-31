@@ -355,39 +355,33 @@ export class UserSession implements IAuthenticationManager {
 
     function completeSignIn(error: any, oauthInfo?: IFetchTokenResponse) {
       try {
-        if (
-          popup &&
-          win.opener &&
-          win.opener.parent &&
-          win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`]
-        ) {
-          const handlerFn =
-            win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
-          if (handlerFn) {
-            handlerFn(
-              error ? JSON.stringify(error) : undefined,
-              JSON.stringify(oauthInfo)
-            );
-          }
-          win.close();
-          return undefined;
-        }
+        let handlerFn;
+        const handlerFnName = `__ESRI_REST_AUTH_HANDLER_${clientId}`;
 
-        if (
-          popup &&
-          win !== win.parent &&
-          win.parent &&
-          win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`]
-        ) {
-          const handlerFn = win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
+        if (popup) {
+          // Guard b/c IE does not support window.opener
+          if (win.opener) {
+            if (win.opener.parent && win.opener.parent[handlerFnName]) {
+              handlerFn = win.opener.parent[handlerFnName];
+            } else if (win.opener && win.opener[handlerFnName]) {
+              // support pop-out oauth from within an iframe
+              handlerFn = win.opener[handlerFnName];
+            }
+          } else {
+            // IE
+            if (win !== win.parent && win.parent && win.parent[handlerFnName]) {
+              handlerFn = win.parent[handlerFnName];
+            }
+          }
+          // if we have a handler fn, call it and close the window
           if (handlerFn) {
             handlerFn(
               error ? JSON.stringify(error) : undefined,
               JSON.stringify(oauthInfo)
             );
+            win.close();
+            return undefined;
           }
-          win.close();
-          return undefined;
         }
       } catch (e) {
         throw new ArcGISAuthError(
@@ -616,6 +610,7 @@ export class UserSession implements IAuthenticationManager {
   private _tokenExpires: Date;
   private _refreshToken: string;
   private _refreshTokenExpires: Date;
+  private _pendingUserRequest: Promise<IUser>;
 
   /**
    * Internal object to keep track of pending token requests. Used to prevent
@@ -728,12 +723,12 @@ export class UserSession implements IAuthenticationManager {
    * @returns A Promise that will resolve with the data from the response.
    */
   public getUser(requestOptions?: IRequestOptions): Promise<IUser> {
-    if (this._user && this._user.username === this.username) {
+    if (this._pendingUserRequest) {
+      return this._pendingUserRequest;
+    } else if (this._user) {
       return Promise.resolve(this._user);
     } else {
-      const url = `${this.portal}/community/users/${encodeURIComponent(
-        this.username
-      )}`;
+      const url = `${this.portal}/community/self`;
 
       const options = {
         httpMethod: "GET",
@@ -741,9 +736,35 @@ export class UserSession implements IAuthenticationManager {
         ...requestOptions,
         rawResponse: false
       } as IRequestOptions;
-      return request(url, options).then(response => {
+
+      this._pendingUserRequest = request(url, options).then(response => {
         this._user = response;
+        this._pendingUserRequest = null;
         return response;
+      });
+
+      return this._pendingUserRequest;
+    }
+  }
+
+  /**
+   * Returns the username for the currently logged in [user](https://developers.arcgis.com/rest/users-groups-and-items/user.htm). Subsequent calls will *not* result in additional web traffic. This is also used internally when a username is required for some requests but is not present in the options.
+   *
+   *    * ```js
+   * session.getUsername()
+   *   .then(response => {
+   *     console.log(response); // "casey_jones"
+   *   })
+   * ```
+   */
+  public getUsername() {
+    if (this.username) {
+      return Promise.resolve(this.username);
+    } else if (this._user) {
+      return Promise.resolve(this._user.username);
+    } else {
+      return this.getUser().then(user => {
+        return user.username;
       });
     }
   }
@@ -794,6 +815,7 @@ export class UserSession implements IAuthenticationManager {
   ): Promise<UserSession> {
     // make sure subsequent calls to getUser() don't returned cached metadata
     this._user = null;
+
     if (this.username && this.password) {
       return this.refreshWithUsernameAndPassword(requestOptions);
     }
@@ -931,6 +953,10 @@ export class UserSession implements IAuthenticationManager {
    * Returns an unexpired token for the current `portal`.
    */
   private getFreshToken(requestOptions?: ITokenRequestOptions) {
+    if (this.token && !this.tokenExpires) {
+      return Promise.resolve(this.token);
+    }
+
     if (
       this.token &&
       this.tokenExpires &&

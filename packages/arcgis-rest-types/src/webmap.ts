@@ -22,21 +22,20 @@ import {
 /**
  * Field type.
  */
-export const enum FieldType {
-  Blob = "esriFieldTypeBlob",
-  Date = "esriFieldTypeDate",
-  Double = "esriFieldTypeDouble",
-  Geometry = "esriFieldTypeGeometry",
-  GlobalID = "esriFieldTypeGlobalID",
-  GUID = "esriFieldTypeGUID",
-  Integer = "esriFieldTypeInteger",
-  OID = "esriFieldTypeOID",
-  Raster = "esriFieldTypeRaster",
-  Single = "esriFieldTypeSingle",
-  SmallInteger = "esriFieldTypeSmallInteger",
-  String = "esriFieldTypeString",
-  XML = "esriFieldTypeXML"
-}
+export type FieldType =
+  | "esriFieldTypeBlob"
+  | "esriFieldTypeDate"
+  | "esriFieldTypeDouble"
+  | "esriFieldTypeGeometry"
+  | "esriFieldTypeGlobalID"
+  | "esriFieldTypeGUID"
+  | "esriFieldTypeInteger"
+  | "esriFieldTypeOID"
+  | "esriFieldTypeRaster"
+  | "esriFieldTypeSingle"
+  | "esriFieldTypeSmallInteger"
+  | "esriFieldTypeString"
+  | "esriFieldTypeXML";
 
 /**
  * Contains information about an attribute field.
@@ -51,21 +50,7 @@ export interface IField {
   /** A string defining the field name. */
   name: string;
   /** A string defining the field type. */
-  type:
-    | "esriFieldTypeBlob"
-    | "esriFieldTypeDate"
-    | "esriFieldTypeDouble"
-    | "esriFieldTypeGeometry"
-    | "esriFieldTypeGlobalID"
-    | "esriFieldTypeGUID"
-    | "esriFieldTypeInteger"
-    | "esriFieldTypeOID"
-    | "esriFieldTypeRaster"
-    | "esriFieldTypeSingle"
-    | "esriFieldTypeSmallInteger"
-    | "esriFieldTypeString"
-    | "esriFieldTypeXML"
-    | FieldType;
+  type: FieldType;
   /** A string defining the field alias. */
   alias?: string;
   /** The domain objects if applicable. */
@@ -95,29 +80,21 @@ export interface IPagingParams {
   start?: number;
   num?: number;
 }
-
 /**
- * Date fields types to specify how the date should appear in popup windows
+ * Paging properties for paged responses.
+ *
+ * `IPagedResponse` can also be imported from the following packages:
+ *
+ * ```js
+ * import { IPagedResponse } from "@esri/arcgis-rest-portal";
+ * ```
  */
-export const enum DateFormat {
-  ShortDate = "shortDate",
-  ShortDateLE = "shortDateLE",
-  LongMonthDayYear = "longMonthDayYear",
-  DayShortMonthYear = "dayShortMonthYear",
-  LongDate = "longDate",
-  ShortDateShortTime = "shortDateShortTime",
-  ShortDateLEShortTime = "shortDateLEShortTime",
-  ShortDateShortTime24 = "shortDateShortTime24",
-  ShortDateLEShortTime24 = "shortDateLEShortTime24",
-  ShortDateLongTime = "shortDateLongTime",
-  ShortDateLELongTime = "shortDateLELongTime",
-  ShortDateLongTime24 = "shortDateLongTime24",
-  ShortDateLELongTime24 = "shortDateLELongTime24",
-  LongMonthYear = "longMonthYear",
-  ShortMonthYear = "shortMonthYear",
-  Year = "year"
+export interface IPagedResponse extends IPagingParams {
+  /** total number of object across all pages */
+  total: number;
+  /** next entry index or -1 for the last page */
+  nextStart: number;
 }
-
 /**
  * The format object can be used with numerical or date fields to provide more detail about how values should be displayed in popup windows.
  */
@@ -139,8 +116,7 @@ export interface IFieldFormat {
     | "shortDateLELongTime24"
     | "longMonthYear"
     | "shortMonthYear"
-    | "year"
-    | DateFormat;
+    | "year";
 
   /**
    * A Boolean used with numerical fields. A value of true allows the number to have a digit (or thousands) separator when the value appears in popup windows.

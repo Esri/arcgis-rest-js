@@ -49,9 +49,7 @@ export function setItemAccess(
       } else {
         // if neither, updating the sharing isnt possible
         throw Error(
-          `This item can not be shared by ${
-            requestOptions.authentication.username
-          }. They are neither the item owner nor an organization admin.`
+          `This item can not be shared by ${requestOptions.authentication.username}. They are neither the item owner nor an organization admin.`
         );
       }
     });

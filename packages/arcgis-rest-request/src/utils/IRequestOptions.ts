@@ -23,6 +23,12 @@ export interface IRequestOptions {
    */
   authentication?: IAuthenticationManager;
   /**
+   * Prevents the token from being passed in a URL Query param that is saved in browser history.
+   * Instead, the token will be passed in POST request body or through X-Esri-Authorization header.
+   * NOTE: This will force POST requests in browsers since auth header is not yet supported by preflight OPTIONS check with CORS.
+   */
+  hideToken?: boolean;
+  /**
    * Base url for the portal you want to make the request to. Defaults to 'https://www.arcgis.com/sharing/rest'.
    */
   portal?: string;

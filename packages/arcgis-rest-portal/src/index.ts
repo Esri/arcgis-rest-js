@@ -2,7 +2,9 @@
  * Apache-2.0 */
 
 export * from "./items/add";
+export * from "./items/content";
 export * from "./items/create";
+export * from "./items/export";
 export * from "./items/get";
 export * from "./items/protect";
 export * from "./items/reassign";
@@ -21,6 +23,7 @@ export * from "./groups/protect";
 export * from "./groups/remove";
 export * from "./groups/search";
 export * from "./groups/update";
+export * from "./groups/update-user-membership";
 export * from "./groups/join";
 
 export * from "./users/get-user";
@@ -36,6 +39,7 @@ export * from "./sharing/group-sharing";
 export * from "./sharing/helpers";
 
 export * from "./util/get-portal";
+export * from "./util/get-portal-settings";
 export * from "./util/get-portal-url";
 export * from "./util/search";
 export * from "./util/SearchQueryBuilder";
@@ -43,10 +47,12 @@ export * from "./util/SearchQueryBuilder";
 // export * from "./util/generic-search"; because its an internal utility method
 export {
   IPagingParams,
+  IPagedResponse,
   IUser,
   IItemAdd,
   IItemUpdate,
   IItem,
+  IFolder,
   IGroupAdd,
   IGroup,
   GroupMembership

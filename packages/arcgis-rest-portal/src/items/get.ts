@@ -80,7 +80,7 @@ export function getItemData(
     /* if the item doesn't include data, the response will be empty
        and the internal call to response.json() will fail */
     const emptyResponseErr = RegExp(
-      /Unexpected end of (JSON input|data at line 1 column 1)/i
+      /The string did not match the expected pattern|(Unexpected end of (JSON input|data at line 1 column 1))/i
     );
     /* istanbul ignore else */
     if (emptyResponseErr.test(err.message)) {
@@ -228,18 +228,19 @@ export interface IGetItemStatusResponse {
 export function getItemStatus(
   requestOptions: IItemStatusOptions
 ): Promise<IGetItemStatusResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.id
-  }/status`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.id
+    }/status`;
 
-  const options = appendCustomParams<IItemStatusOptions>(
-    requestOptions,
-    ["jobId", "jobType"],
-    { params: { ...requestOptions.params } }
-  );
+    const options = appendCustomParams<IItemStatusOptions>(
+      requestOptions,
+      ["jobId", "jobType"],
+      { params: { ...requestOptions.params } }
+    );
 
-  return request(url, options);
+    return request(url, options);
+  });
 }
 
 export interface IGetItemPartsResponse {
@@ -265,9 +266,10 @@ export interface IGetItemPartsResponse {
 export function getItemParts(
   requestOptions: IUserItemOptions
 ): Promise<IGetItemPartsResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.id
-  }/parts`;
-  return request(url, requestOptions);
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.id
+    }/parts`;
+    return request(url, requestOptions);
+  });
 }
