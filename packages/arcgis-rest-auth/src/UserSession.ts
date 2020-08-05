@@ -38,7 +38,12 @@ interface IDeferred<T> {
   reject: (v: any) => void;
 }
 
-export type AuthenticationProvider = "arcgis" | "facebook" | "google";
+export type AuthenticationProvider =
+  | "arcgis"
+  | "facebook"
+  | "google"
+  | "github"
+  | "apple";
 
 /**
  * Represents a [credential](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-Credential.html)
