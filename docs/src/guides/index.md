@@ -39,7 +39,7 @@ IE11 and older mobile browsers require polyfills.
 
 ## Node.js Support
 
-ArcGIS REST JS is supported in Node.js 6.x and 8.x. It requires additional packages to polyfill `Fetch` and `FormData`.
+ArcGIS REST JS is supported in Node.js 6.x and above. It requires additional packages to polyfill `Fetch` and `FormData`.
 
 We recommend the ones below:
 
