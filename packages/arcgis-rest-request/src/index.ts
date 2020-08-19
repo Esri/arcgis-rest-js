@@ -7,6 +7,7 @@ export * from "./utils/ArcGISRequestError";
 export * from "./utils/clean-url";
 export * from "./utils/encode-form-data";
 export * from "./utils/encode-query-string";
+export * from "./utils/decode-query-string";
 export * from "./utils/ErrorTypes";
 export * from "./utils/GrantTypes";
 export * from "./utils/HTTPMethods";
