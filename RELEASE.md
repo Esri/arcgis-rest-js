@@ -24,7 +24,7 @@ npm run release:review
 
 First, lerna does **not** manage `peerDependencies`. We have to update them ourselves as needed. For example, if you've added a feature to a package (i.e. bumping minor) _and you've also updated other packages w/in the monorepo to use that feature_, you will need to manually update the `peerDependencies` of those other packages. Note that if you add features but they are not used w/in the monorepo, then you should **not** have to update any `peerDependencies`.
 
-Secoend you will likely need to manually update the `CHANGELOG.md` b/c the system to automates this is [far from perfect](https://github.com/Esri/arcgis-rest-js/issues/688). For example:
+Second, you will likely need to manually update the `CHANGELOG.md` b/c the system to automates this is [far from perfect](https://github.com/Esri/arcgis-rest-js/issues/688). For example:
 - It is very rare that anyone uses `npm run c`, so it is very likely that you will have to manually add changelog entries for whatever has changed since the last release
 - Often the Unreleased section appears below the current release. So please move it to the top.
 
