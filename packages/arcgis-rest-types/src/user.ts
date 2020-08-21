@@ -31,6 +31,7 @@ export interface IUser {
   storageUsage?: number;
   storageQuota?: number;
   orgId?: string;
+  cOrgId?: string;
   role?: "org_admin" | "org_publisher" | "org_user";
   privileges?: string[];
   roleId?: string;

@@ -5,9 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-
-
 ## [Unreleased][head]
+
+## [2.15.0] - August 19th 2020
+
+### @esri/arcgis-rest-portal
+
+* New Features
+  * **portal** `inviteGroupUsers` - Invites users to join a group
+  * **portal** `createOrgNotification` - Send notifications to members of an org - either via email or internal
+
+### @esri/arcgis-rest-auth
+
+* Bug Fixes
+   * **auth**: add additional authentication providers [`85f73b22`](https://github.com/Esri/arcgis-rest-js/commit/85f73b22c17a3a3ae72b559a63df2aef8297828c)
+   * **auth**: improve query and error handling when completing sign in [`4b3905ca`](https://github.com/Esri/arcgis-rest-js/commit/4b3905ca6517443c9237a44c0fc3249e579db8f5)
+
+### @esri/arcgis-rest-request
+
+* Bug Fixes
+   * **auth**: improve query and error handling when completing sign in [`4b3905ca`](https://github.com/Esri/arcgis-rest-js/commit/4b3905ca6517443c9237a44c0fc3249e579db8f5)
+
+
+
+
 
 ## [2.14.1] - July 23rd 2020
 
@@ -1686,4 +1707,5 @@ Initial Public Release
 [2.13.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.13.1...v2.13.2 "v2.13.2"
 [2.14.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.13.2...v2.14.0 "v2.14.0"
 [2.14.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.14.0...v2.14.1 "v2.14.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.14.1...HEAD "Unreleased Changes"
+[2.15.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.14.1...v2.15.0 "v2.15.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.15.0...HEAD "Unreleased Changes"
