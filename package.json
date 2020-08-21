@@ -72,10 +72,6 @@
       "git add"
     ]
   },
-  "resolutions": {
-    "typescript": "3.9.7",
-    "tslib": "1.13.0"
-  },
   "scripts": {
     "tsv": "tsc -v",
     "build": "lerna run build",
