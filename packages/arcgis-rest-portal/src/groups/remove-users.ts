@@ -8,7 +8,6 @@ import {
 } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "../util/get-portal-url";
 import { chunk } from "../util/array";
-import { Z_MEM_ERROR } from 'zlib';
 
 export interface IRemoveGroupUsersOptions extends IRequestOptions {
   /**

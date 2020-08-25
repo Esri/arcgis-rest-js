@@ -4,8 +4,7 @@ import { getPortalUrl } from "../util/get-portal-url";
 import {
   IGroupSharingOptions,
   ISharingResponse,
-  getUserMembership,
-  isItemOwner
+  getUserMembership
 } from "./helpers";
 import { getUser } from "../users/get-user";
 import { addGroupUsers, IAddGroupUsersResult } from "../groups/add-users";
