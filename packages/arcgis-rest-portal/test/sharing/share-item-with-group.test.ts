@@ -1140,84 +1140,84 @@ describe("shareItemWithGroup() ::", () => {
           fail();
         });
     });
-  //   it("should upgrade user to group admin, add admin as member, then share item, then remove admin user", done => {
-  //     fetchMock
-  //       .once(
-  //         "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
-  //         {
-  //           ...OrgAdminUserResponse,
-  //           groups: [
-  //             {
-  //               ...OrgAdminUserResponse.groups[0],
-  //               userMembership: {
-  //                 ...OrgAdminUserResponse.groups[0].userMembership,
-  //                 memberType: "member"
-  //               }
-  //             }
-  //           ]
-  //         }
-  //       )
-  //       .once(
-  //         "https://myorg.maps.arcgis.com/sharing/rest/search",
-  //         NoResultsSearchResponse
-  //       )
-  //       .get(
-  //         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b?f=json&token=fake-token",
-  //         GroupNonMemberResponse
-  //       )
-  //       .once(
-  //         "https://myorg.maps.arcgis.com/sharing/rest/community/users/casey?f=json&token=fake-token",
-  //         {
-  //           username: "casey",
-  //           orgId: "qWAReEOCnD7eTxOe",
-  //           groups: [
-  //             {
-  //               id: "t6b",
-  //               userMembership: {
-  //                 memberType: "member"
-  //               }
-  //             }
-  //           ] as any[]
-  //         }
-  //       )
-  //       .once(
-  //         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/updateUsers",
-  //         { results: [{ username: "casey", success: true }] }
-  //       )
-  //       .post(
-  //         "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share",
-  //         { notSharedWith: [], itemId: "n3v" }
-  //       );
+    it("should upgrade user to group admin, add admin as member, then share item, then remove admin user", done => {
+      fetchMock
+        .once(
+          "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
+          {
+            ...OrgAdminUserResponse,
+            groups: [
+              {
+                ...OrgAdminUserResponse.groups[0],
+                userMembership: {
+                  ...OrgAdminUserResponse.groups[0].userMembership,
+                  memberType: "member"
+                }
+              }
+            ]
+          }
+        )
+        .once(
+          "https://myorg.maps.arcgis.com/sharing/rest/search",
+          NoResultsSearchResponse
+        )
+        .get(
+          "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b?f=json&token=fake-token",
+          GroupNonMemberResponse
+        )
+        .once(
+          "https://myorg.maps.arcgis.com/sharing/rest/community/users/casey?f=json&token=fake-token",
+          {
+            username: "casey",
+            orgId: "qWAReEOCnD7eTxOe",
+            groups: [
+              {
+                id: "t6b",
+                userMembership: {
+                  memberType: "member"
+                }
+              }
+            ] as any[]
+          }
+        )
+        .once(
+          "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/updateUsers",
+          { results: [{ username: "casey", success: true }] }
+        )
+        .post(
+          "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share",
+          { notSharedWith: [], itemId: "n3v" }
+        );
 
-  //     shareItemWithGroup({
-  //       authentication: MOCK_USER_SESSION,
-  //       id: "n3v",
-  //       groupId: "t6b",
-  //       owner: "casey",
-  //       confirmItemControl: true
-  //     })
-  //       .then(result => {
-  //         expect(fetchMock.done()).toBeTruthy(
-  //           "All fetchMocks should have been called"
-  //         );
-  //         // verify we added casey to t6b
-  //         const addUsersOptions: RequestInit = fetchMock.lastOptions(
-  //           "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/updateUsers"
-  //         );
-  //         expect(addUsersOptions.body).toContain("admins=casey");
-  //         // verify we shared the item
-  //         const shareOptions: RequestInit = fetchMock.lastOptions(
-  //           "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
-  //         );
-  //         expect(shareOptions.body).toContain("groups=t6b");
-  //         expect(shareOptions.body).toContain("confirmItemControl=true");
+      shareItemWithGroup({
+        authentication: MOCK_USER_SESSION,
+        id: "n3v",
+        groupId: "t6b",
+        owner: "casey",
+        confirmItemControl: true
+      })
+        .then(result => {
+          expect(fetchMock.done()).toBeTruthy(
+            "All fetchMocks should have been called"
+          );
+          // verify we added casey to t6b
+          const addUsersOptions: RequestInit = fetchMock.lastOptions(
+            "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/updateUsers"
+          );
+          expect(addUsersOptions.body).toContain("admins=casey");
+          // verify we shared the item
+          const shareOptions: RequestInit = fetchMock.lastOptions(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
+          );
+          expect(shareOptions.body).toContain("groups=t6b");
+          expect(shareOptions.body).toContain("confirmItemControl=true");
 
-  //         done();
-  //       })
-  //       .catch(e => {
-  //         fail();
-  //       });
-  //   });
+          done();
+        })
+        .catch(e => {
+          fail();
+        });
+    });
   });
   describe("ensureMembership", function () {
     it("should revert the user promotion and suppress resolved error", done => {
