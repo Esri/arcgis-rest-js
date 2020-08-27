@@ -48,7 +48,6 @@ export interface IMoveItemOptions extends ICreateUpdateItemOptions {
  * ```
  * Update an Item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-item.htm) for more information.
  *
- * @param item - The item to update.
  * @param requestOptions - Options for the request.
  * @returns A Promise that updates an item.
  */
