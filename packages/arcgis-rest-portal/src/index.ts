@@ -15,6 +15,7 @@ export * from "./items/helpers";
 export * from "./items/upload";
 
 export * from "./groups/add-users";
+export * from "./groups/invite-users";
 export * from "./groups/create";
 export * from "./groups/get";
 export * from "./groups/helpers";
@@ -25,6 +26,8 @@ export * from "./groups/search";
 export * from "./groups/update";
 export * from "./groups/update-user-membership";
 export * from "./groups/join";
+
+export * from "./orgs/notification";
 
 export * from "./users/get-user";
 export * from "./users/get-user-tags";

@@ -20,12 +20,16 @@ npm run release:review
 
 **IMPORTANT** 
 
-Before publishing, you will likely need to make a few chages to `CHANGELOG.md` b/c the system to automates this is [far from perfect](https://github.com/Esri/arcgis-rest-js/issues/688). For example:
+**Before publishing, you will likely need to make a few changes manually.**
+
+First, lerna does **not** manage `peerDependencies`. We have to update them ourselves as needed. For example, if you've added a feature to a package (i.e. bumping minor) _and you've also updated other packages w/in the monorepo to use that feature_, you will need to manually update the `peerDependencies` of those other packages. Note that if you add features but they are not used w/in the monorepo, then you should **not** have to update any `peerDependencies`.
+
+Second, you will likely need to manually update the `CHANGELOG.md` b/c the system to automates this is [far from perfect](https://github.com/Esri/arcgis-rest-js/issues/688). For example:
 - It is very rare that anyone uses `npm run c`, so it is very likely that you will have to manually add changelog entries for whatever has changed since the last release
 - Often the Unreleased section appears below the current release. So please move it to the top.
 
 
-Once the changelog looks good, run `git add .` to stage it, and proceed.
+After you've made these changes, run `git add .` to stage it, and proceed.
 
 The last command increments the version in the root package.json, pushes the new tag to GitHub and publishes a release of each individual package on npm.
 

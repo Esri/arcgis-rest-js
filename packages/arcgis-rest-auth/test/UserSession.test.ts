@@ -893,8 +893,8 @@ describe("UserSession", () => {
     it("should return a new user session if it cannot find a valid parent", () => {
       const MockWindow = {
         location: {
-          href:
-            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey&ssl=true&persist=true"
+          hash:
+            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true&persist=true"
         },
         get parent() {
           return this;
@@ -918,8 +918,8 @@ describe("UserSession", () => {
     it("should return a new user session with ssl as false when callback hash does not have ssl parameter", () => {
       const MockWindow = {
         location: {
-          href:
-            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey&persist=true"
+          hash:
+            "#access_token=token&expires_in=1209600&username=c%40sey&persist=true"
         },
         get parent() {
           return this;
@@ -958,8 +958,8 @@ describe("UserSession", () => {
           done();
         },
         location: {
-          href:
-            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey&ssl=true"
+          hash:
+            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true"
         }
       };
 
@@ -992,8 +992,8 @@ describe("UserSession", () => {
           done();
         },
         location: {
-          href:
-            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey&ssl=true"
+          hash:
+            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true"
         }
       };
 
@@ -1026,8 +1026,8 @@ describe("UserSession", () => {
           done();
         },
         location: {
-          href:
-            "https://example-app.com/redirect-uri#access_token=token&expires_in=1209600&username=c%40sey&ssl=true"
+          hash:
+            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true"
         }
       };
 
@@ -1043,8 +1043,7 @@ describe("UserSession", () => {
     it("should throw an error from the authorization window", () => {
       const MockWindow = {
         location: {
-          href:
-            "https://example-app.com/redirect-uri#error=Invalid_Signin&error_description=Invalid_Signin"
+          hash: "#error=Invalid_Signin&error_description=Invalid_Signin"
         },
         get parent() {
           return this;
@@ -1073,8 +1072,7 @@ describe("UserSession", () => {
 
       const MockWindow = {
         location: {
-          href:
-            "https://example-app.com/redirect-uri#error=Invalid_Signin&error_description=Invalid_Signin"
+          hash: "#error=Invalid_Signin&error_description=Invalid_Signin"
         },
         get opener() {
           return MockParent;
@@ -1091,6 +1089,27 @@ describe("UserSession", () => {
         );
       }).toThrowError(ArcGISAuthError);
     });
+  });
+
+  it("should throw an unknown error if the url has no error or access_token", () => {
+    const MockWindow = {
+      location: {
+        hash: ""
+      },
+      get opener() {
+        return this;
+      }
+    };
+
+    expect(function() {
+      UserSession.completeOAuth2(
+        {
+          clientId: "clientId",
+          redirectUri: "https://example-app.com/redirect-uri"
+        },
+        MockWindow
+      );
+    }).toThrowError(ArcGISRequestError, "Unknown error");
   });
 
   describe(".authorize()", () => {

@@ -7,6 +7,8 @@ notifications:
 node_js:
   - "node"
   - "lts/*"
+  - 10
+  - 8
 cache: npm
 script:
   - npm run test:ci
