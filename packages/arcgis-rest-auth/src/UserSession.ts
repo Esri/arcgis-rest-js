@@ -20,7 +20,8 @@ import {
   IAuthenticationManager,
   ITokenRequestOptions,
   cleanUrl,
-  encodeQueryString
+  encodeQueryString,
+  decodeQueryString
 } from "@esri/arcgis-rest-request";
 import { IUser } from "@esri/arcgis-rest-types";
 import { generateToken } from "./generate-token";
@@ -38,7 +39,12 @@ interface IDeferred<T> {
   reject: (v: any) => void;
 }
 
-export type AuthenticationProvider = "arcgis" | "facebook" | "google";
+export type AuthenticationProvider =
+  | "arcgis"
+  | "facebook"
+  | "google"
+  | "github"
+  | "apple";
 
 /**
  * Represents a [credential](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-Credential.html)
@@ -355,39 +361,33 @@ export class UserSession implements IAuthenticationManager {
 
     function completeSignIn(error: any, oauthInfo?: IFetchTokenResponse) {
       try {
-        if (
-          popup &&
-          win.opener &&
-          win.opener.parent &&
-          win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`]
-        ) {
-          const handlerFn =
-            win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
-          if (handlerFn) {
-            handlerFn(
-              error ? JSON.stringify(error) : undefined,
-              JSON.stringify(oauthInfo)
-            );
-          }
-          win.close();
-          return undefined;
-        }
+        let handlerFn;
+        const handlerFnName = `__ESRI_REST_AUTH_HANDLER_${clientId}`;
 
-        if (
-          popup &&
-          win !== win.parent &&
-          win.parent &&
-          win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`]
-        ) {
-          const handlerFn = win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
+        if (popup) {
+          // Guard b/c IE does not support window.opener
+          if (win.opener) {
+            if (win.opener.parent && win.opener.parent[handlerFnName]) {
+              handlerFn = win.opener.parent[handlerFnName];
+            } else if (win.opener && win.opener[handlerFnName]) {
+              // support pop-out oauth from within an iframe
+              handlerFn = win.opener[handlerFnName];
+            }
+          } else {
+            // IE
+            if (win !== win.parent && win.parent && win.parent[handlerFnName]) {
+              handlerFn = win.parent[handlerFnName];
+            }
+          }
+          // if we have a handler fn, call it and close the window
           if (handlerFn) {
             handlerFn(
               error ? JSON.stringify(error) : undefined,
               JSON.stringify(oauthInfo)
             );
+            win.close();
+            return undefined;
           }
-          win.close();
-          return undefined;
         }
       } catch (e) {
         throw new ArcGISAuthError(
@@ -409,29 +409,26 @@ export class UserSession implements IAuthenticationManager {
       });
     }
 
-    const match = win.location.href.match(
-      /access_token=(.+)&expires_in=(.+)&username=([^&]+)/
-    );
+    const params = decodeQueryString(win.location.hash);
 
-    if (!match) {
-      const errorMatch = win.location.href.match(
-        /error=(.+)&error_description=(.+)/
-      );
+    if (!params.access_token) {
+      let error;
+      let errorMessage = "Unknown error";
 
-      const error = errorMatch[1];
-      const errorMessage = decodeURIComponent(errorMatch[2]);
+      if (params.error) {
+        error = params.error;
+        errorMessage = params.error_description;
+      }
 
       return completeSignIn({ error, errorMessage });
     }
 
-    const token = match[1];
+    const token = params.access_token;
     const expires = new Date(
-      Date.now() + parseInt(match[2], 10) * 1000 - 60 * 1000
+      Date.now() + parseInt(params.expires_in, 10) * 1000 - 60 * 1000
     );
-    const username = decodeURIComponent(match[3]);
-    const ssl =
-      win.location.href.indexOf("&ssl=true") > -1 ||
-      win.location.href.indexOf("#ssl=true") > -1;
+    const username = params.username;
+    const ssl = params.ssl === "true";
 
     return completeSignIn(undefined, {
       token,

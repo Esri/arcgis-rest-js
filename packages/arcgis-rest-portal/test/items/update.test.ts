@@ -176,6 +176,7 @@ describe("search", () => {
 
       updateItem({
         item: fakeItem,
+        folderId: "aFolder",
         params: { foo: "bar" },
         ...MOCK_USER_REQOPTS
       })
@@ -183,7 +184,7 @@ describe("search", () => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/5bc/update"
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/aFolder/items/5bc/update"
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain(encodeParam("f", "json"));
