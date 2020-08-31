@@ -5,6 +5,10 @@
  * Helper method to ensure that user supplied urls don't include whitespace or a trailing slash.
  */
 export function cleanUrl(url: string) {
+  // Guard so we don't try to trim something that's not a string
+  if (typeof url !== "string") {
+    return url;
+  }
   // trim leading and trailing spaces, but not spaces inside the url
   url = url.trim();
 
