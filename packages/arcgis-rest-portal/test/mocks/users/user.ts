@@ -143,6 +143,7 @@ export const GroupAdminUserResponse: IUser = {
 export const OrgAdminUserResponse: IUser = {
   ...GroupAdminUserResponse,
   role: "org_admin",
+  roleId: undefined,
   groups: [
     {
       id: "t6b",
