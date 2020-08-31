@@ -31,10 +31,6 @@ import { getUser } from "../users/get-user";
 export function unshareItemWithGroup (
   requestOptions: IGroupSharingOptions
 ): Promise<ISharingResponse> {
-  const {
-    authentication: { username },
-    owner
-  } = requestOptions;
   return isItemSharedWithGroup(requestOptions)
     .then(isShared => {
       // not shared
@@ -47,6 +43,11 @@ export function unshareItemWithGroup (
         } as ISharingResponse);
       }
 
+      const {
+        authentication: { username },
+        owner
+      } = requestOptions;
+
       // next check if the user is a member of the group
       return Promise.all([
         getUserMembership(requestOptions),
@@ -58,7 +59,7 @@ export function unshareItemWithGroup (
         .then(([membership, currentUser]) => {
           const itemOwner = owner || username;
           const isItemOwner = itemOwner === username;
-          const isAdmin = currentUser.role === 'org_admin';
+          const isAdmin = currentUser.role === 'org_admin' && !currentUser.roleId;
 
           if (!isItemOwner && !isAdmin && ['admin', 'owner'].indexOf(membership) < 0) {
             // abort and reject promise
