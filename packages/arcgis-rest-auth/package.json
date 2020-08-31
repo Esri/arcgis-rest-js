@@ -14,7 +14,7 @@
   ],
   "dependencies": {
     "@esri/arcgis-rest-types": "^2.15.0",
-    "tslib": "^1.9.3"
+    "tslib": "^1.13.0"
   },
   "devDependencies": {
     "@esri/arcgis-rest-request": "^2.15.0"

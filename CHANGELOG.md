@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][head]
 
+### General
+* ensure all projects use tslib ^1.10.0
+* bump `rollup-plugin-typescript2` to `0.22.0` which also uses ^1.10.0
+
 ## [2.15.0] - August 19th 2020
 
 ### @esri/arcgis-rest-portal
