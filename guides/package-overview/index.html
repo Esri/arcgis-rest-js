@@ -146,14 +146,14 @@ url += <span class="hljs-string">`deleteFeatures`</span>;
 
 fetch(url, {
   <span class="hljs-comment">// set the request type</span>
-  method: <span class="hljs-string">"POST"</span>,
+  <span class="hljs-attr">method</span>: <span class="hljs-string">"POST"</span>,
   <span class="hljs-comment">// append appropriate headers</span>
-  headers: {
+  <span class="hljs-attr">headers</span>: {
     <span class="hljs-string">"Content-Type"</span>: <span class="hljs-string">"application/x-www-form-urlencoded"</span>
   },
   <span class="hljs-comment">// concatentate and encode each parameter manually</span>
   <span class="hljs-comment">// and remember to append f=json</span>
-  body: <span class="hljs-string">`objectIds=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(<span class="hljs-number">2360245</span>)}</span>&amp;f=json`</span>
+  <span class="hljs-attr">body</span>: <span class="hljs-string">`objectIds=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(<span class="hljs-number">2360245</span>)}</span>&amp;f=json`</span>
 })
   .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
     <span class="hljs-comment">// cast the response as JSON</span>

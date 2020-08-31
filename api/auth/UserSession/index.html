@@ -1701,7 +1701,7 @@
   <pre><code class="js"><span class="hljs-keyword">import</span> { UserSession } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/arcgis-rest-auth'</span>;
 UserSession.beginOAuth2({
   <span class="hljs-comment">// register an app of your own to create a unique clientId</span>
-  clientId: <span class="hljs-string">"abc123"</span>,
+  <span class="hljs-attr">clientId</span>: <span class="hljs-string">"abc123"</span>,
   <span class="hljs-attr">redirectUri</span>: <span class="hljs-string">'https://yourapp.com/authenticate.html'</span>
 })
   .then(session)
