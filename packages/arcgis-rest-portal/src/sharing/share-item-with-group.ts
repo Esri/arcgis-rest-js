@@ -39,11 +39,6 @@ interface IEnsureMembershipResult {
 export function shareItemWithGroup (
   requestOptions: IGroupSharingOptions
 ): Promise<ISharingResponse> {
-  const {
-    authentication: { username },
-    owner,
-    confirmItemControl
-  } = requestOptions;
   return isItemSharedWithGroup(requestOptions)
     .then((isShared) => {
       if (isShared) {
@@ -55,74 +50,77 @@ export function shareItemWithGroup (
         } as ISharingResponse;
       }
 
-      // next check to ensure the user is a member of the group
-      return Promise.all([
-        getUserMembership(requestOptions),
-        getUser({
-          username,
-          authentication: requestOptions.authentication
-        })
-      ])
-        .then(([membership, currentUser]) => {
-          const itemOwner = owner || username;
-          const isSharedEditingGroup = !!confirmItemControl;
-          const isAdmin = currentUser.role === "org_admin";
+      const {
+        authentication: { username },
+        owner,
+        confirmItemControl
+      } = requestOptions;
+      const itemOwner = owner || username;
 
-          // non-item owner
-          if (itemOwner !== username) {
-            // get item owner
-            return getUser({
-              username: itemOwner,
-              authentication: requestOptions.authentication
-            })
-              .then(ownerUser => {
-                return getMembershipAdjustments(
-                  currentUser,
-                  isSharedEditingGroup,
-                  membership,
-                  isAdmin,
-                  ownerUser,
-                  requestOptions
-                );
-              })
-              .then(membershipAdjustments => {
-                const [
-                  { revert } = {
-                    promise: Promise.resolve({ notAdded: [] }),
-                    revert: (sharingResults: ISharingResponse) => {
-                      return Promise.resolve(sharingResults);
-                    }
-                  } as IEnsureMembershipResult
-                ] = membershipAdjustments;
-                // perform all membership adjustments
-                return Promise.all(membershipAdjustments.map(({ promise }) => promise))
-                  .then(() => {
-                    // then attempt the share
-                    return shareToGroup(requestOptions);
-                  })
-                  .then(sharingResults => {
-                    // lastly, if the admin user was added to the group,
-                    // remove them from the group. this is a no-op that
-                    // immediately resolves the sharingResults when no
-                    // membership adjustment was needed
-                    return revert(sharingResults);
-                  });
-              });
-          }
-          
-          // item owner, let it call through
-          return shareToGroup(requestOptions);
-        })
-        .then(sharingResponse => {
-          if (sharingResponse.notSharedWith.length) {
-            throw Error(
-              `Item ${requestOptions.id} could not be shared to group ${requestOptions.groupId}.`
+      // non-item owner
+      if (itemOwner !== username) {
+        // next perform any necessary membership adjustments for
+        // current user and/or item owner
+        return Promise.all([
+          getUser({
+            username,
+            authentication: requestOptions.authentication
+          }),
+          getUser({
+            username: itemOwner,
+            authentication: requestOptions.authentication
+          }),
+          getUserMembership(requestOptions)
+        ])
+          .then(([currentUser, ownerUser, membership]) => {
+            const isSharedEditingGroup = !!confirmItemControl;
+            const isAdmin = currentUser.role === "org_admin" && !currentUser.roleId;
+            return getMembershipAdjustments(
+              currentUser,
+              isSharedEditingGroup,
+              membership,
+              isAdmin,
+              ownerUser,
+              requestOptions
             );
-          } else {
-            // all is well
-            return sharingResponse;
-          }
-        });
+          })
+          .then(membershipAdjustments => {
+            const [
+              { revert } = {
+                promise: Promise.resolve({ notAdded: [] }),
+                revert: (sharingResults: ISharingResponse) => {
+                  return Promise.resolve(sharingResults);
+                }
+              } as IEnsureMembershipResult
+            ] = membershipAdjustments;
+            // perform all membership adjustments
+            return Promise.all(membershipAdjustments.map(({ promise }) => promise))
+              .then(() => {
+                // then attempt the share
+                return shareToGroup(requestOptions);
+              })
+              .then(sharingResults => {
+                // lastly, if the admin user was added to the group,
+                // remove them from the group. this is a no-op that
+                // immediately resolves the sharingResults when no
+                // membership adjustment was needed
+                return revert(sharingResults);
+              });
+          });
+      }
+
+      // item owner, let it call through
+      return shareToGroup(requestOptions);
+    })
+    .then(sharingResponse => {
+      if (sharingResponse.notSharedWith.length) {
+        throw Error(
+          `Item ${requestOptions.id} could not be shared to group ${requestOptions.groupId}.`
+        );
+      } else {
+        // all is well
+        return sharingResponse;
+      }
     });
 }
 
@@ -134,11 +132,6 @@ function getMembershipAdjustments (
   ownerUser: IUser,
   requestOptions: IGroupSharingOptions
 ) {
-  if (!isSharedEditingGroup && !isAdmin && membership === "none") {
-    // all other non-item owners must be a group member
-    throw new Error(`This item can not be shared by ${currentUser.username} as they are not a member of the specified group ${requestOptions.groupId}.`);
-  }
-
   const membershipGuarantees = [];
 
   if (isSharedEditingGroup) {
@@ -178,6 +171,9 @@ function getMembershipAdjustments (
         requestOptions
       )
     );
+  } else if (membership === "none") {
+    // all other non-item owners must be a group member
+    throw new Error(`This item can not be shared by ${currentUser.username} as they are not a member of the specified group ${requestOptions.groupId}.`);
   }
 
   return membershipGuarantees;
