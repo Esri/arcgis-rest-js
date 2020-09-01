@@ -216,7 +216,7 @@ export class SearchQueryBuilder implements IParamBuilder {
     if (this.hasTerms) {
       warn(
         // apparently-p*rettier-ignore causes prettier to strip *all* comments O_o
-        `\`from(...)\` is not allowed after \`match(...)\` try using \`.from(...).to(...).in(...)\`. Your query was not modified.`
+        `\`from(...)\` is not allowed after \`match(...)\` try using \`.from(...).to(...).in(...)\`. Optionally, you may see this because dates are incorrectly formatted, not in milliseconds.  Your query was not modified.`
       );
       return this;
     }
@@ -238,7 +238,7 @@ export class SearchQueryBuilder implements IParamBuilder {
     if (this.hasTerms) {
       warn(
         // apparently-p*rettier-ignore causes prettier to strip *all* comments O_o
-        `\`to(...)\` is not allowed after \`match(...)\` try using \`.from(...).to(...).in(...)\`. Your query was not modified.`
+        `\`to(...)\` is not allowed after \`match(...)\` try using \`.from(...).to(...).in(...)\`. Optionally, you may see this because dates are incorrectly formatted, not in milliseconds. Your query was not modified.`
       );
       return this;
     }
