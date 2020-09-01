@@ -15,7 +15,7 @@ import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 import * as fetchMock from "fetch-mock";
 
 describe("groups", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   describe("authenticted methods", () => {
     const MOCK_AUTH = new UserSession({
@@ -47,7 +47,7 @@ describe("groups", () => {
       createGroup({ group: fakeGroup, ...MOCK_REQOPTS })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/createGroup"
           );
@@ -74,7 +74,7 @@ describe("groups", () => {
       createGroup({ group: fakeGroup, ...MOCK_REQOPTS })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/createGroup"
           );
@@ -104,7 +104,7 @@ describe("groups", () => {
       updateGroup({ group: fakeGroup, ...MOCK_REQOPTS })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/update"
           );
@@ -139,7 +139,7 @@ describe("groups", () => {
       })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/update"
           );
@@ -163,7 +163,7 @@ describe("groups", () => {
       removeGroup({ id: "5bc", ...MOCK_REQOPTS })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/delete"
           );

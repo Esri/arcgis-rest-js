@@ -7,7 +7,7 @@ import { fetchToken } from "../src/index";
 const TOKEN_URL = "https://www.arcgis.com/sharing/rest/oauth2/token";
 
 describe("fetchToken()", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should request a token with `client_credentials`, `client_id` and `client_secret`", done => {
     fetchMock.postOnce(TOKEN_URL, {
@@ -24,7 +24,7 @@ describe("fetchToken()", () => {
       }
     })
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall(
           TOKEN_URL
         );
         expect(url).toEqual(TOKEN_URL);
@@ -60,7 +60,7 @@ describe("fetchToken()", () => {
       }
     })
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall(
           TOKEN_URL
         );
         expect(url).toEqual(TOKEN_URL);

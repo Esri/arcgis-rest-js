@@ -28,7 +28,7 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 
 describe("get", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should return an item by id", done => {
     fetchMock.once("*", ItemResponse);
@@ -36,7 +36,7 @@ describe("get", () => {
     getItem("3ef")
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/content/items/3ef?f=json"
         );
@@ -54,7 +54,7 @@ describe("get", () => {
     getItemData("3ef")
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/content/items/3ef/data?f=json"
         );
@@ -78,7 +78,7 @@ describe("get", () => {
       getItemData("3ef", { file: true })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://www.arcgis.com/sharing/rest/content/items/3ef/data"
           );
@@ -104,12 +104,12 @@ describe("get", () => {
     getItemData("3ef")
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/content/items/3ef/data?f=json"
         );
         expect(options.method).toBe("GET");
-        expect(response).toBe(undefined);
+        expect(response.body).toBe('');
         done();
       })
       .catch(e => {
@@ -126,7 +126,7 @@ describe("get", () => {
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/content/items/3ef/relatedItems?f=json&relationshipType=Service2Layer"
         );
@@ -147,7 +147,7 @@ describe("get", () => {
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/content/items/3ef/relatedItems?f=json&relationshipTypes=Service2Layer%2CArea2CustomPackage"
         );
@@ -184,7 +184,7 @@ describe("get", () => {
       getItem("3ef", MOCK_USER_REQOPTS)
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef?f=json&token=fake-token"
           );
@@ -202,7 +202,7 @@ describe("get", () => {
       getItemData("3ef", MOCK_USER_REQOPTS)
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/data?f=json&token=fake-token"
           );
@@ -222,7 +222,7 @@ describe("get", () => {
         ...MOCK_USER_REQOPTS
       })
         .then(() => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/relatedItems?f=json&relationshipType=Service2Layer&token=fake-token"
           );
@@ -240,7 +240,7 @@ describe("get", () => {
         ...MOCK_USER_REQOPTS
       })
         .then(() => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources"
           );
@@ -262,7 +262,7 @@ describe("get", () => {
         }
       })
         .then(() => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources"
           );
@@ -280,7 +280,7 @@ describe("get", () => {
       fetchMock.once("*", ItemGroupResponse);
       getItemGroups("3ef")
         .then(() => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://www.arcgis.com/sharing/rest/content/items/3ef/groups"
           );
@@ -297,7 +297,7 @@ describe("get", () => {
       fetchMock.once("*", ItemGroupResponse);
       getItemGroups("3ef", { authentication: MOCK_USER_SESSION })
         .then(() => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/groups"
           );
@@ -314,7 +314,7 @@ describe("get", () => {
       fetchMock.once("*", ItemGroupResponse);
       getItemStatus({ id: "3ef", authentication: MOCK_USER_SESSION })
         .then(() => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/status"
           );
@@ -337,7 +337,7 @@ describe("get", () => {
         authentication: MOCK_USER_SESSION
       })
         .then(() => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/joe/items/3ef/status"
           );
@@ -356,7 +356,7 @@ describe("get", () => {
       fetchMock.once("*", ItemGroupResponse);
       getItemParts({ id: "3ef", authentication: MOCK_USER_SESSION })
         .then(() => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/parts"
           );
@@ -377,7 +377,7 @@ describe("get", () => {
         authentication: MOCK_USER_SESSION
       })
         .then(() => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/joe/items/3ef/parts"
           );

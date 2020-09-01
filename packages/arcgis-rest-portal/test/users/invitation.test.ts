@@ -24,7 +24,7 @@ const TOMORROW = (function() {
 })();
 
 describe("invitations", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   const session = new UserSession({
     username: "c@sey",
@@ -41,7 +41,7 @@ describe("invitations", () => {
       getUserInvitations({ authentication: session })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/invitations?f=json&token=fake-token"
           );
@@ -62,7 +62,7 @@ describe("invitations", () => {
       getUserInvitation({ invitationId: "3ef", authentication: session })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/invitations/3ef?f=json&token=fake-token"
           );
@@ -84,7 +84,7 @@ describe("invitations", () => {
       acceptInvitation({ invitationId: "3ef", authentication: session })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/invitations/3ef/accept"
           );
@@ -108,7 +108,7 @@ describe("invitations", () => {
       declineInvitation({ invitationId: "3ef", authentication: session })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/invitations/3ef/decline"
           );

@@ -11,7 +11,7 @@ import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 import { encodeParam } from "@esri/arcgis-rest-request";
 
 describe("exportItem", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   describe("Authenticated methods", () => {
     const authentication = new UserSession({
@@ -57,7 +57,7 @@ describe("exportItem", () => {
       };
       exportItem(exportOptions).then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             `https://myorg.maps.arcgis.com/sharing/rest/content/users/${exportOptions.owner}/export`
           );
@@ -105,7 +105,7 @@ describe("exportItem", () => {
         authentication,
       }).then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             `https://myorg.maps.arcgis.com/sharing/rest/content/users/${authentication.username}/export`
           );

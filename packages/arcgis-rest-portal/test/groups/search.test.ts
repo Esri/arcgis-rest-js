@@ -9,7 +9,7 @@ import { genericSearch } from "../../src/util/generic-search";
 import * as fetchMock from "fetch-mock";
 
 describe("groups", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   describe("searchGroups", () => {
     it("should make a simple, unauthenticated group search request", done => {
@@ -18,7 +18,7 @@ describe("groups", () => {
       searchGroups("water")
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://www.arcgis.com/sharing/rest/community/groups?f=json&q=water"
           );
@@ -41,7 +41,7 @@ describe("groups", () => {
       })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://www.arcgis.com/sharing/rest/community/groups?f=json&q=water&num=7&start=4&sortField=owner&sortOrder=desc"
           );
@@ -62,7 +62,7 @@ describe("groups", () => {
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://www.arcgis.com/sharing/rest/content/groups/grp1234567890/search?f=json&q=water"
           );
@@ -105,7 +105,7 @@ describe("groups", () => {
     searchGroups(q)
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           `https://www.arcgis.com/sharing/rest/community/groups?f=json&q=${encodeURIComponent(
             expectedParam
@@ -136,7 +136,7 @@ describe("groups", () => {
       searchGroups({ q: "water", authentication: MOCK_AUTH })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups?f=json&q=water&token=fake-token"
           );

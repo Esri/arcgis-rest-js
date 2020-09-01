@@ -16,7 +16,7 @@ const SharingRestInfo = {
 };
 
 describe("withOptions()", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should wrap a basic request with default options", done => {
     fetchMock.once("*", SharingRestInfo);
@@ -31,7 +31,7 @@ describe("withOptions()", () => {
 
     requestWithOptions("https://www.arcgis.com/sharing/rest/info")
       .then(() => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
         expect((options.headers as any)["Test-Header"]).toBe("Test");
         done();
@@ -76,7 +76,7 @@ describe("withOptions()", () => {
       id: "foo"
     })
       .then(() => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
         expect(options.body).toContain("id=foo");
         expect((options.headers as any)["Test-Header"]).toBe("Test");
@@ -120,7 +120,7 @@ describe("withOptions()", () => {
 
     requestWithOptions("foo")
       .then(() => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
         expect(options.body).toContain("id=foo");
         expect((options.headers as any)["Test-Header"]).toBe("Test");

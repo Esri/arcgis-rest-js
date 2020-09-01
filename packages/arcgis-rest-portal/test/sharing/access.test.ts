@@ -28,7 +28,7 @@ describe("setItemAccess()", () => {
       .catch();
   });
 
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should share an item with everyone", done => {
     fetchMock.once("*", SharingResponse);
@@ -39,7 +39,7 @@ describe("setItemAccess()", () => {
       access: "public"
     })
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/abc123/share"
         );
@@ -64,7 +64,7 @@ describe("setItemAccess()", () => {
       access: "org"
     })
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/abc123/share"
         );
@@ -89,7 +89,7 @@ describe("setItemAccess()", () => {
       access: "private"
     })
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/abc123/share"
         );
@@ -124,7 +124,7 @@ describe("setItemAccess()", () => {
       owner: "casey"
     })
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall();
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall();
         expect(url).toEqual(
           "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/abc123/share"
         );

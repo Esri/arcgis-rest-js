@@ -12,7 +12,7 @@ import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 import { encodeParam } from "@esri/arcgis-rest-request";
 
 describe("create feature service", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   describe("Authenticated methods", () => {
     // setup a UserSession to use in all these tests
@@ -76,10 +76,7 @@ describe("create feature service", () => {
             expect(fetchMock.called("end:createService")).toEqual(true);
 
             // Check create service call
-            const [urlCreate, optionsCreate]: [
-              string,
-              RequestInit
-            ] = fetchMock.lastCall("end:createService");
+            const [urlCreate, optionsCreate]: fetchMock.MockCall = fetchMock.lastCall("end:createService");
             expect(urlCreate).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createService"
             );
@@ -124,10 +121,7 @@ describe("create feature service", () => {
             expect(fetchMock.called("end:createService")).toEqual(true);
 
             // Check create service call
-            const [urlCreate, optionsCreate]: [
-              string,
-              RequestInit
-            ] = fetchMock.lastCall("end:createService");
+            const [urlCreate, optionsCreate]: fetchMock.MockCall = fetchMock.lastCall("end:createService");
             expect(urlCreate).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createService"
             );
@@ -172,10 +166,7 @@ describe("create feature service", () => {
             expect(fetchMock.called("end:createService")).toEqual(true);
 
             // Check create service call
-            const [urlCreate, optionsCreate]: [
-              string,
-              RequestInit
-            ] = fetchMock.lastCall("end:createService");
+            const [urlCreate, optionsCreate]: fetchMock.MockCall = fetchMock.lastCall("end:createService");
             expect(urlCreate).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createService"
             );
@@ -221,10 +212,7 @@ describe("create feature service", () => {
             expect(fetchMock.called("end:createService")).toEqual(true);
 
             // Check create service call
-            const [urlCreate, optionsCreate]: [
-              string,
-              RequestInit
-            ] = fetchMock.lastCall("end:createService");
+            const [urlCreate, optionsCreate]: fetchMock.MockCall = fetchMock.lastCall("end:createService");
             expect(urlCreate).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/83216cba44bf4357bf06687ec88a847b/createService"
             );
@@ -269,10 +257,7 @@ describe("create feature service", () => {
           expect(fetchMock.called("end:createService")).toEqual(true);
 
           // Check create service call
-          const [urlCreate, optionsCreate]: [
-            string,
-            RequestInit
-          ] = fetchMock.lastCall("end:createService");
+          const [urlCreate, optionsCreate]: fetchMock.MockCall = fetchMock.lastCall("end:createService");
           expect(urlCreate).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/83216cba44bf4357bf06687ec88a847b/createService"
           );

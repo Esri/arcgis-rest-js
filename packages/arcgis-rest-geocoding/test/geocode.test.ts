@@ -13,7 +13,7 @@ const customGeocoderUrl =
   "https://foo.com/arcgis/rest/services/Custom/GeocodeServer/";
 
 describe("geocode", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should make a simple, single geocoding request", done => {
     fetchMock.once("*", FindAddressCandidates);
@@ -21,7 +21,7 @@ describe("geocode", () => {
     geocode("LAX")
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
         );
@@ -43,7 +43,7 @@ describe("geocode", () => {
     geocode({ address: "1600 Pennsylvania Avenue", city: "Washington D.C." })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
         );
@@ -73,7 +73,7 @@ describe("geocode", () => {
     })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
         );
@@ -103,7 +103,7 @@ describe("geocode", () => {
     })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
         );
@@ -137,7 +137,7 @@ describe("geocode", () => {
     })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://foo.com/arcgis/rest/services/Custom/GeocodeServer/findAddressCandidates"
         );
@@ -171,7 +171,7 @@ describe("geocode", () => {
     })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://foo.com/arcgis/rest/services/Custom/GeocodeServer/findAddressCandidates?f=json&outSr=3857&address=380%20New%20York%20St&postal=92373"
         );
@@ -191,7 +191,7 @@ describe("geocode", () => {
     geocode("LAX")
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
         );
@@ -219,7 +219,7 @@ describe("geocode", () => {
     })
       .then((response: any) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
         );

@@ -13,7 +13,7 @@ const TOMORROW = (function() {
 })();
 
 describe("updateUser", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   const session = new UserSession({
     username: "c@sey",
@@ -35,7 +35,7 @@ describe("updateUser", () => {
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/update"
         );
@@ -65,7 +65,7 @@ describe("updateUser", () => {
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/update"
         );
@@ -95,7 +95,7 @@ describe("updateUser", () => {
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith/update"
         );
@@ -132,7 +132,7 @@ describe("updateUser", () => {
       })
       .catch(e => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://myorg.maps.arcgis.com/sharing/rest/community/users/fake/update"
         );

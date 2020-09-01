@@ -111,7 +111,7 @@ describe("shareItemWithGroup() ::", () => {
       .catch();
   });
 
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
   describe("share item as owner::", () => {
     it("should share an item with a group by owner", done => {
       // this is used when isOrgAdmin is called...
@@ -146,7 +146,7 @@ describe("shareItemWithGroup() ::", () => {
           expect(fetchMock.done()).toBeTruthy(
             "All fetchMocks should have been called"
           );
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/n3v/share"
           );
           expect(url).toBe(
@@ -258,7 +258,7 @@ describe("shareItemWithGroup() ::", () => {
           expect(fetchMock.done()).toBeTruthy(
             "All fetchMocks should have been called"
           );
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall(
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
           );
           expect(url).toBe(
@@ -347,7 +347,7 @@ describe("shareItemWithGroup() ::", () => {
           expect(fetchMock.done()).toBeTruthy(
             "All fetchMocks should have been called"
           );
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall(
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
           );
           expect(url).toBe(
@@ -428,7 +428,7 @@ describe("shareItemWithGroup() ::", () => {
           expect(fetchMock.done()).toBeTruthy(
             "All fetchMocks should have been called"
           );
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall(
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
           );
           expect(url).toBe(
@@ -558,12 +558,12 @@ describe("shareItemWithGroup() ::", () => {
             "All fetchMocks should have been called"
           );
           // verify we added casey to t6b
-          const addUsersOptions: RequestInit = fetchMock.lastOptions(
+          const addUsersOptions: fetchMock.MockOptions = fetchMock.lastOptions(
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/addUsers"
           );
           expect(addUsersOptions.body).toContain("admins=casey");
           // verify we shared the item
-          const shareOptions: RequestInit = fetchMock.lastOptions(
+          const shareOptions: fetchMock.MockOptions = fetchMock.lastOptions(
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
           );
           expect(shareOptions.body).toContain("groups=t6b");
@@ -618,12 +618,12 @@ describe("shareItemWithGroup() ::", () => {
             "All fetchMocks should have been called"
           );
           // verify we added casey to t6b
-          const addUsersOptions: RequestInit = fetchMock.lastOptions(
+          const addUsersOptions: fetchMock.MockOptions = fetchMock.lastOptions(
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/addUsers"
           );
           expect(addUsersOptions.body).toContain("admins=casey");
           // verify we shared the item
-          const shareOptions: RequestInit = fetchMock.lastOptions(
+          const shareOptions: fetchMock.MockOptions = fetchMock.lastOptions(
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
           );
           expect(shareOptions.body).toContain("groups=t6b");
@@ -685,12 +685,12 @@ describe("shareItemWithGroup() ::", () => {
             "All fetchMocks should have been called"
           );
           // verify we added casey to t6b
-          const addUsersOptions: RequestInit = fetchMock.lastOptions(
+          const addUsersOptions: fetchMock.MockOptions = fetchMock.lastOptions(
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/updateUsers"
           );
           expect(addUsersOptions.body).toContain("admins=casey");
           // verify we shared the item
-          const shareOptions: RequestInit = fetchMock.lastOptions(
+          const shareOptions: fetchMock.MockOptions = fetchMock.lastOptions(
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
           );
           expect(shareOptions.body).toContain("groups=t6b");
@@ -748,7 +748,7 @@ describe("shareItemWithGroup() ::", () => {
             "All fetchMocks should have been called"
           );
           // verify we shared the item
-          const shareOptions: RequestInit = fetchMock.lastOptions(
+          const shareOptions: fetchMock.MockOptions = fetchMock.lastOptions(
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
           );
           expect(shareOptions.body).toContain("groups=t6b");
@@ -809,7 +809,7 @@ describe("shareItemWithGroup() ::", () => {
           expect(fetchMock.done()).toBeTruthy(
             "All fetchMocks should have been called"
           );
-          const addUsersOptions: RequestInit = fetchMock.lastOptions(
+          const addUsersOptions: fetchMock.MockOptions = fetchMock.lastOptions(
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/updateUsers"
           );
           expect(addUsersOptions.body).toContain("admins=casey");
@@ -929,7 +929,7 @@ describe("unshareItemWithGroup() ::", () => {
       .catch();
   });
 
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should unshare an item with a group by owner", done => {
     fetchMock.once(
@@ -958,7 +958,7 @@ describe("unshareItemWithGroup() ::", () => {
       groupId: "t6b"
     })
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall(
           "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/a5b/unshare"
         );
         expect(url).toBe(
@@ -1006,7 +1006,7 @@ describe("unshareItemWithGroup() ::", () => {
       owner: "casey"
     })
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall(
           "https://myorg.maps.arcgis.com/sharing/rest/content/items/a5b/unshare"
         );
         expect(url).toBe(
@@ -1051,7 +1051,7 @@ describe("unshareItemWithGroup() ::", () => {
       owner: "otherguy"
     })
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall(
           "https://myorg.maps.arcgis.com/sharing/rest/content/items/a5b/unshare"
         );
         expect(url).toBe(

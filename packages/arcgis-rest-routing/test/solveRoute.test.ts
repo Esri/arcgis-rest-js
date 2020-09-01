@@ -96,7 +96,7 @@ const stopsObjectsPoint3: IPoint[] = [
 //   "https://foo.com/ArcGIS/rest/services/Network/USA/NAServer/";
 
 describe("solveRoute", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should throw an error when a solveRoute request is made without a token", done => {
     fetchMock.once("*", Solve);
@@ -126,7 +126,7 @@ describe("solveRoute", () => {
     solveRoute({ stops, authentication: MOCK_AUTH })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
         );
@@ -163,7 +163,7 @@ describe("solveRoute", () => {
     solveRoute({ stops: stops3, authentication: MOCK_AUTH })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
         );
@@ -203,7 +203,7 @@ describe("solveRoute", () => {
     })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
         );
@@ -243,7 +243,7 @@ describe("solveRoute", () => {
     })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
         );
@@ -283,7 +283,7 @@ describe("solveRoute", () => {
     })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
         );
@@ -323,7 +323,7 @@ describe("solveRoute", () => {
     })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
         );
@@ -363,7 +363,7 @@ describe("solveRoute", () => {
     })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
         );
@@ -403,7 +403,7 @@ describe("solveRoute", () => {
     })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
         );
@@ -443,7 +443,7 @@ describe("solveRoute", () => {
     })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
         );
@@ -483,7 +483,7 @@ describe("solveRoute", () => {
     })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
         );

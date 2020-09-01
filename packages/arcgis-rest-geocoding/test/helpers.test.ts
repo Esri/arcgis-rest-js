@@ -9,7 +9,7 @@ const customGeocoderUrl =
   "https://foo.com/arcgis/rest/services/Custom/GeocodeServer/";
 
 describe("geocode", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should retrieve metadata from the World Geocoding Service", done => {
     fetchMock.once("*", SharingInfo);
@@ -17,7 +17,7 @@ describe("geocode", () => {
     getGeocodeService()
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/?f=json"
         );
@@ -40,7 +40,7 @@ describe("geocode", () => {
     getGeocodeService({ httpMethod: "POST" })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/"
         );
@@ -65,7 +65,7 @@ describe("geocode", () => {
     getGeocodeService({ endpoint: customGeocoderUrl })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://foo.com/arcgis/rest/services/Custom/GeocodeServer/?f=json"
         );

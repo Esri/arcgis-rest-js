@@ -11,7 +11,7 @@ import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 import { SearchQueryBuilder } from "../../src/util/SearchQueryBuilder";
 
 describe("search", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should make a simple, single search request", done => {
     fetchMock.once("*", SearchResponse);
@@ -19,7 +19,7 @@ describe("search", () => {
     searchItems("DC AND typekeywords:hubSiteApplication")
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/search?f=json&q=DC%20AND%20typekeywords%3AhubSiteApplication"
         );
@@ -42,7 +42,7 @@ describe("search", () => {
     searchItems(q)
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           `https://www.arcgis.com/sharing/rest/search?f=json&q=${encodeURIComponent(
             expectedParam
@@ -68,7 +68,7 @@ describe("search", () => {
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/search?f=json&q=DC%20AND%20typekeywords%3AhubSiteApplication&num=12&start=22&sortField=title&sortOrder=desc"
         );
@@ -93,7 +93,7 @@ describe("search", () => {
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/search");
         expect(options.body).toContain(
           "q=DC%20AND%20typekeywords%3AhubSiteApplication&num=12&start=22&sortField=title&sortOrder=desc"
@@ -125,7 +125,7 @@ describe("search", () => {
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/search");
         expect(options.body).toContain(encodeURIComponent(expectedParam));
         expect(options.method).toBe("POST");
@@ -151,7 +151,7 @@ describe("search", () => {
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/search?f=json&foo=bar&q=DC%20AND%20typekeywords%3AhubSiteApplication&num=12&start=22&sortField=title&sortOrder=desc"
         );
@@ -169,7 +169,7 @@ describe("search", () => {
     searchItems("DC AND typekeywords:hubSiteApplication")
       .then(r => {
         expect(fetchMock.called()).toEqual(true);
-        const [url]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/search?f=json&q=DC%20AND%20typekeywords%3AhubSiteApplication"
         );
@@ -178,7 +178,7 @@ describe("search", () => {
 
           r.nextPage()
             .then(() => {
-              const [nextUrl]: [string, RequestInit] = fetchMock.lastCall("*");
+              const [nextUrl]: fetchMock.MockCall = fetchMock.lastCall("*");
 
               expect(nextUrl).toEqual(
                 "https://www.arcgis.com/sharing/rest/search?f=json&q=DC%20AND%20typekeywords%3AhubSiteApplication&start=2"
@@ -204,7 +204,7 @@ describe("search", () => {
     searchItems({ q: "DC AND typekeywords:hubSiteApplication" })
       .then(r => {
         expect(fetchMock.called()).toEqual(true);
-        const [url]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/search?f=json&q=DC%20AND%20typekeywords%3AhubSiteApplication"
         );
@@ -213,7 +213,7 @@ describe("search", () => {
 
           r.nextPage()
             .then(() => {
-              const [nextUrl]: [string, RequestInit] = fetchMock.lastCall("*");
+              const [nextUrl]: fetchMock.MockCall = fetchMock.lastCall("*");
 
               expect(nextUrl).toEqual(
                 "https://www.arcgis.com/sharing/rest/search?f=json&q=DC%20AND%20typekeywords%3AhubSiteApplication&start=2"
@@ -257,7 +257,7 @@ describe("search", () => {
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/search?f=json&q=DC%20AND%20typekeywords%3AhubSiteApplication&token=fake-token"
           );

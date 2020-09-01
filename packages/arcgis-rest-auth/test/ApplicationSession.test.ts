@@ -6,7 +6,7 @@ import * as fetchMock from "fetch-mock";
 import { YESTERDAY, TOMORROW } from "./utils";
 
 describe("ApplicationSession", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   describe(".getToken()", () => {
     it("should return the cached token if it is not expired", done => {

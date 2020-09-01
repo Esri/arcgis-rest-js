@@ -11,7 +11,7 @@ import { request } from "../../src/request";
 import * as fetchMock from "fetch-mock";
 
 describe("ArcGISRequestError", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should be an instanceof Error", () => {
     expect(new ArcGISAuthError() instanceof Error).toBe(true);
@@ -82,7 +82,7 @@ describe("ArcGISRequestError", () => {
       error
         .retry(MockAuth.retryHandler, 1)
         .then((response: any) => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem"
           );
@@ -123,7 +123,7 @@ describe("ArcGISRequestError", () => {
       const retryHandlerSpy = spyOn(MockAuth, "retryHandler").and.callThrough();
 
       error.retry(MockAuth.retryHandler).catch((e: any) => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem"
         );
@@ -160,7 +160,7 @@ describe("ArcGISRequestError", () => {
       const retryHandlerSpy = spyOn(MockAuth, "retryHandler").and.callThrough();
 
       error.retry(MockAuth.retryHandler).catch((e: any) => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(requestUrl);
         expect(options.method).toEqual("POST");
         expect(retryHandlerSpy).toHaveBeenCalledTimes(1);

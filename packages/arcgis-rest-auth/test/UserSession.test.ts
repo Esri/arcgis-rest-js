@@ -14,7 +14,7 @@ import * as fetchMock from "fetch-mock";
 import { YESTERDAY, TOMORROW } from "./utils";
 
 describe("UserSession", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should serialize to and from JSON", () => {
     const session = new UserSession({
@@ -1178,7 +1178,7 @@ describe("UserSession", () => {
   });
 
   describe(".getUser()", () => {
-    afterEach(fetchMock.restore);
+    afterEach(() => fetchMock.restore());
 
     it("should cache metadata about the user", done => {
       // we intentionally only mock one response
@@ -1256,7 +1256,7 @@ describe("UserSession", () => {
   });
 
   describe(".getUsername()", () => {
-    afterEach(fetchMock.restore);
+    afterEach(() => fetchMock.restore());
 
     it("should fetch the username via getUser()", done => {
       // we intentionally only mock one response
@@ -1457,7 +1457,7 @@ describe("UserSession", () => {
       )
         .then(token => {
           expect(token).toBe("fresh-token");
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall(
             "https://fakeserver.com/arcgis/tokens/"
           );
           expect(options.method).toBe("POST");

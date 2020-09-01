@@ -21,7 +21,7 @@ describe("udpate-user-membership", () => {
       .catch();
   });
 
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("converts member to admin", done => {
     fetchMock.post(
@@ -34,7 +34,7 @@ describe("udpate-user-membership", () => {
       users: ["larry", "curly", "moe"],
       newMemberType: "admin"
     }).then(() => {
-      const opts: RequestInit = fetchMock.lastOptions(
+      const opts: fetchMock.MockOptions = fetchMock.lastOptions(
         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/updateUsers"
       );
       expect(opts.body).toContain("admins=larry%2Ccurly%2Cmoe");
@@ -52,7 +52,7 @@ describe("udpate-user-membership", () => {
       users: ["larry", "curly", "moe"],
       newMemberType: "member"
     }).then(() => {
-      const opts: RequestInit = fetchMock.lastOptions(
+      const opts: fetchMock.MockOptions = fetchMock.lastOptions(
         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/updateUsers"
       );
       expect(opts.body).toContain("users=larry%2Ccurly%2Cmoe");

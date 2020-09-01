@@ -6,7 +6,7 @@ import * as fetchMock from "fetch-mock";
 import { Suggest } from "./mocks/responses";
 
 describe("geocode", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should make a request for suggestions", done => {
     fetchMock.once("*", Suggest);
@@ -14,7 +14,7 @@ describe("geocode", () => {
     suggest("LAX")
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest"
         );
@@ -35,7 +35,7 @@ describe("geocode", () => {
     suggest("LAX", { params: { category: "Address,Postal" } })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest"
         );

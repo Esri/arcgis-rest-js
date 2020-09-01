@@ -13,7 +13,7 @@ import {
 } from "../mocks/users/user";
 
 describe("reassignItem", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("shoulds throw if not authd as org_admin", done => {
     const MOCK_USER_SESSION = new UserSession({
@@ -69,7 +69,7 @@ describe("reassignItem", () => {
         //   "All fetchMocks should have been called"
         // );
         expect(resp.success).toBe(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall(
           "https://myorg.maps.arcgis.com/sharing/rest/content/users/alex/items/3ef/reassign"
         );
         expect(url).toBe(
@@ -113,7 +113,7 @@ describe("reassignItem", () => {
         //   "All fetchMocks should have been called"
         // );
         expect(resp.success).toBe(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall(
           "https://myorg.maps.arcgis.com/sharing/rest/content/users/alex/items/3ef/reassign"
         );
         expect(url).toBe(

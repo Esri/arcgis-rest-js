@@ -10,7 +10,7 @@ import {
 } from "./group-sharing.test";
 
 describe("sharing helpers ::", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
   describe("getUserMembership ::", () => {
     it("should return nonmember if group could not be fetched", done => {
       fetchMock.once(

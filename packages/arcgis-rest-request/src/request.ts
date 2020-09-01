@@ -250,7 +250,7 @@ export function request(
 
   let originalAuthError: ArcGISAuthError = null;
 
-  const fetchOptions: RequestInit = {
+  const fetchOptions: any = {
     method: httpMethod,
     /* ensures behavior mimics XMLHttpRequest.
     needed to support sending IWA cookies */

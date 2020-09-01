@@ -12,7 +12,7 @@ import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 import { encodeParam } from "@esri/arcgis-rest-request";
 
 describe("search", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   describe("Authenticated methods", () => {
     // setup a UserSession to use in all these tests
@@ -41,7 +41,7 @@ describe("search", () => {
         ...MOCK_USER_REQOPTS
       })
         .then(response => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/protect"
           );
@@ -62,7 +62,7 @@ describe("search", () => {
         ...MOCK_USER_REQOPTS
       })
         .then(response => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/protect"
           );
@@ -84,7 +84,7 @@ describe("search", () => {
         ...MOCK_USER_REQOPTS
       })
         .then(response => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/unprotect"
           );
@@ -105,7 +105,7 @@ describe("search", () => {
         ...MOCK_USER_REQOPTS
       })
         .then(response => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/unprotect"
           );

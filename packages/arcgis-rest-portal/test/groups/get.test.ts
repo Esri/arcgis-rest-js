@@ -20,7 +20,7 @@ import {
 import * as fetchMock from "fetch-mock";
 
 describe("groups", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   describe("getGroup", () => {
     it("should return a group", done => {
@@ -28,7 +28,7 @@ describe("groups", () => {
       getGroup("3ef")
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://www.arcgis.com/sharing/rest/community/groups/3ef?f=json"
           );
@@ -47,7 +47,7 @@ describe("groups", () => {
       getGroupCategorySchema("3ef")
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://www.arcgis.com/sharing/rest/community/groups/3ef/categorySchema?f=json"
           );
@@ -66,7 +66,7 @@ describe("groups", () => {
       getGroupContent("3ef")
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://www.arcgis.com/sharing/rest/content/groups/3ef?f=json&start=1&num=100"
           );
@@ -83,7 +83,7 @@ describe("groups", () => {
       getGroupContent("3ef", { paging: { start: 4, num: 7 } })
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://www.arcgis.com/sharing/rest/content/groups/3ef?f=json&start=4&num=7"
           );
@@ -113,7 +113,7 @@ describe("groups", () => {
       getGroupUsers("5bc", MOCK_REQOPTS)
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/users?f=json&token=fake-token"
           );
@@ -141,7 +141,7 @@ describe("groups", () => {
         })
           .then(response => {
             expect(fetchMock.called()).toEqual(true);
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+            const [url, options]: fetchMock.MockCall = fetchMock.lastCall(
               "*"
             );
             expect(url).toEqual(
@@ -161,7 +161,7 @@ describe("groups", () => {
         searchGroupUsers("5bc")
           .then(_ => {
             expect(fetchMock.called()).toEqual(true);
-            const [__, options]: [string, RequestInit] = fetchMock.lastCall(
+            const [__, options]: fetchMock.MockCall = fetchMock.lastCall(
               "*"
             );
             expect(options.method).toBe("GET");

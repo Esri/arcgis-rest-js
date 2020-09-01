@@ -13,14 +13,14 @@ import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap";
 import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection";
 
 describe("request()", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should make a basic POST request", done => {
     fetchMock.once("*", SharingRestInfo);
 
     request("https://www.arcgis.com/sharing/rest/info")
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
         expect(options.method).toBe("POST");
         expect(response).toEqual(SharingRestInfo);
@@ -39,7 +39,7 @@ describe("request()", () => {
       httpMethod: "GET"
     })
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json");
         expect(options.method).toBe("GET");
         expect(response).toEqual(SharingRestInfo);
@@ -61,7 +61,7 @@ describe("request()", () => {
       }
     )
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data?f=text"
         );
@@ -82,7 +82,7 @@ describe("request()", () => {
       params: { f: "html" }
     })
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=html");
         expect(options.method).toBe("GET");
         expect(response).toEqual(SharingRestInfoHTML);
@@ -104,7 +104,7 @@ describe("request()", () => {
       }
     )
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query?f=geojson&where=1%3D1"
         );
@@ -129,7 +129,7 @@ describe("request()", () => {
       maxUrlLength: restInfoUrl.length
     })
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
         expect(options.method).toBe("POST");
         expect(options.body).toContain("f=json");
@@ -158,7 +158,7 @@ describe("request()", () => {
       }
     )
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
         );
@@ -189,14 +189,14 @@ describe("request()", () => {
       .then(response => {
         // Test Node path with Jasmine in Node
         if (typeof window === 'undefined') {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json");
           expect(options.method).toBe("GET");
           expect(response).toEqual(SharingRestInfo);
           expect((options.headers as any)["X-Esri-Authorization"]).toBe("Bearer token");
         } else {
           // Test browser path when run in browser with Karma
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
@@ -232,7 +232,7 @@ describe("request()", () => {
       maxUrlLength: restInfoUrl.length
     })
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
         expect(options.method).toBe("POST");
         expect(options.body).toContain("f=json");
@@ -354,7 +354,7 @@ describe("request()", () => {
 
     request("https://www.arcgis.com/sharing/rest/info")
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
         expect(options.method).toBe("POST");
         expect(response).toEqual(SharingRestInfo);
@@ -427,7 +427,7 @@ describe("request()", () => {
         }
       )
         .then(response => {
-          const options: RequestInit = fetchMock.lastCall("*")[1];
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(options.body).toContain(`where=${encodeURIComponent("1=1")}`);
           expect(response).toEqual(GeoJSONFeatureCollection);
           done();
@@ -503,7 +503,7 @@ describe("request()", () => {
       request("https://www.arcgis.com/sharing/rest/content/items/43a/data")
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://www.arcgis.com/sharing/rest/content/items/43a/data"
           );
@@ -527,7 +527,7 @@ describe("request()", () => {
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://www.arcgis.com/sharing/rest/content/items/43a/data"
           );
@@ -551,7 +551,7 @@ describe("request()", () => {
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://www.arcgis.com/sharing/rest/content/items/43a/data"
           );

@@ -21,7 +21,7 @@ const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
 
 describe("getFeature() and queryFeatures()", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should return a feature by id", done => {
     const requestOptions = {
@@ -32,7 +32,7 @@ describe("getFeature() and queryFeatures()", () => {
     getFeature(requestOptions)
       .then(response => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/42?f=json`);
         expect(options.method).toBe("GET");
         expect(response.attributes.FID).toEqual(42);
@@ -53,7 +53,7 @@ describe("getFeature() and queryFeatures()", () => {
     getFeature(requestOptions)
       .then((response: any) => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/42?f=json`);
         expect(options.method).toBe("GET");
         expect(response.status).toBe(200);
@@ -79,7 +79,7 @@ describe("getFeature() and queryFeatures()", () => {
     queryFeatures(requestOptions)
       .then(() => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           `${requestOptions.url}/query?f=json&where=1%3D1&outFields=*`
         );
@@ -104,9 +104,9 @@ describe("getFeature() and queryFeatures()", () => {
     queryFeatures(requestOptions)
       .then(() => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
-          `${requestOptions.url}/query?f=json&where=Condition%3D'Poor'&outFields=FID%2CTree_ID%2CCmn_Name%2CCondition&geometry=%7B%7D&geometryType=esriGeometryPolygon&orderByFields=test`
+          `${requestOptions.url}/query?f=json&where=Condition%3D%27Poor%27&outFields=FID%2CTree_ID%2CCmn_Name%2CCondition&geometry=%7B%7D&geometryType=esriGeometryPolygon&orderByFields=test`
         );
         expect(options.method).toBe("GET");
         // expect(response.attributes.FID).toEqual(42);
@@ -125,7 +125,7 @@ describe("getFeature() and queryFeatures()", () => {
     queryRelated(requestOptions)
       .then(() => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           `${requestOptions.url}/queryRelatedRecords?f=json&definitionExpression=1%3D1&outFields=*&relationshipId=0`
         );
@@ -149,7 +149,7 @@ describe("getFeature() and queryFeatures()", () => {
     queryRelated(requestOptions)
       .then(() => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/queryRelatedRecords`);
         expect(options.method).toBe("POST");
         expect(options.body).toContain("f=json");

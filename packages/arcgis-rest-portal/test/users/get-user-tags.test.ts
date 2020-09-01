@@ -14,7 +14,7 @@ const TOMORROW = (function() {
 })();
 
 describe("users", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   describe("getUserTags", () => {
     const session = new UserSession({
@@ -31,7 +31,7 @@ describe("users", () => {
       getUserTags({ authentication: session })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/tags"
           );
@@ -54,7 +54,7 @@ describe("users", () => {
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith/tags"
           );

@@ -17,7 +17,7 @@ import {
 import { layerDefinitionSid } from "./mocks/layerDefinition";
 
 describe("add to feature service", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   describe("Authenticated methods", () => {
     // setup a UserSession to use in all these tests
@@ -96,7 +96,7 @@ describe("add to feature service", () => {
           response => {
             // Check service call
             expect(fetchMock.called()).toEqual(true);
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+            const [url, options]: fetchMock.MockCall = fetchMock.lastCall(
               "*"
             );
 
@@ -145,7 +145,7 @@ describe("add to feature service", () => {
           response => {
             // Check service call
             expect(fetchMock.called()).toEqual(true);
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+            const [url, options]: fetchMock.MockCall = fetchMock.lastCall(
               "*"
             );
 
@@ -194,7 +194,7 @@ describe("add to feature service", () => {
         .then(response => {
           // Check service call
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
 
           expect(url).toEqual(
             "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/addToDefinition"
@@ -236,7 +236,7 @@ describe("add to feature service", () => {
         .then(response => {
           // Check service call
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
 
           expect(url).toEqual(
             "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/addToDefinition"

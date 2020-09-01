@@ -18,7 +18,7 @@ describe("portal", () => {
     paramsSpy.calls.reset();
   });
 
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   describe("getPortalSettings", () => {
     // setup an authmgr to use in all these tests
@@ -37,7 +37,7 @@ describe("portal", () => {
       getPortalSettings("5BZFaKe", MOCK_REQOPTS)
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/portals/5BZFaKe/settings?f=json&token=fake-token"
           );
@@ -53,7 +53,7 @@ describe("portal", () => {
       getPortalSettings(null, MOCK_REQOPTS)
         .then(response => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/portals/self/settings?f=json&token=fake-token"
           );

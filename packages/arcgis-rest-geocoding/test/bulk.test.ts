@@ -22,7 +22,7 @@ const addresses = [
 ];
 
 describe("geocode", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should make a bulk geocoding request, even with an unmatchable record", done => {
     fetchMock.once("*", GeocodeAddresses);
@@ -37,7 +37,7 @@ describe("geocode", () => {
     bulkGeocode({ addresses, authentication: MOCK_AUTH })
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/geocodeAddresses"
         );
@@ -90,7 +90,7 @@ describe("geocode", () => {
       // tslint:disable-next-line
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/geocodeAddresses"
         );
@@ -131,7 +131,7 @@ describe("geocode", () => {
       // tslint:disable-next-line
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/geocodeAddresses"
         );
@@ -172,7 +172,7 @@ describe("geocode", () => {
     bulkGeocode({ addresses, authentication: MOCK_AUTH, rawResponse: true })
       .then((response: any) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options]: fetchMock.MockCall = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/geocodeAddresses"
         );
