@@ -10,9 +10,15 @@ import { IParamBuilder, warn } from "@esri/arcgis-rest-request";
  * By chaining methods, it helps build complex search queries.
  *
  * ```js
+ * const startDate = new Date("2020-01-01").valueOf();
+ * const endDate = new Date(2020-09-01).valueOf();
  * const query = new SearchQueryBuilder()
  *  .match("Patrick")
  *  .in("owner")
+ *  .and()
+ *  .from(startDate)
+ *  .to(endDate)
+ *  .in("created")
  *  .and()
  *  .startGroup()
  *    .match("Web Mapping Application")
@@ -34,7 +40,7 @@ import { IParamBuilder, warn } from "@esri/arcgis-rest-request";
  *
  * Will search for items matching
  * ```
- * "owner: Patrick AND (type:"Web Mapping Application" OR type:"Mobile Application" OR type:Application) AND Demo App"
+ * "owner: Patrick AND created:[1577836800000 TO 1598918400000] AND (type:"Web Mapping Application" OR type:"Mobile Application" OR type:Application) AND Demo App"
  * ```
  */
 export class SearchQueryBuilder implements IParamBuilder {
@@ -216,7 +222,7 @@ export class SearchQueryBuilder implements IParamBuilder {
     if (this.hasTerms) {
       warn(
         // apparently-p*rettier-ignore causes prettier to strip *all* comments O_o
-        `\`from(...)\` is not allowed after \`match(...)\` try using \`.from(...).to(...).in(...)\`. Optionally, you may see this because dates are incorrectly formatted, not in milliseconds.  Your query was not modified.`
+        `\`from(...)\` is not allowed after \`match(...)\` try using \`.from(...).to(...).in(...)\`. Optionally, you may see this because dates are incorrectly formatted. Dates should be a primative Date value, aka a number in milliseconds.  Your query was not modified.`
       );
       return this;
     }
@@ -238,7 +244,7 @@ export class SearchQueryBuilder implements IParamBuilder {
     if (this.hasTerms) {
       warn(
         // apparently-p*rettier-ignore causes prettier to strip *all* comments O_o
-        `\`to(...)\` is not allowed after \`match(...)\` try using \`.from(...).to(...).in(...)\`. Optionally, you may see this because dates are incorrectly formatted, not in milliseconds. Your query was not modified.`
+        `\`to(...)\` is not allowed after \`match(...)\` try using \`.from(...).to(...).in(...)\`. Optionally, you may see this because dates are incorrectly formatted. Dates should be a primative Date value, aka a number in milliseconds. Your query was not modified.`
       );
       return this;
     }
