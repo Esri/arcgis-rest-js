@@ -96,7 +96,7 @@ describe("search", () => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/removeRelationship"
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/deleteRelationship"
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain("originItemId=3ef");

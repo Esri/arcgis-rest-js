@@ -44,4 +44,7 @@ describe("cleanUrl", () => {
       )
     ).toEqual(validUrl);
   });
+  it("should not throw on a null string", () => {
+    expect(cleanUrl(null)).toEqual(null);
+  });
 });

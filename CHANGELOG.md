@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][head]
 
+## [2.16.0] - August 31st 2020
+
+### @esri/arcgis-rest-portal
+
+* Bug Fixes
+   * **arcgis-rest-portal**: use deleteRelationship not removeRelationship [`890e4859`](https://github.com/Esri/arcgis-rest-js/commit/890e4859dc45ce1588b5ba3573c881c227267bf9) [#739](https://github.com/Esri/arcgis-rest-js/issues/739)
+   * **arcgis-rest-request**: `cleanUrl` function now resilient to null values
+
+* New Features
+  * **arcgis-rest-portal** `updateItem` respects a `.folderId` property passed in `IUpdateItemOptions` 
+
+### General
+* ensure all projects use tslib ^1.10.0
+* bump `rollup-plugin-typescript2` to `0.22.0` which also uses ^1.10.0
+
 ## [2.15.0] - August 19th 2020
 
 ### @esri/arcgis-rest-portal
@@ -25,10 +40,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * Bug Fixes
    * **auth**: improve query and error handling when completing sign in [`4b3905ca`](https://github.com/Esri/arcgis-rest-js/commit/4b3905ca6517443c9237a44c0fc3249e579db8f5)
-
-
-
-
 
 ## [2.14.1] - July 23rd 2020
 
@@ -1708,4 +1719,5 @@ Initial Public Release
 [2.14.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.13.2...v2.14.0 "v2.14.0"
 [2.14.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.14.0...v2.14.1 "v2.14.1"
 [2.15.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.14.1...v2.15.0 "v2.15.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.15.0...HEAD "Unreleased Changes"
+[2.16.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.15.0...v2.16.0 "v2.16.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.16.0...HEAD "Unreleased Changes"

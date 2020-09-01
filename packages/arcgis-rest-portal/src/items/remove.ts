@@ -60,7 +60,7 @@ export function removeItemRelationship(
   return determineOwner(requestOptions).then(owner => {
     const url = `${getPortalUrl(
       requestOptions
-    )}/content/users/${owner}/removeRelationship`;
+    )}/content/users/${owner}/deleteRelationship`;
 
     const options = appendCustomParams<IManageItemRelationshipOptions>(
       requestOptions,
