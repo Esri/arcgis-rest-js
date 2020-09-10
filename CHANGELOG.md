@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased][head]
 
+## [2.17.0] - September 3rd 2020
+
+* Refactoring
+  * **arcgis-rest-portal**: isOrgAdmin more accurately identifies org admins [144791](https://esriarlington.tpondemand.com/entity/144791-search-filter-and-select-groups-to)
+  * **arcgis-rest-portal**: Separated shareItemWithGroup and unshareItemWithGroup into separate methods and files [144791](https://esriarlington.tpondemand.com/entity/144791-search-filter-and-select-groups-to)
+  * **arcgis-rest-portal**: Loosened unshare restrictions for org admins, they can now remove any item in their org from a group regardless of their membership to that group. [144791](https://esriarlington.tpondemand.com/entity/144791-search-filter-and-select-groups-to)
+  * **arcgis-rest-portal**: Added logic for org admins to conditionally join edit/update groups as a group admin, or view groups as a member before sharing, then removes the admin after the share call completes. If the admin is already a member, the addUser call is skipped and the admin is not removed. [144791](https://esriarlington.tpondemand.com/entity/144791-search-filter-and-select-groups-to)
+
+* New Features
+  * **arcgis-rest-portal**: Added removeUsers [144791](https://esriarlington.tpondemand.com/entity/144791-search-filter-and-select-groups-to)
+
 ## [2.16.0] - August 31st 2020
 
 ### @esri/arcgis-rest-portal
@@ -1720,4 +1731,5 @@ Initial Public Release
 [2.14.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.14.0...v2.14.1 "v2.14.1"
 [2.15.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.14.1...v2.15.0 "v2.15.0"
 [2.16.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.15.0...v2.16.0 "v2.16.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.16.0...HEAD "Unreleased Changes"
+[2.17.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.16.0...v2.17.0 "v2.17.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.17.0...HEAD "Unreleased Changes"
