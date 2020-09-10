@@ -12,7 +12,8 @@ import {
   getItemStatus,
   getItemParts,
   getRelatedItems,
-  getItemInfo
+  getItemInfo,
+  getItemMetadata
 } from "../../src/items/get";
 
 import {
@@ -193,9 +194,7 @@ describe("get", () => {
   it("should return item metadata", done => {
     fetchMock.once("*", ItemMetadataResponse);
     const fileName = "metadata/metadata.xml";
-    getItemInfo("3ef", {
-      fileName
-    } as IGetItemInfoOptions)
+    getItemMetadata("3ef")
       .then(response => {
         expect(response).toBe(ItemMetadataResponse);
         expect(fetchMock.called()).toEqual(true);

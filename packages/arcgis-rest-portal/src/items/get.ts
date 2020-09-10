@@ -346,3 +346,29 @@ export function getItemInfo(
     return response.text();
   });
 }
+
+/**
+ * ```
+ * import { getItemMetadata } from "@esri/arcgis-rest-portal";
+ * // get the metadata for the item
+ * getItemMetadata("ae7")
+ *   .then(itemMetadataXml) // XML document as a string
+ * // or with additional request options
+ * getItemMetadata("ae7", { authentication })
+ *   .then(itemMetadataXml) // XML document as a string
+ * ```
+ * Get an info file for an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/item-info-file.htm) for more information. Currently only supports text files.
+ * @param id - Item Id
+ * @param requestOptions - Options for the request, optionally including the file name which defaults to `iteminfo.xml`
+ * @returns A Promise that will resolve with the contents of the info file for the item.
+ */
+export function getItemMetadata(
+  id: string,
+  requestOptions?: IRequestOptions
+): Promise<any> {
+  const options = {
+    ...requestOptions,
+    fileName: "metadata/metadata.xml"
+  } as IGetItemInfoOptions;
+  return getItemInfo(id, options);
+}
