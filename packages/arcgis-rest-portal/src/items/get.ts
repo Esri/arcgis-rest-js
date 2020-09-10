@@ -13,7 +13,8 @@ import {
   IItemDataOptions,
   IItemRelationshipOptions,
   IUserItemOptions,
-  determineOwner
+  determineOwner,
+  IGetItemInfoOptions
 } from "./helpers";
 
 /**
@@ -304,5 +305,44 @@ export function getItemParts(
       requestOptions.id
     }/parts`;
     return request(url, requestOptions);
+  });
+}
+
+/**
+ * ```
+ * import { getItemInfo } from "@esri/arcgis-rest-portal";
+ * // get the "Info Card" for the item
+ * getItemInfo("ae7")
+ *   .then(itemInfoXml) // XML document as a string
+ * // or get the contents of a specific file
+ * getItemInfo("ae7", { fileName: "metadata/metadata.xml",  authentication })
+ *   .then(itemMetadataXml) // XML document as a string
+ * ```
+ * Get an info file for an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/item-info-file.htm) for more information. Currently only supports text files.
+ * @param id - Item Id
+ * @param requestOptions - Options for the request, optionally including the file name which defaults to `iteminfo.xml`
+ * @returns A Promise that will resolve with the contents of the info file for the item.
+ */
+export function getItemInfo(
+  id: string,
+  requestOptions?: IGetItemInfoOptions
+): Promise<any> {
+  const { fileName = "iteminfo.xml" } = requestOptions || {};
+  const url = `${getItemBaseUrl(
+    id,
+    requestOptions as IRequestOptions
+  )}/info/${fileName}`;
+  // default to a GET request and force rawResponse
+  const options: IItemDataOptions = {
+    ...{ httpMethod: "GET", params: {} },
+    ...requestOptions,
+    rawResponse: true
+  };
+  // otherwise f=json will be appended by default
+  options.params.f = null;
+
+  return request(url, options).then(response => {
+    // assume this is XML, so parse as text (not JSON)
+    return response.text();
   });
 }

@@ -11,20 +11,24 @@ import {
   getItemGroups,
   getItemStatus,
   getItemParts,
-  getRelatedItems
+  getRelatedItems,
+  getItemInfo
 } from "../../src/items/get";
 
 import {
   ItemResponse,
   ItemDataResponse,
   ItemGroupResponse,
-  RelatedItemsResponse
+  RelatedItemsResponse,
+  ItemInfoResponse,
+  ItemMetadataResponse
 } from "../mocks/items/item";
 
 import { GetItemResourcesResponse } from "../mocks/items/resources";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
+import { IGetItemInfoOptions } from "../../src/items/helpers";
 
 describe("get base url", () => {
   it("should return base url when passed a portal url", () => {
@@ -158,6 +162,46 @@ describe("get", () => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/content/items/3ef/relatedItems?f=json&relationshipTypes=Service2Layer%2CArea2CustomPackage"
+        );
+        expect(options.method).toBe("GET");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should return item info by id", done => {
+    fetchMock.once("*", ItemInfoResponse);
+
+    getItemInfo("3ef")
+      .then(response => {
+        expect(response).toBe(ItemInfoResponse);
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://www.arcgis.com/sharing/rest/content/items/3ef/info/iteminfo.xml"
+        );
+        expect(options.method).toBe("GET");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should return item metadata", done => {
+    fetchMock.once("*", ItemMetadataResponse);
+    const fileName = "metadata/metadata.xml";
+    getItemInfo("3ef", {
+      fileName
+    } as IGetItemInfoOptions)
+      .then(response => {
+        expect(response).toBe(ItemMetadataResponse);
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://www.arcgis.com/sharing/rest/content/items/3ef/info/metadata/metadata.xml"
         );
         expect(options.method).toBe("GET");
         done();

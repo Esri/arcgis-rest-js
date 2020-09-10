@@ -85,6 +85,13 @@ export interface IItemInfoOptions extends IUserItemOptions {
   file: any;
 }
 
+export interface IGetItemInfoOptions extends IUserItemOptions {
+  /**
+   * Name of the info file, optionally including the folder path
+   */
+  fileName?: string;
+}
+
 export interface IItemResourceOptions extends IUserItemOptions {
   /**
    * New resource filename.
@@ -249,7 +256,10 @@ export function determineOwner(requestOptions: any): Promise<string> {
     return Promise.resolve(requestOptions.owner);
   } else if (requestOptions.item && requestOptions.item.owner) {
     return Promise.resolve(requestOptions.item.owner);
-  } else if (requestOptions.authentication && requestOptions.authentication.getUsername) {
+  } else if (
+    requestOptions.authentication &&
+    requestOptions.authentication.getUsername
+  ) {
     return requestOptions.authentication.getUsername();
   } else {
     return Promise.reject(
