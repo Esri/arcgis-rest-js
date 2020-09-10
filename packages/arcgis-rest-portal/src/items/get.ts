@@ -335,14 +335,21 @@ export function getItemInfo(
   // default to a GET request and force rawResponse
   const options: IItemDataOptions = {
     ...{ httpMethod: "GET", params: {} },
-    ...requestOptions,
-    rawResponse: true
+    ...requestOptions
   };
-  // otherwise f=json will be appended by default
+  // the file could be any type (text, JSON, image, zip, etc), so
+  // so we provide an escape hatch to let the consumer read the response
+  const justReturnResponse = options.rawResponse;
+  // ensure the f param is not appended to the query string
+  // and that we can control how the response is read
   options.params.f = null;
+  options.rawResponse = true;
 
   return request(url, options).then(response => {
-    // assume this is XML, so parse as text (not JSON)
+    if (justReturnResponse) {
+      return response;
+    }
+    // assume this is XML, so read as text (not JSON or Blob)
     return response.text();
   });
 }

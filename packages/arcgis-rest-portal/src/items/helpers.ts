@@ -85,7 +85,7 @@ export interface IItemInfoOptions extends IUserItemOptions {
   file: any;
 }
 
-export interface IGetItemInfoOptions extends IUserItemOptions {
+export interface IGetItemInfoOptions extends IRequestOptions {
   /**
    * Name of the info file, optionally including the folder path
    */

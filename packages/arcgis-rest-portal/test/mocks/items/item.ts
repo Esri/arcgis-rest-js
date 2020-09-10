@@ -438,3 +438,89 @@ export const ItemMetadataResponse: string = `
     <mdDateSt Sync="TRUE">20180711</mdDateSt>
 </metadata>
 `;
+
+export const ItemFormJsonResponse: any = {
+  portalUrl: "https://qaext.arcgis.com",
+  header: {
+    content:
+      "%3Cp%20title%3D'Community%20Survey'%3ECommunity%20Survey%3C%2Fp%3E",
+    isVisible: true
+  },
+  subHeader: {
+    content:
+      "%3Cp%3E%3Cspan%20style%3D%22font-size%3A%2014px%3B%22%3ESimple%20survey%20starter%20for%20ArcGIS%20Hub's%20Create%20Your%20Own%20Initiative.%20%3C%2Fspan%3E%3C%2Fp%3E%3Cp%3E%3Cbr%3E%3C%2Fp%3E%3Cp%3E%3Cbr%3E%3C%2Fp%3E%3Cp%3E%3Cspan%20style%3D%22font-size%3A%2014px%3B%22%3EIn%20edit%20mode%2C%20use%20the%20configuration%20panel%20at%20the%20right%20to%20add%20different%20kinds%20of%20questions.%20Save%20and%20publish%20your%20survey%20to%20gather%20feedback%20and%20data%20from%20your%20communities.%20%3C%2Fspan%3E%3C%2Fp%3E%3Cp%3E%3Cbr%3E%3C%2Fp%3E%3Cp%3E%3Cspan%20style%3D%22font-size%3A%2014px%3B%22%3E%3Cspan%20class%3D%22ql-cursor%22%3E%EF%BB%BF%3C%2Fspan%3E%3C%2Fspan%3E%3C%2Fp%3E",
+    isVisible: true
+  },
+  questions: [
+    {
+      id: "field_0",
+      position: 0,
+      fieldName: "field_0",
+      name: "field_0",
+      type: "esriQuestionTypeSingleChoice",
+      label: "What is your favorite pet?",
+      description:
+        "%3Cp%3EReplace%20this%20question%20with%20your%20own%2C%20and%20add%20more!%3C%2Fp%3E",
+      isRequired: false,
+      choices: {
+        items: [
+          {
+            label: "Dog",
+            value: "choice0",
+            position: 0
+          },
+          {
+            label: "Cat",
+            value: "choice1",
+            position: 1
+          },
+          {
+            label: "Monkey",
+            value: "choice2",
+            position: 2
+          }
+        ],
+        other: {
+          isEnabled: true,
+          label: "Other",
+          value: "other",
+          fieldName: "field_0_other",
+          name: "field_0_other"
+        }
+      },
+      appearance: {
+        layout: "compact"
+      }
+    }
+  ],
+  rules: [],
+  version: "2.5",
+  theme: {
+    name: "theme-color1",
+    style: {
+      header: {
+        backgroundColor: "#31872e",
+        color: "#ffffff"
+      },
+      subHeader: {},
+      footer: {}
+    }
+  },
+  footer: {
+    content:
+      "%3Ca%20href%3D'https%3A%2F%2Fsurvey123.arcgis.com'%20target%3D'_blank'%3EPowered%20by%20Survey123%20for%20ArcGIS%3C%2Fa%3E",
+    isVisible: true
+  },
+  submit: {
+    buttonText: "Submit"
+  },
+  settings: {
+    showQuestionNumber: true,
+    allowSubmitAnother: true,
+    thankYouScreenContent: "Great! Your data was sent successfully. Thanks.",
+    recordStartEndTime: {
+      isEnabled: false,
+      fieldInfos: []
+    }
+  }
+};
