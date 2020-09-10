@@ -4,6 +4,7 @@
 import * as fetchMock from "fetch-mock";
 
 import {
+  getItemBaseUrl,
   getItem,
   getItemData,
   getItemResources,
@@ -17,8 +18,6 @@ import {
   ItemResponse,
   ItemDataResponse,
   ItemGroupResponse,
-  ItemStatusResponse,
-  ItemPartsResponse,
   RelatedItemsResponse
 } from "../mocks/items/item";
 
@@ -26,6 +25,15 @@ import { GetItemResourcesResponse } from "../mocks/items/resources";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
+
+describe("get base url", () => {
+  it("should return base url when passed a portal url", () => {
+    const id = "foo";
+    const portalUrl = "https://org.maps.arcgis.com/sharing/rest/";
+    const result = getItemBaseUrl(id, portalUrl);
+    expect(result).toBe(`${portalUrl}/content/items/${id}`);
+  });
+});
 
 describe("get", () => {
   afterEach(fetchMock.restore);
