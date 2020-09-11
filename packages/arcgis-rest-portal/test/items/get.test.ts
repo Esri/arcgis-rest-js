@@ -22,7 +22,8 @@ import {
   ItemGroupResponse,
   RelatedItemsResponse,
   ItemInfoResponse,
-  ItemMetadataResponse
+  ItemMetadataResponse,
+  ItemFormJsonResponse
 } from "../mocks/items/item";
 
 import { GetItemResourcesResponse } from "../mocks/items/resources";
@@ -182,6 +183,51 @@ describe("get", () => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://www.arcgis.com/sharing/rest/content/items/3ef/info/iteminfo.xml"
+        );
+        expect(options.method).toBe("GET");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should return raw response item info if desired", done => {
+    fetchMock.once("*", ItemFormJsonResponse);
+
+    getItemInfo("3ef", {
+      fileName: "form.json",
+      rawResponse: true
+    } as IGetItemInfoOptions)
+      .then(response => response.json())
+      .then(formJson => {
+        expect(formJson).toEqual(ItemFormJsonResponse);
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://www.arcgis.com/sharing/rest/content/items/3ef/info/form.json"
+        );
+        expect(options.method).toBe("GET");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should return item info JSON files", done => {
+    fetchMock.once("*", ItemFormJsonResponse);
+
+    getItemInfo("3ef", {
+      fileName: "form.json",
+      readAs: "json"
+    } as IGetItemInfoOptions)
+      .then(formJson => {
+        expect(formJson).toEqual(ItemFormJsonResponse);
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://www.arcgis.com/sharing/rest/content/items/3ef/info/form.json"
         );
         expect(options.method).toBe("GET");
         done();
