@@ -315,12 +315,13 @@ export function getItemParts(
  * getItemInfo("ae7")
  *   .then(itemInfoXml) // XML document as a string
  * // or get the contents of a specific file
- * getItemInfo("ae7", { fileName: "metadata/metadata.xml",  authentication })
- *   .then(itemMetadataXml) // XML document as a string
+ * getItemInfo("ae7", { fileName: "form.json", readAs: "json", authentication })
+ *   .then(formJson) // JSON document as JSON
  * ```
  * Get an info file for an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/item-info-file.htm) for more information.
  * @param id - Item Id
- * @param requestOptions - Options for the request, optionally including the file name which defaults to `iteminfo.xml`
+ * @param requestOptions - Options for the request, including the file name which defaults to `iteminfo.xml`.
+ * If the file is not a text file (XML, HTML, etc) you will need to specify the `readAs` parameter
  * @returns A Promise that will resolve with the contents of the info file for the item.
  */
 export function getItemInfo(
