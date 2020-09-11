@@ -47,36 +47,21 @@ export function getItem(
   return request(url, options);
 }
 
-// /**
-//  * Get the fully qualified URL to the REST end point for an item.
-//  * @param item id (string) or an item object w/ `id` and `access`
-//  * @param portalUrlOrRequestOptions a portal base or API URL, a portal object, or request options containing either of those
-//  * @returns URL to the item's REST end point, defaults to `https://www.arcgis.com/sharing/rest/content/items/{itemId}?f=json`
-//  */
-// export const getItemApiLink = (
-//   itemOrId: IItem | string,
-//   portalUrlOrRequestOptions?: string | IRequestOptions
-// ) => {
-//   const baseUrl = getItemApiUrl(itemOrId, portalUrlOrRequestOptions)
-//   // TODO: append token if supplied and access is not public?
-//   return `${baseUrl}?f=json`
-// }
-
 /**
  * Get the fully qualified base URL to the REST end point for an item.
- * @param item id (string) or an item object w/ `id` and `access`
+ * @param id Item Id
  * @param portalUrlOrRequestOptions a portal URL or request options
- * @returns URL to the item's REST end point, defaults to `https://www.arcgis.com/sharing/rest/content/items/{itemId}`
+ * @returns URL to the item's REST end point, defaults to `https://www.arcgis.com/sharing/rest/content/items/{id}`
  */
 export const getItemBaseUrl = (
-  itemId: IItem | string,
+  id: string,
   portalUrlOrRequestOptions?: string | IRequestOptions
 ) => {
   const portalUrl =
     typeof portalUrlOrRequestOptions === "string"
       ? portalUrlOrRequestOptions
       : getPortalUrl(portalUrlOrRequestOptions);
-  return `${portalUrl}/content/items/${itemId}`;
+  return `${portalUrl}/content/items/${id}`;
 };
 
 /**
@@ -366,10 +351,10 @@ export function getItemInfo(
  * getItemMetadata("ae7", { authentication })
  *   .then(itemMetadataXml) // XML document as a string
  * ```
- * Get an info file for an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/item-info-file.htm) for more information. Currently only supports text files.
+ * Get the standard formal metadata XML file for an item (`/info/metadata/metadata.xml`)
  * @param id - Item Id
- * @param requestOptions - Options for the request, optionally including the file name which defaults to `iteminfo.xml`
- * @returns A Promise that will resolve with the contents of the info file for the item.
+ * @param requestOptions - Options for the request
+ * @returns A Promise that will resolve with the contents of the metadata file for the item as a string.
  */
 export function getItemMetadata(
   id: string,
