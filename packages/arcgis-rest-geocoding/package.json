@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-geocoding",
-  "version": "2.17.0",
+  "version": "2.18.0",
   "description": "Geocoding helpers for @esri/arcgis-rest-js",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/geocoding.umd.js",
@@ -13,12 +13,12 @@
     "dist/**"
   ],
   "dependencies": {
-    "@esri/arcgis-rest-types": "^2.17.0",
+    "@esri/arcgis-rest-types": "^2.18.0",
     "tslib": "^1.13.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^2.17.0",
-    "@esri/arcgis-rest-request": "^2.17.0"
+    "@esri/arcgis-rest-auth": "^2.18.0",
+    "@esri/arcgis-rest-request": "^2.18.0"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^2.0.0",

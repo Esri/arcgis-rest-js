@@ -5,7 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [Unreleased][head]
+## [2.18.0] - September 11th 2020
+
+### @esri/arcgis-rest-portal
+
+* New Features
+   * **getItemBaseUrl**: add function to get the base REST API URL for an item [`d6ec9fca`](https://github.com/Esri/arcgis-rest-js/commit/d6ec9fcafbdeafc2a33d38787baa3a1d7fb1ec69)
+   * **getItemInfo**: add a function to fetch an info file for an item [`a9dd7d64`](https://github.com/Esri/arcgis-rest-js/commit/a9dd7d64834424ca348fb92818d616bb74e29a6e) [#738](https://github.com/Esri/arcgis-rest-js/issues/738)
+   * **getItemMetadata**: add a function to fetch the metadata XML for an item [`c263e1bd`](https://github.com/Esri/arcgis-rest-js/commit/c263e1bd7c13cb1ee65e5c23f994650820c023a6)
 
 ## [2.17.0] - September 3rd 2020
 
@@ -1732,4 +1739,5 @@ Initial Public Release
 [2.15.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.14.1...v2.15.0 "v2.15.0"
 [2.16.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.15.0...v2.16.0 "v2.16.0"
 [2.17.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.16.0...v2.17.0 "v2.17.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.17.0...HEAD "Unreleased Changes"
+[2.18.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.17.0...v2.18.0 "v2.18.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.18.0...HEAD "Unreleased Changes"
