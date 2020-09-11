@@ -13,7 +13,8 @@ import {
   IItemDataOptions,
   IItemRelationshipOptions,
   IUserItemOptions,
-  determineOwner
+  determineOwner,
+  IGetItemInfoOptions
 } from "./helpers";
 
 /**
@@ -36,7 +37,7 @@ export function getItem(
   id: string,
   requestOptions?: IRequestOptions
 ): Promise<IItem> {
-  const url = `${getPortalUrl(requestOptions)}/content/items/${id}`;
+  const url = getItemBaseUrl(id, requestOptions);
 
   // default to a GET request
   const options: IRequestOptions = {
@@ -45,6 +46,38 @@ export function getItem(
   };
   return request(url, options);
 }
+
+// /**
+//  * Get the fully qualified URL to the REST end point for an item.
+//  * @param item id (string) or an item object w/ `id` and `access`
+//  * @param portalUrlOrRequestOptions a portal base or API URL, a portal object, or request options containing either of those
+//  * @returns URL to the item's REST end point, defaults to `https://www.arcgis.com/sharing/rest/content/items/{itemId}?f=json`
+//  */
+// export const getItemApiLink = (
+//   itemOrId: IItem | string,
+//   portalUrlOrRequestOptions?: string | IRequestOptions
+// ) => {
+//   const baseUrl = getItemApiUrl(itemOrId, portalUrlOrRequestOptions)
+//   // TODO: append token if supplied and access is not public?
+//   return `${baseUrl}?f=json`
+// }
+
+/**
+ * Get the fully qualified base URL to the REST end point for an item.
+ * @param item id (string) or an item object w/ `id` and `access`
+ * @param portalUrlOrRequestOptions a portal URL or request options
+ * @returns URL to the item's REST end point, defaults to `https://www.arcgis.com/sharing/rest/content/items/{itemId}`
+ */
+export const getItemBaseUrl = (
+  itemId: IItem | string,
+  portalUrlOrRequestOptions?: string | IRequestOptions
+) => {
+  const portalUrl =
+    typeof portalUrlOrRequestOptions === "string"
+      ? portalUrlOrRequestOptions
+      : getPortalUrl(portalUrlOrRequestOptions);
+  return `${portalUrl}/content/items/${itemId}`;
+};
 
 /**
  * ```
@@ -65,7 +98,7 @@ export function getItemData(
   id: string,
   requestOptions?: IItemDataOptions
 ): Promise<any> {
-  const url = `${getPortalUrl(requestOptions)}/content/items/${id}/data`;
+  const url = `${getItemBaseUrl(id, requestOptions)}/data`;
   // default to a GET request
   const options: IItemDataOptions = {
     ...{ httpMethod: "GET", params: {} },
@@ -112,9 +145,10 @@ export interface IGetRelatedItemsResponse {
 export function getRelatedItems(
   requestOptions: IItemRelationshipOptions
 ): Promise<IGetRelatedItemsResponse> {
-  const url = `${getPortalUrl(requestOptions)}/content/items/${
-    requestOptions.id
-  }/relatedItems`;
+  const url = `${getItemBaseUrl(
+    requestOptions.id,
+    requestOptions
+  )}/relatedItems`;
 
   const options: IItemRelationshipOptions = {
     httpMethod: "GET",
@@ -146,7 +180,7 @@ export function getItemResources(
   id: string,
   requestOptions?: IRequestOptions
 ): Promise<any> {
-  const url = `${getPortalUrl(requestOptions)}/content/items/${id}/resources`;
+  const url = `${getItemBaseUrl(id, requestOptions)}/resources`;
 
   // Mix in num:1000 with any user supplied params
   // Key thing - we don't want to mutate the passed in requestOptions
@@ -183,7 +217,7 @@ export function getItemGroups(
   id: string,
   requestOptions?: IRequestOptions
 ): Promise<IGetItemGroupsResponse> {
-  const url = `${getPortalUrl(requestOptions)}/content/items/${id}/groups`;
+  const url = `${getItemBaseUrl(id, requestOptions)}/groups`;
 
   return request(url, requestOptions);
 }
@@ -272,4 +306,78 @@ export function getItemParts(
     }/parts`;
     return request(url, requestOptions);
   });
+}
+
+/**
+ * ```
+ * import { getItemInfo } from "@esri/arcgis-rest-portal";
+ * // get the "Info Card" for the item
+ * getItemInfo("ae7")
+ *   .then(itemInfoXml) // XML document as a string
+ * // or get the contents of a specific file
+ * getItemInfo("ae7", { fileName: "form.json", readAs: "json", authentication })
+ *   .then(formJson) // JSON document as JSON
+ * ```
+ * Get an info file for an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/item-info-file.htm) for more information.
+ * @param id - Item Id
+ * @param requestOptions - Options for the request, including the file name which defaults to `iteminfo.xml`.
+ * If the file is not a text file (XML, HTML, etc) you will need to specify the `readAs` parameter
+ * @returns A Promise that will resolve with the contents of the info file for the item.
+ */
+export function getItemInfo(
+  id: string,
+  requestOptions?: IGetItemInfoOptions
+): Promise<any> {
+  const { fileName = "iteminfo.xml" } = requestOptions || {};
+  const url = `${getItemBaseUrl(
+    id,
+    requestOptions as IRequestOptions
+  )}/info/${fileName}`;
+  // default to a GET request and force rawResponse
+  const options: IGetItemInfoOptions = {
+    ...{ httpMethod: "GET", params: {} },
+    ...requestOptions
+  };
+  // preserve escape hatch to let the consumer read the response
+  const justReturnResponse = options.rawResponse;
+  options.rawResponse = true;
+  // ensure the f param is not appended to the query string
+  options.params.f = null;
+
+  return request(url, options).then(response => {
+    if (justReturnResponse) {
+      return response;
+    }
+    // the file could be any type (text, JSON, image, zip, etc)
+    // so we let the consumer specify how the file should be read
+    // the standard info files are XML, so default to text
+    const readMethod = options.readAs || "text";
+    return response[readMethod]();
+  });
+}
+
+/**
+ * ```
+ * import { getItemMetadata } from "@esri/arcgis-rest-portal";
+ * // get the metadata for the item
+ * getItemMetadata("ae7")
+ *   .then(itemMetadataXml) // XML document as a string
+ * // or with additional request options
+ * getItemMetadata("ae7", { authentication })
+ *   .then(itemMetadataXml) // XML document as a string
+ * ```
+ * Get an info file for an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/item-info-file.htm) for more information. Currently only supports text files.
+ * @param id - Item Id
+ * @param requestOptions - Options for the request, optionally including the file name which defaults to `iteminfo.xml`
+ * @returns A Promise that will resolve with the contents of the info file for the item.
+ */
+export function getItemMetadata(
+  id: string,
+  requestOptions?: IRequestOptions
+): Promise<any> {
+  const options = {
+    ...requestOptions,
+    fileName: "metadata/metadata.xml"
+  } as IGetItemInfoOptions;
+  return getItemInfo(id, options);
 }

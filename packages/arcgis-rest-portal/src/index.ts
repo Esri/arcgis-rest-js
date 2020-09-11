@@ -15,6 +15,7 @@ export * from "./items/helpers";
 export * from "./items/upload";
 
 export * from "./groups/add-users";
+export * from "./groups/remove-users";
 export * from "./groups/invite-users";
 export * from "./groups/create";
 export * from "./groups/get";
@@ -38,7 +39,9 @@ export * from "./users/search-users";
 export * from "./users/update";
 
 export * from "./sharing/access";
-export * from "./sharing/group-sharing";
+export * from "./sharing/share-item-with-group";
+export * from "./sharing/unshare-item-with-group";
+export * from "./sharing/is-item-shared-with-group";
 export * from "./sharing/helpers";
 
 export * from "./util/get-portal";
