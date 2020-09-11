@@ -1752,8 +1752,8 @@
  .and()
  .match(<span class="hljs-string">"Demo App"</span>);
 
-searchItems(query).then(<span class="hljs-function">(<span class="hljs-params">results</span>) =&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(request);
+searchItems(query).then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> {
+  <span class="hljs-built_in">console</span>.log(res.results);
 });
 </code></pre>
 <p>Will search for items matching</p>
