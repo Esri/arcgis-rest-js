@@ -14,7 +14,7 @@ import {
   IItemRelationshipOptions,
   IUserItemOptions,
   determineOwner,
-  IGetItemInfoOptions
+  FetchReadMethodName
 } from "./helpers";
 
 /**
@@ -293,6 +293,18 @@ export function getItemParts(
   });
 }
 
+export interface IGetItemInfoOptions extends IRequestOptions {
+  /**
+   * Name of the info file, optionally including the folder path
+   */
+  fileName?: string;
+  /**
+   * How the fetch response should be read, see:
+   * https://developer.mozilla.org/en-US/docs/Web/API/Body#Methods
+   */
+  readAs?: FetchReadMethodName;
+}
+
 /**
  * ```
  * import { getItemInfo } from "@esri/arcgis-rest-portal";
@@ -313,32 +325,12 @@ export function getItemInfo(
   id: string,
   requestOptions?: IGetItemInfoOptions
 ): Promise<any> {
-  const { fileName = "iteminfo.xml" } = requestOptions || {};
-  const url = `${getItemBaseUrl(
-    id,
-    requestOptions as IRequestOptions
-  )}/info/${fileName}`;
-  // default to a GET request and force rawResponse
-  const options: IGetItemInfoOptions = {
-    ...{ httpMethod: "GET", params: {} },
+  const { fileName = "iteminfo.xml", readAs = "text" } = requestOptions || {};
+  const options: IRequestOptions = {
+    httpMethod: "GET",
     ...requestOptions
   };
-  // preserve escape hatch to let the consumer read the response
-  const justReturnResponse = options.rawResponse;
-  options.rawResponse = true;
-  // ensure the f param is not appended to the query string
-  options.params.f = null;
-
-  return request(url, options).then(response => {
-    if (justReturnResponse) {
-      return response;
-    }
-    // the file could be any type (text, JSON, image, zip, etc)
-    // so we let the consumer specify how the file should be read
-    // the standard info files are XML, so default to text
-    const readMethod = options.readAs || "text";
-    return response[readMethod]();
-  });
+  return getItemFile(id, `/info/${fileName}`, readAs, options);
 }
 
 /**
@@ -365,4 +357,32 @@ export function getItemMetadata(
     fileName: "metadata/metadata.xml"
   } as IGetItemInfoOptions;
   return getItemInfo(id, options);
+}
+
+// overrides request()'s default behavior for reading the response
+// which is based on `params.f` and defaults to JSON
+function getItemFile(
+  id: string,
+  // NOTE: fileName should include any folder/subfolders
+  fileName: string,
+  readMethod: FetchReadMethodName,
+  requestOptions?: IRequestOptions
+): Promise<any> {
+  const url = `${getItemBaseUrl(id, requestOptions)}${fileName}`;
+  // preserve escape hatch to let the consumer read the response
+  // and ensure the f param is not appended to the query string
+  const options: IRequestOptions = {
+    params: {},
+    ...requestOptions
+  };
+  const justReturnResponse = options.rawResponse;
+  options.rawResponse = true;
+  options.params.f = null;
+
+  return request(url, options).then(response => {
+    if (justReturnResponse) {
+      return response;
+    }
+    return response[readMethod]();
+  });
 }

@@ -4,6 +4,7 @@
 import * as fetchMock from "fetch-mock";
 
 import {
+  IGetItemInfoOptions,
   getItemBaseUrl,
   getItem,
   getItemData,
@@ -30,7 +31,6 @@ import { GetItemResourcesResponse } from "../mocks/items/resources";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { IGetItemInfoOptions } from "../../src/items/helpers";
 
 describe("get base url", () => {
   it("should return base url when passed a portal url", () => {
