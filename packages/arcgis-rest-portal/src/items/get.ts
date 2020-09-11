@@ -318,7 +318,7 @@ export function getItemParts(
  * getItemInfo("ae7", { fileName: "metadata/metadata.xml",  authentication })
  *   .then(itemMetadataXml) // XML document as a string
  * ```
- * Get an info file for an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/item-info-file.htm) for more information. Currently only supports text files.
+ * Get an info file for an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/item-info-file.htm) for more information.
  * @param id - Item Id
  * @param requestOptions - Options for the request, optionally including the file name which defaults to `iteminfo.xml`
  * @returns A Promise that will resolve with the contents of the info file for the item.
@@ -333,24 +333,25 @@ export function getItemInfo(
     requestOptions as IRequestOptions
   )}/info/${fileName}`;
   // default to a GET request and force rawResponse
-  const options: IItemDataOptions = {
+  const options: IGetItemInfoOptions = {
     ...{ httpMethod: "GET", params: {} },
     ...requestOptions
   };
-  // the file could be any type (text, JSON, image, zip, etc), so
-  // so we provide an escape hatch to let the consumer read the response
+  // preserve escape hatch to let the consumer read the response
   const justReturnResponse = options.rawResponse;
-  // ensure the f param is not appended to the query string
-  // and that we can control how the response is read
-  options.params.f = null;
   options.rawResponse = true;
+  // ensure the f param is not appended to the query string
+  options.params.f = null;
 
   return request(url, options).then(response => {
     if (justReturnResponse) {
       return response;
     }
-    // assume this is XML, so read as text (not JSON or Blob)
-    return response.text();
+    // the file could be any type (text, JSON, image, zip, etc)
+    // so we let the consumer specify how the file should be read
+    // the standard info files are XML, so default to text
+    const readMethod = options.readAs || "text";
+    return response[readMethod]();
   });
 }
 

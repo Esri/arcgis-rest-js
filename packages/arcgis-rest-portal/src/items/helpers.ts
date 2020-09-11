@@ -90,6 +90,11 @@ export interface IGetItemInfoOptions extends IRequestOptions {
    * Name of the info file, optionally including the folder path
    */
   fileName?: string;
+  /**
+   * How the fetch response should be read, see:
+   * https://developer.mozilla.org/en-US/docs/Web/API/Body#Methods
+   */
+  readAs?: "arrayBuffer" | "blob" | "formData" | "json" | "text";
 }
 
 export interface IItemResourceOptions extends IUserItemOptions {
