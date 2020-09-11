@@ -53,6 +53,17 @@ export type ItemRelationshipType =
   | "TrackView2Map"
   | "SurveyAddIn2Data";
 
+/**
+ * Names of methods for reading the body of a fetch response, see:
+ * https://developer.mozilla.org/en-US/docs/Web/API/Body#Methods
+ */
+export type FetchReadMethodName =
+  | "arrayBuffer"
+  | "blob"
+  | "formData"
+  | "json"
+  | "text";
+
 export interface IItemRelationshipOptions extends IRequestOptions {
   /**
    * Unique identifier of the item.
@@ -83,18 +94,6 @@ export interface IItemInfoOptions extends IUserItemOptions {
    * Object to store
    */
   file: any;
-}
-
-export interface IGetItemInfoOptions extends IRequestOptions {
-  /**
-   * Name of the info file, optionally including the folder path
-   */
-  fileName?: string;
-  /**
-   * How the fetch response should be read, see:
-   * https://developer.mozilla.org/en-US/docs/Web/API/Body#Methods
-   */
-  readAs?: "arrayBuffer" | "blob" | "formData" | "json" | "text";
 }
 
 export interface IItemResourceOptions extends IUserItemOptions {
