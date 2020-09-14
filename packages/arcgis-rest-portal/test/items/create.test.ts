@@ -372,29 +372,6 @@ describe("search", () => {
         });
     });
 
-    it("should throw an error for a file upload request with multipart=false", done => {
-      fetchMock.once("*", ItemSuccessResponse);
-      const fakeItem = {
-        owner: "casey",
-        title: "my fake item",
-        type: "Web Mapping Application"
-      };
-      createItemInFolder({
-        item: fakeItem,
-        file: "some file",
-        // multipart is required to be true for file upload
-        multipart: false,
-        ...MOCK_USER_REQOPTS
-      })
-        .then(() => {
-          fail();
-        })
-        .catch(() => {
-          expect(fetchMock.called()).toEqual(false);
-          done();
-        });
-    });
-
     it("should throw an error for a multipart request with no file name", done => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
