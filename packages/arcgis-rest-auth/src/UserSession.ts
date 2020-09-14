@@ -439,6 +439,54 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
+   * Request session information from the parent application
+   * 
+   * When an application is embedded into another application via an IFrame, the embedded app can
+   * use `window.postMessage` to request credentials from the host application. 
+   * 
+   * @param parentOrigin origin of the parent frame. Passed into the embedded application as `parentOrigin` query param
+   * @browserOnly
+   */
+  public static fromParent (parentOrigin:string): Promise<any> {
+    // Declar handler outside of promise scope so we can detach it
+    let handler: (event: any) => void;
+    // return a promise...
+    return new Promise((resolve, reject) => {
+      // create an event handler that just wraps the parentMessageHandler
+      handler = (event:any) => {
+        // ensure we only listen to events from the specified parent
+        if (event.origin === parentOrigin){
+          try {
+            return resolve(UserSession.parentMessageHandler(event));
+          } catch (err) {
+            return reject(err);
+          }
+        }
+      };
+      // add listener
+      window.addEventListener('message', handler, false);
+      window.parent.postMessage({type: 'arcgis:auth:requestCredential'}, parentOrigin);
+    })
+    .then((session) => {
+      window.removeEventListener('message', handler, false);
+      return session;
+    });
+  }
+
+  /**
+   * Handle the response from the parent
+   * @param event DOM Event
+   */
+  private static parentMessageHandler (event:any):UserSession {
+    if (event.data.type === 'arcgis:auth:credential') {
+      return UserSession.fromCredential(event.data.credential);
+    }
+    if (event.data.type === 'arcgis:auth:rejected') {
+      throw new Error(event.data.message);
+    }
+  }
+
+  /**
    * Begins a new server-based OAuth 2.0 sign in. This will redirect the user to
    * the ArcGIS Online or ArcGIS Enterprise authorization page.
    *
@@ -808,6 +856,53 @@ export class UserSession implements IAuthenticationManager {
 
   public serialize() {
     return JSON.stringify(this);
+  }
+
+  private hostHandler: any;
+  /**
+   * Return a function that closes over the validOrigins array and 
+   * can be used as an event handler for the `message` event
+   * 
+   * @param validOrigins Array of valid origins
+   */
+  private createPostMessageHandler (
+    validOrigins: string[]
+  ): (event:any) => void {
+    // return a function that closes over the validOrigins and
+    // has access to the credential
+    return (event:any) => {
+      // Note: do not use regex's here. validOrigins is an array so we're checking that the event's origin
+      // is in the array via exact match. More info about avoiding postMessave xss issues here
+      // https://jlajara.gitlab.io/web/2020/07/17/Dom_XSS_PostMessage_2.html#tipsbypasses-in-postmessage-vulnerabilities
+      if (validOrigins.indexOf(event.origin) > -1) {
+        const credential = this.toCredential();
+        event.source.postMessage({type: 'arcgis:auth:credential', credential}, event.origin);
+      } else {
+        event.source.postMessage({type: 'arcgis:auth:rejected', message: `Rejected authentication request.`}, event.origin);
+      }
+    }
+  }
+  /**
+   * For a "Host" app that embeds other platform apps via iframes, after authenticating the user
+   * and creating a UserSession, the app can then enable "post message" style authentication by calling
+   * this method. 
+   * 
+   * Internally this adds an event listener on window for the `message` event
+   * 
+   * @param validChildOrigins Array of origins that are allowed to request authentication from the host app
+   */
+  public enablePostMessageAuth (validChildOrigins: string[]): any {
+    this.hostHandler = this.createPostMessageHandler(validChildOrigins);
+    window.addEventListener('message',this.hostHandler , false);
+  }
+
+  /**
+   * For a "Host" app that has embedded other platform apps via iframes, when the host needs
+   * to transition routes, it should call `UserSession.disablePostMessageAuth()` to remove
+   * the event listener and prevent memory leaks
+   */
+  public disablePostMessageAuth () {
+    window.removeEventListener('message', this.hostHandler, false);
   }
 
   /**
