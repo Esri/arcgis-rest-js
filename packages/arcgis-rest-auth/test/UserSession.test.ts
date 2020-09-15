@@ -1091,6 +1091,186 @@ describe("UserSession", () => {
     });
   });
 
+  describe('postmessage auth :: ', () => { 
+    let MockWindow = {
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      parent: {
+        postMessage: () => {}
+      }
+    };
+
+    const cred = {
+      expires: TOMORROW.getTime(),
+      server: "https://www.arcgis.com",
+      ssl: false,
+      token: "token",
+      userId: "jsmith"
+    };
+
+    it('.disablePostMessageAuth removes event listener', () => { 
+      const removeSpy = spyOn(MockWindow, 'removeEventListener');
+      const session = UserSession.fromCredential(cred)
+      session.disablePostMessageAuth(MockWindow);
+      expect(removeSpy.calls.count()).toBe(1, 'should call removeEventListener');
+    });
+    it('.enablePostMessageAuth adds event listener', () => { 
+      const addSpy = spyOn(MockWindow, 'addEventListener');
+      const session = UserSession.fromCredential(cred);
+      session.enablePostMessageAuth(['https://storymaps.arcgis.com'], MockWindow);
+      expect(addSpy.calls.count()).toBe(1, 'should call addEventListener');
+    });
+
+    it('.enablePostMessage handler returns credential to origin in list', () => {
+      // ok, this gets kinda gnarly... 
+
+      // create a mock window object
+      // that will hold the passed in event handler so we can fire it manually
+      const Win = {
+        _fn: (evt:any) => {},
+        addEventListener: function (evt:any, fn:any) {
+          // enablePostMessageAuth passes in the handler, which is what we're actually testing
+          Win._fn = fn;
+        },
+        removeEventListener: function () {},
+      }
+      // Create the session
+      const session = UserSession.fromCredential(cred);
+      // enable postMessageAuth allowing storymaps.arcgis.com to recieve creds
+      session.enablePostMessageAuth(['https://storymaps.arcgis.com'], Win);
+      // create an event object, with a matching origin
+      // an a source.postMessage fn that we can spy on
+      const evt = {
+        origin: 'https://storymaps.arcgis.com',
+        source: {
+          postMessage: function (msg: any, origin: string) {}
+        }
+      }
+      // create the spy
+      const sourceSpy = spyOn(evt.source, 'postMessage');
+      // Now, fire the handler, simulating what happens when a postMessage event comes
+      // from an embedded iframe
+      Win._fn(evt);
+      // Expectations...
+      expect(sourceSpy.calls.count()).toBe(1, 'souce.postMessage should be called in handler');
+      const args = sourceSpy.calls.argsFor(0);
+      expect(args[0].type).toBe('arcgis:auth:credential', 'should send credential type');
+      expect(args[0].credential.userId).toBe('jsmith', 'should send credential');
+      // now the case where it's not a valid origin
+      evt.origin = 'https://evil.com';
+      Win._fn(evt);
+      expect(sourceSpy.calls.count()).toBe(2, 'souce.postMessage should be called in handler');
+      const args2 = sourceSpy.calls.argsFor(1);
+      expect(args2[0].type).toBe('arcgis:auth:rejected', 'should send reject');
+    });
+
+    it('.fromParent happy path', () => { 
+      // create a mock window that will fire the handler
+      const Win = {
+        _fn: (evt:any) => {},
+        addEventListener: function (evt:any, fn:any) {
+          Win._fn = fn;
+        },
+        removeEventListener: function () {},
+        parent: {
+          postMessage: function (msg: any, origin:string) {
+            Win._fn({origin: 'https://origin.com', data: {type: 'arcgis:auth:credential', credential: cred }});
+          }
+        }
+      }
+
+      return UserSession.fromParent('https://origin.com', Win)
+      .then((session) => {
+        expect(session.username).toBe('jsmith', 'should use the cred wired throu the mock window');
+      });
+    });
+
+    it('.fromParent rejects if not parentOrigin', () => { 
+      // create a mock window that will fire the handler
+      const Win = {
+        _fn: (evt:any) => {},
+        addEventListener: function (evt:any, fn:any) {
+          Win._fn = fn;
+        },
+        removeEventListener: function () {},
+        parent: {
+          postMessage: function (msg: any, origin:string) {
+            Win._fn({origin: 'https://notorigin.com', data: {type: 'arcgis:auth:credential', credential: cred }});
+          }
+        }
+      }
+
+      return UserSession.fromParent('https://origin.com', Win)
+      .catch((err) => {
+        expect(err.message).toBe('Rejected authentication request.', 'Should reject');
+      })
+    });
+
+    it('.fromParent rejects if invlid cred', () => { 
+      // create a mock window that will fire the handler
+      const Win = {
+        _fn: (evt:any) => {},
+        addEventListener: function (evt:any, fn:any) {
+          Win._fn = fn;
+        },
+        removeEventListener: function () {},
+        parent: {
+          postMessage: function (msg: any, origin:string) {
+            Win._fn({origin: 'https://origin.com', data: {type: 'arcgis:auth:credential', credential: {foo:"bar"} }});
+          }
+        }
+      }
+
+      return UserSession.fromParent('https://origin.com', Win)
+      .catch((err) => {
+        expect(err.message).toBe("Cannot read property 'includes' of undefined", 'Should reject');
+      })
+    });
+
+    it('.fromParent rejects if auth rejected', () => { 
+      // create a mock window that will fire the handler
+      const Win = {
+        _fn: (evt:any) => {},
+        addEventListener: function (evt:any, fn:any) {
+          Win._fn = fn;
+        },
+        removeEventListener: function () {},
+        parent: {
+          postMessage: function (msg: any, origin:string) {
+            Win._fn({origin: 'https://origin.com', data: {type: 'arcgis:auth:rejected', message: 'Rejected authentication request.'}});
+          }
+        }
+      }
+
+      return UserSession.fromParent('https://origin.com', Win)
+      .catch((err) => {
+        expect(err.message).toBe("Rejected authentication request.", 'Should reject');
+      })
+    });
+
+    it('.fromParent rejects if auth unknown message', () => { 
+      // create a mock window that will fire the handler
+      const Win = {
+        _fn: (evt:any) => {},
+        addEventListener: function (evt:any, fn:any) {
+          Win._fn = fn;
+        },
+        removeEventListener: function () {},
+        parent: {
+          postMessage: function (msg: any, origin:string) {
+            Win._fn({origin: 'https://origin.com', data: {type: 'arcgis:auth:other'}});
+          }
+        }
+      }
+
+      return UserSession.fromParent('https://origin.com', Win)
+      .catch((err) => {
+        expect(err.message).toBe("Unknown message type.", 'Should reject');
+      })
+    });
+
+  });
+
   it("should throw an unknown error if the url has no error or access_token", () => {
     const MockWindow = {
       location: {

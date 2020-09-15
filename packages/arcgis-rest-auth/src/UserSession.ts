@@ -447,7 +447,15 @@ export class UserSession implements IAuthenticationManager {
    * @param parentOrigin origin of the parent frame. Passed into the embedded application as `parentOrigin` query param
    * @browserOnly
    */
-  public static fromParent (parentOrigin:string): Promise<any> {
+  public static fromParent (
+    parentOrigin:string,
+    win?: any
+    ): Promise<any> {
+
+    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    if (!win && window) {
+      win = window;
+    }
     // Declar handler outside of promise scope so we can detach it
     let handler: (event: any) => void;
     // return a promise...
@@ -461,14 +469,16 @@ export class UserSession implements IAuthenticationManager {
           } catch (err) {
             return reject(err);
           }
+        } else {
+          return reject(new Error('Rejected authentication request.'));
         }
       };
       // add listener
-      window.addEventListener('message', handler, false);
-      window.parent.postMessage({type: 'arcgis:auth:requestCredential'}, parentOrigin);
+      win.addEventListener('message', handler, false);
+      win.parent.postMessage({type: 'arcgis:auth:requestCredential'}, parentOrigin);
     })
     .then((session) => {
-      window.removeEventListener('message', handler, false);
+      win.removeEventListener('message', handler, false);
       return session;
     });
   }
@@ -483,6 +493,8 @@ export class UserSession implements IAuthenticationManager {
     }
     if (event.data.type === 'arcgis:auth:rejected') {
       throw new Error(event.data.message);
+    } else {
+      throw new Error('Unknown message type.');
     }
   }
 
@@ -891,9 +903,13 @@ export class UserSession implements IAuthenticationManager {
    * 
    * @param validChildOrigins Array of origins that are allowed to request authentication from the host app
    */
-  public enablePostMessageAuth (validChildOrigins: string[]): any {
+  public enablePostMessageAuth (validChildOrigins: string[], win?:any ): any {
+    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    if (!win && window) {
+      win = window;
+    }
     this.hostHandler = this.createPostMessageHandler(validChildOrigins);
-    window.addEventListener('message',this.hostHandler , false);
+    win.addEventListener('message',this.hostHandler , false);
   }
 
   /**
@@ -901,8 +917,12 @@ export class UserSession implements IAuthenticationManager {
    * to transition routes, it should call `UserSession.disablePostMessageAuth()` to remove
    * the event listener and prevent memory leaks
    */
-  public disablePostMessageAuth () {
-    window.removeEventListener('message', this.hostHandler, false);
+  public disablePostMessageAuth (win?: any) {
+    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    if (!win && window) {
+      win = window;
+    }
+    win.removeEventListener('message', this.hostHandler, false);
   }
 
   /**
