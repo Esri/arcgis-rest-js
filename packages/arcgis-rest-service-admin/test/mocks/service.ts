@@ -3,6 +3,7 @@
 
 import { ICreateServiceResult } from "../../src/create";
 import { IAddToServiceDefinitionResult } from "../../src/addTo";
+import { IUpdateServiceDefinitionResult } from "../../src/update";
 
 export const FeatureServiceResponse: ICreateServiceResult = {
   encodedServiceURL:
@@ -65,5 +66,16 @@ export const AddToFeatureServiceError: any = {
     code: 400,
     message: "Unable to add feature service definition.",
     details: ["Object reference not set to an instance of an object."]
+  }
+};
+
+export const UpdateServiceDefinitionSuccess: IUpdateServiceDefinitionResult = {
+  success: true
+}
+export const UpdateServiceDefinitionError: any = {
+  error: {
+    code: 400,
+    message: "Invalid URL",
+    details: ["Invalid URL"]
   }
 };
