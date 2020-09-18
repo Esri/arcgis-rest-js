@@ -47,6 +47,7 @@ export * from "./sharing/helpers";
 export * from "./util/get-portal";
 export * from "./util/get-portal-settings";
 export * from "./util/get-portal-url";
+export * from './util/scrub-control-chars';
 export * from "./util/search";
 export * from "./util/SearchQueryBuilder";
 // we dont export 'generic-search' because its an internal utility method

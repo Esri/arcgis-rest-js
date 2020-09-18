@@ -9,6 +9,7 @@ import {
 import { IItem, IGroup } from "@esri/arcgis-rest-types";
 
 import { getPortalUrl } from "../util/get-portal-url";
+import { scrubControlChars } from '../util/scrub-control-chars';
 import {
   IItemDataOptions,
   IItemRelationshipOptions,
@@ -184,6 +185,31 @@ export interface IGetItemGroupsResponse {
   member?: IGroup[];
   other?: IGroup[];
 }
+
+/**
+ * Fetches a JSON resource and parses to an object
+ *
+ * @param {*} itemId
+ * @param {*} resourceName
+ * @param {*} requestOptions
+ */
+export function getJsonResource(
+  itemId: string,
+  resourceName: string,
+  requestOptions: IRequestOptions
+) {
+  const url = `${getPortalUrl(
+    requestOptions
+  )}/content/items/${itemId}/resources/${resourceName}`;
+
+  // We need the raw response because there may be control characters
+  // that need to be scrubbed prior to parsing the JSON
+  const options = Object.assign({ params: { f: "json" }, rawResponse: true }, requestOptions);
+  return request(url, options)
+    .then(res => res.text())
+    .then(text => JSON.parse(scrubControlChars(text)));
+}
+
 
 /**
  * ```js

@@ -14,7 +14,7 @@ import {
   getItemParts,
   getRelatedItems,
   getItemInfo,
-  getItemMetadata
+  getItemMetadata, getJsonResource
 } from "../../src/items/get";
 
 import {
@@ -372,6 +372,49 @@ describe("get", () => {
           fail(e);
         });
     });
+
+    describe('getJsonResource', function () {
+      it("gets JSON resource", done => {
+        const resourceResponse = {
+          foo: 'bar'
+        };
+        fetchMock.once("*", resourceResponse);
+
+        getJsonResource("3ef", "resource.json", MOCK_USER_REQOPTS)
+          .then(() => {
+            const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+            expect(url).toEqual(
+              "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
+            );
+            expect(options.method).toBe("POST");
+            expect(options.body).toContain("f=json");
+            done();
+          })
+          .catch(e => {
+            fail(e);
+          });
+      });
+
+      it("deals with control characters", done => {
+        const badJson = "{\"foo\":\"foobarbaz\"}";
+        fetchMock.once("*", badJson);
+        getJsonResource("3ef", 'resource.json', MOCK_USER_REQOPTS)
+          .then(resource => {
+            const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+            expect(url).toEqual(
+              "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
+            );
+            expect(options.method).toBe("POST");
+            expect(options.body).toContain("f=json");
+            debugger;
+            expect(resource.foo).toEqual('foobarbaz', 'removed control chars');
+            done();
+          })
+          .catch(e => {
+            fail(e);
+          });
+      });
+    })
 
     it("get item groups anonymously", done => {
       fetchMock.once("*", ItemGroupResponse);
