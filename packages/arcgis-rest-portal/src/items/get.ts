@@ -186,47 +186,45 @@ export interface IGetItemGroupsResponse {
   other?: IGroup[];
 }
 
+export interface IGetItemResourceOptions extends IRequestOptions {
+  /**
+   * Name of the info file, optionally including the folder path
+   */
+  fileName: string;
+  /**
+   * How the fetch response should be read, see:
+   * https://developer.mozilla.org/en-US/docs/Web/API/Body#Methods
+   */
+  readAs?: FetchReadMethodName;
+}
+
 /**
  * ```js
  * import { getItemResource } from "@esri/arcgis-rest-portal";
  *
- * // Parses contents by default
- * getItemResource("3ef", "resource.json", { params: { f: 'json' } ...})
+ * // Parses contents as blob by default
+ * getItemResource("3ef", { fileName: "resource.jpg", ...})
  *  .then(resourceContents => {});
  *
- * // Get the response
- * getItemResource("3ef", "resource.json", { params: { f: 'html' }, rawResponse: true })
+ * // Can override parse method
+ * getItemResource("3ef", { fileName: "resource.json", readAs: 'json', ...})
+ *  .then(resourceContents => {});
+ *
+ * // Get the response object instead
+ * getItemResource("3ef",{ rawResponse: true, fileName: "resource.json" })
  *  .then(response => {})
  * ```
  * Fetches an item resource and optionally parses it to the correct format.
  *
- * @param {*} itemId
- * @param {*} resourceName
- * @param {*} requestOptions
+ * @param {string} itemId
+ * @param {IGetItemResourceOptions} requestOptions
  */
 export function getItemResource(
   itemId: string,
-  resourceName: string,
-  requestOptions: IRequestOptions
+  requestOptions: IGetItemResourceOptions
 ) {
-  const url = `${getPortalUrl(
-    requestOptions
-  )}/content/items/${itemId}/resources/${resourceName}`;
-
-  // save the user's original preference
-  const retRaw = requestOptions.rawResponse;
-
-  const { params: { f: format } } = requestOptions;
-  if (format === 'json') {
-    // We need the raw response because there may be control characters
-    // that need to be scrubbed prior to parsing the JSON
-    requestOptions = {...requestOptions, rawResponse: true };
-  }
-  return request(url, requestOptions)
-    .then(res => {
-      if (format !== 'json' || retRaw) return res;
-      return res.text().then((text: string) => JSON.parse(scrubControlChars(text)));
-    });
+  const readAs = requestOptions.readAs || 'blob';
+  return getItemFile(itemId, `/resources/${requestOptions.fileName}`, readAs, requestOptions);
 }
 
 
@@ -428,6 +426,8 @@ function getItemFile(
     if (justReturnResponse) {
       return response;
     }
-    return response[readMethod]();
+    return readMethod !== 'json'
+      ? response[readMethod]()
+      : response.text().then((text: string) => JSON.parse(scrubControlChars(text)));
   });
 }

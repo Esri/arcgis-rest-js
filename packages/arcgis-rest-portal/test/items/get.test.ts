@@ -375,40 +375,40 @@ describe("get", () => {
     });
 
     describe('getItemResource', function () {
-      it("gets non-JSON resource", done => {
+      it("defaults to read as blob", done => {
         const resourceResponse = "<p>some text woohoo</p>";
         fetchMock.once("*", resourceResponse);
 
-        getItemResource("3ef", "resource.json", { params: { f: 'html' }, ...MOCK_USER_REQOPTS })
-          .then(text => {
+        getItemResource("3ef", { fileName: "resource.json", ...MOCK_USER_REQOPTS })
+          .then(blob => {
             const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
             expect(url).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
             );
             expect(options.method).toBe("POST");
-            expect(options.body).toContain("f=html");
-            expect(text).toEqual(resourceResponse);
-            done();
+            expect(blob).toEqual(jasmine.any(Blob));
+            blob.text()
+              .then((text: string) => expect(text).toEqual(resourceResponse))
+              .then(done)
           })
           .catch(e => {
             fail(e);
           });
       });
 
-      it("gets JSON resource", done => {
+      it("reads JSON resource", done => {
         const resourceResponse = {
           foo: 'bar'
         };
         fetchMock.once("*", resourceResponse);
 
-        getItemResource("3ef", "resource.json", { params: { f: 'json' }, ...MOCK_USER_REQOPTS })
+        getItemResource("3ef", { fileName: "resource.json",  readAs: 'json', ...MOCK_USER_REQOPTS })
           .then(() => {
             const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
             expect(url).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
             );
             expect(options.method).toBe("POST");
-            expect(options.body).toContain("f=json");
             done();
           })
           .catch(e => {
@@ -420,14 +420,13 @@ describe("get", () => {
         const badJsonString = "{\"foo\":\"foobarbaz\"}";
         fetchMock.once("*", badJsonString);
 
-        getItemResource("3ef", 'resource.json', { params: { f: 'json' }, ...MOCK_USER_REQOPTS })
+        getItemResource("3ef", { fileName: "resource.json",  readAs: 'json', ...MOCK_USER_REQOPTS })
           .then(resource => {
             const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
             expect(url).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
             );
             expect(options.method).toBe("POST");
-            expect(options.body).toContain("f=json");
             expect(resource.foo).toEqual('foobarbaz', 'removed control chars');
             done();
           })
@@ -440,7 +439,7 @@ describe("get", () => {
         const badJsonString = "{\"foo\":\"foobarbaz\"}";
         fetchMock.once("*", badJsonString);
 
-        getItemResource("3ef", 'resource.json', { rawResponse: true, params: { f: 'json' }, ...MOCK_USER_REQOPTS })
+        getItemResource("3ef", { fileName: "resource.json", rawResponse: true, ...MOCK_USER_REQOPTS })
           .then(response => {
 
             const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -448,7 +447,6 @@ describe("get", () => {
               "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
             );
             expect(options.method).toBe("POST");
-            expect(options.body).toContain("f=json");
             expect(response.json).toBeDefined('got a raw response');
             response.json()
               .then(() => fail('parsing should fail because control characters still present'))
