@@ -404,6 +404,7 @@ export function getItemMetadata(
 
 // overrides request()'s default behavior for reading the response
 // which is based on `params.f` and defaults to JSON
+// Also add JSON parse error protection by sanitizing out any unescaped control characters before parsing
 function getItemFile(
   id: string,
   // NOTE: fileName should include any folder/subfolders
