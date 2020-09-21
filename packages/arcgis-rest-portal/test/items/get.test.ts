@@ -406,7 +406,6 @@ describe("get", () => {
             );
             expect(options.method).toBe("POST");
             expect(options.body).toContain("f=json");
-            debugger;
             expect(resource.foo).toEqual('foobarbaz', 'removed control chars');
             done();
           })
