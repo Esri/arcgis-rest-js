@@ -193,7 +193,7 @@ export interface IGetItemGroupsResponse {
  * @param {*} resourceName
  * @param {*} requestOptions
  */
-export function getJsonResource(
+export function getItemResource(
   itemId: string,
   resourceName: string,
   requestOptions: IRequestOptions
@@ -202,12 +202,20 @@ export function getJsonResource(
     requestOptions
   )}/content/items/${itemId}/resources/${resourceName}`;
 
-  // We need the raw response because there may be control characters
-  // that need to be scrubbed prior to parsing the JSON
-  const options = Object.assign({ params: { f: "json" }, rawResponse: true }, requestOptions);
-  return request(url, options)
-    .then(res => res.text())
-    .then(text => JSON.parse(scrubControlChars(text)));
+  // save the user's original preference
+  const retRaw = requestOptions.rawResponse;
+
+  const { params: { f: format } } = requestOptions;
+  if (format === 'json') {
+    // We need the raw response because there may be control characters
+    // that need to be scrubbed prior to parsing the JSON
+    requestOptions = {...requestOptions, rawResponse: true };
+  }
+  return request(url, requestOptions)
+    .then(res => {
+      if (format !== 'json' || retRaw) return res;
+      return res.text().then((text: string) => JSON.parse(scrubControlChars(text)));
+    });
 }
 
 
