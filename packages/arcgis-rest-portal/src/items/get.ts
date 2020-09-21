@@ -216,6 +216,9 @@ export interface IGetItemResourceOptions extends IRequestOptions {
  * ```
  * Fetches an item resource and optionally parses it to the correct format.
  *
+ * Note: provides JSON parse error protection by sanitizing out any unescaped control
+ * characters before parsing that would otherwise cause an error to be thrown
+ *
  * @param {string} itemId
  * @param {IGetItemResourceOptions} requestOptions
  */
@@ -404,7 +407,7 @@ export function getItemMetadata(
 
 // overrides request()'s default behavior for reading the response
 // which is based on `params.f` and defaults to JSON
-// Also add JSON parse error protection by sanitizing out any unescaped control characters before parsing
+// Also adds JSON parse error protection by sanitizing out any unescaped control characters before parsing
 function getItemFile(
   id: string,
   // NOTE: fileName should include any folder/subfolders
