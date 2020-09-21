@@ -14,11 +14,13 @@
   ],
   "dependencies": {
     "@esri/arcgis-rest-types": "^2.16.0",
+    "@terraformer/arcgis": "^2.0.7",
     "tslib": "^1.13.0"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^2.16.0",
-    "@esri/arcgis-rest-request": "^2.16.0"
+    "@esri/arcgis-rest-request": "^2.16.0",
+    "@types/terraformer__arcgis": "^2.0.0"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^2.0.0",

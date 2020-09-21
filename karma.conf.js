@@ -49,8 +49,9 @@ module.exports = function(config) {
             .filter(p => p[0] !== ".")
             .reduce((alias, p) => {
               alias[`@esri/${p}`] = `packages/${p}/src/index.ts`;
+              alias['@types/terraformer__arcgis'] = `packages/arcgis-rest-geocoding/node_modules/@terraformer/arcgis/dist/t-arcgis.esm.js`;
               return alias;
-            }, {})
+            }, {}),
         }
       }
     },

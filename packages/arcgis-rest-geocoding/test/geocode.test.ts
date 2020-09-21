@@ -4,6 +4,7 @@
 import { geocode } from "../src/geocode";
 import {
   FindAddressCandidates,
+  FindAddressCandidates3857,
   FindAddressCandidatesNullExtent
 } from "./mocks/responses";
 
@@ -28,8 +29,10 @@ describe("geocode", () => {
         expect(options.method).toBe("POST");
         expect(options.body).toContain("f=json");
         expect(options.body).toContain("singleLine=LAX");
-        // the only property this lib tacks on
+        // the only properties this lib tacks on
         expect(response.spatialReference.wkid).toEqual(4326);
+        expect(response.geoJson.features.length).toBeGreaterThan(0);
+        expect(response.geoJson.features[0].properties.score).toBeGreaterThan(0);
         done();
       })
       .catch(e => {
@@ -125,7 +128,7 @@ describe("geocode", () => {
   });
 
   it("should make a single geocoding request to a custom geocoding service", done => {
-    fetchMock.once("*", FindAddressCandidates);
+    fetchMock.once("*", FindAddressCandidates3857);
 
     geocode({
       endpoint: customGeocoderUrl,
@@ -148,8 +151,9 @@ describe("geocode", () => {
         );
         expect(options.body).toContain("postal=92373");
         expect(options.body).toContain("outSr=3857");
-        // the only property this lib tacks on
-        expect(response.spatialReference.wkid).toEqual(4326);
+        // the only properties this lib tacks on
+        expect(response.spatialReference.wkid).toEqual(102100);
+        expect(response.geoJson).toBeUndefined();
         done();
       })
       .catch(e => {
@@ -158,7 +162,7 @@ describe("geocode", () => {
   });
 
   it("should pass through all requestOptions when making a geocoding request", done => {
-    fetchMock.once("*", FindAddressCandidates);
+    fetchMock.once("*", FindAddressCandidates3857);
 
     geocode({
       endpoint: customGeocoderUrl,
@@ -177,7 +181,7 @@ describe("geocode", () => {
         );
         expect(options.method).toBe("GET");
         // the only property this lib tacks on
-        expect(response.spatialReference.wkid).toEqual(4326);
+        expect(response.spatialReference.wkid).toEqual(102100);
         done();
       })
       .catch(e => {
