@@ -187,7 +187,18 @@ export interface IGetItemGroupsResponse {
 }
 
 /**
- * Fetches a JSON resource and parses to an object
+ * ```js
+ * import { getItemResource } from "@esri/arcgis-rest-portal";
+ *
+ * // Parses contents by default
+ * getItemResource("3ef", "resource.json", { params: { f: 'json' } ...})
+ *  .then(resourceContents => {});
+ *
+ * // Get the response
+ * getItemResource("3ef", "resource.json", { params: { f: 'html' }, rawResponse: true })
+ *  .then(response => {})
+ * ```
+ * Fetches an item resource and optionally parses it to the correct format.
  *
  * @param {*} itemId
  * @param {*} resourceName
