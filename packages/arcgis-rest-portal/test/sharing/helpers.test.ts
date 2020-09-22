@@ -7,7 +7,7 @@ import { MOCK_USER_SESSION } from "../mocks/sharing/sharing";
 import {
   GroupOwnerResponse,
   GroupNoAccessResponse
-} from "./group-sharing.test";
+} from "./share-item-with-group.test";
 
 describe("sharing helpers ::", () => {
   afterEach(fetchMock.restore);

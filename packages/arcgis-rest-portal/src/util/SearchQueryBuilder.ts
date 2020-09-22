@@ -20,8 +20,8 @@ import { IParamBuilder, warn } from "@esri/arcgis-rest-request";
  *  .and()
  *  .match("Demo App");
  *
- * searchItems(query).then((results) => {
- *   console.log(request);
+ * searchItems(query).then((res) => {
+ *   console.log(res.results);
  * });
  * ```
  *
