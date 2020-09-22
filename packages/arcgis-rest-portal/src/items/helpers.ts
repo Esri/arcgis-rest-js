@@ -53,6 +53,17 @@ export type ItemRelationshipType =
   | "TrackView2Map"
   | "SurveyAddIn2Data";
 
+/**
+ * Names of methods for reading the body of a fetch response, see:
+ * https://developer.mozilla.org/en-US/docs/Web/API/Body#Methods
+ */
+export type FetchReadMethodName =
+  | "arrayBuffer"
+  | "blob"
+  | "formData"
+  | "json"
+  | "text";
+
 export interface IItemRelationshipOptions extends IRequestOptions {
   /**
    * Unique identifier of the item.
@@ -249,7 +260,10 @@ export function determineOwner(requestOptions: any): Promise<string> {
     return Promise.resolve(requestOptions.owner);
   } else if (requestOptions.item && requestOptions.item.owner) {
     return Promise.resolve(requestOptions.item.owner);
-  } else if (requestOptions.authentication && requestOptions.authentication.getUsername) {
+  } else if (
+    requestOptions.authentication &&
+    requestOptions.authentication.getUsername
+  ) {
     return requestOptions.authentication.getUsername();
   } else {
     return Promise.reject(
