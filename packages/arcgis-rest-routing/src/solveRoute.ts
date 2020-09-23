@@ -10,7 +10,11 @@ import {
   IFeature
 } from "@esri/arcgis-rest-types";
 
-import { ARCGIS_ONLINE_ROUTING_URL, IEndpointOptions } from "./helpers";
+import { ARCGIS_ONLINE_ROUTING_URL, IEndpointOptions, decompressGeometry } from "./helpers";
+
+interface IFeatureWithCompressedGeometry extends IFeature {
+  compressedGeometry?: string;
+}
 
 export interface ISolveRouteOptions extends IEndpointOptions {
   /**
@@ -116,7 +120,33 @@ export function solveRoute(
   });
   options.params.stops = stops.join(";");
 
-  return request(`${cleanUrl(options.endpoint)}/solve`, options);
+  return request(`${cleanUrl(options.endpoint)}/solve`, options).then(
+    cleanResponse
+  );
+}
+
+function cleanResponse(res: any): ISolveRouteResponse {
+  if (res.directions && res.directions.length > 0) {
+    res.directions = res.directions.map(
+      (direction: {
+        features: IFeatureWithCompressedGeometry[];
+        routeId: number;
+        routeName: string;
+        summary: {};
+      }) => {
+        direction.features = direction.features.map(
+          (feature: IFeatureWithCompressedGeometry) => {
+            feature.geometry = decompressGeometry(
+              feature.compressedGeometry
+            );
+            return feature;
+          }
+        );
+        return direction;
+      }
+    );
+  }
+  return res;
 }
 
 export default {

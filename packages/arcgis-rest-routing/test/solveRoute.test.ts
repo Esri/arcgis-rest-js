@@ -5,7 +5,7 @@ import { solveRoute } from "../src/solveRoute";
 
 import * as fetchMock from "fetch-mock";
 
-import { Solve } from "./mocks/responses";
+import { Solve, SolveNoDirections } from "./mocks/responses";
 import { IPoint, ILocation } from "@esri/arcgis-rest-types";
 
 // -117.195677,34.056383;-117.918976,33.812092
@@ -502,7 +502,60 @@ describe("solveRoute", () => {
         );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
+        fail(e);
+      });
+  });
+
+  it("should transform compressed geometry into geometry", (done) => {
+    fetchMock.once("*", Solve);
+
+    const MOCK_AUTH = {
+      getToken() {
+        return Promise.resolve("token");
+      },
+      portal: "https://mapsdev.arcgis.com",
+    };
+
+    solveRoute({
+      stops: stopsObjectsPoint,
+      authentication: MOCK_AUTH,
+    })
+      .then((response) => {
+        expect(fetchMock.called()).toEqual(true);
+        expect(response.directions[0].features[0].geometry).toEqual(
+          jasmine.any(Object)
+        );
+        done();
+      })
+      .catch((e) => {
+        fail(e);
+      });
+  });
+
+  it("should not fail when no directions are returned", (done) => {
+    fetchMock.once("*", SolveNoDirections);
+
+    const MOCK_AUTH = {
+      getToken() {
+        return Promise.resolve("token");
+      },
+      portal: "https://mapsdev.arcgis.com",
+    };
+
+    solveRoute({
+      stops: stopsObjectsPoint,
+      authentication: MOCK_AUTH,
+      params: {
+        returnDirections: false
+      }
+    })
+      .then((response) => {
+        expect(fetchMock.called()).toEqual(true);
+        expect(response.directions).toEqual(undefined);
+        done();
+      })
+      .catch((e) => {
         fail(e);
       });
   });
