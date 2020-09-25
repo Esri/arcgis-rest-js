@@ -5,7 +5,7 @@ import { solveRoute } from "../src/solveRoute";
 
 import * as fetchMock from "fetch-mock";
 
-import { Solve, SolveNoDirections } from "./mocks/responses";
+import { Solve, SolveNoDirections, SolveWebMercator } from "./mocks/responses";
 import { IPoint, ILocation } from "@esri/arcgis-rest-types";
 
 // -117.195677,34.056383;-117.918976,33.812092
@@ -553,6 +553,84 @@ describe("solveRoute", () => {
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         expect(response.directions).toEqual(undefined);
+        done();
+      })
+      .catch((e) => {
+        fail(e);
+      });
+  });
+
+  it("should not include routes.fieldAliases in the return", (done) => {
+    fetchMock.once("*", Solve);
+
+    const MOCK_AUTH = {
+      getToken() {
+        return Promise.resolve("token");
+      },
+      portal: "https://mapsdev.arcgis.com",
+    };
+
+    solveRoute({
+      stops: stopsObjectsPoint,
+      authentication: MOCK_AUTH,
+    })
+      .then((response) => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(Object.keys(response.routes)).not.toContain("fieldAliases");
+        done();
+      })
+      .catch((e) => {
+        fail(e);
+      });
+  });
+
+  it("should include routes.geoJson in the return", (done) => {
+    fetchMock.once("*", Solve);
+
+    const MOCK_AUTH = {
+      getToken() {
+        return Promise.resolve("token");
+      },
+      portal: "https://mapsdev.arcgis.com",
+    };
+
+    solveRoute({
+      stops: stopsObjectsPoint,
+      authentication: MOCK_AUTH,
+    })
+      .then((response) => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(Object.keys(response.routes)).toContain("geoJson");
+        done();
+      })
+      .catch((e) => {
+        fail(e);
+      });
+  });
+
+  it("should not include routes.geoJson in the return for non-4326", (done) => {
+    fetchMock.once("*", SolveWebMercator);
+
+    const MOCK_AUTH = {
+      getToken() {
+        return Promise.resolve("token");
+      },
+      portal: "https://mapsdev.arcgis.com",
+    };
+
+    solveRoute({
+      stops: stopsObjectsPoint,
+      authentication: MOCK_AUTH,
+      params: {
+        outSR: 102100,
+      },
+    })
+      .then((response) => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(Object.keys(response.routes)).not.toContain("geoJson");
         done();
       })
       .catch((e) => {
