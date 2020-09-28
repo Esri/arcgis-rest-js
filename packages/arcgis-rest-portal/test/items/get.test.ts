@@ -376,6 +376,11 @@ describe("get", () => {
 
     describe('getItemResource', function () {
       it("defaults to read as blob", done => {
+        if (typeof Blob === 'undefined') {
+          done();
+          return;
+        }
+
         const resourceResponse = "<p>some text woohoo</p>";
         fetchMock.once("*", resourceResponse);
 
