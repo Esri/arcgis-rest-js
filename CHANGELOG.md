@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.19.0] - September 28th 2020
+
+### @esri/arcgis-rest-portal
+
+* New Features
+   * **getJsonResource and scrubControlChars**: add getJsonResource and scrubControlChars [`6bb92151`](https://github.com/Esri/arcgis-rest-js/commit/6bb921512eeed9374ab35c03577fd3bfb8ea1e11)
+
 ## [2.18.0] - September 11th 2020
 
 ### @esri/arcgis-rest-portal
@@ -1740,4 +1747,5 @@ Initial Public Release
 [2.16.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.15.0...v2.16.0 "v2.16.0"
 [2.17.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.16.0...v2.17.0 "v2.17.0"
 [2.18.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.17.0...v2.18.0 "v2.18.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.18.0...HEAD "Unreleased Changes"
+[2.19.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.18.0...v2.19.0 "v2.19.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.0...HEAD "Unreleased Changes"

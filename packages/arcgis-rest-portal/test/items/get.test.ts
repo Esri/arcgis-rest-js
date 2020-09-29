@@ -14,7 +14,8 @@ import {
   getItemParts,
   getRelatedItems,
   getItemInfo,
-  getItemMetadata
+  getItemMetadata,
+  getItemResource
 } from "../../src/items/get";
 
 import {
@@ -372,6 +373,98 @@ describe("get", () => {
           fail(e);
         });
     });
+
+    describe('getItemResource', function () {
+      it("defaults to read as blob", done => {
+        if (typeof Blob === 'undefined') {
+          done();
+          return;
+        }
+
+        const resourceResponse = "<p>some text woohoo</p>";
+        fetchMock.once("*", resourceResponse);
+
+        getItemResource("3ef", { fileName: "resource.json", ...MOCK_USER_REQOPTS })
+          .then(blob => {
+            const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+            expect(url).toEqual(
+              "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
+            );
+            expect(options.method).toBe("POST");
+            expect(blob).toEqual(jasmine.any(Blob));
+            blob.text()
+              .then((text: string) => expect(text).toEqual(resourceResponse))
+              .then(done)
+          })
+          .catch(e => {
+            fail(e);
+          });
+      });
+
+      it("reads JSON resource", done => {
+        const resourceResponse = {
+          foo: 'bar'
+        };
+        fetchMock.once("*", resourceResponse);
+
+        getItemResource("3ef", { fileName: "resource.json",  readAs: 'json', ...MOCK_USER_REQOPTS })
+          .then(() => {
+            const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+            expect(url).toEqual(
+              "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
+            );
+            expect(options.method).toBe("POST");
+            done();
+          })
+          .catch(e => {
+            fail(e);
+          });
+      });
+
+      it("deals with control characters before parsing JSON resource", done => {
+        const badJsonString = "{\"foo\":\"foobarbaz\"}";
+        fetchMock.once("*", badJsonString);
+
+        getItemResource("3ef", { fileName: "resource.json",  readAs: 'json', ...MOCK_USER_REQOPTS })
+          .then(resource => {
+            const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+            expect(url).toEqual(
+              "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
+            );
+            expect(options.method).toBe("POST");
+            expect(resource.foo).toEqual('foobarbaz', 'removed control chars');
+            done();
+          })
+          .catch(e => {
+            fail(e);
+          });
+      });
+
+      it("respects rawResponse setting with JSON resource", done => {
+        const badJsonString = "{\"foo\":\"foobarbaz\"}";
+        fetchMock.once("*", badJsonString);
+
+        getItemResource("3ef", { fileName: "resource.json", rawResponse: true, ...MOCK_USER_REQOPTS })
+          .then(response => {
+
+            const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+            expect(url).toEqual(
+              "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
+            );
+            expect(options.method).toBe("POST");
+            expect(response.json).toBeDefined('got a raw response');
+            response.json()
+              .then(() => fail('parsing should fail because control characters still present'))
+              .catch((err: Error) => {
+                expect(err).toBeDefined('JSON parse fails');
+                done();
+              });
+          })
+          .catch(e => {
+            fail(e);
+          });
+      });
+    })
 
     it("get item groups anonymously", done => {
       fetchMock.once("*", ItemGroupResponse);
