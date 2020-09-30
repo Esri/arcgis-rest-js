@@ -41,7 +41,7 @@ export function addItemPart(
   const partNum = requestOptions.partNum;
 
   if (!(Number.isInteger(partNum) && 1 <= partNum && partNum <= 10000)) {
-    return Promise.reject(new Error('The part number mustnbe an integer between 1 to 10000, inclusive'))
+    return Promise.reject(new Error('The part number must be an integer between 1 to 10000, inclusive'))
   }
 
   return determineOwner(requestOptions).then(owner => {
