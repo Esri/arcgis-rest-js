@@ -45,7 +45,7 @@ export function addItemPart(
   }
 
   return determineOwner(requestOptions).then(owner => {
-    // AGO adds the "addPart" parameter in the query string, not in the body
+    // AGO adds the "partNum" parameter in the query string, not in the body
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/addPart?partNum=${partNum}`;
