@@ -34,8 +34,8 @@ describe("search", () => {
       fetchMock.once("*", ItemSuccessResponse);
 
       commitItemUpload({
+        id: "3ef",
         item: {
-          id: "3ef",
           title: 'test',
           type: 'PDF'
         },
@@ -63,8 +63,8 @@ describe("search", () => {
       fetchMock.once("*", ItemSuccessResponse);
 
       commitItemUpload({
+        id: "3ef",
         item: {
-          id: "3ef",
           title: 'test',
           type: 'PDF'
         },

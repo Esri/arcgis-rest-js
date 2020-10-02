@@ -8,13 +8,12 @@ import { getPortalUrl } from "../util/get-portal-url";
 import {
   IUserItemOptions,
   IUpdateItemResponse,
-  ICreateUpdateItemOptions,
   determineOwner,
   IItemPartOptions,
   serializeItem
 } from "./helpers";
 
-export interface ICommitItemOptions extends ICreateUpdateItemOptions {
+export interface ICommitItemOptions extends IUserItemOptions {
   item: IItemAdd;
 }
 
@@ -40,12 +39,12 @@ export function addItemPart(
 ): Promise<IUpdateItemResponse> {
   const partNum = requestOptions.partNum;
 
-  if (!(Number.isInteger(partNum) && 1 <= partNum && partNum <= 10000)) {
-    return Promise.reject(new Error('The part number must be an integer between 1 to 10000, inclusive'))
+  if (!Number.isInteger(partNum) || partNum < 1 || partNum > 10000) {
+    return Promise.reject(new Error('The part number must be an integer between 1 to 10000, inclusive.'))
   }
 
   return determineOwner(requestOptions).then(owner => {
-    // AGO adds the "addPart" parameter in the query string, not in the body
+    // AGO adds the "partNum" parameter in the query string, not in the body
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/addPart?partNum=${partNum}`;
@@ -80,15 +79,21 @@ export function commitItemUpload(
 ): Promise<IUpdateItemResponse> {
   return determineOwner(requestOptions).then(owner => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-      requestOptions.item.id
+      requestOptions.id
     }/commit`;
 
-    requestOptions.params = {
-      ...requestOptions.params,
-      ...serializeItem(requestOptions.item)
-    };
+    const options = appendCustomParams<ICommitItemOptions>(
+      requestOptions,
+      ['id', 'owner'],
+      {
+        params: {
+          ...requestOptions.params,
+          ...serializeItem(requestOptions.item)
+        }
+      }
+    );
 
-    return request(url, requestOptions);
+    return request(url, options);
   });
 }
 
