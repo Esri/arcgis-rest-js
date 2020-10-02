@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/arcgis-rest-portal
 
 * New Features
-   * **getJsonResource and scrubControlChars**: add getJsonResource and scrubControlChars [`6bb92151`](https://github.com/Esri/arcgis-rest-js/commit/6bb921512eeed9374ab35c03577fd3bfb8ea1e11)
+   * **scrubControlChars**: add scrubControlChars [`6bb92151`](https://github.com/Esri/arcgis-rest-js/commit/6bb921512eeed9374ab35c03577fd3bfb8ea1e11)
 
 ## [2.18.0] - September 11th 2020
 
