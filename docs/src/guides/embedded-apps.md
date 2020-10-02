@@ -29,7 +29,7 @@ We will walk through the flows at a high-level
 
 ## 1 Host App uses oAuth
 
-The application acting as the host, should use oAuth to autentication the user, and *before* rendering the iframe with the embedded application it must call `session.enablePostMessageAuth(validOrigins)`. This sets up an event handler that will process the requests from the embedded applications.
+The application acting as the host, should use oAuth to authenticate the user, and *before* rendering the iframe with the embedded application it must call `session.enablePostMessageAuth(validOrigins)`. This sets up an event handler that will process the requests from the embedded applications.
 
 The `validOrigins` argument is an array of "orgins" your app expects to get auth requests from. **NOTE** This should be a constrained list of just the domains this particular application will actually be embedding.
 
@@ -52,7 +52,7 @@ The `validOrigins` argument is an array of "orgins" your app expects to get auth
 Let's suppose the host app is embedding `https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd`. To tell the embedded app that it should request authentication from the parent we need to add two url parameters:
 
 - `embed=iframe` - tells the app it's embedded in an iframe. This allows the app to make ui changes like hiding headers etc
-- `parentOrigin=https://myapp.com` - this tells the app what 'origin' to expect messages from, and also to ignore other origins. **note** this should be uri encoded
+- `parentOrigin=https://myapp.com` - this tells the app what 'origin' to expect messages from, what origin to post messages to, and also to ignore other origins. **note** this should be uri encoded
 
 ```js
 const originalUrl = 'https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd';
@@ -91,5 +91,4 @@ If the parent app has the ability to transition to another route (i.e. an Angula
     state.session.disablePostMessageAuth();
   }
 ```
-
 
