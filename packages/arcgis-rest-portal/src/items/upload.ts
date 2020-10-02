@@ -84,7 +84,7 @@ export function commitItemUpload(
 
     const options = appendCustomParams<ICommitItemOptions>(
       requestOptions,
-      ['id', 'owner'],
+      [],
       {
         params: {
           ...requestOptions.params,
