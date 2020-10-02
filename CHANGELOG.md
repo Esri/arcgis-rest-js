@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.19.1] - October 2nd 2020
+
+### @esri/arcgis-rest-portal
+
+* Bug Fixes
+   * **arcgis-rest-portal**: wrong parameters for file upload APIs (#761) [`cbfef7d6`](https://github.com/Esri/arcgis-rest-js/commit/cbfef7d6bd669d323dab5299966217a956fc5cfb) [#693](https://github.com/Esri/arcgis-rest-js/issues/693) [#694](https://github.com/Esri/arcgis-rest-js/issues/694) [#700](https://github.com/Esri/arcgis-rest-js/issues/700) [#761](https://github.com/Esri/arcgis-rest-js/issues/761)
+
 ## [2.19.0] - September 28th 2020
 
 ### @esri/arcgis-rest-portal
@@ -1748,4 +1755,5 @@ Initial Public Release
 [2.17.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.16.0...v2.17.0 "v2.17.0"
 [2.18.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.17.0...v2.18.0 "v2.18.0"
 [2.19.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.18.0...v2.19.0 "v2.19.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.0...HEAD "Unreleased Changes"
+[2.19.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.0...v2.19.1 "v2.19.1"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.1...HEAD "Unreleased Changes"
