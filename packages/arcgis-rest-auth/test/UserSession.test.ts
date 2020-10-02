@@ -1203,10 +1203,7 @@ describe("UserSession", () => {
       return UserSession.fromParent('https://origin.com', Win)
       .then((resp) => {
         expect(resp).toBe(null, 'should resolve with null');
-      })
-      // .catch((err) => {
-      //   expect(err.message).toBe('Rejected authentication request.', 'Should reject');
-      // })
+      });
     });
 
     it('.fromParent rejects if invlid cred', () => { 
