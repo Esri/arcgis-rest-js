@@ -1185,7 +1185,7 @@ describe("UserSession", () => {
       });
     });
 
-    it('.fromParent rejects if not parentOrigin', () => { 
+    it('.fromParent resolves with nothing if not parentOrigin', () => { 
       // create a mock window that will fire the handler
       const Win = {
         _fn: (evt:any) => {},
@@ -1201,9 +1201,12 @@ describe("UserSession", () => {
       }
 
       return UserSession.fromParent('https://origin.com', Win)
-      .catch((err) => {
-        expect(err.message).toBe('Rejected authentication request.', 'Should reject');
+      .then((resp) => {
+        expect(resp).toBe(null, 'should resolve with null');
       })
+      // .catch((err) => {
+      //   expect(err.message).toBe('Rejected authentication request.', 'Should reject');
+      // })
     });
 
     it('.fromParent rejects if invlid cred', () => { 

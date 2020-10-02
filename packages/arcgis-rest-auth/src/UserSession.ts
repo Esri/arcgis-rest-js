@@ -470,7 +470,8 @@ export class UserSession implements IAuthenticationManager {
             return reject(err);
           }
         } else {
-          return reject(new Error('Rejected authentication request.'));
+          // just resolve, but do nothing
+          return resolve(null);
         }
       };
       // add listener
