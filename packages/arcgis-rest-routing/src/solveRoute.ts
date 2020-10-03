@@ -7,13 +7,24 @@ import {
   ILocation,
   ISpatialReference,
   IPoint,
-  IFeature
+  IFeature,
+  IFeatureSet,
 } from "@esri/arcgis-rest-types";
 
-import { ARCGIS_ONLINE_ROUTING_URL, IEndpointOptions, decompressGeometry } from "./helpers";
+import {
+  ARCGIS_ONLINE_ROUTING_URL,
+  IEndpointOptions,
+  decompressGeometry,
+} from "./helpers";
+
+import { arcgisToGeoJSON } from "@terraformer/arcgis";
 
 interface IFeatureWithCompressedGeometry extends IFeature {
   compressedGeometry?: string;
+}
+
+interface IFeatureSetWithGeoJson extends IFeatureSet {
+  geoJson?: {};
 }
 
 export interface ISolveRouteOptions extends IEndpointOptions {
@@ -28,12 +39,7 @@ export interface ISolveRouteOptions extends IEndpointOptions {
 export interface ISolveRouteResponse {
   messages: string[];
   checksum: string;
-  routes: {
-    fieldAliases: object;
-    geometryType: string;
-    spatialReference: ISpatialReference;
-    features: IFeature[];
-  };
+  routes: IFeatureSetWithGeoJson;
   directions?: Array<{
     routeId: number;
     routeName: string;
@@ -85,7 +91,7 @@ export function solveRoute(
   const options: ISolveRouteOptions = {
     endpoint: requestOptions.endpoint || ARCGIS_ONLINE_ROUTING_URL,
     params: {},
-    ...requestOptions
+    ...requestOptions,
   };
 
   // the SAAS service does not support anonymous requests
@@ -98,7 +104,7 @@ export function solveRoute(
     );
   }
 
-  const stops: string[] = requestOptions.stops.map(coords => {
+  const stops: string[] = requestOptions.stops.map((coords) => {
     if (isLocationArray(coords)) {
       return coords.join();
     } else if (isLocation(coords)) {
@@ -136,9 +142,7 @@ function cleanResponse(res: any): ISolveRouteResponse {
       }) => {
         direction.features = direction.features.map(
           (feature: IFeatureWithCompressedGeometry) => {
-            feature.geometry = decompressGeometry(
-              feature.compressedGeometry
-            );
+            feature.geometry = decompressGeometry(feature.compressedGeometry);
             return feature;
           }
         );
@@ -146,9 +150,28 @@ function cleanResponse(res: any): ISolveRouteResponse {
       }
     );
   }
+
+  // remove "fieldAliases" because it does not do anything.
+  delete res.routes.fieldAliases;
+
+  // add "geoJson" property to "routes"
+  if (res.routes.spatialReference.wkid === 4326) {
+    const features = res.routes.features.map((feature: any) => {
+      return {
+        type: "Feature",
+        geometry: arcgisToGeoJSON(feature.geometry),
+        properties: Object.assign({}, feature.attributes),
+      };
+    });
+
+    res.routes.geoJson = {
+      type: "FeatureCollection",
+      features,
+    };
+  }
   return res;
 }
 
 export default {
-  solveRoute
+  solveRoute,
 };

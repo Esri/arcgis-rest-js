@@ -1429,3 +1429,300 @@ export const SolveNoDirections = {
     ]
   }
 };
+
+export const SolveWebMercator: any = {
+  messages: [
+    {
+      type: 50,
+      description:
+        'Network elements with avoid-restrictions are traversed in the output (restriction attribute names: "Through Traffic Prohibited").',
+    },
+  ],
+  checksum: "akCHAF8_hwA.",
+  routes: {
+    fieldAliases: {
+      ObjectID: "ObjectID",
+      Name: "Name",
+      FirstStopID: "FirstStopID",
+      LastStopID: "LastStopID",
+      StopCount: "StopCount",
+      StartTime: "StartTime",
+      EndTime: "EndTime",
+      StartTimeUTC: "StartTimeUTC",
+      EndTimeUTC: "EndTimeUTC",
+      TotalWait_Minutes: "TotalWait_Minutes",
+      TotalWait_TravelTime: "TotalWait_TravelTime",
+      TotalWait_TimeAt1KPH: "TotalWait_TimeAt1KPH",
+      TotalWait_WalkTime: "TotalWait_WalkTime",
+      TotalWait_TruckMinutes: "TotalWait_TruckMinutes",
+      TotalWait_TruckTravelTime: "TotalWait_TruckTravelTime",
+      TotalViolation_Minutes: "TotalViolation_Minutes",
+      TotalViolation_TravelTime: "TotalViolation_TravelTime",
+      TotalViolation_TimeAt1KPH: "TotalViolation_TimeAt1KPH",
+      TotalViolation_WalkTime: "TotalViolation_WalkTime",
+      TotalViolation_TruckMinutes: "TotalViolation_TruckMinutes",
+      TotalViolation_TruckTravelTime: "TotalViolation_TruckTravelTime",
+      Total_Minutes: "Total_Minutes",
+      Total_TravelTime: "Total_TravelTime",
+      Total_Miles: "Total_Miles",
+      Total_Kilometers: "Total_Kilometers",
+      Total_TimeAt1KPH: "Total_TimeAt1KPH",
+      Total_WalkTime: "Total_WalkTime",
+      Total_TruckMinutes: "Total_TruckMinutes",
+      Total_TruckTravelTime: "Total_TruckTravelTime",
+      Shape_Length: "Shape_Length",
+    },
+    geometryType: "esriGeometryPolyline",
+    spatialReference: {
+      wkid: 102100,
+      latestWkid: 3857,
+    },
+    features: [
+      {
+        attributes: {
+          ObjectID: 1,
+          Name: "Location 1 - Location 2",
+          FirstStopID: 1,
+          LastStopID: 2,
+          StopCount: 2,
+          StartTime: null,
+          EndTime: null,
+          StartTimeUTC: null,
+          EndTimeUTC: null,
+          TotalWait_Minutes: null,
+          TotalWait_TravelTime: null,
+          TotalWait_TimeAt1KPH: null,
+          TotalWait_WalkTime: null,
+          TotalWait_TruckMinutes: null,
+          TotalWait_TruckTravelTime: null,
+          TotalViolation_Minutes: null,
+          TotalViolation_TravelTime: null,
+          TotalViolation_TimeAt1KPH: null,
+          TotalViolation_WalkTime: null,
+          TotalViolation_TruckMinutes: null,
+          TotalViolation_TruckTravelTime: null,
+          Total_Minutes: null,
+          Total_TravelTime: 2.7983051292128427,
+          Total_Miles: 1.1072041351613093,
+          Total_Kilometers: 1.7818723316970426,
+          Total_TimeAt1KPH: null,
+          Total_WalkTime: null,
+          Total_TruckMinutes: null,
+          Total_TruckTravelTime: null,
+          Shape_Length: 2150.8849339441495,
+        },
+        geometry: {
+          paths: [
+            [
+              [-13046165.2432, 4036384.2672000006],
+              [-13046166.760400001, 4036384.4029000029],
+              [-13046166.760400001, 4036463.6784999967],
+              [-13046166.760400001, 4036536.2362999991],
+              [-13046166.760400001, 4036610.1381999999],
+              [-13046166.760400001, 4036624.9186000004],
+              [-13046166.760400001, 4036634.3244000003],
+              [-13046166.760400001, 4036651.7921999991],
+              [-13046166.760400001, 4036673.2911000028],
+              [-13046166.760400001, 4036684.0406000018],
+              [-13046166.760400001, 4036692.1027000025],
+              [-13046167.873599999, 4036759.2871999964],
+              [-13046166.760400001, 4036792.8796000034],
+              [-13046094.4027, 4036768.6930999979],
+              [-13045888.4616, 4036666.5727000013],
+              [-13045732.6143, 4036572.5152999982],
+              [-13045680.294199999, 4036548.3293000013],
+              [-13045654.6907, 4036540.2673000023],
+              [-13045622.408, 4036530.8615999967],
+              [-13045567.861499999, 4036528.1743000001],
+              [-13045059.1314, 4036502.6445999965],
+              [-13045059.1314, 4036454.2729000002],
+              [-13045059.1314, 4036395.1520999968],
+              [-13045059.1314, 4036387.0901999995],
+              [-13045060.2446, 4036302.4406000003],
+              [-13045037.980700001, 4036255.4133000001],
+              [-13045027.962000001, 4036240.6332999989],
+              [-13045001.245299999, 4036204.3553000018],
+              [-13044986.773800001, 4036182.8572999984],
+              [-13044961.170299999, 4036145.235799998],
+              [-13044820.9077, 4036143.8922000006],
+              [-13044862.4627, 4036130.2753000036],
+            ],
+          ],
+        },
+      },
+    ],
+  },
+  directions: [
+    {
+      routeId: 1,
+      routeName: "Location 1 - Location 2",
+      summary: {
+        totalLength: 1.1072020107465914,
+        totalTime: 2.7983051292128427,
+        totalDriveTime: 2.7983051292128427,
+        envelope: {
+          xmin: -13046167.873551065,
+          ymin: 4036130.2752892626,
+          xmax: -13044820.907712465,
+          ymax: 4036792.8795825001,
+          spatialReference: {
+            wkid: 102100,
+            latestWkid: 3857,
+          },
+        },
+      },
+      features: [
+        {
+          attributes: {
+            length: 0,
+            time: 0,
+            text: "Start at Location 1",
+            ETA: -2209161600000,
+            arriveTimeUTC: -2209161600000,
+            maneuverType: "esriDMTDepart",
+          },
+          compressedGeometry: "+54-1voegsr+jn9k5c+0+0",
+          strings: [
+            {
+              string: "Location 1",
+              stringType: "esriDSTStreetName",
+            },
+          ],
+        },
+        {
+          attributes: {
+            length: 0.00078494252311414397,
+            time: 0.0075794696723509884,
+            text: "Go west toward New York St",
+            ETA: -2209161600000,
+            arriveTimeUTC: -2209161600000,
+            maneuverType: "esriDMTStraight",
+          },
+          compressedGeometry: "+54-1voegsr+jn9k5c-7p+m",
+          strings: [
+            {
+              string: "New York St",
+              stringType: "esriDSTCrossStreet",
+            },
+          ],
+        },
+        {
+          attributes: {
+            length: 0.20954478177413211,
+            time: 0.58900726999999975,
+            text: "Turn right on New York St",
+            ETA: -2209161600000,
+            arriveTimeUTC: -2209161600000,
+            maneuverType: "esriDMTTurnRight",
+          },
+          compressedGeometry:
+            "+54-1voeh4k+jn9k62+0+cm9+0+bjs+0+bqo+0+2bo+0+1g6+0+2ph+0+3e6+0+1n3+0+19a-5m+aoa+5m+5c5",
+          strings: [
+            {
+              string: "New York St",
+              stringType: "esriDSTStreetName",
+            },
+          ],
+        },
+        {
+          attributes: {
+            length: 0.60274984834861423,
+            time: 1.2132940212772303,
+            text: "Turn right on W Redlands Blvd",
+            ETA: -2209161600000,
+            arriveTimeUTC: -2209161600000,
+            maneuverType: "esriDMTTurnRight",
+          },
+          compressedGeometry:
+            "+54-1voeh4k+jnbljg+bir-3ru+10ve-gbc+oun-f21+8c5-3rv+437-19a+55e-1g7+8ni-do+2hf7-42r",
+          strings: [
+            {
+              string: "W Redlands Blvd",
+              stringType: "esriDSTStreetName",
+            },
+          ],
+        },
+        {
+          attributes: {
+            length: 0.13890861493625409,
+            time: 0.34214377000000007,
+            text: "Turn right on N Eureka St",
+            ETA: -2209161600000,
+            arriveTimeUTC: -2209161600000,
+            maneuverType: "esriDMTTurnRight",
+          },
+          compressedGeometry:
+            "+54-1vo8vo1+jna742+0-7nt+0-9f0+0-19a-5m-dhr+3i3-7h0+1jb-2bo",
+          strings: [
+            {
+              string: "N Eureka St",
+              stringType: "esriDSTStreetName",
+            },
+          ],
+        },
+        {
+          attributes: {
+            length: 0.060120108563714234,
+            time: 0.16156777586349769,
+            text: "Continue forward on S Eureka St",
+            ETA: -2209161600000,
+            arriveTimeUTC: -2209161600000,
+            maneuverType: "esriDMTStraight",
+          },
+          compressedGeometry: "+54-1vo8qo9+jn8t58+48u-5pu+2a5-3e5+437-60q",
+          strings: [
+            {
+              string: "S Eureka St",
+              stringType: "esriDSTStreetName",
+            },
+          ],
+        },
+        {
+          attributes: {
+            length: 0.072287389740632854,
+            time: 0.31531301000000012,
+            text: "Turn left on W Vine St",
+            ETA: -2209161600000,
+            arriveTimeUTC: -2209161600000,
+            maneuverType: "esriDMTTurnLeft",
+          },
+          compressedGeometry: "+54-1vo8g1v+jn8dsb+mer-6t",
+          strings: [
+            {
+              string: "W Vine St",
+              stringType: "esriDSTStreetName",
+            },
+          ],
+        },
+        {
+          attributes: {
+            length: 0.022806324860129606,
+            time: 0.16939981239976376,
+            text: "Make a sharp right",
+            ETA: -2209161600000,
+            arriveTimeUTC: -2209161600000,
+            maneuverType: "esriDMTSharpRight",
+          },
+          compressedGeometry: "+54-1vo7pj4+jn8dle-6kv-25p",
+        },
+        {
+          attributes: {
+            length: 0,
+            time: 0,
+            text: "Finish at Location 2, on the right",
+            ETA: -2209161600000,
+            arriveTimeUTC: -2209161600000,
+            maneuverType: "esriDMTStop",
+          },
+          compressedGeometry: "+54-1vo8083+jn8bfl+0+0",
+          strings: [
+            {
+              string: "Location 2",
+              stringType: "esriDSTStreetName",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
