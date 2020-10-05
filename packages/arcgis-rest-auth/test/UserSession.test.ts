@@ -1185,27 +1185,6 @@ describe("UserSession", () => {
       });
     });
 
-    xit('.fromParent resolves with nothing if not parentOrigin', () => { 
-      // create a mock window that will fire the handler
-      const Win = {
-        _fn: (evt:any) => {},
-        addEventListener: function (evt:any, fn:any) {
-          Win._fn = fn;
-        },
-        removeEventListener: function () {},
-        parent: {
-          postMessage: function (msg: any, origin:string) {
-            Win._fn({origin: 'https://notorigin.com', data: {type: 'arcgis:auth:credential', credential: cred }});
-          }
-        }
-      }
-
-      return UserSession.fromParent('https://origin.com', Win)
-      .then((resp) => {
-        expect(resp).toBe(null, 'should resolve with null');
-      });
-    });
-
     it('.fromParent ignores other messages, then intercepts the correct one', async () => { 
       // create a mock window that will fire the handler
       const Win = {
