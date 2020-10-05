@@ -3,6 +3,7 @@
 
 export * from "./solveRoute";
 export * from "./closestFacility";
+export * from "./serviceArea";
 export * from "./helpers";
 export {
   ILocation,

@@ -14,6 +14,8 @@ export const ARCGIS_ONLINE_ROUTING_URL =
   "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World";
 export const ARCGIS_ONLINE_CLOSEST_FACILITY_URL =
   "https://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World/";
+export const ARCGIS_ONLINE_SERVICE_AREA_URL =
+  "https://route.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World";
 
 // nice to have: verify custom endpoints contain 'NAServer' and end in a '/'
 export interface IEndpointOptions extends IRequestOptions {
