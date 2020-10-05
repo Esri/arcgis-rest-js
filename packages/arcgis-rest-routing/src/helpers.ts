@@ -2,11 +2,18 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IPolyline, Position2D } from "@esri/arcgis-rest-types";
+import {
+  ILocation,
+  IPoint,
+  IPolyline,
+  Position2D,
+} from "@esri/arcgis-rest-types";
 
 // https always
 export const ARCGIS_ONLINE_ROUTING_URL =
   "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World";
+export const ARCGIS_ONLINE_CLOSEST_FACILITY_URL =
+  "https://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World/";
 
 // nice to have: verify custom endpoints contain 'NAServer' and end in a '/'
 export interface IEndpointOptions extends IRequestOptions {
@@ -14,6 +21,42 @@ export interface IEndpointOptions extends IRequestOptions {
    * Any ArcGIS Routing service (example: https://sampleserver3.arcgisonline.com/ArcGIS/rest/services/Network/USA/NAServer/Route/ ) to use for the routing service request.
    */
   endpoint?: string;
+}
+
+function isLocationArray(
+  coords: ILocation | IPoint | [number, number] | [number, number, number]
+): coords is [number, number] | [number, number, number] {
+  return (
+    (coords as [number, number]).length === 2 ||
+    (coords as [number, number, number]).length === 3
+  );
+}
+
+function isLocation(
+  coords: ILocation | IPoint | [number, number] | [number, number, number]
+): coords is ILocation {
+  return (
+    (coords as ILocation).latitude !== undefined ||
+    (coords as ILocation).lat !== undefined
+  );
+}
+
+export function normalizeLocationsList(
+  locations: Array<IPoint | ILocation | [number, number]>
+): string[] {
+  return locations.map((coords) => {
+    if (isLocationArray(coords)) {
+      return coords.join();
+    } else if (isLocation(coords)) {
+      if (coords.lat) {
+        return coords.long + "," + coords.lat;
+      } else {
+        return coords.longitude + "," + coords.latitude;
+      }
+    } else {
+      return coords.x + "," + coords.y;
+    }
+  });
 }
 
 export function decompressGeometry(str: string) {
