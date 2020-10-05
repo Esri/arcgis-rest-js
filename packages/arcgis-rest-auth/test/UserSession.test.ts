@@ -1185,7 +1185,7 @@ describe("UserSession", () => {
       });
     });
 
-    it('.fromParent resolves with nothing if not parentOrigin', () => { 
+    xit('.fromParent resolves with nothing if not parentOrigin', () => { 
       // create a mock window that will fire the handler
       const Win = {
         _fn: (evt:any) => {},
@@ -1203,6 +1203,30 @@ describe("UserSession", () => {
       return UserSession.fromParent('https://origin.com', Win)
       .then((resp) => {
         expect(resp).toBe(null, 'should resolve with null');
+      });
+    });
+
+    it('.fromParent ignores other messages, then intercepts the correct one', async () => { 
+      // create a mock window that will fire the handler
+      const Win = {
+        _fn: (evt:any) => {},
+        addEventListener: function (evt:any, fn:any) {
+          Win._fn = fn;
+        },
+        removeEventListener: function () {},
+        parent: {
+          postMessage: function (msg: any, origin:string) {
+            // fire one we intend to ignore
+            Win._fn({origin: 'https://notorigin.com', data: {type: 'other:random', foo: {bar:"baz"} }});
+            // fire a second we want to intercept
+            Win._fn({origin: 'https://origin.com', data: {type: 'arcgis:auth:credential', credential: cred }});
+          }
+        }
+      }
+
+      return UserSession.fromParent('https://origin.com', Win)
+      .then((resp) => {
+        expect(resp.username).toBe('jsmith', 'should use the cred wired throu the mock window');
       });
     });
 

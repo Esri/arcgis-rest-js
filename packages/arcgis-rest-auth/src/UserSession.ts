@@ -458,20 +458,19 @@ export class UserSession implements IAuthenticationManager {
     }
     // Declar handler outside of promise scope so we can detach it
     let handler: (event: any) => void;
-    // return a promise...
+    // return a promise that will resolve when the handler recieves
+    // session information from the correct origin
     return new Promise((resolve, reject) => {
       // create an event handler that just wraps the parentMessageHandler
       handler = (event:any) => {
         // ensure we only listen to events from the specified parent
+        // if the origin is not the parent origin, we don't send any response
         if (event.origin === parentOrigin){
           try {
             return resolve(UserSession.parentMessageHandler(event));
           } catch (err) {
             return reject(err);
           }
-        } else {
-          // just resolve, but do nothing
-          return resolve(null);
         }
       };
       // add listener
