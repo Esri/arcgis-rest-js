@@ -1,6 +1,8 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+
+/* tslint:disable:no-empty */
 import { UserSession } from "../src/index";
 import { ICredential } from "../src/UserSession";
 
@@ -1092,7 +1094,7 @@ describe("UserSession", () => {
   });
 
   describe('postmessage auth :: ', () => { 
-    let MockWindow = {
+    const MockWindow = {
       addEventListener: () => {},
       removeEventListener: () => {},
       parent: {
@@ -1128,11 +1130,11 @@ describe("UserSession", () => {
       // that will hold the passed in event handler so we can fire it manually
       const Win = {
         _fn: (evt:any) => {},
-        addEventListener: function (evt:any, fn:any) {
+        addEventListener (evt:any, fn:any) {
           // enablePostMessageAuth passes in the handler, which is what we're actually testing
           Win._fn = fn;
         },
-        removeEventListener: function () {},
+        removeEventListener () {},
       }
       // Create the session
       const session = UserSession.fromCredential(cred);
@@ -1140,25 +1142,25 @@ describe("UserSession", () => {
       session.enablePostMessageAuth(['https://storymaps.arcgis.com'], Win);
       // create an event object, with a matching origin
       // an a source.postMessage fn that we can spy on
-      const evt = {
+      const event = {
         origin: 'https://storymaps.arcgis.com',
         source: {
-          postMessage: function (msg: any, origin: string) {}
+          postMessage (msg: any, origin: string) {}
         }
       }
       // create the spy
-      const sourceSpy = spyOn(evt.source, 'postMessage');
+      const sourceSpy = spyOn(event.source, 'postMessage');
       // Now, fire the handler, simulating what happens when a postMessage event comes
       // from an embedded iframe
-      Win._fn(evt);
+      Win._fn(event);
       // Expectations...
       expect(sourceSpy.calls.count()).toBe(1, 'souce.postMessage should be called in handler');
       const args = sourceSpy.calls.argsFor(0);
       expect(args[0].type).toBe('arcgis:auth:credential', 'should send credential type');
       expect(args[0].credential.userId).toBe('jsmith', 'should send credential');
       // now the case where it's not a valid origin
-      evt.origin = 'https://evil.com';
-      Win._fn(evt);
+      event.origin = 'https://evil.com';
+      Win._fn(event);
       expect(sourceSpy.calls.count()).toBe(2, 'souce.postMessage should be called in handler');
       const args2 = sourceSpy.calls.argsFor(1);
       expect(args2[0].type).toBe('arcgis:auth:rejected', 'should send reject');
@@ -1168,12 +1170,12 @@ describe("UserSession", () => {
       // create a mock window that will fire the handler
       const Win = {
         _fn: (evt:any) => {},
-        addEventListener: function (evt:any, fn:any) {
+        addEventListener (evt:any, fn:any) {
           Win._fn = fn;
         },
-        removeEventListener: function () {},
+        removeEventListener () {},
         parent: {
-          postMessage: function (msg: any, origin:string) {
+          postMessage (msg: any, origin:string) {
             Win._fn({origin: 'https://origin.com', data: {type: 'arcgis:auth:credential', credential: cred }});
           }
         }
@@ -1189,12 +1191,12 @@ describe("UserSession", () => {
       // create a mock window that will fire the handler
       const Win = {
         _fn: (evt:any) => {},
-        addEventListener: function (evt:any, fn:any) {
+        addEventListener (evt:any, fn:any) {
           Win._fn = fn;
         },
-        removeEventListener: function () {},
+        removeEventListener () {},
         parent: {
-          postMessage: function (msg: any, origin:string) {
+          postMessage (msg: any, origin:string) {
             // fire one we intend to ignore
             Win._fn({origin: 'https://notorigin.com', data: {type: 'other:random', foo: {bar:"baz"} }});
             // fire a second we want to intercept
@@ -1213,12 +1215,12 @@ describe("UserSession", () => {
       // create a mock window that will fire the handler
       const Win = {
         _fn: (evt:any) => {},
-        addEventListener: function (evt:any, fn:any) {
+        addEventListener (evt:any, fn:any) {
           Win._fn = fn;
         },
-        removeEventListener: function () {},
+        removeEventListener () {},
         parent: {
-          postMessage: function (msg: any, origin:string) {
+          postMessage (msg: any, origin:string) {
             Win._fn({origin: 'https://origin.com', data: {type: 'arcgis:auth:credential', credential: {foo:"bar"} }});
           }
         }
@@ -1234,12 +1236,12 @@ describe("UserSession", () => {
       // create a mock window that will fire the handler
       const Win = {
         _fn: (evt:any) => {},
-        addEventListener: function (evt:any, fn:any) {
+        addEventListener (evt:any, fn:any) {
           Win._fn = fn;
         },
-        removeEventListener: function () {},
+        removeEventListener () {},
         parent: {
-          postMessage: function (msg: any, origin:string) {
+          postMessage (msg: any, origin:string) {
             Win._fn({origin: 'https://origin.com', data: {type: 'arcgis:auth:rejected', message: 'Rejected authentication request.'}});
           }
         }
@@ -1255,12 +1257,12 @@ describe("UserSession", () => {
       // create a mock window that will fire the handler
       const Win = {
         _fn: (evt:any) => {},
-        addEventListener: function (evt:any, fn:any) {
+        addEventListener (evt:any, fn:any) {
           Win._fn = fn;
         },
-        removeEventListener: function () {},
+        removeEventListener () {},
         parent: {
-          postMessage: function (msg: any, origin:string) {
+          postMessage (msg: any, origin:string) {
             Win._fn({origin: 'https://origin.com', data: {type: 'arcgis:auth:other'}});
           }
         }
