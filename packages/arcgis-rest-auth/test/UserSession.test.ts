@@ -1228,7 +1228,7 @@ describe("UserSession", () => {
 
       return UserSession.fromParent('https://origin.com', Win)
       .catch((err) => {
-        expect(err.message).toBe("Cannot read property 'includes' of undefined", 'Should reject');
+        expect(err).toBeDefined('Should reject');
       })
     });
 
