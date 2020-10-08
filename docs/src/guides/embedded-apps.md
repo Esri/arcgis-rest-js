@@ -66,9 +66,9 @@ In the embedded application, early in it's boot sequence it should read the quer
 ```js
   // Parse up any url params
   let params = new URLSearchParams(document.location.search.substring(1));
-  const embedStyle = params.get('embed');
+  const useEmbedAuth = params.get('arcgis-auth-embed');
   const parentOrigin = params.get('parentOrigin'); 
-  if (embedStyle === 'iframe' && parentOrigin) {
+  if (useEmbedAuth && parentOrigin) {
     UserSession.fromParent(parentOrigin)
     .then((session) => {
       // session is a UserSession instance, populated from the parent app
