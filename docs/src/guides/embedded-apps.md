@@ -68,7 +68,7 @@ In the embedded application, early in it's boot sequence it should read the quer
   let params = new URLSearchParams(document.location.search.substring(1));
   const useEmbedAuth = params.get('arcgis-auth-embed');
   const parentOrigin = params.get('parentOrigin'); 
-  if (useEmbedAuth && parentOrigin) {
+  if (useEmbedAuth === "true" && parentOrigin) {
     UserSession.fromParent(parentOrigin)
     .then((session) => {
       // session is a UserSession instance, populated from the parent app
@@ -91,4 +91,3 @@ If the parent app has the ability to transition to another route (i.e. an Angula
     state.session.disablePostMessageAuth();
   }
 ```
-
