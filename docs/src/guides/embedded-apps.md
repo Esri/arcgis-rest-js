@@ -12,7 +12,7 @@ group: 2-authentication
 
 Sometimes an application will need to embed another application using an `<iframe>`. If both applications are backed by items that are publicly accessible, things will just work.
 
-But, if the "Host" application is not public and the embedded application is not public, we then run into the question of how to pass authentication from the "Host" to the embedded application.
+However, if the embedded application is not public and the user has already logged into the "Host" application, we then run into the question of how to pass authentication from the "Host" to the embedded application.
 
 ### Cross Origin Embedding
 Cross-Origin embedding occurs when the "host" app and the "embedded" application are served from different locations. This is only supported for ArcGIS Platform apps that support embedding.
