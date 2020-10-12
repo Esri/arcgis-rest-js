@@ -29,7 +29,7 @@ We will walk through the flows at a high-level
 
 ## 1 Host App uses oAuth
 
-The application acting as the host, should use oAuth to authenticate the user, and *before* rendering the iframe with the embedded application it must call `session.enablePostMessageAuth(validOrigins)`. This sets up an event handler that will process the requests from the embedded applications.
+The application acting as the host, should use oAuth to authenticate the user, and *before* rendering the iframe with the embedded application it must call `session.enablePostMessageAuth(validOrigins)`. This sets up a listener that will process the requests from the embedded application(s).
 
 The `validOrigins` argument is an array of "orgins" your app expects to get auth requests from. **NOTE** This should be a constrained list of just the domains this particular application will actually be embedding.
 
