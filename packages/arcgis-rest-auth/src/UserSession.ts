@@ -722,7 +722,7 @@ export class UserSession implements IAuthenticationManager {
     };
   };
 
-  private hostHandler: any;
+  private _hostHandler: any;
 
   constructor(options: IUserSessionOptions) {
     this.clientId = options.clientId;
@@ -885,8 +885,8 @@ export class UserSession implements IAuthenticationManager {
     if (!win && window) {
       win = window;
     }
-    this.hostHandler = this.createPostMessageHandler(validChildOrigins);
-    win.addEventListener('message',this.hostHandler , false);
+    this._hostHandler = this.createPostMessageHandler(validChildOrigins);
+    win.addEventListener('message',this._hostHandler , false);
   }
 
   /**
@@ -899,7 +899,7 @@ export class UserSession implements IAuthenticationManager {
     if (!win && window) {
       win = window;
     }
-    win.removeEventListener('message', this.hostHandler, false);
+    win.removeEventListener('message', this._hostHandler, false);
   }
 
   /**

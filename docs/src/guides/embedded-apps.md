@@ -51,12 +51,11 @@ The `validOrigins` argument is an array of "orgins" your app expects to get auth
 #### 2  Host App adds params to embed url
 Let's suppose the host app is embedding `https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd`. To tell the embedded app that it should request authentication from the parent we need to add two url parameters:
 
-- `arcgis-auth-embed=true` - tells the app it's embedded in an iframe and should request auth from the parent. This allows the app to make ui changes like hiding headers etc
-- `parentOrigin=https://myapp.com` - this tells the app what 'origin' to expect messages from, what origin to post messages to, and also to ignore other origins. **note** this should be uri encoded
+- `arcgis-auth-origin=https://myapp.com` - this tells the app what 'origin' to expect messages from, what origin to post messages to, and also to ignore other origins. **note** this should be uri encoded
 
 ```js
 const originalUrl = 'https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd';
-const embedUrl = `${originalurl}?arcgis-auth-embed=true&parentOrigin=${encodeURIComponent(window.location.origin)}`;
+const embedUrl = `${originalurl}?arcgis-auth-origin=${encodeURIComponent(window.location.origin)}`;
 // then use embedUrl in your component that renders the <iframe>
 ```
 
@@ -66,10 +65,9 @@ In the embedded application, early in it's boot sequence it should read the quer
 ```js
   // Parse up any url params
   let params = new URLSearchParams(document.location.search.substring(1));
-  const useEmbedAuth = params.get('arcgis-auth-embed');
-  const parentOrigin = params.get('parentOrigin'); 
-  if (useEmbedAuth === "true" && parentOrigin) {
-    UserSession.fromParent(parentOrigin)
+  const arcgisAuthOrigin = params.get('arcgis-auth-origin'); 
+  if (arcgisAuthOrigin) {
+    UserSession.fromParent(arcgisAuthOrigin)
     .then((session) => {
       // session is a UserSession instance, populated from the parent app
       // the embeded app should exchange this token for one specific to the application
