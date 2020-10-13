@@ -133,47 +133,48 @@ function getMembershipAdjustments (
   requestOptions: IGroupSharingOptions
 ) {
   const membershipGuarantees = [];
+  if (requestOptions.groupId !== currentUser.favGroupId) {
+    if (isSharedEditingGroup) {
+      if (!isAdmin) {
+        // abort and reject promise
+        throw Error(`This item can not be shared to shared editing group ${requestOptions.groupId} by ${currentUser.username} as they not the item owner or org admin.`);
+      }
 
-  if (isSharedEditingGroup) {
-    if (!isAdmin) {
-      // abort and reject promise
-      throw Error(`This item can not be shared to shared editing group ${requestOptions.groupId} by ${currentUser.username} as they not the item owner or org admin.`);
-    }
-
-    membershipGuarantees.push(
+      membershipGuarantees.push(
+        // admin user must be a group member to share, should be reverted afterwards
+        ensureMembership(
+          currentUser,
+          currentUser,
+          false,
+          `Error adding ${currentUser.username} as member to edit group ${requestOptions.groupId}. Consequently item ${requestOptions.id} was not shared to the group.`,
+          requestOptions
+        ),
+        // item owner must be a group admin
+        ensureMembership(
+          currentUser,
+          ownerUser,
+          true,
+          membership === "none"
+            ? `Error adding user ${ownerUser.username} to edit group ${requestOptions.groupId}. Consequently item ${requestOptions.id} was not shared to the group.`
+            : `Error promoting user ${ownerUser.username} to admin in edit group ${requestOptions.groupId}. Consequently item ${requestOptions.id} was not shared to the group.`,
+          requestOptions
+        )
+      );
+    } else if (isAdmin) {
       // admin user must be a group member to share, should be reverted afterwards
-      ensureMembership(
-        currentUser,
-        currentUser,
-        false,
-        `Error adding ${currentUser.username} as member to edit group ${requestOptions.groupId}. Consequently item ${requestOptions.id} was not shared to the group.`,
-        requestOptions
-      ),
-      // item owner must be a group admin
-      ensureMembership(
-        currentUser,
-        ownerUser,
-        true,
-        membership === "none"
-          ? `Error adding user ${ownerUser.username} to edit group ${requestOptions.groupId}. Consequently item ${requestOptions.id} was not shared to the group.`
-          : `Error promoting user ${ownerUser.username} to admin in edit group ${requestOptions.groupId}. Consequently item ${requestOptions.id} was not shared to the group.`,
-        requestOptions
-      )
-    );
-  } else if (isAdmin) {
-    // admin user must be a group member to share, should be reverted afterwards
-    membershipGuarantees.push(
-      ensureMembership(
-        currentUser,
-        currentUser,
-        false,
-        `Error adding ${currentUser.username} as member to view group ${requestOptions.groupId}. Consequently item ${requestOptions.id} was not shared to the group.`,
-        requestOptions
-      )
-    );
-  } else if (membership === "none") {
-    // all other non-item owners must be a group member
-    throw new Error(`This item can not be shared by ${currentUser.username} as they are not a member of the specified group ${requestOptions.groupId}.`);
+      membershipGuarantees.push(
+        ensureMembership(
+          currentUser,
+          currentUser,
+          false,
+          `Error adding ${currentUser.username} as member to view group ${requestOptions.groupId}. Consequently item ${requestOptions.id} was not shared to the group.`,
+          requestOptions
+        )
+      );
+    } else if (membership === "none") {
+      // all other non-item owners must be a group member
+      throw new Error(`This item can not be shared by ${currentUser.username} as they are not a member of the specified group ${requestOptions.groupId}.`);
+    }
   }
 
   return membershipGuarantees;
