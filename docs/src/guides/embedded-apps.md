@@ -51,7 +51,7 @@ The `validOrigins` argument is an array of "orgins" your app expects to get auth
 #### 2  Host App adds params to embed url
 Let's suppose the host app is embedding `https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd`. To tell the embedded app that it should request authentication from the parent we need to add two url parameters:
 
-- `arcgis-auth-origin=https://myapp.com` - this tells the app what 'origin' to expect messages from, what origin to post messages to, and also to ignore other origins. **note** this should be uri encoded
+- `arcgis-auth-origin=https://myapp.com` - This tells the app it's embedded in an iframe and should request auth from the parent, and what 'origin' to expect messages from, what origin to post messages to, and also to ignore other origins. **note** this should be uri encoded
 
 ```js
 const originalUrl = 'https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd';
@@ -79,8 +79,10 @@ In the embedded application, early in it's boot sequence it should read the quer
   }
 ```
 
-#### 4 Parent App Transitions Away
-If the parent app has the ability to transition to another route (i.e. an Angular, Ember, React etc app with a router) then **before** the transition occurs, the postMessage event listener must be disposed of. Unfortuately we can't automate this inside ArcGIS Rest Js as it will require using the life-cycle hooks of your application framework. The example below uses the `disconnectedCallback` that is part of the Stenci.js component life-cycle.
+#### Clean up
+While rest-js will attempt to clean up the listeners automatically, if the host application is no longer going to render the iframe before the embedded app has had a chance to request the authentication, then the app should manually clean up the listener by calling `session.disablePostMessageAuth()`
+
+Typically you would make this call in the life-cycle hooks of your application framework (i.e. an Angular, Ember, React etc app with a router). The example below uses the `disconnectedCallback` that is part of the Stenci.js component life-cycle.
 
 ```js
   // Use your framework's hooks...
