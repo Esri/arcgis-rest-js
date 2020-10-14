@@ -8,9 +8,7 @@ import {
   IRequestOptions
 } from "@esri/arcgis-rest-request";
 
-// import { IExtent, ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
-
-import { ARCGIS_ONLINE_DATA_COLLECTIONS_URL } from "./helpers";
+import { ARCGIS_ONLINE_GEOENRICHMENT_URL } from "./helpers";
 
 export interface IGetDataCollectionsOptions extends IRequestOptions {
   /**
@@ -128,7 +126,7 @@ export function getDataCollections(
   requestOptions?: IGetDataCollectionsOptions
 ): Promise<IGetDataCollectionsResponse> {
   let options: IGetDataCollectionsOptions = {};
-  let endpoint: string = ARCGIS_ONLINE_DATA_COLLECTIONS_URL;
+  let endpoint: string = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/dataCollections`;
   
 
   if (!requestOptions) {
