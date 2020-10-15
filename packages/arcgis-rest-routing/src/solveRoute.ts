@@ -151,9 +151,6 @@ function cleanResponse(res: any): ISolveRouteResponse {
     );
   }
 
-  // remove "fieldAliases" because it does not do anything.
-  delete res.routes.fieldAliases;
-
   // add "geoJson" property to "routes"
   if (res.routes.spatialReference.wkid === 4326) {
     const features = res.routes.features.map((feature: any) => {
