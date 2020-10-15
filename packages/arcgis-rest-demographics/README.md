@@ -24,9 +24,9 @@ npm install @esri/arcgis-rest-demographics
 ```
 
 ```js
-import { getDataCollections } from '@esri/arcgis-rest-demographics';
+import { getAvailableDataCollections } from '@esri/arcgis-rest-demographics';
 
-getDataCollections()
+getAvailableDataCollections()
   .then((response) => {
     response.DataCollections;
     // => [{ dataCollectionId: "KeyGlobalFacts", metadata: { ... }, data: [ ... ] }, ... ]
@@ -35,7 +35,7 @@ getDataCollections()
 
 ### [API Reference](https://esri.github.io/arcgis-rest-js/api/demographics/)
 
-* [`getDataCollections({countryCode: 'us'})`](https://esri.github.io/arcgis-rest-js/api/demographics/getDataCollections/)
+* [`getAvailableDataCollections({countryCode: 'us'})`](https://esri.github.io/arcgis-rest-js/api/demographics/getAvailableDataCollections/)
 
 ### Issues
 
