@@ -23,10 +23,10 @@ export interface IQueryDemographicDataOptions extends IRequestOptions {
 
 
 export interface IQueryDemographicDataResponse {
-  results: IResult[] | null;
+  results: IGeoenrichmentResult[] | null;
   messages: string[] | null;
 }
-interface IResult {
+interface IGeoenrichmentResult {
   paramName: string;
   dataType: string;
   value: {
