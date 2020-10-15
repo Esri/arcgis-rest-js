@@ -1,20 +1,20 @@
 /* Copyright (c) 2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { getDataCollections } from "../src/getDataCollections";
+import { getAvailableDataCollections } from "../src/getAvailableDataCollections";
 import {
   dataCollectionsResponse,
 } from "./mocks/responses";
 
 import * as fetchMock from "fetch-mock";
 
-describe("getDataCollections", () => {
+describe("getAvailableDataCollections", () => {
   afterEach(fetchMock.restore);
 
   it("should make a simple, single dataCollections request", done => {
     fetchMock.once("*", dataCollectionsResponse);
 
-    getDataCollections()
+    getAvailableDataCollections()
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -33,7 +33,7 @@ describe("getDataCollections", () => {
   it("should make a dataCollections request with a countryCode", done => {
     fetchMock.once("*", dataCollectionsResponse);
 
-    getDataCollections({
+    getAvailableDataCollections({
       countryCode: 'us'
     })
       .then(response => {
@@ -53,7 +53,7 @@ describe("getDataCollections", () => {
   it("should make a dataCollections request with a countryCode and data collection", done => {
     fetchMock.once("*", dataCollectionsResponse);
 
-    getDataCollections({
+    getAvailableDataCollections({
       countryCode: 'us',
       dataCollection: 'EducationalAttainment'
     })
@@ -75,7 +75,7 @@ describe("getDataCollections", () => {
   it("should make a dataCollections request with additional parameters", done => {
     fetchMock.once("*", dataCollectionsResponse);
 
-    getDataCollections({
+    getAvailableDataCollections({
       suppressNullValues: true,
       addDerivativeVariables: ["average","index"]
     })

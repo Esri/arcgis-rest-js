@@ -10,7 +10,7 @@ import {
 
 import { ARCGIS_ONLINE_GEOENRICHMENT_URL } from "./helpers";
 
-export interface IGetDataCollectionsOptions extends IRequestOptions {
+export interface IGetAvailableDataCollectionsOptions extends IRequestOptions {
   /**
    * Optional parameter to specify an array of string values that describe what derivative variables to include in the output.
    */
@@ -27,7 +27,7 @@ export interface IGetDataCollectionsOptions extends IRequestOptions {
 }
 
 
-export interface IGetDataCollectionsResponse {
+export interface IGetAvailableDataCollectionsResponse {
   DataCollections?: (IDataCollection)[] | null;
 }
 interface IDataCollection {
@@ -103,14 +103,14 @@ interface IFilteringTag {
 
 /**
  * ```js
- * import { getDataCollections } from '@esri/arcgis-rest-demographics';
+ * import { getAvailableDataCollections } from '@esri/arcgis-rest-demographics';
  * //
- * getDataCollections()
+ * getAvailableDataCollections()
  *   .then((response) => {
  *     response; // => { DataCollections: [ ... ]  }
  *   });
  * //
- * getDataCollections({
+ * getAvailableDataCollections({
  *   countryCode: "se",
  *   dataCollection: "EducationalAttainment"
  * })
@@ -122,17 +122,17 @@ interface IFilteringTag {
  * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with data collections for the request.
  */
-export function getDataCollections(
-  requestOptions?: IGetDataCollectionsOptions
-): Promise<IGetDataCollectionsResponse> {
-  let options: IGetDataCollectionsOptions = {};
+export function getAvailableDataCollections(
+  requestOptions?: IGetAvailableDataCollectionsOptions
+): Promise<IGetAvailableDataCollectionsResponse> {
+  let options: IGetAvailableDataCollectionsOptions = {};
   let endpoint: string = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/dataCollections`;
   
 
   if (!requestOptions) {
     options.params = {};
   } else {
-    options = appendCustomParams<IGetDataCollectionsOptions>(
+    options = appendCustomParams<IGetAvailableDataCollectionsOptions>(
       requestOptions,
       [
         "addDerivativeVariables",
