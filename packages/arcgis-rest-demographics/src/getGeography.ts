@@ -8,7 +8,7 @@ import {
   IRequestOptions
 } from "@esri/arcgis-rest-request";
 
-import { ARCGIS_ONLINE_GEOENRICHMENT_URL, IGeoenrichmentResult } from "./helpers";
+import { ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL, IGeoenrichmentResult } from "./helpers";
 
 export interface IGetGeographyOptions extends IRequestOptions {
   /**
@@ -87,58 +87,63 @@ export interface IGetGeographyResponse {
  * ```js
  * import { getGeography } from '@esri/arcgis-rest-demographics';
  * //
- * getGeography()
- *   .then((response) => {
- *     response; // => { results: [ ... ]  }
- *   });
- * //
  * getGeography({
- *   countryCode: "se",
- *   dataCollection: "EducationalAttainment"
+ *   sourceCountry: "CA",
+ *   geographyIDs: ["35"]
  * })
  *   .then((response) => {
  *     response.; // => { results: [ ... ] }
  *   });
  * ```
- * Used to determine the data collections available for usage with the Geoenrichment service. See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/standard-geography-query.htm) for more information.
- * @param requestOptions Options to pass through to the routing service.
- * @returns A Promise that will resolve with data collections for the request.
+ * Used to get standard geography IDs and features for the supported geographic levels. See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/standard-geography-query.htm) for more information.
+ * @param requestOptions Options to pass through to the service. All properties are optional, but either `geographyIds` or `geographyQuery` must be sent at a minimum.
+ * @returns A Promise that will resolve with return data defined and optionally geometry for the feature.
  */
 export function getGeography(
   requestOptions?: IGetGeographyOptions
-): Promise<IGetDataCollectionsResponse> {
-  let options: IGetGeographyOptions = {};
-  let endpoint: string = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/dataCollections`;
-  
+): Promise<IGetGeographyResponse> {
+  const options = appendCustomParams<IGetGeographyOptions>(
+    requestOptions,
+    [
+      "sourceCountry",
+      "optionalCountryDataset",
+      "geographyLayers",
+      "geographyIDs",
+      "geographyQuery",
+      "returnSubGeographyLayer",
+      "subGeographyLayer",
+      "subGeographyQuery",
+      "outSR",
+      "returnGeometry",
+      "returnCentroids",
+      "generalizationLevel",
+      "useFuzzySearch",
+      "featureLimit",
+      "featureOffset",
+      "langCode",
+    ],
+    { params: { ...requestOptions.params } }
+  );
 
-  if (!requestOptions) {
-    options.params = {};
-  } else {
-    options = appendCustomParams<IGetGeographyOptions>(
-      requestOptions,
-      [
-        "addDerivativeVariables",
-        "suppressNullValues",
-      ],
-      { params: { ...requestOptions.params } }
+  // the SAAS service does not support anonymous requests
+  if (
+    !requestOptions.authentication
+  ) {
+    return Promise.reject(
+      "Geoenrichment using the ArcGIS service requires authentication"
     );
-
-    if (options.params.addDerivativeVariables) {
-      options.params.addDerivativeVariables = JSON.stringify(options.params.addDerivativeVariables);
-    }
-
-    if(requestOptions.countryCode) {
-      endpoint = `${endpoint}/${requestOptions.countryCode}`;
-      if(requestOptions.dataCollection) {
-        endpoint = `${endpoint}/${requestOptions.dataCollection}`;
-      }
-    }
   }
 
+  // These parameters are passed as JSON style strings:
+  ["geographyLayers", "geographyIDs"].forEach((parameter) => {
+    if (options.params[parameter]) {
+      options.params[parameter] = JSON.stringify(options.params[parameter]);
+    }
+  });
   
 
   // add spatialReference property to individual matches
-  return request(`${cleanUrl(endpoint)}`, options).then(
+  return request(`${cleanUrl(`${ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL}/execute`)}`, options).then(
     (response: any) => {
       return response;
     }
