@@ -30,12 +30,12 @@ export interface IGetAvailableDataCollectionsOptions extends IRequestOptions {
 export interface IGetAvailableDataCollectionsResponse {
   DataCollections?: (IDataCollection)[] | null;
 }
-interface IDataCollection {
+export interface IDataCollection {
   dataCollectionID: string;
   metadata: IMetadata;
   data?: (IDataInfo)[] | null;
 }
-interface IMetadata {
+export interface IMetadata {
   title: string;
   name: string;
   shortDescription: string;
@@ -56,14 +56,14 @@ interface IMetadata {
   mobileinfographics?: string | null;
   icon?: string | null;
 }
-interface ICategory {
+export interface ICategory {
   id: string;
   name: string;
   alias: string;
   description: string;
   displayOrder: string;
 }
-interface IFilter {
+export interface IFilter {
   id: string;
   name: string;
   aliasname: string;
@@ -72,7 +72,7 @@ interface IFilter {
   rangeMin?: string | null;
   enumValues?: string | null;
 }
-interface IDataInfo {
+export interface IDataInfo {
   id: string;
   alias: string;
   type: string;
@@ -94,7 +94,7 @@ interface IDataInfo {
   provider: string;
   indexType?: string | null;
 }
-interface IFilteringTag {
+export interface IFilteringTag {
   id: string;
   name: string;
   value: string;
