@@ -119,7 +119,7 @@ export interface IFilteringTag {
  *   });
  * ```
  * Used to determine the data collections available for usage with the Geoenrichment service. See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/data-collections.htm) for more information.
- * @param requestOptions Options to pass through to the routing service.
+ * @param requestOptions Options to pass through to the geoenrichment service.
  * @returns A Promise that will resolve with data collections for the request.
  */
 export function getAvailableDataCollections(
