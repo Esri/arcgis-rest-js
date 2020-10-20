@@ -5,12 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+
+## [2.20.0] - October 20th 2020
+
+### @esri/arcgis-rest-auth
+
+* Documentation
+   * **arcgis-rest-auth**: doc updates [`1d527653`](https://github.com/Esri/arcgis-rest-js/commit/1d52765378756d8fa61182034318f0585617db4e)
+* New Features
+   * **arcgis-rest-auth**: add postMessage auth support [`a6b8a17a`](https://github.com/Esri/arcgis-rest-js/commit/a6b8a17a265339725a8c5dfd90e408f28a035787)
+   * **arcgis-rest-auth**: reduce postMessageAuth query params [`154515f6`](https://github.com/Esri/arcgis-rest-js/commit/154515f66a4eedb9ee83dd8528549db55e268871)
+
 ## [2.19.2] - October 13th 2020
 
 ### @esri/arcgis-rest-portal
 
 * Bug Fixes
-   * **arcgis-rest-portal**: do not do any membership adjustments if the group is the user&amp;#39;s favorites g [`6fc8ada6`](https://github.com/Esri/arcgis-rest-js/commit/6fc8ada666e2ac6388418d3416db13a40c299757)
+   * **arcgis-rest-portal**: do not do any membership adjustments if the group is the user&amp;amp;#39;s favorites g [`6fc8ada6`](https://github.com/Esri/arcgis-rest-js/commit/6fc8ada666e2ac6388418d3416db13a40c299757)
 
 ## [2.19.1] - October 2nd 2020
 
@@ -1705,7 +1718,8 @@ Initial Public Release
 [1.8.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.7.1...v1.8.0 "v1.8.0"
 [1.9.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.8.0...v1.9.0 "v1.9.0"
 [1.10.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.9.0...v1.10.0 "v1.10.0"
-[1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.1 "v1.11.1"
+[1.11.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.10.0...v1.11.0 "v1.11.0"
+[1.11.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.0...v1.11.1 "v1.11.1"
 [1.12.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.11.1...v1.12.0 "v1.12.0"
 [1.13.0]: https://github.com/Esri/arcgis-rest-js/compare/v1.12.0...v1.13.0 "v1.13.0"
 [1.13.1]: https://github.com/Esri/arcgis-rest-js/compare/v1.13.0...v1.13.1 "v1.13.1"
@@ -1732,8 +1746,10 @@ Initial Public Release
 [2.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.0.4...v2.1.0 "v2.1.0"
 [2.1.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.0...v2.1.1 "v2.1.1"
 [2.2.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.1.1...v2.2.0 "v2.2.0"
-[2.3.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.0...v2.3.0 "v2.3.0"
-[2.5.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.3.0...v2.5.0 "v2.5.0"
+[2.2.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.0...v2.2.1 "v2.2.1"
+[2.3.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.2.1...v2.3.0 "v2.3.0"
+[2.4.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.3.0...v2.4.0 "v2.4.0"
+[2.5.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.4.0...v2.5.0 "v2.5.0"
 [2.6.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.5.0...v2.6.0 "v2.6.0"
 [2.6.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.6.0...v2.6.1 "v2.6.1"
 [2.7.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.6.1...v2.7.0 "v2.7.0"
@@ -1761,4 +1777,5 @@ Initial Public Release
 [2.19.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.18.0...v2.19.0 "v2.19.0"
 [2.19.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.0...v2.19.1 "v2.19.1"
 [2.19.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.1...v2.19.2 "v2.19.2"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.2...HEAD "Unreleased Changes"
+[2.20.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.2...v2.20.0 "v2.20.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.20.0...HEAD "Unreleased Changes"
