@@ -9,7 +9,7 @@ import {
 } from "@esri/arcgis-rest-request";
 import { IFeatureSet } from "@esri/arcgis-rest-types";
 
-import { ARCGIS_ONLINE_GEOENRICHMENT_URL } from "./helpers";
+import { ARCGIS_ONLINE_GEOENRICHMENT_URL, IGeoenrichmentResult } from "./helpers";
 
 export interface IQueryDemographicDataOptions extends IRequestOptions {
   studyAreas: any[];
@@ -25,14 +25,6 @@ export interface IQueryDemographicDataOptions extends IRequestOptions {
 export interface IQueryDemographicDataResponse {
   results: IGeoenrichmentResult[] | null;
   messages: string[] | null;
-}
-interface IGeoenrichmentResult {
-  paramName: string;
-  dataType: string;
-  value: {
-    version: string;
-    FeatureSet: IFeatureSet;
-  };
 }
 
 /**

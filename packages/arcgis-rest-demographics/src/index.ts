@@ -3,3 +3,4 @@
 
 export * from "./getAvailableDataCollections";
 export * from "./queryDemographicData";
+export * from "./getGeography";
