@@ -9,6 +9,7 @@ import {
 import { IItem, IGroup } from "@esri/arcgis-rest-types";
 
 import { getPortalUrl } from "../util/get-portal-url";
+import { scrubControlChars } from '../util/scrub-control-chars';
 import {
   IItemDataOptions,
   IItemRelationshipOptions,
@@ -184,6 +185,51 @@ export interface IGetItemGroupsResponse {
   member?: IGroup[];
   other?: IGroup[];
 }
+
+export interface IGetItemResourceOptions extends IRequestOptions {
+  /**
+   * Name of the info file, optionally including the folder path
+   */
+  fileName: string;
+  /**
+   * How the fetch response should be read, see:
+   * https://developer.mozilla.org/en-US/docs/Web/API/Body#Methods
+   */
+  readAs?: FetchReadMethodName;
+}
+
+/**
+ * ```js
+ * import { getItemResource } from "@esri/arcgis-rest-portal";
+ *
+ * // Parses contents as blob by default
+ * getItemResource("3ef", { fileName: "resource.jpg", ...})
+ *  .then(resourceContents => {});
+ *
+ * // Can override parse method
+ * getItemResource("3ef", { fileName: "resource.json", readAs: 'json', ...})
+ *  .then(resourceContents => {});
+ *
+ * // Get the response object instead
+ * getItemResource("3ef",{ rawResponse: true, fileName: "resource.json" })
+ *  .then(response => {})
+ * ```
+ * Fetches an item resource and optionally parses it to the correct format.
+ *
+ * Note: provides JSON parse error protection by sanitizing out any unescaped control
+ * characters before parsing that would otherwise cause an error to be thrown
+ *
+ * @param {string} itemId
+ * @param {IGetItemResourceOptions} requestOptions
+ */
+export function getItemResource(
+  itemId: string,
+  requestOptions: IGetItemResourceOptions
+) {
+  const readAs = requestOptions.readAs || 'blob';
+  return getItemFile(itemId, `/resources/${requestOptions.fileName}`, readAs, requestOptions);
+}
+
 
 /**
  * ```js
@@ -361,6 +407,7 @@ export function getItemMetadata(
 
 // overrides request()'s default behavior for reading the response
 // which is based on `params.f` and defaults to JSON
+// Also adds JSON parse error protection by sanitizing out any unescaped control characters before parsing
 function getItemFile(
   id: string,
   // NOTE: fileName should include any folder/subfolders
@@ -383,6 +430,8 @@ function getItemFile(
     if (justReturnResponse) {
       return response;
     }
-    return response[readMethod]();
+    return readMethod !== 'json'
+      ? response[readMethod]()
+      : response.text().then((text: string) => JSON.parse(scrubControlChars(text)));
   });
 }

@@ -79,15 +79,9 @@ export function createFolder(
 export function createItemInFolder(
   requestOptions: ICreateItemOptions
 ): Promise<ICreateItemResponse> {
-  if (requestOptions.file && !requestOptions.multipart) {
-    return Promise.reject(
-      new Error("The request must be a multipart request for file uploading.")
-    );
-  }
-
   if (requestOptions.multipart && !requestOptions.filename) {
     return Promise.reject(
-      new Error("The file name is required for a multipart request.")
+      new Error("The filename is required for a multipart request.")
     );
   }
 

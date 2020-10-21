@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+
+## [2.20.0] - October 20th 2020
+
+### @esri/arcgis-rest-auth
+
+* Documentation
+   * **arcgis-rest-auth**: doc updates [`1d527653`](https://github.com/Esri/arcgis-rest-js/commit/1d52765378756d8fa61182034318f0585617db4e)
+* New Features
+   * **arcgis-rest-auth**: add postMessage auth support [`a6b8a17a`](https://github.com/Esri/arcgis-rest-js/commit/a6b8a17a265339725a8c5dfd90e408f28a035787)
+   * **arcgis-rest-auth**: reduce postMessageAuth query params [`154515f6`](https://github.com/Esri/arcgis-rest-js/commit/154515f66a4eedb9ee83dd8528549db55e268871)
+
+## [2.19.2] - October 13th 2020
+
+### @esri/arcgis-rest-portal
+
+* Bug Fixes
+   * **arcgis-rest-portal**: do not do any membership adjustments if the group is the user&amp;amp;#39;s favorites g [`6fc8ada6`](https://github.com/Esri/arcgis-rest-js/commit/6fc8ada666e2ac6388418d3416db13a40c299757)
+
+## [2.19.1] - October 2nd 2020
+
+### @esri/arcgis-rest-portal
+
+* Bug Fixes
+   * **arcgis-rest-portal**: wrong parameters for file upload APIs (#761) [`cbfef7d6`](https://github.com/Esri/arcgis-rest-js/commit/cbfef7d6bd669d323dab5299966217a956fc5cfb) [#693](https://github.com/Esri/arcgis-rest-js/issues/693) [#694](https://github.com/Esri/arcgis-rest-js/issues/694) [#700](https://github.com/Esri/arcgis-rest-js/issues/700) [#761](https://github.com/Esri/arcgis-rest-js/issues/761)
+
+## [2.19.0] - September 28th 2020
+
+### @esri/arcgis-rest-portal
+
+* New Features
+   * **scrubControlChars**: add scrubControlChars [`6bb92151`](https://github.com/Esri/arcgis-rest-js/commit/6bb921512eeed9374ab35c03577fd3bfb8ea1e11)
+
 ## [2.18.0] - September 11th 2020
 
 ### @esri/arcgis-rest-portal
@@ -34,7 +68,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
    * **arcgis-rest-request**: `cleanUrl` function now resilient to null values
 
 * New Features
-  * **arcgis-rest-portal** `updateItem` respects a `.folderId` property passed in `IUpdateItemOptions` 
+  * **arcgis-rest-portal** `updateItem` respects a `.folderId` property passed in `IUpdateItemOptions`
 
 ### General
 * ensure all projects use tslib ^1.10.0
@@ -80,13 +114,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [2.13.2] - June 11th 2020
 
-### @esri/arcgis-rest-service-admin  
+### @esri/arcgis-rest-service-admin
 * Optimization
   * **arcgis-rest-service-admin**: Function `createFeatureService` creates the feature service directly in a specified folder rather than creating it at the root and moving it to the folder [aa478ca]( https://github.com/Esri/arcgis-rest-js/pull/689/commits/aa478caf5dfd9290d4adce2ad704973008d68887)
 
 ## [2.13.1] - May 12th 2020
 
-### @esri/arcgis-rest-request  
+### @esri/arcgis-rest-request
 
 * Bug Fixes
   * **request**: Patch hideToken for browser CORS support [b97860](https://github.com/Esri/arcgis-rest-js/commit/b978605f08810bbd5f0b568b36afd3f8f2adbdb2)
@@ -1740,4 +1774,8 @@ Initial Public Release
 [2.16.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.15.0...v2.16.0 "v2.16.0"
 [2.17.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.16.0...v2.17.0 "v2.17.0"
 [2.18.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.17.0...v2.18.0 "v2.18.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.18.0...HEAD "Unreleased Changes"
+[2.19.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.18.0...v2.19.0 "v2.19.0"
+[2.19.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.0...v2.19.1 "v2.19.1"
+[2.19.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.1...v2.19.2 "v2.19.2"
+[2.20.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.2...v2.20.0 "v2.20.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.20.0...HEAD "Unreleased Changes"
