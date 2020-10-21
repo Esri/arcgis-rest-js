@@ -579,33 +579,6 @@ describe("closestFacility", () => {
       });
   });
 
-  it("should not include routes.fieldAliases in the return", (done) => {
-    fetchMock.once("*", ClosestFacility);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com",
-    };
-
-    closestFacility({
-      incidents: incidentsPoint,
-      facilities: facilitiesPoint,
-      returnCFRoutes: true,
-      authentication: MOCK_AUTH,
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-        expect(Object.keys(response.routes)).not.toContain("fieldAliases");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
-  });
-
   it("should include routes.geoJson in the return", (done) => {
     fetchMock.once("*", ClosestFacility);
 

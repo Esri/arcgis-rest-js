@@ -560,31 +560,6 @@ describe("solveRoute", () => {
       });
   });
 
-  it("should not include routes.fieldAliases in the return", (done) => {
-    fetchMock.once("*", Solve);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com",
-    };
-
-    solveRoute({
-      stops: stopsObjectsPoint,
-      authentication: MOCK_AUTH,
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-        expect(Object.keys(response.routes)).not.toContain("fieldAliases");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
-  });
-
   it("should include routes.geoJson in the return", (done) => {
     fetchMock.once("*", Solve);
 

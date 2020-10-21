@@ -197,9 +197,6 @@ export function closestFacility(
 }
 
 function cleanResponse(res: any): IClosestFacilityResponse {
-  // remove "fieldAliases" because it does not do anything.
-  delete res.routes.fieldAliases;
-
   // add "geoJson" property to "routes"
   if (res.routes.spatialReference.wkid === 4326) {
     res.routes.geoJson = arcgisToGeoJSON(res.routes);
