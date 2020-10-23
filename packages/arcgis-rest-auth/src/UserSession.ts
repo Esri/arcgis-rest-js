@@ -1032,6 +1032,7 @@ export class UserSession implements IAuthenticationManager {
         // an expired token cant be used to generate a new token
         if (this.token && this.tokenExpires.getTime() > Date.now()) {
           return generateToken(tokenServicesUrl, {
+            ...requestOptions,
             params: {
               token: this.token,
               serverUrl: url,
@@ -1042,6 +1043,7 @@ export class UserSession implements IAuthenticationManager {
           // generate an entirely fresh token if necessary
         } else {
           return generateToken(tokenServicesUrl, {
+            ...requestOptions,
             params: {
               username: this.username,
               password: this.password,
