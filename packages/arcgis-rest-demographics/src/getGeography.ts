@@ -134,7 +134,7 @@ export function getGeography(
     );
   }
 
-  // These parameters are passed as JSON style strings:
+  // These parameters are passed as JSON-style strings:
   ["geographyLayers", "geographyIDs"].forEach((parameter) => {
     if (options.params[parameter]) {
       options.params[parameter] = JSON.stringify(options.params[parameter]);

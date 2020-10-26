@@ -21,7 +21,7 @@ export interface IGeographyLevel {
   countryID: string;
   countryName: string;
   datasets?: IDataset[] | null;
-  hierarchies?: IHierarchy[] | null;
+  hierarchies?: IGeographyLevelHierarchy[] | null;
 }
 export interface IDataset {
   datasetID: string;
@@ -42,7 +42,7 @@ export interface ILevel {
   pluralName: string;
   description?: string | null;
 }
-export interface IHierarchy {
+export interface IGeographyLevelHierarchy {
   ID: string;
   branches?: IBranch[] | null;
   levels?: ILevel[] | null;
