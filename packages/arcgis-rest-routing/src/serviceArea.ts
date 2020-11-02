@@ -91,6 +91,16 @@ export function serviceArea(
 ): Promise<IServiceAreaResponse> {
   const endpoint =
     requestOptions.endpoint || ARCGIS_ONLINE_SERVICE_AREA_URL;
+  
+  requestOptions.params = {
+    returnFacilities: true,
+    returnBarriers: true,
+    returnPolylineBarriers: true,
+    returnPolygonBarriers: true,
+    preserveObjectID: true,
+    ...requestOptions.params,
+  };
+  
   const options = appendCustomParams<IServiceAreaOptions>(
     requestOptions,
     [
@@ -103,17 +113,7 @@ export function serviceArea(
       "returnPolylineBarriers",
       "returnPolygonBarriers",
       "preserveObjectID",
-    ],
-    {
-      params: {
-        returnFacilities: true,
-        returnBarriers: true,
-        returnPolylineBarriers: true,
-        returnPolygonBarriers: true,
-        preserveObjectID: true,
-        ...requestOptions.params,
-      },
-    }
+    ]
   );
 
   // Set travelDirection
