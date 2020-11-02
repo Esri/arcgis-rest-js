@@ -232,6 +232,9 @@ describe("serviceArea", () => {
 
     serviceArea({
       facilities,
+      params: {
+        outSR: 102100
+      },
       authentication: MOCK_AUTH,
     })
       .then((response) => {
@@ -242,6 +245,7 @@ describe("serviceArea", () => {
         expect(options.body).toContain("returnPolylineBarriers=true");
         expect(options.body).toContain("returnPolygonBarriers=true");
         expect(options.body).toContain("preserveObjectID=true");
+        expect(options.body).toContain("outSR=102100");
         done();
       })
       .catch((e) => {

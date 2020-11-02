@@ -129,6 +129,18 @@ export function closestFacility(
 ): Promise<IClosestFacilityResponse> {
   const endpoint =
     requestOptions.endpoint || ARCGIS_ONLINE_CLOSEST_FACILITY_URL;
+
+  requestOptions.params = {
+    returnFacilities: true,
+    returnDirections: true,
+    returnIncidents: true,
+    returnBarriers: true,
+    returnPolylineBarriers: true,
+    returnPolygonBarriers: true,
+    preserveObjectID: true,
+    ...requestOptions.params,
+  };
+
   const options = appendCustomParams<IClosestFacilityOptions>(
     requestOptions,
     [
@@ -146,20 +158,8 @@ export function closestFacility(
       "returnBarriers",
       "returnPolylineBarriers",
       "returnPolygonBarriers",
-      "preserveObjectID",
-    ],
-    {
-      params: {
-        returnFacilities: true,
-        returnDirections: true,
-        returnIncidents: true,
-        returnBarriers: true,
-        returnPolylineBarriers: true,
-        returnPolygonBarriers: true,
-        preserveObjectID: true,
-        ...requestOptions.params,
-      },
-    }
+      "preserveObjectID"
+    ]
   );
 
   // Set travelDirection

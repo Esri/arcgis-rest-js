@@ -263,6 +263,9 @@ describe("closestFacility", () => {
     closestFacility({
       incidents,
       facilities,
+      params: {
+        outSR: 102100
+      },
       returnCFRoutes: true,
       authentication: MOCK_AUTH,
     })
@@ -276,6 +279,7 @@ describe("closestFacility", () => {
         expect(options.body).toContain("returnPolylineBarriers=true");
         expect(options.body).toContain("returnPolygonBarriers=true");
         expect(options.body).toContain("preserveObjectID=true");
+        expect(options.body).toContain("outSR=102100");
         done();
       })
       .catch((e) => {
