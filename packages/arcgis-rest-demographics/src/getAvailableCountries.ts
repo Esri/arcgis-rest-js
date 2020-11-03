@@ -4,14 +4,13 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
-  IRequestOptions
+  appendCustomParams
 } from "@esri/arcgis-rest-request";
 import { IEnvelope } from "@esri/arcgis-rest-types";
 
-import { ARCGIS_ONLINE_GEOENRICHMENT_URL } from "./helpers";
+import { ARCGIS_ONLINE_GEOENRICHMENT_URL, IEndpointOptions } from "./helpers";
 
-export interface IGetAvailableCountriesOptions extends IRequestOptions {
+export interface IGetAvailableCountriesOptions extends IEndpointOptions {
   /**
    * View a description for a given country. If not specified, will return a list of all countries.
    */
@@ -86,12 +85,15 @@ export interface IApportionmentThreshold {
 export function getAvailableCountries(
   requestOptions?: IGetAvailableCountriesOptions
 ): Promise<IGetAvailableCountriesResponse> {
-  let options: IRequestOptions = {};
+  let options: IEndpointOptions = {};
   let endpoint: string = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/countries`;
-
   if (!requestOptions) {
     options.params = {};
   } else {
+    if (requestOptions.endpoint) {
+      endpoint = `${requestOptions.endpoint}/countries`;
+    }
+
     options = appendCustomParams<IGetAvailableCountriesOptions>(
       requestOptions,
       [],
@@ -103,7 +105,7 @@ export function getAvailableCountries(
   }
 
 
-  return request(`${cleanUrl(endpoint)}`, options).then(
+  return request(cleanUrl(endpoint), options).then(
     (response: any) => {
       return response;
     }

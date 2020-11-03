@@ -4,13 +4,12 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
-  IRequestOptions
+  appendCustomParams
 } from "@esri/arcgis-rest-request";
 
-import { ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL, IGeoenrichmentResult } from "./helpers";
+import { ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL, IGeoenrichmentResult, IEndpointOptions } from "./helpers";
 
-export interface IGetGeographyOptions extends IRequestOptions {
+export interface IGetGeographyOptions extends IEndpointOptions {
   /**
    * Specify the source country for the search.
    */
@@ -102,6 +101,8 @@ export interface IGetGeographyResponse {
 export function getGeography(
   requestOptions?: IGetGeographyOptions
 ): Promise<IGetGeographyResponse> {
+  const endpoint: string = `${requestOptions.endpoint || ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL}/execute`;
+
   const options = appendCustomParams<IGetGeographyOptions>(
     requestOptions,
     [
@@ -143,7 +144,7 @@ export function getGeography(
   
 
   // add spatialReference property to individual matches
-  return request(`${cleanUrl(`${ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL}/execute`)}`, options).then(
+  return request(`${cleanUrl(endpoint)}`, options).then(
     (response: any) => {
       return response;
     }

@@ -4,11 +4,10 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
-  IRequestOptions
+  appendCustomParams
 } from "@esri/arcgis-rest-request";
 
-import { ARCGIS_ONLINE_GEOENRICHMENT_URL } from "./helpers";
+import { ARCGIS_ONLINE_GEOENRICHMENT_URL, IEndpointOptions } from "./helpers";
 
 export interface IGetAvailableGeographyLevelsResponse {
   messages?: string[] | null;
@@ -63,15 +62,18 @@ export interface IGeographyLevelHierarchy {
  * @returns A Promise that will resolve with available geography levels for the request.
  */
 export function getAvailableGeographyLevels(
-  requestOptions?: IRequestOptions
+  requestOptions?: IEndpointOptions
 ): Promise<IGetAvailableGeographyLevelsResponse> {
-  let options: IRequestOptions = {};
-  const endpoint: string = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/StandardGeographyLevels`;
+  let options: IEndpointOptions = {};
+  let endpoint: string = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/StandardGeographyLevels`;
 
   if (!requestOptions) {
     options.params = {};
   } else {
-    options = appendCustomParams<IRequestOptions>(
+    if (requestOptions.endpoint) {
+      endpoint = `${requestOptions.endpoint}/StandardGeographyLevels`;
+    }
+    options = appendCustomParams<IEndpointOptions>(
       requestOptions,
       [],
       { params: { ...requestOptions.params } }

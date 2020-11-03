@@ -27,6 +27,25 @@ describe("getAvailableGeographyLevels", () => {
       });
   });
 
+  it("should make a dataCollections request with a custom endpoint", done => {
+    fetchMock.once("*", {});
+
+    getAvailableGeographyLevels({
+      endpoint: 'https://esri.com/test'
+    })
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://esri.com/test/StandardGeographyLevels"
+        );
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   it("should make a dataCollections request with a param", done => {
     fetchMock.once("*", {});
 

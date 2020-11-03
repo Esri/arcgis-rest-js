@@ -55,6 +55,32 @@ describe("getGeography", () => {
       });
   });
 
+  it("should make a getGeography request with a custom endpoint", done => {
+    fetchMock.once("*", {});
+
+    const geographyIDs = ["35"];
+    getGeography({
+      authentication: MOCK_AUTH,
+      geographyIDs,
+      endpoint: 'https://esri.com/test'
+    })
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://esri.com/test/execute"
+        );
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain("geographyIDs");
+        expect(options.body).toContain(`geographyIDs=${encodeURIComponent(JSON.stringify(geographyIDs))}`);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   it("should make a getGeography request with additional parameters", done => {
     fetchMock.once("*", {});
 

@@ -52,6 +52,29 @@ describe("queryDemographicData", () => {
       });
   });
 
+  it("should make a queryDemographicData request with a custom endpoint", done => {
+    fetchMock.once("*", {});
+
+    queryDemographicData({
+      authentication: MOCK_AUTH,
+      studyAreas: [{ "geometry": { "x": -117.1956, "y": 34.0572 } }],
+      endpoint: 'https://esri.com/test'
+    })
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://esri.com/test/enrich"
+        );
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=json");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   it("should make a queryDemographicData request with additional parameters", done => {
     fetchMock.once("*", {});
 

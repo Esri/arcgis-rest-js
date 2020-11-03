@@ -4,13 +4,12 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
-  IRequestOptions
+  appendCustomParams
 } from "@esri/arcgis-rest-request";
 
-import { ARCGIS_ONLINE_GEOENRICHMENT_URL } from "./helpers";
+import { ARCGIS_ONLINE_GEOENRICHMENT_URL, IEndpointOptions } from "./helpers";
 
-export interface IGetAvailableDataCollectionsOptions extends IRequestOptions {
+export interface IGetAvailableDataCollectionsOptions extends IEndpointOptions {
   /**
    * Optional parameter to specify an array of string values that describe what derivative variables to include in the output.
    */
@@ -132,6 +131,9 @@ export function getAvailableDataCollections(
   if (!requestOptions) {
     options.params = {};
   } else {
+    if (requestOptions.endpoint) {
+      endpoint = `${requestOptions.endpoint}/dataCollections`;
+    }
     options = appendCustomParams<IGetAvailableDataCollectionsOptions>(
       requestOptions,
       [

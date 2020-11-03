@@ -4,14 +4,13 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
-  IRequestOptions
+  appendCustomParams
 } from "@esri/arcgis-rest-request";
 import { IFeatureSet } from "@esri/arcgis-rest-types";
 
-import { ARCGIS_ONLINE_GEOENRICHMENT_URL, IGeoenrichmentResult } from "./helpers";
+import { ARCGIS_ONLINE_GEOENRICHMENT_URL, IGeoenrichmentResult, IEndpointOptions } from "./helpers";
 
-export interface IQueryDemographicDataOptions extends IRequestOptions {
+export interface IQueryDemographicDataOptions extends IEndpointOptions {
   /**
    * Defines the area on a map which is being analyzed
    */
@@ -99,7 +98,7 @@ export function queryDemographicData(
   });
 
   // add spatialReference property to individual matches
-  return request(`${cleanUrl(`${ARCGIS_ONLINE_GEOENRICHMENT_URL}/enrich`)}`, options).then(
+  return request(`${cleanUrl(`${requestOptions.endpoint || ARCGIS_ONLINE_GEOENRICHMENT_URL}/enrich`)}`, options).then(
     (response: any) => {
       return response;
     }

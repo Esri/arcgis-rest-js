@@ -93,4 +93,23 @@ describe("getAvailableDataCollections", () => {
         fail(e);
       });
   });
+
+  it("should make a dataCollections request with a custom endpoint", done => {
+    fetchMock.once("*", dataCollectionsResponse);
+
+    getAvailableDataCollections({
+      endpoint: 'https://esri.com/test'
+    })
+      .then(response => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://esri.com/test/dataCollections"
+        );
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
 });
