@@ -4,6 +4,7 @@
 export * from "./solveRoute";
 export * from "./closestFacility";
 export * from "./serviceArea";
+export * from "./originDestinationMatrix";
 export * from "./helpers";
 export {
   ILocation,
