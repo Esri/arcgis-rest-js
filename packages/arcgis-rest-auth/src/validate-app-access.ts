@@ -43,6 +43,9 @@ export interface IAppAccess {
  * })
  * ```
  *
+ * Note: This is only usable by Esri applications hosted on *arcgis.com, *esri.com or within
+ * an ArcGIS Enterprise installation. Custom applications can not use this.
+ *
  * @param token platform token
  * @param clientId application client id
  * @param portal Optional
