@@ -76,7 +76,7 @@ export function processParams(params: any): any {
     switch (type) {
       case "Array":
         // Don't process `categories` parameter because API expectation for AND and OR permits multiple `categories`
-        // parameters in a query. We can't assign more than one to newParams, so we'll postpone handling
+        // parameters in a query. We can't assign more than one to newParams, so we'll postpone handling.
         // @see https://developers.arcgis.com/rest/users-groups-and-items/search.htm
         // @see https://developers.arcgis.com/rest/users-groups-and-items/group-content-search.htm
         if (key === "categories") {
