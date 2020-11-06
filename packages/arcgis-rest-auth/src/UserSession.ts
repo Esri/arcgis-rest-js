@@ -20,7 +20,8 @@ import {
   IAuthenticationManager,
   ITokenRequestOptions,
   cleanUrl,
-  encodeQueryString
+  encodeQueryString,
+  decodeQueryString
 } from "@esri/arcgis-rest-request";
 import { IUser } from "@esri/arcgis-rest-types";
 import { generateToken } from "./generate-token";
@@ -38,7 +39,12 @@ interface IDeferred<T> {
   reject: (v: any) => void;
 }
 
-export type AuthenticationProvider = "arcgis" | "facebook" | "google";
+export type AuthenticationProvider =
+  | "arcgis"
+  | "facebook"
+  | "google"
+  | "github"
+  | "apple";
 
 /**
  * Represents a [credential](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-Credential.html)
@@ -251,6 +257,34 @@ export interface IUserSessionOptions {
  * Used to authenticate both ArcGIS Online and ArcGIS Enterprise users. `UserSession` includes helper methods for [OAuth 2.0](/arcgis-rest-js/guides/browser-authentication/) in both browser and server applications.
  */
 export class UserSession implements IAuthenticationManager {
+
+  /**
+   * The current ArcGIS Online or ArcGIS Enterprise `token`.
+   */
+  get token() {
+    return this._token;
+  }
+
+  /**
+   * The expiration time of the current `token`.
+   */
+  get tokenExpires() {
+    return this._tokenExpires;
+  }
+
+  /**
+   * The current token to ArcGIS Online or ArcGIS Enterprise.
+   */
+  get refreshToken() {
+    return this._refreshToken;
+  }
+
+  /**
+   * The expiration time of the current `refreshToken`.
+   */
+  get refreshTokenExpires() {
+    return this._refreshTokenExpires;
+  }
   /**
    * Begins a new browser-based OAuth 2.0 sign in. If `options.popup` is `true` the
    * authentication window will open in a new tab/window otherwise the user will
@@ -355,39 +389,33 @@ export class UserSession implements IAuthenticationManager {
 
     function completeSignIn(error: any, oauthInfo?: IFetchTokenResponse) {
       try {
-        if (
-          popup &&
-          win.opener &&
-          win.opener.parent &&
-          win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`]
-        ) {
-          const handlerFn =
-            win.opener.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
-          if (handlerFn) {
-            handlerFn(
-              error ? JSON.stringify(error) : undefined,
-              JSON.stringify(oauthInfo)
-            );
-          }
-          win.close();
-          return undefined;
-        }
+        let handlerFn;
+        const handlerFnName = `__ESRI_REST_AUTH_HANDLER_${clientId}`;
 
-        if (
-          popup &&
-          win !== win.parent &&
-          win.parent &&
-          win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`]
-        ) {
-          const handlerFn = win.parent[`__ESRI_REST_AUTH_HANDLER_${clientId}`];
+        if (popup) {
+          // Guard b/c IE does not support window.opener
+          if (win.opener) {
+            if (win.opener.parent && win.opener.parent[handlerFnName]) {
+              handlerFn = win.opener.parent[handlerFnName];
+            } else if (win.opener && win.opener[handlerFnName]) {
+              // support pop-out oauth from within an iframe
+              handlerFn = win.opener[handlerFnName];
+            }
+          } else {
+            // IE
+            if (win !== win.parent && win.parent && win.parent[handlerFnName]) {
+              handlerFn = win.parent[handlerFnName];
+            }
+          }
+          // if we have a handler fn, call it and close the window
           if (handlerFn) {
             handlerFn(
               error ? JSON.stringify(error) : undefined,
               JSON.stringify(oauthInfo)
             );
+            win.close();
+            return undefined;
           }
-          win.close();
-          return undefined;
         }
       } catch (e) {
         throw new ArcGISAuthError(
@@ -409,35 +437,77 @@ export class UserSession implements IAuthenticationManager {
       });
     }
 
-    const match = win.location.href.match(
-      /access_token=(.+)&expires_in=(.+)&username=([^&]+)/
-    );
+    const params = decodeQueryString(win.location.hash);
 
-    if (!match) {
-      const errorMatch = win.location.href.match(
-        /error=(.+)&error_description=(.+)/
-      );
+    if (!params.access_token) {
+      let error;
+      let errorMessage = "Unknown error";
 
-      const error = errorMatch[1];
-      const errorMessage = decodeURIComponent(errorMatch[2]);
+      if (params.error) {
+        error = params.error;
+        errorMessage = params.error_description;
+      }
 
       return completeSignIn({ error, errorMessage });
     }
 
-    const token = match[1];
+    const token = params.access_token;
     const expires = new Date(
-      Date.now() + parseInt(match[2], 10) * 1000 - 60 * 1000
+      Date.now() + parseInt(params.expires_in, 10) * 1000 - 60 * 1000
     );
-    const username = decodeURIComponent(match[3]);
-    const ssl =
-      win.location.href.indexOf("&ssl=true") > -1 ||
-      win.location.href.indexOf("#ssl=true") > -1;
+    const username = params.username;
+    const ssl = params.ssl === "true";
 
     return completeSignIn(undefined, {
       token,
       expires,
       ssl,
       username
+    });
+  }
+
+  /**
+   * Request session information from the parent application
+   * 
+   * When an application is embedded into another application via an IFrame, the embedded app can
+   * use `window.postMessage` to request credentials from the host application. 
+   * 
+   * @param parentOrigin origin of the parent frame. Passed into the embedded application as `parentOrigin` query param
+   * @browserOnly
+   */
+  public static fromParent (
+    parentOrigin:string,
+    win?: any
+    ): Promise<any> {
+
+    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    if (!win && window) {
+      win = window;
+    }
+    // Declar handler outside of promise scope so we can detach it
+    let handler: (event: any) => void;
+    // return a promise that will resolve when the handler recieves
+    // session information from the correct origin
+    return new Promise((resolve, reject) => {
+      // create an event handler that just wraps the parentMessageHandler
+      handler = (event:any) => {
+        // ensure we only listen to events from the specified parent
+        // if the origin is not the parent origin, we don't send any response
+        if (event.origin === parentOrigin){
+          try {
+            return resolve(UserSession.parentMessageHandler(event));
+          } catch (err) {
+            return reject(err);
+          }
+        }
+      };
+      // add listener
+      win.addEventListener('message', handler, false);
+      win.parent.postMessage({type: 'arcgis:auth:requestCredential'}, parentOrigin);
+    })
+    .then((session) => {
+      win.removeEventListener('message', handler, false);
+      return session;
     });
   }
 
@@ -551,6 +621,21 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
+   * Handle the response from the parent
+   * @param event DOM Event
+   */
+  private static parentMessageHandler (event:any):UserSession {
+    if (event.data.type === 'arcgis:auth:credential') {
+      return UserSession.fromCredential(event.data.credential);
+    }
+    if (event.data.type === 'arcgis:auth:rejected') {
+      throw new Error(event.data.message);
+    } else {
+      throw new Error('Unknown message type.');
+    }
+  }
+
+  /**
    * Client ID being used for authentication if provided in the `constructor`.
    */
   public readonly clientId: string;
@@ -637,33 +722,7 @@ export class UserSession implements IAuthenticationManager {
     };
   };
 
-  /**
-   * The current ArcGIS Online or ArcGIS Enterprise `token`.
-   */
-  get token() {
-    return this._token;
-  }
-
-  /**
-   * The expiration time of the current `token`.
-   */
-  get tokenExpires() {
-    return this._tokenExpires;
-  }
-
-  /**
-   * The current token to ArcGIS Online or ArcGIS Enterprise.
-   */
-  get refreshToken() {
-    return this._refreshToken;
-  }
-
-  /**
-   * The expiration time of the current `refreshToken`.
-   */
-  get refreshTokenExpires() {
-    return this._refreshTokenExpires;
-  }
+  private _hostHandler: any;
 
   constructor(options: IUserSessionOptions) {
     this.clientId = options.clientId;
@@ -812,6 +871,36 @@ export class UserSession implements IAuthenticationManager {
   public serialize() {
     return JSON.stringify(this);
   }
+  /**
+   * For a "Host" app that embeds other platform apps via iframes, after authenticating the user
+   * and creating a UserSession, the app can then enable "post message" style authentication by calling
+   * this method. 
+   * 
+   * Internally this adds an event listener on window for the `message` event
+   * 
+   * @param validChildOrigins Array of origins that are allowed to request authentication from the host app
+   */
+  public enablePostMessageAuth (validChildOrigins: string[], win?:any ): any {
+    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    if (!win && window) {
+      win = window;
+    }
+    this._hostHandler = this.createPostMessageHandler(validChildOrigins);
+    win.addEventListener('message',this._hostHandler , false);
+  }
+
+  /**
+   * For a "Host" app that has embedded other platform apps via iframes, when the host needs
+   * to transition routes, it should call `UserSession.disablePostMessageAuth()` to remove
+   * the event listener and prevent memory leaks
+   */
+  public disablePostMessageAuth (win?: any) {
+    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    if (!win && window) {
+      win = window;
+    }
+    win.removeEventListener('message', this._hostHandler, false);
+  }
 
   /**
    * Manually refreshes the current `token` and `tokenExpires`.
@@ -848,6 +937,29 @@ export class UserSession implements IAuthenticationManager {
     // only the domain is lowercased becasue in some cases an org id might be
     // in the path which cannot be lowercased.
     return `${protocol}${domain.toLowerCase()}/${path.join("/")}`;
+  }
+  /**
+   * Return a function that closes over the validOrigins array and 
+   * can be used as an event handler for the `message` event
+   * 
+   * @param validOrigins Array of valid origins
+   */
+  private createPostMessageHandler (
+    validOrigins: string[]
+  ): (event:any) => void {
+    // return a function that closes over the validOrigins and
+    // has access to the credential
+    return (event:any) => {
+      // Note: do not use regex's here. validOrigins is an array so we're checking that the event's origin
+      // is in the array via exact match. More info about avoiding postMessave xss issues here
+      // https://jlajara.gitlab.io/web/2020/07/17/Dom_XSS_PostMessage_2.html#tipsbypasses-in-postmessage-vulnerabilities
+      if (validOrigins.indexOf(event.origin) > -1) {
+        const credential = this.toCredential();
+        event.source.postMessage({type: 'arcgis:auth:credential', credential}, event.origin);
+      } else {
+        event.source.postMessage({type: 'arcgis:auth:rejected', message: `Rejected authentication request.`}, event.origin);
+      }
+    }
   }
 
   /**

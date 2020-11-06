@@ -171,7 +171,7 @@ describe("request()", () => {
       });
   });
 
-  it("should use the `authentication` option to authenticate a request and use `X-ESRI_AUTHORIZATION` header", done => {
+  it("should hide token in POST body in browser environments otherwise it should hide token in `X-ESRI_AUTHORIZATION` header in Node", done => {
     fetchMock.once("*", SharingRestInfo);
 
     const MOCK_AUTH = {
@@ -187,11 +187,23 @@ describe("request()", () => {
       hideToken: true
     })
       .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-        expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json");
-        expect(options.method).toBe("GET");
-        expect(response).toEqual(SharingRestInfo);
-        expect((options.headers as any)["X-Esri-Authorization"]).toBe("Bearer token");
+        // Test Node path with Jasmine in Node
+        if (typeof window === 'undefined') {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json");
+          expect(options.method).toBe("GET");
+          expect(response).toEqual(SharingRestInfo);
+          expect((options.headers as any)["X-Esri-Authorization"]).toBe("Bearer token");
+        } else {
+          // Test browser path when run in browser with Karma
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("token=token");
+          expect((options.headers as any)["X-Esri-Authorization"]).toBe(undefined);
+          expect(response).toEqual(SharingRestInfo)
+        }
         done();
       })
       .catch(e => {

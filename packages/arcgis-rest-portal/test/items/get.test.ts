@@ -4,28 +4,43 @@
 import * as fetchMock from "fetch-mock";
 
 import {
+  IGetItemInfoOptions,
+  getItemBaseUrl,
   getItem,
   getItemData,
   getItemResources,
   getItemGroups,
   getItemStatus,
   getItemParts,
-  getRelatedItems
+  getRelatedItems,
+  getItemInfo,
+  getItemMetadata,
+  getItemResource
 } from "../../src/items/get";
 
 import {
   ItemResponse,
   ItemDataResponse,
   ItemGroupResponse,
-  ItemStatusResponse,
-  ItemPartsResponse,
-  RelatedItemsResponse
+  RelatedItemsResponse,
+  ItemInfoResponse,
+  ItemMetadataResponse,
+  ItemFormJsonResponse
 } from "../mocks/items/item";
 
 import { GetItemResourcesResponse } from "../mocks/items/resources";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
+
+describe("get base url", () => {
+  it("should return base url when passed a portal url", () => {
+    const id = "foo";
+    const portalUrl = "https://org.maps.arcgis.com/sharing/rest/";
+    const result = getItemBaseUrl(id, portalUrl);
+    expect(result).toBe(`${portalUrl}/content/items/${id}`);
+  });
+});
 
 describe("get", () => {
   afterEach(fetchMock.restore);
@@ -159,6 +174,89 @@ describe("get", () => {
       });
   });
 
+  it("should return item info by id", done => {
+    fetchMock.once("*", ItemInfoResponse);
+
+    getItemInfo("3ef")
+      .then(response => {
+        expect(response).toBe(ItemInfoResponse);
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://www.arcgis.com/sharing/rest/content/items/3ef/info/iteminfo.xml"
+        );
+        expect(options.method).toBe("GET");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should return raw response item info if desired", done => {
+    fetchMock.once("*", ItemFormJsonResponse);
+
+    getItemInfo("3ef", {
+      fileName: "form.json",
+      rawResponse: true
+    } as IGetItemInfoOptions)
+      .then(response => response.json())
+      .then(formJson => {
+        expect(formJson).toEqual(ItemFormJsonResponse);
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://www.arcgis.com/sharing/rest/content/items/3ef/info/form.json"
+        );
+        expect(options.method).toBe("GET");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should return item info JSON files", done => {
+    fetchMock.once("*", ItemFormJsonResponse);
+
+    getItemInfo("3ef", {
+      fileName: "form.json",
+      readAs: "json"
+    } as IGetItemInfoOptions)
+      .then(formJson => {
+        expect(formJson).toEqual(ItemFormJsonResponse);
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://www.arcgis.com/sharing/rest/content/items/3ef/info/form.json"
+        );
+        expect(options.method).toBe("GET");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should return item metadata", done => {
+    fetchMock.once("*", ItemMetadataResponse);
+    const fileName = "metadata/metadata.xml";
+    getItemMetadata("3ef")
+      .then(response => {
+        expect(response).toBe(ItemMetadataResponse);
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://www.arcgis.com/sharing/rest/content/items/3ef/info/metadata/metadata.xml"
+        );
+        expect(options.method).toBe("GET");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
   describe("Authenticated methods", () => {
     // setup a UserSession to use in all these tests
     const MOCK_USER_SESSION = new UserSession({
@@ -275,6 +373,98 @@ describe("get", () => {
           fail(e);
         });
     });
+
+    describe('getItemResource', function () {
+      it("defaults to read as blob", done => {
+        if (typeof Blob === 'undefined') {
+          done();
+          return;
+        }
+
+        const resourceResponse = "<p>some text woohoo</p>";
+        fetchMock.once("*", resourceResponse);
+
+        getItemResource("3ef", { fileName: "resource.json", ...MOCK_USER_REQOPTS })
+          .then(blob => {
+            const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+            expect(url).toEqual(
+              "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
+            );
+            expect(options.method).toBe("POST");
+            expect(blob).toEqual(jasmine.any(Blob));
+            blob.text()
+              .then((text: string) => expect(text).toEqual(resourceResponse))
+              .then(done)
+          })
+          .catch(e => {
+            fail(e);
+          });
+      });
+
+      it("reads JSON resource", done => {
+        const resourceResponse = {
+          foo: 'bar'
+        };
+        fetchMock.once("*", resourceResponse);
+
+        getItemResource("3ef", { fileName: "resource.json",  readAs: 'json', ...MOCK_USER_REQOPTS })
+          .then(() => {
+            const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+            expect(url).toEqual(
+              "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
+            );
+            expect(options.method).toBe("POST");
+            done();
+          })
+          .catch(e => {
+            fail(e);
+          });
+      });
+
+      it("deals with control characters before parsing JSON resource", done => {
+        const badJsonString = "{\"foo\":\"foobarbaz\"}";
+        fetchMock.once("*", badJsonString);
+
+        getItemResource("3ef", { fileName: "resource.json",  readAs: 'json', ...MOCK_USER_REQOPTS })
+          .then(resource => {
+            const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+            expect(url).toEqual(
+              "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
+            );
+            expect(options.method).toBe("POST");
+            expect(resource.foo).toEqual('foobarbaz', 'removed control chars');
+            done();
+          })
+          .catch(e => {
+            fail(e);
+          });
+      });
+
+      it("respects rawResponse setting with JSON resource", done => {
+        const badJsonString = "{\"foo\":\"foobarbaz\"}";
+        fetchMock.once("*", badJsonString);
+
+        getItemResource("3ef", { fileName: "resource.json", rawResponse: true, ...MOCK_USER_REQOPTS })
+          .then(response => {
+
+            const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+            expect(url).toEqual(
+              "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
+            );
+            expect(options.method).toBe("POST");
+            expect(response.json).toBeDefined('got a raw response');
+            response.json()
+              .then(() => fail('parsing should fail because control characters still present'))
+              .catch((err: Error) => {
+                expect(err).toBeDefined('JSON parse fails');
+                done();
+              });
+          })
+          .catch(e => {
+            fail(e);
+          });
+      });
+    })
 
     it("get item groups anonymously", done => {
       fetchMock.once("*", ItemGroupResponse);

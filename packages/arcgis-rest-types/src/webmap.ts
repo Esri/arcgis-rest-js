@@ -80,7 +80,21 @@ export interface IPagingParams {
   start?: number;
   num?: number;
 }
-
+/**
+ * Paging properties for paged responses.
+ *
+ * `IPagedResponse` can also be imported from the following packages:
+ *
+ * ```js
+ * import { IPagedResponse } from "@esri/arcgis-rest-portal";
+ * ```
+ */
+export interface IPagedResponse extends IPagingParams {
+  /** total number of object across all pages */
+  total: number;
+  /** next entry index or -1 for the last page */
+  nextStart: number;
+}
 /**
  * The format object can be used with numerical or date fields to provide more detail about how values should be displayed in popup windows.
  */
