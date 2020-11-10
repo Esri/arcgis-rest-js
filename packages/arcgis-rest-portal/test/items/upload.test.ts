@@ -2,8 +2,9 @@
  * Apache-2.0 */
 
 import * as fetchMock from "fetch-mock";
-import { commitItemUpload, cancelItemUpload } from "../../src/items/upload";
+import { commitItemUpload, cancelItemUpload, addItemPart } from "../../src/items/upload";
 import { ItemSuccessResponse } from "../mocks/items/item";
+import { attachmentFile } from "../../../arcgis-rest-feature-layer/test/attachments.test";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 
@@ -34,6 +35,10 @@ describe("search", () => {
 
       commitItemUpload({
         id: "3ef",
+        item: {
+          title: 'test',
+          type: 'PDF'
+        },
         ...MOCK_USER_REQOPTS
       })
         .then(response => {
@@ -59,6 +64,10 @@ describe("search", () => {
 
       commitItemUpload({
         id: "3ef",
+        item: {
+          title: 'test',
+          type: 'PDF'
+        },
         owner: "fanny",
         ...MOCK_USER_REQOPTS
       })
@@ -128,6 +137,145 @@ describe("search", () => {
         })
         .catch(e => {
           fail(e);
+        });
+    });
+
+    it("should add a binary part to an item", done => {
+      fetchMock.once("*", {
+        success: true
+      });
+
+      const file = attachmentFile();
+
+      addItemPart({
+        id: "3ef",
+        // File() is only available in the browser
+        file,
+        partNum: 1,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/addPart?partNum=1"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body instanceof FormData).toBeTruthy();
+          const params = options.body as FormData;
+
+          if (params.get) {
+            expect(params.get("token")).toEqual("fake-token");
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("file")).toEqual(file);
+          }
+
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should add a binary part to an item with the owner parameter", done => {
+      fetchMock.once("*", {
+        success: true
+      });
+
+      const file = attachmentFile();
+
+      addItemPart({
+        id: "3ef",
+        owner: "joe",
+        // File() is only available in the browser
+        file,
+        partNum: 1,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/joe/items/3ef/addPart?partNum=1"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body instanceof FormData).toBeTruthy();
+          const params = options.body as FormData;
+
+          if (params.get) {
+            expect(params.get("token")).toEqual("fake-token");
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("file")).toEqual(file);
+          }
+
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should throw an error if the part number is invalid", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+
+      const file = attachmentFile();
+
+      addItemPart({
+        id: "3ef",
+        // File() is only available in the browser
+        file,
+        // partNum must be an integer
+        partNum: null,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          fail();
+        })
+        .catch(e => {
+          expect(fetchMock.called()).toBeFalsy()
+          done()
+        });
+    });
+
+    it("should throw an error if the part number is smaller than 1", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+
+      const file = attachmentFile();
+
+      addItemPart({
+        id: "3ef",
+        // File() is only available in the browser
+        file,
+        partNum: 0,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          fail();
+        })
+        .catch(e => {
+          expect(fetchMock.called()).toBeFalsy()
+          done()
+        });
+    });
+
+    it("should throw an error if the part number is lager than 10000", done => {
+      fetchMock.once("*", ItemSuccessResponse);
+
+      const file = attachmentFile();
+
+      addItemPart({
+        id: "3ef",
+        // File() is only available in the browser
+        file,
+        partNum: 10002,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          fail();
+        })
+        .catch(e => {
+          expect(fetchMock.called()).toBeFalsy()
+          done()
         });
     });
   });

@@ -1,6 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+/* tslint:disable:no-empty */
 import { UserSession } from "../src/index";
 import { ICredential } from "../src/UserSession";
 
@@ -8,7 +9,7 @@ import {
   request,
   ArcGISRequestError,
   ArcGISAuthError,
-  ErrorTypes
+  ErrorTypes,
 } from "@esri/arcgis-rest-request";
 import * as fetchMock from "fetch-mock";
 import { YESTERDAY, TOMORROW } from "./utils";
@@ -26,7 +27,7 @@ describe("UserSession", () => {
       refreshTokenExpires: TOMORROW,
       refreshTokenTTL: 1440,
       username: "c@sey",
-      password: "123456"
+      password: "123456",
     });
 
     const session2 = UserSession.deserialize(session.serialize());
@@ -47,132 +48,132 @@ describe("UserSession", () => {
   });
 
   describe(".getToken()", () => {
-    it("should return unexpired tokens for trusted arcgis.com domains", done => {
+    it("should return unexpired tokens for trusted arcgis.com domains", (done) => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
-        tokenExpires: TOMORROW
+        tokenExpires: TOMORROW,
       });
 
       Promise.all([
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
         session.getToken(
           "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
-        )
+        ),
       ])
         .then(([token1, token2]) => {
           expect(token1).toBe("token");
           expect(token2).toBe("token");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should return unexpired tokens when an org url is passed", done => {
+    it("should return unexpired tokens when an org url is passed", (done) => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
         tokenExpires: TOMORROW,
-        portal: "https://custom.maps.arcgis.com/sharing/rest"
+        portal: "https://custom.maps.arcgis.com/sharing/rest",
       });
 
       session
         .getToken(
           "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
         )
-        .then(token => {
+        .then((token) => {
           expect(token).toBe("token");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should return unexpired tokens when an org url is passed on other ArcGIS Online environments", done => {
+    it("should return unexpired tokens when an org url is passed on other ArcGIS Online environments", (done) => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
         tokenExpires: TOMORROW,
-        portal: "https://custom.mapsdev.arcgis.com/sharing/rest"
+        portal: "https://custom.mapsdev.arcgis.com/sharing/rest",
       });
 
       session
         .getToken(
           "https://services1dev.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
         )
-        .then(token => {
+        .then((token) => {
           expect(token).toBe("token");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should return unexpired tokens when there is an http/https mismatch", done => {
+    it("should return unexpired tokens when there is an http/https mismatch", (done) => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
         tokenExpires: TOMORROW,
-        portal: "http://custom.mapsdev.arcgis.com/sharing/rest"
+        portal: "http://custom.mapsdev.arcgis.com/sharing/rest",
       });
 
       session
         .getToken(
           "https://services1dev.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
         )
-        .then(token => {
+        .then((token) => {
           expect(token).toBe("token");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should return unexpired tokens for the configured portal domain", done => {
+    it("should return unexpired tokens for the configured portal domain", (done) => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
         tokenExpires: TOMORROW,
-        portal: "https://gis.city.gov/sharing/rest"
+        portal: "https://gis.city.gov/sharing/rest",
       });
 
       session
         .getToken("https://gis.city.gov/sharing/rest/portals/self")
-        .then(token => {
+        .then((token) => {
           expect(token).toBe("token");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should return unexpired tokens for the configured portal domain, regardless of CASING", done => {
+    it("should return unexpired tokens for the configured portal domain, regardless of CASING", (done) => {
       // This was a real configuration discovered on a portal instance
       const session = new UserSession({
         clientId: "id",
         token: "token",
         tokenExpires: TOMORROW,
-        portal: "https://pnp00035.esri.com/sharing/rest"
+        portal: "https://pnp00035.esri.com/sharing/rest",
       });
 
       session
         .getToken("https://PNP00035.esri.com/sharing/rest/portals/self")
-        .then(token => {
+        .then((token) => {
           expect(token).toBe("token");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should fetch token when contacting a server that is federated, even if on same domain, regardless of domain casing", done => {
+    it("should fetch token when contacting a server that is federated, even if on same domain, regardless of domain casing", (done) => {
       // This was a real configuration discovered on a portal instance
       // apparently when federating servers, the UI does not force the
       // server url to lowercase, and this any feature service items generated
@@ -184,7 +185,7 @@ describe("UserSession", () => {
         token: "existing-session-token",
         refreshToken: "refresh",
         tokenExpires: TOMORROW,
-        portal: "https://pnp00035.esri.com/portal/sharing/rest"
+        portal: "https://pnp00035.esri.com/portal/sharing/rest",
       });
 
       fetchMock.postOnce("https://pnp00035.esri.com/server/rest/info", {
@@ -194,8 +195,8 @@ describe("UserSession", () => {
         authInfo: {
           isTokenBasedSecurity: true,
           tokenServicesUrl:
-            "https://pnp00035.esri.com/portal/sharing/rest/generateToken"
-        }
+            "https://pnp00035.esri.com/portal/sharing/rest/generateToken",
+        },
       });
 
       fetchMock.postOnce("https://pnp00035.esri.com/portal/sharing/rest/info", {
@@ -203,15 +204,15 @@ describe("UserSession", () => {
         authInfo: {
           tokenServicesUrl:
             "https://pnp00035.esri.com/portal/sharing/rest/generateToken",
-          isTokenBasedSecurity: true
-        }
+          isTokenBasedSecurity: true,
+        },
       });
 
       fetchMock.postOnce(
         "https://pnp00035.esri.com/portal/sharing/rest/generateToken",
         {
           token: "new-server-token",
-          expires: TOMORROW
+          expires: TOMORROW,
         }
       );
 
@@ -221,27 +222,27 @@ describe("UserSession", () => {
         .getToken(
           "https://PNP00035.esri.com/server/rest/services/Hosted/perimeters_dd83/FeatureServer"
         )
-        .then(token => {
+        .then((token) => {
           expect(token).toBe("new-server-token");
           return session.getToken(
             "https://pnp00035.esri.com/server/rest/services/Hosted/otherService/FeatureServer"
           );
         })
-        .then(token => {
+        .then((token) => {
           expect(token).toBe("new-server-token");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should fetch new tokens when tokens for trusted arcgis.com domains are expired", done => {
+    it("should fetch new tokens when tokens for trusted arcgis.com domains are expired", (done) => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
         refreshToken: "refresh",
-        tokenExpires: YESTERDAY
+        tokenExpires: YESTERDAY,
       });
 
       fetchMock.mock(
@@ -249,7 +250,7 @@ describe("UserSession", () => {
         {
           access_token: "new",
           expires_in: 1800,
-          username: "c@sey"
+          username: "c@sey",
         },
         { repeat: 2, method: "POST" }
       );
@@ -258,41 +259,41 @@ describe("UserSession", () => {
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
         session.getToken(
           "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
-        )
+        ),
       ])
         .then(([token1, token2]) => {
           expect(token1).toBe("new");
           expect(token2).toBe("new");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should pass through a token when no token expiration is present", done => {
+    it("should pass through a token when no token expiration is present", (done) => {
       const session = new UserSession({
-        token: "token"
+        token: "token",
       });
 
       session
         .getToken("https://www.arcgis.com/sharing/rest/portals/self")
-        .then(token1 => {
+        .then((token1) => {
           expect(token1).toBe("token");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should generate a token for an untrusted, federated server", done => {
+    it("should generate a token for an untrusted, federated server", (done) => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
         refreshToken: "refresh",
         tokenExpires: TOMORROW,
-        portal: "https://gis.city.gov/sharing/rest"
+        portal: "https://gis.city.gov/sharing/rest",
       });
 
       fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
@@ -301,49 +302,49 @@ describe("UserSession", () => {
         owningSystemUrl: "https://gis.city.gov",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
-        }
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+        },
       });
 
       fetchMock.postOnce("https://gis.city.gov/sharing/rest/info", {
         owningSystemUrl: "http://gis.city.gov",
         authInfo: {
           tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-          isTokenBasedSecurity: true
-        }
+          isTokenBasedSecurity: true,
+        },
       });
 
       fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
         token: "serverToken",
-        expires: TOMORROW
+        expires: TOMORROW,
       });
 
       session
         .getToken(
           "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
         )
-        .then(token => {
+        .then((token) => {
           expect(token).toBe("serverToken");
           return session.getToken(
             "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
           );
         })
-        .then(token => {
+        .then((token) => {
           expect(token).toBe("serverToken");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should generate a token for an untrusted, federated server admin call", done => {
+    it("should generate a token for an untrusted, federated server admin call", (done) => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
         refreshToken: "refresh",
         tokenExpires: TOMORROW,
-        portal: "https://gis.city.gov/sharing/rest"
+        portal: "https://gis.city.gov/sharing/rest",
       });
 
       fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
@@ -352,47 +353,47 @@ describe("UserSession", () => {
         owningSystemUrl: "https://gis.city.gov",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
-        }
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+        },
       });
 
       fetchMock.postOnce("https://gis.city.gov/sharing/rest/info", {
         owningSystemUrl: "http://gis.city.gov",
         authInfo: {
           tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-          isTokenBasedSecurity: true
-        }
+          isTokenBasedSecurity: true,
+        },
       });
 
       fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
         token: "serverToken",
-        expires: TOMORROW
+        expires: TOMORROW,
       });
 
       session
         .getToken(
           "https://gisservices.city.gov/public/rest/admin/services/trees/FeatureServer/addToDefinition"
         )
-        .then(token => {
+        .then((token) => {
           expect(token).toBe("serverToken");
           return session.getToken(
             "https://gisservices.city.gov/public/rest/admin/services/trees/FeatureServer/addToDefinition"
           );
         })
-        .then(token => {
+        .then((token) => {
           expect(token).toBe("serverToken");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should generate a token for an untrusted, federated server with user credentials", done => {
+    it("should generate a token for an untrusted, federated server with user credentials", (done) => {
       const session = new UserSession({
         username: "c@sey",
         password: "jones",
-        portal: "https://gis.city.gov/sharing/rest"
+        portal: "https://gis.city.gov/sharing/rest",
       });
 
       fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
@@ -401,43 +402,43 @@ describe("UserSession", () => {
         owningSystemUrl: "https://gis.city.gov",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
-        }
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+        },
       });
 
       fetchMock.postOnce("https://gis.city.gov/sharing/rest/info", {
         owningSystemUrl: "http://gis.city.gov",
         authInfo: {
           tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-          isTokenBasedSecurity: true
-        }
+          isTokenBasedSecurity: true,
+        },
       });
 
       fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
         token: "serverToken",
-        expires: TOMORROW
+        expires: TOMORROW,
       });
 
       session
         .getToken(
           "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
         )
-        .then(token => {
+        .then((token) => {
           expect(token).toBe("serverToken");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should only make 1 token request to an untrusted portal for similar URLs", done => {
+    it("should only make 1 token request to an untrusted portal for similar URLs", (done) => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
         refreshToken: "refresh",
         tokenExpires: TOMORROW,
-        portal: "https://gis.city.gov/sharing/rest"
+        portal: "https://gis.city.gov/sharing/rest",
       });
 
       fetchMock.mock(
@@ -448,8 +449,8 @@ describe("UserSession", () => {
           owningSystemUrl: "https://gis.city.gov",
           authInfo: {
             isTokenBasedSecurity: true,
-            tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
-          }
+            tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+          },
         },
         { repeat: 1, method: "POST" }
       );
@@ -460,8 +461,8 @@ describe("UserSession", () => {
           owningSystemUrl: "http://gis.city.gov",
           authInfo: {
             tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-            isTokenBasedSecurity: true
-          }
+            isTokenBasedSecurity: true,
+          },
         },
         { repeat: 1, method: "POST" }
       );
@@ -470,7 +471,7 @@ describe("UserSession", () => {
         "https://gis.city.gov/sharing/generateToken",
         {
           token: "serverToken",
-          expires: TOMORROW
+          expires: TOMORROW,
         },
         { repeat: 1, method: "POST" }
       );
@@ -481,7 +482,7 @@ describe("UserSession", () => {
         ),
         session.getToken(
           "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-        )
+        ),
       ])
         .then(([token1, token2]) => {
           expect(token1).toBe("serverToken");
@@ -491,17 +492,17 @@ describe("UserSession", () => {
           ).toBe(1);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should throw an ArcGISAuthError when the owning system doesn't match", done => {
+    it("should throw an ArcGISAuthError when the owning system doesn't match", (done) => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
         refreshToken: "refresh",
-        tokenExpires: YESTERDAY
+        tokenExpires: YESTERDAY,
       });
 
       fetchMock.post("https://gisservices.city.gov/public/rest/info", {
@@ -510,15 +511,15 @@ describe("UserSession", () => {
         owningSystemUrl: "https://gis.city.gov",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
-        }
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+        },
       });
 
       session
         .getToken(
           "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
         )
-        .catch(e => {
+        .catch((e) => {
           expect(e.name).toEqual(ErrorTypes.ArcGISAuthError);
           expect(e.code).toEqual("NOT_FEDERATED");
           expect(e.message).toEqual(
@@ -528,17 +529,17 @@ describe("UserSession", () => {
         });
     });
 
-    it("should throw a fully hydrated ArcGISAuthError when no owning system is advertised", done => {
+    it("should throw a fully hydrated ArcGISAuthError when no owning system is advertised", (done) => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
         refreshToken: "refresh",
-        tokenExpires: YESTERDAY
+        tokenExpires: YESTERDAY,
       });
 
       fetchMock.post("https://gisservices.city.gov/public/rest/info", {
         currentVersion: 10.51,
-        fullVersion: "10.5.1.120"
+        fullVersion: "10.5.1.120",
       });
 
       fetchMock.post(
@@ -547,8 +548,8 @@ describe("UserSession", () => {
           error: {
             code: 499,
             message: "Token Required",
-            details: []
-          }
+            details: [],
+          },
         }
       );
 
@@ -557,10 +558,10 @@ describe("UserSession", () => {
         {
           authentication: session,
           params: {
-            foo: "bar"
-          }
+            foo: "bar",
+          },
         }
-      ).catch(e => {
+      ).catch((e) => {
         expect(e.name).toEqual(ErrorTypes.ArcGISAuthError);
         expect(e.code).toEqual("NOT_FEDERATED");
         expect(e.message).toEqual(
@@ -574,23 +575,23 @@ describe("UserSession", () => {
       });
     });
 
-    it("should not throw an ArcGISAuthError when the unfederated service is public", done => {
+    it("should not throw an ArcGISAuthError when the unfederated service is public", (done) => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
         refreshToken: "refresh",
-        tokenExpires: YESTERDAY
+        tokenExpires: YESTERDAY,
       });
 
       fetchMock.post("https://gisservices.city.gov/public/rest/info", {
         currentVersion: 10.51,
-        fullVersion: "10.5.1.120"
+        fullVersion: "10.5.1.120",
       });
 
       fetchMock.post(
         "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
         {
-          count: 123
+          count: 123,
         }
       );
 
@@ -599,111 +600,111 @@ describe("UserSession", () => {
         {
           authentication: session,
           params: {
-            returnCount: true
-          }
+            returnCount: true,
+          },
         }
       )
-        .then(res => {
+        .then((res) => {
           expect(res.count).toEqual(123);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
   });
 
   describe(".refreshSession()", () => {
-    it("should refresh with a username and password if expired", done => {
+    it("should refresh with a username and password if expired", (done) => {
       const session = new UserSession({
         username: "c@sey",
-        password: "123456"
+        password: "123456",
       });
 
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/generateToken", {
         token: "token",
         expires: TOMORROW.getTime(),
-        username: " c@sey"
+        username: " c@sey",
       });
 
       session
         .refreshSession()
-        .then(s => {
+        .then((s) => {
           expect(s.token).toBe("token");
           expect(s.tokenExpires).toEqual(TOMORROW);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should refresh with an unexpired refresh token", done => {
+    it("should refresh with an unexpired refresh token", (done) => {
       const session = new UserSession({
         clientId: "clientId",
         token: "token",
         username: "c@sey",
         refreshToken: "refreshToken",
-        refreshTokenExpires: TOMORROW
-      });
-
-      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
-        access_token: "newToken",
-        expires_in: 60,
-        username: " c@sey"
-      });
-
-      session
-        .refreshSession()
-        .then(s => {
-          expect(s.token).toBe("newToken");
-          expect(s.tokenExpires.getTime()).toBeGreaterThan(Date.now());
-          done();
-        })
-        .catch(e => {
-          fail(e);
-        });
-    });
-
-    it("should refresh with an expired refresh token", done => {
-      const session = new UserSession({
-        clientId: "clientId",
-        token: "token",
-        username: "c@sey",
-        refreshToken: "refreshToken",
-        refreshTokenExpires: YESTERDAY,
-        redirectUri: "https://example-app.com/redirect-uri"
+        refreshTokenExpires: TOMORROW,
       });
 
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "newToken",
         expires_in: 60,
         username: " c@sey",
-        refresh_token: "newRefreshToken"
       });
 
       session
         .refreshSession()
-        .then(s => {
+        .then((s) => {
+          expect(s.token).toBe("newToken");
+          expect(s.tokenExpires.getTime()).toBeGreaterThan(Date.now());
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should refresh with an expired refresh token", (done) => {
+      const session = new UserSession({
+        clientId: "clientId",
+        token: "token",
+        username: "c@sey",
+        refreshToken: "refreshToken",
+        refreshTokenExpires: YESTERDAY,
+        redirectUri: "https://example-app.com/redirect-uri",
+      });
+
+      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
+        access_token: "newToken",
+        expires_in: 60,
+        username: " c@sey",
+        refresh_token: "newRefreshToken",
+      });
+
+      session
+        .refreshSession()
+        .then((s) => {
           expect(s.token).toBe("newToken");
           expect(s.tokenExpires.getTime()).toBeGreaterThan(Date.now());
           expect(s.refreshToken).toBe("newRefreshToken");
           expect(s.refreshTokenExpires.getTime()).toBeGreaterThan(Date.now());
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should reject if we cannot refresh the token", done => {
+    it("should reject if we cannot refresh the token", (done) => {
       const session = new UserSession({
         clientId: "clientId",
         token: "token",
-        username: "c@sey"
+        username: "c@sey",
       });
 
-      session.refreshSession().catch(e => {
+      session.refreshSession().catch((e) => {
         expect(e instanceof ArcGISAuthError).toBeTruthy();
         expect(e.name).toBe("ArcGISAuthError");
         expect(e.message).toBe("Unable to refresh token.");
@@ -711,12 +712,12 @@ describe("UserSession", () => {
       });
     });
 
-    it("should only make 1 token request to the portal for similar URLs", done => {
+    it("should only make 1 token request to the portal for similar URLs", (done) => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
         refreshToken: "refresh",
-        tokenExpires: YESTERDAY
+        tokenExpires: YESTERDAY,
       });
 
       fetchMock.mock(
@@ -724,14 +725,14 @@ describe("UserSession", () => {
         {
           access_token: "new",
           expires_in: 1800,
-          username: "c@sey"
+          username: "c@sey",
         },
         { repeat: 1, method: "POST" }
       );
 
       Promise.all([
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
-        session.getToken("https://www.arcgis.com/sharing/rest/portals/self")
+        session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
       ])
         .then(([token1, token2]) => {
           expect(token1).toBe("new");
@@ -742,34 +743,34 @@ describe("UserSession", () => {
           ).toBe(1);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
   });
 
   describe(".beginOAuth2()", () => {
-    it("should authorize via a popup", done => {
+    it("should authorize via a popup", (done) => {
       const MockWindow: any = {
-        open: jasmine.createSpy("spy")
+        open: jasmine.createSpy("spy"),
       };
 
       UserSession.beginOAuth2(
         {
           clientId: "clientId123",
           redirectUri: "http://example-app.com/redirect",
-          state: "abc123"
+          state: "abc123",
         },
         MockWindow
       )
-        .then(session => {
+        .then((session) => {
           expect(session.token).toBe("token");
           expect(session.username).toBe("c@sey");
           expect(session.ssl).toBe(true);
           expect(session.tokenExpires).toEqual(TOMORROW);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
 
@@ -785,24 +786,24 @@ describe("UserSession", () => {
           token: "token",
           expires: TOMORROW,
           username: "c@sey",
-          ssl: true
+          ssl: true,
         })
       );
     });
 
-    it("should reject the promise if there is an error", done => {
+    it("should reject the promise if there is an error", (done) => {
       const MockWindow: any = {
-        open: jasmine.createSpy("spy")
+        open: jasmine.createSpy("spy"),
       };
 
       UserSession.beginOAuth2(
         {
           clientId: "clientId123",
           redirectUri: "http://example-app.com/redirect",
-          locale: "fr"
+          locale: "fr",
         },
         MockWindow
-      ).catch(e => {
+      ).catch((e) => {
         done();
       });
 
@@ -815,7 +816,7 @@ describe("UserSession", () => {
       MockWindow.__ESRI_REST_AUTH_HANDLER_clientId123(
         JSON.stringify({
           errorMessage: "unable to sign in",
-          error: "SIGN_IN_FAILED"
+          error: "SIGN_IN_FAILED",
         })
       );
     });
@@ -823,8 +824,8 @@ describe("UserSession", () => {
     it("should authorize in the same window/tab", () => {
       const MockWindow: any = {
         location: {
-          href: ""
-        }
+          href: "",
+        },
       };
 
       // https://github.com/palantir/tslint/issues/3056
@@ -832,7 +833,7 @@ describe("UserSession", () => {
         {
           clientId: "clientId123",
           redirectUri: "http://example-app.com/redirect",
-          popup: false
+          popup: false,
         },
         MockWindow
       );
@@ -845,8 +846,8 @@ describe("UserSession", () => {
     it("should authorize using a social media provider", () => {
       const MockWindow: any = {
         location: {
-          href: ""
-        }
+          href: "",
+        },
       };
 
       // https://github.com/palantir/tslint/issues/3056
@@ -855,7 +856,7 @@ describe("UserSession", () => {
           clientId: "clientId123",
           redirectUri: "http://example-app.com/redirect",
           popup: false,
-          provider: "facebook"
+          provider: "facebook",
         },
         MockWindow
       );
@@ -868,8 +869,8 @@ describe("UserSession", () => {
     it("should authorize using the other social media provider", () => {
       const MockWindow: any = {
         location: {
-          href: ""
-        }
+          href: "",
+        },
       };
 
       // https://github.com/palantir/tslint/issues/3056
@@ -878,7 +879,7 @@ describe("UserSession", () => {
           clientId: "clientId123",
           redirectUri: "http://example-app.com/redirect",
           popup: false,
-          provider: "google"
+          provider: "google",
         },
         MockWindow
       );
@@ -894,17 +895,17 @@ describe("UserSession", () => {
       const MockWindow = {
         location: {
           hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true&persist=true"
+            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true&persist=true",
         },
         get parent() {
           return this;
-        }
+        },
       };
 
       const session = UserSession.completeOAuth2(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri"
+          redirectUri: "https://example-app.com/redirect-uri",
         },
         MockWindow
       );
@@ -919,24 +920,24 @@ describe("UserSession", () => {
       const MockWindow = {
         location: {
           hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&persist=true"
+            "#access_token=token&expires_in=1209600&username=c%40sey&persist=true",
         },
         get parent() {
           return this;
-        }
+        },
       };
 
       const session = UserSession.completeOAuth2(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri"
+          redirectUri: "https://example-app.com/redirect-uri",
         },
         MockWindow
       );
       expect(session.ssl).toBe(false);
     });
 
-    it("should callback to create a new user session if finds a valid opener.parent", done => {
+    it("should callback to create a new user session if finds a valid opener.parent", (done) => {
       const MockWindow = {
         opener: {
           parent: {
@@ -951,28 +952,28 @@ describe("UserSession", () => {
               expect(new Date(oauthInfo.expires).getTime()).toBeGreaterThan(
                 Date.now()
               );
-            }
-          }
+            },
+          },
         },
         close() {
           done();
         },
         location: {
           hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true"
-        }
+            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
+        },
       };
 
       UserSession.completeOAuth2(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri"
+          redirectUri: "https://example-app.com/redirect-uri",
         },
         MockWindow
       );
     });
 
-    it("should callback to create a new user session if finds a valid opener (Iframe support)", done => {
+    it("should callback to create a new user session if finds a valid opener (Iframe support)", (done) => {
       const MockWindow = {
         opener: {
           __ESRI_REST_AUTH_HANDLER_clientId(
@@ -986,27 +987,27 @@ describe("UserSession", () => {
             expect(new Date(oauthInfo.expires).getTime()).toBeGreaterThan(
               Date.now()
             );
-          }
+          },
         },
         close() {
           done();
         },
         location: {
           hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true"
-        }
+            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
+        },
       };
 
       UserSession.completeOAuth2(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri"
+          redirectUri: "https://example-app.com/redirect-uri",
         },
         MockWindow
       );
     });
 
-    it("should callback to create a new user session if finds a valid parent", done => {
+    it("should callback to create a new user session if finds a valid parent", (done) => {
       const MockWindow = {
         parent: {
           __ESRI_REST_AUTH_HANDLER_clientId(
@@ -1020,21 +1021,21 @@ describe("UserSession", () => {
             expect(new Date(oauthInfo.expires).getTime()).toBeGreaterThan(
               Date.now()
             );
-          }
+          },
         },
         close() {
           done();
         },
         location: {
           hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true"
-        }
+            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
+        },
       };
 
       UserSession.completeOAuth2(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri"
+          redirectUri: "https://example-app.com/redirect-uri",
         },
         MockWindow
       );
@@ -1043,18 +1044,18 @@ describe("UserSession", () => {
     it("should throw an error from the authorization window", () => {
       const MockWindow = {
         location: {
-          hash: "#error=Invalid_Signin&error_description=Invalid_Signin"
+          hash: "#error=Invalid_Signin&error_description=Invalid_Signin",
         },
         get parent() {
           return this;
-        }
+        },
       };
 
       expect(function() {
         UserSession.completeOAuth2(
           {
             clientId: "clientId",
-            redirectUri: "https://example-app.com/redirect-uri"
+            redirectUri: "https://example-app.com/redirect-uri",
           },
           MockWindow
         );
@@ -1067,23 +1068,23 @@ describe("UserSession", () => {
           throw new Error(
             "This window isn't where auth started, but was opened from somewhere else via window.open() perhaps from another domain which would cause a cross domain error when read."
           );
-        }
+        },
       };
 
       const MockWindow = {
         location: {
-          hash: "#error=Invalid_Signin&error_description=Invalid_Signin"
+          hash: "#error=Invalid_Signin&error_description=Invalid_Signin",
         },
         get opener() {
           return MockParent;
-        }
+        },
       };
 
       expect(function() {
         UserSession.completeOAuth2(
           {
             clientId: "clientId",
-            redirectUri: "https://example-app.com/redirect-uri"
+            redirectUri: "https://example-app.com/redirect-uri",
           },
           MockWindow
         );
@@ -1091,21 +1092,284 @@ describe("UserSession", () => {
     });
   });
 
+  describe("postmessage auth :: ", () => {
+    const MockWindow = {
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      parent: {
+        postMessage: () => {},
+      },
+    };
+
+    const cred = {
+      expires: TOMORROW.getTime(),
+      server: "https://www.arcgis.com",
+      ssl: false,
+      token: "token",
+      userId: "jsmith",
+    };
+
+    it(".disablePostMessageAuth removes event listener", () => {
+      const removeSpy = spyOn(MockWindow, "removeEventListener");
+      const session = UserSession.fromCredential(cred);
+      session.disablePostMessageAuth(MockWindow);
+      expect(removeSpy.calls.count()).toBe(
+        1,
+        "should call removeEventListener"
+      );
+    });
+    it(".enablePostMessageAuth adds event listener", () => {
+      const addSpy = spyOn(MockWindow, "addEventListener");
+      const session = UserSession.fromCredential(cred);
+      session.enablePostMessageAuth(
+        ["https://storymaps.arcgis.com"],
+        MockWindow
+      );
+      expect(addSpy.calls.count()).toBe(1, "should call addEventListener");
+    });
+
+    it(".enablePostMessage handler returns credential to origin in list", () => {
+      // ok, this gets kinda gnarly...
+
+      // create a mock window object
+      // that will hold the passed in event handler so we can fire it manually
+      const Win = {
+        _fn: (evt: any) => {},
+        addEventListener(evt: any, fn: any) {
+          // enablePostMessageAuth passes in the handler, which is what we're actually testing
+          Win._fn = fn;
+        },
+        removeEventListener() {},
+      };
+      // Create the session
+      const session = UserSession.fromCredential(cred);
+      // enable postMessageAuth allowing storymaps.arcgis.com to recieve creds
+      session.enablePostMessageAuth(["https://storymaps.arcgis.com"], Win);
+      // create an event object, with a matching origin
+      // an a source.postMessage fn that we can spy on
+      const event = {
+        origin: "https://storymaps.arcgis.com",
+        source: {
+          postMessage(msg: any, origin: string) {},
+        },
+      };
+      // create the spy
+      const sourceSpy = spyOn(event.source, "postMessage");
+      // Now, fire the handler, simulating what happens when a postMessage event comes
+      // from an embedded iframe
+      Win._fn(event);
+      // Expectations...
+      expect(sourceSpy.calls.count()).toBe(
+        1,
+        "souce.postMessage should be called in handler"
+      );
+      const args = sourceSpy.calls.argsFor(0);
+      expect(args[0].type).toBe(
+        "arcgis:auth:credential",
+        "should send credential type"
+      );
+      expect(args[0].credential.userId).toBe(
+        "jsmith",
+        "should send credential"
+      );
+      // now the case where it's not a valid origin
+      event.origin = "https://evil.com";
+      Win._fn(event);
+      expect(sourceSpy.calls.count()).toBe(
+        2,
+        "souce.postMessage should be called in handler"
+      );
+      const args2 = sourceSpy.calls.argsFor(1);
+      expect(args2[0].type).toBe("arcgis:auth:rejected", "should send reject");
+    });
+
+    it(".fromParent happy path", () => {
+      // create a mock window that will fire the handler
+      const Win = {
+        _fn: (evt: any) => {},
+        addEventListener(evt: any, fn: any) {
+          Win._fn = fn;
+        },
+        removeEventListener() {},
+        parent: {
+          postMessage(msg: any, origin: string) {
+            Win._fn({
+              origin: "https://origin.com",
+              data: { type: "arcgis:auth:credential", credential: cred },
+            });
+          },
+        },
+      };
+
+      return UserSession.fromParent("https://origin.com", Win).then(
+        (session) => {
+          expect(session.username).toBe(
+            "jsmith",
+            "should use the cred wired throu the mock window"
+          );
+        }
+      );
+    });
+
+    it(".fromParent ignores other messages, then intercepts the correct one", async () => {
+      // create a mock window that will fire the handler
+      const Win = {
+        _fn: (evt: any) => {},
+        addEventListener(evt: any, fn: any) {
+          Win._fn = fn;
+        },
+        removeEventListener() {},
+        parent: {
+          postMessage(msg: any, origin: string) {
+            // fire one we intend to ignore
+            Win._fn({
+              origin: "https://notorigin.com",
+              data: { type: "other:random", foo: { bar: "baz" } },
+            });
+            // fire a second we want to intercept
+            Win._fn({
+              origin: "https://origin.com",
+              data: { type: "arcgis:auth:credential", credential: cred },
+            });
+          },
+        },
+      };
+
+      return UserSession.fromParent("https://origin.com", Win).then((resp) => {
+        expect(resp.username).toBe(
+          "jsmith",
+          "should use the cred wired throu the mock window"
+        );
+      });
+    });
+
+    it(".fromParent rejects if invlid cred", () => {
+      // create a mock window that will fire the handler
+      const Win = {
+        _fn: (evt: any) => {},
+        addEventListener(evt: any, fn: any) {
+          Win._fn = fn;
+        },
+        removeEventListener() {},
+        parent: {
+          postMessage(msg: any, origin: string) {
+            Win._fn({
+              origin: "https://origin.com",
+              data: {
+                type: "arcgis:auth:credential",
+                credential: { foo: "bar" },
+              },
+            });
+          },
+        },
+      };
+
+      return UserSession.fromParent("https://origin.com", Win).catch((err) => {
+        expect(err).toBeDefined("Should reject");
+      });
+    });
+
+    it(".fromParent rejects if auth rejected", () => {
+      // create a mock window that will fire the handler
+      const Win = {
+        _fn: (evt: any) => {},
+        addEventListener(evt: any, fn: any) {
+          Win._fn = fn;
+        },
+        removeEventListener() {},
+        parent: {
+          postMessage(msg: any, origin: string) {
+            Win._fn({
+              origin: "https://origin.com",
+              data: {
+                type: "arcgis:auth:rejected",
+                message: "Rejected authentication request.",
+              },
+            });
+          },
+        },
+      };
+
+      return UserSession.fromParent("https://origin.com", Win).catch((err) => {
+        expect(err).toBeDefined("Should reject");
+      });
+    });
+
+    it(".fromParent rejects if auth unknown message", () => {
+      // create a mock window that will fire the handler
+      const Win = {
+        _fn: (evt: any) => {},
+        addEventListener(evt: any, fn: any) {
+          Win._fn = fn;
+        },
+        removeEventListener() {},
+        parent: {
+          postMessage(msg: any, origin: string) {
+            Win._fn({
+              origin: "https://origin.com",
+              data: { type: "arcgis:auth:other" },
+            });
+          },
+        },
+      };
+
+      return UserSession.fromParent("https://origin.com", Win).catch((err) => {
+        expect(err.message).toBe("Unknown message type.", "Should reject");
+      });
+    });
+  });
+
+  describe("validateAppAccess: ", () => {
+    it("makes a request to /oauth2/validateAppAccess passing params", () => {
+      const VERIFYAPPACCESS_URL =
+        "https://www.arcgis.com/sharing/rest/oauth2/validateAppAccess";
+      fetchMock.postOnce(VERIFYAPPACCESS_URL, {
+        valid: true,
+        viewOnlyUserTypeApp: false,
+      });
+      const session = new UserSession({
+        clientId: "clientId",
+        redirectUri: "https://example-app.com/redirect-uri",
+        token: "FAKE-TOKEN",
+        tokenExpires: TOMORROW,
+        refreshToken: "refreshToken",
+        refreshTokenExpires: TOMORROW,
+        refreshTokenTTL: 1440,
+        username: "jsmith",
+        password: "123456",
+      });
+      return session
+        .validateAppAccess("abc123")
+        .then((response) => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+            VERIFYAPPACCESS_URL
+          );
+          expect(url).toEqual(VERIFYAPPACCESS_URL);
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("token=FAKE-TOKEN");
+          expect(options.body).toContain("client_id=abc123");
+          expect(response.valid).toEqual(true);
+          expect(response.viewOnlyUserTypeApp).toBe(false);
+        })
+        .catch((e) => fail(e));
+    });
+  });
+
   it("should throw an unknown error if the url has no error or access_token", () => {
     const MockWindow = {
       location: {
-        hash: ""
+        hash: "",
       },
       get opener() {
         return this;
-      }
+      },
     };
 
     expect(function() {
       UserSession.completeOAuth2(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri"
+          redirectUri: "https://example-app.com/redirect-uri",
         },
         MockWindow
       );
@@ -1113,7 +1377,7 @@ describe("UserSession", () => {
   });
 
   describe(".authorize()", () => {
-    it("should redirect the request to the authorization page", done => {
+    it("should redirect the request to the authorization page", (done) => {
       const spy = jasmine.createSpy("spy");
       const MockResponse: any = {
         writeHead: spy,
@@ -1123,13 +1387,13 @@ describe("UserSession", () => {
             "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&duration=20160&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
           );
           done();
-        }
+        },
       };
 
       UserSession.authorize(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri"
+          redirectUri: "https://example-app.com/redirect-uri",
         },
         MockResponse
       );
@@ -1147,23 +1411,23 @@ describe("UserSession", () => {
       paramsSpy.calls.reset();
     });
 
-    it("should exchange an authorization code for a new UserSession", done => {
+    it("should exchange an authorization code for a new UserSession", (done) => {
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "token",
         expires_in: 1800,
         refresh_token: "refreshToken",
         username: "Casey",
-        ssl: true
+        ssl: true,
       });
 
       UserSession.exchangeAuthorizationCode(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri"
+          redirectUri: "https://example-app.com/redirect-uri",
         },
         "code"
       )
-        .then(session => {
+        .then((session) => {
           expect(session.token).toBe("token");
           expect(session.tokenExpires.getTime()).toBeGreaterThan(Date.now());
           expect(session.username).toBe("Casey");
@@ -1171,7 +1435,7 @@ describe("UserSession", () => {
           expect(session.ssl).toBe(true);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
@@ -1180,14 +1444,14 @@ describe("UserSession", () => {
   describe(".getUser()", () => {
     afterEach(fetchMock.restore);
 
-    it("should cache metadata about the user", done => {
+    it("should cache metadata about the user", (done) => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
         {
           username: "jsmith",
           fullName: "John Smith",
-          role: "org_publisher"
+          role: "org_publisher",
         }
       );
 
@@ -1200,36 +1464,36 @@ describe("UserSession", () => {
         refreshTokenExpires: TOMORROW,
         refreshTokenTTL: 1440,
         username: "jsmith",
-        password: "123456"
+        password: "123456",
       });
 
       session
         .getUser()
-        .then(response => {
+        .then((response) => {
           expect(response.role).toEqual("org_publisher");
           session
             .getUser()
-            .then(cachedResponse => {
+            .then((cachedResponse) => {
               expect(cachedResponse.fullName).toEqual("John Smith");
               done();
             })
-            .catch(e => {
+            .catch((e) => {
               fail(e);
             });
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should never make more then 1 request", done => {
+    it("should never make more then 1 request", (done) => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
         {
           username: "jsmith",
           fullName: "John Smith",
-          role: "org_publisher"
+          role: "org_publisher",
         }
       );
 
@@ -1242,14 +1506,14 @@ describe("UserSession", () => {
         refreshTokenExpires: TOMORROW,
         refreshTokenTTL: 1440,
         username: "jsmith",
-        password: "123456"
+        password: "123456",
       });
 
       Promise.all([session.getUser(), session.getUser()])
         .then(() => {
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
@@ -1258,53 +1522,53 @@ describe("UserSession", () => {
   describe(".getUsername()", () => {
     afterEach(fetchMock.restore);
 
-    it("should fetch the username via getUser()", done => {
+    it("should fetch the username via getUser()", (done) => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
         {
-          username: "jsmith"
+          username: "jsmith",
         }
       );
 
       const session = new UserSession({
-        token: "token"
+        token: "token",
       });
 
       session
         .getUsername()
-        .then(response => {
+        .then((response) => {
           expect(response).toEqual("jsmith");
 
           // also test getting it from the cache.
           session
             .getUsername()
-            .then(username => {
+            .then((username) => {
               done();
 
               expect(username).toEqual("jsmith");
             })
-            .catch(e => {
+            .catch((e) => {
               fail(e);
             });
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should use a username if passed in the session", done => {
+    it("should use a username if passed in the session", (done) => {
       const session = new UserSession({
-        username: "jsmith"
+        username: "jsmith",
       });
 
       session
         .getUsername()
-        .then(response => {
+        .then((response) => {
           expect(response).toEqual("jsmith");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
@@ -1316,7 +1580,7 @@ describe("UserSession", () => {
       server: "https://www.arcgis.com",
       ssl: false,
       token: "token",
-      userId: "jsmith"
+      userId: "jsmith",
     };
 
     const MOCK_USER_SESSION = new UserSession({
@@ -1329,7 +1593,7 @@ describe("UserSession", () => {
       refreshTokenExpires: TOMORROW,
       refreshTokenTTL: 1440,
       username: "jsmith",
-      password: "123456"
+      password: "123456",
     });
 
     it("should create a credential object from a session", () => {
@@ -1366,7 +1630,7 @@ describe("UserSession", () => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
-        tokenExpires: TOMORROW
+        tokenExpires: TOMORROW,
       });
 
       const root = session.getServerRootUrl(
@@ -1379,7 +1643,7 @@ describe("UserSession", () => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
-        tokenExpires: TOMORROW
+        tokenExpires: TOMORROW,
       });
 
       const root = session.getServerRootUrl(
@@ -1394,7 +1658,7 @@ describe("UserSession", () => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
-        tokenExpires: TOMORROW
+        tokenExpires: TOMORROW,
       });
 
       const root = session.getServerRootUrl(
@@ -1407,34 +1671,34 @@ describe("UserSession", () => {
   });
 
   describe("non-federated server", () => {
-    it("shouldnt fetch a fresh token if the current one isn't expired.", done => {
+    it("shouldnt fetch a fresh token if the current one isn't expired.", (done) => {
       const MOCK_USER_SESSION = new UserSession({
         username: "c@sey",
         password: "123456",
         token: "token",
         tokenExpires: TOMORROW,
-        server: "https://fakeserver.com/arcgis"
+        server: "https://fakeserver.com/arcgis",
       });
 
       MOCK_USER_SESSION.getToken(
         "https://fakeserver.com/arcgis/rest/services/Fake/MapServer/"
       )
-        .then(token => {
+        .then((token) => {
           expect(token).toBe("token");
           done();
         })
-        .catch(err => {
+        .catch((err) => {
           fail(err);
         });
     });
 
-    it("should fetch a fresh token if the current one is expired.", done => {
+    it("should fetch a fresh token if the current one is expired.", (done) => {
       const MOCK_USER_SESSION = new UserSession({
         username: "jsmith",
         password: "123456",
         token: "token",
         tokenExpires: YESTERDAY,
-        server: "https://fakeserver.com/arcgis"
+        server: "https://fakeserver.com/arcgis",
       });
 
       fetchMock.postOnce("https://fakeserver.com/arcgis/rest/info", {
@@ -1442,20 +1706,20 @@ describe("UserSession", () => {
         fullVersion: "10.6.1",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://fakeserver.com/arcgis/tokens/"
-        }
+          tokenServicesUrl: "https://fakeserver.com/arcgis/tokens/",
+        },
       });
 
       fetchMock.postOnce("https://fakeserver.com/arcgis/tokens/", {
         token: "fresh-token",
         expires: TOMORROW.getTime(),
-        username: " jsmith"
+        username: " jsmith",
       });
 
       MOCK_USER_SESSION.getToken(
         "https://fakeserver.com/arcgis/rest/services/Fake/MapServer/"
       )
-        .then(token => {
+        .then((token) => {
           expect(token).toBe("fresh-token");
           const [url, options]: [string, RequestInit] = fetchMock.lastCall(
             "https://fakeserver.com/arcgis/tokens/"
@@ -1467,18 +1731,18 @@ describe("UserSession", () => {
           expect(options.body).toContain("client=referer");
           done();
         })
-        .catch(err => {
+        .catch((err) => {
           fail(err);
         });
     });
 
-    it("should trim down the server url if necessary.", done => {
+    it("should trim down the server url if necessary.", (done) => {
       const MOCK_USER_SESSION = new UserSession({
         username: "jsmith",
         password: "123456",
         token: "token",
         tokenExpires: YESTERDAY,
-        server: "https://fakeserver.com/arcgis/rest/services/blah/"
+        server: "https://fakeserver.com/arcgis/rest/services/blah/",
       });
 
       fetchMock.postOnce("https://fakeserver.com/arcgis/rest/info", {
@@ -1486,52 +1750,52 @@ describe("UserSession", () => {
         fullVersion: "10.6.1",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://fakeserver.com/arcgis/tokens/"
-        }
+          tokenServicesUrl: "https://fakeserver.com/arcgis/tokens/",
+        },
       });
 
       fetchMock.postOnce("https://fakeserver.com/arcgis/tokens/", {
         token: "fresh-token",
         expires: TOMORROW.getTime(),
-        username: " jsmith"
+        username: " jsmith",
       });
 
       MOCK_USER_SESSION.getToken(
         "https://fakeserver.com/arcgis/rest/services/Fake/MapServer/"
       )
-        .then(token => {
+        .then((token) => {
           expect(token).toBe("fresh-token");
           done();
         })
-        .catch(err => {
+        .catch((err) => {
           fail(err);
         });
     });
 
-    it("should throw an error if the server isnt trusted.", done => {
+    it("should throw an error if the server isnt trusted.", (done) => {
       fetchMock.postOnce("https://fakeserver2.com/arcgis/rest/info", {
         currentVersion: 10.61,
         fullVersion: "10.6.1",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://fakeserver2.com/arcgis/tokens/"
-        }
+          tokenServicesUrl: "https://fakeserver2.com/arcgis/tokens/",
+        },
       });
       const MOCK_USER_SESSION = new UserSession({
         username: "c@sey",
         password: "123456",
         token: "token",
         tokenExpires: TOMORROW,
-        server: "https://fakeserver.com/arcgis"
+        server: "https://fakeserver.com/arcgis",
       });
 
       MOCK_USER_SESSION.getToken(
         "https://fakeserver2.com/arcgis/rest/services/Fake/MapServer/"
       )
-        .then(token => {
+        .then((token) => {
           fail(token);
         })
-        .catch(err => {
+        .catch((err) => {
           expect(err.code).toBe("NOT_FEDERATED");
           expect(err.originalMessage).toEqual(
             "https://fakeserver2.com/arcgis/rest/services/Fake/MapServer/ is not federated with any portal and is not explicitly trusted."

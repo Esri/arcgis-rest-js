@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-service-admin",
-  "version": "2.18.0",
+  "version": "2.20.0",
   "description": "Service administration helpers for @esri/arcgis-rest-js",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/service-admin.umd.js",
@@ -13,13 +13,13 @@
     "dist/**"
   ],
   "dependencies": {
-    "@esri/arcgis-rest-types": "^2.18.0",
+    "@esri/arcgis-rest-types": "^2.20.0",
     "tslib": "^1.13.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^2.18.0",
-    "@esri/arcgis-rest-portal": "^2.18.0",
-    "@esri/arcgis-rest-request": "^2.18.0"
+    "@esri/arcgis-rest-auth": "^2.20.0",
+    "@esri/arcgis-rest-portal": "^2.20.0",
+    "@esri/arcgis-rest-request": "^2.20.0"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^2.0.0",
