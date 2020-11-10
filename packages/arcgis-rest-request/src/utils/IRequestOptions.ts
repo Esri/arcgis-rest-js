@@ -37,6 +37,14 @@ export interface IRequestOptions {
    */
   fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
   /**
+   * The implementation for converting parametrs into a query string. Defaults to `encodeQueryString` in this package.
+   */
+  encodeQueryString?: (params: any) => string;
+  /**
+   * The implementation for converting parametrs into a FormData. Defaults to `encodeFormData` in this package.
+   */
+  encodeFormData?: (params: any, forceFormData?: boolean) => FormData | string;
+  /**
    * If the length of a GET request's URL exceeds `maxUrlLength` the request will use POST instead.
    */
   maxUrlLength?: number;

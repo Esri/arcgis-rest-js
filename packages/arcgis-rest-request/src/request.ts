@@ -241,6 +241,14 @@ export function request(
     );
   }
 
+  // Check for custom encoders
+  if (!options.encodeQueryString) {
+    options.encodeQueryString = encodeQueryString;
+  }
+  if (!options.encodeFormData) {
+    options.encodeFormData = encodeFormData;
+  }
+
   const { httpMethod, authentication, rawResponse } = options;
 
   const params: IParams = {
@@ -285,21 +293,21 @@ export function request(
       const requestHeaders: {
         [key: string]: any;
       } = {};
-      
+
       if (fetchOptions.method === "GET") {
         // Prevents token from being passed in query params when hideToken option is used.
         /* istanbul ignore if - window is always defined in a browser. Test case is covered by Jasmine in node test */
-        if (params.token && options.hideToken && 
+        if (params.token && options.hideToken &&
           // Sharing API does not support preflight check required by modern browsers https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
           typeof window === 'undefined') {
           requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`
           delete params.token;
         }
         // encode the parameters into the query string
-        const queryParams = encodeQueryString(params);
+        const queryParams = options.encodeQueryString(params);
         // dont append a '?' unless parameters are actually present
         const urlWithQueryString =
-          queryParams === "" ? url : url + "?" + encodeQueryString(params);
+          queryParams === "" ? url : url + "?" + queryParams;
 
         if (
           // This would exceed the maximum length for URLs specified by the consumer and requires POST
@@ -330,7 +338,7 @@ export function request(
       const forceFormData = new RegExp("/items/.+/updateResources").test(url);
 
       if (fetchOptions.method === "POST") {
-        fetchOptions.body = encodeFormData(params, forceFormData);
+        fetchOptions.body = options.encodeFormData(params, forceFormData);
       }
 
       // Mixin headers from request options

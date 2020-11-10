@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, ErrorTypes, setDefaultRequestOptions } from "../src/index";
+import { request, ErrorTypes, encodeFormData, encodeQueryString, setDefaultRequestOptions } from "../src/index";
 import * as fetchMock from "fetch-mock";
 import {
   SharingRestInfo,
@@ -41,6 +41,57 @@ describe("request()", () => {
       .then(response => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json");
+        expect(options.method).toBe("GET");
+        expect(response).toEqual(SharingRestInfo);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should make a basic POST request with a custom FormData encoder", done => {
+    fetchMock.once("*", SharingRestInfo);
+
+    request("https://www.arcgis.com/sharing/rest/info", {
+      httpMethod: "POST",
+      encodeFormData: (params: any, forceFormData?: boolean) => {
+        const customParams = {
+          ...params,
+          custom: true
+        };
+        return encodeFormData(customParams);
+      }
+    })
+      .then(response => {
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
+        expect(options.method).toBe("POST");
+        expect(response).toEqual(SharingRestInfo);
+        expect(options.body).toContain("f=json");
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should make a basic GET request with a custom query string encoder", done => {
+    fetchMock.once("*", SharingRestInfo);
+
+    request("https://www.arcgis.com/sharing/rest/info", {
+      httpMethod: "GET",
+      encodeQueryString: (params: any) => {
+        const customParams = {
+          ...params,
+          custom: true
+        };
+        return encodeQueryString(customParams);
+      }
+    })
+      .then(response => {
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json&custom=true");
         expect(options.method).toBe("GET");
         expect(response).toEqual(SharingRestInfo);
         done();
@@ -300,7 +351,7 @@ describe("request()", () => {
       }
     };
 
-    const MockFetch = function() {
+    const MockFetch = function () {
       return Promise.resolve(MockFetchResponse);
     };
 
@@ -479,7 +530,7 @@ describe("request()", () => {
         }
       };
 
-      const MockFetch = function() {
+      const MockFetch = function () {
         return Promise.resolve(MockFetchResponse);
       };
 
