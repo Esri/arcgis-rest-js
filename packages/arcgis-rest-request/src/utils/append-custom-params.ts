@@ -19,7 +19,9 @@ export function appendCustomParams<T extends IRequestOptions>(
     "portal",
     "fetch",
     "maxUrlLength",
-    "headers"
+    "headers",
+    "encodeFormData",
+    "encodeQueryString"
   ];
 
   const options: T = {
