@@ -2,6 +2,7 @@
  * Apache-2.0 */
 
 import { processParams } from "./process-params";
+import { IParams } from "./IParams";
 
 export function encodeParam(key: string, value: any) {
   return encodeURIComponent(key) + "=" + encodeURIComponent(value);
@@ -13,7 +14,7 @@ export function encodeParam(key: string, value: any) {
  * @param params An object to be encoded.
  * @returns An encoded query string.
  */
-export function encodeQueryString(params: any): string {
+export function encodeQueryString(params: IParams): string {
   const newParams = processParams(params);
   return Object.keys(newParams)
     .map((key: any) => {

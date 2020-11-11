@@ -3,6 +3,8 @@
 
 import { processParams, requiresFormData } from "./process-params";
 import { encodeQueryString } from "./encode-query-string";
+import { IParams } from "./IParams";
+
 /**
  * Encodes parameters in a [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object in browsers or in a [FormData](https://github.com/form-data/form-data) in Node.js
  *
@@ -10,7 +12,7 @@ import { encodeQueryString } from "./encode-query-string";
  * @returns The complete [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object.
  */
 export function encodeFormData(
-  params: any,
+  params: IParams,
   forceFormData?: boolean
 ): FormData | string {
   // see https://github.com/Esri/arcgis-rest-js/issues/499 for more info.
