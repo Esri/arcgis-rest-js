@@ -1,5 +1,6 @@
 export * from "./create";
 export * from "./addTo";
+export * from "./update";
 export {
   IFeatureServiceDefinition,
   IExtent,
