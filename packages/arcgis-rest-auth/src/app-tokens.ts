@@ -71,12 +71,19 @@ export function platformSelf(
   redirectUri: string,
   portal: string = "https://www.arcgis.com/sharing/rest"
 ): Promise<IPlatformSelfResponse> {
-  const url = `${portal}/oauth2/platformSelf`;
+  // TEMPORARY: the f=json should not be needed, but currently is
+  const url = `${portal}/oauth2/platformSelf?f=json`;
   const ro = {
     method: "POST",
     headers: {
       "X-Esri-Auth-Client-Id": clientId,
       "X-Esri-Auth-Redirect-Uri": redirectUri,
+    },
+    // We need to ensure the cookies are sent as that's
+    // what the API uses to convert things
+    credentials: "include",
+    params: {
+      f: "json",
     },
   } as IRequestOptions;
   // make the request and return the token
