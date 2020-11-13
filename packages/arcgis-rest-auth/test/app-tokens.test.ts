@@ -47,7 +47,7 @@ describe("app-token functions: ", () => {
   describe("platformSelf:", () => {
     it("makes a request to /oauth2/platformSelf passing params", () => {
       const PLATFORM_SELF_URL =
-        "https://www.arcgis.com/sharing/rest/oauth2/platformSelf";
+        "https://www.arcgis.com/sharing/rest/oauth2/platformSelf?f=json";
       fetchMock.postOnce(PLATFORM_SELF_URL, {
         username: "jsmith",
         token: "APP-TOKEN",
@@ -73,7 +73,7 @@ describe("app-token functions: ", () => {
     });
     it("takes a portalUrl", () => {
       const PORTAL_BASE_URL = "https://my-portal.com/instance/sharing/rest";
-      const PORTAL_PLATFORM_SELF_URL = `${PORTAL_BASE_URL}/oauth2/platformSelf`;
+      const PORTAL_PLATFORM_SELF_URL = `${PORTAL_BASE_URL}/oauth2/platformSelf?f=json`;
       fetchMock.postOnce(PORTAL_PLATFORM_SELF_URL, {
         username: "jsmith",
         token: "APP-TOKEN",
