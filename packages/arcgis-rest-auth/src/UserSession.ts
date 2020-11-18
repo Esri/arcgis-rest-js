@@ -130,6 +130,13 @@ export interface IOAuth2Options {
   popup?: boolean;
 
   /**
+   * The window features passed to [window.open()](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) when `popup` is true. Defaults to `height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes`
+   *
+   * @browserOnly
+   */
+  popupWindowFeatures?: string;
+
+  /**
    * Duration (in minutes) that a refresh token will be valid.
    *
    * @nodeOnly
@@ -301,6 +308,7 @@ export class UserSession implements IAuthenticationManager {
       duration,
       redirectUri,
       popup,
+      popupWindowFeatures,
       state,
       locale,
       params,
@@ -310,6 +318,7 @@ export class UserSession implements IAuthenticationManager {
         provider: "arcgis",
         duration: 20160,
         popup: true,
+        popupWindowFeatures: "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes",
         state: options.clientId,
         locale: "",
       },
@@ -366,7 +375,7 @@ export class UserSession implements IAuthenticationManager {
     win.open(
       url,
       "oauth-window",
-      "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
+      popupWindowFeatures
     );
 
     return session.promise;
