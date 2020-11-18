@@ -130,7 +130,7 @@ export interface IOAuth2Options {
   popup?: boolean;
 
   /**
-   * The window features passed to window.open() when `popup` is true. Defaults to `height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes`
+   * The window features passed to [window.open()](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) when `popup` is true. Defaults to `height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes`
    *
    * @browserOnly
    */
