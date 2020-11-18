@@ -162,7 +162,8 @@
           arcgisRest.UserSession.beginOAuth2({
             clientId: clientId,
             redirectUri: redirect_uri + 'authenticate.html',
-            popup: true
+            popup: true,
+            popupWindowFeatures: getPopupWindowFeatures(500, 500)
           }).then(function (newSession) {
             // Upon a successful login, update the session with the new session.
             session = newSession;
@@ -173,6 +174,14 @@
           });
         }
       });
+
+      function getPopupWindowFeatures(w, h) {
+        w = w || 500, h = h || 500;
+        // centers popup
+        const y = window.top.outerHeight / 2 + window.top.screenY - h / 2;
+        const x = window.top.outerWidth / 2 + window.top.screenX - w / 2;
+        return 'toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=no,resizable=no,copyhistory=no,width=' + w + ',height=' + h + ',top=' + y + ',left=' + x;
+      }
 
       // Attach a listener to the sign in buttons.
       document.getElementById('inlineRedirectButton').addEventListener('click', function (event) {

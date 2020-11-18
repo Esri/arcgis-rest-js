@@ -187,6 +187,9 @@ export const getFeatureServiceResponse: ILayerDefinition = {
     supportsDistinct: true,
     supportsSqlExpression: true
   },
+  editingInfo: {
+    lastEditDate: (new Date()).getTime()
+  },
   extent: {
     xmin: -1.4842597721444273e7,
     ymin: -7250478.783951572,

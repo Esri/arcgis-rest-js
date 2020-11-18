@@ -14,14 +14,14 @@ export interface IExportLayerInfo {
 }
 
 export interface IExportParameters {
-  layers: IExportLayerInfo[];
+  layers?: IExportLayerInfo[];
   targetSR?: ISpatialReference | string;
 }
 
 export interface IExportItemRequestOptions extends IUserItemOptions {
   title?: string;
   exportFormat: ExportFormat;
-  exportParameters: IExportParameters;
+  exportParameters?: IExportParameters;
 }
 
 export interface IExportItemResponse {
