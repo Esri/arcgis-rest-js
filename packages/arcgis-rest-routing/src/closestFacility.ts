@@ -18,6 +18,7 @@ import {
   ARCGIS_ONLINE_CLOSEST_FACILITY_URL,
   IEndpointOptions,
   normalizeLocationsList,
+  isFeatureSet,
 } from "./helpers";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
@@ -26,18 +27,18 @@ export interface IClosestFacilityOptions extends IEndpointOptions {
   /**
    * Specify one or more locations from which the service searches for the nearby locations. These locations are referred to as incidents.
    */
-  incidents: Array<IPoint | ILocation | [number, number]>;
+  incidents: Array<IPoint | ILocation | [number, number]> | IFeatureSet;
 
   /**
    * Specify one or more locations that are searched for when finding the closest location.
    */
-  facilities: Array<IPoint | ILocation | [number, number]>;
+  facilities: Array<IPoint | ILocation | [number, number]> | IFeatureSet;
   /**
    *  Specify if the service should return routes.
    */
   returnCFRoutes: boolean;
   travelDirection?: "incidentsToFacilities" | "facilitiesToIncidents";
-  barriers?: Array<IPoint | ILocation | [number, number]>;
+  barriers?: Array<IPoint | ILocation | [number, number]> | IFeatureSet;
   polylineBarriers?: IFeatureSet;
   polygonBarriers?: IFeatureSet;
   returnDirections?: boolean;
@@ -141,26 +142,23 @@ export function closestFacility(
     ...requestOptions.params,
   };
 
-  const options = appendCustomParams<IClosestFacilityOptions>(
-    requestOptions,
-    [
-      "returnCFRoutes",
-      // "travelDirection",
-      "barriers",
-      "polylineBarriers",
-      "polygonBarriers",
-      "returnDirections",
-      "directionsOutputType",
-      "directionsLengthUnits",
-      "outputLines",
-      "returnFacilities",
-      "returnIncidents",
-      "returnBarriers",
-      "returnPolylineBarriers",
-      "returnPolygonBarriers",
-      "preserveObjectID"
-    ]
-  );
+  const options = appendCustomParams<IClosestFacilityOptions>(requestOptions, [
+    "returnCFRoutes",
+    // "travelDirection",
+    "barriers",
+    "polylineBarriers",
+    "polygonBarriers",
+    "returnDirections",
+    "directionsOutputType",
+    "directionsLengthUnits",
+    "outputLines",
+    "returnFacilities",
+    "returnIncidents",
+    "returnBarriers",
+    "returnPolylineBarriers",
+    "returnPolygonBarriers",
+    "preserveObjectID",
+  ]);
 
   // Set travelDirection
   if (requestOptions.travelDirection) {
@@ -178,17 +176,35 @@ export function closestFacility(
       "Finding the closest facility using the ArcGIS service requires authentication"
     );
   }
-  options.params.incidents = normalizeLocationsList(
-    requestOptions.incidents
-  ).join(";");
-  options.params.facilities = normalizeLocationsList(
-    requestOptions.facilities
-  ).join(";");
 
-  if (requestOptions.barriers) {
-    options.params.barriers = normalizeLocationsList(
-      requestOptions.barriers
+  if (isFeatureSet(requestOptions.incidents)) {
+    options.params.incidents = requestOptions.incidents;
+  } else {
+    options.params.incidents = normalizeLocationsList(
+      requestOptions.incidents
     ).join(";");
+  }
+
+  if (isFeatureSet(requestOptions.facilities)) {
+    options.params.facilities = requestOptions.facilities;
+  } else {
+    options.params.facilities = normalizeLocationsList(
+      requestOptions.facilities
+    ).join(";");
+  }
+
+  // optional input param that may need point geometry normalizing
+  if (requestOptions.barriers) {
+    if (isFeatureSet(requestOptions.barriers)) {
+      options.params.barriers = requestOptions.barriers;
+    } else {
+      // optional point geometry barriers must be normalized, too
+      // but not if provided as IFeatureSet type
+      // note that optional polylineBarriers and polygonBarriers do not need to be normalized
+      options.params.barriers = normalizeLocationsList(
+        requestOptions.barriers
+      ).join(";");
+    }
   }
 
   return request(`${cleanUrl(endpoint)}/solveClosestFacility`, options).then(

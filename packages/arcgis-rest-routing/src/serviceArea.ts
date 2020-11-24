@@ -18,6 +18,7 @@ import {
   ARCGIS_ONLINE_SERVICE_AREA_URL,
   IEndpointOptions,
   normalizeLocationsList,
+  isFeatureSet,
 } from "./helpers";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
@@ -26,12 +27,12 @@ export interface IServiceAreaOptions extends IEndpointOptions {
   /**
    *  Specify one or more locations around which service areas are generated.
    */
-  facilities: Array<IPoint | ILocation | [number, number]>;
+  facilities: Array<IPoint | ILocation | [number, number]> | IFeatureSet;
   /**
    *  Specify if the service should return routes.
    */
   travelDirection?: "incidentsToFacilities" | "facilitiesToIncidents";
-  barriers?: Array<IPoint | ILocation | [number, number]>;
+  barriers?: Array<IPoint | ILocation | [number, number]> | IFeatureSet;
   polylineBarriers?: IFeatureSet;
   polygonBarriers?: IFeatureSet;
   outputLines?: boolean;
@@ -89,9 +90,8 @@ function getTravelDirection(
 export function serviceArea(
   requestOptions: IServiceAreaOptions
 ): Promise<IServiceAreaResponse> {
-  const endpoint =
-    requestOptions.endpoint || ARCGIS_ONLINE_SERVICE_AREA_URL;
-  
+  const endpoint = requestOptions.endpoint || ARCGIS_ONLINE_SERVICE_AREA_URL;
+
   requestOptions.params = {
     returnFacilities: true,
     returnBarriers: true,
@@ -100,21 +100,18 @@ export function serviceArea(
     preserveObjectID: true,
     ...requestOptions.params,
   };
-  
-  const options = appendCustomParams<IServiceAreaOptions>(
-    requestOptions,
-    [
-      "barriers",
-      "polylineBarriers",
-      "polygonBarriers",
-      "outputLines",
-      "returnFacilities",
-      "returnBarriers",
-      "returnPolylineBarriers",
-      "returnPolygonBarriers",
-      "preserveObjectID",
-    ]
-  );
+
+  const options = appendCustomParams<IServiceAreaOptions>(requestOptions, [
+    "barriers",
+    "polylineBarriers",
+    "polygonBarriers",
+    "outputLines",
+    "returnFacilities",
+    "returnBarriers",
+    "returnPolylineBarriers",
+    "returnPolygonBarriers",
+    "preserveObjectID",
+  ]);
 
   // Set travelDirection
   if (requestOptions.travelDirection) {
@@ -132,14 +129,27 @@ export function serviceArea(
       "Finding service areas using the ArcGIS service requires authentication"
     );
   }
-  options.params.facilities = normalizeLocationsList(
-    requestOptions.facilities
-  ).join(";");
 
-  if (requestOptions.barriers) {
-    options.params.barriers = normalizeLocationsList(
-      requestOptions.barriers
+  if (isFeatureSet(requestOptions.facilities)) {
+    options.params.facilities = requestOptions.facilities;
+  } else {
+    options.params.facilities = normalizeLocationsList(
+      requestOptions.facilities
     ).join(";");
+  }
+
+  // optional input param that may need point geometry normalizing
+  if (requestOptions.barriers) {
+    if (isFeatureSet(requestOptions.barriers)) {
+      options.params.barriers = requestOptions.barriers;
+    } else {
+      // optional point geometry barriers must be normalized, too
+      // but not if provided as IFeatureSet type
+      // note that optional polylineBarriers and polygonBarriers do not need to be normalized
+      options.params.barriers = normalizeLocationsList(
+        requestOptions.barriers
+      ).join(";");
+    }
   }
 
   return request(`${cleanUrl(endpoint)}/solveServiceArea`, options).then(

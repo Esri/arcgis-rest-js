@@ -15,6 +15,7 @@ import {
   ARCGIS_ONLINE_ROUTING_URL,
   IEndpointOptions,
   decompressGeometry,
+  isFeatureSet,
 } from "./helpers";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
@@ -31,9 +32,9 @@ export interface ISolveRouteOptions extends IEndpointOptions {
   /**
    * Specify two or more locations between which the route is to be found.
    */
-  stops: Array<
-    IPoint | ILocation | [number, number] | [number, number, number]
-  >;
+  stops:
+    | Array<IPoint | ILocation | [number, number] | [number, number, number]>
+    | IFeatureSet;
 }
 
 export interface ISolveRouteResponse {
@@ -104,27 +105,32 @@ export function solveRoute(
     );
   }
 
-  const stops: string[] = requestOptions.stops.map((coords) => {
-    if (isLocationArray(coords)) {
-      return coords.join();
-    } else if (isLocation(coords)) {
-      if (coords.lat) {
-        return (
-          coords.long + "," + coords.lat + (coords.z ? "," + coords.z : "")
-        );
+  if (isFeatureSet(requestOptions.stops)) {
+    options.params.stops = requestOptions.stops;
+  } else {
+    const stops: string[] = requestOptions.stops.map((coords) => {
+      if (isLocationArray(coords)) {
+        return coords.join();
+      } else if (isLocation(coords)) {
+        if (coords.lat) {
+          return (
+            coords.long + "," + coords.lat + (coords.z ? "," + coords.z : "")
+          );
+        } else {
+          return (
+            coords.longitude +
+            "," +
+            coords.latitude +
+            (coords.z ? "," + coords.z : "")
+          );
+        }
       } else {
-        return (
-          coords.longitude +
-          "," +
-          coords.latitude +
-          (coords.z ? "," + coords.z : "")
-        );
+        return coords.x + "," + coords.y + (coords.z ? "," + coords.z : "");
       }
-    } else {
-      return coords.x + "," + coords.y + (coords.z ? "," + coords.z : "");
-    }
-  });
-  options.params.stops = stops.join(";");
+    });
+
+    options.params.stops = stops.join(";");
+  }
 
   return request(`${cleanUrl(options.endpoint)}/solve`, options).then(
     cleanResponse

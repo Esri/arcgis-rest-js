@@ -6,19 +6,21 @@ import { originDestinationMatrix } from "../src/originDestinationMatrix";
 import * as fetchMock from "fetch-mock";
 
 import {
+  barriers,
+  barriersFeatureSet,
+  polylineBarriers,
+  polygonBarriers,
+} from "./mocks/inputs";
+
+import {
   OriginDestinationMatrix,
   OriginDestinationMatrix_esriNAODOutputStraightLines,
   OriginDestinationMatrix_esriNAODOutputNoLines,
   OriginDestinationMatrix_AllBarrierTypes,
   OriginDestinationMatrix_AllBarrierTypes_WebMercator,
 } from "./mocks/responses";
-import {
-  IPoint,
-  ILocation,
-  IFeatureSet,
-  IPolyline,
-  IPolygon,
-} from "@esri/arcgis-rest-types";
+
+import { IPoint, ILocation, IFeatureSet } from "@esri/arcgis-rest-types";
 
 // variations on `origins` and `destinations` required input params
 
@@ -96,97 +98,55 @@ const destinationsPoint: IPoint[] = [
   },
 ];
 
-// optional input params
-
-const barriers: IPoint[] = [
-  { x: -117.1957, y: 34.0564 },
-  { x: -117.184, y: 34.0546 },
-];
-
-const polylineBarriers: IFeatureSet = {
+const originsFeatureSet: IFeatureSet = {
+  spatialReference: {
+    wkid: 102100,
+  },
   features: [
     {
       geometry: {
-        paths: [
-          [
-            [-10804823.397, 3873688.372],
-            [-10804811.152, 3873025.945],
-          ],
-        ],
-        spatialReference: {
-          wkid: 102100,
-        },
-      } as IPolyline,
+        x: -13635398.9398,
+        y: 4544699.034400001,
+      } as IPoint,
       attributes: {
-        Name: "Barrier 1",
+        Name: "123 Main St",
+        TargetDestinationCount: 1,
       },
     },
     {
       geometry: {
-        paths: [
-          [
-            [-10804823.397, 3873688.372],
-            [-10804807.813, 3873290.911],
-            [-10804811.152, 3873025.945],
-          ],
-          [
-            [-10805032.678, 3863358.76],
-            [-10805001.508, 3862829.281],
-          ],
-        ],
-        spatialReference: {
-          wkid: 102100,
-        },
-      } as IPolyline,
+        x: -13632733.3441,
+        y: 4547651.028300002,
+      } as IPoint,
       attributes: {
-        Name: "Barrier 2",
+        Name: "845 Mulberry St",
+        TargetDestinationCount: 2,
       },
     },
   ],
 };
 
-const polygonBarriers: IFeatureSet = {
+const destinationsFeatureSet: IFeatureSet = {
+  spatialReference: {
+    wkid: 102100,
+  },
   features: [
     {
       geometry: {
-        rings: [
-          [
-            [-97.0634, 32.8442],
-            [-97.0554, 32.84],
-            [-97.0558, 32.8327],
-            [-97.0638, 32.83],
-            [-97.0634, 32.8442],
-          ],
-        ],
-      } as IPolygon,
+        x: -13635398.9398,
+        y: 4544699.034400001,
+      } as IPoint,
       attributes: {
-        Name: "Flood zone",
-        BarrierType: 0,
+        Name: "Store 45",
       },
     },
     {
       geometry: {
-        rings: [
-          [
-            [-97.0803, 32.8235],
-            [-97.0776, 32.8277],
-            [-97.074, 32.8254],
-            [-97.0767, 32.8227],
-            [-97.0803, 32.8235],
-          ],
-          [
-            [-97.0871, 32.8311],
-            [-97.0831, 32.8292],
-            [-97.0853, 32.8259],
-            [-97.0892, 32.8279],
-            [-97.0871, 32.8311],
-          ],
-        ],
-      } as IPolygon,
+        x: -13632733.3441,
+        y: 4547651.028300002,
+      } as IPoint,
       attributes: {
-        Name: "Severe weather zone",
-        BarrierType: 1,
-        Attr_TravelTime: 3,
+        Name: "Store 67",
       },
     },
   ],
@@ -349,14 +309,12 @@ describe("originDestinationMatrix", () => {
         outSR: 102100,
       },
       authentication: MOCK_AUTH,
-      endpoint: 'https://esri.com/test'
+      endpoint: "https://esri.com/test",
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://esri.com/test/solveODCostMatrix"
-        );
+        expect(url).toEqual("https://esri.com/test/solveODCostMatrix");
         done();
       })
       .catch((e) => {
@@ -463,6 +421,39 @@ describe("originDestinationMatrix", () => {
       });
   });
 
+  it("should make a simple originDestinationMatrix request (FeatureSet)", (done) => {
+    fetchMock.once("*", OriginDestinationMatrix);
+
+    const MOCK_AUTH = {
+      getToken() {
+        return Promise.resolve("token");
+      },
+      portal: "https://mapsdev.arcgis.com",
+    };
+
+    originDestinationMatrix({
+      origins: originsFeatureSet,
+      destinations: destinationsFeatureSet,
+      authentication: MOCK_AUTH,
+    })
+      .then((response) => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(options.body).toContain(
+          `origins=${encodeURIComponent(JSON.stringify(originsFeatureSet))}`
+        );
+        expect(options.body).toContain(
+          `destinations=${encodeURIComponent(
+            JSON.stringify(destinationsFeatureSet)
+          )}`
+        );
+        done();
+      })
+      .catch((e) => {
+        fail(e);
+      });
+  });
+
   it("should include proper outputType (esriNAODOutputSparseMatrix)", (done) => {
     fetchMock.once("*", OriginDestinationMatrix);
 
@@ -549,7 +540,7 @@ describe("originDestinationMatrix", () => {
       });
   });
 
-  it("should pass simple barriers", (done) => {
+  it("should pass point barriers (array of IPoint)", (done) => {
     fetchMock.once("*", OriginDestinationMatrix);
 
     const MOCK_AUTH = {
@@ -570,6 +561,35 @@ describe("originDestinationMatrix", () => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `barriers=${encodeURIComponent("-117.1957,34.0564;-117.184,34.0546")}`
+        );
+        done();
+      })
+      .catch((e) => {
+        fail(e);
+      });
+  });
+
+  it("should pass point barriers (FeatureSet)", (done) => {
+    fetchMock.once("*", OriginDestinationMatrix);
+
+    const MOCK_AUTH = {
+      getToken() {
+        return Promise.resolve("token");
+      },
+      portal: "https://mapsdev.arcgis.com",
+    };
+
+    originDestinationMatrix({
+      origins: origins,
+      destinations: destinations,
+      barriers: barriersFeatureSet,
+      authentication: MOCK_AUTH,
+    })
+      .then((response) => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(options.body).toContain(
+          `barriers=${encodeURIComponent(JSON.stringify(barriersFeatureSet))}`
         );
         done();
       })

@@ -19,6 +19,7 @@ import {
   ARCGIS_ONLINE_ORIGIN_DESTINATION_MATRIX_URL,
   IEndpointOptions,
   normalizeLocationsList,
+  isFeatureSet,
 } from "./helpers";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
@@ -27,11 +28,11 @@ export interface IOriginDestinationMatrixOptions extends IEndpointOptions {
   /**
    *  Specify the starting points from which to travel to the destinations.
    */
-  origins: Array<IPoint | ILocation | [number, number]>; // TODO: but these can also be IFeatureSet; what does that mean for the type and subsequent `normalizeLocationsList()`?
+  origins: Array<IPoint | ILocation | [number, number]> | IFeatureSet;
   /**
    *  Specify the ending point locations to travel to from the origins.
    */
-  destinations: Array<IPoint | ILocation | [number, number]>; // TODO: but these can also be IFeatureSet; what does that mean for the type and subsequent `normalizeLocationsList()`?
+  destinations: Array<IPoint | ILocation | [number, number]> | IFeatureSet;
   /**
    *  Specify the type of output returned by the service. Defaults to "esriNAODOutputSparseMatrix".
    */
@@ -39,7 +40,7 @@ export interface IOriginDestinationMatrixOptions extends IEndpointOptions {
     | "esriNAODOutputSparseMatrix"
     | "esriNAODOutputStraightLines"
     | "esriNAODOutputNoLines";
-  barriers?: Array<IPoint | ILocation | [number, number]>;
+  barriers?: Array<IPoint | ILocation | [number, number]> | IFeatureSet;
   polylineBarriers?: IFeatureSet;
   polygonBarriers?: IFeatureSet;
   returnOrigins?: boolean;
@@ -136,19 +137,34 @@ export function originDestinationMatrix(
   }
 
   // use a formatting helper for input params of this type: Array<IPoint | ILocation | [number, number]>
-  options.params.origins = normalizeLocationsList(requestOptions.origins).join(
-    ";"
-  );
-
-  options.params.destinations = normalizeLocationsList(
-    requestOptions.destinations
-  ).join(";");
-
-  // point geometry barriers must be normalized, too (but not polylineBarriers or polygonBarriers)
-  if (requestOptions.barriers) {
-    options.params.barriers = normalizeLocationsList(
-      requestOptions.barriers
+  if (isFeatureSet(requestOptions.origins)) {
+    options.params.origins = requestOptions.origins;
+  } else {
+    options.params.origins = normalizeLocationsList(
+      requestOptions.origins
     ).join(";");
+  }
+
+  if (isFeatureSet(requestOptions.destinations)) {
+    options.params.destinations = requestOptions.destinations;
+  } else {
+    options.params.destinations = normalizeLocationsList(
+      requestOptions.destinations
+    ).join(";");
+  }
+
+  // optional input param that may need point geometry normalizing
+  if (requestOptions.barriers) {
+    if (isFeatureSet(requestOptions.barriers)) {
+      options.params.barriers = requestOptions.barriers;
+    } else {
+      // optional point geometry barriers must be normalized, too
+      // but not if provided as IFeatureSet type
+      // note that optional polylineBarriers and polygonBarriers do not need to be normalized
+      options.params.barriers = normalizeLocationsList(
+        requestOptions.barriers
+      ).join(";");
+    }
   }
 
   return request(`${cleanUrl(endpoint)}/solveODCostMatrix`, options).then(

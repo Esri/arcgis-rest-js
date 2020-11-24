@@ -7,6 +7,7 @@ import {
   IPoint,
   IPolyline,
   Position2D,
+  IFeatureSet
 } from "@esri/arcgis-rest-types";
 
 // https always
@@ -94,4 +95,11 @@ export function decompressGeometry(str: string) {
   return {
     paths: [points],
   } as IPolyline;
+}
+
+/**
+ * User Defined Type Guard that verifies this is a featureSet
+ */
+export function isFeatureSet(arg: any): arg is IFeatureSet {
+  return arg.hasOwnProperty('features');
 }

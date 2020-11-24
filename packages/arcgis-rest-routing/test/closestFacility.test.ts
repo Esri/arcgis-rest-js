@@ -5,7 +5,15 @@ import { closestFacility } from "../src/closestFacility";
 
 import * as fetchMock from "fetch-mock";
 
+import {
+  barriers,
+  barriersFeatureSet,
+  polylineBarriers,
+  polygonBarriers,
+} from "./mocks/inputs";
+
 import { ClosestFacility, ClosestFacilityWebMercator } from "./mocks/responses";
+
 import {
   IPoint,
   ILocation,
@@ -88,95 +96,59 @@ const facilitiesPoint: IPoint[] = [
   },
 ];
 
-const barriers: IPoint[] = [
-  { x: -117.1957, y: 34.0564 },
-  { x: -117.184, y: 34.0546 },
-];
+const incidentsFeatureSet: IFeatureSet = {
+  spatialReference: {
+    wkid: 4326,
+  },
 
-const polylineBarriers: IFeatureSet = {
   features: [
     {
       geometry: {
-        paths: [
-          [
-            [-10804823.397, 3873688.372],
-            [-10804811.152, 3873025.945],
-          ],
-        ],
-        spatialReference: {
-          wkid: 102100,
-        },
-      } as IPolyline,
+        x: -122.4079,
+        y: 37.78356,
+      } as IPoint,
       attributes: {
-        Name: "Barrier 1",
+        Name: "Fire Incident 1",
+        Attr_TravelTime: 4,
       },
     },
     {
       geometry: {
-        paths: [
-          [
-            [-10804823.397, 3873688.372],
-            [-10804807.813, 3873290.911],
-            [-10804811.152, 3873025.945],
-          ],
-          [
-            [-10805032.678, 3863358.76],
-            [-10805001.508, 3862829.281],
-          ],
-        ],
-        spatialReference: {
-          wkid: 102100,
-        },
-      } as IPolyline,
+        x: -122.404,
+        y: 37.782,
+      } as IPoint,
       attributes: {
-        Name: "Barrier 2",
+        Name: "Crime Incident 45",
+        Attr_TravelTime: 5,
       },
     },
   ],
 };
 
-const polygonBarriers: IFeatureSet = {
+const facilitiesFeatureSet: IFeatureSet = {
+  spatialReference: {
+    wkid: 4326,
+  },
+
   features: [
     {
       geometry: {
-        rings: [
-          [
-            [-97.0634, 32.8442],
-            [-97.0554, 32.84],
-            [-97.0558, 32.8327],
-            [-97.0638, 32.83],
-            [-97.0634, 32.8442],
-          ],
-        ],
-      } as IPolygon,
+        x: -122.4079,
+        y: 37.78356,
+      } as IPoint,
       attributes: {
-        Name: "Flood zone",
-        BarrierType: 0,
+        Name: "Fire Station 34",
+        Attr_TravelTime: 4,
       },
     },
     {
       geometry: {
-        rings: [
-          [
-            [-97.0803, 32.8235],
-            [-97.0776, 32.8277],
-            [-97.074, 32.8254],
-            [-97.0767, 32.8227],
-            [-97.0803, 32.8235],
-          ],
-          [
-            [-97.0871, 32.8311],
-            [-97.0831, 32.8292],
-            [-97.0853, 32.8259],
-            [-97.0892, 32.8279],
-            [-97.0871, 32.8311],
-          ],
-        ],
-      } as IPolygon,
+        x: -122.404,
+        y: 37.782,
+      } as IPoint,
       attributes: {
-        Name: "Severe weather zone",
-        BarrierType: 1,
-        Attr_TravelTime: 3,
+        Name: "Fire Station 29",
+        Attr_TravelTime: 5,
       },
     },
   ],
@@ -264,7 +236,7 @@ describe("closestFacility", () => {
       incidents,
       facilities,
       params: {
-        outSR: 102100
+        outSR: 102100,
       },
       returnCFRoutes: true,
       authentication: MOCK_AUTH,
@@ -429,6 +401,40 @@ describe("closestFacility", () => {
       });
   });
 
+  it("should make a simple closestFacility request (FeatureSet)", (done) => {
+    fetchMock.once("*", ClosestFacility);
+
+    const MOCK_AUTH = {
+      getToken() {
+        return Promise.resolve("token");
+      },
+      portal: "https://mapsdev.arcgis.com",
+    };
+
+    closestFacility({
+      incidents: incidentsFeatureSet,
+      facilities: facilitiesFeatureSet,
+      returnCFRoutes: true,
+      authentication: MOCK_AUTH,
+    })
+      .then((response) => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(options.body).toContain(
+          `incidents=${encodeURIComponent(JSON.stringify(incidentsFeatureSet))}`
+        );
+        expect(options.body).toContain(
+          `facilities=${encodeURIComponent(
+            JSON.stringify(facilitiesFeatureSet)
+          )}`
+        );
+        done();
+      })
+      .catch((e) => {
+        fail(e);
+      });
+  });
+
   it("should include proper travelDirection", (done) => {
     fetchMock.once("*", ClosestFacility);
 
@@ -489,7 +495,7 @@ describe("closestFacility", () => {
       });
   });
 
-  it("should pass simple barriers", (done) => {
+  it("should pass point barriers (array of IPoint)", (done) => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -511,6 +517,36 @@ describe("closestFacility", () => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `barriers=${encodeURIComponent("-117.1957,34.0564;-117.184,34.0546")}`
+        );
+        done();
+      })
+      .catch((e) => {
+        fail(e);
+      });
+  });
+
+  it("should pass point barriers (FeatureSet)", (done) => {
+    fetchMock.once("*", ClosestFacility);
+
+    const MOCK_AUTH = {
+      getToken() {
+        return Promise.resolve("token");
+      },
+      portal: "https://mapsdev.arcgis.com",
+    };
+
+    closestFacility({
+      incidents: incidentsPoint,
+      facilities: facilitiesPoint,
+      returnCFRoutes: true,
+      barriers: barriersFeatureSet,
+      authentication: MOCK_AUTH,
+    })
+      .then((response) => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(options.body).toContain(
+          `barriers=${encodeURIComponent(JSON.stringify(barriersFeatureSet))}`
         );
         done();
       })
