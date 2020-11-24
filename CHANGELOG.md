@@ -5,8 +5,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [2.22.0] - November 18th 2020
 
+### @esri/arcgis-rest-auth
+
+* New Features
+   * **UserSession**: added optional &amp;#39;popupWindowFeatures&amp;#39; to &amp;#39;IOAuth2Options&amp;#39; [`f96a5810`](https://github.com/Esri/arcgis-rest-js/commit/f96a581033513c9a546998bc37254a46e364f153)
+
+### @esri/arcgis-rest-request
+
+* Bug Fixes
+   * **processParams**: Support array of arrays [`08208d37`](https://github.com/Esri/arcgis-rest-js/commit/fd3b1a999f63a62d50d60b2b1f6b775d482be85c)
+
+## [2.21.0] - November 11th 2020
+
+### @esri/arcgis-rest-feature-layer
+
+* New Features
+   * **arcgis-rest-types**: add editingInfo to ILayerDefinition [`e5467f0b`](https://github.com/Esri/arcgis-rest-js/commit/e5467f0bcc611cd9b928c2f0dd46567794a699c5)
+
+### @esri/arcgis-rest-portal
+
+* Bug Fixes
+   * **arcgis-rest-portal**: make \`layers\` parameter of \`IExportParameters\` optional [`0b584e66`](https://github.com/Esri/arcgis-rest-js/commit/0b584e66396a9559248e597ec44b256f95fc58e7)
+
+### @esri/arcgis-rest-service-admin
+
+* New Features
+   * **service-admin**: add updateServiceDefinition method [`63c2bc09`](https://github.com/Esri/arcgis-rest-js/commit/63c2bc09f3c06387f8aabc00be2a84ec2f71e35b)
+
+### @esri/arcgis-rest-types
+
+* New Features
+   * **arcgis-rest-types**: add editingInfo to ILayerDefinition [`e5467f0b`](https://github.com/Esri/arcgis-rest-js/commit/e5467f0bcc611cd9b928c2f0dd46567794a699c5)
+
+### Other Changes
+
+* New Features
+   * **arcgis-rest-auth**: add validateAppAccess function and UserSession method [`2478ea56`](https://github.com/Esri/arcgis-rest-js/commit/2478ea56d43302d3f7fab6ffd38a9d2c609bb510)
+   * **auth**: add functions to help with removal of esri_auth cookie [`eb5abae9`](https://github.com/Esri/arcgis-rest-js/commit/eb5abae90904f36d800bcb7eca5cbebe264a48a8)
+   * **service-admin**: add updateServiceDefinition method [`ed3e37f6`](https://github.com/Esri/arcgis-rest-js/commit/ed3e37f61589cc7f153d66d3fac46f49a64a50f0)
 
 ## [2.20.0] - October 20th 2020
 
@@ -23,7 +61,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/arcgis-rest-portal
 
 * Bug Fixes
-   * **arcgis-rest-portal**: do not do any membership adjustments if the group is the user&amp;amp;#39;s favorites g [`6fc8ada6`](https://github.com/Esri/arcgis-rest-js/commit/6fc8ada666e2ac6388418d3416db13a40c299757)
+   * **arcgis-rest-portal**: do not do any membership adjustments if the group is the user&amp;amp;amp;amp;#39;s favorites g [`6fc8ada6`](https://github.com/Esri/arcgis-rest-js/commit/6fc8ada666e2ac6388418d3416db13a40c299757)
 
 ## [2.19.1] - October 2nd 2020
 
@@ -1778,4 +1816,6 @@ Initial Public Release
 [2.19.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.0...v2.19.1 "v2.19.1"
 [2.19.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.1...v2.19.2 "v2.19.2"
 [2.20.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.2...v2.20.0 "v2.20.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.20.0...HEAD "Unreleased Changes"
+[2.21.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.20.0...v2.21.0 "v2.21.0"
+[2.22.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.21.0...v2.22.0 "v2.22.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.22.0...HEAD "Unreleased Changes"
