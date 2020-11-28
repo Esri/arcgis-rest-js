@@ -23,6 +23,6 @@ export interface IGeoenrichmentResult {
   dataType: string;
   value: {
     version: string;
-    FeatureSet: IFeatureSet;
+    FeatureSet: IFeatureSet[];
   };
 }
