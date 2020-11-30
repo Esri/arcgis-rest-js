@@ -79,9 +79,8 @@ export function platformSelf(
       "X-Esri-Auth-Client-Id": clientId,
       "X-Esri-Auth-Redirect-Uri": redirectUri,
     },
-    // We need to ensure the cookies are sent as that's
-    // what the API uses to convert things
-    credentials: "include",
+    // Note: request has logic to include the cookie
+    // for platformSelf calls w/ the X-Esri-Auth-Client-Id header
     params: {
       f: "json",
     },
