@@ -60,9 +60,10 @@
     "typescript": "^3.0.0"
   },
   "dependencies": {
-    "isomorphic-form-data": "^2.0.0",
     "cross-fetch": "^3.0.0",
+    "dotenv": "^8.2.0",
     "isomorphic-fetch": "*",
+    "isomorphic-form-data": "^2.0.0",
     "tslib": "^1.13.0"
   },
   "lint-staged": {
@@ -82,7 +83,9 @@
     "test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.js",
     "test:firefox": "karma start --single-run --browsers=Firefox",
     "test:node": "jasmine --config=jasmine.json",
+    "test:node:live": "jasmine --config=jasmine.live.json",
     "test:node:debug": "inspect jasmine --config=jasmine.json",
+    "test:node:live:debug": "inspect jasmine --config=jasmine.live.json",
     "test:ci": "npm run lint && npm run test:node && npm run test:chrome:ci && npm run test:firefox",
     "test:all": "npm run test:node && npm run test:firefox && npm run test:chrome",
     "docs:build": "rimraf docs/build && npm run docs:typedoc && npm run docs:build:acetate && npm run docs:build:sass && npm run docs:build:images && npm run docs:build:js",
