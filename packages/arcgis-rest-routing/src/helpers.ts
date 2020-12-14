@@ -67,8 +67,9 @@ export function normalizeLocationsList(
 export function decompressGeometry(str: string) {
   let xDiffPrev = 0;
   let yDiffPrev = 0;
-  let points = [];
-  let x, y;
+  const points = [];
+  let x;
+  let y;
   let strings;
   let coefficient;
 

@@ -465,8 +465,8 @@ describe("originDestinationMatrix", () => {
     };
 
     originDestinationMatrix({
-      origins: origins,
-      destinations: destinations,
+      origins,
+      destinations,
       outputType: "esriNAODOutputSparseMatrix",
       authentication: MOCK_AUTH,
     })
@@ -493,8 +493,8 @@ describe("originDestinationMatrix", () => {
     };
 
     originDestinationMatrix({
-      origins: origins,
-      destinations: destinations,
+      origins,
+      destinations,
       outputType: "esriNAODOutputStraightLines",
       authentication: MOCK_AUTH,
     })
@@ -523,8 +523,8 @@ describe("originDestinationMatrix", () => {
     };
 
     originDestinationMatrix({
-      origins: origins,
-      destinations: destinations,
+      origins,
+      destinations,
       outputType: "esriNAODOutputNoLines",
       authentication: MOCK_AUTH,
     })
@@ -551,8 +551,8 @@ describe("originDestinationMatrix", () => {
     };
 
     originDestinationMatrix({
-      origins: origins,
-      destinations: destinations,
+      origins,
+      destinations,
       barriers,
       authentication: MOCK_AUTH,
     })
@@ -580,8 +580,8 @@ describe("originDestinationMatrix", () => {
     };
 
     originDestinationMatrix({
-      origins: origins,
-      destinations: destinations,
+      origins,
+      destinations,
       barriers: barriersFeatureSet,
       authentication: MOCK_AUTH,
     })
@@ -609,8 +609,8 @@ describe("originDestinationMatrix", () => {
     };
 
     originDestinationMatrix({
-      origins: origins,
-      destinations: destinations,
+      origins,
+      destinations,
       polylineBarriers,
       authentication: MOCK_AUTH,
     })
@@ -640,8 +640,8 @@ describe("originDestinationMatrix", () => {
     };
 
     originDestinationMatrix({
-      origins: origins,
-      destinations: destinations,
+      origins,
+      destinations,
       polygonBarriers,
       authentication: MOCK_AUTH,
     })
@@ -671,11 +671,11 @@ describe("originDestinationMatrix", () => {
     };
 
     originDestinationMatrix({
-      origins: origins,
-      destinations: destinations,
-      barriers: barriers,
-      polylineBarriers: polylineBarriers,
-      polygonBarriers: polygonBarriers,
+      origins,
+      destinations,
+      barriers,
+      polylineBarriers,
+      polygonBarriers,
       authentication: MOCK_AUTH,
     })
       .then((response) => {
@@ -757,11 +757,11 @@ describe("originDestinationMatrix", () => {
     };
 
     originDestinationMatrix({
-      origins: origins,
-      destinations: destinations,
-      barriers: barriers,
-      polylineBarriers: polylineBarriers,
-      polygonBarriers: polygonBarriers,
+      origins,
+      destinations,
+      barriers,
+      polylineBarriers,
+      polygonBarriers,
       authentication: MOCK_AUTH,
       params: {
         outSR: 102100,
