@@ -33,6 +33,10 @@ export interface IApplyEditsOptions extends ISharedEditOptions {
    */
   useGlobalIds?: boolean;
   /**
+   * Optional parameter which is false by default is set by client to indicate to the server that client in true curve capable.
+   */
+  trueCurveClient?: boolean;
+  /**
    * Use the attachments parameter to add, update or delete attachments. Applies only when the useGlobalIds parameter is set to true.
    * See [attachment](https://developers.arcgis.com/rest/services-reference/apply-edits-feature-service-layer-.htm) param details.
    */
@@ -81,7 +85,8 @@ export function applyEdits(
       "attachments",
       "gdbVersion",
       "returnEditMoment",
-      "rollbackOnFailure"
+      "rollbackOnFailure",
+      "trueCurveClient",
     ],
     { params: { ...requestOptions.params } }
   );
