@@ -8,4 +8,5 @@ export * from "./generate-token";
 export * from "./authenticated-request-options";
 export { IUser } from "@esri/arcgis-rest-types";
 export * from "./app-tokens";
+
 export * from "./validate-app-access";
