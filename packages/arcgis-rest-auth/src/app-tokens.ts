@@ -40,9 +40,23 @@ export function exchangeToken(
   return request(url, ro).then((response) => response.token);
 }
 
+/**
+ * Response from the `platformSelf(...)` function.
+ */
 export interface IPlatformSelfResponse {
+  /**
+   * Username of the user the encrypted cookie was issued for
+   */
   username: string;
+  /**
+   * Token the consuming application can use, It is tied to the
+   * clientId used in the `platformSelf` call
+   */
   token: string;
+  /**
+   * Token expiration, in seconds-from-now
+   */
+  expires_in: number;
 }
 
 /**
@@ -62,6 +76,33 @@ export interface IPlatformSelfResponse {
  *
  * Note: This is only usable by Esri applications hosted on *arcgis.com, *esri.com or within
  * an ArcGIS Enterprise installation. Custom applications can not use this.
+ *
+ * ```js
+ * // convert the encrypted platform cookie into a UserSession
+ * import { platformSelf, UserSession } from '@esri/arcgis-rest-auth';
+ *
+ * const portal = 'https://www.arcgis.com/sharing/rest';
+ * const clientId = 'YOURAPPCLIENID';
+ *
+ * // exchange esri_aopc cookie
+ * return platformSelf(clientId, 'https://your-app-redirect-uri', portal)
+ * .then((response) => {
+ *  const currentTimestamp = new Date().getTime();
+ *  const tokenExpiresTimestamp = currentTimestamp + (response.expires_in * 1000);
+ *  // Construct the session and return it
+ *  return new UserSession({
+ *    portal,
+ *    clientId,
+ *    username: response.username,
+ *    token: response.token,
+ *    tokenExpires: new Date(tokenExiresTimestamp),
+ *    ssl: true
+ *  });
+ * })
+ *
+ * ```
+ *
+ *
  * @param clientId
  * @param redirectUri
  * @param portal
