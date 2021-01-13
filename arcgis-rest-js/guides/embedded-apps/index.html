@@ -136,9 +136,9 @@ UserSession.beginOAuth2({
 });
 </code></pre>
 <h4>2 Host App adds params to embed url</h4>
-<p>Let's suppose the host app is embedding <code>https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd</code>. To tell the embedded app that it should request authentication from the parent we need to add two url parameters:</p>
+<p>Let's suppose the host app is embedding <code>https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd</code>. To tell the embedded app that it should request authentication from the parent we need to add a url parameter:</p>
 <ul>
-<li><code>arcgis-auth-origin=https://myapp.com</code> - This tells the app it's embedded in an iframe and should request auth from the parent, and what 'origin' to expect messages from, what origin to post messages to, and also to ignore other origins. <strong>note</strong> this should be uri encoded</li>
+<li><code>arcgis-auth-origin=https://myapp.com</code> - This tells the app it's embedded in an iframe and should request auth from the parent, and what 'origin' to expect messages from, what origin to post messages to, and also to ignore other origins. <strong>note</strong> the uri must encoded via <code>encodeURIComponent()</code> as shown below</li>
 </ul>
 <pre><code class="js"><span class="hljs-keyword">const</span> originalUrl =
   <span class="hljs-string">"https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd"</span>;
