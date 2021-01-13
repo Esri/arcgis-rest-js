@@ -34,7 +34,7 @@ Message Object
 
 ```json
 {
-  "type": "arcgis:auth:requestCredential",
+  "type": "arcgis:auth:credential",
   "credential": {
     "token": "thetoken",
     "userId": "jsmith",
