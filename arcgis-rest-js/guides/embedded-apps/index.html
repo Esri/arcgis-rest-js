@@ -111,6 +111,8 @@
 <h1>Authentication with Embedded Applications</h1>
 <p>Sometimes an application will need to embed another application using an <code>&lt;iframe&gt;</code>. If both applications are backed by items that are publicly accessible, things will just work.</p>
 <p>However, if the embedded application is not public and the user has already logged into the &quot;Host&quot; application, we then run into the question of how to pass authentication from the &quot;Host&quot; to the embedded application.</p>
+<h1>Message Types and Objects</h1>
+<p>Although this is internalized within the functions, the message types and the objects are documented in the repo in the <a href="https://github.com/Esri/arcgis-rest-js/tree/master/packages/arcgis-rest-auth/post-message-auth-spec.md">postMessage Auth Spec document</a></p>
 <h3>Cross Origin Embedding</h3>
 <p>Cross-Origin embedding occurs when the &quot;host&quot; app and the &quot;embedded&quot; application are served from different locations. This is only supported for ArcGIS Platform apps that support embedding.</p>
 <p>For example, you can build a custom app, hosted at <code>http://myapp.com</code> and iframe in a &quot;platform app&quot; that supports embedding. However, you can not embed your custom app into a storymap, and expect the storymap to pass authentication to your app. This is done for security reasons.</p>
@@ -121,35 +123,37 @@
 <h2>1 Host App uses oAuth</h2>
 <p>The application acting as the host, should use oAuth to authenticate the user, and <em>before</em> rendering the iframe with the embedded application it must call <code>session.enablePostMessageAuth(validOrigins)</code>. This sets up a listener that will process the requests from the embedded application(s).</p>
 <p>The <code>validOrigins</code> argument is an array of &quot;orgins&quot; your app expects to get auth requests from. <strong>NOTE</strong> This should be a constrained list of just the domains this particular application will actually be embedding.</p>
-<pre><code class="js">  <span class="hljs-comment">// register your own app to create a unique clientId</span>
-  <span class="hljs-keyword">const</span> clientId = <span class="hljs-string">"abc123"</span>
+<pre><code class="js"><span class="hljs-comment">// register your own app to create a unique clientId</span>
+<span class="hljs-keyword">const</span> clientId = <span class="hljs-string">"abc123"</span>;
 
-  UserSession.beginOAuth2({
-    clientId,
-    <span class="hljs-attr">redirectUri</span>: <span class="hljs-string">'https://yourapp.com/authenticate.html'</span>
-  })
-  .then(<span class="hljs-function"><span class="hljs-params">session</span> =&gt;</span> {
-    <span class="hljs-comment">// for this example we will only send auth to embeds hosted on storymaps.arcgis.com</span>
-    <span class="hljs-keyword">const</span> validOrigins = [<span class="hljs-string">'https://storymaps.arcgis.com'</span>];
-    session.enablePostMessageAuth(validOrigins);
-  })
+UserSession.beginOAuth2({
+  clientId,
+  <span class="hljs-attr">redirectUri</span>: <span class="hljs-string">"https://yourapp.com/authenticate.html"</span>,
+}).then(<span class="hljs-function">(<span class="hljs-params">session</span>) =&gt;</span> {
+  <span class="hljs-comment">// for this example we will only send auth to embeds hosted on storymaps.arcgis.com</span>
+  <span class="hljs-keyword">const</span> validOrigins = [<span class="hljs-string">"https://storymaps.arcgis.com"</span>];
+  session.enablePostMessageAuth(validOrigins);
+});
 </code></pre>
-<h4>2  Host App adds params to embed url</h4>
+<h4>2 Host App adds params to embed url</h4>
 <p>Let's suppose the host app is embedding <code>https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd</code>. To tell the embedded app that it should request authentication from the parent we need to add two url parameters:</p>
 <ul>
 <li><code>arcgis-auth-origin=https://myapp.com</code> - This tells the app it's embedded in an iframe and should request auth from the parent, and what 'origin' to expect messages from, what origin to post messages to, and also to ignore other origins. <strong>note</strong> this should be uri encoded</li>
 </ul>
-<pre><code class="js"><span class="hljs-keyword">const</span> originalUrl = <span class="hljs-string">'https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd'</span>;
-<span class="hljs-keyword">const</span> embedUrl = <span class="hljs-string">`<span class="hljs-subst">${originalurl}</span>?arcgis-auth-origin=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(<span class="hljs-built_in">window</span>.location.origin)}</span>`</span>;
+<pre><code class="js"><span class="hljs-keyword">const</span> originalUrl =
+  <span class="hljs-string">"https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd"</span>;
+<span class="hljs-keyword">const</span> embedUrl = <span class="hljs-string">`<span class="hljs-subst">${originalurl}</span>?arcgis-auth-origin=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(
+  <span class="hljs-built_in">window</span>.location.origin
+)}</span>`</span>;
 <span class="hljs-comment">// then use embedUrl in your component that renders the &lt;iframe&gt;</span>
 </code></pre>
 <h4>3 Embed App boots and Requests Auth</h4>
 <p>In the embedded application, early in it's boot sequence it should read the query string parameters and make the determintation that it is running inside an iframe, and that it can request authentication information from the parent.</p>
-<pre><code class="js">  <span class="hljs-comment">// Parse up any url params</span>
-  <span class="hljs-keyword">let</span> params = <span class="hljs-keyword">new</span> URLSearchParams(<span class="hljs-built_in">document</span>.location.search.substring(<span class="hljs-number">1</span>));
-  <span class="hljs-keyword">const</span> arcgisAuthOrigin = params.get(<span class="hljs-string">'arcgis-auth-origin'</span>); 
-  <span class="hljs-keyword">if</span> (arcgisAuthOrigin) {
-    UserSession.fromParent(arcgisAuthOrigin)
+<pre><code class="js"><span class="hljs-comment">// Parse up any url params</span>
+<span class="hljs-keyword">let</span> params = <span class="hljs-keyword">new</span> URLSearchParams(<span class="hljs-built_in">document</span>.location.search.substring(<span class="hljs-number">1</span>));
+<span class="hljs-keyword">const</span> arcgisAuthOrigin = params.get(<span class="hljs-string">"arcgis-auth-origin"</span>);
+<span class="hljs-keyword">if</span> (arcgisAuthOrigin) {
+  UserSession.fromParent(arcgisAuthOrigin)
     .then(<span class="hljs-function">(<span class="hljs-params">session</span>) =&gt;</span> {
       <span class="hljs-comment">// session is a UserSession instance, populated from the parent app</span>
       <span class="hljs-comment">// the embeded app should exchange this token for one specific to the application</span>
@@ -157,8 +161,8 @@
     .catch(<span class="hljs-function">(<span class="hljs-params">ex</span>) =&gt;</span> {
       <span class="hljs-comment">// if the origin of the embedded app is not in the parent's validOrigin array</span>
       <span class="hljs-comment">// this will throw with a message "Rejected authentication request."</span>
-    })
-  }
+    });
+}
 </code></pre>
 <h4>Clean up</h4>
 <p>While rest-js will attempt to clean up the listeners automatically, if the host application is no longer going to render the iframe before the embedded app has had a chance to request the authentication, then the app should manually clean up the listener by calling <code>session.disablePostMessageAuth()</code></p>
