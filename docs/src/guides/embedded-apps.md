@@ -54,27 +54,32 @@ UserSession.beginOAuth2({
 
 #### 2 Host App adds params to embed url
 
-Let's suppose the host app is embedding `https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd`. To tell the embedded app that it should request authentication from the parent we need to add a url parameter:
+Let's suppose the host app is embedding `https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd`. To tell the embedded app that it should request authentication from the parent, we need to add two url parameters:
 
-- `arcgis-auth-origin=https://myapp.com` - This tells the app it's embedded in an iframe and should request auth from the parent, and what 'origin' to expect messages from, what origin to post messages to, and also to ignore other origins. **note** the uri must encoded via `encodeURIComponent()` as shown below
+- `arcgis-auth-origin=https://myapp.com` - This tells the app it's embedded in an iframe and should request auth from the parent, and what 'origin' to expect messages from, what origin to post messages to, and also to ignore other origins.
+- `arcgis-auth-portal=https://www.arcgis.com/sharing/rest` - This tells the embedded app the ArcGIS Portal that the parent will provide authentication for.
+  - **note** the uri must encoded via `encodeURIComponent()` as shown below
 
 ```js
 const originalUrl =
   "https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd";
 const embedUrl = `${originalurl}?arcgis-auth-origin=${encodeURIComponent(
   window.location.origin
+)}&arcgis-auth-portal=${encodeURIComponent(
+  session.portal
 )}`;
 // then use embedUrl in your component that renders the <iframe>
 ```
 
 #### 3 Embed App boots and Requests Auth
 
-In the embedded application, early in it's boot sequence it should read the query string parameters and make the determintation that it is running inside an iframe, and that it can request authentication information from the parent.
+In the embedded application, early in its boot sequence it should read the query string parameters and make the determination that it is running inside an iframe, and that it can request authentication information from the parent.
 
 ```js
 // Parse up any url params
 let params = new URLSearchParams(document.location.search.substring(1));
 const arcgisAuthOrigin = params.get("arcgis-auth-origin");
+// const arcgisAuthPortal = params.get("arcgis-auth-portal"); // can optionally check this value too
 if (arcgisAuthOrigin) {
   UserSession.fromParent(arcgisAuthOrigin)
     .then((session) => {
