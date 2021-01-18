@@ -24,7 +24,7 @@ describe("geocode", () => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
+          "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
         );
         expect(options.method).toBe("POST");
         expect(options.body).toContain("f=json");
@@ -48,7 +48,7 @@ describe("geocode", () => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
+          "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
         );
         expect(options.method).toBe("POST");
         expect(options.body).toContain("f=json");
@@ -78,7 +78,7 @@ describe("geocode", () => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
+          "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
         );
         const singleLineEncoded = encodeURIComponent("380 New York Street");
         expect(options.body).toContain(`singleLine=${singleLineEncoded}`);
@@ -108,7 +108,7 @@ describe("geocode", () => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
+          "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
         );
         expect(options.method).toBe("POST");
         expect(options.body).toContain("f=json");
@@ -197,7 +197,7 @@ describe("geocode", () => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
+          "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
         );
         expect(options.method).toBe("POST");
         expect(options.body).toContain("f=json");
@@ -225,7 +225,7 @@ describe("geocode", () => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
+          "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
         );
         expect(options.method).toBe("POST");
         expect(options.body).toContain("f=json");
