@@ -136,22 +136,30 @@ UserSession.beginOAuth2({
 });
 </code></pre>
 <h4>2 Host App adds params to embed url</h4>
-<p>Let's suppose the host app is embedding <code>https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd</code>. To tell the embedded app that it should request authentication from the parent we need to add two url parameters:</p>
+<p>Let's suppose the host app is embedding <code>https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd</code>. To tell the embedded app that it should request authentication from the parent, we need to add two url parameters:</p>
 <ul>
-<li><code>arcgis-auth-origin=https://myapp.com</code> - This tells the app it's embedded in an iframe and should request auth from the parent, and what 'origin' to expect messages from, what origin to post messages to, and also to ignore other origins. <strong>note</strong> this should be uri encoded</li>
+<li><code>arcgis-auth-origin=https://myapp.com</code> - This tells the app it's embedded in an iframe and should request auth from the parent, and what 'origin' to expect messages from, what origin to post messages to, and also to ignore other origins.</li>
+<li><code>arcgis-auth-portal=https://www.arcgis.com/sharing/rest</code> - This tells the embedded app the ArcGIS Portal that the parent will provide authentication for.
+<ul>
+<li><strong>note</strong> the uri must encoded via <code>encodeURIComponent()</code> as shown below</li>
+</ul>
+</li>
 </ul>
 <pre><code class="js"><span class="hljs-keyword">const</span> originalUrl =
   <span class="hljs-string">"https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd"</span>;
 <span class="hljs-keyword">const</span> embedUrl = <span class="hljs-string">`<span class="hljs-subst">${originalurl}</span>?arcgis-auth-origin=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(
   <span class="hljs-built_in">window</span>.location.origin
+)}</span>&amp;arcgis-auth-portal=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(
+  session.portal
 )}</span>`</span>;
 <span class="hljs-comment">// then use embedUrl in your component that renders the &lt;iframe&gt;</span>
 </code></pre>
 <h4>3 Embed App boots and Requests Auth</h4>
-<p>In the embedded application, early in it's boot sequence it should read the query string parameters and make the determintation that it is running inside an iframe, and that it can request authentication information from the parent.</p>
+<p>In the embedded application, early in its boot sequence it should read the query string parameters and make the determination that it is running inside an iframe, and that it can request authentication information from the parent.</p>
 <pre><code class="js"><span class="hljs-comment">// Parse up any url params</span>
 <span class="hljs-keyword">let</span> params = <span class="hljs-keyword">new</span> URLSearchParams(<span class="hljs-built_in">document</span>.location.search.substring(<span class="hljs-number">1</span>));
 <span class="hljs-keyword">const</span> arcgisAuthOrigin = params.get(<span class="hljs-string">"arcgis-auth-origin"</span>);
+<span class="hljs-comment">// const arcgisAuthPortal = params.get("arcgis-auth-portal"); // can optionally check this value too</span>
 <span class="hljs-keyword">if</span> (arcgisAuthOrigin) {
   UserSession.fromParent(arcgisAuthOrigin)
     .then(<span class="hljs-function">(<span class="hljs-params">session</span>) =&gt;</span> {
