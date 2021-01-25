@@ -5,12 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [2.25.0] - January 11th 2021
+
+### @esri/arcgis-rest-auth
+
+- Bug Fixes
+  - **arcgis-rest-auth**: actually export validateAppAccess [`6d1e2ef0`](https://github.com/Esri/arcgis-rest-js/commit/6d1e2ef012ca25464e6219b5d909a30e5f1cecee)
+  - **arcgis-rest-auth**: add `expires_in` to `IPortalSelfResponse` and documentation
+
+## [2.24.0] - December 18th 2020
+
+### @esri/arcgis-rest-feature-layer
+
+- New Features
+  - **feature-layer** Add trueCurveClient to updateFeatures and applyEdits.
+
 ## [2.23.0] - December 7th 2020
 
 ### @esri/arcgis-rest-request
 
 - New Features
-  - **request** sets `fetch.credentials: 'include'` when specific headers are set. This is intended to support the `platformSelf` call which needs to send cookies, even when cross-domain.
+  - **request** sets `fetch.credentials: &amp;#39;include&amp;#39;` when specific headers are set. This is intended to support the `platformSelf` call which needs to send cookies, even when cross-domain.
 
 ### @esri/arcgis-rest-auth
 
@@ -73,7 +88,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/arcgis-rest-portal
 
 - Bug Fixes
-  - **arcgis-rest-portal**: do not do any membership adjustments if the group is the user&amp;amp;amp;amp;amp;#39;s favorites g [`6fc8ada6`](https://github.com/Esri/arcgis-rest-js/commit/6fc8ada666e2ac6388418d3416db13a40c299757)
+  - **arcgis-rest-portal**: do not do any membership adjustments if the group is the users favorites g [`6fc8ada6`](https://github.com/Esri/arcgis-rest-js/commit/6fc8ada666e2ac6388418d3416db13a40c299757)
 
 ## [2.19.1] - October 2nd 2020
 
@@ -1835,4 +1850,6 @@ Initial Public Release
 [2.21.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.20.0...v2.21.0 "v2.21.0"
 [2.22.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.21.0...v2.22.0 "v2.22.0"
 [2.23.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.22.0...v2.23.0 "v2.23.0"
-[head]: https://github.com/Esri/arcgis-rest-js/compare/v2.23.0...HEAD "Unreleased Changes"
+[2.24.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.23.0...v2.24.0 "v2.24.0"
+[2.25.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.24.0...v2.25.0 "v2.25.0"
+[head]: https://github.com/Esri/arcgis-rest-js/compare/v2.25.0...HEAD "Unreleased Changes"

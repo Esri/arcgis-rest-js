@@ -1,14 +1,14 @@
 {
   "name": "@esri/arcgis-rest-geocoder-vanilla",
-  "version": "2.23.0",
+  "version": "2.25.0",
   "private": true,
   "description": "Vanilla JavaScript demo of @esri/arcgis-rest-geocoder",
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@esri/arcgis-rest-auth": "^2.23.0",
-    "@esri/arcgis-rest-geocoding": "^2.23.0",
-    "@esri/arcgis-rest-request": "^2.23.0"
+    "@esri/arcgis-rest-auth": "^2.25.0",
+    "@esri/arcgis-rest-geocoding": "^2.25.0",
+    "@esri/arcgis-rest-request": "^2.25.0"
   },
   "devDependencies": {
     "http-server": "0.11.1"
