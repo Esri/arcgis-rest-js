@@ -15,7 +15,7 @@ Messages send via `postMessage` can be any object, but by convention usually hav
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `arcgis:auth:requestCredential` | Request credential from host app. Request will be rejected if the `event.origin` is not in the `validOrigins` list |
 | `arcgis:auth:credential`        | Returning the credential in `event.credential`                                                                     |
-| `arcgis:auth:rejected`          | Returned if the host declines to send credentials. `event.message` will contain the reason                         |
+| `arcgis:auth:error`             | Returned if the host declines to send credentials. `event.message` will contain the reason                         |
 
 # Message Details
 
@@ -61,7 +61,10 @@ Message Object
 
 ```json
 {
-  "type": "arcgis:auth:rejected",
-  "message": "Rejected authentication request."
+  "type": "arcgis:auth:error",
+  "error": {
+    "name": "<error name>",
+    "message": "<reason etc>"
+  }
 }
 ```
