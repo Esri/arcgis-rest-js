@@ -2,7 +2,7 @@
 
 The general idea is that the HOST application will only respond when the following conditions are true:
 
-- the event.source.origin is a location that the HOST trusts
+- the event.origin is a location that the HOST trusts
 - the message type is `arcgis:auth:requestCredential`
 
 Under any other conditions, the HOST application will not send any response.
