@@ -1,5 +1,12 @@
 # Post Message Authentication Specification
 
+The general idea is that the HOST application will only respond when the following conditions are true:
+
+- the event.source.origin is a location that the HOST trusts
+- the message type is `arcgis:auth:requestCredential`
+
+Under any other conditions, the HOST application will not send any response.
+
 ## Message Types
 
 Messages send via `postMessage` can be any object, but by convention usually have a `type` property that describes what sort of message it is.
@@ -47,7 +54,8 @@ Message Object
 
 ## `arcgis:auth:rejected`
 
-Sent from an host app, to an embedded app, with an error indicating why
+Sent from an host app, to an embedded app, with an error indicating why.
+This will only be sent if the HOST app has some issue getting the credential.
 
 Message Object
 
