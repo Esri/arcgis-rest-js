@@ -640,7 +640,9 @@ export class UserSession implements IAuthenticationManager {
       return UserSession.fromCredential(event.data.credential);
     }
     if (event.data.type === "arcgis:auth:error") {
-      throw new Error(event.data.error);
+      const err = new Error(event.data.error.message);
+      err.name = event.data.error.name;
+      throw err;
     } else {
       throw new Error("Unknown message type.");
     }

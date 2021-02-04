@@ -52,7 +52,7 @@ Message Object
 }
 ```
 
-## `arcgis:auth:rejected`
+## `arcgis:auth:error`
 
 Sent from an host app, to an embedded app, with an error indicating why.
 This will only be sent if the HOST app has some issue getting the credential.
