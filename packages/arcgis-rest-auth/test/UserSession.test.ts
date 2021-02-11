@@ -1152,6 +1152,9 @@ describe("UserSession", () => {
         source: {
           postMessage(msg: any, origin: string) {},
         },
+        data: {
+          type: "arcgis:auth:requestCredential",
+        },
       };
       // create the spy
       const sourceSpy = spyOn(event.source, "postMessage");
@@ -1176,11 +1179,9 @@ describe("UserSession", () => {
       event.origin = "https://evil.com";
       Win._fn(event);
       expect(sourceSpy.calls.count()).toBe(
-        2,
-        "souce.postMessage should be called in handler"
+        1,
+        "souce.postMessage should not be called in handler for invalid origin"
       );
-      const args2 = sourceSpy.calls.argsFor(1);
-      expect(args2[0].type).toBe("arcgis:auth:rejected", "should send reject");
     });
 
     it(".fromParent happy path", () => {
@@ -1196,6 +1197,7 @@ describe("UserSession", () => {
             Win._fn({
               origin: "https://origin.com",
               data: { type: "arcgis:auth:credential", credential: cred },
+              source: Win.parent,
             });
           },
         },
@@ -1225,11 +1227,13 @@ describe("UserSession", () => {
             Win._fn({
               origin: "https://notorigin.com",
               data: { type: "other:random", foo: { bar: "baz" } },
+              source: "Not Parent Object",
             });
             // fire a second we want to intercept
             Win._fn({
               origin: "https://origin.com",
               data: { type: "arcgis:auth:credential", credential: cred },
+              source: Win.parent,
             });
           },
         },
@@ -1259,6 +1263,7 @@ describe("UserSession", () => {
                 type: "arcgis:auth:credential",
                 credential: { foo: "bar" },
               },
+              source: Win.parent,
             });
           },
         },
@@ -1269,7 +1274,7 @@ describe("UserSession", () => {
       });
     });
 
-    it(".fromParent rejects if auth rejected", () => {
+    it(".fromParent rejects if auth error recieved", () => {
       // create a mock window that will fire the handler
       const Win = {
         _fn: (evt: any) => {},
@@ -1282,9 +1287,10 @@ describe("UserSession", () => {
             Win._fn({
               origin: "https://origin.com",
               data: {
-                type: "arcgis:auth:rejected",
-                message: "Rejected authentication request.",
+                type: "arcgis:auth:error",
+                error: { message: "Rejected authentication request." },
               },
+              source: Win.parent,
             });
           },
         },
@@ -1308,6 +1314,7 @@ describe("UserSession", () => {
             Win._fn({
               origin: "https://origin.com",
               data: { type: "arcgis:auth:other" },
+              source: Win.parent,
             });
           },
         },
