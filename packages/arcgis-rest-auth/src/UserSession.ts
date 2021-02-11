@@ -318,7 +318,8 @@ export class UserSession implements IAuthenticationManager {
         provider: "arcgis",
         duration: 20160,
         popup: true,
-        popupWindowFeatures: "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes",
+        popupWindowFeatures:
+          "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes",
         state: options.clientId,
         locale: "",
       },
@@ -372,11 +373,7 @@ export class UserSession implements IAuthenticationManager {
       }
     };
 
-    win.open(
-      url,
-      "oauth-window",
-      popupWindowFeatures
-    );
+    win.open(url, "oauth-window", popupWindowFeatures);
 
     return session.promise;
   }
@@ -479,7 +476,15 @@ export class UserSession implements IAuthenticationManager {
    * Request session information from the parent application
    *
    * When an application is embedded into another application via an IFrame, the embedded app can
-   * use `window.postMessage` to request credentials from the host application.
+   * use `window.postMessage` to request credentials from the host application. This function wraps
+   * that behavior.
+   *
+   * The ArcGIS API for Javascript has this built into the Identity Manager as of the 4.19 release.
+   *
+   * Note: The parent application will not respond if the embedded app's origin is not:
+   * - the same origin as the parent or *.arcgis.com (JSAPI)
+   * - in the list of valid child origins (REST-JS)
+   *
    *
    * @param parentOrigin origin of the parent frame. Passed into the embedded application as `parentOrigin` query param
    * @browserOnly
@@ -496,9 +501,8 @@ export class UserSession implements IAuthenticationManager {
     return new Promise((resolve, reject) => {
       // create an event handler that just wraps the parentMessageHandler
       handler = (event: any) => {
-        // ensure we only listen to events from the specified parent
-        // if the origin is not the parent origin, we don't send any response
-        if (event.origin === parentOrigin) {
+        // ensure we only listen to events from the parent
+        if (event.source === win.parent && event.data) {
           try {
             return resolve(UserSession.parentMessageHandler(event));
           } catch (err) {
@@ -635,8 +639,10 @@ export class UserSession implements IAuthenticationManager {
     if (event.data.type === "arcgis:auth:credential") {
       return UserSession.fromCredential(event.data.credential);
     }
-    if (event.data.type === "arcgis:auth:rejected") {
-      throw new Error(event.data.message);
+    if (event.data.type === "arcgis:auth:error") {
+      const err = new Error(event.data.error.message);
+      err.name = event.data.error.name;
+      throw err;
     } else {
       throw new Error("Unknown message type.");
     }
@@ -969,20 +975,25 @@ export class UserSession implements IAuthenticationManager {
     // return a function that closes over the validOrigins and
     // has access to the credential
     return (event: any) => {
+      // Verify that the origin is valid
       // Note: do not use regex's here. validOrigins is an array so we're checking that the event's origin
       // is in the array via exact match. More info about avoiding postMessave xss issues here
       // https://jlajara.gitlab.io/web/2020/07/17/Dom_XSS_PostMessage_2.html#tipsbypasses-in-postmessage-vulnerabilities
-      if (validOrigins.indexOf(event.origin) > -1) {
+      const isValidOrigin = validOrigins.indexOf(event.origin) > -1;
+      // JSAPI handles this slightly differently - instead of checking a list, it will respond if
+      // event.origin === window.location.origin || event.origin.endsWith('.arcgis.com')
+      // For Hub, and to enable cross domain debugging with port's in urls, we are opting to
+      // use a list of valid origins
+
+      // Ensure the message type is something we want to handle
+      const isValidType = event.data.type === "arcgis:auth:requestCredential";
+
+      if (isValidOrigin && isValidType) {
         const credential = this.toCredential();
         event.source.postMessage(
-          { type: "arcgis:auth:credential", credential },
-          event.origin
-        );
-      } else {
-        event.source.postMessage(
           {
-            type: "arcgis:auth:rejected",
-            message: `Rejected authentication request.`,
+            type: "arcgis:auth:credential",
+            credential,
           },
           event.origin
         );
