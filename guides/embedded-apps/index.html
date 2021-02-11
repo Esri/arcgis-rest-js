@@ -109,13 +109,13 @@
       <div class="panel">
         <p><strong>Note</strong> This is a new api feature, and currently there are <em>no</em> platform applications that support the authentication flows discussed in this guide. However, this guide exists to help other platform app teams add this functionality to their apps.</p>
 <h1>Authentication with Embedded Applications</h1>
-<p>Sometimes an application will need to embed another application using an <code>&lt;iframe&gt;</code>. If both applications are backed by items that are publicly accessible, things will just work.</p>
+<p>Sometimes an application will need to embed another application using an <code>&lt;iframe&gt;</code>. If both applications are backed by items that are publicly accessible, things will &quot;just work&quot;.</p>
 <p>However, if the embedded application is not public and the user has already logged into the &quot;Host&quot; application, we then run into the question of how to pass authentication from the &quot;Host&quot; to the embedded application.</p>
 <h1>Message Types and Objects</h1>
 <p>Although this is internalized within the functions, the message types and the objects are documented in the repo in the <a href="https://github.com/Esri/arcgis-rest-js/tree/master/packages/arcgis-rest-auth/post-message-auth-spec.md">postMessage Auth Spec document</a></p>
 <h3>Cross Origin Embedding</h3>
 <p>Cross-Origin embedding occurs when the &quot;host&quot; app and the &quot;embedded&quot; application are served from different locations. This is only supported for ArcGIS Platform apps that support embedding.</p>
-<p>For example, you can build a custom app, hosted at <code>http://myapp.com</code> and iframe in a &quot;platform app&quot; that supports embedding. However, you can not embed your custom app into a storymap, and expect the storymap to pass authentication to your app. This is done for security reasons.</p>
+<p>For example, you can build a custom app, hosted at <code>http://myapp.com</code> and iframe in a &quot;platform app&quot; that supports embedding. However, you can not embed your custom app into a StoryMap, and expect the StoryMap to pass authentication to your app. This is done for security reasons.</p>
 <h2>Using <code>postMessage</code></h2>
 <p>The browser's <code>postMessage</code> api is designed to allow communication between various &quot;frames&quot; in a page, and it is how this works internally. You can read more about <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage">postMessage</a> at the Mozilla Developer Network.</p>
 <h1>Authentication Flow</h1>
@@ -147,11 +147,9 @@ UserSession.beginOAuth2({
 </ul>
 <pre><code class="js"><span class="hljs-keyword">const</span> originalUrl =
   <span class="hljs-string">"https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd"</span>;
-<span class="hljs-keyword">const</span> embedUrl = <span class="hljs-string">`<span class="hljs-subst">${originalurl}</span>?arcgis-auth-origin=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(
-  <span class="hljs-built_in">window</span>.location.origin
-)}</span>&amp;arcgis-auth-portal=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(
-  session.portal
-)}</span>`</span>;
+<span class="hljs-keyword">const</span> embedUrl = <span class="hljs-string">`<span class="hljs-subst">${originalurl}</span>
+    ?arcgis-auth-origin=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(<span class="hljs-built_in">window</span>.location.origin)}</span>
+    &amp;arcgis-auth-portal=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(session.portal)}</span>`</span>;
 <span class="hljs-comment">// then use embedUrl in your component that renders the &lt;iframe&gt;</span>
 </code></pre>
 <h4>3 Embed App boots and Requests Auth</h4>
@@ -167,8 +165,8 @@ UserSession.beginOAuth2({
       <span class="hljs-comment">// the embeded app should exchange this token for one specific to the application</span>
     })
     .catch(<span class="hljs-function">(<span class="hljs-params">ex</span>) =&gt;</span> {
-      <span class="hljs-comment">// if the origin of the embedded app is not in the parent's validOrigin array</span>
-      <span class="hljs-comment">// this will throw with a message "Rejected authentication request."</span>
+      <span class="hljs-comment">// The only case it will reject is if the parent is unable to return a credential</span>
+      <span class="hljs-comment">// if the parent does not see the child as a valid origin, the parent will never respond.</span>
     });
 }
 </code></pre>
