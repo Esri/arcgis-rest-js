@@ -112,3 +112,36 @@ export interface IFeatureServiceDefinition {
   isLocationTrackingView: boolean;
   zDefault?: number;
 }
+/**
+ * Very generic structure representing the return value from the
+ * /arcgis/rest/admin/services/<service-name>/FeatureServer?f=json response
+ */
+export interface IServiceInfo extends Record<string, unknown> {
+  adminServiceInfo?: Record<string, unknown>;
+  layers: Record<string, unknown>[];
+}
+
+/**
+ * Individual View Source entry
+ */
+
+export interface IViewServiceSource {
+  name: string;
+  type: string;
+  url: string;
+  serviceItemId: string;
+}
+/**
+ * Response from the /sources end-point of a view service
+ */
+export interface IViewServiceSources {
+  currentVersion: number;
+  services: IViewServiceSource[];
+}
+
+/**
+ * Response from the portals/Self/isServiceNameAvailable request
+ */
+export interface IServiceNameAvailable {
+  available: boolean;
+}
