@@ -1103,7 +1103,7 @@ describe("UserSession", () => {
 
     const cred = {
       expires: TOMORROW.getTime(),
-      server: "https://www.arcgis.com",
+      server: "https://www.arcgis.com/sharing/rest",
       ssl: false,
       token: "token",
       userId: "jsmith",
@@ -1174,6 +1174,10 @@ describe("UserSession", () => {
       expect(args[0].credential.userId).toBe(
         "jsmith",
         "should send credential"
+      );
+      expect(args[0].credential.server).toBe(
+        "https://www.arcgis.com",
+        "sends server url without /sharing/rest"
       );
       // now the case where it's not a valid origin
       event.origin = "https://evil.com";
