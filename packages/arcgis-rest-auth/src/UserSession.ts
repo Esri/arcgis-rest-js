@@ -990,6 +990,9 @@ export class UserSession implements IAuthenticationManager {
 
       if (isValidOrigin && isValidType) {
         const credential = this.toCredential();
+        // the following line allows us to conform to our spec without changing other depended-on functionality
+        // https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-auth/post-message-auth-spec.md#arcgisauthcredential
+        credential.server = credential.server.replace('/sharing/rest', '');
         event.source.postMessage(
           {
             type: "arcgis:auth:credential",
