@@ -1109,16 +1109,24 @@ describe("UserSession", () => {
       userId: "jsmith",
     };
 
-    it(".disablePostMessageAuth removes event listener", () => {
+    it(".disablePostMessageAuth removes event listener and clears flag", () => {
       const removeSpy = spyOn(MockWindow, "removeEventListener");
       const session = UserSession.fromCredential(cred);
+
+      // enable auth to set the flag to true
+      session.enablePostMessageAuth(["https://storymaps.arcgis.com"], MockWindow);
+      expect(session.postMessageAuthEnabled).toBe(true, 'should start with post message auth enabled');
+
+      // disable
       session.disablePostMessageAuth(MockWindow);
       expect(removeSpy.calls.count()).toBe(
         1,
         "should call removeEventListener"
       );
+      expect(session.postMessageAuthEnabled).toBe(false, 'should mark post message auth disabled');
     });
-    it(".enablePostMessageAuth adds event listener", () => {
+
+    it(".enablePostMessageAuth adds event listener and sets flag", () => {
       const addSpy = spyOn(MockWindow, "addEventListener");
       const session = UserSession.fromCredential(cred);
       session.enablePostMessageAuth(
@@ -1126,6 +1134,26 @@ describe("UserSession", () => {
         MockWindow
       );
       expect(addSpy.calls.count()).toBe(1, "should call addEventListener");
+      expect(session.postMessageAuthEnabled).toBe(true, "postMessageAuthEnabled should be true");
+    });
+
+    it(".enablePostMessageAuth does nothing when already activated", () => {
+      const addSpy = spyOn(MockWindow, "addEventListener");
+      const session = UserSession.fromCredential(cred);
+
+      // once
+      session.enablePostMessageAuth(
+        ["https://storymaps.arcgis.com"],
+        MockWindow
+      );
+
+      // twice
+      session.enablePostMessageAuth(
+        ["https://storymaps.arcgis.com"],
+        MockWindow
+      );
+
+      expect(addSpy.calls.count()).toBe(1, "should only have added one event listener");
     });
 
     it(".enablePostMessage handler returns credential to origin in list", () => {

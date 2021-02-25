@@ -292,6 +292,14 @@ export class UserSession implements IAuthenticationManager {
   get refreshTokenExpires() {
     return this._refreshTokenExpires;
   }
+
+  /**
+   * Whether or not post message authentication is currently enabled.
+   */
+  get postMessageAuthEnabled() {
+    return this._postMessageAuthEnabled;
+  }
+
   /**
    * Begins a new browser-based OAuth 2.0 sign in. If `options.popup` is `true` the
    * authentication window will open in a new tab/window otherwise the user will
@@ -715,6 +723,7 @@ export class UserSession implements IAuthenticationManager {
   private _refreshToken: string;
   private _refreshTokenExpires: Date;
   private _pendingUserRequest: Promise<IUser>;
+  private _postMessageAuthEnabled = false;
 
   /**
    * Internal object to keep track of pending token requests. Used to prevent
@@ -906,12 +915,16 @@ export class UserSession implements IAuthenticationManager {
    * @param validChildOrigins Array of origins that are allowed to request authentication from the host app
    */
   public enablePostMessageAuth(validChildOrigins: string[], win?: any): any {
+    if (this._postMessageAuthEnabled) return;
+
     /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
     if (!win && window) {
       win = window;
     }
+
     this._hostHandler = this.createPostMessageHandler(validChildOrigins);
     win.addEventListener("message", this._hostHandler, false);
+    this._postMessageAuthEnabled = true;
   }
 
   /**
@@ -925,6 +938,7 @@ export class UserSession implements IAuthenticationManager {
       win = window;
     }
     win.removeEventListener("message", this._hostHandler, false);
+    this._postMessageAuthEnabled = false;
   }
 
   /**
