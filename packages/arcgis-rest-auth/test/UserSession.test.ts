@@ -1129,10 +1129,14 @@ describe("UserSession", () => {
     it(".enablePostMessageAuth adds event listener and sets flag", () => {
       const addSpy = spyOn(MockWindow, "addEventListener");
       const session = UserSession.fromCredential(cred);
+
+      expect(session.postMessageAuthEnabled).toBe(false, "postMessageAuthEnabled should begin false");
+
       session.enablePostMessageAuth(
         ["https://storymaps.arcgis.com"],
         MockWindow
       );
+
       expect(addSpy.calls.count()).toBe(1, "should call addEventListener");
       expect(session.postMessageAuthEnabled).toBe(true, "postMessageAuthEnabled should be true");
     });
