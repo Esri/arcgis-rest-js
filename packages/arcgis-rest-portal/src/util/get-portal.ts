@@ -29,7 +29,8 @@ export function getSelf(requestOptions?: IRequestOptions): Promise<IPortal> {
  * getPortal("fe8")
  * getPortal(null, { portal: "https://custom.maps.arcgis.com/sharing/rest/" })
  * ```
- * Fetch information about the current portal by id. If no id is passed, portals/self will be called
+ * Fetch information about the specified portal by id. If no id is passed, portals/self will be called
+ * Note that if you intend to request a portal by id and it is different from the portal specified by options.authentication, you must also pass options.portal
  * @param id
  * @param requestOptions
  */
