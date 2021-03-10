@@ -6,6 +6,8 @@ import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 // https always
 export const ARCGIS_ONLINE_GEOCODING_URL =
   "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/";
+export const ARCGIS_ONLINE_BULK_GEOCODING_URL =
+  "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer";
 
 // nice to have: verify custom endpoints contain 'GeocodeServer' and end in a '/'
 export interface IEndpointOptions extends IRequestOptions {

@@ -39,7 +39,7 @@ describe("geocode", () => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/geocodeAddresses"
+          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/geocodeAddresses"
         );
         expect(options.method).toBe("POST");
         expect(options.body).toContain("f=json");
@@ -174,7 +174,7 @@ describe("geocode", () => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/geocodeAddresses"
+          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/geocodeAddresses"
         );
         expect(options.method).toBe("POST");
         expect(response.status).toBe(200);
