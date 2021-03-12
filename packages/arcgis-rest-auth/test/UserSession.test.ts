@@ -1636,6 +1636,53 @@ describe("UserSession", () => {
     });
   });
 
+  describe("to/fromCredential() when credential doesn't have an expiration date", () => {
+    const MOCK_CREDENTIAL: ICredential = {
+      server: "https://www.arcgis.com",
+      token: "token",
+      userId: "jsmith",
+    };
+
+    const MOCK_USER_SESSION = new UserSession({
+      clientId: "clientId",
+      redirectUri: "https://example-app.com/redirect-uri",
+      token: "token",
+      refreshToken: "refreshToken",
+      refreshTokenExpires: TOMORROW,
+      refreshTokenTTL: 1440,
+      username: "jsmith",
+      password: "123456",
+    });
+
+    it("should create a credential object from a session", () => {
+      const creds = MOCK_USER_SESSION.toCredential();
+      expect(creds.userId).toEqual("jsmith");
+      expect(creds.server).toEqual("https://www.arcgis.com/sharing/rest");
+      expect(creds.ssl).toBeUndefined();
+      expect(creds.token).toEqual("token");
+      expect(creds.expires).toBeUndefined();
+    });
+
+    it("should create a UserSession from a credential", () => {
+      const session = UserSession.fromCredential(MOCK_CREDENTIAL);
+      expect(session.username).toEqual("jsmith");
+      expect(session.portal).toEqual("https://www.arcgis.com/sharing/rest");
+      expect(session.ssl).toBeUndefined();
+      expect(session.token).toEqual("token");
+      expect(session.tokenExpires).toBeUndefined();
+    });
+
+    it("should create a UserSession from a credential that came from a UserSession", () => {
+      const creds = MOCK_USER_SESSION.toCredential();
+      const credSession = UserSession.fromCredential(creds);
+      expect(credSession.username).toEqual("jsmith");
+      expect(credSession.portal).toEqual("https://www.arcgis.com/sharing/rest");
+      expect(credSession.ssl).toBeUndefined();
+      expect(credSession.token).toEqual("token");
+      expect(credSession.tokenExpires).toBeUndefined();
+    });
+  });
+
   describe("getServerRootUrl()", () => {
     it("should lowercase domain names", () => {
       const session = new UserSession({
