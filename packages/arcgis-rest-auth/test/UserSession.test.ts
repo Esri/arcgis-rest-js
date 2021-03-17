@@ -1636,50 +1636,27 @@ describe("UserSession", () => {
     });
   });
 
-  describe("to/fromCredential() when credential doesn't have an expiration date", () => {
+  describe("fromCredential() when credential doesn't have an expiration date or ssl", () => {
     const MOCK_CREDENTIAL: ICredential = {
+      expires: undefined,
       server: "https://www.arcgis.com",
+      ssl: undefined,
       token: "token",
       userId: "jsmith",
     };
 
-    const MOCK_USER_SESSION = new UserSession({
-      clientId: "clientId",
-      redirectUri: "https://example-app.com/redirect-uri",
-      token: "token",
-      refreshToken: "refreshToken",
-      refreshTokenExpires: TOMORROW,
-      refreshTokenTTL: 1440,
-      username: "jsmith",
-      password: "123456",
-    });
-
-    it("should create a credential object from a session", () => {
-      const creds = MOCK_USER_SESSION.toCredential();
-      expect(creds.userId).toEqual("jsmith");
-      expect(creds.server).toEqual("https://www.arcgis.com/sharing/rest");
-      expect(creds.ssl).toBeUndefined();
-      expect(creds.token).toEqual("token");
-      expect(creds.expires).toBeUndefined();
-    });
-
     it("should create a UserSession from a credential", () => {
+      jasmine.clock().install();
+      jasmine.clock().mockDate();
+
       const session = UserSession.fromCredential(MOCK_CREDENTIAL);
       expect(session.username).toEqual("jsmith");
       expect(session.portal).toEqual("https://www.arcgis.com/sharing/rest");
-      expect(session.ssl).toBeUndefined();
+      expect(session.ssl).toBeTruthy();
       expect(session.token).toEqual("token");
-      expect(session.tokenExpires).toBeUndefined();
-    });
+      expect(session.tokenExpires).toEqual(new Date(Date.now() + 7200000 /* 2 hours */));
 
-    it("should create a UserSession from a credential that came from a UserSession", () => {
-      const creds = MOCK_USER_SESSION.toCredential();
-      const credSession = UserSession.fromCredential(creds);
-      expect(credSession.username).toEqual("jsmith");
-      expect(credSession.portal).toEqual("https://www.arcgis.com/sharing/rest");
-      expect(credSession.ssl).toBeUndefined();
-      expect(credSession.token).toEqual("token");
-      expect(credSession.tokenExpires).toBeUndefined();
+      jasmine.clock().uninstall();
     });
   });
 

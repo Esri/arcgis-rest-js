@@ -52,9 +52,9 @@ export type AuthenticationProvider =
  * object used to access a secure ArcGIS resource.
  */
 export interface ICredential {
-  expires?: number; // removed from ArcGIS Online credentials at 9.1
+  expires: number;
   server: string;
-  ssl?: boolean; // removed from ArcGIS Online credentials at 9.119
+  ssl: boolean;
   token: string;
   userId: string;
 }
@@ -620,14 +620,15 @@ export class UserSession implements IAuthenticationManager {
    * @returns UserSession
    */
   public static fromCredential(credential: ICredential) {
+    const expires = credential.expires || (Date.now() + 7200000 /* 2 hours */);
     return new UserSession({
       portal: credential.server.includes("sharing/rest")
         ? credential.server
         : credential.server + `/sharing/rest`,
-      ssl: credential.ssl,
+      ssl: (typeof credential.ssl !== "undefined") ? credential.ssl : true,
       token: credential.token,
       username: credential.userId,
-      tokenExpires: credential.expires ? new Date(credential.expires) : undefined
+      tokenExpires: new Date(expires)
     });
   }
 
@@ -779,7 +780,7 @@ export class UserSession implements IAuthenticationManager {
    */
   public toCredential(): ICredential {
     return {
-      expires: this.tokenExpires ? this.tokenExpires.getTime() : undefined,
+      expires: this.tokenExpires.getTime(),
       server: this.portal,
       ssl: this.ssl,
       token: this.token,
