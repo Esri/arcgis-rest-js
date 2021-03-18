@@ -620,12 +620,16 @@ export class UserSession implements IAuthenticationManager {
    * @returns UserSession
    */
   public static fromCredential(credential: ICredential) {
+    // At ArcGIS Online 9.1, credentials no longer include the ssl and expires properties
+    // Here, we provide default values for them to cover this condition
+    const ssl = (typeof credential.ssl !== "undefined") ? credential.ssl : true;
     const expires = credential.expires || (Date.now() + 7200000 /* 2 hours */);
+
     return new UserSession({
       portal: credential.server.includes("sharing/rest")
         ? credential.server
         : credential.server + `/sharing/rest`,
-      ssl: (typeof credential.ssl !== "undefined") ? credential.ssl : true,
+      ssl,
       token: credential.token,
       username: credential.userId,
       tokenExpires: new Date(expires)
