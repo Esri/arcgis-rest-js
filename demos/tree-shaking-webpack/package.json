@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-tree-shaking-webpack",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "private": true,
   "description": "",
   "scripts": {
@@ -18,7 +18,7 @@
     "webpack-cli": "^3.3.0"
   },
   "dependencies": {
-    "@esri/arcgis-rest-portal": "^3.0.3",
+    "@esri/arcgis-rest-portal": "^3.0.4",
     "@esri/arcgis-rest-request": "^2.25.0"
   }
 }
