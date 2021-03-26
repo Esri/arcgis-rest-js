@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <title>addAttachment | API Reference | ArcGIS REST JS</title>
+    <title>ARCGIS_ONLINE_BULK_GEOCODING_URL | API Reference | ArcGIS REST JS</title>
     
     <meta name="description" content="A modular, high quality toolkit for working with the ArcGIS REST API.">
     
@@ -337,7 +337,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/arcgis-rest-js/api/feature-layer/" class="is-active tsd-kind-icon">feature-layer</a>
+          <a href="/arcgis-rest-js/api/feature-layer/" class="tsd-kind-icon">feature-layer</a>
           <ul id="list3" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -345,7 +345,7 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/arcgis-rest-js/api/feature-layer/addAttachment/" class="is-active tsd-kind-icon padding-right-1">addAttachment</a>
+              <a href="/arcgis-rest-js/api/feature-layer/addAttachment/" class="tsd-kind-icon padding-right-1">addAttachment</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -498,7 +498,7 @@
               <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
             </svg>
           </button>
-          <a href="/arcgis-rest-js/api/geocoding/" class="tsd-kind-icon">geocoding</a>
+          <a href="/arcgis-rest-js/api/geocoding/" class="is-active tsd-kind-icon">geocoding</a>
           <ul id="list4" class="api-package-content-list">
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -522,7 +522,7 @@
             </li>
             
             <li class="tsd-kind-variable padding-right-1 visually-hidden api-list-item">
-              <a href="/arcgis-rest-js/api/geocoding/ARCGIS_ONLINE_BULK_GEOCODING_URL/" class="tsd-kind-icon padding-right-1">ARCGIS_ONLINE_BULK_GEOCODING_URL</a>
+              <a href="/arcgis-rest-js/api/geocoding/ARCGIS_ONLINE_BULK_GEOCODING_URL/" class="is-active tsd-kind-icon padding-right-1">ARCGIS_ONLINE_BULK_GEOCODING_URL</a>
             </li>
             
             <li class="tsd-kind-variable padding-right-1 visually-hidden api-list-item">
@@ -2002,8 +2002,8 @@
 
 
 <div class="clearfix trailer-half">
-  <h1 class="left font-size-5 code-face trailer-0">addAttachment</h1>
-  <small class="tsd-kind-function font-size--2 right leader-half margin-right-half"><span class="tsd-kind-icon">Function</span></small>
+  <h1 class="left font-size-5 code-face trailer-0">ARCGIS_ONLINE_BULK_GEOCODING_URL</h1>
+  <small class="tsd-kind-variable font-size--2 right leader-half margin-right-half"><span class="tsd-kind-icon">Variable</span></small>
 </div>
 
 
@@ -2015,522 +2015,13 @@
 
 
 
+  Value(s):
+  <pre style="display: inline;"><span class="text-green">"https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/"</span></pre>
 
 
 
 
 
-
-  <pre><code class="js"><span class="hljs-keyword">import</span> { addAttachment } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/arcgis-rest-feature-layer'</span>;
-<span class="hljs-comment">//</span>
-addAttachment({
-  <span class="hljs-attr">url</span>: <span class="hljs-string">"https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0"</span>,
-  <span class="hljs-attr">featureId</span>: <span class="hljs-number">8484</span>,
-  <span class="hljs-attr">attachment</span>: myFileInput.files[<span class="hljs-number">0</span>]
-})
-  .then(response)
-</code></pre>
-<p>Attach a file to a feature by id. See <a href="https://developers.arcgis.com/rest/services-reference/add-attachment.htm">Add Attachment</a> for more information.</p>
-
-
-  
-
-  <div class="panel padding-leader-half padding-trailer-half padding-right-quarter padding-left-half trailer-half">
-    <ul class="list-plain tsd-signatures tsd-kind-function trailer-0 leader-0">
-      
-        <li class="code-face tsd-signature tsd-kind-icon trailer-0 leader-0">addAttachment<span class="text-light-gray">(</span>requestOptions: <i><a href="/arcgis-rest-js/api/feature-layer/IAddAttachmentOptions/">IAddAttachmentOptions</a></i><span class="text-light-gray">) : </span><i>Promise</i><i><span class="text-light-gray">&lt;</span>{<dl class="type-child-list clearfix"><dt class="type-child-name">addAttachmentResult:</dt><dd class="type-child-type"><i><a href="/arcgis-rest-js/api/feature-layer/IEditFeatureResult/">IEditFeatureResult</a></i></dd></dl>}<i></i><span class="text-light-gray">&gt;</span></i></li>
-      
-    </ul>
-  </div>
-
-  
-    <h2 class="font-size-1 trailer-half">Parameters</h2>
-    
-  <div class="overflow-auto trailer-1">
-    <table class="table">
-      <thead>
-        <tr>
-          <th class="font-size--2">Parameter</th>
-          <th class="font-size--2">Type</th>
-          <th class="font-size--2">Default</th>
-          <th class="font-size--2">Notes</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr id="addAttachment-requestOptions">
-            <td class="code-face">
-              <a href="#addAttachment-requestOptions" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="code-face">requestOptions</span>
-              
-                
-  
-
-  
-
-  
-
-  
-  <span class="label">Required</span>
-  
-
-  
-
-              
-            </td>
-            <td class="code-face"><i><a href="/arcgis-rest-js/api/feature-layer/IAddAttachmentOptions/">IAddAttachmentOptions</a></i></td>
-            <td class="code-face"></td>
-            <td class="body-face api-param-comment">
-              
-              <p>Options for the request.</p>
-
-            </td>
-          </tr>
-      </tbody>
-    </table>
-  </div>
-
-  
-
-  
-    
-      
-      
-  
-    <h2 class="font-size-1 trailer-half">Available <code>requestOptions</code></h2>
-  
-  <div class="overflow-auto trailer-1">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Property</th>
-          <th>Type</th>
-          <th>Notes</th>
-        </tr>
-      </thead>
-      <tbody>
-        
-          <tr id="attachment">
-            <td class="code-face tsd-kind-property tsd-parent-kind-interface no-wrap">
-              <a href="#attachment" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="tsd-kind-icon">attachment</span>
-              
-  
-
-  
-
-  
-
-  
-
-  
-
-              
-            </td>
-            <td class="code-face">
-              
-                <i>File</i>
-              
-            </td>
-            <td class="body-face api-param-comment">
-              <p>File to be attached.</p>
-
-            </td>
-          </tr>
-        
-          <tr id="featureId">
-            <td class="code-face tsd-kind-property tsd-parent-kind-interface no-wrap">
-              <a href="#featureId" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="tsd-kind-icon">featureId</span>
-              
-  
-
-  
-
-  
-
-  
-
-  
-
-              
-            </td>
-            <td class="code-face">
-              
-                <i class="text-purple">number</i>
-              
-            </td>
-            <td class="body-face api-param-comment">
-              <p>Unique identifier of feature to add related attachment.</p>
-
-            </td>
-          </tr>
-        
-          <tr id="url">
-            <td class="code-face tsd-kind-property tsd-parent-kind-interface no-wrap">
-              <a href="#url" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="tsd-kind-icon">url</span>
-              
-  
-
-  
-
-  
-
-  
-
-  
-
-              
-    <span class="label">Inherited</span>
-  
-            </td>
-            <td class="code-face">
-              
-                <i class="text-purple">string</i>
-              
-            </td>
-            <td class="body-face api-param-comment">
-              <p>Layer service url.</p>
-
-            </td>
-          </tr>
-        
-          <tr id="authentication">
-            <td class="code-face tsd-kind-property tsd-parent-kind-interface no-wrap">
-              <a href="#authentication" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="tsd-kind-icon">authentication</span>
-              
-  
-  <span class="label">Optional</span>
-  
-
-  
-
-  
-
-  
-
-  
-
-              
-    <span class="label">Inherited</span>
-  
-            </td>
-            <td class="code-face">
-              
-                <i><a href="/arcgis-rest-js/api/request/IAuthenticationManager/">IAuthenticationManager</a></i>
-              
-            </td>
-            <td class="body-face api-param-comment">
-              <p>The instance of <code>IAuthenticationManager</code> to use to authenticate this request.</p>
-
-            </td>
-          </tr>
-        
-          <tr id="fetch">
-            <td class="code-face tsd-kind-property tsd-parent-kind-interface no-wrap">
-              <a href="#fetch" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="tsd-kind-icon">fetch</span>
-              
-  
-  <span class="label">Optional</span>
-  
-
-  
-
-  
-
-  
-
-  
-
-              
-    <span class="label">Inherited</span>
-  
-            </td>
-            <td class="code-face">
-              
-                <span class="code-face"><span class="text-light-gray">function</span><span class="text-light-gray">(</span>input: <i>RequestInfo</i>, init: <i>RequestInit</i><span class="text-light-gray">) : </span><i>Promise</i><i><span class="text-light-gray">&lt;</span><i>Response</i><span class="text-light-gray">&gt;</span></i></span>
-              
-            </td>
-            <td class="body-face api-param-comment">
-              <p>The implementation of <code>fetch</code> to use. Defaults to a global <code>fetch</code>.</p>
-
-            </td>
-          </tr>
-        
-          <tr id="headers">
-            <td class="code-face tsd-kind-property tsd-parent-kind-interface no-wrap">
-              <a href="#headers" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="tsd-kind-icon">headers</span>
-              
-  
-  <span class="label">Optional</span>
-  
-
-  
-
-  
-
-  
-
-  
-
-              
-    <span class="label">Inherited</span>
-  
-            </td>
-            <td class="code-face">
-              
-                
-      <i class="no-wrap">[key: <i class="text-purple">string</i>]: <i class="text-purple">any</i></i>
-    
-              
-            </td>
-            <td class="body-face api-param-comment">
-              <p>Additional <a href="https://developer.mozilla.org/en-US/docs/Web/API/Headers">Headers</a> to pass into the request.</p>
-
-            </td>
-          </tr>
-        
-          <tr id="hideToken">
-            <td class="code-face tsd-kind-property tsd-parent-kind-interface no-wrap">
-              <a href="#hideToken" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="tsd-kind-icon">hideToken</span>
-              
-  
-  <span class="label">Optional</span>
-  
-
-  
-
-  
-
-  
-
-  
-
-              
-    <span class="label">Inherited</span>
-  
-            </td>
-            <td class="code-face">
-              
-                <i class="text-purple">boolean</i>
-              
-            </td>
-            <td class="body-face api-param-comment">
-              <p>Prevents the token from being passed in a URL Query param that is saved in browser history.
-Instead, the token will be passed in POST request body or through X-Esri-Authorization header.
-NOTE: This will force POST requests in browsers since auth header is not yet supported by preflight OPTIONS check with CORS.</p>
-
-            </td>
-          </tr>
-        
-          <tr id="httpMethod">
-            <td class="code-face tsd-kind-property tsd-parent-kind-interface no-wrap">
-              <a href="#httpMethod" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="tsd-kind-icon">httpMethod</span>
-              
-  
-  <span class="label">Optional</span>
-  
-
-  
-
-  
-
-  
-
-  
-
-              
-    <span class="label">Inherited</span>
-  
-            </td>
-            <td class="code-face">
-              
-                <i><a href="/arcgis-rest-js/api/request/HTTPMethods/">HTTPMethods</a></i>
-              
-            </td>
-            <td class="body-face api-param-comment">
-              <p>The HTTP method to send the request with.</p>
-
-            </td>
-          </tr>
-        
-          <tr id="maxUrlLength">
-            <td class="code-face tsd-kind-property tsd-parent-kind-interface no-wrap">
-              <a href="#maxUrlLength" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="tsd-kind-icon">maxUrlLength</span>
-              
-  
-  <span class="label">Optional</span>
-  
-
-  
-
-  
-
-  
-
-  
-
-              
-    <span class="label">Inherited</span>
-  
-            </td>
-            <td class="code-face">
-              
-                <i class="text-purple">number</i>
-              
-            </td>
-            <td class="body-face api-param-comment">
-              <p>If the length of a GET request's URL exceeds <code>maxUrlLength</code> the request will use POST instead.</p>
-
-            </td>
-          </tr>
-        
-          <tr id="params">
-            <td class="code-face tsd-kind-property tsd-parent-kind-interface no-wrap">
-              <a href="#params" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="tsd-kind-icon">params</span>
-              
-  
-  <span class="label">Optional</span>
-  
-
-  
-
-  
-
-  
-
-  
-
-              
-    <span class="label">Inherited</span>
-  
-            </td>
-            <td class="code-face">
-              
-                <i><a href="/arcgis-rest-js/api/request/IParams/">IParams</a></i>
-              
-            </td>
-            <td class="body-face api-param-comment">
-              <p>Additional parameters to pass in the request.</p>
-
-            </td>
-          </tr>
-        
-          <tr id="portal">
-            <td class="code-face tsd-kind-property tsd-parent-kind-interface no-wrap">
-              <a href="#portal" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="tsd-kind-icon">portal</span>
-              
-  
-  <span class="label">Optional</span>
-  
-
-  
-
-  
-
-  
-
-  
-
-              
-    <span class="label">Inherited</span>
-  
-            </td>
-            <td class="code-face">
-              
-                <i class="text-purple">string</i>
-              
-            </td>
-            <td class="body-face api-param-comment">
-              <p>Base url for the portal you want to make the request to. Defaults to '<a href="https://www.arcgis.com/sharing/rest">https://www.arcgis.com/sharing/rest</a>'.</p>
-
-            </td>
-          </tr>
-        
-          <tr id="rawResponse">
-            <td class="code-face tsd-kind-property tsd-parent-kind-interface no-wrap">
-              <a href="#rawResponse" class="table-link">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon"><path d="M28.633 17.945l-4.118-4.426c.076 1.131-.034 2.262-.355 3.241l2.83 2.827a5.281 5.281 0 0 1 0 7.459 5.223 5.223 0 0 1-3.723 1.54 5.227 5.227 0 0 1-3.728-1.542l-5.459-5.459a5.276 5.276 0 0 1 0-7.452c.607-.609 1.361-1.048 2.1-1.229a1.833 1.833 0 0 0-.279-.414l-1.344-1.461c-.845.404-1.54.881-2.12 1.461a7.554 7.554 0 0 0-2.223 5.371c0 2.027.791 3.934 2.223 5.366l5.459 5.459a7.544 7.544 0 0 0 5.371 2.225 7.55 7.55 0 0 0 5.366-2.223c2.962-2.962 2.962-7.782 0-10.745zM8.711 3.497a5.23 5.23 0 0 1 3.726 1.54l5.459 5.457a5.279 5.279 0 0 1 0 7.454c-.605.605-1.356 1.043-2.105 1.222.086.154.166.301.287.421l1.422 1.422c.808-.394 1.476-.862 2.039-1.422 2.96-2.962 2.96-7.777 0-10.74L14.08 3.394c-1.434-1.435-3.342-2.225-5.369-2.225s-3.934.791-5.369 2.225C1.908 4.828 1.117 6.736 1.117 8.763s.791 3.934 2.225 5.369L7.46 18.56c-.076-1.131.034-2.262.355-3.239l-2.83-2.833c-.994-.991-1.542-2.316-1.542-3.726s.548-2.732 1.542-3.726a5.23 5.23 0 0 1 3.726-1.54z"/></svg>
-              </a>
-              <span class="tsd-kind-icon">rawResponse</span>
-              
-  
-  <span class="label">Optional</span>
-  
-
-  
-
-  
-
-  
-
-  
-
-              
-    <span class="label">Inherited</span>
-  
-            </td>
-            <td class="code-face">
-              
-                <i class="text-purple">boolean</i>
-              
-            </td>
-            <td class="body-face api-param-comment">
-              <p>Return the raw <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response">response</a></p>
-
-            </td>
-          </tr>
-        
-
-      </tbody>
-    </table>
-  </div>
-
-    
-
-    
-  
-
-  <h2 class="font-size-1 trailer-half">Returns</h2><p>A Promise that will resolve with the <code>addAttachment()</code> response.</p>
-
-
-  <div class="fonts-size--1 panel padding-leader-half padding-trailer-half padding-right-half padding-left-half trailer-half">
-  <i>Promise</i><i><span class="text-light-gray">&lt;</span>{<dl class="type-child-list clearfix"><dt class="type-child-name">addAttachmentResult:</dt><dd class="type-child-type"><i><a href="/arcgis-rest-js/api/feature-layer/IEditFeatureResult/">IEditFeatureResult</a></i></dd></dl>}<i></i><span class="text-light-gray">&gt;</span></i>
-  </div>
-
-  
 
 
 
@@ -2538,7 +2029,7 @@ NOTE: This will force POST requests in browsers since auth header is not yet sup
 
 
 
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-feature-layer/src/addAttachment.ts#L38">packages/arcgis-rest-feature-layer/src/addAttachment.ts:38</a></small>
+<small class="font-size--2">Variable defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-geocoding/src/helpers.ts#L9">packages/arcgis-rest-geocoding/src/helpers.ts:9</a></small>
 
 
     </div>
