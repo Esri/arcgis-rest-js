@@ -2027,7 +2027,8 @@ getPortal()
 getPortal(<span class="hljs-string">"fe8"</span>)
 getPortal(<span class="hljs-literal">null</span>, { <span class="hljs-attr">portal</span>: <span class="hljs-string">"https://custom.maps.arcgis.com/sharing/rest/"</span> })
 </code></pre>
-<p>Fetch information about the current portal by id. If no id is passed, portals/self will be called</p>
+<p>Fetch information about the specified portal by id. If no id is passed, portals/self will be called.
+Note that if you intend to request a portal by id and it is different from the portal specified by options.authentication, you must also pass options.portal.</p>
 
 
   
@@ -2562,7 +2563,7 @@ NOTE: This will force POST requests in browsers since auth header is not yet sup
 
 
 
-<small class="font-size--2">Function defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-portal/src/util/get-portal.ts#L36">packages/arcgis-rest-portal/src/util/get-portal.ts:36</a></small>
+<small class="font-size--2">Function defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-portal/src/util/get-portal.ts#L37">packages/arcgis-rest-portal/src/util/get-portal.ts:37</a></small>
 
 
     </div>
