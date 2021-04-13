@@ -133,6 +133,7 @@ export function updateItemResource(
     requestOptions.params = {
       file: requestOptions.resource,
       fileName: requestOptions.name,
+      resourcesPrefix: requestOptions.prefix,
       text: requestOptions.content,
       ...requestOptions.params
     };

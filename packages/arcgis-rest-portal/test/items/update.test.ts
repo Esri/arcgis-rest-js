@@ -253,7 +253,8 @@ describe("search", () => {
       updateItemResource({
         id: "3ef",
         owner: "dbouwman",
-        name: "image/banner.png",
+        name: "banner.png",
+        prefix: "image",
         content: "jumbotron",
         ...MOCK_USER_REQOPTS
       })
@@ -267,7 +268,8 @@ describe("search", () => {
           const params = options.body as FormData;
           if (params.get) {
             expect(params.get("f")).toEqual("json");
-            expect(params.get("fileName")).toEqual("image/banner.png");
+            expect(params.get("fileName")).toEqual("banner.png");
+            expect(params.get("resourcesPrefix")).toEqual("image");
             expect(params.get("text")).toEqual("jumbotron");
             expect(params.get("access")).toEqual(null);
             expect(params.get("token")).toEqual("fake-token");
