@@ -1103,7 +1103,7 @@ describe("UserSession", () => {
 
     const cred = {
       expires: TOMORROW.getTime(),
-      server: "https://www.arcgis.com",
+      server: "https://www.arcgis.com/sharing/rest",
       ssl: false,
       token: "token",
       userId: "jsmith",
@@ -1174,6 +1174,10 @@ describe("UserSession", () => {
       expect(args[0].credential.userId).toBe(
         "jsmith",
         "should send credential"
+      );
+      expect(args[0].credential.server).toBe(
+        "https://www.arcgis.com",
+        "sends server url without /sharing/rest"
       );
       // now the case where it's not a valid origin
       event.origin = "https://evil.com";
@@ -1629,6 +1633,30 @@ describe("UserSession", () => {
       expect(credSession.ssl).toEqual(false);
       expect(credSession.token).toEqual("token");
       expect(credSession.tokenExpires).toEqual(new Date(TOMORROW));
+    });
+  });
+
+  describe("fromCredential() when credential doesn't have an expiration date or ssl", () => {
+    const MOCK_CREDENTIAL: ICredential = {
+      expires: undefined,
+      server: "https://www.arcgis.com",
+      ssl: undefined,
+      token: "token",
+      userId: "jsmith",
+    };
+
+    it("should create a UserSession from a credential", () => {
+      jasmine.clock().install();
+      jasmine.clock().mockDate();
+
+      const session = UserSession.fromCredential(MOCK_CREDENTIAL);
+      expect(session.username).toEqual("jsmith");
+      expect(session.portal).toEqual("https://www.arcgis.com/sharing/rest");
+      expect(session.ssl).toBeTruthy();
+      expect(session.token).toEqual("token");
+      expect(session.tokenExpires).toEqual(new Date(Date.now() + 7200000 /* 2 hours */));
+
+      jasmine.clock().uninstall();
     });
   });
 

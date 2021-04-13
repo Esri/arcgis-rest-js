@@ -55,7 +55,7 @@ interface IFeatureSetWithGeoJson extends IFeatureSet {
 }
 
 export interface IOriginDestinationMatrixResponse {
-  messages: string[];
+  messages: [ { type: number, description: string } ];
   /**
    *  Only present if outputType is "esriNAODOutputSparseMatrix". Full description is available at https://developers.arcgis.com/rest/network/api-reference/origin-destination-cost-matrix-synchronous-service.htm#ESRI_SECTION2_114F8364507C4B56B780DFAD505270FB.
    */
