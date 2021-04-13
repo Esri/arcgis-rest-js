@@ -33,6 +33,8 @@ After you've made these changes, run `git add .` to stage it, and proceed.
 
 The last command increments the version in the root package.json, pushes the new tag to GitHub and publishes a release of each individual package on npm.
 
+NOTE: If you are using MFA at Github, have your personal access token handy because you will be prompted for your github username and password and you should proved your access token as the password. It is best to have this handy ahead of time and pay attention because there the process can timeout if you do not privide your credentials fast enough. 
+
 ```bash
 npm run release:publish
 ```
