@@ -416,8 +416,8 @@ export interface ITable {
   capabilities?: string;
   /** Object indicating the definitionEditor used as a layer's interactive filter. */
   definitionEditor?: IDefinitionEditor;
-  /** Unique string identifier for the table. */
-  id?: string;
+  /** Unique identifier for the table. */
+  id?: number;
   /** Unique string value indicating an item registered in ArcGIS Online or your organization's portal. */
   itemId?: string;
   /** A layerDefinition object defining a definition expression for the table. */
