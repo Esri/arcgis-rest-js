@@ -1,6 +1,6 @@
 ## Is this a _supported_ Esri product?
 
-With the release of ArcGIS Platform in January 2021, Esri is now officially supporting ArcGIS REST JS. Documentation is available on [ArcGIS Developer](https://developers.arcgis.com/arcgis-rest-js/) and [Esri Technical Support](https://support.esri.com/en/contact-tech-support) will respond to support incidents.
+With the release of ArcGIS Platform in January 2021, Esri is now officially supporting ArcGIS REST JS. Documentation is available on [ArcGIS Developer](https://developers.arcgis.com/arcgis-rest-js/) and [Esri Technical Support](https://support.esri.com/en/contact-tech-support) will respond to support incidents for developers with a technical support plan.
 
 This project is still an open source collaboration between developers from a variety of teams at Esri that was initially developed to scratch an itch of our own. We welcome outside contributors and fully expect that the tools here will be useful to any developer looking to integrate ArcGIS Platform services into their apps.
 
