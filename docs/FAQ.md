@@ -1,28 +1,28 @@
 ## Is this a _supported_ Esri product?
 
-It is not. We offer no guarantees, SLAs, nor a product lifecycle to support planning.
+With the release of ArcGIS Platform in January 2021, Esri is now officially supporting ArcGIS REST JS. Documentation is available on [ArcGIS Developer](https://developers.arcgis.com/arcgis-rest-js/) and Esri Technical Support will respond to support incidents.
 
-This project is an open source collaboration between developers from a variety of teams at Esri that was initially developed to scratch an itch of our own. That said, we are actively recruiting outside contributors and fully expect that the tools here will be useful to a subset of our customers.
+This project is still an open source collaboration between developers from a variety of teams at Esri that was initially developed to scratch an itch of our own. We welcome outside contributors and fully expect that the tools here will be useful to any developer looking to integrate ArcGIS Platform services into their apps.
 
 ## Comparison with the ArcGIS API for JavaScript
 
-The ArcGIS API for JavaScript is Esri's flagship product for building web applications to visualize, edit, map and analyze geospatial data. It is a feature complete client side API for working with the REST services based ArcGIS platform.
+The [ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/) is Esri's flagship product for building web applications to visualize, edit, map and analyze geospatial data. It is a feature complete client side API for working with the REST services based on ArcGIS Platform.
 The ArcGIS API for JavaScript includes significant client side functionality including smart mapping, 3D rendering, geometric analysis and feature editing as well as full support for working with web maps and web scenes.
 
-The goal of this project on the other hand is to provide a convenient binding to the underlying REST API for those who need to work directly with it from JavaScript. This project includes functional equivalents of the low-level request methods and identity management in the ArcGIS API for JavaScript, along with additional thin wrappers to assist developers in scripting against the ArcGIS REST API directly in Node.js and browser applications that do _not_ incorporate a map.
+The goal of this project on the other hand is to provide a convenient binding to the underlying REST APIs for those who need to work directly with it from JavaScript. This project includes functional equivalents of the low-level request methods and identity management in the ArcGIS API for JavaScript, along with additional thin wrappers to assist developers in scripting against the ArcGIS REST APIs directly in Node.js and browser applications that do _not_ render a map.
 
-We aim to make interacting with the platform as intuitive as possible, but the surface area of the project currently does not nearly encompass the entire ArcGIS REST API.
+We aim to make interacting with the platform as intuitive as possible, but the surface area of the project currently does not nearly encompass the entirety of the ArcGIS REST APIs.
 
 ## Comparison with the ArcGIS API for Python
 
-This project is similar to the ArcGIS API for Python in many ways. Like the ArcGIS API for Python, this library aims to be a scripting tool that simplifies interacting with the ArcGIS REST API, but where the ArcGIS API for Python highlights integration with dataframes and Jupyter Notebooks for visualization and sharing this project provides only generic tools for JavaScript applications running on a server, CLI, in a browser or as a script.
+This project is similar to the [ArcGIS API for Python](https://developers.arcgis.com/python/) in many ways. Like the ArcGIS API for Python, this library aims to be a scripting tool that simplifies interacting with the ArcGIS REST API, but where the ArcGIS API for Python highlights integration with dataframes and Jupyter Notebooks for visualization and sharing this project provides only generic tools for JavaScript applications running on a server, CLI, in a browser or as a script.
 
 ## Who is using these packages?
 
 REST JS is trusted in ArcGIS applications serving **many** thousands of users.
 
 * ArcGIS [Hub](https://hub.arcgis.com)
-* ArcGIS for [Developers](https://developers.arcgis.com)
+* ArcGIS [Developer](https://developers.arcgis.com)
 * ArcGIS [Storymaps](https://storymaps.arcgis.com/en/)
 * ArcGIS [Solutions](https://solutions.arcgis.com/)
 * ArcGIS Enterprise
