@@ -46,17 +46,17 @@ export interface ICreateItemResponse extends IUpdateItemResponse {
 export function createFolder(
   requestOptions: ICreateFolderOptions
 ): Promise<IAddFolderResponse> {
-  const owner = determineOwner(requestOptions);
+  return determineOwner(requestOptions).then(owner => {
+    const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
+    const url = `${baseUrl}/createFolder`;
 
-  const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
-  const url = `${baseUrl}/createFolder`;
+    requestOptions.params = {
+      title: requestOptions.title,
+      ...requestOptions.params
+    };
 
-  requestOptions.params = {
-    title: requestOptions.title,
-    ...requestOptions.params
-  };
-
-  return request(url, requestOptions);
+    return request(url, requestOptions);
+  });
 }
 
 /**
@@ -79,51 +79,46 @@ export function createFolder(
 export function createItemInFolder(
   requestOptions: ICreateItemOptions
 ): Promise<ICreateItemResponse> {
-  if (requestOptions.file && !requestOptions.multipart) {
-    return Promise.reject(
-      new Error("The request must be a multipart request for file uploading.")
-    );
-  }
-
   if (requestOptions.multipart && !requestOptions.filename) {
     return Promise.reject(
-      new Error("The file name is required for a multipart request.")
+      new Error("The filename is required for a multipart request.")
     );
   }
 
-  const owner = determineOwner(requestOptions);
-  const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
-  let url = `${baseUrl}/addItem`;
+  return determineOwner(requestOptions).then(owner => {
+    const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
+    let url = `${baseUrl}/addItem`;
 
-  if (requestOptions.folderId) {
-    url = `${baseUrl}/${requestOptions.folderId}/addItem`;
-  }
-
-  requestOptions.params = {
-    ...requestOptions.params,
-    ...serializeItem(requestOptions.item)
-  };
-
-  // serialize the item into something Portal will accept
-  const options = appendCustomParams<ICreateItemOptions>(
-    requestOptions,
-    [
-      "owner",
-      "folderId",
-      "file",
-      "dataUrl",
-      "text",
-      "async",
-      "multipart",
-      "filename",
-      "overwrite"
-    ],
-    {
-      params: { ...requestOptions.params }
+    if (requestOptions.folderId) {
+      url = `${baseUrl}/${requestOptions.folderId}/addItem`;
     }
-  );
 
-  return request(url, options);
+    requestOptions.params = {
+      ...requestOptions.params,
+      ...serializeItem(requestOptions.item)
+    };
+
+    // serialize the item into something Portal will accept
+    const options = appendCustomParams<ICreateItemOptions>(
+      requestOptions,
+      [
+        "owner",
+        "folderId",
+        "file",
+        "dataUrl",
+        "text",
+        "async",
+        "multipart",
+        "filename",
+        "overwrite"
+      ],
+      {
+        params: { ...requestOptions.params }
+      }
+    );
+
+    return request(url, options);
+  });
 }
 
 /**

@@ -8,7 +8,9 @@ import { getPortalUrl } from "../util/get-portal-url";
 import {
   ICreateUpdateItemOptions,
   IMoveItemResponse,
+  IItemInfoOptions,
   IItemResourceOptions,
+  IItemInfoResponse,
   IItemResourceResponse,
   IUpdateItemResponse,
   serializeItem,
@@ -46,25 +48,60 @@ export interface IMoveItemOptions extends ICreateUpdateItemOptions {
  * ```
  * Update an Item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-item.htm) for more information.
  *
- * @param item - The item to update.
  * @param requestOptions - Options for the request.
  * @returns A Promise that updates an item.
  */
 export function updateItem(
   requestOptions: IUpdateItemOptions
 ): Promise<IUpdateItemResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.item.id
-  }/update`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = requestOptions.folderId
+      ? `${getPortalUrl(requestOptions)}/content/users/${owner}/${requestOptions.folderId}/items/${requestOptions.item.id}/update`
+      : `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${requestOptions.item.id}/update`;
 
-  // serialize the item into something Portal will accept
-  requestOptions.params = {
-    ...requestOptions.params,
-    ...serializeItem(requestOptions.item)
-  };
+    // serialize the item into something Portal will accept
+    requestOptions.params = {
+      ...requestOptions.params,
+      ...serializeItem(requestOptions.item)
+    };
 
-  return request(url, requestOptions);
+    return request(url, requestOptions);
+  });
+}
+
+/**
+ * ```js
+ * import { updateItemInfo } from "@esri/arcgis-rest-portal";
+ * //
+ * updateItemInfo({
+ *   id: '3ef',
+ *   file: file,
+ *   authentication
+ * })
+ *   .then(response)
+ * ```
+ * Update an info file associated with an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-info.htm) for more information.
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise that updates an item info file.
+ */
+export function updateItemInfo(
+  requestOptions: IItemInfoOptions
+): Promise<IItemInfoResponse> {
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(
+      requestOptions as IRequestOptions
+    )}/content/users/${owner}/items/${requestOptions.id}/updateinfo`;
+
+    // mix in user supplied params
+    requestOptions.params = {
+      folderName: requestOptions.folderName,
+      file: requestOptions.file,
+      ...requestOptions.params
+    };
+
+    return request(url, requestOptions);
+  });
 }
 
 /**
@@ -87,26 +124,28 @@ export function updateItem(
 export function updateItemResource(
   requestOptions: IItemResourceOptions
 ): Promise<IItemResourceResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(
-    requestOptions as IRequestOptions
-  )}/content/users/${owner}/items/${requestOptions.id}/updateResources`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(
+      requestOptions as IRequestOptions
+    )}/content/users/${owner}/items/${requestOptions.id}/updateResources`;
 
-  // mix in user supplied params
-  requestOptions.params = {
-    file: requestOptions.resource,
-    fileName: requestOptions.name,
-    text: requestOptions.content,
-    ...requestOptions.params
-  };
+    // mix in user supplied params
+    requestOptions.params = {
+      file: requestOptions.resource,
+      fileName: requestOptions.name,
+      resourcesPrefix: requestOptions.prefix,
+      text: requestOptions.content,
+      ...requestOptions.params
+    };
 
-  // only override the access specified previously if 'private' is passed explicitly
-  if (typeof requestOptions.private !== "undefined") {
-    requestOptions.params.access = requestOptions.private
-      ? "private"
-      : "inherit";
-  }
-  return request(url, requestOptions);
+    // only override the access specified previously if 'private' is passed explicitly
+    if (typeof requestOptions.private !== "undefined") {
+      requestOptions.params.access = requestOptions.private
+        ? "private"
+        : "inherit";
+    }
+    return request(url, requestOptions);
+  });
 }
 
 /**
@@ -127,19 +166,20 @@ export function updateItemResource(
 export function moveItem(
   requestOptions: IMoveItemOptions
 ): Promise<IMoveItemResponse> {
-  const owner = determineOwner(requestOptions);
-  const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
-    requestOptions.itemId
-  }/move`;
+  return determineOwner(requestOptions).then(owner => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.itemId
+    }/move`;
 
-  let folderId = requestOptions.folderId;
-  if (!folderId) {
-    folderId = "/";
-  }
-  requestOptions.params = {
-    folder: folderId,
-    ...requestOptions.params
-  };
+    let folderId = requestOptions.folderId;
+    if (!folderId) {
+      folderId = "/";
+    }
+    requestOptions.params = {
+      folder: folderId,
+      ...requestOptions.params
+    };
 
-  return request(url, requestOptions);
+    return request(url, requestOptions);
+  });
 }

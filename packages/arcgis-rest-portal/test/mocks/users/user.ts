@@ -97,7 +97,7 @@ export const GroupNonMemberUserResponse: IUser = {
       access: "org",
       userMembership: {
         username: "jsmith",
-        memberType: "member",
+        memberType: "none",
         applications: 0
       },
       protected: false,
@@ -109,7 +109,7 @@ export const GroupNonMemberUserResponse: IUser = {
   ]
 };
 
-export const GroupAdminUserResponse = {
+export const GroupAdminUserResponse: IUser = {
   ...GroupMemberUserResponse,
   groups: [
     {
@@ -140,9 +140,10 @@ export const GroupAdminUserResponse = {
   ]
 };
 
-export const OrgAdminUserResponse = {
+export const OrgAdminUserResponse: IUser = {
   ...GroupAdminUserResponse,
   role: "org_admin",
+  roleId: undefined,
   groups: [
     {
       id: "t6b",

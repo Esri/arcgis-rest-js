@@ -12,6 +12,10 @@ export interface ISearchOptions extends IRequestOptions, IPagingParams {
   [key: string]: any;
 }
 
+export interface ISearchGroupContentOptions extends ISearchOptions {
+  groupId: string;
+}
+
 /**
  * Results from an item or group search.
  */

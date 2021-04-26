@@ -84,9 +84,7 @@ export function getUserInvitation(
 ): Promise<IInvitation> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
-  const url = `${portalUrl}/community/users/${username}/invitations/${
-    requestOptions.invitationId
-  }`;
+  const url = `${portalUrl}/community/users/${username}/invitations/${requestOptions.invitationId}`;
 
   let options = { httpMethod: "GET" } as IGetUserInvitationOptions;
   options = { ...requestOptions, ...options };
@@ -120,9 +118,7 @@ export function acceptInvitation(
 }> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
-  const url = `${portalUrl}/community/users/${username}/invitations/${
-    requestOptions.invitationId
-  }/accept`;
+  const url = `${portalUrl}/community/users/${username}/invitations/${requestOptions.invitationId}/accept`;
 
   const options: IGetUserInvitationOptions = { ...requestOptions };
   return request(url, options);
@@ -153,9 +149,7 @@ export function declineInvitation(
 }> {
   const username = encodeURIComponent(requestOptions.authentication.username);
   const portalUrl = getPortalUrl(requestOptions);
-  const url = `${portalUrl}/community/users/${username}/invitations/${
-    requestOptions.invitationId
-  }/decline`;
+  const url = `${portalUrl}/community/users/${username}/invitations/${requestOptions.invitationId}/decline`;
 
   const options: IGetUserInvitationOptions = { ...requestOptions };
   return request(url, options);

@@ -28,7 +28,7 @@ export function attachmentFile() {
   } else {
     const fs = require("fs");
     return fs.createReadStream(
-      "./packages/arcgis-rest-feature-service/test/mocks/foo.txt"
+      "./packages/arcgis-rest-feature-layer/test/mocks/foo.txt"
     );
   }
 }
@@ -53,9 +53,7 @@ describe("attachment methods", () => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          `${requestOptions.url}/${
-            requestOptions.featureId
-          }/attachments?f=json&gdbVersion=SDE.DEFAULT`
+          `${requestOptions.url}/${requestOptions.featureId}/attachments?f=json&gdbVersion=SDE.DEFAULT`
         );
         expect(options.method).toBe("GET");
         expect(getAttachmentsResponse.attachmentInfos.length).toEqual(2);

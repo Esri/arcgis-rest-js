@@ -9,6 +9,16 @@ import {
 import { IPagingParams, IGroup, IItem, IUser } from "@esri/arcgis-rest-types";
 import { getPortalUrl } from "../util/get-portal-url";
 
+export interface IGroupCategorySchema {
+  categorySchema: IGroupCategory[];
+}
+
+export interface IGroupCategory {
+  title: string;
+  description?: string;
+  categories?: IGroupCategory[];
+}
+
 export interface IGetGroupContentOptions extends IRequestOptions {
   paging: IPagingParams;
 }
@@ -45,6 +55,30 @@ export function getGroup(
   requestOptions?: IRequestOptions
 ): Promise<IGroup> {
   const url = `${getPortalUrl(requestOptions)}/community/groups/${id}`;
+  // default to a GET request
+  const options: IRequestOptions = {
+    ...{ httpMethod: "GET" },
+    ...requestOptions
+  };
+  return request(url, options);
+}
+
+/**
+ * Gets the category schema set on a group
+ *
+ * @param id - Group Id
+ * @param requestOptions  - Options for the request
+ * @returns A promise that will resolve with JSON of group's category schema
+ * @see https://developers.arcgis.com/rest/users-groups-and-items/group-category-schema.htm
+ */
+export function getGroupCategorySchema(
+  id: string,
+  requestOptions?: IRequestOptions
+): Promise<IGroupCategorySchema> {
+  const url = `${getPortalUrl(
+    requestOptions
+  )}/community/groups/${id}/categorySchema`;
+
   // default to a GET request
   const options: IRequestOptions = {
     ...{ httpMethod: "GET" },

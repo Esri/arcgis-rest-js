@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-request",
-  "version": "2.6.0",
+  "version": "3.0.5",
   "description": "Common methods and utilities for @esri/arcgis-rest-js packages.",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/request.umd.js",
@@ -10,7 +10,7 @@
   "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
   "dependencies": {
-    "tslib": "^1.9.3"
+    "tslib": "^1.10.0"
   },
   "files": [
     "dist/**"
