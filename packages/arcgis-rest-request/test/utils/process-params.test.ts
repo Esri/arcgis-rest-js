@@ -68,13 +68,25 @@ describe("processParams", () => {
     expect(processParams(params)).toEqual(expected);
   });
 
-  it("should comma seperate arrays of non objects", () => {
+  it("should comma separate arrays of non objects", () => {
     const params = {
       foo: ["bar", "baz"]
     };
 
     const expected = {
       foo: "bar,baz"
+    };
+
+    expect(processParams(params)).toEqual(expected);
+  });
+
+  it("should pass array of arrays through", () => {
+    const params = {
+      foo: [["bar1"], ["baz1", "baz2"]]
+    };
+
+    const expected = {
+      foo: [["bar1"], ["baz1", "baz2"]]
     };
 
     expect(processParams(params)).toEqual(expected);

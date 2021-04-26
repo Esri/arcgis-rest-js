@@ -15,8 +15,8 @@ export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 let DEFAULT_ARCGIS_REQUEST_OPTIONS: IRequestOptions = {
   httpMethod: "POST",
   params: {
-    f: "json"
-  }
+    f: "json",
+  },
 };
 
 /**
@@ -74,19 +74,19 @@ export class ArcGISAuthError extends ArcGISRequestError {
 
     const retryRequest = (resolve: any, reject: any) => {
       getSession(this.url, this.options)
-        .then(session => {
+        .then((session) => {
           const newOptions = {
             ...this.options,
-            ...{ authentication: session }
+            ...{ authentication: session },
           };
 
           tries = tries + 1;
           return request(this.url, newOptions);
         })
-        .then(response => {
+        .then((response) => {
           resolve(response);
         })
-        .catch(e => {
+        .catch((e) => {
           if (e.name === "ArcGISAuthError" && tries < retryLimit) {
             retryRequest(resolve, reject);
           } else if (e.name === "ArcGISAuthError" && tries >= retryLimit) {
@@ -197,13 +197,13 @@ export function request(
     ...{
       params: {
         ...DEFAULT_ARCGIS_REQUEST_OPTIONS.params,
-        ...requestOptions.params
+        ...requestOptions.params,
       },
       headers: {
         ...DEFAULT_ARCGIS_REQUEST_OPTIONS.headers,
-        ...requestOptions.headers
-      }
-    }
+        ...requestOptions.headers,
+      },
+    },
   };
 
   const missingGlobals: string[] = [];
@@ -245,7 +245,7 @@ export function request(
 
   const params: IParams = {
     ...{ f: "json" },
-    ...options.params
+    ...options.params,
   };
 
   let originalAuthError: ArcGISAuthError = null;
@@ -254,11 +254,22 @@ export function request(
     method: httpMethod,
     /* ensures behavior mimics XMLHttpRequest.
     needed to support sending IWA cookies */
-    credentials: "same-origin"
+    credentials: "same-origin",
   };
 
+  // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
+  // and that request needs to send cookies cross domain
+  // so we need to set the credentials to "include"
+  if (
+    options.headers &&
+    options.headers["X-Esri-Auth-Client-Id"] &&
+    url.indexOf("/oauth2/platformSelf") > -1
+  ) {
+    fetchOptions.credentials = "include";
+  }
+
   return (authentication
-    ? authentication.getToken(url, { fetch: options.fetch }).catch(err => {
+    ? authentication.getToken(url, { fetch: options.fetch }).catch((err) => {
         /**
          * append original request url and requestOptions
          * to the error thrown by getToken()
@@ -276,12 +287,28 @@ export function request(
       })
     : Promise.resolve("")
   )
-    .then(token => {
+    .then((token) => {
       if (token.length) {
         params.token = token;
       }
 
+      // Custom headers to add to request. IRequestOptions.headers with merge over requestHeaders.
+      const requestHeaders: {
+        [key: string]: any;
+      } = {};
+
       if (fetchOptions.method === "GET") {
+        // Prevents token from being passed in query params when hideToken option is used.
+        /* istanbul ignore if - window is always defined in a browser. Test case is covered by Jasmine in node test */
+        if (
+          params.token &&
+          options.hideToken &&
+          // Sharing API does not support preflight check required by modern browsers https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
+          typeof window === "undefined"
+        ) {
+          requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`;
+          delete params.token;
+        }
         // encode the parameters into the query string
         const queryParams = encodeQueryString(params);
         // dont append a '?' unless parameters are actually present
@@ -289,12 +316,22 @@ export function request(
           queryParams === "" ? url : url + "?" + encodeQueryString(params);
 
         if (
-          options.maxUrlLength &&
-          urlWithQueryString.length > options.maxUrlLength
+          // This would exceed the maximum length for URLs specified by the consumer and requires POST
+          (options.maxUrlLength &&
+            urlWithQueryString.length > options.maxUrlLength) ||
+          // Or if the customer requires the token to be hidden and it has not already been hidden in the header (for browsers)
+          (params.token && options.hideToken)
         ) {
           // the consumer specified a maximum length for URLs
           // and this would exceed it, so use post instead
           fetchOptions.method = "POST";
+
+          // If the token was already added as a Auth header, add the token back to body with other params instead of header
+          if (token.length && options.hideToken) {
+            params.token = token;
+            // Remove existing header that was added before url query length was checked
+            delete requestHeaders["X-Esri-Authorization"];
+          }
         } else {
           // just use GET
           url = urlWithQueryString;
@@ -312,7 +349,8 @@ export function request(
 
       // Mixin headers from request options
       fetchOptions.headers = {
-        ...options.headers
+        ...requestHeaders,
+        ...options.headers,
       };
 
       /* istanbul ignore next - karma reports coverage on browser tests only */
@@ -328,7 +366,7 @@ export function request(
 
       return options.fetch(url, fetchOptions);
     })
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
         // server responded w/ an actual error (404, 500, etc)
         const { status, statusText } = response;
@@ -357,7 +395,7 @@ export function request(
           return response.blob();
       }
     })
-    .then(data => {
+    .then((data) => {
       if ((params.f === "json" || params.f === "geojson") && !rawResponse) {
         const response = checkForErrors(
           data,
@@ -377,7 +415,7 @@ export function request(
           (options.authentication as any).trustedServers[truncatedUrl] = {
             token: [],
             // default to 24 hours
-            expires: new Date(Date.now() + 86400 * 1000)
+            expires: new Date(Date.now() + 86400 * 1000),
           };
           originalAuthError = null;
         }

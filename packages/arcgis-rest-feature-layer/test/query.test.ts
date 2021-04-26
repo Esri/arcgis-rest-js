@@ -106,9 +106,7 @@ describe("getFeature() and queryFeatures()", () => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          `${
-            requestOptions.url
-          }/query?f=json&where=Condition%3D'Poor'&outFields=FID%2CTree_ID%2CCmn_Name%2CCondition&geometry=%7B%7D&geometryType=esriGeometryPolygon&orderByFields=test`
+          `${requestOptions.url}/query?f=json&where=Condition%3D'Poor'&outFields=FID%2CTree_ID%2CCmn_Name%2CCondition&geometry=%7B%7D&geometryType=esriGeometryPolygon&orderByFields=test`
         );
         expect(options.method).toBe("GET");
         // expect(response.attributes.FID).toEqual(42);
@@ -129,9 +127,7 @@ describe("getFeature() and queryFeatures()", () => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          `${
-            requestOptions.url
-          }/queryRelatedRecords?f=json&definitionExpression=1%3D1&outFields=*&relationshipId=0`
+          `${requestOptions.url}/queryRelatedRecords?f=json&definitionExpression=1%3D1&outFields=*&relationshipId=0`
         );
         expect(options.method).toBe("GET");
         done();

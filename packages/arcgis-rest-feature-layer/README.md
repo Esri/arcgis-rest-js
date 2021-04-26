@@ -38,7 +38,7 @@ queryFeatures(options)
   });
 ```
 
-### [API Reference](https://esri.github.io/arcgis-rest-js/api/feature-service/)
+### [API Reference](https://esri.github.io/arcgis-rest-js/api/feature-layer/)
 
 ### Issues
 

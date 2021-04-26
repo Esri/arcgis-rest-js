@@ -4,7 +4,7 @@ const fs = require('fs');
 const Papa = require('papaparse');
 const { ApplicationSession } = require('@esri/arcgis-rest-auth');
 const { bulkGeocode } = require('@esri/arcgis-rest-geocoding');
-const config = require('./config');
+const config = require('./config-template');
 
 // FUNCTIONS!
 

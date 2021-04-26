@@ -63,3 +63,19 @@ export interface IItem extends IItemAdd {
   size: number;
   protected?: boolean; // not present in search results
 }
+
+/**
+ * Used for organizing content. See [Create Folder](https://developers.arcgis.com/rest/users-groups-and-items/create-folder.htm) for more details.
+ * 
+ * `IFolder` can also be imported from the following packages:
+ * 
+ * ```js
+ * import { IFolder } from "@esri/arcgis-rest-portal";
+ * ```
+ */
+export interface IFolder {
+  username: string;
+  id: string;
+  title: string;
+  created?: number;
+}

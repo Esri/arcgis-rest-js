@@ -36,4 +36,7 @@ export interface IFeatureSet extends IHasZM {
   spatialReference?: ISpatialReference; // for feature layers only.
   fields?: IField[];
   features: IFeature[];
+  fieldAliases?: {
+    [key: string]: string
+  }
 }

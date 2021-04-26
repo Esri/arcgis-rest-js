@@ -8,8 +8,7 @@ import { attachmentFile } from "../../../arcgis-rest-feature-layer/test/attachme
 import {
   addItemData,
   addItemResource,
-  addItemRelationship,
-  addItemPart
+  addItemRelationship
 } from "../../src/items/add";
 
 import { ItemSuccessResponse } from "../mocks/items/item";
@@ -224,6 +223,7 @@ describe("search", () => {
         // File() is only available in the browser
         resource: file,
         name: "thebigkahuna",
+        prefix: "myfiles",
         ...MOCK_USER_REQOPTS
       })
         .then(() => {
@@ -241,6 +241,7 @@ describe("search", () => {
             expect(params.get("file")).toEqual(file);
             expect(params.get("access")).toEqual("inherit");
             expect(params.get("fileName")).toEqual("thebigkahuna");
+            expect(params.get("resourcesPrefix")).toEqual("myfiles");
           }
 
           done();
@@ -311,83 +312,6 @@ describe("search", () => {
           expect(options.body).toContain("text=Text%20content");
           expect(options.body).toContain("fileName=thebigkahuna");
           expect(options.body).toContain(encodeParam("token", "fake-token"));
-
-          done();
-        })
-        .catch(e => {
-          fail(e);
-        });
-    });
-
-    it("should add a binary part to an item", done => {
-      fetchMock.once("*", {
-        success: true
-      });
-
-      const file = attachmentFile();
-
-      addItemPart({
-        id: "3ef",
-        // File() is only available in the browser
-        file,
-        partNum: 1,
-        ...MOCK_USER_REQOPTS
-      })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/addPart"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body instanceof FormData).toBeTruthy();
-          const params = options.body as FormData;
-
-          if (params.get) {
-            expect(params.get("token")).toEqual("fake-token");
-            expect(params.get("f")).toEqual("json");
-            expect(params.get("file")).toEqual(file);
-            expect(params.get("partNum")).toEqual("1");
-          }
-
-          done();
-        })
-        .catch(e => {
-          fail(e);
-        });
-    });
-
-    it("should add a binary part to an item with the owner parameter", done => {
-      fetchMock.once("*", {
-        success: true
-      });
-
-      const file = attachmentFile();
-
-      addItemPart({
-        id: "3ef",
-        owner: "joe",
-        // File() is only available in the browser
-        file,
-        partNum: 1,
-        ...MOCK_USER_REQOPTS
-      })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/joe/items/3ef/addPart"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body instanceof FormData).toBeTruthy();
-          const params = options.body as FormData;
-
-          if (params.get) {
-            expect(params.get("token")).toEqual("fake-token");
-            expect(params.get("f")).toEqual("json");
-            expect(params.get("file")).toEqual(file);
-            expect(params.get("partNum")).toEqual("1");
-          }
 
           done();
         })

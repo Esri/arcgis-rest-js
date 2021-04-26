@@ -1,10 +1,11 @@
-/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import {
   addFeatures,
   updateFeatures,
   deleteFeatures,
+  applyEdits,
   IDeleteFeaturesOptions,
   IUpdateFeaturesOptions
 } from "../src/index";
@@ -14,7 +15,8 @@ import * as fetchMock from "fetch-mock";
 import {
   addFeaturesResponse,
   updateFeaturesResponse,
-  deleteFeaturesResponse
+  deleteFeaturesResponse,
+  applyEditsResponse
 } from "./mocks/feature";
 
 const serviceUrl =
@@ -78,7 +80,8 @@ describe("feature", () => {
           }
         }
       ],
-      rollbackOnFailure: false
+      rollbackOnFailure: false,
+      trueCurveClient: false
     } as IUpdateFeaturesOptions;
     fetchMock.once("*", updateFeaturesResponse);
     updateFeatures(requestOptions)
@@ -94,6 +97,7 @@ describe("feature", () => {
             )
         );
         expect(options.body).toContain("rollbackOnFailure=false");
+        expect(options.body).toContain("trueCurveClient=false");
         expect(response.updateResults[0].success).toEqual(true);
         done();
       })
@@ -120,6 +124,69 @@ describe("feature", () => {
         expect(response.deleteResults[0].objectId).toEqual(
           requestOptions.objectIds[0]
         );
+        expect(response.deleteResults[0].success).toEqual(true);
+        done();
+      })
+      .catch(e => {
+        fail(e);
+      });
+  });
+
+  it("should return objectId of the added, updated or deleted feature(s) and a truthy success", done => {
+    const requestOptions = {
+      url: serviceUrl,
+      adds: [
+        {
+          geometry: {
+            x: -9177311.62541634,
+            y: 4247151.205222242,
+            spatialReference: {
+              wkid: 102100,
+              latestWkid: 3857
+            }
+          },
+          attributes: {
+            Tree_ID: 102,
+            Collected: 1349395200000,
+            Crew: "Linden+ Forrest+ Johnny"
+          }
+        }
+      ],
+      updates: [
+        {
+          attributes: {
+            OBJECTID: 1001,
+            Crew: "Tom+ Patrick+ Dave"
+          }
+        }
+      ],
+      deletes: [455]
+    };
+    fetchMock.once("*", applyEditsResponse);
+    applyEdits(requestOptions)
+      .then(response => {
+        expect(fetchMock.called()).toBeTruthy();
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(`${requestOptions.url}/applyEdits`);
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain(
+          "adds=" +
+            encodeURIComponent(
+              '[{"geometry":{"x":-9177311.62541634,"y":4247151.205222242,"spatialReference":{"wkid":102100,"latestWkid":3857}},"attributes":{"Tree_ID":102,"Collected":1349395200000,"Crew":"Linden+ Forrest+ Johnny"}}]'
+            )
+        );
+        expect(options.body).toContain(
+          "updates=" +
+            encodeURIComponent(
+              '[{"attributes":{"OBJECTID":1001,"Crew":"Tom+ Patrick+ Dave"}}]'
+            )
+        );
+        expect(options.body).toContain("deletes=455");
+        expect(response.addResults[0].objectId).toEqual(2156);
+        expect(response.addResults[0].success).toEqual(true);
+        expect(response.updateResults[0].objectId).toEqual(1001);
+        expect(response.updateResults[0].success).toEqual(true);
+        expect(response.deleteResults[0].objectId).toEqual(455);
         expect(response.deleteResults[0].success).toEqual(true);
         done();
       })

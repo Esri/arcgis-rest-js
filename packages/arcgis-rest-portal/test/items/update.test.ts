@@ -7,13 +7,17 @@ import { attachmentFile } from "../../../arcgis-rest-feature-layer/test/attachme
 
 import {
   updateItem,
+  updateItemInfo,
   updateItemResource,
   moveItem
 } from "../../src/items/update";
 
 import { ItemSuccessResponse } from "../mocks/items/item";
 
-import { UpdateItemResourceResponse } from "../mocks/items/resources";
+import {
+  UpdateItemResourceResponse,
+  UpdateItemInfoResponse
+} from "../mocks/items/resources";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
@@ -172,6 +176,7 @@ describe("search", () => {
 
       updateItem({
         item: fakeItem,
+        folderId: "aFolder",
         params: { foo: "bar" },
         ...MOCK_USER_REQOPTS
       })
@@ -179,7 +184,7 @@ describe("search", () => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/5bc/update"
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/aFolder/items/5bc/update"
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain(encodeParam("f", "json"));
@@ -209,12 +214,47 @@ describe("search", () => {
         });
     });
 
+    it("update an item info file", done => {
+      fetchMock.once("*", UpdateItemInfoResponse);
+      const fakeData = {
+        values: {
+          key: "someValue"
+        }
+      };
+      updateItemInfo({
+        id: "3ef",
+        folderName: "subfolder",
+        file: fakeData,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(() => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateinfo"
+          );
+          expect(options.method).toBe("POST");
+
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("token=fake-token");
+          expect(options.body).toContain(
+            encodeParam("file", JSON.stringify(fakeData))
+          );
+
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
     it("update an item resource", done => {
       fetchMock.once("*", UpdateItemResourceResponse);
       updateItemResource({
         id: "3ef",
         owner: "dbouwman",
-        name: "image/banner.png",
+        name: "banner.png",
+        prefix: "image",
         content: "jumbotron",
         ...MOCK_USER_REQOPTS
       })
@@ -228,7 +268,8 @@ describe("search", () => {
           const params = options.body as FormData;
           if (params.get) {
             expect(params.get("f")).toEqual("json");
-            expect(params.get("fileName")).toEqual("image/banner.png");
+            expect(params.get("fileName")).toEqual("banner.png");
+            expect(params.get("resourcesPrefix")).toEqual("image");
             expect(params.get("text")).toEqual("jumbotron");
             expect(params.get("access")).toEqual(null);
             expect(params.get("token")).toEqual("fake-token");

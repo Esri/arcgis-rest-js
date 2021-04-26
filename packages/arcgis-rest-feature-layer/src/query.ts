@@ -12,7 +12,8 @@ import {
   IFeatureSet,
   IFeature,
   Units,
-  IExtent
+  IExtent,
+  IStatisticDefinition
 } from "@esri/arcgis-rest-types";
 
 import { IGetLayerOptions, ISharedQueryOptions } from "./helpers";
@@ -25,21 +26,6 @@ export interface IGetFeatureOptions extends IGetLayerOptions {
    * Unique identifier of the feature.
    */
   id: number;
-}
-
-export interface IStatisticDefinition {
-  /**
-   * Statistical operation to perform (count, sum, min, max, avg, stddev, var).
-   */
-  statisticType: "count" | "sum" | "min" | "max" | "avg" | "stddev" | "var";
-  /**
-   * Field on which to perform the statistical operation.
-   */
-  onStatisticField: string;
-  /**
-   * Field name for the returned statistic field. If outStatisticFieldName is empty or missing, the server will assign one. A valid field name can only contain alphanumeric characters and an underscore. If the outStatisticFieldName is a reserved keyword of the underlying DBMS, the operation can fail. Try specifying an alternative outStatisticFieldName.
-   */
-  outStatisticFieldName: string;
 }
 
 /**
@@ -60,6 +46,7 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   maxAllowableOffset?: number;
   geometryPrecision?: number;
   // NOTE: either WKID or ISpatialReference
+  inSR?: string | ISpatialReference;
   outSR?: string | ISpatialReference;
   gdbVersion?: string;
   returnDistinctValues?: boolean;
@@ -178,6 +165,7 @@ export function queryFeatures(
       "returnGeometry",
       "maxAllowableOffset",
       "geometryPrecision",
+      "inSR",
       "outSR",
       "gdbVersion",
       "returnDistinctValues",

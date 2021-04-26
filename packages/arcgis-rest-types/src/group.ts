@@ -8,7 +8,7 @@
  * import { GroupMembership } from "@esri/arcgis-rest-portal";
  * ```
  */
-export type GroupMembership = "owner" | "admin" | "member" | "nonmember";
+export type GroupMembership = "owner" | "admin" | "member" | "none";
 
 /**
  * A [Group](https://developers.arcgis.com/rest/users-groups-and-items/common-parameters.htm) that has not been created yet.

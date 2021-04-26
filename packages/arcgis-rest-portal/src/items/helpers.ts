@@ -1,7 +1,7 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { IRequestOptions, ArcGISRequestError } from "@esri/arcgis-rest-request";
 import { IItemAdd, IItemUpdate, IItem } from "@esri/arcgis-rest-types";
 import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
@@ -31,25 +31,43 @@ export interface IFolderIdOptions extends IUserRequestOptions {
 }
 
 export type ItemRelationshipType =
-  | "Map2Service"
-  | "WMA2Code"
-  | "Map2FeatureCollection"
-  | "MobileApp2Code"
-  | "Service2Data"
-  | "Service2Service"
-  | "Map2AppConfig"
+  | "APIKey2Item"
+  | "Area2CustomPackage"
+  | "Area2Package"
   | "Item2Attachment"
   | "Item2Report"
   | "Listed2Provisioned"
-  | "Style2Style"
-  | "Service2Style"
-  | "Survey2Service"
-  | "Survey2Data"
-  | "Service2Route"
-  | "Area2Package"
+  | "Map2AppConfig"
   | "Map2Area"
+  | "Map2FeatureCollection"
+  | "Map2Service"
+  | "MobileApp2Code"
+  | "Service2Data"
   | "Service2Layer"
-  | "Area2CustomPackage";
+  | "Service2Route"
+  | "Service2Service"
+  | "Service2Style"
+  | "Solution2Item"
+  | "Style2Style"
+  | "Survey2Data"
+  | "Survey2Service"
+  | "SurveyAddIn2Data"
+  | "Theme2Story"
+  | "TrackView2Map"
+  | "WebStyle2DesktopStyle"
+  | "WMA2Code"
+  | "WorkforceMap2FeatureService"
+
+/**
+ * Names of methods for reading the body of a fetch response, see:
+ * https://developer.mozilla.org/en-US/docs/Web/API/Body#Methods
+ */
+export type FetchReadMethodName =
+  | "arrayBuffer"
+  | "blob"
+  | "formData"
+  | "json"
+  | "text";
 
 export interface IItemRelationshipOptions extends IRequestOptions {
   /**
@@ -72,11 +90,26 @@ export interface IManageItemRelationshipOptions extends IUserRequestOptions {
   relationshipType: ItemRelationshipType;
 }
 
+export interface IItemInfoOptions extends IUserItemOptions {
+  /**
+   * Subfolder for added information.
+   */
+  folderName?: string;
+  /**
+   * Object to store
+   */
+  file: any;
+}
+
 export interface IItemResourceOptions extends IUserItemOptions {
   /**
    * New resource filename.
    */
   name?: string;
+  /**
+   * Folder in which to store the new resource.
+   */
+  prefix?: string;
   /**
    * Text input to be added as a file resource.
    */
@@ -153,6 +186,13 @@ export interface IUpdateItemResponse {
   id: string;
 }
 
+export interface IItemInfoResponse {
+  success: boolean;
+  itemId: string;
+  owner: string;
+  folder: string;
+}
+
 export interface IItemResourceResponse {
   success: boolean;
   itemId: string;
@@ -218,15 +258,23 @@ export function serializeItem(item: IItemAdd | IItemUpdate | IItem): any {
 }
 
 /**
- * requestOptions.owner is given priority, requestOptions.item.owner will be checked next. If neither are present, authentication.username will be assumed.
+ * `requestOptions.owner` is given priority, `requestOptions.item.owner` will be checked next. If neither are present, `authentication.getUserName()` will be used instead.
  */
-export function determineOwner(requestOptions: any): string {
+export function determineOwner(requestOptions: any): Promise<string> {
   if (requestOptions.owner) {
-    return requestOptions.owner;
-  }
-  if (requestOptions.item && requestOptions.item.owner) {
-    return requestOptions.item.owner;
+    return Promise.resolve(requestOptions.owner);
+  } else if (requestOptions.item && requestOptions.item.owner) {
+    return Promise.resolve(requestOptions.item.owner);
+  } else if (
+    requestOptions.authentication &&
+    requestOptions.authentication.getUsername
+  ) {
+    return requestOptions.authentication.getUsername();
   } else {
-    return requestOptions.authentication.username;
+    return Promise.reject(
+      new Error(
+        "Could not determine the owner of this item. Pass the `owner`, `item.owner`, or `authentication` option."
+      )
+    );
   }
 }

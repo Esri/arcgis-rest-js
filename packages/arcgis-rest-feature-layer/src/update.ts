@@ -20,6 +20,10 @@ export interface IUpdateFeaturesOptions extends ISharedEditOptions {
    * Array of JSON features to update.
    */
   features: IFeature[];
+  /**
+   * Optional parameter which is false by default is set by client to indicate to the server that client in true curve capable.
+   */
+  trueCurveClient?: boolean;
 }
 
 /**
@@ -48,7 +52,7 @@ export function updateFeatures(
   // edit operations are POST only
   const options = appendCustomParams<IUpdateFeaturesOptions>(
     requestOptions,
-    ["features", "gdbVersion", "returnEditMoment", "rollbackOnFailure"],
+    ["features", "gdbVersion", "returnEditMoment", "rollbackOnFailure", "trueCurveClient"],
     { params: { ...requestOptions.params } }
   );
 
