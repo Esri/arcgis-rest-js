@@ -37,6 +37,10 @@ export interface IRequestOptions {
    */
   fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
   /**
+   * A string indicating whether credentials (cookies) will be sent with the request. Used internally for authentication workflows.
+   */
+  credentials?: RequestCredentials;
+  /**
    * If the length of a GET request's URL exceeds `maxUrlLength` the request will use POST instead.
    */
   maxUrlLength?: number;

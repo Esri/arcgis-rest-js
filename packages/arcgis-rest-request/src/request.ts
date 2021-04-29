@@ -254,7 +254,7 @@ export function request(
     method: httpMethod,
     /* ensures behavior mimics XMLHttpRequest.
     needed to support sending IWA cookies */
-    credentials: "same-origin",
+    credentials: options.credentials || "same-origin",
   };
 
   // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
@@ -290,6 +290,10 @@ export function request(
     .then((token) => {
       if (token.length) {
         params.token = token;
+      }
+
+      if (authentication && authentication.getDomainCredentials) {
+        fetchOptions.credentials = authentication.getDomainCredentials(url);
       }
 
       // Custom headers to add to request. IRequestOptions.headers with merge over requestHeaders.
