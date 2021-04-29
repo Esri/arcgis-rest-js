@@ -4,7 +4,7 @@
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
 import { ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
 
-import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers";
+import { ARCGIS_ONLINE_BULK_GEOCODING_URL, IEndpointOptions } from "./helpers";
 
 // it'd be better if doc didnt display these properties in alphabetical order
 export interface IAddressBulk {
@@ -65,7 +65,7 @@ export function bulkGeocode(
   requestOptions: IBulkGeocodeOptions // must POST, which is the default
 ): Promise<IBulkGeocodeResponse> {
   const options: IBulkGeocodeOptions = {
-    endpoint: ARCGIS_ONLINE_GEOCODING_URL,
+    endpoint: ARCGIS_ONLINE_BULK_GEOCODING_URL,
     params: {},
     ...requestOptions
   };
@@ -79,7 +79,7 @@ export function bulkGeocode(
   // the SAS service doesnt support anonymous requests
   if (
     !requestOptions.authentication &&
-    options.endpoint === ARCGIS_ONLINE_GEOCODING_URL
+    options.endpoint === ARCGIS_ONLINE_BULK_GEOCODING_URL
   ) {
     return Promise.reject(
       "bulk geocoding using the ArcGIS service requires authentication"

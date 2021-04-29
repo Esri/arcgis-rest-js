@@ -1103,7 +1103,7 @@ describe("UserSession", () => {
 
     const cred = {
       expires: TOMORROW.getTime(),
-      server: "https://www.arcgis.com",
+      server: "https://www.arcgis.com/sharing/rest",
       ssl: false,
       token: "token",
       userId: "jsmith",
@@ -1152,6 +1152,9 @@ describe("UserSession", () => {
         source: {
           postMessage(msg: any, origin: string) {},
         },
+        data: {
+          type: "arcgis:auth:requestCredential",
+        },
       };
       // create the spy
       const sourceSpy = spyOn(event.source, "postMessage");
@@ -1172,15 +1175,17 @@ describe("UserSession", () => {
         "jsmith",
         "should send credential"
       );
+      expect(args[0].credential.server).toBe(
+        "https://www.arcgis.com",
+        "sends server url without /sharing/rest"
+      );
       // now the case where it's not a valid origin
       event.origin = "https://evil.com";
       Win._fn(event);
       expect(sourceSpy.calls.count()).toBe(
-        2,
-        "souce.postMessage should be called in handler"
+        1,
+        "souce.postMessage should not be called in handler for invalid origin"
       );
-      const args2 = sourceSpy.calls.argsFor(1);
-      expect(args2[0].type).toBe("arcgis:auth:rejected", "should send reject");
     });
 
     it(".fromParent happy path", () => {
@@ -1196,6 +1201,7 @@ describe("UserSession", () => {
             Win._fn({
               origin: "https://origin.com",
               data: { type: "arcgis:auth:credential", credential: cred },
+              source: Win.parent,
             });
           },
         },
@@ -1225,11 +1231,13 @@ describe("UserSession", () => {
             Win._fn({
               origin: "https://notorigin.com",
               data: { type: "other:random", foo: { bar: "baz" } },
+              source: "Not Parent Object",
             });
             // fire a second we want to intercept
             Win._fn({
               origin: "https://origin.com",
               data: { type: "arcgis:auth:credential", credential: cred },
+              source: Win.parent,
             });
           },
         },
@@ -1259,6 +1267,7 @@ describe("UserSession", () => {
                 type: "arcgis:auth:credential",
                 credential: { foo: "bar" },
               },
+              source: Win.parent,
             });
           },
         },
@@ -1269,7 +1278,7 @@ describe("UserSession", () => {
       });
     });
 
-    it(".fromParent rejects if auth rejected", () => {
+    it(".fromParent rejects if auth error recieved", () => {
       // create a mock window that will fire the handler
       const Win = {
         _fn: (evt: any) => {},
@@ -1282,9 +1291,10 @@ describe("UserSession", () => {
             Win._fn({
               origin: "https://origin.com",
               data: {
-                type: "arcgis:auth:rejected",
-                message: "Rejected authentication request.",
+                type: "arcgis:auth:error",
+                error: { message: "Rejected authentication request." },
               },
+              source: Win.parent,
             });
           },
         },
@@ -1308,6 +1318,7 @@ describe("UserSession", () => {
             Win._fn({
               origin: "https://origin.com",
               data: { type: "arcgis:auth:other" },
+              source: Win.parent,
             });
           },
         },
@@ -1622,6 +1633,30 @@ describe("UserSession", () => {
       expect(credSession.ssl).toEqual(false);
       expect(credSession.token).toEqual("token");
       expect(credSession.tokenExpires).toEqual(new Date(TOMORROW));
+    });
+  });
+
+  describe("fromCredential() when credential doesn't have an expiration date or ssl", () => {
+    const MOCK_CREDENTIAL: ICredential = {
+      expires: undefined,
+      server: "https://www.arcgis.com",
+      ssl: undefined,
+      token: "token",
+      userId: "jsmith",
+    };
+
+    it("should create a UserSession from a credential", () => {
+      jasmine.clock().install();
+      jasmine.clock().mockDate();
+
+      const session = UserSession.fromCredential(MOCK_CREDENTIAL);
+      expect(session.username).toEqual("jsmith");
+      expect(session.portal).toEqual("https://www.arcgis.com/sharing/rest");
+      expect(session.ssl).toBeTruthy();
+      expect(session.token).toEqual("token");
+      expect(session.tokenExpires).toEqual(new Date(Date.now() + 7200000 /* 2 hours */));
+
+      jasmine.clock().uninstall();
     });
   });
 

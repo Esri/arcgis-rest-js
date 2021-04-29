@@ -10,7 +10,7 @@ group: 2-authentication
 
 # Authentication with Embedded Applications
 
-Sometimes an application will need to embed another application using an `<iframe>`. If both applications are backed by items that are publicly accessible, things will just work.
+Sometimes an application will need to embed another application using an `<iframe>`. If both applications are backed by items that are publicly accessible, things will "just work".
 
 However, if the embedded application is not public and the user has already logged into the "Host" application, we then run into the question of how to pass authentication from the "Host" to the embedded application.
 
@@ -22,7 +22,7 @@ Although this is internalized within the functions, the message types and the ob
 
 Cross-Origin embedding occurs when the "host" app and the "embedded" application are served from different locations. This is only supported for ArcGIS Platform apps that support embedding.
 
-For example, you can build a custom app, hosted at `http://myapp.com` and iframe in a "platform app" that supports embedding. However, you can not embed your custom app into a storymap, and expect the storymap to pass authentication to your app. This is done for security reasons.
+For example, you can build a custom app, hosted at `http://myapp.com` and iframe in a "platform app" that supports embedding. However, you can not embed your custom app into a StoryMap, and expect the StoryMap to pass authentication to your app. This is done for security reasons.
 
 ## Using `postMessage`
 
@@ -63,11 +63,9 @@ Let's suppose the host app is embedding `https://storymaps.arcgis.com/stories/15
 ```js
 const originalUrl =
   "https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd";
-const embedUrl = `${originalurl}?arcgis-auth-origin=${encodeURIComponent(
-  window.location.origin
-)}&arcgis-auth-portal=${encodeURIComponent(
-  session.portal
-)}`;
+const embedUrl = `${originalurl}
+    ?arcgis-auth-origin=${encodeURIComponent(window.location.origin)}
+    &arcgis-auth-portal=${encodeURIComponent(session.portal)}`;
 // then use embedUrl in your component that renders the <iframe>
 ```
 
@@ -87,8 +85,8 @@ if (arcgisAuthOrigin) {
       // the embeded app should exchange this token for one specific to the application
     })
     .catch((ex) => {
-      // if the origin of the embedded app is not in the parent's validOrigin array
-      // this will throw with a message "Rejected authentication request."
+      // The only case it will reject is if the parent is unable to return a credential
+      // if the parent does not see the child as a valid origin, the parent will never respond.
     });
 }
 ```
