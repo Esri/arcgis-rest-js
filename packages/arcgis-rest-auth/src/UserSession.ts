@@ -607,8 +607,8 @@ export class UserSession implements IAuthenticationManager {
   public static fromCredential(credential: ICredential) {
     // At ArcGIS Online 9.1, credentials no longer include the ssl and expires properties
     // Here, we provide default values for them to cover this condition
-    const ssl = (typeof credential.ssl !== "undefined") ? credential.ssl : true;
-    const expires = credential.expires || (Date.now() + 7200000 /* 2 hours */);
+    const ssl = typeof credential.ssl !== "undefined" ? credential.ssl : true;
+    const expires = credential.expires || Date.now() + 7200000 /* 2 hours */;
 
     return new UserSession({
       portal: credential.server.includes("sharing/rest")
@@ -617,7 +617,7 @@ export class UserSession implements IAuthenticationManager {
       ssl,
       token: credential.token,
       username: credential.userId,
-      tokenExpires: new Date(expires)
+      tokenExpires: new Date(expires),
     });
   }
 
@@ -700,6 +700,11 @@ export class UserSession implements IAuthenticationManager {
    */
   private _user: IUser;
 
+  /**
+   * Hydrated by a call to [getPortal()](#getPortal-summary).
+   */
+  private _portal: any;
+
   private _token: string;
   private _tokenExpires: Date;
   private _refreshToken: string;
@@ -753,6 +758,7 @@ export class UserSession implements IAuthenticationManager {
 
     this.federatedServers = {};
     this.trustedDomains = [];
+
     // if a non-federated server was passed explicitly, it should be trusted.
     if (options.server) {
       // if the url includes more than '/arcgis/', trim the rest
@@ -824,12 +830,12 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
-   * Returns information about the currently logged in [user](https://developers.arcgis.com/rest/users-groups-and-items/user.htm). Subsequent calls will *not* result in additional web traffic.
+   * Returns information about the currently logged in users [portal](https://developers.arcgis.com/rest/users-groups-and-items/portal-self.htm). Subsequent calls will *not* result in additional web traffic.
    *
    * ```js
-   * session.getUser()
+   * session.getPortal()
    *   .then(response => {
-   *     console.log(response.role); // "org_admin"
+   *     console.log(portal.name); // "City of ..."
    *   })
    * ```
    *
@@ -839,8 +845,8 @@ export class UserSession implements IAuthenticationManager {
   public getPortal(requestOptions?: IRequestOptions): Promise<any> {
     if (this._pendingPortalRequest) {
       return this._pendingPortalRequest;
-    } else if (this._user) {
-      return Promise.resolve(this._user);
+    } else if (this._portal) {
+      return Promise.resolve(this._portal);
     } else {
       const url = `${this.portal}/portals/self`;
 
@@ -852,7 +858,7 @@ export class UserSession implements IAuthenticationManager {
       } as IRequestOptions;
 
       this._pendingPortalRequest = request(url, options).then((response) => {
-        this._user = response;
+        this._portal = response;
         this._pendingPortalRequest = null;
         return response;
       });
@@ -999,6 +1005,27 @@ export class UserSession implements IAuthenticationManager {
     // in the path which cannot be lowercased.
     return `${protocol}${domain.toLowerCase()}/${path.join("/")}`;
   }
+
+  /**
+   * Returns the proper [`credentials`] option for `fetch` for a given domain.
+   * See [trusted server](https://enterprise.arcgis.com/en/portal/latest/administer/windows/configure-security.htm#ESRI_SECTION1_70CC159B3540440AB325BE5D89DBE94A).
+   * Used internally by underlying request methods to add support for specific security considerations.
+   *
+   * @param url The url of the request
+   * @returns "include" or "same-origin"
+   */
+  public getDomainCredentials(url: string): RequestCredentials {
+    if (!this.trustedDomains || !this.trustedDomains.length) {
+      return "same-origin";
+    }
+
+    return this.trustedDomains.some((domainWithProtocol) => {
+      return url.startsWith(domainWithProtocol);
+    })
+      ? "include"
+      : "same-origin";
+  }
+
   /**
    * Return a function that closes over the validOrigins array and
    * can be used as an event handler for the `message` event
@@ -1028,7 +1055,7 @@ export class UserSession implements IAuthenticationManager {
         const credential = this.toCredential();
         // the following line allows us to conform to our spec without changing other depended-on functionality
         // https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-auth/post-message-auth-spec.md#arcgisauthcredential
-        credential.server = credential.server.replace('/sharing/rest', '');
+        credential.server = credential.server.replace("/sharing/rest", "");
         event.source.postMessage(
           {
             type: "arcgis:auth:credential",
@@ -1067,7 +1094,8 @@ export class UserSession implements IAuthenticationManager {
 
     this._pendingTokenRequests[root] = this.getPortal().then((portalInfo) => {
       /**
-       * Domains can be configured as secure.esri.com or https://secure.esri.com this normalizes to https://secure.esri.com so we can use startsWith later.
+       * Specific domains can be configured as secure.esri.com or https://secure.esri.com this
+       * normalizes to https://secure.esri.com so we can use startsWith later.
        */
       if (
         portalInfo.authorizedCrossOriginDomains &&
@@ -1276,17 +1304,5 @@ export class UserSession implements IAuthenticationManager {
         return this;
       }
     );
-  }
-
-  getDomainCredentials(url: string): RequestCredentials {
-    if (!this.trustedDomains || !this.trustedDomains.length) {
-      return "same-origin";
-    }
-
-    return this.trustedDomains.some((domainWithProtocol) => {
-      return url.startsWith(domainWithProtocol);
-    })
-      ? "include"
-      : "same-origin";
   }
 }
