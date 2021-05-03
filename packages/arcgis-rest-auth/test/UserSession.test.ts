@@ -199,6 +199,13 @@ describe("UserSession", () => {
         },
       });
 
+      fetchMock.getOnce(
+        "https://pnp00035.esri.com/portal/sharing/rest/portals/self?f=json&token=existing-session-token",
+        {
+          authorizedCrossOriginDomains: [],
+        }
+      );
+
       fetchMock.postOnce("https://pnp00035.esri.com/portal/sharing/rest/info", {
         owningSystemUrl: "https://pnp00035.esri.com/portal",
         authInfo: {
@@ -306,6 +313,13 @@ describe("UserSession", () => {
         },
       });
 
+      fetchMock.getOnce(
+        "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
+        {
+          authorizedCrossOriginDomains: [],
+        }
+      );
+
       fetchMock.postOnce("https://gis.city.gov/sharing/rest/info", {
         owningSystemUrl: "http://gis.city.gov",
         authInfo: {
@@ -357,6 +371,13 @@ describe("UserSession", () => {
         },
       });
 
+      fetchMock.getOnce(
+        "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
+        {
+          authorizedCrossOriginDomains: [],
+        }
+      );
+
       fetchMock.postOnce("https://gis.city.gov/sharing/rest/info", {
         owningSystemUrl: "http://gis.city.gov",
         authInfo: {
@@ -406,6 +427,17 @@ describe("UserSession", () => {
         },
       });
 
+      fetchMock.postOnce("https://gis.city.gov/sharing/rest/generateToken", {
+        token: "portalToken",
+      });
+
+      fetchMock.getOnce(
+        "https://gis.city.gov/sharing/rest/portals/self?f=json&token=portalToken",
+        {
+          authorizedCrossOriginDomains: [],
+        }
+      );
+
       fetchMock.postOnce("https://gis.city.gov/sharing/rest/info", {
         owningSystemUrl: "http://gis.city.gov",
         authInfo: {
@@ -453,6 +485,13 @@ describe("UserSession", () => {
           },
         },
         { repeat: 1, method: "POST" }
+      );
+
+      fetchMock.getOnce(
+        "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
+        {
+          authorizedCrossOriginDomains: [],
+        }
       );
 
       fetchMock.mock(
@@ -505,6 +544,20 @@ describe("UserSession", () => {
         tokenExpires: YESTERDAY,
       });
 
+      // similates refreshing the token with the refresh token
+      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
+        access_token: "newToken",
+        expires_in: 60,
+        username: " c@sey",
+      });
+
+      fetchMock.getOnce(
+        "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=newToken",
+        {
+          authorizedCrossOriginDomains: [],
+        }
+      );
+
       fetchMock.post("https://gisservices.city.gov/public/rest/info", {
         currentVersion: 10.51,
         fullVersion: "10.5.1.120",
@@ -536,6 +589,19 @@ describe("UserSession", () => {
         refreshToken: "refresh",
         tokenExpires: YESTERDAY,
       });
+
+      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
+        access_token: "newToken",
+        expires_in: 60,
+        username: " c@sey",
+      });
+
+      fetchMock.getOnce(
+        "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=newToken",
+        {
+          authorizedCrossOriginDomains: [],
+        }
+      );
 
       fetchMock.post("https://gisservices.city.gov/public/rest/info", {
         currentVersion: 10.51,
@@ -587,6 +653,19 @@ describe("UserSession", () => {
         currentVersion: 10.51,
         fullVersion: "10.5.1.120",
       });
+
+      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
+        access_token: "newToken",
+        expires_in: 60,
+        username: " c@sey",
+      });
+
+      fetchMock.getOnce(
+        "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=newToken",
+        {
+          authorizedCrossOriginDomains: [],
+        }
+      );
 
       fetchMock.post(
         "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
@@ -1654,7 +1733,9 @@ describe("UserSession", () => {
       expect(session.portal).toEqual("https://www.arcgis.com/sharing/rest");
       expect(session.ssl).toBeTruthy();
       expect(session.token).toEqual("token");
-      expect(session.tokenExpires).toEqual(new Date(Date.now() + 7200000 /* 2 hours */));
+      expect(session.tokenExpires).toEqual(
+        new Date(Date.now() + 7200000 /* 2 hours */)
+      );
 
       jasmine.clock().uninstall();
     });
@@ -1838,5 +1919,328 @@ describe("UserSession", () => {
           done();
         });
     });
+  });
+
+  describe(".getPortal()", () => {
+    afterEach(fetchMock.restore);
+
+    it("should cache metadata about the portal", (done) => {
+      // we intentionally only mock one response
+      fetchMock.once(
+        "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=token",
+        {
+          fetchAuthorizedDomains: ["gis.city.com"],
+        }
+      );
+
+      const session = new UserSession({
+        clientId: "clientId",
+        redirectUri: "https://example-app.com/redirect-uri",
+        token: "token",
+        tokenExpires: TOMORROW,
+        refreshToken: "refreshToken",
+        refreshTokenExpires: TOMORROW,
+        refreshTokenTTL: 1440,
+        username: "jsmith",
+        password: "123456",
+      });
+
+      session
+        .getPortal()
+        .then((response) => {
+          expect(response.fetchAuthorizedDomains).toEqual(["gis.city.com"]);
+          session
+            .getPortal()
+            .then((cachedResponse) => {
+              expect(cachedResponse.fetchAuthorizedDomains).toEqual([
+                "gis.city.com",
+              ]);
+              done();
+            })
+            .catch((e) => {
+              fail(e);
+            });
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should never make more then 1 request", (done) => {
+      // we intentionally only mock one response
+      fetchMock.once(
+        "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=token",
+        {
+          fetchAuthorizedDomains: ["gis.city.com"],
+        }
+      );
+
+      const session = new UserSession({
+        clientId: "clientId",
+        redirectUri: "https://example-app.com/redirect-uri",
+        token: "token",
+        tokenExpires: TOMORROW,
+        refreshToken: "refreshToken",
+        refreshTokenExpires: TOMORROW,
+        refreshTokenTTL: 1440,
+        username: "jsmith",
+        password: "123456",
+      });
+
+      Promise.all([session.getPortal(), session.getPortal()])
+        .then(() => {
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+  });
+
+  describe("fetchAuthorizedDomains/getDomainCredentials", () => {
+    it("should default to same-origin credentials when no domains are listed in authorizedCrossOriginDomains", (done) => {
+      const session = new UserSession({
+        clientId: "id",
+        token: "token",
+        refreshToken: "refresh",
+        tokenExpires: TOMORROW,
+        portal: "https://gis.city.gov/sharing/rest",
+      });
+
+      fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
+        currentVersion: 10.51,
+        fullVersion: "10.5.1.120",
+        owningSystemUrl: "https://gis.city.gov",
+        authInfo: {
+          isTokenBasedSecurity: true,
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+        },
+      });
+
+      fetchMock.getOnce(
+        "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
+        {
+          authorizedCrossOriginDomains: [],
+        }
+      );
+
+      fetchMock.postOnce("https://gis.city.gov/sharing/rest/info", {
+        owningSystemUrl: "http://gis.city.gov",
+        authInfo: {
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+          isTokenBasedSecurity: true,
+        },
+      });
+
+      fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
+        token: "serverToken",
+        expires: TOMORROW,
+      });
+
+      fetchMock.post(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
+        {
+          count: 123,
+        }
+      );
+
+      request(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
+        {
+          authentication: session,
+        }
+      )
+        .then((response) => {
+          const { credentials } = fetchMock.lastOptions(
+            "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+          );
+          expect(credentials).toEqual("same-origin");
+
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should set the credentials option to include when a server is listed in authorizedCrossOriginDomains", (done) => {
+      const session = new UserSession({
+        clientId: "id",
+        token: "token",
+        refreshToken: "refresh",
+        tokenExpires: TOMORROW,
+        portal: "https://gis.city.gov/sharing/rest",
+      });
+
+      fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
+        currentVersion: 10.51,
+        fullVersion: "10.5.1.120",
+        owningSystemUrl: "https://gis.city.gov",
+        authInfo: {
+          isTokenBasedSecurity: true,
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+        },
+      });
+
+      fetchMock.getOnce(
+        "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
+        {
+          authorizedCrossOriginDomains: ["https://gisservices.city.gov"],
+        }
+      );
+
+      fetchMock.postOnce("https://gis.city.gov/sharing/rest/info", {
+        owningSystemUrl: "http://gis.city.gov",
+        authInfo: {
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+          isTokenBasedSecurity: true,
+        },
+      });
+
+      fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
+        token: "serverToken",
+        expires: TOMORROW,
+      });
+
+      fetchMock.post(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
+        {
+          count: 123,
+        }
+      );
+
+      request(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
+        {
+          authentication: session,
+        }
+      )
+        .then((response) => {
+          const { credentials } = fetchMock.lastOptions(
+            "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+          );
+          expect(credentials).toEqual("include");
+
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+  });
+
+  it("should still send same-origin credentials even if another domain is listed in authorizedCrossOriginDomains", (done) => {
+    const session = new UserSession({
+      clientId: "id",
+      token: "token",
+      refreshToken: "refresh",
+      tokenExpires: TOMORROW,
+      portal: "https://gis.city.gov/sharing/rest",
+    });
+
+    fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
+      currentVersion: 10.51,
+      fullVersion: "10.5.1.120",
+      owningSystemUrl: "https://gis.city.gov",
+      authInfo: {
+        isTokenBasedSecurity: true,
+        tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+      },
+    });
+
+    fetchMock.getOnce(
+      "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
+      {
+        authorizedCrossOriginDomains: ["https://other.city.gov"],
+      }
+    );
+
+    fetchMock.postOnce("https://gis.city.gov/sharing/rest/info", {
+      owningSystemUrl: "http://gis.city.gov",
+      authInfo: {
+        tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+        isTokenBasedSecurity: true,
+      },
+    });
+
+    fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
+      token: "serverToken",
+      expires: TOMORROW,
+    });
+
+    fetchMock.post(
+      "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
+      {
+        count: 123,
+      }
+    );
+
+    request(
+      "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
+      {
+        authentication: session,
+      }
+    )
+      .then((response) => {
+        const { credentials } = fetchMock.lastOptions(
+          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+        );
+        expect(credentials).toEqual("same-origin");
+
+        done();
+      })
+      .catch((e) => {
+        fail(e);
+      });
+  });
+
+  it("should normalize optional protocols in authorizedCrossOriginDomains", (done) => {
+    const session = new UserSession({
+      clientId: "id",
+      token: "token",
+      refreshToken: "refresh",
+      tokenExpires: TOMORROW,
+      portal: "https://gis.city.gov/sharing/rest",
+    });
+
+    fetchMock.getOnce(
+      "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
+      {
+        authorizedCrossOriginDomains: ["one.city.gov", "https://two.city.gov"],
+      }
+    );
+
+    (session as any)
+      .fetchAuthorizedDomains()
+      .then(() => {
+        expect((session as any).trustedDomains).toEqual([
+          "https://one.city.gov",
+          "https://two.city.gov",
+        ]);
+        done();
+      })
+      .catch((e: Error) => {
+        fail(e);
+      });
+  });
+
+  it("should not use domain credentials if portal is null", (done) => {
+    const session = new UserSession({
+      clientId: "id",
+      token: "token",
+      refreshToken: "refresh",
+      tokenExpires: TOMORROW,
+      portal: null,
+      server: "https://fakeserver.com/arcgis",
+    });
+
+    (session as any)
+      .fetchAuthorizedDomains()
+      .then(() => {
+        done();
+      })
+      .catch((e: Error) => {
+        fail(e);
+      });
   });
 });

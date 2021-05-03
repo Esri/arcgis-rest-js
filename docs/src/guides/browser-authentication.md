@@ -12,30 +12,28 @@ In the [Node.js](/arcgis-rest-js/guides/node/) guide we explained how to instant
 
 ![browser based login](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/images/authorization-screen.png)
 
-
 ### Resources
 
-* [Implementing Named User Login](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/)
-* [Browser-based Named User Login](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/browser-based-user-logins/)
+- [Implementing Named User Login](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/)
+- [Browser-based Named User Login](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/browser-based-user-logins/)
 
 ```js
 // register your own app to create a unique clientId
-const clientId = "abc123"
+const clientId = "abc123";
 
 UserSession.beginOAuth2({
   clientId,
-  redirectUri: 'https://yourapp.com/authenticate.html'
-})
-  .then(session)
+  redirectUri: "https://yourapp.com/authenticate.html",
+}).then(session);
 ```
 
-After the user has logged in, the `session` will keep track of individual `trustedServers` that are known to be federated and pass a token through when making requests.
+After the user has logged in, the `session` will keep track of individual `federatedServers` that are known to be federated and pass a token through when making requests.
 
 ```js
-request(url, { authentication: session })
+request(url, { authentication: session });
 ```
 
 ### Demos
 
-* [OAuth 2.0 Browser](https://github.com/Esri/arcgis-rest-js/tree/master/demos/oauth2-browser)
-* [Retrying Requests](https://github.com/Esri/arcgis-rest-js/tree/master/demos/oauth2-browser-retry)
+- [OAuth 2.0 Browser](https://github.com/Esri/arcgis-rest-js/tree/master/demos/oauth2-browser)
+- [Retrying Requests](https://github.com/Esri/arcgis-rest-js/tree/master/demos/oauth2-browser-retry)

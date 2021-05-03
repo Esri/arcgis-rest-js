@@ -408,6 +408,7 @@ export function request(
           options,
           originalAuthError
         );
+
         if (originalAuthError) {
           /* if the request was made to an unfederated service that
           didnt require authentication, add the base url and a dummy token
@@ -416,7 +417,8 @@ export function request(
           const truncatedUrl: string = url
             .toLowerCase()
             .split(/\/rest(\/admin)?\/services\//)[0];
-          (options.authentication as any).trustedServers[truncatedUrl] = {
+
+          (options.authentication as any).federatedServers[truncatedUrl] = {
             token: [],
             // default to 24 hours
             expires: new Date(Date.now() + 86400 * 1000),

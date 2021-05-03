@@ -64,22 +64,22 @@ describe("add to feature service", () => {
 
     const tableDescriptionFayard: ITable = {
       name: "Fayard",
-      id: "1914",
+      id: 1914,
     };
 
     const tableDescriptionHarold: ITable = {
       name: "Harold",
-      id: "1921",
+      id: 1921,
     };
 
     const tableDescriptionGene: ITable = {
       name: "Gene",
-      id: "1912",
+      id: 1912,
     };
 
     const tableDescriptionFail: ITable = {
       name: "",
-      id: "0",
+      id: 0,
     };
 
     it("should add a pair of layers", (done) => {

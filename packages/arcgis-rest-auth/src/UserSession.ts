@@ -755,6 +755,7 @@ export class UserSession implements IAuthenticationManager {
     this.tokenDuration = options.tokenDuration || 20160;
     this.redirectUri = options.redirectUri;
     this.refreshTokenTTL = options.refreshTokenTTL || 1440;
+    this.server = options.server;
 
     this.federatedServers = {};
     this.trustedDomains = [];
@@ -1092,107 +1093,90 @@ export class UserSession implements IAuthenticationManager {
       return this._pendingTokenRequests[root];
     }
 
-    this._pendingTokenRequests[root] = this.getPortal().then((portalInfo) => {
-      /**
-       * Specific domains can be configured as secure.esri.com or https://secure.esri.com this
-       * normalizes to https://secure.esri.com so we can use startsWith later.
-       */
-      if (
-        portalInfo.authorizedCrossOriginDomains &&
-        portalInfo.authorizedCrossOriginDomains.length
-      ) {
-        this.trustedDomains = portalInfo.authorizedCrossOriginDomains
-          .filter((d: string) => !d.startsWith("http://"))
-          .map((d: string) => {
-            if (d.startsWith("https://")) {
-              return d;
+    this._pendingTokenRequests[root] = this.fetchAuthorizedDomains().then(
+      () => {
+        return request(`${root}/rest/info`, {
+          credentials: this.getDomainCredentials(url),
+        })
+          .then((response) => {
+            if (response.owningSystemUrl) {
+              /**
+               * if this server is not owned by this portal
+               * bail out with an error since we know we wont
+               * be able to generate a token
+               */
+              if (!isFederated(response.owningSystemUrl, this.portal)) {
+                throw new ArcGISAuthError(
+                  `${url} is not federated with ${this.portal}.`,
+                  "NOT_FEDERATED"
+                );
+              } else {
+                /**
+                 * if the server is federated, use the relevant token endpoint.
+                 */
+                return request(
+                  `${response.owningSystemUrl}/sharing/rest/info`,
+                  requestOptions
+                );
+              }
+            } else if (
+              response.authInfo &&
+              this.federatedServers[root] !== undefined
+            ) {
+              /**
+               * if its a stand-alone instance of ArcGIS Server that doesn't advertise
+               * federation, but the root server url is recognized, use its built in token endpoint.
+               */
+              return Promise.resolve({
+                authInfo: response.authInfo,
+              });
             } else {
-              return `https://${d}`;
-            }
-          });
-      }
-
-      return request(`${root}/rest/info`, {
-        credentials: this.getDomainCredentials(url),
-      })
-        .then((response) => {
-          if (response.owningSystemUrl) {
-            /**
-             * if this server is not owned by this portal
-             * bail out with an error since we know we wont
-             * be able to generate a token
-             */
-            if (!isFederated(response.owningSystemUrl, this.portal)) {
               throw new ArcGISAuthError(
-                `${url} is not federated with ${this.portal}.`,
+                `${url} is not federated with any portal and is not explicitly trusted.`,
                 "NOT_FEDERATED"
               );
-            } else {
-              /**
-               * if the server is federated, use the relevant token endpoint.
-               */
-              return request(
-                `${response.owningSystemUrl}/sharing/rest/info`,
-                requestOptions
-              );
             }
-          } else if (
-            response.authInfo &&
-            this.federatedServers[root] !== undefined
-          ) {
-            /**
-             * if its a stand-alone instance of ArcGIS Server that doesn't advertise
-             * federation, but the root server url is recognized, use its built in token endpoint.
-             */
-            return Promise.resolve({
-              authInfo: response.authInfo,
-            });
-          } else {
-            throw new ArcGISAuthError(
-              `${url} is not federated with any portal and is not explicitly trusted.`,
-              "NOT_FEDERATED"
-            );
-          }
-        })
-        .then((response: any) => {
-          return response.authInfo.tokenServicesUrl;
-        })
-        .then((tokenServicesUrl: string) => {
-          // an expired token cant be used to generate a new token
-          if (this.token && this.tokenExpires.getTime() > Date.now()) {
-            return generateToken(tokenServicesUrl, {
-              params: {
-                token: this.token,
-                serverUrl: url,
-                expiration: this.tokenDuration,
-                client: "referer",
-              },
-            });
-            // generate an entirely fresh token if necessary
-          } else {
-            return generateToken(tokenServicesUrl, {
-              params: {
-                username: this.username,
-                password: this.password,
-                expiration: this.tokenDuration,
-                client: "referer",
-              },
-            }).then((response: any) => {
-              this._token = response.token;
-              this._tokenExpires = new Date(response.expires);
-              return response;
-            });
-          }
-        })
-        .then((response) => {
-          this.federatedServers[root] = {
-            expires: new Date(response.expires),
-            token: response.token,
-          };
-          delete this._pendingTokenRequests[root];
-          return response.token;
-        });
-    });
+          })
+          .then((response: any) => {
+            return response.authInfo.tokenServicesUrl;
+          })
+          .then((tokenServicesUrl: string) => {
+            // an expired token cant be used to generate a new token
+            if (this.token && this.tokenExpires.getTime() > Date.now()) {
+              return generateToken(tokenServicesUrl, {
+                params: {
+                  token: this.token,
+                  serverUrl: url,
+                  expiration: this.tokenDuration,
+                  client: "referer",
+                },
+              });
+              // generate an entirely fresh token if necessary
+            } else {
+              return generateToken(tokenServicesUrl, {
+                params: {
+                  username: this.username,
+                  password: this.password,
+                  expiration: this.tokenDuration,
+                  client: "referer",
+                },
+              }).then((response: any) => {
+                this._token = response.token;
+                this._tokenExpires = new Date(response.expires);
+                return response;
+              });
+            }
+          })
+          .then((response) => {
+            this.federatedServers[root] = {
+              expires: new Date(response.expires),
+              token: response.token,
+            };
+            delete this._pendingTokenRequests[root];
+            return response.token;
+          });
+      }
+    );
 
     return this._pendingTokenRequests[root];
   }
@@ -1304,5 +1288,41 @@ export class UserSession implements IAuthenticationManager {
         return this;
       }
     );
+  }
+
+  /**
+   * ensures that the authorizedCrossOriginDomains are obtained from the portal and cached
+   * so we can check them later.
+   *
+   * @returns this
+   */
+  private fetchAuthorizedDomains() {
+    // if this token is for a specific server or we don't have a portal
+    // don't get the portal info because we cant get the authorizedCrossOriginDomains
+    if (this.server || !this.portal) {
+      return Promise.resolve(this);
+    }
+
+    return this.getPortal().then((portalInfo) => {
+      /**
+       * Specific domains can be configured as secure.esri.com or https://secure.esri.com this
+       * normalizes to https://secure.esri.com so we can use startsWith later.
+       */
+      if (
+        portalInfo.authorizedCrossOriginDomains &&
+        portalInfo.authorizedCrossOriginDomains.length
+      ) {
+        this.trustedDomains = portalInfo.authorizedCrossOriginDomains
+          .filter((d: string) => !d.startsWith("http://"))
+          .map((d: string) => {
+            if (d.startsWith("https://")) {
+              return d;
+            } else {
+              return `https://${d}`;
+            }
+          });
+      }
+      return this;
+    });
   }
 }
