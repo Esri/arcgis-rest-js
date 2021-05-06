@@ -277,6 +277,17 @@ export class UserSession implements IAuthenticationManager {
   get refreshTokenExpires() {
     return this._refreshTokenExpires;
   }
+
+  /**
+   * Deprecated, use `federatedServers` instead.
+   * @deprecated
+
+   */
+  get trustedServers() {
+    console.log("DEPRECATED: use federatedServers instead");
+    return this.federatedServers;
+  }
+
   /**
    * Begins a new browser-based OAuth 2.0 sign in. If `options.popup` is `true` the
    * authentication window will open in a new tab/window otherwise the user will
@@ -703,7 +714,7 @@ export class UserSession implements IAuthenticationManager {
   /**
    * Hydrated by a call to [getPortal()](#getPortal-summary).
    */
-  private _portal: any;
+  private _portalInfo: any;
 
   private _token: string;
   private _tokenExpires: Date;
@@ -846,8 +857,8 @@ export class UserSession implements IAuthenticationManager {
   public getPortal(requestOptions?: IRequestOptions): Promise<any> {
     if (this._pendingPortalRequest) {
       return this._pendingPortalRequest;
-    } else if (this._portal) {
-      return Promise.resolve(this._portal);
+    } else if (this._portalInfo) {
+      return Promise.resolve(this._portalInfo);
     } else {
       const url = `${this.portal}/portals/self`;
 
@@ -859,7 +870,7 @@ export class UserSession implements IAuthenticationManager {
       } as IRequestOptions;
 
       this._pendingPortalRequest = request(url, options).then((response) => {
-        this._portal = response;
+        this._portalInfo = response;
         this._pendingPortalRequest = null;
         return response;
       });

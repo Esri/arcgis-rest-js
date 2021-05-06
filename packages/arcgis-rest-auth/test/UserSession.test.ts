@@ -1929,7 +1929,7 @@ describe("UserSession", () => {
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=token",
         {
-          fetchAuthorizedDomains: ["gis.city.com"],
+          authorizedCrossOriginDomains: ["gis.city.com"],
         }
       );
 
@@ -1971,7 +1971,7 @@ describe("UserSession", () => {
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=token",
         {
-          fetchAuthorizedDomains: ["gis.city.com"],
+          authorizedCrossOriginDomains: ["gis.city.com"],
         }
       );
 
