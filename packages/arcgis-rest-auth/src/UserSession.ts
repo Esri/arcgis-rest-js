@@ -831,7 +831,7 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
-   * Returns information about the currently logged in users [portal](https://developers.arcgis.com/rest/users-groups-and-items/portal-self.htm). Subsequent calls will *not* result in additional web traffic.
+   * Returns information about the currently logged in user's [portal](https://developers.arcgis.com/rest/users-groups-and-items/portal-self.htm). Subsequent calls will *not* result in additional web traffic.
    *
    * ```js
    * session.getPortal()
