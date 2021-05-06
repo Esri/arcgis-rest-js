@@ -280,8 +280,8 @@ export class UserSession implements IAuthenticationManager {
 
   /**
    * Deprecated, use `federatedServers` instead.
+   *
    * @deprecated
-
    */
   get trustedServers() {
     console.log("DEPRECATED: use federatedServers instead");

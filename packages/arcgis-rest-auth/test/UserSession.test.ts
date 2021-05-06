@@ -1948,11 +1948,13 @@ describe("UserSession", () => {
       session
         .getPortal()
         .then((response) => {
-          expect(response.fetchAuthorizedDomains).toEqual(["gis.city.com"]);
+          expect(response.authorizedCrossOriginDomains).toEqual([
+            "gis.city.com",
+          ]);
           session
             .getPortal()
             .then((cachedResponse) => {
-              expect(cachedResponse.fetchAuthorizedDomains).toEqual([
+              expect(cachedResponse.authorizedCrossOriginDomains).toEqual([
                 "gis.city.com",
               ]);
               done();
@@ -2242,5 +2244,16 @@ describe("UserSession", () => {
       .catch((e: Error) => {
         fail(e);
       });
+  });
+
+  it("should deprecate trustedServers", () => {
+    const session = new UserSession({
+      clientId: "id",
+      token: "token",
+    });
+
+    expect((session as any).trustedServers).toBe(
+      (session as any).federatedServers
+    );
   });
 });
