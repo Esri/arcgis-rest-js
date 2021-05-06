@@ -124,6 +124,18 @@ export interface IItemResourceOptions extends IUserItemOptions {
   resource?: any;
 }
 
+export interface IRemoveItemResourceOptions extends IUserItemOptions {
+  /**
+   * Resource item to be removed. Resource prefix needs to be specified if the file resource has one.
+   */
+  resource?: string;
+
+  /**
+   * If true, all file resources are removed.
+   */
+  deleteAll?: boolean;
+}
+
 export interface ICreateUpdateItemOptions extends IUserRequestOptions {
   /**
    * The owner of the item. If this property is not present, `item.owner` will be passed, or lastly `authentication.username`.
