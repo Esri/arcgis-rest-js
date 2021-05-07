@@ -163,6 +163,29 @@ describe("search", () => {
         });
     });
 
+    it("should remove a resource with deleteAll", done => {
+      fetchMock.once("*", RemoveItemResourceResponse);
+      removeItemResource({
+        id: "3ef",
+        owner: "dbouwman",
+        resource: "image/banner.png",
+        deleteAll: true,
+        ...MOCK_USER_REQOPTS
+      })
+        .then(response => {
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/removeResources"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain(encodeParam("deleteAll", "true"));
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
     it("should remove a resource with extra params", done => {
       fetchMock.once("*", RemoveItemResourceResponse);
       removeItemResource({
