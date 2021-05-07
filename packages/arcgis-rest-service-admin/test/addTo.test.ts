@@ -12,7 +12,7 @@ import {
   AddToFeatureServiceSuccessResponseFredAndGinger,
   AddToFeatureServiceSuccessResponseFayardAndHarold,
   AddToFeatureServiceSuccessResponseCydAndGene,
-  AddToFeatureServiceError
+  AddToFeatureServiceError,
 } from "./mocks/service";
 import { layerDefinitionSid } from "./mocks/layerDefinition";
 
@@ -31,69 +31,69 @@ describe("add to feature service", () => {
       refreshTokenTTL: 1440,
       username: "casey",
       password: "123456",
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     });
 
     const MOCK_USER_REQOPTS = {
-      authentication: MOCK_USER_SESSION
+      authentication: MOCK_USER_SESSION,
     };
 
     const layerDescriptionFred: ILayer = {
       name: "Fred",
       id: "1899",
-      layerType: "Feature Layer"
+      layerType: "Feature Layer",
     };
 
     const layerDescriptionGinger: ILayer = {
       name: "Ginger",
       id: "1911",
-      layerType: "Feature Layer"
+      layerType: "Feature Layer",
     };
 
     const layerDescriptionCyd: ILayer = {
       name: "Cyd",
       id: "1922",
-      layerType: "Feature Layer"
+      layerType: "Feature Layer",
     };
 
     const layerDescriptionFail: ILayer = {
       name: "",
       id: "",
-      layerType: "Feature Layer"
+      layerType: "Feature Layer",
     };
 
     const tableDescriptionFayard: ITable = {
       name: "Fayard",
-      id: 1914
+      id: 1914,
     };
 
     const tableDescriptionHarold: ITable = {
       name: "Harold",
-      id: 1921
+      id: 1921,
     };
 
     const tableDescriptionGene: ITable = {
       name: "Gene",
-      id: 1912
+      id: 1912,
     };
 
     const tableDescriptionFail: ITable = {
       name: "",
-      id: 0
+      id: 0,
     };
 
-    it("should add a pair of layers", done => {
+    it("should add a pair of layers", (done) => {
       fetchMock.once("*", AddToFeatureServiceSuccessResponseFredAndGinger);
 
       addToServiceDefinition(
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
         {
           layers: [layerDescriptionFred, layerDescriptionGinger],
-          ...MOCK_USER_REQOPTS
+          ...MOCK_USER_REQOPTS,
         }
       )
         .then(
-          response => {
+          (response) => {
             // Check service call
             expect(fetchMock.called()).toEqual(true);
             const [url, options]: [string, RequestInit] = fetchMock.lastCall(
@@ -110,7 +110,7 @@ describe("add to feature service", () => {
               encodeParam(
                 "addToDefinition",
                 JSON.stringify({
-                  layers: [layerDescriptionFred, layerDescriptionGinger]
+                  layers: [layerDescriptionFred, layerDescriptionGinger],
                 })
               )
             );
@@ -126,23 +126,23 @@ describe("add to feature service", () => {
             fail(); // call is supposed to succeed
           }
         )
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add a pair of tables", done => {
+    it("should add a pair of tables", (done) => {
       fetchMock.once("*", AddToFeatureServiceSuccessResponseFayardAndHarold);
 
       addToServiceDefinition(
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
         {
           tables: [tableDescriptionFayard, tableDescriptionHarold],
-          ...MOCK_USER_REQOPTS
+          ...MOCK_USER_REQOPTS,
         }
       )
         .then(
-          response => {
+          (response) => {
             // Check service call
             expect(fetchMock.called()).toEqual(true);
             const [url, options]: [string, RequestInit] = fetchMock.lastCall(
@@ -159,7 +159,7 @@ describe("add to feature service", () => {
               encodeParam(
                 "addToDefinition",
                 JSON.stringify({
-                  tables: [tableDescriptionFayard, tableDescriptionHarold]
+                  tables: [tableDescriptionFayard, tableDescriptionHarold],
                 })
               )
             );
@@ -175,12 +175,12 @@ describe("add to feature service", () => {
             fail(); // call is supposed to succeed
           }
         )
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add a layer and a table", done => {
+    it("should add a layer and a table", (done) => {
       fetchMock.once("*", AddToFeatureServiceSuccessResponseCydAndGene);
 
       addToServiceDefinition(
@@ -188,10 +188,10 @@ describe("add to feature service", () => {
         {
           layers: [layerDescriptionCyd],
           tables: [tableDescriptionGene],
-          ...MOCK_USER_REQOPTS
+          ...MOCK_USER_REQOPTS,
         }
       )
-        .then(response => {
+        .then((response) => {
           // Check service call
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -207,7 +207,7 @@ describe("add to feature service", () => {
               "addToDefinition",
               JSON.stringify({
                 layers: [layerDescriptionCyd],
-                tables: [tableDescriptionGene]
+                tables: [tableDescriptionGene],
               })
             )
           );
@@ -218,22 +218,22 @@ describe("add to feature service", () => {
           );
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add a layer definition", done => {
+    it("should add a layer definition", (done) => {
       fetchMock.once("*", AddToFeatureServiceSuccessResponseCydAndGene);
 
       addToServiceDefinition(
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
         {
           layers: [layerDefinitionSid],
-          ...MOCK_USER_REQOPTS
+          ...MOCK_USER_REQOPTS,
         }
       )
-        .then(response => {
+        .then((response) => {
           // Check service call
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -248,7 +248,7 @@ describe("add to feature service", () => {
             encodeParam(
               "addToDefinition",
               JSON.stringify({
-                layers: [layerDefinitionSid]
+                layers: [layerDefinitionSid],
               })
             )
           );
@@ -259,21 +259,21 @@ describe("add to feature service", () => {
           );
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should fail to add a bad layer", done => {
+    it("should fail to add a bad layer", (done) => {
       fetchMock.once("*", AddToFeatureServiceError);
 
       addToServiceDefinition(
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
         {
           layers: [layerDescriptionFail],
-          ...MOCK_USER_REQOPTS
+          ...MOCK_USER_REQOPTS,
         }
-      ).catch(error => {
+      ).catch((error) => {
         expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
         expect(error.message).toBe(
           "400: Unable to add feature service definition."
@@ -284,23 +284,23 @@ describe("add to feature service", () => {
         );
         // params added internally aren't surfaced in the error
         expect(error.options.params.addToDefinition).toEqual({
-          layers: [layerDescriptionFail]
+          layers: [layerDescriptionFail],
         });
         expect(error.options.httpMethod).toEqual("POST");
         done();
       });
     });
 
-    it("should fail to add a bad table", done => {
+    it("should fail to add a bad table", (done) => {
       fetchMock.once("*", AddToFeatureServiceError);
 
       addToServiceDefinition(
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
         {
           tables: [tableDescriptionFail],
-          ...MOCK_USER_REQOPTS
+          ...MOCK_USER_REQOPTS,
         }
-      ).catch(error => {
+      ).catch((error) => {
         expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
         expect(error.message).toBe(
           "400: Unable to add feature service definition."
@@ -311,14 +311,14 @@ describe("add to feature service", () => {
         );
         // params added internally aren't surfaced in the error
         expect(error.options.params.addToDefinition).toEqual({
-          tables: [tableDescriptionFail]
+          tables: [tableDescriptionFail],
         });
         expect(error.options.httpMethod).toEqual("POST");
         done();
       });
     });
 
-    it("should fail to add a bad layer and a bad table", done => {
+    it("should fail to add a bad layer and a bad table", (done) => {
       fetchMock.once("*", AddToFeatureServiceError);
 
       addToServiceDefinition(
@@ -326,9 +326,9 @@ describe("add to feature service", () => {
         {
           layers: [layerDescriptionFail],
           tables: [tableDescriptionFail],
-          ...MOCK_USER_REQOPTS
+          ...MOCK_USER_REQOPTS,
         }
-      ).catch(error => {
+      ).catch((error) => {
         expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
         expect(error.message).toBe(
           "400: Unable to add feature service definition."
@@ -340,7 +340,7 @@ describe("add to feature service", () => {
         // params added internally aren't surfaced in the error
         expect(error.options.params.addToDefinition).toEqual({
           tables: [tableDescriptionFail],
-          layers: [layerDescriptionFail]
+          layers: [layerDescriptionFail],
         });
         expect(error.options.httpMethod).toEqual("POST");
         done();

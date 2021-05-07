@@ -254,7 +254,7 @@ export function request(
     method: httpMethod,
     /* ensures behavior mimics XMLHttpRequest.
     needed to support sending IWA cookies */
-    credentials: "same-origin",
+    credentials: options.credentials || "same-origin",
   };
 
   // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
@@ -290,6 +290,10 @@ export function request(
     .then((token) => {
       if (token.length) {
         params.token = token;
+      }
+
+      if (authentication && authentication.getDomainCredentials) {
+        fetchOptions.credentials = authentication.getDomainCredentials(url);
       }
 
       // Custom headers to add to request. IRequestOptions.headers with merge over requestHeaders.
@@ -404,6 +408,7 @@ export function request(
           options,
           originalAuthError
         );
+
         if (originalAuthError) {
           /* if the request was made to an unfederated service that
           didnt require authentication, add the base url and a dummy token
@@ -412,7 +417,8 @@ export function request(
           const truncatedUrl: string = url
             .toLowerCase()
             .split(/\/rest(\/admin)?\/services\//)[0];
-          (options.authentication as any).trustedServers[truncatedUrl] = {
+
+          (options.authentication as any).federatedServers[truncatedUrl] = {
             token: [],
             // default to 24 hours
             expires: new Date(Date.now() + 86400 * 1000),
