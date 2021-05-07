@@ -116,16 +116,15 @@
 <li><a href="https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/browser-based-user-logins/">Browser-based Named User Login</a></li>
 </ul>
 <pre><code class="js"><span class="hljs-comment">// register your own app to create a unique clientId</span>
-<span class="hljs-keyword">const</span> clientId = <span class="hljs-string">"abc123"</span>
+<span class="hljs-keyword">const</span> clientId = <span class="hljs-string">"abc123"</span>;
 
 UserSession.beginOAuth2({
   clientId,
-  <span class="hljs-attr">redirectUri</span>: <span class="hljs-string">'https://yourapp.com/authenticate.html'</span>
-})
-  .then(session)
+  <span class="hljs-attr">redirectUri</span>: <span class="hljs-string">"https://yourapp.com/authenticate.html"</span>,
+}).then(session);
 </code></pre>
-<p>After the user has logged in, the <code>session</code> will keep track of individual <code>trustedServers</code> that are known to be federated and pass a token through when making requests.</p>
-<pre><code class="js">request(url, { <span class="hljs-attr">authentication</span>: session })
+<p>After the user has logged in, the <code>session</code> will keep track of individual <code>federatedServers</code> that are known to be federated and pass a token through when making requests.</p>
+<pre><code class="js">request(url, { <span class="hljs-attr">authentication</span>: session });
 </code></pre>
 <h3>Demos</h3>
 <ul>
