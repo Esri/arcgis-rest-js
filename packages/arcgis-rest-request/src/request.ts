@@ -254,7 +254,7 @@ export function request(
     method: httpMethod,
     /* ensures behavior mimics XMLHttpRequest.
     needed to support sending IWA cookies */
-    credentials: "same-origin"
+    credentials: options.credentials || "same-origin"
   };
 
   return (authentication
@@ -279,6 +279,10 @@ export function request(
     .then(token => {
       if (token.length) {
         params.token = token;
+      }
+
+      if (authentication && authentication.getDomainCredentials) {
+        fetchOptions.credentials = authentication.getDomainCredentials(url);
       }
 
       if (fetchOptions.method === "GET") {
@@ -374,7 +378,7 @@ export function request(
           const truncatedUrl: string = url
             .toLowerCase()
             .split(/\/rest(\/admin)?\/services\//)[0];
-          (options.authentication as any).trustedServers[truncatedUrl] = {
+          (options.authentication as any).federatedServers[truncatedUrl] = {
             token: [],
             // default to 24 hours
             expires: new Date(Date.now() + 86400 * 1000)
