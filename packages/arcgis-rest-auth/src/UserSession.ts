@@ -344,7 +344,7 @@ export class UserSession implements IAuthenticationManager {
 
     const session = defer<UserSession>();
 
-    win[`__ESRI_REST_AUTH_HANDLER_${clientId}`] = function (
+    win[`__ESRI_REST_AUTH_HANDLER_${clientId}`] = function(
       errorString: any,
       oauthInfoString: string
     ) {
