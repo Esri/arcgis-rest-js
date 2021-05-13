@@ -344,7 +344,7 @@ export class UserSession implements IAuthenticationManager {
 
     const session = defer<UserSession>();
 
-    win[`__ESRI_REST_AUTH_HANDLER_${clientId}`] = function(
+    win[`__ESRI_REST_AUTH_HANDLER_${clientId}`] = function (
       errorString: any,
       oauthInfoString: string
     ) {
@@ -534,7 +534,7 @@ export class UserSession implements IAuthenticationManager {
     };
 
     response.writeHead(301, {
-      Location: `${portal}/oauth2/authorize?client_id=${clientId}&duration=${duration}&response_type=code&redirect_uri=${encodeURIComponent(
+      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${duration}&response_type=code&redirect_uri=${encodeURIComponent(
         redirectUri
       )}`,
     });
