@@ -1474,7 +1474,7 @@ describe("UserSession", () => {
         end() {
           expect(spy.calls.mostRecent().args[0]).toBe(301);
           expect(spy.calls.mostRecent().args[1].Location).toBe(
-            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&duration=20160&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
+            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=20160&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
           );
           done();
         },
