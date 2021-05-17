@@ -534,7 +534,7 @@ export class UserSession implements IAuthenticationManager {
     };
 
     response.writeHead(301, {
-      Location: `${portal}/oauth2/authorize?client_id=${clientId}&duration=${duration}&response_type=code&redirect_uri=${encodeURIComponent(
+      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${duration}&response_type=code&redirect_uri=${encodeURIComponent(
         redirectUri
       )}`,
     });
