@@ -103,9 +103,16 @@ export interface IOAuth2Options {
   provider?: AuthenticationProvider;
 
   /**
-   * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
+   * The requested validity in minutes for a token. Defaults to 20160 (two weeks).
    */
-  duration?: number;
+   expiration?: number;
+
+  /**
+   * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
+   * 
+   * @deprecated
+   */
+   duration?: number;
 
   /**
    * Determines whether to open the authorization window in a new tab/window or in the current window.
@@ -297,11 +304,17 @@ export class UserSession implements IAuthenticationManager {
    */
   /* istanbul ignore next */
   public static beginOAuth2(options: IOAuth2Options, win: any = window) {
+
+    if(options.duration) {
+      console.log("DEPRECATED: 'duration' is deprecated - use 'expiration' instead");
+      options.expiration = options.duration;
+    }
+
     const {
       portal,
       provider,
       clientId,
-      duration,
+      expiration,
       redirectUri,
       popup,
       popupWindowFeatures,
@@ -312,7 +325,7 @@ export class UserSession implements IAuthenticationManager {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
         provider: "arcgis",
-        duration: 20160,
+        expiration: 20160,
         popup: true,
         popupWindowFeatures:
           "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes",
@@ -323,11 +336,11 @@ export class UserSession implements IAuthenticationManager {
     };
     let url: string;
     if (provider === "arcgis") {
-      url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${duration}&redirect_uri=${encodeURIComponent(
+      url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${expiration}&redirect_uri=${encodeURIComponent(
         redirectUri
       )}&state=${state}&locale=${locale}`;
     } else {
-      url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${duration}&redirect_uri=${encodeURIComponent(
+      url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${expiration}&redirect_uri=${encodeURIComponent(
         redirectUri
       )}&state=${state}&locale=${locale}`;
     }
@@ -528,13 +541,17 @@ export class UserSession implements IAuthenticationManager {
     options: IOAuth2Options,
     response: http.ServerResponse
   ) {
-    const { portal, clientId, duration, redirectUri }: IOAuth2Options = {
-      ...{ portal: "https://arcgis.com/sharing/rest", duration: 20160 },
+    if(options.duration) {
+      console.log("DEPRECATED: 'duration' is deprecated - use 'expiration' instead");
+      options.expiration = options.duration;
+    }
+    const { portal, clientId, expiration, redirectUri }: IOAuth2Options = {
+      ...{ portal: "https://arcgis.com/sharing/rest", expiration: 20160 },
       ...options,
     };
 
     response.writeHead(301, {
-      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${duration}&response_type=code&redirect_uri=${encodeURIComponent(
+      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${expiration}&response_type=code&redirect_uri=${encodeURIComponent(
         redirectUri
       )}`,
     });
