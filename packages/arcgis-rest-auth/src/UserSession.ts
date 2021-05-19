@@ -110,7 +110,7 @@ export interface IOAuth2Options {
   /**
    * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
    * 
-   * @deprecated
+   * @deprecated use 'expiration' instead
    */
    duration?: number;
 
