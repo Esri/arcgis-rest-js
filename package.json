@@ -20,6 +20,9 @@
     "cross-spawn": "^5.1.0",
     "cz-lerna-changelog": "github:patrickarlt/cz-lerna-changelog#3fe7650a2e2e624b1f46e5031c96119759698288",
     "date-fns": "^1.29.0",
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "event-stream": "3.3.4",
     "fetch-mock": "^5.13.1",
     "gh-pages": "^1.1.0",
@@ -42,7 +45,7 @@
     "minimatch": "^3.0.4",
     "node-sass": "^4.12.0",
     "onchange": "^3.3.0",
-    "prettier": "^1.17.0",
+    "prettier": "^2.3.0",
     "resolve": "^1.5.0",
     "rimraf": "^2.6.2",
     "rollup": "^2.26.8",
@@ -53,9 +56,6 @@
     "slug": "^0.9.1",
     "sri-toolbox": "0.2.0",
     "ts-node": "^3.3.0",
-    "tslint": "^5.16.0",
-    "tslint-config-prettier": "^1.6.0",
-    "tslint-config-standard": "^8.0.1",
     "typedoc": "^0.14.2",
     "typescript": "^3.0.0"
   },
@@ -69,7 +69,7 @@
   "lint-staged": {
     "*.ts": [
       "prettier --write --parser typescript --tab-width 2 --use-tabs false",
-      "tslint --project tsconfig.json",
+      "eslint",
       "git add"
     ]
   },
@@ -104,9 +104,9 @@
     "docs:dev:sass": "node-sass --watch --recursive --output docs/build/arcgis-rest-js/css --source-map true --source-map-contents docs/src/sass",
     "docs:dev:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/arcgis-rest-js -w",
     "docs:srihash": "node docs/generate-srihashes.js",
-    "lint": "tslint --project tsconfig.json",
-    "lint:fix": "tslint --project tsconfig.json --fix",
-    "prettify": "prettier --write --parser typescript --tab-width 2 --use-tabs false \"packages/**/+(src|test)/**/*.ts\"",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "prettify": "prettier --write \"packages/**/+(src|test)/**/*.ts\"",
     "precommit": "lint-staged",
     "postinstall": "npm run bootstrap",
     "bootstrap": "lerna bootstrap",
@@ -208,5 +208,37 @@
     "commitizen": {
       "path": "./node_modules/cz-lerna-changelog"
     }
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "ignorePatterns": [
+      "package.json",
+      "package-lock.json"
+    ],
+    "rules": {
+      "strict-type-predicates": false,
+      "ordered-imports": ["any"],
+      "only-arrow-functions": [false],
+      "object-literal-sort-keys": false,
+      "interface-name": [true, "always-prefix"],
+      "no-string-literal": false,
+      "no-console": false
+    },
+    "extends": [
+      "prettier"
+    ],
+    "plugins": [
+      "@typescript-eslint"
+    ]
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": false,
+    "trailingComma": "all",
+    "tabWidth": 2
   }
 }
