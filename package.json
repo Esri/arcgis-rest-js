@@ -9,6 +9,8 @@
     "@types/fetch-mock": "^6.0.4",
     "@types/jasmine": "^2.8.2",
     "@types/node": "^6.14.4",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
     "acetate": "^2.0.8",
     "acetate-cli": "^1.0.1",
     "changelog-parser": "^2.7.0",
@@ -69,7 +71,7 @@
   "lint-staged": {
     "*.ts": [
       "prettier --write --parser typescript --tab-width 2 --use-tabs false",
-      "eslint",
+      "eslint . --ext .ts",
       "git add"
     ]
   },
@@ -104,7 +106,7 @@
     "docs:dev:sass": "node-sass --watch --recursive --output docs/build/arcgis-rest-js/css --source-map true --source-map-contents docs/src/sass",
     "docs:dev:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/arcgis-rest-js -w",
     "docs:srihash": "node docs/generate-srihashes.js",
-    "lint": "eslint",
+    "lint": "eslint . --ext .ts",
     "lint:fix": "eslint --fix",
     "prettify": "prettier --write \"packages/**/+(src|test)/**/*.ts\"",
     "precommit": "lint-staged",
@@ -220,13 +222,12 @@
       "package-lock.json"
     ],
     "rules": {
-      "strict-type-predicates": false,
-      "ordered-imports": ["any"],
-      "only-arrow-functions": [false],
-      "object-literal-sort-keys": false,
-      "interface-name": [true, "always-prefix"],
-      "no-string-literal": false,
-      "no-console": false
+      "strict-type-predicates": 0,
+      "ordered-imports": 0,
+      "only-arrow-functions": 0,
+      "object-literal-sort-keys": 0,
+      "no-string-literal": 0,
+      "no-console": 0
     },
     "extends": [
       "prettier"
