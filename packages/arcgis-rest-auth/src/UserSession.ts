@@ -307,7 +307,6 @@ export class UserSession implements IAuthenticationManager {
 
     if(options.duration) {
       console.log("DEPRECATED: 'duration' is deprecated - use 'expiration' instead");
-      options.expiration = options.duration;
     }
 
     const {
@@ -336,7 +335,7 @@ export class UserSession implements IAuthenticationManager {
     };
     let url: string;
     if (provider === "arcgis") {
-      url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${expiration}&redirect_uri=${encodeURIComponent(
+      url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${options.duration || expiration}&redirect_uri=${encodeURIComponent(
         redirectUri
       )}&state=${state}&locale=${locale}`;
     } else {
@@ -543,7 +542,6 @@ export class UserSession implements IAuthenticationManager {
   ) {
     if(options.duration) {
       console.log("DEPRECATED: 'duration' is deprecated - use 'expiration' instead");
-      options.expiration = options.duration;
     }
     const { portal, clientId, expiration, redirectUri }: IOAuth2Options = {
       ...{ portal: "https://arcgis.com/sharing/rest", expiration: 20160 },
@@ -551,7 +549,7 @@ export class UserSession implements IAuthenticationManager {
     };
 
     response.writeHead(301, {
-      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${expiration}&response_type=code&redirect_uri=${encodeURIComponent(
+      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${options.duration || expiration}&response_type=code&redirect_uri=${encodeURIComponent(
         redirectUri
       )}`,
     });
