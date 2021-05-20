@@ -339,7 +339,7 @@ export class UserSession implements IAuthenticationManager {
         redirectUri
       )}&state=${state}&locale=${locale}`;
     } else {
-      url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${expiration}&redirect_uri=${encodeURIComponent(
+      url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${options.duration || expiration}&redirect_uri=${encodeURIComponent(
         redirectUri
       )}&state=${state}&locale=${locale}`;
     }
