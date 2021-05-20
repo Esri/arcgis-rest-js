@@ -217,23 +217,30 @@
       "node": true
     },
     "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "project": [
+        "./tsconfig.json",
+        "./packages/**/tsconfig.json"
+      ],
+      "ecmaVersion": 2015
+    },
     "ignorePatterns": [
       "package.json",
       "package-lock.json"
     ],
     "rules": {
-      "strict-type-predicates": 0,
-      "ordered-imports": 0,
-      "only-arrow-functions": 0,
-      "object-literal-sort-keys": 0,
-      "no-string-literal": 0,
-      "no-console": 0
+      "no-console": 0,
+      "@typescript-eslint/no-explicit-any": 0
     },
     "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
       "prettier"
     ],
     "plugins": [
-      "@typescript-eslint"
+      "@typescript-eslint",
+      "prettier"
     ]
   },
   "prettier": {
