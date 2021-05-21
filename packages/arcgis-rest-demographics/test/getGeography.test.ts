@@ -21,7 +21,7 @@ describe("getGeography", () => {
     getGeography({
       geographyIDs: ["35"]
     })
-      // tslint:disable-next-line
+      // eslint-disable-next-line
       .catch(e => {
         expect(e).toEqual(
           "Geoenrichment using the ArcGIS service requires authentication"

@@ -168,7 +168,7 @@ describe("closestFacility", () => {
       facilities,
       returnCFRoutes: true,
     })
-      // tslint:disable-next-line
+      // eslint-disable-next-line
       .catch((e) => {
         expect(e).toEqual(
           "Finding the closest facility using the ArcGIS service requires authentication"

@@ -1,7 +1,6 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-/* tslint:disable:no-empty */
 import { UserSession } from "../src/index";
 import { ICredential } from "../src/UserSession";
 

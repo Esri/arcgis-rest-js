@@ -21,7 +21,7 @@ describe("queryDemographicData", () => {
     queryDemographicData({
       studyAreas: [{"geometry":{"x":-117.1956,"y":34.0572}}]
     })
-      // tslint:disable-next-line
+      // eslint-disable-next-line
       .catch(e => {
         expect(e).toEqual(
           "Geoenrichment using the ArcGIS service requires authentication"

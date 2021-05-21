@@ -32,7 +32,7 @@ describe("processParams", () => {
 
   it("should not encode a function", () => {
     const params = {
-      foo() {} // tslint:disable-line no-empty
+      foo() {} // eslint-disable-line no-empty-function @typescript-eslint/no-empty-function
     };
 
     expect(processParams(params)).toEqual({});

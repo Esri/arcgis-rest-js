@@ -70,7 +70,7 @@ describe("geocode", () => {
     fetchMock.once("*", GeocodeAddresses);
 
     bulkGeocode({ addresses })
-      // tslint:disable-next-line
+      // eslint-disable-next-line
       .catch(e => {
         expect(e).toEqual(
           "bulk geocoding using the ArcGIS service requires authentication"
@@ -87,7 +87,7 @@ describe("geocode", () => {
       endpoint:
         "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/"
     })
-      // tslint:disable-next-line
+      // eslint-disable-next-line
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -128,7 +128,7 @@ describe("geocode", () => {
         forStorage: true
       }
     })
-      // tslint:disable-next-line
+      // eslint-disable-next-line
       .then(response => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");

@@ -129,7 +129,7 @@ describe("solveRoute", () => {
     solveRoute({
       stops,
     })
-      // tslint:disable-next-line
+      // eslint-disable-next-line
       .catch((e) => {
         expect(e).toEqual(
           "Routing using the ArcGIS service requires authentication"

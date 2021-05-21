@@ -113,7 +113,7 @@ describe("serviceArea", () => {
     serviceArea({
       facilities,
     })
-      // tslint:disable-next-line
+      // eslint-disable-next-line
       .catch((e) => {
         expect(e).toEqual(
           "Finding service areas using the ArcGIS service requires authentication"
