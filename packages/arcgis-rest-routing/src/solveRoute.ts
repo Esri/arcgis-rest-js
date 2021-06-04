@@ -25,7 +25,7 @@ interface IFeatureWithCompressedGeometry extends IFeature {
 }
 
 interface IFeatureSetWithGeoJson extends IFeatureSet {
-  geoJson?: {};
+  geoJson?: Record<string, unknown>;
 }
 
 export interface ISolveRouteOptions extends IEndpointOptions {
@@ -44,7 +44,7 @@ export interface ISolveRouteResponse {
   directions?: Array<{
     routeId: number;
     routeName: string;
-    summary: object;
+    summary: Record<string, unknown>;
     features: IFeature[];
   }>;
 }
@@ -144,7 +144,7 @@ function cleanResponse(res: any): ISolveRouteResponse {
         features: IFeatureWithCompressedGeometry[];
         routeId: number;
         routeName: string;
-        summary: {};
+        summary: Record<string, unknown>;
       }) => {
         direction.features = direction.features.map(
           (feature: IFeatureWithCompressedGeometry) => {

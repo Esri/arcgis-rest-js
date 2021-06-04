@@ -14,7 +14,7 @@ export interface ICreateOrgNotificationOptions extends IRequestOptions {
   /**
    * Message to be sent. For builtin and email notifications this is a string. For push notifications, this will be JSON.
    */
-  message: string | object;
+  message: string | Record<string, unknown>;
   /**
    * Array of usernames of the users in the group to whom the message should be sent. If not provided, the message will be sent to all users in the group if the user is an admin. Only group admins will be able to send notifications to a list of users. Group users will be able to send notifications to only one user at a time.
    */

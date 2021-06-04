@@ -37,7 +37,7 @@ export interface IBulkGeocodeResponse {
     address: string;
     location?: IPoint; // candidates with a score of 0 wont include a location
     score: number;
-    attributes: object;
+    attributes: Record<string, unknown>;
   }>;
 }
 

@@ -55,13 +55,13 @@ export interface IGeocodeResponse {
     location: IPoint;
     extent?: IExtent;
     score: number;
-    attributes: object;
+    attributes: Record<string, unknown>;
   }>;
   geoJson?: {
     type: string;
     features: Array<{
       type: string;
-      geometry: object;
+      geometry: Record<string, unknown>;
       properties: any;
     }>;
   };

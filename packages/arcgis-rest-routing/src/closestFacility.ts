@@ -81,7 +81,7 @@ export interface IClosestFacilityResponse {
   directions?: Array<{
     routeId: number;
     routeName: string;
-    summary: object;
+    summary: Record<string, unknown>;
     features: IFeature[];
   }>;
   incidents?: IFeatureSet;
