@@ -45,20 +45,20 @@ describe("generateToken() with custom fetch", () => {
   const oldFormData = FormData;
 
   beforeEach(() => {
-    Promise = undefined;
-    FormData = undefined;
+    Promise = undefined; // eslint-disable-line no-global-assign
+    FormData = undefined; // eslint-disable-line no-global-assign
     Function("return this")().fetch = undefined;
   });
 
   afterEach(() => {
-    Promise = oldPromise;
-    FormData = oldFormData;
+    Promise = oldPromise; // eslint-disable-line no-global-assign
+    FormData = oldFormData; // eslint-disable-line no-global-assign
     Function("return this")().fetch = oldFetch;
   });
 
   it("should generate a token for a username and password with custom fetch", (done) => {
-    Promise = oldPromise;
-    FormData = oldFormData;
+    Promise = oldPromise; // eslint-disable-line no-global-assign
+    FormData = oldFormData; // eslint-disable-line no-global-assign
 
     const tokenResponse = {
       token: "token",

@@ -492,14 +492,14 @@ describe("request()", () => {
     const oldFetch = fetch;
     const oldFormData = FormData;
     beforeEach(() => {
-      Promise = undefined;
-      FormData = undefined;
+      Promise = undefined; // eslint-disable-line no-global-assign
+      FormData = undefined; // eslint-disable-line no-global-assign
       Function("return this")().fetch = undefined;
     });
 
     afterEach(() => {
-      Promise = oldPromise;
-      FormData = oldFormData;
+      Promise = oldPromise; // eslint-disable-line no-global-assign
+      FormData = oldFormData; // eslint-disable-line no-global-assign
       Function("return this")().fetch = oldFetch;
     });
 
@@ -512,8 +512,8 @@ describe("request()", () => {
     });
 
     it("should not throw if fetch is not present but a custom fetch is defined", (done) => {
-      Promise = oldPromise;
-      FormData = oldFormData;
+      Promise = oldPromise; // eslint-disable-line no-global-assign
+      FormData = oldFormData; // eslint-disable-line no-global-assign
 
       const MockFetchResponse = {
         ok: true,
