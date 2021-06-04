@@ -1213,10 +1213,10 @@ describe("UserSession", () => {
 
   describe("postmessage auth :: ", () => {
     const MockWindow = {
-      addEventListener: () => {},
-      removeEventListener: () => {},
+      addEventListener: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
+      removeEventListener: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
       parent: {
-        postMessage: () => {},
+        postMessage: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
       },
     };
 
@@ -1253,12 +1253,12 @@ describe("UserSession", () => {
       // create a mock window object
       // that will hold the passed in event handler so we can fire it manually
       const Win = {
-        _fn: (evt: any) => {},
+        _fn: (evt: any) => {}, // eslint-disable-line @typescript-eslint/no-empty-function
         addEventListener(evt: any, fn: any) {
           // enablePostMessageAuth passes in the handler, which is what we're actually testing
           Win._fn = fn;
         },
-        removeEventListener() {},
+        removeEventListener() {}, // eslint-disable-line @typescript-eslint/no-empty-function
       };
       // Create the session
       const session = UserSession.fromCredential(cred);
@@ -1269,7 +1269,7 @@ describe("UserSession", () => {
       const event = {
         origin: "https://storymaps.arcgis.com",
         source: {
-          postMessage(msg: any, origin: string) {},
+          postMessage(msg: any, origin: string) {}, // eslint-disable-line @typescript-eslint/no-empty-function
         },
         data: {
           type: "arcgis:auth:requestCredential",
@@ -1310,11 +1310,11 @@ describe("UserSession", () => {
     it(".fromParent happy path", () => {
       // create a mock window that will fire the handler
       const Win = {
-        _fn: (evt: any) => {},
+        _fn: (evt: any) => {}, // eslint-disable-line @typescript-eslint/no-empty-function
         addEventListener(evt: any, fn: any) {
           Win._fn = fn;
         },
-        removeEventListener() {},
+        removeEventListener() {}, // eslint-disable-line @typescript-eslint/no-empty-function
         parent: {
           postMessage(msg: any, origin: string) {
             Win._fn({
@@ -1339,11 +1339,11 @@ describe("UserSession", () => {
     it(".fromParent ignores other messages, then intercepts the correct one", async () => {
       // create a mock window that will fire the handler
       const Win = {
-        _fn: (evt: any) => {},
+        _fn: (evt: any) => {}, // eslint-disable-line @typescript-eslint/no-empty-function
         addEventListener(evt: any, fn: any) {
           Win._fn = fn;
         },
-        removeEventListener() {},
+        removeEventListener() {}, // eslint-disable-line @typescript-eslint/no-empty-function
         parent: {
           postMessage(msg: any, origin: string) {
             // fire one we intend to ignore
@@ -1373,11 +1373,11 @@ describe("UserSession", () => {
     it(".fromParent rejects if invlid cred", () => {
       // create a mock window that will fire the handler
       const Win = {
-        _fn: (evt: any) => {},
+        _fn: (evt: any) => {}, // eslint-disable-line @typescript-eslint/no-empty-function
         addEventListener(evt: any, fn: any) {
           Win._fn = fn;
         },
-        removeEventListener() {},
+        removeEventListener() {}, // eslint-disable-line @typescript-eslint/no-empty-function
         parent: {
           postMessage(msg: any, origin: string) {
             Win._fn({
@@ -1400,11 +1400,11 @@ describe("UserSession", () => {
     it(".fromParent rejects if auth error recieved", () => {
       // create a mock window that will fire the handler
       const Win = {
-        _fn: (evt: any) => {},
+        _fn: (evt: any) => {}, // eslint-disable-line @typescript-eslint/no-empty-function
         addEventListener(evt: any, fn: any) {
           Win._fn = fn;
         },
-        removeEventListener() {},
+        removeEventListener() {}, // eslint-disable-line @typescript-eslint/no-empty-function
         parent: {
           postMessage(msg: any, origin: string) {
             Win._fn({
@@ -1427,11 +1427,11 @@ describe("UserSession", () => {
     it(".fromParent rejects if auth unknown message", () => {
       // create a mock window that will fire the handler
       const Win = {
-        _fn: (evt: any) => {},
+        _fn: (evt: any) => {}, // eslint-disable-line @typescript-eslint/no-empty-function
         addEventListener(evt: any, fn: any) {
           Win._fn = fn;
         },
-        removeEventListener() {},
+        removeEventListener() {}, // eslint-disable-line @typescript-eslint/no-empty-function
         parent: {
           postMessage(msg: any, origin: string) {
             Win._fn({
