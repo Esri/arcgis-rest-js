@@ -15,15 +15,9 @@ describe("ApiKey", () => {
         key: "123456",
       });
 
-      Promise.all([
-        session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
-        session.getToken(
-          "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
-        ),
-      ])
-        .then(([token1, token2]) => {
+      Promise.all([session.getToken()])
+        .then(([token1]) => {
           expect(token1).toBe("123456");
-          expect(token2).toBe("123456");
           done();
         })
         .catch((e) => {

@@ -32,7 +32,7 @@ export class ApiKey implements IAuthenticationManager {
   /**
    * Gets a token (the API Key).
    */
-  public getToken(url: string) {
+  public getToken(): Promise<string> {
     return Promise.resolve(this.key);
   }
 }
