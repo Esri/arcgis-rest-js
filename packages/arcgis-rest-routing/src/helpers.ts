@@ -102,5 +102,5 @@ export function decompressGeometry(str: string) {
  * User Defined Type Guard that verifies this is a featureSet
  */
 export function isFeatureSet(arg: any): arg is IFeatureSet {
-  return arg.hasOwnProperty("features");
+  return Object.prototype.hasOwnProperty.call(arg, "features");
 }
