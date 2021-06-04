@@ -6,7 +6,7 @@ import {
   isOnline,
   getOnlineEnvironment,
   normalizeOnlinePortalUrl,
-  canUseOnlineToken
+  canUseOnlineToken,
 } from "../src/federation-utils";
 
 describe("federation utils", () => {

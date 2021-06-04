@@ -4,7 +4,7 @@
 import {
   request,
   IRequestOptions,
-  ITokenRequestOptions
+  ITokenRequestOptions,
 } from "@esri/arcgis-rest-request";
 
 interface IFetchTokenRawResponse {
@@ -39,7 +39,7 @@ export function fetchToken(
         // convert seconds in response to milliseconds and add the value to the current time to calculate a static expiration timestamp
         Date.now() + (response.expires_in * 1000 - 1000)
       ),
-      ssl: response.ssl === true
+      ssl: response.ssl === true,
     };
     if (response.refresh_token) {
       r.refreshToken = response.refresh_token;

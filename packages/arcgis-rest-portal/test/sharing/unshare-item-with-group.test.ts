@@ -11,45 +11,45 @@ import {
   GroupNonMemberUserResponse,
   GroupMemberUserResponse,
   GroupAdminUserResponse,
-  OrgAdminUserResponse
+  OrgAdminUserResponse,
 } from "../mocks/users/user";
 
 import { SearchResponse } from "../mocks/items/search";
 
 const UnsharingResponse = {
   notUnsharedFrom: [] as any,
-  itemId: "a5b"
+  itemId: "a5b",
 };
 
 const CachedUnsharingResponse = {
   notUnsharedFrom: [] as any,
   itemId: "n3v",
-  shortcut: true
+  shortcut: true,
 };
 
 export const GroupOwnerResponse = {
   id: "tb6",
   title: "fake group",
   userMembership: {
-    memberType: "owner"
-  }
+    memberType: "owner",
+  },
 };
 
 export const GroupAdminResponse = {
   id: "tb6",
   title: "fake group",
   userMembership: {
-    memberType: "admin"
-  }
+    memberType: "admin",
+  },
 };
 
 describe("unshareItemWithGroup() ::", () => {
   // make sure session doesnt cache metadata
-  beforeEach(done => {
+  beforeEach((done) => {
     fetchMock.post("https://myorg.maps.arcgis.com/sharing/rest/generateToken", {
       token: "fake-token",
       expires: TOMORROW.getTime(),
-      username: " jsmith"
+      username: " jsmith",
     });
 
     // make sure session doesnt cache metadata
@@ -60,7 +60,7 @@ describe("unshareItemWithGroup() ::", () => {
 
   afterEach(fetchMock.restore);
 
-  it("should unshare an item with a group by owner", done => {
+  it("should unshare an item with a group by owner", (done) => {
     fetchMock.once(
       "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       GroupMemberUserResponse
@@ -84,9 +84,9 @@ describe("unshareItemWithGroup() ::", () => {
     unshareItemWithGroup({
       authentication: MOCK_USER_SESSION,
       id: "a5b",
-      groupId: "t6b"
+      groupId: "t6b",
     })
-      .then(response => {
+      .then((response) => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
           "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/a5b/unshare"
         );
@@ -99,7 +99,7 @@ describe("unshareItemWithGroup() ::", () => {
         expect(options.body).toContain("groups=t6b");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         expect(fetchMock.done()).toBeTruthy(
           "All fetchMocks should have been called"
         );
@@ -107,7 +107,7 @@ describe("unshareItemWithGroup() ::", () => {
       });
   });
 
-  it("should unshare an item with a group by org administrator", done => {
+  it("should unshare an item with a group by org administrator", (done) => {
     fetchMock.once(
       "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       OrgAdminUserResponse
@@ -132,9 +132,9 @@ describe("unshareItemWithGroup() ::", () => {
       authentication: MOCK_USER_SESSION,
       id: "a5b",
       groupId: "t6b",
-      owner: "casey"
+      owner: "casey",
     })
-      .then(response => {
+      .then((response) => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
           "https://myorg.maps.arcgis.com/sharing/rest/content/items/a5b/unshare"
         );
@@ -147,12 +147,12 @@ describe("unshareItemWithGroup() ::", () => {
         expect(options.body).toContain("groups=t6b");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should unshare an item with a group by group admin", done => {
+  it("should unshare an item with a group by group admin", (done) => {
     fetchMock.once(
       "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       GroupAdminUserResponse
@@ -177,9 +177,9 @@ describe("unshareItemWithGroup() ::", () => {
       authentication: MOCK_USER_SESSION,
       id: "a5b",
       groupId: "t6b",
-      owner: "otherguy"
+      owner: "otherguy",
     })
-      .then(response => {
+      .then((response) => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
           "https://myorg.maps.arcgis.com/sharing/rest/content/items/a5b/unshare"
         );
@@ -192,12 +192,12 @@ describe("unshareItemWithGroup() ::", () => {
         expect(options.body).toContain("groups=t6b");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should shortcircuit share if an item was previously unshared with a group", done => {
+  it("should shortcircuit share if an item was previously unshared with a group", (done) => {
     fetchMock.once(
       "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       GroupMemberUserResponse
@@ -211,19 +211,19 @@ describe("unshareItemWithGroup() ::", () => {
     unshareItemWithGroup({
       authentication: MOCK_USER_SESSION,
       id: "n3v",
-      groupId: "t6b"
+      groupId: "t6b",
     })
-      .then(response => {
+      .then((response) => {
         // no web request to unshare at all
         expect(response).toEqual(CachedUnsharingResponse);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should throw if the person trying to unshare doesnt own the item, is not an admin or member of said group", done => {
+  it("should throw if the person trying to unshare doesnt own the item, is not an admin or member of said group", (done) => {
     fetchMock.once(
       "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       AnonUserResponse
@@ -243,8 +243,8 @@ describe("unshareItemWithGroup() ::", () => {
       authentication: MOCK_USER_SESSION,
       id: "a5b",
       groupId: "t6b",
-      owner: "jones"
-    }).catch(e => {
+      owner: "jones",
+    }).catch((e) => {
       expect(e.message).toContain(
         "This item can not be unshared from group t6b by jsmith as they not the item owner, an org admin, group admin or group owner."
       );
@@ -252,7 +252,7 @@ describe("unshareItemWithGroup() ::", () => {
     });
   });
 
-  it("should throw when notUnsharedFrom is not empty", done => {
+  it("should throw when notUnsharedFrom is not empty", (done) => {
     fetchMock.once(
       "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
       OrgAdminUserResponse
@@ -277,8 +277,8 @@ describe("unshareItemWithGroup() ::", () => {
       authentication: MOCK_USER_SESSION,
       id: "a5b",
       groupId: "t6b",
-      owner: "jones"
-    }).catch(e => {
+      owner: "jones",
+    }).catch((e) => {
       expect(e.message).toContain(
         "Item a5b could not be unshared to group t6b"
       );

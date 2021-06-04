@@ -32,7 +32,7 @@ export function updateGroup(
 
   requestOptions.params = {
     ...requestOptions.params,
-    ...requestOptions.group
+    ...requestOptions.group,
   };
 
   return request(url, requestOptions);

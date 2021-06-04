@@ -10,7 +10,7 @@ export const cvdServiceFields: IField[] = [
     alias: "OBJECTID",
     domain: null,
     editable: false,
-    nullable: false
+    nullable: false,
   },
   {
     name: "requestid",
@@ -19,7 +19,7 @@ export const cvdServiceFields: IField[] = [
     domain: null,
     editable: true,
     nullable: true,
-    length: 25
+    length: 25,
   },
   {
     name: "requesttype",
@@ -32,23 +32,23 @@ export const cvdServiceFields: IField[] = [
       codedValues: [
         {
           name: "Blight",
-          code: 0
+          code: 0,
         },
         {
           name: "Bridge Impassible",
-          code: 1
+          code: 1,
         },
         {
           name: "Business Closed",
-          code: 2
-        }
+          code: 2,
+        },
       ],
       mergePolicy: "esriMPTDefaultValue",
-      splitPolicy: "esriSPTDefaultValue"
+      splitPolicy: "esriSPTDefaultValue",
     },
     editable: true,
     nullable: true,
-    length: 100
+    length: 100,
   },
   {
     name: "name",
@@ -57,7 +57,7 @@ export const cvdServiceFields: IField[] = [
     domain: null,
     editable: true,
     nullable: true,
-    length: 150
+    length: 150,
   },
   {
     name: "phone",
@@ -66,7 +66,7 @@ export const cvdServiceFields: IField[] = [
     domain: null,
     editable: true,
     nullable: true,
-    length: 12
+    length: 12,
   },
   {
     name: "email",
@@ -75,7 +75,7 @@ export const cvdServiceFields: IField[] = [
     domain: null,
     editable: true,
     nullable: true,
-    length: 100
+    length: 100,
   },
   {
     name: "requestdate",
@@ -84,7 +84,7 @@ export const cvdServiceFields: IField[] = [
     domain: null,
     editable: true,
     nullable: true,
-    length: 8
+    length: 8,
   },
   {
     name: "status",
@@ -97,23 +97,23 @@ export const cvdServiceFields: IField[] = [
       codedValues: [
         {
           name: "Unassigned",
-          code: "Unassigned"
+          code: "Unassigned",
         },
         {
           name: "Assigned",
-          code: "Assigned"
+          code: "Assigned",
         },
         {
           name: "Closed",
-          code: "Closed"
-        }
+          code: "Closed",
+        },
       ],
       mergePolicy: "esriMPTDefaultValue",
-      splitPolicy: "esriSPTDefaultValue"
+      splitPolicy: "esriSPTDefaultValue",
     },
     editable: true,
     nullable: true,
-    length: 50
+    length: 50,
   },
   {
     name: "globalid",
@@ -122,7 +122,7 @@ export const cvdServiceFields: IField[] = [
     domain: null,
     editable: false,
     nullable: false,
-    length: 38
+    length: 38,
   },
   {
     name: "building",
@@ -131,7 +131,7 @@ export const cvdServiceFields: IField[] = [
     domain: null,
     editable: true,
     nullable: true,
-    length: 25
+    length: 25,
   },
   {
     name: "floor",
@@ -140,8 +140,8 @@ export const cvdServiceFields: IField[] = [
     domain: null,
     editable: true,
     nullable: true,
-    length: 5
-  }
+    length: 5,
+  },
 ];
 
 export const serviceFields: IField[] = [
@@ -154,7 +154,7 @@ export const serviceFields: IField[] = [
     nullable: false,
     editable: false,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Tree_ID",
@@ -165,7 +165,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Collected",
@@ -177,7 +177,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Crew",
@@ -189,7 +189,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Status",
@@ -201,7 +201,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Spp_Code",
@@ -213,7 +213,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Land_Use",
@@ -225,7 +225,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Ht_DBH_ft",
@@ -236,7 +236,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "DBH1",
@@ -247,7 +247,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "DBH2",
@@ -258,7 +258,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "DBH3",
@@ -269,7 +269,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "DBH4",
@@ -280,7 +280,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "DBH5",
@@ -291,7 +291,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "DBH6",
@@ -303,7 +303,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Height",
@@ -314,7 +314,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Live_Top",
@@ -325,7 +325,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Crown_Base",
@@ -336,7 +336,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Width_NS",
@@ -347,7 +347,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Width_EW",
@@ -358,7 +358,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Cn_Missing",
@@ -369,7 +369,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Cn_DieBack",
@@ -380,7 +380,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "CLE",
@@ -391,7 +391,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Tree_Site",
@@ -403,7 +403,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Tree_Age",
@@ -415,7 +415,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Notes",
@@ -427,7 +427,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Cmn_Name",
@@ -439,7 +439,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Sci_Name",
@@ -451,7 +451,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "GroundArea",
@@ -462,7 +462,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Condition",
@@ -474,7 +474,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Leaf_Area",
@@ -485,7 +485,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Leaf_Bmass",
@@ -496,7 +496,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "LAI",
@@ -507,7 +507,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "C_Storage",
@@ -518,7 +518,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "C_Seq",
@@ -529,7 +529,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "S_Value",
@@ -541,7 +541,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Street",
@@ -553,7 +553,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Native",
@@ -565,7 +565,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "CO_Rmvd",
@@ -576,7 +576,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "O3_Rmvd",
@@ -587,7 +587,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "NO2_Rmvd",
@@ -598,7 +598,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "PM10_Rmvd",
@@ -609,7 +609,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "SO2_Rmvd",
@@ -620,7 +620,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "PM2p5_Rmvd",
@@ -631,7 +631,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "CO_RVlu",
@@ -642,7 +642,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "O3_Rvlu",
@@ -653,7 +653,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "NO2_Rvlu",
@@ -664,7 +664,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "PM10_Rvlu",
@@ -675,7 +675,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "SO2_Rvlu",
@@ -686,7 +686,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "PM2p5_RVlu",
@@ -697,7 +697,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Isoprene_E",
@@ -708,7 +708,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Monoterp_E",
@@ -719,7 +719,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Vocs_E",
@@ -730,7 +730,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Dedication",
@@ -742,7 +742,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Longitude",
@@ -753,7 +753,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Latitude",
@@ -764,7 +764,7 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
+    defaultValue: null,
   },
   {
     name: "Crown_Height",
@@ -774,6 +774,6 @@ export const serviceFields: IField[] = [
     nullable: true,
     editable: true,
     domain: null,
-    defaultValue: null
-  }
+    defaultValue: null,
+  },
 ];

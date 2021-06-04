@@ -12,7 +12,7 @@ describe("groups", () => {
   afterEach(fetchMock.restore);
 
   describe("searchGroups", () => {
-    it("should make a simple, unauthenticated group search request", done => {
+    it("should make a simple, unauthenticated group search request", (done) => {
       fetchMock.once("*", GroupSearchResponse);
 
       searchGroups("water")
@@ -25,21 +25,21 @@ describe("groups", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should take num, start, sortField, sortOrder and construct the request", done => {
+    it("should take num, start, sortField, sortOrder and construct the request", (done) => {
       fetchMock.once("*", GroupSearchResponse);
       searchGroups({
         q: "water",
         start: 4,
         num: 7,
         sortField: "owner",
-        sortOrder: "desc"
+        sortOrder: "desc",
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -48,17 +48,17 @@ describe("groups", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should search for group contents", done => {
+    it("should search for group contents", (done) => {
       fetchMock.once("*", GroupSearchResponse);
 
       searchGroupContent({
         groupId: "grp1234567890",
-        q: "water"
+        q: "water",
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -69,20 +69,20 @@ describe("groups", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should catch search for group contents without group id", done => {
+    it("should catch search for group contents without group id", (done) => {
       genericSearch(
         {
-          q: "water"
+          q: "water",
         },
         "groupContent"
       ).then(
         () => fail(),
-        err => {
+        (err) => {
           expect(err).toEqual(
             new Error(
               "you must pass a `groupId` option to `searchGroupContent`"
@@ -94,7 +94,7 @@ describe("groups", () => {
     });
   });
 
-  it("should make a simple, single search request with a builder", done => {
+  it("should make a simple, single search request with a builder", (done) => {
     fetchMock.once("*", GroupSearchResponse);
     const expectedParam = "Trees AND owner:USFS";
     const q = new SearchQueryBuilder()
@@ -114,7 +114,7 @@ describe("groups", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
@@ -124,17 +124,17 @@ describe("groups", () => {
       getToken() {
         return Promise.resolve("fake-token");
       },
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     };
     const MOCK_REQOPTS = {
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
-    it("should make a simple, authenticated group search request", done => {
+    it("should make a simple, authenticated group search request", (done) => {
       fetchMock.once("*", GroupSearchResponse);
 
       searchGroups({ q: "water", authentication: MOCK_AUTH })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -143,7 +143,7 @@ describe("groups", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

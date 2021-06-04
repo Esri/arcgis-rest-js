@@ -5,7 +5,7 @@ import { ArcGISAuthError, IRetryAuthError, ErrorTypes } from "../../src/index";
 import {
   ArcGISOnlineAuthError,
   ArcGISOnlineError,
-  GenerateTokenError
+  GenerateTokenError,
 } from "./../mocks/errors";
 import { request } from "../../src/request";
 import * as fetchMock from "fetch-mock";
@@ -51,10 +51,10 @@ describe("ArcGISRequestError", () => {
       },
       retryHandler(url, options) {
         return Promise.resolve(MockAuth);
-      }
+      },
     };
 
-    it("should allow retrying a request with a new or updated session", done => {
+    it("should allow retrying a request with a new or updated session", (done) => {
       const error = new ArcGISAuthError(
         "Invalid token.",
         498,
@@ -66,15 +66,15 @@ describe("ArcGISRequestError", () => {
             title: "Test Map",
             tags: "foo",
             type: "Web Map",
-            f: "json"
-          }
+            f: "json",
+          },
         }
       );
 
       fetchMock.once("*", {
         success: true,
         id: "abc",
-        folder: null
+        folder: null,
       });
 
       const retryHandlerSpy = spyOn(MockAuth, "retryHandler").and.callThrough();
@@ -101,7 +101,7 @@ describe("ArcGISRequestError", () => {
         });
     });
 
-    it("should retry a request with a new or updated session up to the limit", done => {
+    it("should retry a request with a new or updated session up to the limit", (done) => {
       const error = new ArcGISAuthError(
         "Invalid token.",
         498,
@@ -113,8 +113,8 @@ describe("ArcGISRequestError", () => {
             title: "Test Map",
             tags: "foo",
             type: "Web Map",
-            f: "json"
-          }
+            f: "json",
+          },
         }
       );
 
@@ -138,7 +138,7 @@ describe("ArcGISRequestError", () => {
       });
     });
 
-    it("should throw an error if retrying throws a non-auth error", done => {
+    it("should throw an error if retrying throws a non-auth error", (done) => {
       const requestUrl =
         "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem";
       const error = new ArcGISAuthError(
@@ -150,8 +150,8 @@ describe("ArcGISRequestError", () => {
           httpMethod: "POST",
           params: {
             type: "Web Map",
-            f: "json"
-          }
+            f: "json",
+          },
         }
       );
 
@@ -172,7 +172,7 @@ describe("ArcGISRequestError", () => {
       });
     });
 
-    it("should throw an authentication error for invalid credentials", done => {
+    it("should throw an authentication error for invalid credentials", (done) => {
       fetchMock.post("*", GenerateTokenError);
 
       request("https://www.arcgis.com/sharing/rest/generateToken", {
@@ -180,9 +180,9 @@ describe("ArcGISRequestError", () => {
           username: "correct",
           password: "incorrect",
           expiration: 10260,
-          referer: "localhost"
-        }
-      }).catch(err => {
+          referer: "localhost",
+        },
+      }).catch((err) => {
         expect(err.name).toBe(ErrorTypes.ArcGISAuthError);
         done();
       });

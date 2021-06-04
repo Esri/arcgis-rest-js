@@ -6,7 +6,7 @@ import { SearchQueryBuilder } from "../util/SearchQueryBuilder";
 import {
   ISearchOptions,
   ISearchGroupContentOptions,
-  ISearchResult
+  ISearchResult,
 } from "../util/search";
 import { genericSearch } from "../util/generic-search";
 

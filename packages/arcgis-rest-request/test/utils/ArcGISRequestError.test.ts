@@ -17,9 +17,9 @@ describe("ArcGISRequestError", () => {
       "https://example.com",
       {
         params: {
-          f: "json"
+          f: "json",
         },
-        httpMethod: "POST"
+        httpMethod: "POST",
       }
     );
 

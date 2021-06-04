@@ -5,19 +5,19 @@ import {
   getUserInvitations,
   getUserInvitation,
   acceptInvitation,
-  declineInvitation
+  declineInvitation,
 } from "../../src/users/invitation";
 
 import {
   UserInvitationsResponse,
-  UserInvitationResponse
+  UserInvitationResponse,
 } from "../mocks/users/invitation";
 
 import { encodeParam } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import * as fetchMock from "fetch-mock";
 
-const TOMORROW = (function() {
+const TOMORROW = (function () {
   const now = new Date();
   now.setDate(now.getDate() + 1);
   return now;
@@ -31,15 +31,15 @@ describe("invitations", () => {
     password: "123456",
     token: "fake-token",
     tokenExpires: TOMORROW,
-    portal: "https://myorg.maps.arcgis.com/sharing/rest"
+    portal: "https://myorg.maps.arcgis.com/sharing/rest",
   });
 
   describe("getUserInvitations", () => {
-    it("should make an authenticated request for user invitations", done => {
+    it("should make an authenticated request for user invitations", (done) => {
       fetchMock.once("*", UserInvitationsResponse);
 
       getUserInvitations({ authentication: session })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -49,18 +49,18 @@ describe("invitations", () => {
           expect(response.userInvitations.length).toEqual(1);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
   });
 
   describe("getUserInvitation", () => {
-    it("should make an authenticated request for a user invitation", done => {
+    it("should make an authenticated request for a user invitation", (done) => {
       fetchMock.once("*", UserInvitationResponse);
 
       getUserInvitation({ invitationId: "3ef", authentication: session })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -71,18 +71,18 @@ describe("invitations", () => {
           expect(response.id).toEqual("G45ad52e7560e470598815499003c13f6");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
   });
 
   describe("acceptInvitation", () => {
-    it("should accept an invitation", done => {
+    it("should accept an invitation", (done) => {
       fetchMock.once("*", { success: true });
 
       acceptInvitation({ invitationId: "3ef", authentication: session })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -95,18 +95,18 @@ describe("invitations", () => {
           // expect(response.notificationId).toBe("3ef");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
   });
 
   describe("declineInvitation", () => {
-    it("should decline an invitation", done => {
+    it("should decline an invitation", (done) => {
       fetchMock.once("*", { success: true });
 
       declineInvitation({ invitationId: "3ef", authentication: session })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -119,7 +119,7 @@ describe("invitations", () => {
           // expect(response.notificationId).toBe("3ef");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

@@ -6,13 +6,13 @@ import { getUserMembership } from "../../src/sharing/helpers";
 import { MOCK_USER_SESSION } from "../mocks/sharing/sharing";
 import {
   GroupOwnerResponse,
-  GroupNoAccessResponse
+  GroupNoAccessResponse,
 } from "./share-item-with-group.test";
 
 describe("sharing helpers ::", () => {
   afterEach(fetchMock.restore);
   describe("getUserMembership ::", () => {
-    it("should return nonmember if group could not be fetched", done => {
+    it("should return nonmember if group could not be fetched", (done) => {
       fetchMock.once(
         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/tb6?f=json&token=fake-token",
         GroupNoAccessResponse
@@ -20,19 +20,19 @@ describe("sharing helpers ::", () => {
       getUserMembership({
         id: "ignoreme",
         groupId: "tb6",
-        authentication: MOCK_USER_SESSION
+        authentication: MOCK_USER_SESSION,
       })
-        .then(result => {
+        .then((result) => {
           expect(fetchMock.done()).toBeTruthy();
           expect(result).toBe("none", "should return none");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should request the group and return the member type", done => {
+    it("should request the group and return the member type", (done) => {
       fetchMock.once(
         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/tb6?f=json&token=fake-token",
         GroupOwnerResponse
@@ -40,14 +40,14 @@ describe("sharing helpers ::", () => {
       getUserMembership({
         id: "ignoreme",
         groupId: "tb6",
-        authentication: MOCK_USER_SESSION
+        authentication: MOCK_USER_SESSION,
       })
-        .then(result => {
+        .then((result) => {
           expect(fetchMock.done()).toBeTruthy();
           expect(result).toBe("owner", "should return owner");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

@@ -5,16 +5,16 @@ export const ArcGISOnlineError: any = {
   error: {
     code: 400,
     message: "'type' and 'title' property required.",
-    details: []
-  }
+    details: [],
+  },
 };
 
 export const ArcGISOnlineAuthError: any = {
   error: {
     code: 498,
     message: "Invalid token.",
-    details: []
-  }
+    details: [],
+  },
 };
 
 export const ArcGISOnlineErrorNoMessageCode: any = {
@@ -22,16 +22,16 @@ export const ArcGISOnlineErrorNoMessageCode: any = {
     code: 403,
     message:
       "You do not have permissions to access this resource or perform this operation.",
-    details: []
-  }
+    details: [],
+  },
 };
 
 export const ArcGISOnlineErrorNoCode: any = {
   error: {
     message:
       "You do not have permissions to access this resource or perform this operation.",
-    details: []
-  }
+    details: [],
+  },
 };
 
 export const ArcGISServerTokenRequired: any = {
@@ -39,38 +39,38 @@ export const ArcGISServerTokenRequired: any = {
     code: 499,
     message: "Token Required",
     messageCode: "GWM_0003",
-    details: ["Token Required"]
-  }
+    details: ["Token Required"],
+  },
 };
 
 export const BillingError: any = {
   code: 500,
   message: "Error getting subscription info",
   status: "failure",
-  details: null as any
+  details: null as any,
 };
 
 export const BillingErrorWithCode200: any = {
   code: 200,
   message: null,
-  status: "failure"
+  status: "failure",
 };
 
 export const TaskErrorWithJSON: any = {
   status: "failed",
   statusMessage:
-    '{"code":400,"message":"Index was outside the bounds of the array."}'
+    '{"code":400,"message":"Index was outside the bounds of the array."}',
 };
 
 export const TaskError: any = {
   status: "failed",
-  statusMessage: "failed"
+  statusMessage: "failed",
 };
 
 export const GenerateTokenError: any = {
   error: {
     code: 400,
     message: "Unable to generate token.",
-    details: ["Invalid username or password."]
-  }
+    details: ["Invalid username or password."],
+  },
 };

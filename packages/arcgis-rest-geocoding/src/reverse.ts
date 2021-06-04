@@ -59,7 +59,7 @@ export function reverseGeocode(
   const options: IEndpointOptions = {
     endpoint: ARCGIS_ONLINE_GEOCODING_URL,
     params: {},
-    ...requestOptions
+    ...requestOptions,
   };
 
   if (isLocationArray(coords)) {
@@ -80,5 +80,5 @@ export function reverseGeocode(
 }
 
 export default {
-  reverseGeocode
+  reverseGeocode,
 };

@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
 } from "@esri/arcgis-rest-request";
 
 import { IExtent, ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
@@ -63,7 +63,7 @@ export interface IGeocodeResponse {
       type: string;
       geometry: object;
       properties: any;
-    }>
+    }>;
   };
 }
 
@@ -115,7 +115,7 @@ export function geocode(
         "postalExt",
         "countryCode",
         "outFields",
-        "magicKey"
+        "magicKey",
       ],
       { params: { ...address.params } }
     );
@@ -123,12 +123,12 @@ export function geocode(
 
   // add spatialReference property to individual matches
   return request(`${cleanUrl(endpoint)}/findAddressCandidates`, options).then(
-    response => {
+    (response) => {
       if (typeof address !== "string" && address.rawResponse) {
         return response;
       }
       const sr: ISpatialReference = response.spatialReference;
-      response.candidates.forEach(function(candidate: {
+      response.candidates.forEach(function (candidate: {
         location: IPoint;
         extent?: IExtent;
       }) {

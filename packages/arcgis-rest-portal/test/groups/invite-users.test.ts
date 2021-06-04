@@ -3,7 +3,7 @@
 
 import {
   inviteGroupUsers,
-  IInviteGroupUsersOptions, 
+  IInviteGroupUsersOptions,
 } from "../../src/groups/invite-users";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
@@ -32,18 +32,15 @@ describe("invite-users", () => {
     refreshTokenTTL: 1440,
     username: "casey",
     password: "123456",
-    portal: "https://myorg.maps.arcgis.com/sharing/rest"
+    portal: "https://myorg.maps.arcgis.com/sharing/rest",
   });
 
   afterEach(fetchMock.restore);
 
-  it("should send multiple requests for a long user array", done => {
+  it("should send multiple requests for a long user array", (done) => {
     const requests = [createUsernames(0, 25), createUsernames(25, 35)];
 
-    const responses = [
-      { success: true },
-      { success: false }
-    ];
+    const responses = [{ success: true }, { success: false }];
 
     fetchMock.post("*", (url, options) => {
       expect(url).toEqual(
@@ -64,48 +61,48 @@ describe("invite-users", () => {
     const params: IInviteGroupUsersOptions = {
       id: "group-id",
       users: createUsernames(0, 35),
-      role: 'group_member',
+      role: "group_member",
       expiration: 1440,
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
     inviteGroupUsers(params)
-      .then(result => {
+      .then((result) => {
         expect(requests.length).toEqual(0);
         expect(responses.length).toEqual(0);
         expect(result.success).toEqual(false);
         expect(result.errors).toBeUndefined();
         done();
       })
-      .catch(error => fail(error));
+      .catch((error) => fail(error));
   });
 
-  it("should return request failure", done => {
+  it("should return request failure", (done) => {
     const responses = [
       { success: true },
       {
         error: {
           code: 400,
           messageCode: "ORG_3100",
-          message: "error message for add-user request"
-        }
+          message: "error message for add-user request",
+        },
       },
     ];
 
-    fetchMock.post("*", (url, options) => { 
-      return responses.shift(); 
+    fetchMock.post("*", (url, options) => {
+      return responses.shift();
     });
 
     const params: IInviteGroupUsersOptions = {
       id: "group-id",
       users: createUsernames(0, 30),
-      role: 'group_member',
+      role: "group_member",
       expiration: 1440,
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
     inviteGroupUsers(params)
-      .then(result => {
+      .then((result) => {
         expect(responses.length).toEqual(0);
         expect(result.success).toEqual(false);
 
@@ -124,26 +121,26 @@ describe("invite-users", () => {
         expect(errorAOptions.params.users).toEqual(createUsernames(25, 30));
         done();
       })
-      .catch(error => fail(error));
+      .catch((error) => fail(error));
   });
 
-  it("should not send any request for zero-length username array", done => {
+  it("should not send any request for zero-length username array", (done) => {
     const params: IInviteGroupUsersOptions = {
       id: "group-id",
-      role: 'group_member',
+      role: "group_member",
       expiration: 1440,
       users: [],
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
     inviteGroupUsers(params)
-      .then(result => {
+      .then((result) => {
         expect(fetchMock.called()).toEqual(false);
         expect(result.success).toEqual(true);
         expect(result.errors).toBeUndefined();
 
         done();
       })
-      .catch(error => fail(error));
+      .catch((error) => fail(error));
   });
 });

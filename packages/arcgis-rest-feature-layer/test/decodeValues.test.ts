@@ -7,7 +7,7 @@ import * as fetchMock from "fetch-mock";
 
 import {
   cvdQueryResponse,
-  cvdFeaturesFormatted
+  cvdFeaturesFormatted,
 } from "./mocks/cvdQueryResponse";
 import { cvdServiceFields, serviceFields } from "./mocks/fields";
 import { getFeatureServiceResponse } from "./mocks/service";
@@ -19,48 +19,48 @@ const serviceUrl =
 describe("formatCodedValues()", () => {
   afterEach(fetchMock.restore);
 
-  it("should format the cvd codes in a raw response", done => {
+  it("should format the cvd codes in a raw response", (done) => {
     decodeValues({
       url: serviceUrl,
       fields: cvdServiceFields,
-      queryResponse: cvdQueryResponse
+      queryResponse: cvdQueryResponse,
     })
-      .then(response => {
+      .then((response) => {
         expect(response.features[0]).toEqual(cvdFeaturesFormatted[0]);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return the original response if there are no coded value domains", done => {
+  it("should return the original response if there are no coded value domains", (done) => {
     decodeValues({
       url: serviceUrl,
       fields: serviceFields,
-      queryResponse
+      queryResponse,
     })
-      .then(response => {
+      .then((response) => {
         expect(response).toEqual(queryResponse);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should fetch metadata and then format cvd codes in a raw response", done => {
+  it("should fetch metadata and then format cvd codes in a raw response", (done) => {
     fetchMock.once("*", getFeatureServiceResponse);
 
     decodeValues({
       url: serviceUrl,
-      queryResponse: cvdQueryResponse
+      queryResponse: cvdQueryResponse,
     })
-      .then(response => {
+      .then((response) => {
         expect(response.features[0]).toEqual(cvdFeaturesFormatted[0]);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

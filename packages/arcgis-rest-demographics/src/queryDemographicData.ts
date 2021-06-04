@@ -4,11 +4,15 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
 } from "@esri/arcgis-rest-request";
 import { IFeatureSet } from "@esri/arcgis-rest-types";
 
-import { ARCGIS_ONLINE_GEOENRICHMENT_URL, IGeoenrichmentResult, IEndpointOptions } from "./helpers";
+import {
+  ARCGIS_ONLINE_GEOENRICHMENT_URL,
+  IGeoenrichmentResult,
+  IEndpointOptions,
+} from "./helpers";
 
 export interface IQueryDemographicDataOptions extends IEndpointOptions {
   /**
@@ -41,7 +45,6 @@ export interface IQueryDemographicDataOptions extends IEndpointOptions {
   outSR?: number;
 }
 
-
 export interface IQueryDemographicDataResponse {
   results: IGeoenrichmentResult[] | null;
   messages: string[] | null;
@@ -66,7 +69,6 @@ export interface IQueryDemographicDataResponse {
 export function queryDemographicData(
   requestOptions?: IQueryDemographicDataOptions
 ): Promise<IQueryDemographicDataResponse> {
-
   const options = appendCustomParams<IQueryDemographicDataOptions>(
     requestOptions,
     [
@@ -82,9 +84,7 @@ export function queryDemographicData(
   );
 
   // the SAAS service does not support anonymous requests
-  if (
-    !requestOptions.authentication
-  ) {
+  if (!requestOptions.authentication) {
     return Promise.reject(
       "Geoenrichment using the ArcGIS service requires authentication"
     );
@@ -98,9 +98,12 @@ export function queryDemographicData(
   });
 
   // add spatialReference property to individual matches
-  return request(`${cleanUrl(`${requestOptions.endpoint || ARCGIS_ONLINE_GEOENRICHMENT_URL}/enrich`)}`, options).then(
-    (response: any) => {
-      return response;
-    }
-  );
+  return request(
+    `${cleanUrl(
+      `${requestOptions.endpoint || ARCGIS_ONLINE_GEOENRICHMENT_URL}/enrich`
+    )}`,
+    options
+  ).then((response: any) => {
+    return response;
+  });
 }

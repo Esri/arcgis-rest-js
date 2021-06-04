@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
 } from "@esri/arcgis-rest-request";
 
 import { ARCGIS_ONLINE_GEOENRICHMENT_URL, IEndpointOptions } from "./helpers";
@@ -25,14 +25,13 @@ export interface IGetAvailableDataCollectionsOptions extends IEndpointOptions {
   dataCollection?: string;
 }
 
-
 export interface IGetAvailableDataCollectionsResponse {
-  DataCollections?: (IDataCollection)[] | null;
+  DataCollections?: IDataCollection[] | null;
 }
 export interface IDataCollection {
   dataCollectionID: string;
   metadata: IMetadata;
-  data?: (IDataInfo)[] | null;
+  data?: IDataInfo[] | null;
 }
 export interface IMetadata {
   title: string;
@@ -48,7 +47,7 @@ export interface IMetadata {
   countries?: string | null;
   IsRoyalties: boolean;
   categories?: ICategory[] | null;
-  filters?: (IFilter)[] | null;
+  filters?: IFilter[] | null;
   datasets?: string | null;
   hierarchies: string;
   coverage?: string | null;
@@ -99,7 +98,6 @@ export interface IFilteringTag {
   value: string;
 }
 
-
 /**
  * ```js
  * import { getAvailableDataCollections } from '@esri/arcgis-rest-demographics';
@@ -125,8 +123,7 @@ export function getAvailableDataCollections(
   requestOptions?: IGetAvailableDataCollectionsOptions
 ): Promise<IGetAvailableDataCollectionsResponse> {
   let options: IGetAvailableDataCollectionsOptions = {};
-  let endpoint: string = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/dataCollections`;
-  
+  let endpoint = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/dataCollections`;
 
   if (!requestOptions) {
     options.params = {};
@@ -136,31 +133,26 @@ export function getAvailableDataCollections(
     }
     options = appendCustomParams<IGetAvailableDataCollectionsOptions>(
       requestOptions,
-      [
-        "addDerivativeVariables",
-        "suppressNullValues",
-      ],
+      ["addDerivativeVariables", "suppressNullValues"],
       { params: { ...requestOptions.params } }
     );
 
     if (options.params.addDerivativeVariables) {
-      options.params.addDerivativeVariables = JSON.stringify(options.params.addDerivativeVariables);
+      options.params.addDerivativeVariables = JSON.stringify(
+        options.params.addDerivativeVariables
+      );
     }
 
-    if(requestOptions.countryCode) {
+    if (requestOptions.countryCode) {
       endpoint = `${endpoint}/${requestOptions.countryCode}`;
-      if(requestOptions.dataCollection) {
+      if (requestOptions.dataCollection) {
         endpoint = `${endpoint}/${requestOptions.dataCollection}`;
       }
     }
   }
 
-  
-
   // add spatialReference property to individual matches
-  return request(`${cleanUrl(endpoint)}`, options).then(
-    (response: any) => {
-      return response;
-    }
-  );
+  return request(`${cleanUrl(endpoint)}`, options).then((response: any) => {
+    return response;
+  });
 }

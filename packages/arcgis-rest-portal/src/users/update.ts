@@ -56,7 +56,7 @@ export function updateUser(
   // mixin custom params and the user information, then drop the user info
   requestOptions.params = {
     ...requestOptions.user,
-    ...requestOptions.params
+    ...requestOptions.params,
   };
 
   delete requestOptions.user;

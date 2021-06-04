@@ -27,10 +27,10 @@ export function isItemSharedWithGroup(
     num: 10,
     sortField: "title",
     authentication: requestOptions.authentication,
-    httpMethod: "POST"
+    httpMethod: "POST",
   } as ISearchOptions;
 
-  return searchItems(searchOpts).then(searchResponse => {
+  return searchItems(searchOpts).then((searchResponse) => {
     let result = false;
     if (searchResponse.total > 0) {
       result = searchResponse.results.some((itm: any) => {

@@ -5,7 +5,7 @@ import {
   checkForErrors,
   warn,
   ArcGISRequestError,
-  ArcGISAuthError
+  ArcGISAuthError,
 } from "../../src/index";
 import { SharingRestInfo } from "./../mocks/sharing-rest-info";
 import {
@@ -17,7 +17,7 @@ import {
   ArcGISOnlineErrorNoCode,
   ArcGISServerTokenRequired,
   ArcGISOnlineAuthError,
-  BillingErrorWithCode200
+  BillingErrorWithCode200,
 } from "./../mocks/errors";
 
 describe("checkForErrors", () => {

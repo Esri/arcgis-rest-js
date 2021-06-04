@@ -26,11 +26,11 @@ describe("groups", () => {
         refreshTokenTTL: 1440,
         username: "casey",
         password: "123456",
-        portal: "https://myorg.maps.arcgis.com/sharing/rest"
-      })
+        portal: "https://myorg.maps.arcgis.com/sharing/rest",
+      }),
     };
 
-    it("should help a user join a group", done => {
+    it("should help a user join a group", (done) => {
       fetchMock.once("*", GroupEditResponse);
 
       joinGroup({ id: "5bc", ...MOCK_REQOPTS })
@@ -45,11 +45,11 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
-    it("should help a user leave a group", done => {
+    it("should help a user leave a group", (done) => {
       fetchMock.once("*", GroupEditResponse);
 
       leaveGroup({ id: "5bc", ...MOCK_REQOPTS })
@@ -64,7 +64,7 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

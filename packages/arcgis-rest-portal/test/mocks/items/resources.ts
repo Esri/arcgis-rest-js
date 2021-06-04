@@ -8,31 +8,31 @@ export const GetItemResourcesResponse: any = {
   nextStart: -1,
   resources: [
     {
-      resource: "image/banner.jpg"
+      resource: "image/banner.jpg",
     },
     {
-      resource: "image/logo.jpg"
+      resource: "image/logo.jpg",
     },
     {
-      resource: "text/desc.txt"
-    }
-  ]
+      resource: "text/desc.txt",
+    },
+  ],
 };
 
 export const RemoveItemResourceResponse: any = {
-  success: true
+  success: true,
 };
 
 export const UpdateItemInfoResponse: any = {
   success: true,
   itemId: "0c66beb52dff4994be67937cdadbdbf1",
   owner: "jsmith",
-  folder: null
+  folder: null,
 };
 
 export const UpdateItemResourceResponse: any = {
   success: true,
   itemId: "0c66beb52dff4994be67937cdadbdbf1",
   owner: "jsmith",
-  folder: null
+  folder: null,
 };

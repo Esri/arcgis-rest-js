@@ -9,14 +9,14 @@ import {
   updateItem,
   updateItemInfo,
   updateItemResource,
-  moveItem
+  moveItem,
 } from "../../src/items/update";
 
 import { ItemSuccessResponse } from "../mocks/items/item";
 
 import {
   UpdateItemResourceResponse,
-  UpdateItemInfoResponse
+  UpdateItemInfoResponse,
 } from "../mocks/items/resources";
 
 import { UserSession } from "@esri/arcgis-rest-auth";
@@ -38,14 +38,14 @@ describe("search", () => {
       refreshTokenTTL: 1440,
       username: "casey",
       password: "123456",
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     });
 
     const MOCK_USER_REQOPTS = {
-      authentication: MOCK_USER_SESSION
+      authentication: MOCK_USER_SESSION,
     };
 
-    it("should update an item, including data", done => {
+    it("should update an item, including data", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         id: "5bc",
@@ -57,13 +57,13 @@ describe("search", () => {
         typeKeywords: ["fake", "kwds"],
         tags: ["fakey", "mcfakepants"],
         properties: {
-          key: "somevalue"
+          key: "somevalue",
         },
         data: {
           values: {
-            key: "value"
-          }
-        }
+            key: "value",
+          },
+        },
       };
       updateItem({ item: fakeItem, ...MOCK_USER_REQOPTS })
         .then(() => {
@@ -88,12 +88,12 @@ describe("search", () => {
           );
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should update an item with custom params", done => {
+    it("should update an item with custom params", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         id: "5bc",
@@ -105,22 +105,22 @@ describe("search", () => {
         typeKeywords: ["fake", "kwds"],
         tags: ["fakey", "mcfakepants"],
         properties: {
-          key: "somevalue"
+          key: "somevalue",
         },
         data: {
           values: {
-            key: "value"
-          }
-        }
+            key: "value",
+          },
+        },
       };
       updateItem({
         item: fakeItem,
         authentication: MOCK_USER_SESSION,
         params: {
-          clearEmptyFields: true
-        }
+          clearEmptyFields: true,
+        },
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -143,12 +143,12 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("clearEmptyFields", true));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should update an item, including data and service proxy params", done => {
+    it("should update an item, including data and service proxy params", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         id: "5bc",
@@ -160,27 +160,27 @@ describe("search", () => {
         typeKeywords: ["fake", "kwds"],
         tags: ["fakey", "mcfakepants"],
         properties: {
-          key: "somevalue"
+          key: "somevalue",
         },
         serviceProxyParams: {
           hitsPerInterval: 2,
           intervalSeconds: 60,
-          referrers: ["http://<servername>"]
+          referrers: ["http://<servername>"],
         },
         data: {
           values: {
-            key: "value"
-          }
-        }
+            key: "value",
+          },
+        },
       };
 
       updateItem({
         item: fakeItem,
         folderId: "aFolder",
         params: { foo: "bar" },
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -209,23 +209,23 @@ describe("search", () => {
           );
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("update an item info file", done => {
+    it("update an item info file", (done) => {
       fetchMock.once("*", UpdateItemInfoResponse);
       const fakeData = {
         values: {
-          key: "someValue"
-        }
+          key: "someValue",
+        },
       };
       updateItemInfo({
         id: "3ef",
         folderName: "subfolder",
         file: fakeData,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -243,12 +243,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("update an item resource", done => {
+    it("update an item resource", (done) => {
       fetchMock.once("*", UpdateItemResourceResponse);
       updateItemResource({
         id: "3ef",
@@ -256,7 +256,7 @@ describe("search", () => {
         name: "banner.png",
         prefix: "image",
         content: "jumbotron",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -276,12 +276,12 @@ describe("search", () => {
           }
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should update a binary resource to an item", done => {
+    it("should update a binary resource to an item", (done) => {
       fetchMock.once("*", { success: true });
       const file = attachmentFile();
 
@@ -290,7 +290,7 @@ describe("search", () => {
         // File() is only available in the browser
         resource: file,
         name: "thebigkahuna",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -310,18 +310,18 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("update an item resource, no owner passed", done => {
+    it("update an item resource, no owner passed", (done) => {
       fetchMock.once("*", UpdateItemResourceResponse);
       updateItemResource({
         id: "3ef",
         name: "image/banner.png",
         content: "jumbotron",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -340,12 +340,12 @@ describe("search", () => {
           }
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("update an item resource with extra params", done => {
+    it("update an item resource with extra params", (done) => {
       fetchMock.once("*", UpdateItemResourceResponse);
       updateItemResource({
         id: "3ef",
@@ -353,8 +353,8 @@ describe("search", () => {
         content: "jumbotron",
         ...MOCK_USER_REQOPTS,
         params: {
-          resourcesPrefix: "foolder"
-        }
+          resourcesPrefix: "foolder",
+        },
       })
         .then(() => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -374,18 +374,18 @@ describe("search", () => {
           }
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("update an item resource to make it secret", done => {
+    it("update an item resource to make it secret", (done) => {
       fetchMock.once("*", UpdateItemResourceResponse);
       updateItemResource({
         id: "3ef",
         name: "image/banner.png",
         private: true,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -403,19 +403,19 @@ describe("search", () => {
           }
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("update an item resource to spill the beans", done => {
+    it("update an item resource to spill the beans", (done) => {
       fetchMock.once("*", UpdateItemResourceResponse);
       updateItemResource({
         id: "3ef",
         name: "image/banner.png",
         content: "jumbotron",
         private: false,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -434,21 +434,21 @@ describe("search", () => {
           }
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should move an item to a folder", done => {
+    it("should move an item to a folder", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const itemId = "3ef";
       const folderId = "7c5";
       moveItem({
         itemId,
         folderId,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -463,19 +463,19 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should move an item to the root folder 1", done => {
+    it("should move an item to the root folder 1", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const itemId = "3ef";
       moveItem({
         itemId,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -490,21 +490,21 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should move an item to the root folder 2", done => {
+    it("should move an item to the root folder 2", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const itemId = "3ef";
       const folderId = "";
       moveItem({
         itemId,
         folderId,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -519,21 +519,21 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should move an item to the root folder 3", done => {
+    it("should move an item to the root folder 3", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const itemId = "3ef";
       const folderId = "/";
       moveItem({
         itemId,
         folderId,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -548,7 +548,7 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

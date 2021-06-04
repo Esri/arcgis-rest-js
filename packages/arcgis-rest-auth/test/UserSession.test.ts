@@ -980,7 +980,7 @@ describe("UserSession", () => {
           clientId: "clientId123",
           redirectUri: "http://example-app.com/redirect",
           popup: false,
-          expiration: 9000
+          expiration: 9000,
         },
         MockWindow
       );
@@ -1003,7 +1003,7 @@ describe("UserSession", () => {
           clientId: "clientId123",
           redirectUri: "http://example-app.com/redirect",
           popup: false,
-          duration: 9001
+          duration: 9001,
         },
         MockWindow
       );
@@ -1018,8 +1018,7 @@ describe("UserSession", () => {
     it("should return a new user session if it cannot find a valid parent", () => {
       const MockWindow = {
         location: {
-          hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true&persist=true",
+          hash: "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true&persist=true",
         },
         get parent() {
           return this;
@@ -1043,8 +1042,7 @@ describe("UserSession", () => {
     it("should return a new user session with ssl as false when callback hash does not have ssl parameter", () => {
       const MockWindow = {
         location: {
-          hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&persist=true",
+          hash: "#access_token=token&expires_in=1209600&username=c%40sey&persist=true",
         },
         get parent() {
           return this;
@@ -1083,8 +1081,7 @@ describe("UserSession", () => {
           done();
         },
         location: {
-          hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
+          hash: "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
         },
       };
 
@@ -1117,8 +1114,7 @@ describe("UserSession", () => {
           done();
         },
         location: {
-          hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
+          hash: "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
         },
       };
 
@@ -1151,8 +1147,7 @@ describe("UserSession", () => {
           done();
         },
         location: {
-          hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
+          hash: "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
         },
       };
 
@@ -1175,7 +1170,7 @@ describe("UserSession", () => {
         },
       };
 
-      expect(function() {
+      expect(function () {
         UserSession.completeOAuth2(
           {
             clientId: "clientId",
@@ -1204,7 +1199,7 @@ describe("UserSession", () => {
         },
       };
 
-      expect(function() {
+      expect(function () {
         UserSession.completeOAuth2(
           {
             clientId: "clientId",
@@ -1476,9 +1471,8 @@ describe("UserSession", () => {
       return session
         .validateAppAccess("abc123")
         .then((response) => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-            VERIFYAPPACCESS_URL
-          );
+          const [url, options]: [string, RequestInit] =
+            fetchMock.lastCall(VERIFYAPPACCESS_URL);
           expect(url).toEqual(VERIFYAPPACCESS_URL);
           expect(options.body).toContain("f=json");
           expect(options.body).toContain("token=FAKE-TOKEN");
@@ -1500,7 +1494,7 @@ describe("UserSession", () => {
       },
     };
 
-    expect(function() {
+    expect(function () {
       UserSession.completeOAuth2(
         {
           clientId: "clientId",
@@ -1551,7 +1545,7 @@ describe("UserSession", () => {
         {
           clientId: "clientId",
           redirectUri: "https://example-app.com/redirect-uri",
-          expiration: 10000
+          expiration: 10000,
         },
         MockResponse
       );
@@ -1574,7 +1568,7 @@ describe("UserSession", () => {
         {
           clientId: "clientId",
           redirectUri: "https://example-app.com/redirect-uri",
-          duration: 10001
+          duration: 10001,
         },
         MockResponse
       );

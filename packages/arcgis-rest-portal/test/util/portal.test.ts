@@ -6,7 +6,7 @@ import { getSubscriptionInfo } from "../../src/util/get-subscription-info";
 
 import {
   PortalResponse,
-  SubscriptionInfoResponse
+  SubscriptionInfoResponse,
 } from "./../mocks/portal/response";
 
 import * as fetchMock from "fetch-mock";
@@ -30,16 +30,16 @@ describe("portal", () => {
       getToken() {
         return Promise.resolve("fake-token");
       },
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     };
     const MOCK_REQOPTS = {
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
-    it("should get the portal by id", done => {
+    it("should get the portal by id", (done) => {
       fetchMock.once("*", PortalResponse);
       getPortal("5BZFaKe", MOCK_REQOPTS)
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -48,14 +48,14 @@ describe("portal", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
-    it("should get the portal self if no id", done => {
+    it("should get the portal self if no id", (done) => {
       fetchMock.once("*", PortalResponse);
       getPortal(null, MOCK_REQOPTS)
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -64,7 +64,7 @@ describe("portal", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
@@ -75,16 +75,16 @@ describe("portal", () => {
       getToken() {
         return Promise.resolve("fake-token");
       },
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     };
     const MOCK_REQOPTS = {
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
-    it("should get the portal by id", done => {
+    it("should get the portal by id", (done) => {
       fetchMock.once("*", PortalResponse);
       getSelf(MOCK_REQOPTS)
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -93,7 +93,7 @@ describe("portal", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
@@ -105,16 +105,16 @@ describe("portal", () => {
       getToken() {
         return Promise.resolve("fake-token");
       },
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     };
     const MOCK_REQOPTS = {
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
-    it("should get the portal subscriptionInfo by id", done => {
+    it("should get the portal subscriptionInfo by id", (done) => {
       fetchMock.once("*", SubscriptionInfoResponse);
       getSubscriptionInfo("5BZFaKe", MOCK_REQOPTS)
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -123,15 +123,15 @@ describe("portal", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should get the portal self subscriptionInfo if no id", done => {
+    it("should get the portal self subscriptionInfo if no id", (done) => {
       fetchMock.once("*", SubscriptionInfoResponse);
       getSubscriptionInfo(null, MOCK_REQOPTS)
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -140,7 +140,7 @@ describe("portal", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

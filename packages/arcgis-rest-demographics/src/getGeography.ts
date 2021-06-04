@@ -4,10 +4,14 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
 } from "@esri/arcgis-rest-request";
 
-import { ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL, IGeoenrichmentResult, IEndpointOptions } from "./helpers";
+import {
+  ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL,
+  IGeoenrichmentResult,
+  IEndpointOptions,
+} from "./helpers";
 
 export interface IGetGeographyOptions extends IEndpointOptions {
   /**
@@ -76,7 +80,6 @@ export interface IGetGeographyOptions extends IEndpointOptions {
   langCode?: string;
 }
 
-
 export interface IGetGeographyResponse {
   results: IGeoenrichmentResult[] | null;
   messages: string[] | null;
@@ -101,7 +104,9 @@ export interface IGetGeographyResponse {
 export function getGeography(
   requestOptions?: IGetGeographyOptions
 ): Promise<IGetGeographyResponse> {
-  const endpoint: string = `${requestOptions.endpoint || ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL}/execute`;
+  const endpoint = `${
+    requestOptions.endpoint || ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL
+  }/execute`;
 
   const options = appendCustomParams<IGetGeographyOptions>(
     requestOptions,
@@ -127,9 +132,7 @@ export function getGeography(
   );
 
   // the SAAS service does not support anonymous requests
-  if (
-    !requestOptions.authentication
-  ) {
+  if (!requestOptions.authentication) {
     return Promise.reject(
       "Geoenrichment using the ArcGIS service requires authentication"
     );
@@ -141,12 +144,9 @@ export function getGeography(
       options.params[parameter] = JSON.stringify(options.params[parameter]);
     }
   });
-  
 
   // add spatialReference property to individual matches
-  return request(`${cleanUrl(endpoint)}`, options).then(
-    (response: any) => {
-      return response;
-    }
-  );
+  return request(`${cleanUrl(endpoint)}`, options).then((response: any) => {
+    return response;
+  });
 }

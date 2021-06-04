@@ -37,6 +37,6 @@ export interface IFeatureSet extends IHasZM {
   fields?: IField[];
   features: IFeature[];
   fieldAliases?: {
-    [key: string]: string
-  }
+    [key: string]: string;
+  };
 }

@@ -48,7 +48,7 @@ export function isOrgAdmin(
   const session = requestOptions.authentication;
 
   return session.getUser(requestOptions).then((user: IUser) => {
-      return user && user.role === "org_admin" && !user.roleId;
+    return user && user.role === "org_admin" && !user.roleId;
   });
 }
 

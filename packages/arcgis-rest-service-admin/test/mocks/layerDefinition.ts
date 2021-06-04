@@ -10,8 +10,8 @@ const defaultExtent: IExtent = {
   ymax: 90,
   spatialReference: {
     wkid: 4326,
-    latestWkid: 4326
-  }
+    latestWkid: 4326,
+  },
 };
 
 export const layerDefinitionSid: ILayerDefinition = {
@@ -31,12 +31,12 @@ export const layerDefinitionSid: ILayerDefinition = {
           color: [255, 255, 255, 229],
           width: 2.25,
           type: "esriSLS",
-          style: "esriSLSSolid"
+          style: "esriSLSSolid",
         },
         type: "esriSFS",
-        style: "esriSFSSolid"
-      }
-    }
+        style: "esriSFSSolid",
+      },
+    },
   },
   extent: defaultExtent,
   fields: [
@@ -46,7 +46,7 @@ export const layerDefinitionSid: ILayerDefinition = {
       alias: "OBJECTID",
       nullable: false,
       editable: false,
-      domain: null
+      domain: null,
     },
     {
       name: "author",
@@ -56,8 +56,8 @@ export const layerDefinitionSid: ILayerDefinition = {
       nullable: false,
       editable: true,
       domain: null,
-      defaultValue: null
-    }
+      defaultValue: null,
+    },
   ],
   geometryType: "esriGeometryPolygon",
   hasAttachments: true,
@@ -75,5 +75,5 @@ export const layerDefinitionSid: ILayerDefinition = {
   type: "Feature Layer",
   typeIdField: "",
   types: [],
-  timeInfo: {}
+  timeInfo: {},
 };

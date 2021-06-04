@@ -28,24 +28,24 @@ describe("groups", () => {
       refreshTokenTTL: 1440,
       username: "casey",
       password: "123456",
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     });
 
     const MOCK_REQOPTS = {
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
-    it("should create a group", done => {
+    it("should create a group", (done) => {
       fetchMock.once("*", GroupEditResponse);
       const fakeGroup = {
         title: "fake group",
         owner: "fakeUser",
         tags: ["foo", "bar"],
         description: "my fake group",
-        access: "public"
+        access: "public",
       } as IGroupAdd;
       createGroup({ group: fakeGroup, ...MOCK_REQOPTS })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -60,19 +60,19 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("access", "public"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should create a group without an owner or tags", done => {
+    it("should create a group without an owner or tags", (done) => {
       fetchMock.once("*", GroupEditResponse);
       const fakeGroup = {
         title: "bone stock fake group",
-        access: "org"
+        access: "org",
       } as IGroupAdd;
       createGroup({ group: fakeGroup, ...MOCK_REQOPTS })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -87,22 +87,22 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("access", "org"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should update a group", done => {
+    it("should update a group", (done) => {
       fetchMock.once("*", GroupEditResponse);
       const fakeGroup = {
         id: "5bc",
         title: "fake group",
         owner: "fakeUser",
         tags: ["foo", "bar"],
-        description: "my fake group"
+        description: "my fake group",
       };
       updateGroup({ group: fakeGroup, ...MOCK_REQOPTS })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -116,28 +116,28 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("tags", "foo,bar"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should update a group with a custom param", done => {
+    it("should update a group with a custom param", (done) => {
       fetchMock.once("*", GroupEditResponse);
       const fakeGroup = {
         id: "5bc",
         title: "fake group",
         owner: "fakeUser",
         tags: ["foo", "bar"],
-        description: "my fake group"
+        description: "my fake group",
       };
       updateGroup({
         group: fakeGroup,
         authentication: MOCK_AUTH,
         params: {
-          clearEmptyFields: true
-        }
+          clearEmptyFields: true,
+        },
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -152,16 +152,16 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("clearEmptyFields", true));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should remove a group", done => {
+    it("should remove a group", (done) => {
       fetchMock.once("*", GroupEditResponse);
 
       removeGroup({ id: "5bc", ...MOCK_REQOPTS })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -172,7 +172,7 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

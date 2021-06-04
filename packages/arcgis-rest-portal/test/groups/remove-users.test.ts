@@ -3,7 +3,7 @@
 
 import {
   removeGroupUsers,
-  IRemoveGroupUsersOptions
+  IRemoveGroupUsersOptions,
 } from "../../src/groups/remove-users";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { encodeParam } from "@esri/arcgis-rest-request";
@@ -31,17 +31,17 @@ describe("remove-users", () => {
     refreshTokenTTL: 1440,
     username: "casey",
     password: "123456",
-    portal: "https://myorg.maps.arcgis.com/sharing/rest"
+    portal: "https://myorg.maps.arcgis.com/sharing/rest",
   });
 
   afterEach(fetchMock.restore);
 
-  it("should send multiple requests for a long user array", done => {
+  it("should send multiple requests for a long user array", (done) => {
     const requests = [createUsernames(0, 25), createUsernames(25, 35)];
 
     const responses = [
       { notRemoved: ["username1"] },
-      { notRemoved: ["username30"] }
+      { notRemoved: ["username30"] },
     ];
 
     fetchMock.post("*", (url, options) => {
@@ -61,30 +61,30 @@ describe("remove-users", () => {
     const params = {
       id: "group-id",
       users: createUsernames(0, 35),
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
     removeGroupUsers(params)
-      .then(result => {
+      .then((result) => {
         expect(requests.length).toEqual(0);
         expect(responses.length).toEqual(0);
         expect(result.notRemoved).toEqual(["username1", "username30"]);
         expect(result.errors).toBeUndefined();
         done();
       })
-      .catch(error => fail(error));
+      .catch((error) => fail(error));
   });
 
-  it("should return request failure", done => {
+  it("should return request failure", (done) => {
     const responses = [
       { notRemoved: ["username2"] },
       {
         error: {
           code: 400,
           messageCode: "ORG_3100",
-          message: "error message for remove-user request"
-        }
-      }
+          message: "error message for remove-user request",
+        },
+      },
     ];
 
     fetchMock.post("*", () => responses.shift());
@@ -92,11 +92,11 @@ describe("remove-users", () => {
     const params = {
       id: "group-id",
       users: createUsernames(0, 30),
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
     removeGroupUsers(params)
-      .then(result => {
+      .then((result) => {
         expect(responses.length).toEqual(0);
 
         const expectedNotAdded = ["username2"];
@@ -117,24 +117,24 @@ describe("remove-users", () => {
 
         done();
       })
-      .catch(error => fail(error));
+      .catch((error) => fail(error));
   });
 
-  it("should not send any request for zero-length username array", done => {
+  it("should not send any request for zero-length username array", (done) => {
     const params: IRemoveGroupUsersOptions = {
       id: "group-id",
       users: [],
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
     removeGroupUsers(params)
-      .then(result => {
+      .then((result) => {
         expect(fetchMock.called()).toEqual(false);
         expect(result.notRemoved).toEqual([]);
         expect(result.errors).toBeUndefined();
 
         done();
       })
-      .catch(error => fail(error));
+      .catch((error) => fail(error));
   });
 });

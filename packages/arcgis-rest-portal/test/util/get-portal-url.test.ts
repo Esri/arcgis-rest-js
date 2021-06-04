@@ -14,8 +14,8 @@ describe("getPortalUrl", () => {
         portal: "https://foo.com/arcgis/sharing/rest",
         getToken() {
           return Promise.resolve("fake");
-        }
-      }
+        },
+      },
     };
     const url = getPortalUrl(requestOptions);
     expect(url).toEqual("https://foo.com/arcgis/sharing/rest");
@@ -27,9 +27,9 @@ describe("getPortalUrl", () => {
         portal: "https://foo.com/arcgis/sharing/rest",
         getToken() {
           return Promise.resolve("fake");
-        }
+        },
       },
-      portal: "https://bar.com/arcgis/sharing/rest"
+      portal: "https://bar.com/arcgis/sharing/rest",
     };
     const url = getPortalUrl(requestOptions);
     expect(url).toEqual("https://bar.com/arcgis/sharing/rest");

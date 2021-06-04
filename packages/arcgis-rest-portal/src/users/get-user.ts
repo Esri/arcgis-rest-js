@@ -50,7 +50,7 @@ export function getUser(
     )}`;
     options = {
       ...requestOptions,
-      ...options
+      ...options,
     };
   }
   // send the request

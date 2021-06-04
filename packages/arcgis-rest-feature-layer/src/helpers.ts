@@ -5,7 +5,7 @@ import {
   GeometryType,
   SpatialRelationship,
   IGeometry,
-  ISpatialReference
+  ISpatialReference,
 } from "@esri/arcgis-rest-types";
 
 /**

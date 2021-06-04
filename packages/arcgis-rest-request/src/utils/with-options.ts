@@ -39,7 +39,7 @@ export function withOptions<
       typeof args[args.length - 1] === "object"
         ? {
             ...defaultOptions,
-            ...args.pop()
+            ...args.pop(),
           }
         : defaultOptions;
 

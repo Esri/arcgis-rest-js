@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
 } from "@esri/arcgis-rest-request";
 
 import { IFeature } from "@esri/arcgis-rest-types";
@@ -52,7 +52,13 @@ export function updateFeatures(
   // edit operations are POST only
   const options = appendCustomParams<IUpdateFeaturesOptions>(
     requestOptions,
-    ["features", "gdbVersion", "returnEditMoment", "rollbackOnFailure", "trueCurveClient"],
+    [
+      "features",
+      "gdbVersion",
+      "returnEditMoment",
+      "rollbackOnFailure",
+      "trueCurveClient",
+    ],
     { params: { ...requestOptions.params } }
   );
 

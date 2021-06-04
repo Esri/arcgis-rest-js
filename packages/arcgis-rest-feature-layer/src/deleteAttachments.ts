@@ -39,7 +39,7 @@ export function deleteAttachments(
 ): Promise<{ deleteAttachmentResults: IEditFeatureResult[] }> {
   const options: IDeleteAttachmentsOptions = {
     params: {},
-    ...requestOptions
+    ...requestOptions,
   };
 
   // `attachmentIds` --> params: {}

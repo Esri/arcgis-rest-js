@@ -4,7 +4,7 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams
+  appendCustomParams,
 } from "@esri/arcgis-rest-request";
 import { IPagingParams, IGroup, IItem, IUser } from "@esri/arcgis-rest-types";
 import { getPortalUrl } from "../util/get-portal-url";
@@ -58,7 +58,7 @@ export function getGroup(
   // default to a GET request
   const options: IRequestOptions = {
     ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
   };
   return request(url, options);
 }
@@ -82,7 +82,7 @@ export function getGroupCategorySchema(
   // default to a GET request
   const options: IRequestOptions = {
     ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
   };
   return request(url, options);
 }
@@ -104,7 +104,7 @@ export function getGroupContent(
   const options: IRequestOptions = {
     ...{ httpMethod: "GET" },
     params: { start: 1, num: 100 },
-    ...requestOptions
+    ...requestOptions,
   } as IGetGroupContentOptions;
 
   // is this the most concise way to mixin with the defaults above?
@@ -130,7 +130,7 @@ export function getGroupUsers(
   // default to a GET request
   const options: IRequestOptions = {
     ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
   };
   return request(url, options);
 }
@@ -177,7 +177,7 @@ export function searchGroupUsers(
     searchOptions || {},
     ["name", "num", "start", "sortField", "sortOrder", "joined", "memberType"],
     {
-      httpMethod: "GET"
+      httpMethod: "GET",
     }
   );
   return request(url, options);

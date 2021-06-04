@@ -4,18 +4,18 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams
+  appendCustomParams,
 } from "@esri/arcgis-rest-request";
 import { IItem, IGroup } from "@esri/arcgis-rest-types";
 
 import { getPortalUrl } from "../util/get-portal-url";
-import { scrubControlChars } from '../util/scrub-control-chars';
+import { scrubControlChars } from "../util/scrub-control-chars";
 import {
   IItemDataOptions,
   IItemRelationshipOptions,
   IUserItemOptions,
   determineOwner,
-  FetchReadMethodName
+  FetchReadMethodName,
 } from "./helpers";
 
 /**
@@ -43,7 +43,7 @@ export function getItem(
   // default to a GET request
   const options: IRequestOptions = {
     ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
   };
   return request(url, options);
 }
@@ -88,14 +88,14 @@ export function getItemData(
   // default to a GET request
   const options: IItemDataOptions = {
     ...{ httpMethod: "GET", params: {} },
-    ...requestOptions
+    ...requestOptions,
   };
 
   if (options.file) {
     options.params.f = null;
   }
 
-  return request(url, options).catch(err => {
+  return request(url, options).catch((err) => {
     /* if the item doesn't include data, the response will be empty
        and the internal call to response.json() will fail */
     const emptyResponseErr = RegExp(
@@ -139,9 +139,9 @@ export function getRelatedItems(
   const options: IItemRelationshipOptions = {
     httpMethod: "GET",
     params: {
-      direction: requestOptions.direction
+      direction: requestOptions.direction,
     },
-    ...requestOptions
+    ...requestOptions,
   };
 
   if (typeof requestOptions.relationshipType === "string") {
@@ -173,7 +173,7 @@ export function getItemResources(
   // as that may be used in other (subsequent) calls in the course
   // of a long promise chains
   const options: IRequestOptions = {
-    ...requestOptions
+    ...requestOptions,
   };
   options.params = { num: 1000, ...options.params };
 
@@ -226,10 +226,14 @@ export function getItemResource(
   itemId: string,
   requestOptions: IGetItemResourceOptions
 ) {
-  const readAs = requestOptions.readAs || 'blob';
-  return getItemFile(itemId, `/resources/${requestOptions.fileName}`, readAs, requestOptions);
+  const readAs = requestOptions.readAs || "blob";
+  return getItemFile(
+    itemId,
+    `/resources/${requestOptions.fileName}`,
+    readAs,
+    requestOptions
+  );
 }
-
 
 /**
  * ```js
@@ -293,7 +297,7 @@ export interface IGetItemStatusResponse {
 export function getItemStatus(
   requestOptions: IItemStatusOptions
 ): Promise<IGetItemStatusResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/status`;
@@ -331,7 +335,7 @@ export interface IGetItemPartsResponse {
 export function getItemParts(
   requestOptions: IUserItemOptions
 ): Promise<IGetItemPartsResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/parts`;
@@ -374,7 +378,7 @@ export function getItemInfo(
   const { fileName = "iteminfo.xml", readAs = "text" } = requestOptions || {};
   const options: IRequestOptions = {
     httpMethod: "GET",
-    ...requestOptions
+    ...requestOptions,
   };
   return getItemFile(id, `/info/${fileName}`, readAs, options);
 }
@@ -400,7 +404,7 @@ export function getItemMetadata(
 ): Promise<any> {
   const options = {
     ...requestOptions,
-    fileName: "metadata/metadata.xml"
+    fileName: "metadata/metadata.xml",
   } as IGetItemInfoOptions;
   return getItemInfo(id, options);
 }
@@ -420,18 +424,20 @@ function getItemFile(
   // and ensure the f param is not appended to the query string
   const options: IRequestOptions = {
     params: {},
-    ...requestOptions
+    ...requestOptions,
   };
   const justReturnResponse = options.rawResponse;
   options.rawResponse = true;
   options.params.f = null;
 
-  return request(url, options).then(response => {
+  return request(url, options).then((response) => {
     if (justReturnResponse) {
       return response;
     }
-    return readMethod !== 'json'
+    return readMethod !== "json"
       ? response[readMethod]()
-      : response.text().then((text: string) => JSON.parse(scrubControlChars(text)));
+      : response
+          .text()
+          .then((text: string) => JSON.parse(scrubControlChars(text)));
   });
 }

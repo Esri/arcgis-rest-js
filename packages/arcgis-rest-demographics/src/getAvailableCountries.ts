@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
 } from "@esri/arcgis-rest-request";
 import { IEnvelope } from "@esri/arcgis-rest-types";
 
@@ -68,7 +68,6 @@ export interface IApportionmentThreshold {
   maximumSize?: number;
 }
 
-
 /**
  * ```js
  * import { getAvailableCountries } from '@esri/arcgis-rest-demographics';
@@ -86,7 +85,7 @@ export function getAvailableCountries(
   requestOptions?: IGetAvailableCountriesOptions
 ): Promise<IGetAvailableCountriesResponse> {
   let options: IEndpointOptions = {};
-  let endpoint: string = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/countries`;
+  let endpoint = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/countries`;
   if (!requestOptions) {
     options.params = {};
   } else {
@@ -104,10 +103,7 @@ export function getAvailableCountries(
     }
   }
 
-
-  return request(cleanUrl(endpoint), options).then(
-    (response: any) => {
-      return response;
-    }
-  );
+  return request(cleanUrl(endpoint), options).then((response: any) => {
+    return response;
+  });
 }

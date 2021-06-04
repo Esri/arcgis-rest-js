@@ -3,7 +3,7 @@
 
 import {
   ILayerDefinition,
-  IFeatureServiceDefinition
+  IFeatureServiceDefinition,
 } from "@esri/arcgis-rest-types";
 import { cvdServiceFields } from "./fields";
 
@@ -24,7 +24,7 @@ export const getFeatureServerResponse: IFeatureServiceDefinition = {
   advancedEditingCapabilities: { supportsSplit: true },
   spatialReference: {
     wkid: 4326,
-    latestWkid: 4326
+    latestWkid: 4326,
   },
   initialExtent: {
     xmin: -118.016756138237,
@@ -33,8 +33,8 @@ export const getFeatureServerResponse: IFeatureServiceDefinition = {
     ymax: 34.3261469363675,
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326
-    }
+      latestWkid: 4326,
+    },
   },
   fullExtent: {
     xmin: -117.855689264791,
@@ -43,8 +43,8 @@ export const getFeatureServerResponse: IFeatureServiceDefinition = {
     ymax: 34.1460567673275,
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326
-    }
+      latestWkid: 4326,
+    },
   },
   allowGeometryUpdates: true,
   units: "esriDecimalDegrees",
@@ -52,7 +52,7 @@ export const getFeatureServerResponse: IFeatureServiceDefinition = {
     validationPointErrorlayerId: 1,
     validationLineErrorlayerId: 2,
     validationPolygonErrorlayerId: 3,
-    validationObjectErrortableId: 5
+    validationObjectErrortableId: 5,
   },
   extractChangesCapabilities: {
     supportsReturnIdsOnly: true,
@@ -60,7 +60,7 @@ export const getFeatureServerResponse: IFeatureServiceDefinition = {
     supportsReturnAttachments: false,
     supportsLayerQueries: false,
     supportsSpatialFilter: false,
-    supportsReturnFeature: false
+    supportsReturnFeature: false,
   },
   syncCapabilities: {
     supportsASync: true,
@@ -69,13 +69,13 @@ export const getFeatureServerResponse: IFeatureServiceDefinition = {
     supportsPerLayerSync: true,
     supportsPerReplicaSync: false,
     supportsRollbackOnFailure: false,
-    supportedSyncDataOptions: 3
+    supportedSyncDataOptions: 3,
   },
   editorTrackingInfo: {
     enableEditorTracking: false,
     enableOwnershipAccessControl: false,
     allowOthersToUpdate: true,
-    allowOthersToDelete: false
+    allowOthersToDelete: false,
   },
   layers: [
     {
@@ -85,7 +85,7 @@ export const getFeatureServerResponse: IFeatureServiceDefinition = {
       defaultVisibility: true,
       minScale: 0,
       maxScale: 0,
-      geometryType: "esriGeometryPoint"
+      geometryType: "esriGeometryPoint",
     },
     {
       id: 1,
@@ -94,7 +94,7 @@ export const getFeatureServerResponse: IFeatureServiceDefinition = {
       defaultVisibility: true,
       minScale: 0,
       maxScale: 0,
-      geometryType: "esriGeometryPolygon"
+      geometryType: "esriGeometryPolygon",
     },
     {
       id: 2,
@@ -103,8 +103,8 @@ export const getFeatureServerResponse: IFeatureServiceDefinition = {
       defaultVisibility: true,
       minScale: 0,
       maxScale: 0,
-      geometryType: "esriGeometryPolygon"
-    }
+      geometryType: "esriGeometryPolygon",
+    },
   ],
   tables: [],
   relationships: [
@@ -128,16 +128,16 @@ export const getFeatureServerResponse: IFeatureServiceDefinition = {
           originMaximumCardinality: 2,
           destinationSubtypeCode: 0,
           destinationMinimumCardinality: 0,
-          destinationMaximumCardinality: 1
-        }
+          destinationMaximumCardinality: 1,
+        },
       ],
       cardinality: "esriRelCardinalityOneToMany",
       attributed: false,
-      composite: true
-    }
+      composite: true,
+    },
   ],
   isLocationTrackingService: true,
-  isLocationTrackingView: true
+  isLocationTrackingView: true,
 };
 
 export const getFeatureServiceResponse: ILayerDefinition = {
@@ -164,14 +164,14 @@ export const getFeatureServiceResponse: ILayerDefinition = {
       cardinality: "esriRelCardinalityOneToMany",
       role: "esriRelRoleOrigin",
       keyField: "requestid",
-      composite: true
-    }
+      composite: true,
+    },
   ],
   isDataVersioned: false,
   supportsRollbackOnFailureParameter: false,
   archivingInfo: {
     supportsQueryWithHistoricMoment: false,
-    startArchivingMoment: -1
+    startArchivingMoment: -1,
   },
   supportsStatistics: true,
   supportsAdvancedQueries: true,
@@ -185,10 +185,10 @@ export const getFeatureServiceResponse: ILayerDefinition = {
     supportsStatistics: true,
     supportsOrderBy: true,
     supportsDistinct: true,
-    supportsSqlExpression: true
+    supportsSqlExpression: true,
   },
   editingInfo: {
-    lastEditDate: (new Date()).getTime()
+    lastEditDate: new Date().getTime(),
   },
   extent: {
     xmin: -1.4842597721444273e7,
@@ -197,8 +197,8 @@ export const getFeatureServiceResponse: ILayerDefinition = {
     ymax: 1.3760961797220282e7,
     spatialReference: {
       wkid: 102100,
-      latestWkid: 3857
-    }
+      latestWkid: 3857,
+    },
   },
   drawingInfo: {
     renderer: {
@@ -220,11 +220,11 @@ export const getFeatureServiceResponse: ILayerDefinition = {
             height: 16,
             angle: 0,
             xoffset: 0,
-            yoffset: 0
+            yoffset: 0,
           },
           value: "Unassigned",
           label: "Unassigned",
-          description: ""
+          description: "",
         },
         {
           symbol: {
@@ -237,11 +237,11 @@ export const getFeatureServiceResponse: ILayerDefinition = {
             height: 16,
             angle: 0,
             xoffset: 0,
-            yoffset: 0
+            yoffset: 0,
           },
           value: "Assigned",
           label: "Assigned",
-          description: ""
+          description: "",
         },
         {
           symbol: {
@@ -254,17 +254,17 @@ export const getFeatureServiceResponse: ILayerDefinition = {
             height: 16,
             angle: 0,
             xoffset: 0,
-            yoffset: 0
+            yoffset: 0,
           },
           value: "Closed",
           label: "Closed",
-          description: ""
-        }
+          description: "",
+        },
       ],
-      fieldDelimiter: ","
+      fieldDelimiter: ",",
     },
     transparency: 0,
-    labelingInfo: null
+    labelingInfo: null,
   },
   hasM: false,
   hasZ: false,
@@ -287,19 +287,19 @@ export const getFeatureServiceResponse: ILayerDefinition = {
       fields: "requestid",
       isAscending: true,
       isUnique: false,
-      description: ""
+      description: "",
     },
     {
       name: "a11_ix1",
       fields: "shape",
       isAscending: true,
       isUnique: true,
-      description: ""
-    }
+      description: "",
+    },
   ],
   dateFieldsTimeReference: {
     timeZone: "UTC",
-    respectsDaylightSaving: false
+    respectsDaylightSaving: false,
   },
   types: [
     {
@@ -307,7 +307,7 @@ export const getFeatureServiceResponse: ILayerDefinition = {
       name: "Unassigned",
       domains: {
         requesttype: { type: "inherited" },
-        status: { type: "inherited" }
+        status: { type: "inherited" },
       },
       templates: [
         {
@@ -324,19 +324,19 @@ export const getFeatureServiceResponse: ILayerDefinition = {
               phone: null,
               email: null,
               status: "Unassigned",
-              building: null
-            }
+              building: null,
+            },
           },
-          drawingTool: "esriFeatureEditToolPoint"
-        }
-      ]
+          drawingTool: "esriFeatureEditToolPoint",
+        },
+      ],
     },
     {
       id: "Assigned",
       name: "Assigned",
       domains: {
         requesttype: { type: "inherited" },
-        status: { type: "inherited" }
+        status: { type: "inherited" },
       },
       templates: [
         {
@@ -353,19 +353,19 @@ export const getFeatureServiceResponse: ILayerDefinition = {
               phone: null,
               email: null,
               requestdate: null,
-              status: "Assigned"
-            }
+              status: "Assigned",
+            },
           },
-          drawingTool: "esriFeatureEditToolPoint"
-        }
-      ]
+          drawingTool: "esriFeatureEditToolPoint",
+        },
+      ],
     },
     {
       id: "Closed",
       name: "Closed",
       domains: {
         requesttype: { type: "inherited" },
-        status: { type: "inherited" }
+        status: { type: "inherited" },
       },
       templates: [
         {
@@ -382,17 +382,17 @@ export const getFeatureServiceResponse: ILayerDefinition = {
               phone: null,
               email: null,
               requestdate: null,
-              status: "Closed"
-            }
+              status: "Closed",
+            },
           },
-          drawingTool: "esriFeatureEditToolPoint"
-        }
-      ]
-    }
+          drawingTool: "esriFeatureEditToolPoint",
+        },
+      ],
+    },
   ],
   templates: [],
   maxRecordCount: 1000,
   supportedQueryFormats: "JSON, AMF, geoJSON",
   capabilities: "Create,Delete,Query,Update,Uploads,Editing",
-  useStandardizedQueries: true
+  useStandardizedQueries: true,
 };

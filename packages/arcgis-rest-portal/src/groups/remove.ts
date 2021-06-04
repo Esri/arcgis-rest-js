@@ -26,7 +26,7 @@ export function removeGroup(requestOptions: IUserGroupOptions): Promise<any> {
     requestOptions.id
   }/delete`;
   const options: IUserGroupOptions = {
-    ...requestOptions
+    ...requestOptions,
   };
   return request(url, options);
 }

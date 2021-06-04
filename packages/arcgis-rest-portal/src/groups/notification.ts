@@ -69,9 +69,9 @@ export function createGroupNotification(
       clientId: requestOptions.clientId,
       silentNotification: requestOptions.silentNotification,
       notifyAll: !requestOptions.users || requestOptions.users.length === 0,
-      ...requestOptions.params
+      ...requestOptions.params,
     },
-    ...requestOptions
+    ...requestOptions,
   };
   return request(url, options);
 }

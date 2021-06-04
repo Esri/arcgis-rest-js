@@ -4,7 +4,7 @@
 import {
   request,
   IRequestOptions,
-  ArcGISRequestError
+  ArcGISRequestError,
 } from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url";
@@ -60,15 +60,15 @@ export function addGroupUsers(
   const url = `${getPortalUrl(requestOptions)}/community/groups/${id}/addUsers`;
   const baseOptions = Object.assign({}, requestOptions, {
     admins: undefined,
-    users: undefined
+    users: undefined,
   });
 
   const batchRequestOptions = [
     ..._prepareRequests("users", requestOptions.users, baseOptions),
-    ..._prepareRequests("admins", requestOptions.admins, baseOptions)
+    ..._prepareRequests("admins", requestOptions.admins, baseOptions),
   ];
 
-  const promises = batchRequestOptions.map(options =>
+  const promises = batchRequestOptions.map((options) =>
     _sendSafeRequest(url, options)
   );
 
@@ -88,7 +88,7 @@ function _prepareRequests(
   // see https://developers.arcgis.com/rest/users-groups-and-items/add-users-to-group.htm
   const userChunks: string[][] = chunk<string>(usernames, 25);
 
-  return userChunks.map(users =>
+  return userChunks.map((users) =>
     _generateRequestOptions(type, users, baseOptions)
   );
 }
@@ -102,8 +102,8 @@ function _generateRequestOptions(
     [type]: usernames,
     params: {
       ...baseOptions.params,
-      [type]: usernames
-    }
+      [type]: usernames,
+    },
   });
 }
 
@@ -112,9 +112,9 @@ function _sendSafeRequest(
   url: string,
   requestOptions: IAddGroupUsersOptions
 ): Promise<IAddGroupUsersResult> {
-  return request(url, requestOptions).catch(error => {
+  return request(url, requestOptions).catch((error) => {
     return {
-      errors: [error]
+      errors: [error],
     };
   });
 }
@@ -123,11 +123,11 @@ function _consolidateRequestResults(
   results: IAddGroupUsersResult[]
 ): IAddGroupUsersResult {
   const notAdded = results
-    .filter(result => result.notAdded)
+    .filter((result) => result.notAdded)
     .reduce((collection, result) => collection.concat(result.notAdded), []);
 
   const errors = results
-    .filter(result => result.errors)
+    .filter((result) => result.errors)
     .reduce((collection, result) => collection.concat(result.errors), []);
 
   const consolidated: IAddGroupUsersResult = { notAdded };

@@ -15,7 +15,7 @@ import {
   getRelatedItems,
   getItemInfo,
   getItemMetadata,
-  getItemResource
+  getItemResource,
 } from "../../src/items/get";
 
 import {
@@ -25,7 +25,7 @@ import {
   RelatedItemsResponse,
   ItemInfoResponse,
   ItemMetadataResponse,
-  ItemFormJsonResponse
+  ItemFormJsonResponse,
 } from "../mocks/items/item";
 
 import { GetItemResourcesResponse } from "../mocks/items/resources";
@@ -45,7 +45,7 @@ describe("get base url", () => {
 describe("get", () => {
   afterEach(fetchMock.restore);
 
-  it("should return an item by id", done => {
+  it("should return an item by id", (done) => {
     fetchMock.once("*", ItemResponse);
 
     getItem("3ef")
@@ -58,12 +58,12 @@ describe("get", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return an item data by id", done => {
+  it("should return an item data by id", (done) => {
     fetchMock.once("*", ItemDataResponse);
 
     getItemData("3ef")
@@ -76,22 +76,22 @@ describe("get", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return binary item data by id", done => {
+  it("should return binary item data by id", (done) => {
     // Blob() is only available in the browser
     if (typeof window !== "undefined") {
       fetchMock.once("*", {
         sendAsJson: false,
         headers: { "Content-Type": "application/zip" },
-        body: new Blob()
+        body: new Blob(),
       });
 
       getItemData("3ef", { file: true })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -101,7 +101,7 @@ describe("get", () => {
           expect(response instanceof Blob).toBeTruthy();
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     } else {
@@ -109,15 +109,15 @@ describe("get", () => {
     }
   });
 
-  it("should return a valid response even when no data is retrieved", done => {
+  it("should return a valid response even when no data is retrieved", (done) => {
     fetchMock.once("*", {
       sendAsJson: false,
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: ""
+      body: "",
     });
 
     getItemData("3ef")
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -127,17 +127,17 @@ describe("get", () => {
         expect(response).toBe(undefined);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return related items", done => {
+  it("should return related items", (done) => {
     fetchMock.once("*", RelatedItemsResponse);
 
     getRelatedItems({
       id: "3ef",
-      relationshipType: "Service2Layer"
+      relationshipType: "Service2Layer",
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
@@ -148,17 +148,17 @@ describe("get", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return related items for more than one relationship type", done => {
+  it("should return related items for more than one relationship type", (done) => {
     fetchMock.once("*", RelatedItemsResponse);
 
     getRelatedItems({
       id: "3ef",
-      relationshipType: ["Service2Layer", "Area2CustomPackage"]
+      relationshipType: ["Service2Layer", "Area2CustomPackage"],
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
@@ -169,16 +169,16 @@ describe("get", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return item info by id", done => {
+  it("should return item info by id", (done) => {
     fetchMock.once("*", ItemInfoResponse);
 
     getItemInfo("3ef")
-      .then(response => {
+      .then((response) => {
         expect(response).toBe(ItemInfoResponse);
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -188,20 +188,20 @@ describe("get", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return raw response item info if desired", done => {
+  it("should return raw response item info if desired", (done) => {
     fetchMock.once("*", ItemFormJsonResponse);
 
     getItemInfo("3ef", {
       fileName: "form.json",
-      rawResponse: true
+      rawResponse: true,
     } as IGetItemInfoOptions)
-      .then(response => response.json())
-      .then(formJson => {
+      .then((response) => response.json())
+      .then((formJson) => {
         expect(formJson).toEqual(ItemFormJsonResponse);
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -211,19 +211,19 @@ describe("get", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return item info JSON files", done => {
+  it("should return item info JSON files", (done) => {
     fetchMock.once("*", ItemFormJsonResponse);
 
     getItemInfo("3ef", {
       fileName: "form.json",
-      readAs: "json"
+      readAs: "json",
     } as IGetItemInfoOptions)
-      .then(formJson => {
+      .then((formJson) => {
         expect(formJson).toEqual(ItemFormJsonResponse);
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -233,16 +233,16 @@ describe("get", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return item metadata", done => {
+  it("should return item metadata", (done) => {
     fetchMock.once("*", ItemMetadataResponse);
     const fileName = "metadata/metadata.xml";
     getItemMetadata("3ef")
-      .then(response => {
+      .then((response) => {
         expect(response).toBe(ItemMetadataResponse);
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -252,7 +252,7 @@ describe("get", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
@@ -269,18 +269,18 @@ describe("get", () => {
       refreshTokenTTL: 1440,
       username: "casey",
       password: "123456",
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     });
 
     const MOCK_USER_REQOPTS = {
-      authentication: MOCK_USER_SESSION
+      authentication: MOCK_USER_SESSION,
     };
 
-    it("should return an item by id using a token", done => {
+    it("should return an item by id using a token", (done) => {
       fetchMock.once("*", ItemResponse);
 
       getItem("3ef", MOCK_USER_REQOPTS)
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -289,12 +289,12 @@ describe("get", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should return an item data by id using a token", done => {
+    it("should return an item data by id using a token", (done) => {
       fetchMock.once("*", ItemDataResponse);
 
       getItemData("3ef", MOCK_USER_REQOPTS)
@@ -307,17 +307,17 @@ describe("get", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("get related items", done => {
+    it("get related items", (done) => {
       fetchMock.once("*", RelatedItemsResponse);
       getRelatedItems({
         id: "3ef",
         relationshipType: "Service2Layer",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -327,15 +327,15 @@ describe("get", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("get item resources", done => {
+    it("get item resources", (done) => {
       fetchMock.once("*", GetItemResourcesResponse);
       getItemResources("3ef", {
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -346,18 +346,18 @@ describe("get", () => {
           expect(options.body).toContain("f=json");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("get item resources with extra parameters", done => {
+    it("get item resources with extra parameters", (done) => {
       fetchMock.once("*", GetItemResourcesResponse);
       getItemResources("3ef", {
         ...MOCK_USER_REQOPTS,
         params: {
-          resourcesPrefix: "foolder"
-        }
+          resourcesPrefix: "foolder",
+        },
       })
         .then(() => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -369,14 +369,14 @@ describe("get", () => {
           expect(options.body).toContain("resourcesPrefix=foolder");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    describe('getItemResource', function () {
-      it("defaults to read as blob", done => {
-        if (typeof Blob === 'undefined') {
+    describe("getItemResource", function () {
+      it("defaults to read as blob", (done) => {
+        if (typeof Blob === "undefined") {
           done();
           return;
         }
@@ -384,89 +384,113 @@ describe("get", () => {
         const resourceResponse = "<p>some text woohoo</p>";
         fetchMock.once("*", resourceResponse);
 
-        getItemResource("3ef", { fileName: "resource.json", ...MOCK_USER_REQOPTS })
-          .then(blob => {
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        getItemResource("3ef", {
+          fileName: "resource.json",
+          ...MOCK_USER_REQOPTS,
+        })
+          .then((blob) => {
+            const [url, options]: [string, RequestInit] =
+              fetchMock.lastCall("*");
             expect(url).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
             );
             expect(options.method).toBe("POST");
             expect(blob).toEqual(jasmine.any(Blob));
-            blob.text()
+            blob
+              .text()
               .then((text: string) => expect(text).toEqual(resourceResponse))
-              .then(done)
+              .then(done);
           })
-          .catch(e => {
+          .catch((e) => {
             fail(e);
           });
       });
 
-      it("reads JSON resource", done => {
+      it("reads JSON resource", (done) => {
         const resourceResponse = {
-          foo: 'bar'
+          foo: "bar",
         };
         fetchMock.once("*", resourceResponse);
 
-        getItemResource("3ef", { fileName: "resource.json",  readAs: 'json', ...MOCK_USER_REQOPTS })
+        getItemResource("3ef", {
+          fileName: "resource.json",
+          readAs: "json",
+          ...MOCK_USER_REQOPTS,
+        })
           .then(() => {
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+            const [url, options]: [string, RequestInit] =
+              fetchMock.lastCall("*");
             expect(url).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
             );
             expect(options.method).toBe("POST");
             done();
           })
-          .catch(e => {
+          .catch((e) => {
             fail(e);
           });
       });
 
-      it("deals with control characters before parsing JSON resource", done => {
-        const badJsonString = "{\"foo\":\"foobarbaz\"}";
+      it("deals with control characters before parsing JSON resource", (done) => {
+        const badJsonString = '{"foo":"foobarbaz"}';
         fetchMock.once("*", badJsonString);
 
-        getItemResource("3ef", { fileName: "resource.json",  readAs: 'json', ...MOCK_USER_REQOPTS })
-          .then(resource => {
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        getItemResource("3ef", {
+          fileName: "resource.json",
+          readAs: "json",
+          ...MOCK_USER_REQOPTS,
+        })
+          .then((resource) => {
+            const [url, options]: [string, RequestInit] =
+              fetchMock.lastCall("*");
             expect(url).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
             );
             expect(options.method).toBe("POST");
-            expect(resource.foo).toEqual('foobarbaz', 'removed control chars');
+            expect(resource.foo).toEqual("foobarbaz", "removed control chars");
             done();
           })
-          .catch(e => {
+          .catch((e) => {
             fail(e);
           });
       });
 
-      it("respects rawResponse setting with JSON resource", done => {
-        const badJsonString = "{\"foo\":\"foobarbaz\"}";
+      it("respects rawResponse setting with JSON resource", (done) => {
+        const badJsonString = '{"foo":"foobarbaz"}';
         fetchMock.once("*", badJsonString);
 
-        getItemResource("3ef", { fileName: "resource.json", rawResponse: true, ...MOCK_USER_REQOPTS })
-          .then(response => {
-
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        getItemResource("3ef", {
+          fileName: "resource.json",
+          rawResponse: true,
+          ...MOCK_USER_REQOPTS,
+        })
+          .then((response) => {
+            const [url, options]: [string, RequestInit] =
+              fetchMock.lastCall("*");
             expect(url).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
             );
             expect(options.method).toBe("POST");
-            expect(response.json).toBeDefined('got a raw response');
-            response.json()
-              .then(() => fail('parsing should fail because control characters still present'))
+            expect(response.json).toBeDefined("got a raw response");
+            response
+              .json()
+              .then(() =>
+                fail(
+                  "parsing should fail because control characters still present"
+                )
+              )
               .catch((err: Error) => {
-                expect(err).toBeDefined('JSON parse fails');
+                expect(err).toBeDefined("JSON parse fails");
                 done();
               });
           })
-          .catch(e => {
+          .catch((e) => {
             fail(e);
           });
       });
-    })
+    });
 
-    it("get item groups anonymously", done => {
+    it("get item groups anonymously", (done) => {
       fetchMock.once("*", ItemGroupResponse);
       getItemGroups("3ef")
         .then(() => {
@@ -478,12 +502,12 @@ describe("get", () => {
           expect(options.body).toContain("f=json");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("get item groups with credentials", done => {
+    it("get item groups with credentials", (done) => {
       fetchMock.once("*", ItemGroupResponse);
       getItemGroups("3ef", { authentication: MOCK_USER_SESSION })
         .then(() => {
@@ -495,12 +519,12 @@ describe("get", () => {
           expect(options.body).toContain("f=json");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("get item status", done => {
+    it("get item status", (done) => {
       fetchMock.once("*", ItemGroupResponse);
       getItemStatus({ id: "3ef", authentication: MOCK_USER_SESSION })
         .then(() => {
@@ -512,19 +536,19 @@ describe("get", () => {
           expect(options.body).toContain("f=json");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("get item status with optional parameters", done => {
+    it("get item status with optional parameters", (done) => {
       fetchMock.once("*", ItemGroupResponse);
       getItemStatus({
         id: "3ef",
         owner: "joe",
         jobType: "publish",
         jobId: "1dw",
-        authentication: MOCK_USER_SESSION
+        authentication: MOCK_USER_SESSION,
       })
         .then(() => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -537,12 +561,12 @@ describe("get", () => {
           expect(options.body).toContain("jobId=1dw");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("get item parts", done => {
+    it("get item parts", (done) => {
       fetchMock.once("*", ItemGroupResponse);
       getItemParts({ id: "3ef", authentication: MOCK_USER_SESSION })
         .then(() => {
@@ -554,17 +578,17 @@ describe("get", () => {
           expect(options.body).toContain("f=json");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("get item parts with the owner parameter", done => {
+    it("get item parts with the owner parameter", (done) => {
       fetchMock.once("*", ItemGroupResponse);
       getItemParts({
         id: "3ef",
         owner: "joe",
-        authentication: MOCK_USER_SESSION
+        authentication: MOCK_USER_SESSION,
       })
         .then(() => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -575,7 +599,7 @@ describe("get", () => {
           expect(options.body).toContain("f=json");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

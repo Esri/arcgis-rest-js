@@ -56,7 +56,7 @@ export type ItemRelationshipType =
   | "TrackView2Map"
   | "WebStyle2DesktopStyle"
   | "WMA2Code"
-  | "WorkforceMap2FeatureService"
+  | "WorkforceMap2FeatureService";
 
 /**
  * Names of methods for reading the body of a fetch response, see:

@@ -10,22 +10,21 @@ const TOKEN_URL = "https://www.arcgis.com/sharing/rest/generateToken";
 describe("generateToken()", () => {
   afterEach(fetchMock.restore);
 
-  it("should generate a token for a username and password", done => {
+  it("should generate a token for a username and password", (done) => {
     fetchMock.postOnce(TOKEN_URL, {
       token: "token",
-      expires: TOMORROW.getTime()
+      expires: TOMORROW.getTime(),
     });
 
     generateToken(TOKEN_URL, {
       params: {
         username: "Casey",
-        password: "Jones"
-      }
+        password: "Jones",
+      },
     })
-      .then(response => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-          TOKEN_URL
-        );
+      .then((response) => {
+        const [url, options]: [string, RequestInit] =
+          fetchMock.lastCall(TOKEN_URL);
         expect(url).toEqual(TOKEN_URL);
         expect(options.body).toContain("f=json");
         expect(options.body).toContain("username=Casey");
@@ -34,7 +33,7 @@ describe("generateToken()", () => {
         expect(response.expires).toEqual(TOMORROW.getTime());
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
@@ -57,13 +56,13 @@ describe("generateToken() with custom fetch", () => {
     Function("return this")().fetch = oldFetch;
   });
 
-  it("should generate a token for a username and password with custom fetch", done => {
+  it("should generate a token for a username and password with custom fetch", (done) => {
     Promise = oldPromise;
     FormData = oldFormData;
 
     const tokenResponse = {
       token: "token",
-      expires: TOMORROW.getTime()
+      expires: TOMORROW.getTime(),
     };
 
     const MockFetchResponse = {
@@ -76,26 +75,26 @@ describe("generateToken() with custom fetch", () => {
       },
       text() {
         return Promise.resolve(JSON.stringify(tokenResponse));
-      }
+      },
     };
 
-    const MockFetch = function() {
+    const MockFetch = function () {
       return Promise.resolve(MockFetchResponse);
     };
 
     generateToken(TOKEN_URL, {
       params: {
         username: "Casey",
-        password: "Jones"
+        password: "Jones",
       },
-      fetch: MockFetch as any
+      fetch: MockFetch as any,
     })
-      .then(response => {
+      .then((response) => {
         expect(response.token).toEqual(tokenResponse.token);
         expect(response.expires).toEqual(tokenResponse.expires);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

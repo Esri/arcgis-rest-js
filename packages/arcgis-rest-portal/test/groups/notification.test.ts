@@ -22,25 +22,25 @@ describe("groups", () => {
       refreshTokenTTL: 1440,
       username: "casey",
       password: "123456",
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     });
 
     const MOCK_REQOPTS = {
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
-    it("should create an email notification", done => {
+    it("should create an email notification", (done) => {
       fetchMock.once("*", GroupNotificationResponse);
 
       const opts = {
         id: "3ef",
         subject: "this is the subject",
         message: "this is the message",
-        ...MOCK_REQOPTS
+        ...MOCK_REQOPTS,
       };
 
       createGroupNotification(opts)
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -62,12 +62,12 @@ describe("groups", () => {
           expect(response.success).toEqual(true);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should create an email notification for specific users", done => {
+    it("should create an email notification for specific users", (done) => {
       fetchMock.once("*", GroupNotificationResponse);
 
       const opts = {
@@ -75,11 +75,11 @@ describe("groups", () => {
         subject: "this is the subject",
         message: "this is the message",
         users: ["casey", "atthebat"],
-        ...MOCK_REQOPTS
+        ...MOCK_REQOPTS,
       };
 
       createGroupNotification(opts)
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -104,7 +104,7 @@ describe("groups", () => {
           expect(response.success).toEqual(true);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

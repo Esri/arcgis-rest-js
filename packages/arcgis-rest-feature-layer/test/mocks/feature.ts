@@ -6,13 +6,13 @@ import { IQueryFeaturesResponse } from "../../src/query";
 export const featureResponse = {
   feature: {
     attributes: {
-      FID: 42
+      FID: 42,
     },
     geometry: {
       x: -9177311.62541634,
-      y: 4247151.205222242
-    }
-  }
+      y: 4247151.205222242,
+    },
+  },
 };
 
 export const queryResponse: IQueryFeaturesResponse = {
@@ -21,7 +21,7 @@ export const queryResponse: IQueryFeaturesResponse = {
   geometryType: "esriGeometryPoint",
   spatialReference: {
     wkid: 102100,
-    latestWkid: 3857
+    latestWkid: 3857,
   },
   // fields: [],
   features: [
@@ -82,8 +82,8 @@ export const queryResponse: IQueryFeaturesResponse = {
         Dedication: " ",
         Longitude: -82.441189,
         Latitude: 35.610441,
-        Crown_Height: 53
-      }
+        Crown_Height: 53,
+      },
     },
     {
       attributes: {
@@ -142,37 +142,37 @@ export const queryResponse: IQueryFeaturesResponse = {
         Dedication: " ",
         Longitude: -82.441107,
         Latitude: 35.610472,
-        Crown_Height: 49
-      }
-    }
-  ]
+        Crown_Height: 49,
+      },
+    },
+  ],
 };
 
 export const addFeaturesResponse = {
   addResults: [
     {
       objectId: 1001,
-      success: true
-    }
-  ]
+      success: true,
+    },
+  ],
 };
 
 export const updateFeaturesResponse = {
   updateResults: [
     {
       objectId: 1001,
-      success: true
-    }
-  ]
+      success: true,
+    },
+  ],
 };
 
 export const deleteFeaturesResponse = {
   deleteResults: [
     {
       objectId: 1001,
-      success: true
-    }
-  ]
+      success: true,
+    },
+  ],
 };
 
 export const getAttachmentsResponse = {
@@ -181,96 +181,96 @@ export const getAttachmentsResponse = {
       id: 409,
       contentType: "application/pdf",
       size: 400633,
-      name: "Permit_Application_20180416"
+      name: "Permit_Application_20180416",
     },
     {
       id: 822,
       contentType: "application/pdf",
       size: 619543,
-      name: "Planning_Review_20180604"
-    }
-  ]
+      name: "Planning_Review_20180604",
+    },
+  ],
 };
 
 export const addAttachmentResponse = {
   addAttachmentResult: {
     objectId: 1001,
-    success: true
-  }
+    success: true,
+  },
 };
 
 export const updateAttachmentResponse = {
   updateAttachmentResult: {
     objectId: 1001,
-    success: true
-  }
+    success: true,
+  },
 };
 
 export const deleteAttachmentsResponse = {
   deleteAttachmentResults: [
     {
       objectId: 1001,
-      success: true
-    }
-  ]
+      success: true,
+    },
+  ],
 };
 
 export const applyEditsResponse = {
   addResults: [
     {
       objectId: 2156,
-      success: true
-    }
+      success: true,
+    },
   ],
   updateResults: [
     {
       objectId: 1001,
-      success: true
-    }
+      success: true,
+    },
   ],
   deleteResults: [
     {
       objectId: 455,
-      success: true
-    }
-  ]
+      success: true,
+    },
+  ],
 };
 
 export const genericInvalidResponse = {
   error: {
     code: 400,
-    message: "Invalid or missing input parameters."
-  }
+    message: "Invalid or missing input parameters.",
+  },
 };
 
 export const queryRelatedResponse = {
   geometryType: "esriGeometryPolygon",
   spatialReference: {
-    wkid: 4267
+    wkid: 4267,
   },
   fields: [
     {
       name: "OBJECTID",
       type: "esriFieldTypeOID",
-      alias: "OBJECTID"
+      alias: "OBJECTID",
     },
     {
       name: "FIELD_KID",
       type: "esriFieldTypeString",
       alias: "FIELD_KID",
-      length: 25
+      length: 25,
     },
     {
       name: "APPROXACRE",
       type: "esriFieldTypeDouble",
-      alias: "APPROXACRE"
+      alias: "APPROXACRE",
     },
     {
       name: "FIELD_NAME",
       type: "esriFieldTypeString",
       alias: "FIELD_NAME",
-      length: 150
-    }
+      length: 150,
+    },
   ],
   relatedRecordGroups: [
     {
@@ -281,7 +281,7 @@ export const queryRelatedResponse = {
             OBJECTID: 5540,
             FIELD_KID: "1000147595",
             APPROXACRE: 95929,
-            FIELD_NAME: "LOST SPRINGS"
+            FIELD_NAME: "LOST SPRINGS",
           },
           geometry: {
             rings: [
@@ -291,12 +291,12 @@ export const queryRelatedResponse = {
                 [-96.92959118999994, 38.529723252000053],
                 [-96.929594022999936, 38.527905578000059],
                 [-96.929596839999988, 38.526087119000067],
-                [-96.929599633999942, 38.52426809800005]
-              ]
-            ]
-          }
-        }
-      ]
-    }
-  ]
+                [-96.929599633999942, 38.52426809800005],
+              ],
+            ],
+          },
+        },
+      ],
+    },
+  ],
 };

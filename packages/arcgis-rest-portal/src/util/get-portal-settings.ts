@@ -37,7 +37,7 @@ export function getPortalSettings(
   // default to a GET request
   const options: IRequestOptions = {
     ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
   };
 
   // send the request

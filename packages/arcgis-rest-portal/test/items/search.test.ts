@@ -13,7 +13,7 @@ import { SearchQueryBuilder } from "../../src/util/SearchQueryBuilder";
 describe("search", () => {
   afterEach(fetchMock.restore);
 
-  it("should make a simple, single search request", done => {
+  it("should make a simple, single search request", (done) => {
     fetchMock.once("*", SearchResponse);
 
     searchItems("DC AND typekeywords:hubSiteApplication")
@@ -26,12 +26,12 @@ describe("search", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a simple, single search request with a builder", done => {
+  it("should make a simple, single search request with a builder", (done) => {
     fetchMock.once("*", SearchResponse);
     const expectedParam = "DC AND typekeywords:hubSiteApplication";
     const q = new SearchQueryBuilder()
@@ -51,12 +51,12 @@ describe("search", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should take num, start, sortField, sortOrder and construct the request", done => {
+  it("should take num, start, sortField, sortOrder and construct the request", (done) => {
     fetchMock.once("*", SearchResponse);
 
     searchItems({
@@ -64,7 +64,7 @@ describe("search", () => {
       num: 12,
       start: 22,
       sortField: "title",
-      sortOrder: "desc"
+      sortOrder: "desc",
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
@@ -75,12 +75,12 @@ describe("search", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should pass through other requestOptions at the same time", done => {
+  it("should pass through other requestOptions at the same time", (done) => {
     fetchMock.once("*", SearchResponse);
 
     searchItems({
@@ -89,7 +89,7 @@ describe("search", () => {
       start: 22,
       sortField: "title",
       sortOrder: "desc",
-      httpMethod: "POST"
+      httpMethod: "POST",
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
@@ -101,12 +101,12 @@ describe("search", () => {
         expect(options.method).toBe("POST");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should pass through other requestOptions at the same time with a builder", done => {
+  it("should pass through other requestOptions at the same time with a builder", (done) => {
     fetchMock.once("*", SearchResponse);
     const expectedParam = "DC AND typekeywords:hubSiteApplication";
     const q = new SearchQueryBuilder()
@@ -121,7 +121,7 @@ describe("search", () => {
       sortField: "title",
       sortOrder: "desc",
 
-      httpMethod: "POST"
+      httpMethod: "POST",
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
@@ -131,12 +131,12 @@ describe("search", () => {
         expect(options.method).toBe("POST");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should mixin generic params with the search form", done => {
+  it("should mixin generic params with the search form", (done) => {
     fetchMock.once("*", SearchResponse);
 
     searchItems({
@@ -146,8 +146,8 @@ describe("search", () => {
       sortField: "title",
       sortOrder: "desc",
       params: {
-        foo: "bar"
-      }
+        foo: "bar",
+      },
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
@@ -158,16 +158,16 @@ describe("search", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should provide a nextPage() method to fetch the next page", done => {
+  it("should provide a nextPage() method to fetch the next page", (done) => {
     fetchMock.once("*", BigSearchResponse);
 
     searchItems("DC AND typekeywords:hubSiteApplication")
-      .then(r => {
+      .then((r) => {
         expect(fetchMock.called()).toEqual(true);
         const [url]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -186,23 +186,23 @@ describe("search", () => {
 
               done();
             })
-            .catch(e => {
+            .catch((e) => {
               fail(e);
             });
         } else {
           fail("search result did not have a nextPage() function");
         }
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should provide a nextSearch() method to fetch the next page when using options", done => {
+  it("should provide a nextSearch() method to fetch the next page when using options", (done) => {
     fetchMock.once("*", BigSearchResponse);
 
     searchItems({ q: "DC AND typekeywords:hubSiteApplication" })
-      .then(r => {
+      .then((r) => {
         expect(fetchMock.called()).toEqual(true);
         const [url]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -221,14 +221,14 @@ describe("search", () => {
 
               done();
             })
-            .catch(e => {
+            .catch((e) => {
               fail(e);
             });
         } else {
           fail("search result did not have a nextPage() function");
         }
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
@@ -245,15 +245,15 @@ describe("search", () => {
       refreshTokenTTL: 1440,
       username: "casey",
       password: "123456",
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     });
 
-    it("search should use the portal and token from Auth Manager", done => {
+    it("search should use the portal and token from Auth Manager", (done) => {
       fetchMock.once("*", SearchResponse);
 
       searchItems({
         q: "DC AND typekeywords:hubSiteApplication",
-        authentication: MOCK_USER_SESSION
+        authentication: MOCK_USER_SESSION,
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -264,7 +264,7 @@ describe("search", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

@@ -8,11 +8,11 @@ import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 import { updateUserMemberships } from "../../src/groups/update-user-membership";
 
 describe("udpate-user-membership", () => {
-  beforeEach(done => {
+  beforeEach((done) => {
     fetchMock.post("https://myorg.maps.arcgis.com/sharing/rest/generateToken", {
       token: "fake-token",
       expires: TOMORROW.getTime(),
-      username: "jsmith"
+      username: "jsmith",
     });
 
     // make sure session doesnt cache metadata
@@ -23,7 +23,7 @@ describe("udpate-user-membership", () => {
 
   afterEach(fetchMock.restore);
 
-  it("converts member to admin", done => {
+  it("converts member to admin", (done) => {
     fetchMock.post(
       "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/updateUsers",
       { results: [{ username: "casey", success: true }] }
@@ -32,7 +32,7 @@ describe("udpate-user-membership", () => {
       authentication: MOCK_USER_SESSION,
       id: "3ef",
       users: ["larry", "curly", "moe"],
-      newMemberType: "admin"
+      newMemberType: "admin",
     }).then(() => {
       const opts: RequestInit = fetchMock.lastOptions(
         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/updateUsers"
@@ -41,7 +41,7 @@ describe("udpate-user-membership", () => {
       done();
     });
   });
-  it("converts admin to member", done => {
+  it("converts admin to member", (done) => {
     fetchMock.post(
       "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/updateUsers",
       { results: [{ username: "casey", success: true }] }
@@ -50,7 +50,7 @@ describe("udpate-user-membership", () => {
       authentication: MOCK_USER_SESSION,
       id: "3ef",
       users: ["larry", "curly", "moe"],
-      newMemberType: "member"
+      newMemberType: "member",
     }).then(() => {
       const opts: RequestInit = fetchMock.lastOptions(
         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/updateUsers"

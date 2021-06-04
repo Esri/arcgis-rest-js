@@ -3,7 +3,7 @@
 
 import {
   IAuthenticationManager,
-  ITokenRequestOptions
+  ITokenRequestOptions,
 } from "@esri/arcgis-rest-request";
 import { fetchToken } from "./fetch-token";
 
@@ -102,12 +102,12 @@ export class ApplicationSession implements IAuthenticationManager {
         client_id: this.clientId,
         client_secret: this.clientSecret,
         grant_type: "client_credentials",
-        expiration: this.duration
+        expiration: this.duration,
       },
-      ...requestOptions
+      ...requestOptions,
     };
     return fetchToken(`${this.portal}/oauth2/token/`, options).then(
-      response => {
+      (response) => {
         this._pendingTokenRequest = null;
         this.token = response.token;
         this.expires = response.expires;

@@ -4,12 +4,12 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
 } from "@esri/arcgis-rest-request";
 import {
   ISharedEditOptions,
   IEditFeatureResult,
-  ISharedQueryOptions
+  ISharedQueryOptions,
 } from "./helpers";
 
 /**
@@ -52,7 +52,7 @@ export function deleteFeatures(
       "objectIds",
       "gdbVersion",
       "returnEditMoment",
-      "rollbackOnFailure"
+      "rollbackOnFailure",
     ],
     { params: { ...requestOptions.params } }
   );

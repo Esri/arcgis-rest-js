@@ -8,7 +8,7 @@ import {
   ISharingResponse,
   isItemOwner,
   getSharingUrl,
-  isOrgAdmin
+  isOrgAdmin,
 } from "./helpers";
 
 export interface ISetAccessOptions extends ISharingOptions {
@@ -43,7 +43,7 @@ export function setItemAccess(
     return updateItemAccess(url, requestOptions);
   } else {
     // otherwise we need to check to see if they are an organization admin
-    return isOrgAdmin(requestOptions).then(admin => {
+    return isOrgAdmin(requestOptions).then((admin) => {
       if (admin) {
         return updateItemAccess(url, requestOptions);
       } else {
@@ -63,7 +63,7 @@ function updateItemAccess(
   requestOptions.params = {
     org: false,
     everyone: false,
-    ...requestOptions.params
+    ...requestOptions.params,
   };
 
   // if the user wants to make the item private, it needs to be unshared from any/all groups as well

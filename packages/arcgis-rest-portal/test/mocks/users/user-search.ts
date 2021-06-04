@@ -37,7 +37,7 @@ export const UserSearchResponse: ISearchResult<IUser> = {
       created: 1555510747000,
       modified: 1555542356000,
       provider: "arcgis",
-      groups: []
+      groups: [],
     },
     {
       username: "athomas_dcdev",
@@ -63,7 +63,7 @@ export const UserSearchResponse: ISearchResult<IUser> = {
       tags: [
         "hubEventGroupId|bkrWlSKcjUDFDtgw|61aca75b6be045a9a3e8f252304658ab",
         "hubInitiativeId|3b68d9e3a0844f09aa9d52cf89bc6b6c",
-        "hubEventGroupId|bkrWlSKcjUDFDtgw|ae910537937b47fca769712bef0d08f6"
+        "hubEventGroupId|bkrWlSKcjUDFDtgw|ae910537937b47fca769712bef0d08f6",
       ],
       culture: "en-US",
       region: "WO",
@@ -72,7 +72,7 @@ export const UserSearchResponse: ISearchResult<IUser> = {
       created: 1555017048000,
       modified: 1568753183000,
       provider: "arcgis",
-      groups: []
+      groups: [],
     },
     {
       username: "service_account_ssl_dcdev",
@@ -103,7 +103,7 @@ export const UserSearchResponse: ISearchResult<IUser> = {
       created: 1545240718000,
       modified: 1545240719000,
       provider: "arcgis",
-      groups: []
+      groups: [],
     },
     {
       username: "abharadwaj_dcdev",
@@ -134,7 +134,7 @@ export const UserSearchResponse: ISearchResult<IUser> = {
       created: 1559595628000,
       modified: 1559595889000,
       provider: "arcgis",
-      groups: []
+      groups: [],
     },
     {
       username: "jcrozier_dcdev",
@@ -165,7 +165,7 @@ export const UserSearchResponse: ISearchResult<IUser> = {
       created: 1566828030000,
       modified: 1566828272000,
       provider: "arcgis",
-      groups: []
+      groups: [],
     },
     {
       username: "falbin_dcdev",
@@ -196,7 +196,7 @@ export const UserSearchResponse: ISearchResult<IUser> = {
       created: 1527889390000,
       modified: 1528216176000,
       provider: "arcgis",
-      groups: []
+      groups: [],
     },
     {
       username: "RGwozdz_dcdev",
@@ -227,7 +227,7 @@ export const UserSearchResponse: ISearchResult<IUser> = {
       created: 1521133519000,
       modified: 1536587193000,
       provider: "arcgis",
-      groups: []
+      groups: [],
     },
     {
       username: "ittybittygritty",
@@ -258,7 +258,7 @@ export const UserSearchResponse: ISearchResult<IUser> = {
       created: 1563394419000,
       modified: 1563394592000,
       provider: "arcgis",
-      groups: []
+      groups: [],
     },
     {
       username: "acassidy_dcdev",
@@ -289,7 +289,7 @@ export const UserSearchResponse: ISearchResult<IUser> = {
       created: 1540216205000,
       modified: 1565994220000,
       provider: "arcgis",
-      groups: []
+      groups: [],
     },
     {
       username: "usertest19",
@@ -320,7 +320,7 @@ export const UserSearchResponse: ISearchResult<IUser> = {
       created: 1561405831000,
       modified: 1568657964000,
       provider: "arcgis",
-      groups: []
+      groups: [],
     },
     {
       username: "nparks_dcdev",
@@ -351,7 +351,7 @@ export const UserSearchResponse: ISearchResult<IUser> = {
       created: 1570023128000,
       modified: 1570450996000,
       provider: "arcgis",
-      groups: []
+      groups: [],
     },
     {
       username: "wbc5_dcdev",
@@ -382,7 +382,7 @@ export const UserSearchResponse: ISearchResult<IUser> = {
       created: 1485633572000,
       modified: 1568862274000,
       provider: "arcgis",
-      groups: []
-    }
-  ]
+      groups: [],
+    },
+  ],
 };

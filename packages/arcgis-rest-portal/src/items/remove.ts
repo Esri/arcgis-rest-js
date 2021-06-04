@@ -9,7 +9,7 @@ import {
   IRemoveItemResourceOptions,
   IFolderIdOptions,
   determineOwner,
-  IManageItemRelationshipOptions
+  IManageItemRelationshipOptions,
 } from "./helpers";
 
 /**
@@ -29,7 +29,7 @@ import {
 export function removeItem(
   requestOptions: IUserItemOptions
 ): Promise<{ success: boolean; itemId: string }> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/delete`;
@@ -57,7 +57,7 @@ export function removeItem(
 export function removeItemRelationship(
   requestOptions: IManageItemRelationshipOptions
 ): Promise<{ success: boolean }> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(
       requestOptions
     )}/content/users/${owner}/deleteRelationship`;
@@ -81,7 +81,7 @@ export function removeItemRelationship(
 export function removeItemResource(
   requestOptions: IRemoveItemResourceOptions
 ): Promise<{ success: boolean }> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/removeResources`;
@@ -89,7 +89,7 @@ export function removeItemResource(
     // mix in user supplied params
     requestOptions.params = {
       ...requestOptions.params,
-      resource: requestOptions.resource
+      resource: requestOptions.resource,
     };
 
     // only override the deleteAll param specified previously if it is passed explicitly
@@ -120,9 +120,7 @@ export function removeItemResource(
  * @param requestOptions - Options for the request
  * @returns A Promise that deletes a folder
  */
-export function removeFolder(
-  requestOptions: IFolderIdOptions
-): Promise<{
+export function removeFolder(requestOptions: IFolderIdOptions): Promise<{
   success: boolean;
   folder: {
     username: string;
@@ -130,7 +128,7 @@ export function removeFolder(
     title: string;
   };
 }> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(
       requestOptions
     )}/content/users/${encodeURIComponent(owner)}/${

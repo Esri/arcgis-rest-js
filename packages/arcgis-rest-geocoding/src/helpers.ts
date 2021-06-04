@@ -49,7 +49,7 @@ export function getGeocodeService(
   const options: IEndpointOptions = {
     httpMethod: "GET",
     maxUrlLength: 2000,
-    ...requestOptions
+    ...requestOptions,
   };
 
   return request(url, options);

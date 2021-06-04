@@ -7,7 +7,7 @@
  * @return A boolean indicating if FormData will be required.
  */
 export function requiresFormData(params: any) {
-  return Object.keys(params).some(key => {
+  return Object.keys(params).some((key) => {
     let value = params[key];
 
     if (!value) {
@@ -49,7 +49,7 @@ export function requiresFormData(params: any) {
 export function processParams(params: any): any {
   const newParams: any = {};
 
-  Object.keys(params).forEach(key => {
+  Object.keys(params).forEach((key) => {
     let param = params[key];
 
     if (param && param.toParam) {
@@ -79,9 +79,11 @@ export function processParams(params: any): any {
         // to be stringified, or an array of non-objects to be comma-separated
         const firstElementType = param[0]?.constructor?.name;
         value =
-          firstElementType === "Array" ? param : // pass thru array of arrays
-          firstElementType === "Object" ? JSON.stringify(param) : // stringify array of objects
-          param.join(","); // join other types of array elements
+          firstElementType === "Array"
+            ? param // pass thru array of arrays
+            : firstElementType === "Object"
+            ? JSON.stringify(param) // stringify array of objects
+            : param.join(","); // join other types of array elements
         break;
       case "Object":
         value = JSON.stringify(param);
@@ -99,7 +101,12 @@ export function processParams(params: any): any {
         value = param;
         break;
     }
-    if (value || value === 0 || typeof value === "string" || Array.isArray(value)) {
+    if (
+      value ||
+      value === 0 ||
+      typeof value === "string" ||
+      Array.isArray(value)
+    ) {
       newParams[key] = value;
     }
   });

@@ -40,7 +40,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   /**
    * @param q An existing query string to start building from.
    */
-  constructor(q: string = "") {
+  constructor(q = "") {
     this.q = q;
   }
 
@@ -327,7 +327,7 @@ export class SearchQueryBuilder implements IParamBuilder {
 
     if (this.hasTerms) {
       this.q += this.termStack
-        .map(term => {
+        .map((term) => {
           return this.formatTerm(term);
         })
         .join(" ");

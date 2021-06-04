@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
 } from "@esri/arcgis-rest-request";
 
 import {
@@ -12,7 +12,7 @@ import {
   IFeature,
   IHasZM,
   GeometryType,
-  IField
+  IField,
 } from "@esri/arcgis-rest-types";
 
 import { IGetLayerOptions } from "./helpers";
@@ -77,8 +77,8 @@ export function queryRelated(
         definitionExpression: "1=1",
         outFields: "*",
         relationshipId: 0,
-        ...requestOptions.params
-      }
+        ...requestOptions.params,
+      },
     }
   );
 

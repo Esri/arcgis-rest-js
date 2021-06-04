@@ -14,18 +14,18 @@ describe("users", () => {
       getToken() {
         return Promise.resolve("fake-token");
       },
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     };
 
-    it("should make a simple, authenticated user search request", done => {
+    it("should make a simple, authenticated user search request", (done) => {
       fetchMock.once("*", UserSearchResponse);
 
       searchUsers({
         q: "role:org_user OR role:org_publisher",
         num: 100,
-        authentication: MOCK_AUTH
+        authentication: MOCK_AUTH,
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -34,7 +34,7 @@ describe("users", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

@@ -16,12 +16,9 @@ export function decodeQueryString(query: string): { [key: string]: string } {
   return query
     .replace(/^#/, "")
     .split("&")
-    .reduce(
-      (acc, entry) => {
-        const { key, value } = decodeParam(entry);
-        acc[key] = value;
-        return acc;
-      },
-      {} as any
-    );
+    .reduce((acc, entry) => {
+      const { key, value } = decodeParam(entry);
+      acc[key] = value;
+      return acc;
+    }, {} as any);
 }

@@ -9,10 +9,14 @@ describe("encodeQueryString", () => {
   });
 
   it("should encode array", () => {
-    expect(encodeParam("key", ["value1", "value2"])).toEqual("key=value1%2Cvalue2");
+    expect(encodeParam("key", ["value1", "value2"])).toEqual(
+      "key=value1%2Cvalue2"
+    );
   });
 
   it("should encode array of arrays", () => {
-    expect(encodeParam("key", [["value1a", "value1b"], ["value2"]])).toEqual("key=value1a%2Cvalue1b&key=value2");
+    expect(encodeParam("key", [["value1a", "value1b"], ["value2"]])).toEqual(
+      "key=value1a%2Cvalue1b&key=value2"
+    );
   });
 });

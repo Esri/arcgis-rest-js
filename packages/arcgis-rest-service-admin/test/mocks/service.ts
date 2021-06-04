@@ -16,66 +16,69 @@ export const FeatureServiceResponse: ICreateServiceResult = {
     "https://services.arcgis.com/b6gLrKHqgkQb393u/arcgis/rest/services/EmptyServiceName/FeatureServer",
   size: -1,
   success: true,
-  type: "Feature Service"
+  type: "Feature Service",
 };
 
-export const AddToFeatureServiceSuccessResponseFredAndGinger: IAddToServiceDefinitionResult = {
-  layers: [
-    {
-      name: "Fred",
-      id: "1899"
-    },
-    {
-      name: "Ginger",
-      id: "1911"
-    }
-  ],
-  success: true
-};
-export const AddToFeatureServiceSuccessResponseFayardAndHarold: IAddToServiceDefinitionResult = {
-  tables: [
-    {
-      name: "Fayard",
-      id: "1914"
-    },
-    {
-      name: "Harold",
-      id: "1921"
-    }
-  ],
-  success: true
-};
-export const AddToFeatureServiceSuccessResponseCydAndGene: IAddToServiceDefinitionResult = {
-  layers: [
-    {
-      name: "Cyd",
-      id: "1922"
-    }
-  ],
-  tables: [
-    {
-      name: "Gene",
-      id: "1912"
-    }
-  ],
-  success: true
-};
+export const AddToFeatureServiceSuccessResponseFredAndGinger: IAddToServiceDefinitionResult =
+  {
+    layers: [
+      {
+        name: "Fred",
+        id: "1899",
+      },
+      {
+        name: "Ginger",
+        id: "1911",
+      },
+    ],
+    success: true,
+  };
+export const AddToFeatureServiceSuccessResponseFayardAndHarold: IAddToServiceDefinitionResult =
+  {
+    tables: [
+      {
+        name: "Fayard",
+        id: "1914",
+      },
+      {
+        name: "Harold",
+        id: "1921",
+      },
+    ],
+    success: true,
+  };
+export const AddToFeatureServiceSuccessResponseCydAndGene: IAddToServiceDefinitionResult =
+  {
+    layers: [
+      {
+        name: "Cyd",
+        id: "1922",
+      },
+    ],
+    tables: [
+      {
+        name: "Gene",
+        id: "1912",
+      },
+    ],
+    success: true,
+  };
 
 export const AddToFeatureServiceError: any = {
   error: {
     code: 400,
     message: "Unable to add feature service definition.",
-    details: ["Object reference not set to an instance of an object."]
-  }
+    details: ["Object reference not set to an instance of an object."],
+  },
 };
 
 export const UpdateServiceDefinitionSuccess: IUpdateServiceDefinitionResult = {
-  success: true
-}
+  success: true,
+};
 export const UpdateServiceDefinitionError: any = {
   error: {
     code: 400,
     message: "Invalid URL",
-    details: ["Invalid URL"]
-  }
+    details: ["Invalid URL"],
+  },
 };

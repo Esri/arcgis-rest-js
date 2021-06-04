@@ -8,7 +8,7 @@ import {
   moveItem,
   ICreateUpdateItemOptions,
   determineOwner,
-  getPortalUrl
+  getPortalUrl,
 } from "@esri/arcgis-rest-portal";
 
 /**
@@ -168,20 +168,23 @@ export interface ICreateServiceResult {
 export function createFeatureService(
   requestOptions: ICreateServiceOptions
 ): Promise<ICreateServiceResult> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const options: ICreateServiceOptions = {
       ...requestOptions,
-      rawResponse: false
+      rawResponse: false,
     };
     const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
-    const folder = (!options.folderId || options.folderId === "/") ? "" : "/" + options.folderId;
+    const folder =
+      !options.folderId || options.folderId === "/"
+        ? ""
+        : "/" + options.folderId;
     const url = `${baseUrl}${folder}/createService`;
 
     // Create the service
     options.params = {
       createParameters: options.item,
       outputType: "featureService",
-      ...options.params
+      ...options.params,
     };
 
     return request(url, options);

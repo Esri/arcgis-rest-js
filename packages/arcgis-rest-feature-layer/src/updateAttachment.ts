@@ -45,7 +45,7 @@ export function updateAttachment(
 ): Promise<{ updateAttachmentResult: IEditFeatureResult }> {
   const options: IUpdateAttachmentOptions = {
     params: {},
-    ...requestOptions
+    ...requestOptions,
   };
 
   // `attachment` and `attachmentId` --> params: {}

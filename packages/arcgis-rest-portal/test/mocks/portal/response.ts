@@ -38,13 +38,13 @@ export const PortalResponse: IPortal = {
     xmax: -8562027.314872108,
     ymax: 4722244.554454538,
     spatialReference: {
-      wkid: 102100
-    }
+      wkid: 102100,
+    },
   },
   defaultUserCreditAssignment: 100,
   defaultVectorBasemap: {
     baseMapLayers: [],
-    title: "Topographic"
+    title: "Topographic",
   },
   description: "We're the DC R&amp;D Center",
   eueiEnabled: false,
@@ -78,8 +78,8 @@ export const PortalResponse: IPortal = {
     {
       id: "banner-2",
       innerHTML:
-        "<img src='images/banner-2.jpg' style='-webkit-border-radius:0 0 10px 10px; -moz-border-radius:0 0 10px 10px; -o-border-radius:0 0 10px 10px; border-radius:0 0 10px 10px; margin-top:0; width:960px; height:180px;'/><div style='position:absolute; bottom:80px; left:80px; max-height:65px; width:660px; margin:0;'><img src='http://dc.mapsdevext.arcgis.com/sharing/rest/portals/self/resources/thumbnail.png?token=SECURITY_TOKEN' alt='Washington, DC'  class='esriFloatLeading esriTrailingMargin025' style='margin-bottom:0; max-height:100px;'/><span style='position:absolute; bottom:0; margin-bottom:0; line-height:normal; font-family:HelveticaNeue,Verdana; font-weight:600; font-size:32px; color:#369;'>Washington, DC</span></div>"
-    }
+        "<img src='images/banner-2.jpg' style='-webkit-border-radius:0 0 10px 10px; -moz-border-radius:0 0 10px 10px; -o-border-radius:0 0 10px 10px; border-radius:0 0 10px 10px; margin-top:0; width:960px; height:180px;'/><div style='position:absolute; bottom:80px; left:80px; max-height:65px; width:660px; margin:0;'><img src='http://dc.mapsdevext.arcgis.com/sharing/rest/portals/self/resources/thumbnail.png?token=SECURITY_TOKEN' alt='Washington, DC'  class='esriFloatLeading esriTrailingMargin025' style='margin-bottom:0; max-height:100px;'/><span style='position:absolute; bottom:0; margin-bottom:0; line-height:normal; font-family:HelveticaNeue,Verdana; font-weight:600; font-size:32px; color:#369;'>Washington, DC</span></div>",
+    },
   ],
   showHomePageDescription: false,
   staticImagesUrl: "http://static.arcgis.com/images",
@@ -109,7 +109,7 @@ export const PortalResponse: IPortal = {
   contacts: ["dcadmin"],
   mfaEnabled: false,
   user: {},
-  appInfo: {}
+  appInfo: {},
 };
 
 export const SubscriptionInfoResponse: ISubscriptionInfo = {
@@ -122,5 +122,5 @@ export const SubscriptionInfoResponse: ISubscriptionInfo = {
   maxUsers: 60,
   availableCredits: 9999.99,
   collaborationSettings: {},
-  orgCapabilities: []
+  orgCapabilities: [],
 };

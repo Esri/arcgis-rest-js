@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
 } from "@esri/arcgis-rest-request";
 
 import {
@@ -13,7 +13,7 @@ import {
   IFeature,
   Units,
   IExtent,
-  IStatisticDefinition
+  IStatisticDefinition,
 } from "@esri/arcgis-rest-types";
 
 import { IGetLayerOptions, ISharedQueryOptions } from "./helpers";
@@ -121,7 +121,7 @@ export function getFeature(
   // default to a GET request
   const options: IGetFeatureOptions = {
     ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
   };
   return request(url, options).then((response: any) => {
     if (options.rawResponse) {
@@ -187,7 +187,7 @@ export function queryFeatures(
       "returnTrueCurves",
       "sqlFormat",
       "returnExceededLimitFeatures",
-      "f"
+      "f",
     ],
     {
       httpMethod: "GET",
@@ -195,8 +195,8 @@ export function queryFeatures(
         // set default query parameters
         where: "1=1",
         outFields: "*",
-        ...requestOptions.params
-      }
+        ...requestOptions.params,
+      },
     }
   );
 

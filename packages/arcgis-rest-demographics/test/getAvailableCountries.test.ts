@@ -8,11 +8,11 @@ import * as fetchMock from "fetch-mock";
 describe("getAvailableCountries", () => {
   afterEach(fetchMock.restore);
 
-  it("should make a simple, single getAvailableCountries request", done => {
+  it("should make a simple, single getAvailableCountries request", (done) => {
     fetchMock.once("*", {});
 
     getAvailableCountries()
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -22,18 +22,18 @@ describe("getAvailableCountries", () => {
         expect(options.body).toContain("f=json");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a getAvailableCountries request with a countryCode", done => {
+  it("should make a getAvailableCountries request with a countryCode", (done) => {
     fetchMock.once("*", {});
 
     getAvailableCountries({
-      countryCode: 'us'
+      countryCode: "us",
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -42,20 +42,20 @@ describe("getAvailableCountries", () => {
         expect(options.body).not.toContain("countryCode=us");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a getAvailableCountries request with a param", done => {
+  it("should make a getAvailableCountries request with a param", (done) => {
     fetchMock.once("*", {});
 
     getAvailableCountries({
       params: {
-        foo: "bar"
-      }
+        foo: "bar",
+      },
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -66,26 +66,24 @@ describe("getAvailableCountries", () => {
         expect(options.body).toContain("foo=bar");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a getAvailableCountries request with a custom endpoint", done => {
+  it("should make a getAvailableCountries request with a custom endpoint", (done) => {
     fetchMock.once("*", {});
 
     getAvailableCountries({
-      endpoint: 'https://esri.com/test'
+      endpoint: "https://esri.com/test",
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://esri.com/test/countries"
-        );
+        expect(url).toEqual("https://esri.com/test/countries");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

@@ -40,7 +40,7 @@ export function addAttachment(
 ): Promise<{ addAttachmentResult: IEditFeatureResult }> {
   const options: IAddAttachmentOptions = {
     params: {},
-    ...requestOptions
+    ...requestOptions,
   };
 
   // `attachment` --> params: {}

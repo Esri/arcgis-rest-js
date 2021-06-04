@@ -7,7 +7,7 @@ import {
   removeFolder,
   removeItem,
   removeItemResource,
-  removeItemRelationship
+  removeItemRelationship,
 } from "../../src/items/remove";
 
 import { ItemSuccessResponse } from "../mocks/items/item";
@@ -33,21 +33,21 @@ describe("search", () => {
       refreshTokenTTL: 1440,
       username: "casey",
       password: "123456",
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     });
 
     const MOCK_USER_REQOPTS = {
-      authentication: MOCK_USER_SESSION
+      authentication: MOCK_USER_SESSION,
     };
 
-    it("should remove an item", done => {
+    it("should remove an item", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       removeItem({
         id: "3ef",
         owner: "dbouwman",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/delete"
@@ -57,18 +57,18 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should remove an item, no owner passed", done => {
+    it("should remove an item, no owner passed", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       removeItem({
         id: "3ef",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/delete"
@@ -78,19 +78,19 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should delete an item relationship", done => {
+    it("should delete an item relationship", (done) => {
       fetchMock.once("*", { success: true });
 
       removeItemRelationship({
         originItemId: "3ef",
         destinationItemId: "ae7",
         relationshipType: "Area2CustomPackage",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -107,20 +107,20 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should remove a resource", done => {
+    it("should remove a resource", (done) => {
       fetchMock.once("*", RemoveItemResourceResponse);
       removeItemResource({
         id: "3ef",
         owner: "dbouwman",
         resource: "image/banner.png",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/removeResources"
@@ -133,19 +133,19 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should remove a resource, no owner passed", done => {
+    it("should remove a resource, no owner passed", (done) => {
       fetchMock.once("*", RemoveItemResourceResponse);
       removeItemResource({
         id: "3ef",
         resource: "image/banner.png",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/removeResources"
@@ -158,21 +158,21 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should remove a resource with deleteAll", done => {
+    it("should remove a resource with deleteAll", (done) => {
       fetchMock.once("*", RemoveItemResourceResponse);
       removeItemResource({
         id: "3ef",
         owner: "dbouwman",
         resource: "image/banner.png",
         deleteAll: true,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/removeResources"
@@ -181,22 +181,22 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("deleteAll", "true"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should remove a resource with extra params", done => {
+    it("should remove a resource with extra params", (done) => {
       fetchMock.once("*", RemoveItemResourceResponse);
       removeItemResource({
         id: "3ef",
         resource: "image/banner.png",
         ...MOCK_USER_REQOPTS,
         params: {
-          deleteAll: true
-        }
+          deleteAll: true,
+        },
       })
-        .then(response => {
+        .then((response) => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/removeResources"
@@ -210,19 +210,19 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should remove a folder", done => {
+    it("should remove a folder", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       removeFolder({
         folderId: "3ef",
         owner: "dbouwman",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/3ef/delete"
@@ -232,18 +232,18 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should remove a folder, no owner passed", done => {
+    it("should remove a folder, no owner passed", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       removeFolder({
         folderId: "3ef",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/3ef/delete"
@@ -253,7 +253,7 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

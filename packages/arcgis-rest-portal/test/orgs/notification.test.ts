@@ -4,7 +4,10 @@ import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 
 import * as fetchMock from "fetch-mock";
 
-import { createOrgNotification, ICreateOrgNotificationOptions } from "../../src/orgs/notification";
+import {
+  createOrgNotification,
+  ICreateOrgNotificationOptions,
+} from "../../src/orgs/notification";
 
 function createUsernames(start: number, end: number): string[] {
   const usernames = [];
@@ -27,18 +30,15 @@ describe("create-org-notification", () => {
     refreshTokenTTL: 1440,
     username: "casey",
     password: "123456",
-    portal: "https://myorg.maps.arcgis.com/sharing/rest"
+    portal: "https://myorg.maps.arcgis.com/sharing/rest",
   });
 
   afterEach(fetchMock.restore);
 
-  it("should send multiple requests for a long user array", done => {
+  it("should send multiple requests for a long user array", (done) => {
     const requests = [createUsernames(0, 25), createUsernames(25, 35)];
 
-    const responses = [
-      { success: true },
-      { success: true }
-    ];
+    const responses = [{ success: true }, { success: true }];
 
     fetchMock.post("*", (url, options) => {
       expect(url).toEqual(
@@ -48,7 +48,9 @@ describe("create-org-notification", () => {
       expect(options.body).toContain(encodeParam("f", "json"));
       expect(options.body).toContain(encodeParam("subject", "Attention"));
       expect(options.body).toContain(encodeParam("message", "This is a test"));
-      expect(options.body).toContain(encodeParam("notificationChannelType", "email"));
+      expect(options.body).toContain(
+        encodeParam("notificationChannelType", "email")
+      );
       expect(options.body).toContain(
         encodeParam("users", requests.shift().join(","))
       );
@@ -61,29 +63,29 @@ describe("create-org-notification", () => {
       subject: "Attention",
       message: "This is a test",
       notificationChannelType: "email",
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
     createOrgNotification(params)
-      .then(result => {
+      .then((result) => {
         expect(requests.length).toEqual(0);
         expect(responses.length).toEqual(0);
         expect(result.success).toEqual(true);
         expect(result.errors).toBeUndefined();
         done();
       })
-      .catch(error => fail(error));
+      .catch((error) => fail(error));
   });
 
-  it("should return request failure", done => {
+  it("should return request failure", (done) => {
     const responses = [
       { success: true },
       {
         error: {
           code: 400,
           messageCode: "ORG_9001",
-          message: "error message for creating org notification"
-        }
+          message: "error message for creating org notification",
+        },
       },
     ];
 
@@ -94,11 +96,11 @@ describe("create-org-notification", () => {
       subject: "Attention",
       message: "This is a test",
       notificationChannelType: "email",
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
     createOrgNotification(params)
-      .then(result => {
+      .then((result) => {
         expect(responses.length).toEqual(0);
         expect(result.success).toEqual(false);
 
@@ -117,26 +119,26 @@ describe("create-org-notification", () => {
         expect(errorAOptions.params.users).toEqual(createUsernames(25, 30));
         done();
       })
-      .catch(error => fail(error));
+      .catch((error) => fail(error));
   });
 
-  it("should not send any request for zero-length username array", done => {
+  it("should not send any request for zero-length username array", (done) => {
     const params: ICreateOrgNotificationOptions = {
       message: "This won't get sent",
       subject: "Attention",
       notificationChannelType: "email",
       users: [],
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
     createOrgNotification(params)
-      .then(result => {
+      .then((result) => {
         expect(fetchMock.called()).toEqual(false);
         expect(result.success).toEqual(true);
         expect(result.errors).toBeUndefined();
 
         done();
       })
-      .catch(error => fail(error));
+      .catch((error) => fail(error));
   });
 });

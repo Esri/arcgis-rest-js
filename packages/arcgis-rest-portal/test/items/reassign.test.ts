@@ -9,17 +9,17 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
 import {
   GroupMemberUserResponse,
-  OrgAdminUserResponse
+  OrgAdminUserResponse,
 } from "../mocks/users/user";
 
 describe("reassignItem", () => {
   afterEach(fetchMock.restore);
 
-  it("shoulds throw if not authd as org_admin", done => {
+  it("shoulds throw if not authd as org_admin", (done) => {
     const MOCK_USER_SESSION = new UserSession({
       token: "fake-token",
       tokenExpires: TOMORROW,
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     });
 
     fetchMock.once(
@@ -31,8 +31,8 @@ describe("reassignItem", () => {
       id: "3ef",
       currentOwner: "alex",
       targetUsername: "blake",
-      authentication: MOCK_USER_SESSION
-    }).catch(e => {
+      authentication: MOCK_USER_SESSION,
+    }).catch((e) => {
       expect(e.message).toBe(
         "Item 3ef can not be reassigned because current user is not an organization administrator."
       );
@@ -40,11 +40,11 @@ describe("reassignItem", () => {
     });
   });
 
-  it("should send the folder if passed", done => {
+  it("should send the folder if passed", (done) => {
     const MOCK_USER_SESSION = new UserSession({
       token: "fake-token",
       tokenExpires: TOMORROW,
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     });
 
     fetchMock
@@ -62,9 +62,9 @@ describe("reassignItem", () => {
       currentOwner: "alex",
       targetUsername: "blake",
       targetFolderName: "folder1",
-      authentication: MOCK_USER_SESSION
+      authentication: MOCK_USER_SESSION,
     })
-      .then(resp => {
+      .then((resp) => {
         // expect(fetchMock.done()).toBeTruthy(
         //   "All fetchMocks should have been called"
         // );
@@ -80,16 +80,16 @@ describe("reassignItem", () => {
         expect(options.body).toContain("targetFolderName=folder1");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should not send the folder if not passed", done => {
+  it("should not send the folder if not passed", (done) => {
     const MOCK_USER_SESSION = new UserSession({
       token: "fake-token",
       tokenExpires: TOMORROW,
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     });
 
     fetchMock
@@ -106,9 +106,9 @@ describe("reassignItem", () => {
       id: "3ef",
       currentOwner: "alex",
       targetUsername: "blake",
-      authentication: MOCK_USER_SESSION
+      authentication: MOCK_USER_SESSION,
     })
-      .then(resp => {
+      .then((resp) => {
         // expect(fetchMock.done()).toBeTruthy(
         //   "All fetchMocks should have been called"
         // );
@@ -124,7 +124,7 @@ describe("reassignItem", () => {
         expect(options.body).not.toContain("targetFolderName");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

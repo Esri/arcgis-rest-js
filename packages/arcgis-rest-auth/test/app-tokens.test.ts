@@ -15,9 +15,8 @@ describe("app-token functions: ", () => {
       });
       return exchangeToken("FAKE-TOKEN", "CLIENT-ID-ABC123")
         .then((response) => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-            EXCHANGE_TOKEN_URL
-          );
+          const [url, options]: [string, RequestInit] =
+            fetchMock.lastCall(EXCHANGE_TOKEN_URL);
           expect(url).toEqual(EXCHANGE_TOKEN_URL);
           expect(options.body).toContain("f=json");
           expect(options.body).toContain("token=FAKE-TOKEN");
@@ -35,9 +34,8 @@ describe("app-token functions: ", () => {
       });
       return exchangeToken("FAKE-TOKEN", "CLIENT-ID-ABC123", PORTAL_BASE_URL)
         .then((response) => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-            PORTAL_EXCHANGE_URL
-          );
+          const [url, options]: [string, RequestInit] =
+            fetchMock.lastCall(PORTAL_EXCHANGE_URL);
           expect(url).toEqual(PORTAL_EXCHANGE_URL);
         })
         .catch((e) => fail(e));
@@ -57,9 +55,8 @@ describe("app-token functions: ", () => {
         "https://hub.arcgis.com/torii-provider-arcgis/redirect.html"
       )
         .then((response) => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-            PLATFORM_SELF_URL
-          );
+          const [url, options]: [string, RequestInit] =
+            fetchMock.lastCall(PLATFORM_SELF_URL);
           expect(url).toEqual(PLATFORM_SELF_URL);
           const headers = options.headers || ({} as any);
           expect(headers["X-Esri-Auth-Redirect-Uri"]).toBe(

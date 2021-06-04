@@ -10,86 +10,86 @@ export const cvdQueryResponse: IQueryFeaturesResponse = {
   geometryType: "esriGeometryPoint",
   spatialReference: {
     wkid: 102100,
-    latestWkid: 3857
+    latestWkid: 3857,
   },
   fields: [
     {
       name: "objectid",
       alias: "OBJECTID",
-      type: "esriFieldTypeOID"
+      type: "esriFieldTypeOID",
     },
     {
       name: "requestid",
       alias: "Service Request ID",
       type: "esriFieldTypeString",
-      length: 25
+      length: 25,
     },
     {
       name: "requesttype",
       alias: "Problem",
       type: "esriFieldTypeString",
-      length: 100
+      length: 100,
     },
     {
       name: "comments",
       alias: "Comments",
       type: "esriFieldTypeString",
-      length: 255
+      length: 255,
     },
     {
       name: "name",
       alias: "Name",
       type: "esriFieldTypeString",
-      length: 150
+      length: 150,
     },
     {
       name: "phone",
       alias: "Phone Number",
       type: "esriFieldTypeString",
-      length: 12
+      length: 12,
     },
     {
       name: "email",
       alias: "Email Address",
       type: "esriFieldTypeString",
-      length: 100
+      length: 100,
     },
     {
       name: "requestdate",
       alias: "Date Submitted",
       type: "esriFieldTypeDate",
-      length: 8
+      length: 8,
     },
     {
       name: "status",
       alias: "Status",
       type: "esriFieldTypeString",
-      length: 50
+      length: 50,
     },
     {
       name: "globalid",
       alias: "GlobalID",
       type: "esriFieldTypeGlobalID",
-      length: 38
+      length: 38,
     },
     {
       name: "building",
       alias: "Building Name",
       type: "esriFieldTypeString",
-      length: 25
+      length: 25,
     },
     {
       name: "floor",
       alias: "Floor Number",
       type: "esriFieldTypeString",
-      length: 5
+      length: 5,
     },
     {
       name: "floor_SUM",
       alias: "Floor Number Summary (not in raw dataset, only from stat query",
       type: "esriFieldTypeString",
-      length: 10
-    }
+      length: 10,
+    },
   ],
   features: [
     {
@@ -106,12 +106,12 @@ export const cvdQueryResponse: IQueryFeaturesResponse = {
         globalid: "{2F47ACF0-CEE3-4548-90A8-785ED7BE01C9}",
         building: null,
         floor: null,
-        floor_SUM: "something"
+        floor_SUM: "something",
       },
       geometry: {
         x: -9603128.0234949309,
-        y: 5114408.4976249589
-      } as IGeometry
+        y: 5114408.4976249589,
+      } as IGeometry,
     },
     {
       attributes: {
@@ -127,12 +127,12 @@ export const cvdQueryResponse: IQueryFeaturesResponse = {
         globalid: "{9937CFDD-E811-49D1-8CC8-A1ABF0DE7F14}",
         building: null,
         floor: null,
-        floor_SUM: "something"
+        floor_SUM: "something",
       },
       geometry: {
         x: -9603103.0477722641,
-        y: 5114303.7610201165
-      } as IGeometry
+        y: 5114303.7610201165,
+      } as IGeometry,
     },
     {
       attributes: {
@@ -148,14 +148,14 @@ export const cvdQueryResponse: IQueryFeaturesResponse = {
         globalid: "{D840094C-F94D-42EA-AB21-7A84B2E27962}",
         building: null,
         floor: "0",
-        floor_SUM: "something"
+        floor_SUM: "something",
       },
       geometry: {
         x: -9814396.0827533137,
-        y: 5124911.0747664627
-      } as IGeometry
-    }
-  ] as IFeature[]
+        y: 5124911.0747664627,
+      } as IGeometry,
+    },
+  ] as IFeature[],
 };
 
 export const cvdFeaturesFormatted: IFeature[] = [
@@ -173,12 +173,12 @@ export const cvdFeaturesFormatted: IFeature[] = [
       globalid: "{2F47ACF0-CEE3-4548-90A8-785ED7BE01C9}",
       building: null,
       floor: null,
-      floor_SUM: "something"
+      floor_SUM: "something",
     },
     geometry: {
       x: -9603128.0234949309,
-      y: 5114408.4976249589
-    } as IGeometry
+      y: 5114408.4976249589,
+    } as IGeometry,
   },
   {
     attributes: {
@@ -194,12 +194,12 @@ export const cvdFeaturesFormatted: IFeature[] = [
       globalid: "{9937CFDD-E811-49D1-8CC8-A1ABF0DE7F14}",
       building: null,
       floor: null,
-      floor_SUM: "something"
+      floor_SUM: "something",
     },
     geometry: {
       x: -9603103.0477722641,
-      y: 5114303.7610201165
-    } as IGeometry
+      y: 5114303.7610201165,
+    } as IGeometry,
   },
   {
     attributes: {
@@ -215,11 +215,11 @@ export const cvdFeaturesFormatted: IFeature[] = [
       globalid: "{D840094C-F94D-42EA-AB21-7A84B2E27962}",
       building: null,
       floor: "0",
-      floor_SUM: "something"
+      floor_SUM: "something",
     },
     geometry: {
       x: -9814396.0827533137,
-      y: 5124911.0747664627
-    } as IGeometry
-  }
+      y: 5124911.0747664627,
+    } as IGeometry,
+  },
 ];

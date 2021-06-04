@@ -11,15 +11,15 @@ import { AnonUserResponse, OrgAdminUserResponse } from "../mocks/users/user";
 
 const SharingResponse = {
   notSharedWith: [] as any,
-  itemId: "abc123"
+  itemId: "abc123",
 };
 
 describe("setItemAccess()", () => {
-  beforeEach(done => {
+  beforeEach((done) => {
     fetchMock.post("https://myorg.maps.arcgis.com/sharing/rest/generateToken", {
       token: "fake-token",
       expires: TOMORROW.getTime(),
-      username: " jsmith"
+      username: " jsmith",
     });
 
     // make sure session doesnt cache metadata
@@ -30,15 +30,15 @@ describe("setItemAccess()", () => {
 
   afterEach(fetchMock.restore);
 
-  it("should share an item with everyone", done => {
+  it("should share an item with everyone", (done) => {
     fetchMock.once("*", SharingResponse);
 
     setItemAccess({
       authentication: MOCK_USER_SESSION,
       id: "abc123",
-      access: "public"
+      access: "public",
     })
-      .then(response => {
+      .then((response) => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/abc123/share"
@@ -50,20 +50,20 @@ describe("setItemAccess()", () => {
         expect(options.body).toContain("account=true");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should share an item with an organization", done => {
+  it("should share an item with an organization", (done) => {
     fetchMock.once("*", SharingResponse);
 
     setItemAccess({
       authentication: MOCK_USER_SESSION,
       id: "abc123",
-      access: "org"
+      access: "org",
     })
-      .then(response => {
+      .then((response) => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/abc123/share"
@@ -75,20 +75,20 @@ describe("setItemAccess()", () => {
         expect(options.body).toContain("org=true");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should stop sharing an item entirely", done => {
+  it("should stop sharing an item entirely", (done) => {
     fetchMock.once("*", SharingResponse);
 
     setItemAccess({
       authentication: MOCK_USER_SESSION,
       id: "abc123",
-      access: "private"
+      access: "private",
     })
-      .then(response => {
+      .then((response) => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/abc123/share"
@@ -101,12 +101,12 @@ describe("setItemAccess()", () => {
         expect(options.body).toContain("groups=");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should share another persons item if an org admin makes the request", done => {
+  it("should share another persons item if an org admin makes the request", (done) => {
     fetchMock.once(
       "https://myorg.maps.arcgis.com/sharing/rest/community/self?f=json&token=fake-token",
       OrgAdminUserResponse
@@ -121,9 +121,9 @@ describe("setItemAccess()", () => {
       authentication: MOCK_USER_SESSION,
       id: "abc123",
       access: "private",
-      owner: "casey"
+      owner: "casey",
     })
-      .then(response => {
+      .then((response) => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall();
         expect(url).toEqual(
           "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/abc123/share"
@@ -136,12 +136,12 @@ describe("setItemAccess()", () => {
         expect(options.body).toContain("groups=");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should throw if the person trying to share doesnt own the item and is not an admin", done => {
+  it("should throw if the person trying to share doesnt own the item and is not an admin", (done) => {
     fetchMock.once(
       "https://myorg.maps.arcgis.com/sharing/rest/community/self?f=json&token=fake-token",
       AnonUserResponse
@@ -151,8 +151,8 @@ describe("setItemAccess()", () => {
       authentication: MOCK_USER_SESSION,
       id: "abc123",
       access: "private",
-      owner: "casey"
-    }).catch(e => {
+      owner: "casey",
+    }).catch((e) => {
       expect(e.message).toEqual(
         "This item can not be shared by jsmith. They are neither the item owner nor an organization admin."
       );

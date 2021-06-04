@@ -1,7 +1,7 @@
 import {
   request,
   IRequestOptions,
-  ArcGISRequestError
+  ArcGISRequestError,
 } from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url";
@@ -23,7 +23,7 @@ export interface IInviteGroupUsersOptions extends IRequestOptions {
   /**
    * Expiration date on the invitation can be set for one day, three days, one week, or two weeks, in minutes.
    */
-  expiration: number
+  expiration: number;
 }
 
 export interface IInviteGroupUsersResult {
@@ -42,7 +42,7 @@ export interface IInviteGroupUsersResult {
  * will be indicated by a flag on the return
  * object. If there are any errors, they will be
  * placed in an errors array on the return object
- * 
+ *
  * ```js
  * const authentication: IAuthenticationManager; // Typically passed into to the function
  * //
@@ -67,13 +67,15 @@ export interface IInviteGroupUsersResult {
  * ```
  * @param {IInviteGroupUsersOptions} options
  *
- * @returns {Promise<IAddGroupUsersResult>} 
+ * @returns {Promise<IAddGroupUsersResult>}
  */
-export function inviteGroupUsers(options: IInviteGroupUsersOptions): Promise<IInviteGroupUsersResult> {
+export function inviteGroupUsers(
+  options: IInviteGroupUsersOptions
+): Promise<IInviteGroupUsersResult> {
   const id = options.id;
   const url = `${getPortalUrl(options)}/community/groups/${id}/invite`;
   const batches = _generateBatchRequests(options);
-  const promises = batches.map(batch => _sendSafeRequest(url, batch));
+  const promises = batches.map((batch) => _sendSafeRequest(url, batch));
 
   return Promise.all(promises).then(_combineResults);
 }
@@ -83,39 +85,52 @@ export function inviteGroupUsers(options: IInviteGroupUsersOptions): Promise<IIn
  */
 function _generateBatchRequests(options: IInviteGroupUsersOptions) {
   const userBatches: string[][] = chunk<string>(options.users, 25);
-  return userBatches.map(users => _generateRequestOptions(users, options));
+  return userBatches.map((users) => _generateRequestOptions(users, options));
 }
 
 /**
  * @private
  */
-function _generateRequestOptions(users: string[], baseOptions: IInviteGroupUsersOptions): IRequestOptions {
-  const requestOptions: IInviteGroupUsersOptions = Object.assign({}, baseOptions);
+function _generateRequestOptions(
+  users: string[],
+  baseOptions: IInviteGroupUsersOptions
+): IRequestOptions {
+  const requestOptions: IInviteGroupUsersOptions = Object.assign(
+    {},
+    baseOptions
+  );
 
   requestOptions.params = {
     ...requestOptions.params,
     users,
     role: requestOptions.role,
     expiration: requestOptions.expiration,
-  }
-  
+  };
+
   return requestOptions;
 }
 
 /**
- * @private 
+ * @private
  */
-function _sendSafeRequest(url: string,requestOptions: IRequestOptions): Promise<IInviteGroupUsersResult> {
-  return request(url, requestOptions)
-    .catch(error => ({ errors: [error] }));
+function _sendSafeRequest(
+  url: string,
+  requestOptions: IRequestOptions
+): Promise<IInviteGroupUsersResult> {
+  return request(url, requestOptions).catch((error) => ({ errors: [error] }));
 }
 
 /**
- * @private 
+ * @private
  */
-function _combineResults(responses: IInviteGroupUsersResult[]): IInviteGroupUsersResult {
-  const success = responses.every(res => res.success);
-  const errors: ArcGISRequestError[] = responses.reduce((collection, res) => collection.concat(res.errors || []), []);
+function _combineResults(
+  responses: IInviteGroupUsersResult[]
+): IInviteGroupUsersResult {
+  const success = responses.every((res) => res.success);
+  const errors: ArcGISRequestError[] = responses.reduce(
+    (collection, res) => collection.concat(res.errors || []),
+    []
+  );
   const combined: IInviteGroupUsersResult = { success };
 
   if (errors.length > 0) {
@@ -124,4 +139,3 @@ function _combineResults(responses: IInviteGroupUsersResult[]): IInviteGroupUser
 
   return combined;
 }
-

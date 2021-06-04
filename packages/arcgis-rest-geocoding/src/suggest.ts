@@ -32,7 +32,7 @@ export function suggest(
   const options: IEndpointOptions = {
     endpoint: ARCGIS_ONLINE_GEOCODING_URL,
     params: {},
-    ...requestOptions
+    ...requestOptions,
   };
 
   options.params.text = partialText;
@@ -41,5 +41,5 @@ export function suggest(
 }
 
 export default {
-  suggest
+  suggest,
 };

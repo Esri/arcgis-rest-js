@@ -26,11 +26,11 @@ describe("create feature service", () => {
       refreshTokenTTL: 1440,
       username: "casey",
       password: "123456",
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     });
 
     const MOCK_USER_REQOPTS = {
-      authentication: MOCK_USER_SESSION
+      authentication: MOCK_USER_SESSION,
     };
 
     const serviceDescription = {
@@ -43,7 +43,7 @@ describe("create feature service", () => {
       description: "",
       copyrightText: "",
       spatialReference: {
-        wkid: 102100
+        wkid: 102100,
       },
       initialExtent: {
         xmin: -20037507.0671618,
@@ -52,34 +52,32 @@ describe("create feature service", () => {
         ymax: 18398924.324645,
         spatialReference: {
           wkid: 102100,
-          latestWkid: 3857
-        }
+          latestWkid: 3857,
+        },
       },
       allowGeometryUpdates: true,
       units: "esriMeters",
       xssPreventionInfo: {
         xssPreventionEnabled: true,
         xssPreventionRule: "InputOnly",
-        xssInputRule: "rejectInvalid"
-      }
+        xssInputRule: "rejectInvalid",
+      },
     };
 
-    it("should create a feature service defaulting to the root folder", done => {
+    it("should create a feature service defaulting to the root folder", (done) => {
       fetchMock.mock("end:createService", FeatureServiceResponse, {});
 
       createFeatureService({
         item: serviceDescription,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(
-          response => {
+          (response) => {
             expect(fetchMock.called("end:createService")).toEqual(true);
 
             // Check create service call
-            const [urlCreate, optionsCreate]: [
-              string,
-              RequestInit
-            ] = fetchMock.lastCall("end:createService");
+            const [urlCreate, optionsCreate]: [string, RequestInit] =
+              fetchMock.lastCall("end:createService");
             expect(urlCreate).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createService"
             );
@@ -105,29 +103,27 @@ describe("create feature service", () => {
             fail(); // call is supposed to succeed
           }
         )
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should create a feature service specified for the root folder 1", done => {
+    it("should create a feature service specified for the root folder 1", (done) => {
       fetchMock.mock("end:createService", FeatureServiceResponse, {});
       const folderId = "";
 
       createFeatureService({
         item: serviceDescription,
         folderId,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(
-          response => {
+          (response) => {
             expect(fetchMock.called("end:createService")).toEqual(true);
 
             // Check create service call
-            const [urlCreate, optionsCreate]: [
-              string,
-              RequestInit
-            ] = fetchMock.lastCall("end:createService");
+            const [urlCreate, optionsCreate]: [string, RequestInit] =
+              fetchMock.lastCall("end:createService");
             expect(urlCreate).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createService"
             );
@@ -153,29 +149,27 @@ describe("create feature service", () => {
             fail(); // call is supposed to succeed
           }
         )
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should create a feature service specified for the root folder 2", done => {
+    it("should create a feature service specified for the root folder 2", (done) => {
       fetchMock.mock("end:createService", FeatureServiceResponse, {});
       const folderId = "/";
 
       createFeatureService({
         item: serviceDescription,
         folderId,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(
-          response => {
+          (response) => {
             expect(fetchMock.called("end:createService")).toEqual(true);
 
             // Check create service call
-            const [urlCreate, optionsCreate]: [
-              string,
-              RequestInit
-            ] = fetchMock.lastCall("end:createService");
+            const [urlCreate, optionsCreate]: [string, RequestInit] =
+              fetchMock.lastCall("end:createService");
             expect(urlCreate).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createService"
             );
@@ -201,30 +195,27 @@ describe("create feature service", () => {
             fail(); // call is supposed to succeed
           }
         )
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should create a feature service in a particular folder", done => {
-      fetchMock
-        .mock("end:createService", FeatureServiceResponse, {});
+    it("should create a feature service in a particular folder", (done) => {
+      fetchMock.mock("end:createService", FeatureServiceResponse, {});
       const folderId = "83216cba44bf4357bf06687ec88a847b";
 
       createFeatureService({
         item: serviceDescription,
         folderId,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(
-          response => {
+          (response) => {
             expect(fetchMock.called("end:createService")).toEqual(true);
 
             // Check create service call
-            const [urlCreate, optionsCreate]: [
-              string,
-              RequestInit
-            ] = fetchMock.lastCall("end:createService");
+            const [urlCreate, optionsCreate]: [string, RequestInit] =
+              fetchMock.lastCall("end:createService");
             expect(urlCreate).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/83216cba44bf4357bf06687ec88a847b/createService"
             );
@@ -250,12 +241,12 @@ describe("create feature service", () => {
             fail(); // call is supposed to succeed
           }
         )
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should fail to create a feature service destined for a particular folder with success=false", done => {
+    it("should fail to create a feature service destined for a particular folder with success=false", (done) => {
       fetchMock.mock("end:createService", { success: false });
 
       const folderId = "83216cba44bf4357bf06687ec88a847b";
@@ -263,16 +254,14 @@ describe("create feature service", () => {
       createFeatureService({
         item: serviceDescription,
         folderId,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(e => {
+        .then((e) => {
           expect(fetchMock.called("end:createService")).toEqual(true);
 
           // Check create service call
-          const [urlCreate, optionsCreate]: [
-            string,
-            RequestInit
-          ] = fetchMock.lastCall("end:createService");
+          const [urlCreate, optionsCreate]: [string, RequestInit] =
+            fetchMock.lastCall("end:createService");
           expect(urlCreate).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/83216cba44bf4357bf06687ec88a847b/createService"
           );
@@ -288,7 +277,7 @@ describe("create feature service", () => {
           expect(e.success).toBeFalsy();
           done();
         })
-      .catch(() => fail());
+        .catch(() => fail());
     });
   });
 });

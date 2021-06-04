@@ -50,7 +50,7 @@ export function updateUserMemberships(
   }/updateUsers`;
   const opts: any = {
     authentication: requestOptions.authentication,
-    params: {}
+    params: {},
   };
   // add the correct params depending on the type of membership we are changing to
   if (requestOptions.newMemberType === "admin") {

@@ -25,5 +25,5 @@
  */
 export enum ErrorTypes {
   ArcGISRequestError = "ArcGISRequestError",
-  ArcGISAuthError = "ArcGISAuthError"
+  ArcGISAuthError = "ArcGISAuthError",
 }

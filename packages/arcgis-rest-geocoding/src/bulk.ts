@@ -67,13 +67,13 @@ export function bulkGeocode(
   const options: IBulkGeocodeOptions = {
     endpoint: ARCGIS_ONLINE_BULK_GEOCODING_URL,
     params: {},
-    ...requestOptions
+    ...requestOptions,
   };
 
   options.params.addresses = {
-    records: requestOptions.addresses.map(address => {
+    records: requestOptions.addresses.map((address) => {
       return { attributes: address };
-    })
+    }),
   };
 
   // the SAS service doesnt support anonymous requests
@@ -89,12 +89,12 @@ export function bulkGeocode(
   return request(
     `${cleanUrl(options.endpoint)}/geocodeAddresses`,
     options
-  ).then(response => {
+  ).then((response) => {
     if (options.rawResponse) {
       return response;
     }
     const sr = response.spatialReference;
-    response.locations.forEach(function(address: { location: IPoint }) {
+    response.locations.forEach(function (address: { location: IPoint }) {
       if (address.location) {
         address.location.spatialReference = sr;
       }

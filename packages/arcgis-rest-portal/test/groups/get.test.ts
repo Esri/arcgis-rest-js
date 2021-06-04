@@ -6,7 +6,7 @@ import {
   getGroupCategorySchema,
   getGroupContent,
   getGroupUsers,
-  searchGroupUsers
+  searchGroupUsers,
 } from "../../src/groups/get";
 
 import {
@@ -14,7 +14,7 @@ import {
   GroupCategorySchemaResponse,
   GroupContentResponse,
   GroupUsersResponse,
-  SearchGroupUsersResponse
+  SearchGroupUsersResponse,
 } from "../mocks/groups/responses";
 
 import * as fetchMock from "fetch-mock";
@@ -23,10 +23,10 @@ describe("groups", () => {
   afterEach(fetchMock.restore);
 
   describe("getGroup", () => {
-    it("should return a group", done => {
+    it("should return a group", (done) => {
       fetchMock.once("*", GroupResponse);
       getGroup("3ef")
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -35,17 +35,17 @@ describe("groups", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
   });
 
   describe("getGroupCategorySchema", () => {
-    it("should return group's category schema", done => {
+    it("should return group's category schema", (done) => {
       fetchMock.once("*", GroupCategorySchemaResponse);
       getGroupCategorySchema("3ef")
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -54,17 +54,17 @@ describe("groups", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
   });
 
   describe("getGroupContent", () => {
-    it("should return group content", done => {
+    it("should return group content", (done) => {
       fetchMock.once("*", GroupContentResponse);
       getGroupContent("3ef")
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -73,15 +73,15 @@ describe("groups", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should return group content, paged", done => {
+    it("should return group content, paged", (done) => {
       fetchMock.once("*", GroupContentResponse);
       getGroupContent("3ef", { paging: { start: 4, num: 7 } })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -90,7 +90,7 @@ describe("groups", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
@@ -101,17 +101,17 @@ describe("groups", () => {
       getToken() {
         return Promise.resolve("fake-token");
       },
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     };
     const MOCK_REQOPTS = {
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
-    it("should return group users", done => {
+    it("should return group users", (done) => {
       fetchMock.once("*", GroupUsersResponse);
 
       getGroupUsers("5bc", MOCK_REQOPTS)
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -120,13 +120,13 @@ describe("groups", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    describe("search group users", function() {
-      it("should search group users", done => {
+    describe("search group users", function () {
+      it("should search group users", (done) => {
         fetchMock.once("*", SearchGroupUsersResponse);
 
         searchGroupUsers("5bc", {
@@ -137,37 +137,35 @@ describe("groups", () => {
           start: 2,
           joined: [null, 123456],
           memberType: "member",
-          ...MOCK_REQOPTS
+          ...MOCK_REQOPTS,
         })
-          .then(response => {
+          .then((response) => {
             expect(fetchMock.called()).toEqual(true);
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-              "*"
-            );
+            const [url, options]: [string, RequestInit] =
+              fetchMock.lastCall("*");
             expect(url).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/userlist?f=json&name=jupe&num=2&start=2&sortField=fullname&sortOrder=asc&joined=%2C123456&memberType=member&token=fake-token"
             );
             expect(options.method).toBe("GET");
             done();
           })
-          .catch(e => {
+          .catch((e) => {
             fail(e);
           });
       });
 
-      it("shouldn't require searchOptions", done => {
+      it("shouldn't require searchOptions", (done) => {
         fetchMock.once("*", SearchGroupUsersResponse);
 
         searchGroupUsers("5bc")
-          .then(_ => {
+          .then((_) => {
             expect(fetchMock.called()).toEqual(true);
-            const [__, options]: [string, RequestInit] = fetchMock.lastCall(
-              "*"
-            );
+            const [__, options]: [string, RequestInit] =
+              fetchMock.lastCall("*");
             expect(options.method).toBe("GET");
             done();
           })
-          .catch(e => {
+          .catch((e) => {
             fail(e);
           });
       });

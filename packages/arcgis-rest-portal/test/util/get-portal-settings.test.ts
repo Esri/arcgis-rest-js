@@ -26,16 +26,16 @@ describe("portal", () => {
       getToken() {
         return Promise.resolve("fake-token");
       },
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     };
     const MOCK_REQOPTS = {
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
-    it("should get the portal settings by id", done => {
+    it("should get the portal settings by id", (done) => {
       fetchMock.once("*", PortalResponse);
       getPortalSettings("5BZFaKe", MOCK_REQOPTS)
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -44,14 +44,14 @@ describe("portal", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
-    it("should get the portal self settings if no id", done => {
+    it("should get the portal self settings if no id", (done) => {
       fetchMock.once("*", PortalResponse);
       getPortalSettings(null, MOCK_REQOPTS)
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -60,7 +60,7 @@ describe("portal", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

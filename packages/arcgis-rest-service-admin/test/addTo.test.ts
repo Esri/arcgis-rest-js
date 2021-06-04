@@ -96,9 +96,8 @@ describe("add to feature service", () => {
           (response) => {
             // Check service call
             expect(fetchMock.called()).toEqual(true);
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-              "*"
-            );
+            const [url, options]: [string, RequestInit] =
+              fetchMock.lastCall("*");
 
             expect(url).toEqual(
               "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/addToDefinition"
@@ -145,9 +144,8 @@ describe("add to feature service", () => {
           (response) => {
             // Check service call
             expect(fetchMock.called()).toEqual(true);
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-              "*"
-            );
+            const [url, options]: [string, RequestInit] =
+              fetchMock.lastCall("*");
 
             expect(url).toEqual(
               "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/addToDefinition"

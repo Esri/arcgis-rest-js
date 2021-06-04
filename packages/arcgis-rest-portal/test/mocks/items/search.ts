@@ -28,22 +28,24 @@ export const SearchResponse: ISearchResult<IItem> = {
         "Service",
         "Survey123",
         "Survey123 Hub",
-        "Hosted Service"
+        "Hosted Service",
       ],
       description: "Some Description",
       tags: [],
       snippet: "Some Snippet",
       thumbnail: "thumbnail/ago_downloaded.png",
       documentation: "WAT docs",
-      extent: [[-180, -90], [180, 90]],
+      extent: [
+        [-180, -90],
+        [180, 90],
+      ],
       categories: [],
       spatialReference: null,
       accessInformation: null,
       licenseInfo: null,
       culture: null,
       properties: {},
-      url:
-        "https://servicesqa.arcgis.com/97KLIFOSt5CxbiRI/arcgis/rest/services/survey123_7d7a9fabcb0c44bcaf1d6473cd088a07/FeatureServer",
+      url: "https://servicesqa.arcgis.com/97KLIFOSt5CxbiRI/arcgis/rest/services/survey123_7d7a9fabcb0c44bcaf1d6473cd088a07/FeatureServer",
       proxyFilter: null,
       access: "shared",
       size: -1,
@@ -57,9 +59,9 @@ export const SearchResponse: ISearchResult<IItem> = {
       numComments: 0,
       numRatings: 0,
       avgRating: 0,
-      numViews: 4
-    }
-  ]
+      numViews: 4,
+    },
+  ],
 };
 
 export const BigSearchResponse: ISearchResult<IItem> = {
@@ -86,22 +88,24 @@ export const BigSearchResponse: ISearchResult<IItem> = {
         "Service",
         "Survey123",
         "Survey123 Hub",
-        "Hosted Service"
+        "Hosted Service",
       ],
       description: "Some Description",
       tags: [],
       snippet: "Some Snippet",
       thumbnail: "thumbnail/ago_downloaded.png",
       documentation: "WAT docs",
-      extent: [[-180, -90], [180, 90]],
+      extent: [
+        [-180, -90],
+        [180, 90],
+      ],
       categories: [],
       spatialReference: null,
       accessInformation: null,
       licenseInfo: null,
       culture: null,
       properties: {},
-      url:
-        "https://servicesqa.arcgis.com/97KLIFOSt5CxbiRI/arcgis/rest/services/survey123_7d7a9fabcb0c44bcaf1d6473cd088a07/FeatureServer",
+      url: "https://servicesqa.arcgis.com/97KLIFOSt5CxbiRI/arcgis/rest/services/survey123_7d7a9fabcb0c44bcaf1d6473cd088a07/FeatureServer",
       proxyFilter: null,
       access: "shared",
       size: -1,
@@ -115,7 +119,7 @@ export const BigSearchResponse: ISearchResult<IItem> = {
       numComments: 0,
       numRatings: 0,
       avgRating: 0,
-      numViews: 4
-    }
-  ]
+      numViews: 4,
+    },
+  ],
 };

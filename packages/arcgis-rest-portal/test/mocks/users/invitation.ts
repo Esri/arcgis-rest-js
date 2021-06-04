@@ -17,11 +17,11 @@ export const UserInvitationsResponse: IInvitationResult = {
       created: 1538516323000,
       username: "mjuniper_dcqa",
       fromUsername: {
-        username: "dcadminqa"
+        username: "dcadminqa",
       },
-      groupId: "5d780fcf924e4e7ab1952a71472bc950"
-    }
-  ]
+      groupId: "5d780fcf924e4e7ab1952a71472bc950",
+    },
+  ],
 };
 
 export const UserInvitationResponse: IInvitation = {
@@ -40,7 +40,7 @@ export const UserInvitationResponse: IInvitation = {
   username: "mjuniper_dcqa",
   fromUsername: {
     username: "dcadminqa",
-    fullname: "DcAdminQA QaExtDc"
+    fullname: "DcAdminQA QaExtDc",
   },
   group: {
     id: "5d780fcf924e4e7ab1952a71472bc950",
@@ -65,6 +65,6 @@ export const UserInvitationResponse: IInvitation = {
     autoJoin: false,
     notificationsEnabled: false,
     provider: null,
-    providerGroupName: null
-  }
+    providerGroupName: null,
+  },
 };

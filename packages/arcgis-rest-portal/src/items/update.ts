@@ -14,7 +14,7 @@ import {
   IItemResourceResponse,
   IUpdateItemResponse,
   serializeItem,
-  determineOwner
+  determineOwner,
 } from "./helpers";
 
 export interface IUpdateItemOptions extends ICreateUpdateItemOptions {
@@ -54,15 +54,19 @@ export interface IMoveItemOptions extends ICreateUpdateItemOptions {
 export function updateItem(
   requestOptions: IUpdateItemOptions
 ): Promise<IUpdateItemResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = requestOptions.folderId
-      ? `${getPortalUrl(requestOptions)}/content/users/${owner}/${requestOptions.folderId}/items/${requestOptions.item.id}/update`
-      : `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${requestOptions.item.id}/update`;
+      ? `${getPortalUrl(requestOptions)}/content/users/${owner}/${
+          requestOptions.folderId
+        }/items/${requestOptions.item.id}/update`
+      : `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+          requestOptions.item.id
+        }/update`;
 
     // serialize the item into something Portal will accept
     requestOptions.params = {
       ...requestOptions.params,
-      ...serializeItem(requestOptions.item)
+      ...serializeItem(requestOptions.item),
     };
 
     return request(url, requestOptions);
@@ -88,7 +92,7 @@ export function updateItem(
 export function updateItemInfo(
   requestOptions: IItemInfoOptions
 ): Promise<IItemInfoResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(
       requestOptions as IRequestOptions
     )}/content/users/${owner}/items/${requestOptions.id}/updateinfo`;
@@ -97,7 +101,7 @@ export function updateItemInfo(
     requestOptions.params = {
       folderName: requestOptions.folderName,
       file: requestOptions.file,
-      ...requestOptions.params
+      ...requestOptions.params,
     };
 
     return request(url, requestOptions);
@@ -124,7 +128,7 @@ export function updateItemInfo(
 export function updateItemResource(
   requestOptions: IItemResourceOptions
 ): Promise<IItemResourceResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(
       requestOptions as IRequestOptions
     )}/content/users/${owner}/items/${requestOptions.id}/updateResources`;
@@ -135,7 +139,7 @@ export function updateItemResource(
       fileName: requestOptions.name,
       resourcesPrefix: requestOptions.prefix,
       text: requestOptions.content,
-      ...requestOptions.params
+      ...requestOptions.params,
     };
 
     // only override the access specified previously if 'private' is passed explicitly
@@ -166,7 +170,7 @@ export function updateItemResource(
 export function moveItem(
   requestOptions: IMoveItemOptions
 ): Promise<IMoveItemResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.itemId
     }/move`;
@@ -177,7 +181,7 @@ export function moveItem(
     }
     requestOptions.params = {
       folder: folderId,
-      ...requestOptions.params
+      ...requestOptions.params,
     };
 
     return request(url, requestOptions);

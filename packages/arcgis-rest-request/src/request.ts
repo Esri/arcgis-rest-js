@@ -149,7 +149,7 @@ export function checkForErrors(
   // error from a status check
   if (response.status === "failed" || response.status === "failure") {
     let message: string;
-    let code: string = "UNKNOWN_ERROR_CODE";
+    let code = "UNKNOWN_ERROR_CODE";
 
     try {
       message = JSON.parse(response.statusMessage).message;
@@ -268,24 +268,25 @@ export function request(
     fetchOptions.credentials = "include";
   }
 
-  return (authentication
-    ? authentication.getToken(url, { fetch: options.fetch }).catch((err) => {
-        /**
-         * append original request url and requestOptions
-         * to the error thrown by getToken()
-         * to assist with retrying
-         */
-        err.url = url;
-        err.options = options;
-        /**
-         * if an attempt is made to talk to an unfederated server
-         * first try the request anonymously. if a 'token required'
-         * error is thrown, throw the UNFEDERATED error then.
-         */
-        originalAuthError = err;
-        return Promise.resolve("");
-      })
-    : Promise.resolve("")
+  return (
+    authentication
+      ? authentication.getToken(url, { fetch: options.fetch }).catch((err) => {
+          /**
+           * append original request url and requestOptions
+           * to the error thrown by getToken()
+           * to assist with retrying
+           */
+          err.url = url;
+          err.options = options;
+          /**
+           * if an attempt is made to talk to an unfederated server
+           * first try the request anonymously. if a 'token required'
+           * error is thrown, throw the UNFEDERATED error then.
+           */
+          originalAuthError = err;
+          return Promise.resolve("");
+        })
+      : Promise.resolve("")
   )
     .then((token) => {
       if (token.length) {

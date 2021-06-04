@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
 } from "@esri/arcgis-rest-request";
 
 import { ARCGIS_ONLINE_GEOENRICHMENT_URL, IEndpointOptions } from "./helpers";
@@ -47,7 +47,6 @@ export interface IGeographyLevelHierarchy {
   levels?: ILevel[] | null;
 }
 
-
 /**
  * ```js
  * import { getAvailableGeographyLevels } from '@esri/arcgis-rest-demographics';
@@ -65,7 +64,7 @@ export function getAvailableGeographyLevels(
   requestOptions?: IEndpointOptions
 ): Promise<IGetAvailableGeographyLevelsResponse> {
   let options: IEndpointOptions = {};
-  let endpoint: string = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/StandardGeographyLevels`;
+  let endpoint = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/StandardGeographyLevels`;
 
   if (!requestOptions) {
     options.params = {};
@@ -73,16 +72,12 @@ export function getAvailableGeographyLevels(
     if (requestOptions.endpoint) {
       endpoint = `${requestOptions.endpoint}/StandardGeographyLevels`;
     }
-    options = appendCustomParams<IEndpointOptions>(
-      requestOptions,
-      [],
-      { params: { ...requestOptions.params } }
-    );
+    options = appendCustomParams<IEndpointOptions>(requestOptions, [], {
+      params: { ...requestOptions.params },
+    });
   }
 
-  return request(`${cleanUrl(endpoint)}`, options).then(
-    (response: any) => {
-      return response;
-    }
-  );
+  return request(`${cleanUrl(endpoint)}`, options).then((response: any) => {
+    return response;
+  });
 }

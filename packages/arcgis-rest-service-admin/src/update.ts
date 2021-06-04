@@ -39,7 +39,7 @@ export function updateServiceDefinition(
 
   requestOptions.params = {
     updateDefinition: {},
-    ...requestOptions.params
+    ...requestOptions.params,
   };
 
   if (requestOptions.updateDefinition) {

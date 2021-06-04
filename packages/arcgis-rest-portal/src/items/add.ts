@@ -10,7 +10,7 @@ import {
   IUpdateItemResponse,
   IItemResourceResponse,
   determineOwner,
-  IManageItemRelationshipOptions
+  IManageItemRelationshipOptions,
 } from "./helpers";
 import { updateItem, IUpdateItemOptions } from "./update";
 
@@ -44,9 +44,9 @@ export function addItemData(
   const options: any = {
     item: {
       id: requestOptions.id,
-      data: requestOptions.data
+      data: requestOptions.data,
     },
-    ...requestOptions
+    ...requestOptions,
   };
 
   delete options.id;
@@ -75,7 +75,7 @@ export function addItemData(
 export function addItemRelationship(
   requestOptions: IManageItemRelationshipOptions
 ): Promise<{ success: boolean }> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(
       requestOptions
     )}/content/users/${owner}/addRelationship`;
@@ -119,7 +119,7 @@ export function addItemRelationship(
 export function addItemResource(
   requestOptions: IItemResourceOptions
 ): Promise<IItemResourceResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/addResources`;
@@ -130,7 +130,7 @@ export function addItemResource(
       resourcesPrefix: requestOptions.prefix,
       text: requestOptions.content,
       access: requestOptions.private ? "private" : "inherit",
-      ...requestOptions.params
+      ...requestOptions.params,
     };
 
     return request(url, requestOptions);

@@ -54,14 +54,18 @@ export const getUserContent = (
   const suffix = folder ? `/${folder}` : "";
 
   return determineOwner(requestOptions)
-    .then((owner) => `${getPortalUrl(requestOptions)}/content/users/${owner}${suffix}`)
-    .then((url) => request(url, {
-      httpMethod: "GET",
-      authentication,
-      params: {
-        start,
-        num,
-      },
-    })
-  );
+    .then(
+      (owner) =>
+        `${getPortalUrl(requestOptions)}/content/users/${owner}${suffix}`
+    )
+    .then((url) =>
+      request(url, {
+        httpMethod: "GET",
+        authentication,
+        params: {
+          start,
+          num,
+        },
+      })
+    );
 };

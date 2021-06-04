@@ -11,8 +11,8 @@ export const UserNotificationsResponse: INotificationResult = {
       data: {
         fromUser: "adminuser",
         subject: "this is the subject",
-        message: "this is the message"
-      }
+        message: "this is the message",
+      },
     },
     {
       id: "e8c18248ee2f4eb298d443026982b59c",
@@ -22,13 +22,13 @@ export const UserNotificationsResponse: INotificationResult = {
       received: 1534788353000,
       data: {
         groupId: "0c943127d4a545e6874e4ee4e1f88fa8",
-        groupTitle: "This is Jupe's Test Event"
-      }
-    }
-  ]
+        groupTitle: "This is Jupe's Test Event",
+      },
+    },
+  ],
 };
 
 export const IDeleteSuccessResponse: any = {
   success: true,
-  notificationId: "3ef"
+  notificationId: "3ef",
 };

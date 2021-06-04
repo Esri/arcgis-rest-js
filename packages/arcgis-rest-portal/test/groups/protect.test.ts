@@ -26,11 +26,11 @@ describe("groups", () => {
         refreshTokenTTL: 1440,
         username: "casey",
         password: "123456",
-        portal: "https://myorg.maps.arcgis.com/sharing/rest"
-      })
+        portal: "https://myorg.maps.arcgis.com/sharing/rest",
+      }),
     };
 
-    it("should protect a group", done => {
+    it("should protect a group", (done) => {
       fetchMock.once("*", GroupEditResponse);
 
       protectGroup({ id: "5bc", ...MOCK_REQOPTS })
@@ -45,11 +45,11 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
-    it("should unprotect a group", done => {
+    it("should unprotect a group", (done) => {
       fetchMock.once("*", GroupEditResponse);
 
       unprotectGroup({ id: "5bc", ...MOCK_REQOPTS })
@@ -64,7 +64,7 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

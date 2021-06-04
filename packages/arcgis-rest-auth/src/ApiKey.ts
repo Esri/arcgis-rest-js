@@ -1,9 +1,7 @@
 /* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  IAuthenticationManager,
-} from "@esri/arcgis-rest-request";
+import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 
 /**
  * Options for the `ApiKey` constructor.
@@ -20,7 +18,6 @@ export interface IApiKeyOptions {
  * Used to authenticate with API Keys.
  */
 export class ApiKey implements IAuthenticationManager {
-
   /**
    * The current portal the user is authenticated with.
    */

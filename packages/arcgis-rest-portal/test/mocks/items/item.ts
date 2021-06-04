@@ -6,12 +6,12 @@ import {
   IGetRelatedItemsResponse,
   IGetItemGroupsResponse,
   IGetItemStatusResponse,
-  IGetItemPartsResponse
+  IGetItemPartsResponse,
 } from "../../../src/items/get";
 
 export const ItemSuccessResponse: any = {
   success: true,
-  id: "3efakeitemid0000"
+  id: "3efakeitemid0000",
 };
 
 export const ItemResponse: IItem = {
@@ -24,25 +24,25 @@ export const ItemResponse: IItem = {
   type: "Web Map",
   typeKeywords: ["Javascript", "hubSiteApplication"],
   properties: {
-    parentId: "3eb"
+    parentId: "3eb",
   },
   created: 123,
   modified: 456,
   size: 123,
   numViews: 1337,
-  protected: false
+  protected: false,
 };
 
 export const RelatedItemsResponse: IGetRelatedItemsResponse = {
   total: 1,
-  relatedItems: [ItemResponse]
+  relatedItems: [ItemResponse],
 };
 
 export const ItemDataResponse: any = {
   source: "3ef",
   values: {
-    key: "value"
-  }
+    key: "value",
+  },
 };
 
 export const ItemGroupResponse: IGetItemGroupsResponse = {
@@ -64,13 +64,13 @@ export const ItemGroupResponse: IGetItemGroupsResponse = {
       userMembership: {
         username: "jsmith",
         memberType: "owner",
-        applications: 1
+        applications: 1,
       },
       isFav: false,
       autoJoin: false,
       isViewOnly: false,
-      protected: false
-    }
+      protected: false,
+    },
   ],
   member: [
     {
@@ -89,13 +89,13 @@ export const ItemGroupResponse: IGetItemGroupsResponse = {
       access: "private",
       userMembership: {
         username: "jsmith",
-        memberType: "member"
+        memberType: "member",
       },
       isFav: false,
       autoJoin: false,
       isViewOnly: false,
-      protected: false
-    }
+      protected: false,
+    },
   ],
   other: [
     {
@@ -113,33 +113,33 @@ export const ItemGroupResponse: IGetItemGroupsResponse = {
       access: "public",
       userMembership: {
         username: "jsmith",
-        memberType: "none"
+        memberType: "none",
       },
       isFav: false,
       autoJoin: false,
       isViewOnly: false,
-      protected: false
-    }
-  ]
+      protected: false,
+    },
+  ],
 };
 
 export const ItemStatusResponse: IGetItemStatusResponse = {
   status: "completed",
   statusMessage: "completed",
-  itemId: "1df"
+  itemId: "1df",
 };
 
 export const ItemPartsResponse: IGetItemPartsResponse = {
-  parts: [1]
+  parts: [1],
 };
 
 // https://www.arcgis.com/sharing/rest/content/items/1ce4060e854747038b153c5c8f8c894d/info/iteminfo.xml
-export const ItemInfoResponse: string = `
+export const ItemInfoResponse = `
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><ESRI_ItemInformation Culture="en-us"><name>Sharjah_selection_WFL1</name><title>Sharjah_selection_WFL1</title><thumbnail>thumbnail/thumbnail.png</thumbnail><type>Feature Service</type><typekeywords><typekeyword>ArcGIS Server</typekeyword><typekeyword>Data</typekeyword><typekeyword>Feature Access</typekeyword><typekeyword>Feature Service</typekeyword><typekeyword>Metadata</typekeyword><typekeyword>Service</typekeyword><typekeyword>Singlelayer</typekeyword><typekeyword>Hosted Service</typekeyword></typekeywords><description/><tags><tag>Sharjah_selection</tag></tags><snippet>Sharjah_selection</snippet><extent><xmin>55.00687876313506</xmin><ymin>24.749573764658628</ymin><xmax>56.38435669830817</xmax><ymax>25.911597786107645</ymax></extent><spatialreference>102100</spatialreference><accessinformation/><licenseinfo/><url>https://services1.arcgis.com/Kq4xB498o2K1KK7t/arcgis/rest/services/Sharjah_selection_WFL1/FeatureServer</url></ESRI_ItemInformation>
 `;
 
 // https://www.arcgis.com/sharing/rest/content/items/1ce4060e854747038b153c5c8f8c894d/info/metadata/metadata.xml
-export const ItemMetadataResponse: string = `
+export const ItemMetadataResponse = `
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><metadata xml:lang="en">
     <Esri>
         <CreaDate>20200305</CreaDate>
@@ -444,12 +444,12 @@ export const ItemFormJsonResponse: any = {
   header: {
     content:
       "%3Cp%20title%3D'Community%20Survey'%3ECommunity%20Survey%3C%2Fp%3E",
-    isVisible: true
+    isVisible: true,
   },
   subHeader: {
     content:
       "%3Cp%3E%3Cspan%20style%3D%22font-size%3A%2014px%3B%22%3ESimple%20survey%20starter%20for%20ArcGIS%20Hub's%20Create%20Your%20Own%20Initiative.%20%3C%2Fspan%3E%3C%2Fp%3E%3Cp%3E%3Cbr%3E%3C%2Fp%3E%3Cp%3E%3Cbr%3E%3C%2Fp%3E%3Cp%3E%3Cspan%20style%3D%22font-size%3A%2014px%3B%22%3EIn%20edit%20mode%2C%20use%20the%20configuration%20panel%20at%20the%20right%20to%20add%20different%20kinds%20of%20questions.%20Save%20and%20publish%20your%20survey%20to%20gather%20feedback%20and%20data%20from%20your%20communities.%20%3C%2Fspan%3E%3C%2Fp%3E%3Cp%3E%3Cbr%3E%3C%2Fp%3E%3Cp%3E%3Cspan%20style%3D%22font-size%3A%2014px%3B%22%3E%3Cspan%20class%3D%22ql-cursor%22%3E%EF%BB%BF%3C%2Fspan%3E%3C%2Fspan%3E%3C%2Fp%3E",
-    isVisible: true
+    isVisible: true,
   },
   questions: [
     {
@@ -467,31 +467,31 @@ export const ItemFormJsonResponse: any = {
           {
             label: "Dog",
             value: "choice0",
-            position: 0
+            position: 0,
           },
           {
             label: "Cat",
             value: "choice1",
-            position: 1
+            position: 1,
           },
           {
             label: "Monkey",
             value: "choice2",
-            position: 2
-          }
+            position: 2,
+          },
         ],
         other: {
           isEnabled: true,
           label: "Other",
           value: "other",
           fieldName: "field_0_other",
-          name: "field_0_other"
-        }
+          name: "field_0_other",
+        },
       },
       appearance: {
-        layout: "compact"
-      }
-    }
+        layout: "compact",
+      },
+    },
   ],
   rules: [],
   version: "2.5",
@@ -500,19 +500,19 @@ export const ItemFormJsonResponse: any = {
     style: {
       header: {
         backgroundColor: "#31872e",
-        color: "#ffffff"
+        color: "#ffffff",
       },
       subHeader: {},
-      footer: {}
-    }
+      footer: {},
+    },
   },
   footer: {
     content:
       "%3Ca%20href%3D'https%3A%2F%2Fsurvey123.arcgis.com'%20target%3D'_blank'%3EPowered%20by%20Survey123%20for%20ArcGIS%3C%2Fa%3E",
-    isVisible: true
+    isVisible: true,
   },
   submit: {
-    buttonText: "Submit"
+    buttonText: "Submit",
   },
   settings: {
     showQuestionNumber: true,
@@ -520,7 +520,7 @@ export const ItemFormJsonResponse: any = {
     thankYouScreenContent: "Great! Your data was sent successfully. Thanks.",
     recordStartEndTime: {
       isEnabled: false,
-      fieldInfos: []
-    }
-  }
+      fieldInfos: [],
+    },
+  },
 };

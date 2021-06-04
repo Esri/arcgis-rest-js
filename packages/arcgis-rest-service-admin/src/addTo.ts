@@ -55,7 +55,7 @@ export function addToServiceDefinition(
 
   requestOptions.params = {
     addToDefinition: {},
-    ...requestOptions.params
+    ...requestOptions.params,
   };
 
   if (requestOptions.layers && requestOptions.layers.length > 0) {

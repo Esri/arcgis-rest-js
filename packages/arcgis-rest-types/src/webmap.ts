@@ -7,7 +7,7 @@ import {
   GeometryType,
   IHasZM,
   IGeometry,
-  IPoint
+  IPoint,
 } from "./geometry";
 
 import { IFeature, IFeatureSet } from "./feature";
@@ -16,7 +16,7 @@ import {
   ISimpleLineSymbol,
   IPictureMarkerSymbol,
   ISimpleFillSymbol,
-  Color
+  Color,
 } from "./symbol";
 
 /**
@@ -894,7 +894,7 @@ export interface IDrawingInfo {
 
 export interface IEditingInfo {
   /** date of last edit to the layer  */
-  lastEditDate?: number
+  lastEditDate?: number;
 }
 
 /**

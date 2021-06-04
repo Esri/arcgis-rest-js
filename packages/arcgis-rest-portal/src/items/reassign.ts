@@ -38,7 +38,7 @@ interface IReassignItemResponse {
 export function reassignItem(
   reassignOptions: IReassignItemOptions
 ): Promise<IReassignItemResponse> {
-  return isOrgAdmin(reassignOptions).then(isAdmin => {
+  return isOrgAdmin(reassignOptions).then((isAdmin) => {
     if (!isAdmin) {
       throw Error(
         `Item ${reassignOptions.id} can not be reassigned because current user is not an organization administrator.`
@@ -52,9 +52,9 @@ export function reassignItem(
     const opts = {
       params: {
         targetUsername: reassignOptions.targetUsername,
-        targetFolderName: reassignOptions.targetFolderName
+        targetFolderName: reassignOptions.targetFolderName,
       },
-      authentication: reassignOptions.authentication
+      authentication: reassignOptions.authentication,
     };
     return request(url, opts);
   });

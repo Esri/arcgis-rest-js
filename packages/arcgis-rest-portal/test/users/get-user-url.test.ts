@@ -8,7 +8,7 @@ import { getUserUrl } from "../../src/users/get-user-url";
 describe("getUserUrl", () => {
   it("should encode special characters", () => {
     const session = new UserSession({
-      username: "c@sey"
+      username: "c@sey",
     });
 
     expect(getUserUrl(session)).toEqual(
@@ -19,7 +19,7 @@ describe("getUserUrl", () => {
   it("should recognize an explicit ArcGIS Online organization", () => {
     const session = new UserSession({
       username: "c@sey",
-      portal: "https://custom.maps.arcgis.com/sharing/rest"
+      portal: "https://custom.maps.arcgis.com/sharing/rest",
     });
 
     expect(getUserUrl(session)).toEqual(
@@ -30,7 +30,7 @@ describe("getUserUrl", () => {
   it("should recognize ArcGIS Enterprise", () => {
     const session = new UserSession({
       username: "c@sey",
-      portal: "https://gis.city.gov/sharing/rest"
+      portal: "https://gis.city.gov/sharing/rest",
     });
 
     expect(getUserUrl(session)).toEqual(

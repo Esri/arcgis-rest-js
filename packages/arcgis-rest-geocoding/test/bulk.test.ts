@@ -9,33 +9,33 @@ import * as fetchMock from "fetch-mock";
 const addresses = [
   {
     OBJECTID: 1,
-    SingleLine: "380 New York St. Redlands 92373"
+    SingleLine: "380 New York St. Redlands 92373",
   },
   {
     OBJECTID: 2,
-    SingleLine: "1 World Way Los Angeles 90045"
+    SingleLine: "1 World Way Los Angeles 90045",
   },
   {
     OBJECTID: 3,
-    SingleLine: "foo bar baz"
-  }
+    SingleLine: "foo bar baz",
+  },
 ];
 
 describe("geocode", () => {
   afterEach(fetchMock.restore);
 
-  it("should make a bulk geocoding request, even with an unmatchable record", done => {
+  it("should make a bulk geocoding request, even with an unmatchable record", (done) => {
     fetchMock.once("*", GeocodeAddresses);
 
     const MOCK_AUTH = {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com"
+      portal: "https://mapsdev.arcgis.com",
     };
 
     bulkGeocode({ addresses, authentication: MOCK_AUTH })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -61,12 +61,12 @@ describe("geocode", () => {
         expect(response.locations[2].score).toEqual(0);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should throw an error when a bulk geocoding request is made without a token", done => {
+  it("should throw an error when a bulk geocoding request is made without a token", (done) => {
     fetchMock.once("*", GeocodeAddresses);
 
     bulkGeocode({ addresses })
@@ -79,13 +79,13 @@ describe("geocode", () => {
       });
   });
 
-  it("should send a bulk geocoding request to a custom url without a token", done => {
+  it("should send a bulk geocoding request to a custom url without a token", (done) => {
     fetchMock.once("*", GeocodeAddresses);
 
     bulkGeocode({
       addresses,
       endpoint:
-        "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/"
+        "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/",
     })
       // eslint-disable-next-line
       .then(response => {
@@ -116,7 +116,7 @@ describe("geocode", () => {
       });
   });
 
-  it("should send a bulk geocoding request with params correctly", done => {
+  it("should send a bulk geocoding request with params correctly", (done) => {
     fetchMock.once("*", GeocodeAddresses);
 
     bulkGeocode({
@@ -125,8 +125,8 @@ describe("geocode", () => {
         "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/",
       params: {
         outSR: 4326,
-        forStorage: true
-      }
+        forStorage: true,
+      },
     })
       // eslint-disable-next-line
       .then(response => {
@@ -159,14 +159,14 @@ describe("geocode", () => {
       });
   });
 
-  it("should support rawResponse", done => {
+  it("should support rawResponse", (done) => {
     fetchMock.once("*", GeocodeAddresses);
 
     const MOCK_AUTH = {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com"
+      portal: "https://mapsdev.arcgis.com",
     };
 
     bulkGeocode({ addresses, authentication: MOCK_AUTH, rawResponse: true })
@@ -187,7 +187,7 @@ describe("geocode", () => {
         // this used to work with isomorphic-fetch
         // expect(response instanceof Response).toBe(true);
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

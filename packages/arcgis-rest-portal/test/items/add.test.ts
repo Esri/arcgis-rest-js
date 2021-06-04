@@ -8,7 +8,7 @@ import { attachmentFile } from "../../../arcgis-rest-feature-layer/test/attachme
 import {
   addItemData,
   addItemResource,
-  addItemRelationship
+  addItemRelationship,
 } from "../../src/items/add";
 
 import { ItemSuccessResponse } from "../mocks/items/item";
@@ -32,28 +32,28 @@ describe("search", () => {
       refreshTokenTTL: 1440,
       username: "casey",
       password: "123456",
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     });
 
     const MOCK_USER_REQOPTS = {
-      authentication: MOCK_USER_SESSION
+      authentication: MOCK_USER_SESSION,
     };
 
-    it("should add data to an item", done => {
+    it("should add data to an item", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeData = {
         values: {
-          key: "someValue"
-        }
+          key: "someValue",
+        },
       };
       // addItemData("3ef", "dbouwman", fakeData, MOCK_REQOPTS)
       addItemData({
         id: "3ef",
         owner: "dbouwman",
         data: fakeData,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -69,25 +69,25 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add data to an item, no owner passed", done => {
+    it("should add data to an item, no owner passed", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeData = {
         values: {
-          key: "someValue"
-        }
+          key: "someValue",
+        },
       };
       // addItemData("3ef", "dbouwman", fakeData, MOCK_REQOPTS)
       addItemData({
         id: "3ef",
         data: fakeData,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -103,17 +103,17 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add data to an item, extra parameters", done => {
+    it("should add data to an item, extra parameters", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeData = {
         values: {
-          key: "someValue"
-        }
+          key: "someValue",
+        },
       };
       // addItemData("3ef", "dbouwman", fakeData, MOCK_REQOPTS)
       addItemData({
@@ -121,8 +121,8 @@ describe("search", () => {
         data: fakeData,
         ...MOCK_USER_REQOPTS,
         params: {
-          relationshipType: "WMA2Code"
-        }
+          relationshipType: "WMA2Code",
+        },
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -140,14 +140,14 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add binary item data by id", done => {
+    it("should add binary item data by id", (done) => {
       fetchMock.once("*", {
-        success: true
+        success: true,
       });
 
       const file = attachmentFile();
@@ -157,7 +157,7 @@ describe("search", () => {
         id: "3ef",
         // File() is only available in the browser
         data: file,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -177,19 +177,19 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add a relationship to an item", done => {
+    it("should add a relationship to an item", (done) => {
       fetchMock.once("*", { success: true });
 
       addItemRelationship({
         originItemId: "3ef",
         destinationItemId: "ae7",
         relationshipType: "Area2CustomPackage",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -206,14 +206,14 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add a binary resource to an item", done => {
+    it("should add a binary resource to an item", (done) => {
       fetchMock.once("*", {
-        success: true
+        success: true,
       });
 
       const file = attachmentFile();
@@ -224,7 +224,7 @@ describe("search", () => {
         resource: file,
         name: "thebigkahuna",
         prefix: "myfiles",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -246,14 +246,14 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add a binary resource to a secret item", done => {
+    it("should add a binary resource to a secret item", (done) => {
       fetchMock.once("*", {
-        success: true
+        success: true,
       });
 
       const file = attachmentFile();
@@ -264,7 +264,7 @@ describe("search", () => {
         resource: file,
         name: "thebigkahuna",
         private: true,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -285,21 +285,21 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add a text resource", done => {
+    it("should add a text resource", (done) => {
       fetchMock.once("*", {
-        success: true
+        success: true,
       });
 
       addItemResource({
         id: "3ef",
         content: "Text content",
         name: "thebigkahuna.txt",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -315,7 +315,7 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

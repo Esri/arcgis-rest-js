@@ -10,7 +10,7 @@ import {
   IUpdateItemResponse,
   ICreateUpdateItemOptions,
   serializeItem,
-  determineOwner
+  determineOwner,
 } from "./helpers";
 
 export interface ICreateFolderOptions extends ICreateUpdateItemOptions {
@@ -46,13 +46,13 @@ export interface ICreateItemResponse extends IUpdateItemResponse {
 export function createFolder(
   requestOptions: ICreateFolderOptions
 ): Promise<IAddFolderResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
     const url = `${baseUrl}/createFolder`;
 
     requestOptions.params = {
       title: requestOptions.title,
-      ...requestOptions.params
+      ...requestOptions.params,
     };
 
     return request(url, requestOptions);
@@ -85,7 +85,7 @@ export function createItemInFolder(
     );
   }
 
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
     let url = `${baseUrl}/addItem`;
 
@@ -95,7 +95,7 @@ export function createItemInFolder(
 
     requestOptions.params = {
       ...requestOptions.params,
-      ...serializeItem(requestOptions.item)
+      ...serializeItem(requestOptions.item),
     };
 
     // serialize the item into something Portal will accept
@@ -110,10 +110,10 @@ export function createItemInFolder(
         "async",
         "multipart",
         "filename",
-        "overwrite"
+        "overwrite",
       ],
       {
-        params: { ...requestOptions.params }
+        params: { ...requestOptions.params },
       }
     );
 
@@ -144,7 +144,7 @@ export function createItem(
   // delegate to createItemInFolder placing in the root of the filestore
   const options = {
     folderId: null,
-    ...requestOptions
+    ...requestOptions,
   } as ICreateItemOptions;
   return createItemInFolder(options);
 }

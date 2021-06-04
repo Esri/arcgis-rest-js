@@ -16,7 +16,7 @@ export const AnonUserResponse: IUser = {
   thumbnail: "myProfile.jpg",
   created: 1258501046000,
   modified: 1290625562000,
-  provider: "arcgis"
+  provider: "arcgis",
 };
 
 export const GroupMemberUserResponse: IUser = {
@@ -44,7 +44,7 @@ export const GroupMemberUserResponse: IUser = {
     "portal:user:createItem",
     "portal:user:joinGroup",
     "portal:user:shareToGroup",
-    "portal:user:shareToOrg"
+    "portal:user:shareToOrg",
   ],
   roleId: "RDnHQBSBbsJuIkUp",
   level: "2",
@@ -67,15 +67,15 @@ export const GroupMemberUserResponse: IUser = {
       userMembership: {
         username: "jsmith",
         memberType: "member",
-        applications: 0
+        applications: 0,
       },
       protected: false,
       isViewOnly: false,
       isFav: false,
       isOpenData: true,
-      autoJoin: false
-    }
-  ]
+      autoJoin: false,
+    },
+  ],
 };
 
 export const GroupNonMemberUserResponse: IUser = {
@@ -98,15 +98,15 @@ export const GroupNonMemberUserResponse: IUser = {
       userMembership: {
         username: "jsmith",
         memberType: "none",
-        applications: 0
+        applications: 0,
       },
       protected: false,
       isViewOnly: false,
       isFav: false,
       isOpenData: true,
-      autoJoin: false
-    }
-  ]
+      autoJoin: false,
+    },
+  ],
 };
 
 export const GroupAdminUserResponse: IUser = {
@@ -129,15 +129,15 @@ export const GroupAdminUserResponse: IUser = {
       userMembership: {
         username: "jsmith",
         memberType: "admin",
-        applications: 0
+        applications: 0,
       },
       protected: false,
       isViewOnly: false,
       isFav: false,
       isOpenData: true,
-      autoJoin: false
-    }
-  ]
+      autoJoin: false,
+    },
+  ],
 };
 
 export const OrgAdminUserResponse: IUser = {
@@ -162,13 +162,13 @@ export const OrgAdminUserResponse: IUser = {
       userMembership: {
         username: "jsmith",
         memberType: "owner",
-        applications: 0
+        applications: 0,
       },
       protected: false,
       isViewOnly: false,
       isFav: false,
       isOpenData: true,
-      autoJoin: false
-    }
-  ]
+      autoJoin: false,
+    },
+  ],
 };

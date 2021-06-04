@@ -7,5 +7,5 @@ export {
   ISpatialReference,
   ILayer,
   ILayerDefinition,
-  ITable
+  ITable,
 } from "@esri/arcgis-rest-types";

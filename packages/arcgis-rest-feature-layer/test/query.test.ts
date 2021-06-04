@@ -6,7 +6,7 @@ import {
   queryFeatures,
   queryRelated,
   IQueryFeaturesOptions,
-  IQueryRelatedOptions
+  IQueryRelatedOptions,
 } from "../src/index";
 
 import * as fetchMock from "fetch-mock";
@@ -14,7 +14,7 @@ import * as fetchMock from "fetch-mock";
 import {
   featureResponse,
   queryResponse,
-  queryRelatedResponse
+  queryRelatedResponse,
 } from "./mocks/feature";
 
 const serviceUrl =
@@ -23,14 +23,14 @@ const serviceUrl =
 describe("getFeature() and queryFeatures()", () => {
   afterEach(fetchMock.restore);
 
-  it("should return a feature by id", done => {
+  it("should return a feature by id", (done) => {
     const requestOptions = {
       url: serviceUrl,
-      id: 42
+      id: 42,
     };
     fetchMock.once("*", featureResponse);
     getFeature(requestOptions)
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/42?f=json`);
@@ -38,16 +38,16 @@ describe("getFeature() and queryFeatures()", () => {
         expect(response.attributes.FID).toEqual(42);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("return rawResponse when getting a feature", done => {
+  it("return rawResponse when getting a feature", (done) => {
     const requestOptions = {
       url: serviceUrl,
       id: 42,
-      rawResponse: true
+      rawResponse: true,
     };
     fetchMock.once("*", featureResponse);
     getFeature(requestOptions)
@@ -66,14 +66,14 @@ describe("getFeature() and queryFeatures()", () => {
         // this used to work with isomorphic-fetch
         // expect(response instanceof Response).toBe(true);
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should supply default query parameters", done => {
+  it("should supply default query parameters", (done) => {
     const requestOptions: IQueryFeaturesOptions = {
-      url: serviceUrl
+      url: serviceUrl,
     };
     fetchMock.once("*", queryResponse);
     queryFeatures(requestOptions)
@@ -86,19 +86,19 @@ describe("getFeature() and queryFeatures()", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should use passed in query parameters", done => {
+  it("should use passed in query parameters", (done) => {
     const requestOptions: IQueryFeaturesOptions = {
       url: serviceUrl,
       where: "Condition='Poor'",
       outFields: ["FID", "Tree_ID", "Cmn_Name", "Condition"],
       orderByFields: "test",
       geometry: {},
-      geometryType: "esriGeometryPolygon"
+      geometryType: "esriGeometryPolygon",
     };
     fetchMock.once("*", queryResponse);
     queryFeatures(requestOptions)
@@ -112,14 +112,14 @@ describe("getFeature() and queryFeatures()", () => {
         // expect(response.attributes.FID).toEqual(42);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should supply default query related parameters", done => {
+  it("should supply default query related parameters", (done) => {
     const requestOptions: IQueryRelatedOptions = {
-      url: serviceUrl
+      url: serviceUrl,
     };
     fetchMock.once("*", queryRelatedResponse);
     queryRelated(requestOptions)
@@ -132,18 +132,18 @@ describe("getFeature() and queryFeatures()", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should use passed in query related parameters", done => {
+  it("should use passed in query related parameters", (done) => {
     const requestOptions: IQueryRelatedOptions = {
       url: serviceUrl,
       relationshipId: 1,
       definitionExpression: "APPROXACRE<10000",
       outFields: ["APPROXACRE", "FIELD_NAME"],
-      httpMethod: "POST"
+      httpMethod: "POST",
     };
     fetchMock.once("*", queryRelatedResponse);
     queryRelated(requestOptions)
@@ -160,7 +160,7 @@ describe("getFeature() and queryFeatures()", () => {
         expect(options.body).toContain("outFields=APPROXACRE%2CFIELD_NAME");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

@@ -244,9 +244,8 @@ describe("request()", () => {
     } as IRequestOptions;
 
     return request(PLATFORM_SELF_URL, ro).then((response) => {
-      const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-        PLATFORM_SELF_URL
-      );
+      const [url, options]: [string, RequestInit] =
+        fetchMock.lastCall(PLATFORM_SELF_URL);
       expect(url).toEqual(PLATFORM_SELF_URL);
       const headers = options.headers || ({} as any);
       expect(headers["X-Esri-Auth-Redirect-Uri"]).toBe(
@@ -350,7 +349,7 @@ describe("request()", () => {
       },
     };
 
-    const MockFetch = function() {
+    const MockFetch = function () {
       return Promise.resolve(MockFetchResponse);
     };
 
@@ -529,7 +528,7 @@ describe("request()", () => {
         },
       };
 
-      const MockFetch = function() {
+      const MockFetch = function () {
         return Promise.resolve(MockFetchResponse);
       };
 

@@ -7,7 +7,7 @@ import {
   deleteFeatures,
   applyEdits,
   IDeleteFeaturesOptions,
-  IUpdateFeaturesOptions
+  IUpdateFeaturesOptions,
 } from "../src/index";
 
 import * as fetchMock from "fetch-mock";
@@ -16,7 +16,7 @@ import {
   addFeaturesResponse,
   updateFeaturesResponse,
   deleteFeaturesResponse,
-  applyEditsResponse
+  applyEditsResponse,
 } from "./mocks/feature";
 
 const serviceUrl =
@@ -25,7 +25,7 @@ const serviceUrl =
 describe("feature", () => {
   afterEach(fetchMock.restore);
 
-  it("should return objectId of the added feature and a truthy success", done => {
+  it("should return objectId of the added feature and a truthy success", (done) => {
     const requestOptions = {
       url: serviceUrl,
       features: [
@@ -35,20 +35,20 @@ describe("feature", () => {
             y: 4247151.205222242,
             spatialReference: {
               wkid: 102100,
-              latestWkid: 3857
-            }
+              latestWkid: 3857,
+            },
           },
           attributes: {
             Tree_ID: 102,
             Collected: 1349395200000,
-            Crew: "Linden+ Forrest+ Johnny"
-          }
-        }
-      ]
+            Crew: "Linden+ Forrest+ Johnny",
+          },
+        },
+      ],
     };
     fetchMock.once("*", addFeaturesResponse);
     addFeatures(requestOptions)
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/addFeatures`);
@@ -63,12 +63,12 @@ describe("feature", () => {
         expect(response.addResults[0].success).toEqual(true);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return objectId of the updated feature and a truthy success", done => {
+  it("should return objectId of the updated feature and a truthy success", (done) => {
     const requestOptions = {
       url: serviceUrl,
       features: [
@@ -76,16 +76,16 @@ describe("feature", () => {
           attributes: {
             OBJECTID: 1001,
             Street: "NO",
-            Native: "YES"
-          }
-        }
+            Native: "YES",
+          },
+        },
       ],
       rollbackOnFailure: false,
-      trueCurveClient: false
+      trueCurveClient: false,
     } as IUpdateFeaturesOptions;
     fetchMock.once("*", updateFeaturesResponse);
     updateFeatures(requestOptions)
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/updateFeatures`);
@@ -101,20 +101,20 @@ describe("feature", () => {
         expect(response.updateResults[0].success).toEqual(true);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return objectId of the deleted feature and a truthy success", done => {
+  it("should return objectId of the deleted feature and a truthy success", (done) => {
     const requestOptions = {
       url: serviceUrl,
       objectIds: [1001],
-      where: "1=1"
+      where: "1=1",
     } as IDeleteFeaturesOptions;
     fetchMock.once("*", deleteFeaturesResponse);
     deleteFeatures(requestOptions)
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/deleteFeatures`);
@@ -127,12 +127,12 @@ describe("feature", () => {
         expect(response.deleteResults[0].success).toEqual(true);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return objectId of the added, updated or deleted feature(s) and a truthy success", done => {
+  it("should return objectId of the added, updated or deleted feature(s) and a truthy success", (done) => {
     const requestOptions = {
       url: serviceUrl,
       adds: [
@@ -142,29 +142,29 @@ describe("feature", () => {
             y: 4247151.205222242,
             spatialReference: {
               wkid: 102100,
-              latestWkid: 3857
-            }
+              latestWkid: 3857,
+            },
           },
           attributes: {
             Tree_ID: 102,
             Collected: 1349395200000,
-            Crew: "Linden+ Forrest+ Johnny"
-          }
-        }
+            Crew: "Linden+ Forrest+ Johnny",
+          },
+        },
       ],
       updates: [
         {
           attributes: {
             OBJECTID: 1001,
-            Crew: "Tom+ Patrick+ Dave"
-          }
-        }
+            Crew: "Tom+ Patrick+ Dave",
+          },
+        },
       ],
-      deletes: [455]
+      deletes: [455],
     };
     fetchMock.once("*", applyEditsResponse);
     applyEdits(requestOptions)
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/applyEdits`);
@@ -190,7 +190,7 @@ describe("feature", () => {
         expect(response.deleteResults[0].success).toEqual(true);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

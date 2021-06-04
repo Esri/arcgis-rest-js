@@ -5,8 +5,8 @@ export const SharingRestInfo = {
   owningSystemUrl: "http://www.arcgis.com",
   authInfo: {
     tokenServicesUrl: "https://www.arcgis.com/sharing/rest/generateToken",
-    isTokenBasedSecurity: true
-  }
+    isTokenBasedSecurity: true,
+  },
 };
 
 export const SharingRestInfoHTML = `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">

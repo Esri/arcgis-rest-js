@@ -6,7 +6,7 @@ import { encodeParam } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import * as fetchMock from "fetch-mock";
 
-const TOMORROW = (function() {
+const TOMORROW = (function () {
   const now = new Date();
   now.setDate(now.getDate() + 1);
   return now;
@@ -20,18 +20,18 @@ describe("updateUser", () => {
     password: "123456",
     token: "fake-token",
     tokenExpires: TOMORROW,
-    portal: "https://myorg.maps.arcgis.com/sharing/rest"
+    portal: "https://myorg.maps.arcgis.com/sharing/rest",
   });
 
-  it("should make an authenticated request to update the same user profile.", done => {
+  it("should make an authenticated request to update the same user profile.", (done) => {
     fetchMock.once("*", {
       success: true,
-      username: "c@sey"
+      username: "c@sey",
     } as IUpdateUserResponse);
 
     updateUser({
       authentication: session,
-      user: { description: "destroyer of worlds" }
+      user: { description: "destroyer of worlds" },
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
@@ -47,21 +47,21 @@ describe("updateUser", () => {
         );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make an authenticated request to update the same user profile and mixin custom params.", done => {
+  it("should make an authenticated request to update the same user profile and mixin custom params.", (done) => {
     fetchMock.once("*", {
       success: true,
-      username: "c@sey"
+      username: "c@sey",
     } as IUpdateUserResponse);
 
     updateUser({
       authentication: session,
       user: { description: "destroyer of worlds" },
-      params: { foo: "bar" }
+      params: { foo: "bar" },
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
@@ -78,20 +78,20 @@ describe("updateUser", () => {
         );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make an org administrator authenticated request to update a different user.", done => {
+  it("should make an org administrator authenticated request to update a different user.", (done) => {
     fetchMock.once("*", {
       success: true,
-      username: "jsmith"
+      username: "jsmith",
     } as IUpdateUserResponse);
 
     updateUser({
       authentication: session,
-      user: { username: "jsmith", description: "something different" }
+      user: { username: "jsmith", description: "something different" },
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
@@ -107,30 +107,30 @@ describe("updateUser", () => {
         );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should throw an error when the authenticated user doesnt have permission to update the user profile in question.", done => {
+  it("should throw an error when the authenticated user doesnt have permission to update the user profile in question.", (done) => {
     fetchMock.once("*", {
       error: {
         code: 403,
         messageCode: "GWM_0003",
         message:
           "You do not have permissions to access this resource or perform this operation.",
-        details: []
-      }
+        details: [],
+      },
     });
 
     updateUser({
       authentication: session,
-      user: { username: "fake", description: "real" }
+      user: { username: "fake", description: "real" },
     })
       .then(() => {
         fail();
       })
-      .catch(e => {
+      .catch((e) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(

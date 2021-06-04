@@ -13,10 +13,10 @@ const layerUrl =
 describe("getServer()", () => {
   afterEach(fetchMock.restore);
 
-  it("should fetch feature service metadata", done => {
+  it("should fetch feature service metadata", (done) => {
     fetchMock.once("*", getFeatureServerResponse);
     getService({ url: layerUrl })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(layerUrl);
@@ -24,7 +24,7 @@ describe("getServer()", () => {
         expect(response).toEqual(getFeatureServerResponse);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

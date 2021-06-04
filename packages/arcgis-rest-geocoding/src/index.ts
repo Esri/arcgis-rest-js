@@ -11,5 +11,5 @@ export {
   IPoint,
   ILocation,
   IExtent,
-  ISpatialReference
+  ISpatialReference,
 } from "@esri/arcgis-rest-types";

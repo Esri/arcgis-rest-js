@@ -3,19 +3,19 @@
 
 import {
   getUserNotifications,
-  removeNotification
+  removeNotification,
 } from "../../src/users/notification";
 
 import {
   UserNotificationsResponse,
-  IDeleteSuccessResponse
+  IDeleteSuccessResponse,
 } from "../mocks/users/notification";
 
 import { encodeParam } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import * as fetchMock from "fetch-mock";
 
-const TOMORROW = (function() {
+const TOMORROW = (function () {
   const now = new Date();
   now.setDate(now.getDate() + 1);
   return now;
@@ -30,14 +30,14 @@ describe("users", () => {
       password: "123456",
       token: "fake-token",
       tokenExpires: TOMORROW,
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     });
 
-    it("should make an authenticated request for user notifications", done => {
+    it("should make an authenticated request for user notifications", (done) => {
       fetchMock.once("*", UserNotificationsResponse);
 
       getUserNotifications({ authentication: session })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -47,16 +47,16 @@ describe("users", () => {
           expect(response.notifications.length).toEqual(2);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should remove a notification", done => {
+    it("should remove a notification", (done) => {
       fetchMock.once("*", IDeleteSuccessResponse);
 
       removeNotification({ id: "3ef", ...{ authentication: session } })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -69,7 +69,7 @@ describe("users", () => {
           expect(response.notificationId).toBe("3ef");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
