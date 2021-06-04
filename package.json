@@ -225,7 +225,9 @@
     },
     "ignorePatterns": [
       "package.json",
-      "package-lock.json"
+      "package-lock.json",
+      "packages/**/dist/**",
+      "packages/**/node_modules/**"
     ],
     "rules": {
       "no-console": 0,
