@@ -2,6 +2,7 @@
  * Apache-2.0 */
 
 import * as fetchMock from "fetch-mock";
+import * as fs from "fs";
 
 import {
   getAttachments,
@@ -26,7 +27,6 @@ export function attachmentFile() {
   if (typeof File !== "undefined" && File) {
     return new File(["foo"], "foo.txt", { type: "text/plain" });
   } else {
-    const fs = require("fs");
     return fs.createReadStream(
       "./packages/arcgis-rest-feature-layer/test/mocks/foo.txt"
     );

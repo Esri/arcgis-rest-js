@@ -24,7 +24,6 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
     | SearchQueryBuilder,
   searchType: "item" | "group" | "groupContent" | "user"
 ): Promise<ISearchResult<T>> {
-  let url: string;
   let options: IRequestOptions;
   if (typeof search === "string" || search instanceof SearchQueryBuilder) {
     options = {
@@ -71,7 +70,7 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
       path = "/portals/self/users/search";
       break;
   }
-  url = getPortalUrl(options) + path;
+  const url = getPortalUrl(options) + path;
 
   // send the request
   return request(url, options).then((r) => {

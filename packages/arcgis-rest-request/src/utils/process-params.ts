@@ -66,6 +66,7 @@ export function processParams(params: any): any {
     }
 
     const type = param.constructor.name;
+    const firstElementType = param[0]?.constructor?.name;
 
     let value: any;
 
@@ -77,7 +78,6 @@ export function processParams(params: any): any {
       case "Array":
         // Based on the first element of the array, classify array as an array of arrays, an array of objects
         // to be stringified, or an array of non-objects to be comma-separated
-        const firstElementType = param[0]?.constructor?.name;
         value =
           firstElementType === "Array"
             ? param // pass thru array of arrays

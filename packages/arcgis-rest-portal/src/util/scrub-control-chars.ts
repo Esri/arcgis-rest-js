@@ -1,4 +1,4 @@
-const CONTROL_CHAR_MATCHER = /[\x00-\x1F\x7F-\x9F\xA0]/g;
+const CONTROL_CHAR_MATCHER = /[\x00-\x1F\x7F-\x9F\xA0]/g; // eslint-disable-line no-control-regex
 
 /**
  * Returns a new string with all control characters removed.

@@ -638,7 +638,7 @@ describe("solveRoute", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        fetchMock.lastCall("*");
         expect(Object.keys(response.routes)).toContain("geoJson");
         done();
       })
@@ -666,7 +666,7 @@ describe("solveRoute", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        fetchMock.lastCall("*");
         expect(Object.keys(response.routes)).not.toContain("geoJson");
         done();
       })
