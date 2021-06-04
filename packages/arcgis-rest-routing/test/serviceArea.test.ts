@@ -14,13 +14,7 @@ import {
 
 import { ServiceArea, ServiceAreaWebMercator } from "./mocks/responses";
 
-import {
-  IPoint,
-  ILocation,
-  IFeatureSet,
-  IPolyline,
-  IPolygon,
-} from "@esri/arcgis-rest-types";
+import { IPoint, ILocation, IFeatureSet } from "@esri/arcgis-rest-types";
 
 const facilities: Array<[number, number]> = [
   [-118.3417932, 34.00451385],
