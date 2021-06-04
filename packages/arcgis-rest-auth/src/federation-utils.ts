@@ -14,7 +14,7 @@ const arcgisOnlinePortalRegex =
  * Used to test if a URL is an ArcGIS Online Organization Portal
  */
 const arcgisOnlineOrgPortalRegex =
-  /^https?:\/\/(?:[a-z0-9-]+\.maps(dev|devext|qa|qaext)?)?.\arcgis\.com\/sharing\/rest/;
+  /^https?:\/\/(?:[a-z0-9-]+\.maps(dev|devext|qa|qaext)?)?.arcgis\.com\/sharing\/rest/;
 
 export function isOnline(url: string): boolean {
   return arcgisOnlineUrlRegex.test(url);

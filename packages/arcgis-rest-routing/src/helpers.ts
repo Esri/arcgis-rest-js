@@ -74,7 +74,7 @@ export function decompressGeometry(str: string) {
   let coefficient;
 
   // Split the string into an array on the + and - characters
-  strings = str.match(/((\+|\-)[^\+\-]+)/g);
+  const strings = str.match(/((\+|-)[^+-]+)/g);
 
   // The first value is the coefficient in base 32
   coefficient = parseInt(strings[0], 32);
