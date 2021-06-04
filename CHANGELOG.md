@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.1.0] - June 3rd 2021
+
+### Fixed
+
+- **@esri/arcgis-rest-portal** removeItemResource: support correct parameters [`96798fe`](https://github.com/Esri/arcgis-rest-js/commit/96798fe01a890514eacd268ef8e2f429fda1be4a)
+- **@esri/arcgis-rest-auth** Fix UserSession token duration for oauth [`3f43679`](https://github.com/Esri/arcgis-rest-js/commit/3f436794220e43f0ee6780b167cfb8766537a584)
+- **@esri/arcgis-rest-auth** UserSession: switch "duration" to "expiration" in IOAuth2Options [`392f5bb`](https://github.com/Esri/arcgis-rest-js/commit/392f5bb74b2461e7bd34dd16e784fce415d554ec)
+
+### Added
+
+- **@esri/arcgis-rest-auth**, **@esri/arcgis-rest-request** Add support for sending all credentials to trusted domains [`e59e499`](https://github.com/Esri/arcgis-rest-js/commit/e59e49968ae9bc88c76035e81aaffc9c971080f1)
+
 ## [3.0.5] - 2021-04-20
 
 ### Fixed
@@ -40,9 +52,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [3.0.0] - 2021-01-25
 
-### Changed
+## Added
 
-- Update to support the [upcoming product launch](https://www.esri.com/en-us/lg/events/esri-launch-event). Full release notes will be made available after the event.
+- **@esri/arcgis-rest-auth** added `ApiKey` class. Used to authenticate with API Keys.
+- **@esri/arcgis-rest-demographics** created new Demographics package with new functions:
+  - `getAvailableCountries`
+  - `getAvailableDataCollections`
+  - `getAvailableGeographyLevels`
+  - `getGeography`
+  - `queryDemographicData`
+- **@esri/arcgis-rest-routing** added new functions:
+   - `closestFacility`
+   - `serviceArea`
+   - `originDestinationMatrix`
+- **@esri/arcgis-rest-routing** added `geoJson` property to `solveRoute()` response (`routes` property).
+- **@esri/arcgis-rest-geocoding** added `geoJson` property to `geocode()` response.
+
+## Changed
+- (Breaking change) **@esri/arcgis-rest-geocoding** updated default ArcGIS World Geocoder URL [`613837d`](https://github.com/Esri/arcgis-rest-js/commits/613837ddaa0638f826aa75d11c00ee1007cb6e72)
+- **@esri/arcgis-rest-routing** `solveRoute()` transforms compressed geometry into a standard geometry
 
 ## [2.25.0] - January 11th 2021
 
@@ -64,7 +92,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### @esri/arcgis-rest-request
 
 - New Features
-  - **request** sets `fetch.credentials: &amp;#39;include&amp;#39;` when specific headers are set. This is intended to support the `platformSelf` call which needs to send cookies, even when cross-domain.
+  - **request** sets `fetch.credentials: &amp;amp;#39;include&amp;amp;#39;` when specific headers are set. This is intended to support the `platformSelf` call which needs to send cookies, even when cross-domain.
 
 ### @esri/arcgis-rest-auth
 
@@ -805,7 +833,11 @@ This new package contains the methods previously found in `@esri/arcgis-rest-ite
 
 ## 1.15.1 - Deprecated
 
+
+
 ## 1.15.0 - Deprecated
+
+
 
 ## [1.14.4] - January 11th 2019
 
@@ -1891,4 +1923,11 @@ Initial Public Release
 [2.23.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.22.0...v2.23.0 "v2.23.0"
 [2.24.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.23.0...v2.24.0 "v2.24.0"
 [2.25.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.24.0...v2.25.0 "v2.25.0"
-[head]: https://github.com/Esri/arcgis-rest-js/compare/v2.25.0...HEAD "Unreleased Changes"
+[3.0.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.25.0...v3.0.0 "v3.0.0"
+[3.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v3.0.0...v3.0.1 "v3.0.1"
+[3.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v3.0.1...v3.0.2 "v3.0.2"
+[3.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v3.0.2...v3.0.3 "v3.0.3"
+[3.0.4]: https://github.com/Esri/arcgis-rest-js/compare/v3.0.3...v3.0.4 "v3.0.4"
+[3.0.5]: https://github.com/Esri/arcgis-rest-js/compare/v3.0.4...v3.0.5 "v3.0.5"
+[3.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v3.0.5...v3.1.0 "v3.1.0"
+[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v3.1.0...HEAD "Unreleased Changes"
