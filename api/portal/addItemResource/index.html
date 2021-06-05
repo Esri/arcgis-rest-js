@@ -2025,27 +2025,28 @@
 
 
 
-  <pre><code class="js"><span class="hljs-keyword">import</span> { addItemResource } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-portal"</span>;</code></pre>
-
-
-  
-    <p>// Add a file resource
+  <pre><code class="js"><span class="hljs-keyword">import</span> { addItemResource } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-portal"</span>;
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">// Add a file resource</span>
 addItemResource({
-id: '3ef',
-resource: file,
-name: 'bigkahuna.jpg',
-authentication
+  <span class="hljs-attr">id</span>: <span class="hljs-string">'3ef'</span>,
+  <span class="hljs-attr">resource</span>: file,
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'bigkahuna.jpg'</span>,
+  authentication
 })
-.then(response)</p>
-<p>// Add a text resource
+  .then(response)
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">// Add a text resource</span>
 addItemResource({
-id: '4fg',
-content: &quot;Text content&quot;,
-name: 'bigkahuna.txt',
-authentication
+  <span class="hljs-attr">id</span>: <span class="hljs-string">'4fg'</span>,
+  <span class="hljs-attr">content</span>: <span class="hljs-string">"Text content"</span>,
+  <span class="hljs-attr">name</span>: <span class="hljs-string">'bigkahuna.txt'</span>,
+  authentication
 })
-.then(response)</p>
-<pre><code>Add a resource associated with an item. See the [<span class="hljs-string">REST Documentation</span>](<span class="hljs-link">https://developers.arcgis.com/rest/users-groups-and-items/add-resources.htm</span>) for more information.</code></pre>
+  .then(response)
+</code></pre>
+<p>Add a resource associated with an item. See the <a href="https://developers.arcgis.com/rest/users-groups-and-items/add-resources.htm">REST Documentation</a> for more information.</p>
+
 
   
 
