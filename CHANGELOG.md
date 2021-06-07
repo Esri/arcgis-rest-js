@@ -5,7 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [3.1.1] - June 7th 2021
+## [3.1.1](https://github.com/Esri/arcgis-rest-js/compare/v3.0.5...v3.1.1) - June 7th 2021
+
+### Fixed
+
+- **@esri/arcgis-rest-portal** removeItemResource: support correct parameters [`96798fe`](https://github.com/Esri/arcgis-rest-js/commit/96798fe01a890514eacd268ef8e2f429fda1be4a)
+- **@esri/arcgis-rest-auth** Fix UserSession token duration for oauth [`3f43679`](https://github.com/Esri/arcgis-rest-js/commit/3f436794220e43f0ee6780b167cfb8766537a584)
+- **@esri/arcgis-rest-auth** UserSession: switch "duration" to "expiration" in IOAuth2Options [`392f5bb`](https://github.com/Esri/arcgis-rest-js/commit/392f5bb74b2461e7bd34dd16e784fce415d554ec)
 
 ### Changed
 
@@ -13,14 +19,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - `addItemResource` format docs
 
 - **arcgis-rest-auth** ensure postMessage sends credential with server url _without_ `/sharing/rest` as expected by jsapi. The `.fromCredential` code already accounts for this so no changes were required.
-
-## [3.1.0] - June 3rd 2021
-
-### Fixed
-
-- **@esri/arcgis-rest-portal** removeItemResource: support correct parameters [`96798fe`](https://github.com/Esri/arcgis-rest-js/commit/96798fe01a890514eacd268ef8e2f429fda1be4a)
-- **@esri/arcgis-rest-auth** Fix UserSession token duration for oauth [`3f43679`](https://github.com/Esri/arcgis-rest-js/commit/3f436794220e43f0ee6780b167cfb8766537a584)
-- **@esri/arcgis-rest-auth** UserSession: switch "duration" to "expiration" in IOAuth2Options [`392f5bb`](https://github.com/Esri/arcgis-rest-js/commit/392f5bb74b2461e7bd34dd16e784fce415d554ec)
 
 ### Added
 
