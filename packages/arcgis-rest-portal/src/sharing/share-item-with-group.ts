@@ -36,6 +36,8 @@ interface IEnsureMembershipResult {
  * [group admin](https://developers.arcgis.com/rest/users-groups-and-items/share-item-as-group-admin-.htm) or
  * organization admin.
  *
+ * Note: Sharing the item as an Admin will use the `/content/users/:ownername/items/:itemid/share` end-point
+ *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the data from the response.
  */
