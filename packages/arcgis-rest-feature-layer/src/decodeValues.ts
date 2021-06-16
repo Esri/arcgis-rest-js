@@ -62,7 +62,8 @@ export function decodeValues(
 ): Promise<IQueryFeaturesResponse> {
   return new Promise(resolve => {
     if (!requestOptions.fields) {
-      return getLayer({ url: requestOptions.url }).then(
+      // tslint:disable-next-line:no-floating-promises
+      getLayer({ url: requestOptions.url }).then(
         (metadata: ILayerDefinition) => {
           resolve((requestOptions.fields = metadata.fields));
         }
