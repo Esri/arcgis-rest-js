@@ -187,8 +187,7 @@ module.exports = {
     "no-cond-assign": "error",
     "no-console": "off",
     "no-constant-condition": "error",
-    "no-control-regex": "off",//??? added
-    //"no-control-regex": "error",
+    "no-control-regex": "error",
     "no-debugger": "error",
     "no-duplicate-imports": "error",
     "no-empty": "error",

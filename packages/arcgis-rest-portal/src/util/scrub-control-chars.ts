@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-control-regex
 const CONTROL_CHAR_MATCHER = /[\x00-\x1F\x7F-\x9F\xA0]/g;
 
 /**
