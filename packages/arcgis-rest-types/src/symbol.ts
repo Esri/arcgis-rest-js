@@ -42,14 +42,6 @@ export interface ISymbol {
 /**
  *
  */
-export interface ISymbol {
-  type: SymbolType;
-  style?: string;
-}
-
-/**
- *
- */
 export interface IMarkerSymbol extends ISymbol {
   angle?: number;
   xoffset?: number;

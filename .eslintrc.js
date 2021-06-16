@@ -200,7 +200,7 @@ module.exports = {
     "no-multiple-empty-lines": "off",
     "no-new-wrappers": "error",
     "no-prototype-builtins": "off",
-    //"no-redeclare": "error",
+    "no-redeclare": "error",
     "no-regex-spaces": "error",
     "no-return-await": "error",
     "no-shadow": "off",
