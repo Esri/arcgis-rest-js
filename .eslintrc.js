@@ -195,7 +195,6 @@ module.exports = {
     "no-eval": "error",
     "no-extra-semi": "off",
     "no-fallthrough": "error",
-    "no-global-assign": "off",//??? added
     "no-invalid-regexp": "error",
     "no-invalid-this": "off",
     "no-irregular-whitespace": "off",
@@ -219,8 +218,6 @@ module.exports = {
       "never"
     ],
     "prefer-arrow/prefer-arrow-functions": "off",
-    "prefer-const": "off",//??? added
-    //"prefer-const": "error",
     "quote-props": "off",
     "radix": "error",
     "space-before-function-paren": "off",
