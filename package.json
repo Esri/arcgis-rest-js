@@ -82,6 +82,7 @@
     "tsv": "tsc -v",
     "build": "lerna run build",
     "clean": "rm -rf packages/*/dist/ && rm -rf packages/*/.rpt2_cache",
+    "clean:src": "rm -rf packages/*/{src,test}/*.{d.ts,js,js.map} && rm -rf packages/*/{src,test}/**/*.{d.ts,js,js.map} && rm -rf packages/*/test/mocks/**/*.{d.ts,js,js.map}",
     "test": "npm run lint && npm run test:node && npm run test:chrome",
     "test:chrome:debug": "karma start --auto-watch --no-single-run --browsers=Chrome",
     "test:chrome": "karma start --single-run --browsers=Chrome",

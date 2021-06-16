@@ -85,3 +85,14 @@ test.js
 
 #
 demos/test/*
+
+# Temporary build products
+packages/**/src/**/*.d.ts
+packages/**/src/**/*.js
+packages/**/src/**/*.map
+packages/**/test/**/*.d.ts
+packages/**/test/**/*.js
+packages/**/test/**/*.map
+packages/**/test/mocks/**/*.d.ts
+packages/**/test/mocks/**/*.js
+packages/**/test/mocks/**/*.map

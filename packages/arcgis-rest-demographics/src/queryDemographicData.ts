@@ -6,7 +6,6 @@ import {
   cleanUrl,
   appendCustomParams
 } from "@esri/arcgis-rest-request";
-import { IFeatureSet } from "@esri/arcgis-rest-types";
 
 import { ARCGIS_ONLINE_GEOENRICHMENT_URL, IGeoenrichmentResult, IEndpointOptions } from "./helpers";
 

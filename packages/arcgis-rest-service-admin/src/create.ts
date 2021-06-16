@@ -5,7 +5,6 @@ import { request } from "@esri/arcgis-rest-request";
 import { IExtent, ISpatialReference } from "@esri/arcgis-rest-types";
 
 import {
-  moveItem,
   ICreateUpdateItemOptions,
   determineOwner,
   getPortalUrl

@@ -10,7 +10,6 @@ import {
 import {
   ILocation,
   IPoint,
-  IFeature,
   IFeatureSet,
 } from "@esri/arcgis-rest-types";
 

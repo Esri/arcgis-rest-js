@@ -1025,6 +1025,7 @@ export class UserSession implements IAuthenticationManager {
     const [root] = cleanUrl(url).split(
       /\/rest(\/admin)?\/services(?:\/|#|\?|$)/
     );
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [match, protocol, domainAndPath] = root.match(/(https?:\/\/)(.+)/);
     const [domain, ...path] = domainAndPath.split("/");
 

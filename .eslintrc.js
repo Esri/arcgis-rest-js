@@ -11,7 +11,7 @@ module.exports = {
     "prettier",
     "prettier/@typescript-eslint"
   ],
-  "ignorePatterns": ["*.d.ts"],
+  "ignorePatterns": ["*.d.ts", "**/test"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "tsconfig.json",
@@ -110,7 +110,6 @@ module.exports = {
         "allowShortCircuit": true
       }
     ],*/
-    "@typescript-eslint/no-unused-vars": "off",//???
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/prefer-for-of": "error",

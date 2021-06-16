@@ -1,8 +1,7 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { IAuthenticatedRequestOptions } from "@esri/arcgis-rest-auth";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
-import { IPagingParams, IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-types";
 import { SearchQueryBuilder } from "../util/SearchQueryBuilder";
 import { ISearchOptions, ISearchResult } from "../util/search";
 import { genericSearch } from "../util/generic-search";

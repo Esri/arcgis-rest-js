@@ -5,7 +5,6 @@ import { request, cleanUrl } from "@esri/arcgis-rest-request";
 
 import {
   ILocation,
-  ISpatialReference,
   IPoint,
   IFeature,
   IFeatureSet,

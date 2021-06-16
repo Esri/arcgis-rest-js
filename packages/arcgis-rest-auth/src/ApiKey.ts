@@ -35,6 +35,7 @@ export class ApiKey implements IAuthenticationManager {
   /**
    * Gets a token (the API Key).
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public getToken(url: string) {
     return Promise.resolve(this.key);
   }
