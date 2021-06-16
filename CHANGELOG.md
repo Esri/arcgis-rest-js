@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+### Unrealased
+
+## [3.1.2](https://github.com/Esri/arcgis-rest-js/compare/v3.1.1...v3.1.2) - June 16th 2021
+
+### Changed
+
+- **arcgis-rest-portal** `shareItemToGroup`: when an org_admin shares an item they do not own, we now correctly use the `/content/users/:ownername/items/:itemid/share` route, and not `/content/items/:itemid/share` route. The backing API changed w/ the 9.2 release so admins can't share other users items via `/content/items/:itemid/share`. This has been validated to work on PROD as well as internal staging for 9.2. [`e8ab1bc`](https://github.com/Esri/arcgis-rest-js/commit/e8ab1bc3ad4498e5c1ac19fc0f1c24013de0a8df)
+
 ## [3.1.1](https://github.com/Esri/arcgis-rest-js/compare/v3.0.5...v3.1.1) - June 7th 2021
 
 ### Fixed
@@ -16,6 +24,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Changed
 
 - Docs
+
   - `addItemResource` format docs
 
 - **arcgis-rest-auth** ensure postMessage sends credential with server url _without_ `/sharing/rest` as expected by jsapi. The `.fromCredential` code already accounts for this so no changes were required.
@@ -69,13 +78,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - `getGeography`
   - `queryDemographicData`
 - **@esri/arcgis-rest-routing** added new functions:
-   - `closestFacility`
-   - `serviceArea`
-   - `originDestinationMatrix`
+  - `closestFacility`
+  - `serviceArea`
+  - `originDestinationMatrix`
 - **@esri/arcgis-rest-routing** added `geoJson` property to `solveRoute()` response (`routes` property).
 - **@esri/arcgis-rest-geocoding** added `geoJson` property to `geocode()` response.
 
 ## Changed
+
 - (Breaking change) **@esri/arcgis-rest-geocoding** updated default ArcGIS World Geocoder URL [`613837d`](https://github.com/Esri/arcgis-rest-js/commits/613837ddaa0638f826aa75d11c00ee1007cb6e72)
 - **@esri/arcgis-rest-routing** `solveRoute()` transforms compressed geometry into a standard geometry
 
@@ -840,11 +850,7 @@ This new package contains the methods previously found in `@esri/arcgis-rest-ite
 
 ## 1.15.1 - Deprecated
 
-
-
 ## 1.15.0 - Deprecated
-
-
 
 ## [1.14.4] - January 11th 2019
 
@@ -1937,4 +1943,4 @@ Initial Public Release
 [3.0.4]: https://github.com/Esri/arcgis-rest-js/compare/v3.0.3...v3.0.4 "v3.0.4"
 [3.0.5]: https://github.com/Esri/arcgis-rest-js/compare/v3.0.4...v3.0.5 "v3.0.5"
 [3.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v3.0.5...v3.1.0 "v3.1.0"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v3.1.0...HEAD "Unreleased Changes"
+[head]: https://github.com/Esri/arcgis-rest-js/compare/v3.1.0...HEAD "Unreleased Changes"
