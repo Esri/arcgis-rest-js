@@ -25,7 +25,7 @@ module.exports = {
   ],
   "rules": {
     "@typescript-eslint/adjacent-overload-signatures": "error",
-    "@typescript-eslint/array-type": "off",//???
+    "@typescript-eslint/array-type": "off",//??? added
     /*"@typescript-eslint/array-type": [
       "error",
       {
@@ -33,7 +33,7 @@ module.exports = {
       }
     ],*/
     "@typescript-eslint/await-thenable": "error",
-    "@typescript-eslint/ban-types": "off",//???
+    "@typescript-eslint/ban-types": "off",//??? added
     /*"@typescript-eslint/ban-types": [
       "error",
       {
@@ -88,12 +88,12 @@ module.exports = {
     "@typescript-eslint/no-empty-function": "off",
     "@typescript-eslint/no-empty-interface": "error",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-floating-promises": "off",//???
+    "@typescript-eslint/no-floating-promises": "off",//??? added
     //"@typescript-eslint/no-floating-promises": "error",
-    "@typescript-eslint/no-implied-eval": "off",//???
+    "@typescript-eslint/no-implied-eval": "off",//??? added
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/no-misused-new": "error",
-    "@typescript-eslint/no-misused-promises": "off",//???
+    "@typescript-eslint/no-misused-promises": "off",//??? added
     "@typescript-eslint/no-namespace": "error",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-parameter-properties": "off",
@@ -132,7 +132,6 @@ module.exports = {
       }
     ],
     "@typescript-eslint/type-annotation-spacing": "off",
-    "@typescript-eslint/unbound-method": "off",//???
     "@typescript-eslint/unified-signatures": "error",
     "arrow-body-style": "off",
     "arrow-parens": [
@@ -188,7 +187,7 @@ module.exports = {
     "no-cond-assign": "error",
     "no-console": "off",
     "no-constant-condition": "error",
-    "no-control-regex": "off",//???
+    "no-control-regex": "off",//??? added
     //"no-control-regex": "error",
     "no-debugger": "error",
     "no-duplicate-imports": "error",
@@ -196,7 +195,7 @@ module.exports = {
     "no-eval": "error",
     "no-extra-semi": "off",
     "no-fallthrough": "error",
-    "no-global-assign": "off",//???
+    "no-global-assign": "off",//??? added
     "no-invalid-regexp": "error",
     "no-invalid-this": "off",
     "no-irregular-whitespace": "off",
@@ -213,7 +212,6 @@ module.exports = {
     "no-underscore-dangle": "off",
     "no-unsafe-finally": "error",
     "no-unused-labels": "error",
-    "no-useless-escape": "off",//???
     "no-var": "error",
     "object-shorthand": "off",
     "one-var": [
@@ -221,7 +219,7 @@ module.exports = {
       "never"
     ],
     "prefer-arrow/prefer-arrow-functions": "off",
-    "prefer-const": "off",//???
+    "prefer-const": "off",//??? added
     //"prefer-const": "error",
     "quote-props": "off",
     "radix": "error",
