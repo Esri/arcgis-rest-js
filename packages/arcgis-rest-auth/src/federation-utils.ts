@@ -12,8 +12,7 @@ const arcgisOnlinePortalRegex = /^https?:\/\/(dev|devext|qa|qaext|www)\.arcgis\.
 /**
  * Used to test if a URL is an ArcGIS Online Organization Portal
  */
-// eslint-disable-next-line no-useless-escape
-const arcgisOnlineOrgPortalRegex = /^https?:\/\/(?:[a-z0-9-]+\.maps(dev|devext|qa|qaext)?)?.\arcgis\.com\/sharing\/rest/;
+const arcgisOnlineOrgPortalRegex = /^https?:\/\/(?:[a-z0-9-]+\.maps(dev|devext|qa|qaext)?)?.arcgis\.com\/sharing\/rest/;
 
 export function isOnline(url: string): boolean {
   return arcgisOnlineUrlRegex.test(url);
