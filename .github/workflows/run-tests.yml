@@ -1,11 +1,11 @@
-name: build-test
-
-# on: [push, pull_request]
+name: run-tests
 
 # Only run on non-draft PRs, and when PRs are synched
 on:
   pull_request:
     types: [ready_for_review, synchronize]
+    # If the PR has other files, a push w/ just .md or /docs
+    # files will still cause tests to run
     paths-ignore:
       - "**.md"
       - "docs/**"
@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
         node: [12, 14]
 
     steps:
