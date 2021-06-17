@@ -6,10 +6,10 @@ name: build-test
 on:
   pull_request:
     types: [ready_for_review, synchronize]
-  # Don't run if it's just markdown files or doc updates
-  paths-ignore:
-    - "**.md"
-    - "docs/**"
+      # Don't run if it's just markdown files or doc updates
+      paths-ignore:
+        - "**.md"
+        - "docs/**"
 jobs:
   build:
     runs-on: ${{ matrix.os }}
