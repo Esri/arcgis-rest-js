@@ -29,7 +29,8 @@ export interface IRequestOptions {
    */
   hideToken?: boolean;
   /**
-   * Base url for the portal you want to make the request to. Defaults to 'https://www.arcgis.com/sharing/rest'.
+   * Base url for the portal you want to make the request to. Defaults to authentication.portal if authentication
+   * exists, otherwise to 'https://www.arcgis.com/sharing/rest'.
    */
   portal?: string;
   /**
