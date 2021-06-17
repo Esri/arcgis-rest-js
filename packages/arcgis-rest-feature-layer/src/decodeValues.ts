@@ -72,7 +72,7 @@ export function decodeValues(
   }
   return prms.then((fields) => {
     // extract coded value domains
-    const domains = extractCodedValueDomains(fields as IField[]);
+    const domains = extractCodedValueDomains(fields);
     if (Object.keys(domains).length < 1) {
       // no values to decode
       return requestOptions.queryResponse;
