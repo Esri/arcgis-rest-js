@@ -195,7 +195,7 @@ function getMembershipAdjustments(
 
 function shareToGroup(
   requestOptions: IGroupSharingOptions,
-  isAdmin: boolean = false
+  isAdmin = false
 ): Promise<ISharingResponse> {
   const username = requestOptions.authentication.username;
   const itemOwner = requestOptions.owner || username;

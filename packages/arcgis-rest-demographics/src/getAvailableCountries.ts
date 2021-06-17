@@ -86,7 +86,7 @@ export function getAvailableCountries(
   requestOptions?: IGetAvailableCountriesOptions
 ): Promise<IGetAvailableCountriesResponse> {
   let options: IEndpointOptions = {};
-  let endpoint: string = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/countries`;
+  let endpoint = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/countries`;
   if (!requestOptions) {
     options.params = {};
   } else {
