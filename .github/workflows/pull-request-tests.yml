@@ -1,0 +1,47 @@
+name: PR Tests
+
+# Only run on non-draft PRs, and when PRs are synched
+on:
+  pull_request:
+    types: [ready_for_review, synchronize]
+    # If the PR has other files, a push w/ just .md or /docs
+    # files will still cause tests to run
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [14]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test in Node
+        run: npm run test:node
+
+      - name: Test in Chrome
+        run: npm run test:chrome:ci
+
+      - name: Test in Firefox
+        run: npm run test:firefox:ci
+
+      - uses: codecov/codecov-action@v1
+        with:
+          directory: ./coverage
