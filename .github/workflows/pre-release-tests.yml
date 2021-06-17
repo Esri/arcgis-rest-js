@@ -1,7 +1,14 @@
-name: build-test
+name: Pre-Release Tests
 
-on: [push, pull_request]
-
+# Only run on non-draft PRs, and when PRs are synched
+on:
+  push:
+    branches:
+      - master
+    # Dont run if it's just markdown or doc files
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
 jobs:
   build:
     runs-on: ${{ matrix.os }}

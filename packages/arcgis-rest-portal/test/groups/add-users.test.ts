@@ -3,7 +3,7 @@
 
 import {
   addGroupUsers,
-  IAddGroupUsersOptions
+  IAddGroupUsersOptions,
 } from "../../src/groups/add-users";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { encodeParam } from "@esri/arcgis-rest-request";
@@ -31,17 +31,17 @@ describe("add-users", () => {
     refreshTokenTTL: 1440,
     username: "casey",
     password: "123456",
-    portal: "https://myorg.maps.arcgis.com/sharing/rest"
+    portal: "https://myorg.maps.arcgis.com/sharing/rest",
   });
 
   afterEach(fetchMock.restore);
 
-  it("should send multiple requests for a long user array", done => {
+  it("should send multiple requests for a long user array", (done) => {
     const requests = [createUsernames(0, 25), createUsernames(25, 35)];
 
     const responses = [
       { notAdded: ["username1"] },
-      { notAdded: ["username30"] }
+      { notAdded: ["username30"] },
     ];
 
     fetchMock.post("*", (url, options) => {
@@ -61,26 +61,26 @@ describe("add-users", () => {
     const params = {
       id: "group-id",
       users: createUsernames(0, 35),
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
     addGroupUsers(params)
-      .then(result => {
+      .then((result) => {
         expect(requests.length).toEqual(0);
         expect(responses.length).toEqual(0);
         expect(result.notAdded).toEqual(["username1", "username30"]);
         expect(result.errors).toBeUndefined();
         done();
       })
-      .catch(error => fail(error));
+      .catch((error) => fail(error));
   });
 
-  it("should send multiple requests for a long admin array", done => {
+  it("should send multiple requests for a long admin array", (done) => {
     const requests = [createUsernames(0, 25), createUsernames(25, 35)];
 
     const responses = [
       { notAdded: ["username1"] },
-      { notAdded: ["username30"] }
+      { notAdded: ["username30"] },
     ];
 
     fetchMock.post("*", (url, options) => {
@@ -100,24 +100,24 @@ describe("add-users", () => {
     const params = {
       id: "group-id",
       admins: createUsernames(0, 35),
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
     addGroupUsers(params)
-      .then(result => {
+      .then((result) => {
         expect(requests.length).toEqual(0);
         expect(responses.length).toEqual(0);
         expect(result.notAdded).toEqual(["username1", "username30"]);
         expect(result.errors).toBeUndefined();
         done();
       })
-      .catch(error => fail(error));
+      .catch((error) => fail(error));
   });
 
-  it("should send separate requests for users and admins", done => {
+  it("should send separate requests for users and admins", (done) => {
     const requests = [
       encodeParam("users", ["username1", "username2"]),
-      encodeParam("admins", ["username3"])
+      encodeParam("admins", ["username3"]),
     ];
 
     fetchMock.post("*", (url, options) => {
@@ -136,37 +136,37 @@ describe("add-users", () => {
       id: "group-id",
       users: ["username1", "username2"],
       admins: ["username3"],
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
     addGroupUsers(params)
-      .then(result => {
+      .then((result) => {
         expect(requests.length).toEqual(0);
         expect(result.notAdded).toEqual([]);
         expect(result.errors).toBeUndefined();
         done();
       })
-      .catch(error => fail(error));
+      .catch((error) => fail(error));
   });
 
-  it("should return request failure", done => {
+  it("should return request failure", (done) => {
     const responses = [
       { notAdded: ["username2"] },
       {
         error: {
           code: 400,
           messageCode: "ORG_3100",
-          message: "error message for add-user request"
-        }
+          message: "error message for add-user request",
+        },
       },
       { notAdded: ["username30"] },
       {
         error: {
           code: 400,
           messageCode: "ORG_3200",
-          message: "error message for add-admin request"
-        }
-      }
+          message: "error message for add-admin request",
+        },
+      },
     ];
 
     fetchMock.post("*", () => responses.shift());
@@ -175,11 +175,11 @@ describe("add-users", () => {
       id: "group-id",
       users: createUsernames(0, 30),
       admins: createUsernames(30, 60),
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
 
     addGroupUsers(params)
-      .then(result => {
+      .then((result) => {
         expect(responses.length).toEqual(0);
 
         const expectedNotAdded = ["username2", "username30"];
@@ -215,25 +215,25 @@ describe("add-users", () => {
 
         done();
       })
-      .catch(error => fail(error));
+      .catch((error) => fail(error));
   });
 
-  it("should not send any request for zero-length username array", done => {
+  it("should not send any request for zero-length username array", (done) => {
     const params: IAddGroupUsersOptions = {
       id: "group-id",
       users: [],
       admins: [],
-      authentication: MOCK_AUTH
+      authentication: MOCK_AUTH,
     };
-
+    fetchMock.post("*", () => 200);
     addGroupUsers(params)
-      .then(result => {
+      .then((result) => {
         expect(fetchMock.called()).toEqual(false);
         expect(result.notAdded).toEqual([]);
         expect(result.errors).toBeUndefined();
 
         done();
       })
-      .catch(error => fail(error));
+      .catch((error) => fail(error));
   });
 });
