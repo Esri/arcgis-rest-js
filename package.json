@@ -105,7 +105,6 @@
     "docs:dev:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/arcgis-rest-js -w",
     "docs:srihash": "node docs/generate-srihashes.js",
     "lint": "eslint ./packages --ext .ts",
-    "lint:fix": "tslint --project tsconfig.json --fix",
     "prettify": "prettier --write --parser typescript --tab-width 2 --use-tabs false \"packages/**/+(src|test)/**/*.ts\"",
     "precommit": "lint-staged",
     "postinstall": "npm run bootstrap",
