@@ -91,7 +91,7 @@ const md = new MarkdownIt();
        * quote marks and add `.ts` back to the end of the `name`,
        */
       return children.map(child => {
-        child.name = child.name.replace(/\"/g, "") + ".ts";
+        child.name = child.name.replace(/"/g, "") + ".ts";
         return child;
       });
     })
@@ -349,7 +349,7 @@ const md = new MarkdownIt();
             } else {
               return 0;
             }
-            return 0;
+            // return 0;
           });
         }
 
@@ -370,7 +370,7 @@ const md = new MarkdownIt();
                 } else {
                   return 0;
                 }
-                return 0;
+                // return 0;
               });
             }
           });
@@ -410,7 +410,7 @@ const md = new MarkdownIt();
 })();
 
 function rankChild(child) {
-  const { isPrivate, isPublic, isOptional, isStatic } = child
+  const { isPrivate, isOptional, isStatic } = child
     ? child.flags
     : {};
 
