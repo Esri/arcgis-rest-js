@@ -1,12 +1,12 @@
 /* Copyright (c) 2018-2021 Environmental Systems Research Institute, Inc.
-* Apache-2.0 */
+ * Apache-2.0 */
 
 import { IParamBuilder, warn } from "@esri/arcgis-rest-request";
 
 /**
- * `SearchQueryBuilder` can be used to construct the `q` param for 
- * [`searchItems`](/arcgis-rest-js/api/portal/searchItems#searchItems-search) or 
- * [`searchGroups`](/arcgis-rest-js/api/portal/searchGroups#searchGroups-search). 
+ * `SearchQueryBuilder` can be used to construct the `q` param for
+ * [`searchItems`](/arcgis-rest-js/api/portal/searchItems#searchItems-search) or
+ * [`searchGroups`](/arcgis-rest-js/api/portal/searchGroups#searchGroups-search).
  * By chaining methods, it helps build complex search queries.
  *
  * ```js
@@ -82,7 +82,7 @@ export class SearchQueryBuilder implements IParamBuilder {
 
     if (!this.hasRange && !this.hasTerms) {
       warn(
-        // apparently-p-rettier-ignore causes some 
+        // apparently-p-rettier-ignore causes some
         `${fn} was called with no call to \`match(...)\` or \`from(...)\`/\`to(...)\`. Your query was not modified.`
       );
       return this;
@@ -286,7 +286,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   private addModifier(modifier: string) {
     if (this.currentModifer) {
       warn(
-        // apparently-p-rettier-ignore causes some 
+        // apparently-p*rettier-ignore causes prettier to strip *all* comments O_o
         `You have called \`${this.currentModifer}()\` after \`${modifier}()\`. Your current query was not modified.`
       );
       return this;
@@ -334,7 +334,7 @@ export class SearchQueryBuilder implements IParamBuilder {
 
     if (this.hasTerms) {
       this.q += this.termStack
-        .map(term => {
+        .map((term) => {
           return this.formatTerm(term);
         })
         .join(" ");
@@ -356,7 +356,7 @@ export class SearchQueryBuilder implements IParamBuilder {
     // end a group if we have started one
     if (this.openGroups > 0) {
       warn(
-        // apparently-p-rettier-ignore causes some 
+        // apparently-p*rettier-ignore causes prettier to strip *all* comments O_o
         `Automatically closing ${this.openGroups} group(s). You can use \`endGroup(...)\` to remove this warning.`
       );
 
