@@ -149,7 +149,7 @@ export function checkForErrors(
   // error from a status check
   if (response.status === "failed" || response.status === "failure") {
     let message: string;
-    let code: string = "UNKNOWN_ERROR_CODE";
+    let code = "UNKNOWN_ERROR_CODE";
 
     try {
       message = JSON.parse(response.statusMessage).message;

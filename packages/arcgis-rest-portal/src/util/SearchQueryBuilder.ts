@@ -1,6 +1,13 @@
+/* Copyright (c) 2018-2021 Environmental Systems Research Institute, Inc.
+* Apache-2.0 */
+
 import { IParamBuilder, warn } from "@esri/arcgis-rest-request";
+
 /**
- * `SearchQueryBuilder` can be used to construct the `q` param for [`searchItems`](/arcgis-rest-js/api/portal/searchItems#searchItems-search) or [`searchGroups`](/arcgis-rest-js/api/portal/searchGroups#searchGroups-search). By chaining methods, it helps build complex search queries.
+ * `SearchQueryBuilder` can be used to construct the `q` param for 
+ * [`searchItems`](/arcgis-rest-js/api/portal/searchItems#searchItems-search) or 
+ * [`searchGroups`](/arcgis-rest-js/api/portal/searchGroups#searchGroups-search). 
+ * By chaining methods, it helps build complex search queries.
  *
  * ```js
  * const query = new SearchQueryBuilder()
@@ -40,7 +47,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   /**
    * @param q An existing query string to start building from.
    */
-  constructor(q: string = "") {
+  constructor(q = "") {
     this.q = q;
   }
 

@@ -65,7 +65,7 @@ export function getAvailableGeographyLevels(
   requestOptions?: IEndpointOptions
 ): Promise<IGetAvailableGeographyLevelsResponse> {
   let options: IEndpointOptions = {};
-  let endpoint: string = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/StandardGeographyLevels`;
+  let endpoint = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/StandardGeographyLevels`;
 
   if (!requestOptions) {
     options.params = {};

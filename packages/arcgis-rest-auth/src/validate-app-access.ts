@@ -53,7 +53,7 @@ export interface IAppAccess {
 export function validateAppAccess(
   token: string,
   clientId: string,
-  portal: string = "https://www.arcgis.com/sharing/rest"
+  portal = "https://www.arcgis.com/sharing/rest"
 ): Promise<IAppAccess> {
   const url = `${portal}/oauth2/validateAppAccess`;
   const ro = {
