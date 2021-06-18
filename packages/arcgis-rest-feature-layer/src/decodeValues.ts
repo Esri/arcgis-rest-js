@@ -84,7 +84,8 @@ export function decodeValues(
         const decodedAttributes: { [index: string]: any } = {};
         for (const key in feature.attributes) {
           /* istanbul ignore next */
-          if (!feature.attributes.hasOwnProperty(key)) continue;
+          if (!Object.prototype.hasOwnProperty.call(feature.attributes, key))
+            continue;
           const value = feature.attributes[key];
           const domain = domains[key];
           decodedAttributes[key] =

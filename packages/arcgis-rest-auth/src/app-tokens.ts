@@ -25,7 +25,7 @@ import { IRequestOptions, request } from "@esri/arcgis-rest-request";
 export function exchangeToken(
   token: string,
   clientId: string,
-  portal: string = "https://www.arcgis.com/sharing/rest"
+  portal = "https://www.arcgis.com/sharing/rest"
 ): Promise<string> {
   const url = `${portal}/oauth2/exchangeToken`;
   const ro = {
@@ -110,7 +110,7 @@ export interface IPlatformSelfResponse {
 export function platformSelf(
   clientId: string,
   redirectUri: string,
-  portal: string = "https://www.arcgis.com/sharing/rest"
+  portal = "https://www.arcgis.com/sharing/rest"
 ): Promise<IPlatformSelfResponse> {
   // TEMPORARY: the f=json should not be needed, but currently is
   const url = `${portal}/oauth2/platformSelf?f=json`;

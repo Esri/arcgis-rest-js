@@ -101,7 +101,7 @@ export interface IGetGeographyResponse {
 export function getGeography(
   requestOptions?: IGetGeographyOptions
 ): Promise<IGetGeographyResponse> {
-  const endpoint: string = `${requestOptions.endpoint || ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL}/execute`;
+  const endpoint = `${requestOptions.endpoint || ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL}/execute`;
 
   const options = appendCustomParams<IGetGeographyOptions>(
     requestOptions,
