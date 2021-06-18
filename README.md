@@ -1,13 +1,10 @@
 [![npm version][npm-img]][npm-url]
-[![build status][travis-img]][travis-url]
 [![gzip bundle size][gzip-image]][npm-url]
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache 2.0 licensed][license-img]][license-url]
 
 [npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-request.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-request
-[travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
 [gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-request/dist/umd/request.umd.min.js?compression=gzip
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
