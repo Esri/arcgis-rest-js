@@ -1,8 +1,6 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-// TODO: Move to service-admin package in rest-js
-
 import { request } from "@esri/arcgis-rest-request";
 import { UserSession } from "@esri/arcgis-rest-auth";
 import { IServiceInfo } from "@esri/arcgis-rest-types";
