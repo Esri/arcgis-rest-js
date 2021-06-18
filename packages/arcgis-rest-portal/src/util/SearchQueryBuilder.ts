@@ -82,7 +82,7 @@ export class SearchQueryBuilder implements IParamBuilder {
 
     if (!this.hasRange && !this.hasTerms) {
       warn(
-        // prettier-ignore
+        // apparently-p-rettier-ignore causes some 
         `${fn} was called with no call to \`match(...)\` or \`from(...)\`/\`to(...)\`. Your query was not modified.`
       );
       return this;
@@ -215,7 +215,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   public from(this: SearchQueryBuilder, term: number | string | Date) {
     if (this.hasTerms) {
       warn(
-        // prettier-ignore
+        // apparently-p*rettier-ignore causes prettier to strip *all* comments O_o
         `\`from(...)\` is not allowed after \`match(...)\` try using \`.from(...).to(...).in(...)\`. Your query was not modified.`
       );
       return this;
@@ -237,7 +237,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   public to(this: SearchQueryBuilder, term: any) {
     if (this.hasTerms) {
       warn(
-        // prettier-ignore
+        // apparently-p*rettier-ignore causes prettier to strip *all* comments O_o
         `\`to(...)\` is not allowed after \`match(...)\` try using \`.from(...).to(...).in(...)\`. Your query was not modified.`
       );
       return this;
@@ -286,7 +286,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   private addModifier(modifier: string) {
     if (this.currentModifer) {
       warn(
-        // prettier-ignore
+        // apparently-p-rettier-ignore causes some 
         `You have called \`${this.currentModifer}()\` after \`${modifier}()\`. Your current query was not modified.`
       );
       return this;
@@ -356,7 +356,7 @@ export class SearchQueryBuilder implements IParamBuilder {
     // end a group if we have started one
     if (this.openGroups > 0) {
       warn(
-        // prettier-ignore
+        // apparently-p-rettier-ignore causes some 
         `Automatically closing ${this.openGroups} group(s). You can use \`endGroup(...)\` to remove this warning.`
       );
 
