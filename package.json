@@ -76,6 +76,7 @@
   "scripts": {
     "tsv": "tsc -v",
     "build": "lerna run build",
+    "build:esm": "lerna run build:esm",
     "clean": "rm -rf packages/*/dist/ && rm -rf packages/*/.rpt2_cache",
     "clean:src": "rm -rf packages/*/{src,test}/*.{d.ts,js,js.map} && rm -rf packages/*/{src,test}/**/*.{d.ts,js,js.map} && rm -rf packages/*/test/mocks/**/*.{d.ts,js,js.map}",
     "test": "npm run lint && npm run test:node && npm run test:chrome",
