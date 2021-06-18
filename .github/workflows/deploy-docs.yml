@@ -1,8 +1,8 @@
 name: Deploy Documentation
 
-on: 
+on:
   workflow_run:
-    workflows: [build-test]
+    workflows: [run-tests]
     branches: [master]
     types:
       - completed
@@ -15,7 +15,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: '12.x'
+          node-version: "12.x"
 
       - name: NPM Install
         run: npm install
