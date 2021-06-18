@@ -60,19 +60,19 @@ export interface IDecodeValuesOptions extends IRequestOptions {
 export function decodeValues(
   requestOptions: IDecodeValuesOptions
 ): Promise<IQueryFeaturesResponse> {
-  return new Promise(resolve => {
-    if (!requestOptions.fields) {
-      return getLayer({ url: requestOptions.url }).then(
-        (metadata: ILayerDefinition) => {
-          resolve((requestOptions.fields = metadata.fields));
-        }
-      );
-    } else {
-      resolve(requestOptions.fields);
-    }
-  }).then(fields => {
+  let prms;
+  if (requestOptions.fields) {
+    prms = Promise.resolve(requestOptions.fields);
+  } else {
+    prms = getLayer({ url: requestOptions.url }).then(
+      (metadata: ILayerDefinition) => {
+        return metadata.fields;
+      }
+    );
+  }
+  return prms.then((fields) => {
     // extract coded value domains
-    const domains = extractCodedValueDomains(fields as IField[]);
+    const domains = extractCodedValueDomains(fields);
     if (Object.keys(domains).length < 1) {
       // no values to decode
       return requestOptions.queryResponse;
@@ -98,22 +98,19 @@ export function decodeValues(
     // merge decoded features into the response
     return {
       ...requestOptions.queryResponse,
-      ...{ features: decodedFeatures }
+      ...{ features: decodedFeatures },
     };
   });
 }
 
 function extractCodedValueDomains(fields: IField[]) {
-  return fields.reduce(
-    (domains, field) => {
-      const domain = field.domain;
-      if (domain && domain.type === "codedValue") {
-        domains[field.name] = domain;
-      }
-      return domains;
-    },
-    {} as { [index: string]: any }
-  );
+  return fields.reduce((domains, field) => {
+    const domain = field.domain;
+    if (domain && domain.type === "codedValue") {
+      domains[field.name] = domain;
+    }
+    return domains;
+  }, {} as { [index: string]: any });
 }
 
 // TODO: add type for domain?
