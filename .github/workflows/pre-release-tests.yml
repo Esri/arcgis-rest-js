@@ -1,6 +1,7 @@
 name: Pre-Release Tests
 
-# Only run on non-draft PRs, and when PRs are synched
+# On pushes to master (i.e. merging a PR)
+# run all tests, on win, macos, linux, on node 12 & 14
 on:
   push:
     branches:

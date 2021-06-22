@@ -3,13 +3,14 @@ name: PR Tests
 # Only run on non-draft PRs, and when PRs are synched
 on:
   pull_request:
-    types: [ready_for_review, synchronize]
+    types: [opened, reopened, ready_for_review, synchronize]
     # If the PR has other files, a push w/ just .md or /docs
     # files will still cause tests to run
     paths-ignore:
       - "**.md"
       - "docs/**"
 jobs:
+  if: github.event.pull_request.draft == false
   build:
     runs-on: ${{ matrix.os }}
 
