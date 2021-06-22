@@ -10,8 +10,8 @@ on:
       - "**.md"
       - "docs/**"
 jobs:
-  if: github.event.pull_request.draft == false
   build:
+    if: github.event.pull_request.draft == false
     runs-on: ${{ matrix.os }}
 
     strategy:
