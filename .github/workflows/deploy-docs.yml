@@ -1,11 +1,8 @@
 name: Deploy Documentation
-
+# After a push to master, redeploy the docs
 on:
-  workflow_run:
-    workflows: [run-tests]
+  push:
     branches: [master]
-    types:
-      - completed
 
 jobs:
   build-and-deploy:

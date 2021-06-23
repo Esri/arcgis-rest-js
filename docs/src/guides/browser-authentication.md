@@ -10,7 +10,7 @@ group: 2-authentication
 
 In the [Node.js](/arcgis-rest-js/guides/node/) guide we explained how to instantiate an [`ApplicationSession`](/arcgis-rest-js/api/auth/ApplicationSession/) with hardcoded credentials. In the browser, you need to use [OAuth 2.0](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/) and have users sign directly into [ArcGIS Online](https://www.arcgis.com) or ArcGIS Enterprise.
 
-![browser based login](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/images/authorization-screen.png)
+![browser based login](../../img/oauth-browser.png)
 
 ### Resources
 
