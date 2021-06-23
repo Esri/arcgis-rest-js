@@ -803,6 +803,14 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getUniqueServiceName/" class="tsd-kind-icon padding-right-1">getUniqueServiceName</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/isServiceNameAvailable/" class="tsd-kind-icon padding-right-1">isServiceNameAvailable</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/arcgis-rest-js/api/portal/setItemAccess/" class="tsd-kind-icon padding-right-1">setItemAccess</a>
             </li>
             
@@ -1442,6 +1450,14 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/getServiceAdminInfo/" class="tsd-kind-icon padding-right-1">getServiceAdminInfo</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/getViewSources/" class="tsd-kind-icon padding-right-1">getViewSources</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/arcgis-rest-js/api/service-admin/updateServiceDefinition/" class="tsd-kind-icon padding-right-1">updateServiceDefinition</a>
             </li>
             
@@ -1648,6 +1664,22 @@
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/arcgis-rest-js/api/types/IFeatureServiceDefinition/" class="tsd-kind-icon padding-right-1">IFeatureServiceDefinition</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IServiceInfo/" class="tsd-kind-icon padding-right-1">IServiceInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IServiceNameAvailable/" class="tsd-kind-icon padding-right-1">IServiceNameAvailable</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IViewServiceSource/" class="tsd-kind-icon padding-right-1">IViewServiceSource</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IViewServiceSources/" class="tsd-kind-icon padding-right-1">IViewServiceSources</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
@@ -2392,7 +2424,8 @@ NOTE: This will force POST requests in browsers since auth header is not yet sup
               
             </td>
             <td class="body-face api-param-comment">
-              <p>Base url for the portal you want to make the request to. Defaults to '<a href="https://www.arcgis.com/sharing/rest">https://www.arcgis.com/sharing/rest</a>'.</p>
+              <p>Base url for the portal you want to make the request to. Defaults to authentication.portal if authentication
+exists, otherwise to '<a href="https://www.arcgis.com/sharing/rest">https://www.arcgis.com/sharing/rest</a>'.</p>
 
             </td>
           </tr>

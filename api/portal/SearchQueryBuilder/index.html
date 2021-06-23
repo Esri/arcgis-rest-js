@@ -803,6 +803,14 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getUniqueServiceName/" class="tsd-kind-icon padding-right-1">getUniqueServiceName</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/isServiceNameAvailable/" class="tsd-kind-icon padding-right-1">isServiceNameAvailable</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/arcgis-rest-js/api/portal/setItemAccess/" class="tsd-kind-icon padding-right-1">setItemAccess</a>
             </li>
             
@@ -1442,6 +1450,14 @@
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/getServiceAdminInfo/" class="tsd-kind-icon padding-right-1">getServiceAdminInfo</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/getViewSources/" class="tsd-kind-icon padding-right-1">getViewSources</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/arcgis-rest-js/api/service-admin/updateServiceDefinition/" class="tsd-kind-icon padding-right-1">updateServiceDefinition</a>
             </li>
             
@@ -1648,6 +1664,22 @@
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
               <a href="/arcgis-rest-js/api/types/IFeatureServiceDefinition/" class="tsd-kind-icon padding-right-1">IFeatureServiceDefinition</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IServiceInfo/" class="tsd-kind-icon padding-right-1">IServiceInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IServiceNameAvailable/" class="tsd-kind-icon padding-right-1">IServiceNameAvailable</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IViewServiceSource/" class="tsd-kind-icon padding-right-1">IViewServiceSource</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IViewServiceSources/" class="tsd-kind-icon padding-right-1">IViewServiceSources</a>
             </li>
             
             <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
@@ -2011,14 +2043,23 @@
 </div>
 
 
-  <p><code>SearchQueryBuilder</code> can be used to construct the <code>q</code> param for <a href="/arcgis-rest-js/api/portal/searchItems#searchItems-search"><code>searchItems</code></a> or <a href="/arcgis-rest-js/api/portal/searchGroups#searchGroups-search"><code>searchGroups</code></a>. By chaining methods, it helps build complex search queries.</p>
+  <p><code>SearchQueryBuilder</code> can be used to construct the <code>q</code> param for
+<a href="/arcgis-rest-js/api/portal/searchItems#searchItems-search"><code>searchItems</code></a> or
+<a href="/arcgis-rest-js/api/portal/searchGroups#searchGroups-search"><code>searchGroups</code></a>.
+By chaining methods, it helps build complex search queries.</p>
 
 
 
 
-  <pre><code class="js"><span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> SearchQueryBuilder()
+  <pre><code class="js"><span class="hljs-keyword">const</span> startDate = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-string">"2020-01-01"</span>);
+<span class="hljs-keyword">const</span> endDate = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-string">"2020-09-01"</span>);
+<span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> SearchQueryBuilder()
  .match(<span class="hljs-string">"Patrick"</span>)
  .in(<span class="hljs-string">"owner"</span>)
+ .and()
+ .from(startDate)
+ .to(endDate)
+ .in(<span class="hljs-string">"created"</span>)
  .and()
  .startGroup()
    .match(<span class="hljs-string">"Web Mapping Application"</span>)
@@ -2038,7 +2079,7 @@ searchItems(query).then(<span class="hljs-function">(<span class="hljs-params">r
 });
 </code></pre>
 <p>Will search for items matching</p>
-<pre><code><span class="hljs-string">"owner: Patrick AND (type:"</span><span class="hljs-variable">Web</span> <span class="hljs-variable">Mapping</span> <span class="hljs-variable"><span class="hljs-class">Application</span></span><span class="hljs-string">" OR type:"</span><span class="hljs-variable">Mobile</span> <span class="hljs-variable"><span class="hljs-class">Application</span></span><span class="hljs-string">" OR type:Application) AND Demo App"</span>
+<pre><code><span class="hljs-string">"owner: Patrick AND created:[1577836800000 TO 1598918400000] AND (type:"</span><span class="hljs-variable">Web</span> <span class="hljs-variable">Mapping</span> <span class="hljs-variable"><span class="hljs-class">Application</span></span><span class="hljs-string">" OR type:"</span><span class="hljs-variable">Mobile</span> <span class="hljs-variable"><span class="hljs-class">Application</span></span><span class="hljs-string">" OR type:Application) AND Demo App"</span>
 </code></pre>
 
 
@@ -2281,9 +2322,13 @@ searchItems(query).then(<span class="hljs-function">(<span class="hljs-params">r
             <td class="body-face api-param-comment">
               <p>Begins a new range query.</p>
 
-              <pre><code class="js"><span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> SearchQueryBuilder()
-  .from(yesterdaysDate)
-  .to(todaysDate)
+              <pre><code class="js">
+<span class="hljs-keyword">const</span> NEWYEARS = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-string">"2020-01-01"</span>)
+<span class="hljs-keyword">const</span> TODAY = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()
+
+<span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> SearchQueryBuilder()
+  .from(NEWYEARS)
+  .to(TODAY)
   .in(<span class="hljs-string">"created"</span>)
 </code></pre>
 
@@ -2878,9 +2923,13 @@ searchItems(query).then(<span class="hljs-function">(<span class="hljs-params">r
       
         <hr class="leader-half trailer-half">
 
-        <pre><code class="js"><span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> SearchQueryBuilder()
-  .from(yesterdaysDate)
-  .to(todaysDate)
+        <pre><code class="js">
+<span class="hljs-keyword">const</span> NEWYEARS = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-string">"2020-01-01"</span>)
+<span class="hljs-keyword">const</span> TODAY = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()
+
+<span class="hljs-keyword">const</span> query = <span class="hljs-keyword">new</span> SearchQueryBuilder()
+  .from(NEWYEARS)
+  .to(TODAY)
   .in(<span class="hljs-string">"created"</span>)
 </code></pre>
 
@@ -3487,7 +3536,7 @@ searchItems(query).then(<span class="hljs-function">(<span class="hljs-params">r
 
 
 
-<small class="font-size--2">Class defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-portal/src/util/SearchQueryBuilder.ts#L33">packages/arcgis-rest-portal/src/util/SearchQueryBuilder.ts:33</a></small>
+<small class="font-size--2">Class defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-portal/src/util/SearchQueryBuilder.ts#L46">packages/arcgis-rest-portal/src/util/SearchQueryBuilder.ts:46</a></small>
 
 
     </div>
