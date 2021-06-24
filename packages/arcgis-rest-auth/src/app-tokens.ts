@@ -11,7 +11,7 @@ import { IRequestOptions, request } from "@esri/arcgis-rest-request";
  * to the app and the encrypted platform cookie is valid.
  *
  * A scenario where an app would use this is if it is iframed into another platform app
- * and recieves credentials via postMessage. Those credentials contain a token that is
+ * and receives credentials via postMessage. Those credentials contain a token that is
  * specific to the host app, so the embedded app would use `exchangeToken` to get one
  * that is specific to itself.
  *
@@ -62,16 +62,16 @@ export interface IPlatformSelfResponse {
 /**
  * Request a token for a specific application using the esri_aopc encrypted cookie
  *
- * When a client app boots up, it will know it's clientId and the redirectUri for use
+ * When a client app boots up, it will know its clientId and the redirectUri for use
  * in the normal /oauth/authorize pop-out oAuth flow.
  *
  * If the app sees an `esri_aopc` cookie (only set if the app is hosted on *.arcgis.com),
  * it can call the /oauth2/platformSelf end-point passing in the clientId and redirectUri
- * in headers, and it will recieve back an app-specific token, assuming the user has
+ * in headers, and it will receive back an app-specific token, assuming the user has
  * access to the app.
  *
- * Since there are scenarios where an app can boot using credintials/token from localstorage
- * but those creds are not for the same user as the esri_aopc cookie, it is recommended that
+ * Since there are scenarios where an app can boot using credentials/token from localstorage
+ * but those credentials are not for the same user as the esri_aopc cookie, it is recommended that
  * an app check the returned username against any existing identity they may have loaded.
  *
  * Note: This is only usable by Esri applications hosted on *arcgis.com, *esri.com or within
