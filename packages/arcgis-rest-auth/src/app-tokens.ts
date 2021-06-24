@@ -82,7 +82,7 @@ export interface IPlatformSelfResponse {
  * import { platformSelf, UserSession } from '@esri/arcgis-rest-auth';
  *
  * const portal = 'https://www.arcgis.com/sharing/rest';
- * const clientId = 'YOURAPPCLIENID';
+ * const clientId = 'YOURAPPCLIENTID';
  *
  * // exchange esri_aopc cookie
  * return platformSelf(clientId, 'https://your-app-redirect-uri', portal)
@@ -95,7 +95,7 @@ export interface IPlatformSelfResponse {
  *    clientId,
  *    username: response.username,
  *    token: response.token,
- *    tokenExpires: new Date(tokenExiresTimestamp),
+ *    tokenExpires: new Date(tokenExpiresTimestamp),
  *    ssl: true
  *  });
  * })

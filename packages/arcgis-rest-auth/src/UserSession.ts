@@ -502,9 +502,9 @@ export class UserSession implements IAuthenticationManager {
     if (!win && window) {
       win = window;
     }
-    // Declar handler outside of promise scope so we can detach it
+    // Declare handler outside of promise scope so we can detach it
     let handler: (event: any) => void;
-    // return a promise that will resolve when the handler recieves
+    // return a promise that will resolve when the handler receives
     // session information from the correct origin
     return new Promise((resolve, reject) => {
       // create an event handler that just wraps the parentMessageHandler
@@ -1028,7 +1028,7 @@ export class UserSession implements IAuthenticationManager {
     const [match, protocol, domainAndPath] = root.match(/(https?:\/\/)(.+)/);
     const [domain, ...path] = domainAndPath.split("/");
 
-    // only the domain is lowercased becasue in some cases an org id might be
+    // only the domain is lowercased because in some cases an org id might be
     // in the path which cannot be lowercased.
     return `${protocol}${domain.toLowerCase()}/${path.join("/")}`;
   }
@@ -1067,7 +1067,7 @@ export class UserSession implements IAuthenticationManager {
     return (event: any) => {
       // Verify that the origin is valid
       // Note: do not use regex's here. validOrigins is an array so we're checking that the event's origin
-      // is in the array via exact match. More info about avoiding postMessave xss issues here
+      // is in the array via exact match. More info about avoiding postMessage xss issues here
       // https://jlajara.gitlab.io/web/2020/07/17/Dom_XSS_PostMessage_2.html#tipsbypasses-in-postmessage-vulnerabilities
       const isValidOrigin = validOrigins.indexOf(event.origin) > -1;
       // JSAPI handles this slightly differently - instead of checking a list, it will respond if
