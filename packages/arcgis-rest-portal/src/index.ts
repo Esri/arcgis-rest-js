@@ -63,7 +63,6 @@ export {
   IItemUpdate,
   IItem,
   IFolder,
-  IGroupAdd,
-  IGroup,
+  IGroupAdd,  
   GroupMembership,
 } from "@esri/arcgis-rest-types";

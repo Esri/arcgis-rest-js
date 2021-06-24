@@ -1,0 +1,970 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>SearchQueryBuilder | @esri/arcgis-rest-js</title>
+	<meta name="description" content="Documentation for @esri/arcgis-rest-js">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@esri/arcgis-rest-js</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../modules.html">@esri/arcgis-rest-js</a>
+				</li>
+				<li>
+					<a href="../modules/_esri_arcgis_rest_portal.html">@esri/arcgis-rest-portal</a>
+				</li>
+				<li>
+					<a href="_esri_arcgis_rest_portal.searchquerybuilder.html">SearchQueryBuilder</a>
+				</li>
+			</ul>
+			<h1>Class SearchQueryBuilder</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p><code>SearchQueryBuilder</code> can be used to construct the <code>q</code> param for
+							<a href="/arcgis-rest-js/api/portal/searchItems#searchItems-search"><code>searchItems</code></a> or
+							<a href="/arcgis-rest-js/api/portal/searchGroups#searchGroups-search"><code>searchGroups</code></a>.
+						By chaining methods, it helps build complex search queries.</p>
+					</div>
+					<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">startDate</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Date</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;2020-01-01&quot;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">endDate</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Date</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;2020-09-01&quot;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SearchQueryBuilder</span><span style="color: #000000">()</span>
+<span style="color: #000000"> .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Patrick&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000"> .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;owner&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000"> .</span><span style="color: #795E26">and</span><span style="color: #000000">()</span>
+<span style="color: #000000"> .</span><span style="color: #795E26">from</span><span style="color: #000000">(</span><span style="color: #001080">startDate</span><span style="color: #000000">)</span>
+<span style="color: #000000"> .</span><span style="color: #795E26">to</span><span style="color: #000000">(</span><span style="color: #001080">endDate</span><span style="color: #000000">)</span>
+<span style="color: #000000"> .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;created&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000"> .</span><span style="color: #795E26">and</span><span style="color: #000000">()</span>
+<span style="color: #000000"> .</span><span style="color: #795E26">startGroup</span><span style="color: #000000">()</span>
+<span style="color: #000000">   .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Web Mapping Application&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">   .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;type&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">   .</span><span style="color: #795E26">or</span><span style="color: #000000">()</span>
+<span style="color: #000000">   .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Mobile Application&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">   .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;type&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">   .</span><span style="color: #795E26">or</span><span style="color: #000000">()</span>
+<span style="color: #000000">   .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Application&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">   .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;type&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000"> .</span><span style="color: #795E26">endGroup</span><span style="color: #000000">()</span>
+<span style="color: #000000"> .</span><span style="color: #795E26">and</span><span style="color: #000000">()</span>
+<span style="color: #000000"> .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Demo App&quot;</span><span style="color: #000000">);</span>
+
+<span style="color: #795E26">searchItems</span><span style="color: #000000">(</span><span style="color: #001080">query</span><span style="color: #000000">).</span><span style="color: #795E26">then</span><span style="color: #000000">((</span><span style="color: #001080">res</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">res</span><span style="color: #000000">.</span><span style="color: #001080">results</span><span style="color: #000000">);</span>
+<span style="color: #000000">});</span>
+</code></pre>
+					<p>Will search for items matching</p>
+					<pre><code><span style="color: #A31515">&quot;owner: Patrick AND created:[1577836800000 TO 1598918400000] AND (type:&quot;</span><span style="color: #001080">Web</span><span style="color: #000000"> </span><span style="color: #001080">Mapping</span><span style="color: #000000"> </span><span style="color: #001080">Application</span><span style="color: #A31515">&quot; OR type:&quot;</span><span style="color: #001080">Mobile</span><span style="color: #000000"> </span><span style="color: #001080">Application</span><span style="color: #A31515">&quot; OR type:Application) AND Demo App&quot;</span>
+</code></pre>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">SearchQueryBuilder</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><span class="tsd-signature-type">IParamBuilder</span></li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#currentmodifer" class="tsd-kind-icon">current<wbr>Modifer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#opengroups" class="tsd-kind-icon">open<wbr>Groups</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#q" class="tsd-kind-icon">q</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#rangestack" class="tsd-kind-icon">range<wbr>Stack</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#termstack" class="tsd-kind-icon">term<wbr>Stack</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-private"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#hasrange" class="tsd-kind-icon">has<wbr>Range</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-private"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#hasterms" class="tsd-kind-icon">has<wbr>Terms</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#addmodifier" class="tsd-kind-icon">add<wbr>Modifier</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#and" class="tsd-kind-icon">and</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#boost" class="tsd-kind-icon">boost</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#cleanup" class="tsd-kind-icon">cleanup</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#clone" class="tsd-kind-icon">clone</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#commit" class="tsd-kind-icon">commit</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#endgroup" class="tsd-kind-icon">end<wbr>Group</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#formatterm" class="tsd-kind-icon">format<wbr>Term</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#from" class="tsd-kind-icon">from</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#haswhitespace" class="tsd-kind-icon">has<wbr>White<wbr>Space</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#in" class="tsd-kind-icon">in</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#match" class="tsd-kind-icon">match</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#not" class="tsd-kind-icon">not</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#or" class="tsd-kind-icon">or</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#startgroup" class="tsd-kind-icon">start<wbr>Group</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#to" class="tsd-kind-icon">to</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_portal.searchquerybuilder.html#toparam" class="tsd-kind-icon">to<wbr>Param</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Search<wbr>Query<wbr>Builder<span class="tsd-signature-symbol">(</span>q<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:51</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>q: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;&quot;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An existing query string to start building from.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="currentmodifer" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> current<wbr>Modifer</h3>
+					<div class="tsd-signature tsd-kind-icon">current<wbr>Modifer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:51</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="opengroups" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> open<wbr>Groups</h3>
+					<div class="tsd-signature tsd-kind-icon">open<wbr>Groups<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:50</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="q" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> q</h3>
+					<div class="tsd-signature tsd-kind-icon">q<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:49</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="rangestack" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> range<wbr>Stack</h3>
+					<div class="tsd-signature tsd-kind-icon">range<wbr>Stack<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:48</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="termstack" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> term<wbr>Stack</h3>
+					<div class="tsd-signature tsd-kind-icon">term<wbr>Stack<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:47</li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-private">
+					<a name="hasrange" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> has<wbr>Range</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> hasRange<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:361</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-private">
+					<a name="hasterms" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> has<wbr>Terms</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> hasTerms<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:357</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="addmodifier" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> add<wbr>Modifier</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Modifier<span class="tsd-signature-symbol">(</span>modifier<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:296</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>modifier: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="and" class="tsd-anchor"></a>
+					<h3>and</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">and<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:171</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Joins two sets of queries with an <code>AND</code> clause.</p>
+								</div>
+								<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SearchQueryBuilder</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Lakes&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;title&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">and</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Rivers&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;title&quot;</span><span style="color: #000000">)</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="boost" class="tsd-anchor"></a>
+					<h3>boost</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">boost<span class="tsd-signature-symbol">(</span>num<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:272</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Boosts the previous term to increase its rank in the results.</p>
+								</div>
+								<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SearchQueryBuilder</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Lakes&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;title&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">or</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Rivers&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;title&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">boost</span><span style="color: #000000">(</span><span style="color: #098658">3</span><span style="color: #000000">)</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>num: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="cleanup" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> cleanup</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">cleanup<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:365</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="clone" class="tsd-anchor"></a>
+					<h3>clone</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:290</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a new instance of <code>SearchQueryBuilder</code> based on the current instance.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="commit" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> commit</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">commit<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:336</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="endgroup" class="tsd-anchor"></a>
+					<h3>end<wbr>Group</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">end<wbr>Group<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:146</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Ends a search group.</p>
+								</div>
+								<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SearchQueryBuilder</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">startGroup</span><span style="color: #000000">()</span>
+<span style="color: #000000">    .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Lakes&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">    .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;title&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">endGroup</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">or</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">startGroup</span><span style="color: #000000">()</span>
+<span style="color: #000000">    .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Rivers&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">    .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;title&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">endGroup</span><span style="color: #000000">()</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="formatterm" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> format<wbr>Term</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">format<wbr>Term<span class="tsd-signature-symbol">(</span>term<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:324</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>term: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="from" class="tsd-anchor"></a>
+					<h3>from</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">from<span class="tsd-signature-symbol">(</span>term<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:225</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Begins a new range query.</p>
+								</div>
+								<pre><code class="language-js">
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">NEWYEARS</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Date</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;2020-01-01&quot;</span><span style="color: #000000">)</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">TODAY</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Date</span><span style="color: #000000">()</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SearchQueryBuilder</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">from</span><span style="color: #000000">(</span><span style="color: #0070C1">NEWYEARS</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">to</span><span style="color: #000000">(</span><span style="color: #0070C1">TODAY</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;created&quot;</span><span style="color: #000000">)</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>term: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Date</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="haswhitespace" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> has<wbr>White<wbr>Space</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">has<wbr>White<wbr>Space<span class="tsd-signature-symbol">(</span>s<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:320</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>s: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="in" class="tsd-anchor"></a>
+					<h3>in</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">in<span class="tsd-signature-symbol">(</span>field<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:86</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Defines fields to search in. You can pass <code>&quot;*&quot;</code> or call this method without arguments to search a default set of fields</p>
+								</div>
+								<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SearchQueryBuilder</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;My Layer&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;title&quot;</span><span style="color: #000000">)</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> field: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The field to search for the previous match in.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="match" class="tsd-anchor"></a>
+					<h3>match</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">match<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>terms<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:70</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Defines strings to search for.</p>
+								</div>
+								<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SearchQueryBuilder</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;My Layer&quot;</span><span style="color: #000000">)</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>terms: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>strings to search for.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="not" class="tsd-anchor"></a>
+					<h3>not</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">not<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:207</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Joins two sets of queries with a <code>NOT</code> clause. Another option for filtering results is the <a href="https://developers.arcgis.com/rest/users-groups-and-items/search-reference.htm#ESRI_SECTION1_5C6C35DB9E4A4F4492C5B937BDA2BF67">prohibit operator &#39;-&#39;</a>.</p>
+								</div>
+								<pre><code class="language-js"><span style="color: #008000">// omit results with &quot;Rivers&quot; in their title</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SearchQueryBuilder</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">not</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Rivers&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;title&quot;</span><span style="color: #000000">)</span>
+
+<span style="color: #008000">// equivalent</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SearchQueryBuilder</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Rivers&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;-title&quot;</span><span style="color: #000000">)</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="or" class="tsd-anchor"></a>
+					<h3>or</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">or<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:187</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Joins two sets of queries with an <code>OR</code> clause.</p>
+								</div>
+								<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SearchQueryBuilder</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Lakes&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;title&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">or</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Rivers&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;title&quot;</span><span style="color: #000000">)</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="startgroup" class="tsd-anchor"></a>
+					<h3>start<wbr>Group</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">start<wbr>Group<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:120</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Starts a new search group.</p>
+								</div>
+								<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SearchQueryBuilder</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">startGroup</span><span style="color: #000000">()</span>
+<span style="color: #000000">    .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Lakes&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">    .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;title&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">endGroup</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">or</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">startGroup</span><span style="color: #000000">()</span>
+<span style="color: #000000">    .</span><span style="color: #795E26">match</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Rivers&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">    .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;title&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">endGroup</span><span style="color: #000000">()</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="to" class="tsd-anchor"></a>
+					<h3>to</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">to<span class="tsd-signature-symbol">(</span>term<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:247</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Ends a range query.</p>
+								</div>
+								<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">query</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">SearchQueryBuilder</span><span style="color: #000000">()</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">from</span><span style="color: #000000">(</span><span style="color: #001080">yesterdaysDate</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">to</span><span style="color: #000000">(</span><span style="color: #001080">todaysDate</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">in</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;created&quot;</span><span style="color: #000000">)</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>term: <span class="tsd-signature-type">any</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-signature-type" data-tsd-kind="Class">SearchQueryBuilder</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="toparam" class="tsd-anchor"></a>
+					<h3>to<wbr>Param</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">to<wbr>Param<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of IParamBuilder.toParam</p>
+								<ul>
+									<li>Defined in arcgis-rest-portal/src/util/SearchQueryBuilder.ts:281</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the current query string. Called internally when the request is made.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="../modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_auth.html">@esri/arcgis-<wbr>rest-<wbr>auth</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_demographics.html">@esri/arcgis-<wbr>rest-<wbr>demographics</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_feature_layer.html">@esri/arcgis-<wbr>rest-<wbr>feature-<wbr>layer</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_geocoding.html">@esri/arcgis-<wbr>rest-<wbr>geocoding</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_portal.html">@esri/arcgis-<wbr>rest-<wbr>portal</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_request.html">@esri/arcgis-<wbr>rest-<wbr>request</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_routing.html">@esri/arcgis-<wbr>rest-<wbr>routing</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_service_admin.html">@esri/arcgis-<wbr>rest-<wbr>service-<wbr>admin</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_types.html">@esri/arcgis-<wbr>rest-<wbr>types</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_auth.html" class="tsd-kind-icon">@esri/arcgis-<wbr>rest-<wbr>auth</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_demographics.html" class="tsd-kind-icon">@esri/arcgis-<wbr>rest-<wbr>demographics</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_feature_layer.html" class="tsd-kind-icon">@esri/arcgis-<wbr>rest-<wbr>feature-<wbr>layer</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_geocoding.html" class="tsd-kind-icon">@esri/arcgis-<wbr>rest-<wbr>geocoding</a>
+					</li>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_portal.html" class="tsd-kind-icon">@esri/arcgis-<wbr>rest-<wbr>portal</a>
+						<ul>
+							<li class="current tsd-kind-class tsd-parent-kind-module">
+								<a href="_esri_arcgis_rest_portal.searchquerybuilder.html" class="tsd-kind-icon">Search<wbr>Query<wbr>Builder</a>
+								<ul>
+									<li class=" tsd-kind-constructor tsd-parent-kind-class">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#constructor" class="tsd-kind-icon">constructor</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#currentmodifer" class="tsd-kind-icon">current<wbr>Modifer</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#opengroups" class="tsd-kind-icon">open<wbr>Groups</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#q" class="tsd-kind-icon">q</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#rangestack" class="tsd-kind-icon">range<wbr>Stack</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#termstack" class="tsd-kind-icon">term<wbr>Stack</a>
+									</li>
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-private">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#hasrange" class="tsd-kind-icon">has<wbr>Range</a>
+									</li>
+									<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-private">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#hasterms" class="tsd-kind-icon">has<wbr>Terms</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#addmodifier" class="tsd-kind-icon">add<wbr>Modifier</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#and" class="tsd-kind-icon">and</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#boost" class="tsd-kind-icon">boost</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#cleanup" class="tsd-kind-icon">cleanup</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#clone" class="tsd-kind-icon">clone</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#commit" class="tsd-kind-icon">commit</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#endgroup" class="tsd-kind-icon">end<wbr>Group</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#formatterm" class="tsd-kind-icon">format<wbr>Term</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#from" class="tsd-kind-icon">from</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#haswhitespace" class="tsd-kind-icon">has<wbr>White<wbr>Space</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#in" class="tsd-kind-icon">in</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#match" class="tsd-kind-icon">match</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#not" class="tsd-kind-icon">not</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#or" class="tsd-kind-icon">or</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#startgroup" class="tsd-kind-icon">start<wbr>Group</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#to" class="tsd-kind-icon">to</a>
+									</li>
+									<li class=" tsd-kind-method tsd-parent-kind-class">
+										<a href="_esri_arcgis_rest_portal.searchquerybuilder.html#toparam" class="tsd-kind-icon">to<wbr>Param</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_request.html" class="tsd-kind-icon">@esri/arcgis-<wbr>rest-<wbr>request</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_routing.html" class="tsd-kind-icon">@esri/arcgis-<wbr>rest-<wbr>routing</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_service_admin.html" class="tsd-kind-icon">@esri/arcgis-<wbr>rest-<wbr>service-<wbr>admin</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_types.html" class="tsd-kind-icon">@esri/arcgis-<wbr>rest-<wbr>types</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
