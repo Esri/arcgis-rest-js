@@ -65,7 +65,7 @@ fetch(url, {
   headers: {
     "Content-Type": "application/x-www-form-urlencoded"
   },
-  // concatentate and encode each parameter manually
+  // concatenate and encode each parameter manually
   // and remember to append f=json
   body: `objectIds=${encodeURIComponent(2360245)}&f=json`
 })
