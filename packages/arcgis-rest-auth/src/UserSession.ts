@@ -21,12 +21,13 @@ import {
   ITokenRequestOptions,
   cleanUrl,
   encodeQueryString,
-  decodeQueryString
+  decodeQueryString,
 } from "@esri/arcgis-rest-request";
 import { IUser } from "@esri/arcgis-rest-types";
 import { generateToken } from "./generate-token";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token";
 import { canUseOnlineToken, isFederated } from "./federation-utils";
+import { IAppAccess, validateAppAccess } from "./validate-app-access";
 
 /**
  * Internal utility for resolving a Promise from outside its constructor.
@@ -62,7 +63,7 @@ function defer<T>(): IDeferred<T> {
   const deferred: any = {
     promise: null,
     resolve: null,
-    reject: null
+    reject: null,
   };
 
   deferred.promise = new Promise((resolve, reject) => {
@@ -72,21 +73,6 @@ function defer<T>(): IDeferred<T> {
 
   return deferred as IDeferred<T>;
 }
-
-/**
- * Used to test if a URL is an ArcGIS Online URL
- */
-const arcgisOnlineUrlRegex = /^https?:\/\/\S+\.arcgis\.com.+/;
-
-/**
- * Used to test if a URL is production ArcGIS Online Portal
- */
-const arcgisOnlinePortalRegex = /^https?:\/\/www\.arcgis\.com\/sharing\/rest+/;
-
-/**
- * Used to test if a URL is an ArcGIS Online Organization Portal
- */
-const arcgisOnlineOrgPortalRegex = /^https?:\/\/(?:[a-z0-9-]+\.maps)?.\arcgis\.com\/sharing\/rest/;
 
 /**
  * Options for static OAuth 2.0 helper methods on `UserSession`.
@@ -117,9 +103,16 @@ export interface IOAuth2Options {
   provider?: AuthenticationProvider;
 
   /**
-   * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
+   * The requested validity in minutes for a token. Defaults to 20160 (two weeks).
    */
-  duration?: number;
+   expiration?: number;
+
+  /**
+   * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
+   * 
+   * @deprecated use 'expiration' instead
+   */
+   duration?: number;
 
   /**
    * Determines whether to open the authorization window in a new tab/window or in the current window.
@@ -127,6 +120,13 @@ export interface IOAuth2Options {
    * @browserOnly
    */
   popup?: boolean;
+
+  /**
+   * The window features passed to [window.open()](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) when `popup` is true. Defaults to `height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes`
+   *
+   * @browserOnly
+   */
+  popupWindowFeatures?: string;
 
   /**
    * Duration (in minutes) that a refresh token will be valid.
@@ -258,6 +258,44 @@ export interface IUserSessionOptions {
  */
 export class UserSession implements IAuthenticationManager {
   /**
+   * The current ArcGIS Online or ArcGIS Enterprise `token`.
+   */
+  get token() {
+    return this._token;
+  }
+
+  /**
+   * The expiration time of the current `token`.
+   */
+  get tokenExpires() {
+    return this._tokenExpires;
+  }
+
+  /**
+   * The current token to ArcGIS Online or ArcGIS Enterprise.
+   */
+  get refreshToken() {
+    return this._refreshToken;
+  }
+
+  /**
+   * The expiration time of the current `refreshToken`.
+   */
+  get refreshTokenExpires() {
+    return this._refreshTokenExpires;
+  }
+
+  /**
+   * Deprecated, use `federatedServers` instead.
+   *
+   * @deprecated
+   */
+  get trustedServers() {
+    console.log("DEPRECATED: use federatedServers instead");
+    return this.federatedServers;
+  }
+
+  /**
    * Begins a new browser-based OAuth 2.0 sign in. If `options.popup` is `true` the
    * authentication window will open in a new tab/window otherwise the user will
    * be redirected to the authorization page in their current tab/window.
@@ -266,34 +304,42 @@ export class UserSession implements IAuthenticationManager {
    */
   /* istanbul ignore next */
   public static beginOAuth2(options: IOAuth2Options, win: any = window) {
+
+    if(options.duration) {
+      console.log("DEPRECATED: 'duration' is deprecated - use 'expiration' instead");
+    }
+
     const {
       portal,
       provider,
       clientId,
-      duration,
+      expiration,
       redirectUri,
       popup,
+      popupWindowFeatures,
       state,
       locale,
-      params
+      params,
     }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
         provider: "arcgis",
-        duration: 20160,
+        expiration: 20160,
         popup: true,
+        popupWindowFeatures:
+          "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes",
         state: options.clientId,
-        locale: ""
+        locale: "",
       },
-      ...options
+      ...options,
     };
     let url: string;
     if (provider === "arcgis") {
-      url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${duration}&redirect_uri=${encodeURIComponent(
+      url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${options.duration || expiration}&redirect_uri=${encodeURIComponent(
         redirectUri
       )}&state=${state}&locale=${locale}`;
     } else {
-      url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${duration}&redirect_uri=${encodeURIComponent(
+      url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${options.duration || expiration}&redirect_uri=${encodeURIComponent(
         redirectUri
       )}&state=${state}&locale=${locale}`;
     }
@@ -329,17 +375,13 @@ export class UserSession implements IAuthenticationManager {
             ssl: oauthInfo.ssl,
             token: oauthInfo.token,
             tokenExpires: new Date(oauthInfo.expires),
-            username: oauthInfo.username
+            username: oauthInfo.username,
           })
         );
       }
     };
 
-    win.open(
-      url,
-      "oauth-window",
-      "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
-    );
+    win.open(url, "oauth-window", popupWindowFeatures);
 
     return session.promise;
   }
@@ -356,7 +398,7 @@ export class UserSession implements IAuthenticationManager {
   public static completeOAuth2(options: IOAuth2Options, win: any = window) {
     const { portal, clientId, popup }: IOAuth2Options = {
       ...{ portal: "https://www.arcgis.com/sharing/rest", popup: true },
-      ...options
+      ...options,
     };
 
     function completeSignIn(error: any, oauthInfo?: IFetchTokenResponse) {
@@ -405,7 +447,7 @@ export class UserSession implements IAuthenticationManager {
         ssl: oauthInfo.ssl,
         token: oauthInfo.token,
         tokenExpires: oauthInfo.expires,
-        username: oauthInfo.username
+        username: oauthInfo.username,
       });
     }
 
@@ -434,7 +476,57 @@ export class UserSession implements IAuthenticationManager {
       token,
       expires,
       ssl,
-      username
+      username,
+    });
+  }
+
+  /**
+   * Request session information from the parent application
+   *
+   * When an application is embedded into another application via an IFrame, the embedded app can
+   * use `window.postMessage` to request credentials from the host application. This function wraps
+   * that behavior.
+   *
+   * The ArcGIS API for Javascript has this built into the Identity Manager as of the 4.19 release.
+   *
+   * Note: The parent application will not respond if the embedded app's origin is not:
+   * - the same origin as the parent or *.arcgis.com (JSAPI)
+   * - in the list of valid child origins (REST-JS)
+   *
+   *
+   * @param parentOrigin origin of the parent frame. Passed into the embedded application as `parentOrigin` query param
+   * @browserOnly
+   */
+  public static fromParent(parentOrigin: string, win?: any): Promise<any> {
+    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    if (!win && window) {
+      win = window;
+    }
+    // Declar handler outside of promise scope so we can detach it
+    let handler: (event: any) => void;
+    // return a promise that will resolve when the handler recieves
+    // session information from the correct origin
+    return new Promise((resolve, reject) => {
+      // create an event handler that just wraps the parentMessageHandler
+      handler = (event: any) => {
+        // ensure we only listen to events from the parent
+        if (event.source === win.parent && event.data) {
+          try {
+            return resolve(UserSession.parentMessageHandler(event));
+          } catch (err) {
+            return reject(err);
+          }
+        }
+      };
+      // add listener
+      win.addEventListener("message", handler, false);
+      win.parent.postMessage(
+        { type: "arcgis:auth:requestCredential" },
+        parentOrigin
+      );
+    }).then((session) => {
+      win.removeEventListener("message", handler, false);
+      return session;
     });
   }
 
@@ -448,15 +540,18 @@ export class UserSession implements IAuthenticationManager {
     options: IOAuth2Options,
     response: http.ServerResponse
   ) {
-    const { portal, clientId, duration, redirectUri }: IOAuth2Options = {
-      ...{ portal: "https://arcgis.com/sharing/rest", duration: 20160 },
-      ...options
+    if(options.duration) {
+      console.log("DEPRECATED: 'duration' is deprecated - use 'expiration' instead");
+    }
+    const { portal, clientId, expiration, redirectUri }: IOAuth2Options = {
+      ...{ portal: "https://arcgis.com/sharing/rest", expiration: 20160 },
+      ...options,
     };
 
     response.writeHead(301, {
-      Location: `${portal}/oauth2/authorize?client_id=${clientId}&duration=${duration}&response_type=code&redirect_uri=${encodeURIComponent(
+      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${options.duration || expiration}&response_type=code&redirect_uri=${encodeURIComponent(
         redirectUri
-      )}`
+      )}`,
     });
 
     response.end();
@@ -475,9 +570,9 @@ export class UserSession implements IAuthenticationManager {
     const { portal, clientId, redirectUri, refreshTokenTTL }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
-        refreshTokenTTL: 1440
+        refreshTokenTTL: 1440,
       },
-      ...options
+      ...options,
     };
 
     return fetchToken(`${portal}/oauth2/token`, {
@@ -485,9 +580,9 @@ export class UserSession implements IAuthenticationManager {
         grant_type: "authorization_code",
         client_id: clientId,
         redirect_uri: redirectUri,
-        code: authorizationCode
-      }
-    }).then(response => {
+        code: authorizationCode,
+      },
+    }).then((response) => {
       return new UserSession({
         clientId,
         portal,
@@ -500,7 +595,7 @@ export class UserSession implements IAuthenticationManager {
         ),
         token: response.token,
         tokenExpires: response.expires,
-        username: response.username
+        username: response.username,
       });
     });
   }
@@ -519,7 +614,7 @@ export class UserSession implements IAuthenticationManager {
       ssl: options.ssl,
       tokenDuration: options.tokenDuration,
       redirectUri: options.redirectUri,
-      refreshTokenTTL: options.refreshTokenTTL
+      refreshTokenTTL: options.refreshTokenTTL,
     });
   }
 
@@ -536,15 +631,37 @@ export class UserSession implements IAuthenticationManager {
    * @returns UserSession
    */
   public static fromCredential(credential: ICredential) {
+    // At ArcGIS Online 9.1, credentials no longer include the ssl and expires properties
+    // Here, we provide default values for them to cover this condition
+    const ssl = typeof credential.ssl !== "undefined" ? credential.ssl : true;
+    const expires = credential.expires || Date.now() + 7200000 /* 2 hours */;
+
     return new UserSession({
       portal: credential.server.includes("sharing/rest")
         ? credential.server
         : credential.server + `/sharing/rest`,
-      ssl: credential.ssl,
+      ssl,
       token: credential.token,
       username: credential.userId,
-      tokenExpires: new Date(credential.expires)
+      tokenExpires: new Date(expires),
     });
+  }
+
+  /**
+   * Handle the response from the parent
+   * @param event DOM Event
+   */
+  private static parentMessageHandler(event: any): UserSession {
+    if (event.data.type === "arcgis:auth:credential") {
+      return UserSession.fromCredential(event.data.credential);
+    }
+    if (event.data.type === "arcgis:auth:error") {
+      const err = new Error(event.data.error.message);
+      err.name = event.data.error.name;
+      throw err;
+    } else {
+      throw new Error("Unknown message type.");
+    }
   }
 
   /**
@@ -609,11 +726,17 @@ export class UserSession implements IAuthenticationManager {
    */
   private _user: IUser;
 
+  /**
+   * Hydrated by a call to [getPortal()](#getPortal-summary).
+   */
+  private _portalInfo: any;
+
   private _token: string;
   private _tokenExpires: Date;
   private _refreshToken: string;
   private _refreshTokenExpires: Date;
   private _pendingUserRequest: Promise<IUser>;
+  private _pendingPortalRequest: Promise<any>;
 
   /**
    * Internal object to keep track of pending token requests. Used to prevent
@@ -624,10 +747,10 @@ export class UserSession implements IAuthenticationManager {
   };
 
   /**
-   * Internal list of trusted 3rd party servers (federated servers) that have
-   *  been validated with `generateToken`.
+   * Internal list of tokens to 3rd party servers (federated servers) that have
+   *  been created via `generateToken`. The object key is the root URL of the server.
    */
-  private trustedServers: {
+  private federatedServers: {
     [key: string]: {
       token: string;
       expires: Date;
@@ -635,32 +758,12 @@ export class UserSession implements IAuthenticationManager {
   };
 
   /**
-   * The current ArcGIS Online or ArcGIS Enterprise `token`.
+   * Internal list of 3rd party domains that should receive all cookies (credentials: "include").
+   * Used to for PKI and IWA workflows in high security environments.
    */
-  get token() {
-    return this._token;
-  }
+  private trustedDomains: string[];
 
-  /**
-   * The expiration time of the current `token`.
-   */
-  get tokenExpires() {
-    return this._tokenExpires;
-  }
-
-  /**
-   * The current token to ArcGIS Online or ArcGIS Enterprise.
-   */
-  get refreshToken() {
-    return this._refreshToken;
-  }
-
-  /**
-   * The expiration time of the current `refreshToken`.
-   */
-  get refreshTokenExpires() {
-    return this._refreshTokenExpires;
-  }
+  private _hostHandler: any;
 
   constructor(options: IUserSessionOptions) {
     this.clientId = options.clientId;
@@ -678,16 +781,19 @@ export class UserSession implements IAuthenticationManager {
     this.tokenDuration = options.tokenDuration || 20160;
     this.redirectUri = options.redirectUri;
     this.refreshTokenTTL = options.refreshTokenTTL || 1440;
+    this.server = options.server;
 
-    this.trustedServers = {};
+    this.federatedServers = {};
+    this.trustedDomains = [];
+
     // if a non-federated server was passed explicitly, it should be trusted.
     if (options.server) {
       // if the url includes more than '/arcgis/', trim the rest
       const root = this.getServerRootUrl(options.server);
 
-      this.trustedServers[root] = {
+      this.federatedServers[root] = {
         token: options.token,
-        expires: options.tokenExpires
+        expires: options.tokenExpires,
       };
     }
     this._pendingTokenRequests = {};
@@ -708,7 +814,7 @@ export class UserSession implements IAuthenticationManager {
       server: this.portal,
       ssl: this.ssl,
       token: this.token,
-      userId: this.username
+      userId: this.username,
     };
   }
 
@@ -737,16 +843,54 @@ export class UserSession implements IAuthenticationManager {
         httpMethod: "GET",
         authentication: this,
         ...requestOptions,
-        rawResponse: false
+        rawResponse: false,
       } as IRequestOptions;
 
-      this._pendingUserRequest = request(url, options).then(response => {
+      this._pendingUserRequest = request(url, options).then((response) => {
         this._user = response;
         this._pendingUserRequest = null;
         return response;
       });
 
       return this._pendingUserRequest;
+    }
+  }
+
+  /**
+   * Returns information about the currently logged in user's [portal](https://developers.arcgis.com/rest/users-groups-and-items/portal-self.htm). Subsequent calls will *not* result in additional web traffic.
+   *
+   * ```js
+   * session.getPortal()
+   *   .then(response => {
+   *     console.log(portal.name); // "City of ..."
+   *   })
+   * ```
+   *
+   * @param requestOptions - Options for the request. NOTE: `rawResponse` is not supported by this operation.
+   * @returns A Promise that will resolve with the data from the response.
+   */
+  public getPortal(requestOptions?: IRequestOptions): Promise<any> {
+    if (this._pendingPortalRequest) {
+      return this._pendingPortalRequest;
+    } else if (this._portalInfo) {
+      return Promise.resolve(this._portalInfo);
+    } else {
+      const url = `${this.portal}/portals/self`;
+
+      const options = {
+        httpMethod: "GET",
+        authentication: this,
+        ...requestOptions,
+        rawResponse: false,
+      } as IRequestOptions;
+
+      this._pendingPortalRequest = request(url, options).then((response) => {
+        this._portalInfo = response;
+        this._pendingPortalRequest = null;
+        return response;
+      });
+
+      return this._pendingPortalRequest;
     }
   }
 
@@ -766,7 +910,7 @@ export class UserSession implements IAuthenticationManager {
     } else if (this._user) {
       return Promise.resolve(this._user.username);
     } else {
-      return this.getUser().then(user => {
+      return this.getUser().then((user) => {
         return user.username;
       });
     }
@@ -789,6 +933,18 @@ export class UserSession implements IAuthenticationManager {
     }
   }
 
+  /**
+   * Get application access information for the current user
+   * see `validateAppAccess` function for details
+   *
+   * @param clientId application client id
+   */
+  public validateAppAccess(clientId: string): Promise<IAppAccess> {
+    return this.getToken(this.portal).then((token) => {
+      return validateAppAccess(token, clientId);
+    });
+  }
+
   public toJSON(): IUserSessionOptions {
     return {
       clientId: this.clientId,
@@ -802,12 +958,42 @@ export class UserSession implements IAuthenticationManager {
       ssl: this.ssl,
       tokenDuration: this.tokenDuration,
       redirectUri: this.redirectUri,
-      refreshTokenTTL: this.refreshTokenTTL
+      refreshTokenTTL: this.refreshTokenTTL,
     };
   }
 
   public serialize() {
     return JSON.stringify(this);
+  }
+  /**
+   * For a "Host" app that embeds other platform apps via iframes, after authenticating the user
+   * and creating a UserSession, the app can then enable "post message" style authentication by calling
+   * this method.
+   *
+   * Internally this adds an event listener on window for the `message` event
+   *
+   * @param validChildOrigins Array of origins that are allowed to request authentication from the host app
+   */
+  public enablePostMessageAuth(validChildOrigins: string[], win?: any): any {
+    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    if (!win && window) {
+      win = window;
+    }
+    this._hostHandler = this.createPostMessageHandler(validChildOrigins);
+    win.addEventListener("message", this._hostHandler, false);
+  }
+
+  /**
+   * For a "Host" app that has embedded other platform apps via iframes, when the host needs
+   * to transition routes, it should call `UserSession.disablePostMessageAuth()` to remove
+   * the event listener and prevent memory leaks
+   */
+  public disablePostMessageAuth(win?: any) {
+    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    if (!win && window) {
+      win = window;
+    }
+    win.removeEventListener("message", this._hostHandler, false);
   }
 
   /**
@@ -848,8 +1034,69 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
+   * Returns the proper [`credentials`] option for `fetch` for a given domain.
+   * See [trusted server](https://enterprise.arcgis.com/en/portal/latest/administer/windows/configure-security.htm#ESRI_SECTION1_70CC159B3540440AB325BE5D89DBE94A).
+   * Used internally by underlying request methods to add support for specific security considerations.
+   *
+   * @param url The url of the request
+   * @returns "include" or "same-origin"
+   */
+  public getDomainCredentials(url: string): RequestCredentials {
+    if (!this.trustedDomains || !this.trustedDomains.length) {
+      return "same-origin";
+    }
+
+    return this.trustedDomains.some((domainWithProtocol) => {
+      return url.startsWith(domainWithProtocol);
+    })
+      ? "include"
+      : "same-origin";
+  }
+
+  /**
+   * Return a function that closes over the validOrigins array and
+   * can be used as an event handler for the `message` event
+   *
+   * @param validOrigins Array of valid origins
+   */
+  private createPostMessageHandler(
+    validOrigins: string[]
+  ): (event: any) => void {
+    // return a function that closes over the validOrigins and
+    // has access to the credential
+    return (event: any) => {
+      // Verify that the origin is valid
+      // Note: do not use regex's here. validOrigins is an array so we're checking that the event's origin
+      // is in the array via exact match. More info about avoiding postMessave xss issues here
+      // https://jlajara.gitlab.io/web/2020/07/17/Dom_XSS_PostMessage_2.html#tipsbypasses-in-postmessage-vulnerabilities
+      const isValidOrigin = validOrigins.indexOf(event.origin) > -1;
+      // JSAPI handles this slightly differently - instead of checking a list, it will respond if
+      // event.origin === window.location.origin || event.origin.endsWith('.arcgis.com')
+      // For Hub, and to enable cross domain debugging with port's in urls, we are opting to
+      // use a list of valid origins
+
+      // Ensure the message type is something we want to handle
+      const isValidType = event.data.type === "arcgis:auth:requestCredential";
+
+      if (isValidOrigin && isValidType) {
+        const credential = this.toCredential();
+        // the following line allows us to conform to our spec without changing other depended-on functionality
+        // https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-auth/post-message-auth-spec.md#arcgisauthcredential
+        credential.server = credential.server.replace("/sharing/rest", "");
+        event.source.postMessage(
+          {
+            type: "arcgis:auth:credential",
+            credential,
+          },
+          event.origin
+        );
+      }
+    };
+  }
+
+  /**
    * Validates that a given URL is properly federated with our current `portal`.
-   * Attempts to use the internal `trustedServers` cache first.
+   * Attempts to use the internal `federatedServers` cache first.
    */
   private getTokenForServer(
     url: string,
@@ -858,7 +1105,7 @@ export class UserSession implements IAuthenticationManager {
     // requests to /rest/services/ and /rest/admin/services/ are both valid
     // Federated servers may have inconsistent casing, so lowerCase it
     const root = this.getServerRootUrl(url);
-    const existingToken = this.trustedServers[root];
+    const existingToken = this.federatedServers[root];
 
     if (
       existingToken &&
@@ -872,82 +1119,90 @@ export class UserSession implements IAuthenticationManager {
       return this._pendingTokenRequests[root];
     }
 
-    this._pendingTokenRequests[root] = request(`${root}/rest/info`)
-      .then(response => {
-        if (response.owningSystemUrl) {
-          /**
-           * if this server is not owned by this portal
-           * bail out with an error since we know we wont
-           * be able to generate a token
-           */
-          if (!isFederated(response.owningSystemUrl, this.portal)) {
-            throw new ArcGISAuthError(
-              `${url} is not federated with ${this.portal}.`,
-              "NOT_FEDERATED"
-            );
-          } else {
-            /**
-             * if the server is federated, use the relevant token endpoint.
-             */
-            return request(
-              `${response.owningSystemUrl}/sharing/rest/info`,
-              requestOptions
-            );
-          }
-        } else if (
-          response.authInfo &&
-          this.trustedServers[root] !== undefined
-        ) {
-          /**
-           * if its a stand-alone instance of ArcGIS Server that doesn't advertise
-           * federation, but the root server url is recognized, use its built in token endpoint.
-           */
-          return Promise.resolve({ authInfo: response.authInfo });
-        } else {
-          throw new ArcGISAuthError(
-            `${url} is not federated with any portal and is not explicitly trusted.`,
-            "NOT_FEDERATED"
-          );
-        }
-      })
-      .then((response: any) => {
-        return response.authInfo.tokenServicesUrl;
-      })
-      .then((tokenServicesUrl: string) => {
-        // an expired token cant be used to generate a new token
-        if (this.token && this.tokenExpires.getTime() > Date.now()) {
-          return generateToken(tokenServicesUrl, {
-            params: {
-              token: this.token,
-              serverUrl: url,
-              expiration: this.tokenDuration,
-              client: "referer"
+    this._pendingTokenRequests[root] = this.fetchAuthorizedDomains().then(
+      () => {
+        return request(`${root}/rest/info`, {
+          credentials: this.getDomainCredentials(url),
+        })
+          .then((response) => {
+            if (response.owningSystemUrl) {
+              /**
+               * if this server is not owned by this portal
+               * bail out with an error since we know we wont
+               * be able to generate a token
+               */
+              if (!isFederated(response.owningSystemUrl, this.portal)) {
+                throw new ArcGISAuthError(
+                  `${url} is not federated with ${this.portal}.`,
+                  "NOT_FEDERATED"
+                );
+              } else {
+                /**
+                 * if the server is federated, use the relevant token endpoint.
+                 */
+                return request(
+                  `${response.owningSystemUrl}/sharing/rest/info`,
+                  requestOptions
+                );
+              }
+            } else if (
+              response.authInfo &&
+              this.federatedServers[root] !== undefined
+            ) {
+              /**
+               * if its a stand-alone instance of ArcGIS Server that doesn't advertise
+               * federation, but the root server url is recognized, use its built in token endpoint.
+               */
+              return Promise.resolve({
+                authInfo: response.authInfo,
+              });
+            } else {
+              throw new ArcGISAuthError(
+                `${url} is not federated with any portal and is not explicitly trusted.`,
+                "NOT_FEDERATED"
+              );
             }
-          });
-          // generate an entirely fresh token if necessary
-        } else {
-          return generateToken(tokenServicesUrl, {
-            params: {
-              username: this.username,
-              password: this.password,
-              expiration: this.tokenDuration,
-              client: "referer"
+          })
+          .then((response: any) => {
+            return response.authInfo.tokenServicesUrl;
+          })
+          .then((tokenServicesUrl: string) => {
+            // an expired token cant be used to generate a new token
+            if (this.token && this.tokenExpires.getTime() > Date.now()) {
+              return generateToken(tokenServicesUrl, {
+                params: {
+                  token: this.token,
+                  serverUrl: url,
+                  expiration: this.tokenDuration,
+                  client: "referer",
+                },
+              });
+              // generate an entirely fresh token if necessary
+            } else {
+              return generateToken(tokenServicesUrl, {
+                params: {
+                  username: this.username,
+                  password: this.password,
+                  expiration: this.tokenDuration,
+                  client: "referer",
+                },
+              }).then((response: any) => {
+                this._token = response.token;
+                this._tokenExpires = new Date(response.expires);
+                return response;
+              });
             }
-          }).then((response: any) => {
-            this._token = response.token;
-            this._tokenExpires = new Date(response.expires);
-            return response;
+          })
+          .then((response) => {
+            this.federatedServers[root] = {
+              expires: new Date(response.expires),
+              token: response.token,
+            };
+            delete this._pendingTokenRequests[root];
+            return response.token;
           });
-        }
-      })
-      .then(response => {
-        this.trustedServers[root] = {
-          expires: new Date(response.expires),
-          token: response.token
-        };
-        delete this._pendingTokenRequests[root];
-        return response.token;
-      });
+      }
+    );
 
     return this._pendingTokenRequests[root];
   }
@@ -971,7 +1226,7 @@ export class UserSession implements IAuthenticationManager {
     if (!this._pendingTokenRequests[this.portal]) {
       this._pendingTokenRequests[this.portal] = this.refreshSession(
         requestOptions
-      ).then(session => {
+      ).then((session) => {
         this._pendingTokenRequests[this.portal] = null;
         return session.token;
       });
@@ -991,9 +1246,9 @@ export class UserSession implements IAuthenticationManager {
       params: {
         username: this.username,
         password: this.password,
-        expiration: this.tokenDuration
+        expiration: this.tokenDuration,
       },
-      ...requestOptions
+      ...requestOptions,
     };
     return generateToken(`${this.portal}/generateToken`, options).then(
       (response: any) => {
@@ -1020,15 +1275,17 @@ export class UserSession implements IAuthenticationManager {
       params: {
         client_id: this.clientId,
         refresh_token: this.refreshToken,
-        grant_type: "refresh_token"
+        grant_type: "refresh_token",
       },
-      ...requestOptions
+      ...requestOptions,
     };
-    return fetchToken(`${this.portal}/oauth2/token`, options).then(response => {
-      this._token = response.token;
-      this._tokenExpires = response.expires;
-      return this;
-    });
+    return fetchToken(`${this.portal}/oauth2/token`, options).then(
+      (response) => {
+        this._token = response.token;
+        this._tokenExpires = response.expires;
+        return this;
+      }
+    );
   }
 
   /**
@@ -1041,18 +1298,56 @@ export class UserSession implements IAuthenticationManager {
         client_id: this.clientId,
         refresh_token: this.refreshToken,
         redirect_uri: this.redirectUri,
-        grant_type: "exchange_refresh_token"
+        grant_type: "exchange_refresh_token",
       },
-      ...requestOptions
+      ...requestOptions,
     };
 
-    return fetchToken(`${this.portal}/oauth2/token`, options).then(response => {
-      this._token = response.token;
-      this._tokenExpires = response.expires;
-      this._refreshToken = response.refreshToken;
-      this._refreshTokenExpires = new Date(
-        Date.now() + (this.refreshTokenTTL - 1) * 60 * 1000
-      );
+    return fetchToken(`${this.portal}/oauth2/token`, options).then(
+      (response) => {
+        this._token = response.token;
+        this._tokenExpires = response.expires;
+        this._refreshToken = response.refreshToken;
+        this._refreshTokenExpires = new Date(
+          Date.now() + (this.refreshTokenTTL - 1) * 60 * 1000
+        );
+        return this;
+      }
+    );
+  }
+
+  /**
+   * ensures that the authorizedCrossOriginDomains are obtained from the portal and cached
+   * so we can check them later.
+   *
+   * @returns this
+   */
+  private fetchAuthorizedDomains() {
+    // if this token is for a specific server or we don't have a portal
+    // don't get the portal info because we cant get the authorizedCrossOriginDomains
+    if (this.server || !this.portal) {
+      return Promise.resolve(this);
+    }
+
+    return this.getPortal().then((portalInfo) => {
+      /**
+       * Specific domains can be configured as secure.esri.com or https://secure.esri.com this
+       * normalizes to https://secure.esri.com so we can use startsWith later.
+       */
+      if (
+        portalInfo.authorizedCrossOriginDomains &&
+        portalInfo.authorizedCrossOriginDomains.length
+      ) {
+        this.trustedDomains = portalInfo.authorizedCrossOriginDomains
+          .filter((d: string) => !d.startsWith("http://"))
+          .map((d: string) => {
+            if (d.startsWith("https://")) {
+              return d;
+            } else {
+              return `https://${d}`;
+            }
+          });
+      }
       return this;
     });
   }

@@ -80,7 +80,8 @@ describe("feature", () => {
           }
         }
       ],
-      rollbackOnFailure: false
+      rollbackOnFailure: false,
+      trueCurveClient: false
     } as IUpdateFeaturesOptions;
     fetchMock.once("*", updateFeaturesResponse);
     updateFeatures(requestOptions)
@@ -96,6 +97,7 @@ describe("feature", () => {
             )
         );
         expect(options.body).toContain("rollbackOnFailure=false");
+        expect(options.body).toContain("trueCurveClient=false");
         expect(response.updateResults[0].success).toEqual(true);
         done();
       })

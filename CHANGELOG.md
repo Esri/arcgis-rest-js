@@ -5,137 +5,378 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+### Unrealased
 
+## [3.1.2](https://github.com/Esri/arcgis-rest-js/compare/v3.1.1...v3.1.2) - June 16th 2021
 
-## [Unreleased][head]
+### Changed
+
+- **arcgis-rest-portal** `shareItemToGroup`: when an org_admin shares an item they do not own, we now correctly use the `/content/users/:ownername/items/:itemid/share` route, and not `/content/items/:itemid/share` route. The backing API changed w/ the 9.2 release so admins can't share other users items via `/content/items/:itemid/share`. This has been validated to work on PROD as well as internal staging for 9.2. [`e8ab1bc`](https://github.com/Esri/arcgis-rest-js/commit/e8ab1bc3ad4498e5c1ac19fc0f1c24013de0a8df)
+
+## [3.1.1](https://github.com/Esri/arcgis-rest-js/compare/v3.0.5...v3.1.1) - June 7th 2021
+
+### Fixed
+
+- **@esri/arcgis-rest-portal** removeItemResource: support correct parameters [`96798fe`](https://github.com/Esri/arcgis-rest-js/commit/96798fe01a890514eacd268ef8e2f429fda1be4a)
+- **@esri/arcgis-rest-auth** Fix UserSession token duration for oauth [`3f43679`](https://github.com/Esri/arcgis-rest-js/commit/3f436794220e43f0ee6780b167cfb8766537a584)
+- **@esri/arcgis-rest-auth** UserSession: switch "duration" to "expiration" in IOAuth2Options [`392f5bb`](https://github.com/Esri/arcgis-rest-js/commit/392f5bb74b2461e7bd34dd16e784fce415d554ec)
+
+### Changed
+
+- Docs
+
+  - `addItemResource` format docs
+
+- **arcgis-rest-auth** ensure postMessage sends credential with server url _without_ `/sharing/rest` as expected by jsapi. The `.fromCredential` code already accounts for this so no changes were required.
+
+### Added
+
+- **@esri/arcgis-rest-auth**, **@esri/arcgis-rest-request** Add support for sending all credentials to trusted domains [`e59e499`](https://github.com/Esri/arcgis-rest-js/commit/e59e49968ae9bc88c76035e81aaffc9c971080f1)
+
+## [3.0.5] - 2021-04-20
+
+### Fixed
+
+- **arcgis-rest-portal** Fix updateItemResources: support item resource prefix
+- **arcgis-rest-routing** update IOriginDestinationMatrixResponse type
+
+## [3.0.4] - 2021-03-18
+
+### Fixed
+
+- **arcgis-rest-geocoding** Fix bulk geocoding URL
+- **arcgis-rest-types** Change type of ITable.id to number
+
+## [3.0.3] - 2021-03-18
+
+### Fixed
+
+- **arcgis-rest-auth** Support ArcGIS Online 9.1 credentials
+
+## [3.0.2] - 2021-02-24
+
+### Changed
+
+- **arcgis-rest-auth** ensure postMessage sends credential with server url _without_ `/sharing/rest` as expected by jsapi. The `.fromCredential` code already accounts for this so no changes were required.
+
+## [3.0.1] - 2021-01-25
+
+### Changed
+
+- **arcgis-rest-auth** Updated internals of postMessage auth
+- **arcgis-rest-portal** Updated `ItemRelationshipType` list
+
+## [3.0.0] - 2021-01-25
+
+## Added
+
+- **@esri/arcgis-rest-auth** added `ApiKey` class. Used to authenticate with API Keys.
+- **@esri/arcgis-rest-demographics** created new Demographics package with new functions:
+  - `getAvailableCountries`
+  - `getAvailableDataCollections`
+  - `getAvailableGeographyLevels`
+  - `getGeography`
+  - `queryDemographicData`
+- **@esri/arcgis-rest-routing** added new functions:
+  - `closestFacility`
+  - `serviceArea`
+  - `originDestinationMatrix`
+- **@esri/arcgis-rest-routing** added `geoJson` property to `solveRoute()` response (`routes` property).
+- **@esri/arcgis-rest-geocoding** added `geoJson` property to `geocode()` response.
+
+## Changed
+
+- (Breaking change) **@esri/arcgis-rest-geocoding** updated default ArcGIS World Geocoder URL [`613837d`](https://github.com/Esri/arcgis-rest-js/commits/613837ddaa0638f826aa75d11c00ee1007cb6e72)
+- **@esri/arcgis-rest-routing** `solveRoute()` transforms compressed geometry into a standard geometry
+
+## [2.25.0] - January 11th 2021
+
+### @esri/arcgis-rest-auth
+
+- Bug Fixes
+  - **arcgis-rest-auth**: actually export validateAppAccess [`6d1e2ef0`](https://github.com/Esri/arcgis-rest-js/commit/6d1e2ef012ca25464e6219b5d909a30e5f1cecee)
+  - **arcgis-rest-auth**: add `expires_in` to `IPortalSelfResponse` and documentation
+
+## [2.24.0] - December 18th 2020
+
+### @esri/arcgis-rest-feature-layer
+
+- New Features
+  - **feature-layer** Add trueCurveClient to updateFeatures and applyEdits.
+
+## [2.23.0] - December 7th 2020
+
+### @esri/arcgis-rest-request
+
+- New Features
+  - **request** sets `fetch.credentials: &amp;amp;#39;include&amp;amp;#39;` when specific headers are set. This is intended to support the `platformSelf` call which needs to send cookies, even when cross-domain.
+
+### @esri/arcgis-rest-auth
+
+- Bug Fixes
+  - **platformSelf**: actually export the function from the package
+
+## [2.22.0] - November 18th 2020
+
+### @esri/arcgis-rest-auth
+
+- New Features
+  - **UserSession**: added optional popupWindowFeatures to IOAuth2Options [`f96a5810`](https://github.com/Esri/arcgis-rest-js/commit/f96a581033513c9a546998bc37254a46e364f153)
+
+### @esri/arcgis-rest-request
+
+- Bug Fixes
+  - **processParams**: Support array of arrays [`08208d37`](https://github.com/Esri/arcgis-rest-js/commit/fd3b1a999f63a62d50d60b2b1f6b775d482be85c)
+
+## [2.21.0] - November 11th 2020
+
+### @esri/arcgis-rest-feature-layer
+
+- New Features
+  - **arcgis-rest-types**: add editingInfo to ILayerDefinition [`e5467f0b`](https://github.com/Esri/arcgis-rest-js/commit/e5467f0bcc611cd9b928c2f0dd46567794a699c5)
+
+### @esri/arcgis-rest-portal
+
+- Bug Fixes
+  - **arcgis-rest-portal**: make \`layers\` parameter of \`IExportParameters\` optional [`0b584e66`](https://github.com/Esri/arcgis-rest-js/commit/0b584e66396a9559248e597ec44b256f95fc58e7)
+
+### @esri/arcgis-rest-service-admin
+
+- New Features
+  - **service-admin**: add updateServiceDefinition method [`63c2bc09`](https://github.com/Esri/arcgis-rest-js/commit/63c2bc09f3c06387f8aabc00be2a84ec2f71e35b)
+
+### @esri/arcgis-rest-types
+
+- New Features
+  - **arcgis-rest-types**: add editingInfo to ILayerDefinition [`e5467f0b`](https://github.com/Esri/arcgis-rest-js/commit/e5467f0bcc611cd9b928c2f0dd46567794a699c5)
+
+### Other Changes
+
+- New Features
+  - **arcgis-rest-auth**: add validateAppAccess function and UserSession method [`2478ea56`](https://github.com/Esri/arcgis-rest-js/commit/2478ea56d43302d3f7fab6ffd38a9d2c609bb510)
+  - **auth**: add functions to help with removal of esri_auth cookie [`eb5abae9`](https://github.com/Esri/arcgis-rest-js/commit/eb5abae90904f36d800bcb7eca5cbebe264a48a8)
+  - **service-admin**: add updateServiceDefinition method [`ed3e37f6`](https://github.com/Esri/arcgis-rest-js/commit/ed3e37f61589cc7f153d66d3fac46f49a64a50f0)
+
+## [2.20.0] - October 20th 2020
+
+### @esri/arcgis-rest-auth
+
+- Documentation
+  - **arcgis-rest-auth**: doc updates [`1d527653`](https://github.com/Esri/arcgis-rest-js/commit/1d52765378756d8fa61182034318f0585617db4e)
+- New Features
+  - **arcgis-rest-auth**: add postMessage auth support [`a6b8a17a`](https://github.com/Esri/arcgis-rest-js/commit/a6b8a17a265339725a8c5dfd90e408f28a035787)
+  - **arcgis-rest-auth**: reduce postMessageAuth query params [`154515f6`](https://github.com/Esri/arcgis-rest-js/commit/154515f66a4eedb9ee83dd8528549db55e268871)
+
+## [2.19.2] - October 13th 2020
+
+### @esri/arcgis-rest-portal
+
+- Bug Fixes
+  - **arcgis-rest-portal**: do not do any membership adjustments if the group is the users favorites g [`6fc8ada6`](https://github.com/Esri/arcgis-rest-js/commit/6fc8ada666e2ac6388418d3416db13a40c299757)
+
+## [2.19.1] - October 2nd 2020
+
+### @esri/arcgis-rest-portal
+
+- Bug Fixes
+  - **arcgis-rest-portal**: wrong parameters for file upload APIs (#761) [`cbfef7d6`](https://github.com/Esri/arcgis-rest-js/commit/cbfef7d6bd669d323dab5299966217a956fc5cfb) [#693](https://github.com/Esri/arcgis-rest-js/issues/693) [#694](https://github.com/Esri/arcgis-rest-js/issues/694) [#700](https://github.com/Esri/arcgis-rest-js/issues/700) [#761](https://github.com/Esri/arcgis-rest-js/issues/761)
+
+## [2.19.0] - September 28th 2020
+
+### @esri/arcgis-rest-portal
+
+- New Features
+  - **scrubControlChars**: add scrubControlChars [`6bb92151`](https://github.com/Esri/arcgis-rest-js/commit/6bb921512eeed9374ab35c03577fd3bfb8ea1e11)
+
+## [2.18.0] - September 11th 2020
+
+### @esri/arcgis-rest-portal
+
+- New Features
+  - **getItemBaseUrl**: add function to get the base REST API URL for an item [`d6ec9fca`](https://github.com/Esri/arcgis-rest-js/commit/d6ec9fcafbdeafc2a33d38787baa3a1d7fb1ec69)
+  - **getItemInfo**: add a function to fetch an info file for an item [`a9dd7d64`](https://github.com/Esri/arcgis-rest-js/commit/a9dd7d64834424ca348fb92818d616bb74e29a6e) [#738](https://github.com/Esri/arcgis-rest-js/issues/738)
+  - **getItemMetadata**: add a function to fetch the metadata XML for an item [`c263e1bd`](https://github.com/Esri/arcgis-rest-js/commit/c263e1bd7c13cb1ee65e5c23f994650820c023a6)
+
+## [2.17.0] - September 3rd 2020
+
+- Refactoring
+
+  - **arcgis-rest-portal**: isOrgAdmin more accurately identifies org admins [144791](https://esriarlington.tpondemand.com/entity/144791-search-filter-and-select-groups-to)
+  - **arcgis-rest-portal**: Separated shareItemWithGroup and unshareItemWithGroup into separate methods and files [144791](https://esriarlington.tpondemand.com/entity/144791-search-filter-and-select-groups-to)
+  - **arcgis-rest-portal**: Loosened unshare restrictions for org admins, they can now remove any item in their org from a group regardless of their membership to that group. [144791](https://esriarlington.tpondemand.com/entity/144791-search-filter-and-select-groups-to)
+  - **arcgis-rest-portal**: Added logic for org admins to conditionally join edit/update groups as a group admin, or view groups as a member before sharing, then removes the admin after the share call completes. If the admin is already a member, the addUser call is skipped and the admin is not removed. [144791](https://esriarlington.tpondemand.com/entity/144791-search-filter-and-select-groups-to)
+
+- New Features
+  - **arcgis-rest-portal**: Added removeUsers [144791](https://esriarlington.tpondemand.com/entity/144791-search-filter-and-select-groups-to)
+
+## [2.16.0] - August 31st 2020
+
+### @esri/arcgis-rest-portal
+
+- Bug Fixes
+
+  - **arcgis-rest-portal**: use deleteRelationship not removeRelationship [`890e4859`](https://github.com/Esri/arcgis-rest-js/commit/890e4859dc45ce1588b5ba3573c881c227267bf9) [#739](https://github.com/Esri/arcgis-rest-js/issues/739)
+  - **arcgis-rest-request**: `cleanUrl` function now resilient to null values
+
+- New Features
+  - **arcgis-rest-portal** `updateItem` respects a `.folderId` property passed in `IUpdateItemOptions`
+
+### General
+
+- ensure all projects use tslib ^1.10.0
+- bump `rollup-plugin-typescript2` to `0.22.0` which also uses ^1.10.0
+
+## [2.15.0] - August 19th 2020
+
+### @esri/arcgis-rest-portal
+
+- New Features
+  - **portal** `inviteGroupUsers` - Invites users to join a group
+  - **portal** `createOrgNotification` - Send notifications to members of an org - either via email or internal
+
+### @esri/arcgis-rest-auth
+
+- Bug Fixes
+  - **auth**: add additional authentication providers [`85f73b22`](https://github.com/Esri/arcgis-rest-js/commit/85f73b22c17a3a3ae72b559a63df2aef8297828c)
+  - **auth**: improve query and error handling when completing sign in [`4b3905ca`](https://github.com/Esri/arcgis-rest-js/commit/4b3905ca6517443c9237a44c0fc3249e579db8f5)
+
+### @esri/arcgis-rest-request
+
+- Bug Fixes
+  - **auth**: improve query and error handling when completing sign in [`4b3905ca`](https://github.com/Esri/arcgis-rest-js/commit/4b3905ca6517443c9237a44c0fc3249e579db8f5)
 
 ## [2.14.1] - July 23rd 2020
 
 ### @esri/arcgis-rest-portal
 
-* Bug Fixes
-  * added `exportItem` allows  `targetSR` to be a `string` or an `ISpatialReference`
+- Bug Fixes
+  - added `exportItem` allows `targetSR` to be a `string` or an `ISpatialReference`
 
 ## [2.14.0] - July 20th 2020
 
 ### @esri/arcgis-rest-auth
 
-* Bug Fixes
-   * **arcgis-rest-auth**: enable oAuth from within an IFrame [`e6538d5d`](https://github.com/Esri/arcgis-rest-js/commit/e6538d5d38c9b2d0f31c6392d257f0d9263170bd) [#711](https://github.com/Esri/arcgis-rest-js/issues/711)
+- Bug Fixes
+  - **arcgis-rest-auth**: enable oAuth from within an IFrame [`e6538d5d`](https://github.com/Esri/arcgis-rest-js/commit/e6538d5d38c9b2d0f31c6392d257f0d9263170bd) [#711](https://github.com/Esri/arcgis-rest-js/issues/711)
 
 ### @esri/arcgis-rest-portal
 
-* New Features
-  * added `exportItem` and `getUserContent` functions
+- New Features
+  - added `exportItem` and `getUserContent` functions
 
 ## [2.13.2] - June 11th 2020
 
-### @esri/arcgis-rest-service-admin  
-* Optimization
-  * **arcgis-rest-service-admin**: Function `createFeatureService` creates the feature service directly in a specified folder rather than creating it at the root and moving it to the folder [aa478ca]( https://github.com/Esri/arcgis-rest-js/pull/689/commits/aa478caf5dfd9290d4adce2ad704973008d68887)
+### @esri/arcgis-rest-service-admin
+
+- Optimization
+  - **arcgis-rest-service-admin**: Function `createFeatureService` creates the feature service directly in a specified folder rather than creating it at the root and moving it to the folder [aa478ca](https://github.com/Esri/arcgis-rest-js/pull/689/commits/aa478caf5dfd9290d4adce2ad704973008d68887)
 
 ## [2.13.1] - May 12th 2020
 
-### @esri/arcgis-rest-request  
+### @esri/arcgis-rest-request
 
-* Bug Fixes
-  * **request**: Patch hideToken for browser CORS support [b97860](https://github.com/Esri/arcgis-rest-js/commit/b978605f08810bbd5f0b568b36afd3f8f2adbdb2)
+- Bug Fixes
+  - **request**: Patch hideToken for browser CORS support [b97860](https://github.com/Esri/arcgis-rest-js/commit/b978605f08810bbd5f0b568b36afd3f8f2adbdb2)
 
 ## [2.13.0] - May 6th 2020
 
 ### @esri/arcgis-rest-request
 
-* New Features
-  * **request**: Add `hideToken` option to prevent passing token in query parameters [8595fab](https://github.com/Esri/arcgis-rest-js/commit/8595fabe347a4b0d1718060b12956624308e8ab1)
+- New Features
+  - **request**: Add `hideToken` option to prevent passing token in query parameters [8595fab](https://github.com/Esri/arcgis-rest-js/commit/8595fabe347a4b0d1718060b12956624308e8ab1)
 
 ## [2.12.1] - May 3rd 2020
 
 ### @esri/arcgis-rest-types
 
-* Bug Fixes
-  * Add the missing `s` in IStatisticDefinition. [c807192](https://github.com/Esri/arcgis-rest-js/commit/c8071921df9424961a325ef2875591a3a3809d94)
+- Bug Fixes
+  - Add the missing `s` in IStatisticDefinition. [c807192](https://github.com/Esri/arcgis-rest-js/commit/c8071921df9424961a325ef2875591a3a3809d94)
 
 ## [2.12.0] - April 27th 2020
 
 ### @esri/arcgis-rest-portal
 
-* New Features
-   * **arcgis-rest-portal**: add getPortalSettings function [`e956dc56`](https://github.com/Esri/arcgis-rest-js/commit/e956dc56e2fb925478767d989e4cf42cb8ac1a1c)
+- New Features
+  - **arcgis-rest-portal**: add getPortalSettings function [`e956dc56`](https://github.com/Esri/arcgis-rest-js/commit/e956dc56e2fb925478767d989e4cf42cb8ac1a1c)
 
 ## [2.11.0] - April 6th 2020
 
 ### @esri/arcgis-rest-auth
-* New Features
-  * Added getGroupCategorySchema [66ce599](https://github.com/Esri/arcgis-rest-js/commit/66ce5997911b78283db95affcf08333ed4574f3e)
-  * Added support for group contents search [ef4e404](https://github.com/Esri/arcgis-rest-js/commit/ef4e40496711ed43cde24ababaefe0f1feb7763d)
+
+- New Features
+  - Added getGroupCategorySchema [66ce599](https://github.com/Esri/arcgis-rest-js/commit/66ce5997911b78283db95affcf08333ed4574f3e)
+  - Added support for group contents search [ef4e404](https://github.com/Esri/arcgis-rest-js/commit/ef4e40496711ed43cde24ababaefe0f1feb7763d)
 
 ### @esri/arcgis-rest-types
 
-* Bug Fixes
-  * Revert Merge pull request #656 to remove const enums usage. [ea218f0](https://github.com/Esri/arcgis-rest-js/commit/ea218f0f6e898308109f7fda6daa70464ac21f79)
+- Bug Fixes
+  - Revert Merge pull request #656 to remove const enums usage. [ea218f0](https://github.com/Esri/arcgis-rest-js/commit/ea218f0f6e898308109f7fda6daa70464ac21f79)
 
 ## [2.10.1] - April 3rd 2020
 
 ### @esri/arcgis-rest-auth
-* New Features
-  * **UserSession** Add support for unmanaged sessions, async determineOwner [b8d099a](https://github.com/Esri/arcgis-rest-js/commit/b8d099ab863701cb10e7692c3817840ee6c0c8ec)
+
+- New Features
+  - **UserSession** Add support for unmanaged sessions, async determineOwner [b8d099a](https://github.com/Esri/arcgis-rest-js/commit/b8d099ab863701cb10e7692c3817840ee6c0c8ec)
 
 ### @esri/arcgis-rest-portal
 
-* New Features
-  * **portal** Add resourcesPrefix parameter to addItemResource [c368232](https://github.com/Esri/arcgis-rest-js/pull/684/commits/c3682322f7aca69c0dd3907a603304d232d8b43c)
+- New Features
 
-* Bug Fixes
-  *  If the data returned by `getItemData()` is empty, return null [05627f8](https://github.com/Esri/arcgis-rest-js/commit/05627f89c517dd3a69b9b92dd9f313144f266190)
+  - **portal** Add resourcesPrefix parameter to addItemResource [c368232](https://github.com/Esri/arcgis-rest-js/pull/684/commits/c3682322f7aca69c0dd3907a603304d232d8b43c)
+
+- Bug Fixes
+  - If the data returned by `getItemData()` is empty, return null [05627f8](https://github.com/Esri/arcgis-rest-js/commit/05627f89c517dd3a69b9b92dd9f313144f266190)
 
 ## [2.10.0] - March 17th 2020
 
 ### @esri/arcgis-rest-portal
 
-* New Features
-  * **updateinfo** Added function for updateinfo [0c068fc](https://github.com/Esri/arcgis-rest-js/commit/0c068fcd6daa5d2aad6a28c29653eff71cdddbd9)
+- New Features
 
-* Bug Fixes
-  * **shareToGroupAsNonOwner**: No longer trying to promote group owner to group admin  [84a7d41](https://github.com/Esri/arcgis-rest-js/commit/84a7d41719db0da46518163b1de14eb822d9f071)
+  - **updateinfo** Added function for updateinfo [0c068fc](https://github.com/Esri/arcgis-rest-js/commit/0c068fcd6daa5d2aad6a28c29653eff71cdddbd9)
+
+- Bug Fixes
+  - **shareToGroupAsNonOwner**: No longer trying to promote group owner to group admin [84a7d41](https://github.com/Esri/arcgis-rest-js/commit/84a7d41719db0da46518163b1de14eb822d9f071)
 
 ## [2.9.0] - March 1st 2020
 
 ### @esri/arcgis-rest-feature-layer
 
-* New Features
-   * **portal**: add updateGroupMembership, isItemSharedWithGroup [`14848dbd`](https://github.com/Esri/arcgis-rest-js/commit/14848dbd6034362628ef99c8d57d445c8ed37776)
+- New Features
+  - **portal**: add updateGroupMembership, isItemSharedWithGroup [`14848dbd`](https://github.com/Esri/arcgis-rest-js/commit/14848dbd6034362628ef99c8d57d445c8ed37776)
 
 ### @esri/arcgis-rest-portal
 
-* Documentation
-   * **portal**: fix comment in code [`5afe3be9`](https://github.com/Esri/arcgis-rest-js/commit/5afe3be91121223d89f4db2df43553ce1082641d)
-* New Features
-   * **portal**: add reassignItem [`1756cc48`](https://github.com/Esri/arcgis-rest-js/commit/1756cc48f43436f3041e44ed14827f415b106a90)
-   * **portal**: add updateGroupMembership, isItemSharedWithGroup [`14848dbd`](https://github.com/Esri/arcgis-rest-js/commit/14848dbd6034362628ef99c8d57d445c8ed37776)
+- Documentation
+  - **portal**: fix comment in code [`5afe3be9`](https://github.com/Esri/arcgis-rest-js/commit/5afe3be91121223d89f4db2df43553ce1082641d)
+- New Features
+  - **portal**: add reassignItem [`1756cc48`](https://github.com/Esri/arcgis-rest-js/commit/1756cc48f43436f3041e44ed14827f415b106a90)
+  - **portal**: add updateGroupMembership, isItemSharedWithGroup [`14848dbd`](https://github.com/Esri/arcgis-rest-js/commit/14848dbd6034362628ef99c8d57d445c8ed37776)
 
 ### @esri/arcgis-rest-service-admin
 
-* New Features
-   * **portal**: add updateGroupMembership, isItemSharedWithGroup [`14848dbd`](https://github.com/Esri/arcgis-rest-js/commit/14848dbd6034362628ef99c8d57d445c8ed37776)
+- New Features
+  - **portal**: add updateGroupMembership, isItemSharedWithGroup [`14848dbd`](https://github.com/Esri/arcgis-rest-js/commit/14848dbd6034362628ef99c8d57d445c8ed37776)
 
 ### Other Changes
 
-* New Features
-   * **portal**: add reassignItem [`2fe62ae7`](https://github.com/Esri/arcgis-rest-js/commit/2fe62ae7897506c3133f18aeed94ce4f3e793aca)
-   * **portal**: add updateGroupMembership, isItemSharedWithGroup [`ab3fefc0`](https://github.com/Esri/arcgis-rest-js/commit/ab3fefc0c6751ae84c69bd9a84797e53abf57e83)
+- New Features
+  - **portal**: add reassignItem [`2fe62ae7`](https://github.com/Esri/arcgis-rest-js/commit/2fe62ae7897506c3133f18aeed94ce4f3e793aca)
+  - **portal**: add updateGroupMembership, isItemSharedWithGroup [`ab3fefc0`](https://github.com/Esri/arcgis-rest-js/commit/ab3fefc0c6751ae84c69bd9a84797e53abf57e83)
 
 ## [2.8.2] - February 24th 2020
 
 ### @esri/arcgis-rest-portal
 
-* Bug Fixes
-   * **getItemResources**: do not mutate requestOptions in getItemResources [`cac63e80`](https://github.com/Esri/arcgis-rest-js/commit/cac63e8090b81a6fe2258529060bc6f3f0611fb0)
-   * **getItemResources**: allow user to override paging [`97cbec0b`](https://github.com/Esri/arcgis-rest-js/commit/97cbec0b918e0ec914beb60abdb36d1265ce5645)
+- Bug Fixes
+  - **getItemResources**: do not mutate requestOptions in getItemResources [`cac63e80`](https://github.com/Esri/arcgis-rest-js/commit/cac63e8090b81a6fe2258529060bc6f3f0611fb0)
+  - **getItemResources**: allow user to override paging [`97cbec0b`](https://github.com/Esri/arcgis-rest-js/commit/97cbec0b918e0ec914beb60abdb36d1265ce5645)
 
 ### Other Changes
 
-* Bug Fixes
-   * **getItemResources**: do not mutate requestOptions in getItemResources [`47841cd3`](https://github.com/Esri/arcgis-rest-js/commit/47841cd39b37a4d18ea0c2acf95a5844543045a3)
+- Bug Fixes
+  - **getItemResources**: do not mutate requestOptions in getItemResources [`47841cd3`](https://github.com/Esri/arcgis-rest-js/commit/47841cd39b37a4d18ea0c2acf95a5844543045a3)
 
 ## [2.8.1] - January 29th 2020
 
@@ -609,11 +850,7 @@ This new package contains the methods previously found in `@esri/arcgis-rest-ite
 
 ## 1.15.1 - Deprecated
 
-
-
 ## 1.15.0 - Deprecated
-
-
 
 ## [1.14.4] - January 11th 2019
 
@@ -1686,4 +1923,24 @@ Initial Public Release
 [2.13.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.13.1...v2.13.2 "v2.13.2"
 [2.14.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.13.2...v2.14.0 "v2.14.0"
 [2.14.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.14.0...v2.14.1 "v2.14.1"
-[HEAD]: https://github.com/Esri/arcgis-rest-js/compare/v2.14.1...HEAD "Unreleased Changes"
+[2.15.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.14.1...v2.15.0 "v2.15.0"
+[2.16.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.15.0...v2.16.0 "v2.16.0"
+[2.17.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.16.0...v2.17.0 "v2.17.0"
+[2.18.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.17.0...v2.18.0 "v2.18.0"
+[2.19.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.18.0...v2.19.0 "v2.19.0"
+[2.19.1]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.0...v2.19.1 "v2.19.1"
+[2.19.2]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.1...v2.19.2 "v2.19.2"
+[2.20.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.19.2...v2.20.0 "v2.20.0"
+[2.21.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.20.0...v2.21.0 "v2.21.0"
+[2.22.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.21.0...v2.22.0 "v2.22.0"
+[2.23.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.22.0...v2.23.0 "v2.23.0"
+[2.24.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.23.0...v2.24.0 "v2.24.0"
+[2.25.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.24.0...v2.25.0 "v2.25.0"
+[3.0.0]: https://github.com/Esri/arcgis-rest-js/compare/v2.25.0...v3.0.0 "v3.0.0"
+[3.0.1]: https://github.com/Esri/arcgis-rest-js/compare/v3.0.0...v3.0.1 "v3.0.1"
+[3.0.2]: https://github.com/Esri/arcgis-rest-js/compare/v3.0.1...v3.0.2 "v3.0.2"
+[3.0.3]: https://github.com/Esri/arcgis-rest-js/compare/v3.0.2...v3.0.3 "v3.0.3"
+[3.0.4]: https://github.com/Esri/arcgis-rest-js/compare/v3.0.3...v3.0.4 "v3.0.4"
+[3.0.5]: https://github.com/Esri/arcgis-rest-js/compare/v3.0.4...v3.0.5 "v3.0.5"
+[3.1.0]: https://github.com/Esri/arcgis-rest-js/compare/v3.0.5...v3.1.0 "v3.1.0"
+[head]: https://github.com/Esri/arcgis-rest-js/compare/v3.1.0...HEAD "Unreleased Changes"

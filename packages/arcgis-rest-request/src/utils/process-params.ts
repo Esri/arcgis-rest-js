@@ -75,14 +75,14 @@ export function processParams(params: any): any {
     // null, undefined, function are excluded. If you want to send an empty key you need to send an empty string "".
     switch (type) {
       case "Array":
-        // Based on the first element of the array, classify array as an array of objects to be stringified
-        // or an array of non-objects to be comma-separated
+        // Based on the first element of the array, classify array as an array of arrays, an array of objects
+        // to be stringified, or an array of non-objects to be comma-separated
+        // eslint-disable-next-line no-case-declarations
+        const firstElementType = param[0]?.constructor?.name;
         value =
-          param[0] &&
-          param[0].constructor &&
-          param[0].constructor.name === "Object"
-            ? JSON.stringify(param)
-            : param.join(",");
+          firstElementType === "Array" ? param : // pass thru array of arrays
+          firstElementType === "Object" ? JSON.stringify(param) : // stringify array of objects
+          param.join(","); // join other types of array elements
         break;
       case "Object":
         value = JSON.stringify(param);
@@ -100,7 +100,7 @@ export function processParams(params: any): any {
         value = param;
         break;
     }
-    if (value || value === 0 || typeof value === "string") {
+    if (value || value === 0 || typeof value === "string" || Array.isArray(value)) {
       newParams[key] = value;
     }
   });

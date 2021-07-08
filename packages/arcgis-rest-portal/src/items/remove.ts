@@ -6,7 +6,7 @@ import { request, appendCustomParams } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "../util/get-portal-url";
 import {
   IUserItemOptions,
-  IItemResourceOptions,
+  IRemoveItemResourceOptions,
   IFolderIdOptions,
   determineOwner,
   IManageItemRelationshipOptions
@@ -60,7 +60,7 @@ export function removeItemRelationship(
   return determineOwner(requestOptions).then(owner => {
     const url = `${getPortalUrl(
       requestOptions
-    )}/content/users/${owner}/removeRelationship`;
+    )}/content/users/${owner}/deleteRelationship`;
 
     const options = appendCustomParams<IManageItemRelationshipOptions>(
       requestOptions,
@@ -79,7 +79,7 @@ export function removeItemRelationship(
  * @returns A Promise that deletes an item resource.
  */
 export function removeItemResource(
-  requestOptions: IItemResourceOptions
+  requestOptions: IRemoveItemResourceOptions
 ): Promise<{ success: boolean }> {
   return determineOwner(requestOptions).then(owner => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
@@ -91,6 +91,12 @@ export function removeItemResource(
       ...requestOptions.params,
       resource: requestOptions.resource
     };
+
+    // only override the deleteAll param specified previously if it is passed explicitly
+    if (typeof requestOptions.deleteAll !== "undefined") {
+      requestOptions.params.deleteAll = requestOptions.deleteAll;
+    }
+
     return request(url, requestOptions);
   });
 }

@@ -31,27 +31,43 @@ export interface IFolderIdOptions extends IUserRequestOptions {
 }
 
 export type ItemRelationshipType =
-  | "Map2Service"
-  | "WMA2Code"
-  | "Map2FeatureCollection"
-  | "MobileApp2Code"
-  | "Service2Data"
-  | "Service2Service"
-  | "Map2AppConfig"
+  | "APIKey2Item"
+  | "Area2CustomPackage"
+  | "Area2Package"
   | "Item2Attachment"
   | "Item2Report"
   | "Listed2Provisioned"
-  | "Style2Style"
-  | "Service2Style"
-  | "Survey2Service"
-  | "Survey2Data"
-  | "Service2Route"
-  | "Area2Package"
+  | "Map2AppConfig"
   | "Map2Area"
+  | "Map2FeatureCollection"
+  | "Map2Service"
+  | "MobileApp2Code"
+  | "Service2Data"
   | "Service2Layer"
-  | "Area2CustomPackage"
+  | "Service2Route"
+  | "Service2Service"
+  | "Service2Style"
+  | "Solution2Item"
+  | "Style2Style"
+  | "Survey2Data"
+  | "Survey2Service"
+  | "SurveyAddIn2Data"
+  | "Theme2Story"
   | "TrackView2Map"
-  | "SurveyAddIn2Data";
+  | "WebStyle2DesktopStyle"
+  | "WMA2Code"
+  | "WorkforceMap2FeatureService"
+
+/**
+ * Names of methods for reading the body of a fetch response, see:
+ * https://developer.mozilla.org/en-US/docs/Web/API/Body#Methods
+ */
+export type FetchReadMethodName =
+  | "arrayBuffer"
+  | "blob"
+  | "formData"
+  | "json"
+  | "text";
 
 export interface IItemRelationshipOptions extends IRequestOptions {
   /**
@@ -106,6 +122,18 @@ export interface IItemResourceOptions extends IUserItemOptions {
    * Object to store
    */
   resource?: any;
+}
+
+export interface IRemoveItemResourceOptions extends IUserItemOptions {
+  /**
+   * Resource item to be removed. Resource prefix needs to be specified if the file resource has one.
+   */
+  resource?: string;
+
+  /**
+   * If true, all file resources are removed.
+   */
+  deleteAll?: boolean;
 }
 
 export interface ICreateUpdateItemOptions extends IUserRequestOptions {
@@ -249,7 +277,10 @@ export function determineOwner(requestOptions: any): Promise<string> {
     return Promise.resolve(requestOptions.owner);
   } else if (requestOptions.item && requestOptions.item.owner) {
     return Promise.resolve(requestOptions.item.owner);
-  } else if (requestOptions.authentication && requestOptions.authentication.getUsername) {
+  } else if (
+    requestOptions.authentication &&
+    requestOptions.authentication.getUsername
+  ) {
     return requestOptions.authentication.getUsername();
   } else {
     return Promise.reject(

@@ -15,7 +15,7 @@ module.exports = function(config) {
     files: ["packages/*/{src,test}/**/*.ts"],
 
     // list of files to exclude
-    exclude: [],
+    exclude: ["packages/*/{src,test}/**/*.test.live.ts"],
 
     karmaTypescriptConfig: {
       coverageOptions: {
@@ -49,8 +49,9 @@ module.exports = function(config) {
             .filter(p => p[0] !== ".")
             .reduce((alias, p) => {
               alias[`@esri/${p}`] = `packages/${p}/src/index.ts`;
+              alias['@types/terraformer__arcgis'] = `packages/arcgis-rest-geocoding/node_modules/@terraformer/arcgis/dist/t-arcgis.esm.js`;
               return alias;
-            }, {})
+            }, {}),
         }
       }
     },

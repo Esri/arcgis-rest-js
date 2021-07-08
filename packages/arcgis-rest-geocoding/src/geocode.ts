@@ -11,6 +11,8 @@ import { IExtent, ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
 
 import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers";
 
+import { arcgisToGeoJSON } from "@terraformer/arcgis";
+
 export interface IGeocodeOptions extends IEndpointOptions {
   /**
    * use this if all your address info is contained in a single string.
@@ -55,6 +57,14 @@ export interface IGeocodeResponse {
     score: number;
     attributes: object;
   }>;
+  geoJson?: {
+    type: string;
+    features: Array<{
+      type: string;
+      geometry: object;
+      properties: any;
+    }>
+  };
 }
 
 /**
@@ -117,7 +127,7 @@ export function geocode(
       if (typeof address !== "string" && address.rawResponse) {
         return response;
       }
-      const sr = response.spatialReference;
+      const sr: ISpatialReference = response.spatialReference;
       response.candidates.forEach(function(candidate: {
         location: IPoint;
         extent?: IExtent;
@@ -127,6 +137,29 @@ export function geocode(
           candidate.extent.spatialReference = sr;
         }
       });
+
+      // geoJson
+      if (sr.wkid === 4326) {
+        const features = response.candidates.map((candidate: any) => {
+          return {
+            type: "Feature",
+            geometry: arcgisToGeoJSON(candidate.location),
+            properties: Object.assign(
+              {
+                address: candidate.address,
+                score: candidate.score,
+              },
+              candidate.attributes
+            ),
+          };
+        });
+
+        response.geoJson = {
+          type: "FeatureCollection",
+          features,
+        };
+      }
+
       return response;
     }
   );

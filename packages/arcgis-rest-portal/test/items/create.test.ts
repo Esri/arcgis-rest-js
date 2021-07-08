@@ -6,7 +6,7 @@ import * as fetchMock from "fetch-mock";
 import {
   createFolder,
   createItem,
-  createItemInFolder
+  createItemInFolder,
 } from "../../src/items/create";
 
 import { ItemSuccessResponse } from "../mocks/items/item";
@@ -30,14 +30,14 @@ describe("search", () => {
       refreshTokenTTL: 1440,
       username: "casey",
       password: "123456",
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
+      portal: "https://myorg.maps.arcgis.com/sharing/rest",
     });
 
     const MOCK_USER_REQOPTS = {
-      authentication: MOCK_USER_SESSION
+      authentication: MOCK_USER_SESSION,
     };
 
-    it("should create an item with data", done => {
+    it("should create an item with data", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         owner: "dbouwman",
@@ -48,20 +48,20 @@ describe("search", () => {
         typeKeywords: ["fake", "kwds"],
         tags: ["fakey", "mcfakepants"],
         properties: {
-          key: "somevalue"
+          key: "somevalue",
         },
         data: {
           values: {
-            key: "value"
-          }
-        }
+            key: "value",
+          },
+        },
       };
       createItem({
         item: fakeItem,
         owner: "dbouwman",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -84,12 +84,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should create an item without an explicit owner", done => {
+    it("should create an item without an explicit owner", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         title: "my fake item",
@@ -100,14 +100,14 @@ describe("search", () => {
         typeKeywords: ["fake", "kwds"],
         tags: ["fakey", "mcfakepants"],
         properties: {
-          key: "somevalue"
-        }
+          key: "somevalue",
+        },
       };
       createItem({
         item: fakeItem,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -130,12 +130,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should create an item with only a username from auth", done => {
+    it("should create an item with only a username from auth", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         title: "my fake item",
@@ -145,15 +145,15 @@ describe("search", () => {
         typeKeywords: ["fake", "kwds"],
         tags: ["fakey", "mcfakepants"],
         properties: {
-          key: "somevalue"
-        }
+          key: "somevalue",
+        },
       };
       // why not just use item.owner??
       createItem({
         item: fakeItem,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -176,12 +176,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should create an item with no tags or typeKeywords", done => {
+    it("should create an item with no tags or typeKeywords", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         title: "my fake item",
@@ -189,14 +189,14 @@ describe("search", () => {
         snippet: "so very fake",
         type: "Web Mapping Application",
         properties: {
-          key: "somevalue"
-        }
+          key: "somevalue",
+        },
       };
       createItem({
         item: fakeItem,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -215,12 +215,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should create an item in a folder", done => {
+    it("should create an item in a folder", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         owner: "dbouwman",
@@ -229,15 +229,15 @@ describe("search", () => {
         snipped: "so very fake",
         type: "Web Mapping Application",
         typeKeywords: ["fake", "kwds"],
-        tags: ["fakey", "mcfakepants"]
+        tags: ["fakey", "mcfakepants"],
       };
       createItemInFolder({
         owner: "dbouwman",
         item: fakeItem,
         folderId: "fe8",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -256,12 +256,12 @@ describe("search", () => {
           );
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should create an item in a folder and pass through arbitrary params", done => {
+    it("should create an item in a folder and pass through arbitrary params", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         owner: "dbouwman",
@@ -270,16 +270,16 @@ describe("search", () => {
         snipped: "so very fake",
         type: "Web Mapping Application",
         typeKeywords: ["fake", "kwds"],
-        tags: ["fakey", "mcfakepants"]
+        tags: ["fakey", "mcfakepants"],
       };
       createItemInFolder({
         owner: "dbouwman",
         item: fakeItem,
         folderId: "fe8",
         params: {
-          foo: "bar"
+          foo: "bar",
         },
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -301,12 +301,12 @@ describe("search", () => {
           );
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should create an item in a folder when no owner is passed", done => {
+    it("should create an item in a folder when no owner is passed", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         owner: "casey",
@@ -315,11 +315,11 @@ describe("search", () => {
         snipped: "so very fake",
         type: "Web Mapping Application",
         typeKeywords: ["fake", "kwds"],
-        tags: ["fakey", "mcfakepants"]
+        tags: ["fakey", "mcfakepants"],
       };
       createItemInFolder({
         item: fakeItem,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -340,19 +340,19 @@ describe("search", () => {
           );
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should create a folder", done => {
+    it("should create a folder", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const title = "an amazing folder";
       createFolder({
         title,
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -367,48 +367,26 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should throw an error for a file upload request with multipart=false", done => {
+    it("should throw an error for a multipart request with no file name", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         owner: "casey",
         title: "my fake item",
-        type: "Web Mapping Application"
+        type: "Web Mapping Application",
       };
-      createItemInFolder({
-        item: fakeItem,
-        file: "some file",
-        // multipart is required to be true for file upload
-        multipart: false,
-        ...MOCK_USER_REQOPTS
-      })
-        .then(() => {
-          fail();
-        })
-        .catch(() => {
-          expect(fetchMock.called()).toEqual(false);
-          done();
-        });
-    });
-
-    it("should throw an error for a multipart request with no file name", done => {
-      fetchMock.once("*", ItemSuccessResponse);
-      const fakeItem = {
-        owner: "casey",
-        title: "my fake item",
-        type: "Web Mapping Application"
-      };
+      fetchMock.post("*", () => 200);
       createItemInFolder({
         item: fakeItem,
         file: "some file",
         multipart: true,
         // multipart is required for a multipart request
         filename: "",
-        ...MOCK_USER_REQOPTS
+        ...MOCK_USER_REQOPTS,
       })
         .then(() => {
           fail();

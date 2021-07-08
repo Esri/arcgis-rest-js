@@ -28,7 +28,7 @@ export function attachmentFile() {
   } else {
     const fs = require("fs");
     return fs.createReadStream(
-      "./packages/arcgis-rest-feature-service/test/mocks/foo.txt"
+      "./packages/arcgis-rest-feature-layer/test/mocks/foo.txt"
     );
   }
 }

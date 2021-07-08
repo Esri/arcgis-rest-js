@@ -18,4 +18,5 @@ export interface IAuthenticationManager {
    */
   portal: string;
   getToken(url: string, requestOptions?: ITokenRequestOptions): Promise<string>;
+  getDomainCredentials?(url: string): RequestCredentials;
 }

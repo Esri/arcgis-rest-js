@@ -5,7 +5,7 @@ import {
   request,
   IRequestOptions,
   ITokenRequestOptions,
-  NODEJS_DEFAULT_REFERER_HEADER
+  NODEJS_DEFAULT_REFERER_HEADER,
 } from "@esri/arcgis-rest-request";
 
 export interface IGenerateTokenResponse {

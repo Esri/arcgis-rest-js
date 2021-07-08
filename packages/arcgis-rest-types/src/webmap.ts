@@ -416,8 +416,8 @@ export interface ITable {
   capabilities?: string;
   /** Object indicating the definitionEditor used as a layer's interactive filter. */
   definitionEditor?: IDefinitionEditor;
-  /** Unique string identifier for the table. */
-  id?: string;
+  /** Unique identifier for the table. */
+  id?: number;
   /** Unique string value indicating an item registered in ArcGIS Online or your organization's portal. */
   itemId?: string;
   /** A layerDefinition object defining a definition expression for the table. */
@@ -892,6 +892,11 @@ export interface IDrawingInfo {
   transparency?: number;
 }
 
+export interface IEditingInfo {
+  /** date of last edit to the layer  */
+  lastEditDate?: number
+}
+
 /**
  * `ILayerDefinition` can also be imported from the following packages:
  *
@@ -923,6 +928,8 @@ export interface ILayerDefinition extends IHasZM {
   drawingInfo?: any;
   /** An object defining the rectangular area. */
   extent?: IExtent | null;
+  /** An object defining the editing info (last edit date). */
+  editingInfo?: IEditingInfo;
   /** Feature reductions declutter the screen by hiding features that would otherwise intersect with other features on screen. */
   featureReduction?: any;
   /** An array of field objects containing information about the attribute fields for the feature collection or layer. */

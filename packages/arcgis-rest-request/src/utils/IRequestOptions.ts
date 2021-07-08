@@ -29,13 +29,18 @@ export interface IRequestOptions {
    */
   hideToken?: boolean;
   /**
-   * Base url for the portal you want to make the request to. Defaults to 'https://www.arcgis.com/sharing/rest'.
+   * Base url for the portal you want to make the request to. Defaults to authentication.portal if authentication
+   * exists, otherwise to 'https://www.arcgis.com/sharing/rest'.
    */
   portal?: string;
   /**
    * The implementation of `fetch` to use. Defaults to a global `fetch`.
    */
   fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+  /**
+   * A string indicating whether credentials (cookies) will be sent with the request. Used internally for authentication workflows.
+   */
+  credentials?: RequestCredentials;
   /**
    * If the length of a GET request's URL exceeds `maxUrlLength` the request will use POST instead.
    */

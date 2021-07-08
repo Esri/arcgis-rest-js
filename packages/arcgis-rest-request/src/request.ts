@@ -15,8 +15,8 @@ export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 let DEFAULT_ARCGIS_REQUEST_OPTIONS: IRequestOptions = {
   httpMethod: "POST",
   params: {
-    f: "json"
-  }
+    f: "json",
+  },
 };
 
 /**
@@ -74,19 +74,19 @@ export class ArcGISAuthError extends ArcGISRequestError {
 
     const retryRequest = (resolve: any, reject: any) => {
       getSession(this.url, this.options)
-        .then(session => {
+        .then((session) => {
           const newOptions = {
             ...this.options,
-            ...{ authentication: session }
+            ...{ authentication: session },
           };
 
           tries = tries + 1;
           return request(this.url, newOptions);
         })
-        .then(response => {
+        .then((response) => {
           resolve(response);
         })
-        .catch(e => {
+        .catch((e) => {
           if (e.name === "ArcGISAuthError" && tries < retryLimit) {
             retryRequest(resolve, reject);
           } else if (e.name === "ArcGISAuthError" && tries >= retryLimit) {
@@ -149,7 +149,7 @@ export function checkForErrors(
   // error from a status check
   if (response.status === "failed" || response.status === "failure") {
     let message: string;
-    let code: string = "UNKNOWN_ERROR_CODE";
+    let code = "UNKNOWN_ERROR_CODE";
 
     try {
       message = JSON.parse(response.statusMessage).message;
@@ -197,13 +197,13 @@ export function request(
     ...{
       params: {
         ...DEFAULT_ARCGIS_REQUEST_OPTIONS.params,
-        ...requestOptions.params
+        ...requestOptions.params,
       },
       headers: {
         ...DEFAULT_ARCGIS_REQUEST_OPTIONS.headers,
-        ...requestOptions.headers
-      }
-    }
+        ...requestOptions.headers,
+      },
+    },
   };
 
   const missingGlobals: string[] = [];
@@ -245,7 +245,7 @@ export function request(
 
   const params: IParams = {
     ...{ f: "json" },
-    ...options.params
+    ...options.params,
   };
 
   let originalAuthError: ArcGISAuthError = null;
@@ -254,11 +254,22 @@ export function request(
     method: httpMethod,
     /* ensures behavior mimics XMLHttpRequest.
     needed to support sending IWA cookies */
-    credentials: "same-origin"
+    credentials: options.credentials || "same-origin",
   };
 
+  // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
+  // and that request needs to send cookies cross domain
+  // so we need to set the credentials to "include"
+  if (
+    options.headers &&
+    options.headers["X-Esri-Auth-Client-Id"] &&
+    url.indexOf("/oauth2/platformSelf") > -1
+  ) {
+    fetchOptions.credentials = "include";
+  }
+
   return (authentication
-    ? authentication.getToken(url, { fetch: options.fetch }).catch(err => {
+    ? authentication.getToken(url, { fetch: options.fetch }).catch((err) => {
         /**
          * append original request url and requestOptions
          * to the error thrown by getToken()
@@ -276,23 +287,30 @@ export function request(
       })
     : Promise.resolve("")
   )
-    .then(token => {
+    .then((token) => {
       if (token.length) {
         params.token = token;
+      }
+
+      if (authentication && authentication.getDomainCredentials) {
+        fetchOptions.credentials = authentication.getDomainCredentials(url);
       }
 
       // Custom headers to add to request. IRequestOptions.headers with merge over requestHeaders.
       const requestHeaders: {
         [key: string]: any;
       } = {};
-      
+
       if (fetchOptions.method === "GET") {
         // Prevents token from being passed in query params when hideToken option is used.
         /* istanbul ignore if - window is always defined in a browser. Test case is covered by Jasmine in node test */
-        if (params.token && options.hideToken && 
+        if (
+          params.token &&
+          options.hideToken &&
           // Sharing API does not support preflight check required by modern browsers https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
-          typeof window === 'undefined') {
-          requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`
+          typeof window === "undefined"
+        ) {
+          requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`;
           delete params.token;
         }
         // encode the parameters into the query string
@@ -304,7 +322,7 @@ export function request(
         if (
           // This would exceed the maximum length for URLs specified by the consumer and requires POST
           (options.maxUrlLength &&
-          urlWithQueryString.length > options.maxUrlLength) ||
+            urlWithQueryString.length > options.maxUrlLength) ||
           // Or if the customer requires the token to be hidden and it has not already been hidden in the header (for browsers)
           (params.token && options.hideToken)
         ) {
@@ -336,7 +354,7 @@ export function request(
       // Mixin headers from request options
       fetchOptions.headers = {
         ...requestHeaders,
-        ...options.headers
+        ...options.headers,
       };
 
       /* istanbul ignore next - karma reports coverage on browser tests only */
@@ -352,7 +370,7 @@ export function request(
 
       return options.fetch(url, fetchOptions);
     })
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
         // server responded w/ an actual error (404, 500, etc)
         const { status, statusText } = response;
@@ -381,7 +399,7 @@ export function request(
           return response.blob();
       }
     })
-    .then(data => {
+    .then((data) => {
       if ((params.f === "json" || params.f === "geojson") && !rawResponse) {
         const response = checkForErrors(
           data,
@@ -390,6 +408,7 @@ export function request(
           options,
           originalAuthError
         );
+
         if (originalAuthError) {
           /* if the request was made to an unfederated service that
           didnt require authentication, add the base url and a dummy token
@@ -398,10 +417,11 @@ export function request(
           const truncatedUrl: string = url
             .toLowerCase()
             .split(/\/rest(\/admin)?\/services\//)[0];
-          (options.authentication as any).trustedServers[truncatedUrl] = {
+
+          (options.authentication as any).federatedServers[truncatedUrl] = {
             token: [],
             // default to 24 hours
-            expires: new Date(Date.now() + 86400 * 1000)
+            expires: new Date(Date.now() + 86400 * 1000),
           };
           originalAuthError = null;
         }

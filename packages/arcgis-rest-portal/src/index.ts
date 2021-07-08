@@ -15,6 +15,8 @@ export * from "./items/helpers";
 export * from "./items/upload";
 
 export * from "./groups/add-users";
+export * from "./groups/remove-users";
+export * from "./groups/invite-users";
 export * from "./groups/create";
 export * from "./groups/get";
 export * from "./groups/helpers";
@@ -26,6 +28,8 @@ export * from "./groups/update";
 export * from "./groups/update-user-membership";
 export * from "./groups/join";
 
+export * from "./orgs/notification";
+
 export * from "./users/get-user";
 export * from "./users/get-user-tags";
 export * from "./users/get-user-url";
@@ -35,12 +39,18 @@ export * from "./users/search-users";
 export * from "./users/update";
 
 export * from "./sharing/access";
-export * from "./sharing/group-sharing";
+export * from "./sharing/share-item-with-group";
+export * from "./sharing/unshare-item-with-group";
+export * from "./sharing/is-item-shared-with-group";
 export * from "./sharing/helpers";
+
+export * from "./services/get-unique-service-name";
+export * from "./services/is-service-name-available";
 
 export * from "./util/get-portal";
 export * from "./util/get-portal-settings";
 export * from "./util/get-portal-url";
+export * from "./util/scrub-control-chars";
 export * from "./util/search";
 export * from "./util/SearchQueryBuilder";
 // we dont export 'generic-search' because its an internal utility method
@@ -55,5 +65,5 @@ export {
   IFolder,
   IGroupAdd,
   IGroup,
-  GroupMembership
+  GroupMembership,
 } from "@esri/arcgis-rest-types";
