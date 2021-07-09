@@ -28,7 +28,7 @@ export interface IAppAccess {
  *
  * return validateAppAccess('your-token', 'theClientId')
  * .then((result) => {
- *    if (!result.valud) {
+ *    if (!result.value) {
  *      // redirect or show some other ui
  *    } else {
  *      if (result.viewOnlyUserTypeApp) {

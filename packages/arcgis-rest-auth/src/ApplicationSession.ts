@@ -78,7 +78,7 @@ export class ApplicationSession implements IAuthenticationManager {
     this.duration = options.duration || 7200;
   }
 
-  // url isnt actually read or passed through.
+  // URL is not actually read or passed through.
   public getToken(
     url: string,
     requestOptions?: ITokenRequestOptions
