@@ -17,11 +17,11 @@ export interface IAllLayersAndTablesResponse {
  * ```
  * Fetches all the layers and tables associated with a given layer service.
  * Wrapper for https://developers.arcgis.com/rest/services-reference/all-layers-and-tables.htm
- * TODO: should we expand this to support other valid params of the endpoint?
  * 
  * @param options - Request options, including the url for the layer service
  * @returns A Promise that will resolve with the layers and tables for the given service
  */
+// TODO: should we expand this to support other valid params of the endpoint?
 export function getAllLayersAndTables(options: IGetLayerOptions): Promise<IAllLayersAndTablesResponse> {
   const { url, ...requestOptions } = options;
   const layersUrl = `${parseServiceUrl(url)}/layers`;
