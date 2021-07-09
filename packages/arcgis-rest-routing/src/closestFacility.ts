@@ -124,6 +124,7 @@ function getTravelDirection(
  * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with routes and directions for the request.
  * @restlink https://developers.arcgis.com/rest/network/api-reference/closest-facility-synchronous-service.htm
+ * @inline IClosestFacilityOptions
  */
 export function closestFacility(
   requestOptions: IClosestFacilityOptions
