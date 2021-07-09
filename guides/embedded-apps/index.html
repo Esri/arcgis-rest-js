@@ -122,7 +122,7 @@
 <p>We will walk through the flows at a high-level</p>
 <h2>1 Host App uses oAuth</h2>
 <p>The application acting as the host, should use oAuth to authenticate the user, and <em>before</em> rendering the iframe with the embedded application it must call <code>session.enablePostMessageAuth(validOrigins)</code>. This sets up a listener that will process the requests from the embedded application(s).</p>
-<p>The <code>validOrigins</code> argument is an array of &quot;orgins&quot; your app expects to get auth requests from. <strong>NOTE</strong> This should be a constrained list of just the domains this particular application will actually be embedding.</p>
+<p>The <code>validOrigins</code> argument is an array of &quot;origins&quot; your app expects to get auth requests from. <strong>NOTE</strong> This should be a constrained list of just the domains this particular application will actually be embedding.</p>
 <pre><code class="js"><span class="hljs-comment">// register your own app to create a unique clientId</span>
 <span class="hljs-keyword">const</span> clientId = <span class="hljs-string">"abc123"</span>;
 
@@ -147,7 +147,7 @@ UserSession.beginOAuth2({
 </ul>
 <pre><code class="js"><span class="hljs-keyword">const</span> originalUrl =
   <span class="hljs-string">"https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd"</span>;
-<span class="hljs-keyword">const</span> embedUrl = <span class="hljs-string">`<span class="hljs-subst">${originalurl}</span>
+<span class="hljs-keyword">const</span> embedUrl = <span class="hljs-string">`<span class="hljs-subst">${originalUrl}</span>
     ?arcgis-auth-origin=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(<span class="hljs-built_in">window</span>.location.origin)}</span>
     &amp;arcgis-auth-portal=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(session.portal)}</span>`</span>;
 <span class="hljs-comment">// then use embedUrl in your component that renders the &lt;iframe&gt;</span>
@@ -162,7 +162,7 @@ UserSession.beginOAuth2({
   UserSession.fromParent(arcgisAuthOrigin)
     .then(<span class="hljs-function">(<span class="hljs-params">session</span>) =&gt;</span> {
       <span class="hljs-comment">// session is a UserSession instance, populated from the parent app</span>
-      <span class="hljs-comment">// the embeded app should exchange this token for one specific to the application</span>
+      <span class="hljs-comment">// the embedded app should exchange this token for one specific to the application</span>
     })
     .catch(<span class="hljs-function">(<span class="hljs-params">ex</span>) =&gt;</span> {
       <span class="hljs-comment">// The only case it will reject is if the parent is unable to return a credential</span>
@@ -172,7 +172,7 @@ UserSession.beginOAuth2({
 </code></pre>
 <h4>Clean up</h4>
 <p>While rest-js will attempt to clean up the listeners automatically, if the host application is no longer going to render the iframe before the embedded app has had a chance to request the authentication, then the app should manually clean up the listener by calling <code>session.disablePostMessageAuth()</code></p>
-<p>Typically you would make this call in the life-cycle hooks of your application framework (i.e. an Angular, Ember, React etc app with a router). The example below uses the <code>disconnectedCallback</code> that is part of the Stenci.js component life-cycle.</p>
+<p>Typically you would make this call in the life-cycle hooks of your application framework (i.e. an Angular, Ember, React etc app with a router). The example below uses the <code>disconnectedCallback</code> that is part of the Stencil.js component life-cycle.</p>
 <pre><code class="js">  <span class="hljs-comment">// Use your framework's hooks...</span>
   disconnectedCallback () {
     <span class="hljs-comment">// stop listening for requests from children</span>

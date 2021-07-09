@@ -2073,14 +2073,14 @@
 
 
   
-    <p>When a client app boots up, it will know it's clientId and the redirectUri for use
+    <p>When a client app boots up, it will know its clientId and the redirectUri for use
 in the normal /oauth/authorize pop-out oAuth flow.</p>
 <p>If the app sees an <code>esri_aopc</code> cookie (only set if the app is hosted on *.arcgis.com),
 it can call the /oauth2/platformSelf end-point passing in the clientId and redirectUri
-in headers, and it will recieve back an app-specific token, assuming the user has
+in headers, and it will receive back an app-specific token, assuming the user has
 access to the app.</p>
-<p>Since there are scenarios where an app can boot using credintials/token from localstorage
-but those creds are not for the same user as the esri_aopc cookie, it is recommended that
+<p>Since there are scenarios where an app can boot using credentials/token from localstorage
+but those credentials are not for the same user as the esri_aopc cookie, it is recommended that
 an app check the returned username against any existing identity they may have loaded.</p>
 <p>Note: This is only usable by Esri applications hosted on *<a href="http://arcgis.com">arcgis.com</a>, *<a href="http://esri.com">esri.com</a> or within
 an ArcGIS Enterprise installation. Custom applications can not use this.</p>
@@ -2088,7 +2088,7 @@ an ArcGIS Enterprise installation. Custom applications can not use this.</p>
 <span class="hljs-keyword">import</span> { platformSelf, UserSession } <span class="hljs-keyword">from</span> <span class="hljs-string">'@esri/arcgis-rest-auth'</span>;
 
 <span class="hljs-keyword">const</span> portal = <span class="hljs-string">'https://www.arcgis.com/sharing/rest'</span>;
-<span class="hljs-keyword">const</span> clientId = <span class="hljs-string">'YOURAPPCLIENID'</span>;
+<span class="hljs-keyword">const</span> clientId = <span class="hljs-string">'YOURAPPCLIENTID'</span>;
 
 <span class="hljs-comment">// exchange esri_aopc cookie</span>
 <span class="hljs-keyword">return</span> platformSelf(clientId, <span class="hljs-string">'https://your-app-redirect-uri'</span>, portal)
@@ -2101,7 +2101,7 @@ an ArcGIS Enterprise installation. Custom applications can not use this.</p>
    clientId,
    <span class="hljs-attr">username</span>: response.username,
    <span class="hljs-attr">token</span>: response.token,
-   <span class="hljs-attr">tokenExpires</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(tokenExiresTimestamp),
+   <span class="hljs-attr">tokenExpires</span>: <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(tokenExpiresTimestamp),
    <span class="hljs-attr">ssl</span>: <span class="hljs-literal">true</span>
  });
 })
