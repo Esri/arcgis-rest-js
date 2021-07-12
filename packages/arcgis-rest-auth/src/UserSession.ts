@@ -103,7 +103,7 @@ export interface IOAuth2Options {
   provider?: AuthenticationProvider;
 
   /**
-   * The requested validity in minutes for a token. Defaults to 20160 (two weeks).
+   * Duration (in minutes) that a token will be valid for browser-based OAuth 2.0 or the refresh token will be valid for server-based OAuth 2.0. The default is 20160 (two weeks) for both.
    */
    expiration?: number;
 
@@ -129,7 +129,7 @@ export interface IOAuth2Options {
   popupWindowFeatures?: string;
 
   /**
-   * Duration (in minutes) that a refresh token will be valid.
+   * Duration (in minutes) that a refresh token will be valid. This is only relevant for server-based OAuth 2.0 and will override the `duration` parameter.
    *
    * @nodeOnly
    */
@@ -543,17 +543,23 @@ export class UserSession implements IAuthenticationManager {
     if(options.duration) {
       console.log("DEPRECATED: 'duration' is deprecated - use 'expiration' instead");
     }
-    const { portal, clientId, expiration, redirectUri }: IOAuth2Options = {
-      ...{ portal: "https://arcgis.com/sharing/rest", expiration: 20160 },
-      ...options,
+    
+    const { portal, clientId, redirectUri, refreshTokenTTL, state }: IOAuth2Options = {
+      ...{ portal: "https://arcgis.com/sharing/rest" },
+      ...options
     };
+    const expiration = refreshTokenTTL ? refreshTokenTTL : (options.expiration ? options.expiration : 20160);
+
+    let url = `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${options.duration || expiration}&response_type=code&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}`;
+    if(state){
+      url = `${url}&state=${state}`;
+    }
 
     response.writeHead(301, {
-      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${options.duration || expiration}&response_type=code&redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}`,
+      Location: url
     });
-
     response.end();
   }
 
@@ -570,7 +576,7 @@ export class UserSession implements IAuthenticationManager {
     const { portal, clientId, redirectUri, refreshTokenTTL }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
-        refreshTokenTTL: 1440,
+        refreshTokenTTL: 20160
       },
       ...options,
     };
@@ -591,7 +597,7 @@ export class UserSession implements IAuthenticationManager {
         refreshToken: response.refreshToken,
         refreshTokenTTL,
         refreshTokenExpires: new Date(
-          Date.now() + (refreshTokenTTL - 1) * 1000
+          Date.now() + (refreshTokenTTL - 1) * 60 * 1000
         ),
         token: response.token,
         tokenExpires: response.expires,
@@ -705,7 +711,7 @@ export class UserSession implements IAuthenticationManager {
   public readonly redirectUri: string;
 
   /**
-   * Duration of new OAuth 2.0 refresh token validity.
+   * Duration of new OAuth 2.0 refresh token validity in minutes.
    */
   public readonly refreshTokenTTL: number;
 
@@ -780,7 +786,7 @@ export class UserSession implements IAuthenticationManager {
     this.provider = options.provider || "arcgis";
     this.tokenDuration = options.tokenDuration || 20160;
     this.redirectUri = options.redirectUri;
-    this.refreshTokenTTL = options.refreshTokenTTL || 1440;
+    this.refreshTokenTTL = options.refreshTokenTTL || 20160;
     this.server = options.server;
 
     this.federatedServers = {};
