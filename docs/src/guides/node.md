@@ -27,7 +27,7 @@ request("https://www.arcgis.com/sharing/rest/info")
   .then(response => console.log(response));
 ```
 
-Or, if using NodeJS version higher v13 or higher, if you set `"type": "module"` in the `package.json` you can use [ES Modules](https://nodejs.org/docs/latest-v12.x/api/packages.html#packages_determining_module_system) import syntax:
+Or, if using NodeJS version v13 or higher, if you set `"type": "module"` in the `package.json` you can use [ES Modules](https://nodejs.org/docs/latest-v12.x/api/packages.html#packages_determining_module_system) import syntax:
 
 ```js
 import fetch from "node-fetch";
