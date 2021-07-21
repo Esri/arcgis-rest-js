@@ -15,6 +15,7 @@ npm install @esri/arcgis-rest-request @esri/arcgis-rest-auth cross-fetch isomorp
 ```
 
 Require `cross-fetch` and `isomorphic-form-data` before using any of the ArcGIS REST JS methods.
+
 ```js
 // ensures fetch is available as a global
 require("cross-fetch/polyfill");
@@ -23,11 +24,10 @@ require("isomorphic-form-data");
 const { request } = require("@esri/arcgis-rest-request");
 
 request("https://www.arcgis.com/sharing/rest/info")
-  .then(response);
+  .then(response => console.log(response));
 ```
 
-Or, if using Node.js [ES Modules](https://nodejs.org/docs/latest-v12.x/api/packages.html#packages_determining_module_system) import syntax:
-
+Or, if using NodeJS version > v13, if you set `"type": "module"` in the `package.json` you can use [ES Modules](https://nodejs.org/docs/latest-v12.x/api/packages.html#packages_determining_module_system) import syntax:
 
 ```js
 import fetch from "node-fetch";
@@ -36,7 +36,7 @@ import arcgisRestRequest from "@esri/arcgis-rest-request";
 arcgisRestRequest.setDefaultRequestOptions({ fetch, FormData });
 
 arcgisRestRequest.request("https://www.arcgis.com/sharing/rest/info")
-  .then(response);
+  .then(response => console.log(response));
 ```
 
 You can also pass through your own named `fetch` implementation.
@@ -100,4 +100,5 @@ const authentication = new UserSession({
   password: "123456"
 })
 ```
+
 See the [Browser Authentication](../browser-authentication/) for more information about implementing OAuth 2.0.
