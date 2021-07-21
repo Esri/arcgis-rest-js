@@ -70,14 +70,12 @@ export function decompressGeometry(str: string) {
   const points = [];
   let x;
   let y;
-  let strings;
-  let coefficient;
 
   // Split the string into an array on the + and - characters
-  strings = str.match(/((\+|\-)[^\+\-]+)/g);
+  const strings = str.match(/((\+|-)[^+-]+)/g);
 
   // The first value is the coefficient in base 32
-  coefficient = parseInt(strings[0], 32);
+  const coefficient = parseInt(strings[0], 32);
 
   for (let j = 1; j < strings.length; j += 2) {
     // j is the offset for the x value
@@ -102,5 +100,5 @@ export function decompressGeometry(str: string) {
  * User Defined Type Guard that verifies this is a featureSet
  */
 export function isFeatureSet(arg: any): arg is IFeatureSet {
-  return arg.hasOwnProperty('features');
+  return Object.prototype.hasOwnProperty.call(arg, 'features');
 }

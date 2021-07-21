@@ -967,6 +967,52 @@ describe("UserSession", () => {
         "https://www.arcgis.com/sharing/rest/oauth2/social/authorize?client_id=clientId123&socialLoginProviderName=google&autoAccountCreateForSocial=true&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=clientId123&locale="
       );
     });
+
+    it("should pass custom expiration", () => {
+      const MockWindow: any = {
+        location: {
+          href: "",
+        },
+      };
+
+      // https://github.com/palantir/tslint/issues/3056
+      void UserSession.beginOAuth2(
+        {
+          clientId: "clientId123",
+          redirectUri: "http://example-app.com/redirect",
+          popup: false,
+          expiration: 9000
+        },
+        MockWindow
+      );
+
+      expect(MockWindow.location.href).toBe(
+        "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId123&response_type=token&expiration=9000&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=clientId123&locale="
+      );
+    });
+
+    it("should pass custom duration (DEPRECATED)", () => {
+      const MockWindow: any = {
+        location: {
+          href: "",
+        },
+      };
+
+      // https://github.com/palantir/tslint/issues/3056
+      void UserSession.beginOAuth2(
+        {
+          clientId: "clientId123",
+          redirectUri: "http://example-app.com/redirect",
+          popup: false,
+          duration: 9001
+        },
+        MockWindow
+      );
+
+      expect(MockWindow.location.href).toBe(
+        "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId123&response_type=token&expiration=9001&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=clientId123&locale="
+      );
+    });
   });
 
   describe(".completeOAuth2()", () => {
@@ -1474,7 +1520,7 @@ describe("UserSession", () => {
         end() {
           expect(spy.calls.mostRecent().args[0]).toBe(301);
           expect(spy.calls.mostRecent().args[1].Location).toBe(
-            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&duration=20160&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
+            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=20160&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
           );
           done();
         },
@@ -1484,6 +1530,52 @@ describe("UserSession", () => {
         {
           clientId: "clientId",
           redirectUri: "https://example-app.com/redirect-uri",
+        },
+        MockResponse
+      );
+    });
+
+    it("should redirect the request to the authorization page with custom expiration", (done) => {
+      const spy = jasmine.createSpy("spy");
+      const MockResponse: any = {
+        writeHead: spy,
+        end() {
+          expect(spy.calls.mostRecent().args[0]).toBe(301);
+          expect(spy.calls.mostRecent().args[1].Location).toBe(
+            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=10000&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
+          );
+          done();
+        },
+      };
+
+      UserSession.authorize(
+        {
+          clientId: "clientId",
+          redirectUri: "https://example-app.com/redirect-uri",
+          expiration: 10000
+        },
+        MockResponse
+      );
+    });
+
+    it("should redirect the request to the authorization page with custom duration (DEPRECATED)", (done) => {
+      const spy = jasmine.createSpy("spy");
+      const MockResponse: any = {
+        writeHead: spy,
+        end() {
+          expect(spy.calls.mostRecent().args[0]).toBe(301);
+          expect(spy.calls.mostRecent().args[1].Location).toBe(
+            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=10001&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
+          );
+          done();
+        },
+      };
+
+      UserSession.authorize(
+        {
+          clientId: "clientId",
+          redirectUri: "https://example-app.com/redirect-uri",
+          duration: 10001
         },
         MockResponse
       );

@@ -1,11 +1,24 @@
+/* Copyright (c) 2018-2021 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+
 import { IParamBuilder, warn } from "@esri/arcgis-rest-request";
+
 /**
- * `SearchQueryBuilder` can be used to construct the `q` param for [`searchItems`](/arcgis-rest-js/api/portal/searchItems#searchItems-search) or [`searchGroups`](/arcgis-rest-js/api/portal/searchGroups#searchGroups-search). By chaining methods, it helps build complex search queries.
+ * `SearchQueryBuilder` can be used to construct the `q` param for
+ * [`searchItems`](/arcgis-rest-js/api/portal/searchItems#searchItems-search) or
+ * [`searchGroups`](/arcgis-rest-js/api/portal/searchGroups#searchGroups-search).
+ * By chaining methods, it helps build complex search queries.
  *
  * ```js
+ * const startDate = new Date("2020-01-01");
+ * const endDate = new Date("2020-09-01");
  * const query = new SearchQueryBuilder()
  *  .match("Patrick")
  *  .in("owner")
+ *  .and()
+ *  .from(startDate)
+ *  .to(endDate)
+ *  .in("created")
  *  .and()
  *  .startGroup()
  *    .match("Web Mapping Application")
@@ -27,7 +40,7 @@ import { IParamBuilder, warn } from "@esri/arcgis-rest-request";
  *
  * Will search for items matching
  * ```
- * "owner: Patrick AND (type:"Web Mapping Application" OR type:"Mobile Application" OR type:Application) AND Demo App"
+ * "owner: Patrick AND created:[1577836800000 TO 1598918400000] AND (type:"Web Mapping Application" OR type:"Mobile Application" OR type:Application) AND Demo App"
  * ```
  */
 export class SearchQueryBuilder implements IParamBuilder {
@@ -40,7 +53,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   /**
    * @param q An existing query string to start building from.
    */
-  constructor(q: string = "") {
+  constructor(q = "") {
     this.q = q;
   }
 
@@ -75,7 +88,7 @@ export class SearchQueryBuilder implements IParamBuilder {
 
     if (!this.hasRange && !this.hasTerms) {
       warn(
-        // prettier-ignore
+        // apparently-p-rettier-ignore causes some
         `${fn} was called with no call to \`match(...)\` or \`from(...)\`/\`to(...)\`. Your query was not modified.`
       );
       return this;
@@ -199,17 +212,21 @@ export class SearchQueryBuilder implements IParamBuilder {
    * Begins a new range query.
    *
    * ```js
+   * 
+   * const NEWYEARS = new Date("2020-01-01")
+   * const TODAY = new Date()
+   * 
    * const query = new SearchQueryBuilder()
-   *   .from(yesterdaysDate)
-   *   .to(todaysDate)
+   *   .from(NEWYEARS)
+   *   .to(TODAY)
    *   .in("created")
    * ```
    */
   public from(this: SearchQueryBuilder, term: number | string | Date) {
     if (this.hasTerms) {
       warn(
-        // prettier-ignore
-        `\`from(...)\` is not allowed after \`match(...)\` try using \`.from(...).to(...).in(...)\`. Your query was not modified.`
+        // apparently-p*rettier-ignore causes prettier to strip *all* comments O_o
+        `\`from(...)\` is not allowed after \`match(...)\` try using \`.from(...).to(...).in(...)\`. Optionally, you may see this because dates are incorrectly formatted. Dates should be a primative Date value, aka a number in milliseconds or Date object, ie new Date("2020-01-01").  Your query was not modified.`
       );
       return this;
     }
@@ -230,8 +247,8 @@ export class SearchQueryBuilder implements IParamBuilder {
   public to(this: SearchQueryBuilder, term: any) {
     if (this.hasTerms) {
       warn(
-        // prettier-ignore
-        `\`to(...)\` is not allowed after \`match(...)\` try using \`.from(...).to(...).in(...)\`. Your query was not modified.`
+        // apparently-p*rettier-ignore causes prettier to strip *all* comments O_o
+        `\`to(...)\` is not allowed after \`match(...)\` try using \`.from(...).to(...).in(...)\`. Optionally, you may see this because dates are incorrectly formatted. Dates should be a primative Date value, aka a number in milliseconds or Date object, ie new Date("2020-01-01"). Your query was not modified.`
       );
       return this;
     }
@@ -279,7 +296,7 @@ export class SearchQueryBuilder implements IParamBuilder {
   private addModifier(modifier: string) {
     if (this.currentModifer) {
       warn(
-        // prettier-ignore
+        // apparently-p*rettier-ignore causes prettier to strip *all* comments O_o
         `You have called \`${this.currentModifer}()\` after \`${modifier}()\`. Your current query was not modified.`
       );
       return this;
@@ -327,7 +344,7 @@ export class SearchQueryBuilder implements IParamBuilder {
 
     if (this.hasTerms) {
       this.q += this.termStack
-        .map(term => {
+        .map((term) => {
           return this.formatTerm(term);
         })
         .join(" ");
@@ -349,7 +366,7 @@ export class SearchQueryBuilder implements IParamBuilder {
     // end a group if we have started one
     if (this.openGroups > 0) {
       warn(
-        // prettier-ignore
+        // apparently-p*rettier-ignore causes prettier to strip *all* comments O_o
         `Automatically closing ${this.openGroups} group(s). You can use \`endGroup(...)\` to remove this warning.`
       );
 

@@ -103,9 +103,16 @@ export interface IOAuth2Options {
   provider?: AuthenticationProvider;
 
   /**
-   * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
+   * The requested validity in minutes for a token. Defaults to 20160 (two weeks).
    */
-  duration?: number;
+   expiration?: number;
+
+  /**
+   * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
+   * 
+   * @deprecated use 'expiration' instead
+   */
+   duration?: number;
 
   /**
    * Determines whether to open the authorization window in a new tab/window or in the current window.
@@ -297,11 +304,16 @@ export class UserSession implements IAuthenticationManager {
    */
   /* istanbul ignore next */
   public static beginOAuth2(options: IOAuth2Options, win: any = window) {
+
+    if(options.duration) {
+      console.log("DEPRECATED: 'duration' is deprecated - use 'expiration' instead");
+    }
+
     const {
       portal,
       provider,
       clientId,
-      duration,
+      expiration,
       redirectUri,
       popup,
       popupWindowFeatures,
@@ -312,7 +324,7 @@ export class UserSession implements IAuthenticationManager {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
         provider: "arcgis",
-        duration: 20160,
+        expiration: 20160,
         popup: true,
         popupWindowFeatures:
           "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes",
@@ -323,11 +335,11 @@ export class UserSession implements IAuthenticationManager {
     };
     let url: string;
     if (provider === "arcgis") {
-      url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${duration}&redirect_uri=${encodeURIComponent(
+      url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${options.duration || expiration}&redirect_uri=${encodeURIComponent(
         redirectUri
       )}&state=${state}&locale=${locale}`;
     } else {
-      url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${duration}&redirect_uri=${encodeURIComponent(
+      url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${options.duration || expiration}&redirect_uri=${encodeURIComponent(
         redirectUri
       )}&state=${state}&locale=${locale}`;
     }
@@ -490,9 +502,9 @@ export class UserSession implements IAuthenticationManager {
     if (!win && window) {
       win = window;
     }
-    // Declar handler outside of promise scope so we can detach it
+    // Declare handler outside of promise scope so we can detach it
     let handler: (event: any) => void;
-    // return a promise that will resolve when the handler recieves
+    // return a promise that will resolve when the handler receives
     // session information from the correct origin
     return new Promise((resolve, reject) => {
       // create an event handler that just wraps the parentMessageHandler
@@ -528,13 +540,16 @@ export class UserSession implements IAuthenticationManager {
     options: IOAuth2Options,
     response: http.ServerResponse
   ) {
-    const { portal, clientId, duration, redirectUri }: IOAuth2Options = {
-      ...{ portal: "https://arcgis.com/sharing/rest", duration: 20160 },
+    if(options.duration) {
+      console.log("DEPRECATED: 'duration' is deprecated - use 'expiration' instead");
+    }
+    const { portal, clientId, expiration, redirectUri }: IOAuth2Options = {
+      ...{ portal: "https://arcgis.com/sharing/rest", expiration: 20160 },
       ...options,
     };
 
     response.writeHead(301, {
-      Location: `${portal}/oauth2/authorize?client_id=${clientId}&duration=${duration}&response_type=code&redirect_uri=${encodeURIComponent(
+      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${options.duration || expiration}&response_type=code&redirect_uri=${encodeURIComponent(
         redirectUri
       )}`,
     });
@@ -1013,7 +1028,7 @@ export class UserSession implements IAuthenticationManager {
     const [match, protocol, domainAndPath] = root.match(/(https?:\/\/)(.+)/);
     const [domain, ...path] = domainAndPath.split("/");
 
-    // only the domain is lowercased becasue in some cases an org id might be
+    // only the domain is lowercased because in some cases an org id might be
     // in the path which cannot be lowercased.
     return `${protocol}${domain.toLowerCase()}/${path.join("/")}`;
   }
@@ -1052,7 +1067,7 @@ export class UserSession implements IAuthenticationManager {
     return (event: any) => {
       // Verify that the origin is valid
       // Note: do not use regex's here. validOrigins is an array so we're checking that the event's origin
-      // is in the array via exact match. More info about avoiding postMessave xss issues here
+      // is in the array via exact match. More info about avoiding postMessage xss issues here
       // https://jlajara.gitlab.io/web/2020/07/17/Dom_XSS_PostMessage_2.html#tipsbypasses-in-postmessage-vulnerabilities
       const isValidOrigin = validOrigins.indexOf(event.origin) > -1;
       // JSAPI handles this slightly differently - instead of checking a list, it will respond if

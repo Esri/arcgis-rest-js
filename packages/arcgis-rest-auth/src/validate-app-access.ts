@@ -28,7 +28,7 @@ export interface IAppAccess {
  *
  * return validateAppAccess('your-token', 'theClientId')
  * .then((result) => {
- *    if (!result.valud) {
+ *    if (!result.value) {
  *      // redirect or show some other ui
  *    } else {
  *      if (result.viewOnlyUserTypeApp) {
@@ -53,7 +53,7 @@ export interface IAppAccess {
 export function validateAppAccess(
   token: string,
   clientId: string,
-  portal: string = "https://www.arcgis.com/sharing/rest"
+  portal = "https://www.arcgis.com/sharing/rest"
 ): Promise<IAppAccess> {
   const url = `${portal}/oauth2/validateAppAccess`;
   const ro = {

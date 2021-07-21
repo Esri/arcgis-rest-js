@@ -149,7 +149,7 @@ export function checkForErrors(
   // error from a status check
   if (response.status === "failed" || response.status === "failure") {
     let message: string;
-    let code: string = "UNKNOWN_ERROR_CODE";
+    let code = "UNKNOWN_ERROR_CODE";
 
     try {
       message = JSON.parse(response.statusMessage).message;
@@ -410,8 +410,8 @@ export function request(
         );
 
         if (originalAuthError) {
-          /* if the request was made to an unfederated service that
-          didnt require authentication, add the base url and a dummy token
+          /* If the request was made to an unfederated service that
+          didn't require authentication, add the base url and a dummy token
           to the list of trusted servers to avoid another federation check
           in the event of a repeat request */
           const truncatedUrl: string = url

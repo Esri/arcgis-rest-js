@@ -36,7 +36,7 @@ We will walk through the flows at a high-level
 
 The application acting as the host, should use oAuth to authenticate the user, and _before_ rendering the iframe with the embedded application it must call `session.enablePostMessageAuth(validOrigins)`. This sets up a listener that will process the requests from the embedded application(s).
 
-The `validOrigins` argument is an array of "orgins" your app expects to get auth requests from. **NOTE** This should be a constrained list of just the domains this particular application will actually be embedding.
+The `validOrigins` argument is an array of "origins" your app expects to get auth requests from. **NOTE** This should be a constrained list of just the domains this particular application will actually be embedding.
 
 ```js
 // register your own app to create a unique clientId
@@ -63,7 +63,7 @@ Let's suppose the host app is embedding `https://storymaps.arcgis.com/stories/15
 ```js
 const originalUrl =
   "https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd";
-const embedUrl = `${originalurl}
+const embedUrl = `${originalUrl}
     ?arcgis-auth-origin=${encodeURIComponent(window.location.origin)}
     &arcgis-auth-portal=${encodeURIComponent(session.portal)}`;
 // then use embedUrl in your component that renders the <iframe>
@@ -82,7 +82,7 @@ if (arcgisAuthOrigin) {
   UserSession.fromParent(arcgisAuthOrigin)
     .then((session) => {
       // session is a UserSession instance, populated from the parent app
-      // the embeded app should exchange this token for one specific to the application
+      // the embedded app should exchange this token for one specific to the application
     })
     .catch((ex) => {
       // The only case it will reject is if the parent is unable to return a credential
@@ -95,7 +95,7 @@ if (arcgisAuthOrigin) {
 
 While rest-js will attempt to clean up the listeners automatically, if the host application is no longer going to render the iframe before the embedded app has had a chance to request the authentication, then the app should manually clean up the listener by calling `session.disablePostMessageAuth()`
 
-Typically you would make this call in the life-cycle hooks of your application framework (i.e. an Angular, Ember, React etc app with a router). The example below uses the `disconnectedCallback` that is part of the Stenci.js component life-cycle.
+Typically you would make this call in the life-cycle hooks of your application framework (i.e. an Angular, Ember, React etc app with a router). The example below uses the `disconnectedCallback` that is part of the Stencil.js component life-cycle.
 
 ```js
   // Use your framework's hooks...

@@ -125,7 +125,7 @@ export function getAvailableDataCollections(
   requestOptions?: IGetAvailableDataCollectionsOptions
 ): Promise<IGetAvailableDataCollectionsResponse> {
   let options: IGetAvailableDataCollectionsOptions = {};
-  let endpoint: string = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/dataCollections`;
+  let endpoint = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/dataCollections`;
   
 
   if (!requestOptions) {

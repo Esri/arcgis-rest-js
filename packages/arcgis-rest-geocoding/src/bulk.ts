@@ -6,7 +6,7 @@ import { ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
 
 import { ARCGIS_ONLINE_BULK_GEOCODING_URL, IEndpointOptions } from "./helpers";
 
-// it'd be better if doc didnt display these properties in alphabetical order
+// It would be better if doc did not display these properties in alphabetical order
 export interface IAddressBulk {
   /**
    * A unique id must be passed along for each individual address.
@@ -76,7 +76,7 @@ export function bulkGeocode(
     })
   };
 
-  // the SAS service doesnt support anonymous requests
+  // the SAS service does not support anonymous requests
   if (
     !requestOptions.authentication &&
     options.endpoint === ARCGIS_ONLINE_BULK_GEOCODING_URL

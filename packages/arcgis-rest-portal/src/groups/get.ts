@@ -97,7 +97,7 @@ export function getGroupCategorySchema(
 export function getGroupContent(
   id: string,
   requestOptions?: IGetGroupContentOptions
-): Promise<IGroup> {
+): Promise<IGroupContentResult> {
   const url = `${getPortalUrl(requestOptions)}/content/groups/${id}`;
 
   // default to a GET request
