@@ -705,7 +705,7 @@ export class UserSession implements IAuthenticationManager {
   public readonly redirectUri: string;
 
   /**
-   * Duration of new OAuth 2.0 refresh token validity.
+   * Duration of new OAuth 2.0 refresh token validity (in minutes).
    */
   public readonly refreshTokenTTL: number;
 
