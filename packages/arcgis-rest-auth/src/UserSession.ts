@@ -570,7 +570,7 @@ export class UserSession implements IAuthenticationManager {
     const { portal, clientId, redirectUri, refreshTokenTTL }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
-        refreshTokenTTL: 1440,
+        refreshTokenTTL: 20160,
       },
       ...options,
     };
@@ -591,7 +591,7 @@ export class UserSession implements IAuthenticationManager {
         refreshToken: response.refreshToken,
         refreshTokenTTL,
         refreshTokenExpires: new Date(
-          Date.now() + (refreshTokenTTL - 1) * 1000
+          Date.now() + (refreshTokenTTL - 1) * 60 * 1000
         ),
         token: response.token,
         tokenExpires: response.expires,
@@ -705,7 +705,7 @@ export class UserSession implements IAuthenticationManager {
   public readonly redirectUri: string;
 
   /**
-   * Duration of new OAuth 2.0 refresh token validity.
+   * Duration of new OAuth 2.0 refresh token validity (in minutes).
    */
   public readonly refreshTokenTTL: number;
 
@@ -780,7 +780,7 @@ export class UserSession implements IAuthenticationManager {
     this.provider = options.provider || "arcgis";
     this.tokenDuration = options.tokenDuration || 20160;
     this.redirectUri = options.redirectUri;
-    this.refreshTokenTTL = options.refreshTokenTTL || 1440;
+    this.refreshTokenTTL = options.refreshTokenTTL || 20160;
     this.server = options.server;
 
     this.federatedServers = {};
