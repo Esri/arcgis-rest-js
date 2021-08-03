@@ -15,6 +15,7 @@ npm install @esri/arcgis-rest-request @esri/arcgis-rest-auth cross-fetch isomorp
 ```
 
 Require `cross-fetch` and `isomorphic-form-data` before using any of the ArcGIS REST JS methods.
+
 ```js
 // ensures fetch is available as a global
 require("cross-fetch/polyfill");
@@ -23,7 +24,19 @@ require("isomorphic-form-data");
 const { request } = require("@esri/arcgis-rest-request");
 
 request("https://www.arcgis.com/sharing/rest/info")
-  .then(response);
+  .then(response => console.log(response));
+```
+
+Or, if using NodeJS version v13 or higher, if you set `"type": "module"` in the `package.json` you can use [ES Modules](https://nodejs.org/docs/latest-v12.x/api/packages.html#packages_determining_module_system) import syntax:
+
+```js
+import fetch from "node-fetch";
+import FormData from "isomorphic-form-data";
+import arcgisRestRequest from "@esri/arcgis-rest-request";
+arcgisRestRequest.setDefaultRequestOptions({ fetch, FormData });
+
+arcgisRestRequest.request("https://www.arcgis.com/sharing/rest/info")
+  .then(response => console.log(response));
 ```
 
 You can also pass through your own named `fetch` implementation.
@@ -42,18 +55,21 @@ request("https://www.arcgis.com/sharing/rest/info", { fetch })
 setDefaultRequestOptions({ fetch })
 ```
 
-#### Demo - [Express](https://github.com/Esri/arcgis-rest-js/tree/master/demos/express)
+## Demo - [Express](https://github.com/Esri/arcgis-rest-js/tree/master/demos/express)
 
-## Authentication
+### Authentication
 
-To access premium content and services without asking for user credentials, using a [Proxy Service](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/working-with-proxies/) or [App Login](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/accessing-arcgis-online-services/) is typically the best approach.
+To access premium content and services without asking for user credentials, using an [API key](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/api-keys/) or [application credentials](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/application-credentials/) is typically the best approach.
 
-Proxy Service
+#### API Key
+
 ```js
 // no auth required
-request(`https://utility.arcgis.com/usrsvcs/appservices/{unique}/rest/services/World/Route/NAServer/Route_World/solve`)
+request(`https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve?token={API_KEY}`)
 ```
-App Login
+
+#### Application credentials
+
 ```js
 const { ApplicationSession } = require("@esri/arcgis-rest-auth");
 
@@ -63,7 +79,7 @@ const authentication = new ApplicationSession({
 })
 
 // url not accessible to anonymous users
-const url = `https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World`
+const url = `https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World`
 
 // token will be appended by rest-js
 request(url, {
@@ -71,7 +87,7 @@ request(url, {
 })
 ```
 
-#### Demo - [batch geocoding](https://github.com/Esri/arcgis-rest-js/tree/master/demos/batch-geocoder-node)
+## Demo - [batch geocoding](https://github.com/Esri/arcgis-rest-js/tree/master/demos/batch-geocoder-node)
 
 Applications cannot [create, share, access or modify items](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/limitations-of-application-authentication/) in ArcGIS Online or ArcGIS Enterprise. For this, a [`UserSession`](/arcgis-rest-js/api/auth/UserSession/) is more appropriate.
 
@@ -84,4 +100,5 @@ const authentication = new UserSession({
   password: "123456"
 })
 ```
+
 See the [Browser Authentication](../browser-authentication/) for more information about implementing OAuth 2.0.
