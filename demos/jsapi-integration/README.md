@@ -20,6 +20,6 @@ session.getToken("https://www.arcgis.com/sharing/rest")
 // from jsapi
 esriId.getCredential("https://www.arcgis.com/sharing/rest")
   .then(cred => {
-    const session = new UserSession.fromCredential(cred);
+    const session = UserSession.fromCredential(cred);
   })
 ```
