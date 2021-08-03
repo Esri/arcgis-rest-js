@@ -119,7 +119,16 @@
 <span class="hljs-keyword">const</span> { request } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@esri/arcgis-rest-request"</span>);
 
 request(<span class="hljs-string">"https://www.arcgis.com/sharing/rest/info"</span>)
-  .then(response);
+  .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(response));
+</code></pre>
+<p>Or, if using NodeJS version v13 or higher, if you set <code>&quot;type&quot;: &quot;module&quot;</code> in the <code>package.json</code> you can use <a href="https://nodejs.org/docs/latest-v12.x/api/packages.html#packages_determining_module_system">ES Modules</a> import syntax:</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> fetch <span class="hljs-keyword">from</span> <span class="hljs-string">"node-fetch"</span>;
+<span class="hljs-keyword">import</span> FormData <span class="hljs-keyword">from</span> <span class="hljs-string">"isomorphic-form-data"</span>;
+<span class="hljs-keyword">import</span> arcgisRestRequest <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-request"</span>;
+arcgisRestRequest.setDefaultRequestOptions({ fetch, FormData });
+
+arcgisRestRequest.request(<span class="hljs-string">"https://www.arcgis.com/sharing/rest/info"</span>)
+  .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(response));
 </code></pre>
 <p>You can also pass through your own named <code>fetch</code> implementation.</p>
 <pre><code class="js"><span class="hljs-keyword">const</span> fetch = <span class="hljs-built_in">require</span>(<span class="hljs-string">"node-fetch"</span>)
@@ -134,14 +143,14 @@ request(<span class="hljs-string">"https://www.arcgis.com/sharing/rest/info"</sp
 <span class="hljs-comment">// or in *every* request</span>
 setDefaultRequestOptions({ fetch })
 </code></pre>
-<h4>Demo - <a href="https://github.com/Esri/arcgis-rest-js/tree/master/demos/express">Express</a></h4>
-<h2>Authentication</h2>
-<p>To access premium content and services without asking for user credentials, using a <a href="https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/working-with-proxies/">Proxy Service</a> or <a href="https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/accessing-arcgis-online-services/">App Login</a> is typically the best approach.</p>
-<p>Proxy Service</p>
+<h2>Demo - <a href="https://github.com/Esri/arcgis-rest-js/tree/master/demos/express">Express</a></h2>
+<h3>Authentication</h3>
+<p>To access premium content and services without asking for user credentials, using an <a href="https://developers.arcgis.com/documentation/mapping-apis-and-services/security/api-keys/">API key</a> or <a href="https://developers.arcgis.com/documentation/mapping-apis-and-services/security/application-credentials/">application credentials</a> is typically the best approach.</p>
+<h4>API Key</h4>
 <pre><code class="js"><span class="hljs-comment">// no auth required</span>
-request(<span class="hljs-string">`https://utility.arcgis.com/usrsvcs/appservices/{unique}/rest/services/World/Route/NAServer/Route_World/solve`</span>)
+request(<span class="hljs-string">`https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve?token={API_KEY}`</span>)
 </code></pre>
-<p>App Login</p>
+<h4>Application credentials</h4>
 <pre><code class="js"><span class="hljs-keyword">const</span> { ApplicationSession } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@esri/arcgis-rest-auth"</span>);
 
 <span class="hljs-keyword">const</span> authentication = <span class="hljs-keyword">new</span> ApplicationSession({
@@ -150,14 +159,14 @@ request(<span class="hljs-string">`https://utility.arcgis.com/usrsvcs/appservice
 })
 
 <span class="hljs-comment">// url not accessible to anonymous users</span>
-<span class="hljs-keyword">const</span> url = <span class="hljs-string">`https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World`</span>
+<span class="hljs-keyword">const</span> url = <span class="hljs-string">`https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World`</span>
 
 <span class="hljs-comment">// token will be appended by rest-js</span>
 request(url, {
   authentication
 })
 </code></pre>
-<h4>Demo - <a href="https://github.com/Esri/arcgis-rest-js/tree/master/demos/batch-geocoder-node">batch geocoding</a></h4>
+<h2>Demo - <a href="https://github.com/Esri/arcgis-rest-js/tree/master/demos/batch-geocoder-node">batch geocoding</a></h2>
 <p>Applications cannot <a href="https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/limitations-of-application-authentication/">create, share, access or modify items</a> in ArcGIS Online or ArcGIS Enterprise. For this, a <a href="/arcgis-rest-js/api/auth/UserSession/"><code>UserSession</code></a> is more appropriate.</p>
 <pre><code class="js"><span class="hljs-keyword">const</span> { UserSession } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@esri/arcgis-rest-auth"</span>);
 
