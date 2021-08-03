@@ -1625,7 +1625,6 @@ describe("UserSession", () => {
     it("should return a UserSession where refreshTokenExpires is 2 weeks from now (within 10 ms)", (done) => {
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "token",
-        expires_in: 1800,
         refresh_token: "refreshToken",
         username: "Casey",
         ssl: true,
