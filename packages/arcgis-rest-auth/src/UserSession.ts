@@ -109,7 +109,7 @@ export interface IOAuth2Options {
 
   /**
    * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
-   * 
+   *
    * @deprecated use 'expiration' instead
    */
    duration?: number;
@@ -297,8 +297,9 @@ export class UserSession implements IAuthenticationManager {
 
   /**
    * Begins a new browser-based OAuth 2.0 sign in. If `options.popup` is `true` the
-   * authentication window will open in a new tab/window otherwise the user will
-   * be redirected to the authorization page in their current tab/window.
+   * authentication window will open in a new tab/window and the function will return
+   * Promise&lt;UserSession&gt;. Otherwise, the user will be redirected to the
+   * authorization page in their current tab/window and the function will return `undefined`.
    *
    * @browserOnly
    */
@@ -387,7 +388,7 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
-   * Completes a browser-based OAuth 2.0  in. If `options.popup` is `true` the user
+   * Completes a browser-based OAuth 2.0 sign in. If `options.popup` is `true` the user
    * will be returned to the previous window. Otherwise a new `UserSession`
    * will be returned. You must pass the same values for `options.popup` and
    * `options.portal` as you used in `beginOAuth2()`.
