@@ -304,7 +304,7 @@ export class UserSession implements IAuthenticationManager {
    * @browserOnly
    */
   /* istanbul ignore next */
-  public static beginOAuth2(options: IOAuth2Options, win: any = window) {
+  public static beginOAuth2(options: IOAuth2Options, win: any = window): Promise<UserSession> | undefined {
 
     if(options.duration) {
       console.log("DEPRECATED: 'duration' is deprecated - use 'expiration' instead");
