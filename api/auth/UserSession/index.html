@@ -2762,11 +2762,12 @@ the ArcGIS Online or ArcGIS Enterprise authorization page.</p>
                   </li>
               </ul>
             </td>
-            <td class="code-face"><i>Promise</i><i><span class="text-light-gray">&lt;</span><i><a href="/arcgis-rest-js/api/auth/UserSession/">UserSession</a></i><span class="text-light-gray">&gt;</span></i></td>
+            <td class="code-face"><i><i>Promise</i><i><span class="text-light-gray">&lt;</span><i><a href="/arcgis-rest-js/api/auth/UserSession/">UserSession</a></i><span class="text-light-gray">&gt;</span></i><span class="text-light-gray"> | </span><i class="text-purple">undefined</i></i></td>
             <td class="body-face api-param-comment">
               <p>Begins a new browser-based OAuth 2.0 sign in. If <code>options.popup</code> is <code>true</code> the
-authentication window will open in a new tab/window otherwise the user will
-be redirected to the authorization page in their current tab/window.</p>
+authentication window will open in a new tab/window and the function will return
+Promise&lt;UserSession&gt;. Otherwise, the user will be redirected to the
+authorization page in their current tab/window and the function will return <code>undefined</code>.</p>
 
               
             </td>
@@ -2786,7 +2787,7 @@ be redirected to the authorization page in their current tab/window.</p>
             </td>
             <td class="code-face"><i><a href="/arcgis-rest-js/api/auth/UserSession/">UserSession</a></i></td>
             <td class="body-face api-param-comment">
-              <p>Completes a browser-based OAuth 2.0  in. If <code>options.popup</code> is <code>true</code> the user
+              <p>Completes a browser-based OAuth 2.0 sign in. If <code>options.popup</code> is <code>true</code> the user
 will be returned to the previous window. Otherwise a new <code>UserSession</code>
 will be returned. You must pass the same values for <code>options.popup</code> and
 <code>options.portal</code> as you used in <code>beginOAuth2()</code>.</p>
@@ -3352,15 +3353,16 @@ the ArcGIS Online or ArcGIS Enterprise authorization page.</p>
 
       <div class="api-function-comment">
         <p>Begins a new browser-based OAuth 2.0 sign in. If <code>options.popup</code> is <code>true</code> the
-authentication window will open in a new tab/window otherwise the user will
-be redirected to the authorization page in their current tab/window.</p>
+authentication window will open in a new tab/window and the function will return
+Promise&lt;UserSession&gt;. Otherwise, the user will be redirected to the
+authorization page in their current tab/window and the function will return <code>undefined</code>.</p>
 
       </div>
 
       <div class="fonts-size--1 panel padding-leader-half padding-trailer-half padding-right-half padding-left-half trailer-half">
         <ul class="list-plain trailer-0 tsd-signatures trailer-half tsd-kind-method tsd-parent-kind-class tsd-is-static">
           
-            <li class="code-face tsd-signature tsd-kind-icon trailer-0 leader-0">beginOAuth2<span class="text-light-gray">(</span>options: <i><a href="/arcgis-rest-js/api/auth/IOAuth2Options/">IOAuth2Options</a></i>, win: <i class="text-purple">any</i><span class="text-light-gray">) : </span><i>Promise</i><i><span class="text-light-gray">&lt;</span><i><a href="/arcgis-rest-js/api/auth/UserSession/">UserSession</a></i><span class="text-light-gray">&gt;</span></i></li>
+            <li class="code-face tsd-signature tsd-kind-icon trailer-0 leader-0">beginOAuth2<span class="text-light-gray">(</span>options: <i><a href="/arcgis-rest-js/api/auth/IOAuth2Options/">IOAuth2Options</a></i>, win: <i class="text-purple">any</i><span class="text-light-gray">) : </span><i><i>Promise</i><i><span class="text-light-gray">&lt;</span><i><a href="/arcgis-rest-js/api/auth/UserSession/">UserSession</a></i><span class="text-light-gray">&gt;</span></i><span class="text-light-gray"> | </span><i class="text-purple">undefined</i></i></li>
           
         </ul>
       </div>
@@ -3445,7 +3447,7 @@ be redirected to the authorization page in their current tab/window.</p>
       <h2 class="font-size-1 trailer-half">Returns</h2>
 
       <div class="fonts-size--1 panel padding-leader-half padding-trailer-half padding-right-half padding-left-half trailer-half">
-      <i>Promise</i><i><span class="text-light-gray">&lt;</span><i><a href="/arcgis-rest-js/api/auth/UserSession/">UserSession</a></i><span class="text-light-gray">&gt;</span></i>
+      <i><i>Promise</i><i><span class="text-light-gray">&lt;</span><i><a href="/arcgis-rest-js/api/auth/UserSession/">UserSession</a></i><span class="text-light-gray">&gt;</span></i><span class="text-light-gray"> | </span><i class="text-purple">undefined</i></i>
       </div>
 
       
@@ -3484,7 +3486,7 @@ be redirected to the authorization page in their current tab/window.</p>
       <hr class="leader-half trailer-half">
 
       <div class="api-function-comment">
-        <p>Completes a browser-based OAuth 2.0  in. If <code>options.popup</code> is <code>true</code> the user
+        <p>Completes a browser-based OAuth 2.0 sign in. If <code>options.popup</code> is <code>true</code> the user
 will be returned to the previous window. Otherwise a new <code>UserSession</code>
 will be returned. You must pass the same values for <code>options.popup</code> and
 <code>options.portal</code> as you used in <code>beginOAuth2()</code>.</p>
