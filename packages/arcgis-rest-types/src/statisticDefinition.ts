@@ -29,5 +29,5 @@ export interface IStatisticDefinition {
   /**
    * Field name for the returned statistic field. If outStatisticFieldName is empty or missing, the server will assign one. A valid field name can only contain alphanumeric characters and an underscore. If the outStatisticFieldName is a reserved keyword of the underlying DBMS, the operation can fail. Try specifying an alternative outStatisticFieldName.
    */
-  outStatisticFieldName: string;
+  outStatisticFieldName?: string;
 }
