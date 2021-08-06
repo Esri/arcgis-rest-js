@@ -80,7 +80,7 @@
           // you can also pass credentials in the other direction
           esriId.getCredential("https://arcgis.com/sharing/rest/")
             .then(cred => {
-              const session2 = new arcgisRest.UserSession.fromCredential(cred);
+              const session2 = arcgisRest.UserSession.fromCredential(cred);
             });
         });
       });
