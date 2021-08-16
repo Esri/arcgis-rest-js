@@ -40,9 +40,6 @@ jobs:
       - name: Test in Chrome
         run: npm run test:chrome:ci
 
-      - name: Test in Firefox
-        run: npm run test:firefox:ci
-
       - uses: codecov/codecov-action@v1
         with:
           directory: ./coverage
