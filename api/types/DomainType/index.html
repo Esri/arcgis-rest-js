@@ -1,0 +1,2292 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>DomainType | API Reference | ArcGIS REST JS</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with the ArcGIS REST API.">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/arcgis-rest-js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">ArcGIS REST JS</h2>
+          <a href="/arcgis-rest-js/guides/" class="side-nav-link">Guides</a>
+          <a href="/arcgis-rest-js/api/" class="is-active side-nav-link">API Reference</a>
+          <a href="https://github.com/Esri/arcgis-rest-js" class="side-nav-link">GitHub</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/arcgis-rest-js/" class="top-nav-title">ArcGIS REST JS</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/arcgis-rest-js/guides/" class="top-nav-link">Guides</a>
+                <a href="/arcgis-rest-js/api/" class="is-active top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/arcgis-rest-js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/arcgis-rest-js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/arcgis-rest-js/" class="top-nav-link">ArcGIS REST API JavaScript Client</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+<div class="grid-container trailer-1 leader-1">
+  <nav class="column-6">
+    <api-search base-url="/arcgis-rest-js/">
+      <h3 class="font-size--1 trailer-quarter">Packages</h3>
+      <hr class="leader-quarter trailer-quarter" />
+      <ul class="list-plain">
+        
+        <li class="tsd-kind-module api-list-item">
+          <nav-toggle index="1" package-name="@esri/arcgis-rest-auth" ></nav-toggle>
+          <button id="trigger1" class="btn btn-transparent api-toggle-button" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon">
+              <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
+            </svg>
+          </button>
+          <a href="/arcgis-rest-js/api/auth/" class="tsd-kind-icon">auth</a>
+          <ul id="list1" class="api-package-content-list">
+            
+            <li class="tsd-kind-class padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/ApiKey/" class="tsd-kind-icon padding-right-1">ApiKey</a>
+            </li>
+            
+            <li class="tsd-kind-class padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/ApplicationSession/" class="tsd-kind-icon padding-right-1">ApplicationSession</a>
+            </li>
+            
+            <li class="tsd-kind-class padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/UserSession/" class="tsd-kind-icon padding-right-1">UserSession</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/exchangeToken/" class="tsd-kind-icon padding-right-1">exchangeToken</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/platformSelf/" class="tsd-kind-icon padding-right-1">platformSelf</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/canUseOnlineToken/" class="tsd-kind-icon padding-right-1">canUseOnlineToken</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/getOnlineEnvironment/" class="tsd-kind-icon padding-right-1">getOnlineEnvironment</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/isFederated/" class="tsd-kind-icon padding-right-1">isFederated</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/isOnline/" class="tsd-kind-icon padding-right-1">isOnline</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/normalizeOnlinePortalUrl/" class="tsd-kind-icon padding-right-1">normalizeOnlinePortalUrl</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/fetchToken/" class="tsd-kind-icon padding-right-1">fetchToken</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/generateToken/" class="tsd-kind-icon padding-right-1">generateToken</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/validateAppAccess/" class="tsd-kind-icon padding-right-1">validateAppAccess</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/AuthenticationProvider/" class="tsd-kind-icon padding-right-1">AuthenticationProvider</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/IApiKeyOptions/" class="tsd-kind-icon padding-right-1">IApiKeyOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/IApplicationSessionOptions/" class="tsd-kind-icon padding-right-1">IApplicationSessionOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/ICredential/" class="tsd-kind-icon padding-right-1">ICredential</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/IOAuth2Options/" class="tsd-kind-icon padding-right-1">IOAuth2Options</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/IUserSessionOptions/" class="tsd-kind-icon padding-right-1">IUserSessionOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/IPlatformSelfResponse/" class="tsd-kind-icon padding-right-1">IPlatformSelfResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/IAuthenticatedRequestOptions/" class="tsd-kind-icon padding-right-1">IAuthenticatedRequestOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/IUserRequestOptions/" class="tsd-kind-icon padding-right-1">IUserRequestOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/IFetchTokenResponse/" class="tsd-kind-icon padding-right-1">IFetchTokenResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/IGenerateTokenResponse/" class="tsd-kind-icon padding-right-1">IGenerateTokenResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/auth/IAppAccess/" class="tsd-kind-icon padding-right-1">IAppAccess</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li class="tsd-kind-module api-list-item">
+          <nav-toggle index="2" package-name="@esri/arcgis-rest-demographics" ></nav-toggle>
+          <button id="trigger2" class="btn btn-transparent api-toggle-button" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon">
+              <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
+            </svg>
+          </button>
+          <a href="/arcgis-rest-js/api/demographics/" class="tsd-kind-icon">demographics</a>
+          <ul id="list2" class="api-package-content-list">
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/getAvailableCountries/" class="tsd-kind-icon padding-right-1">getAvailableCountries</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/getAvailableDataCollections/" class="tsd-kind-icon padding-right-1">getAvailableDataCollections</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/getAvailableGeographyLevels/" class="tsd-kind-icon padding-right-1">getAvailableGeographyLevels</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/getGeography/" class="tsd-kind-icon padding-right-1">getGeography</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/queryDemographicData/" class="tsd-kind-icon padding-right-1">queryDemographicData</a>
+            </li>
+            
+            <li class="tsd-kind-variable padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/ARCGIS_ONLINE_GEOENRICHMENT_URL/" class="tsd-kind-icon padding-right-1">ARCGIS_ONLINE_GEOENRICHMENT_URL</a>
+            </li>
+            
+            <li class="tsd-kind-variable padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL/" class="tsd-kind-icon padding-right-1">ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IApportionmentThreshold/" class="tsd-kind-icon padding-right-1">IApportionmentThreshold</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/ICountry/" class="tsd-kind-icon padding-right-1">ICountry</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IGetAvailableCountriesOptions/" class="tsd-kind-icon padding-right-1">IGetAvailableCountriesOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IGetAvailableCountriesResponse/" class="tsd-kind-icon padding-right-1">IGetAvailableCountriesResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IHierarchy/" class="tsd-kind-icon padding-right-1">IHierarchy</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/ILevelsInfo/" class="tsd-kind-icon padding-right-1">ILevelsInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IVariablesInfo/" class="tsd-kind-icon padding-right-1">IVariablesInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/ICategory/" class="tsd-kind-icon padding-right-1">ICategory</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IDataCollection/" class="tsd-kind-icon padding-right-1">IDataCollection</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IDataInfo/" class="tsd-kind-icon padding-right-1">IDataInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IFilter/" class="tsd-kind-icon padding-right-1">IFilter</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IFilteringTag/" class="tsd-kind-icon padding-right-1">IFilteringTag</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IGetAvailableDataCollectionsOptions/" class="tsd-kind-icon padding-right-1">IGetAvailableDataCollectionsOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IGetAvailableDataCollectionsResponse/" class="tsd-kind-icon padding-right-1">IGetAvailableDataCollectionsResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IMetadata/" class="tsd-kind-icon padding-right-1">IMetadata</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IBranch/" class="tsd-kind-icon padding-right-1">IBranch</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IDataset/" class="tsd-kind-icon padding-right-1">IDataset</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IGeographyLevel/" class="tsd-kind-icon padding-right-1">IGeographyLevel</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IGeographyLevelHierarchy/" class="tsd-kind-icon padding-right-1">IGeographyLevelHierarchy</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IGetAvailableGeographyLevelsResponse/" class="tsd-kind-icon padding-right-1">IGetAvailableGeographyLevelsResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/ILevel/" class="tsd-kind-icon padding-right-1">ILevel</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IGetGeographyOptions/" class="tsd-kind-icon padding-right-1">IGetGeographyOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IGetGeographyResponse/" class="tsd-kind-icon padding-right-1">IGetGeographyResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IEndpointOptions/" class="tsd-kind-icon padding-right-1">IEndpointOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IGeoenrichmentResult/" class="tsd-kind-icon padding-right-1">IGeoenrichmentResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IQueryDemographicDataOptions/" class="tsd-kind-icon padding-right-1">IQueryDemographicDataOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/demographics/IQueryDemographicDataResponse/" class="tsd-kind-icon padding-right-1">IQueryDemographicDataResponse</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li class="tsd-kind-module api-list-item">
+          <nav-toggle index="3" package-name="@esri/arcgis-rest-feature-layer" ></nav-toggle>
+          <button id="trigger3" class="btn btn-transparent api-toggle-button" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon">
+              <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
+            </svg>
+          </button>
+          <a href="/arcgis-rest-js/api/feature-layer/" class="tsd-kind-icon">feature-layer</a>
+          <ul id="list3" class="api-package-content-list">
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/addFeatures/" class="tsd-kind-icon padding-right-1">addFeatures</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/addAttachment/" class="tsd-kind-icon padding-right-1">addAttachment</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/applyEdits/" class="tsd-kind-icon padding-right-1">applyEdits</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/decodeValues/" class="tsd-kind-icon padding-right-1">decodeValues</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/deleteFeatures/" class="tsd-kind-icon padding-right-1">deleteFeatures</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/deleteAttachments/" class="tsd-kind-icon padding-right-1">deleteAttachments</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/getAllLayersAndTables/" class="tsd-kind-icon padding-right-1">getAllLayersAndTables</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/getAttachments/" class="tsd-kind-icon padding-right-1">getAttachments</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/getLayer/" class="tsd-kind-icon padding-right-1">getLayer</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/getService/" class="tsd-kind-icon padding-right-1">getService</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/parseServiceUrl/" class="tsd-kind-icon padding-right-1">parseServiceUrl</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/getFeature/" class="tsd-kind-icon padding-right-1">getFeature</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/queryFeatures/" class="tsd-kind-icon padding-right-1">queryFeatures</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/queryRelated/" class="tsd-kind-icon padding-right-1">queryRelated</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/updateFeatures/" class="tsd-kind-icon padding-right-1">updateFeatures</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/updateAttachment/" class="tsd-kind-icon padding-right-1">updateAttachment</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IAddFeaturesOptions/" class="tsd-kind-icon padding-right-1">IAddFeaturesOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IAddAttachmentOptions/" class="tsd-kind-icon padding-right-1">IAddAttachmentOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IApplyEditsOptions/" class="tsd-kind-icon padding-right-1">IApplyEditsOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IDecodeValuesOptions/" class="tsd-kind-icon padding-right-1">IDecodeValuesOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IDeleteFeaturesOptions/" class="tsd-kind-icon padding-right-1">IDeleteFeaturesOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IDeleteAttachmentsOptions/" class="tsd-kind-icon padding-right-1">IDeleteAttachmentsOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IAllLayersAndTablesResponse/" class="tsd-kind-icon padding-right-1">IAllLayersAndTablesResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IAttachmentInfo/" class="tsd-kind-icon padding-right-1">IAttachmentInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IGetAttachmentsOptions/" class="tsd-kind-icon padding-right-1">IGetAttachmentsOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IApplyEditsAttachmentResult/" class="tsd-kind-icon padding-right-1">IApplyEditsAttachmentResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IApplyEditsResult/" class="tsd-kind-icon padding-right-1">IApplyEditsResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IEditFeatureResult/" class="tsd-kind-icon padding-right-1">IEditFeatureResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IGetLayerOptions/" class="tsd-kind-icon padding-right-1">IGetLayerOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/ISharedEditOptions/" class="tsd-kind-icon padding-right-1">ISharedEditOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/ISharedQueryOptions/" class="tsd-kind-icon padding-right-1">ISharedQueryOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IGetFeatureOptions/" class="tsd-kind-icon padding-right-1">IGetFeatureOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IQueryFeaturesOptions/" class="tsd-kind-icon padding-right-1">IQueryFeaturesOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IQueryFeaturesResponse/" class="tsd-kind-icon padding-right-1">IQueryFeaturesResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IQueryResponse/" class="tsd-kind-icon padding-right-1">IQueryResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IQueryRelatedOptions/" class="tsd-kind-icon padding-right-1">IQueryRelatedOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IQueryRelatedResponse/" class="tsd-kind-icon padding-right-1">IQueryRelatedResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IRelatedRecordGroup/" class="tsd-kind-icon padding-right-1">IRelatedRecordGroup</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IUpdateFeaturesOptions/" class="tsd-kind-icon padding-right-1">IUpdateFeaturesOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/feature-layer/IUpdateAttachmentOptions/" class="tsd-kind-icon padding-right-1">IUpdateAttachmentOptions</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li class="tsd-kind-module api-list-item">
+          <nav-toggle index="4" package-name="@esri/arcgis-rest-geocoding" ></nav-toggle>
+          <button id="trigger4" class="btn btn-transparent api-toggle-button" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon">
+              <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
+            </svg>
+          </button>
+          <a href="/arcgis-rest-js/api/geocoding/" class="tsd-kind-icon">geocoding</a>
+          <ul id="list4" class="api-package-content-list">
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/bulkGeocode/" class="tsd-kind-icon padding-right-1">bulkGeocode</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/geocode/" class="tsd-kind-icon padding-right-1">geocode</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/getGeocodeService/" class="tsd-kind-icon padding-right-1">getGeocodeService</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/reverseGeocode/" class="tsd-kind-icon padding-right-1">reverseGeocode</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/suggest/" class="tsd-kind-icon padding-right-1">suggest</a>
+            </li>
+            
+            <li class="tsd-kind-variable padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/ARCGIS_ONLINE_BULK_GEOCODING_URL/" class="tsd-kind-icon padding-right-1">ARCGIS_ONLINE_BULK_GEOCODING_URL</a>
+            </li>
+            
+            <li class="tsd-kind-variable padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/ARCGIS_ONLINE_GEOCODING_URL/" class="tsd-kind-icon padding-right-1">ARCGIS_ONLINE_GEOCODING_URL</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/IAddressBulk/" class="tsd-kind-icon padding-right-1">IAddressBulk</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/IBulkGeocodeOptions/" class="tsd-kind-icon padding-right-1">IBulkGeocodeOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/IBulkGeocodeResponse/" class="tsd-kind-icon padding-right-1">IBulkGeocodeResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/IGeocodeOptions/" class="tsd-kind-icon padding-right-1">IGeocodeOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/IGeocodeResponse/" class="tsd-kind-icon padding-right-1">IGeocodeResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/IEndpointOptions/" class="tsd-kind-icon padding-right-1">IEndpointOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/IGetGeocodeServiceResponse/" class="tsd-kind-icon padding-right-1">IGetGeocodeServiceResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/IReverseGeocodeResponse/" class="tsd-kind-icon padding-right-1">IReverseGeocodeResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/geocoding/ISuggestResponse/" class="tsd-kind-icon padding-right-1">ISuggestResponse</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li class="tsd-kind-module api-list-item">
+          <nav-toggle index="5" package-name="@esri/arcgis-rest-portal" ></nav-toggle>
+          <button id="trigger5" class="btn btn-transparent api-toggle-button" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon">
+              <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
+            </svg>
+          </button>
+          <a href="/arcgis-rest-js/api/portal/" class="tsd-kind-icon">portal</a>
+          <ul id="list5" class="api-package-content-list">
+            
+            <li class="tsd-kind-class padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/SearchQueryBuilder/" class="tsd-kind-icon padding-right-1">SearchQueryBuilder</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/addGroupUsers/" class="tsd-kind-icon padding-right-1">addGroupUsers</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/createGroup/" class="tsd-kind-icon padding-right-1">createGroup</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getGroup/" class="tsd-kind-icon padding-right-1">getGroup</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getGroupCategorySchema/" class="tsd-kind-icon padding-right-1">getGroupCategorySchema</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getGroupContent/" class="tsd-kind-icon padding-right-1">getGroupContent</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getGroupUsers/" class="tsd-kind-icon padding-right-1">getGroupUsers</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/searchGroupUsers/" class="tsd-kind-icon padding-right-1">searchGroupUsers</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/inviteGroupUsers/" class="tsd-kind-icon padding-right-1">inviteGroupUsers</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/joinGroup/" class="tsd-kind-icon padding-right-1">joinGroup</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/leaveGroup/" class="tsd-kind-icon padding-right-1">leaveGroup</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/createGroupNotification/" class="tsd-kind-icon padding-right-1">createGroupNotification</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/protectGroup/" class="tsd-kind-icon padding-right-1">protectGroup</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/unprotectGroup/" class="tsd-kind-icon padding-right-1">unprotectGroup</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/removeGroup/" class="tsd-kind-icon padding-right-1">removeGroup</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/removeGroupUsers/" class="tsd-kind-icon padding-right-1">removeGroupUsers</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/searchGroupContent/" class="tsd-kind-icon padding-right-1">searchGroupContent</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/searchGroups/" class="tsd-kind-icon padding-right-1">searchGroups</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/updateGroup/" class="tsd-kind-icon padding-right-1">updateGroup</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/updateUserMemberships/" class="tsd-kind-icon padding-right-1">updateUserMemberships</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/addItemData/" class="tsd-kind-icon padding-right-1">addItemData</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/addItemRelationship/" class="tsd-kind-icon padding-right-1">addItemRelationship</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/addItemResource/" class="tsd-kind-icon padding-right-1">addItemResource</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getUserContent/" class="tsd-kind-icon padding-right-1">getUserContent</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/createFolder/" class="tsd-kind-icon padding-right-1">createFolder</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/createItem/" class="tsd-kind-icon padding-right-1">createItem</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/createItemInFolder/" class="tsd-kind-icon padding-right-1">createItemInFolder</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/exportItem/" class="tsd-kind-icon padding-right-1">exportItem</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getItem/" class="tsd-kind-icon padding-right-1">getItem</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getItemBaseUrl/" class="tsd-kind-icon padding-right-1">getItemBaseUrl</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getItemData/" class="tsd-kind-icon padding-right-1">getItemData</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getItemGroups/" class="tsd-kind-icon padding-right-1">getItemGroups</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getItemInfo/" class="tsd-kind-icon padding-right-1">getItemInfo</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getItemMetadata/" class="tsd-kind-icon padding-right-1">getItemMetadata</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getItemParts/" class="tsd-kind-icon padding-right-1">getItemParts</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getItemResource/" class="tsd-kind-icon padding-right-1">getItemResource</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getItemResources/" class="tsd-kind-icon padding-right-1">getItemResources</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getItemStatus/" class="tsd-kind-icon padding-right-1">getItemStatus</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getRelatedItems/" class="tsd-kind-icon padding-right-1">getRelatedItems</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/serializeItem/" class="tsd-kind-icon padding-right-1">serializeItem</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/protectItem/" class="tsd-kind-icon padding-right-1">protectItem</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/unprotectItem/" class="tsd-kind-icon padding-right-1">unprotectItem</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/reassignItem/" class="tsd-kind-icon padding-right-1">reassignItem</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/removeFolder/" class="tsd-kind-icon padding-right-1">removeFolder</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/removeItem/" class="tsd-kind-icon padding-right-1">removeItem</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/removeItemRelationship/" class="tsd-kind-icon padding-right-1">removeItemRelationship</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/removeItemResource/" class="tsd-kind-icon padding-right-1">removeItemResource</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/searchItems/" class="tsd-kind-icon padding-right-1">searchItems</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/moveItem/" class="tsd-kind-icon padding-right-1">moveItem</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/updateItem/" class="tsd-kind-icon padding-right-1">updateItem</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/updateItemInfo/" class="tsd-kind-icon padding-right-1">updateItemInfo</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/updateItemResource/" class="tsd-kind-icon padding-right-1">updateItemResource</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/addItemPart/" class="tsd-kind-icon padding-right-1">addItemPart</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/cancelItemUpload/" class="tsd-kind-icon padding-right-1">cancelItemUpload</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/commitItemUpload/" class="tsd-kind-icon padding-right-1">commitItemUpload</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/createOrgNotification/" class="tsd-kind-icon padding-right-1">createOrgNotification</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getUniqueServiceName/" class="tsd-kind-icon padding-right-1">getUniqueServiceName</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/isServiceNameAvailable/" class="tsd-kind-icon padding-right-1">isServiceNameAvailable</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/setItemAccess/" class="tsd-kind-icon padding-right-1">setItemAccess</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getSharingUrl/" class="tsd-kind-icon padding-right-1">getSharingUrl</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getUserMembership/" class="tsd-kind-icon padding-right-1">getUserMembership</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/isItemSharedWithGroup/" class="tsd-kind-icon padding-right-1">isItemSharedWithGroup</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ensureMembership/" class="tsd-kind-icon padding-right-1">ensureMembership</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/shareItemWithGroup/" class="tsd-kind-icon padding-right-1">shareItemWithGroup</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/unshareItemWithGroup/" class="tsd-kind-icon padding-right-1">unshareItemWithGroup</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getUser/" class="tsd-kind-icon padding-right-1">getUser</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getUserTags/" class="tsd-kind-icon padding-right-1">getUserTags</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getUserUrl/" class="tsd-kind-icon padding-right-1">getUserUrl</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/acceptInvitation/" class="tsd-kind-icon padding-right-1">acceptInvitation</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/declineInvitation/" class="tsd-kind-icon padding-right-1">declineInvitation</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getUserInvitation/" class="tsd-kind-icon padding-right-1">getUserInvitation</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getUserInvitations/" class="tsd-kind-icon padding-right-1">getUserInvitations</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getUserNotifications/" class="tsd-kind-icon padding-right-1">getUserNotifications</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/removeNotification/" class="tsd-kind-icon padding-right-1">removeNotification</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/searchUsers/" class="tsd-kind-icon padding-right-1">searchUsers</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/updateUser/" class="tsd-kind-icon padding-right-1">updateUser</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/chunk/" class="tsd-kind-icon padding-right-1">chunk</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getPortal/" class="tsd-kind-icon padding-right-1">getPortal</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getSelf/" class="tsd-kind-icon padding-right-1">getSelf</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getPortalSettings/" class="tsd-kind-icon padding-right-1">getPortalSettings</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getPortalUrl/" class="tsd-kind-icon padding-right-1">getPortalUrl</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/getSubscriptionInfo/" class="tsd-kind-icon padding-right-1">getSubscriptionInfo</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/scrubControlChars/" class="tsd-kind-icon padding-right-1">scrubControlChars</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/NotificationChannelType/" class="tsd-kind-icon padding-right-1">NotificationChannelType</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/UnixTime/" class="tsd-kind-icon padding-right-1">UnixTime</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/FetchReadMethodName/" class="tsd-kind-icon padding-right-1">FetchReadMethodName</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ItemRelationshipType/" class="tsd-kind-icon padding-right-1">ItemRelationshipType</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IAddGroupUsersOptions/" class="tsd-kind-icon padding-right-1">IAddGroupUsersOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IAddGroupUsersResult/" class="tsd-kind-icon padding-right-1">IAddGroupUsersResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ICreateGroupOptions/" class="tsd-kind-icon padding-right-1">ICreateGroupOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IGetGroupContentOptions/" class="tsd-kind-icon padding-right-1">IGetGroupContentOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IGroupCategory/" class="tsd-kind-icon padding-right-1">IGroupCategory</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IGroupCategorySchema/" class="tsd-kind-icon padding-right-1">IGroupCategorySchema</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IGroupContentResult/" class="tsd-kind-icon padding-right-1">IGroupContentResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IGroupUsersResult/" class="tsd-kind-icon padding-right-1">IGroupUsersResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ISearchGroupUsersOptions/" class="tsd-kind-icon padding-right-1">ISearchGroupUsersOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ISearchGroupUsersResult/" class="tsd-kind-icon padding-right-1">ISearchGroupUsersResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IUserGroupOptions/" class="tsd-kind-icon padding-right-1">IUserGroupOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IInviteGroupUsersOptions/" class="tsd-kind-icon padding-right-1">IInviteGroupUsersOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IInviteGroupUsersResult/" class="tsd-kind-icon padding-right-1">IInviteGroupUsersResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ICreateGroupNotificationOptions/" class="tsd-kind-icon padding-right-1">ICreateGroupNotificationOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IRemoveGroupUsersOptions/" class="tsd-kind-icon padding-right-1">IRemoveGroupUsersOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IRemoveGroupUsersResult/" class="tsd-kind-icon padding-right-1">IRemoveGroupUsersResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IUpdateGroupOptions/" class="tsd-kind-icon padding-right-1">IUpdateGroupOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IUpdateGroupUsersOptions/" class="tsd-kind-icon padding-right-1">IUpdateGroupUsersOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IUpdateGroupUsersResult/" class="tsd-kind-icon padding-right-1">IUpdateGroupUsersResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IAddItemDataOptions/" class="tsd-kind-icon padding-right-1">IAddItemDataOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IUserContentRequestOptions/" class="tsd-kind-icon padding-right-1">IUserContentRequestOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IUserContentResponse/" class="tsd-kind-icon padding-right-1">IUserContentResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ICreateFolderOptions/" class="tsd-kind-icon padding-right-1">ICreateFolderOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ICreateItemOptions/" class="tsd-kind-icon padding-right-1">ICreateItemOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ICreateItemResponse/" class="tsd-kind-icon padding-right-1">ICreateItemResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IExportItemRequestOptions/" class="tsd-kind-icon padding-right-1">IExportItemRequestOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IExportItemResponse/" class="tsd-kind-icon padding-right-1">IExportItemResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IExportLayerInfo/" class="tsd-kind-icon padding-right-1">IExportLayerInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IExportParameters/" class="tsd-kind-icon padding-right-1">IExportParameters</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IGetItemGroupsResponse/" class="tsd-kind-icon padding-right-1">IGetItemGroupsResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IGetItemInfoOptions/" class="tsd-kind-icon padding-right-1">IGetItemInfoOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IGetItemPartsResponse/" class="tsd-kind-icon padding-right-1">IGetItemPartsResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IGetItemResourceOptions/" class="tsd-kind-icon padding-right-1">IGetItemResourceOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IGetItemStatusResponse/" class="tsd-kind-icon padding-right-1">IGetItemStatusResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IGetRelatedItemsResponse/" class="tsd-kind-icon padding-right-1">IGetRelatedItemsResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IItemStatusOptions/" class="tsd-kind-icon padding-right-1">IItemStatusOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IAddFolderResponse/" class="tsd-kind-icon padding-right-1">IAddFolderResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ICreateUpdateItemOptions/" class="tsd-kind-icon padding-right-1">ICreateUpdateItemOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IFolderIdOptions/" class="tsd-kind-icon padding-right-1">IFolderIdOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IItemDataOptions/" class="tsd-kind-icon padding-right-1">IItemDataOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IItemInfoOptions/" class="tsd-kind-icon padding-right-1">IItemInfoOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IItemInfoResponse/" class="tsd-kind-icon padding-right-1">IItemInfoResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IItemPartOptions/" class="tsd-kind-icon padding-right-1">IItemPartOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IItemRelationshipOptions/" class="tsd-kind-icon padding-right-1">IItemRelationshipOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IItemResourceOptions/" class="tsd-kind-icon padding-right-1">IItemResourceOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IItemResourceResponse/" class="tsd-kind-icon padding-right-1">IItemResourceResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IManageItemRelationshipOptions/" class="tsd-kind-icon padding-right-1">IManageItemRelationshipOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IMoveItemResponse/" class="tsd-kind-icon padding-right-1">IMoveItemResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IRemoveItemResourceOptions/" class="tsd-kind-icon padding-right-1">IRemoveItemResourceOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IUpdateItemResponse/" class="tsd-kind-icon padding-right-1">IUpdateItemResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IUserItemOptions/" class="tsd-kind-icon padding-right-1">IUserItemOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IMoveItemOptions/" class="tsd-kind-icon padding-right-1">IMoveItemOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IUpdateItemOptions/" class="tsd-kind-icon padding-right-1">IUpdateItemOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ICommitItemOptions/" class="tsd-kind-icon padding-right-1">ICommitItemOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ICreateOrgNotificationOptions/" class="tsd-kind-icon padding-right-1">ICreateOrgNotificationOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ICreateOrgNotificationResult/" class="tsd-kind-icon padding-right-1">ICreateOrgNotificationResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ISetAccessOptions/" class="tsd-kind-icon padding-right-1">ISetAccessOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IGroupSharingOptions/" class="tsd-kind-icon padding-right-1">IGroupSharingOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ISharingOptions/" class="tsd-kind-icon padding-right-1">ISharingOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ISharingResponse/" class="tsd-kind-icon padding-right-1">ISharingResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IGetUserOptions/" class="tsd-kind-icon padding-right-1">IGetUserOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IGetUserTagsResponse/" class="tsd-kind-icon padding-right-1">IGetUserTagsResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ITagCount/" class="tsd-kind-icon padding-right-1">ITagCount</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IGetUserInvitationOptions/" class="tsd-kind-icon padding-right-1">IGetUserInvitationOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IInvitation/" class="tsd-kind-icon padding-right-1">IInvitation</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IInvitationResult/" class="tsd-kind-icon padding-right-1">IInvitationResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/INotification/" class="tsd-kind-icon padding-right-1">INotification</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/INotificationResult/" class="tsd-kind-icon padding-right-1">INotificationResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IRemoveNotificationOptions/" class="tsd-kind-icon padding-right-1">IRemoveNotificationOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IUserSearchOptions/" class="tsd-kind-icon padding-right-1">IUserSearchOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IUpdateUserOptions/" class="tsd-kind-icon padding-right-1">IUpdateUserOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IUpdateUserResponse/" class="tsd-kind-icon padding-right-1">IUpdateUserResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IPortal/" class="tsd-kind-icon padding-right-1">IPortal</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/IPortalSettings/" class="tsd-kind-icon padding-right-1">IPortalSettings</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ISubscriptionInfo/" class="tsd-kind-icon padding-right-1">ISubscriptionInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ISearchGroupContentOptions/" class="tsd-kind-icon padding-right-1">ISearchGroupContentOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ISearchOptions/" class="tsd-kind-icon padding-right-1">ISearchOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/ISearchResult/" class="tsd-kind-icon padding-right-1">ISearchResult</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li class="tsd-kind-module api-list-item">
+          <nav-toggle index="6" package-name="@esri/arcgis-rest-request" ></nav-toggle>
+          <button id="trigger6" class="btn btn-transparent api-toggle-button" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon">
+              <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
+            </svg>
+          </button>
+          <a href="/arcgis-rest-js/api/request/" class="tsd-kind-icon">request</a>
+          <ul id="list6" class="api-package-content-list">
+            
+            <li class="tsd-kind-class padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/ArcGISAuthError/" class="tsd-kind-icon padding-right-1">ArcGISAuthError</a>
+            </li>
+            
+            <li class="tsd-kind-class padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/ArcGISRequestError/" class="tsd-kind-icon padding-right-1">ArcGISRequestError</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/request/" class="tsd-kind-icon padding-right-1">request</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/setDefaultRequestOptions/" class="tsd-kind-icon padding-right-1">setDefaultRequestOptions</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/decodeParam/" class="tsd-kind-icon padding-right-1">decodeParam</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/decodeQueryString/" class="tsd-kind-icon padding-right-1">decodeQueryString</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/withOptions/" class="tsd-kind-icon padding-right-1">withOptions</a>
+            </li>
+            
+            <li class="tsd-kind-variable padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/NODEJS_DEFAULT_REFERER_HEADER/" class="tsd-kind-icon padding-right-1">NODEJS_DEFAULT_REFERER_HEADER</a>
+            </li>
+            
+            <li class="tsd-kind-enumeration padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/ErrorTypes/" class="tsd-kind-icon padding-right-1">ErrorTypes</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/GrantTypes/" class="tsd-kind-icon padding-right-1">GrantTypes</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/HTTPMethods/" class="tsd-kind-icon padding-right-1">HTTPMethods</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/ResponseFormats/" class="tsd-kind-icon padding-right-1">ResponseFormats</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/IRetryAuthError/" class="tsd-kind-icon padding-right-1">IRetryAuthError</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/IAuthenticationManager/" class="tsd-kind-icon padding-right-1">IAuthenticationManager</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/IFetchTokenParams/" class="tsd-kind-icon padding-right-1">IFetchTokenParams</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/IGenerateTokenParams/" class="tsd-kind-icon padding-right-1">IGenerateTokenParams</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/IParamBuilder/" class="tsd-kind-icon padding-right-1">IParamBuilder</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/IParams/" class="tsd-kind-icon padding-right-1">IParams</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/IParamsBuilder/" class="tsd-kind-icon padding-right-1">IParamsBuilder</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/IRequestOptions/" class="tsd-kind-icon padding-right-1">IRequestOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/request/ITokenRequestOptions/" class="tsd-kind-icon padding-right-1">ITokenRequestOptions</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li class="tsd-kind-module api-list-item">
+          <nav-toggle index="7" package-name="@esri/arcgis-rest-routing" ></nav-toggle>
+          <button id="trigger7" class="btn btn-transparent api-toggle-button" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon">
+              <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
+            </svg>
+          </button>
+          <a href="/arcgis-rest-js/api/routing/" class="tsd-kind-icon">routing</a>
+          <ul id="list7" class="api-package-content-list">
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/closestFacility/" class="tsd-kind-icon padding-right-1">closestFacility</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/decompressGeometry/" class="tsd-kind-icon padding-right-1">decompressGeometry</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/isFeatureSet/" class="tsd-kind-icon padding-right-1">isFeatureSet</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/normalizeLocationsList/" class="tsd-kind-icon padding-right-1">normalizeLocationsList</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/originDestinationMatrix/" class="tsd-kind-icon padding-right-1">originDestinationMatrix</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/serviceArea/" class="tsd-kind-icon padding-right-1">serviceArea</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/solveRoute/" class="tsd-kind-icon padding-right-1">solveRoute</a>
+            </li>
+            
+            <li class="tsd-kind-variable padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/ARCGIS_ONLINE_CLOSEST_FACILITY_URL/" class="tsd-kind-icon padding-right-1">ARCGIS_ONLINE_CLOSEST_FACILITY_URL</a>
+            </li>
+            
+            <li class="tsd-kind-variable padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/ARCGIS_ONLINE_ORIGIN_DESTINATION_MATRIX_URL/" class="tsd-kind-icon padding-right-1">ARCGIS_ONLINE_ORIGIN_DESTINATION_MATRIX_URL</a>
+            </li>
+            
+            <li class="tsd-kind-variable padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/ARCGIS_ONLINE_ROUTING_URL/" class="tsd-kind-icon padding-right-1">ARCGIS_ONLINE_ROUTING_URL</a>
+            </li>
+            
+            <li class="tsd-kind-variable padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/ARCGIS_ONLINE_SERVICE_AREA_URL/" class="tsd-kind-icon padding-right-1">ARCGIS_ONLINE_SERVICE_AREA_URL</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/IClosestFacilityOptions/" class="tsd-kind-icon padding-right-1">IClosestFacilityOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/IClosestFacilityResponse/" class="tsd-kind-icon padding-right-1">IClosestFacilityResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/IEndpointOptions/" class="tsd-kind-icon padding-right-1">IEndpointOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/IOriginDestinationMatrixOptions/" class="tsd-kind-icon padding-right-1">IOriginDestinationMatrixOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/IOriginDestinationMatrixResponse/" class="tsd-kind-icon padding-right-1">IOriginDestinationMatrixResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/IServiceAreaOptions/" class="tsd-kind-icon padding-right-1">IServiceAreaOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/IServiceAreaResponse/" class="tsd-kind-icon padding-right-1">IServiceAreaResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/ISolveRouteOptions/" class="tsd-kind-icon padding-right-1">ISolveRouteOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/routing/ISolveRouteResponse/" class="tsd-kind-icon padding-right-1">ISolveRouteResponse</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li class="tsd-kind-module api-list-item">
+          <nav-toggle index="8" package-name="@esri/arcgis-rest-service-admin" ></nav-toggle>
+          <button id="trigger8" class="btn btn-transparent api-toggle-button" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon">
+              <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
+            </svg>
+          </button>
+          <a href="/arcgis-rest-js/api/service-admin/" class="tsd-kind-icon">service-admin</a>
+          <ul id="list8" class="api-package-content-list">
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/addToServiceDefinition/" class="tsd-kind-icon padding-right-1">addToServiceDefinition</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/createFeatureService/" class="tsd-kind-icon padding-right-1">createFeatureService</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/getServiceAdminInfo/" class="tsd-kind-icon padding-right-1">getServiceAdminInfo</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/getViewSources/" class="tsd-kind-icon padding-right-1">getViewSources</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/updateServiceDefinition/" class="tsd-kind-icon padding-right-1">updateServiceDefinition</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/IAddToServiceDefinitionItemSummary/" class="tsd-kind-icon padding-right-1">IAddToServiceDefinitionItemSummary</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/IAddToServiceDefinitionOptions/" class="tsd-kind-icon padding-right-1">IAddToServiceDefinitionOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/IAddToServiceDefinitionResult/" class="tsd-kind-icon padding-right-1">IAddToServiceDefinitionResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/ICreateServiceOptions/" class="tsd-kind-icon padding-right-1">ICreateServiceOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/ICreateServiceParams/" class="tsd-kind-icon padding-right-1">ICreateServiceParams</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/ICreateServiceResult/" class="tsd-kind-icon padding-right-1">ICreateServiceResult</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/IUpdateServiceDefinitionOptions/" class="tsd-kind-icon padding-right-1">IUpdateServiceDefinitionOptions</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/service-admin/IUpdateServiceDefinitionResult/" class="tsd-kind-icon padding-right-1">IUpdateServiceDefinitionResult</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        <li class="tsd-kind-module api-list-item">
+          <nav-toggle index="9" package-name="@esri/arcgis-rest-types" ></nav-toggle>
+          <button id="trigger9" class="btn btn-transparent api-toggle-button" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="svg-icon">
+              <path d="M7 4h5l12 12-12 12H7l12-12L7 4z" />
+            </svg>
+          </button>
+          <a href="/arcgis-rest-js/api/types/" class="is-active tsd-kind-icon">types</a>
+          <ul id="list9" class="api-package-content-list">
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ElipticArc/" class="tsd-kind-icon padding-right-1">ElipticArc</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/GeometryType/" class="tsd-kind-icon padding-right-1">GeometryType</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/JsonCurve/" class="tsd-kind-icon padding-right-1">JsonCurve</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/Position/" class="tsd-kind-icon padding-right-1">Position</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/Position2D/" class="tsd-kind-icon padding-right-1">Position2D</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/SpatialRelationship/" class="tsd-kind-icon padding-right-1">SpatialRelationship</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/Units/" class="tsd-kind-icon padding-right-1">Units</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/GroupMembership/" class="tsd-kind-icon padding-right-1">GroupMembership</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/Color/" class="tsd-kind-icon padding-right-1">Color</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/SimpleFillSymbolStyle/" class="tsd-kind-icon padding-right-1">SimpleFillSymbolStyle</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/SimpleLineSymbolStyle/" class="tsd-kind-icon padding-right-1">SimpleLineSymbolStyle</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/SimpleMarkerSymbolStyle/" class="tsd-kind-icon padding-right-1">SimpleMarkerSymbolStyle</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/SymbolType/" class="tsd-kind-icon padding-right-1">SymbolType</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/DomainType/" class="is-active tsd-kind-icon padding-right-1">DomainType</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/FeatureEditTool/" class="tsd-kind-icon padding-right-1">FeatureEditTool</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/FieldType/" class="tsd-kind-icon padding-right-1">FieldType</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ICodedValue/" class="tsd-kind-icon padding-right-1">ICodedValue</a>
+            </li>
+            
+            <li class="tsd-kind-type-alias padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IDomain/" class="tsd-kind-icon padding-right-1">IDomain</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IFeature/" class="tsd-kind-icon padding-right-1">IFeature</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IFeatureSet/" class="tsd-kind-icon padding-right-1">IFeatureSet</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IArc/" class="tsd-kind-icon padding-right-1">IArc</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IBezierCurve/" class="tsd-kind-icon padding-right-1">IBezierCurve</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ICircularArc/" class="tsd-kind-icon padding-right-1">ICircularArc</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IEnvelope/" class="tsd-kind-icon padding-right-1">IEnvelope</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IExtent/" class="tsd-kind-icon padding-right-1">IExtent</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IGeometry/" class="tsd-kind-icon padding-right-1">IGeometry</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IHasZM/" class="tsd-kind-icon padding-right-1">IHasZM</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ILocation/" class="tsd-kind-icon padding-right-1">ILocation</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IMultipoint/" class="tsd-kind-icon padding-right-1">IMultipoint</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IOldCircularArc/" class="tsd-kind-icon padding-right-1">IOldCircularArc</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IPoint/" class="tsd-kind-icon padding-right-1">IPoint</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IPolygon/" class="tsd-kind-icon padding-right-1">IPolygon</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IPolygonWithCurves/" class="tsd-kind-icon padding-right-1">IPolygonWithCurves</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IPolyline/" class="tsd-kind-icon padding-right-1">IPolyline</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IPolylineWithCurves/" class="tsd-kind-icon padding-right-1">IPolylineWithCurves</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ISpatialReference/" class="tsd-kind-icon padding-right-1">ISpatialReference</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IGroup/" class="tsd-kind-icon padding-right-1">IGroup</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IGroupAdd/" class="tsd-kind-icon padding-right-1">IGroupAdd</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IFolder/" class="tsd-kind-icon padding-right-1">IFolder</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IItem/" class="tsd-kind-icon padding-right-1">IItem</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IItemAdd/" class="tsd-kind-icon padding-right-1">IItemAdd</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IItemUpdate/" class="tsd-kind-icon padding-right-1">IItemUpdate</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IFeatureServiceDefinition/" class="tsd-kind-icon padding-right-1">IFeatureServiceDefinition</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IServiceInfo/" class="tsd-kind-icon padding-right-1">IServiceInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IServiceNameAvailable/" class="tsd-kind-icon padding-right-1">IServiceNameAvailable</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IViewServiceSource/" class="tsd-kind-icon padding-right-1">IViewServiceSource</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IViewServiceSources/" class="tsd-kind-icon padding-right-1">IViewServiceSources</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IStatisticDefinition/" class="tsd-kind-icon padding-right-1">IStatisticDefinition</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IFont/" class="tsd-kind-icon padding-right-1">IFont</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IMarkerSymbol/" class="tsd-kind-icon padding-right-1">IMarkerSymbol</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IPictureFillSymbol/" class="tsd-kind-icon padding-right-1">IPictureFillSymbol</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IPictureMarkerSymbol/" class="tsd-kind-icon padding-right-1">IPictureMarkerSymbol</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IPictureSourced/" class="tsd-kind-icon padding-right-1">IPictureSourced</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ISimpleFillSymbol/" class="tsd-kind-icon padding-right-1">ISimpleFillSymbol</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ISimpleLineSymbol/" class="tsd-kind-icon padding-right-1">ISimpleLineSymbol</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ISimpleMarkerSymbol/" class="tsd-kind-icon padding-right-1">ISimpleMarkerSymbol</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ISymbol/" class="tsd-kind-icon padding-right-1">ISymbol</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ITextSymbol/" class="tsd-kind-icon padding-right-1">ITextSymbol</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IUser/" class="tsd-kind-icon padding-right-1">IUser</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IApplicationProperties/" class="tsd-kind-icon padding-right-1">IApplicationProperties</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IArcGisStreamLayer/" class="tsd-kind-icon padding-right-1">IArcGisStreamLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IBaseMap/" class="tsd-kind-icon padding-right-1">IBaseMap</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IBingLayer/" class="tsd-kind-icon padding-right-1">IBingLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IBookmark/" class="tsd-kind-icon padding-right-1">IBookmark</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IChildLayer/" class="tsd-kind-icon padding-right-1">IChildLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ICsvLayer/" class="tsd-kind-icon padding-right-1">ICsvLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IDefinitionEditor/" class="tsd-kind-icon padding-right-1">IDefinitionEditor</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IDefinitionInput/" class="tsd-kind-icon padding-right-1">IDefinitionInput</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IDefinitionParameter/" class="tsd-kind-icon padding-right-1">IDefinitionParameter</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IDrawingInfo/" class="tsd-kind-icon padding-right-1">IDrawingInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IEditableLayers/" class="tsd-kind-icon padding-right-1">IEditableLayers</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IEditingInfo/" class="tsd-kind-icon padding-right-1">IEditingInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IEditingProperties/" class="tsd-kind-icon padding-right-1">IEditingProperties</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IEnableable/" class="tsd-kind-icon padding-right-1">IEnableable</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IExclusionArea/" class="tsd-kind-icon padding-right-1">IExclusionArea</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IFeatureLayer/" class="tsd-kind-icon padding-right-1">IFeatureLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IField/" class="tsd-kind-icon padding-right-1">IField</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IFieldFormat/" class="tsd-kind-icon padding-right-1">IFieldFormat</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IFieldInfo/" class="tsd-kind-icon padding-right-1">IFieldInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IGeoRssLayer/" class="tsd-kind-icon padding-right-1">IGeoRssLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IImageServiceLayer/" class="tsd-kind-icon padding-right-1">IImageServiceLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IImageVectorLayer/" class="tsd-kind-icon padding-right-1">IImageVectorLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IKmlLayer/" class="tsd-kind-icon padding-right-1">IKmlLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ILayer/" class="tsd-kind-icon padding-right-1">ILayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ILayerDefinition/" class="tsd-kind-icon padding-right-1">ILayerDefinition</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ILocationTracking/" class="tsd-kind-icon padding-right-1">ILocationTracking</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ILocationTrackingInfo/" class="tsd-kind-icon padding-right-1">ILocationTrackingInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ILod/" class="tsd-kind-icon padding-right-1">ILod</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IMapLocation/" class="tsd-kind-icon padding-right-1">IMapLocation</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IMapRangeInfo/" class="tsd-kind-icon padding-right-1">IMapRangeInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IMapServiceLayer/" class="tsd-kind-icon padding-right-1">IMapServiceLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IMediaInfo/" class="tsd-kind-icon padding-right-1">IMediaInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IMediaInfoValue/" class="tsd-kind-icon padding-right-1">IMediaInfoValue</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IOfflineInfo/" class="tsd-kind-icon padding-right-1">IOfflineInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IOpenStreetMapLayer/" class="tsd-kind-icon padding-right-1">IOpenStreetMapLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IOrderByField/" class="tsd-kind-icon padding-right-1">IOrderByField</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IPagedResponse/" class="tsd-kind-icon padding-right-1">IPagedResponse</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IPagingParams/" class="tsd-kind-icon padding-right-1">IPagingParams</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IPopupElement/" class="tsd-kind-icon padding-right-1">IPopupElement</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IPopupExpressionInfo/" class="tsd-kind-icon padding-right-1">IPopupExpressionInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IPopupInfo/" class="tsd-kind-icon padding-right-1">IPopupInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IPresentation/" class="tsd-kind-icon padding-right-1">IPresentation</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IRange/" class="tsd-kind-icon padding-right-1">IRange</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IReadOnlyLayers/" class="tsd-kind-icon padding-right-1">IReadOnlyLayers</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IRelatedRecordsInfo/" class="tsd-kind-icon padding-right-1">IRelatedRecordsInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ISearch/" class="tsd-kind-icon padding-right-1">ISearch</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ISlide/" class="tsd-kind-icon padding-right-1">ISlide</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ISupportsTime/" class="tsd-kind-icon padding-right-1">ISupportsTime</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ITable/" class="tsd-kind-icon padding-right-1">ITable</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ITemplate/" class="tsd-kind-icon padding-right-1">ITemplate</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IThematicGroup/" class="tsd-kind-icon padding-right-1">IThematicGroup</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ITileInfo/" class="tsd-kind-icon padding-right-1">ITileInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ITiledImageServiceLayer/" class="tsd-kind-icon padding-right-1">ITiledImageServiceLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ITiledMapServiceLayer/" class="tsd-kind-icon padding-right-1">ITiledMapServiceLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ITimeSlider/" class="tsd-kind-icon padding-right-1">ITimeSlider</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ITimeSliderProperties/" class="tsd-kind-icon padding-right-1">ITimeSliderProperties</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ITypeInfo/" class="tsd-kind-icon padding-right-1">ITypeInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/ITypeInfoDomain/" class="tsd-kind-icon padding-right-1">ITypeInfoDomain</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IVectorTileLayer/" class="tsd-kind-icon padding-right-1">IVectorTileLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IViewingInfo/" class="tsd-kind-icon padding-right-1">IViewingInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IVisibleLayer/" class="tsd-kind-icon padding-right-1">IVisibleLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IVisiblePopup/" class="tsd-kind-icon padding-right-1">IVisiblePopup</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IWebMapBackground/" class="tsd-kind-icon padding-right-1">IWebMapBackground</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IWebMapTileServiceInfo/" class="tsd-kind-icon padding-right-1">IWebMapTileServiceInfo</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IWebTiledLayer/" class="tsd-kind-icon padding-right-1">IWebTiledLayer</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IWebmap/" class="tsd-kind-icon padding-right-1">IWebmap</a>
+            </li>
+            
+            <li class="tsd-kind-interface padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/types/IWidget/" class="tsd-kind-icon padding-right-1">IWidget</a>
+            </li>
+            
+          </ul>
+        </li>
+        
+      </ul>
+    </api-search>
+  </nav>
+
+  <div class="column-18">
+    <div class="panel panel-white padding-left-1 padding-right-1 padding-trailer-1 padding-leader-half">
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="clearfix trailer-half">
+  <h1 class="left font-size-5 code-face trailer-0">DomainType</h1>
+  <small class="tsd-kind-type-alias font-size--2 right leader-half margin-right-half"><span class="tsd-kind-icon">Type alias</span></small>
+</div>
+
+
+  <p>Domain types</p>
+
+
+
+
+
+
+
+
+
+
+  Value(s):
+  <pre style="display: inline;"><i><span class="text-green">"range"</span><span class="text-light-gray"> | </span><span class="text-green">"codedValue"</span><span class="text-light-gray"> | </span><span class="text-green">"inherited"</span></i></pre>
+
+
+
+
+
+
+
+
+<hr class="leader-half trailer-half">
+
+
+
+<small class="font-size--2">Type alias defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-types/src/webmap.ts#L43">packages/arcgis-rest-types/src/webmap.ts:43</a></small>
+
+
+    </div>
+  </div>
+</div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+<div class="panel panel-white">
+  <div class="grid-container">
+    <div class="column-24">
+      <h2>Legend</h2>
+      <div
+        class="block-group block-group-4-up tablet-block-group-2-up phone-block-group-1-up"
+      >
+        <div class="block">
+          <ul class="list-plain">
+            <li class="tsd-kind-module">
+              <span class="tsd-kind-icon">Module</span>
+            </li>
+            <li class="tsd-kind-object-literal">
+              <span class="tsd-kind-icon">Object literal</span>
+            </li>
+            <li class="tsd-kind-variable">
+              <span class="tsd-kind-icon">Variable</span>
+            </li>
+            <li class="tsd-kind-function">
+              <span class="tsd-kind-icon">Function</span>
+            </li>
+            <li class="tsd-kind-function tsd-has-type-parameter">
+              <span class="tsd-kind-icon">Function with type parameter</span>
+            </li>
+            <li class="tsd-kind-index-signature">
+              <span class="tsd-kind-icon">Index signature</span>
+            </li>
+            <li class="tsd-kind-type-alias">
+              <span class="tsd-kind-icon">Type alias</span>
+            </li>
+          </ul>
+        </div>
+        <div class="block">
+          <ul class="list-plain">
+            <li class="tsd-kind-enumeration">
+              <span class="tsd-kind-icon">Enumeration</span>
+            </li>
+            <li class="tsd-kind-enumeration-member">
+              <span class="tsd-kind-icon">Enumeration member</span>
+            </li>
+            <li class="tsd-kind-property tsd-parent-kind-enumeration">
+              <span class="tsd-kind-icon">Property</span>
+            </li>
+            <li class="tsd-kind-method tsd-parent-kind-enumeration">
+              <span class="tsd-kind-icon">Method</span>
+            </li>
+          </ul>
+        </div>
+        <div class="block">
+          <ul class="list-plain">
+            <li class="tsd-kind-interface">
+              <span class="tsd-kind-icon">Interface</span>
+            </li>
+            <li class="tsd-kind-interface tsd-has-type-parameter">
+              <span class="tsd-kind-icon">Interface with type parameter</span>
+            </li>
+            <li class="tsd-kind-constructor tsd-parent-kind-interface">
+              <span class="tsd-kind-icon">Constructor</span>
+            </li>
+            <li class="tsd-kind-property tsd-parent-kind-interface">
+              <span class="tsd-kind-icon">Property</span>
+            </li>
+            <li class="tsd-kind-method tsd-parent-kind-interface">
+              <span class="tsd-kind-icon">Method</span>
+            </li>
+            <li class="tsd-kind-index-signature tsd-parent-kind-interface">
+              <span class="tsd-kind-icon">Index signature</span>
+            </li>
+          </ul>
+        </div>
+        <div class="block">
+          <ul class="list-plain">
+            <li class="tsd-kind-class">
+              <span class="tsd-kind-icon">Class</span>
+            </li>
+            <li class="tsd-kind-class tsd-has-type-parameter">
+              <span class="tsd-kind-icon">Class with type parameter</span>
+            </li>
+            <li class="tsd-kind-constructor tsd-parent-kind-class">
+              <span class="tsd-kind-icon">Constructor</span>
+            </li>
+            <li class="tsd-kind-property tsd-parent-kind-class">
+              <span class="tsd-kind-icon">Property</span>
+            </li>
+            <li class="tsd-kind-method tsd-parent-kind-class">
+              <span class="tsd-kind-icon">Method</span>
+            </li>
+            <li class="tsd-kind-accessor tsd-parent-kind-class">
+              <span class="tsd-kind-icon">Accessor</span>
+            </li>
+            <li class="tsd-kind-index-signature tsd-parent-kind-class">
+              <span class="tsd-kind-icon">Index signature</span>
+            </li>
+          </ul>
+        </div>
+        <div class="block">
+          <ul class="list-plain">
+            <li
+              class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"
+            >
+              <span class="tsd-kind-icon">Inherited constructor</span>
+            </li>
+            <li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+              <span class="tsd-kind-icon">Inherited property</span>
+            </li>
+            <li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+              <span class="tsd-kind-icon">Inherited method</span>
+            </li>
+            <li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+              <span class="tsd-kind-icon">Inherited accessor</span>
+            </li>
+          </ul>
+        </div>
+        <div class="block">
+          <ul class="list-plain">
+            <li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected">
+              <span class="tsd-kind-icon">Protected property</span>
+            </li>
+            <li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected">
+              <span class="tsd-kind-icon">Protected method</span>
+            </li>
+            <li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected">
+              <span class="tsd-kind-icon">Protected accessor</span>
+            </li>
+          </ul>
+        </div>
+        <div class="block">
+          <ul class="list-plain">
+            <li class="tsd-kind-property tsd-parent-kind-class tsd-is-private">
+              <span class="tsd-kind-icon">Private property</span>
+            </li>
+            <li class="tsd-kind-method tsd-parent-kind-class tsd-is-private">
+              <span class="tsd-kind-icon">Private method</span>
+            </li>
+            <li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private">
+              <span class="tsd-kind-icon">Private accessor</span>
+            </li>
+          </ul>
+        </div>
+        <div class="block">
+          <ul class="list-plain">
+            <li class="tsd-kind-property tsd-parent-kind-class tsd-is-static">
+              <span class="tsd-kind-icon">Static property</span>
+            </li>
+            <li
+              class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"
+            >
+              <span class="tsd-kind-icon">Static method</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/arcgis-rest-js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+<script src="https://unpkg.com/vue@2.4.2/dist/vue.min.js"></script>
+<script src="https://unpkg.com/fuse.js@3.0.5/dist/fuse.min.js"></script>
+<script src="/arcgis-rest-js/js/index.js"></script>
+<script src="/arcgis-rest-js/js/api-search.js"></script>
+<script src="/arcgis-rest-js/js/nav-toggle.js"></script>
+<script>
+  new Vue({
+    el: "#page"
+  });
+</script>
+
+
+  </body>
+</html>
