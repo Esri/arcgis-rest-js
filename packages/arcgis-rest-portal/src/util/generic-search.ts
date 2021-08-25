@@ -16,7 +16,7 @@ import {
   ISearchResult
 } from "../util/search";
 
-export function genericSearch<T extends IItem | IGroup | IUser>(
+export function genericSearch<T extends IItem | IGroup | IUser> (
   search:
     | string
     | ISearchOptions
@@ -36,7 +36,7 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
   } else {
     options = appendCustomParams<ISearchOptions>(
       search,
-      ["q", "num", "start", "sortField", "sortOrder"],
+      ["q", "num", "start", "sortField", "sortOrder", "searchUserAccess", "searchUserName"],
       {
         httpMethod: "GET"
       }
@@ -74,7 +74,7 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
   // send the request
   return request(url, options).then(r => {
     if (r.nextStart && r.nextStart !== -1) {
-      r.nextPage = function() {
+      r.nextPage = function () {
         let newOptions: ISearchOptions;
 
         if (
