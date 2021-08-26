@@ -34,6 +34,7 @@ export function genericSearch<T extends IItem | IGroup | IUser> (
       }
     };
   } else {
+    // searchUserAccess has one (knonw) valid value: "groupMember"
     options = appendCustomParams<ISearchOptions>(
       search,
       ["q", "num", "start", "sortField", "sortOrder", "searchUserAccess", "searchUserName"],
