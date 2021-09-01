@@ -62,6 +62,7 @@
   "dependencies": {
     "cross-fetch": "^3.0.0",
     "dotenv": "^8.2.0",
+    "glob": "^7.1.7",
     "isomorphic-fetch": "*",
     "isomorphic-form-data": "^2.0.0",
     "tslib": "^2.3.0"
@@ -117,7 +118,8 @@
     "release:review": "git --no-pager diff --word-diff",
     "release:publish": "./support/publish.sh",
     "c": "git-cz",
-    "dev": "support/dev.sh"
+    "dev": "support/dev.sh",
+    "typedoc": "typedoc --options ./typedoc.json"
   },
   "repository": {
     "type": "git",

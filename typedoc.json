@@ -1,6 +1,6 @@
 {
-  "out": "doc-test",
-  "json": "doc.json",
+  "out": "typedoc",
+  "json": "typedoc/typedoc.json",
   "logLevel": "Verbose",
   "packages": [
     "./packages/arcgis-rest-auth/",
