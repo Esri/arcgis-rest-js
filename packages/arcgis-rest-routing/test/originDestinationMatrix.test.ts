@@ -211,6 +211,8 @@ describe("originDestinationMatrix", () => {
         expect(response.destinations.features.length).toEqual(
           destinations.length
         );
+        expect(response.messages.length).toEqual(2);
+        expect(response.messages[1].type).toEqual(50);
 
         done();
       })

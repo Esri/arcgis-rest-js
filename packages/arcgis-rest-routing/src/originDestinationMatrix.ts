@@ -37,9 +37,9 @@ export interface IOriginDestinationMatrixOptions extends IEndpointOptions {
    *  Specify the type of output returned by the service. Defaults to "esriNAODOutputSparseMatrix".
    */
   outputType?:
-    | "esriNAODOutputSparseMatrix"
-    | "esriNAODOutputStraightLines"
-    | "esriNAODOutputNoLines";
+  | "esriNAODOutputSparseMatrix"
+  | "esriNAODOutputStraightLines"
+  | "esriNAODOutputNoLines";
   barriers?: Array<IPoint | ILocation | [number, number]> | IFeatureSet;
   polylineBarriers?: IFeatureSet;
   polygonBarriers?: IFeatureSet;
@@ -55,7 +55,7 @@ interface IFeatureSetWithGeoJson extends IFeatureSet {
 }
 
 export interface IOriginDestinationMatrixResponse {
-  messages: [ { type: number, description: string } ];
+  messages: { type: number, description: string }[];
   /**
    *  Only present if outputType is "esriNAODOutputSparseMatrix". Full description is available at https://developers.arcgis.com/rest/network/api-reference/origin-destination-cost-matrix-synchronous-service.htm#ESRI_SECTION2_114F8364507C4B56B780DFAD505270FB.
    */
@@ -168,7 +168,7 @@ export function originDestinationMatrix(
   }
 
   return request(`${cleanUrl(endpoint)}/solveODCostMatrix`, options).then(
-    function(res) {
+    function (res) {
       return cleanResponse(res, options);
     }
   );

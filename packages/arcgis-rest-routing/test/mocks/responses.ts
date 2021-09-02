@@ -11094,7 +11094,13 @@ export const ServiceAreaWebMercator: any = {
 
 // with default `outputType` of "esriNAODOutputSparseMatrix"
 export const OriginDestinationMatrix: any = {
-  messages: [],
+  messages: [{
+    type: 50,
+    description: "The following restriction attributes are not valid and were ignored: test1"
+  }, {
+    type: 50,
+    description: "The following restriction attributes are not valid and were ignored: test2"
+  }],
   odCostMatrix: {
     "1": {
       "1": [23.997715775219728, 10.432671969745961, 16.78975803847885],
