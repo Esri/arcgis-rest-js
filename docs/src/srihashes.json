@@ -1,5 +1,5 @@
 {
-  "version": "3.1.2",
+  "version": "3.3.0",
   "packages": {
     "@esri/arcgis-rest-auth": "sha384-WHE9c0XiIRm75ZhiFpPs/YHl+HKagTXaKDlTH9pKI+F+vvb/BhQcxA2m5Alc+5ne",
     "@esri/arcgis-rest-demographics": "sha384-wiK51dR4htcKlgvUYpAro3CDB1R9BnHmYe2/Uklk5F8NOajqrWhKcjSPXGOXp+Xi",

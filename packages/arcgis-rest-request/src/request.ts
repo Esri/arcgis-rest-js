@@ -410,8 +410,8 @@ export function request(
         );
 
         if (originalAuthError) {
-          /* if the request was made to an unfederated service that
-          didnt require authentication, add the base url and a dummy token
+          /* If the request was made to an unfederated service that
+          didn't require authentication, add the base url and a dummy token
           to the list of trusted servers to avoid another federation check
           in the event of a repeat request */
           const truncatedUrl: string = url

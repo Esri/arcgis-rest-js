@@ -1,6 +1,6 @@
 /* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { cleanUrl, IRequestOptions } from "@esri/arcgis-rest-request";
 import {
   GeometryType,
   SpatialRelationship,
@@ -76,4 +76,22 @@ export interface ISharedEditOptions extends IGetLayerOptions {
    * Optional parameter to specify if the edits should be applied only if all submitted edits succeed.
    */
   rollbackOnFailure?: boolean;
+}
+
+const serviceRegex = new RegExp(/.+(?:map|feature|image)server/i);
+/**
+ * Return the service url. If not matched, returns what was passed in
+ */
+export function parseServiceUrl (url: string) {
+  const match = url.match(serviceRegex);
+  if (match) {
+    return match[0];
+  } else {
+    return stripQueryString(url);
+  }
+}
+
+function stripQueryString (url: string) {
+  const stripped = url.split('?')[0];
+  return cleanUrl(stripped);
 }
