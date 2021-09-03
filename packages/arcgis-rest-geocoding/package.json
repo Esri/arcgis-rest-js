@@ -16,7 +16,7 @@
     "@esri/arcgis-rest-types": "^3.3.0",
     "@terraformer/arcgis": "^2.0.7",
     "@types/terraformer__arcgis": "^2.0.0",
-    "tslib": "^1.13.0"
+    "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@esri/arcgis-rest-auth": "^3.3.0",
