@@ -3,7 +3,7 @@ name: PR Tests
 # Only run on non-draft PRs, and when PRs are synched
 on:
   pull_request:
-    types: [ready_for_review, synchronize]
+    types: [opened, reopened, ready_for_review, synchronize]
     # If the PR has other files, a push w/ just .md or /docs
     # files will still cause tests to run
     paths-ignore:
@@ -11,6 +11,7 @@ on:
       - "docs/**"
 jobs:
   build:
+    if: github.event.pull_request.draft == false
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -38,9 +39,6 @@ jobs:
 
       - name: Test in Chrome
         run: npm run test:chrome:ci
-
-      - name: Test in Firefox
-        run: npm run test:firefox:ci
 
       - uses: codecov/codecov-action@v1
         with:

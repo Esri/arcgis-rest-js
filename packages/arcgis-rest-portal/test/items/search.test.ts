@@ -64,13 +64,16 @@ describe("search", () => {
       num: 12,
       start: 22,
       sortField: "title",
-      sortOrder: "desc"
+      sortOrder: "desc",
+      searchUserAccess: "groupMember",
+      searchUserName: "casey",
+      foo: "bar" // this one should not end up on the url
     })
       .then(() => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          "https://www.arcgis.com/sharing/rest/search?f=json&q=DC%20AND%20typekeywords%3AhubSiteApplication&num=12&start=22&sortField=title&sortOrder=desc"
+          "https://www.arcgis.com/sharing/rest/search?f=json&q=DC%20AND%20typekeywords%3AhubSiteApplication&num=12&start=22&sortField=title&sortOrder=desc&searchUserAccess=groupMember&searchUserName=casey"
         );
         expect(options.method).toBe("GET");
         done();

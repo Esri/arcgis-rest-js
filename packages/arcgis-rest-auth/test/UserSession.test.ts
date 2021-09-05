@@ -1621,6 +1621,32 @@ describe("UserSession", () => {
           fail(e);
         });
     });
+
+    it("should return a UserSession where refreshTokenExpires is 2 weeks from now (within 10 ms)", (done) => {
+      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
+        access_token: "token",
+        refresh_token: "refreshToken",
+        username: "Casey",
+        ssl: true,
+      });
+
+      UserSession.exchangeAuthorizationCode(
+        {
+          clientId: "clientId",
+          redirectUri: "https://example-app.com/redirect-uri",
+        },
+        "code"
+      )
+        .then((session) => {
+          const twoWeeksFromNow = new Date(Date.now() + (20160 - 1) * 60 * 1000);
+          expect(session.refreshTokenExpires.getTime()).toBeGreaterThan(twoWeeksFromNow.getTime() - 10);
+          expect(session.refreshTokenExpires.getTime()).toBeLessThan(twoWeeksFromNow.getTime() + 10);
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
   });
 
   describe(".getUser()", () => {
