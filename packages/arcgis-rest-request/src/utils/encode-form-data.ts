@@ -3,21 +3,20 @@
 
 import { processParams, requiresFormData } from "./process-params";
 import { encodeQueryString } from "./encode-query-string";
+
 /**
  * Encodes parameters in a [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object in browsers or in a [FormData](https://github.com/form-data/form-data) in Node.js
  *
  * @param params An object to be encoded.
  * @returns The complete [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object.
  */
-export function encodeFormData(
-  params: any,
-  forceFormData?: boolean
-): FormData | string {
+export function encodeFormData(params: any, forceFormData?: boolean): any {
   // see https://github.com/Esri/arcgis-rest-js/issues/499 for more info.
   const useFormData = requiresFormData(params) || forceFormData;
   const newParams = processParams(params);
   if (useFormData) {
-    const formData = new FormData();
+    const formData = new (FormData as any)();
+
     Object.keys(newParams).forEach((key: any) => {
       if (typeof Blob !== "undefined" && newParams[key] instanceof Blob) {
         /* To name the Blob:

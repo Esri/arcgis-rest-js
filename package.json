@@ -21,7 +21,6 @@
     "cross-spawn": "^5.1.0",
     "cz-lerna-changelog": "github:patrickarlt/cz-lerna-changelog#3fe7650a2e2e624b1f46e5031c96119759698288",
     "date-fns": "^1.29.0",
-    "event-stream": "3.3.4",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.12.0",
     "fetch-mock": "^5.13.1",
@@ -50,7 +49,7 @@
     "rimraf": "^2.6.2",
     "rollup": "^2.26.8",
     "rollup-plugin-filesize": "^9.0.2",
-    "rollup-plugin-typescript2": "^0.27.2",
+    "rollup-plugin-typescript": "^1.0.1",
     "rollup-plugin-uglify": "^6.0.4",
     "shelljs": "^0.7.8",
     "slug": "^0.9.1",
@@ -64,7 +63,7 @@
     "dotenv": "^8.2.0",
     "isomorphic-fetch": "*",
     "isomorphic-form-data": "^2.0.0",
-    "tslib": "^1.13.0"
+    "tslib": "^2.3.1"
   },
   "lint-staged": {
     "*.ts": [
@@ -109,8 +108,6 @@
     "lint": "eslint ./packages --ext .ts",
     "prettify": "prettier --write --parser typescript --tab-width 2 --use-tabs false \"packages/**/+(src|test)/**/*.ts\"",
     "precommit": "lint-staged",
-    "postinstall": "npm run bootstrap",
-    "bootstrap": "lerna bootstrap",
     "prerelease:prepare": "git fetch --all && npm run clean && lerna bootstrap && npm test",
     "oldrelease:prepare": "lerna publish --skip-git --skip-npm --yes && node ./support/changelog.js",
     "release:prepare": "lerna publish --skip-git --skip-npm --yes",
@@ -213,5 +210,18 @@
   "eslintIgnore": [
     "packages/**/test",
     "packages/**/dist"
+  ],
+  "workspaces": [
+    "./packages/arcgis-rest-types",
+    "./packages/arcgis-rest-request",
+    "./packages/arcgis-rest-auth",
+    "./packages/arcgis-rest-demographics",
+    "./packages/arcgis-rest-feature-layer",
+    "./packages/arcgis-rest-geocoding",
+    "./packages/arcgis-rest-portal",
+    "./packages/arcgis-rest-request",
+    "./packages/arcgis-rest-routing",
+    "./packages/arcgis-rest-service-admin",
+    "./demos/*"
   ]
 }

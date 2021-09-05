@@ -4,7 +4,7 @@
 import { encodeFormData } from "../../src/utils/encode-form-data";
 import {
   requiresFormData,
-  processParams
+  processParams,
 } from "../../src/utils/process-params";
 import { attachmentFile } from "../../../arcgis-rest-feature-layer/test/attachments.test";
 
@@ -26,7 +26,7 @@ describe("encodeFormData", () => {
     const binaryObj =
       typeof Blob !== "undefined"
         ? new Blob([], {
-            type: "text/plain"
+            type: "text/plain",
           })
         : Buffer.from("");
 
@@ -56,7 +56,7 @@ describe("encodeFormData", () => {
       myBoolean: true,
       myString: "Hello, world!",
       myEmptyString: "",
-      myNumber: 380
+      myNumber: 380,
     };
 
     expect(requiresFormData(params)).toBeFalsy();
@@ -110,7 +110,7 @@ describe("encodeFormData", () => {
       myString: "Hello, world!",
       myEmptyString: "",
       myNumber: 380,
-      file
+      file,
     };
 
     expect(requiresFormData(params)).toBeTruthy();

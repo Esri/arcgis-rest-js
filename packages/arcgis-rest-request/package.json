@@ -3,27 +3,26 @@
   "version": "3.1.2",
   "description": "Common methods and utilities for @esri/arcgis-rest-js packages.",
   "main": "dist/node/index.js",
-  "unpkg": "dist/umd/request.umd.js",
-  "module": "dist/esm/index.js",
-  "js:next": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "unpkg": "dist/request.umd.min.js",
+  "type": "module",
   "sideEffects": false,
-  "types": "dist/esm/index.d.ts",
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "license": "Apache-2.0",
   "dependencies": {
-    "tslib": "^1.10.0"
+    "tslib": "^2.3.1"
   },
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "prepare": "npm run build",
-    "build": "npm run build:node && npm run build:umd && npm run build:esm",
-    "build:esm": "tsc --module es2015 --outDir ./dist/esm --declaration",
+    "build": "npm run build:esm && npm run build:umd",
+    "build:esm": "tsc --outDir ./dist --declaration",
     "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
-    "build:node": "tsc --module commonjs --outDir ./dist/node",
-    "dev:esm": "tsc -w --module es2015 --outDir ./dist/esm --declaration",
-    "dev:umd": "rollup -w -c ../../umd-base-profile.js",
-    "dev:node": "tsc -w --module commonjs --outDir ./dist/node"
+    "dev:esm": "tsc -w --outDir ./dist --declaration",
+    "dev:umd": "rollup -w -c ../../umd-base-profile.js"
   },
   "publishConfig": {
     "access": "public"

@@ -12,13 +12,6 @@ import { IRetryAuthError } from "./utils/retryAuthError";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
-let DEFAULT_ARCGIS_REQUEST_OPTIONS: IRequestOptions = {
-  httpMethod: "POST",
-  params: {
-    f: "json",
-  },
-};
-
 /**
  * Sets the default options that will be passed in **all requests across all `@esri/arcgis-rest-js` modules**.
  *
@@ -35,7 +28,7 @@ let DEFAULT_ARCGIS_REQUEST_OPTIONS: IRequestOptions = {
  * @param hideWarnings Silence warnings about setting default `authentication` in shared environments.
  */
 export function setDefaultRequestOptions(
-  options: typeof DEFAULT_ARCGIS_REQUEST_OPTIONS,
+  options: IRequestOptions,
   hideWarnings?: boolean
 ) {
   if (options.authentication && !hideWarnings) {
@@ -43,7 +36,18 @@ export function setDefaultRequestOptions(
       "You should not set `authentication` as a default in a shared environment such as a web server which will process multiple users requests. You can call `setDefaultRequestOptions` with `true` as a second argument to disable this warning."
     );
   }
-  DEFAULT_ARCGIS_REQUEST_OPTIONS = options;
+  (globalThis as any).DEFAULT_ARCGIS_REQUEST_OPTIONS = options;
+}
+
+export function getDefaultRequestOptions() {
+  return (
+    (globalThis as any).DEFAULT_ARCGIS_REQUEST_OPTIONS || {
+      httpMethod: "POST",
+      params: {
+        f: "json",
+      },
+    }
+  );
 }
 
 export class ArcGISAuthError extends ArcGISRequestError {
@@ -190,56 +194,57 @@ export function request(
   url: string,
   requestOptions: IRequestOptions = { params: { f: "json" } }
 ): Promise<any> {
+  const defaults = getDefaultRequestOptions();
   const options: IRequestOptions = {
     ...{ httpMethod: "POST" },
-    ...DEFAULT_ARCGIS_REQUEST_OPTIONS,
+    ...defaults,
     ...requestOptions,
     ...{
       params: {
-        ...DEFAULT_ARCGIS_REQUEST_OPTIONS.params,
+        ...defaults.params,
         ...requestOptions.params,
       },
       headers: {
-        ...DEFAULT_ARCGIS_REQUEST_OPTIONS.headers,
+        ...defaults.headers,
         ...requestOptions.headers,
       },
     },
   };
 
-  const missingGlobals: string[] = [];
-  const recommendedPackages: string[] = [];
+  // const missingGlobals: string[] = [];
+  // const recommendedPackages: string[] = [];
 
-  // don't check for a global fetch if a custom implementation was passed through
-  if (!options.fetch && typeof fetch !== "undefined") {
-    options.fetch = fetch.bind(Function("return this")());
-  } else {
-    missingGlobals.push("`fetch`");
-    recommendedPackages.push("`node-fetch`");
-  }
+  // // don't check for a global fetch if a custom implementation was passed through
+  // if (!options.fetch && typeof fetch !== "undefined") {
+  //   options.fetch = fetch.bind(Function("return this")());
+  // } else {
+  //   missingGlobals.push("`fetch`");
+  //   recommendedPackages.push("`node-fetch`");
+  // }
 
-  if (typeof Promise === "undefined") {
-    missingGlobals.push("`Promise`");
-    recommendedPackages.push("`es6-promise`");
-  }
+  // if (typeof Promise === "undefined") {
+  //   missingGlobals.push("`Promise`");
+  //   recommendedPackages.push("`es6-promise`");
+  // }
 
-  if (typeof FormData === "undefined") {
-    missingGlobals.push("`FormData`");
-    recommendedPackages.push("`isomorphic-form-data`");
-  }
+  // if (typeof FormData === "undefined") {
+  //   missingGlobals.push("`FormData`");
+  //   recommendedPackages.push("`isomorphic-form-data`");
+  // }
 
-  if (
-    !options.fetch ||
-    typeof Promise === "undefined" ||
-    typeof FormData === "undefined"
-  ) {
-    throw new Error(
-      `\`arcgis-rest-request\` requires a \`fetch\` implementation and global variables for \`Promise\` and \`FormData\` to be present in the global scope. You are missing ${missingGlobals.join(
-        ", "
-      )}. We recommend installing the ${recommendedPackages.join(
-        ", "
-      )} modules at the root of your application to add these to the global scope. See https://bit.ly/2KNwWaJ for more info.`
-    );
-  }
+  // if (
+  //   !options.fetch ||
+  //   typeof Promise === "undefined" ||
+  //   typeof FormData === "undefined"
+  // ) {
+  //   throw new Error(
+  //     `\`arcgis-rest-request\` requires a \`fetch\` implementation and global variables for \`Promise\` and \`FormData\` to be present in the global scope. You are missing ${missingGlobals.join(
+  //       ", "
+  //     )}. We recommend installing the ${recommendedPackages.join(
+  //       ", "
+  //     )} modules at the root of your application to add these to the global scope. See https://bit.ly/2KNwWaJ for more info.`
+  //   );
+  // }
 
   const { httpMethod, authentication, rawResponse } = options;
 
@@ -250,7 +255,7 @@ export function request(
 
   let originalAuthError: ArcGISAuthError = null;
 
-  const fetchOptions: RequestInit = {
+  const fetchOptions: any = {
     method: httpMethod,
     /* ensures behavior mimics XMLHttpRequest.
     needed to support sending IWA cookies */
@@ -268,24 +273,25 @@ export function request(
     fetchOptions.credentials = "include";
   }
 
-  return (authentication
-    ? authentication.getToken(url, { fetch: options.fetch }).catch((err) => {
-        /**
-         * append original request url and requestOptions
-         * to the error thrown by getToken()
-         * to assist with retrying
-         */
-        err.url = url;
-        err.options = options;
-        /**
-         * if an attempt is made to talk to an unfederated server
-         * first try the request anonymously. if a 'token required'
-         * error is thrown, throw the UNFEDERATED error then.
-         */
-        originalAuthError = err;
-        return Promise.resolve("");
-      })
-    : Promise.resolve("")
+  return (
+    authentication
+      ? authentication.getToken(url).catch((err) => {
+          /**
+           * append original request url and requestOptions
+           * to the error thrown by getToken()
+           * to assist with retrying
+           */
+          err.url = url;
+          err.options = options;
+          /**
+           * if an attempt is made to talk to an unfederated server
+           * first try the request anonymously. if a 'token required'
+           * error is thrown, throw the UNFEDERATED error then.
+           */
+          originalAuthError = err;
+          return Promise.resolve("");
+        })
+      : Promise.resolve("")
   )
     .then((token) => {
       if (token.length) {
@@ -368,7 +374,7 @@ export function request(
           "application/x-www-form-urlencoded";
       }
 
-      return options.fetch(url, fetchOptions);
+      return fetch(url, fetchOptions);
     })
     .then((response) => {
       if (!response.ok) {

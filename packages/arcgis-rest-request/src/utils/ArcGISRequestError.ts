@@ -7,7 +7,7 @@ import { IRequestOptions } from "./IRequestOptions";
 // and https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
 //
 // This code is from MDN https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Custom_Error_Types.
-export class ArcGISRequestError {
+export class ArcGISRequestError extends Error {
   /**
    * The name of this error. Will always be `"ArcGISRequestError"` to conform with the [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) class.
    */
@@ -59,6 +59,17 @@ export class ArcGISRequestError {
     url?: string,
     options?: IRequestOptions
   ) {
+    // 'Error' breaks prototype chain here
+    super(message);
+
+    // restore prototype chain
+    const actualProto = new.target.prototype;
+
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(this, actualProto);
+    } else {
+      (this as any).__proto__ = actualProto;
+    }
     message = message || "UNKNOWN_ERROR";
     code = code || "UNKNOWN_ERROR_CODE";
 
@@ -72,5 +83,3 @@ export class ArcGISRequestError {
     this.options = options;
   }
 }
-ArcGISRequestError.prototype = Object.create(Error.prototype);
-ArcGISRequestError.prototype.constructor = ArcGISRequestError;

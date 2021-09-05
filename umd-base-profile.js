@@ -1,4 +1,4 @@
-import typescript2 from "rollup-plugin-typescript2";
+import typescript2 from "rollup-plugin-typescript";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
@@ -40,8 +40,8 @@ const moduleName = "arcgisRest";
  */
 const packageNames = fs
   .readdirSync(path.join(__dirname, "packages"))
-  .filter(p => p[0] !== ".")
-  .map(p => {
+  .filter((p) => p[0] !== ".")
+  .map((p) => {
     return require(path.join(__dirname, "packages", p, "package.json")).name;
   }, {});
 
@@ -62,20 +62,16 @@ const globals = packageNames.reduce((globals, p) => {
 export default {
   input: "./src/index.ts",
   output: {
-    file: `./dist/umd/${name.replace("@esri/arcgis-rest-", "")}.umd.js`,
+    file: `./dist/${name.replace("@esri/arcgis-rest-", "")}.umd.js`,
     sourcemap: true,
     banner: copyright,
     format: "umd",
     name: moduleName,
     globals,
-    extend: true // causes this module to extend the global specified by `moduleName`
+    extend: true, // causes this module to extend the global specified by `moduleName`
   },
   context: "window",
   external: packageNames,
-  plugins: [
-    typescript2(),
-    json(),
-    nodeResolve(),
-    commonjs()
-  ]
+
+  plugins: [typescript2(), json(), nodeResolve(), commonjs()],
 };

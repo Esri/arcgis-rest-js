@@ -11,7 +11,7 @@ import {
   updateAttachment,
   IUpdateAttachmentOptions,
   deleteAttachments,
-  IDeleteAttachmentsOptions
+  IDeleteAttachmentsOptions,
 } from "../src/index";
 
 import {
@@ -19,18 +19,18 @@ import {
   addAttachmentResponse,
   updateAttachmentResponse,
   deleteAttachmentsResponse,
-  genericInvalidResponse
+  genericInvalidResponse,
 } from "./mocks/feature";
 
-export function attachmentFile() {
-  if (typeof File !== "undefined" && File) {
-    return new File(["foo"], "foo.txt", { type: "text/plain" });
-  } else {
-    const fs = require("fs");
-    return fs.createReadStream(
-      "./packages/arcgis-rest-feature-layer/test/mocks/foo.txt"
-    );
-  }
+export function attachmentFile(): any {
+  // if (typeof File !== "undefined" && File) {
+  return new File(["foo"], "foo.txt", { type: "text/plain" });
+  // } else {
+  //   const fs = require("fs");
+  //   return fs.createReadStream(
+  //     "./packages/arcgis-rest-feature-layer/test/mocks/foo.txt"
+  //   );
+  // }
 }
 
 const serviceUrl =
@@ -39,13 +39,13 @@ const serviceUrl =
 describe("attachment methods", () => {
   afterEach(fetchMock.restore);
 
-  it("should return an array of attachmentInfos for a feature by id", done => {
+  it("should return an array of attachmentInfos for a feature by id", (done) => {
     const requestOptions = {
       url: serviceUrl,
       featureId: 42,
       params: {
-        gdbVersion: "SDE.DEFAULT"
-      }
+        gdbVersion: "SDE.DEFAULT",
+      },
     } as IGetAttachmentsOptions;
     fetchMock.once("*", getAttachmentsResponse);
     getAttachments(requestOptions)
@@ -60,19 +60,19 @@ describe("attachment methods", () => {
         expect(getAttachmentsResponse.attachmentInfos[0].id).toEqual(409);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return objectId of the added attachment and a truthy success", done => {
+  it("should return objectId of the added attachment and a truthy success", (done) => {
     const requestOptions = {
       url: serviceUrl,
       featureId: 42,
       attachment: attachmentFile(),
       params: {
-        returnEditMoment: true
-      }
+        returnEditMoment: true,
+      },
     } as IAddAttachmentOptions;
     fetchMock.once("*", addAttachmentResponse);
     addAttachment(requestOptions)
@@ -97,20 +97,19 @@ describe("attachment methods", () => {
         expect(addAttachmentResponse.addAttachmentResult.success).toEqual(true);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return an error for a service/feature which does not have attachments", done => {
+  it("should return an error for a service/feature which does not have attachments", (done) => {
     const requestOptions = {
-      url:
-        "https://services.arcgis.com/f8b/arcgis/rest/services/NoAttachments/FeatureServer/0",
+      url: "https://services.arcgis.com/f8b/arcgis/rest/services/NoAttachments/FeatureServer/0",
       featureId: 654,
       attachment: attachmentFile(),
       params: {
-        returnEditMoment: true
-      }
+        returnEditMoment: true,
+      },
     } as IAddAttachmentOptions;
     fetchMock.once("*", genericInvalidResponse);
     addAttachment(requestOptions)
@@ -118,7 +117,7 @@ describe("attachment methods", () => {
         // nothing to test here forcing error
         fail();
       })
-      .catch(error => {
+      .catch((error) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -133,15 +132,15 @@ describe("attachment methods", () => {
       });
   });
 
-  it("should return objectId of the updated attachment and a truthy success", done => {
+  it("should return objectId of the updated attachment and a truthy success", (done) => {
     const requestOptions = {
       url: serviceUrl,
       featureId: 42,
       attachmentId: 1001,
       attachment: attachmentFile(),
       params: {
-        returnEditMoment: true
-      }
+        returnEditMoment: true,
+      },
     } as IUpdateAttachmentOptions;
     fetchMock.once("*", updateAttachmentResponse);
     updateAttachment(requestOptions)
@@ -160,19 +159,19 @@ describe("attachment methods", () => {
         );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return objectId of the deleted attachment and a truthy success", done => {
+  it("should return objectId of the deleted attachment and a truthy success", (done) => {
     const requestOptions = {
       url: serviceUrl,
       featureId: 42,
       attachmentIds: [1001],
       params: {
-        returnEditMoment: true
-      }
+        returnEditMoment: true,
+      },
     } as IDeleteAttachmentsOptions;
     fetchMock.once("*", deleteAttachmentsResponse);
     deleteAttachments(requestOptions)
@@ -193,7 +192,7 @@ describe("attachment methods", () => {
         ).toEqual(true);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

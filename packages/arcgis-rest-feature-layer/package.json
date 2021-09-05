@@ -25,7 +25,6 @@
     "@esri/arcgis-rest-request": "^3.0.0"
   },
   "scripts": {
-    "prepare": "npm run build",
     "build": "npm run build:node && npm run build:umd && npm run build:esm",
     "build:esm": "tsc --module es2015 --outDir ./dist/esm --declaration",
     "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",

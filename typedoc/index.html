@@ -1,0 +1,246 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@esri/arcgis-rest-js</title>
+	<meta name="description" content="Documentation for @esri/arcgis-rest-js">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@esri/arcgis-rest-js</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>@esri/arcgis-rest-js</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<p><a href="https://www.npmjs.com/package/@esri/arcgis-rest-request"><img src="https://img.shields.io/npm/v/@esri/arcgis-rest-request.svg?style=flat-square" alt="npm version"></a>
+					<a href="https://www.npmjs.com/package/@esri/arcgis-rest-request"><img src="https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-request/dist/umd/request.umd.min.js?compression=gzip" alt="gzip bundle size"></a>
+					<a href="https://codecov.io/gh/Esri/arcgis-rest-js"><img src="https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg" alt="Coverage Status"></a>
+				<a href="#license"><img src="https://img.shields.io/badge/license-Apache%202.0-orange.svg?style=flat-square" alt="apache 2.0 licensed"></a></p>
+				<a href="#esriarcgis-rest-js" id="esriarcgis-rest-js" style="color: inherit; text-decoration: none;">
+					<h1>@esri/arcgis-rest-js</h1>
+				</a>
+				<blockquote>
+					<p>compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.</p>
+				</blockquote>
+				<a href="#table-of-contents" id="table-of-contents" style="color: inherit; text-decoration: none;">
+					<h2>Table of Contents</h2>
+				</a>
+				<ul>
+					<li><a href="#example">Example</a></li>
+					<li><a href="#api-reference">API Reference</a></li>
+					<li><a href="#instructions">Instructions</a></li>
+					<li><a href="#packages">Packages</a></li>
+					<li><a href="#frequently-asked-questions">FAQ</a></li>
+					<li><a href="#issues">Issues</a></li>
+					<li><a href="#versioning">Versioning</a></li>
+					<li><a href="#contributing">Contributing</a></li>
+					<li><a href="/CODE_OF_CONDUCT.md">Code of Conduct</a></li>
+					<li><a href="/CHANGELOG.md">CHANGELOG</a></li>
+					<li><a href="#license">License</a></li>
+				</ul>
+				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+					<h3>Example</h3>
+				</a>
+				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">request</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@esri/arcgis-rest-request&quot;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">url</span><span style="color: #000000"> =</span>
+<span style="color: #000000">  </span><span style="color: #A31515">&quot;https://www.arcgis.com/sharing/rest/content/items/6e03e8c26aad4b9c92a87c1063ddb0e3/data&quot;</span><span style="color: #000000">;</span>
+
+<span style="color: #795E26">request</span><span style="color: #000000">(</span><span style="color: #001080">url</span><span style="color: #000000">).</span><span style="color: #795E26">then</span><span style="color: #000000">((</span><span style="color: #001080">response</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">response</span><span style="color: #000000">); </span><span style="color: #008000">// WebMap JSON</span>
+<span style="color: #000000">});</span>
+</code></pre>
+				<a href="#api-reference" id="api-reference" style="color: inherit; text-decoration: none;">
+					<h3>API Reference</h3>
+				</a>
+				<p>The documentation is published at <a href="http://esri.github.io/arcgis-rest-js/">http://esri.github.io/arcgis-rest-js/</a> (source code <a href="/docs/src">here</a>).</p>
+				<a href="#instructions" id="instructions" style="color: inherit; text-decoration: none;">
+					<h3>Instructions</h3>
+				</a>
+				<p>You can install dependencies (and bootstrap lerna) by cloning the repository and running:</p>
+				<pre><code class="language-bash"><span style="color: #000000">npm install</span>
+</code></pre>
+				<p>Afterward, for a list of all available commands run <code>npm run</code>.</p>
+				<p>Some useful commands include:</p>
+				<ul>
+					<li><code>npm test</code> runs <em>all</em> the tests and confirms the API is functioning as expected.</li>
+					<li>There is also a <code>Debug Node Tests</code> configuration in the <code>.vscode/launch.json</code> which will run the Node tests in the VS Code debugger.</li>
+					<li><code>npm run docs:serve</code> will run the documentation site locally at <a href="http://localhost:3000/arcgis-rest-js/">http://localhost:3000/arcgis-rest-js/</a></li>
+					<li><code>npm run build</code> will created UMD bundles for <em>all</em> the packages</li>
+					<li><code>npm run dev -- &lt;esm|node|umd&gt; &lt;glob&gt;</code> will re-run the specified build type anytime the source code changes. Example: <code>npm run dev -- umd @esri/*</code></li>
+				</ul>
+				<a href="#packages" id="packages" style="color: inherit; text-decoration: none;">
+					<h3>Packages</h3>
+				</a>
+				<ul>
+					<li><a href="./packages/arcgis-rest-request/"><code>@esri/arcgis-rest-request</code></a> - Underpins other packages and supports making low-level requests.</li>
+					<li><a href="./packages/arcgis-rest-auth"><code>@esri/arcgis-rest-auth</code></a> - Provides methods for authenticating named users and applications.</li>
+					<li><a href="./packages/arcgis-rest-portal"><code>@esri/arcgis-rest-portal</code></a> - Methods for working with ArcGIS Online/Enterprise content and users.</li>
+					<li><a href="./packages/arcgis-rest-feature-layer"><code>@esri/arcgis-rest-feature-layer</code></a> - Functions for querying and editing features inside of hosted feature layers.</li>
+					<li><a href="./packages/arcgis-rest-service-admin"><code>@esri/arcgis-rest-service-admin</code></a> - Functions for administering hosted feature services.</li>
+					<li><a href="./packages/arcgis-rest-geocoding"><code>@esri/arcgis-rest-geocoding</code></a> - Geocoding wrapper for <code>@esri/arcgis-rest-js</code></li>
+					<li><a href="./packages/arcgis-rest-routing"><code>@esri/arcgis-rest-routing</code></a> - Routing and directions wrapper for <code>@esri/arcgis-rest-js</code>.</li>
+					<li><a href="./packages/arcgis-rest-types/"><code>@esri/arcgis-rest-types</code></a> - Common Typings for TypeScript developers.</li>
+				</ul>
+				<a href="#frequently-asked-questions" id="frequently-asked-questions" style="color: inherit; text-decoration: none;">
+					<h3>Frequently Asked Questions</h3>
+				</a>
+				<ul>
+					<li><a href="https://esri.github.io/arcgis-rest-js/guides/package-overview/">Why should I use this library?</a></li>
+					<li><a href="docs/FAQ.md#is-this-a-supported-esri-product">Is this a <em>supported</em> Esri product?</a></li>
+					<li><a href="docs/FAQ.md#comparison-with-the-arcgis-api-for-javascript">How does this project compare with the ArcGIS API for JavaScript?</a></li>
+					<li><a href="docs/FAQ.md#comparison-with-the-arcgis-api-for-python">Is this similar to the ArcGIS API for Python?</a></li>
+					<li><a href="docs/FAQ.md#who-is-using-these-packages">Who uses ArcGIS REST JS?</a></li>
+					<li><a href="docs/FAQ.md#why-typescript">Why TypeScript?</a> What if I prefer <a href="https://stackoverflow.com/questions/20435653/what-is-vanillajs">VanillaJS</a>?</li>
+					<li><a href="https://github.com/Esri/arcgis-rest-js/issues?q=is%3Aissue+sort%3Aupdated-desc+label%3Afaq+is%3Aclosed">More</a></li>
+				</ul>
+				<a href="#issues" id="issues" style="color: inherit; text-decoration: none;">
+					<h3>Issues</h3>
+				</a>
+				<p>If something isn&#39;t working the way you expected, please take a look at <a href="https://github.com/Esri/arcgis-rest-js/issues">previously logged issues</a> first. Have you found a new bug? Want to request a new feature? We&#39;d <a href="https://github.com/Esri/arcgis-rest-js/issues/new"><strong>love</strong></a> to hear from you.</p>
+				<p>If you&#39;re looking for help you can also post issues on <a href="https://stackoverflow.com/questions/tagged/esri-oss">Stack Overflow</a> with the <code>esri-oss</code> tag.</p>
+				<a href="#versioning" id="versioning" style="color: inherit; text-decoration: none;">
+					<h3>Versioning</h3>
+				</a>
+				<p>For transparency into the release cycle and in striving to maintain backward compatibility, @esri/arcgis-rest-js is maintained under Semantic Versioning guidelines and will adhere to these rules whenever possible.</p>
+				<p>For more information on SemVer, please visit <a href="http://semver.org/">http://semver.org/</a>.</p>
+				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
+					<h3>Contributing</h3>
+				</a>
+				<p>Esri welcomes contributions from anyone and everyone. Please see our <a href="CONTRIBUTING.md">guidelines for contributing</a>.</p>
+				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
+					<h3>License</h3>
+				</a>
+				<p>Copyright &copy; 2017-2021 Esri</p>
+				<p>Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+					you may not use this file except in compliance with the License.
+				You may obtain a copy of the License at</p>
+				<blockquote>
+					<p><a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+				</blockquote>
+				<p>Unless required by applicable law or agreed to in writing, software
+					distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+					WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+					See the License for the specific language governing permissions and
+				limitations under the License.</p>
+				<p>A copy of the license is available in the repository&#39;s <a href="./LICENSE">LICENSE</a> file.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_esri_arcgis_rest_auth.html">@esri/arcgis-<wbr>rest-<wbr>auth</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_esri_arcgis_rest_demographics.html">@esri/arcgis-<wbr>rest-<wbr>demographics</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_esri_arcgis_rest_feature_layer.html">@esri/arcgis-<wbr>rest-<wbr>feature-<wbr>layer</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_esri_arcgis_rest_geocoding.html">@esri/arcgis-<wbr>rest-<wbr>geocoding</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_esri_arcgis_rest_portal.html">@esri/arcgis-<wbr>rest-<wbr>portal</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_esri_arcgis_rest_request.html">@esri/arcgis-<wbr>rest-<wbr>request</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_esri_arcgis_rest_routing.html">@esri/arcgis-<wbr>rest-<wbr>routing</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_esri_arcgis_rest_service_admin.html">@esri/arcgis-<wbr>rest-<wbr>service-<wbr>admin</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_esri_arcgis_rest_types.html">@esri/arcgis-<wbr>rest-<wbr>types</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
