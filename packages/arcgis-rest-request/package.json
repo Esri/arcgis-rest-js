@@ -27,10 +27,14 @@
     "dist/**"
   ],
   "scripts": {
-    "build": "npm run build:node && npm run build:esm && npm run build:umd && ./fixup",
+    "prebuild": "tsc --noEmit",
+    "build": "npm run build:node && npm run build:esm && npm run build:umd",
+    "postbuild": "../../support/create-dist-package-jsons.js && npx package-check",
+
     "build:esm": "tsc --outDir ./dist/esm --declaration",
     "build:node": "tsc --outDir ./dist/cjs -m commonjs",
     "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
+    "build:cdn": "rollup -c ../../esm-cdn-profile.js",
     "dev:esm": "tsc -w --outDir ./dist --declaration",
     "dev:umd": "rollup -w -c ../../umd-base-profile.js"
   },

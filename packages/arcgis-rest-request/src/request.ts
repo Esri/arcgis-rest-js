@@ -375,9 +375,15 @@ export function request(
           "application/x-www-form-urlencoded";
       }
 
+      /**
+       * Check for a global fetch first and use it if available. This allows us to use the default
+       * configuration of fetch-mock in tests.
+       */
+
+      /* istanbul ignore else coverage is based on browser code and we don't test for the absence of global fetch so we can skip the else here. */
       return globalThis.fetch
         ? globalThis.fetch(url, fetchOptions)
-        : fetch(url, options);
+        : fetch(url, fetchOptions);
     })
     .then((response: any) => {
       if (!response.ok) {

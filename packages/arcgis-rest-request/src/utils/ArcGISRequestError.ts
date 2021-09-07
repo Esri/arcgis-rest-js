@@ -62,14 +62,11 @@ export class ArcGISRequestError extends Error {
     // 'Error' breaks prototype chain here
     super(message);
 
-    // restore prototype chain
+    // restore prototype chain, see https://stackoverflow.com/questions/41102060/typescript-extending-error-class
+    // we don't need to check for Object.setPrototypeOf as in the answers becasue we are ES2017 now
     const actualProto = new.target.prototype;
+    Object.setPrototypeOf(this, actualProto);
 
-    if (Object.setPrototypeOf) {
-      Object.setPrototypeOf(this, actualProto);
-    } else {
-      (this as any).__proto__ = actualProto;
-    }
     message = message || "UNKNOWN_ERROR";
     code = code || "UNKNOWN_ERROR_CODE";
 

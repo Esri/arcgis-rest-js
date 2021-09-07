@@ -36,11 +36,14 @@ const moduleName = "arcgisRest";
 
 /**
  * Now we need to discover all the `@esri/arcgis-rest-*` package names so we can create
- * the `globals` and `externals` to pass to Rollup.
+ * the `globals` and `externals` to pass to Rollup. @esri/arcgis-rest-fetch is excluded
+ * from this because we WANT to bundle it since it only contains references to global
+ * fetch
  */
 const packageNames = fs
   .readdirSync(path.join(__dirname, "packages"))
   .filter((p) => p[0] !== ".")
+  .filter((p) => p !== "arcgis-rest-fetch")
   .map((p) => {
     return require(path.join(__dirname, "packages", p, "package.json")).name;
   }, {});
@@ -75,14 +78,12 @@ export default {
 
   plugins: [
     typescript2({
-      target: "ES2017",
-      module: "ES2015",
+      target: "ES2017", // force typescript compile target
     }),
     json(),
     nodeResolve({
-      exportConditions: ["browser", "module", "import"],
-      browser: true,
+      browser: true, // prefer `browser` fields in package.json or package.json exports
     }),
-    commonjs(),
+    commonjs(), // @esri/arcgis-rest-fetch is still CommonJS
   ],
 };

@@ -1,5 +1,5 @@
 const { request } = require("@esri/arcgis-rest-request");
-console.log(request);
-request("https://www.arcgis.com/sharing/rest/info").then((response) => {
+
+request("https://www.arcgis.com/sharing/rest/info", {}).then((response) => {
   console.log(response);
 });
