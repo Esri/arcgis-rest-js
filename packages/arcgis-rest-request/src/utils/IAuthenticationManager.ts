@@ -1,4 +1,4 @@
-import { ITokenRequestOptions } from "./ITokenRequestOptions";
+import { ITokenRequestOptions } from "./ITokenRequestOptions.js";
 /**
  * Authentication can be supplied to `request` via [`UserSession`](../../auth/UserSession/) or [`ApplicationSession`](../../auth/ApplicationSession/). Both classes extend `IAuthenticationManager`.
  * ```js

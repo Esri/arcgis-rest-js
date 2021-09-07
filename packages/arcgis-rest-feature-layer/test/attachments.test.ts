@@ -23,14 +23,14 @@ import {
 } from "./mocks/feature";
 
 export function attachmentFile(): any {
-  // if (typeof File !== "undefined" && File) {
-  return new File(["foo"], "foo.txt", { type: "text/plain" });
-  // } else {
-  //   const fs = require("fs");
-  //   return fs.createReadStream(
-  //     "./packages/arcgis-rest-feature-layer/test/mocks/foo.txt"
-  //   );
-  // }
+  if (typeof File !== "undefined" && File) {
+    return new File(["foo"], "foo.txt", { type: "text/plain" });
+  } else {
+    const fs = require("fs");
+    return fs.createReadStream(
+      "./packages/arcgis-rest-feature-layer/test/mocks/foo.txt"
+    );
+  }
 }
 
 const serviceUrl =

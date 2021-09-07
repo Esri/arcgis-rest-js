@@ -62,7 +62,7 @@ const globals = packageNames.reduce((globals, p) => {
 export default {
   input: "./src/index.ts",
   output: {
-    file: `./dist/${name.replace("@esri/arcgis-rest-", "")}.umd.js`,
+    file: `./dist/umd/${name.replace("@esri/arcgis-rest-", "")}.umd.js`,
     sourcemap: true,
     banner: copyright,
     format: "umd",
@@ -73,5 +73,13 @@ export default {
   context: "window",
   external: packageNames,
 
-  plugins: [typescript2(), json(), nodeResolve(), commonjs()],
+  plugins: [
+    typescript2(),
+    json(),
+    nodeResolve({
+      exportConditions: ["browser", "module", "import"],
+      browser: true,
+    }),
+    commonjs(),
+  ],
 };

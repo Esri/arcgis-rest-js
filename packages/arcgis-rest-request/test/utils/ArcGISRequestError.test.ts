@@ -1,8 +1,8 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { ArcGISRequestError } from "../../src/index";
-import { ArcGISOnlineError } from "./../mocks/errors";
+import { ArcGISRequestError } from "../../src/index.js";
+import { ArcGISOnlineError } from "./../mocks/errors.js";
 
 describe("ArcGISRequestError", () => {
   it("should be an instanceof Error", () => {
@@ -17,9 +17,9 @@ describe("ArcGISRequestError", () => {
       "https://example.com",
       {
         params: {
-          f: "json"
+          f: "json",
         },
-        httpMethod: "POST"
+        httpMethod: "POST",
       }
     );
 

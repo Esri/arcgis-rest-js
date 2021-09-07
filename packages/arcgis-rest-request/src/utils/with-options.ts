@@ -1,4 +1,4 @@
-import { IRequestOptions } from "../utils/IRequestOptions";
+import { IRequestOptions } from "../utils/IRequestOptions.js";
 
 /**
  * Allows you to wrap individual methods with a default set of request options. This is useful to avoid setting the same option more then once and allows for interacting and setting defaults in a functional manner.
@@ -39,7 +39,7 @@ export function withOptions<
       typeof args[args.length - 1] === "object"
         ? {
             ...defaultOptions,
-            ...args.pop()
+            ...args.pop(),
           }
         : defaultOptions;
 

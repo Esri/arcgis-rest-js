@@ -1,14 +1,15 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { encodeFormData } from "./utils/encode-form-data";
-import { encodeQueryString } from "./utils/encode-query-string";
-import { requiresFormData } from "./utils/process-params";
-import { ArcGISRequestError } from "./utils/ArcGISRequestError";
-import { IRequestOptions } from "./utils/IRequestOptions";
-import { IParams } from "./utils/IParams";
-import { warn } from "./utils/warn";
-import { IRetryAuthError } from "./utils/retryAuthError";
+import { encodeFormData } from "./utils/encode-form-data.js";
+import { encodeQueryString } from "./utils/encode-query-string.js";
+import { requiresFormData } from "./utils/process-params.js";
+import { ArcGISRequestError } from "./utils/ArcGISRequestError.js";
+import { IRequestOptions } from "./utils/IRequestOptions.js";
+import { IParams } from "./utils/IParams.js";
+import { warn } from "./utils/warn.js";
+import { IRetryAuthError } from "./utils/retryAuthError.js";
+import fetch from "cross-fetch";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
@@ -374,9 +375,11 @@ export function request(
           "application/x-www-form-urlencoded";
       }
 
-      return fetch(url, fetchOptions);
+      return globalThis.fetch
+        ? globalThis.fetch(url, fetchOptions)
+        : fetch(url, options);
     })
-    .then((response) => {
+    .then((response: any) => {
       if (!response.ok) {
         // server responded w/ an actual error (404, 500, etc)
         const { status, statusText } = response;

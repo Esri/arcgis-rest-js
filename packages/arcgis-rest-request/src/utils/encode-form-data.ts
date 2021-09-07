@@ -1,8 +1,9 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { processParams, requiresFormData } from "./process-params";
-import { encodeQueryString } from "./encode-query-string";
+import { processParams, requiresFormData } from "./process-params.js";
+import { encodeQueryString } from "./encode-query-string.js";
+import { FormData } from "formdata-node";
 
 /**
  * Encodes parameters in a [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object in browsers or in a [FormData](https://github.com/form-data/form-data) in Node.js
