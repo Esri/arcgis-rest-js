@@ -6,9 +6,14 @@ import { IPagingParams, IItem, IGroup, IUser } from "@esri/arcgis-rest-types";
 import { SearchQueryBuilder } from "./SearchQueryBuilder";
 
 export interface ISearchOptions extends IRequestOptions, IPagingParams {
+  /** The query string to search against. */
   q: string | SearchQueryBuilder;
+
+  /** Field to sort by. */
   sortField?: string;
-  sortOrder?: string;
+
+  /** Describes whether order returns in ascending or descending order. The default is ascending. */
+  sortOrder?: "asc" | "desc";
   [key: string]: any;
 }
 
