@@ -1,0 +1,11 @@
+{
+  "name": "@esri/arcgis-rest-fetch",
+  "version": "3.3.0",
+  "main": "node-ponyfill.js",
+  "browser": "browser-ponyfill.js",
+  "react-native": "react-native-ponyfill.js",
+  "types": "index.types.d.ts",
+  "dependencies": {
+    "node-fetch": "2.6.1"
+  }
+}
