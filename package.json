@@ -50,6 +50,7 @@
     "rimraf": "^2.6.2",
     "rollup": "^2.26.8",
     "rollup-plugin-filesize": "^9.0.2",
+    "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript": "^1.0.1",
     "rollup-plugin-uglify": "^6.0.4",
     "shelljs": "^0.7.8",
@@ -82,7 +83,7 @@
     "test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.js",
     "test:firefox": "karma start --single-run --browsers=Firefox",
     "test:firefox:ci": "karma start --single-run --browsers=FirefoxHeadless",
-    "test:node": "jasmine --config=jasmine.json",
+    "test:node": "node --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.json",
     "test:node:live": "jasmine --config=jasmine.live.json",
     "test:node:debug": "inspect jasmine --config=jasmine.json",
     "test:node:live:debug": "inspect jasmine --config=jasmine.live.json",
@@ -221,7 +222,7 @@
     "./packages/arcgis-rest-request",
     "./packages/arcgis-rest-routing",
     "./packages/arcgis-rest-service-admin",
-    "./packages/arcgis-rest-support",
+    "./packages/arcgis-rest-fetch",
     "./demos/*",
     "./test/*"
   ]

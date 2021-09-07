@@ -1,13 +1,24 @@
-import config from './umd-base-profile.js';
-import { uglify } from "rollup-plugin-uglify";
+import config from "./umd-base-profile.js";
 import filesize from "rollup-plugin-filesize";
+import { terser } from "rollup-plugin-terser";
 
 // use umd.min.js
 config.output.file = config.output.file.replace(".umd.", ".umd.min.");
 
-config.plugins.push(filesize())
-config.plugins.push(uglify({
-  output: { comments: /@preserve/ }
-}))
+config.plugins.push(filesize());
+config.plugins.push(
+  terser({
+    format: {
+      comments: function (node, comment) {
+        var text = comment.value;
+        var type = comment.type;
+        if (type == "comment2") {
+          // multiline comment
+          return /@preserve|@license|@cc_on/i.test(text);
+        }
+      },
+    },
+  })
+);
 
 export default config;

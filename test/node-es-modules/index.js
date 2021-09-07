@@ -1,4 +1,3 @@
-import "isomor";
 import { request } from "@esri/arcgis-rest-request";
 
 console.log(request);

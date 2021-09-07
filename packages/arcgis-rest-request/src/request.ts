@@ -9,7 +9,7 @@ import { IRequestOptions } from "./utils/IRequestOptions.js";
 import { IParams } from "./utils/IParams.js";
 import { warn } from "./utils/warn.js";
 import { IRetryAuthError } from "./utils/retryAuthError.js";
-import fetch from "cross-fetch";
+import fetch from "@esri/arcgis-rest-fetch";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 

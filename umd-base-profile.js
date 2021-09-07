@@ -74,7 +74,10 @@ export default {
   external: packageNames,
 
   plugins: [
-    typescript2(),
+    typescript2({
+      target: "ES2017",
+      module: "ES2015",
+    }),
     json(),
     nodeResolve({
       exportConditions: ["browser", "module", "import"],
