@@ -1,5 +1,3 @@
-#!/usr/bin/node
-
 /**
  * Creates packages.jsons in the different dist folders to hint the correct module system to node.
  *

@@ -40,7 +40,6 @@ module.exports = function (config) {
       },
       compilerOptions: {
         module: "commonjs",
-        allowJs: true,
       },
       tsconfig: "./tsconfig.json",
       bundlerOptions: {

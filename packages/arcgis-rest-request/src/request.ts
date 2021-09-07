@@ -380,7 +380,7 @@ export function request(
        * configuration of fetch-mock in tests.
        */
 
-      /* istanbul ignore else coverage is based on browser code and we don't test for the absence of global fetch so we can skip the else here. */
+      /* istanbul ignore next coverage is based on browser code and we don't test for the absence of global fetch so we can skip the else here. */
       return globalThis.fetch
         ? globalThis.fetch(url, fetchOptions)
         : fetch(url, fetchOptions);

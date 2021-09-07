@@ -8,7 +8,6 @@
   "js:next": "dist/esm/index.js",
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",
-  "type":"module",
   "license": "Apache-2.0",
   "files": [
     "dist/**"

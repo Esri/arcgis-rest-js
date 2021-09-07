@@ -107,9 +107,7 @@
     "precommit": "lint-staged",
     "prerelease:prepare": "git fetch --all && npm run clean && lerna bootstrap && npm test",
     "oldrelease:prepare": "lerna publish --skip-git --skip-npm --yes && node ./support/changelog.js",
-    "release:prepare:major": "lerna publish --skip-git --skip-npm --yes",
-    "release:prepare:minor": "lerna publish --skip-git --skip-npm --yes",
-    "release:prepare:patch": "lerna publish --skip-git --skip-npm --yes",
+    "release:prepare": "lerna publish --skip-git --skip-npm --yes",
     "release:review": "git --no-pager diff --word-diff",
     "release:publish": "./support/publish.sh",
     "c": "git-cz",
@@ -223,7 +221,6 @@
     "./packages/arcgis-rest-routing",
     "./packages/arcgis-rest-service-admin",
     "./packages/arcgis-rest-fetch",
-    "./demos/*",
-    "./test/*"
+    "./demos/*"
   ]
 }

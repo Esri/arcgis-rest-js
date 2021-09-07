@@ -29,7 +29,7 @@
   "scripts": {
     "prebuild": "tsc --noEmit",
     "build": "npm run build:node && npm run build:esm && npm run build:umd",
-    "postbuild": "../../support/create-dist-package-jsons.js && npx package-check",
+    "postbuild": "node ../../support/create-dist-package-jsons.js && npx package-check",
 
     "build:esm": "tsc --outDir ./dist/esm --declaration",
     "build:node": "tsc --outDir ./dist/cjs -m commonjs",
