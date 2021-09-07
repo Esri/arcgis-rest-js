@@ -1,7 +1,6 @@
 {
   "spec_dir": "packages",
   "spec_files": ["arcgis-rest-request/{src,test}/**/*.test.*"],
-  "helpers": ["../support/test-helpers.cjs"],
   "stopSpecOnExpectationFailure": false,
   "random": false,
   "jsLoader": "import"
