@@ -5,7 +5,8 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:app": "webpack"
+    "build:app": "webpack --profile --json > stats.json",
+    "analyze-bundle": "webpack-bundle-analyzer stats.json"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
     "@babel/preset-env": "^7.3.4",
     "babel-loader": "^8.0.5",
     "webpack": "^4.29.6",
+    "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^3.3.0"
   },
   "dependencies": {

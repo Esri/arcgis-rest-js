@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "type":"module",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
-  "private": "true",
   "dependencies": {
     "@esri/arcgis-rest-request": "^3.3.0"
   }

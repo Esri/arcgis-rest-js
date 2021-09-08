@@ -9,7 +9,7 @@ import { IRequestOptions } from "./utils/IRequestOptions.js";
 import { IParams } from "./utils/IParams.js";
 import { warn } from "./utils/warn.js";
 import { IRetryAuthError } from "./utils/retryAuthError.js";
-import fetch from "@esri/arcgis-rest-fetch";
+import { getFetch } from "@esri/arcgis-rest-fetch";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
@@ -383,7 +383,9 @@ export function request(
       /* istanbul ignore next coverage is based on browser code and we don't test for the absence of global fetch so we can skip the else here. */
       return globalThis.fetch
         ? globalThis.fetch(url, fetchOptions)
-        : fetch(url, fetchOptions);
+        : getFetch().then(({ fetch }) => {
+            return fetch(url, fetchOptions);
+          });
     })
     .then((response: any) => {
       if (!response.ok) {

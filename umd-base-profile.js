@@ -58,7 +58,7 @@ const globals = packageNames.reduce((globals, p) => {
   globals[p] = moduleName;
   return globals;
 }, {});
-
+console.log({ packageNames, globals });
 /**
  * Now we can export the Rollup config!
  */
@@ -75,7 +75,7 @@ export default {
   },
   context: "window",
   external: packageNames,
-
+  inlineDynamicImports: true,
   plugins: [
     typescript2({
       target: "ES2017", // force typescript compile target

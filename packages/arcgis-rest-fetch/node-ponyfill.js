@@ -1,23 +1,10 @@
-const nodeFetch = require("node-fetch");
-const realFetch = nodeFetch.default || nodeFetch;
+import * as nodeFetch from "node-fetch";
 
-const fetch = function (url, options) {
-  // Support schemaless URIs on the server for parity with the browser.
-  // Ex: //github.com/ -> https://github.com/
-  if (/^\/\//.test(url)) {
-    url = "https:" + url;
-  }
-
-  return realFetch.call(this, url, options);
-};
-
-fetch.ponyfill = true;
-
-module.exports = exports = fetch;
-exports.fetch = fetch;
-exports.Headers = nodeFetch.Headers;
-exports.Request = nodeFetch.Request;
-exports.Response = nodeFetch.Response;
-
-// Needed for TypeScript consumers without esModuleInterop.
-exports.default = fetch;
+export function getFetch() {
+  return Promise.resolve({
+    fetch: nodeFetch.default,
+    Headers: nodeFetch.Headers,
+    Response: nodeFetch.Responese,
+    Request: nodeFetch.request,
+  });
+}
