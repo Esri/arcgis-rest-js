@@ -1,7 +1,5 @@
 // rollup.config.js
 import nodeResolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
-import babel from "@rollup/plugin-babel";
 import { visualizer } from "rollup-plugin-visualizer";
 
 export default {
@@ -11,8 +9,5 @@ export default {
     format: "iife"
   },
 
-  plugins: [
-    nodeResolve()
-    // visualizer()
-  ]
+  plugins: [nodeResolve(), visualizer()]
 };
