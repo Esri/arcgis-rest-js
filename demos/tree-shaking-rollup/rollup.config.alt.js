@@ -15,6 +15,7 @@ export default {
     nodeResolve({
       browser: true
     }),
+    commonjs(),
     visualizer()
   ]
 };

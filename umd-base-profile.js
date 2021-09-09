@@ -1,11 +1,7 @@
 import typescript2 from "rollup-plugin-typescript";
 import nodeResolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
-import json from "@rollup/plugin-json";
-
-const path = require("path");
-const fs = require("fs");
-const _ = require("lodash");
+import * as path from "path";
+import * as fs from "fs";
 
 /**
  * Since Rollup runs inside each package we can just get the current
@@ -58,7 +54,7 @@ const globals = packageNames.reduce((globals, p) => {
   globals[p] = moduleName;
   return globals;
 }, {});
-console.log({ packageNames, globals });
+
 /**
  * Now we can export the Rollup config!
  */
@@ -71,19 +67,17 @@ export default {
     format: "umd",
     name: moduleName,
     globals,
-    extend: true, // causes this module to extend the global specified by `moduleName`
+    extend: true // causes this module to extend the global specified by `moduleName`
   },
   context: "window",
   external: packageNames,
   inlineDynamicImports: true,
   plugins: [
     typescript2({
-      target: "ES2017", // force typescript compile target
+      target: "ES2017" // force typescript compile target
     }),
-    json(),
     nodeResolve({
-      browser: true, // prefer `browser` fields in package.json or package.json exports
-    }),
-    commonjs(), // @esri/arcgis-rest-fetch is still CommonJS
-  ],
+      browser: true // prefer `browser` fields in package.json or package.json exports
+    })
+  ]
 };

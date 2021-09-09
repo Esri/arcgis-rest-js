@@ -11,12 +11,15 @@ import { FormData } from "formdata-node";
  * @param params An object to be encoded.
  * @returns The complete [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object.
  */
-export function encodeFormData(params: any, forceFormData?: boolean): any {
+export function encodeFormData(
+  params: any,
+  forceFormData?: boolean
+): FormData | string {
   // see https://github.com/Esri/arcgis-rest-js/issues/499 for more info.
   const useFormData = requiresFormData(params) || forceFormData;
   const newParams = processParams(params);
   if (useFormData) {
-    const formData = new (FormData as any)();
+    const formData = new FormData();
 
     Object.keys(newParams).forEach((key: any) => {
       if (typeof Blob !== "undefined" && newParams[key] instanceof Blob) {

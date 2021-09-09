@@ -1,5 +1,3 @@
-/// <reference lib="dom" />
-
 declare module "@esri/arcgis-rest-fetch" {
   export function getFetch(): Promise<{
     fetch: typeof fetch;

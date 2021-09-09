@@ -45,8 +45,8 @@ export function getDefaultRequestOptions() {
     (globalThis as any).DEFAULT_ARCGIS_REQUEST_OPTIONS || {
       httpMethod: "POST",
       params: {
-        f: "json",
-      },
+        f: "json"
+      }
     }
   );
 }
@@ -82,7 +82,7 @@ export class ArcGISAuthError extends ArcGISRequestError {
         .then((session) => {
           const newOptions = {
             ...this.options,
-            ...{ authentication: session },
+            ...{ authentication: session }
           };
 
           tries = tries + 1;
@@ -203,13 +203,13 @@ export function request(
     ...{
       params: {
         ...defaults.params,
-        ...requestOptions.params,
+        ...requestOptions.params
       },
       headers: {
         ...defaults.headers,
-        ...requestOptions.headers,
-      },
-    },
+        ...requestOptions.headers
+      }
+    }
   };
 
   // const missingGlobals: string[] = [];
@@ -251,16 +251,16 @@ export function request(
 
   const params: IParams = {
     ...{ f: "json" },
-    ...options.params,
+    ...options.params
   };
 
   let originalAuthError: ArcGISAuthError = null;
 
-  const fetchOptions: any = {
+  const fetchOptions: RequestInit = {
     method: httpMethod,
     /* ensures behavior mimics XMLHttpRequest.
     needed to support sending IWA cookies */
-    credentials: options.credentials || "same-origin",
+    credentials: options.credentials || "same-origin"
   };
 
   // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
@@ -355,13 +355,13 @@ export function request(
       const forceFormData = new RegExp("/items/.+/updateResources").test(url);
 
       if (fetchOptions.method === "POST") {
-        fetchOptions.body = encodeFormData(params, forceFormData);
+        fetchOptions.body = encodeFormData(params, forceFormData) as any;
       }
 
       // Mixin headers from request options
       fetchOptions.headers = {
         ...requestHeaders,
-        ...options.headers,
+        ...options.headers
       };
 
       /* istanbul ignore next - karma reports coverage on browser tests only */
@@ -438,7 +438,7 @@ export function request(
           (options.authentication as any).federatedServers[truncatedUrl] = {
             token: [],
             // default to 24 hours
-            expires: new Date(Date.now() + 86400 * 1000),
+            expires: new Date(Date.now() + 86400 * 1000)
           };
           originalAuthError = null;
         }
