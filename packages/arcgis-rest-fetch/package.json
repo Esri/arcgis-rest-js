@@ -3,12 +3,13 @@
   "version": "3.3.0",
   "main": "node-ponyfill.js",
   "module": "browser-ponyfill.js",
+  "browser": "browser-ponyfill.js",
   "exports": {
     "browser": "./browser-ponyfill.js",
     "module": "./browser-ponyfill.js",
     "import": "./node-ponyfill.js",
     "require": "./node-ponyfill.cjs",
-    "default": "./browser-ponyfill.js"  
+    "default": "./node-ponyfill.js"  
   },
   "types": "index.types.d.ts",
   "type": "module",

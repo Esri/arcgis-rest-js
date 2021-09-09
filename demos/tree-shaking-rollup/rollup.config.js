@@ -8,13 +8,23 @@ export default {
   input: "src/index.js",
   output: {
     file: "dist/bundle.js",
-    format: "iife"
+    format: "iife",
+    globals: {
+      "formdata-node": "globalThis"
+      // "node-fetch": "globalThis"
+    }
   },
+  external: ["formdata-node"],
 
   plugins: [
     nodeResolve({
-      browser: true
+      // browser: true
+      // mainFields: ["module", "browser"]
     }),
+    // commonjs(),
+    // babel({
+    //   exclude: "node_modules/**" // only transpile our source code
+    // }),
     visualizer()
   ]
 };
