@@ -4,6 +4,7 @@
   "description": "Common methods and utilities for @esri/arcgis-rest-js packages.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
+  "unpkg": "dist/request.umd.min.js",
   "types": "dist/esm/index.d.ts",
   "type": "module",
   "exports": {
@@ -12,7 +13,6 @@
       "require": "./dist/cjs/index.js"
     }
   },
-  "unpkg": "dist/request.umd.min.js",
   "sideEffects": false,
   "engines": {
     "node": ">=12.16.0"
@@ -20,7 +20,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@esri/arcgis-rest-fetch": "3.3.0",
-    "formdata-node": "^4.0.1",
+    "@esri/arcgis-rest-form-data": "3.3.0",
     "tslib": "^2.3.1"
   },
   "files": [

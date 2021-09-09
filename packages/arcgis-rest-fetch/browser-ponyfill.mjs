@@ -1,8 +1,8 @@
-module.exports.getFetch = function getFetch() {
+export function getFetch() {
   return Promise.resolve({
     fetch: globalThis.fetch,
     Headers: globalThis.Headers,
     Response: globalThis.Responese,
-    Request: globalThis.request
+    Request: globalThis.request,
   });
-};
+}

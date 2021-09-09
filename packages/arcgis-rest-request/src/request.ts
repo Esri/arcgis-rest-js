@@ -212,41 +212,6 @@ export function request(
     }
   };
 
-  // const missingGlobals: string[] = [];
-  // const recommendedPackages: string[] = [];
-
-  // // don't check for a global fetch if a custom implementation was passed through
-  // if (!options.fetch && typeof fetch !== "undefined") {
-  //   options.fetch = fetch.bind(Function("return this")());
-  // } else {
-  //   missingGlobals.push("`fetch`");
-  //   recommendedPackages.push("`node-fetch`");
-  // }
-
-  // if (typeof Promise === "undefined") {
-  //   missingGlobals.push("`Promise`");
-  //   recommendedPackages.push("`es6-promise`");
-  // }
-
-  // if (typeof FormData === "undefined") {
-  //   missingGlobals.push("`FormData`");
-  //   recommendedPackages.push("`isomorphic-form-data`");
-  // }
-
-  // if (
-  //   !options.fetch ||
-  //   typeof Promise === "undefined" ||
-  //   typeof FormData === "undefined"
-  // ) {
-  //   throw new Error(
-  //     `\`arcgis-rest-request\` requires a \`fetch\` implementation and global variables for \`Promise\` and \`FormData\` to be present in the global scope. You are missing ${missingGlobals.join(
-  //       ", "
-  //     )}. We recommend installing the ${recommendedPackages.join(
-  //       ", "
-  //     )} modules at the root of your application to add these to the global scope. See https://bit.ly/2KNwWaJ for more info.`
-  //   );
-  // }
-
   const { httpMethod, authentication, rawResponse } = options;
 
   const params: IParams = {

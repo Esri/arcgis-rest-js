@@ -1,10 +1,10 @@
-import * as nodeFetch from "node-fetch";
-
-export function getFetch() {
-  return Promise.resolve({
-    fetch: nodeFetch.default,
-    Headers: nodeFetch.Headers,
-    Response: nodeFetch.Responese,
-    Request: nodeFetch.request,
+module.exports.getFetch = function getFetch() {
+  return import("node-fetch").then((module) => {
+    return {
+      fetch: module.default,
+      Headers: module.Headers,
+      Request: module.Request,
+      Response: module.Response,
+    };
   });
-}
+};

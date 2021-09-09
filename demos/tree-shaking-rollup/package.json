@@ -11,17 +11,12 @@
   "author": "",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@babel/core": "^7.4.0",
-    "@babel/preset-env": "^7.4.2",
-    "@rollup/plugin-babel": "^5.3.0",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
-    "babel-loader": "^8.0.5",
     "rollup": "^2.56.3",
     "rollup-plugin-visualizer": "^5.5.2"
   },
   "dependencies": {
-    "@esri/arcgis-rest-portal": "^3.3.0",
-    "@esri/arcgis-rest-request": "^3.3.0"
+    "@esri/arcgis-rest-request": "../packages/arcgis-rest-request"
   }
 }

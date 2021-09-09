@@ -3,7 +3,7 @@
 
 import { processParams, requiresFormData } from "./process-params.js";
 import { encodeQueryString } from "./encode-query-string.js";
-import { FormData } from "formdata-node";
+import { FormData } from "@esri/arcgis-rest-form-data";
 
 /**
  * Encodes parameters in a [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object in browsers or in a [FormData](https://github.com/form-data/form-data) in Node.js

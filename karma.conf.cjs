@@ -17,7 +17,7 @@ module.exports = function (config) {
     // list of files to exclude
     exclude: [
       "packages/*/{src,test}/**/*.test.live.ts",
-      "packages/*/dist/**/*",
+      "packages/*/dist/**/*"
     ],
 
     karmaTypescriptConfig: {
@@ -27,19 +27,19 @@ module.exports = function (config) {
             statements: 100,
             branches: 100,
             functions: 100,
-            lines: 100,
-          },
-        },
+            lines: 100
+          }
+        }
       },
       reports: {
         json: {
           directory: "coverage",
-          filename: "coverage.json",
+          filename: "coverage.json"
         },
-        html: "coverage",
+        html: "coverage"
       },
       compilerOptions: {
-        module: "commonjs",
+        module: "commonjs"
       },
       tsconfig: "./tsconfig.json",
       bundlerOptions: {
@@ -52,7 +52,10 @@ module.exports = function (config) {
             .filter((p) => p[0] !== ".")
             .reduce(
               (alias, p) => {
-                if (p !== "arcgis-rest-fetch") {
+                if (
+                  p !== "arcgis-rest-fetch" &&
+                  p !== "arcgis-rest-form-data"
+                ) {
                   alias[`@esri/${p}`] = `packages/${p}/src/index.ts`;
                 }
                 return alias;
@@ -60,16 +63,17 @@ module.exports = function (config) {
               {
                 "@types/terraformer__arcgis": `packages/arcgis-rest-geocoding/node_modules/@terraformer/arcgis/dist/t-arcgis.esm.js`,
                 "@esri/arcgis-rest-fetch": `packages/arcgis-rest-fetch/browser-ponyfill.js`,
+                "@esri/arcgis-rest-form-data": `packages/arcgis-rest-form-data/browser-ponyfill.js`
               }
-            ),
-        },
-      },
+            )
+        }
+      }
     },
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.ts": ["karma-typescript"], // *.tsx for React Jsx
+      "**/*.ts": ["karma-typescript"] // *.tsx for React Jsx
     },
 
     // test results reporter to use
@@ -110,8 +114,8 @@ module.exports = function (config) {
     customLaunchers: {
       ChromeHeadlessCI: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox"],
-      },
-    },
+        flags: ["--no-sandbox"]
+      }
+    }
   });
 };
