@@ -11,20 +11,9 @@ export default {
     format: "iife",
     globals: {
       "formdata-node": "globalThis"
-      // "node-fetch": "globalThis"
     }
   },
   external: ["formdata-node"],
 
-  plugins: [
-    nodeResolve({
-      // browser: true
-      // mainFields: ["module", "browser"]
-    }),
-    // commonjs(),
-    // babel({
-    //   exclude: "node_modules/**" // only transpile our source code
-    // }),
-    visualizer()
-  ]
+  plugins: [nodeResolve(), visualizer()]
 };
