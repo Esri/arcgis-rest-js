@@ -25,7 +25,6 @@ export {
   IFeatureSet,
   Units,
   IExtent,
-  SpatialRelationship,
   IGeometry,
   ILayerDefinition,
   IFeatureServiceDefinition

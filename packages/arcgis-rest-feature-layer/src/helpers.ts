@@ -3,10 +3,22 @@
 import { cleanUrl, IRequestOptions } from "@esri/arcgis-rest-request";
 import {
   GeometryType,
-  SpatialRelationship,
   IGeometry,
   ISpatialReference
 } from "@esri/arcgis-rest-types";
+
+/**
+ * The spatial relationship used to compare input geometries
+ */
+export type SpatialRelationship =
+  | "esriSpatialRelIntersects"
+  | "esriSpatialRelContains"
+  | "esriSpatialRelCrosses"
+  | "esriSpatialRelEnvelopeIntersects"
+  | "esriSpatialRelIndexIntersects"
+  | "esriSpatialRelOverlaps"
+  | "esriSpatialRelTouches"
+  | "esriSpatialRelWithin";
 
 /**
  * Base options for making requests against feature layers
@@ -82,7 +94,7 @@ const serviceRegex = new RegExp(/.+(?:map|feature|image)server/i);
 /**
  * Return the service url. If not matched, returns what was passed in
  */
-export function parseServiceUrl (url: string) {
+export function parseServiceUrl(url: string) {
   const match = url.match(serviceRegex);
   if (match) {
     return match[0];
@@ -91,7 +103,7 @@ export function parseServiceUrl (url: string) {
   }
 }
 
-function stripQueryString (url: string) {
+function stripQueryString(url: string) {
   const stripped = url.split('?')[0];
   return cleanUrl(stripped);
 }
