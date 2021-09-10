@@ -5,7 +5,6 @@
   "types": "dist/types/index.d.ts",
   "author": "",
   "license": "Apache-2.0",
-  "main": "src/index.ts",
   "files": [
     "dist/types/*.d.ts",
     "src/**/*.ts"
