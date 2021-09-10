@@ -39,6 +39,11 @@ describe("SearchQueryBuilder", () => {
     expect(query).toEqual(`"foo bar"`);
   });
 
+  it("should wrap multi word search terms with colons in quotes", () => {
+    const query = new SearchQueryBuilder().match("foo:bar").toParam();
+    expect(query).toEqual(`"foo:bar"`);
+  });
+
   it("should accept .in() without a parameter", () => {
     const query = new SearchQueryBuilder()
       .match("test")
