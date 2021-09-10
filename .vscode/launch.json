@@ -5,10 +5,21 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach to ArcGIS REST JS Node Tests",
+      "name": "Attach to `npm run test:node:debug`",
       "type": "node",
       "request": "attach",
       "port": 9229
+    },
+    {
+      "type": "pwa-msedge",
+      "request": "attach",
+      "name": "Attach to `npm run test:chrome:debug`",
+      "address": "localhost",
+      "port": 9333,
+      "pathMapping": {
+        "/": "${workspaceRoot}/",
+        "/base/": "${workspaceRoot}/"
+      }
     }
   ]
 }

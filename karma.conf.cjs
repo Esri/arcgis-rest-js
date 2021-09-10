@@ -115,6 +115,10 @@ module.exports = function (config) {
       ChromeHeadlessCI: {
         base: "ChromeHeadless",
         flags: ["--no-sandbox"]
+      },
+      ChromeDebugging: {
+        base: "Chrome",
+        flags: ["--remote-debugging-port=9333"]
       }
     }
   });

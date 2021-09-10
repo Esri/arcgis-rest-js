@@ -71,7 +71,7 @@
     "clean": "rm -rf packages/*/dist/ && rm -rf packages/*/.rpt2_cache",
     "clean:src": "rm -rf packages/*/{src,test}/*.{d.ts,js,js.map} && rm -rf packages/*/{src,test}/**/*.{d.ts,js,js.map} && rm -rf packages/*/test/mocks/**/*.{d.ts,js,js.map}",
     "test": "npm run lint && npm run test:node && npm run test:chrome",
-    "test:chrome:debug": "karma start karma.conf.cjs --auto-watch --no-single-run --browsers=Chrome",
+    "test:chrome:debug": "karma start karma.conf.cjs --auto-watch --no-single-run --browsers=ChromeDebugging",
     "test:chrome": "karma start karma.conf.cjs --single-run --browsers=Chrome",
     "test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.js",
     "test:firefox": "karma start --single-run --browsers=Firefox",
