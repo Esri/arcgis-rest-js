@@ -96,6 +96,3 @@ packages/**/test/**/*.map
 packages/**/test/mocks/**/*.d.ts
 packages/**/test/mocks/**/*.js
 packages/**/test/mocks/**/*.map
-
-# Ignore built TypeDoc files
-typedoc
