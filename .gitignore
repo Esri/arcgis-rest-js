@@ -99,3 +99,6 @@ packages/**/test/mocks/**/*.map
 
 # Ignore built TypeDoc files
 typedoc
+
+# Ignore srihash output
+srihashes.json

@@ -76,8 +76,6 @@ export default {
     typescript2({
       target: "ES2017" // force typescript compile target
     }),
-    nodeResolve({
-      browser: true // prefer `browser` fields in package.json or package.json exports
-    })
+    nodeResolve()
   ]
 };

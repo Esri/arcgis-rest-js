@@ -5,20 +5,10 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Attach to ArcGIS REST JS Node Tests",
       "type": "node",
-      "request": "launch",
-      "name": "Debug Node Tests",
-      "program": "${workspaceRoot}/node_modules/.bin/jasmine",
-      "args": [
-        "--config=jasmine.json"
-      ]
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Debug Changelog Script",
-      "program": "${workspaceRoot}/support/changelog.js",
-      "args": ["--config=jasmine.json"]
+      "request": "attach",
+      "port": 9229
     }
   ]
 }

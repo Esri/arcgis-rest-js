@@ -1,5 +1,5 @@
 /**
- * Creates packages.jsons in the different dist folders to hint the correct module system to node.
+ * Creates packages.jsons in the different dist folders to hint the correct module system to Node.
  *
  * Inspired by: https://www.sensedeep.com/blog/posts/2021/how-to-create-single-source-npm-module.html
  */

@@ -4,7 +4,7 @@
   "description": "Common methods and utilities for @esri/arcgis-rest-js packages.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "unpkg": "dist/request.umd.min.js",
+  "unpkg": "dist/umd/request.umd.min.js",
   "types": "dist/esm/index.d.ts",
   "type": "module",
   "exports": {
@@ -29,7 +29,7 @@
   "scripts": {
     "prebuild": "tsc --noEmit",
     "build": "npm run build:node && npm run build:esm && npm run build:umd",
-    "postbuild": "node ../../support/create-dist-package-jsons.js && npx package-check",
+    "postbuild": "node ../../scripts/create-dist-package-jsons.js && npx package-check",
     "build:esm": "tsc --outDir ./dist/esm",
     "build:node": "tsc --outDir ./dist/cjs -m commonjs",
     "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
