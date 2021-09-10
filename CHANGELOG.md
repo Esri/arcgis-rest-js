@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ### Unreleased
+
+## [3.3.1](https://github.com/Esri/arcgis-rest-js/compare/v3.3.0...v3.3.1) - Aug 10th 2021
+
+### Fixed
+
+- **arcgis-rest-portal** query terms containing colons need to be wrapped in quotes
+
+## [3.3.0](https://github.com/Esri/arcgis-rest-js/compare/v3.2.1...v3.3.0) - Aug 26th 2021
+
 ## [3.2.1](https://github.com/Esri/arcgis-rest-js/compare/v3.2.0...v3.2.1) - July 9th 2021
 
 ### Fixed
