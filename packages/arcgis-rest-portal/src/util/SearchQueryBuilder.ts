@@ -212,10 +212,10 @@ export class SearchQueryBuilder implements IParamBuilder {
    * Begins a new range query.
    *
    * ```js
-   * 
+   *
    * const NEWYEARS = new Date("2020-01-01")
    * const TODAY = new Date()
-   * 
+   *
    * const query = new SearchQueryBuilder()
    *   .from(NEWYEARS)
    *   .to(TODAY)
@@ -317,8 +317,8 @@ export class SearchQueryBuilder implements IParamBuilder {
     return this;
   }
 
-  private hasWhiteSpace(s: string) {
-    return /\s/g.test(s);
+  private needsQuotes(s: string) {
+    return /\s|:/g.test(s);
   }
 
   private formatTerm(term: any) {
@@ -326,7 +326,7 @@ export class SearchQueryBuilder implements IParamBuilder {
       return term.getTime();
     }
 
-    if (typeof term === "string" && this.hasWhiteSpace(term)) {
+    if (typeof term === "string" && this.needsQuotes(term)) {
       return `"${term}"`;
     }
 
