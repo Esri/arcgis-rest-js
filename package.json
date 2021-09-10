@@ -28,7 +28,6 @@
     "gh-release": "^3.4.0",
     "glob": "^7.1.7",
     "husky": "^4.2.3",
-    "inspect-process": "^0.5.0",
     "jasmine": "^3.9.0",
     "jasmine-core": "^3.9.0",
     "karma": "^5.2.2",
@@ -53,6 +52,7 @@
     "shelljs": "^0.7.8",
     "slug": "^0.9.1",
     "sri-toolbox": "0.2.0",
+    "trash-cli": "^4.0.0",
     "ts-node": "^10.2.1",
     "typedoc": "^0.21.0",
     "typescript": "^4.0.0"
@@ -66,14 +66,12 @@
   },
   "scripts": {
     "tsv": "tsc -v",
-    "build": "npm run build -ws",
-    "build:esm": "lerna run build:esm",
-    "clean": "rm -rf packages/*/dist/ && rm -rf packages/*/.rpt2_cache",
-    "clean:src": "rm -rf packages/*/{src,test}/*.{d.ts,js,js.map} && rm -rf packages/*/{src,test}/**/*.{d.ts,js,js.map} && rm -rf packages/*/test/mocks/**/*.{d.ts,js,js.map}",
+    "build": "npm run build -ws --if-present",
+    "clean": "trash packages/*/dist/",
     "test": "npm run lint && npm run test:node && npm run test:chrome",
-    "test:chrome:debug": "karma start karma.conf.cjs --auto-watch --no-single-run --browsers=ChromeDebugging",
     "test:chrome": "karma start karma.conf.cjs --single-run --browsers=Chrome",
     "test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.js",
+    "test:chrome:debug": "karma start karma.conf.cjs --auto-watch --no-single-run --browsers=ChromeDebugging",
     "test:firefox": "karma start --single-run --browsers=Firefox",
     "test:firefox:ci": "karma start --single-run --browsers=FirefoxHeadless",
     "test:node": "node --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.json",
@@ -101,7 +99,8 @@
     "prettify": "prettier --write --parser typescript --tab-width 2 --use-tabs false \"packages/**/+(src|test)/**/*.ts\"",
     "precommit": "lint-staged",
     "typedoc": "typedoc --options ./typedoc.json",
-    "srihash": "node scripts/generate-sri-hashes.js"
+    "srihash": "node scripts/generate-sri-hashes.js",
+    "skypack-check": " npm exec -w ./packages package-check"
   },
   "repository": {
     "type": "git",
@@ -189,11 +188,6 @@
     "url": "https://github.com/Esri/arcgis-rest-js/issues"
   },
   "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-lerna-changelog"
-    }
-  },
   "eslintIgnore": [
     "packages/**/test",
     "packages/**/dist"
