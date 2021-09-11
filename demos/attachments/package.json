@@ -10,9 +10,9 @@
     "@esri/arcgis-rest-request": "^3.3.0"
   },
   "devDependencies": {
-    "http-server": "*"
+    "http-server": "13.0.1"
   },
   "scripts": {
-    "start": "http-server ."
+    "start": "node ../../scripts/run-demo-server.js"
   }
 }

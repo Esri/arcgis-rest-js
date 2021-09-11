@@ -1,9 +1,8 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as fetchMock from "fetch-mock";
-
-import { exchangeToken, platformSelf } from "../src/app-tokens";
+import fetchMock from "fetch-mock";
+import { exchangeToken, platformSelf } from "../src/app-tokens.js";
 
 describe("app-token functions: ", () => {
   describe("exchangeToken:", () => {
@@ -11,13 +10,12 @@ describe("app-token functions: ", () => {
       const EXCHANGE_TOKEN_URL =
         "https://www.arcgis.com/sharing/rest/oauth2/exchangeToken";
       fetchMock.postOnce(EXCHANGE_TOKEN_URL, {
-        token: "APP-TOKEN",
+        token: "APP-TOKEN"
       });
       return exchangeToken("FAKE-TOKEN", "CLIENT-ID-ABC123")
         .then((response) => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-            EXCHANGE_TOKEN_URL
-          );
+          const [url, options]: [string, RequestInit] =
+            fetchMock.lastCall(EXCHANGE_TOKEN_URL);
           expect(url).toEqual(EXCHANGE_TOKEN_URL);
           expect(options.body).toContain("f=json");
           expect(options.body).toContain("token=FAKE-TOKEN");
@@ -31,13 +29,12 @@ describe("app-token functions: ", () => {
       const PORTAL_EXCHANGE_URL = `${PORTAL_BASE_URL}/oauth2/exchangeToken`;
       fetchMock.postOnce(PORTAL_EXCHANGE_URL, {
         valid: true,
-        viewOnlyUserTypeApp: false,
+        viewOnlyUserTypeApp: false
       });
       return exchangeToken("FAKE-TOKEN", "CLIENT-ID-ABC123", PORTAL_BASE_URL)
         .then((response) => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-            PORTAL_EXCHANGE_URL
-          );
+          const [url, options]: [string, RequestInit] =
+            fetchMock.lastCall(PORTAL_EXCHANGE_URL);
           expect(url).toEqual(PORTAL_EXCHANGE_URL);
         })
         .catch((e) => fail(e));
@@ -50,16 +47,15 @@ describe("app-token functions: ", () => {
         "https://www.arcgis.com/sharing/rest/oauth2/platformSelf?f=json";
       fetchMock.postOnce(PLATFORM_SELF_URL, {
         username: "jsmith",
-        token: "APP-TOKEN",
+        token: "APP-TOKEN"
       });
       return platformSelf(
         "CLIENT-ID-ABC123",
         "https://hub.arcgis.com/torii-provider-arcgis/redirect.html"
       )
         .then((response) => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-            PLATFORM_SELF_URL
-          );
+          const [url, options]: [string, RequestInit] =
+            fetchMock.lastCall(PLATFORM_SELF_URL);
           expect(url).toEqual(PLATFORM_SELF_URL);
           const headers = options.headers || ({} as any);
           expect(headers["X-Esri-Auth-Redirect-Uri"]).toBe(
@@ -80,7 +76,7 @@ describe("app-token functions: ", () => {
       const PORTAL_PLATFORM_SELF_URL = `${PORTAL_BASE_URL}/oauth2/platformSelf?f=json`;
       fetchMock.postOnce(PORTAL_PLATFORM_SELF_URL, {
         username: "jsmith",
-        token: "APP-TOKEN",
+        token: "APP-TOKEN"
       });
       return platformSelf("FAKE-TOKEN", "CLIENT-ID-ABC123", PORTAL_BASE_URL)
         .then((response) => {

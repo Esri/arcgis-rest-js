@@ -12,7 +12,10 @@ module.exports = function (config) {
     frameworks: ["jasmine", "karma-typescript"],
 
     // list of files / patterns to load in the browser
-    files: ["packages/*/{src,test}/**/!(*.test.live).ts"],
+    files: [
+      "packages/arcgis-rest-request/{src,test}/**/!(*.test.live).ts",
+      "scripts/test-helpers.ts"
+    ],
 
     // list of files to exclude
     exclude: [

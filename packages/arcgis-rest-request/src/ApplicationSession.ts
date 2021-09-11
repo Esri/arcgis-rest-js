@@ -1,11 +1,9 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  IAuthenticationManager,
-  ITokenRequestOptions
-} from "@esri/arcgis-rest-request";
-import { fetchToken } from "./fetch-token";
+import { IAuthenticationManager } from "./utils/IAuthenticationManager.js";
+import { ITokenRequestOptions } from "./utils/ITokenRequestOptions.js";
+import { fetchToken } from "./fetch-token.js";
 
 export interface IApplicationSessionOptions {
   /**
@@ -107,7 +105,7 @@ export class ApplicationSession implements IAuthenticationManager {
       ...requestOptions
     };
     return fetchToken(`${this.portal}/oauth2/token/`, options).then(
-      response => {
+      (response) => {
         this._pendingTokenRequest = null;
         this.token = response.token;
         this.expires = response.expires;

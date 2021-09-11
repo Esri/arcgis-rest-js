@@ -1,11 +1,9 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  IRequestOptions,
-  ITokenRequestOptions
-} from "@esri/arcgis-rest-request";
+import { request } from "./request.js";
+import { IRequestOptions } from "./utils/IRequestOptions.js";
+import { ITokenRequestOptions } from "./utils/ITokenRequestOptions.js";
 
 interface IFetchTokenRawResponse {
   access_token: string;

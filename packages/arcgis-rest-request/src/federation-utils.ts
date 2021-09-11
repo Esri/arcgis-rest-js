@@ -1,4 +1,5 @@
-import { cleanUrl } from "@esri/arcgis-rest-request";
+import { cleanUrl } from "./utils/clean-url.js";
+
 /**
  * Used to test if a URL is an ArcGIS Online URL
  */
@@ -7,12 +8,14 @@ const arcgisOnlineUrlRegex = /^https?:\/\/(\S+)\.arcgis\.com.+/;
 /**
  * Used to test if a URL is production ArcGIS Online Portal
  */
-const arcgisOnlinePortalRegex = /^https?:\/\/(dev|devext|qa|qaext|www)\.arcgis\.com\/sharing\/rest+/;
+const arcgisOnlinePortalRegex =
+  /^https?:\/\/(dev|devext|qa|qaext|www)\.arcgis\.com\/sharing\/rest+/;
 
 /**
  * Used to test if a URL is an ArcGIS Online Organization Portal
  */
-const arcgisOnlineOrgPortalRegex = /^https?:\/\/(?:[a-z0-9-]+\.maps(dev|devext|qa|qaext)?)?.arcgis\.com\/sharing\/rest/;
+const arcgisOnlineOrgPortalRegex =
+  /^https?:\/\/(?:[a-z0-9-]+\.maps(dev|devext|qa|qaext)?)?.arcgis\.com\/sharing\/rest/;
 
 export function isOnline(url: string): boolean {
   return arcgisOnlineUrlRegex.test(url);

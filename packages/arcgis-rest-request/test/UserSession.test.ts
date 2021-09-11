@@ -2,17 +2,17 @@
  * Apache-2.0 */
 
 /* tslint:disable:no-empty */
-import { UserSession } from "../src/index";
-import { ICredential } from "../src/UserSession";
-
+import fetchMock from "fetch-mock";
 import {
+  UserSession,
+  ICredential,
+  ArcGISAuthError,
   request,
   ArcGISRequestError,
-  ArcGISAuthError,
-  ErrorTypes,
-} from "@esri/arcgis-rest-request";
-import * as fetchMock from "fetch-mock";
-import { YESTERDAY, TOMORROW } from "./utils";
+  ErrorTypes
+} from "../src/index.js";
+import { FormData } from "@esri/arcgis-rest-form-data";
+import { YESTERDAY, TOMORROW } from "../../../scripts/test-helpers.js";
 
 describe("UserSession", () => {
   afterEach(fetchMock.restore);
@@ -27,7 +27,7 @@ describe("UserSession", () => {
       refreshTokenExpires: TOMORROW,
       refreshTokenTTL: 1440,
       username: "c@sey",
-      password: "123456",
+      password: "123456"
     });
 
     const session2 = UserSession.deserialize(session.serialize());
@@ -52,14 +52,14 @@ describe("UserSession", () => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
-        tokenExpires: TOMORROW,
+        tokenExpires: TOMORROW
       });
 
       Promise.all([
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
         session.getToken(
           "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
-        ),
+        )
       ])
         .then(([token1, token2]) => {
           expect(token1).toBe("token");
@@ -76,7 +76,7 @@ describe("UserSession", () => {
         clientId: "id",
         token: "token",
         tokenExpires: TOMORROW,
-        portal: "https://custom.maps.arcgis.com/sharing/rest",
+        portal: "https://custom.maps.arcgis.com/sharing/rest"
       });
 
       session
@@ -97,7 +97,7 @@ describe("UserSession", () => {
         clientId: "id",
         token: "token",
         tokenExpires: TOMORROW,
-        portal: "https://custom.mapsdev.arcgis.com/sharing/rest",
+        portal: "https://custom.mapsdev.arcgis.com/sharing/rest"
       });
 
       session
@@ -118,7 +118,7 @@ describe("UserSession", () => {
         clientId: "id",
         token: "token",
         tokenExpires: TOMORROW,
-        portal: "http://custom.mapsdev.arcgis.com/sharing/rest",
+        portal: "http://custom.mapsdev.arcgis.com/sharing/rest"
       });
 
       session
@@ -139,7 +139,7 @@ describe("UserSession", () => {
         clientId: "id",
         token: "token",
         tokenExpires: TOMORROW,
-        portal: "https://gis.city.gov/sharing/rest",
+        portal: "https://gis.city.gov/sharing/rest"
       });
 
       session
@@ -159,7 +159,7 @@ describe("UserSession", () => {
         clientId: "id",
         token: "token",
         tokenExpires: TOMORROW,
-        portal: "https://pnp00035.esri.com/sharing/rest",
+        portal: "https://pnp00035.esri.com/sharing/rest"
       });
 
       session
@@ -185,7 +185,7 @@ describe("UserSession", () => {
         token: "existing-session-token",
         refreshToken: "refresh",
         tokenExpires: TOMORROW,
-        portal: "https://pnp00035.esri.com/portal/sharing/rest",
+        portal: "https://pnp00035.esri.com/portal/sharing/rest"
       });
 
       fetchMock.postOnce("https://pnp00035.esri.com/server/rest/info", {
@@ -195,14 +195,14 @@ describe("UserSession", () => {
         authInfo: {
           isTokenBasedSecurity: true,
           tokenServicesUrl:
-            "https://pnp00035.esri.com/portal/sharing/rest/generateToken",
-        },
+            "https://pnp00035.esri.com/portal/sharing/rest/generateToken"
+        }
       });
 
       fetchMock.getOnce(
         "https://pnp00035.esri.com/portal/sharing/rest/portals/self?f=json&token=existing-session-token",
         {
-          authorizedCrossOriginDomains: [],
+          authorizedCrossOriginDomains: []
         }
       );
 
@@ -211,15 +211,15 @@ describe("UserSession", () => {
         authInfo: {
           tokenServicesUrl:
             "https://pnp00035.esri.com/portal/sharing/rest/generateToken",
-          isTokenBasedSecurity: true,
-        },
+          isTokenBasedSecurity: true
+        }
       });
 
       fetchMock.postOnce(
         "https://pnp00035.esri.com/portal/sharing/rest/generateToken",
         {
           token: "new-server-token",
-          expires: TOMORROW,
+          expires: TOMORROW
         }
       );
 
@@ -249,7 +249,7 @@ describe("UserSession", () => {
         clientId: "id",
         token: "token",
         refreshToken: "refresh",
-        tokenExpires: YESTERDAY,
+        tokenExpires: YESTERDAY
       });
 
       fetchMock.mock(
@@ -257,7 +257,7 @@ describe("UserSession", () => {
         {
           access_token: "new",
           expires_in: 1800,
-          username: "c@sey",
+          username: "c@sey"
         },
         { repeat: 2, method: "POST" }
       );
@@ -266,7 +266,7 @@ describe("UserSession", () => {
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
         session.getToken(
           "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
-        ),
+        )
       ])
         .then(([token1, token2]) => {
           expect(token1).toBe("new");
@@ -280,7 +280,7 @@ describe("UserSession", () => {
 
     it("should pass through a token when no token expiration is present", (done) => {
       const session = new UserSession({
-        token: "token",
+        token: "token"
       });
 
       session
@@ -300,7 +300,7 @@ describe("UserSession", () => {
         token: "token",
         refreshToken: "refresh",
         tokenExpires: TOMORROW,
-        portal: "https://gis.city.gov/sharing/rest",
+        portal: "https://gis.city.gov/sharing/rest"
       });
 
       fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
@@ -309,14 +309,14 @@ describe("UserSession", () => {
         owningSystemUrl: "https://gis.city.gov",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-        },
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
+        }
       });
 
       fetchMock.getOnce(
         "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
         {
-          authorizedCrossOriginDomains: [],
+          authorizedCrossOriginDomains: []
         }
       );
 
@@ -324,13 +324,13 @@ describe("UserSession", () => {
         owningSystemUrl: "http://gis.city.gov",
         authInfo: {
           tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-          isTokenBasedSecurity: true,
-        },
+          isTokenBasedSecurity: true
+        }
       });
 
       fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
         token: "serverToken",
-        expires: TOMORROW,
+        expires: TOMORROW
       });
 
       session
@@ -358,7 +358,7 @@ describe("UserSession", () => {
         token: "token",
         refreshToken: "refresh",
         tokenExpires: TOMORROW,
-        portal: "https://gis.city.gov/sharing/rest",
+        portal: "https://gis.city.gov/sharing/rest"
       });
 
       fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
@@ -367,14 +367,14 @@ describe("UserSession", () => {
         owningSystemUrl: "https://gis.city.gov",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-        },
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
+        }
       });
 
       fetchMock.getOnce(
         "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
         {
-          authorizedCrossOriginDomains: [],
+          authorizedCrossOriginDomains: []
         }
       );
 
@@ -382,13 +382,13 @@ describe("UserSession", () => {
         owningSystemUrl: "http://gis.city.gov",
         authInfo: {
           tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-          isTokenBasedSecurity: true,
-        },
+          isTokenBasedSecurity: true
+        }
       });
 
       fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
         token: "serverToken",
-        expires: TOMORROW,
+        expires: TOMORROW
       });
 
       session
@@ -414,7 +414,7 @@ describe("UserSession", () => {
       const session = new UserSession({
         username: "c@sey",
         password: "jones",
-        portal: "https://gis.city.gov/sharing/rest",
+        portal: "https://gis.city.gov/sharing/rest"
       });
 
       fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
@@ -423,18 +423,18 @@ describe("UserSession", () => {
         owningSystemUrl: "https://gis.city.gov",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-        },
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
+        }
       });
 
       fetchMock.postOnce("https://gis.city.gov/sharing/rest/generateToken", {
-        token: "portalToken",
+        token: "portalToken"
       });
 
       fetchMock.getOnce(
         "https://gis.city.gov/sharing/rest/portals/self?f=json&token=portalToken",
         {
-          authorizedCrossOriginDomains: [],
+          authorizedCrossOriginDomains: []
         }
       );
 
@@ -442,13 +442,13 @@ describe("UserSession", () => {
         owningSystemUrl: "http://gis.city.gov",
         authInfo: {
           tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-          isTokenBasedSecurity: true,
-        },
+          isTokenBasedSecurity: true
+        }
       });
 
       fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
         token: "serverToken",
-        expires: TOMORROW,
+        expires: TOMORROW
       });
 
       session
@@ -470,7 +470,7 @@ describe("UserSession", () => {
         token: "token",
         refreshToken: "refresh",
         tokenExpires: TOMORROW,
-        portal: "https://gis.city.gov/sharing/rest",
+        portal: "https://gis.city.gov/sharing/rest"
       });
 
       fetchMock.mock(
@@ -481,8 +481,8 @@ describe("UserSession", () => {
           owningSystemUrl: "https://gis.city.gov",
           authInfo: {
             isTokenBasedSecurity: true,
-            tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-          },
+            tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
+          }
         },
         { repeat: 1, method: "POST" }
       );
@@ -490,7 +490,7 @@ describe("UserSession", () => {
       fetchMock.getOnce(
         "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
         {
-          authorizedCrossOriginDomains: [],
+          authorizedCrossOriginDomains: []
         }
       );
 
@@ -500,8 +500,8 @@ describe("UserSession", () => {
           owningSystemUrl: "http://gis.city.gov",
           authInfo: {
             tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-            isTokenBasedSecurity: true,
-          },
+            isTokenBasedSecurity: true
+          }
         },
         { repeat: 1, method: "POST" }
       );
@@ -510,7 +510,7 @@ describe("UserSession", () => {
         "https://gis.city.gov/sharing/generateToken",
         {
           token: "serverToken",
-          expires: TOMORROW,
+          expires: TOMORROW
         },
         { repeat: 1, method: "POST" }
       );
@@ -521,7 +521,7 @@ describe("UserSession", () => {
         ),
         session.getToken(
           "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-        ),
+        )
       ])
         .then(([token1, token2]) => {
           expect(token1).toBe("serverToken");
@@ -541,20 +541,20 @@ describe("UserSession", () => {
         clientId: "id",
         token: "token",
         refreshToken: "refresh",
-        tokenExpires: YESTERDAY,
+        tokenExpires: YESTERDAY
       });
 
       // similates refreshing the token with the refresh token
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "newToken",
         expires_in: 60,
-        username: " c@sey",
+        username: " c@sey"
       });
 
       fetchMock.getOnce(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=newToken",
         {
-          authorizedCrossOriginDomains: [],
+          authorizedCrossOriginDomains: []
         }
       );
 
@@ -564,8 +564,8 @@ describe("UserSession", () => {
         owningSystemUrl: "https://gis.city.gov",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-        },
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
+        }
       });
 
       session
@@ -587,25 +587,25 @@ describe("UserSession", () => {
         clientId: "id",
         token: "token",
         refreshToken: "refresh",
-        tokenExpires: YESTERDAY,
+        tokenExpires: YESTERDAY
       });
 
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "newToken",
         expires_in: 60,
-        username: " c@sey",
+        username: " c@sey"
       });
 
       fetchMock.getOnce(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=newToken",
         {
-          authorizedCrossOriginDomains: [],
+          authorizedCrossOriginDomains: []
         }
       );
 
       fetchMock.post("https://gisservices.city.gov/public/rest/info", {
         currentVersion: 10.51,
-        fullVersion: "10.5.1.120",
+        fullVersion: "10.5.1.120"
       });
 
       fetchMock.post(
@@ -614,8 +614,8 @@ describe("UserSession", () => {
           error: {
             code: 499,
             message: "Token Required",
-            details: [],
-          },
+            details: []
+          }
         }
       );
 
@@ -624,8 +624,8 @@ describe("UserSession", () => {
         {
           authentication: session,
           params: {
-            foo: "bar",
-          },
+            foo: "bar"
+          }
         }
       ).catch((e) => {
         expect(e.name).toEqual(ErrorTypes.ArcGISAuthError);
@@ -646,31 +646,31 @@ describe("UserSession", () => {
         clientId: "id",
         token: "token",
         refreshToken: "refresh",
-        tokenExpires: YESTERDAY,
+        tokenExpires: YESTERDAY
       });
 
       fetchMock.post("https://gisservices.city.gov/public/rest/info", {
         currentVersion: 10.51,
-        fullVersion: "10.5.1.120",
+        fullVersion: "10.5.1.120"
       });
 
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "newToken",
         expires_in: 60,
-        username: " c@sey",
+        username: " c@sey"
       });
 
       fetchMock.getOnce(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=newToken",
         {
-          authorizedCrossOriginDomains: [],
+          authorizedCrossOriginDomains: []
         }
       );
 
       fetchMock.post(
         "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
         {
-          count: 123,
+          count: 123
         }
       );
 
@@ -679,8 +679,8 @@ describe("UserSession", () => {
         {
           authentication: session,
           params: {
-            returnCount: true,
-          },
+            returnCount: true
+          }
         }
       )
         .then((res) => {
@@ -697,13 +697,13 @@ describe("UserSession", () => {
     it("should refresh with a username and password if expired", (done) => {
       const session = new UserSession({
         username: "c@sey",
-        password: "123456",
+        password: "123456"
       });
 
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/generateToken", {
         token: "token",
         expires: TOMORROW.getTime(),
-        username: " c@sey",
+        username: " c@sey"
       });
 
       session
@@ -724,13 +724,13 @@ describe("UserSession", () => {
         token: "token",
         username: "c@sey",
         refreshToken: "refreshToken",
-        refreshTokenExpires: TOMORROW,
+        refreshTokenExpires: TOMORROW
       });
 
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "newToken",
         expires_in: 60,
-        username: " c@sey",
+        username: " c@sey"
       });
 
       session
@@ -752,14 +752,14 @@ describe("UserSession", () => {
         username: "c@sey",
         refreshToken: "refreshToken",
         refreshTokenExpires: YESTERDAY,
-        redirectUri: "https://example-app.com/redirect-uri",
+        redirectUri: "https://example-app.com/redirect-uri"
       });
 
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "newToken",
         expires_in: 60,
         username: " c@sey",
-        refresh_token: "newRefreshToken",
+        refresh_token: "newRefreshToken"
       });
 
       session
@@ -780,7 +780,7 @@ describe("UserSession", () => {
       const session = new UserSession({
         clientId: "clientId",
         token: "token",
-        username: "c@sey",
+        username: "c@sey"
       });
 
       session.refreshSession().catch((e) => {
@@ -796,7 +796,7 @@ describe("UserSession", () => {
         clientId: "id",
         token: "token",
         refreshToken: "refresh",
-        tokenExpires: YESTERDAY,
+        tokenExpires: YESTERDAY
       });
 
       fetchMock.mock(
@@ -804,14 +804,14 @@ describe("UserSession", () => {
         {
           access_token: "new",
           expires_in: 1800,
-          username: "c@sey",
+          username: "c@sey"
         },
         { repeat: 1, method: "POST" }
       );
 
       Promise.all([
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
-        session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
+        session.getToken("https://www.arcgis.com/sharing/rest/portals/self")
       ])
         .then(([token1, token2]) => {
           expect(token1).toBe("new");
@@ -831,14 +831,14 @@ describe("UserSession", () => {
   describe(".beginOAuth2()", () => {
     it("should authorize via a popup", (done) => {
       const MockWindow: any = {
-        open: jasmine.createSpy("spy"),
+        open: jasmine.createSpy("spy")
       };
 
       UserSession.beginOAuth2(
         {
           clientId: "clientId123",
           redirectUri: "http://example-app.com/redirect",
-          state: "abc123",
+          state: "abc123"
         },
         MockWindow
       )
@@ -865,21 +865,21 @@ describe("UserSession", () => {
           token: "token",
           expires: TOMORROW,
           username: "c@sey",
-          ssl: true,
+          ssl: true
         })
       );
     });
 
     it("should reject the promise if there is an error", (done) => {
       const MockWindow: any = {
-        open: jasmine.createSpy("spy"),
+        open: jasmine.createSpy("spy")
       };
 
       UserSession.beginOAuth2(
         {
           clientId: "clientId123",
           redirectUri: "http://example-app.com/redirect",
-          locale: "fr",
+          locale: "fr"
         },
         MockWindow
       ).catch((e) => {
@@ -895,7 +895,7 @@ describe("UserSession", () => {
       MockWindow.__ESRI_REST_AUTH_HANDLER_clientId123(
         JSON.stringify({
           errorMessage: "unable to sign in",
-          error: "SIGN_IN_FAILED",
+          error: "SIGN_IN_FAILED"
         })
       );
     });
@@ -903,8 +903,8 @@ describe("UserSession", () => {
     it("should authorize in the same window/tab", () => {
       const MockWindow: any = {
         location: {
-          href: "",
-        },
+          href: ""
+        }
       };
 
       // https://github.com/palantir/tslint/issues/3056
@@ -912,7 +912,7 @@ describe("UserSession", () => {
         {
           clientId: "clientId123",
           redirectUri: "http://example-app.com/redirect",
-          popup: false,
+          popup: false
         },
         MockWindow
       );
@@ -925,8 +925,8 @@ describe("UserSession", () => {
     it("should authorize using a social media provider", () => {
       const MockWindow: any = {
         location: {
-          href: "",
-        },
+          href: ""
+        }
       };
 
       // https://github.com/palantir/tslint/issues/3056
@@ -935,7 +935,7 @@ describe("UserSession", () => {
           clientId: "clientId123",
           redirectUri: "http://example-app.com/redirect",
           popup: false,
-          provider: "facebook",
+          provider: "facebook"
         },
         MockWindow
       );
@@ -948,8 +948,8 @@ describe("UserSession", () => {
     it("should authorize using the other social media provider", () => {
       const MockWindow: any = {
         location: {
-          href: "",
-        },
+          href: ""
+        }
       };
 
       // https://github.com/palantir/tslint/issues/3056
@@ -958,7 +958,7 @@ describe("UserSession", () => {
           clientId: "clientId123",
           redirectUri: "http://example-app.com/redirect",
           popup: false,
-          provider: "google",
+          provider: "google"
         },
         MockWindow
       );
@@ -971,8 +971,8 @@ describe("UserSession", () => {
     it("should pass custom expiration", () => {
       const MockWindow: any = {
         location: {
-          href: "",
-        },
+          href: ""
+        }
       };
 
       // https://github.com/palantir/tslint/issues/3056
@@ -994,8 +994,8 @@ describe("UserSession", () => {
     it("should pass custom duration (DEPRECATED)", () => {
       const MockWindow: any = {
         location: {
-          href: "",
-        },
+          href: ""
+        }
       };
 
       // https://github.com/palantir/tslint/issues/3056
@@ -1019,18 +1019,17 @@ describe("UserSession", () => {
     it("should return a new user session if it cannot find a valid parent", () => {
       const MockWindow = {
         location: {
-          hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true&persist=true",
+          hash: "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true&persist=true"
         },
         get parent() {
           return this;
-        },
+        }
       };
 
       const session = UserSession.completeOAuth2(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri",
+          redirectUri: "https://example-app.com/redirect-uri"
         },
         MockWindow
       );
@@ -1044,18 +1043,17 @@ describe("UserSession", () => {
     it("should return a new user session with ssl as false when callback hash does not have ssl parameter", () => {
       const MockWindow = {
         location: {
-          hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&persist=true",
+          hash: "#access_token=token&expires_in=1209600&username=c%40sey&persist=true"
         },
         get parent() {
           return this;
-        },
+        }
       };
 
       const session = UserSession.completeOAuth2(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri",
+          redirectUri: "https://example-app.com/redirect-uri"
         },
         MockWindow
       );
@@ -1077,22 +1075,21 @@ describe("UserSession", () => {
               expect(new Date(oauthInfo.expires).getTime()).toBeGreaterThan(
                 Date.now()
               );
-            },
-          },
+            }
+          }
         },
         close() {
           done();
         },
         location: {
-          hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
-        },
+          hash: "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true"
+        }
       };
 
       UserSession.completeOAuth2(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri",
+          redirectUri: "https://example-app.com/redirect-uri"
         },
         MockWindow
       );
@@ -1112,21 +1109,20 @@ describe("UserSession", () => {
             expect(new Date(oauthInfo.expires).getTime()).toBeGreaterThan(
               Date.now()
             );
-          },
+          }
         },
         close() {
           done();
         },
         location: {
-          hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
-        },
+          hash: "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true"
+        }
       };
 
       UserSession.completeOAuth2(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri",
+          redirectUri: "https://example-app.com/redirect-uri"
         },
         MockWindow
       );
@@ -1146,21 +1142,20 @@ describe("UserSession", () => {
             expect(new Date(oauthInfo.expires).getTime()).toBeGreaterThan(
               Date.now()
             );
-          },
+          }
         },
         close() {
           done();
         },
         location: {
-          hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
-        },
+          hash: "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true"
+        }
       };
 
       UserSession.completeOAuth2(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri",
+          redirectUri: "https://example-app.com/redirect-uri"
         },
         MockWindow
       );
@@ -1169,18 +1164,18 @@ describe("UserSession", () => {
     it("should throw an error from the authorization window", () => {
       const MockWindow = {
         location: {
-          hash: "#error=Invalid_Signin&error_description=Invalid_Signin",
+          hash: "#error=Invalid_Signin&error_description=Invalid_Signin"
         },
         get parent() {
           return this;
-        },
+        }
       };
 
-      expect(function() {
+      expect(function () {
         UserSession.completeOAuth2(
           {
             clientId: "clientId",
-            redirectUri: "https://example-app.com/redirect-uri",
+            redirectUri: "https://example-app.com/redirect-uri"
           },
           MockWindow
         );
@@ -1193,23 +1188,23 @@ describe("UserSession", () => {
           throw new Error(
             "This window isn't where auth started, but was opened from somewhere else via window.open() perhaps from another domain which would cause a cross domain error when read."
           );
-        },
+        }
       };
 
       const MockWindow = {
         location: {
-          hash: "#error=Invalid_Signin&error_description=Invalid_Signin",
+          hash: "#error=Invalid_Signin&error_description=Invalid_Signin"
         },
         get opener() {
           return MockParent;
-        },
+        }
       };
 
-      expect(function() {
+      expect(function () {
         UserSession.completeOAuth2(
           {
             clientId: "clientId",
-            redirectUri: "https://example-app.com/redirect-uri",
+            redirectUri: "https://example-app.com/redirect-uri"
           },
           MockWindow
         );
@@ -1222,8 +1217,8 @@ describe("UserSession", () => {
       addEventListener: () => {},
       removeEventListener: () => {},
       parent: {
-        postMessage: () => {},
-      },
+        postMessage: () => {}
+      }
     };
 
     const cred = {
@@ -1231,7 +1226,7 @@ describe("UserSession", () => {
       server: "https://www.arcgis.com/sharing/rest",
       ssl: false,
       token: "token",
-      userId: "jsmith",
+      userId: "jsmith"
     };
 
     it(".disablePostMessageAuth removes event listener", () => {
@@ -1264,7 +1259,7 @@ describe("UserSession", () => {
           // enablePostMessageAuth passes in the handler, which is what we're actually testing
           Win._fn = fn;
         },
-        removeEventListener() {},
+        removeEventListener() {}
       };
       // Create the session
       const session = UserSession.fromCredential(cred);
@@ -1275,11 +1270,11 @@ describe("UserSession", () => {
       const event = {
         origin: "https://storymaps.arcgis.com",
         source: {
-          postMessage(msg: any, origin: string) {},
+          postMessage(msg: any, origin: string) {}
         },
         data: {
-          type: "arcgis:auth:requestCredential",
-        },
+          type: "arcgis:auth:requestCredential"
+        }
       };
       // create the spy
       const sourceSpy = spyOn(event.source, "postMessage");
@@ -1326,10 +1321,10 @@ describe("UserSession", () => {
             Win._fn({
               origin: "https://origin.com",
               data: { type: "arcgis:auth:credential", credential: cred },
-              source: Win.parent,
+              source: Win.parent
             });
-          },
-        },
+          }
+        }
       };
 
       return UserSession.fromParent("https://origin.com", Win).then(
@@ -1356,16 +1351,16 @@ describe("UserSession", () => {
             Win._fn({
               origin: "https://notorigin.com",
               data: { type: "other:random", foo: { bar: "baz" } },
-              source: "Not Parent Object",
+              source: "Not Parent Object"
             });
             // fire a second we want to intercept
             Win._fn({
               origin: "https://origin.com",
               data: { type: "arcgis:auth:credential", credential: cred },
-              source: Win.parent,
+              source: Win.parent
             });
-          },
-        },
+          }
+        }
       };
 
       return UserSession.fromParent("https://origin.com", Win).then((resp) => {
@@ -1390,12 +1385,12 @@ describe("UserSession", () => {
               origin: "https://origin.com",
               data: {
                 type: "arcgis:auth:credential",
-                credential: { foo: "bar" },
+                credential: { foo: "bar" }
               },
-              source: Win.parent,
+              source: Win.parent
             });
-          },
-        },
+          }
+        }
       };
 
       return UserSession.fromParent("https://origin.com", Win).catch((err) => {
@@ -1417,12 +1412,12 @@ describe("UserSession", () => {
               origin: "https://origin.com",
               data: {
                 type: "arcgis:auth:error",
-                error: { message: "Rejected authentication request." },
+                error: { message: "Rejected authentication request." }
               },
-              source: Win.parent,
+              source: Win.parent
             });
-          },
-        },
+          }
+        }
       };
 
       return UserSession.fromParent("https://origin.com", Win).catch((err) => {
@@ -1443,10 +1438,10 @@ describe("UserSession", () => {
             Win._fn({
               origin: "https://origin.com",
               data: { type: "arcgis:auth:other" },
-              source: Win.parent,
+              source: Win.parent
             });
-          },
-        },
+          }
+        }
       };
 
       return UserSession.fromParent("https://origin.com", Win).catch((err) => {
@@ -1461,7 +1456,7 @@ describe("UserSession", () => {
         "https://www.arcgis.com/sharing/rest/oauth2/validateAppAccess";
       fetchMock.postOnce(VERIFYAPPACCESS_URL, {
         valid: true,
-        viewOnlyUserTypeApp: false,
+        viewOnlyUserTypeApp: false
       });
       const session = new UserSession({
         clientId: "clientId",
@@ -1472,14 +1467,13 @@ describe("UserSession", () => {
         refreshTokenExpires: TOMORROW,
         refreshTokenTTL: 1440,
         username: "jsmith",
-        password: "123456",
+        password: "123456"
       });
       return session
         .validateAppAccess("abc123")
         .then((response) => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-            VERIFYAPPACCESS_URL
-          );
+          const [url, options]: [string, RequestInit] =
+            fetchMock.lastCall(VERIFYAPPACCESS_URL);
           expect(url).toEqual(VERIFYAPPACCESS_URL);
           expect(options.body).toContain("f=json");
           expect(options.body).toContain("token=FAKE-TOKEN");
@@ -1494,18 +1488,18 @@ describe("UserSession", () => {
   it("should throw an unknown error if the url has no error or access_token", () => {
     const MockWindow = {
       location: {
-        hash: "",
+        hash: ""
       },
       get opener() {
         return this;
-      },
+      }
     };
 
-    expect(function() {
+    expect(function () {
       UserSession.completeOAuth2(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri",
+          redirectUri: "https://example-app.com/redirect-uri"
         },
         MockWindow
       );
@@ -1523,13 +1517,13 @@ describe("UserSession", () => {
             "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=20160&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
           );
           done();
-        },
+        }
       };
 
       UserSession.authorize(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri",
+          redirectUri: "https://example-app.com/redirect-uri"
         },
         MockResponse
       );
@@ -1545,7 +1539,7 @@ describe("UserSession", () => {
             "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=10000&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
           );
           done();
-        },
+        }
       };
 
       UserSession.authorize(
@@ -1568,7 +1562,7 @@ describe("UserSession", () => {
             "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=10001&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
           );
           done();
-        },
+        }
       };
 
       UserSession.authorize(
@@ -1599,13 +1593,13 @@ describe("UserSession", () => {
         expires_in: 1800,
         refresh_token: "refreshToken",
         username: "Casey",
-        ssl: true,
+        ssl: true
       });
 
       UserSession.exchangeAuthorizationCode(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri",
+          redirectUri: "https://example-app.com/redirect-uri"
         },
         "code"
       )
@@ -1627,20 +1621,26 @@ describe("UserSession", () => {
         access_token: "token",
         refresh_token: "refreshToken",
         username: "Casey",
-        ssl: true,
+        ssl: true
       });
 
       UserSession.exchangeAuthorizationCode(
         {
           clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri",
+          redirectUri: "https://example-app.com/redirect-uri"
         },
         "code"
       )
         .then((session) => {
-          const twoWeeksFromNow = new Date(Date.now() + (20160 - 1) * 60 * 1000);
-          expect(session.refreshTokenExpires.getTime()).toBeGreaterThan(twoWeeksFromNow.getTime() - 10);
-          expect(session.refreshTokenExpires.getTime()).toBeLessThan(twoWeeksFromNow.getTime() + 10);
+          const twoWeeksFromNow = new Date(
+            Date.now() + (20160 - 1) * 60 * 1000
+          );
+          expect(session.refreshTokenExpires.getTime()).toBeGreaterThan(
+            twoWeeksFromNow.getTime() - 10
+          );
+          expect(session.refreshTokenExpires.getTime()).toBeLessThan(
+            twoWeeksFromNow.getTime() + 10
+          );
           done();
         })
         .catch((e) => {
@@ -1659,7 +1659,7 @@ describe("UserSession", () => {
         {
           username: "jsmith",
           fullName: "John Smith",
-          role: "org_publisher",
+          role: "org_publisher"
         }
       );
 
@@ -1672,7 +1672,7 @@ describe("UserSession", () => {
         refreshTokenExpires: TOMORROW,
         refreshTokenTTL: 1440,
         username: "jsmith",
-        password: "123456",
+        password: "123456"
       });
 
       session
@@ -1701,7 +1701,7 @@ describe("UserSession", () => {
         {
           username: "jsmith",
           fullName: "John Smith",
-          role: "org_publisher",
+          role: "org_publisher"
         }
       );
 
@@ -1714,7 +1714,7 @@ describe("UserSession", () => {
         refreshTokenExpires: TOMORROW,
         refreshTokenTTL: 1440,
         username: "jsmith",
-        password: "123456",
+        password: "123456"
       });
 
       Promise.all([session.getUser(), session.getUser()])
@@ -1735,12 +1735,12 @@ describe("UserSession", () => {
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
         {
-          username: "jsmith",
+          username: "jsmith"
         }
       );
 
       const session = new UserSession({
-        token: "token",
+        token: "token"
       });
 
       session
@@ -1767,7 +1767,7 @@ describe("UserSession", () => {
 
     it("should use a username if passed in the session", (done) => {
       const session = new UserSession({
-        username: "jsmith",
+        username: "jsmith"
       });
 
       session
@@ -1788,7 +1788,7 @@ describe("UserSession", () => {
       server: "https://www.arcgis.com",
       ssl: false,
       token: "token",
-      userId: "jsmith",
+      userId: "jsmith"
     };
 
     const MOCK_USER_SESSION = new UserSession({
@@ -1801,7 +1801,7 @@ describe("UserSession", () => {
       refreshTokenExpires: TOMORROW,
       refreshTokenTTL: 1440,
       username: "jsmith",
-      password: "123456",
+      password: "123456"
     });
 
     it("should create a credential object from a session", () => {
@@ -1839,7 +1839,7 @@ describe("UserSession", () => {
       server: "https://www.arcgis.com",
       ssl: undefined,
       token: "token",
-      userId: "jsmith",
+      userId: "jsmith"
     };
 
     it("should create a UserSession from a credential", () => {
@@ -1864,7 +1864,7 @@ describe("UserSession", () => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
-        tokenExpires: TOMORROW,
+        tokenExpires: TOMORROW
       });
 
       const root = session.getServerRootUrl(
@@ -1877,7 +1877,7 @@ describe("UserSession", () => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
-        tokenExpires: TOMORROW,
+        tokenExpires: TOMORROW
       });
 
       const root = session.getServerRootUrl(
@@ -1892,7 +1892,7 @@ describe("UserSession", () => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
-        tokenExpires: TOMORROW,
+        tokenExpires: TOMORROW
       });
 
       const root = session.getServerRootUrl(
@@ -1911,7 +1911,7 @@ describe("UserSession", () => {
         password: "123456",
         token: "token",
         tokenExpires: TOMORROW,
-        server: "https://fakeserver.com/arcgis",
+        server: "https://fakeserver.com/arcgis"
       });
 
       MOCK_USER_SESSION.getToken(
@@ -1932,7 +1932,7 @@ describe("UserSession", () => {
         password: "123456",
         token: "token",
         tokenExpires: YESTERDAY,
-        server: "https://fakeserver.com/arcgis",
+        server: "https://fakeserver.com/arcgis"
       });
 
       fetchMock.postOnce("https://fakeserver.com/arcgis/rest/info", {
@@ -1940,14 +1940,14 @@ describe("UserSession", () => {
         fullVersion: "10.6.1",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://fakeserver.com/arcgis/tokens/",
-        },
+          tokenServicesUrl: "https://fakeserver.com/arcgis/tokens/"
+        }
       });
 
       fetchMock.postOnce("https://fakeserver.com/arcgis/tokens/", {
         token: "fresh-token",
         expires: TOMORROW.getTime(),
-        username: " jsmith",
+        username: " jsmith"
       });
 
       MOCK_USER_SESSION.getToken(
@@ -1976,7 +1976,7 @@ describe("UserSession", () => {
         password: "123456",
         token: "token",
         tokenExpires: YESTERDAY,
-        server: "https://fakeserver.com/arcgis/rest/services/blah/",
+        server: "https://fakeserver.com/arcgis/rest/services/blah/"
       });
 
       fetchMock.postOnce("https://fakeserver.com/arcgis/rest/info", {
@@ -1984,14 +1984,14 @@ describe("UserSession", () => {
         fullVersion: "10.6.1",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://fakeserver.com/arcgis/tokens/",
-        },
+          tokenServicesUrl: "https://fakeserver.com/arcgis/tokens/"
+        }
       });
 
       fetchMock.postOnce("https://fakeserver.com/arcgis/tokens/", {
         token: "fresh-token",
         expires: TOMORROW.getTime(),
-        username: " jsmith",
+        username: " jsmith"
       });
 
       MOCK_USER_SESSION.getToken(
@@ -2012,15 +2012,15 @@ describe("UserSession", () => {
         fullVersion: "10.6.1",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://fakeserver2.com/arcgis/tokens/",
-        },
+          tokenServicesUrl: "https://fakeserver2.com/arcgis/tokens/"
+        }
       });
       const MOCK_USER_SESSION = new UserSession({
         username: "c@sey",
         password: "123456",
         token: "token",
         tokenExpires: TOMORROW,
-        server: "https://fakeserver.com/arcgis",
+        server: "https://fakeserver.com/arcgis"
       });
 
       MOCK_USER_SESSION.getToken(
@@ -2047,7 +2047,7 @@ describe("UserSession", () => {
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=token",
         {
-          authorizedCrossOriginDomains: ["gis.city.com"],
+          authorizedCrossOriginDomains: ["gis.city.com"]
         }
       );
 
@@ -2060,20 +2060,20 @@ describe("UserSession", () => {
         refreshTokenExpires: TOMORROW,
         refreshTokenTTL: 1440,
         username: "jsmith",
-        password: "123456",
+        password: "123456"
       });
 
       session
         .getPortal()
         .then((response) => {
           expect(response.authorizedCrossOriginDomains).toEqual([
-            "gis.city.com",
+            "gis.city.com"
           ]);
           session
             .getPortal()
             .then((cachedResponse) => {
               expect(cachedResponse.authorizedCrossOriginDomains).toEqual([
-                "gis.city.com",
+                "gis.city.com"
               ]);
               done();
             })
@@ -2091,7 +2091,7 @@ describe("UserSession", () => {
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=token",
         {
-          authorizedCrossOriginDomains: ["gis.city.com"],
+          authorizedCrossOriginDomains: ["gis.city.com"]
         }
       );
 
@@ -2104,7 +2104,7 @@ describe("UserSession", () => {
         refreshTokenExpires: TOMORROW,
         refreshTokenTTL: 1440,
         username: "jsmith",
-        password: "123456",
+        password: "123456"
       });
 
       Promise.all([session.getPortal(), session.getPortal()])
@@ -2124,7 +2124,7 @@ describe("UserSession", () => {
         token: "token",
         refreshToken: "refresh",
         tokenExpires: TOMORROW,
-        portal: "https://gis.city.gov/sharing/rest",
+        portal: "https://gis.city.gov/sharing/rest"
       });
 
       fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
@@ -2133,14 +2133,14 @@ describe("UserSession", () => {
         owningSystemUrl: "https://gis.city.gov",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-        },
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
+        }
       });
 
       fetchMock.getOnce(
         "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
         {
-          authorizedCrossOriginDomains: [],
+          authorizedCrossOriginDomains: []
         }
       );
 
@@ -2148,26 +2148,26 @@ describe("UserSession", () => {
         owningSystemUrl: "http://gis.city.gov",
         authInfo: {
           tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-          isTokenBasedSecurity: true,
-        },
+          isTokenBasedSecurity: true
+        }
       });
 
       fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
         token: "serverToken",
-        expires: TOMORROW,
+        expires: TOMORROW
       });
 
       fetchMock.post(
         "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
         {
-          count: 123,
+          count: 123
         }
       );
 
       request(
         "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
         {
-          authentication: session,
+          authentication: session
         }
       )
         .then((response) => {
@@ -2189,7 +2189,7 @@ describe("UserSession", () => {
         token: "token",
         refreshToken: "refresh",
         tokenExpires: TOMORROW,
-        portal: "https://gis.city.gov/sharing/rest",
+        portal: "https://gis.city.gov/sharing/rest"
       });
 
       fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
@@ -2198,14 +2198,14 @@ describe("UserSession", () => {
         owningSystemUrl: "https://gis.city.gov",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-        },
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
+        }
       });
 
       fetchMock.getOnce(
         "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
         {
-          authorizedCrossOriginDomains: ["https://gisservices.city.gov"],
+          authorizedCrossOriginDomains: ["https://gisservices.city.gov"]
         }
       );
 
@@ -2213,26 +2213,26 @@ describe("UserSession", () => {
         owningSystemUrl: "http://gis.city.gov",
         authInfo: {
           tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-          isTokenBasedSecurity: true,
-        },
+          isTokenBasedSecurity: true
+        }
       });
 
       fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
         token: "serverToken",
-        expires: TOMORROW,
+        expires: TOMORROW
       });
 
       fetchMock.post(
         "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
         {
-          count: 123,
+          count: 123
         }
       );
 
       request(
         "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
         {
-          authentication: session,
+          authentication: session
         }
       )
         .then((response) => {
@@ -2255,7 +2255,7 @@ describe("UserSession", () => {
       token: "token",
       refreshToken: "refresh",
       tokenExpires: TOMORROW,
-      portal: "https://gis.city.gov/sharing/rest",
+      portal: "https://gis.city.gov/sharing/rest"
     });
 
     fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
@@ -2264,14 +2264,14 @@ describe("UserSession", () => {
       owningSystemUrl: "https://gis.city.gov",
       authInfo: {
         isTokenBasedSecurity: true,
-        tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-      },
+        tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
+      }
     });
 
     fetchMock.getOnce(
       "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
       {
-        authorizedCrossOriginDomains: ["https://other.city.gov"],
+        authorizedCrossOriginDomains: ["https://other.city.gov"]
       }
     );
 
@@ -2279,26 +2279,26 @@ describe("UserSession", () => {
       owningSystemUrl: "http://gis.city.gov",
       authInfo: {
         tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
-        isTokenBasedSecurity: true,
-      },
+        isTokenBasedSecurity: true
+      }
     });
 
     fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
       token: "serverToken",
-      expires: TOMORROW,
+      expires: TOMORROW
     });
 
     fetchMock.post(
       "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
       {
-        count: 123,
+        count: 123
       }
     );
 
     request(
       "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
       {
-        authentication: session,
+        authentication: session
       }
     )
       .then((response) => {
@@ -2320,13 +2320,13 @@ describe("UserSession", () => {
       token: "token",
       refreshToken: "refresh",
       tokenExpires: TOMORROW,
-      portal: "https://gis.city.gov/sharing/rest",
+      portal: "https://gis.city.gov/sharing/rest"
     });
 
     fetchMock.getOnce(
       "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
       {
-        authorizedCrossOriginDomains: ["one.city.gov", "https://two.city.gov"],
+        authorizedCrossOriginDomains: ["one.city.gov", "https://two.city.gov"]
       }
     );
 
@@ -2335,7 +2335,7 @@ describe("UserSession", () => {
       .then(() => {
         expect((session as any).trustedDomains).toEqual([
           "https://one.city.gov",
-          "https://two.city.gov",
+          "https://two.city.gov"
         ]);
         done();
       })
@@ -2351,7 +2351,7 @@ describe("UserSession", () => {
       refreshToken: "refresh",
       tokenExpires: TOMORROW,
       portal: null,
-      server: "https://fakeserver.com/arcgis",
+      server: "https://fakeserver.com/arcgis"
     });
 
     (session as any)
@@ -2367,7 +2367,7 @@ describe("UserSession", () => {
   it("should deprecate trustedServers", () => {
     const session = new UserSession({
       clientId: "id",
-      token: "token",
+      token: "token"
     });
 
     expect((session as any).trustedServers).toBe(

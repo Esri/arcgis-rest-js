@@ -2,9 +2,7 @@
  * Apache-2.0 */
 
 import { ApiKey } from "../src/index.js";
-// import { ICredential } from "../src/UserSession";
-
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
 
 describe("ApiKey", () => {
   afterEach(fetchMock.restore);
@@ -12,14 +10,14 @@ describe("ApiKey", () => {
   describe(".getToken()", () => {
     it("should return the ApiKey", (done) => {
       const session = new ApiKey({
-        key: "123456",
+        key: "123456"
       });
 
       Promise.all([
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
         session.getToken(
           "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
-        ),
+        )
       ])
         .then(([token1, token2]) => {
           expect(token1).toBe("123456");

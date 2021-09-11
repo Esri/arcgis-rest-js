@@ -1,12 +1,9 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  IRequestOptions,
-  ITokenRequestOptions,
-  NODEJS_DEFAULT_REFERER_HEADER,
-} from "@esri/arcgis-rest-request";
+import { ITokenRequestOptions } from "./utils/ITokenRequestOptions.js";
+import { request, NODEJS_DEFAULT_REFERER_HEADER } from "./request.js";
+import { IRequestOptions } from "./utils/IRequestOptions.js";
 
 export interface IGenerateTokenResponse {
   token: string;

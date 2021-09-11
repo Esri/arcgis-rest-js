@@ -1,8 +1,8 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import * as fetchMock from "fetch-mock";
 
-import { validateAppAccess } from "../src/validate-app-access";
+import fetchMock from "fetch-mock";
+import { validateAppAccess } from "../src/validate-app-access.js";
 
 const VERIFYAPPACCESS_URL =
   "https://www.arcgis.com/sharing/rest/oauth2/validateAppAccess";
@@ -11,13 +11,12 @@ describe("validateAppAccess: ", () => {
   it("makes a request to /oauth2/validateAppAccess passing params", () => {
     fetchMock.postOnce(VERIFYAPPACCESS_URL, {
       valid: true,
-      viewOnlyUserTypeApp: false,
+      viewOnlyUserTypeApp: false
     });
     return validateAppAccess("FAKE-TOKEN", "abc123")
       .then((response) => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-          VERIFYAPPACCESS_URL
-        );
+        const [url, options]: [string, RequestInit] =
+          fetchMock.lastCall(VERIFYAPPACCESS_URL);
         expect(url).toEqual(VERIFYAPPACCESS_URL);
         expect(options.body).toContain("f=json");
         expect(options.body).toContain("token=FAKE-TOKEN");
@@ -32,13 +31,12 @@ describe("validateAppAccess: ", () => {
     const PORTAL_VERIFY_URL = `${PORTAL_BASE_URL}/oauth2/validateAppAccess`;
     fetchMock.postOnce(PORTAL_VERIFY_URL, {
       valid: true,
-      viewOnlyUserTypeApp: false,
+      viewOnlyUserTypeApp: false
     });
     return validateAppAccess("FAKE-TOKEN", "abc123", PORTAL_BASE_URL)
       .then((response) => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-          PORTAL_VERIFY_URL
-        );
+        const [url, options]: [string, RequestInit] =
+          fetchMock.lastCall(PORTAL_VERIFY_URL);
         expect(url).toEqual(PORTAL_VERIFY_URL);
       })
       .catch((e) => fail(e));

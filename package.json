@@ -13,6 +13,7 @@
     "@typescript-eslint/parser": "^4.31.0",
     "acetate": "^2.0.8",
     "acetate-cli": "^1.0.1",
+    "browser-sync": "^2.27.5",
     "cheerio": "^1.0.0-rc.3",
     "concurrently": "^3.5.1",
     "cpx": "^1.5.0",
@@ -27,6 +28,7 @@
     "gh-pages": "^1.1.0",
     "gh-release": "^3.4.0",
     "glob": "^7.1.7",
+    "globby": "^12.0.2",
     "husky": "^4.2.3",
     "jasmine": "^3.9.0",
     "jasmine-core": "^3.9.0",
@@ -65,6 +67,8 @@
     ]
   },
   "scripts": {
+    "_prepare": "npm run build",
+    "prepare-demos": "npm run link -w ./packages",
     "tsv": "tsc -v",
     "build": "npm run build -ws --if-present",
     "clean": "trash packages/*/dist/",
@@ -100,7 +104,7 @@
     "precommit": "lint-staged",
     "typedoc": "typedoc --options ./typedoc.json",
     "srihash": "node scripts/generate-sri-hashes.js",
-    "skypack-check": " npm exec -w ./packages package-check"
+    "skypack-check": "npm exec -w ./packages package-check"
   },
   "repository": {
     "type": "git",

@@ -1,7 +1,8 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions, request } from "@esri/arcgis-rest-request";
+import { request } from "./request.js";
+import { IRequestOptions } from "./utils/IRequestOptions.js";
 
 export interface IAppAccess {
   /**
@@ -61,8 +62,8 @@ export function validateAppAccess(
     params: {
       f: "json",
       client_id: clientId,
-      token,
-    },
+      token
+    }
   } as IRequestOptions;
   return request(url, ro);
 }

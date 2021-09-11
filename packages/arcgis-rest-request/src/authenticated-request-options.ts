@@ -1,10 +1,9 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { ApplicationSession } from "./ApplicationSession";
-import { UserSession } from "./UserSession";
-
-import { IRequestOptions } from "@esri/arcgis-rest-request";
+import { ApplicationSession } from "./ApplicationSession.js";
+import { UserSession } from "./UserSession.js";
+import { IRequestOptions } from "./utils/IRequestOptions.js";
 
 /**
  * Used internally by packages for requests that require user authentication.

@@ -1,15 +1,15 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { ApplicationSession } from "../src/index";
-import * as fetchMock from "fetch-mock";
-import { YESTERDAY, TOMORROW } from "./utils";
+import fetchMock from "fetch-mock";
+import { ApplicationSession } from "../src/index.js";
+import { YESTERDAY, TOMORROW } from "../../../scripts/test-helpers.js";
 
 describe("ApplicationSession", () => {
   afterEach(fetchMock.restore);
 
   describe(".getToken()", () => {
-    it("should return the cached token if it is not expired", done => {
+    it("should return the cached token if it is not expired", (done) => {
       const session = new ApplicationSession({
         clientId: "id",
         clientSecret: "secret",
@@ -28,12 +28,12 @@ describe("ApplicationSession", () => {
           expect(token2).toBe("token");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should fetch a new token if the cached one is expired", done => {
+    it("should fetch a new token if the cached one is expired", (done) => {
       const session = new ApplicationSession({
         clientId: "id",
         clientSecret: "secret",
@@ -57,12 +57,12 @@ describe("ApplicationSession", () => {
           expect(token2).toBe("new");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should not make multiple refresh requests while a refresh is pending", done => {
+    it("should not make multiple refresh requests while a refresh is pending", (done) => {
       const session = new ApplicationSession({
         clientId: "id",
         clientSecret: "secret",
@@ -92,13 +92,13 @@ describe("ApplicationSession", () => {
           ).toBe(1);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
   });
 
-  it("should provide a method to refresh a session", done => {
+  it("should provide a method to refresh a session", (done) => {
     const session = new ApplicationSession({
       clientId: "id",
       clientSecret: "secret",
@@ -113,11 +113,11 @@ describe("ApplicationSession", () => {
 
     session
       .refreshSession()
-      .then(s => {
+      .then((s) => {
         expect(s).toBe(session);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

@@ -13,21 +13,18 @@
  */
 
 import * as http from "http";
-import {
-  request,
-  IRequestOptions,
-  ArcGISAuthError,
-  IAuthenticationManager,
-  ITokenRequestOptions,
-  cleanUrl,
-  encodeQueryString,
-  decodeQueryString,
-} from "@esri/arcgis-rest-request";
+import { ArcGISAuthError, request } from "./request.js";
+import { IRequestOptions } from "./utils/IRequestOptions.js";
+import { IAuthenticationManager } from "./utils/IAuthenticationManager.js";
+import { ITokenRequestOptions } from "./utils/ITokenRequestOptions.js";
+import { decodeQueryString } from "./utils/decode-query-string.js";
+import { encodeQueryString } from "./utils/encode-query-string.js";
 import { IUser } from "@esri/arcgis-rest-types";
-import { generateToken } from "./generate-token";
-import { fetchToken, IFetchTokenResponse } from "./fetch-token";
-import { canUseOnlineToken, isFederated } from "./federation-utils";
-import { IAppAccess, validateAppAccess } from "./validate-app-access";
+import { generateToken } from "./generate-token.js";
+import { fetchToken, IFetchTokenResponse } from "./fetch-token.js";
+import { canUseOnlineToken, isFederated } from "./federation-utils.js";
+import { IAppAccess, validateAppAccess } from "./validate-app-access.js";
+import { cleanUrl } from "./utils/clean-url.js";
 
 /**
  * Internal utility for resolving a Promise from outside its constructor.
@@ -63,7 +60,7 @@ function defer<T>(): IDeferred<T> {
   const deferred: any = {
     promise: null,
     resolve: null,
-    reject: null,
+    reject: null
   };
 
   deferred.promise = new Promise((resolve, reject) => {
@@ -105,14 +102,14 @@ export interface IOAuth2Options {
   /**
    * The requested validity in minutes for a token. Defaults to 20160 (two weeks).
    */
-   expiration?: number;
+  expiration?: number;
 
   /**
    * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
    *
    * @deprecated use 'expiration' instead
    */
-   duration?: number;
+  duration?: number;
 
   /**
    * Determines whether to open the authorization window in a new tab/window or in the current window.
@@ -304,10 +301,14 @@ export class UserSession implements IAuthenticationManager {
    * @browserOnly
    */
   /* istanbul ignore next */
-  public static beginOAuth2(options: IOAuth2Options, win: any = window): Promise<UserSession> | undefined {
-
-    if(options.duration) {
-      console.log("DEPRECATED: 'duration' is deprecated - use 'expiration' instead");
+  public static beginOAuth2(
+    options: IOAuth2Options,
+    win: any = window
+  ): Promise<UserSession> | undefined {
+    if (options.duration) {
+      console.log(
+        "DEPRECATED: 'duration' is deprecated - use 'expiration' instead"
+      );
     }
 
     const {
@@ -320,7 +321,7 @@ export class UserSession implements IAuthenticationManager {
       popupWindowFeatures,
       state,
       locale,
-      params,
+      params
     }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
@@ -330,17 +331,21 @@ export class UserSession implements IAuthenticationManager {
         popupWindowFeatures:
           "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes",
         state: options.clientId,
-        locale: "",
+        locale: ""
       },
-      ...options,
+      ...options
     };
     let url: string;
     if (provider === "arcgis") {
-      url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${options.duration || expiration}&redirect_uri=${encodeURIComponent(
+      url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${
+        options.duration || expiration
+      }&redirect_uri=${encodeURIComponent(
         redirectUri
       )}&state=${state}&locale=${locale}`;
     } else {
-      url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${options.duration || expiration}&redirect_uri=${encodeURIComponent(
+      url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${
+        options.duration || expiration
+      }&redirect_uri=${encodeURIComponent(
         redirectUri
       )}&state=${state}&locale=${locale}`;
     }
@@ -357,7 +362,7 @@ export class UserSession implements IAuthenticationManager {
 
     const session = defer<UserSession>();
 
-    win[`__ESRI_REST_AUTH_HANDLER_${clientId}`] = function(
+    win[`__ESRI_REST_AUTH_HANDLER_${clientId}`] = function (
       errorString: any,
       oauthInfoString: string
     ) {
@@ -376,7 +381,7 @@ export class UserSession implements IAuthenticationManager {
             ssl: oauthInfo.ssl,
             token: oauthInfo.token,
             tokenExpires: new Date(oauthInfo.expires),
-            username: oauthInfo.username,
+            username: oauthInfo.username
           })
         );
       }
@@ -399,7 +404,7 @@ export class UserSession implements IAuthenticationManager {
   public static completeOAuth2(options: IOAuth2Options, win: any = window) {
     const { portal, clientId, popup }: IOAuth2Options = {
       ...{ portal: "https://www.arcgis.com/sharing/rest", popup: true },
-      ...options,
+      ...options
     };
 
     function completeSignIn(error: any, oauthInfo?: IFetchTokenResponse) {
@@ -448,7 +453,7 @@ export class UserSession implements IAuthenticationManager {
         ssl: oauthInfo.ssl,
         token: oauthInfo.token,
         tokenExpires: oauthInfo.expires,
-        username: oauthInfo.username,
+        username: oauthInfo.username
       });
     }
 
@@ -477,7 +482,7 @@ export class UserSession implements IAuthenticationManager {
       token,
       expires,
       ssl,
-      username,
+      username
     });
   }
 
@@ -541,18 +546,20 @@ export class UserSession implements IAuthenticationManager {
     options: IOAuth2Options,
     response: http.ServerResponse
   ) {
-    if(options.duration) {
-      console.log("DEPRECATED: 'duration' is deprecated - use 'expiration' instead");
+    if (options.duration) {
+      console.log(
+        "DEPRECATED: 'duration' is deprecated - use 'expiration' instead"
+      );
     }
     const { portal, clientId, expiration, redirectUri }: IOAuth2Options = {
       ...{ portal: "https://arcgis.com/sharing/rest", expiration: 20160 },
-      ...options,
+      ...options
     };
 
     response.writeHead(301, {
-      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${options.duration || expiration}&response_type=code&redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}`,
+      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${
+        options.duration || expiration
+      }&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}`
     });
 
     response.end();
@@ -571,9 +578,9 @@ export class UserSession implements IAuthenticationManager {
     const { portal, clientId, redirectUri, refreshTokenTTL }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
-        refreshTokenTTL: 20160,
+        refreshTokenTTL: 20160
       },
-      ...options,
+      ...options
     };
 
     return fetchToken(`${portal}/oauth2/token`, {
@@ -581,8 +588,8 @@ export class UserSession implements IAuthenticationManager {
         grant_type: "authorization_code",
         client_id: clientId,
         redirect_uri: redirectUri,
-        code: authorizationCode,
-      },
+        code: authorizationCode
+      }
     }).then((response) => {
       return new UserSession({
         clientId,
@@ -596,7 +603,7 @@ export class UserSession implements IAuthenticationManager {
         ),
         token: response.token,
         tokenExpires: response.expires,
-        username: response.username,
+        username: response.username
       });
     });
   }
@@ -615,7 +622,7 @@ export class UserSession implements IAuthenticationManager {
       ssl: options.ssl,
       tokenDuration: options.tokenDuration,
       redirectUri: options.redirectUri,
-      refreshTokenTTL: options.refreshTokenTTL,
+      refreshTokenTTL: options.refreshTokenTTL
     });
   }
 
@@ -635,7 +642,7 @@ export class UserSession implements IAuthenticationManager {
     // At ArcGIS Online 9.1, credentials no longer include the ssl and expires properties
     // Here, we provide default values for them to cover this condition
     const ssl = typeof credential.ssl !== "undefined" ? credential.ssl : true;
-    const expires = credential.expires || Date.now() + 7200000 /* 2 hours */;
+    const expires = credential.expires || Date.now() + 7200000; /* 2 hours */
 
     return new UserSession({
       portal: credential.server.includes("sharing/rest")
@@ -644,7 +651,7 @@ export class UserSession implements IAuthenticationManager {
       ssl,
       token: credential.token,
       username: credential.userId,
-      tokenExpires: new Date(expires),
+      tokenExpires: new Date(expires)
     });
   }
 
@@ -794,7 +801,7 @@ export class UserSession implements IAuthenticationManager {
 
       this.federatedServers[root] = {
         token: options.token,
-        expires: options.tokenExpires,
+        expires: options.tokenExpires
       };
     }
     this._pendingTokenRequests = {};
@@ -815,7 +822,7 @@ export class UserSession implements IAuthenticationManager {
       server: this.portal,
       ssl: this.ssl,
       token: this.token,
-      userId: this.username,
+      userId: this.username
     };
   }
 
@@ -844,7 +851,7 @@ export class UserSession implements IAuthenticationManager {
         httpMethod: "GET",
         authentication: this,
         ...requestOptions,
-        rawResponse: false,
+        rawResponse: false
       } as IRequestOptions;
 
       this._pendingUserRequest = request(url, options).then((response) => {
@@ -882,7 +889,7 @@ export class UserSession implements IAuthenticationManager {
         httpMethod: "GET",
         authentication: this,
         ...requestOptions,
-        rawResponse: false,
+        rawResponse: false
       } as IRequestOptions;
 
       this._pendingPortalRequest = request(url, options).then((response) => {
@@ -959,7 +966,7 @@ export class UserSession implements IAuthenticationManager {
       ssl: this.ssl,
       tokenDuration: this.tokenDuration,
       redirectUri: this.redirectUri,
-      refreshTokenTTL: this.refreshTokenTTL,
+      refreshTokenTTL: this.refreshTokenTTL
     };
   }
 
@@ -1087,7 +1094,7 @@ export class UserSession implements IAuthenticationManager {
         event.source.postMessage(
           {
             type: "arcgis:auth:credential",
-            credential,
+            credential
           },
           event.origin
         );
@@ -1123,7 +1130,7 @@ export class UserSession implements IAuthenticationManager {
     this._pendingTokenRequests[root] = this.fetchAuthorizedDomains().then(
       () => {
         return request(`${root}/rest/info`, {
-          credentials: this.getDomainCredentials(url),
+          credentials: this.getDomainCredentials(url)
         })
           .then((response) => {
             if (response.owningSystemUrl) {
@@ -1155,7 +1162,7 @@ export class UserSession implements IAuthenticationManager {
                * federation, but the root server url is recognized, use its built in token endpoint.
                */
               return Promise.resolve({
-                authInfo: response.authInfo,
+                authInfo: response.authInfo
               });
             } else {
               throw new ArcGISAuthError(
@@ -1175,8 +1182,8 @@ export class UserSession implements IAuthenticationManager {
                   token: this.token,
                   serverUrl: url,
                   expiration: this.tokenDuration,
-                  client: "referer",
-                },
+                  client: "referer"
+                }
               });
               // generate an entirely fresh token if necessary
             } else {
@@ -1185,8 +1192,8 @@ export class UserSession implements IAuthenticationManager {
                   username: this.username,
                   password: this.password,
                   expiration: this.tokenDuration,
-                  client: "referer",
-                },
+                  client: "referer"
+                }
               }).then((response: any) => {
                 this._token = response.token;
                 this._tokenExpires = new Date(response.expires);
@@ -1197,7 +1204,7 @@ export class UserSession implements IAuthenticationManager {
           .then((response) => {
             this.federatedServers[root] = {
               expires: new Date(response.expires),
-              token: response.token,
+              token: response.token
             };
             delete this._pendingTokenRequests[root];
             return response.token;
@@ -1247,9 +1254,9 @@ export class UserSession implements IAuthenticationManager {
       params: {
         username: this.username,
         password: this.password,
-        expiration: this.tokenDuration,
+        expiration: this.tokenDuration
       },
-      ...requestOptions,
+      ...requestOptions
     };
     return generateToken(`${this.portal}/generateToken`, options).then(
       (response: any) => {
@@ -1276,9 +1283,9 @@ export class UserSession implements IAuthenticationManager {
       params: {
         client_id: this.clientId,
         refresh_token: this.refreshToken,
-        grant_type: "refresh_token",
+        grant_type: "refresh_token"
       },
-      ...requestOptions,
+      ...requestOptions
     };
     return fetchToken(`${this.portal}/oauth2/token`, options).then(
       (response) => {
@@ -1299,9 +1306,9 @@ export class UserSession implements IAuthenticationManager {
         client_id: this.clientId,
         refresh_token: this.refreshToken,
         redirect_uri: this.redirectUri,
-        grant_type: "exchange_refresh_token",
+        grant_type: "exchange_refresh_token"
       },
-      ...requestOptions,
+      ...requestOptions
     };
 
     return fetchToken(`${this.portal}/oauth2/token`, options).then(

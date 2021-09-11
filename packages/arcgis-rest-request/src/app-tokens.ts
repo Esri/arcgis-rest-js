@@ -1,7 +1,8 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions, request } from "@esri/arcgis-rest-request";
+import { request } from "./request.js";
+import { IRequestOptions } from "./utils/IRequestOptions.js";
 
 /**
  * Request app-specific token, passing in the token for the current app.
@@ -33,8 +34,8 @@ export function exchangeToken(
     params: {
       f: "json",
       client_id: clientId,
-      token,
-    },
+      token
+    }
   } as IRequestOptions;
   // make the request and return the token
   return request(url, ro).then((response) => response.token);
@@ -118,13 +119,13 @@ export function platformSelf(
     method: "POST",
     headers: {
       "X-Esri-Auth-Client-Id": clientId,
-      "X-Esri-Auth-Redirect-Uri": redirectUri,
+      "X-Esri-Auth-Redirect-Uri": redirectUri
     },
     // Note: request has logic to include the cookie
     // for platformSelf calls w/ the X-Esri-Auth-Client-Id header
     params: {
-      f: "json",
-    },
+      f: "json"
+    }
   } as IRequestOptions;
   // make the request and return the token
   return request(url, ro);

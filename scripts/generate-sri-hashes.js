@@ -5,24 +5,12 @@ import { join, resolve } from "path";
 import { readFile, writeFile } from "fs/promises";
 import { readFileSync } from "fs";
 import { generate } from "sri-toolbox";
-import { promisify } from "util";
-import globCb from "glob";
+import getPackages from "./get-package-json.js";
 
 const OUTPUT = join(process.cwd(), `srihashes.json`);
 const VERSION = JSON.parse(readFileSync("package.json")).version;
 
-const glob = promisify(globCb);
-
-glob("packages/*/package.json")
-  .then((packages) => {
-    return Promise.all(
-      packages.map((pkgPath) => {
-        return readFile(pkgPath).then((pkg) => {
-          return JSON.parse(pkg);
-        });
-      })
-    );
-  })
+getPackages()
   .then((packageJsons) => {
     return Promise.all(
       packageJsons
@@ -49,8 +37,10 @@ glob("packages/*/package.json")
       version: VERSION,
       packages: {}
     };
-    res.forEach((r) => {
-      if (r.hash) json.packages[r.pkg.name] = r.hash;
+    res.forEach(({ hash, pkg }) => {
+      if (hash) {
+        json.packages[pkg.name] = hash;
+      }
     });
     writeFile(OUTPUT, JSON.stringify(json, null, "  "), "utf8", (err) => {
       if (err) throw err;
