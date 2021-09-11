@@ -108,7 +108,7 @@
       }
 
       // Define the variable used for the redirect uri.
-      const redirect_uri = window.location.origin + window.location.pathname;
+      const redirect_uri = window.location.origin + window.location.pathname + "/authenticate.html";
       // Inject that value into the page text.
       document.getElementById('redirect_uri').innerHTML = redirect_uri;
 
@@ -160,7 +160,7 @@
           // Begin an OAuth2 login using a popup.
           arcgisRest.UserSession.beginOAuth2({
             clientId: clientId,
-            redirectUri: redirect_uri + 'authenticate.html',
+            redirectUri: redirect_uri,
             popup: true,
             popupWindowFeatures: getPopupWindowFeatures(500, 500)
           }).then(function (newSession) {
@@ -190,7 +190,7 @@
           // Begin an OAuth2 login without a popup.
           arcgisRest.UserSession.beginOAuth2({
             clientId: clientId,
-            redirectUri: redirect_uri + 'authenticate.html?clientID=' + clientId,
+            redirectUri: redirect_uri + '?clientID=' + clientId,
             popup: false,
           });
         }
