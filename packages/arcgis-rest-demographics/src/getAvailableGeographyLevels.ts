@@ -7,7 +7,10 @@ import {
   appendCustomParams
 } from "@esri/arcgis-rest-request";
 
-import { ARCGIS_ONLINE_GEOENRICHMENT_URL, IEndpointOptions } from "./helpers";
+import {
+  ARCGIS_ONLINE_GEOENRICHMENT_URL,
+  IEndpointOptions
+} from "./helpers.js";
 
 export interface IGetAvailableGeographyLevelsResponse {
   messages?: string[] | null;
@@ -47,7 +50,6 @@ export interface IGeographyLevelHierarchy {
   levels?: ILevel[] | null;
 }
 
-
 /**
  * ```js
  * import { getAvailableGeographyLevels } from '@esri/arcgis-rest-demographics';
@@ -73,16 +75,12 @@ export function getAvailableGeographyLevels(
     if (requestOptions.endpoint) {
       endpoint = `${requestOptions.endpoint}/StandardGeographyLevels`;
     }
-    options = appendCustomParams<IEndpointOptions>(
-      requestOptions,
-      [],
-      { params: { ...requestOptions.params } }
-    );
+    options = appendCustomParams<IEndpointOptions>(requestOptions, [], {
+      params: { ...requestOptions.params }
+    });
   }
 
-  return request(`${cleanUrl(endpoint)}`, options).then(
-    (response: any) => {
-      return response;
-    }
-  );
+  return request(`${cleanUrl(endpoint)}`, options).then((response: any) => {
+    return response;
+  });
 }

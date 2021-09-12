@@ -5,7 +5,7 @@ import {
   ILayerDefinition,
   IFeatureServiceDefinition
 } from "@esri/arcgis-rest-types";
-import { cvdServiceFields } from "./fields";
+import { cvdServiceFields } from "./fields.js";
 
 export const getFeatureServerResponse: IFeatureServiceDefinition = {
   currentVersion: 10.21,
@@ -188,7 +188,7 @@ export const getFeatureServiceResponse: ILayerDefinition = {
     supportsSqlExpression: true
   },
   editingInfo: {
-    lastEditDate: (new Date()).getTime()
+    lastEditDate: new Date().getTime()
   },
   extent: {
     xmin: -1.4842597721444273e7,

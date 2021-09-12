@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { getAvailableGeographyLevels } from "../src/getAvailableGeographyLevels";
+import { getAvailableGeographyLevels } from "../src/getAvailableGeographyLevels.js";
 
 describe("getAvailableGeographyLevels", () => {
   afterEach(fetchMock.restore);

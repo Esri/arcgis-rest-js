@@ -1,21 +1,21 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-export * from "./query";
-export * from "./add";
-export * from "./update";
-export * from "./delete";
-export * from "./applyEdits";
-export * from "./getAllLayersAndTables";
-export * from "./getAttachments";
-export * from "./addAttachment";
-export * from "./updateAttachment";
-export * from "./deleteAttachments";
-export * from "./queryRelated";
-export * from "./getLayer";
-export * from "./getService";
-export * from "./decodeValues";
-export * from "./helpers";
+export * from "./query.js";
+export * from "./add.js";
+export * from "./update.js";
+export * from "./delete.js";
+export * from "./applyEdits.js";
+export * from "./getAllLayersAndTables.js";
+export * from "./getAttachments.js";
+export * from "./addAttachment.js";
+export * from "./updateAttachment.js";
+export * from "./deleteAttachments.js";
+export * from "./queryRelated.js";
+export * from "./getLayer.js";
+export * from "./getService.js";
+export * from "./decodeValues.js";
+export * from "./helpers.js";
 export {
   IFeature,
   ISpatialReference,

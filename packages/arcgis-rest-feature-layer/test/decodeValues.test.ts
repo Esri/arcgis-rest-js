@@ -2,15 +2,15 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { decodeValues } from "../src/decodeValues";
+import { decodeValues } from "../src/decodeValues.js";
 
 import {
   cvdQueryResponse,
   cvdFeaturesFormatted
-} from "./mocks/cvdQueryResponse";
-import { cvdServiceFields, serviceFields } from "./mocks/fields";
-import { getFeatureServiceResponse } from "./mocks/service";
-import { queryResponse } from "./mocks/feature";
+} from "./mocks/cvdQueryResponse.js";
+import { cvdServiceFields, serviceFields } from "./mocks/fields.js";
+import { getFeatureServiceResponse } from "./mocks/service.js";
+import { queryResponse } from "./mocks/feature.js";
 
 const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";

@@ -4,8 +4,8 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IField, IFeature, ILayerDefinition } from "@esri/arcgis-rest-types";
 
-import { IQueryFeaturesResponse } from "./query";
-import { getLayer } from "./getLayer";
+import { IQueryFeaturesResponse } from "./query.js";
+import { getLayer } from "./getLayer.js";
 
 /**
  * Request options to fetch a feature by id.
@@ -98,7 +98,7 @@ export function decodeValues(
     // merge decoded features into the response
     return {
       ...requestOptions.queryResponse,
-      ...{ features: decodedFeatures },
+      ...{ features: decodedFeatures }
     };
   });
 }

@@ -2,8 +2,8 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { reverseGeocode } from "../src/reverse";
-import { ReverseGeocode } from "./mocks/responses";
+import { reverseGeocode } from "../src/reverse.js";
+import { ReverseGeocode } from "./mocks/responses.js";
 
 describe("geocode", () => {
   afterEach(fetchMock.restore);

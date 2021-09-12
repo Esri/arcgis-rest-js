@@ -1,6 +1,6 @@
 {
   "spec_dir": "packages",
-  "spec_files": ["{arcgis-rest-request,arcgis-rest-routing,arcgis-rest-service-admin,arcgis-rest-portal}/{src,test}/**/*.test.*"],
+  "spec_files": ["*/{src,test}/**/*.test.ts"],
   "stopSpecOnExpectationFailure": false,
   "random": false,
   "jsLoader": "import"

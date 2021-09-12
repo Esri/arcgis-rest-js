@@ -10,7 +10,7 @@ import {
   ISharedEditOptions,
   IEditFeatureResult,
   ISharedQueryOptions
-} from "./helpers";
+} from "./helpers.js";
 
 /**
  * Delete features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/delete-features.htm) for more information.

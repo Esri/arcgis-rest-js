@@ -1,8 +1,8 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { ISpatialReference, IExtent } from "./geometry";
-import { ILayerDefinition, ITable } from "./webmap";
+import { ISpatialReference, IExtent } from "./geometry.js";
+import { ILayerDefinition, ITable } from "./webmap.js";
 
 /**
  * `IFeatureServiceDefinition` can also be imported from the following packages:

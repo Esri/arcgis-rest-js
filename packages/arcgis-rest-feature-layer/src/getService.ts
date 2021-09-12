@@ -3,7 +3,7 @@
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
 import { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
-import { IGetLayerOptions } from "./helpers";
+import { IGetLayerOptions } from "./helpers.js";
 
 /**
  * ```js

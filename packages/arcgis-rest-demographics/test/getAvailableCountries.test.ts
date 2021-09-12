@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { getAvailableCountries } from "../src/getAvailableCountries";
+import { getAvailableCountries } from "../src/getAvailableCountries.js";
 
 describe("getAvailableCountries", () => {
   afterEach(fetchMock.restore);

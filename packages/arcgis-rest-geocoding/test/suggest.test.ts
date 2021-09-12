@@ -2,8 +2,8 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { suggest } from "../src/suggest";
-import { Suggest } from "./mocks/responses";
+import { suggest } from "../src/suggest.js";
+import { Suggest } from "./mocks/responses.js";
 
 describe("geocode", () => {
   afterEach(fetchMock.restore);

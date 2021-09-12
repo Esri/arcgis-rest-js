@@ -9,7 +9,7 @@ import {
 
 import { IExtent, ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
 
-import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers";
+import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers.js";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
 
@@ -63,7 +63,7 @@ export interface IGeocodeResponse {
       type: string;
       geometry: object;
       properties: any;
-    }>
+    }>;
   };
 }
 
@@ -123,12 +123,12 @@ export function geocode(
 
   // add spatialReference property to individual matches
   return request(`${cleanUrl(endpoint)}/findAddressCandidates`, options).then(
-    response => {
+    (response) => {
       if (typeof address !== "string" && address.rawResponse) {
         return response;
       }
       const sr: ISpatialReference = response.spatialReference;
-      response.candidates.forEach(function(candidate: {
+      response.candidates.forEach(function (candidate: {
         location: IPoint;
         extent?: IExtent;
       }) {
@@ -147,16 +147,16 @@ export function geocode(
             properties: Object.assign(
               {
                 address: candidate.address,
-                score: candidate.score,
+                score: candidate.score
               },
               candidate.attributes
-            ),
+            )
           };
         });
 
         response.geoJson = {
           type: "FeatureCollection",
-          features,
+          features
         };
       }
 

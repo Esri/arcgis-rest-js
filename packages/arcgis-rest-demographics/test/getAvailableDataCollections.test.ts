@@ -2,8 +2,8 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { getAvailableDataCollections } from "../src/getAvailableDataCollections";
-import { dataCollectionsResponse } from "./mocks/responses";
+import { getAvailableDataCollections } from "../src/getAvailableDataCollections.js";
+import { dataCollectionsResponse } from "./mocks/responses.js";
 
 describe("getAvailableDataCollections", () => {
   afterEach(fetchMock.restore);

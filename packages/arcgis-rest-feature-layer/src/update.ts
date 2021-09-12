@@ -9,7 +9,7 @@ import {
 
 import { IFeature } from "@esri/arcgis-rest-types";
 
-import { ISharedEditOptions, IEditFeatureResult } from "./helpers";
+import { ISharedEditOptions, IEditFeatureResult } from "./helpers.js";
 
 /**
  * Update features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/update-features.htm) for more information.
@@ -52,7 +52,13 @@ export function updateFeatures(
   // edit operations are POST only
   const options = appendCustomParams<IUpdateFeaturesOptions>(
     requestOptions,
-    ["features", "gdbVersion", "returnEditMoment", "rollbackOnFailure", "trueCurveClient"],
+    [
+      "features",
+      "gdbVersion",
+      "returnEditMoment",
+      "rollbackOnFailure",
+      "trueCurveClient"
+    ],
     { params: { ...requestOptions.params } }
   );
 

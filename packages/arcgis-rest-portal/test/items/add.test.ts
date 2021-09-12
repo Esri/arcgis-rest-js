@@ -149,7 +149,7 @@ describe("search", () => {
       });
 
       const file = attachmentFile();
-
+      console.log(file);
       addItemData({
         // this would work on item: { type: "Code Sample" }
         id: "3ef",

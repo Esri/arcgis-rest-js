@@ -2,9 +2,9 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { getLayer } from "../src/getLayer";
+import { getLayer } from "../src/getLayer.js";
 
-import { getFeatureServiceResponse } from "./mocks/service";
+import { getFeatureServiceResponse } from "./mocks/service.js";
 
 const layerUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";

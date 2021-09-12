@@ -8,16 +8,16 @@ import {
   IHasZM,
   IGeometry,
   IPoint
-} from "./geometry";
+} from "./geometry.js";
 
-import { IFeature, IFeatureSet } from "./feature";
+import { IFeature, IFeatureSet } from "./feature.js";
 
 import {
   ISimpleLineSymbol,
   IPictureMarkerSymbol,
   ISimpleFillSymbol,
   Color
-} from "./symbol";
+} from "./symbol.js";
 
 /**
  * Field type.
@@ -40,10 +40,7 @@ export type FieldType =
 /**
  * Domain types
  */
-export type DomainType = 
- | "range"
- | "codedValue"
- | "inherited";
+export type DomainType = "range" | "codedValue" | "inherited";
 
 /**
  * CodedValue type
@@ -53,7 +50,7 @@ export type ICodedValue = {
   name: string;
   /**  The value stored in the feature attribute. */
   code: string | number;
-}
+};
 
 /**
  * Information for a field with a domain
@@ -68,12 +65,12 @@ export type IDomain = {
   /** An array of CodedValues for domains of type codedValue. */
   codedValues?: ICodedValue[];
   /** Description of the domain */
-  description?: string,
+  description?: string;
   /** Merge policy */
-  mergePolicy?: string,
+  mergePolicy?: string;
   /** Split Policy */
-  splitPolicy?: string
-}
+  splitPolicy?: string;
+};
 
 /**
  * Contains information about an attribute field.
@@ -932,7 +929,7 @@ export interface IDrawingInfo {
 
 export interface IEditingInfo {
   /** date of last edit to the layer  */
-  lastEditDate?: number
+  lastEditDate?: number;
 }
 
 /**

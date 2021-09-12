@@ -9,14 +9,14 @@ import {
   applyEdits,
   IDeleteFeaturesOptions,
   IUpdateFeaturesOptions
-} from "../src/index";
+} from "../src/index.js";
 
 import {
   addFeaturesResponse,
   updateFeaturesResponse,
   deleteFeaturesResponse,
   applyEditsResponse
-} from "./mocks/feature";
+} from "./mocks/feature.js";
 
 const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";

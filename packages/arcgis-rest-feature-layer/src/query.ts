@@ -16,7 +16,7 @@ import {
   IStatisticDefinition
 } from "@esri/arcgis-rest-types";
 
-import { IGetLayerOptions, ISharedQueryOptions } from "./helpers";
+import { IGetLayerOptions, ISharedQueryOptions } from "./helpers.js";
 
 /**
  * Request options to fetch a feature by id.

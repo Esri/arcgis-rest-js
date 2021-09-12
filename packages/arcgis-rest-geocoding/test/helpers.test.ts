@@ -2,8 +2,8 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { getGeocodeService } from "../src/helpers";
-import { SharingInfo } from "./mocks/responses";
+import { getGeocodeService } from "../src/helpers.js";
+import { SharingInfo } from "./mocks/responses.js";
 
 const customGeocoderUrl =
   "https://foo.com/arcgis/rest/services/Custom/GeocodeServer/";

@@ -1,7 +1,7 @@
 import fetchMock from "fetch-mock";
-import { getAllLayersAndTables } from "../src/getAllLayersAndTables";
+import { getAllLayersAndTables } from "../src/getAllLayersAndTables.js";
 
-import { allLayersAndTablesResponse } from "./mocks/allLayersAndTablesResponse";
+import { allLayersAndTablesResponse } from "./mocks/allLayersAndTablesResponse.js";
 
 const layerUrlBase =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer";

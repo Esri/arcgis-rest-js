@@ -227,14 +227,6 @@ export interface IExtent {
 /**
  *
  */
-export interface IHasZM {
-  hasZ?: boolean;
-  hasM?: boolean;
-}
-
-/**
- *
- */
 export type JsonCurve = ICircularArc | IArc | IOldCircularArc | IBezierCurve;
 
 /**

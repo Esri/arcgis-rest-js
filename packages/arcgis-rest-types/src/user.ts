@@ -1,7 +1,7 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IGroup } from "./group";
+import { IGroup } from "./group.js";
 
 /**
  * An ArcGIS Online or Enterprise user

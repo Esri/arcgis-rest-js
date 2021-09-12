@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { queryDemographicData } from "../src/queryDemographicData";
+import { queryDemographicData } from "../src/queryDemographicData.js";
 
 const MOCK_AUTH = {
   getToken() {

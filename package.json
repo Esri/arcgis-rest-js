@@ -210,5 +210,8 @@
     "./packages/arcgis-rest-fetch",
     "./packages/arcgis-rest-form-data",
     "./demos/*"
-  ]
+  ],
+  "dependencies": {
+    "prettier-package-json": "^2.6.0"
+  }
 }

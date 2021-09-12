@@ -2,8 +2,8 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { bulkGeocode } from "../src/bulk";
-import { GeocodeAddresses } from "./mocks/responses";
+import { bulkGeocode } from "../src/bulk.js";
+import { GeocodeAddresses } from "./mocks/responses.js";
 
 const addresses = [
   {

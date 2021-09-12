@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
-import { IGetLayerOptions, IEditFeatureResult } from "./helpers";
+import { IGetLayerOptions, IEditFeatureResult } from "./helpers.js";
 
 /**
  * Request options to for updating a related attachment to a feature by id. See [Update Attachment](https://developers.arcgis.com/rest/services-reference/update-attachment.htm) for more information.

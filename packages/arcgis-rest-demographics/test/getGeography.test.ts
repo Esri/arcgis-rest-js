@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { getGeography } from "../src/getGeography";
+import { getGeography } from "../src/getGeography.js";
 
 const MOCK_AUTH = {
   getToken() {

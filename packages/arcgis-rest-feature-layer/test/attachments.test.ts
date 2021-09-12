@@ -2,6 +2,7 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
+import { attachmentFile } from "../../../scripts/test-helpers.js";
 import {
   getAttachments,
   IGetAttachmentsOptions,
@@ -11,7 +12,7 @@ import {
   IUpdateAttachmentOptions,
   deleteAttachments,
   IDeleteAttachmentsOptions
-} from "../src/index";
+} from "../src/index.js";
 
 import {
   getAttachmentsResponse,
@@ -19,19 +20,8 @@ import {
   updateAttachmentResponse,
   deleteAttachmentsResponse,
   genericInvalidResponse
-} from "./mocks/feature";
-
-export function attachmentFile(): any {
-  if (typeof File !== "undefined" && File) {
-    return new File(["foo"], "foo.txt", { type: "text/plain" });
-  } else {
-    const fs = require("fs");
-    return fs.createReadStream(
-      "./packages/arcgis-rest-feature-layer/test/mocks/foo.txt"
-    );
-  }
-}
-
+} from "./mocks/feature.js";
+import { FormData } from "@esri/arcgis-rest-form-data";
 const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
 

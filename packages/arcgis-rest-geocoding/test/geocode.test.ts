@@ -2,12 +2,12 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { geocode } from "../src/geocode";
+import { geocode } from "../src/geocode.js";
 import {
   FindAddressCandidates,
   FindAddressCandidates3857,
   FindAddressCandidatesNullExtent
-} from "./mocks/responses";
+} from "./mocks/responses.js";
 
 const customGeocoderUrl =
   "https://foo.com/arcgis/rest/services/Custom/GeocodeServer/";
