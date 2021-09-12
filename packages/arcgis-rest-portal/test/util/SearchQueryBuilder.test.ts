@@ -1,18 +1,18 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { SearchQueryBuilder } from "../../src/util/SearchQueryBuilder";
+import { SearchQueryBuilder } from "../../src/util/SearchQueryBuilder.js";
 
 describe("SearchQueryBuilder", () => {
   const originalWarn = console.warn;
 
-  beforeAll(function() {
+  beforeAll(function () {
     console.warn = jasmine.createSpy().and.callFake(() => {
       return;
     });
   });
 
-  afterAll(function() {
+  afterAll(function () {
     console.warn = originalWarn;
   });
 
@@ -27,10 +27,7 @@ describe("SearchQueryBuilder", () => {
   });
 
   it("should format a simple search query in a field", () => {
-    const query = new SearchQueryBuilder()
-      .match("test")
-      .in("tags")
-      .toParam();
+    const query = new SearchQueryBuilder().match("test").in("tags").toParam();
     expect(query).toEqual("tags:test");
   });
 
@@ -40,18 +37,12 @@ describe("SearchQueryBuilder", () => {
   });
 
   it("should accept .in() without a parameter", () => {
-    const query = new SearchQueryBuilder()
-      .match("test")
-      .in()
-      .toParam();
+    const query = new SearchQueryBuilder().match("test").in().toParam();
     expect(query).toEqual(`test`);
   });
 
   it("should accept `*` as a value for .in()", () => {
-    const query = new SearchQueryBuilder()
-      .match("test")
-      .in("*")
-      .toParam();
+    const query = new SearchQueryBuilder().match("test").in("*").toParam();
     expect(query).toEqual(`test`);
   });
 
@@ -100,10 +91,7 @@ describe("SearchQueryBuilder", () => {
   });
 
   it("should boost the previous search", () => {
-    const query = new SearchQueryBuilder()
-      .match("test")
-      .boost(5)
-      .toParam();
+    const query = new SearchQueryBuilder().match("test").boost(5).toParam();
     expect(query).toEqual("test^5");
   });
 
@@ -181,11 +169,7 @@ describe("SearchQueryBuilder", () => {
       .in("type")
       .endGroup();
 
-    const myTestAppsQuery = myAppsQuery
-      .clone()
-      .and()
-      .match("test")
-      .in("*");
+    const myTestAppsQuery = myAppsQuery.clone().and().match("test").in("*");
 
     expect(myAppsQuery.toParam()).toEqual(
       `owner:fred AND (type:"Web Mapping Application" OR type:"Mobile Application" OR type:Application)`
@@ -197,42 +181,28 @@ describe("SearchQueryBuilder", () => {
   });
 
   it("should not allow trailing modifiers, and warn user", () => {
-    const query = new SearchQueryBuilder()
-      .match("test")
-      .not()
-      .toParam();
+    const query = new SearchQueryBuilder().match("test").not().toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("test");
   });
 
   it("should not allow chains of logic modifiers, and warn user", () => {
-    const query = new SearchQueryBuilder()
-      .and()
-      .or()
-      .or()
-      .toParam();
+    const query = new SearchQueryBuilder().and().or().or().toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("");
   });
 
   it("should not allow chains of logic modifiers after a .match, and warn user", () => {
-    const query = new SearchQueryBuilder()
-      .match("test")
-      .not()
-      .and()
-      .toParam();
+    const query = new SearchQueryBuilder().match("test").not().and().toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("test");
   });
 
   it("should close groups on toParam(), and warn user", () => {
-    const query = new SearchQueryBuilder()
-      .startGroup()
-      .match("test")
-      .toParam();
+    const query = new SearchQueryBuilder().startGroup().match("test").toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("(test)");
@@ -262,50 +232,35 @@ describe("SearchQueryBuilder", () => {
   });
 
   it("should not allow .in() without valid term or range and warn user", () => {
-    const query = new SearchQueryBuilder()
-      .in("tags")
-      .in("title")
-      .toParam();
+    const query = new SearchQueryBuilder().in("tags").in("title").toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("");
   });
 
   it("should not allow .in() with only .from() and warn user", () => {
-    const query = new SearchQueryBuilder()
-      .from("a")
-      .in("title")
-      .toParam();
+    const query = new SearchQueryBuilder().from("a").in("title").toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("");
   });
 
   it("should not allow .in() with only .to() and warn user", () => {
-    const query = new SearchQueryBuilder()
-      .to("a")
-      .in("title")
-      .toParam();
+    const query = new SearchQueryBuilder().to("a").in("title").toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("");
   });
 
   it("should not allow .to() after a .match() and warn user", () => {
-    const query = new SearchQueryBuilder()
-      .match("test")
-      .to("a")
-      .toParam();
+    const query = new SearchQueryBuilder().match("test").to("a").toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("test");
   });
 
   it("should not allow .to() after a .match() and warn user", () => {
-    const query = new SearchQueryBuilder()
-      .match("test")
-      .from("a")
-      .toParam();
+    const query = new SearchQueryBuilder().match("test").from("a").toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("test");

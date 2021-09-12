@@ -1,8 +1,8 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import fetchMock from "fetch-mock";
 import { getGeocodeService } from "../src/helpers";
-import * as fetchMock from "fetch-mock";
 import { SharingInfo } from "./mocks/responses";
 
 const customGeocoderUrl =
@@ -11,11 +11,11 @@ const customGeocoderUrl =
 describe("geocode", () => {
   afterEach(fetchMock.restore);
 
-  it("should retrieve metadata from the World Geocoding Service", done => {
+  it("should retrieve metadata from the World Geocoding Service", (done) => {
     fetchMock.once("*", SharingInfo);
 
     getGeocodeService()
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -29,16 +29,16 @@ describe("geocode", () => {
         );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make POST request for metadata from the World Geocoding Service", done => {
+  it("should make POST request for metadata from the World Geocoding Service", (done) => {
     fetchMock.once("*", SharingInfo);
 
     getGeocodeService({ httpMethod: "POST" })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -54,16 +54,16 @@ describe("geocode", () => {
         );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should retrieve metadata from custom geocoding services", done => {
+  it("should retrieve metadata from custom geocoding services", (done) => {
     fetchMock.once("*", SharingInfo);
 
     getGeocodeService({ endpoint: customGeocoderUrl })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -78,7 +78,7 @@ describe("geocode", () => {
         );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

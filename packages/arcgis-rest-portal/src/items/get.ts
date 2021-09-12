@@ -8,15 +8,15 @@ import {
 } from "@esri/arcgis-rest-request";
 import { IItem, IGroup } from "@esri/arcgis-rest-types";
 
-import { getPortalUrl } from "../util/get-portal-url";
-import { scrubControlChars } from '../util/scrub-control-chars';
+import { getPortalUrl } from "../util/get-portal-url.js";
+import { scrubControlChars } from "../util/scrub-control-chars.js";
 import {
   IItemDataOptions,
   IItemRelationshipOptions,
   IUserItemOptions,
   determineOwner,
   FetchReadMethodName
-} from "./helpers";
+} from "./helpers.js";
 
 /**
  * ```
@@ -95,7 +95,7 @@ export function getItemData(
     options.params.f = null;
   }
 
-  return request(url, options).catch(err => {
+  return request(url, options).catch((err) => {
     /* if the item doesn't include data, the response will be empty
        and the internal call to response.json() will fail */
     const emptyResponseErr = RegExp(
@@ -226,10 +226,14 @@ export function getItemResource(
   itemId: string,
   requestOptions: IGetItemResourceOptions
 ) {
-  const readAs = requestOptions.readAs || 'blob';
-  return getItemFile(itemId, `/resources/${requestOptions.fileName}`, readAs, requestOptions);
+  const readAs = requestOptions.readAs || "blob";
+  return getItemFile(
+    itemId,
+    `/resources/${requestOptions.fileName}`,
+    readAs,
+    requestOptions
+  );
 }
-
 
 /**
  * ```js
@@ -293,7 +297,7 @@ export interface IGetItemStatusResponse {
 export function getItemStatus(
   requestOptions: IItemStatusOptions
 ): Promise<IGetItemStatusResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/status`;
@@ -331,7 +335,7 @@ export interface IGetItemPartsResponse {
 export function getItemParts(
   requestOptions: IUserItemOptions
 ): Promise<IGetItemPartsResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/parts`;
@@ -426,12 +430,14 @@ function getItemFile(
   options.rawResponse = true;
   options.params.f = null;
 
-  return request(url, options).then(response => {
+  return request(url, options).then((response) => {
     if (justReturnResponse) {
       return response;
     }
-    return readMethod !== 'json'
+    return readMethod !== "json"
       ? response[readMethod]()
-      : response.text().then((text: string) => JSON.parse(scrubControlChars(text)));
+      : response
+          .text()
+          .then((text: string) => JSON.parse(scrubControlChars(text)));
   });
 }

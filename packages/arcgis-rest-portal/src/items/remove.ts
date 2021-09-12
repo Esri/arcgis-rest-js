@@ -3,14 +3,14 @@
 
 import { request, appendCustomParams } from "@esri/arcgis-rest-request";
 
-import { getPortalUrl } from "../util/get-portal-url";
+import { getPortalUrl } from "../util/get-portal-url.js";
 import {
   IUserItemOptions,
   IRemoveItemResourceOptions,
   IFolderIdOptions,
   determineOwner,
   IManageItemRelationshipOptions
-} from "./helpers";
+} from "./helpers.js";
 
 /**
  * ```js
@@ -29,7 +29,7 @@ import {
 export function removeItem(
   requestOptions: IUserItemOptions
 ): Promise<{ success: boolean; itemId: string }> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/delete`;
@@ -57,7 +57,7 @@ export function removeItem(
 export function removeItemRelationship(
   requestOptions: IManageItemRelationshipOptions
 ): Promise<{ success: boolean }> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(
       requestOptions
     )}/content/users/${owner}/deleteRelationship`;
@@ -81,7 +81,7 @@ export function removeItemRelationship(
 export function removeItemResource(
   requestOptions: IRemoveItemResourceOptions
 ): Promise<{ success: boolean }> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/removeResources`;
@@ -120,9 +120,7 @@ export function removeItemResource(
  * @param requestOptions - Options for the request
  * @returns A Promise that deletes a folder
  */
-export function removeFolder(
-  requestOptions: IFolderIdOptions
-): Promise<{
+export function removeFolder(requestOptions: IFolderIdOptions): Promise<{
   success: boolean;
   folder: {
     username: string;
@@ -130,7 +128,7 @@ export function removeFolder(
     title: string;
   };
 }> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(
       requestOptions
     )}/content/users/${encodeURIComponent(owner)}/${

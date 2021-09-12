@@ -1,14 +1,13 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import fetchMock from "fetch-mock";
 import {
   addGroupUsers,
-  IAddGroupUsersOptions,
-} from "../../src/groups/add-users";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { encodeParam } from "@esri/arcgis-rest-request";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import * as fetchMock from "fetch-mock";
+  IAddGroupUsersOptions
+} from "../../src/groups/add-users.js";
+import { UserSession, encodeParam } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 function createUsernames(start: number, end: number): string[] {
   const usernames = [];
@@ -31,7 +30,7 @@ describe("add-users", () => {
     refreshTokenTTL: 1440,
     username: "casey",
     password: "123456",
-    portal: "https://myorg.maps.arcgis.com/sharing/rest",
+    portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
 
   afterEach(fetchMock.restore);
@@ -41,7 +40,7 @@ describe("add-users", () => {
 
     const responses = [
       { notAdded: ["username1"] },
-      { notAdded: ["username30"] },
+      { notAdded: ["username30"] }
     ];
 
     fetchMock.post("*", (url, options) => {
@@ -61,7 +60,7 @@ describe("add-users", () => {
     const params = {
       id: "group-id",
       users: createUsernames(0, 35),
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     };
 
     addGroupUsers(params)
@@ -80,7 +79,7 @@ describe("add-users", () => {
 
     const responses = [
       { notAdded: ["username1"] },
-      { notAdded: ["username30"] },
+      { notAdded: ["username30"] }
     ];
 
     fetchMock.post("*", (url, options) => {
@@ -100,7 +99,7 @@ describe("add-users", () => {
     const params = {
       id: "group-id",
       admins: createUsernames(0, 35),
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     };
 
     addGroupUsers(params)
@@ -117,7 +116,7 @@ describe("add-users", () => {
   it("should send separate requests for users and admins", (done) => {
     const requests = [
       encodeParam("users", ["username1", "username2"]),
-      encodeParam("admins", ["username3"]),
+      encodeParam("admins", ["username3"])
     ];
 
     fetchMock.post("*", (url, options) => {
@@ -136,7 +135,7 @@ describe("add-users", () => {
       id: "group-id",
       users: ["username1", "username2"],
       admins: ["username3"],
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     };
 
     addGroupUsers(params)
@@ -156,17 +155,17 @@ describe("add-users", () => {
         error: {
           code: 400,
           messageCode: "ORG_3100",
-          message: "error message for add-user request",
-        },
+          message: "error message for add-user request"
+        }
       },
       { notAdded: ["username30"] },
       {
         error: {
           code: 400,
           messageCode: "ORG_3200",
-          message: "error message for add-admin request",
-        },
-      },
+          message: "error message for add-admin request"
+        }
+      }
     ];
 
     fetchMock.post("*", () => responses.shift());
@@ -175,7 +174,7 @@ describe("add-users", () => {
       id: "group-id",
       users: createUsernames(0, 30),
       admins: createUsernames(30, 60),
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     };
 
     addGroupUsers(params)
@@ -223,7 +222,7 @@ describe("add-users", () => {
       id: "group-id",
       users: [],
       admins: [],
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     };
     fetchMock.post("*", () => 200);
     addGroupUsers(params)

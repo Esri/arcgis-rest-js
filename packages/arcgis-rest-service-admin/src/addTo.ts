@@ -1,9 +1,12 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, cleanUrl } from "@esri/arcgis-rest-request";
+import {
+  request,
+  cleanUrl,
+  IUserRequestOptions
+} from "@esri/arcgis-rest-request";
 import { ILayer, ILayerDefinition, ITable } from "@esri/arcgis-rest-types";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 export interface IAddToServiceDefinitionOptions extends IUserRequestOptions {
   /**

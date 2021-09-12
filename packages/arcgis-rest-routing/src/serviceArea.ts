@@ -4,22 +4,22 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
+  appendCustomParams
 } from "@esri/arcgis-rest-request";
 
 import {
   ILocation,
   IPoint,
   IFeature,
-  IFeatureSet,
+  IFeatureSet
 } from "@esri/arcgis-rest-types";
 
 import {
   ARCGIS_ONLINE_SERVICE_AREA_URL,
   IEndpointOptions,
   normalizeLocationsList,
-  isFeatureSet,
-} from "./helpers";
+  isFeatureSet
+} from "./helpers.js";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
 
@@ -98,7 +98,7 @@ export function serviceArea(
     returnPolylineBarriers: true,
     returnPolygonBarriers: true,
     preserveObjectID: true,
-    ...requestOptions.params,
+    ...requestOptions.params
   };
 
   const options = appendCustomParams<IServiceAreaOptions>(requestOptions, [
@@ -110,7 +110,7 @@ export function serviceArea(
     "returnBarriers",
     "returnPolylineBarriers",
     "returnPolygonBarriers",
-    "preserveObjectID",
+    "preserveObjectID"
   ]);
 
   // Set travelDirection
@@ -169,5 +169,5 @@ function cleanResponse(res: any): IServiceAreaResponse {
 }
 
 export default {
-  serviceArea,
+  serviceArea
 };

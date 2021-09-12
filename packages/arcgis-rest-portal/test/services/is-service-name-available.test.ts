@@ -1,10 +1,10 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as fetchMock from "fetch-mock";
-import { isServiceNameAvailable } from "../../src/services/is-service-name-available";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
+import fetchMock from "fetch-mock";
+import { isServiceNameAvailable } from "../../src/services/is-service-name-available.js";
+import { UserSession } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("is-service-name-available", () => {
   const MOCK_USER_SESSION = new UserSession({

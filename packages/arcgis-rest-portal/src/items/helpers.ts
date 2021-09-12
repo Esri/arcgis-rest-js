@@ -1,9 +1,11 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions, ArcGISRequestError } from "@esri/arcgis-rest-request";
+import {
+  IRequestOptions,
+  IUserRequestOptions
+} from "@esri/arcgis-rest-request";
 import { IItemAdd, IItemUpdate, IItem } from "@esri/arcgis-rest-types";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 
 /**
  * Base options interface for making authenticated requests for items.
@@ -56,7 +58,7 @@ export type ItemRelationshipType =
   | "TrackView2Map"
   | "WebStyle2DesktopStyle"
   | "WMA2Code"
-  | "WorkforceMap2FeatureService"
+  | "WorkforceMap2FeatureService";
 
 /**
  * Names of methods for reading the body of a fetch response, see:

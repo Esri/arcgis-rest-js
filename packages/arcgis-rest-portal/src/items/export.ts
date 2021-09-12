@@ -1,9 +1,17 @@
 import { request } from "@esri/arcgis-rest-request";
-import { determineOwner, IUserItemOptions } from './helpers';
-import { getPortalUrl } from "../util/get-portal-url";
-import { ISpatialReference } from '@esri/arcgis-rest-types';
+import { determineOwner, IUserItemOptions } from "./helpers.js";
+import { getPortalUrl } from "../util/get-portal-url.js";
+import { ISpatialReference } from "@esri/arcgis-rest-types";
 
-type ExportFormat = 'Shapefile' | 'CSV' | 'File Geodatabase' | 'Feature Collection' | 'GeoJson' | 'Scene Package' | 'KML' | 'Excel';
+type ExportFormat =
+  | "Shapefile"
+  | "CSV"
+  | "File Geodatabase"
+  | "Feature Collection"
+  | "GeoJson"
+  | "Scene Package"
+  | "KML"
+  | "Excel";
 
 export interface IExportLayerInfo {
   id: number;
@@ -55,7 +63,9 @@ export interface IExportItemResponse {
  * @param requestOptions - Options for the request
  * @returns A Promise<IExportItemResponse>
  */
-export const exportItem = (requestOptions: IExportItemRequestOptions) : Promise<IExportItemResponse> => {
+export const exportItem = (
+  requestOptions: IExportItemRequestOptions
+): Promise<IExportItemResponse> => {
   const {
     authentication,
     id: itemId,
@@ -65,9 +75,12 @@ export const exportItem = (requestOptions: IExportItemRequestOptions) : Promise<
   } = requestOptions;
 
   return determineOwner(requestOptions)
-    .then(owner => `${getPortalUrl(requestOptions)}/content/users/${owner}/export`)
-    .then(url => request(url, {
-        httpMethod: 'POST',
+    .then(
+      (owner) => `${getPortalUrl(requestOptions)}/content/users/${owner}/export`
+    )
+    .then((url) =>
+      request(url, {
+        httpMethod: "POST",
         authentication,
         params: {
           itemId,
@@ -77,4 +90,4 @@ export const exportItem = (requestOptions: IExportItemRequestOptions) : Promise<
         }
       })
     );
-}
+};

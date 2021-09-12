@@ -1,20 +1,22 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as fetchMock from "fetch-mock";
-
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { encodeParam, ErrorTypes } from "@esri/arcgis-rest-request";
+import fetchMock from "fetch-mock";
+import { TOMORROW } from "../../../scripts/test-helpers.js";
+import {
+  encodeParam,
+  ErrorTypes,
+  UserSession
+} from "@esri/arcgis-rest-request";
 import { ILayer, ITable } from "@esri/arcgis-rest-types";
-import { addToServiceDefinition } from "../src/addTo";
+import { addToServiceDefinition } from "../src/addTo.js";
 import {
   AddToFeatureServiceSuccessResponseFredAndGinger,
   AddToFeatureServiceSuccessResponseFayardAndHarold,
   AddToFeatureServiceSuccessResponseCydAndGene,
-  AddToFeatureServiceError,
-} from "./mocks/service";
-import { layerDefinitionSid } from "./mocks/layerDefinition";
+  AddToFeatureServiceError
+} from "./mocks/service.js";
+import { layerDefinitionSid } from "./mocks/layerDefinition.js";
 
 describe("add to feature service", () => {
   afterEach(fetchMock.restore);
@@ -31,55 +33,55 @@ describe("add to feature service", () => {
       refreshTokenTTL: 1440,
       username: "casey",
       password: "123456",
-      portal: "https://myorg.maps.arcgis.com/sharing/rest",
+      portal: "https://myorg.maps.arcgis.com/sharing/rest"
     });
 
     const MOCK_USER_REQOPTS = {
-      authentication: MOCK_USER_SESSION,
+      authentication: MOCK_USER_SESSION
     };
 
     const layerDescriptionFred: ILayer = {
       name: "Fred",
       id: "1899",
-      layerType: "Feature Layer",
+      layerType: "Feature Layer"
     };
 
     const layerDescriptionGinger: ILayer = {
       name: "Ginger",
       id: "1911",
-      layerType: "Feature Layer",
+      layerType: "Feature Layer"
     };
 
     const layerDescriptionCyd: ILayer = {
       name: "Cyd",
       id: "1922",
-      layerType: "Feature Layer",
+      layerType: "Feature Layer"
     };
 
     const layerDescriptionFail: ILayer = {
       name: "",
       id: "",
-      layerType: "Feature Layer",
+      layerType: "Feature Layer"
     };
 
     const tableDescriptionFayard: ITable = {
       name: "Fayard",
-      id: 1914,
+      id: 1914
     };
 
     const tableDescriptionHarold: ITable = {
       name: "Harold",
-      id: 1921,
+      id: 1921
     };
 
     const tableDescriptionGene: ITable = {
       name: "Gene",
-      id: 1912,
+      id: 1912
     };
 
     const tableDescriptionFail: ITable = {
       name: "",
-      id: 0,
+      id: 0
     };
 
     it("should add a pair of layers", (done) => {
@@ -89,16 +91,15 @@ describe("add to feature service", () => {
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
         {
           layers: [layerDescriptionFred, layerDescriptionGinger],
-          ...MOCK_USER_REQOPTS,
+          ...MOCK_USER_REQOPTS
         }
       )
         .then(
           (response) => {
             // Check service call
             expect(fetchMock.called()).toEqual(true);
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-              "*"
-            );
+            const [url, options]: [string, RequestInit] =
+              fetchMock.lastCall("*");
 
             expect(url).toEqual(
               "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/addToDefinition"
@@ -110,7 +111,7 @@ describe("add to feature service", () => {
               encodeParam(
                 "addToDefinition",
                 JSON.stringify({
-                  layers: [layerDescriptionFred, layerDescriptionGinger],
+                  layers: [layerDescriptionFred, layerDescriptionGinger]
                 })
               )
             );
@@ -138,16 +139,15 @@ describe("add to feature service", () => {
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
         {
           tables: [tableDescriptionFayard, tableDescriptionHarold],
-          ...MOCK_USER_REQOPTS,
+          ...MOCK_USER_REQOPTS
         }
       )
         .then(
           (response) => {
             // Check service call
             expect(fetchMock.called()).toEqual(true);
-            const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-              "*"
-            );
+            const [url, options]: [string, RequestInit] =
+              fetchMock.lastCall("*");
 
             expect(url).toEqual(
               "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/addToDefinition"
@@ -159,7 +159,7 @@ describe("add to feature service", () => {
               encodeParam(
                 "addToDefinition",
                 JSON.stringify({
-                  tables: [tableDescriptionFayard, tableDescriptionHarold],
+                  tables: [tableDescriptionFayard, tableDescriptionHarold]
                 })
               )
             );
@@ -188,7 +188,7 @@ describe("add to feature service", () => {
         {
           layers: [layerDescriptionCyd],
           tables: [tableDescriptionGene],
-          ...MOCK_USER_REQOPTS,
+          ...MOCK_USER_REQOPTS
         }
       )
         .then((response) => {
@@ -207,7 +207,7 @@ describe("add to feature service", () => {
               "addToDefinition",
               JSON.stringify({
                 layers: [layerDescriptionCyd],
-                tables: [tableDescriptionGene],
+                tables: [tableDescriptionGene]
               })
             )
           );
@@ -230,7 +230,7 @@ describe("add to feature service", () => {
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
         {
           layers: [layerDefinitionSid],
-          ...MOCK_USER_REQOPTS,
+          ...MOCK_USER_REQOPTS
         }
       )
         .then((response) => {
@@ -248,7 +248,7 @@ describe("add to feature service", () => {
             encodeParam(
               "addToDefinition",
               JSON.stringify({
-                layers: [layerDefinitionSid],
+                layers: [layerDefinitionSid]
               })
             )
           );
@@ -271,7 +271,7 @@ describe("add to feature service", () => {
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
         {
           layers: [layerDescriptionFail],
-          ...MOCK_USER_REQOPTS,
+          ...MOCK_USER_REQOPTS
         }
       ).catch((error) => {
         expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
@@ -284,7 +284,7 @@ describe("add to feature service", () => {
         );
         // params added internally aren't surfaced in the error
         expect(error.options.params.addToDefinition).toEqual({
-          layers: [layerDescriptionFail],
+          layers: [layerDescriptionFail]
         });
         expect(error.options.httpMethod).toEqual("POST");
         done();
@@ -298,7 +298,7 @@ describe("add to feature service", () => {
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
         {
           tables: [tableDescriptionFail],
-          ...MOCK_USER_REQOPTS,
+          ...MOCK_USER_REQOPTS
         }
       ).catch((error) => {
         expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
@@ -311,7 +311,7 @@ describe("add to feature service", () => {
         );
         // params added internally aren't surfaced in the error
         expect(error.options.params.addToDefinition).toEqual({
-          tables: [tableDescriptionFail],
+          tables: [tableDescriptionFail]
         });
         expect(error.options.httpMethod).toEqual("POST");
         done();
@@ -326,7 +326,7 @@ describe("add to feature service", () => {
         {
           layers: [layerDescriptionFail],
           tables: [tableDescriptionFail],
-          ...MOCK_USER_REQOPTS,
+          ...MOCK_USER_REQOPTS
         }
       ).catch((error) => {
         expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
@@ -340,7 +340,7 @@ describe("add to feature service", () => {
         // params added internally aren't surfaced in the error
         expect(error.options.params.addToDefinition).toEqual({
           tables: [tableDescriptionFail],
-          layers: [layerDescriptionFail],
+          layers: [layerDescriptionFail]
         });
         expect(error.options.httpMethod).toEqual("POST");
         done();

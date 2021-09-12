@@ -4,7 +4,7 @@
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItemUpdate } from "@esri/arcgis-rest-types";
 
-import { getPortalUrl } from "../util/get-portal-url";
+import { getPortalUrl } from "../util/get-portal-url.js";
 import {
   ICreateUpdateItemOptions,
   IMoveItemResponse,
@@ -15,7 +15,7 @@ import {
   IUpdateItemResponse,
   serializeItem,
   determineOwner
-} from "./helpers";
+} from "./helpers.js";
 
 export interface IUpdateItemOptions extends ICreateUpdateItemOptions {
   item: IItemUpdate;
@@ -54,10 +54,14 @@ export interface IMoveItemOptions extends ICreateUpdateItemOptions {
 export function updateItem(
   requestOptions: IUpdateItemOptions
 ): Promise<IUpdateItemResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = requestOptions.folderId
-      ? `${getPortalUrl(requestOptions)}/content/users/${owner}/${requestOptions.folderId}/items/${requestOptions.item.id}/update`
-      : `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${requestOptions.item.id}/update`;
+      ? `${getPortalUrl(requestOptions)}/content/users/${owner}/${
+          requestOptions.folderId
+        }/items/${requestOptions.item.id}/update`
+      : `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+          requestOptions.item.id
+        }/update`;
 
     // serialize the item into something Portal will accept
     requestOptions.params = {
@@ -88,7 +92,7 @@ export function updateItem(
 export function updateItemInfo(
   requestOptions: IItemInfoOptions
 ): Promise<IItemInfoResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(
       requestOptions as IRequestOptions
     )}/content/users/${owner}/items/${requestOptions.id}/updateinfo`;
@@ -124,7 +128,7 @@ export function updateItemInfo(
 export function updateItemResource(
   requestOptions: IItemResourceOptions
 ): Promise<IItemResourceResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(
       requestOptions as IRequestOptions
     )}/content/users/${owner}/items/${requestOptions.id}/updateResources`;
@@ -166,7 +170,7 @@ export function updateItemResource(
 export function moveItem(
   requestOptions: IMoveItemOptions
 ): Promise<IMoveItemResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.itemId
     }/move`;

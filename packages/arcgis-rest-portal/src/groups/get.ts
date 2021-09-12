@@ -7,7 +7,7 @@ import {
   appendCustomParams
 } from "@esri/arcgis-rest-request";
 import { IPagingParams, IGroup, IItem, IUser } from "@esri/arcgis-rest-types";
-import { getPortalUrl } from "../util/get-portal-url";
+import { getPortalUrl } from "../util/get-portal-url.js";
 
 export interface IGroupCategorySchema {
   categorySchema: IGroupCategory[];

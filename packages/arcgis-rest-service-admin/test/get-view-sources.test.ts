@@ -1,10 +1,10 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import * as fetchMock from "fetch-mock";
-import { getViewSources } from "../src/get-view-sources";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
+import fetchMock from "fetch-mock";
+import { getViewSources } from "../src/get-view-sources.js";
+import { UserSession } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../scripts/test-helpers.js";
 
 describe("get-view-sources: ", () => {
   const MOCK_USER_SESSION = new UserSession({
@@ -17,7 +17,7 @@ describe("get-view-sources: ", () => {
     refreshTokenTTL: 1440,
     username: "casey",
     password: "123456",
-    portal: "https://myorg.maps.arcgis.com/sharing/rest",
+    portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
   it("makes request to the admin url", () => {
     fetchMock.once("*", { currentVersion: 1234 }, { method: "POST" });

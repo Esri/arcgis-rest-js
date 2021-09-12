@@ -1,15 +1,15 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import fetchMock from "fetch-mock";
+
 import {
   inviteGroupUsers,
-  IInviteGroupUsersOptions,
-} from "../../src/groups/invite-users";
+  IInviteGroupUsersOptions
+} from "../../src/groups/invite-users.js";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { encodeParam } from "@esri/arcgis-rest-request";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import * as fetchMock from "fetch-mock";
+import { encodeParam, UserSession } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 function createUsernames(start: number, end: number): string[] {
   const usernames = [];
@@ -32,7 +32,7 @@ describe("invite-users", () => {
     refreshTokenTTL: 1440,
     username: "casey",
     password: "123456",
-    portal: "https://myorg.maps.arcgis.com/sharing/rest",
+    portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
 
   afterEach(fetchMock.restore);
@@ -63,7 +63,7 @@ describe("invite-users", () => {
       users: createUsernames(0, 35),
       role: "group_member",
       expiration: 1440,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     };
 
     inviteGroupUsers(params)
@@ -84,9 +84,9 @@ describe("invite-users", () => {
         error: {
           code: 400,
           messageCode: "ORG_3100",
-          message: "error message for add-user request",
-        },
-      },
+          message: "error message for add-user request"
+        }
+      }
     ];
 
     fetchMock.post("*", (url, options) => {
@@ -98,7 +98,7 @@ describe("invite-users", () => {
       users: createUsernames(0, 30),
       role: "group_member",
       expiration: 1440,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     };
 
     inviteGroupUsers(params)
@@ -130,7 +130,7 @@ describe("invite-users", () => {
       role: "group_member",
       expiration: 1440,
       users: [],
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     };
     fetchMock.post("*", () => 200);
     inviteGroupUsers(params)

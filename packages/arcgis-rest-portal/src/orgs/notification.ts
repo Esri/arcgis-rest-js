@@ -3,8 +3,8 @@ import {
   IRequestOptions,
   ArcGISRequestError
 } from "@esri/arcgis-rest-request";
-import { getPortalUrl } from "../util/get-portal-url";
-import { chunk } from "../util/array";
+import { getPortalUrl } from "../util/get-portal-url.js";
+import { chunk } from "../util/array.js";
 
 export interface ICreateOrgNotificationOptions extends IRequestOptions {
   /**
@@ -27,7 +27,7 @@ export interface ICreateOrgNotificationOptions extends IRequestOptions {
   /**
    * How many emails should be sent at a time. Defaults to the max possible (25)
    */
-  batchSize?: number
+  batchSize?: number;
 }
 
 export interface ICreateOrgNotificationResult {
@@ -44,9 +44,9 @@ export interface ICreateOrgNotificationResult {
 /**
  * Send a notification to members of the requesting user's org.
  * Operation success will be indicated by a flag on the return
- * object. If there are any errors, they will be placed in an 
+ * object. If there are any errors, they will be placed in an
  * errors array on the return object
- * 
+ *
  * ```js
  * const authentication: IAuthenticationManager; // Typically passed into to the function
  * //
@@ -73,10 +73,10 @@ export interface ICreateOrgNotificationResult {
  *
  * @returns {ICreateOrgNotificationResult}
  */
-export function createOrgNotification (options: ICreateOrgNotificationOptions) {
+export function createOrgNotification(options: ICreateOrgNotificationOptions) {
   const url = `${getPortalUrl(options)}/portals/self/createNotification`;
   const batches = _generateBatchRequests(options);
-  const promises = batches.map(batch => _sendSafeRequest(url, batch));
+  const promises = batches.map((batch) => _sendSafeRequest(url, batch));
 
   return Promise.all(promises).then(_combineResults);
 }
@@ -84,42 +84,60 @@ export function createOrgNotification (options: ICreateOrgNotificationOptions) {
 /**
  * @private
  */
-function _generateBatchRequests(options: ICreateOrgNotificationOptions): IRequestOptions[] {
-  const userBatches: string[][] = chunk<string>(options.users, options.batchSize || 25);
-  return userBatches.map(users => _generateRequestOptions(users, options));
+function _generateBatchRequests(
+  options: ICreateOrgNotificationOptions
+): IRequestOptions[] {
+  const userBatches: string[][] = chunk<string>(
+    options.users,
+    options.batchSize || 25
+  );
+  return userBatches.map((users) => _generateRequestOptions(users, options));
 }
 
 /**
  * @private
  */
-function _generateRequestOptions(users: string[], baseOptions: ICreateOrgNotificationOptions): IRequestOptions {
-  const requestOptions: ICreateOrgNotificationOptions = Object.assign({}, baseOptions);
+function _generateRequestOptions(
+  users: string[],
+  baseOptions: ICreateOrgNotificationOptions
+): IRequestOptions {
+  const requestOptions: ICreateOrgNotificationOptions = Object.assign(
+    {},
+    baseOptions
+  );
 
   requestOptions.params = {
     ...requestOptions.params,
     users,
     subject: baseOptions.subject,
     message: baseOptions.message,
-    notificationChannelType: requestOptions.notificationChannelType,
-  }
-  
+    notificationChannelType: requestOptions.notificationChannelType
+  };
+
   return requestOptions;
 }
 
 /**
- * @private 
+ * @private
  */
-function _sendSafeRequest(url: string,requestOptions: IRequestOptions): Promise<ICreateOrgNotificationResult> {
-  return request(url, requestOptions)
-    .catch(error => ({ errors: [error] }));
+function _sendSafeRequest(
+  url: string,
+  requestOptions: IRequestOptions
+): Promise<ICreateOrgNotificationResult> {
+  return request(url, requestOptions).catch((error) => ({ errors: [error] }));
 }
 
 /**
- * @private 
+ * @private
  */
-function _combineResults(responses: ICreateOrgNotificationResult[]): ICreateOrgNotificationResult {
-  const success = responses.every(res => res.success);
-  const errors: ArcGISRequestError[] = responses.reduce((collection, res) => collection.concat(res.errors || []), []);
+function _combineResults(
+  responses: ICreateOrgNotificationResult[]
+): ICreateOrgNotificationResult {
+  const success = responses.every((res) => res.success);
+  const errors: ArcGISRequestError[] = responses.reduce(
+    (collection, res) => collection.concat(res.errors || []),
+    []
+  );
   const combined: ICreateOrgNotificationResult = { success };
 
   if (errors.length > 0) {
@@ -128,4 +146,3 @@ function _combineResults(responses: ICreateOrgNotificationResult[]): ICreateOrgN
 
   return combined;
 }
-

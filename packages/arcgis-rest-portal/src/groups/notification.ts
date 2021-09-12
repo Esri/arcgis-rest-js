@@ -2,9 +2,9 @@
  * Apache-2.0 */
 
 import { request } from "@esri/arcgis-rest-request";
-import { IUserGroupOptions } from "./helpers";
+import { IUserGroupOptions } from "./helpers.js";
 
-import { getPortalUrl } from "../util/get-portal-url";
+import { getPortalUrl } from "../util/get-portal-url.js";
 
 export type NotificationChannelType = "push" | "email" | "builtin";
 

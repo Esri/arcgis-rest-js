@@ -1,6 +1,6 @@
-import { IGroupSharingOptions } from "./helpers";
-import { searchItems } from "../items/search";
-import { ISearchOptions } from "../util/search";
+import { IGroupSharingOptions } from "./helpers.js";
+import { searchItems } from "../items/search.js";
+import { ISearchOptions } from "../util/search.js";
 
 /**
  * ```js
@@ -30,7 +30,7 @@ export function isItemSharedWithGroup(
     httpMethod: "POST"
   } as ISearchOptions;
 
-  return searchItems(searchOpts).then(searchResponse => {
+  return searchItems(searchOpts).then((searchResponse) => {
     let result = false;
     if (searchResponse.total > 0) {
       result = searchResponse.results.some((itm: any) => {

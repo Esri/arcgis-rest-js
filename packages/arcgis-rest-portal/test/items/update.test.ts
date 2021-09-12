@@ -1,27 +1,25 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as fetchMock from "fetch-mock";
-
-import { attachmentFile } from "../../../arcgis-rest-feature-layer/test/attachments.test";
+import fetchMock from "fetch-mock";
 
 import {
   updateItem,
   updateItemInfo,
   updateItemResource,
   moveItem
-} from "../../src/items/update";
+} from "../../src/items/update.js";
 
-import { ItemSuccessResponse } from "../mocks/items/item";
+import { ItemSuccessResponse } from "../mocks/items/item.js";
 
 import {
   UpdateItemResourceResponse,
   UpdateItemInfoResponse
-} from "../mocks/items/resources";
+} from "../mocks/items/resources.js";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { encodeParam } from "@esri/arcgis-rest-request";
+import { attachmentFile, TOMORROW } from "../../../../scripts/test-helpers.js";
+import { encodeParam, UserSession } from "@esri/arcgis-rest-request";
+import { FormData } from "@esri/arcgis-rest-form-data";
 
 describe("search", () => {
   afterEach(fetchMock.restore);
@@ -45,7 +43,7 @@ describe("search", () => {
       authentication: MOCK_USER_SESSION
     };
 
-    it("should update an item, including data", done => {
+    it("should update an item, including data", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         id: "5bc",
@@ -88,12 +86,12 @@ describe("search", () => {
           );
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should update an item with custom params", done => {
+    it("should update an item with custom params", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         id: "5bc",
@@ -120,7 +118,7 @@ describe("search", () => {
           clearEmptyFields: true
         }
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -143,12 +141,12 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("clearEmptyFields", true));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should update an item, including data and service proxy params", done => {
+    it("should update an item, including data and service proxy params", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         id: "5bc",
@@ -180,7 +178,7 @@ describe("search", () => {
         params: { foo: "bar" },
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -209,12 +207,12 @@ describe("search", () => {
           );
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("update an item info file", done => {
+    it("update an item info file", (done) => {
       fetchMock.once("*", UpdateItemInfoResponse);
       const fakeData = {
         values: {
@@ -243,12 +241,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("update an item resource", done => {
+    it("update an item resource", (done) => {
       fetchMock.once("*", UpdateItemResourceResponse);
       updateItemResource({
         id: "3ef",
@@ -276,12 +274,12 @@ describe("search", () => {
           }
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should update a binary resource to an item", done => {
+    it("should update a binary resource to an item", (done) => {
       fetchMock.once("*", { success: true });
       const file = attachmentFile();
 
@@ -310,12 +308,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("update an item resource, no owner passed", done => {
+    it("update an item resource, no owner passed", (done) => {
       fetchMock.once("*", UpdateItemResourceResponse);
       updateItemResource({
         id: "3ef",
@@ -340,12 +338,12 @@ describe("search", () => {
           }
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("update an item resource with extra params", done => {
+    it("update an item resource with extra params", (done) => {
       fetchMock.once("*", UpdateItemResourceResponse);
       updateItemResource({
         id: "3ef",
@@ -374,12 +372,12 @@ describe("search", () => {
           }
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("update an item resource to make it secret", done => {
+    it("update an item resource to make it secret", (done) => {
       fetchMock.once("*", UpdateItemResourceResponse);
       updateItemResource({
         id: "3ef",
@@ -403,12 +401,12 @@ describe("search", () => {
           }
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("update an item resource to spill the beans", done => {
+    it("update an item resource to spill the beans", (done) => {
       fetchMock.once("*", UpdateItemResourceResponse);
       updateItemResource({
         id: "3ef",
@@ -434,12 +432,12 @@ describe("search", () => {
           }
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should move an item to a folder", done => {
+    it("should move an item to a folder", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const itemId = "3ef";
       const folderId = "7c5";
@@ -448,7 +446,7 @@ describe("search", () => {
         folderId,
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -463,19 +461,19 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should move an item to the root folder 1", done => {
+    it("should move an item to the root folder 1", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const itemId = "3ef";
       moveItem({
         itemId,
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -490,12 +488,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should move an item to the root folder 2", done => {
+    it("should move an item to the root folder 2", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const itemId = "3ef";
       const folderId = "";
@@ -504,7 +502,7 @@ describe("search", () => {
         folderId,
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -519,12 +517,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should move an item to the root folder 3", done => {
+    it("should move an item to the root folder 3", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const itemId = "3ef";
       const folderId = "/";
@@ -533,7 +531,7 @@ describe("search", () => {
         folderId,
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -548,7 +546,7 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

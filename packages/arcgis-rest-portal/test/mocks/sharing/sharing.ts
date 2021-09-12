@@ -1,8 +1,8 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
+import { UserSession } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../../../scripts/test-helpers.js";
 
 export const MOCK_USER_SESSION = new UserSession({
   clientId: "clientId",

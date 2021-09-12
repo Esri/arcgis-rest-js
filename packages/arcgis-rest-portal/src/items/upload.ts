@@ -4,14 +4,14 @@
 import { request, appendCustomParams } from "@esri/arcgis-rest-request";
 import { IItemAdd } from "@esri/arcgis-rest-types";
 
-import { getPortalUrl } from "../util/get-portal-url";
+import { getPortalUrl } from "../util/get-portal-url.js";
 import {
   IUserItemOptions,
   IUpdateItemResponse,
   determineOwner,
   IItemPartOptions,
   serializeItem
-} from "./helpers";
+} from "./helpers.js";
 
 export interface ICommitItemOptions extends IUserItemOptions {
   item: IItemAdd;
@@ -40,10 +40,14 @@ export function addItemPart(
   const partNum = requestOptions.partNum;
 
   if (!Number.isInteger(partNum) || partNum < 1 || partNum > 10000) {
-    return Promise.reject(new Error('The part number must be an integer between 1 to 10000, inclusive.'))
+    return Promise.reject(
+      new Error(
+        "The part number must be an integer between 1 to 10000, inclusive."
+      )
+    );
   }
 
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     // AGO adds the "partNum" parameter in the query string, not in the body
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
@@ -77,21 +81,17 @@ export function addItemPart(
 export function commitItemUpload(
   requestOptions?: ICommitItemOptions
 ): Promise<IUpdateItemResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/commit`;
 
-    const options = appendCustomParams<ICommitItemOptions>(
-      requestOptions,
-      [],
-      {
-        params: {
-          ...requestOptions.params,
-          ...serializeItem(requestOptions.item)
-        }
+    const options = appendCustomParams<ICommitItemOptions>(requestOptions, [], {
+      params: {
+        ...requestOptions.params,
+        ...serializeItem(requestOptions.item)
       }
-    );
+    });
 
     return request(url, options);
   });
@@ -115,7 +115,7 @@ export function commitItemUpload(
 export function cancelItemUpload(
   requestOptions?: IUserItemOptions
 ): Promise<IUpdateItemResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/cancel`;

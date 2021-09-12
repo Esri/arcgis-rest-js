@@ -8,15 +8,15 @@ import {
   ISpatialReference,
   IPoint,
   IFeature,
-  IFeatureSet,
+  IFeatureSet
 } from "@esri/arcgis-rest-types";
 
 import {
   ARCGIS_ONLINE_ROUTING_URL,
   IEndpointOptions,
   decompressGeometry,
-  isFeatureSet,
-} from "./helpers";
+  isFeatureSet
+} from "./helpers.js";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
 
@@ -92,7 +92,7 @@ export function solveRoute(
   const options: ISolveRouteOptions = {
     endpoint: requestOptions.endpoint || ARCGIS_ONLINE_ROUTING_URL,
     params: {},
-    ...requestOptions,
+    ...requestOptions
   };
 
   // the SAAS service does not support anonymous requests
@@ -163,18 +163,18 @@ function cleanResponse(res: any): ISolveRouteResponse {
       return {
         type: "Feature",
         geometry: arcgisToGeoJSON(feature.geometry),
-        properties: Object.assign({}, feature.attributes),
+        properties: Object.assign({}, feature.attributes)
       };
     });
 
     res.routes.geoJson = {
       type: "FeatureCollection",
-      features,
+      features
     };
   }
   return res;
 }
 
 export default {
-  solveRoute,
+  solveRoute
 };

@@ -4,14 +4,14 @@
 import { request, appendCustomParams } from "@esri/arcgis-rest-request";
 import { IItemAdd } from "@esri/arcgis-rest-types";
 
-import { getPortalUrl } from "../util/get-portal-url";
+import { getPortalUrl } from "../util/get-portal-url.js";
 import {
   IAddFolderResponse,
   IUpdateItemResponse,
   ICreateUpdateItemOptions,
   serializeItem,
   determineOwner
-} from "./helpers";
+} from "./helpers.js";
 
 export interface ICreateFolderOptions extends ICreateUpdateItemOptions {
   /**
@@ -46,7 +46,7 @@ export interface ICreateItemResponse extends IUpdateItemResponse {
 export function createFolder(
   requestOptions: ICreateFolderOptions
 ): Promise<IAddFolderResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
     const url = `${baseUrl}/createFolder`;
 
@@ -85,7 +85,7 @@ export function createItemInFolder(
     );
   }
 
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
     let url = `${baseUrl}/addItem`;
 

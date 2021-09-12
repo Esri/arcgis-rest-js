@@ -9,7 +9,7 @@ import {
   isItemOwner,
   getSharingUrl,
   isOrgAdmin
-} from "./helpers";
+} from "./helpers.js";
 
 export interface ISetAccessOptions extends ISharingOptions {
   /**
@@ -43,7 +43,7 @@ export function setItemAccess(
     return updateItemAccess(url, requestOptions);
   } else {
     // otherwise we need to check to see if they are an organization admin
-    return isOrgAdmin(requestOptions).then(admin => {
+    return isOrgAdmin(requestOptions).then((admin) => {
       if (admin) {
         return updateItemAccess(url, requestOptions);
       } else {

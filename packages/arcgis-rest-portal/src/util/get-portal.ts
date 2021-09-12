@@ -3,7 +3,7 @@
 
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 
-import { getPortalUrl } from "./get-portal-url";
+import { getPortalUrl } from "./get-portal-url.js";
 
 export interface IPortal {
   id: string;

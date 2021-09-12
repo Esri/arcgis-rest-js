@@ -1,15 +1,13 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
+import { protectItem, unprotectItem } from "../../src/items/protect.js";
 
-import { protectItem, unprotectItem } from "../../src/items/protect";
+import { ItemSuccessResponse } from "../mocks/items/item.js";
 
-import { ItemSuccessResponse } from "../mocks/items/item";
-
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { encodeParam } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
+import { UserSession, encodeParam } from "@esri/arcgis-rest-request";
 
 describe("search", () => {
   afterEach(fetchMock.restore);
@@ -33,14 +31,14 @@ describe("search", () => {
       authentication: MOCK_USER_SESSION
     };
 
-    it("should protect an item", done => {
+    it("should protect an item", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       protectItem({
         id: "3ef",
         owner: "dbouwman",
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then((response) => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/protect"
@@ -50,18 +48,18 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should protect an item, no owner passed", done => {
+    it("should protect an item, no owner passed", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       protectItem({
         id: "3ef",
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then((response) => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/protect"
@@ -71,19 +69,19 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should unprotect an item", done => {
+    it("should unprotect an item", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       unprotectItem({
         id: "3ef",
         owner: "dbouwman",
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then((response) => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/unprotect"
@@ -93,18 +91,18 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should unprotect an item, no owner passed", done => {
+    it("should unprotect an item, no owner passed", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       unprotectItem({
         id: "3ef",
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then((response) => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/unprotect"
@@ -114,7 +112,7 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

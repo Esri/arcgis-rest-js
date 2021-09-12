@@ -1,8 +1,7 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { request, UserSession } from "@esri/arcgis-rest-request";
 import { IServiceInfo } from "@esri/arcgis-rest-types";
 
 /**
@@ -28,7 +27,7 @@ export function getServiceAdminInfo(
   return request(serviceAdminUrl, {
     authentication: session,
     params: {
-      f: "json",
-    },
+      f: "json"
+    }
   });
 }

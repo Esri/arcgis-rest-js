@@ -2,36 +2,45 @@
   "name": "@esri/arcgis-rest-portal",
   "version": "3.3.0",
   "description": "ArcGIS Online and Enterprise content and user helpers for @esri/arcgis-rest-request",
-  "main": "dist/node/index.js",
-  "unpkg": "dist/umd/portal.umd.js",
-  "module": "dist/esm/index.js",
-  "js:next": "dist/esm/index.js",
-  "sideEffects": false,
-  "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "unpkg": "dist/umd/request.umd.min.js",
+  "types": "dist/esm/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=12.20.0"
+  },
   "files": [
     "dist/**"
   ],
   "dependencies": {
-    "@esri/arcgis-rest-types": "^3.1.2",
+    "@esri/arcgis-rest-types": "^3.3.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^3.3.0",
     "@esri/arcgis-rest-request": "^3.3.0"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-auth": "^3.0.0",
     "@esri/arcgis-rest-request": "^3.0.0"
   },
   "scripts": {
-    "build": "npm run build:node && npm run build:umd && npm run build:esm",
-    "build:esm": "tsc --module es2015 --outDir ./dist/esm --declaration",
+    "prebuild": "tsc --noEmit && trash ./dist",
+    "build": "npm run build:cjs && npm run build:esm && npm run build:umd",
+    "postbuild": "node ../../scripts/create-dist-package-jsons.js",
+    "build:esm": "tsc --outDir ./dist/esm --declaration",
+    "build:cjs": "tsc --outDir ./dist/cjs -m commonjs",
     "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
-    "build:node": "tsc --module commonjs --outDir ./dist/node",
-    "dev:esm": "tsc -w --module es2015 --outDir ./dist/esm --declaration",
-    "dev:umd": "rollup -w -c ../../umd-base-profile.js",
-    "dev:node": "tsc -w --module commonjs --outDir ./dist/node"
+    "dev:esm": "tsc -w --outDir ./dist/esm --declaration",
+    "dev:cjs": "tsc -w --outDir ./dist/cjs -m commonjs",
+    "dev:umd": "rollup -w -c ../../umd-base-profile.js"
   },
   "publishConfig": {
     "access": "public"

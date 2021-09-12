@@ -1,6 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import fetchMock from "fetch-mock";
 import {
   getFeature,
   queryFeatures,
@@ -8,8 +9,6 @@ import {
   IQueryFeaturesOptions,
   IQueryRelatedOptions
 } from "../src/index";
-
-import * as fetchMock from "fetch-mock";
 
 import {
   featureResponse,
@@ -23,14 +22,14 @@ const serviceUrl =
 describe("getFeature() and queryFeatures()", () => {
   afterEach(fetchMock.restore);
 
-  it("should return a feature by id", done => {
+  it("should return a feature by id", (done) => {
     const requestOptions = {
       url: serviceUrl,
       id: 42
     };
     fetchMock.once("*", featureResponse);
     getFeature(requestOptions)
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/42?f=json`);
@@ -38,12 +37,12 @@ describe("getFeature() and queryFeatures()", () => {
         expect(response.attributes.FID).toEqual(42);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("return rawResponse when getting a feature", done => {
+  it("return rawResponse when getting a feature", (done) => {
     const requestOptions = {
       url: serviceUrl,
       id: 42,
@@ -66,12 +65,12 @@ describe("getFeature() and queryFeatures()", () => {
         // this used to work with isomorphic-fetch
         // expect(response instanceof Response).toBe(true);
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should supply default query parameters", done => {
+  it("should supply default query parameters", (done) => {
     const requestOptions: IQueryFeaturesOptions = {
       url: serviceUrl
     };
@@ -86,12 +85,12 @@ describe("getFeature() and queryFeatures()", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should use passed in query parameters", done => {
+  it("should use passed in query parameters", (done) => {
     const requestOptions: IQueryFeaturesOptions = {
       url: serviceUrl,
       where: "Condition='Poor'",
@@ -112,12 +111,12 @@ describe("getFeature() and queryFeatures()", () => {
         // expect(response.attributes.FID).toEqual(42);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should supply default query related parameters", done => {
+  it("should supply default query related parameters", (done) => {
     const requestOptions: IQueryRelatedOptions = {
       url: serviceUrl
     };
@@ -132,12 +131,12 @@ describe("getFeature() and queryFeatures()", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should use passed in query related parameters", done => {
+  it("should use passed in query related parameters", (done) => {
     const requestOptions: IQueryRelatedOptions = {
       url: serviceUrl,
       relationshipId: 1,
@@ -160,7 +159,7 @@ describe("getFeature() and queryFeatures()", () => {
         expect(options.body).toContain("outFields=APPROXACRE%2CFIELD_NAME");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

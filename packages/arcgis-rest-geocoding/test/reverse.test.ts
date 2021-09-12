@@ -1,20 +1,18 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import fetchMock from "fetch-mock";
 import { reverseGeocode } from "../src/reverse";
-
-import * as fetchMock from "fetch-mock";
-
 import { ReverseGeocode } from "./mocks/responses";
 
 describe("geocode", () => {
   afterEach(fetchMock.restore);
 
-  it("should make a reverse geocoding request", done => {
+  it("should make a reverse geocoding request", (done) => {
     fetchMock.once("*", ReverseGeocode);
 
     reverseGeocode({ x: -118.409, y: 33.9425 })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -28,19 +26,19 @@ describe("geocode", () => {
         expect(response).toEqual(ReverseGeocode); // introspect the entire response
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a reverse geocoding GET request and pass through a spatial reference", done => {
+  it("should make a reverse geocoding GET request and pass through a spatial reference", (done) => {
     fetchMock.once("*", ReverseGeocode);
 
     reverseGeocode(
       { x: -118.409, y: 33.9425, spatialReference: { wkid: 4326 } },
       { httpMethod: "GET" }
     )
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -50,16 +48,16 @@ describe("geocode", () => {
         expect(response).toEqual(ReverseGeocode); // this introspects the entire response
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a reverse geocoding request and translate lat/long JSON objects", done => {
+  it("should make a reverse geocoding request and translate lat/long JSON objects", (done) => {
     fetchMock.once("*", ReverseGeocode);
 
     reverseGeocode({ longitude: -118.409, latitude: 33.9425 })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -73,16 +71,16 @@ describe("geocode", () => {
         expect(response).toEqual(ReverseGeocode); // this introspects the entire response
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a reverse geocoding request and translate lat/long JSON abbreviated objects", done => {
+  it("should make a reverse geocoding request and translate lat/long JSON abbreviated objects", (done) => {
     fetchMock.once("*", ReverseGeocode);
 
     reverseGeocode({ lat: 33.9425, long: -118.409 })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -96,16 +94,16 @@ describe("geocode", () => {
         expect(response).toEqual(ReverseGeocode); // this introspects the entire response
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a reverse geocoding request and translate a raw long,lat array", done => {
+  it("should make a reverse geocoding request and translate a raw long,lat array", (done) => {
     fetchMock.once("*", ReverseGeocode);
 
     reverseGeocode([-118, 34])
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -119,7 +117,7 @@ describe("geocode", () => {
         expect(response).toEqual(ReverseGeocode); // this introspects the entire response
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

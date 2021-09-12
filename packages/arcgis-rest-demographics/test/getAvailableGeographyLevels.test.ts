@@ -1,18 +1,17 @@
 /* Copyright (c) 2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import fetchMock from "fetch-mock";
 import { getAvailableGeographyLevels } from "../src/getAvailableGeographyLevels";
-
-import * as fetchMock from "fetch-mock";
 
 describe("getAvailableGeographyLevels", () => {
   afterEach(fetchMock.restore);
 
-  it("should make a simple, single dataCollections request", done => {
+  it("should make a simple, single dataCollections request", (done) => {
     fetchMock.once("*", {});
 
     getAvailableGeographyLevels()
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -22,31 +21,29 @@ describe("getAvailableGeographyLevels", () => {
         expect(options.body).toContain("f=json");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a dataCollections request with a custom endpoint", done => {
+  it("should make a dataCollections request with a custom endpoint", (done) => {
     fetchMock.once("*", {});
 
     getAvailableGeographyLevels({
-      endpoint: 'https://esri.com/test'
+      endpoint: "https://esri.com/test"
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://esri.com/test/StandardGeographyLevels"
-        );
+        expect(url).toEqual("https://esri.com/test/StandardGeographyLevels");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a dataCollections request with a param", done => {
+  it("should make a dataCollections request with a param", (done) => {
     fetchMock.once("*", {});
 
     getAvailableGeographyLevels({
@@ -54,7 +51,7 @@ describe("getAvailableGeographyLevels", () => {
         foo: "bar"
       }
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -65,7 +62,7 @@ describe("getAvailableGeographyLevels", () => {
         expect(options.body).toContain("foo=bar");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

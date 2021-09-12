@@ -3,8 +3,8 @@
 
 import { request } from "@esri/arcgis-rest-request";
 
-import { getPortalUrl } from "../util/get-portal-url";
-import { IUserGroupOptions } from "./helpers";
+import { getPortalUrl } from "../util/get-portal-url.js";
+import { IUserGroupOptions } from "./helpers.js";
 
 /**
  * ```js

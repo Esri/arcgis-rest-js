@@ -2,9 +2,9 @@
  * Apache-2.0 */
 
 import { IGroup, IUser, GroupMembership } from "@esri/arcgis-rest-types";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
-import { getPortalUrl } from "../util/get-portal-url";
-import { getGroup } from "../groups/get";
+import { IUserRequestOptions } from "@esri/arcgis-rest-request";
+import { getPortalUrl } from "../util/get-portal-url.js";
+import { getGroup } from "../groups/get.js";
 
 export interface ISharingOptions extends IUserRequestOptions {
   /**
@@ -48,7 +48,7 @@ export function isOrgAdmin(
   const session = requestOptions.authentication;
 
   return session.getUser(requestOptions).then((user: IUser) => {
-      return user && user.role === "org_admin" && !user.roleId;
+    return user && user.role === "org_admin" && !user.roleId;
   });
 }
 

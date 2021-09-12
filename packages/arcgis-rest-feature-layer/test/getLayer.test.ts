@@ -1,9 +1,8 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import fetchMock from "fetch-mock";
 import { getLayer } from "../src/getLayer";
-
-import * as fetchMock from "fetch-mock";
 
 import { getFeatureServiceResponse } from "./mocks/service";
 
@@ -13,10 +12,10 @@ const layerUrl =
 describe("feature", () => {
   afterEach(fetchMock.restore);
 
-  it("should fetch service metadata", done => {
+  it("should fetch service metadata", (done) => {
     fetchMock.once("*", getFeatureServiceResponse);
     getLayer({ url: layerUrl })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(layerUrl);
@@ -24,7 +23,7 @@ describe("feature", () => {
         expect(response).toEqual(getFeatureServiceResponse);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

@@ -1,12 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IRequestOptions } from "@esri/arcgis-rest-request";
+import {
+  request,
+  IRequestOptions,
+  UserSession
+} from "@esri/arcgis-rest-request";
 import { IUser } from "@esri/arcgis-rest-types";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
-
-import { getPortalUrl } from "../util/get-portal-url";
+import { getPortalUrl } from "../util/get-portal-url.js";
 
 export interface IGetUserOptions extends IRequestOptions {
   /**

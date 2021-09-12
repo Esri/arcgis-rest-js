@@ -3,7 +3,7 @@
 
 import { request, appendCustomParams } from "@esri/arcgis-rest-request";
 
-import { getPortalUrl } from "../util/get-portal-url";
+import { getPortalUrl } from "../util/get-portal-url.js";
 import {
   IUserItemOptions,
   IItemResourceOptions,
@@ -11,8 +11,8 @@ import {
   IItemResourceResponse,
   determineOwner,
   IManageItemRelationshipOptions
-} from "./helpers";
-import { updateItem, IUpdateItemOptions } from "./update";
+} from "./helpers.js";
+import { updateItem, IUpdateItemOptions } from "./update.js";
 
 export interface IAddItemDataOptions extends IUserItemOptions {
   /**
@@ -75,7 +75,7 @@ export function addItemData(
 export function addItemRelationship(
   requestOptions: IManageItemRelationshipOptions
 ): Promise<{ success: boolean }> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(
       requestOptions
     )}/content/users/${owner}/addRelationship`;
@@ -119,7 +119,7 @@ export function addItemRelationship(
 export function addItemResource(
   requestOptions: IItemResourceOptions
 ): Promise<IItemResourceResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/addResources`;

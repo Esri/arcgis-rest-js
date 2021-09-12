@@ -1,18 +1,18 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as fetchMock from "fetch-mock";
-import { getUserMembership } from "../../src/sharing/helpers";
-import { MOCK_USER_SESSION } from "../mocks/sharing/sharing";
+import fetchMock from "fetch-mock";
+import { getUserMembership } from "../../src/sharing/helpers.js";
+import { MOCK_USER_SESSION } from "../mocks/sharing/sharing.js";
 import {
   GroupOwnerResponse,
   GroupNoAccessResponse
-} from "./share-item-with-group.test";
+} from "./share-item-with-group.test.js";
 
 describe("sharing helpers ::", () => {
   afterEach(fetchMock.restore);
   describe("getUserMembership ::", () => {
-    it("should return nonmember if group could not be fetched", done => {
+    it("should return nonmember if group could not be fetched", (done) => {
       fetchMock.once(
         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/tb6?f=json&token=fake-token",
         GroupNoAccessResponse
@@ -22,17 +22,17 @@ describe("sharing helpers ::", () => {
         groupId: "tb6",
         authentication: MOCK_USER_SESSION
       })
-        .then(result => {
+        .then((result) => {
           expect(fetchMock.done()).toBeTruthy();
           expect(result).toBe("none", "should return none");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should request the group and return the member type", done => {
+    it("should request the group and return the member type", (done) => {
       fetchMock.once(
         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/tb6?f=json&token=fake-token",
         GroupOwnerResponse
@@ -42,12 +42,12 @@ describe("sharing helpers ::", () => {
         groupId: "tb6",
         authentication: MOCK_USER_SESSION
       })
-        .then(result => {
+        .then((result) => {
           expect(fetchMock.done()).toBeTruthy();
           expect(result).toBe("owner", "should return owner");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

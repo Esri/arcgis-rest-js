@@ -1,25 +1,28 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { closestFacility } from "../src/closestFacility";
+import { closestFacility } from "../src/closestFacility.js";
 
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
 
 import {
   barriers,
   barriersFeatureSet,
   polylineBarriers,
-  polygonBarriers,
-} from "./mocks/inputs";
+  polygonBarriers
+} from "./mocks/inputs.js";
 
-import { ClosestFacility, ClosestFacilityWebMercator } from "./mocks/responses";
+import {
+  ClosestFacility,
+  ClosestFacilityWebMercator
+} from "./mocks/responses.js";
 
 import {
   IPoint,
   ILocation,
   IFeatureSet,
   IPolyline,
-  IPolygon,
+  IPolygon
 } from "@esri/arcgis-rest-types";
 
 const incidents: Array<[number, number]> = [[-118.257363, 34.076763]];
@@ -27,131 +30,131 @@ const incidents: Array<[number, number]> = [[-118.257363, 34.076763]];
 const facilities: Array<[number, number]> = [
   [-118.3417932, 34.00451385],
   [-118.08788, 34.01752],
-  [-118.20327, 34.19382],
+  [-118.20327, 34.19382]
 ];
 
 const incidentsLatLong: ILocation[] = [
   {
     lat: 34.076763,
-    long: -118.257363,
-  },
+    long: -118.257363
+  }
 ];
 
 const facilitiesLatLong: ILocation[] = [
   {
     lat: 34.00451385,
-    long: -118.3417932,
+    long: -118.3417932
   },
   {
     lat: 34.01752,
-    long: -118.08788,
+    long: -118.08788
   },
   {
     lat: 34.19382,
-    long: -118.20327,
-  },
+    long: -118.20327
+  }
 ];
 
 const incidentsLatitudeLongitude: ILocation[] = [
   {
     latitude: 34.076763,
-    longitude: -118.257363,
-  },
+    longitude: -118.257363
+  }
 ];
 
 const facilitiesLatitudeLongitude: ILocation[] = [
   {
     latitude: 34.00451385,
-    longitude: -118.3417932,
+    longitude: -118.3417932
   },
   {
     latitude: 34.01752,
-    longitude: -118.08788,
+    longitude: -118.08788
   },
   {
     latitude: 34.19382,
-    longitude: -118.20327,
-  },
+    longitude: -118.20327
+  }
 ];
 
 const incidentsPoint: IPoint[] = [
   {
     x: -118.257363,
-    y: 34.076763,
-  },
+    y: 34.076763
+  }
 ];
 
 const facilitiesPoint: IPoint[] = [
   {
     x: -118.3417932,
-    y: 34.00451385,
+    y: 34.00451385
   },
   {
     x: -118.08788,
-    y: 34.01752,
+    y: 34.01752
   },
   {
     x: -118.20327,
-    y: 34.19382,
-  },
+    y: 34.19382
+  }
 ];
 
 const incidentsFeatureSet: IFeatureSet = {
   spatialReference: {
-    wkid: 4326,
+    wkid: 4326
   },
 
   features: [
     {
       geometry: {
         x: -122.4079,
-        y: 37.78356,
+        y: 37.78356
       } as IPoint,
       attributes: {
         Name: "Fire Incident 1",
-        Attr_TravelTime: 4,
-      },
+        Attr_TravelTime: 4
+      }
     },
     {
       geometry: {
         x: -122.404,
-        y: 37.782,
+        y: 37.782
       } as IPoint,
       attributes: {
         Name: "Crime Incident 45",
-        Attr_TravelTime: 5,
-      },
-    },
-  ],
+        Attr_TravelTime: 5
+      }
+    }
+  ]
 };
 
 const facilitiesFeatureSet: IFeatureSet = {
   spatialReference: {
-    wkid: 4326,
+    wkid: 4326
   },
 
   features: [
     {
       geometry: {
         x: -122.4079,
-        y: 37.78356,
+        y: 37.78356
       } as IPoint,
       attributes: {
         Name: "Fire Station 34",
-        Attr_TravelTime: 4,
-      },
+        Attr_TravelTime: 4
+      }
     },
     {
       geometry: {
         x: -122.404,
-        y: 37.782,
+        y: 37.782
       } as IPoint,
       attributes: {
         Name: "Fire Station 29",
-        Attr_TravelTime: 5,
-      },
-    },
-  ],
+        Attr_TravelTime: 5
+      }
+    }
+  ]
 };
 
 // const customRoutingUrl =
@@ -166,7 +169,7 @@ describe("closestFacility", () => {
     closestFacility({
       incidents,
       facilities,
-      returnCFRoutes: true,
+      returnCFRoutes: true
     })
       // tslint:disable-next-line
       .catch((e) => {
@@ -184,14 +187,14 @@ describe("closestFacility", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     closestFacility({
       incidents,
       facilities,
       returnCFRoutes: true,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -229,17 +232,17 @@ describe("closestFacility", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     closestFacility({
       incidents,
       facilities,
       params: {
-        outSR: 102100,
+        outSR: 102100
       },
       returnCFRoutes: true,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -266,7 +269,7 @@ describe("closestFacility", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     closestFacility({
@@ -280,7 +283,7 @@ describe("closestFacility", () => {
       returnPolylineBarriers: false,
       returnPolygonBarriers: false,
       preserveObjectID: false,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -306,14 +309,14 @@ describe("closestFacility", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     closestFacility({
       incidents: incidentsLatLong,
       facilities: facilitiesLatLong,
       returnCFRoutes: true,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -340,14 +343,14 @@ describe("closestFacility", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     closestFacility({
       incidents: incidentsLatitudeLongitude,
       facilities: facilitiesLatitudeLongitude,
       returnCFRoutes: true,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -374,14 +377,14 @@ describe("closestFacility", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
       returnCFRoutes: true,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -408,14 +411,14 @@ describe("closestFacility", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     closestFacility({
       incidents: incidentsFeatureSet,
       facilities: facilitiesFeatureSet,
       returnCFRoutes: true,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -442,7 +445,7 @@ describe("closestFacility", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     closestFacility({
@@ -450,7 +453,7 @@ describe("closestFacility", () => {
       facilities: facilitiesPoint,
       returnCFRoutes: true,
       travelDirection: "facilitiesToIncidents",
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -472,7 +475,7 @@ describe("closestFacility", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     closestFacility({
@@ -480,7 +483,7 @@ describe("closestFacility", () => {
       facilities: facilitiesPoint,
       returnCFRoutes: true,
       travelDirection: "incidentsToFacilities",
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -502,7 +505,7 @@ describe("closestFacility", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     closestFacility({
@@ -510,7 +513,7 @@ describe("closestFacility", () => {
       facilities: facilitiesPoint,
       returnCFRoutes: true,
       barriers,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -532,7 +535,7 @@ describe("closestFacility", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     closestFacility({
@@ -540,7 +543,7 @@ describe("closestFacility", () => {
       facilities: facilitiesPoint,
       returnCFRoutes: true,
       barriers: barriersFeatureSet,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -562,7 +565,7 @@ describe("closestFacility", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     closestFacility({
@@ -570,7 +573,7 @@ describe("closestFacility", () => {
       facilities: facilitiesPoint,
       returnCFRoutes: true,
       polylineBarriers,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -594,7 +597,7 @@ describe("closestFacility", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     closestFacility({
@@ -602,7 +605,7 @@ describe("closestFacility", () => {
       facilities: facilitiesPoint,
       returnCFRoutes: true,
       polygonBarriers,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -626,14 +629,14 @@ describe("closestFacility", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
       returnCFRoutes: true,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -658,7 +661,7 @@ describe("closestFacility", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     closestFacility({
@@ -667,8 +670,8 @@ describe("closestFacility", () => {
       returnCFRoutes: true,
       authentication: MOCK_AUTH,
       params: {
-        outSR: 102100,
-      },
+        outSR: 102100
+      }
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);

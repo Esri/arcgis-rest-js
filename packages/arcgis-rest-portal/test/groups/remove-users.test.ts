@@ -1,14 +1,14 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import fetchMock from "fetch-mock";
+
 import {
   removeGroupUsers,
-  IRemoveGroupUsersOptions,
-} from "../../src/groups/remove-users";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { encodeParam } from "@esri/arcgis-rest-request";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import * as fetchMock from "fetch-mock";
+  IRemoveGroupUsersOptions
+} from "../../src/groups/remove-users.js";
+import { UserSession, encodeParam } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 function createUsernames(start: number, end: number): string[] {
   const usernames = [];
@@ -31,7 +31,7 @@ describe("remove-users", () => {
     refreshTokenTTL: 1440,
     username: "casey",
     password: "123456",
-    portal: "https://myorg.maps.arcgis.com/sharing/rest",
+    portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
 
   afterEach(fetchMock.restore);
@@ -41,7 +41,7 @@ describe("remove-users", () => {
 
     const responses = [
       { notRemoved: ["username1"] },
-      { notRemoved: ["username30"] },
+      { notRemoved: ["username30"] }
     ];
 
     fetchMock.post("*", (url, options) => {
@@ -61,7 +61,7 @@ describe("remove-users", () => {
     const params = {
       id: "group-id",
       users: createUsernames(0, 35),
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     };
 
     removeGroupUsers(params)
@@ -82,9 +82,9 @@ describe("remove-users", () => {
         error: {
           code: 400,
           messageCode: "ORG_3100",
-          message: "error message for remove-user request",
-        },
-      },
+          message: "error message for remove-user request"
+        }
+      }
     ];
 
     fetchMock.post("*", () => responses.shift());
@@ -92,7 +92,7 @@ describe("remove-users", () => {
     const params = {
       id: "group-id",
       users: createUsernames(0, 30),
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     };
 
     removeGroupUsers(params)
@@ -124,7 +124,7 @@ describe("remove-users", () => {
     const params: IRemoveGroupUsersOptions = {
       id: "group-id",
       users: [],
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     };
     fetchMock.post("*", () => 200);
     removeGroupUsers(params)

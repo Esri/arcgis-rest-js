@@ -5,22 +5,22 @@ import {
   request,
   cleanUrl,
   appendCustomParams,
-  IRequestOptions,
+  IRequestOptions
 } from "@esri/arcgis-rest-request";
 
 import {
   ILocation,
   IPoint,
   IFeature,
-  IFeatureSet,
+  IFeatureSet
 } from "@esri/arcgis-rest-types";
 
 import {
   ARCGIS_ONLINE_ORIGIN_DESTINATION_MATRIX_URL,
   IEndpointOptions,
   normalizeLocationsList,
-  isFeatureSet,
-} from "./helpers";
+  isFeatureSet
+} from "./helpers.js";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
 
@@ -55,7 +55,7 @@ interface IFeatureSetWithGeoJson extends IFeatureSet {
 }
 
 export interface IOriginDestinationMatrixResponse {
-  messages: [ { type: number, description: string } ];
+  messages: [{ type: number; description: string }];
   /**
    *  Only present if outputType is "esriNAODOutputSparseMatrix". Full description is available at https://developers.arcgis.com/rest/network/api-reference/origin-destination-cost-matrix-synchronous-service.htm#ESRI_SECTION2_114F8364507C4B56B780DFAD505270FB.
    */
@@ -108,7 +108,7 @@ export function originDestinationMatrix(
     returnBarriers: true,
     returnPolylineBarriers: true,
     returnPolygonBarriers: true,
-    ...requestOptions.params,
+    ...requestOptions.params
   };
 
   const options = appendCustomParams<IOriginDestinationMatrixOptions>(
@@ -122,7 +122,7 @@ export function originDestinationMatrix(
       "returnDestinations",
       "returnBarriers",
       "returnPolylineBarriers",
-      "returnPolygonBarriers",
+      "returnPolygonBarriers"
     ]
   );
 
@@ -168,7 +168,7 @@ export function originDestinationMatrix(
   }
 
   return request(`${cleanUrl(endpoint)}/solveODCostMatrix`, options).then(
-    function(res) {
+    function (res) {
       return cleanResponse(res, options);
     }
   );
@@ -219,5 +219,5 @@ function cleanResponse(
 }
 
 export default {
-  originDestinationMatrix,
+  originDestinationMatrix
 };

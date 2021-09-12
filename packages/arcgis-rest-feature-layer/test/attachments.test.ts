@@ -1,8 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as fetchMock from "fetch-mock";
-
+import fetchMock from "fetch-mock";
 import {
   getAttachments,
   IGetAttachmentsOptions,
@@ -11,7 +10,7 @@ import {
   updateAttachment,
   IUpdateAttachmentOptions,
   deleteAttachments,
-  IDeleteAttachmentsOptions,
+  IDeleteAttachmentsOptions
 } from "../src/index";
 
 import {
@@ -19,7 +18,7 @@ import {
   addAttachmentResponse,
   updateAttachmentResponse,
   deleteAttachmentsResponse,
-  genericInvalidResponse,
+  genericInvalidResponse
 } from "./mocks/feature";
 
 export function attachmentFile(): any {
@@ -44,8 +43,8 @@ describe("attachment methods", () => {
       url: serviceUrl,
       featureId: 42,
       params: {
-        gdbVersion: "SDE.DEFAULT",
-      },
+        gdbVersion: "SDE.DEFAULT"
+      }
     } as IGetAttachmentsOptions;
     fetchMock.once("*", getAttachmentsResponse);
     getAttachments(requestOptions)
@@ -71,8 +70,8 @@ describe("attachment methods", () => {
       featureId: 42,
       attachment: attachmentFile(),
       params: {
-        returnEditMoment: true,
-      },
+        returnEditMoment: true
+      }
     } as IAddAttachmentOptions;
     fetchMock.once("*", addAttachmentResponse);
     addAttachment(requestOptions)
@@ -108,8 +107,8 @@ describe("attachment methods", () => {
       featureId: 654,
       attachment: attachmentFile(),
       params: {
-        returnEditMoment: true,
-      },
+        returnEditMoment: true
+      }
     } as IAddAttachmentOptions;
     fetchMock.once("*", genericInvalidResponse);
     addAttachment(requestOptions)
@@ -139,8 +138,8 @@ describe("attachment methods", () => {
       attachmentId: 1001,
       attachment: attachmentFile(),
       params: {
-        returnEditMoment: true,
-      },
+        returnEditMoment: true
+      }
     } as IUpdateAttachmentOptions;
     fetchMock.once("*", updateAttachmentResponse);
     updateAttachment(requestOptions)
@@ -170,8 +169,8 @@ describe("attachment methods", () => {
       featureId: 42,
       attachmentIds: [1001],
       params: {
-        returnEditMoment: true,
-      },
+        returnEditMoment: true
+      }
     } as IDeleteAttachmentsOptions;
     fetchMock.once("*", deleteAttachmentsResponse);
     deleteAttachments(requestOptions)

@@ -1,10 +1,10 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as fetchMock from "fetch-mock";
-import { getServiceAdminInfo } from "../src/get-service-admin-info";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { UserSession } from "@esri/arcgis-rest-auth";
+import fetchMock from "fetch-mock";
+import { getServiceAdminInfo } from "../src/get-service-admin-info.js";
+import { TOMORROW } from "../../../scripts/test-helpers.js";
+import { UserSession } from "@esri/arcgis-rest-request";
 
 describe("get-service-admin-info: ", () => {
   afterEach(fetchMock.restore);
@@ -19,7 +19,7 @@ describe("get-service-admin-info: ", () => {
     refreshTokenTTL: 1440,
     username: "casey",
     password: "123456",
-    portal: "https://myorg.maps.arcgis.com/sharing/rest",
+    portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
 
   it("makes request to the admin url", () => {
