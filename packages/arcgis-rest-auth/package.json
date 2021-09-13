@@ -3,18 +3,37 @@
   "version": "3.3.0",
   "description": "Authentication helpers for @esri/arcgis-rest-js.",
   "license": "Apache-2.0",
+  "keywords": [
+    "ES6",
+    "arcgis",
+    "esri",
+    "fetch",
+    "promise",
+    "typescript"
+  ],
+  "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "unpkg": "dist/umd/auth.umd.min.js",
-  "types": "dist/esm/index.d.ts",
-  "type": "module",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
     }
   },
+  "scripts": {
+    "prebuild": "tsc --noEmit && trash ./dist",
+    "build": "npm run build:cjs && npm run build:esm && npm run build:umd",
+    "postbuild": "node ../../scripts/create-dist-package-jsons.js",
+    "build:cjs": "tsc --outDir ./dist/cjs -m commonjs",
+    "build:esm": "tsc --outDir ./dist/esm --declaration",
+    "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
+    "dev:cjs": "tsc -w --outDir ./dist/cjs -m commonjs",
+    "dev:esm": "tsc -w --outDir ./dist/esm --declaration",
+    "dev:umd": "rollup -w -c ../../umd-base-profile.js"
+  },
   "sideEffects": false,
+  "types": "dist/esm/index.d.ts",
   "engines": {
     "node": ">=12.20.0"
   },
@@ -23,44 +42,21 @@
     "@esri/arcgis-rest-types": "^3.3.0",
     "tslib": "^2.3.0"
   },
-  "scripts": {
-    "prebuild": "tsc --noEmit && trash ./dist",
-    "build": "npm run build:cjs && npm run build:esm && npm run build:umd",
-    "postbuild": "node ../../scripts/create-dist-package-jsons.js",
-    "build:esm": "tsc --outDir ./dist/esm --declaration",
-    "build:cjs": "tsc --outDir ./dist/cjs -m commonjs",
-    "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
-    "dev:esm": "tsc -w --outDir ./dist/esm --declaration",
-    "dev:cjs": "tsc -w --outDir ./dist/cjs -m commonjs",
-    "dev:umd": "rollup -w -c ../../umd-base-profile.js"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
+  "contributors": [
+    "Patrick Arlt <parlt@esri.com> (http://patrickarlt.com/)"
+  ],
+  "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Esri/arcgis-rest-js.git",
     "directory": "packages/arcgis-rest-auth"
   },
-  "contributors": [
-    {
-      "name": "Patrick Arlt",
-      "email": "parlt@esri.com",
-      "url": "http://patrickarlt.com/"
-    }
-  ],
   "bugs": {
     "url": "https://github.com/Esri/arcgis-rest-js/issues"
   },
-  "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
-  "keywords": [
-    "typescript",
-    "promise",
-    "fetch",
-    "arcgis",
-    "esri",
-    "ES6"
-  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "esri": {
     "keyExports": [
       "UserSession",

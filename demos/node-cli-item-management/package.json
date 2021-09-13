@@ -1,20 +1,19 @@
 {
+  "private": true,
   "name": "cli-item-management",
   "version": "3.3.0",
   "description": "Manage items in ArcGIS Online with a Node JS CLI and ArcGIS Rest JS",
+  "license": "Apache-2.0",
+  "keywords": [
+    "arcgis",
+    "arcgis-rest-js",
+    "node"
+  ],
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Patrick Arlt <parlt@esri.com>",
-  "license": "Apache-2.0",
-  "private": true,
-  "keywords": [
-    "arcgis",
-    "node",
-    "arcgis-rest-js"
-  ],
   "dependencies": {
     "@esri/arcgis-rest-auth": "^3.3.0",
     "@esri/arcgis-rest-portal": "^3.3.0",
@@ -23,5 +22,6 @@
     "cross-fetch": "^3.0.0",
     "isomorphic-form-data": "^1.0.0",
     "prompts": "^2.0.3"
-  }
+  },
+  "author": "Patrick Arlt <parlt@esri.com>"
 }

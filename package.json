@@ -2,7 +2,67 @@
   "name": "@esri/arcgis-rest-js",
   "version": "3.3.0",
   "description": "Compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.",
+  "license": "Apache-2.0",
   "type": "module",
+  "scripts": {
+    "_prepare": "npm run build",
+    "build": "npm run build -ws --if-present",
+    "clean": "trash packages/*/dist/",
+    "precommit": "lint-staged",
+    "docs:build": "rimraf docs/build && npm run docs:typedoc && npm run docs:build:acetate && npm run docs:build:sass && npm run docs:build:images && npm run docs:build:js",
+    "docs:build:acetate": "ENV=prod acetate build --config docs/acetate.config.js",
+    "docs:build:images": "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build/arcgis-rest-js",
+    "docs:build:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/arcgis-rest-js",
+    "docs:build:sass": "node-sass --output docs/build/arcgis-rest-js/css --source-map true --source-map-contents docs/src/sass",
+    "docs:deploy": "npm run docs:build && node scripts/deploy-doc-site.js",
+    "docs:dev:acetate": "acetate server --log=debug --config docs/acetate.config.js --startPath arcgis-rest-js/",
+    "docs:dev:images": "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build/arcgis-rest-js -w",
+    "docs:dev:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/arcgis-rest-js -w",
+    "predocs:dev:sass": "npm run docs:build:sass",
+    "docs:dev:sass": "node-sass --watch --recursive --output docs/build/arcgis-rest-js/css --source-map true --source-map-contents docs/src/sass",
+    "docs:dev:typedoc": "onchange -v 'packages/*/src/**/*.ts' -- npm run docs:typedoc",
+    "predocs:serve": "npm run docs:typedoc",
+    "docs:serve": "rimraf docs/build && concurrently \"npm run docs:dev:js\" \"npm run docs:dev:images\" \"npm run docs:dev:acetate\" \"npm run docs:dev:sass\" \"npm run docs:dev:typedoc\"",
+    "docs:srihash": "node docs/generate-srihashes.js",
+    "docs:typedoc": "node docs/build-typedoc.js",
+    "lint": "eslint ./packages --ext .ts",
+    "prepare-demos": "npm run link -w ./packages",
+    "skypack-check": "npm exec -w ./packages package-check",
+    "srihash": "node scripts/generate-sri-hashes.js",
+    "test": "npm run lint && npm run test:node && npm run test:chrome",
+    "test:all": "npm run test:node && npm run test:firefox && npm run test:chrome",
+    "test:chrome": "karma start karma.conf.cjs --single-run --browsers=Chrome",
+    "test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.js",
+    "test:chrome:debug": "karma start karma.conf.cjs --auto-watch --no-single-run --browsers=ChromeDebugging",
+    "test:firefox": "karma start --single-run --browsers=Firefox",
+    "test:firefox:ci": "karma start --single-run --browsers=FirefoxHeadless",
+    "test:node": "node --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.json",
+    "test:node:debug": "node --inspect --inspect-brk --loader  ts-node/esm node_modules/.bin/jasmine --config=jasmine.json",
+    "test:node:live": "node --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.live.json",
+    "test:node:live:debug": "node  --inspect --inspect-brk --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.live.json",
+    "tsv": "tsc -v",
+    "prettify": "prettier --write --parser typescript --tab-width 2 --use-tabs false \"packages/**/+(src|test)/**/*.ts\"",
+    "typedoc": "typedoc --options ./typedoc.json"
+  },
+  "engines": { 
+    "npm": ">=7.0.0",
+    "node": ">=12.20.0"
+  },
+  "eslintIgnore": [
+    "packages/**/test",
+    "packages/**/dist"
+  ],
+  "lint-staged": {
+    "**/*/package.json": [
+      "prettier-package-json --write",
+      "git add"
+    ],
+    "*.ts": [
+      "prettier --write --parser typescript --tab-width 2 --use-tabs false",
+      "eslint --project tsconfig.json",
+      "git add"
+    ]
+  },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@skypack/package-check": "^0.2.2",
@@ -45,6 +105,7 @@
     "node-sass": "^4.12.0",
     "onchange": "^3.3.0",
     "prettier": "^2.3.1",
+    "prettier-package-json": "^2.6.0",
     "resolve": "^1.5.0",
     "rimraf": "^2.6.2",
     "rollup": "^2.56.3",
@@ -59,143 +120,36 @@
     "typedoc": "^0.21.0",
     "typescript": "^4.0.0"
   },
-  "lint-staged": {
-    "*.ts": [
-      "prettier --write --parser typescript --tab-width 2 --use-tabs false",
-      "eslint --project tsconfig.json",
-      "git add"
-    ]
-  },
-  "scripts": {
-    "_prepare": "npm run build",
-    "prepare-demos": "npm run link -w ./packages",
-    "tsv": "tsc -v",
-    "build": "npm run build -ws --if-present",
-    "clean": "trash packages/*/dist/",
-    "test": "npm run lint && npm run test:node && npm run test:chrome",
-    "test:chrome": "karma start karma.conf.cjs --single-run --browsers=Chrome",
-    "test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.js",
-    "test:chrome:debug": "karma start karma.conf.cjs --auto-watch --no-single-run --browsers=ChromeDebugging",
-    "test:firefox": "karma start --single-run --browsers=Firefox",
-    "test:firefox:ci": "karma start --single-run --browsers=FirefoxHeadless",
-    "test:node": "node --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.json",
-    "test:node:live": "node --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.live.json",
-    "test:node:debug": "node --inspect --inspect-brk --loader  ts-node/esm node_modules/.bin/jasmine --config=jasmine.json",
-    "test:node:live:debug": "node  --inspect --inspect-brk --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.live.json",
-    "test:all": "npm run test:node && npm run test:firefox && npm run test:chrome",
-    "docs:build": "rimraf docs/build && npm run docs:typedoc && npm run docs:build:acetate && npm run docs:build:sass && npm run docs:build:images && npm run docs:build:js",
-    "docs:build:acetate": "ENV=prod acetate build --config docs/acetate.config.js",
-    "docs:build:sass": "node-sass --output docs/build/arcgis-rest-js/css --source-map true --source-map-contents docs/src/sass",
-    "docs:build:images": "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build/arcgis-rest-js",
-    "docs:build:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/arcgis-rest-js",
-    "docs:deploy": "npm run docs:build && node scripts/deploy-doc-site.js",
-    "docs:typedoc": "node docs/build-typedoc.js",
-    "docs:dev:typedoc": "onchange -v 'packages/*/src/**/*.ts' -- npm run docs:typedoc",
-    "predocs:serve": "npm run docs:typedoc",
-    "docs:serve": "rimraf docs/build && concurrently \"npm run docs:dev:js\" \"npm run docs:dev:images\" \"npm run docs:dev:acetate\" \"npm run docs:dev:sass\" \"npm run docs:dev:typedoc\"",
-    "docs:dev:images": "cpx \"docs/src/**/*.{png,jpg,jpeg,gif,svg,webm,ogg}\" docs/build/arcgis-rest-js -w",
-    "docs:dev:acetate": "acetate server --log=debug --config docs/acetate.config.js --startPath arcgis-rest-js/",
-    "predocs:dev:sass": "npm run docs:build:sass",
-    "docs:dev:sass": "node-sass --watch --recursive --output docs/build/arcgis-rest-js/css --source-map true --source-map-contents docs/src/sass",
-    "docs:dev:js": "cpx \"docs/src/**/{api-search,nav-toggle}.js\" docs/build/arcgis-rest-js -w",
-    "docs:srihash": "node docs/generate-srihashes.js",
-    "lint": "eslint ./packages --ext .ts",
-    "prettify": "prettier --write --parser typescript --tab-width 2 --use-tabs false \"packages/**/+(src|test)/**/*.ts\"",
-    "precommit": "lint-staged",
-    "typedoc": "typedoc --options ./typedoc.json",
-    "srihash": "node scripts/generate-sri-hashes.js",
-    "skypack-check": "npm exec -w ./packages package-check"
-  },
+  "contributors": [
+    "Anthony Lukach",
+    "Bill Reynolds <wreynolds@esri.com>",
+    "City of Veronia GIS",
+    "Dave Bouwman <dbouwman@esri.com>",
+    "Enguerrand des Vaux",
+    "Gavin Rehkemper <grehkemper@esri.com>",
+    "Ian Trewella",
+    "Idi Eradiri <ieradiri@esri.com>",
+    "Jeff Jacobson",
+    "John Gravois <john@esri.com>",
+    "Junshan Liu <jliu@esri.com>",
+    "Max Payson <mpayson@esri.com>",
+    "Mike 'Jupe' Juniper <mjuniper@esri.com>",
+    "Mike Tschudi <mtschudi@esri.com>",
+    "Noah Mulfinger <nmulfinger@esri.com>",
+    "Patrick Arlt <parlt@esri.com> (http://patrickarlt.com/)",
+    "Richard Hincamp",
+    "Stephen Sylvia <ssylvia@esri.com>",
+    "Steven Kitterman <skitterman@esri.com>",
+    "Tom Wayson <twayson@esri.com>"
+  ],
+  "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Esri/arcgis-rest-js.git"
   },
-  "contributors": [
-    {
-      "name": "Anthony Lukach"
-    },
-    {
-      "name": "Bill Reynolds",
-      "email": "wreynolds@esri.com"
-    },
-    {
-      "name": "City of Veronia GIS"
-    },
-    {
-      "name": "Dave Bouwman",
-      "email": "dbouwman@esri.com"
-    },
-    {
-      "name": "Enguerrand des Vaux"
-    },
-    {
-      "name": "Gavin Rehkemper",
-      "email": "grehkemper@esri.com"
-    },
-    {
-      "name": "Ian Trewella"
-    },
-    {
-      "name": "Idi Eradiri",
-      "email": "ieradiri@esri.com"
-    },
-    {
-      "name": "Jeff Jacobson"
-    },
-    {
-      "name": "John Gravois",
-      "email": "john@esri.com"
-    },
-    {
-      "name": "Junshan Liu",
-      "email": "jliu@esri.com"
-    },
-    {
-      "name": "Max Payson",
-      "email": "mpayson@esri.com"
-    },
-    {
-      "name": "Mike 'Jupe' Juniper",
-      "email": "mjuniper@esri.com"
-    },
-    {
-      "name": "Mike Tschudi",
-      "email": "mtschudi@esri.com"
-    },
-    {
-      "name": "Noah Mulfinger",
-      "email": "nmulfinger@esri.com"
-    },
-    {
-      "name": "Patrick Arlt",
-      "email": "parlt@esri.com",
-      "url": "http://patrickarlt.com/"
-    },
-    {
-      "name": "Richard Hincamp"
-    },
-    {
-      "name": "Steven Kitterman",
-      "email": "skitterman@esri.com"
-    },
-    {
-      "name": "Stephen Sylvia",
-      "email": "ssylvia@esri.com"
-    },
-    {
-      "name": "Tom Wayson",
-      "email": "twayson@esri.com"
-    }
-  ],
-  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/Esri/arcgis-rest-js/issues"
   },
-  "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
-  "eslintIgnore": [
-    "packages/**/test",
-    "packages/**/dist"
-  ],
   "workspaces": [
     "./packages/arcgis-rest-types",
     "./packages/arcgis-rest-request",
@@ -210,8 +164,5 @@
     "./packages/arcgis-rest-fetch",
     "./packages/arcgis-rest-form-data",
     "./demos/*"
-  ],
-  "dependencies": {
-    "prettier-package-json": "^2.6.0"
-  }
+  ]
 }

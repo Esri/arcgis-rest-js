@@ -1,10 +1,12 @@
 {
+  "private": true,
   "name": "@esri/arcgis-rest-demo-express",
   "version": "3.3.0",
-  "private": true,
   "description": "Demo of @esri/arcgis-rest-* packages in an Express server",
-  "author": "",
   "license": "Apache-2.0",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "@esri/arcgis-rest-auth": "^3.3.0",
     "@esri/arcgis-rest-request": "^3.3.0",
@@ -12,7 +14,5 @@
     "express": "^4.16.3",
     "isomorphic-form-data": "^2.0.0"
   },
-  "scripts": {
-    "start": "node server.js"
-  }
+  "author": ""
 }

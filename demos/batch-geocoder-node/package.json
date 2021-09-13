@@ -1,31 +1,22 @@
 {
+  "private": true,
   "name": "batch-geocoder",
   "version": "3.3.0",
   "description": "arcgis-rest-js batch geocode sample",
+  "license": "Apache-2.0",
+  "keywords": [
+    "arcgis",
+    "arcgis-rest-js",
+    "batch",
+    "geocode",
+    "js",
+    "rest"
+  ],
   "main": "batch-geocode.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node batch-geocode.js"
+    "start": "node batch-geocode.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Esri/arcgis-rest-js.git"
-  },
-  "keywords": [
-    "geocode",
-    "batch",
-    "arcgis",
-    "rest",
-    "js",
-    "arcgis-rest-js"
-  ],
-  "author": "Max Payson (mpayson)",
-  "license": "Apache-2.0",
-  "private": true,
-  "bugs": {
-    "url": "https://github.com/Esri/arcgis-rest-js/issues"
-  },
-  "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
   "dependencies": {
     "@esri/arcgis-rest-auth": "^3.3.0",
     "@esri/arcgis-rest-geocoding": "^3.3.0",
@@ -33,5 +24,14 @@
     "cross-fetch": "^3.0.0",
     "isomorphic-form-data": "^2.0.0",
     "papaparse": "^4.6.0"
+  },
+  "author": "Max Payson (mpayson)",
+  "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/arcgis-rest-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Esri/arcgis-rest-js/issues"
   }
 }

@@ -1,15 +1,15 @@
 {
-  "name": "sapper-webmap-checker",
-  "description": "this thing is cray cray",
   "private": true,
+  "name": "sapper-webmap-checker",
   "version": "3.3.0",
+  "description": "this thing is cray cray",
   "scripts": {
-    "dev": "sapper dev",
     "build:legacy": "sapper build --legacy",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "dev": "sapper dev",
     "export": "sapper export --legacy",
     "start": "node __sapper__/build",
-    "cy:run": "cypress run",
-    "cy:open": "cypress open",
     "test": "run-p --race dev cy:run"
   },
   "dependencies": {

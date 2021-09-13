@@ -1,10 +1,12 @@
 {
+  "private": true,
   "name": "attachments",
   "version": "3.3.0",
-  "private": true,
   "description": "Vanilla JavaScript demo of attachment methods of @esri/arcgis-rest-feature-service",
-  "author": "",
   "license": "Apache-2.0",
+  "scripts": {
+    "start": "node ../../scripts/run-demo-server.js"
+  },
   "dependencies": {
     "@esri/arcgis-rest-feature-layer": "^3.3.0",
     "@esri/arcgis-rest-request": "^3.3.0"
@@ -12,7 +14,5 @@
   "devDependencies": {
     "http-server": "13.0.1"
   },
-  "scripts": {
-    "start": "node ../../scripts/run-demo-server.js"
-  }
+  "author": ""
 }

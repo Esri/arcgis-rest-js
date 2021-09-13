@@ -2,9 +2,15 @@
   "name": "@esri/arcgis-rest-types",
   "version": "3.3.0",
   "description": "Shared TypeScript types for @esri/arcgis-rest-js",
-  "types": "dist/types/index.d.ts",
-  "author": "",
   "license": "Apache-2.0",
+  "keywords": [
+    "ES6",
+    "arcgis",
+    "esri",
+    "fetch",
+    "promise",
+    "typescript"
+  ],
   "main": "src/index.ts",
   "files": [
     "dist/types/*.d.ts",
@@ -15,37 +21,24 @@
     "build:esm": "tsc --emitDeclarationOnly",
     "dev:esm": "tsc -w --emitDeclarationOnly"
   },
-  "publishConfig": {
-    "access": "public"
-  },
+  "types": "dist/types/index.d.ts",
+  "author": "",
+  "contributors": [
+    "Jeff Jacobson (http://github.com/jeffjacobson)",
+    "Patrick Arlt <parlt@esri.com> (http://patrickarlt.com/)"
+  ],
+  "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Esri/arcgis-rest-js.git",
     "directory": "packages/arcgis-rest-types"
   },
-  "contributors": [
-    {
-      "name": "Patrick Arlt",
-      "email": "parlt@esri.com",
-      "url": "http://patrickarlt.com/"
-    },
-    {
-      "name": "Jeff Jacobson",
-      "url": "http://github.com/jeffjacobson"
-    }
-  ],
   "bugs": {
     "url": "https://github.com/Esri/arcgis-rest-js/issues"
   },
-  "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
-  "keywords": [
-    "typescript",
-    "promise",
-    "fetch",
-    "arcgis",
-    "esri",
-    "ES6"
-  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "esri": {
     "keyExports": [
       "IUser, IItem"

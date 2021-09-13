@@ -1,6 +1,7 @@
 {
   "name": "@esri/arcgis-rest-form-data",
   "version": "3.3.0",
+  "type": "commonjs",
   "module": "browser-ponyfill.mjs",
   "browser": "browser-ponyfill.js",
   "exports": {
@@ -11,7 +12,6 @@
     "default": "./browser-ponyfill.mjs"
   },
   "types": "index.types.d.ts",
-  "type": "commonjs",
   "dependencies": {
     "formdata-node": "^4.1.0"
   }
