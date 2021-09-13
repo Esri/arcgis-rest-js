@@ -40,6 +40,8 @@ const packageNames = fs
   .readdirSync(path.join(__dirname, "packages"))
   .filter((p) => p[0] !== ".")
   .filter((p) => p !== "arcgis-rest-fetch")
+  .filter((p) => p !== "arcgis-rest-form-data")
+
   .map((p) => {
     return require(path.join(__dirname, "packages", p, "package.json")).name;
   }, {});

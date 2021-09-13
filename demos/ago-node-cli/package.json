@@ -17,7 +17,6 @@
     "start": "echo \"CLI - node index.js <search>\" && exit 1"
   },
   "dependencies": {
-    "@esri/arcgis-rest-auth": "^3.3.0",
     "@esri/arcgis-rest-portal": "^3.3.0",
     "@esri/arcgis-rest-request": "^3.3.0",
     "chalk": "^2.3.0",
