@@ -1,6 +1,7 @@
 /* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { unwatchFile } from "fs";
 import { IAuthenticationManager } from "./utils/IAuthenticationManager.js";
 
 /**
@@ -25,8 +26,12 @@ export class ApiKey implements IAuthenticationManager {
 
   private key: string;
 
-  constructor(options: IApiKeyOptions) {
-    this.key = options.key;
+  constructor(options: IApiKeyOptions | string) {
+    if (typeof options === "string") {
+      this.key = options;
+    } else {
+      this.key = options.key;
+    }
   }
 
   /**

@@ -68,12 +68,11 @@
       </div>
     </div>
 
-    <script src="https://unpkg.com/@esri/arcgis-rest-request"></script>
-    <script src="https://unpkg.com/@esri/arcgis-rest-auth"></script>
+    <script src="@esri/arcgis-rest-request/dist/umd/request.umd.js"></script>
     <script>
 
       // Define the variable used for the redirect uri.
-      const redirect_uri = window.location.origin + window.location.pathname;
+      const redirect_uri = window.location.origin + window.location.pathname + "authenticate.html";
 
       // Inject that value into the page text.
       document.getElementById('redirect_uri').innerHTML = redirect_uri;
@@ -83,7 +82,7 @@
       document.getElementById('try').addEventListener('click', function (event) {
         event.preventDefault();
 
-        // url that is NOT accessible to anonymous users
+        // url that is NOT accessible to un-authenticated requests
         const url = `https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World`
 
         arcgisRest.request(url)
@@ -93,21 +92,20 @@
               sessionInfo.innerHTML = 'error: ' + err.message;
 
               // make the same request again with a UserSession
-              err.retry(appendSession)
-                .then(response => {
-                  sessionInfo.classList.remove('bg-info');
-                  sessionInfo.classList.add('bg-success');
-                  sessionInfo.innerHTML = 'current version of private server: ' + response.currentVersion;
-                })
+              return err.retry(appendSession)
             }
+          }).then(response => {
+            sessionInfo.classList.remove('bg-info');
+            sessionInfo.classList.add('bg-success');
+            sessionInfo.innerHTML = 'current version of private server: ' + response.currentVersion;
           })
       });
 
       function appendSession () {
         // Begin an OAuth2 login using a popup.
         return arcgisRest.UserSession.beginOAuth2({
-          clientId: clientId.defaultValue,
-          redirectUri: redirect_uri + 'authenticate.html',
+          clientId: clientId.value,
+          redirectUri: redirect_uri,
           popup: true
         });
       }
