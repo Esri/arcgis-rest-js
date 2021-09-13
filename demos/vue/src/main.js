@@ -4,8 +4,8 @@ import Vue from "vue";
 import Router from "vue-router";
 // Import the store plugin, Vuex.
 import Vuex from "vuex";
-// Import the arcgis-rest-auth bit required for deserializing local storage sessions.
-import { UserSession } from "@esri/arcgis-rest-auth";
+// Import the arcgis-rest-request bit required for deserializing local storage sessions.
+import { UserSession } from "@esri/arcgis-rest-request";
 // Importing the main application.
 import App from "./components/App.vue";
 // Importing the authentication component that post-processes the OAuth response.

@@ -56,7 +56,7 @@ export * from "./util/SearchQueryBuilder.js";
 
 // we dont export 'generic-search' because its an internal utility method
 // export * from "./util/generic-search"; because its an internal utility method
-export {
+export type {
   IPagingParams,
   IPagedResponse,
   IUser,

@@ -11,6 +11,7 @@
     "promise",
     "typescript"
   ],
+  "sideEffects": false,
   "main": "src/index.ts",
   "files": [
     "dist/types/*.d.ts",

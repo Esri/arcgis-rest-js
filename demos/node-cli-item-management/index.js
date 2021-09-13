@@ -1,9 +1,6 @@
-require('cross-fetch/polyfill');
-require("isomorphic-form-data");
 const prompts = require("prompts");
 const chalk = require("chalk");
-const { setDefaultRequestOptions } = require('@esri/arcgis-rest-request');
-const { UserSession } = require("@esri/arcgis-rest-auth");
+const { UserSession } = require("@esri/arcgis-rest-request");
 const {
   searchItems,
   removeItem,
@@ -12,7 +9,7 @@ const {
 
 // 1. Promt the user for sign in. Create a `UserSession`
 authenticate()
-  .then(session => {
+  .then((session) => {
     console.log(chalk.blue(`Signed in as ${session.username}`));
     // once the user is signed in search for items
     return searchForItems(session);
@@ -55,10 +52,10 @@ function authenticate() {
       // this will generate a token and use it to get into about a user
       return session.getUser();
     })
-    .then(self => {
+    .then((self) => {
       return session;
     })
-    .catch(error => {
+    .catch((error) => {
       // in case of an `ArcGISRequestError` assume the `username` and `password`
       // are incorrect run the `authenticate` function again
       if (error.name === "ArcGISRequestError") {
@@ -109,7 +106,7 @@ function searchForItems(session) {
         .in("owner");
 
       // format the search query for item types
-      const types = itemTypes.filter(type => type.length);
+      const types = itemTypes.filter((type) => type.length);
 
       // format the search query for item types
       if (types.length) {
@@ -124,7 +121,7 @@ function searchForItems(session) {
       }
 
       // format the search query for item tags
-      const tags = itemTags.filter(tag => tag.length);
+      const tags = itemTags.filter((tag) => tag.length);
 
       if (tags.length) {
         query.and().startGroup();
@@ -149,12 +146,12 @@ function searchForItems(session) {
         q: query,
         num: number
       })
-      .then(response => {
-        return { response, session };
-      })
-      .catch(err => {
-        console.warn(err);
-      })
+        .then((response) => {
+          return { response, session };
+        })
+        .catch((err) => {
+          console.warn(err);
+        });
     }
   );
 }
@@ -167,7 +164,7 @@ async function deleteItems(items, session) {
   const asyncIterable = {
     [Symbol.asyncIterator]: () => ({
       // every time we ask for a new item
-      next: function() {
+      next: function () {
         // remove the next item from the array
         const item = items.pop();
 

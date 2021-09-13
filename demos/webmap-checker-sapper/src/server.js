@@ -1,5 +1,3 @@
-require('cross-fetch/polyfill');
-import "isomorphic-form-data";
 import sirv from "sirv";
 import express from "express";
 import session from "express-session";
@@ -7,7 +5,7 @@ import compression from "compression";
 import * as sapper from "../__sapper__/server.js";
 import SessionFileStore from "session-file-store";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { UserSession } from "@esri/arcgis-rest-request";
 import { Store } from "svelte/store.js";
 import { userInfoMiddleware } from "./userInfoMiddleware";
 
@@ -52,15 +50,18 @@ express()
 
         // custom encoding and decoding for sessions means we can
         // initalize a single `UserSession` object for use with rest js
-        encoder: sessionObj => {
+        encoder: (sessionObj) => {
           sessionObj.userSession = sessionObj.userSession.serialize();
           return JSON.stringify(sessionObj);
         },
-        decoder: sessionContents => {
+        decoder: (sessionContents) => {
           const sessionObj = JSON.parse(sessionContents);
-          sessionObj.userSession = UserSession.deserialize(
-            sessionObj.userSession
-          );
+          if (sessionObj.userSession) {
+            sessionObj.userSession = UserSession.deserialize(
+              sessionObj.userSession
+            );
+          }
+
           return sessionObj;
         }
       })
@@ -73,7 +74,7 @@ express()
     // finally we can setup sapper by creating a Store that will syncronize
     // server side data with the client
     sapper.middleware({
-      store: request => {
+      store: (request) => {
         let userSession;
 
         // since the store is shared between the client and server
@@ -96,6 +97,6 @@ express()
       }
     })
   )
-  .listen(PORT, err => {
+  .listen(PORT, (err) => {
     if (err) console.log("error", err);
   });

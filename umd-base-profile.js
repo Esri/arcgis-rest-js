@@ -41,7 +41,7 @@ const packageNames = fs
   .filter((p) => p[0] !== ".")
   .filter((p) => p !== "arcgis-rest-fetch")
   .filter((p) => p !== "arcgis-rest-form-data")
-
+  .filter((p) => p !== "arcgis-rest-types")
   .map((p) => {
     return require(path.join(__dirname, "packages", p, "package.json")).name;
   }, {});
@@ -56,6 +56,32 @@ const globals = packageNames.reduce((globals, p) => {
   globals[p] = moduleName;
   return globals;
 }, {});
+
+function ignore(userOptions = {}) {
+  // Files need to be absolute paths.
+  // This only works if the file has no exports
+  // and only is imported for its side effects
+  const files = userOptions.files || [];
+
+  // if (files.length === 0) {
+  //   return {
+  //     name: "ignore"
+  //   };
+  // }
+
+  return {
+    name: "ignore",
+
+    load(id) {
+      console.log(id);
+      return id.includes("arcgis-rest-types")
+        ? {
+            code: ""
+          }
+        : null;
+    }
+  };
+}
 
 /**
  * Now we can export the Rollup config!
@@ -78,6 +104,7 @@ export default {
     typescript2({
       target: "ES2017" // force typescript compile target
     }),
-    nodeResolve()
+    nodeResolve(),
+    ignore()
   ]
 };
