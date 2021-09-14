@@ -22,19 +22,19 @@
     },
     "./package.json": "./package.json"
   },
+  "types": "dist/esm/index.d.ts",
+  "sideEffects": false,
   "scripts": {
     "build": "npm-run-all --parallel build:*",
     "postbuild": "node ../../scripts/create-dist-package-jsons.js",
+    "build:bundled": "rollup -c ../../rollup.js",
     "build:cjs": "tsc --outDir ./dist/cjs -m commonjs",
     "build:esm": "tsc --outDir ./dist/esm --declaration",
-    "build:bundled": "rollup -c ../../rollup.js",
     "dev": "npm-run-all --parallel dev:*",
+    "dev:bundled": "rollup -w -c ../../rollup.js",
     "dev:cjs": "tsc -w --outDir ./dist/cjs -m commonjs",
-    "dev:esm": "tsc -w --outDir ./dist/esm --declaration",
-    "dev:bundled": "rollup -w -c ../../rollup.js"
+    "dev:esm": "tsc -w --outDir ./dist/esm --declaration"
   },
-  "sideEffects": false,
-  "types": "dist/esm/index.d.ts",
   "engines": {
     "node": ">=12.20.0"
   },

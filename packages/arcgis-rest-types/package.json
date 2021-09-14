@@ -11,8 +11,9 @@
     "promise",
     "typescript"
   ],
-  "sideEffects": false,
   "main": "src/index.ts",
+  "types": "dist/types/index.d.ts",
+  "sideEffects": false,
   "files": [
     "dist/types/*.d.ts",
     "src/**/*.ts"
@@ -22,7 +23,6 @@
     "build:esm": "tsc --emitDeclarationOnly",
     "dev:esm": "tsc -w --emitDeclarationOnly"
   },
-  "types": "dist/types/index.d.ts",
   "author": "",
   "contributors": [
     "Jeff Jacobson (http://github.com/jeffjacobson)",

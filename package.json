@@ -5,7 +5,6 @@
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
-    "prepare": "npm run build-all",
     "build": "ultra --no-pretty --silent --build -r --filter \"packages/*\" build",
     "build:esm": "ultra --no-pretty --silent --build -r --filter \"packages/*\" build:esm",
     "build:cjs": "ultra --no-pretty --silent --build -r --filter \"packages/*\" build:cjs",
@@ -47,7 +46,8 @@
     "test:node:live": "node --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.live.json",
     "test:node:live:debug": "node  --inspect --inspect-brk --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.live.json",
     "prettify": "prettier --write --parser typescript --tab-width 2 --use-tabs false \"packages/**/+(src|test)/**/*.ts\"",
-    "typedoc": "typedoc --options ./typedoc.json"
+    "typedoc": "typedoc --options ./typedoc.json",
+    "prettify:packages-jsons": "prettier-package-json --write ./**/*/package.json"
   },
   "engines": {
     "npm": ">=7.0.0",
