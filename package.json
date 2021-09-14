@@ -37,7 +37,7 @@
     "test:compile": "ultra --build -r --filter \"packages/*\" tsc --noEmit",
     "test:all": "npm run test:node && npm run test:firefox && npm run test:chrome",
     "test:chrome": "karma start karma.conf.cjs --single-run --browsers=Chrome",
-    "test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.js",
+    "test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.cjs",
     "test:chrome:debug": "karma start karma.conf.cjs --auto-watch --no-single-run --browsers=ChromeDebugging",
     "test:firefox": "karma start --single-run --browsers=Firefox",
     "test:firefox:ci": "karma start --single-run --browsers=FirefoxHeadless",
