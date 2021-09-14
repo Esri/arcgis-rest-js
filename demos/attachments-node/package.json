@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "arcgis-rest-js-node-es-modules-integration-test",
+  "name": "arcgis-rest-js-node-attachments-test",
   "version": "1.0.0",
   "description": "",
   "license": "Apache-2.0",
