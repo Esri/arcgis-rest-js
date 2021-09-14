@@ -5,7 +5,7 @@
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
-    "build": "ultra --no-pretty --silent --build -r --filter \"packages/*\" build",
+    "build": "npm run build:esm && npm run build:cjs && npm run build:bundled",
     "build:esm": "ultra --no-pretty --silent --build -r --filter \"packages/*\" build:esm",
     "build:cjs": "ultra --no-pretty --silent --build -r --filter \"packages/*\" build:cjs",
     "build:bundled": "ultra  --no-pretty --silent --build -r --filter \"packages/*\" build:bundled",
