@@ -1,7 +1,7 @@
 /* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 import { cleanUrl, IRequestOptions } from "@esri/arcgis-rest-request";
-import {
+import type {
   GeometryType,
   SpatialRelationship,
   IGeometry,
@@ -82,7 +82,7 @@ const serviceRegex = new RegExp(/.+(?:map|feature|image)server/i);
 /**
  * Return the service url. If not matched, returns what was passed in
  */
-export function parseServiceUrl (url: string) {
+export function parseServiceUrl(url: string) {
   const match = url.match(serviceRegex);
   if (match) {
     return match[0];
@@ -91,7 +91,7 @@ export function parseServiceUrl (url: string) {
   }
 }
 
-function stripQueryString (url: string) {
-  const stripped = url.split('?')[0];
+function stripQueryString(url: string) {
+  const stripped = url.split("?")[0];
   return cleanUrl(stripped);
 }

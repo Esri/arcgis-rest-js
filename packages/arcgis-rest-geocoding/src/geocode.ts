@@ -7,7 +7,11 @@ import {
   appendCustomParams
 } from "@esri/arcgis-rest-request";
 
-import { IExtent, ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
+import type {
+  IExtent,
+  ISpatialReference,
+  IPoint
+} from "@esri/arcgis-rest-types";
 
 import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers.js";
 

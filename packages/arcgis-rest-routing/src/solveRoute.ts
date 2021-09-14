@@ -3,9 +3,8 @@
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
 
-import {
+import type {
   ILocation,
-  ISpatialReference,
   IPoint,
   IFeature,
   IFeatureSet

@@ -3,7 +3,7 @@
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
 
-import { IPoint, ILocation } from "@esri/arcgis-rest-types";
+import type { IPoint, ILocation } from "@esri/arcgis-rest-types";
 
 import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers.js";
 

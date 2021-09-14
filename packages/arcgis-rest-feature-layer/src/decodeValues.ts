@@ -2,7 +2,11 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IField, IFeature, ILayerDefinition } from "@esri/arcgis-rest-types";
+import type {
+  IField,
+  IFeature,
+  ILayerDefinition
+} from "@esri/arcgis-rest-types";
 
 import { IQueryFeaturesResponse } from "./query.js";
 import { getLayer } from "./getLayer.js";

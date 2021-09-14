@@ -32,4 +32,5 @@ export * from "./authenticated-request-options.js";
 export * from "./app-tokens.js";
 export * from "./validate-app-access.js";
 export * from "./federation-utils.js";
+
 export type { IUser } from "@esri/arcgis-rest-types";

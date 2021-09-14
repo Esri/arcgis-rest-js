@@ -102,3 +102,5 @@ typedoc
 
 # Ignore srihash output
 srihashes.json
+
+**/.ultra.cache.json

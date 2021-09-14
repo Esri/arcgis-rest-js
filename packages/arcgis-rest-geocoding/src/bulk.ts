@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
-import { ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
+import type { ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
 
 import {
   ARCGIS_ONLINE_BULK_GEOCODING_URL,

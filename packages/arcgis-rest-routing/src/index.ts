@@ -6,7 +6,7 @@ export * from "./closestFacility.js";
 export * from "./serviceArea.js";
 export * from "./originDestinationMatrix.js";
 export * from "./helpers.js";
-export {
+export type {
   ILocation,
   ISpatialReference,
   IPoint,

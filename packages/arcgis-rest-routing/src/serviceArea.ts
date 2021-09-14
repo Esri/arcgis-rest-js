@@ -7,12 +7,7 @@ import {
   appendCustomParams
 } from "@esri/arcgis-rest-request";
 
-import {
-  ILocation,
-  IPoint,
-  IFeature,
-  IFeatureSet
-} from "@esri/arcgis-rest-types";
+import type { ILocation, IPoint, IFeatureSet } from "@esri/arcgis-rest-types";
 
 import {
   ARCGIS_ONLINE_SERVICE_AREA_URL,

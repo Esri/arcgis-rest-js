@@ -4,7 +4,7 @@ export * from "./update.js";
 export * from "./get-service-admin-info.js";
 export * from "./get-view-sources.js";
 
-export {
+export type {
   IFeatureServiceDefinition,
   IExtent,
   ISpatialReference,

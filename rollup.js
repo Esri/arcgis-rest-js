@@ -1,4 +1,4 @@
-import typescript2 from "rollup-plugin-typescript";
+import typescript from "rollup-plugin-typescript";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import filesize from "rollup-plugin-filesize";
 import { terser } from "rollup-plugin-terser";
@@ -73,28 +73,32 @@ const baseOutput = {
   extend: true // causes this module to extend the global specified by `moduleName`
 };
 
-const basePlugins = [
-  typescript2({
-    target: "ES2017" // force typescript compile target
-  }),
-  nodeResolve()
-];
+const basePlugins = function () {
+  return [
+    typescript({
+      target: "ES2017" // force typescript compile target
+    }),
+    nodeResolve()
+  ];
+};
 
-const productionPlugins = [
-  filesize(),
-  terser({
-    format: {
-      comments: function (node, comment) {
-        var text = comment.value;
-        var type = comment.type;
-        if (type == "comment2") {
-          // multiline comment
-          return /@preserve|@license|@cc_on/i.test(text);
+const productionPlugins = function () {
+  return [
+    filesize(),
+    terser({
+      format: {
+        comments: function (node, comment) {
+          var text = comment.value;
+          var type = comment.type;
+          if (type == "comment2") {
+            // multiline comment
+            return /@preserve|@license|@cc_on/i.test(text);
+          }
         }
       }
-    }
-  })
-];
+    })
+  ];
+};
 
 const packageName = name.replace("@esri/arcgis-rest-", "");
 
@@ -107,7 +111,7 @@ const umdConfig = {
     globals
   },
   external: packageNames,
-  plugins: [...basePlugins]
+  plugins: [...basePlugins()]
 };
 
 const umdMinConfig = {
@@ -119,31 +123,31 @@ const umdMinConfig = {
     globals
   },
   external: packageNames,
-  plugins: [...basePlugins, ...productionPlugins]
+  plugins: [...basePlugins(), ...productionPlugins()]
 };
 
 const esmConfig = {
   ...baseConfig,
   output: {
     file: `./dist/bundled/${packageName}.esm.js`,
-    format: "module",
+    format: "es",
     ...baseOutput,
     globals: name === "arcgis-rest-request" ? undefined : globals
   },
   external: name === "arcgis-rest-request" ? undefined : packageNames,
-  plugins: [...basePlugins]
+  plugins: [...basePlugins()]
 };
 
 const esmMinConfig = {
   ...baseConfig,
   output: {
     file: `./dist/bundled/${packageName}.esm.min.js`,
-    format: "module",
+    format: "es",
     ...baseOutput,
     globals: name === "arcgis-rest-request" ? undefined : globals
   },
   external: name === "arcgis-rest-request" ? undefined : packageNames,
-  plugins: [...basePlugins, ...productionPlugins]
+  plugins: [...basePlugins(), ...productionPlugins()]
 };
 
 export default [umdConfig, umdMinConfig, esmConfig, esmMinConfig];

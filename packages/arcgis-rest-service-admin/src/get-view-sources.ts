@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request, UserSession } from "@esri/arcgis-rest-request";
-import { IViewServiceSources } from "@esri/arcgis-rest-types";
+import type { IViewServiceSources } from "@esri/arcgis-rest-types";
 
 /**
  * Return the sources response for a view service item

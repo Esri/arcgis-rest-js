@@ -6,6 +6,7 @@ import {
   cleanUrl,
   appendCustomParams
 } from "@esri/arcgis-rest-request";
+
 import {
   ISharedEditOptions,
   IEditFeatureResult,

@@ -14,7 +14,7 @@
   "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "unpkg": "dist/umd/geocoding.umd.min.js",
+  "unpkg": "dist/bundled/geocoding.umd.min.js",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
@@ -25,15 +25,15 @@
     "dist/**"
   ],
   "scripts": {
-    "prebuild": "tsc --noEmit && trash ./dist",
-    "build": "npm run build:cjs && npm run build:esm && npm run build:umd",
+    "build": "npm-run-all --parallel build:*",
     "postbuild": "node ../../scripts/create-dist-package-jsons.js",
     "build:cjs": "tsc --outDir ./dist/cjs -m commonjs",
     "build:esm": "tsc --outDir ./dist/esm --declaration",
-    "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
+    "build:bundled": "rollup -c ../../rollup.js",
+    "dev": "npm-run-all --parallel dev:*",
     "dev:cjs": "tsc -w --outDir ./dist/cjs -m commonjs",
     "dev:esm": "tsc -w --outDir ./dist/esm --declaration",
-    "dev:umd": "rollup -w -c ../../umd-base-profile.js"
+    "dev:bundled": "rollup -w -c ../../rollup.js"
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",

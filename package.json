@@ -5,9 +5,15 @@
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
-    "_prepare": "npm run build",
-    "build": "npm run build -ws --if-present",
-    "clean": "trash packages/*/dist/",
+    "prepare": "npm run build-all",
+    "build": "ultra --no-pretty --silent --build -r --filter \"packages/*\" build",
+    "build:esm": "ultra --no-pretty --silent --build -r --filter \"packages/*\" build:esm",
+    "build:cjs": "ultra --no-pretty --silent --build -r --filter \"packages/*\" build:cjs",
+    "build:bundled": "ultra  --no-pretty --silent --build -r --filter \"packages/*\" build:bundled",
+    "dev:esm": "ultra -r --filter \"packages/*\" dev:esm",
+    "dev:cjs": "ultra -r --filter \"packages/*\" dev:cjs",
+    "dev:bundled": "ultra -r --filter \"packages/*\" dev:bundled",
+    "clean-all": "trash packages/*/dist/",
     "precommit": "lint-staged",
     "docs:build": "rimraf docs/build && npm run docs:typedoc && npm run docs:build:acetate && npm run docs:build:sass && npm run docs:build:images && npm run docs:build:js",
     "docs:build:acetate": "ENV=prod acetate build --config docs/acetate.config.js",
@@ -26,10 +32,10 @@
     "docs:srihash": "node docs/generate-srihashes.js",
     "docs:typedoc": "node docs/build-typedoc.js",
     "lint": "eslint ./packages --ext .ts",
-    "prepare-demos": "npm run link -w ./packages",
     "skypack-check": "npm exec -w ./packages package-check",
     "srihash": "node scripts/generate-sri-hashes.js",
-    "test": "npm run lint && npm run test:node && npm run test:chrome",
+    "test": "npm run lint && npm run test:compile && npm run test:node && npm run test:chrome",
+    "test:compile": "ultra --build -r --filter \"packages/*\" tsc --noEmit",
     "test:all": "npm run test:node && npm run test:firefox && npm run test:chrome",
     "test:chrome": "karma start karma.conf.cjs --single-run --browsers=Chrome",
     "test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.js",
@@ -40,11 +46,10 @@
     "test:node:debug": "node --inspect --inspect-brk --loader  ts-node/esm node_modules/.bin/jasmine --config=jasmine.json",
     "test:node:live": "node --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.live.json",
     "test:node:live:debug": "node  --inspect --inspect-brk --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.live.json",
-    "tsv": "tsc -v",
     "prettify": "prettier --write --parser typescript --tab-width 2 --use-tabs false \"packages/**/+(src|test)/**/*.ts\"",
     "typedoc": "typedoc --options ./typedoc.json"
   },
-  "engines": { 
+  "engines": {
     "npm": ">=7.0.0",
     "node": ">=12.20.0"
   },
@@ -103,6 +108,7 @@
     "lint-staged": "^4.3.0",
     "minimatch": "^3.0.4",
     "node-sass": "^4.12.0",
+    "npm-run-all": "^4.1.5",
     "onchange": "^3.3.0",
     "prettier": "^2.3.1",
     "prettier-package-json": "^2.6.0",
@@ -118,7 +124,8 @@
     "trash-cli": "^4.0.0",
     "ts-node": "^10.2.1",
     "typedoc": "^0.21.0",
-    "typescript": "^4.0.0"
+    "typescript": "^4.0.0",
+    "ultra-runner": "^3.10.5"
   },
   "contributors": [
     "Anthony Lukach",

@@ -7,7 +7,7 @@ export * from "./reverse.js";
 export * from "./bulk.js";
 export * from "./helpers.js";
 
-export {
+export type {
   IPoint,
   ILocation,
   IExtent,

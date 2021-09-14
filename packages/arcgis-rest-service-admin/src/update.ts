@@ -6,7 +6,7 @@ import {
   cleanUrl,
   IUserRequestOptions
 } from "@esri/arcgis-rest-request";
-import { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
+import type { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
 
 export interface IUpdateServiceDefinitionOptions extends IUserRequestOptions {
   updateDefinition?: Partial<IFeatureServiceDefinition>;

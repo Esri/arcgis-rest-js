@@ -7,7 +7,7 @@ import {
   appendCustomParams
 } from "@esri/arcgis-rest-request";
 
-import { IFeature } from "@esri/arcgis-rest-types";
+import type { IFeature } from "@esri/arcgis-rest-types";
 
 import { ISharedEditOptions, IEditFeatureResult } from "./helpers.js";
 

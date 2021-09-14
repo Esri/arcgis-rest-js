@@ -16,7 +16,7 @@ export * from "./getLayer.js";
 export * from "./getService.js";
 export * from "./decodeValues.js";
 export * from "./helpers.js";
-export {
+export type {
   IFeature,
   ISpatialReference,
   IHasZM,

@@ -7,7 +7,7 @@ import {
   appendCustomParams
 } from "@esri/arcgis-rest-request";
 
-import {
+import type {
   ISpatialReference,
   IFeature,
   IHasZM,

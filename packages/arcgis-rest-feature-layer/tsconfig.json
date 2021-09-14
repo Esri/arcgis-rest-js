@@ -1,6 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "include": [
-      "src/**/*.ts"
+      "src/**/*.ts",
+      "./node_modules/@types",
+      "packages",
+      "scripts"
   ]
 }
