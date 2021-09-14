@@ -31,10 +31,10 @@
     "postbuild": "node ../../scripts/create-dist-package-jsons.js",
     "build:cjs": "tsc --outDir ./dist/cjs -m commonjs",
     "build:esm": "tsc --outDir ./dist/esm --declaration",
-    "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
+    "build:umd": "rollup -c ../../rollup.js",
     "dev:cjs": "tsc -w --outDir ./dist/cjs -m commonjs",
     "dev:esm": "tsc -w --outDir ./dist/esm --declaration",
-    "dev:umd": "rollup -w -c ../../umd-base-profile.js"
+    "dev:umd": "rollup -w -c ../../rollup.js"
   },
   "sideEffects": false,
   "types": "dist/esm/index.d.ts",

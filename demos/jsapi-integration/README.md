@@ -22,3 +22,5 @@ esriId.getCredential("https://www.arcgis.com/sharing/rest").then((cred) => {
   const session = UserSession.fromCredential(cred);
 });
 ```
+
+**Note:** The server starts with a special configuration to serve URLs starting with `@esri/arcgis-rest-*` from their respective packages. In your application you will need to change these URLs to point to their respective locations.
