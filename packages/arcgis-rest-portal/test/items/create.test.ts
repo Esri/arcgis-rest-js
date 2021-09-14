@@ -11,7 +11,7 @@ import {
 import { ItemSuccessResponse } from "../mocks/items/item.js";
 
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
-import { UserSession, encodeParam } from "@esri/arcgis-rest-request";
+import { UserSession, encodeParam, File } from "@esri/arcgis-rest-request";
 
 describe("search", () => {
   afterEach(fetchMock.restore);
@@ -380,7 +380,9 @@ describe("search", () => {
       fetchMock.post("*", () => 200);
       createItemInFolder({
         item: fakeItem,
-        file: "some file",
+        file: new File(["some text"], undefined, {
+          type: "text/html"
+        }),
         multipart: true,
         // multipart is required for a multipart request
         filename: "",

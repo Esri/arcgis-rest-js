@@ -9,7 +9,6 @@ import {
   IAddFolderResponse,
   IUpdateItemResponse,
   ICreateUpdateItemOptions,
-  serializeItem,
   determineOwner
 } from "./helpers.js";
 
@@ -95,7 +94,7 @@ export function createItemInFolder(
 
     requestOptions.params = {
       ...requestOptions.params,
-      ...serializeItem(requestOptions.item)
+      ...requestOptions.item
     };
 
     // serialize the item into something Portal will accept

@@ -57,11 +57,11 @@ describe("search", () => {
         properties: {
           key: "somevalue"
         },
-        data: {
+        text: JSON.stringify({
           values: {
             key: "value"
           }
-        }
+        })
       };
       updateItem({ item: fakeItem, ...MOCK_USER_REQOPTS })
         .then(() => {
@@ -81,9 +81,7 @@ describe("search", () => {
           expect(options.body).toContain(
             encodeParam("tags", "fakey,mcfakepants")
           );
-          expect(options.body).toContain(
-            encodeParam("text", JSON.stringify(fakeItem.data))
-          );
+          expect(options.body).toContain(encodeParam("text", fakeItem.text));
           done();
         })
         .catch((e) => {
@@ -105,7 +103,7 @@ describe("search", () => {
         properties: {
           key: "somevalue"
         },
-        data: {
+        text: {
           values: {
             key: "value"
           }
@@ -136,7 +134,7 @@ describe("search", () => {
             encodeParam("tags", "fakey,mcfakepants")
           );
           expect(options.body).toContain(
-            encodeParam("text", JSON.stringify(fakeItem.data))
+            encodeParam("text", JSON.stringify(fakeItem.text))
           );
           expect(options.body).toContain(encodeParam("clearEmptyFields", true));
           done();
@@ -165,7 +163,7 @@ describe("search", () => {
           intervalSeconds: 60,
           referrers: ["http://<servername>"]
         },
-        data: {
+        text: {
           values: {
             key: "value"
           }
@@ -203,7 +201,7 @@ describe("search", () => {
             encodeParam("tags", "fakey,mcfakepants")
           );
           expect(options.body).toContain(
-            encodeParam("text", JSON.stringify(fakeItem.data))
+            encodeParam("text", JSON.stringify(fakeItem.text))
           );
           done();
         })
@@ -214,15 +212,12 @@ describe("search", () => {
 
     it("update an item info file", (done) => {
       fetchMock.once("*", UpdateItemInfoResponse);
-      const fakeData = {
-        values: {
-          key: "someValue"
-        }
-      };
+
+      const file = attachmentFile();
       updateItemInfo({
         id: "3ef",
         folderName: "subfolder",
-        file: fakeData,
+        file,
         ...MOCK_USER_REQOPTS
       })
         .then(() => {
@@ -232,12 +227,12 @@ describe("search", () => {
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateinfo"
           );
           expect(options.method).toBe("POST");
-
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain("token=fake-token");
-          expect(options.body).toContain(
-            encodeParam("file", JSON.stringify(fakeData))
-          );
+          const params = options.body as FormData;
+          if (params.get) {
+            expect(params.get("token")).toEqual("fake-token");
+            expect(params.get("f")).toEqual("json");
+            expect(params.get("file")).toEqual(file);
+          }
 
           done();
         })

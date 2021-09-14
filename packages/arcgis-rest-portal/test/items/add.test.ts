@@ -48,7 +48,7 @@ describe("search", () => {
       addItemData({
         id: "3ef",
         owner: "dbouwman",
-        data: fakeData,
+        text: JSON.stringify(fakeData),
         ...MOCK_USER_REQOPTS
       })
         .then((response) => {
@@ -82,7 +82,7 @@ describe("search", () => {
       // addItemData("3ef", "dbouwman", fakeData, MOCK_REQOPTS)
       addItemData({
         id: "3ef",
-        data: fakeData,
+        text: JSON.stringify(fakeData),
         ...MOCK_USER_REQOPTS
       })
         .then((response) => {
@@ -116,7 +116,7 @@ describe("search", () => {
       // addItemData("3ef", "dbouwman", fakeData, MOCK_REQOPTS)
       addItemData({
         id: "3ef",
-        data: fakeData,
+        text: JSON.stringify(fakeData),
         ...MOCK_USER_REQOPTS,
         params: {
           relationshipType: "WMA2Code"
@@ -143,18 +143,17 @@ describe("search", () => {
         });
     });
 
-    xit("should add binary item data by id", (done) => {
+    it("should add binary item data by id", (done) => {
       fetchMock.once("*", {
         success: true
       });
 
       const file = attachmentFile();
-      console.log(file);
+
       addItemData({
         // this would work on item: { type: "Code Sample" }
         id: "3ef",
-        // File() is only available in the browser
-        data: file,
+        file,
         ...MOCK_USER_REQOPTS
       })
         .then(() => {

@@ -2,6 +2,7 @@
  * Apache-2.0 */
 
 import { request, appendCustomParams } from "@esri/arcgis-rest-request";
+import type { Blob, File } from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
 import {
@@ -12,13 +13,18 @@ import {
   determineOwner,
   IManageItemRelationshipOptions
 } from "./helpers.js";
+
 import { updateItem, IUpdateItemOptions } from "./update.js";
 
 export interface IAddItemDataOptions extends IUserItemOptions {
   /**
-   * Object to store
+   * The [Blob](https://developer.mozilla.org/en-US/docs/Web/API/Blob) or [File](https://developer.mozilla.org/en-US/docs/Web/API/File) to store. In Node JS `File` and `Blob` can be imported from `@esri/arcgis-rest-request`
    */
-  data: any;
+  file?: Blob | File;
+  /**
+   * Text content to store/
+   */
+  text?: string;
 }
 
 /**
@@ -44,7 +50,8 @@ export function addItemData(
   const options: any = {
     item: {
       id: requestOptions.id,
-      data: requestOptions.data
+      text: requestOptions.text,
+      file: requestOptions.file
     },
     ...requestOptions
   };

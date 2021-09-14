@@ -9,8 +9,7 @@ import {
   IUserItemOptions,
   IUpdateItemResponse,
   determineOwner,
-  IItemPartOptions,
-  serializeItem
+  IItemPartOptions
 } from "./helpers.js";
 
 export interface ICommitItemOptions extends IUserItemOptions {
@@ -89,7 +88,7 @@ export function commitItemUpload(
     const options = appendCustomParams<ICommitItemOptions>(requestOptions, [], {
       params: {
         ...requestOptions.params,
-        ...serializeItem(requestOptions.item)
+        ...requestOptions.item
       }
     });
 

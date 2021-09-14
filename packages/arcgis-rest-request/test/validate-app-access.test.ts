@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { validateAppAccess } from "../src/validate-app-access.js";
+import { validateAppAccess } from "../src/index.js";
 
 const VERIFYAPPACCESS_URL =
   "https://www.arcgis.com/sharing/rest/oauth2/validateAppAccess";

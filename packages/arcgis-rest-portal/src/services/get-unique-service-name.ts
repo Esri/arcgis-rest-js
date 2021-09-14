@@ -5,7 +5,7 @@ import { UserSession } from "@esri/arcgis-rest-request";
 import { isServiceNameAvailable } from "./is-service-name-available.js";
 
 /**
- * Given a starting name, return a service name that is unqieu within
+ * Given a starting name, return a service name that is unique within
  * the current users organization
  *
  * @export

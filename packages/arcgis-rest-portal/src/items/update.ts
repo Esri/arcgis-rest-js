@@ -13,7 +13,6 @@ import {
   IItemInfoResponse,
   IItemResourceResponse,
   IUpdateItemResponse,
-  serializeItem,
   determineOwner
 } from "./helpers.js";
 
@@ -66,7 +65,7 @@ export function updateItem(
     // serialize the item into something Portal will accept
     requestOptions.params = {
       ...requestOptions.params,
-      ...serializeItem(requestOptions.item)
+      ...requestOptions.item
     };
 
     return request(url, requestOptions);
