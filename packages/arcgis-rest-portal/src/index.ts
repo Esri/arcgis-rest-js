@@ -50,6 +50,7 @@ export * from "./services/is-service-name-available";
 export * from "./util/get-portal";
 export * from "./util/get-portal-settings";
 export * from "./util/get-portal-url";
+export * from "./util/get-subscription-info";
 export * from "./util/scrub-control-chars";
 export * from "./util/search";
 export * from "./util/SearchQueryBuilder";
