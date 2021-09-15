@@ -32,10 +32,7 @@ describe("get-service-admin-info: ", () => {
       const [url]: [string, RequestInit] = fetchMock.lastCall("*");
 
       expect(result.foo).toBe("bar", "should return the api response");
-      expect(fetchMock.calls().matched.length).toBe(
-        1,
-        "should make one request"
-      );
+
       expect(url).toBe(
         "https://servicesqa.arcgis.com/orgid/arcgis/rest/admin/services/mysevice/FeatureServer"
       );
