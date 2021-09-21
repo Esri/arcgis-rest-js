@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-geocoding",
-  "version": "3.3.1",
+  "version": "3.4.0",
   "description": "Geocoding helpers for @esri/arcgis-rest-js",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/geocoding.umd.js",
@@ -13,14 +13,14 @@
     "dist/**"
   ],
   "dependencies": {
-    "@esri/arcgis-rest-types": "^3.3.1",
+    "@esri/arcgis-rest-types": "^3.4.0",
     "@terraformer/arcgis": "^2.0.7",
     "@types/terraformer__arcgis": "^2.0.0",
     "tslib": "^1.13.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^3.3.1",
-    "@esri/arcgis-rest-request": "^3.3.1"
+    "@esri/arcgis-rest-auth": "^3.4.0",
+    "@esri/arcgis-rest-request": "^3.4.0"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^3.0.0",
