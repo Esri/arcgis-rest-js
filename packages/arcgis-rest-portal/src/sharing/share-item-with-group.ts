@@ -66,6 +66,8 @@ export function shareItemWithGroup(
       if (itemOwner !== username) {
         // need to track if the user is an admin
         let isAdmin = false;
+        // track if the admin & owner are in the same org
+        let isCrossOrgSharing = false;
         // next perform any necessary membership adjustments for
         // current user and/or item owner
         return Promise.all([
@@ -82,6 +84,7 @@ export function shareItemWithGroup(
           .then(([currentUser, ownerUser, membership]) => {
             const isSharedEditingGroup = !!confirmItemControl;
             isAdmin = currentUser.role === "org_admin" && !currentUser.roleId;
+            isCrossOrgSharing = currentUser.orgId !== ownerUser.orgId;
             return getMembershipAdjustments(
               currentUser,
               isSharedEditingGroup,
@@ -106,7 +109,7 @@ export function shareItemWithGroup(
             )
               .then(() => {
                 // then attempt the share
-                return shareToGroup(requestOptions, isAdmin);
+                return shareToGroup(requestOptions, isAdmin, isCrossOrgSharing);
               })
               .then((sharingResults) => {
                 // lastly, if the admin user was added to the group,
@@ -195,7 +198,8 @@ function getMembershipAdjustments(
 
 function shareToGroup(
   requestOptions: IGroupSharingOptions,
-  isAdmin = false
+  isAdmin = false,
+  isCrossOrgSharing = false
 ): Promise<ISharingResponse> {
   const username = requestOptions.authentication.username;
   const itemOwner = requestOptions.owner || username;
@@ -207,8 +211,8 @@ function shareToGroup(
 
   // but if they are the owner, or org_admin, use this route
   // Note: When using this end-point as an admin, apparently the admin does not need to be a member of the group (the itemOwner does)
-  // Have not validated this but came up in conversations w/ Sharing API team
-  if (itemOwner === username || isAdmin) {
+  // Note: Admin's can only use this route when the item is in the same org they are admin for
+  if (itemOwner === username || (isAdmin && !isCrossOrgSharing)) {
     url = `${getPortalUrl(requestOptions)}/content/users/${itemOwner}/items/${
       requestOptions.id
     }/share`;
