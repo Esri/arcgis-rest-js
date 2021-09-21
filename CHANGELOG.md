@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.4.1](https://github.com/Esri/arcgis-rest-js/compare/v3.4.0...v3.4.1) - Sep 21th 2021
+
+### Fixed
+
+- **arcgis-rest-portal** admin uses items/:id/share route for items outside their org
+
 ## [3.4.0](https://github.com/Esri/arcgis-rest-js/compare/v3.3.1...v3.4.0) - Sep 20th 2021
 
 ### Added
