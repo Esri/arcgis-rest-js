@@ -26,15 +26,11 @@
   <script type="module">
     import { searchItems } from "@esri/arcgis-rest-portal";
 
-    let element = document.createElement("div");
+    let element = document.createElement("pre");
     document.body.appendChild(element);
 
     searchItems("water").then((response) => {
-      element.innerHTML = JSON.stringify(response); // false
-    });
-
-    request("https://www.arcgis.com/sharing/rest/info", {}).then((response) => {
-      document.getElementById("result").innerText = JSON.stringify(response, null, 2)
+      element.textContent = JSON.stringify(response, null, 2); // false
     });
   </script>
 </body>
