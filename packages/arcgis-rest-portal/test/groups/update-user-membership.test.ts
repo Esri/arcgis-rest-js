@@ -28,7 +28,8 @@ describe("udpate-user-membership", () => {
       "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/updateUsers",
       { results: [{ username: "casey", success: true }] }
     );
-    return updateUserMemberships({
+
+    updateUserMemberships({
       authentication: MOCK_USER_SESSION,
       id: "3ef",
       users: ["larry", "curly", "moe"],
@@ -46,7 +47,8 @@ describe("udpate-user-membership", () => {
       "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/updateUsers",
       { results: [{ username: "casey", success: true }] }
     );
-    return updateUserMemberships({
+
+    updateUserMemberships({
       authentication: MOCK_USER_SESSION,
       id: "3ef",
       users: ["larry", "curly", "moe"],

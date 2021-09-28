@@ -33,7 +33,6 @@ describe("get-unique-service-name:", () => {
       0
     ).then((result) => {
       const call = fetchMock.lastCall();
-      console.log(call);
       expect(result).toBe("myService", "should return name");
     });
   });

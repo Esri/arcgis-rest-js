@@ -41,7 +41,7 @@
     "test:chrome:debug": "karma start karma.conf.cjs --auto-watch --no-single-run --browsers=ChromeDebugging",
     "test:firefox": "karma start --single-run --browsers=Firefox",
     "test:firefox:ci": "karma start --single-run --browsers=FirefoxHeadless",
-    "test:node": "node --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.json",
+    "test:node": "node --loader ts-node/esm node_modules/jasmine/bin/jasmine.js --config=jasmine.json",
     "test:node:debug": "node --inspect --inspect-brk --loader  ts-node/esm node_modules/.bin/jasmine --config=jasmine.json",
     "test:node:live": "node --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.live.json",
     "test:node:live:debug": "node  --inspect --inspect-brk --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.live.json",

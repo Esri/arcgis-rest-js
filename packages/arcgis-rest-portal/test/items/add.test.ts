@@ -167,7 +167,6 @@ describe("search", () => {
           // to do: figure out how to inspect these parameters from Node.js
           const params = options.body as FormData;
           if (params.get) {
-            console.log(options.body);
             expect(params.get("token")).toEqual("fake-token");
             expect(params.get("f")).toEqual("json");
             expect(params.get("file")).toEqual(file);

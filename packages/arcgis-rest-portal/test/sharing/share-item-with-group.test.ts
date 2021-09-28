@@ -699,7 +699,7 @@ describe("shareItemWithGroup() ::", () => {
           { results: [{ username: "casey", success: false }] }
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
@@ -761,7 +761,7 @@ describe("shareItemWithGroup() ::", () => {
           { errors: [new ArcGISAuthError("my error", 717)] }
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
@@ -812,7 +812,7 @@ describe("shareItemWithGroup() ::", () => {
           }
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
@@ -856,7 +856,7 @@ describe("shareItemWithGroup() ::", () => {
           }
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
@@ -903,7 +903,7 @@ describe("shareItemWithGroup() ::", () => {
           caseyUser
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
@@ -960,7 +960,7 @@ describe("shareItemWithGroup() ::", () => {
           { throws: true }
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
@@ -1031,7 +1031,7 @@ describe("shareItemWithGroup() ::", () => {
           { notRemoved: [] }
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
@@ -1099,7 +1099,7 @@ describe("shareItemWithGroup() ::", () => {
           { throws: true }
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
