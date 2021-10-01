@@ -105,10 +105,22 @@ describe("shareItemWithGroup() ::", () => {
   afterEach(fetchMock.restore);
   describe("share item as owner::", () => {
     it("should share an item with a group by owner", (done) => {
+      fetchMock.mock(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
+        OrgAdminUserResponse,
+        { method: "GET", repeat: 2 }
+      );
+
       // this is called when we try to determine if the item is already in the group
       fetchMock.once(
         "https://myorg.maps.arcgis.com/sharing/rest/search",
         SearchResponse
+      );
+
+      // called when we determine if the user is a member of the group
+      fetchMock.get(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b?f=json&token=fake-token",
+        GroupOwnerResponse
       );
 
       // the actual sharing request
@@ -395,9 +407,20 @@ describe("shareItemWithGroup() ::", () => {
     });
 
     it("should throw if the response from the server is fishy", (done) => {
+      fetchMock.mock(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
+        OrgAdminUserResponse,
+        { method: "GET", repeat: 2 }
+      );
+
       fetchMock.once(
         "https://myorg.maps.arcgis.com/sharing/rest/search",
         SearchResponse
+      );
+
+      fetchMock.get(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b?f=json&token=fake-token",
+        GroupOwnerResponse
       );
 
       fetchMock.once(

@@ -62,67 +62,61 @@ export function shareItemWithGroup(
       } = requestOptions;
       const itemOwner = owner || username;
 
-      // non-item owner
-      if (itemOwner !== username) {
-        // need to track if the user is an admin
-        let isAdmin = false;
-        // track if the admin & owner are in the same org
-        let isCrossOrgSharing = false;
-        // next perform any necessary membership adjustments for
-        // current user and/or item owner
-        return Promise.all([
-          getUser({
-            username,
-            authentication: requestOptions.authentication,
-          }),
-          getUser({
-            username: itemOwner,
-            authentication: requestOptions.authentication,
-          }),
-          getUserMembership(requestOptions),
-        ])
-          .then(([currentUser, ownerUser, membership]) => {
-            const isSharedEditingGroup = !!confirmItemControl;
-            isAdmin = currentUser.role === "org_admin" && !currentUser.roleId;
-            isCrossOrgSharing = currentUser.orgId !== ownerUser.orgId;
-            return getMembershipAdjustments(
-              currentUser,
-              isSharedEditingGroup,
-              membership,
-              isAdmin,
-              ownerUser,
-              requestOptions
-            );
-          })
-          .then((membershipAdjustments) => {
-            const [
-              { revert } = {
-                promise: Promise.resolve({ notAdded: [] }),
-                revert: (sharingResults: ISharingResponse) => {
-                  return Promise.resolve(sharingResults);
-                },
-              } as IEnsureMembershipResult,
-            ] = membershipAdjustments;
-            // perform all membership adjustments
-            return Promise.all(
-              membershipAdjustments.map(({ promise }) => promise)
-            )
-              .then(() => {
-                // then attempt the share
-                return shareToGroup(requestOptions, isAdmin, isCrossOrgSharing);
-              })
-              .then((sharingResults) => {
-                // lastly, if the admin user was added to the group,
-                // remove them from the group. this is a no-op that
-                // immediately resolves the sharingResults when no
-                // membership adjustment was needed
-                return revert(sharingResults);
-              });
-          });
-      }
-
-      // item owner, let it call through
-      return shareToGroup(requestOptions);
+      // need to track if the user is an admin
+      let isAdmin = false;
+      // track if the admin & owner are in the same org
+      let isCrossOrgSharing = false;
+      // next perform any necessary membership adjustments for
+      // current user and/or item owner
+      return Promise.all([
+        getUser({
+          username,
+          authentication: requestOptions.authentication,
+        }),
+        getUser({
+          username: itemOwner,
+          authentication: requestOptions.authentication,
+        }),
+        getUserMembership(requestOptions),
+      ])
+        .then(([currentUser, ownerUser, membership]) => {
+          const isSharedEditingGroup = !!confirmItemControl;
+          isAdmin = currentUser.role === "org_admin" && !currentUser.roleId;
+          isCrossOrgSharing = currentUser.orgId !== ownerUser.orgId;
+          return getMembershipAdjustments(
+            currentUser,
+            isSharedEditingGroup,
+            membership,
+            isAdmin,
+            ownerUser,
+            requestOptions
+          );
+        })
+        .then((membershipAdjustments) => {
+          const [
+            { revert } = {
+              promise: Promise.resolve({ notAdded: [] }),
+              revert: (sharingResults: ISharingResponse) => {
+                return Promise.resolve(sharingResults);
+              },
+            } as IEnsureMembershipResult,
+          ] = membershipAdjustments;
+          // perform all membership adjustments
+          return Promise.all(
+            membershipAdjustments.map(({ promise }) => promise)
+          )
+            .then(() => {
+              // then attempt the share
+              return shareToGroup(requestOptions, isAdmin, isCrossOrgSharing);
+            })
+            .then((sharingResults) => {
+              // lastly, if the admin user was added to the group,
+              // remove them from the group. this is a no-op that
+              // immediately resolves the sharingResults when no
+              // membership adjustment was needed
+              return revert(sharingResults);
+            });
+        });
     })
     .then((sharingResponse) => {
       if (sharingResponse.notSharedWith.length) {
@@ -145,8 +139,20 @@ function getMembershipAdjustments(
   requestOptions: IGroupSharingOptions
 ) {
   const membershipGuarantees = [];
+  const isItemOwner = currentUser.username === ownerUser.username;
   if (requestOptions.groupId !== currentUser.favGroupId) {
-    if (isSharedEditingGroup) {
+    if(isItemOwner) {
+      // item owner must be a group member to share, should be reverted afterwards
+      membershipGuarantees.push(
+        ensureMembership(
+          currentUser,
+          currentUser,
+          false,
+          `Error adding item owner, ${currentUser.username}, as member to edit group ${requestOptions.groupId}. Consequently item ${requestOptions.id} was not shared to the group.`,
+          requestOptions
+        )
+      );
+    } else if (isSharedEditingGroup) {
       if (!isAdmin) {
         // abort and reject promise
         throw Error(
@@ -198,8 +204,8 @@ function getMembershipAdjustments(
 
 function shareToGroup(
   requestOptions: IGroupSharingOptions,
-  isAdmin = false,
-  isCrossOrgSharing = false
+  isAdmin: boolean,
+  isCrossOrgSharing: boolean
 ): Promise<ISharingResponse> {
   const username = requestOptions.authentication.username;
   const itemOwner = requestOptions.owner || username;
