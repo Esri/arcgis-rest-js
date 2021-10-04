@@ -2,9 +2,9 @@
  * Apache-2.0 */
 
 import { IItem } from "@esri/arcgis-rest-types";
-import { SearchQueryBuilder } from "../util/SearchQueryBuilder";
-import { ISearchOptions, ISearchResult } from "../util/search";
-import { genericSearch } from "../util/generic-search";
+import { SearchQueryBuilder } from "../util/SearchQueryBuilder.js";
+import { ISearchOptions, ISearchResult } from "../util/search.js";
+import { genericSearch } from "../util/generic-search.js";
 
 /**
  * ```js

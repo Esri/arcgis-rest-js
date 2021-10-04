@@ -1,24 +1,24 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { originDestinationMatrix } from "../src/originDestinationMatrix";
+import { originDestinationMatrix } from "../src/originDestinationMatrix.js";
 
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
 
 import {
   barriers,
   barriersFeatureSet,
   polylineBarriers,
-  polygonBarriers,
-} from "./mocks/inputs";
+  polygonBarriers
+} from "./mocks/inputs.js";
 
 import {
   OriginDestinationMatrix,
   OriginDestinationMatrix_esriNAODOutputStraightLines,
   OriginDestinationMatrix_esriNAODOutputNoLines,
   OriginDestinationMatrix_AllBarrierTypes,
-  OriginDestinationMatrix_AllBarrierTypes_WebMercator,
-} from "./mocks/responses";
+  OriginDestinationMatrix_AllBarrierTypes_WebMercator
+} from "./mocks/responses.js";
 
 import { IPoint, ILocation, IFeatureSet } from "@esri/arcgis-rest-types";
 
@@ -29,127 +29,127 @@ const origins: Array<[number, number]> = [[-118.257363, 34.076763]];
 const destinations: Array<[number, number]> = [
   [-118.3417932, 34.00451385],
   [-118.08788, 34.01752],
-  [-118.20327, 34.19382],
+  [-118.20327, 34.19382]
 ];
 
 const originsLatLong: ILocation[] = [
   {
     lat: 34.076763,
-    long: -118.257363,
-  },
+    long: -118.257363
+  }
 ];
 
 const destinationsLatLong: ILocation[] = [
   {
     lat: 34.00451385,
-    long: -118.3417932,
+    long: -118.3417932
   },
   {
     lat: 34.01752,
-    long: -118.08788,
+    long: -118.08788
   },
   {
     lat: 34.19382,
-    long: -118.20327,
-  },
+    long: -118.20327
+  }
 ];
 
 const originsLatitudeLongitude: ILocation[] = [
   {
     latitude: 34.076763,
-    longitude: -118.257363,
-  },
+    longitude: -118.257363
+  }
 ];
 
 const destinationsLatitudeLongitude: ILocation[] = [
   {
     latitude: 34.00451385,
-    longitude: -118.3417932,
+    longitude: -118.3417932
   },
   {
     latitude: 34.01752,
-    longitude: -118.08788,
+    longitude: -118.08788
   },
   {
     latitude: 34.19382,
-    longitude: -118.20327,
-  },
+    longitude: -118.20327
+  }
 ];
 
 const originsPoint: IPoint[] = [
   {
     x: -118.257363,
-    y: 34.076763,
-  },
+    y: 34.076763
+  }
 ];
 
 const destinationsPoint: IPoint[] = [
   {
     x: -118.3417932,
-    y: 34.00451385,
+    y: 34.00451385
   },
   {
     x: -118.08788,
-    y: 34.01752,
+    y: 34.01752
   },
   {
     x: -118.20327,
-    y: 34.19382,
-  },
+    y: 34.19382
+  }
 ];
 
 const originsFeatureSet: IFeatureSet = {
   spatialReference: {
-    wkid: 102100,
+    wkid: 102100
   },
   features: [
     {
       geometry: {
         x: -13635398.9398,
-        y: 4544699.034400001,
+        y: 4544699.034400001
       } as IPoint,
       attributes: {
         Name: "123 Main St",
-        TargetDestinationCount: 1,
-      },
+        TargetDestinationCount: 1
+      }
     },
     {
       geometry: {
         x: -13632733.3441,
-        y: 4547651.028300002,
+        y: 4547651.028300002
       } as IPoint,
       attributes: {
         Name: "845 Mulberry St",
-        TargetDestinationCount: 2,
-      },
-    },
-  ],
+        TargetDestinationCount: 2
+      }
+    }
+  ]
 };
 
 const destinationsFeatureSet: IFeatureSet = {
   spatialReference: {
-    wkid: 102100,
+    wkid: 102100
   },
   features: [
     {
       geometry: {
         x: -13635398.9398,
-        y: 4544699.034400001,
+        y: 4544699.034400001
       } as IPoint,
       attributes: {
-        Name: "Store 45",
-      },
+        Name: "Store 45"
+      }
     },
     {
       geometry: {
         x: -13632733.3441,
-        y: 4547651.028300002,
+        y: 4547651.028300002
       } as IPoint,
       attributes: {
-        Name: "Store 67",
-      },
-    },
-  ],
+        Name: "Store 67"
+      }
+    }
+  ]
 };
 
 describe("originDestinationMatrix", () => {
@@ -160,7 +160,7 @@ describe("originDestinationMatrix", () => {
 
     originDestinationMatrix({
       origins,
-      destinations,
+      destinations
     })
       // tslint:disable-next-line
       .catch((e) => {
@@ -178,13 +178,13 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
       origins,
       destinations,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -226,16 +226,16 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
       origins,
       destinations,
       params: {
-        outSR: 102100,
+        outSR: 102100
       },
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -260,7 +260,7 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
@@ -272,7 +272,7 @@ describe("originDestinationMatrix", () => {
       returnBarriers: false,
       returnPolylineBarriers: false,
       returnPolygonBarriers: false,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -299,17 +299,17 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
       origins,
       destinations,
       params: {
-        outSR: 102100,
+        outSR: 102100
       },
       authentication: MOCK_AUTH,
-      endpoint: "https://esri.com/test",
+      endpoint: "https://esri.com/test"
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -329,13 +329,13 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
       origins: originsLatLong,
       destinations: destinationsLatLong,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -362,13 +362,13 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
       origins: originsLatitudeLongitude,
       destinations: destinationsLatitudeLongitude,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -395,13 +395,13 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
       origins: originsPoint,
       destinations: destinationsPoint,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -428,13 +428,13 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
       origins: originsFeatureSet,
       destinations: destinationsFeatureSet,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -461,14 +461,14 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
       origins,
       destinations,
       outputType: "esriNAODOutputSparseMatrix",
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -489,14 +489,14 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
       origins,
       destinations,
       outputType: "esriNAODOutputStraightLines",
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -519,14 +519,14 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
       origins,
       destinations,
       outputType: "esriNAODOutputNoLines",
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -547,14 +547,14 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
       origins,
       destinations,
       barriers,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -576,14 +576,14 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
       origins,
       destinations,
       barriers: barriersFeatureSet,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -605,14 +605,14 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
       origins,
       destinations,
       polylineBarriers,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -636,14 +636,14 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
       origins,
       destinations,
       polygonBarriers,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -667,7 +667,7 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
@@ -676,7 +676,7 @@ describe("originDestinationMatrix", () => {
       barriers,
       polylineBarriers,
       polygonBarriers,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -753,7 +753,7 @@ describe("originDestinationMatrix", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     originDestinationMatrix({
@@ -764,8 +764,8 @@ describe("originDestinationMatrix", () => {
       polygonBarriers,
       authentication: MOCK_AUTH,
       params: {
-        outSR: 102100,
-      },
+        outSR: 102100
+      }
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);

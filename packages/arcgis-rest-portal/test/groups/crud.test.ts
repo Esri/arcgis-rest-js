@@ -1,18 +1,18 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { createGroup } from "../../src/groups/create";
-import { updateGroup } from "../../src/groups/update";
-import { removeGroup } from "../../src/groups/remove";
+import fetchMock from "fetch-mock";
 
-import { GroupEditResponse } from "../mocks/groups/responses";
+import { createGroup } from "../../src/groups/create.js";
+import { updateGroup } from "../../src/groups/update.js";
+import { removeGroup } from "../../src/groups/remove.js";
 
-import { encodeParam } from "@esri/arcgis-rest-request";
+import { GroupEditResponse } from "../mocks/groups/responses.js";
+
+import { encodeParam, UserSession } from "@esri/arcgis-rest-request";
 import { IGroupAdd } from "@esri/arcgis-rest-types";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import * as fetchMock from "fetch-mock";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("groups", () => {
   afterEach(fetchMock.restore);
@@ -35,7 +35,7 @@ describe("groups", () => {
       authentication: MOCK_AUTH
     };
 
-    it("should create a group", done => {
+    it("should create a group", (done) => {
       fetchMock.once("*", GroupEditResponse);
       const fakeGroup = {
         title: "fake group",
@@ -45,7 +45,7 @@ describe("groups", () => {
         access: "public"
       } as IGroupAdd;
       createGroup({ group: fakeGroup, ...MOCK_REQOPTS })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -60,19 +60,19 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("access", "public"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should create a group without an owner or tags", done => {
+    it("should create a group without an owner or tags", (done) => {
       fetchMock.once("*", GroupEditResponse);
       const fakeGroup = {
         title: "bone stock fake group",
         access: "org"
       } as IGroupAdd;
       createGroup({ group: fakeGroup, ...MOCK_REQOPTS })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -87,12 +87,12 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("access", "org"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should update a group", done => {
+    it("should update a group", (done) => {
       fetchMock.once("*", GroupEditResponse);
       const fakeGroup = {
         id: "5bc",
@@ -102,7 +102,7 @@ describe("groups", () => {
         description: "my fake group"
       };
       updateGroup({ group: fakeGroup, ...MOCK_REQOPTS })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -116,12 +116,12 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("tags", "foo,bar"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should update a group with a custom param", done => {
+    it("should update a group with a custom param", (done) => {
       fetchMock.once("*", GroupEditResponse);
       const fakeGroup = {
         id: "5bc",
@@ -137,7 +137,7 @@ describe("groups", () => {
           clearEmptyFields: true
         }
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -152,16 +152,16 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("clearEmptyFields", true));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should remove a group", done => {
+    it("should remove a group", (done) => {
       fetchMock.once("*", GroupEditResponse);
 
       removeGroup({ id: "5bc", ...MOCK_REQOPTS })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -172,7 +172,7 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

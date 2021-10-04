@@ -7,9 +7,9 @@ import {
   appendCustomParams
 } from "@esri/arcgis-rest-request";
 
-import { IFeature } from "@esri/arcgis-rest-types";
+import type { IFeature } from "@esri/arcgis-rest-types";
 
-import { ISharedEditOptions, IEditFeatureResult } from "./helpers";
+import { ISharedEditOptions, IEditFeatureResult } from "./helpers.js";
 
 /**
  * Add features request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-features.htm) for more information.

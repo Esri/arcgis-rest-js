@@ -1,12 +1,11 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { updateUser, IUpdateUserResponse } from "../../src/users/update";
-import { encodeParam } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
+import { updateUser, IUpdateUserResponse } from "../../src/users/update.js";
+import { UserSession, encodeParam } from "@esri/arcgis-rest-request";
 
-const TOMORROW = (function() {
+const TOMORROW = (function () {
   const now = new Date();
   now.setDate(now.getDate() + 1);
   return now;
@@ -23,7 +22,7 @@ describe("updateUser", () => {
     portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
 
-  it("should make an authenticated request to update the same user profile.", done => {
+  it("should make an authenticated request to update the same user profile.", (done) => {
     fetchMock.once("*", {
       success: true,
       username: "c@sey"
@@ -47,12 +46,12 @@ describe("updateUser", () => {
         );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make an authenticated request to update the same user profile and mixin custom params.", done => {
+  it("should make an authenticated request to update the same user profile and mixin custom params.", (done) => {
     fetchMock.once("*", {
       success: true,
       username: "c@sey"
@@ -78,12 +77,12 @@ describe("updateUser", () => {
         );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make an org administrator authenticated request to update a different user.", done => {
+  it("should make an org administrator authenticated request to update a different user.", (done) => {
     fetchMock.once("*", {
       success: true,
       username: "jsmith"
@@ -107,12 +106,12 @@ describe("updateUser", () => {
         );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should throw an error when the authenticated user doesnt have permission to update the user profile in question.", done => {
+  it("should throw an error when the authenticated user doesnt have permission to update the user profile in question.", (done) => {
     fetchMock.once("*", {
       error: {
         code: 403,
@@ -130,7 +129,7 @@ describe("updateUser", () => {
       .then(() => {
         fail();
       })
-      .catch(e => {
+      .catch((e) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(

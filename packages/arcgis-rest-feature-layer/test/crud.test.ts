@@ -1,6 +1,7 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import fetchMock from "fetch-mock";
 import {
   addFeatures,
   updateFeatures,
@@ -8,16 +9,14 @@ import {
   applyEdits,
   IDeleteFeaturesOptions,
   IUpdateFeaturesOptions
-} from "../src/index";
-
-import * as fetchMock from "fetch-mock";
+} from "../src/index.js";
 
 import {
   addFeaturesResponse,
   updateFeaturesResponse,
   deleteFeaturesResponse,
   applyEditsResponse
-} from "./mocks/feature";
+} from "./mocks/feature.js";
 
 const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
@@ -25,7 +24,7 @@ const serviceUrl =
 describe("feature", () => {
   afterEach(fetchMock.restore);
 
-  it("should return objectId of the added feature and a truthy success", done => {
+  it("should return objectId of the added feature and a truthy success", (done) => {
     const requestOptions = {
       url: serviceUrl,
       features: [
@@ -48,7 +47,7 @@ describe("feature", () => {
     };
     fetchMock.once("*", addFeaturesResponse);
     addFeatures(requestOptions)
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/addFeatures`);
@@ -63,12 +62,12 @@ describe("feature", () => {
         expect(response.addResults[0].success).toEqual(true);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return objectId of the updated feature and a truthy success", done => {
+  it("should return objectId of the updated feature and a truthy success", (done) => {
     const requestOptions = {
       url: serviceUrl,
       features: [
@@ -85,7 +84,7 @@ describe("feature", () => {
     } as IUpdateFeaturesOptions;
     fetchMock.once("*", updateFeaturesResponse);
     updateFeatures(requestOptions)
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/updateFeatures`);
@@ -101,12 +100,12 @@ describe("feature", () => {
         expect(response.updateResults[0].success).toEqual(true);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return objectId of the deleted feature and a truthy success", done => {
+  it("should return objectId of the deleted feature and a truthy success", (done) => {
     const requestOptions = {
       url: serviceUrl,
       objectIds: [1001],
@@ -114,7 +113,7 @@ describe("feature", () => {
     } as IDeleteFeaturesOptions;
     fetchMock.once("*", deleteFeaturesResponse);
     deleteFeatures(requestOptions)
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/deleteFeatures`);
@@ -127,12 +126,12 @@ describe("feature", () => {
         expect(response.deleteResults[0].success).toEqual(true);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return objectId of the added, updated or deleted feature(s) and a truthy success", done => {
+  it("should return objectId of the added, updated or deleted feature(s) and a truthy success", (done) => {
     const requestOptions = {
       url: serviceUrl,
       adds: [
@@ -164,7 +163,7 @@ describe("feature", () => {
     };
     fetchMock.once("*", applyEditsResponse);
     applyEdits(requestOptions)
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/applyEdits`);
@@ -190,7 +189,7 @@ describe("feature", () => {
         expect(response.deleteResults[0].success).toEqual(true);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

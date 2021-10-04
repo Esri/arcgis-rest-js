@@ -1,8 +1,10 @@
 /* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { processParams, requiresFormData } from "./process-params";
-import { encodeQueryString } from "./encode-query-string";
+import { processParams, requiresFormData } from "./process-params.js";
+import { encodeQueryString } from "./encode-query-string.js";
+import { FormData } from "@esri/arcgis-rest-form-data";
+
 /**
  * Encodes parameters in a [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData) object in browsers or in a [FormData](https://github.com/form-data/form-data) in Node.js
  *
@@ -18,6 +20,7 @@ export function encodeFormData(
   const newParams = processParams(params);
   if (useFormData) {
     const formData = new FormData();
+
     Object.keys(newParams).forEach((key: any) => {
       if (typeof Blob !== "undefined" && newParams[key] instanceof Blob) {
         /* To name the Blob:

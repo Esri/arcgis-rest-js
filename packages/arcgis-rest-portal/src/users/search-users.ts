@@ -1,11 +1,10 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { IAuthenticatedRequestOptions } from "@esri/arcgis-rest-auth";
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
-import { IPagingParams, IUser } from "@esri/arcgis-rest-types";
-import { SearchQueryBuilder } from "../util/SearchQueryBuilder";
-import { ISearchOptions, ISearchResult } from "../util/search";
-import { genericSearch } from "../util/generic-search";
+import { IUser } from "@esri/arcgis-rest-types";
+import { SearchQueryBuilder } from "../util/SearchQueryBuilder.js";
+import { ISearchOptions, ISearchResult } from "../util/search.js";
+import { genericSearch } from "../util/generic-search.js";
 
 // export interface IUserSearchOptions extends IAuthenticatedRequestOptions, IPagingParams {
 //   q: string | SearchQueryBuilder;

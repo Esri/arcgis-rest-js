@@ -2,8 +2,9 @@
  * Apache-2.0 */
 
 import { request, appendCustomParams } from "@esri/arcgis-rest-request";
+import type { Blob, File } from "@esri/arcgis-rest-request";
 
-import { getPortalUrl } from "../util/get-portal-url";
+import { getPortalUrl } from "../util/get-portal-url.js";
 import {
   IUserItemOptions,
   IItemResourceOptions,
@@ -11,14 +12,19 @@ import {
   IItemResourceResponse,
   determineOwner,
   IManageItemRelationshipOptions
-} from "./helpers";
-import { updateItem, IUpdateItemOptions } from "./update";
+} from "./helpers.js";
+
+import { updateItem, IUpdateItemOptions } from "./update.js";
 
 export interface IAddItemDataOptions extends IUserItemOptions {
   /**
-   * Object to store
+   * The [Blob](https://developer.mozilla.org/en-US/docs/Web/API/Blob) or [File](https://developer.mozilla.org/en-US/docs/Web/API/File) to store. In Node JS `File` and `Blob` can be imported from `@esri/arcgis-rest-request`
    */
-  data: any;
+  file?: Blob | File;
+  /**
+   * Text content to store/
+   */
+  text?: string;
 }
 
 /**
@@ -44,7 +50,8 @@ export function addItemData(
   const options: any = {
     item: {
       id: requestOptions.id,
-      data: requestOptions.data
+      text: requestOptions.text,
+      file: requestOptions.file
     },
     ...requestOptions
   };
@@ -75,7 +82,7 @@ export function addItemData(
 export function addItemRelationship(
   requestOptions: IManageItemRelationshipOptions
 ): Promise<{ success: boolean }> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(
       requestOptions
     )}/content/users/${owner}/addRelationship`;
@@ -119,7 +126,7 @@ export function addItemRelationship(
 export function addItemResource(
   requestOptions: IItemResourceOptions
 ): Promise<IItemResourceResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/addResources`;

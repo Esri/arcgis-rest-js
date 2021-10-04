@@ -1,14 +1,13 @@
 {
-  "name": "@esri/arcgis-rest-demo-vue-with-popup",
-  "description": "VueJS demo of @esri/arcgis-rest-* packages.",
-  "version": "3.3.0",
-  "author": "",
-  "license": "Apache-2.0",
   "private": true,
+  "name": "@esri/arcgis-rest-demo-vue-with-popup",
+  "version": "3.3.0",
+  "description": "VueJS demo of @esri/arcgis-rest-* packages.",
+  "license": "Apache-2.0",
   "scripts": {
-    "serve": "vue-cli-service serve",
     "build:app": "vue-cli-service build",
     "lint": "vue-cli-service lint",
+    "serve": "vue-cli-service serve",
     "start": "npm run serve"
   },
   "dependencies": {
@@ -23,8 +22,11 @@
     "@vue/cli-plugin-eslint": "^3.0.0",
     "@vue/cli-service": "^3.0.0",
     "@vue/eslint-config-prettier": "^3.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint-plugin-vue": "^7.17.0",
     "vue-template-compiler": "^2.5.17"
   },
+  "author": "",
   "browserslist": [
     "> 1%",
     "last 2 versions",

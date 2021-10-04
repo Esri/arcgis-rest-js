@@ -1,6 +1,6 @@
-import { HTTPMethods } from "./HTTPMethods";
-import { IParams } from "./IParams";
-import { IAuthenticationManager } from "./IAuthenticationManager";
+import { HTTPMethods } from "./HTTPMethods.js";
+import { IParams } from "./IParams.js";
+import { IAuthenticationManager } from "./IAuthenticationManager.js";
 
 /**
  * Options for the `request()` method.
@@ -36,7 +36,7 @@ export interface IRequestOptions {
   /**
    * The implementation of `fetch` to use. Defaults to a global `fetch`.
    */
-  fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+  // fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
   /**
    * A string indicating whether credentials (cookies) will be sent with the request. Used internally for authentication workflows.
    */

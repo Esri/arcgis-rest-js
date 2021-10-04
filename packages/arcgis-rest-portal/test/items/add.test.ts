@@ -1,21 +1,19 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as fetchMock from "fetch-mock";
-
-import { attachmentFile } from "../../../arcgis-rest-feature-layer/test/attachments.test";
+import fetchMock from "fetch-mock";
 
 import {
   addItemData,
   addItemResource,
   addItemRelationship
-} from "../../src/items/add";
+} from "../../src/items/add.js";
 
-import { ItemSuccessResponse } from "../mocks/items/item";
+import { ItemSuccessResponse } from "../mocks/items/item.js";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { encodeParam } from "@esri/arcgis-rest-request";
+import { attachmentFile, TOMORROW } from "../../../../scripts/test-helpers.js";
+import { encodeParam, UserSession } from "@esri/arcgis-rest-request";
+import { FormData } from "@esri/arcgis-rest-form-data";
 
 describe("search", () => {
   afterEach(fetchMock.restore);
@@ -39,7 +37,7 @@ describe("search", () => {
       authentication: MOCK_USER_SESSION
     };
 
-    it("should add data to an item", done => {
+    it("should add data to an item", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeData = {
         values: {
@@ -50,10 +48,10 @@ describe("search", () => {
       addItemData({
         id: "3ef",
         owner: "dbouwman",
-        data: fakeData,
+        text: JSON.stringify(fakeData),
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -69,12 +67,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add data to an item, no owner passed", done => {
+    it("should add data to an item, no owner passed", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeData = {
         values: {
@@ -84,10 +82,10 @@ describe("search", () => {
       // addItemData("3ef", "dbouwman", fakeData, MOCK_REQOPTS)
       addItemData({
         id: "3ef",
-        data: fakeData,
+        text: JSON.stringify(fakeData),
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -103,12 +101,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add data to an item, extra parameters", done => {
+    it("should add data to an item, extra parameters", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeData = {
         values: {
@@ -118,7 +116,7 @@ describe("search", () => {
       // addItemData("3ef", "dbouwman", fakeData, MOCK_REQOPTS)
       addItemData({
         id: "3ef",
-        data: fakeData,
+        text: JSON.stringify(fakeData),
         ...MOCK_USER_REQOPTS,
         params: {
           relationshipType: "WMA2Code"
@@ -140,12 +138,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add binary item data by id", done => {
+    it("should add binary item data by id", (done) => {
       fetchMock.once("*", {
         success: true
       });
@@ -155,8 +153,7 @@ describe("search", () => {
       addItemData({
         // this would work on item: { type: "Code Sample" }
         id: "3ef",
-        // File() is only available in the browser
-        data: file,
+        file,
         ...MOCK_USER_REQOPTS
       })
         .then(() => {
@@ -177,12 +174,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add a relationship to an item", done => {
+    it("should add a relationship to an item", (done) => {
       fetchMock.once("*", { success: true });
 
       addItemRelationship({
@@ -206,12 +203,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add a binary resource to an item", done => {
+    it("should add a binary resource to an item", (done) => {
       fetchMock.once("*", {
         success: true
       });
@@ -246,12 +243,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add a binary resource to a secret item", done => {
+    it("should add a binary resource to a secret item", (done) => {
       fetchMock.once("*", {
         success: true
       });
@@ -285,12 +282,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add a text resource", done => {
+    it("should add a text resource", (done) => {
       fetchMock.once("*", {
         success: true
       });
@@ -315,7 +312,7 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

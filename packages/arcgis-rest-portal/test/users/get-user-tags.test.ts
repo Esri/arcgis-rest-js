@@ -1,13 +1,13 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { getUserTags } from "../../src/users/get-user-tags";
-import { UserTagsResponse } from "../mocks/users/user-tags";
-import { encodeParam } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
+import { getUserTags } from "../../src/users/get-user-tags.js";
+import { UserTagsResponse } from "../mocks/users/user-tags.js";
 
-const TOMORROW = (function() {
+import { UserSession, encodeParam } from "@esri/arcgis-rest-request";
+
+const TOMORROW = (function () {
   const now = new Date();
   now.setDate(now.getDate() + 1);
   return now;
@@ -25,7 +25,7 @@ describe("users", () => {
       portal: "https://myorg.maps.arcgis.com/sharing/rest"
     });
 
-    it("should make an authenticated request for tags used by a user", done => {
+    it("should make an authenticated request for tags used by a user", (done) => {
       fetchMock.once("*", UserTagsResponse);
 
       getUserTags({ authentication: session })
@@ -40,12 +40,12 @@ describe("users", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should make an authenticated request for tags used by a different user", done => {
+    it("should make an authenticated request for tags used by a different user", (done) => {
       fetchMock.once("*", UserTagsResponse);
 
       getUserTags({
@@ -63,7 +63,7 @@ describe("users", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

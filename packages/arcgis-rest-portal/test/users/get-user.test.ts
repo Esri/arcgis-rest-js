@@ -1,18 +1,18 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { getUser } from "../../src/users/get-user";
+import fetchMock from "fetch-mock";
+import { getUser } from "../../src/users/get-user.js";
 
 import {
   AnonUserResponse,
   GroupMemberUserResponse,
   GroupAdminUserResponse
-} from "../mocks/users/user";
+} from "../mocks/users/user.js";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
-import * as fetchMock from "fetch-mock";
+import { UserSession } from "@esri/arcgis-rest-request";
 
-const TOMORROW = (function() {
+const TOMORROW = (function () {
   const now = new Date();
   now.setDate(now.getDate() + 1);
   return now;
@@ -30,7 +30,7 @@ describe("users", () => {
       portal: "https://myorg.maps.arcgis.com/sharing/rest"
     });
 
-    it("should make a simple, unauthenticated request for information about a user", done => {
+    it("should make a simple, unauthenticated request for information about a user", (done) => {
       fetchMock.once("*", AnonUserResponse);
 
       getUser("jsmith")
@@ -43,12 +43,12 @@ describe("users", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should make an authenticated request for information about a user", done => {
+    it("should make an authenticated request for information about a user", (done) => {
       fetchMock.once("*", GroupMemberUserResponse);
 
       getUser({ authentication: session })
@@ -61,12 +61,12 @@ describe("users", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should make an authenticated request for information about a different user", done => {
+    it("should make an authenticated request for information about a different user", (done) => {
       fetchMock.once("*", GroupAdminUserResponse);
 
       getUser({
@@ -82,7 +82,7 @@ describe("users", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

@@ -2,56 +2,66 @@
   "name": "@esri/arcgis-rest-request",
   "version": "3.3.0",
   "description": "Common methods and utilities for @esri/arcgis-rest-js packages.",
-  "main": "dist/node/index.js",
-  "unpkg": "dist/umd/request.umd.js",
-  "module": "dist/esm/index.js",
-  "js:next": "dist/esm/index.js",
-  "sideEffects": false,
-  "types": "dist/esm/index.d.ts",
   "license": "Apache-2.0",
-  "dependencies": {
-    "tslib": "^2.3.0"
+  "keywords": [
+    "ES6",
+    "arcgis",
+    "esri",
+    "fetch",
+    "promise",
+    "typescript"
+  ],
+  "type": "module",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "unpkg": "dist/bundled/request.umd.min.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    },
+    "./package.json": "./package.json"
   },
+  "types": "dist/esm/index.d.ts",
+  "sideEffects": false,
   "files": [
     "dist/**"
   ],
   "scripts": {
-    "prepare": "npm run build",
-    "build": "npm run build:node && npm run build:umd && npm run build:esm",
-    "build:esm": "tsc --module es2015 --outDir ./dist/esm --declaration",
-    "build:umd": "rollup -c ../../umd-base-profile.js && rollup -c ../../umd-production-profile.js",
-    "build:node": "tsc --module commonjs --outDir ./dist/node",
-    "dev:esm": "tsc -w --module es2015 --outDir ./dist/esm --declaration",
-    "dev:umd": "rollup -w -c ../../umd-base-profile.js",
-    "dev:node": "tsc -w --module commonjs --outDir ./dist/node"
+    "build": "npm-run-all --parallel build:*",
+    "postbuild": "node ../../scripts/create-dist-package-jsons.js",
+    "build:bundled": "rollup -c ../../rollup.js",
+    "build:cjs": "tsc --outDir ./dist/cjs -m commonjs",
+    "build:esm": "tsc --outDir ./dist/esm --declaration",
+    "dev": "npm-run-all --parallel dev:*",
+    "dev:bundled": "rollup -w -c ../../rollup.js",
+    "dev:cjs": "tsc -w --outDir ./dist/cjs -m commonjs",
+    "dev:esm": "tsc -w --outDir ./dist/esm --declaration"
   },
-  "publishConfig": {
-    "access": "public"
+  "engines": {
+    "node": ">=12.20.0"
   },
+  "dependencies": {
+    "@esri/arcgis-rest-fetch": "3.3.0",
+    "@esri/arcgis-rest-form-data": "3.3.0",
+    "@esri/arcgis-rest-types": "3.3.0",
+    "tslib": "^2.3.1"
+  },
+  "contributors": [
+    "Patrick Arlt <parlt@esri.com> (http://patrickarlt.com/)"
+  ],
+  "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Esri/arcgis-rest-js.git",
     "directory": "packages/arcgis-rest-request"
   },
-  "contributors": [
-    {
-      "name": "Patrick Arlt",
-      "email": "parlt@esri.com",
-      "url": "http://patrickarlt.com/"
-    }
-  ],
   "bugs": {
     "url": "https://github.com/Esri/arcgis-rest-js/issues"
   },
-  "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
-  "keywords": [
-    "typescript",
-    "promise",
-    "fetch",
-    "arcgis",
-    "esri",
-    "ES6"
-  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "esri": {
     "keyExports": [
       "request"

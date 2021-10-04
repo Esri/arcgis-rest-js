@@ -1,15 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { joinGroup, leaveGroup } from "../../src/groups/join";
+import fetchMock from "fetch-mock";
 
-import { GroupEditResponse } from "../mocks/groups/responses";
+import { joinGroup, leaveGroup } from "../../src/groups/join.js";
 
-import { encodeParam } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
+import { GroupEditResponse } from "../mocks/groups/responses.js";
 
-import * as fetchMock from "fetch-mock";
+import { encodeParam, UserSession } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("groups", () => {
   afterEach(fetchMock.restore);
@@ -30,7 +29,7 @@ describe("groups", () => {
       })
     };
 
-    it("should help a user join a group", done => {
+    it("should help a user join a group", (done) => {
       fetchMock.once("*", GroupEditResponse);
 
       joinGroup({ id: "5bc", ...MOCK_REQOPTS })
@@ -45,11 +44,11 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
-    it("should help a user leave a group", done => {
+    it("should help a user leave a group", (done) => {
       fetchMock.once("*", GroupEditResponse);
 
       leaveGroup({ id: "5bc", ...MOCK_REQOPTS })
@@ -64,7 +63,7 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

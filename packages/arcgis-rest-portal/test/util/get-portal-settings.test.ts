@@ -1,23 +1,12 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { getPortalSettings } from "../../src/util/get-portal-settings";
+import fetchMock from "fetch-mock";
+import { getPortalSettings } from "../../src/util/get-portal-settings.js";
 
-import { PortalResponse } from "./../mocks/portal/response";
-
-import * as fetchMock from "fetch-mock";
+import { PortalResponse } from "./../mocks/portal/response.js";
 
 describe("portal", () => {
-  let paramsSpy: jasmine.Spy;
-
-  beforeEach(() => {
-    paramsSpy = spyOn(FormData.prototype, "append").and.callThrough();
-  });
-
-  afterAll(() => {
-    paramsSpy.calls.reset();
-  });
-
   afterEach(fetchMock.restore);
 
   describe("getPortalSettings", () => {
@@ -32,10 +21,10 @@ describe("portal", () => {
       authentication: MOCK_AUTH
     };
 
-    it("should get the portal settings by id", done => {
+    it("should get the portal settings by id", (done) => {
       fetchMock.once("*", PortalResponse);
       getPortalSettings("5BZFaKe", MOCK_REQOPTS)
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -44,14 +33,14 @@ describe("portal", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
-    it("should get the portal self settings if no id", done => {
+    it("should get the portal self settings if no id", (done) => {
       fetchMock.once("*", PortalResponse);
       getPortalSettings(null, MOCK_REQOPTS)
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -60,7 +49,7 @@ describe("portal", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

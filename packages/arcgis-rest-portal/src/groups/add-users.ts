@@ -7,8 +7,8 @@ import {
   ArcGISRequestError
 } from "@esri/arcgis-rest-request";
 
-import { getPortalUrl } from "../util/get-portal-url";
-import { chunk } from "../util/array";
+import { getPortalUrl } from "../util/get-portal-url.js";
+import { chunk } from "../util/array.js";
 
 export interface IAddGroupUsersOptions extends IRequestOptions {
   /**
@@ -68,7 +68,7 @@ export function addGroupUsers(
     ..._prepareRequests("admins", requestOptions.admins, baseOptions)
   ];
 
-  const promises = batchRequestOptions.map(options =>
+  const promises = batchRequestOptions.map((options) =>
     _sendSafeRequest(url, options)
   );
 
@@ -88,7 +88,7 @@ function _prepareRequests(
   // see https://developers.arcgis.com/rest/users-groups-and-items/add-users-to-group.htm
   const userChunks: string[][] = chunk<string>(usernames, 25);
 
-  return userChunks.map(users =>
+  return userChunks.map((users) =>
     _generateRequestOptions(type, users, baseOptions)
   );
 }
@@ -112,7 +112,7 @@ function _sendSafeRequest(
   url: string,
   requestOptions: IAddGroupUsersOptions
 ): Promise<IAddGroupUsersResult> {
-  return request(url, requestOptions).catch(error => {
+  return request(url, requestOptions).catch((error) => {
     return {
       errors: [error]
     };
@@ -123,11 +123,11 @@ function _consolidateRequestResults(
   results: IAddGroupUsersResult[]
 ): IAddGroupUsersResult {
   const notAdded = results
-    .filter(result => result.notAdded)
+    .filter((result) => result.notAdded)
     .reduce((collection, result) => collection.concat(result.notAdded), []);
 
   const errors = results
-    .filter(result => result.errors)
+    .filter((result) => result.errors)
     .reduce((collection, result) => collection.concat(result.errors), []);
 
   const consolidated: IAddGroupUsersResult = { notAdded };

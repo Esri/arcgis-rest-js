@@ -149,10 +149,8 @@
 </template>
 
 <script>
-// Import the arcgis-rest-auth bit.
-import { UserSession } from "@esri/arcgis-rest-auth";
-// Import the arcgis-rest-request bit.
-import { request } from "@esri/arcgis-rest-request";
+// Import the request and auth bit.
+import { request, UserSession } from "@esri/arcgis-rest-request";
 // Import a simple loading indicator.
 import Loader from "./Loader";
 

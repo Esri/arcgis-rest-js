@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>ArcGIS REST JS Browser w/ Modules</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+</head>
+
+<body>
+  <!-- Load the ES Modules Polyfill so we can use importmap in FF and Safari -->
+  <script async src="https://unpkg.com/es-module-shims@0.13.1/dist/es-module-shims.js"></script>
+
+  <!-- Map package imports to URLS starting with @esri/... which will get served from the local build of the modules -->
+  <script type="importmap">
+  {
+    "imports": {
+      "@esri/arcgis-rest-request": "/@esri/arcgis-rest-request/dist/bundled/request.esm.js",
+      "@esri/arcgis-rest-portal": "/@esri/arcgis-rest-portal/dist/bundled/portal.esm.js"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import { searchItems } from "@esri/arcgis-rest-portal";
+
+    let element = document.createElement("pre");
+    document.body.appendChild(element);
+
+    searchItems("water").then((response) => {
+      element.textContent = JSON.stringify(response, null, 2); // false
+    });
+  </script>
+</body>
+
+</html>

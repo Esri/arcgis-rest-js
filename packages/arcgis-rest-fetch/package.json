@@ -1,0 +1,21 @@
+{
+  "name": "@esri/arcgis-rest-fetch",
+  "version": "3.3.0",
+  "type": "commonjs",
+  "module": "./browser-ponyfill.mjs",
+  "browser": "./browser-ponyfill.js",
+  "exports": {
+    ".": {
+      "module": "./browser-ponyfill.mjs",
+      "browser": "./browser-ponyfill.js",
+      "import": "./node-ponyfill.mjs",
+      "require": "./node-ponyfill.js",
+      "default": "./browser-ponyfill.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "types": "index.types.d.ts",
+  "dependencies": {
+    "node-fetch": "^3.0.0"
+  }
+}

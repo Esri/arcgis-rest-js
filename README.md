@@ -48,7 +48,7 @@ The documentation is published at http://esri.github.io/arcgis-rest-js/ (source 
 
 ### Instructions
 
-You can install dependencies (and bootstrap lerna) by cloning the repository and running:
+You can install dependencies by cloning the repository and running:
 
 ```bash
 npm install
@@ -56,18 +56,26 @@ npm install
 
 Afterward, for a list of all available commands run `npm run`.
 
-Some useful commands include:
+For all packages
 
-- `npm test` runs _all_ the tests and confirms the API is functioning as expected.
-- There is also a `Debug Node Tests` configuration in the `.vscode/launch.json` which will run the Node tests in the VS Code debugger.
-- `npm run docs:serve` will run the documentation site locally at http://localhost:3000/arcgis-rest-js/
-- `npm run build` will created UMD bundles for _all_ the packages
-- `npm run dev -- <esm|node|umd> <glob>` will re-run the specified build type anytime the source code changes. Example: `npm run dev -- umd @esri/*`
+- `npm run build` - builds all distributions of every package with `ultra`, inside each package builds are done in parallel with `npm-run-all`. Output is errors only.
+- `npm run build:esm`, `npm run build:cjs`, `npm run build:bundled` - as as the above but only one of our target distributions.
+- `npm run dev:esm`, `npm run dev:cjs`, `npm run dev:bundled` - runs the appropriate watch command in all packages.
+
+For a specific package
+
+- `npm run build -w @esri/arcgis-rest-request` - run all builds in a specific workspace
+- `npm run dev -w @esri/arcgis-rest-request` - run all dev commands in a specific workspace
+- `npm run build:esm -w @esri/arcgis-rest-request` - run the esm build in a specific workspace
+- `npm run dev:esm -w @esri/arcgis-rest-request` - run the esm dev command in a specific workspace
+- `npm run build:cjs -w @esri/arcgis-rest-request` - run the common js build in a specific workspace
+- `npm run dev:cjs -w @esri/arcgis-rest-request` - run the common js dev command in a specific workspace
+- `npm run build:bundled -w @esri/arcgis-rest-request` - run the rollup build in a specific workspace
+- `npm run dev:bundled -w @esri/arcgis-rest-request` - run the rollup dev command in a specific workspace
 
 ### Packages
 
 - [`@esri/arcgis-rest-request`](./packages/arcgis-rest-request/) - Underpins other packages and supports making low-level requests.
-- [`@esri/arcgis-rest-auth`](./packages/arcgis-rest-auth) - Provides methods for authenticating named users and applications.
 - [`@esri/arcgis-rest-portal`](./packages/arcgis-rest-portal) - Methods for working with ArcGIS Online/Enterprise content and users.
 - [`@esri/arcgis-rest-feature-layer`](./packages/arcgis-rest-feature-layer) - Functions for querying and editing features inside of hosted feature layers.
 - [`@esri/arcgis-rest-service-admin`](./packages/arcgis-rest-service-admin) - Functions for administering hosted feature services.

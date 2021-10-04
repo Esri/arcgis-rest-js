@@ -2,8 +2,8 @@
  * Apache-2.0 */
 
 import { request } from "@esri/arcgis-rest-request";
-import { getPortalUrl } from "../util/get-portal-url";
-import { IGetUserOptions } from "./get-user";
+import { getPortalUrl } from "../util/get-portal-url.js";
+import { IGetUserOptions } from "./get-user.js";
 
 export interface ITagCount {
   /**

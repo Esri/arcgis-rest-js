@@ -1,4 +1,4 @@
-import { IParams } from "./IParams";
+import { IParams } from "./IParams.js";
 
 export interface IGenerateTokenParams extends IParams {
   username?: string;

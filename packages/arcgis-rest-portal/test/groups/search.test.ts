@@ -1,18 +1,18 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { searchGroups, searchGroupContent } from "../../src/groups/search";
-import { GroupSearchResponse } from "../mocks/groups/responses";
-import { SearchQueryBuilder } from "../../src/util/SearchQueryBuilder";
-import { genericSearch } from "../../src/util/generic-search";
+import fetchMock from "fetch-mock";
 
-import * as fetchMock from "fetch-mock";
+import { searchGroups, searchGroupContent } from "../../src/groups/search.js";
+import { GroupSearchResponse } from "../mocks/groups/responses.js";
+import { SearchQueryBuilder } from "../../src/util/SearchQueryBuilder.js";
+import { genericSearch } from "../../src/util/generic-search.js";
 
 describe("groups", () => {
   afterEach(fetchMock.restore);
 
   describe("searchGroups", () => {
-    it("should make a simple, unauthenticated group search request", done => {
+    it("should make a simple, unauthenticated group search request", (done) => {
       fetchMock.once("*", GroupSearchResponse);
 
       searchGroups("water")
@@ -25,12 +25,12 @@ describe("groups", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should take num, start, sortField, sortOrder and construct the request", done => {
+    it("should take num, start, sortField, sortOrder and construct the request", (done) => {
       fetchMock.once("*", GroupSearchResponse);
       searchGroups({
         q: "water",
@@ -39,7 +39,7 @@ describe("groups", () => {
         sortField: "owner",
         sortOrder: "desc"
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -48,12 +48,12 @@ describe("groups", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should search for group contents", done => {
+    it("should search for group contents", (done) => {
       fetchMock.once("*", GroupSearchResponse);
 
       searchGroupContent({
@@ -69,12 +69,12 @@ describe("groups", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should catch search for group contents without group id", done => {
+    it("should catch search for group contents without group id", (done) => {
       genericSearch(
         {
           q: "water"
@@ -82,7 +82,7 @@ describe("groups", () => {
         "groupContent"
       ).then(
         () => fail(),
-        err => {
+        (err) => {
           expect(err).toEqual(
             new Error(
               "you must pass a `groupId` option to `searchGroupContent`"
@@ -94,7 +94,7 @@ describe("groups", () => {
     });
   });
 
-  it("should make a simple, single search request with a builder", done => {
+  it("should make a simple, single search request with a builder", (done) => {
     fetchMock.once("*", GroupSearchResponse);
     const expectedParam = "Trees AND owner:USFS";
     const q = new SearchQueryBuilder()
@@ -114,7 +114,7 @@ describe("groups", () => {
         expect(options.method).toBe("GET");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
@@ -130,11 +130,11 @@ describe("groups", () => {
       authentication: MOCK_AUTH
     };
 
-    it("should make a simple, authenticated group search request", done => {
+    it("should make a simple, authenticated group search request", (done) => {
       fetchMock.once("*", GroupSearchResponse);
 
       searchGroups({ q: "water", authentication: MOCK_AUTH })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -143,7 +143,7 @@ describe("groups", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

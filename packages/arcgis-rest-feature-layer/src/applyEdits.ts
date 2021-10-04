@@ -7,9 +7,9 @@ import {
   appendCustomParams
 } from "@esri/arcgis-rest-request";
 
-import { IFeature } from "@esri/arcgis-rest-types";
+import type { IFeature } from "@esri/arcgis-rest-types";
 
-import { ISharedEditOptions, IApplyEditsResult } from "./helpers";
+import { ISharedEditOptions, IApplyEditsResult } from "./helpers.js";
 
 /**
  * Apply edits request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/apply-edits-feature-service-layer-.htm) for more information.
@@ -86,7 +86,7 @@ export function applyEdits(
       "gdbVersion",
       "returnEditMoment",
       "rollbackOnFailure",
-      "trueCurveClient",
+      "trueCurveClient"
     ],
     { params: { ...requestOptions.params } }
   );

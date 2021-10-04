@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "arcgis-rest-js-node-common-js-integration-test",
+  "version": "1.0.0",
+  "description": "",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@esri/arcgis-rest-request": "^3.3.0"
+  },
+  "author": ""
+}

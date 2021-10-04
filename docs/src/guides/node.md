@@ -8,51 +8,29 @@ group: 1-get-started
 
 # Get Started with Node.js
 
-Make sure you have polyfills for [`fetch`](https://github.com/lquixada/cross-fetch) and [`FormData`](https://github.com/form-data/isomorphic-form-data) installed before using any ArcGIS REST JS library. You can find `npm install` commands for all packages in the [API reference](/arcgis-rest-js/api).
+Make sure you are using Node 12.20.0 or greater. This is the first Node JS release with support for conditional exports in `package.json`.
 
 ```bash
-npm install @esri/arcgis-rest-request @esri/arcgis-rest-auth cross-fetch isomorphic-form-data
+npm install @esri/arcgis-rest-request @esri/arcgis-rest-auth
 ```
-
-Require `cross-fetch` and `isomorphic-form-data` before using any of the ArcGIS REST JS methods.
 
 ```js
 // ensures fetch is available as a global
-require("cross-fetch/polyfill");
-require("isomorphic-form-data");
-
 const { request } = require("@esri/arcgis-rest-request");
 
-request("https://www.arcgis.com/sharing/rest/info")
-  .then(response => console.log(response));
+request("https://www.arcgis.com/sharing/rest/info").then((response) =>
+  console.log(response)
+);
 ```
 
-Or, if using NodeJS version v13 or higher, if you set `"type": "module"` in the `package.json` you can use [ES Modules](https://nodejs.org/docs/latest-v12.x/api/packages.html#packages_determining_module_system) import syntax:
+You can also use [ES Modules](https://nodejs.org/docs/latest-v12.x/api/packages.html#packages_determining_module_system) import syntax:
 
 ```js
-import fetch from "node-fetch";
-import FormData from "isomorphic-form-data";
-import arcgisRestRequest from "@esri/arcgis-rest-request";
-arcgisRestRequest.setDefaultRequestOptions({ fetch, FormData });
+import request from "@esri/arcgis-rest-request";
 
-arcgisRestRequest.request("https://www.arcgis.com/sharing/rest/info")
-  .then(response => console.log(response));
-```
-
-You can also pass through your own named `fetch` implementation.
-
-```js
-const fetch = require("node-fetch")
-const {
-  request,
-  setDefaultRequestOptions
-} = require("@esri/arcgis-rest-request");
-
-// one by one
-request("https://www.arcgis.com/sharing/rest/info", { fetch })
-
-// or in *every* request
-setDefaultRequestOptions({ fetch })
+request
+  .request("https://www.arcgis.com/sharing/rest/info")
+  .then((response) => console.log(response));
 ```
 
 ## Demo - [Express](https://github.com/Esri/arcgis-rest-js/tree/master/demos/express)
@@ -65,7 +43,9 @@ To access premium content and services without asking for user credentials, usin
 
 ```js
 // no auth required
-request(`https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve?token={API_KEY}`)
+request(
+  `https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve?token={API_KEY}`
+);
 ```
 
 #### Application credentials
@@ -76,15 +56,15 @@ const { ApplicationSession } = require("@esri/arcgis-rest-auth");
 const authentication = new ApplicationSession({
   clientId: "public",
   clientSecret: "secret"
-})
+});
 
 // url not accessible to anonymous users
-const url = `https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World`
+const url = `https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World`;
 
 // token will be appended by rest-js
 request(url, {
   authentication
-})
+});
 ```
 
 ## Demo - [batch geocoding](https://github.com/Esri/arcgis-rest-js/tree/master/demos/batch-geocoder-node)
@@ -98,7 +78,7 @@ const { UserSession } = require("@esri/arcgis-rest-auth");
 const authentication = new UserSession({
   username: "jsmith",
   password: "123456"
-})
+});
 ```
 
 See the [Browser Authentication](../browser-authentication/) for more information about implementing OAuth 2.0.

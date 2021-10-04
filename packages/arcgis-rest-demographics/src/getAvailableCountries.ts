@@ -8,7 +8,10 @@ import {
 } from "@esri/arcgis-rest-request";
 import { IEnvelope } from "@esri/arcgis-rest-types";
 
-import { ARCGIS_ONLINE_GEOENRICHMENT_URL, IEndpointOptions } from "./helpers";
+import {
+  ARCGIS_ONLINE_GEOENRICHMENT_URL,
+  IEndpointOptions
+} from "./helpers.js";
 
 export interface IGetAvailableCountriesOptions extends IEndpointOptions {
   /**
@@ -68,7 +71,6 @@ export interface IApportionmentThreshold {
   maximumSize?: number;
 }
 
-
 /**
  * ```js
  * import { getAvailableCountries } from '@esri/arcgis-rest-demographics';
@@ -104,10 +106,7 @@ export function getAvailableCountries(
     }
   }
 
-
-  return request(cleanUrl(endpoint), options).then(
-    (response: any) => {
-      return response;
-    }
-  );
+  return request(cleanUrl(endpoint), options).then((response: any) => {
+    return response;
+  });
 }

@@ -2,8 +2,8 @@
  * Apache-2.0 */
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
-import { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
-import { IGetLayerOptions } from "./helpers";
+import type { IFeatureServiceDefinition } from "@esri/arcgis-rest-types";
+import { IGetLayerOptions } from "./helpers.js";
 
 /**
  * ```js

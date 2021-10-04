@@ -1,9 +1,8 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { request } from "@esri/arcgis-rest-request";
-import { IViewServiceSources } from "@esri/arcgis-rest-types";
+import { request, UserSession } from "@esri/arcgis-rest-request";
+import type { IViewServiceSources } from "@esri/arcgis-rest-types";
 
 /**
  * Return the sources response for a view service item

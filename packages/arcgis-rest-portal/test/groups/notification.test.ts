@@ -1,12 +1,11 @@
-import { encodeParam } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
+import fetchMock from "fetch-mock";
 
-import * as fetchMock from "fetch-mock";
+import { encodeParam, UserSession } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
-import { createGroupNotification } from "../../src/groups/notification";
+import { createGroupNotification } from "../../src/groups/notification.js";
 
-import { GroupNotificationResponse } from "../mocks/groups/responses";
+import { GroupNotificationResponse } from "../mocks/groups/responses.js";
 
 describe("groups", () => {
   afterEach(fetchMock.restore);
@@ -29,7 +28,7 @@ describe("groups", () => {
       authentication: MOCK_AUTH
     };
 
-    it("should create an email notification", done => {
+    it("should create an email notification", (done) => {
       fetchMock.once("*", GroupNotificationResponse);
 
       const opts = {
@@ -40,7 +39,7 @@ describe("groups", () => {
       };
 
       createGroupNotification(opts)
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -62,12 +61,12 @@ describe("groups", () => {
           expect(response.success).toEqual(true);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should create an email notification for specific users", done => {
+    it("should create an email notification for specific users", (done) => {
       fetchMock.once("*", GroupNotificationResponse);
 
       const opts = {
@@ -79,7 +78,7 @@ describe("groups", () => {
       };
 
       createGroupNotification(opts)
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -104,7 +103,7 @@ describe("groups", () => {
           expect(response.success).toEqual(true);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

@@ -1,11 +1,10 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { getService } from "../src/getService";
+import fetchMock from "fetch-mock";
+import { getService } from "../src/getService.js";
 
-import * as fetchMock from "fetch-mock";
-
-import { getFeatureServerResponse } from "./mocks/service";
+import { getFeatureServerResponse } from "./mocks/service.js";
 
 const layerUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer";
@@ -13,10 +12,10 @@ const layerUrl =
 describe("getServer()", () => {
   afterEach(fetchMock.restore);
 
-  it("should fetch feature service metadata", done => {
+  it("should fetch feature service metadata", (done) => {
     fetchMock.once("*", getFeatureServerResponse);
     getService({ url: layerUrl })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(layerUrl);
@@ -24,7 +23,7 @@ describe("getServer()", () => {
         expect(response).toEqual(getFeatureServerResponse);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

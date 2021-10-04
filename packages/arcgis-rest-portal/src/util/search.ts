@@ -3,7 +3,7 @@
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { IPagingParams, IItem, IGroup, IUser } from "@esri/arcgis-rest-types";
-import { SearchQueryBuilder } from "./SearchQueryBuilder";
+import { SearchQueryBuilder } from "./SearchQueryBuilder.js";
 
 export interface ISearchOptions extends IRequestOptions, IPagingParams {
   q: string | SearchQueryBuilder;

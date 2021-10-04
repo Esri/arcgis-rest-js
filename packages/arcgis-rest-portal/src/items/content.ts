@@ -3,10 +3,10 @@ import {
   IPagingParams,
   IItem,
   IFolder,
-  IPagedResponse,
+  IPagedResponse
 } from "@esri/arcgis-rest-types";
-import { getPortalUrl } from "../util/get-portal-url";
-import { determineOwner } from "./helpers";
+import { getPortalUrl } from "../util/get-portal-url.js";
+import { determineOwner } from "./helpers.js";
 
 export type UnixTime = number;
 
@@ -49,19 +49,23 @@ export const getUserContent = (
     folderId: folder,
     start = 1,
     num = 10,
-    authentication,
+    authentication
   } = requestOptions;
   const suffix = folder ? `/${folder}` : "";
 
   return determineOwner(requestOptions)
-    .then((owner) => `${getPortalUrl(requestOptions)}/content/users/${owner}${suffix}`)
-    .then((url) => request(url, {
-      httpMethod: "GET",
-      authentication,
-      params: {
-        start,
-        num,
-      },
-    })
-  );
+    .then(
+      (owner) =>
+        `${getPortalUrl(requestOptions)}/content/users/${owner}${suffix}`
+    )
+    .then((url) =>
+      request(url, {
+        httpMethod: "GET",
+        authentication,
+        params: {
+          start,
+          num
+        }
+      })
+    );
 };

@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IQueryFeaturesResponse } from "../../src/query";
+import { IQueryFeaturesResponse } from "../../src/query.js";
 
 export const featureResponse = {
   feature: {

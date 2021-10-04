@@ -1,8 +1,8 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as fetchMock from "fetch-mock";
-
+import fetchMock from "fetch-mock";
+import { attachmentFile } from "../../../scripts/test-helpers.js";
 import {
   getAttachments,
   IGetAttachmentsOptions,
@@ -12,7 +12,7 @@ import {
   IUpdateAttachmentOptions,
   deleteAttachments,
   IDeleteAttachmentsOptions
-} from "../src/index";
+} from "../src/index.js";
 
 import {
   getAttachmentsResponse,
@@ -20,26 +20,15 @@ import {
   updateAttachmentResponse,
   deleteAttachmentsResponse,
   genericInvalidResponse
-} from "./mocks/feature";
-
-export function attachmentFile() {
-  if (typeof File !== "undefined" && File) {
-    return new File(["foo"], "foo.txt", { type: "text/plain" });
-  } else {
-    const fs = require("fs");
-    return fs.createReadStream(
-      "./packages/arcgis-rest-feature-layer/test/mocks/foo.txt"
-    );
-  }
-}
-
+} from "./mocks/feature.js";
+import { FormData } from "@esri/arcgis-rest-form-data";
 const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
 
 describe("attachment methods", () => {
   afterEach(fetchMock.restore);
 
-  it("should return an array of attachmentInfos for a feature by id", done => {
+  it("should return an array of attachmentInfos for a feature by id", (done) => {
     const requestOptions = {
       url: serviceUrl,
       featureId: 42,
@@ -60,12 +49,12 @@ describe("attachment methods", () => {
         expect(getAttachmentsResponse.attachmentInfos[0].id).toEqual(409);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return objectId of the added attachment and a truthy success", done => {
+  it("should return objectId of the added attachment and a truthy success", (done) => {
     const requestOptions = {
       url: serviceUrl,
       featureId: 42,
@@ -97,15 +86,14 @@ describe("attachment methods", () => {
         expect(addAttachmentResponse.addAttachmentResult.success).toEqual(true);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return an error for a service/feature which does not have attachments", done => {
+  it("should return an error for a service/feature which does not have attachments", (done) => {
     const requestOptions = {
-      url:
-        "https://services.arcgis.com/f8b/arcgis/rest/services/NoAttachments/FeatureServer/0",
+      url: "https://services.arcgis.com/f8b/arcgis/rest/services/NoAttachments/FeatureServer/0",
       featureId: 654,
       attachment: attachmentFile(),
       params: {
@@ -118,7 +106,7 @@ describe("attachment methods", () => {
         // nothing to test here forcing error
         fail();
       })
-      .catch(error => {
+      .catch((error) => {
         expect(fetchMock.called()).toBeTruthy();
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -133,7 +121,7 @@ describe("attachment methods", () => {
       });
   });
 
-  it("should return objectId of the updated attachment and a truthy success", done => {
+  it("should return objectId of the updated attachment and a truthy success", (done) => {
     const requestOptions = {
       url: serviceUrl,
       featureId: 42,
@@ -160,12 +148,12 @@ describe("attachment methods", () => {
         );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should return objectId of the deleted attachment and a truthy success", done => {
+  it("should return objectId of the deleted attachment and a truthy success", (done) => {
     const requestOptions = {
       url: serviceUrl,
       featureId: 42,
@@ -193,7 +181,7 @@ describe("attachment methods", () => {
         ).toEqual(true);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

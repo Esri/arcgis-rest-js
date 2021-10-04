@@ -1,4 +1,4 @@
-import { UserSession } from "@esri/arcgis-rest-auth";
+import { UserSession } from "@esri/arcgis-rest-request";
 
 // setup config variables
 require("dotenv").config();

@@ -1,21 +1,18 @@
 /* Copyright (c) 2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { getAvailableDataCollections } from "../src/getAvailableDataCollections";
-import {
-  dataCollectionsResponse,
-} from "./mocks/responses";
-
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
+import { getAvailableDataCollections } from "../src/getAvailableDataCollections.js";
+import { dataCollectionsResponse } from "./mocks/responses.js";
 
 describe("getAvailableDataCollections", () => {
   afterEach(fetchMock.restore);
 
-  it("should make a simple, single dataCollections request", done => {
+  it("should make a simple, single dataCollections request", (done) => {
     fetchMock.once("*", dataCollectionsResponse);
 
     getAvailableDataCollections()
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -25,18 +22,18 @@ describe("getAvailableDataCollections", () => {
         expect(options.body).toContain("f=json");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a dataCollections request with a countryCode", done => {
+  it("should make a dataCollections request with a countryCode", (done) => {
     fetchMock.once("*", dataCollectionsResponse);
 
     getAvailableDataCollections({
-      countryCode: 'us'
+      countryCode: "us"
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -45,70 +42,72 @@ describe("getAvailableDataCollections", () => {
         expect(options.body).not.toContain("countryCode=us");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a dataCollections request with a countryCode and data collection", done => {
+  it("should make a dataCollections request with a countryCode and data collection", (done) => {
     fetchMock.once("*", dataCollectionsResponse);
 
     getAvailableDataCollections({
-      countryCode: 'us',
-      dataCollection: 'EducationalAttainment'
+      countryCode: "us",
+      dataCollection: "EducationalAttainment"
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/dataCollections/us/EducationalAttainment"
         );
         expect(options.body).not.toContain("countryCode=us");
-        expect(options.body).not.toContain("dataCollection=EducationalAttainment");
+        expect(options.body).not.toContain(
+          "dataCollection=EducationalAttainment"
+        );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a dataCollections request with additional parameters", done => {
+  it("should make a dataCollections request with additional parameters", (done) => {
     fetchMock.once("*", dataCollectionsResponse);
 
     getAvailableDataCollections({
       suppressNullValues: true,
-      addDerivativeVariables: ["average","index"]
+      addDerivativeVariables: ["average", "index"]
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/dataCollections"
         );
         expect(options.body).toContain("suppressNullValues=true");
-        expect(options.body).toContain(`addDerivativeVariables=${encodeURIComponent('["average","index"]')}`);
+        expect(options.body).toContain(
+          `addDerivativeVariables=${encodeURIComponent('["average","index"]')}`
+        );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a dataCollections request with a custom endpoint", done => {
+  it("should make a dataCollections request with a custom endpoint", (done) => {
     fetchMock.once("*", dataCollectionsResponse);
 
     getAvailableDataCollections({
-      endpoint: 'https://esri.com/test'
+      endpoint: "https://esri.com/test"
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://esri.com/test/dataCollections"
-        );
+        expect(url).toEqual("https://esri.com/test/dataCollections");
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

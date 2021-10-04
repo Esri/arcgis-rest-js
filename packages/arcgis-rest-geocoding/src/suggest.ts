@@ -3,7 +3,7 @@
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
 
-import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers";
+import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers.js";
 
 export interface ISuggestResponse {
   suggestions: Array<{

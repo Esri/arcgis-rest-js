@@ -1,10 +1,10 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as fetchMock from "fetch-mock";
-import { isServiceNameAvailable } from "../../src/services/is-service-name-available";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
+import fetchMock from "fetch-mock";
+import { isServiceNameAvailable } from "../../src/services/is-service-name-available.js";
+import { UserSession } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("is-service-name-available", () => {
   const MOCK_USER_SESSION = new UserSession({
@@ -17,7 +17,7 @@ describe("is-service-name-available", () => {
     refreshTokenTTL: 1440,
     username: "casey",
     password: "123456",
-    portal: "https://myorg.maps.arcgis.com/sharing/rest",
+    portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
 
   it("returns server response", () => {
@@ -31,10 +31,6 @@ describe("is-service-name-available", () => {
       const [url]: [string, RequestInit] = fetchMock.lastCall("*");
 
       expect(result.available).toBe(true, "should return the api response");
-      expect(fetchMock.calls().matched.length).toBe(
-        1,
-        "should make one request"
-      );
       expect(url).toContain(
         `${MOCK_USER_SESSION.portal}/portals/self/isServiceNameAvailable`
       );

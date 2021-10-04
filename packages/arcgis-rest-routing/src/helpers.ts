@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import {
+import type {
   ILocation,
   IPoint,
   IPolyline,
@@ -92,7 +92,7 @@ export function decompressGeometry(str: string) {
   }
 
   return {
-    paths: [points],
+    paths: [points]
   } as IPolyline;
 }
 
@@ -100,5 +100,5 @@ export function decompressGeometry(str: string) {
  * User Defined Type Guard that verifies this is a featureSet
  */
 export function isFeatureSet(arg: any): arg is IFeatureSet {
-  return Object.prototype.hasOwnProperty.call(arg, 'features');
+  return Object.prototype.hasOwnProperty.call(arg, "features");
 }

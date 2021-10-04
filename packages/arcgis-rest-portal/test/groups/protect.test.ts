@@ -1,15 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { protectGroup, unprotectGroup } from "../../src/groups/protect";
+import fetchMock from "fetch-mock";
 
-import { GroupEditResponse } from "../mocks/groups/responses";
+import { protectGroup, unprotectGroup } from "../../src/groups/protect.js";
 
-import { encodeParam } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
+import { GroupEditResponse } from "../mocks/groups/responses.js";
 
-import * as fetchMock from "fetch-mock";
+import { encodeParam, UserSession } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("groups", () => {
   afterEach(fetchMock.restore);
@@ -30,7 +29,7 @@ describe("groups", () => {
       })
     };
 
-    it("should protect a group", done => {
+    it("should protect a group", (done) => {
       fetchMock.once("*", GroupEditResponse);
 
       protectGroup({ id: "5bc", ...MOCK_REQOPTS })
@@ -45,11 +44,11 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
-    it("should unprotect a group", done => {
+    it("should unprotect a group", (done) => {
       fetchMock.once("*", GroupEditResponse);
 
       unprotectGroup({ id: "5bc", ...MOCK_REQOPTS })
@@ -64,7 +63,7 @@ describe("groups", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

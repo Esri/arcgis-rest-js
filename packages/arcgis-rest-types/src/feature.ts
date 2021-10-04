@@ -1,9 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IGeometry, IHasZM, ISpatialReference, GeometryType } from "./geometry";
-import { ISymbol } from "./symbol";
-import { IField } from "./webmap";
+import {
+  IGeometry,
+  IHasZM,
+  ISpatialReference,
+  GeometryType
+} from "./geometry.js";
+import { ISymbol } from "./symbol.js";
+import { IField } from "./webmap.js";
 
 /**
  * a spatial entity and its corresponding properties
@@ -37,6 +42,6 @@ export interface IFeatureSet extends IHasZM {
   fields?: IField[];
   features: IFeature[];
   fieldAliases?: {
-    [key: string]: string
-  }
+    [key: string]: string;
+  };
 }

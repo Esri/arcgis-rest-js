@@ -4,22 +4,22 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
+  appendCustomParams
 } from "@esri/arcgis-rest-request";
 
-import {
+import type {
   ILocation,
   IPoint,
   IFeature,
-  IFeatureSet,
+  IFeatureSet
 } from "@esri/arcgis-rest-types";
 
 import {
   ARCGIS_ONLINE_CLOSEST_FACILITY_URL,
   IEndpointOptions,
   normalizeLocationsList,
-  isFeatureSet,
-} from "./helpers";
+  isFeatureSet
+} from "./helpers.js";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
 
@@ -140,7 +140,7 @@ export function closestFacility(
     returnPolylineBarriers: true,
     returnPolygonBarriers: true,
     preserveObjectID: true,
-    ...requestOptions.params,
+    ...requestOptions.params
   };
 
   const options = appendCustomParams<IClosestFacilityOptions>(requestOptions, [
@@ -158,7 +158,7 @@ export function closestFacility(
     "returnBarriers",
     "returnPolylineBarriers",
     "returnPolygonBarriers",
-    "preserveObjectID",
+    "preserveObjectID"
   ]);
 
   // Set travelDirection
@@ -222,5 +222,5 @@ function cleanResponse(res: any): IClosestFacilityResponse {
 }
 
 export default {
-  closestFacility,
+  closestFacility
 };

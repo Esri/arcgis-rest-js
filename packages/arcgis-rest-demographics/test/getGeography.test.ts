@@ -1,9 +1,8 @@
 /* Copyright (c) 2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { getGeography } from "../src/getGeography";
-
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
+import { getGeography } from "../src/getGeography.js";
 
 const MOCK_AUTH = {
   getToken() {
@@ -15,14 +14,14 @@ const MOCK_AUTH = {
 describe("getGeography", () => {
   afterEach(fetchMock.restore);
 
-  it("should throw an error when a getGeography request is made without a token", done => {
+  it("should throw an error when a getGeography request is made without a token", (done) => {
     fetchMock.once("*", {});
 
     getGeography({
       geographyIDs: ["35"]
     })
       // tslint:disable-next-line
-      .catch(e => {
+      .catch((e) => {
         expect(e).toEqual(
           "Geoenrichment using the ArcGIS service requires authentication"
         );
@@ -30,7 +29,7 @@ describe("getGeography", () => {
       });
   });
 
-  it("should make a simple, single getGeography request", done => {
+  it("should make a simple, single getGeography request", (done) => {
     fetchMock.once("*", {});
 
     const geographyIDs = ["35"];
@@ -38,7 +37,7 @@ describe("getGeography", () => {
       authentication: MOCK_AUTH,
       geographyIDs
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -47,41 +46,43 @@ describe("getGeography", () => {
         expect(options.method).toBe("POST");
         expect(options.body).toContain("f=json");
         expect(options.body).toContain("geographyIDs");
-        expect(options.body).toContain(`geographyIDs=${encodeURIComponent(JSON.stringify(geographyIDs))}`);
+        expect(options.body).toContain(
+          `geographyIDs=${encodeURIComponent(JSON.stringify(geographyIDs))}`
+        );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a getGeography request with a custom endpoint", done => {
+  it("should make a getGeography request with a custom endpoint", (done) => {
     fetchMock.once("*", {});
 
     const geographyIDs = ["35"];
     getGeography({
       authentication: MOCK_AUTH,
       geographyIDs,
-      endpoint: 'https://esri.com/test'
+      endpoint: "https://esri.com/test"
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://esri.com/test/execute"
-        );
+        expect(url).toEqual("https://esri.com/test/execute");
         expect(options.method).toBe("POST");
         expect(options.body).toContain("f=json");
         expect(options.body).toContain("geographyIDs");
-        expect(options.body).toContain(`geographyIDs=${encodeURIComponent(JSON.stringify(geographyIDs))}`);
+        expect(options.body).toContain(
+          `geographyIDs=${encodeURIComponent(JSON.stringify(geographyIDs))}`
+        );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a getGeography request with additional parameters", done => {
+  it("should make a getGeography request with additional parameters", (done) => {
     fetchMock.once("*", {});
 
     // const studyAreas = [{"sourceCountry":"US","layer":"US.States","ids":["06"],"generalizationLevel":"6"}];
@@ -91,14 +92,14 @@ describe("getGeography", () => {
     const geographyIDs = ["92129", "92126"];
     getGeography({
       authentication: MOCK_AUTH,
-      sourceCountry: 'US',
-      optionalCountryDataset: 'JPN_EsriJapan_2018',
+      sourceCountry: "US",
+      optionalCountryDataset: "JPN_EsriJapan_2018",
       geographyLayers,
       geographyIDs,
-      geographyQuery: 'orange',
+      geographyQuery: "orange",
       returnSubGeographyLayer: true,
-      subGeographyLayer: 'CAN.FSA',
-      subGeographyQuery: '921*',
+      subGeographyLayer: "CAN.FSA",
+      subGeographyQuery: "921*",
       outSR: 3857,
       returnGeometry: true,
       returnCentroids: true,
@@ -106,19 +107,27 @@ describe("getGeography", () => {
       useFuzzySearch: true,
       featureLimit: 50,
       featureOffset: 100,
-      langCode: 'en',
+      langCode: "en"
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/StandardGeographyQuery/execute"
         );
-        
+
         expect(options.body).toContain(`sourceCountry=US`);
-        expect(options.body).toContain(`optionalCountryDataset=JPN_EsriJapan_2018`);
-        expect(options.body).toContain(`geographyLayers=${encodeURIComponent(JSON.stringify(geographyLayers))}`);
-        expect(options.body).toContain(`geographyIDs=${encodeURIComponent(JSON.stringify(geographyIDs))}`);
+        expect(options.body).toContain(
+          `optionalCountryDataset=JPN_EsriJapan_2018`
+        );
+        expect(options.body).toContain(
+          `geographyLayers=${encodeURIComponent(
+            JSON.stringify(geographyLayers)
+          )}`
+        );
+        expect(options.body).toContain(
+          `geographyIDs=${encodeURIComponent(JSON.stringify(geographyIDs))}`
+        );
         expect(options.body).toContain(`geographyQuery=orange`);
         expect(options.body).toContain(`returnSubGeographyLayer=true`);
         expect(options.body).toContain(`subGeographyLayer=CAN.FSA`);
@@ -134,7 +143,7 @@ describe("getGeography", () => {
 
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

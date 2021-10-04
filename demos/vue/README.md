@@ -5,7 +5,7 @@ the `arcgis-rest-js` libraries.
 
 ## Running This Demo
 
-1. Like all the other demo apps, run `npm run bootstrap` in the root directory.
+1. Like all the other demo apps, run `npm run build` in the root directory.
 1. Register a new application using [https://developers.arcgis.com](https://developers.arcgis.com).
 1. Add a redirect URL of `http://localhost:8080` to your new app.
 1. Either hard-code your clientid into `.env.example` and rename it to `.env` or enter your clientid in the prompt when the application is launched.

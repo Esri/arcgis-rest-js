@@ -2,9 +2,12 @@
  * Apache-2.0 */
 
 import { request, cleanUrl } from "@esri/arcgis-rest-request";
-import { ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
+import type { ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
 
-import { ARCGIS_ONLINE_BULK_GEOCODING_URL, IEndpointOptions } from "./helpers";
+import {
+  ARCGIS_ONLINE_BULK_GEOCODING_URL,
+  IEndpointOptions
+} from "./helpers.js";
 
 // It would be better if doc did not display these properties in alphabetical order
 export interface IAddressBulk {
@@ -71,7 +74,7 @@ export function bulkGeocode(
   };
 
   options.params.addresses = {
-    records: requestOptions.addresses.map(address => {
+    records: requestOptions.addresses.map((address) => {
       return { attributes: address };
     })
   };
@@ -89,12 +92,12 @@ export function bulkGeocode(
   return request(
     `${cleanUrl(options.endpoint)}/geocodeAddresses`,
     options
-  ).then(response => {
+  ).then((response) => {
     if (options.rawResponse) {
       return response;
     }
     const sr = response.spatialReference;
-    response.locations.forEach(function(address: { location: IPoint }) {
+    response.locations.forEach(function (address: { location: IPoint }) {
       if (address.location) {
         address.location.spatialReference = sr;
       }

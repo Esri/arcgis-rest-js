@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { cleanUrl } from "../../src/utils/clean-url";
+import { cleanUrl } from "../../src/utils/clean-url.js";
 
 const validUrl =
   "https://server.com/arcgis/rest/services/Custom Space/MapServer";

@@ -1,10 +1,9 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { searchUsers } from "../../src/users/search-users";
-import { UserSearchResponse } from "../mocks/users/user-search";
-
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
+import { searchUsers } from "../../src/users/search-users.js";
+import { UserSearchResponse } from "../mocks/users/user-search.js";
 
 describe("users", () => {
   afterEach(fetchMock.restore);
@@ -17,7 +16,7 @@ describe("users", () => {
       portal: "https://myorg.maps.arcgis.com/sharing/rest"
     };
 
-    it("should make a simple, authenticated user search request", done => {
+    it("should make a simple, authenticated user search request", (done) => {
       fetchMock.once("*", UserSearchResponse);
 
       searchUsers({
@@ -25,7 +24,7 @@ describe("users", () => {
         num: 100,
         authentication: MOCK_AUTH
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -34,7 +33,7 @@ describe("users", () => {
           expect(options.method).toBe("GET");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

@@ -7,7 +7,7 @@ import {
   appendCustomParams
 } from "@esri/arcgis-rest-request";
 
-import {
+import type {
   ISpatialReference,
   IFeature,
   IHasZM,
@@ -15,7 +15,7 @@ import {
   IField
 } from "@esri/arcgis-rest-types";
 
-import { IGetLayerOptions } from "./helpers";
+import { IGetLayerOptions } from "./helpers.js";
 
 /**
  * Related record query request options. Additional arguments can be passed via the [params](/arcgis-rest-js/api/feature-service/IQueryRelatedOptions/#params) property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-feature-service-.htm) for more information and a full list of parameters.

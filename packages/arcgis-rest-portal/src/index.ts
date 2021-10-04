@@ -1,61 +1,62 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-export * from "./items/add";
-export * from "./items/content";
-export * from "./items/create";
-export * from "./items/export";
-export * from "./items/get";
-export * from "./items/protect";
-export * from "./items/reassign";
-export * from "./items/remove";
-export * from "./items/search";
-export * from "./items/update";
-export * from "./items/helpers";
-export * from "./items/upload";
+export * from "./items/add.js";
+export * from "./items/content.js";
+export * from "./items/create.js";
+export * from "./items/export.js";
+export * from "./items/get.js";
+export * from "./items/protect.js";
+export * from "./items/reassign.js";
+export * from "./items/remove.js";
+export * from "./items/search.js";
+export * from "./items/update.js";
+export * from "./items/helpers.js";
+export * from "./items/upload.js";
 
-export * from "./groups/add-users";
-export * from "./groups/remove-users";
-export * from "./groups/invite-users";
-export * from "./groups/create";
-export * from "./groups/get";
-export * from "./groups/helpers";
-export * from "./groups/notification";
-export * from "./groups/protect";
-export * from "./groups/remove";
-export * from "./groups/search";
-export * from "./groups/update";
-export * from "./groups/update-user-membership";
-export * from "./groups/join";
+export * from "./groups/add-users.js";
+export * from "./groups/remove-users.js";
+export * from "./groups/invite-users.js";
+export * from "./groups/create.js";
+export * from "./groups/get.js";
+export * from "./groups/helpers.js";
+export * from "./groups/notification.js";
+export * from "./groups/protect.js";
+export * from "./groups/remove.js";
+export * from "./groups/search.js";
+export * from "./groups/update.js";
+export * from "./groups/update-user-membership.js";
+export * from "./groups/join.js";
 
-export * from "./orgs/notification";
+export * from "./orgs/notification.js";
 
-export * from "./users/get-user";
-export * from "./users/get-user-tags";
-export * from "./users/get-user-url";
-export * from "./users/invitation";
-export * from "./users/notification";
-export * from "./users/search-users";
-export * from "./users/update";
+export * from "./users/get-user.js";
+export * from "./users/get-user-tags.js";
+export * from "./users/get-user-url.js";
+export * from "./users/invitation.js";
+export * from "./users/notification.js";
+export * from "./users/search-users.js";
+export * from "./users/update.js";
 
-export * from "./sharing/access";
-export * from "./sharing/share-item-with-group";
-export * from "./sharing/unshare-item-with-group";
-export * from "./sharing/is-item-shared-with-group";
-export * from "./sharing/helpers";
+export * from "./sharing/access.js";
+export * from "./sharing/share-item-with-group.js";
+export * from "./sharing/unshare-item-with-group.js";
+export * from "./sharing/is-item-shared-with-group.js";
+export * from "./sharing/helpers.js";
 
-export * from "./services/get-unique-service-name";
-export * from "./services/is-service-name-available";
+export * from "./services/get-unique-service-name.js";
+export * from "./services/is-service-name-available.js";
 
-export * from "./util/get-portal";
-export * from "./util/get-portal-settings";
-export * from "./util/get-portal-url";
-export * from "./util/scrub-control-chars";
-export * from "./util/search";
-export * from "./util/SearchQueryBuilder";
+export * from "./util/get-portal.js";
+export * from "./util/get-portal-settings.js";
+export * from "./util/get-portal-url.js";
+export * from "./util/scrub-control-chars.js";
+export * from "./util/search.js";
+export * from "./util/SearchQueryBuilder.js";
+
 // we dont export 'generic-search' because its an internal utility method
 // export * from "./util/generic-search"; because its an internal utility method
-export {
+export type {
   IPagingParams,
   IPagedResponse,
   IUser,
@@ -64,5 +65,5 @@ export {
   IItem,
   IFolder,
   IGroupAdd,
-  GroupMembership,
+  GroupMembership
 } from "@esri/arcgis-rest-types";

@@ -1,6 +1,6 @@
-import { HTTPMethods } from "./HTTPMethods";
-import { IGenerateTokenParams } from "./IGenerateTokenParams";
-import { IFetchTokenParams } from "./IFetchTokenParams";
+import { HTTPMethods } from "./HTTPMethods.js";
+import { IGenerateTokenParams } from "./IGenerateTokenParams.js";
+import { IFetchTokenParams } from "./IFetchTokenParams.js";
 
 export interface ITokenRequestOptions {
   params?: IGenerateTokenParams | IFetchTokenParams;
