@@ -12,11 +12,10 @@ import type {
   IFeatureSet,
   IFeature,
   Units,
-  IExtent,
-  IStatisticDefinition
+  IExtent
 } from "@esri/arcgis-rest-types";
 
-import { IGetLayerOptions, ISharedQueryOptions } from "./helpers.js";
+import { IGetLayerOptions, ISharedQueryOptions, IStatisticDefinition } from "./helpers.js";
 
 /**
  * Request options to fetch a feature by id.
