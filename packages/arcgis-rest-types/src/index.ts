@@ -6,4 +6,3 @@ export * from "./service.js";
 export * from "./symbol.js";
 export * from "./user.js";
 export * from "./webmap.js";
-export * from "./statisticDefinition.js";
