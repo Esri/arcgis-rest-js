@@ -3,10 +3,29 @@
 import { cleanUrl, IRequestOptions } from "@esri/arcgis-rest-request";
 import type {
   GeometryType,
-  SpatialRelationship,
   IGeometry,
   ISpatialReference
 } from "@esri/arcgis-rest-types";
+
+
+/**
+ * The spatial relationship used to compare input geometries
+ *
+ * `SpatialRelationship` can also be imported from the following packages:
+ *
+ * ```js
+ * import { SpatialRelationship } from "@esri/arcgis-rest-feature-layer";
+ * ```
+ */
+ export type SpatialRelationship =
+ | "esriSpatialRelIntersects"
+ | "esriSpatialRelContains"
+ | "esriSpatialRelCrosses"
+ | "esriSpatialRelEnvelopeIntersects"
+ | "esriSpatialRelIndexIntersects"
+ | "esriSpatialRelOverlaps"
+ | "esriSpatialRelTouches"
+ | "esriSpatialRelWithin";
 
 /**
  * Base options for making requests against feature layers
