@@ -185,25 +185,6 @@ export type GeometryType =
   | "esriGeometryEnvelope";
 
 /**
- * The spatial relationship used to compare input geometries
- *
- * `SpatialRelationship` can also be imported from the following packages:
- *
- * ```js
- * import { SpatialRelationship } from "@esri/arcgis-rest-feature-layer";
- * ```
- */
-export type SpatialRelationship =
-  | "esriSpatialRelIntersects"
-  | "esriSpatialRelContains"
-  | "esriSpatialRelCrosses"
-  | "esriSpatialRelEnvelopeIntersects"
-  | "esriSpatialRelIndexIntersects"
-  | "esriSpatialRelOverlaps"
-  | "esriSpatialRelTouches"
-  | "esriSpatialRelWithin";
-
-/**
  * Extents are used to define rectangles and bounding boxes.
  *
  * `IExtent` can also be imported from the following packages:
