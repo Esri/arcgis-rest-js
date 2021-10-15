@@ -1,8 +1,8 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IFeature, IGeometry } from "@esri/arcgis-rest-types";
 import { IQueryFeaturesResponse } from "../../src/query.js";
+import { IFeature, IGeometry } from "@esri/arcgis-rest-request";
 
 export const cvdQueryResponse: IQueryFeaturesResponse = {
   objectIdFieldName: "objectid",

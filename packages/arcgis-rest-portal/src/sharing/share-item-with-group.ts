@@ -1,5 +1,4 @@
-import { request } from "@esri/arcgis-rest-request";
-import { IUser } from "@esri/arcgis-rest-types";
+import { request, IUser } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "../util/get-portal-url.js";
 import {
   IGroupSharingOptions,

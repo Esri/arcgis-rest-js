@@ -158,7 +158,6 @@
     "url": "https://github.com/Esri/arcgis-rest-js/issues"
   },
   "workspaces": [
-    "./packages/arcgis-rest-types",
     "./packages/arcgis-rest-request",
     "./packages/arcgis-rest-auth",
     "./packages/arcgis-rest-demographics",

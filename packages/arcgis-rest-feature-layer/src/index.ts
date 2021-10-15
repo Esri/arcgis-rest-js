@@ -28,4 +28,4 @@ export type {
   IGeometry,
   ILayerDefinition,
   IFeatureServiceDefinition
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-request";

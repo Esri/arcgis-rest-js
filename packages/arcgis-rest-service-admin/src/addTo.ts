@@ -4,9 +4,11 @@
 import {
   request,
   cleanUrl,
-  IUserRequestOptions
+  IUserRequestOptions,
+  ILayer,
+  ILayerDefinition,
+  ITable
 } from "@esri/arcgis-rest-request";
-import type { ILayer, ILayerDefinition, ITable } from "@esri/arcgis-rest-types";
 
 export interface IAddToServiceDefinitionOptions extends IUserRequestOptions {
   /**

@@ -4,9 +4,10 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
+  IEnvelope
 } from "@esri/arcgis-rest-request";
-import { IEnvelope } from "@esri/arcgis-rest-types";
+
 
 import {
   ARCGIS_ONLINE_GEOENRICHMENT_URL,

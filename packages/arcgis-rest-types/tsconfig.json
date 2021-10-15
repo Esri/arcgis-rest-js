@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "module": "es2015",
-    "declaration": true,
-    "declarationDir": "./dist/types",
-  },
-  "include": ["src/**/*.ts"],
-  "extends": "../../tsconfig.json"
-}

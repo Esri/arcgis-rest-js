@@ -1,9 +1,7 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, cleanUrl } from "@esri/arcgis-rest-request";
-
-import type { IPoint, ILocation } from "@esri/arcgis-rest-types";
+import { request, cleanUrl, IPoint, ILocation } from "@esri/arcgis-rest-request";
 
 import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers.js";
 

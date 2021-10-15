@@ -5,10 +5,11 @@ import {
   request,
   cleanUrl,
   appendCustomParams,
-  IRequestOptions
+  IRequestOptions,
+  ILocation, 
+  IPoint, 
+  IFeatureSet
 } from "@esri/arcgis-rest-request";
-
-import type { ILocation, IPoint, IFeatureSet } from "@esri/arcgis-rest-types";
 
 import {
   ARCGIS_ONLINE_ORIGIN_DESTINATION_MATRIX_URL,

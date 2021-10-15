@@ -1,7 +1,6 @@
-import { request } from "@esri/arcgis-rest-request";
+import { request, ISpatialReference } from "@esri/arcgis-rest-request";
 import { determineOwner, IUserItemOptions } from "./helpers.js";
 import { getPortalUrl } from "../util/get-portal-url.js";
-import { ISpatialReference } from "@esri/arcgis-rest-types";
 
 type ExportFormat =
   | "Shapefile"

@@ -4,7 +4,7 @@
 import {
   ILayerDefinition,
   IFeatureServiceDefinition
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-request";
 import { cvdServiceFields } from "./fields.js";
 
 export const getFeatureServerResponse: IFeatureServiceDefinition = {

@@ -9,8 +9,7 @@ import { removeGroup } from "../../src/groups/remove.js";
 
 import { GroupEditResponse } from "../mocks/groups/responses.js";
 
-import { encodeParam, UserSession } from "@esri/arcgis-rest-request";
-import { IGroupAdd } from "@esri/arcgis-rest-types";
+import { encodeParam, UserSession, IGroupAdd } from "@esri/arcgis-rest-request";
 
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 

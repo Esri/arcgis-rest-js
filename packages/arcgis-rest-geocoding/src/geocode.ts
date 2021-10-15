@@ -4,14 +4,11 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
-} from "@esri/arcgis-rest-request";
-
-import type {
+  appendCustomParams,
   IExtent,
   ISpatialReference,
   IPoint
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-request";
 
 import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers.js";
 

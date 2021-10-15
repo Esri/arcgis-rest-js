@@ -44,7 +44,6 @@ const packageNames = fs
   .filter((p) => p[0] !== ".")
   .filter((p) => p !== "arcgis-rest-fetch")
   .filter((p) => p !== "arcgis-rest-form-data")
-  .filter((p) => p !== "arcgis-rest-types")
   .map((p) => {
     return require(path.join(__dirname, "packages", p, "package.json")).name;
   }, {});

@@ -1,5 +1,4 @@
-import { request } from "@esri/arcgis-rest-request";
-import type { ILayerDefinition } from "@esri/arcgis-rest-types";
+import { request, ILayerDefinition } from "@esri/arcgis-rest-request";
 import { IGetLayerOptions, parseServiceUrl } from "./helpers.js";
 
 export interface IAllLayersAndTablesResponse {

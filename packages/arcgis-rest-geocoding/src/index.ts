@@ -12,4 +12,4 @@ export type {
   ILocation,
   IExtent,
   ISpatialReference
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-request";

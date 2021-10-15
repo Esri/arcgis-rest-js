@@ -56,14 +56,14 @@ export * from "./util/SearchQueryBuilder.js";
 
 // we dont export 'generic-search' because its an internal utility method
 // export * from "./util/generic-search"; because its an internal utility method
-export type {
-  IPagingParams,
-  IPagedResponse,
-  IUser,
-  IItemAdd,
-  IItemUpdate,
-  IItem,
-  IFolder,
-  IGroupAdd,
-  GroupMembership
-} from "@esri/arcgis-rest-types";
+// export type {
+//   IPagingParams,
+//   IPagedResponse,
+//   IUser,
+//   IItemAdd,
+//   IItemUpdate,
+//   IItem,
+//   IFolder,
+//   IGroupAdd,
+//   GroupMembership
+// } from "@esri/arcgis-rest-request";

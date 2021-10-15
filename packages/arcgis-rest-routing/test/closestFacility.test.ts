@@ -23,7 +23,7 @@ import {
   IFeatureSet,
   IPolyline,
   IPolygon
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-request";
 
 const incidents: Array<[number, number]> = [[-118.257363, 34.076763]];
 

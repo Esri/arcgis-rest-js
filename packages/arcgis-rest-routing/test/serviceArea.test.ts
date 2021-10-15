@@ -20,7 +20,7 @@ import {
   IFeatureSet,
   IPolyline,
   IPolygon
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-request";
 
 const facilities: Array<[number, number]> = [
   [-118.3417932, 34.00451385],

@@ -4,15 +4,12 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
-} from "@esri/arcgis-rest-request";
-
-import type {
+  appendCustomParams,
   ILocation,
   IPoint,
   IFeature,
   IFeatureSet
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-request";
 
 import {
   ARCGIS_ONLINE_CLOSEST_FACILITY_URL,

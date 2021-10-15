@@ -1,5 +1,5 @@
 import { ISearchResult } from "../../../src/util/search";
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "@esri/arcgis-rest-request";
 
 export const UserSearchResponse: ISearchResult<IUser> = {
   query: "role:org_user OR role:org_publisher",

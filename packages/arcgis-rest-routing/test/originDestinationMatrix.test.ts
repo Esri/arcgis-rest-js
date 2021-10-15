@@ -20,7 +20,7 @@ import {
   OriginDestinationMatrix_AllBarrierTypes_WebMercator
 } from "./mocks/responses.js";
 
-import { IPoint, ILocation, IFeatureSet } from "@esri/arcgis-rest-types";
+import { IPoint, ILocation, IFeatureSet } from "@esri/arcgis-rest-request";
 
 // variations on `origins` and `destinations` required input params
 

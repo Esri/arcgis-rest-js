@@ -2,10 +2,9 @@
  * Apache-2.0 */
 
 import {
-  IRequestOptions
+  IRequestOptions,
+  IFeatureSet
 } from "@esri/arcgis-rest-request";
-
-import { IFeatureSet } from "@esri/arcgis-rest-types";
 
 const ARCGIS_ONLINE_GEOENRICHMENTSERVER_URL = "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver"
 export const ARCGIS_ONLINE_GEOENRICHMENT_URL = `${ARCGIS_ONLINE_GEOENRICHMENTSERVER_URL}/Geoenrichment`;

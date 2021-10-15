@@ -6,9 +6,10 @@ import { TOMORROW } from "../../../scripts/test-helpers.js";
 import {
   encodeParam,
   ErrorTypes,
-  UserSession
+  UserSession,
+  ILayer,
+  ITable
 } from "@esri/arcgis-rest-request";
-import { ILayer, ITable } from "@esri/arcgis-rest-types";
 import { addToServiceDefinition } from "../src/addTo.js";
 import {
   AddToFeatureServiceSuccessResponseFredAndGinger,

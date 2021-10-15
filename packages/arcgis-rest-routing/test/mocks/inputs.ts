@@ -6,7 +6,7 @@ import {
   IFeatureSet,
   IPolyline,
   IPolygon,
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-request";
 
 export const barriers: IPoint[] = [
   { x: -117.1957, y: 34.0564 },

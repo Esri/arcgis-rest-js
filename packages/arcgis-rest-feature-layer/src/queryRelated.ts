@@ -4,16 +4,13 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
-} from "@esri/arcgis-rest-request";
-
-import type {
+  appendCustomParams,
   ISpatialReference,
   IFeature,
   IHasZM,
   GeometryType,
   IField
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-request";
 
 import { IGetLayerOptions } from "./helpers.js";
 
