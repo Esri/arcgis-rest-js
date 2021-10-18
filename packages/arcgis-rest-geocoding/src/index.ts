@@ -7,6 +7,8 @@ export * from "./reverse.js";
 export * from "./bulk.js";
 export * from "./helpers.js";
 
+// Types that are used in this package are re-exported for convenience and 
+// to make the links work correctly in the documentation pages.
 export type {
   IPoint,
   ILocation,

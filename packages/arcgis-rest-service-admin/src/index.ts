@@ -4,11 +4,13 @@ export * from "./update.js";
 export * from "./get-service-admin-info.js";
 export * from "./get-view-sources.js";
 
-// export type {
-//   IFeatureServiceDefinition,
-//   IExtent,
-//   ISpatialReference,
-//   ILayer,
-//   ILayerDefinition,
-//   ITable
-// } from "@esri/arcgis-rest-request";
+// Types that are used in this package are re-exported for convenience and 
+// to make the links work correctly in the documentation pages.
+export type {
+  IFeatureServiceDefinition,
+  IExtent,
+  ISpatialReference,
+  ILayer,
+  ILayerDefinition,
+  ITable
+} from "@esri/arcgis-rest-request";
