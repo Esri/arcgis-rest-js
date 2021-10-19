@@ -38,7 +38,6 @@ export * from "./types/feature.js";
 export * from "./types/geometry.js";
 export * from "./types/symbol.js";
 export * from "./types/webmap.js";
-export * from "./types/item.js";
 export * from "./types/service.js";
 export * from "./types/group.js";
 export * from "./types/user.js";

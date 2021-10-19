@@ -7,9 +7,10 @@ import {
   appendCustomParams,
   IPagingParams, 
   IGroup, 
-  IItem, 
   IUser
 } from "@esri/arcgis-rest-request";
+import { IItem } from "../helpers.js";
+
 import { getPortalUrl } from "../util/get-portal-url.js";
 
 export interface IGroupCategorySchema {

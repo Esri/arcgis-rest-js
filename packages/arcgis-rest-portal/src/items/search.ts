@@ -1,7 +1,7 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IItem } from "@esri/arcgis-rest-request";
+import { IItem } from "../helpers.js";
 import { SearchQueryBuilder } from "../util/SearchQueryBuilder.js";
 import { ISearchOptions, ISearchResult } from "../util/search.js";
 import { genericSearch } from "../util/generic-search.js";

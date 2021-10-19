@@ -1,7 +1,8 @@
 /* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, appendCustomParams, IItemAdd } from "@esri/arcgis-rest-request";
+import { request, appendCustomParams } from "@esri/arcgis-rest-request";
+import { IItemAdd } from "../helpers.js";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
 import {

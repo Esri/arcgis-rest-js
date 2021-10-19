@@ -5,10 +5,10 @@ import {
   request,
   IRequestOptions,
   appendCustomParams,
-  IItem,
   IGroup,
   IUser
 } from "@esri/arcgis-rest-request";
+import { IItem } from "../helpers.js";
 
 import { SearchQueryBuilder } from "./SearchQueryBuilder.js";
 import { getPortalUrl } from "../util/get-portal-url.js";

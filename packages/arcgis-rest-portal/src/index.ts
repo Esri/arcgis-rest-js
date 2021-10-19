@@ -59,14 +59,11 @@ export * from "./util/SearchQueryBuilder.js";
 
 // Types that are used in this package are re-exported for convenience and 
 // to make the links work correctly in the documentation pages.
+export * from './helpers.js';
 export type {
   IPagingParams,
   IPagedResponse,
   IUser,
-  IItemAdd,
-  IItemUpdate,
-  IItem,
-  IFolder,
   IGroupAdd,
   GroupMembership
 } from "@esri/arcgis-rest-request";
