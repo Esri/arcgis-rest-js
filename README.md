@@ -75,7 +75,7 @@ For a specific package
 
 ### Packages
 
-- [`@esri/arcgis-rest-request`](./packages/arcgis-rest-request/) - Underpins other packages and supports making low-level requests. Also includes common typings for TypeScript developers.
+- [`@esri/arcgis-rest-request`](./packages/arcgis-rest-request/) - Core module implementing basic request code, shared TypeScript types and common utilities.
 - [`@esri/arcgis-rest-portal`](./packages/arcgis-rest-portal) - Methods for working with ArcGIS Online/Enterprise content and users.
 - [`@esri/arcgis-rest-feature-layer`](./packages/arcgis-rest-feature-layer) - Functions for querying and editing features inside of hosted feature layers.
 - [`@esri/arcgis-rest-service-admin`](./packages/arcgis-rest-service-admin) - Functions for administering hosted feature services.
