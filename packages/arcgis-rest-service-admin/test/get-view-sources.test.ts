@@ -35,10 +35,7 @@ describe("get-view-sources: ", () => {
 
       const [url]: [string, RequestInit] = fetchMock.lastCall("*");
 
-      expect(fetchMock.calls().matched.length).toBe(
-        1,
-        "should make one request"
-      );
+      expect(fetchMock.called()).toEqual(true);
 
       expect(url).toContain(
         "https://servicesqa.arcgis.com/orgid/arcgis/rest/services/mysevice/FeatureServer/sources"
