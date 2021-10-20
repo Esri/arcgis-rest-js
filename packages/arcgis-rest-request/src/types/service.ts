@@ -112,23 +112,6 @@ export interface IFeatureServiceDefinition {
   isLocationTrackingView: boolean;
   zDefault?: number;
 }
-/**
- * Very generic structure representing the return value from the
- * /arcgis/rest/admin/services/<service-name>/FeatureServer?f=json response
- */
-export interface IServiceInfo extends Record<string, unknown> {
-  adminServiceInfo: {
-    name: string;
-    type: string;
-    status: string;
-    database: {
-      datasource: {
-        name: string;
-      };
-    };
-  };
-  layers: Record<string, unknown>[];
-}
 
 /**
  * Individual View Source entry
