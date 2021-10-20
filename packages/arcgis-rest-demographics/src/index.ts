@@ -12,5 +12,5 @@ export * from "./queryDemographicData.js";
 export type {
   IRequestOptions,
   IFeatureSet,
-  IEnvelope
+  IExtent
 } from "@esri/arcgis-rest-request";

@@ -155,22 +155,6 @@ export interface ICircularArc {
 export type ElipticArc = IArc;
 
 /**
- * An envelope is a rectangle defined by a range of values for each coordinate and attribute.
- */
-export interface IEnvelope extends IGeometry {
-  xmin: number;
-  xmax: number;
-  ymin: number;
-  ymax: number;
-
-  zmin?: number;
-  zmax?: number;
-
-  mmin?: number;
-  mmax?: number;
-}
-
-/**
  * `GeometryType` can also be imported from the following packages:
  *
  * ```js

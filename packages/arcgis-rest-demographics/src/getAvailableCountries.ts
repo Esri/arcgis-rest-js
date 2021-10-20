@@ -5,7 +5,7 @@ import {
   request,
   cleanUrl,
   appendCustomParams,
-  IEnvelope
+  IExtent
 } from "@esri/arcgis-rest-request";
 
 
@@ -34,7 +34,7 @@ export interface ICountry {
   continent: string;
   distanceUnits: string;
   esriUnits: string;
-  defaultExtent: IEnvelope;
+  defaultExtent: IExtent;
   defaultDatasetID: string;
   datasets?: string[];
   hierarchies?: IHierarchy[];
