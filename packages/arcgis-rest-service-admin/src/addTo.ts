@@ -5,10 +5,11 @@ import {
   request,
   cleanUrl,
   IUserRequestOptions,
-  ILayer,
   ILayerDefinition,
   ITable
 } from "@esri/arcgis-rest-request";
+
+import { ILayer } from "./helpers.js";
 
 export interface IAddToServiceDefinitionOptions extends IUserRequestOptions {
   /**

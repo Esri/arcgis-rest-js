@@ -7,9 +7,9 @@ import {
   encodeParam,
   ErrorTypes,
   UserSession,
-  ILayer,
   ITable
 } from "@esri/arcgis-rest-request";
+import { ILayer } from "../src/helpers.js";
 import { addToServiceDefinition } from "../src/addTo.js";
 import {
   AddToFeatureServiceSuccessResponseFredAndGinger,

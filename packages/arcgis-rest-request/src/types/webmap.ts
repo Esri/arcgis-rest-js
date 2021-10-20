@@ -403,38 +403,6 @@ export interface IVisiblePopup {
   subLayerId?: number;
 }
 
-export interface ISlide {
-  /** Basemaps give the web map a geographic context. */
-  baseMap?: IBaseMap;
-  /** The standard Esri extent object with spatialReference, xmax, xmin, ymax and ymin. */
-  extent?: IExtent;
-  /** Indicates whether the slide should be hidden within the presentation. */
-  hidden?: boolean;
-  /** An object with a centerPoint object and sometimes a resolution. */
-  mapLocation?: IMapLocation;
-  /** An array of two numbers. The first one indicates start time and the second one indicates end time. */
-  timeExtent?: [number, number];
-  /** Title including text and formatting for each slide. */
-  title?: string;
-  /** An array of objects used to indicate layer visibility. */
-  visibleLayers?: IVisibleLayer;
-  /** A presentation slide's visiblePopup which contains anchorPoint, featureId, layerId, and subLayerId. */
-  visiblePopup?: IVisiblePopup;
-}
-
-export interface IPresentation {
-  /** Indicates whether to display the time slider (if accessible). */
-  displayTimeSlider?: boolean;
-  /** Indicates whether to display a legend on all slides. */
-  showLegend?: boolean;
-  /** Number of seconds to show slide before proceeding to the next slide. */
-  slideAdvancementInterval?: number;
-  /** Array of slide objects. */
-  slides?: ISlide[];
-  /** Indicates whether to use the time extent (if applicable) of a slide. */
-  useTimeExtentOfSlide?: boolean;
-}
-
 /**
  * Root element in the web map specifying an array of table objects.
  *
@@ -463,40 +431,6 @@ export interface ITable {
   title?: string;
   /** String value indicating the URL reference of the hosted table. */
   url?: string;
-}
-
-/**
- * The web map data lists the basemap, operational layers, and bookmarks to be used in the web map.
- * It also contains information about popup windows and layer styling overrides to be used in the web map.
- * A version property allows you to supply the version of the web map JSON format being used.
- */
-export interface IWebmap {
-  /** Viewing and editing properties of the webmap */
-  applicationProperties?: IApplicationProperties;
-  /** String value indicating the application which authored the webmap */
-  authoringApp?: string;
-  /** String value indicating the authoring App's version number */
-  authoringAppVersion?: string;
-  /** Defines the appearance for the background of the map. */
-  background?: IWebMapBackground;
-  /** [Required] Basemaps give the web map a geographic context */
-  baseMap: IBaseMap;
-  /** A bookmark is a saved geographic extent that allows end users to quickly navigate to a particular area of interest */
-  bookmarks?: IBookmark[];
-  /** Map Range Information */
-  mapRangeInfo?: IMapRangeInfo;
-  /** Operational layers contain business data which are used to make thematic maps */
-  operationalLayers?: ILayer[];
-  /** A presentation consists of multiple slides. Each slide has a different title, extent, basemap, layers etc */
-  presentation?: any;
-  /** [Required] An object used to specify the spatial reference of the given geometry. */
-  spatialReference: ISpatialReference;
-  /** Root element in the web map specifying an array of table objects. (optional) */
-  tables?: ITable[];
-  /** [Required] Root element in the web map specifying a string value indicating the web map version. */
-  version: string;
-  /** The widgets object contains widgets that should be exposed to the user */
-  widgets?: any;
 }
 
 /**
@@ -661,146 +595,9 @@ export interface IViewingInfo {
   search?: ISearch;
 }
 
-/**
- * A basemap layer is a layer that provides geographic context to the map. A web map always contains a basemap.
- * The basemap has a title and is the combination of each baseMapLayer.
- * It is required that a baseMap be saved within the web map.
- */
-export interface IBaseMap {
-  /** An array of baseMapLayer objects defining the basemaps used in the web map. */
-  baseMapLayers: ILayer[];
-  /** Required string title for the basemap that can be used in a table of contents. It takes the title of the first baseMapLayer in the array. */
-  title: string;
-}
-
-export interface ILayer {
-  /** A unique identifying string for the layer. */
-  id: any;
-  /** Layer name */
-  name?: string;
-  /** Optional string containing the item ID of the service if it's registered on ArcGIS Online or your organization's portal. */
-  itemId?: string;
-  /** Indicates the layer type */
-  layerType: string;
-  /** Integer property used to determine the maximum scale at which the layer is displayed. */
-  maxScale?: number;
-  /** Integer property used to determine the minimum scale at which the layer is displayed. */
-  minScale?: number;
-  /** The degree of transparency applied to the layer on the client side, where 0 is full transparency and 1 is no transparency. */
-  opacity?: number;
-  /** Boolean property indicating whether to display in the legend. */
-  showLegend?: boolean;
-  /** A user-friendly string title for the layer that can be used in a table of contents. */
-  title?: string;
-  /**
-   * Deprecated, use layerType instead.
-   * @deprecated
-   */
-  type?: string;
-  /** Boolean property determining whether the layer is initially visible in the web map. */
-  visibility?: boolean;
-  /** The URL to the layer. Not applicable to all layer types. */
-  url?: string;
-}
-
 export interface ISupportsTime {
   /** This property is applicable to layers that support time. If 'true', timeAnimation is enabled. */
   timeAnimation?: boolean;
-}
-
-export interface IBingLayer extends ILayer {
-  /** String value that unlocks the use of Bing layers in a web map. */
-  bingKey?: string;
-  /** Boolean value indicating whether the Bing key can be shared to the public. */
-  canShareBingPublic?: boolean;
-  /** String indicating the layer type. */
-  layerType: "BingMapsAerial" | "BingMapsRoad" | "BingMapsHybrid";
-  /** A string value representing the URL to the Portal/organization Self resource. Calls should be made to this property to retrieve the Bing key. If the key is not made accessible to the public or if canShareBingPublic is false, any web maps using Bing layers will not work. */
-  portalUrl?: string;
-}
-
-export interface IImageServiceLayer extends ILayer, ISupportsTime {
-  /** An array of bandIds that are visible, can specify bands to export or rearrange band order(from image service). */
-  bandIds?: number[];
-  /** Controls how much loss the image will be subjected to by the compression algorithm (from image service). */
-  compressionQuality?: any;
-  /** Stores interactive filters. */
-  definitionEditor?: any;
-  /** Boolean property indicating whether to ignore popups defined by the service item. */
-  disablePopup?: boolean;
-  /** String value representing image format. */
-  format?:
-    | "jpgpng"
-    | "png"
-    | "png8"
-    | "png24"
-    | "jpg"
-    | "bmp"
-    | "gif"
-    | "tiff"
-    | "png32";
-
-  /** The algorithm used for interpolation. */
-  interpolation?:
-    | "RSP_BilinearInterpolation"
-    | "RSP_CubicConvolution"
-    | "RSP_Majority"
-    | "RSP_NearestNeighbor";
-
-  /** This is applicable if used as a baseMapLayer. A boolean value indicating whether or not the baseMapLayer draws on top (true) of other layers, including operationalLayers , or below (false). */
-  isReference?: boolean;
-  /** A layerDefinition object defining the attribute schema and drawing information for the layer. */
-  layerDefinition?: any;
-  /** String indicating the layer type. Value of this property must be ArcGISImageServiceLayer */
-  layerType: "ArcGISImageServiceLayer";
-  /** Specifies the mosaic rule when defining how individual images should be mosaicked. */
-  mosaicRule?: any;
-  /** The pixel value that represents no information. */
-  noData?: any;
-  /** A string value of interpretation of noData setting. Default is 'esriNoDataMatchAny' when noData is a number, and 'esriNoDataMatchAll' when noData is an array. */
-  noDataInterpretation?: "esriNoDataMatchAny" | "esriNoDataMatchAll";
-  /** Pertains to the type of values stored in the raster, such as signed integer, unsigned integer, or floating point. */
-  pixelType?:
-    | "C128"
-    | "C64"
-    | "F32"
-    | "F64"
-    | "S16"
-    | "S32"
-    | "S8"
-    | "U1"
-    | "U16"
-    | "U2"
-    | "U32"
-    | "U4"
-    | "U8"
-    | "UNKNOWN";
-
-  /** A popupInfo object defining the content of popup windows when you click or query a feature. */
-  popupInfo?: IPopupInfo;
-  /** Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified interval. Value of 0 indicates auto refresh is not enabled. */
-  refreshInterval?: number;
-  /** Specifies the rendering rule for how the requested image should be rendered. */
-  renderingRule?: any;
-}
-
-export interface IImageVectorLayer extends ILayer, ISupportsTime {
-  /** Stores interactive filters. */
-  definitionEditor?: any;
-  /** Boolean property indicating whether to ignore popups defined by the service item. */
-  disablePopup?: any;
-  /** This is applicable if used as a baseMapLayer. A boolean value indicating whether or not the baseMapLayer draws on top (true) of other layers, including operationalLayers , or below (false). */
-  isReference?: boolean;
-  /** A layerDefinition object defining the attribute schema and drawing information for the layer. */
-  layerDefinition?: any;
-  /** String indicating the layer type. Value of this property must be ArcGISImageServiceVectorLayer */
-  layerType: "ArcGISImageServiceVectorLayer";
-  /** Specifies the mosaic rule when defining how individual images should be mosaicked. */
-  mosaicRule?: any;
-  /** A popupInfo object defining the content of popup windows when you click or query a feature. */
-  popupInfo?: IPopupInfo;
-  /** Number describing the size of the tile. */
-  symbolTileSize?: any;
 }
 
 export interface IDefinitionParameter {
@@ -886,21 +683,6 @@ export interface IChildLayer {
   subLayerIds?: any;
   /** A user-friendly string title for the layer that can be used in a table of contents. */
   title?: any;
-}
-
-export interface IMapServiceLayer extends ILayer, ISupportsTime {
-  /** This is applicable if used as a baseMapLayer. A boolean value indicating whether or not the baseMapLayer draws on top (true) of other layers, including operationalLayers , or below (false). */
-  isReference?: any;
-  /** String indicating the layer type. */
-  layerType: "ArcGISMapServiceLayer";
-  /** An array of layer objects defining the styling, geometry, and attribute information for the features. */
-  layers?: IChildLayer[];
-  /** Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified interval. Value of 0 indicates auto refresh is not enabled. */
-  refreshInterval?: number;
-  /** (Optional) A thematicGroup object used in ArcGISMapServiceLayer layers. */
-  thematicGroup?: IThematicGroup;
-  /** An array of sublayer ids that should appear visible. Used with map service layers that are not tiled. */
-  visibleLayers?: number[];
 }
 
 export interface IThematicGroup {
@@ -1125,27 +907,6 @@ export interface ITypeInfo {
 }
 
 /**
- * Allows use of OpenStreetMap data for use in basemaps only.
- */
-export interface IOpenStreetMapLayer extends ILayer {
-  /** String indicating the layer type. Value of this property must be OpenStreetMap */
-  layerType: "OpenStreetMap";
-  /**
-   * @deprecated
-   */
-  type?: "OpenStreetMap";
-}
-
-export interface ITiledImageServiceLayer extends ILayer {
-  /** Applicable if used as a baseMapLayer. A boolean value indicating whether or not the baseMapLayer draws on top (true) of other layers, including operationalLayers , or below (false). */
-  isReference?: boolean;
-  /** String indicating the layer type. Value of this property must be ArcGISTiledImageServiceLayer */
-  layerType: "ArcGISTiledImageServiceLayer";
-  /** Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified interval. Value of 0 indicates auto refresh is not enabled. */
-  refreshInterval?: number;
-}
-
-/**
  * Exclusion areas define extent areas where no data will be fetched for a layer.
  */
 export interface IExclusionArea {
@@ -1159,44 +920,6 @@ export interface IExclusionArea {
   minScale?: number;
   /** The zoom level where the exclusion starts. */
   minZoom?: number;
-}
-
-/**
- * An ArcGIS Tiled Map Service layer displays map content from an ArcGIS Server Map service that has been cached (tiled).
- */
-export interface ITiledMapServiceLayer extends ILayer {
-  /**
-   * NOTE: Applicable if used as a baseMapLayer. Integer value(s) indicating the display levels of the basemap layer.
-   * Only applicable for TiledMapService layers. All tiled map service layers should share the same tiling scheme.
-   * This property cannot be set via the Map Viewer UI.
-   */
-  displayLevels?: number | number[];
-  /**
-   * NOTE: Applicable if used as a baseMapLayer. An array of exclusionArea objects defining the layer exclusions.
-   */
-  exclusionAreas?: IExclusionArea[];
-  /** This property is applicable if used as a baseMapLayer. A boolean value indicating whether or not the baseMapLayer draws on top (true) of other layers, including operationalLayers , or below (false). */
-  isReference?: any;
-  /** Optional string containing the item ID of the service if it's registered on ArcGIS Online or your organization's portal. */
-  itemId?: any;
-  /** String indicating the layer type. */
-  layerType: "ArcGISTiledMapServiceLayer";
-  /** An array of layer objects defining a URL for queries and the popup window content. */
-  layers?: IChildLayer[];
-  /** Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified interval. Value of 0 indicates auto refresh is not enabled. */
-  refreshInterval?: number;
-}
-
-/**
- * A vector tile layer references a set of web-accessible vector tiles and the corresponding style for how those tiles should be drawn.
- */
-export interface IVectorTileLayer extends ILayer {
-  /** String indicating the layer type. */
-  layerType: "VectorTileLayer";
-  /** A url to a JSON file containing the stylesheet information used to render the layer. You may also pass an object containing the stylesheet information identical to the JSON file. */
-  styleUrl?: string;
-  /** Deprecated. User layerType instead. */
-  type?: "VectorTileLayer";
 }
 
 export interface ILod {
@@ -1263,140 +986,4 @@ export interface IWebMapTileServiceInfo {
   tileMatrixSet?: any;
   /** URL to the WMTS web service. Required input by the user. */
   url: string;
-}
-
-export interface IWebTiledLayer extends ILayer {
-  /** Attribution to the Web Tiled Layer provider. It is displayed in the attribution on the web map. Input required by the user when the layer is added to the web map. */
-  copyright?: any;
-  /** An extent object representing the full extent envelope for the layer. */
-  fullExtent?: IExtent;
-  /** This is applicable if used as a baseMapLayer. A boolean value indicating whether or not the baseMapLayer draws on top (true) of other layers, including operationalLayers , or below (false). */
-  isReference?: any;
-  /** String indicating the layer type. Value of this property must be WebTiledLayer */
-  layerType: "WebTiledLayer";
-  /** Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified interval. Value of 0 indicates auto refresh is not enabled. */
-  refreshInterval?: any;
-  /** If subdomains are detected, they must be specified. The map viewer detects if the Web Tiled Layer has subdomains by parsing the templateURL value for {subDomain}. */
-  subDomains?: any;
-  /** URL to the Web Tiled Layer. Input required by the user when the layer is added to the web map. The template URL contains a parameterized URL. The URL can contain the following templated parameters: 'level', 'col', 'row', and 'subDomain'. */
-  templateUrl?: any;
-  /** Contains the spatial reference and the tiling scheme of the layer. Typically retrieved from a WMTS OGC Web Service. If missing the layer must be in the WGS 1984 Web Mercator (Auxiliary Sphere) tiling scheme. */
-  tileInfo?: ITileInfo;
-  /**
-   * Deprecated, use layerType instead.
-   * @deprecated
-   */
-  type?: "WebTiledLayer";
-  /** Object containing information about the chosen WMTS service layer and tiling schema. */
-  wmtsInfo?: IWebMapTileServiceInfo;
-}
-
-/**
- * The CSV layer type references a CSV or TXT file from a publically-accessible web server. It then dynamically loads into the map at run time. The CSV layer will maintain a reference to the CSV resource.
- */
-export interface ICsvLayer extends ILayer {
-  /** A string defining the character used to separate columns in a CSV file. */
-  columnDelimiter?: "," | " " | ";" | "|" | "\t";
-  /** A layerDefinition object defining the attribute schema and drawing information for the layer. */
-  layerDefinition?: ILayerDefinition;
-  /** String indicating the layer type. */
-  layerType: "CSV";
-  /** A locationInfo object defining how location information will be retrieved from a CSV file. */
-  locationInfo?: any;
-  /** A popupInfo object defining the content of popup windows when you click or query a feature. */
-  popupInfo?: IPopupInfo;
-  /** Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified interval. Value of 0 indicates auto refresh is not enabled. */
-  refreshInterval?: number;
-  /** Deprecated, use layerType instead. */
-  type?: "CSV";
-}
-
-/**
- * Feature layers can be created by referencing a layer from either a map service or a feature service or by specifying a feature collection object.
- * Use a map service if you just want to retrieve geometries and attributes from the server and symbolize them yourself. Use a feature service if
- * you want to take advantage of symbols from the service's source map document. Also, use a feature service if you plan on doing editing with the
- * feature layer. Feature layers honor any feature templates configured in the source map document. Feature collection objects are used to create
- * a feature layer based on the supplied definition.
- */
-export interface IFeatureLayer extends ILayer, ISupportsTime {
-  /** A comma-separated string listing which editing operations are allowed on an editable feature service. */
-  capabilities?: string;
-  /** Stores interactive filters. */
-  definitionEditor?: IDefinitionEditor;
-  /** Indicates whether to allow a client to ignore popups defined by the service item. */
-  disablePopup?: true;
-  /** A featureCollection object defining a layer of features whose geometry and attributes are either stored directly within the web map or with an item. Feature Collections can be created from CSVs, shapefiles, GPX, or map notes. */
-  featureCollection?: any;
-  /** Indicates the type of features in the feature collection. If featureCollectionType is missing, it means the feature collection is a regular single-layer or multi-layer feature collection. */
-  featureCollectionType?: "markup" | "notes" | "route";
-
-  /** A layerDefinition object defining the attribute schema and drawing information for the layer. */
-  layerDefinition?: ILayerDefinition;
-  /** String indicating the layer type. */
-  layerType: "ArcGISFeatureLayer";
-  /** 0 is snapshot mode. 1 is on-demand mode. 2 is selection-only mode. Used with ArcGIS feature services and individual layers in ArcGIS map services. */
-  mode?: 0 | 1 | 2;
-  /** A popupInfo object defining the content of popup windows when you click or query a feature. */
-  popupInfo?: IPopupInfo;
-  /** Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified interval. Value of 0 indicates auto refresh is not enabled. */
-  refreshInterval?: number;
-  /** Labels will display if this property is set to true and the layer also has a labelingInfo property associated with it. This property can get stored in the web map config and in the item/data. */
-  showLabels?: true;
-  /** An array of sublayer ids that should appear visible. Used with feature layers that are based on feature collections. */
-  visibleLayers?: number[];
-}
-
-export interface IGeoRssLayer extends ILayer {
-  /** String indicating the layer type. */
-  layerType: "GeoRSS";
-  /** Defined by the GeoRSS to JSON request service. If the GeoRSS feed does not have lines, this property is not added to the layer JSON. */
-  lineSymbol?: ISimpleLineSymbol;
-  /** Defined by the GeoRSS to JSON request service. If the GeoRSS feed does not have points, this property is not added to the layer JSON. */
-  pointSymbol?: IPictureMarkerSymbol;
-  /** Defined by the GeoRSS to JSON request service. If the GeoRSS feed does not have polygons, this property is not added to the layer JSON. */
-  polygonSymbol?: ISimpleFillSymbol;
-  /** Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified interval. Value of 0 indicates auto refresh is not enabled. */
-  refreshInterval?: number;
-  /**
-   * Deprecated, please use layerType.
-   * @deprecated
-   */
-  type?: "GeoRSS";
-}
-
-export interface IKmlLayer extends ILayer {
-  /** String indicating the layer type. */
-  layerType: "KML";
-  /** A number representing the maximum scale at which the layer will be visible. The number is the scale's denominator. */
-  maxScale?: any;
-  /** A number representing the minimum scale at which the layer will be visible. The number is the scale's denominator. */
-  minScale?: any;
-  /** The degree of transparency applied to the layer on the client side, where 0 is full transparency and 1 is no transparency. */
-  opacity?: any;
-  /** Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified interval. Value of 0 indicates auto refresh is not enabled. */
-  refreshInterval?: any;
-  /** Indicates whether to allow map authors the ability to control what layers should be shown in a client's legend. */
-  showLegend?: any;
-  /** A user-friendly string title for the layer that can be used in a table of contents. */
-  title?: any;
-  /**
-   * @deprecated
-   * Use layerType instead.
-   */
-  type?: "KML";
-  /** Array of numeric IDs of folders that will be made visible. */
-  visibleFolders?: number[];
-}
-
-export interface IArcGisStreamLayer extends ILayer {
-  /** Stores interactive filters. */
-  definitionEditor?: IDefinitionEditor;
-  /** Indicates whether to ignore popups defined by the service item. */
-  disablePopup?: boolean;
-  /** A layerDefinition object defining the attribute schema and drawing information for the layer. */
-  layerDefinition?: ILayerDefinition;
-  /** String indicating the layer type. */
-  layerType: "ArcGISStreamLayer";
-  /** A popupInfo object defining the content of pop-up windows when you click or query a feature. */
-  popupInfo?: IPopupInfo;
 }
