@@ -113,23 +113,6 @@ export interface IFeatureServiceDefinition {
   zDefault?: number;
 }
 
-/**
- * Individual View Source entry
- */
-
-export interface IViewServiceSource {
-  name: string;
-  type: string;
-  url: string;
-  serviceItemId: string;
-}
-/**
- * Response from the /sources end-point of a view service
- */
-export interface IViewServiceSources {
-  currentVersion: number;
-  services: IViewServiceSource[];
-}
 
 /**
  * Response from the portals/Self/isServiceNameAvailable request
