@@ -1,9 +1,10 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions, IPagingParams, IGroup, IUser } from "@esri/arcgis-rest-request";
-import { IItem } from "../helpers.js";
+import { IRequestOptions, IGroup, IUser } from "@esri/arcgis-rest-request";
+import { IItem , IPagingParams } from "../helpers.js";
 import { SearchQueryBuilder } from "./SearchQueryBuilder.js";
+
 
 export interface ISearchOptions extends IRequestOptions, IPagingParams {
   /** The query string to search against. */

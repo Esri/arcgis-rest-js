@@ -61,8 +61,6 @@ export * from "./util/SearchQueryBuilder.js";
 // to make the links work correctly in the documentation pages.
 export * from './helpers.js';
 export type {
-  IPagingParams,
-  IPagedResponse,
   IUser,
   IGroupAdd,
   GroupMembership

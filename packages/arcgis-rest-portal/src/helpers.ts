@@ -81,3 +81,33 @@ export interface IFolder {
   title: string;
   created?: number;
 }
+
+/**
+ * Params for paging operations
+ *
+ * `IPagingParams` can also be imported from the following packages:
+ *
+ * ```js
+ * import { IPagingParams } from "@esri/arcgis-rest-portal";
+ * ```
+ */
+ export interface IPagingParams {
+  start?: number;
+  num?: number;
+}
+/**
+ * Paging properties for paged responses.
+ *
+ * `IPagedResponse` can also be imported from the following packages:
+ *
+ * ```js
+ * import { IPagedResponse } from "@esri/arcgis-rest-portal";
+ * ```
+ */
+export interface IPagedResponse extends IPagingParams {
+  /** total number of object across all pages */
+  total: number;
+  /** next entry index or -1 for the last page */
+  nextStart: number;
+}
+

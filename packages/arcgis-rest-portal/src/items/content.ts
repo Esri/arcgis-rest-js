@@ -1,10 +1,8 @@
 import { 
   request,
   IRequestOptions,
-  IPagingParams,
-  IPagedResponse
 } from "@esri/arcgis-rest-request";
-import { IItem, IFolder } from "../helpers.js";
+import { IItem, IFolder, IPagingParams, IPagedResponse } from "../helpers.js";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
 import { determineOwner } from "./helpers.js";
