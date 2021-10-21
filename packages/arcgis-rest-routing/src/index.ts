@@ -15,5 +15,6 @@ export type {
   IPoint,
   IPolyline,
   Position2D,
-  IFeatureSet
+  IFeatureSet,
+  IFeature
 } from "@esri/arcgis-rest-request";

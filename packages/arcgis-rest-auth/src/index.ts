@@ -26,5 +26,6 @@ export {
   IUserRequestOptions,
   IFetchTokenResponse,
   IGenerateTokenResponse,
-  IAppAccess
+  IAppAccess,
+  IUser
 } from "@esri/arcgis-rest-request";

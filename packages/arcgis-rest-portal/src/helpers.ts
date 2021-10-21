@@ -7,12 +7,6 @@ import {
 
 /**
  * A Portal [Item](https://developers.arcgis.com/rest/users-groups-and-items/common-parameters.htm) that has not been created yet.
- *
- * `IItemAdd` can also be imported from the following packages:
- *
- * ```js
- * import { IItemAdd } from "@esri/arcgis-rest-portal";
- * ```
  */
  export interface IItemAdd {
   title: string;
@@ -34,12 +28,6 @@ import {
 
 /**
  * A Portal [Item](https://developers.arcgis.com/rest/users-groups-and-items/common-parameters.htm) to be updated.
- *
- * `IItemUpdate` can also be imported from the following packages:
- *
- * ```js
- * import { IItemUpdate } from "@esri/arcgis-rest-portal";
- * ```
  */
 export interface IItemUpdate {
   id: string;
@@ -48,12 +36,6 @@ export interface IItemUpdate {
 
 /**
  * Existing Portal [Item](https://developers.arcgis.com/rest/users-groups-and-items/item.htm).
- *
- * `IItem` can also be imported from the following packages:
- *
- * ```js
- * import { IItem } from "@esri/arcgis-rest-portal";
- * ```
  */
 export interface IItem extends IItemAdd {
   id: string;
@@ -68,12 +50,6 @@ export interface IItem extends IItemAdd {
 
 /**
  * Used for organizing content. See [Create Folder](https://developers.arcgis.com/rest/users-groups-and-items/create-folder.htm) for more details.
- *
- * `IFolder` can also be imported from the following packages:
- *
- * ```js
- * import { IFolder } from "@esri/arcgis-rest-portal";
- * ```
  */
 export interface IFolder {
   username: string;
@@ -84,12 +60,6 @@ export interface IFolder {
 
 /**
  * Params for paging operations
- *
- * `IPagingParams` can also be imported from the following packages:
- *
- * ```js
- * import { IPagingParams } from "@esri/arcgis-rest-portal";
- * ```
  */
  export interface IPagingParams {
   start?: number;
@@ -97,12 +67,6 @@ export interface IFolder {
 }
 /**
  * Paging properties for paged responses.
- *
- * `IPagedResponse` can also be imported from the following packages:
- *
- * ```js
- * import { IPagedResponse } from "@esri/arcgis-rest-portal";
- * ```
  */
 export interface IPagedResponse extends IPagingParams {
   /** total number of object across all pages */

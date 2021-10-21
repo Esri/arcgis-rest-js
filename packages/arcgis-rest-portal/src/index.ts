@@ -62,6 +62,7 @@ export * from "./util/SearchQueryBuilder.js";
 export * from './helpers.js';
 export type {
   IUser,
+  IGroup,
   IGroupAdd,
   GroupMembership
 } from "@esri/arcgis-rest-request";

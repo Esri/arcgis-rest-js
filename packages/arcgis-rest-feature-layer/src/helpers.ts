@@ -10,12 +10,6 @@ import {
 
 /**
  * The spatial relationship used to compare input geometries
- *
- * `SpatialRelationship` can also be imported from the following packages:
- *
- * ```js
- * import { SpatialRelationship } from "@esri/arcgis-rest-feature-layer";
- * ```
  */
  export type SpatialRelationship =
  | "esriSpatialRelIntersects"
