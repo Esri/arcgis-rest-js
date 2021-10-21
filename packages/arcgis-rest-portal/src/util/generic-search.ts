@@ -4,7 +4,7 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams
+  appendCustomParams,
 } from "@esri/arcgis-rest-request";
 import { IItem, IGroup, IUser } from "@esri/arcgis-rest-types";
 
@@ -13,10 +13,10 @@ import { getPortalUrl } from "../util/get-portal-url";
 import {
   ISearchOptions,
   ISearchGroupContentOptions,
-  ISearchResult
+  ISearchResult,
 } from "../util/search";
 
-export function genericSearch<T extends IItem | IGroup | IUser> (
+export function genericSearch<T extends IItem | IGroup | IUser>(
   search:
     | string
     | ISearchOptions
@@ -29,16 +29,29 @@ export function genericSearch<T extends IItem | IGroup | IUser> (
     options = {
       httpMethod: "GET",
       params: {
-        q: search
-      }
+        q: search,
+      },
     };
   } else {
     // searchUserAccess has one (knonw) valid value: "groupMember"
     options = appendCustomParams<ISearchOptions>(
       search,
-      ["q", "num", "start", "sortField", "sortOrder", "searchUserAccess", "searchUserName"],
+      [
+        "q",
+        "num",
+        "start",
+        "sortField",
+        "sortOrder",
+        "searchUserAccess",
+        "searchUserName",
+        "filter",
+        "countFields",
+        "countSize",
+        "categories",
+        "categoryFilters",
+      ],
       {
-        httpMethod: "GET"
+        httpMethod: "GET",
       }
     );
   }
@@ -61,7 +74,9 @@ export function genericSearch<T extends IItem | IGroup | IUser> (
       ) {
         path = `/content/groups/${search.groupId}/search`;
       } else {
-        return Promise.reject(new Error("you must pass a `groupId` option to `searchGroupContent`"));
+        return Promise.reject(
+          new Error("you must pass a `groupId` option to `searchGroupContent`")
+        );
       }
       break;
     default:
@@ -72,7 +87,7 @@ export function genericSearch<T extends IItem | IGroup | IUser> (
   const url = getPortalUrl(options) + path;
 
   // send the request
-  return request(url, options).then(r => {
+  return request(url, options).then((r) => {
     if (r.nextStart && r.nextStart !== -1) {
       r.nextPage = function () {
         let newOptions: ISearchOptions;
@@ -83,7 +98,7 @@ export function genericSearch<T extends IItem | IGroup | IUser> (
         ) {
           newOptions = {
             q: search,
-            start: r.nextStart
+            start: r.nextStart,
           };
         } else {
           newOptions = search;
