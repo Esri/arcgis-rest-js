@@ -111,3 +111,9 @@ export interface IPagedResponse extends IPagingParams {
   nextStart: number;
 }
 
+/**
+ * Response from the portals/Self/isServiceNameAvailable request
+ */
+ export interface IServiceNameAvailable {
+  available: boolean;
+}

@@ -115,14 +115,6 @@ export interface IFeatureServiceDefinition {
 
 
 /**
- * Response from the portals/Self/isServiceNameAvailable request
- */
-export interface IServiceNameAvailable {
-  available: boolean;
-}
-
-
-/**
  * Root element in the web map specifying an array of table objects.
  *
  * `ITable` can also be imported from the following packages:

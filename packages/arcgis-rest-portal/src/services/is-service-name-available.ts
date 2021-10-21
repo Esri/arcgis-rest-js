@@ -1,7 +1,8 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, UserSession, IServiceNameAvailable } from "@esri/arcgis-rest-request";
+import { request, UserSession } from "@esri/arcgis-rest-request";
+import { IServiceNameAvailable } from "../helpers.js";
 
 /**
  * Determine if a specific service name is available in the current user's organization
