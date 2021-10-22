@@ -17,34 +17,51 @@ import { YESTERDAY, TOMORROW } from "../../../scripts/test-helpers.js";
 describe("UserSession", () => {
   afterEach(fetchMock.restore);
 
-  it("should serialize to and from JSON", () => {
-    const session = new UserSession({
-      clientId: "clientId",
-      redirectUri: "https://example-app.com/redirect-uri",
-      token: "token",
-      tokenExpires: TOMORROW,
-      refreshToken: "refreshToken",
-      refreshTokenExpires: TOMORROW,
-      refreshTokenTTL: 1440,
-      username: "c@sey",
-      password: "123456"
+  describe(".serialize() and UserSession.deserialize", () => {
+    it("should serialize to and from JSON", () => {
+      const session = new UserSession({
+        clientId: "clientId",
+        redirectUri: "https://example-app.com/redirect-uri",
+        token: "token",
+        tokenExpires: TOMORROW,
+        refreshToken: "refreshToken",
+        refreshTokenExpires: TOMORROW,
+        refreshTokenTTL: 1440,
+        username: "c@sey",
+        password: "123456"
+      });
+
+      const session2 = UserSession.deserialize(session.serialize());
+
+      expect(session2.clientId).toEqual("clientId");
+      expect(session2.redirectUri).toEqual(
+        "https://example-app.com/redirect-uri"
+      );
+      expect(session2.ssl).toBe(undefined);
+      expect(session2.token).toEqual("token");
+      expect(session2.tokenExpires).toEqual(TOMORROW);
+      expect(session2.refreshToken).toEqual("refreshToken");
+      expect(session2.refreshTokenExpires).toEqual(TOMORROW);
+      expect(session2.username).toEqual("c@sey");
+      expect(session2.password).toEqual("123456");
+      expect(session2.tokenDuration).toEqual(20160);
+      expect(session2.refreshTokenTTL).toEqual(1440);
     });
 
-    const session2 = UserSession.deserialize(session.serialize());
+    it("should serialize to and from JSON with a server", () => {
+      const session = new UserSession({
+        portal: undefined,
+        server: "https://myserver.com/",
+        token: "token",
+        tokenExpires: TOMORROW
+      });
 
-    expect(session2.clientId).toEqual("clientId");
-    expect(session2.redirectUri).toEqual(
-      "https://example-app.com/redirect-uri"
-    );
-    expect(session2.ssl).toBe(undefined);
-    expect(session2.token).toEqual("token");
-    expect(session2.tokenExpires).toEqual(TOMORROW);
-    expect(session2.refreshToken).toEqual("refreshToken");
-    expect(session2.refreshTokenExpires).toEqual(TOMORROW);
-    expect(session2.username).toEqual("c@sey");
-    expect(session2.password).toEqual("123456");
-    expect(session2.tokenDuration).toEqual(20160);
-    expect(session2.refreshTokenTTL).toEqual(1440);
+      const session2 = UserSession.deserialize(session.serialize());
+
+      expect(session2.server).toEqual("https://myserver.com/");
+      expect(session2.token).toEqual("token");
+      expect(session2.tokenExpires).toEqual(TOMORROW);
+    });
   });
 
   describe(".getToken()", () => {

@@ -622,7 +622,8 @@ export class UserSession implements IAuthenticationManager {
       ssl: options.ssl,
       tokenDuration: options.tokenDuration,
       redirectUri: options.redirectUri,
-      refreshTokenTTL: options.refreshTokenTTL
+      refreshTokenTTL: options.refreshTokenTTL,
+      server: options.server
     });
   }
 
@@ -966,7 +967,8 @@ export class UserSession implements IAuthenticationManager {
       ssl: this.ssl,
       tokenDuration: this.tokenDuration,
       redirectUri: this.redirectUri,
-      refreshTokenTTL: this.refreshTokenTTL
+      refreshTokenTTL: this.refreshTokenTTL,
+      server: this.server
     };
   }
 
