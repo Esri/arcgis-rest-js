@@ -1,14 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, cleanUrl } from "@esri/arcgis-rest-request";
-
-import type {
+import { 
+  request, 
+  cleanUrl, 
   ILocation,
   IPoint,
   IFeature,
   IFeatureSet
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-request";
 
 import {
   ARCGIS_ONLINE_ROUTING_URL,
@@ -32,8 +32,8 @@ export interface ISolveRouteOptions extends IEndpointOptions {
    * Specify two or more locations between which the route is to be found.
    */
   stops:
-    | Array<IPoint | ILocation | [number, number] | [number, number, number]>
-    | IFeatureSet;
+  | Array<IPoint | ILocation | [number, number] | [number, number, number]>
+  | IFeatureSet;
 }
 
 export interface ISolveRouteResponse {

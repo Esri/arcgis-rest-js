@@ -10,7 +10,7 @@ import {
   SolveNoDirections,
   SolveWebMercator
 } from "./mocks/responses.js";
-import { IPoint, ILocation, IFeatureSet } from "@esri/arcgis-rest-types";
+import { IPoint, ILocation, IFeatureSet } from "@esri/arcgis-rest-request";
 
 // -117.195677,34.056383;-117.918976,33.812092
 const stops: Array<[number, number]> = [

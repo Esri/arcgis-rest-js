@@ -4,9 +4,11 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams
+  appendCustomParams,
+  IGroup,
+  IUser
 } from "@esri/arcgis-rest-request";
-import { IItem, IGroup, IUser } from "@esri/arcgis-rest-types";
+import { IItem } from "../helpers.js";
 
 import { SearchQueryBuilder } from "./SearchQueryBuilder.js";
 import { getPortalUrl } from "../util/get-portal-url.js";

@@ -19,7 +19,7 @@ import { IAuthenticationManager } from "./utils/IAuthenticationManager.js";
 import { ITokenRequestOptions } from "./utils/ITokenRequestOptions.js";
 import { decodeQueryString } from "./utils/decode-query-string.js";
 import { encodeQueryString } from "./utils/encode-query-string.js";
-import { IUser } from "@esri/arcgis-rest-types";
+import { IUser } from "./types/user.js";
 import { generateToken } from "./generate-token.js";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token.js";
 import { canUseOnlineToken, isFederated } from "./federation-utils.js";

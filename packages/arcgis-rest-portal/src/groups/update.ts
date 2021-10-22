@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
-import { IItemUpdate } from "@esri/arcgis-rest-types";
+import { IItemUpdate } from "../helpers.js";
 import { getPortalUrl } from "../util/get-portal-url.js";
 
 export interface IUpdateGroupOptions extends IRequestOptions {

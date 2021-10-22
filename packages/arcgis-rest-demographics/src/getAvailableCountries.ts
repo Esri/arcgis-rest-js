@@ -4,9 +4,10 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
+  IExtent
 } from "@esri/arcgis-rest-request";
-import { IEnvelope } from "@esri/arcgis-rest-types";
+
 
 import {
   ARCGIS_ONLINE_GEOENRICHMENT_URL,
@@ -33,7 +34,7 @@ export interface ICountry {
   continent: string;
   distanceUnits: string;
   esriUnits: string;
-  defaultExtent: IEnvelope;
+  defaultExtent: IExtent;
   defaultDatasetID: string;
   datasets?: string[];
   hierarchies?: IHierarchy[];

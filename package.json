@@ -122,7 +122,7 @@
     "slug": "^0.9.1",
     "sri-toolbox": "0.2.0",
     "trash-cli": "^4.0.0",
-    "ts-node": "^10.2.1",
+    "ts-node": "^10.3.1",
     "typedoc": "^0.21.0",
     "typescript": "^4.0.0",
     "ultra-runner": "^3.10.5"
@@ -158,7 +158,6 @@
     "url": "https://github.com/Esri/arcgis-rest-js/issues"
   },
   "workspaces": [
-    "./packages/arcgis-rest-types",
     "./packages/arcgis-rest-request",
     "./packages/arcgis-rest-auth",
     "./packages/arcgis-rest-demographics",

@@ -1,8 +1,7 @@
 /* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IExtent } from "@esri/arcgis-rest-types";
-import { request, IRequestOptions } from "@esri/arcgis-rest-request";
+import { request, IRequestOptions, IExtent } from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "./get-portal-url.js";
 

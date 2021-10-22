@@ -4,9 +4,10 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams
+  appendCustomParams,
+  IGroup
 } from "@esri/arcgis-rest-request";
-import { IItem, IGroup } from "@esri/arcgis-rest-types";
+import { IItem } from "../helpers.js";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
 import { scrubControlChars } from "../util/scrub-control-chars.js";

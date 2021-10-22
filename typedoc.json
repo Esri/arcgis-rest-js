@@ -10,7 +10,6 @@
     "./packages/arcgis-rest-portal/",
     "./packages/arcgis-rest-request/",
     "./packages/arcgis-rest-routing/",
-    "./packages/arcgis-rest-service-admin/",
-    "./packages/arcgis-rest-types/"
+    "./packages/arcgis-rest-service-admin/"
   ]
 }

@@ -20,7 +20,6 @@ export interface IHasZM {
  *
  * ```js
  * import { ISpatialReference } from "@esri/arcgis-rest-geocoding";
- * import { ISpatialReference } from "@esri/arcgis-rest-routing";
  * import { ISpatialReference } from "@esri/arcgis-rest-service-admin";
  * import { ISpatialReference } from "@esri/arcgis-rest-feature-layer";
  * ```
@@ -80,7 +79,13 @@ export interface ILocation {
 }
 
 /**
- *
+ * A polyline geometry.
+ * 
+ * `IPolyLine` can also be imported from the following packages:
+ * 
+ * ```
+ * import { IPolyLine } from "@esri/arcgis-rest-routing";
+ * ```
  */
 export interface IPolyline extends IHasZM, IGeometry {
   paths: Position[][];
@@ -116,12 +121,16 @@ export type Position =
   | [number, number, number, number];
 
 /**
- *
+ * `Position2D` can also be imported from the following packages:
+ * 
+ * ```
+ * import { Position2D } from "@esri/arcgis-rest-routing";
+ * ```
  */
 export type Position2D = [number, number];
 
 /**
- * an arc can be represented as a JSON curve object
+ * An arc can be represented as a JSON curve object
  */
 export interface IArc {
   a: [
@@ -155,22 +164,6 @@ export interface ICircularArc {
 export type ElipticArc = IArc;
 
 /**
- * An envelope is a rectangle defined by a range of values for each coordinate and attribute.
- */
-export interface IEnvelope extends IGeometry {
-  xmin: number;
-  xmax: number;
-  ymin: number;
-  ymax: number;
-
-  zmin?: number;
-  zmax?: number;
-
-  mmin?: number;
-  mmax?: number;
-}
-
-/**
  * `GeometryType` can also be imported from the following packages:
  *
  * ```js
@@ -190,9 +183,10 @@ export type GeometryType =
  * `IExtent` can also be imported from the following packages:
  *
  * ```js
+ * import { IExtent } from "@esri/arcgis-rest-demographics";
+ * import { IExtent } from "@esri/arcgis-rest-feature-layer";
  * import { IExtent } from "@esri/arcgis-rest-geocoding";
  * import { IExtent } from "@esri/arcgis-rest-service-admin";
- * import { IExtent } from "@esri/arcgis-rest-feature-layer";
  * ```
  */
 export interface IExtent {

@@ -4,9 +4,9 @@
 import {
   request,
   IRequestOptions,
-  UserSession
+  UserSession,
+  IUser
 } from "@esri/arcgis-rest-request";
-import { IUser } from "@esri/arcgis-rest-types";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
 

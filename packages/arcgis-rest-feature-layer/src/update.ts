@@ -4,10 +4,9 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
+  IFeature
 } from "@esri/arcgis-rest-request";
-
-import type { IFeature } from "@esri/arcgis-rest-types";
 
 import { ISharedEditOptions, IEditFeatureResult } from "./helpers.js";
 

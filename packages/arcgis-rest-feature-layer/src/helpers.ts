@@ -1,21 +1,15 @@
 /* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { cleanUrl, IRequestOptions } from "@esri/arcgis-rest-request";
-import type {
+import { 
+  cleanUrl, 
+  IRequestOptions,
   GeometryType,
   IGeometry,
   ISpatialReference
-} from "@esri/arcgis-rest-types";
-
+} from "@esri/arcgis-rest-request";
 
 /**
  * The spatial relationship used to compare input geometries
- *
- * `SpatialRelationship` can also be imported from the following packages:
- *
- * ```js
- * import { SpatialRelationship } from "@esri/arcgis-rest-feature-layer";
- * ```
  */
  export type SpatialRelationship =
  | "esriSpatialRelIntersects"

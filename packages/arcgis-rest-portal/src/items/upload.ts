@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request, appendCustomParams } from "@esri/arcgis-rest-request";
-import { IItemAdd } from "@esri/arcgis-rest-types";
+import { IItemAdd } from "../helpers.js";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
 import {

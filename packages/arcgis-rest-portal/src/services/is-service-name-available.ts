@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request, UserSession } from "@esri/arcgis-rest-request";
-import { IServiceNameAvailable } from "@esri/arcgis-rest-types";
+import { IServiceNameAvailable } from "../helpers.js";
 
 /**
  * Determine if a specific service name is available in the current user's organization

@@ -4,10 +4,11 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
+  ILocation, 
+  IPoint, 
+  IFeatureSet
 } from "@esri/arcgis-rest-request";
-
-import type { ILocation, IPoint, IFeatureSet } from "@esri/arcgis-rest-types";
 
 import {
   ARCGIS_ONLINE_SERVICE_AREA_URL,

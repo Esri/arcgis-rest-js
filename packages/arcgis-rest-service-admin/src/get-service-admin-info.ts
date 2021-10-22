@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request, UserSession } from "@esri/arcgis-rest-request";
-import type { IServiceInfo } from "@esri/arcgis-rest-types";
+import { IServiceInfo } from "./helpers.js";
 
 /**
  * Given a Feature Service url, fetch the service admin information.

@@ -4,9 +4,12 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams
+  appendCustomParams,
+  IGroup, 
+  IUser
 } from "@esri/arcgis-rest-request";
-import { IPagingParams, IGroup, IItem, IUser } from "@esri/arcgis-rest-types";
+import { IItem , IPagingParams} from "../helpers.js";
+
 import { getPortalUrl } from "../util/get-portal-url.js";
 
 export interface IGroupCategorySchema {

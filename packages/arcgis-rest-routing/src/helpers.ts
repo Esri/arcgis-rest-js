@@ -1,14 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-import type {
+import { 
+  IRequestOptions,
   ILocation,
   IPoint,
   IPolyline,
   Position2D,
   IFeatureSet
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-request";
 
 // https always
 export const ARCGIS_ONLINE_ROUTING_URL =

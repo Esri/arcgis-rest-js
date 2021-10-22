@@ -19,6 +19,8 @@ describe("get-view-sources: ", () => {
     password: "123456",
     portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
+  afterEach(fetchMock.restore);
+  
   it("makes request to the admin url", () => {
     fetchMock.once("*", { currentVersion: 1234 }, { method: "POST" });
 
@@ -33,10 +35,7 @@ describe("get-view-sources: ", () => {
 
       const [url]: [string, RequestInit] = fetchMock.lastCall("*");
 
-      expect(fetchMock.calls().matched.length).toBe(
-        1,
-        "should make one request"
-      );
+      expect(fetchMock.called()).toEqual(true);
 
       expect(url).toContain(
         "https://servicesqa.arcgis.com/orgid/arcgis/rest/services/mysevice/FeatureServer/sources"

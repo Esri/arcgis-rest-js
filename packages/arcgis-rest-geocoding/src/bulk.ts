@@ -1,8 +1,7 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, cleanUrl } from "@esri/arcgis-rest-request";
-import type { ISpatialReference, IPoint } from "@esri/arcgis-rest-types";
+import { request, cleanUrl, ISpatialReference, IPoint } from "@esri/arcgis-rest-request";
 
 import {
   ARCGIS_ONLINE_BULK_GEOCODING_URL,
