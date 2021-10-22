@@ -1,4 +1,4 @@
-const { queryFeatures } = require("@esri/arcgis-rest-feature-layer");
+const { queryFeatures } = require("@esri/arcgis-rest-features");
 const fs = require("fs");
 
 const outFileName = `./output/${Date.now()}.geojson`;

@@ -9,7 +9,7 @@ import { IFeature, IField } from "./feature.js";
  *
  * ```js
  * import { IFeatureServiceDefinition } from "@esri/arcgis-rest-service-admin";
- * import { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-layer";
+ * import { IFeatureServiceDefinition } from "@esri/arcgis-rest-features";
  * ```
  */
 export interface IFeatureServiceDefinition {
@@ -423,7 +423,7 @@ export type FeatureEditTool =
  *
  * ```js
  * import { ILayerDefinition } from "@esri/arcgis-rest-service-admin";
- * import { ILayerDefinition } from "@esri/arcgis-rest-feature-layer";
+ * import { ILayerDefinition } from "@esri/arcgis-rest-features";
  * ```
  */
  export interface ILayerDefinition extends IHasZM {

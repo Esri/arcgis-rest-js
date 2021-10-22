@@ -4,15 +4,15 @@
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/arcgis-rest-js/master/LICENSE)
 
-[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-feature-layer.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-feature-layer
+[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-features.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-features
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
-[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-feature-layer/dist/umd/feature-layer.umd.min.js?compression=gzip
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-features/dist/umd/feature-layer.umd.min.js?compression=gzip
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
-# @esri/arcgis-rest-feature-layer
+# @esri/arcgis-rest-features
 
 > A module for querying and editing features in ArcGIS feature layers that runs in Node.js and modern browsers.
 
@@ -20,11 +20,11 @@
 
 ```bash
 npm install @esri/arcgis-rest-request
-npm install @esri/arcgis-rest-feature-layer
+npm install @esri/arcgis-rest-features
 ```
 
 ```js
-import { queryFeatures } from '@esri/arcgis-rest-feature-layer';
+import { queryFeatures } from '@esri/arcgis-rest-features';
 
 const options = {
   url:

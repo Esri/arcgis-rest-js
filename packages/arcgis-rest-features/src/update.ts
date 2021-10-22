@@ -28,7 +28,7 @@ export interface IUpdateFeaturesOptions extends ISharedEditOptions {
 /**
  *
  * ```js
- * import { updateFeatures } from '@esri/arcgis-rest-feature-layer';
+ * import { updateFeatures } from '@esri/arcgis-rest-features';
  * //
  * updateFeatures({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",

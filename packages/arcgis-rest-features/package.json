@@ -1,5 +1,5 @@
 {
-  "name": "@esri/arcgis-rest-feature-layer",
+  "name": "@esri/arcgis-rest-features",
   "version": "3.3.0",
   "description": "Feature layer query and edit helpers for @esri/arcgis-rest-js",
   "license": "Apache-2.0",
@@ -56,7 +56,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Esri/arcgis-rest-js.git",
-    "directory": "packages/arcgis-rest-feature-layer"
+    "directory": "packages/arcgis-rest-features"
   },
   "bugs": {
     "url": "https://github.com/Esri/arcgis-rest-js/issues"

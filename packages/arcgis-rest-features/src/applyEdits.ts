@@ -48,7 +48,7 @@ export interface IApplyEditsOptions extends ISharedEditOptions {
 
 /**
  * ```js
- * import { applyEdits } from '@esri/arcgis-rest-feature-layer';
+ * import { applyEdits } from '@esri/arcgis-rest-features';
  * //
  * applyEdits({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",

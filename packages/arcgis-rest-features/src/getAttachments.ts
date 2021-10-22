@@ -27,7 +27,7 @@ export interface IAttachmentInfo {
 
 /**
  * ```js
- * import { getAttachments } from '@esri/arcgis-rest-feature-layer';
+ * import { getAttachments } from '@esri/arcgis-rest-features';
  * //
  * getAttachments({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",

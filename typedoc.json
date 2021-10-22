@@ -5,7 +5,7 @@
   "packages": [
     "./packages/arcgis-rest-auth/",
     "./packages/arcgis-rest-demographics/",
-    "./packages/arcgis-rest-feature-layer/",
+    "./packages/arcgis-rest-features/",
     "./packages/arcgis-rest-geocoding/",
     "./packages/arcgis-rest-portal/",
     "./packages/arcgis-rest-request/",

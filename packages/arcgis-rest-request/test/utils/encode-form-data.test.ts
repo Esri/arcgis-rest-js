@@ -13,7 +13,7 @@ export function attachmentFile(): any {
     return new File(["foo"], "foo.txt", { type: "text/plain" });
   } else {
     return createReadStream(
-      "./packages/arcgis-rest-feature-layer/test/mocks/foo.txt"
+      "./packages/arcgis-rest-features/test/mocks/foo.txt"
     );
   }
 }

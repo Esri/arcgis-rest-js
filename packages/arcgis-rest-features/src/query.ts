@@ -93,7 +93,7 @@ export interface IQueryResponse {
 
 /**
  * ```js
- * import { getFeature } from '@esri/arcgis-rest-feature-layer';
+ * import { getFeature } from '@esri/arcgis-rest-features';
  * //
  * const url = "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0";
  * //
@@ -129,7 +129,7 @@ export function getFeature(
 
 /**
  * ```js
- * import { queryFeatures } from '@esri/arcgis-rest-feature-layer';
+ * import { queryFeatures } from '@esri/arcgis-rest-features';
  * //
  * queryFeatures({
  *   url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3",

@@ -15,7 +15,7 @@ import { ISymbol } from "./symbol.js";
  * `IFeature` can also be imported from the following packages:
  *
  * ```js
- * import { IFeature } from "@esri/arcgis-rest-feature-layer";
+ * import { IFeature } from "@esri/arcgis-rest-features";
  * import { IFeature } from "@esri/arcgis-rest-routing";
  * ```
  */
@@ -29,7 +29,7 @@ export interface IFeature {
  * `IFeatureSet` can also be imported from the following packages:
  *
  * ```js
- * import { IFeatureSet } from "@esri/arcgis-rest-feature-layer";
+ * import { IFeatureSet } from "@esri/arcgis-rest-features";
  * ```
  */
 export interface IFeatureSet extends IHasZM {
@@ -106,7 +106,7 @@ export type IDomain = {
  * `IField` can also be imported from the following packages:
  *
  * ```js
- * import { IField } from "@esri/arcgis-rest-feature-layer";
+ * import { IField } from "@esri/arcgis-rest-features";
  * ```
  */
  export interface IField {

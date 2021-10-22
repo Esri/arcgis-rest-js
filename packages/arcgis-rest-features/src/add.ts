@@ -23,7 +23,7 @@ export interface IAddFeaturesOptions extends ISharedEditOptions {
 
 /**
  * ```js
- * import { addFeatures } from '@esri/arcgis-rest-feature-layer';
+ * import { addFeatures } from '@esri/arcgis-rest-features';
  * //
  * addFeatures({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",
