@@ -146,6 +146,11 @@ export interface IOAuth2Options {
    */
   state?: string;
 
+  /**
+   * Sets the color theme of the oAuth 2.0 authorization screen. Will use the system preference or a light theme by default.
+   */
+  style?: "" | "light" | "dark";
+
   [key: string]: any;
 }
 
@@ -336,7 +341,8 @@ export class UserSession implements IAuthenticationManager {
       popupWindowFeatures,
       state,
       locale,
-      params
+      params,
+      style
     }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
@@ -346,23 +352,26 @@ export class UserSession implements IAuthenticationManager {
         popupWindowFeatures:
           "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes",
         state: options.clientId,
-        locale: ""
+        locale: "",
+        style: ""
       },
       ...options
     };
+
     let url: string;
+
     if (provider === "arcgis") {
       url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${
         options.duration || expiration
       }&redirect_uri=${encodeURIComponent(
         redirectUri
-      )}&state=${state}&locale=${locale}`;
+      )}&state=${state}&locale=${locale}&style=${style}`;
     } else {
       url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${
         options.duration || expiration
       }&redirect_uri=${encodeURIComponent(
         redirectUri
-      )}&state=${state}&locale=${locale}`;
+      )}&state=${state}&locale=${locale}&style=${style}`;
     }
 
     // append additional params
