@@ -14,7 +14,7 @@
 
 # @esri/arcgis-rest-features
 
-> A module for querying and editing features in ArcGIS feature layers that runs in Node.js and modern browsers.
+> A module for querying, editing, and administering hosted feature layers and feature services.
 
 ### Example
 

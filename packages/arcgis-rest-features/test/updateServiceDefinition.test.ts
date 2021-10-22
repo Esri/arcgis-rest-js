@@ -4,7 +4,7 @@
 import fetchMock from "fetch-mock";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
 import { UserSession, encodeParam } from "@esri/arcgis-rest-request";
-import { updateServiceDefinition } from "../src/update.js";
+import { updateServiceDefinition } from "../src/updateServiceDefinition.js";
 import { UpdateServiceDefinitionSuccess } from "./mocks/service.js";
 
 describe("update service definition", () => {

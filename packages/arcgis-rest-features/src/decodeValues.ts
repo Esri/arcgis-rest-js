@@ -4,12 +4,12 @@
 import {
   IRequestOptions,
   IField,
-  IFeature,
-  ILayerDefinition
+  IFeature
 } from "@esri/arcgis-rest-request";
 
 import { IQueryFeaturesResponse } from "./query.js";
 import { getLayer } from "./getLayer.js";
+import { ILayerDefinition } from "./helpers.js";
 
 /**
  * Request options to fetch a feature by id.

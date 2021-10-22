@@ -2,11 +2,11 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { getViewSources } from "../src/get-view-sources.js";
+import { getViewSources } from "../src/getViewSources.js";
 import { UserSession } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
 
-describe("get-view-sources: ", () => {
+describe("getViewSources: ", () => {
   const MOCK_USER_SESSION = new UserSession({
     clientId: "clientId",
     redirectUri: "https://example-app.com/redirect-uri",

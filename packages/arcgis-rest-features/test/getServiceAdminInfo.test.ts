@@ -2,11 +2,11 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { getServiceAdminInfo } from "../src/get-service-admin-info.js";
+import { getServiceAdminInfo } from "../src/getServiceAdminInfo.js";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
 import { UserSession } from "@esri/arcgis-rest-request";
 
-describe("get-service-admin-info: ", () => {
+describe("getServiceAdminInfo: ", () => {
   afterEach(fetchMock.restore);
 
   const MOCK_USER_SESSION = new UserSession({

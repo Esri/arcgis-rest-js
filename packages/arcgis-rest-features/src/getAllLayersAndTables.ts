@@ -1,5 +1,5 @@
-import { request, ILayerDefinition } from "@esri/arcgis-rest-request";
-import { IGetLayerOptions, parseServiceUrl } from "./helpers.js";
+import { request} from "@esri/arcgis-rest-request";
+import { IGetLayerOptions, parseServiceUrl , ILayerDefinition} from "./helpers.js";
 
 export interface IAllLayersAndTablesResponse {
   layers: ILayerDefinition[];

@@ -4,9 +4,9 @@
 import {
   request,
   cleanUrl,
-  IUserRequestOptions,
-  IFeatureServiceDefinition
+  IUserRequestOptions
 } from "@esri/arcgis-rest-request";
+import { IFeatureServiceDefinition } from "./helpers.js";
 
 export interface IUpdateServiceDefinitionOptions extends IUserRequestOptions {
   updateDefinition?: Partial<IFeatureServiceDefinition>;

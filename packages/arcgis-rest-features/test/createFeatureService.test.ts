@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { createFeatureService } from "../src/create.js";
+import { createFeatureService } from "../src/createFeatureService.js";
 import { FeatureServiceResponse } from "./mocks/service.js";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
 import { encodeParam, UserSession } from "@esri/arcgis-rest-request";

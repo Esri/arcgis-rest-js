@@ -165,7 +165,6 @@
     "./packages/arcgis-rest-geocoding",
     "./packages/arcgis-rest-portal",
     "./packages/arcgis-rest-routing",
-    "./packages/arcgis-rest-service-admin",
     "./packages/arcgis-rest-fetch",
     "./packages/arcgis-rest-form-data",
     "./demos/*"
