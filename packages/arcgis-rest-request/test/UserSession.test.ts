@@ -13,6 +13,7 @@ import {
 } from "../src/index.js";
 import { FormData } from "@esri/arcgis-rest-form-data";
 import { YESTERDAY, TOMORROW } from "../../../scripts/test-helpers.js";
+import { DESTRUCTION } from "dns";
 
 describe("UserSession", () => {
   afterEach(fetchMock.restore);
@@ -2397,5 +2398,46 @@ describe("UserSession", () => {
     expect((session as any).trustedServers).toBe(
       (session as any).federatedServers
     );
+  });
+
+  describe(".destroy()", () => {
+    it("should revoke a refresh token with UserSession", () => {
+      fetchMock.once("*", { success: true });
+
+      const session = new UserSession({
+        clientId: "clientId",
+        token: "token",
+        username: "c@sey",
+        refreshToken: "refreshToken",
+        refreshTokenExpires: TOMORROW
+      });
+      return UserSession.destroy(session).then((response) => {
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(response).toEqual({ success: true });
+        expect(url).toBe(
+          "https://www.arcgis.com/sharing/rest/oauth2/revokeToken/"
+        );
+        expect(options.body).toContain("auth_token=refreshToken");
+        expect(options.body).toContain("client_id=clientId");
+      });
+    });
+
+    it("should revoke a token with UserSession", () => {
+      fetchMock.once("*", { success: true });
+
+      const session = new UserSession({
+        clientId: "clientId",
+        token: "token"
+      });
+      return UserSession.destroy(session).then((response) => {
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(response).toEqual({ success: true });
+        expect(url).toBe(
+          "https://www.arcgis.com/sharing/rest/oauth2/revokeToken/"
+        );
+        expect(options.body).toContain("auth_token=token");
+        expect(options.body).toContain("client_id=clientId");
+      });
+    });
   });
 });

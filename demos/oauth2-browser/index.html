@@ -136,6 +136,12 @@
 
       // Function to update the UI with session info.
       function updateSessionInfo(session) {
+        if(session) {
+          session.getUser().then((user) => {
+            console.log(user);
+          });
+        }
+        
         let sessionInfo = document.getElementById('sessionInfo')
         if (session) {
           sessionInfo.classList.remove('bg-info');
@@ -199,11 +205,18 @@
       // Attach a listener to the sign in buttons.
       document.getElementById('signOutButton').addEventListener('click', function (event) {
         event.preventDefault();
-
-        // Clear the previous session.
-        session = null;
-        localStorage.removeItem('__ARCGIS_REST_USER_SESSION__');
-        updateSessionInfo();
+        
+        arcgisRest.UserSession.destroy(session).then(({success})=>{
+          if(success) {
+            // Clear the previous session.
+            session = null;
+            localStorage.removeItem('__ARCGIS_REST_USER_SESSION__');
+          }
+        }).finally(()=>{
+          updateSessionInfo();
+        });
+        
+        
       });
     </script>
   </body>

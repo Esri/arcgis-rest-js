@@ -25,6 +25,7 @@ import { fetchToken, IFetchTokenResponse } from "./fetch-token.js";
 import { canUseOnlineToken, isFederated } from "./federation-utils.js";
 import { IAppAccess, validateAppAccess } from "./validate-app-access.js";
 import { cleanUrl } from "./utils/clean-url.js";
+import { revokeToken } from "./revoke-token.js";
 
 /**
  * Internal utility for resolving a Promise from outside its constructor.
@@ -695,6 +696,17 @@ export class UserSession implements IAuthenticationManager {
     } else {
       throw new Error("Unknown message type.");
     }
+  }
+
+  /**
+   * Revokes all active tokens for a provided {@linkcode UserSession}. The can be considered the equivalent to signing the user out of your application.
+   */
+  public static destroy(session: UserSession) {
+    return revokeToken({
+      clientId: session.clientId,
+      portal: session.portal,
+      token: session.refreshToken || session.token
+    });
   }
 
   /**

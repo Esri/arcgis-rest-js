@@ -16,7 +16,6 @@ import { MockParamBuilder } from "./mocks/param-builder.js";
 import { ArcGISOnlineError } from "./mocks/errors.js";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap.js";
 import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection.js";
-import { FormData } from "formdata-node";
 
 describe("request()", () => {
   afterEach(() => {

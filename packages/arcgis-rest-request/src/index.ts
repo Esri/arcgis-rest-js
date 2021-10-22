@@ -32,11 +32,14 @@ export * from "./authenticated-request-options.js";
 export * from "./app-tokens.js";
 export * from "./validate-app-access.js";
 export * from "./federation-utils.js";
-export * from "@esri/arcgis-rest-fetch";
-export * from "@esri/arcgis-rest-form-data";
+export * from "./revoke-token.js";
+
 export * from "./types/feature.js";
 export * from "./types/geometry.js";
 export * from "./types/symbol.js";
 export * from "./types/service.js";
 export * from "./types/group.js";
 export * from "./types/user.js";
+
+export * from "@esri/arcgis-rest-fetch";
+export * from "@esri/arcgis-rest-form-data";
