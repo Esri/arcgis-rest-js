@@ -293,6 +293,21 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
+   * Returns `true` if this session can be refreshed and `false` if it cannot.
+   */
+  get canRefresh() {
+    if (this.username && this.password) {
+      return true;
+    }
+
+    if (this.clientId && this.refreshToken) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * Begins a new browser-based OAuth 2.0 sign in. If `options.popup` is `true` the
    * authentication window will open in a new tab/window and the function will return
    * Promise&lt;UserSession&gt;. Otherwise, the user will be redirected to the

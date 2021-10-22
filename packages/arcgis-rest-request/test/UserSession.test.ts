@@ -717,6 +717,8 @@ describe("UserSession", () => {
         password: "123456"
       });
 
+      expect(session.canRefresh).toBe(true);
+
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/generateToken", {
         token: "token",
         expires: TOMORROW.getTime(),
@@ -743,6 +745,8 @@ describe("UserSession", () => {
         refreshToken: "refreshToken",
         refreshTokenExpires: TOMORROW
       });
+
+      expect(session.canRefresh).toBe(true);
 
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "newToken",
@@ -799,6 +803,8 @@ describe("UserSession", () => {
         token: "token",
         username: "c@sey"
       });
+
+      expect(session.canRefresh).toBe(false);
 
       session.refreshSession().catch((e) => {
         expect(e instanceof ArcGISAuthError).toBeTruthy();
