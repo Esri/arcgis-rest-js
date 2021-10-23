@@ -9,6 +9,11 @@ export interface ISearchOptions extends IRequestOptions, IPagingParams {
   q: string | SearchQueryBuilder;
   sortField?: string;
   sortOrder?: string;
+  countFields?: string;
+  countSize?: number;
+  filter?: string;
+  categories?: string;
+  categoryFilters?: string;
   [key: string]: any;
 }
 
