@@ -27,6 +27,18 @@ import { IAppAccess, validateAppAccess } from "./validate-app-access.js";
 import { cleanUrl } from "./utils/clean-url.js";
 import { revokeToken } from "./revoke-token.js";
 
+export interface IFromTokenOptions {
+  token: string;
+  tokenExpires?: Date;
+  portal?: string;
+}
+
+export interface ISignInOptions {
+  username: string;
+  password: string;
+  portal?: string;
+}
+
 /**
  * Internal utility for resolving a Promise from outside its constructor.
  *
@@ -286,6 +298,19 @@ export class UserSession implements IAuthenticationManager {
    */
   get refreshTokenExpires() {
     return this._refreshTokenExpires;
+  }
+
+  /**
+   * The currently authenticated user.
+   */
+  get username() {
+    if (this._username) {
+      return this._username;
+    }
+
+    if (this._user && this._user.username) {
+      return this._user.username;
+    }
   }
 
   /**
@@ -710,14 +735,33 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
+   * Create a  {@linkcode UserSession} from an existing token. Useful for when you have a users token from a different authentication system and want to get a  {@linkcode UserSession}.
+   */
+  public static fromToken(options: IFromTokenOptions): Promise<UserSession> {
+    const session = new UserSession(options);
+
+    return session.getUser().then(() => {
+      return session;
+    });
+  }
+
+  /**
+   * Initialize a {@linkcode UserSession} with a users `username` and `password`. **This method is intended ONLY for applications without a user interface such as CLI tools.**.
+   *
+   * If possible you should use {@linkcode UserSession.beginOAuth2} to authenticate users in a browser or {@linkcode UserSession.authorize} for authenticating users with a web server.
+   */
+  public static signIn(options: ISignInOptions) {
+    const session = new UserSession(options);
+
+    return session.getUser().then(() => {
+      return session;
+    });
+  }
+
+  /**
    * Client ID being used for authentication if provided in the `constructor`.
    */
   public readonly clientId: string;
-
-  /**
-   * The currently authenticated user if provided in the `constructor`.
-   */
-  public readonly username: string;
 
   /**
    * The currently authenticated user's password if provided in the `constructor`.
@@ -791,6 +835,8 @@ export class UserSession implements IAuthenticationManager {
     [key: string]: Promise<string>;
   };
 
+  private _username: string;
+
   /**
    * Internal list of tokens to 3rd party servers (federated servers) that have
    *  been created via `generateToken`. The object key is the root URL of the server.
@@ -814,7 +860,7 @@ export class UserSession implements IAuthenticationManager {
     this.clientId = options.clientId;
     this._refreshToken = options.refreshToken;
     this._refreshTokenExpires = options.refreshTokenExpires;
-    this.username = options.username;
+    this._username = options.username;
     this.password = options.password;
     this._token = options.token;
     this._tokenExpires = options.tokenExpires;
@@ -952,8 +998,6 @@ export class UserSession implements IAuthenticationManager {
   public getUsername() {
     if (this.username) {
       return Promise.resolve(this.username);
-    } else if (this._user) {
-      return Promise.resolve(this._user.username);
     } else {
       return this.getUser().then((user) => {
         return user.username;

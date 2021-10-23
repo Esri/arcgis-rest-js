@@ -2440,4 +2440,60 @@ describe("UserSession", () => {
       });
     });
   });
+
+  describe(".fromToken", () => {
+    afterEach(fetchMock.restore);
+
+    it("should initialize a session from a token", () => {
+      // we intentionally only mock one response
+      fetchMock.once(
+        "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
+        {
+          username: "jsmith",
+          fullName: "John Smith",
+          role: "org_publisher"
+        }
+      );
+
+      return UserSession.fromToken({
+        token: "token",
+        tokenExpires: TOMORROW
+      }).then((session) => {
+        expect(session.username).toEqual("jsmith");
+        expect(session.token).toEqual("token");
+        expect(session.tokenExpires).toEqual(TOMORROW);
+      });
+    });
+  });
+
+  describe(".signIn", () => {
+    afterEach(fetchMock.restore);
+
+    it("should initialize a session from a username and password", () => {
+      // we intentionally only mock one response
+      fetchMock.once(
+        "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
+        {
+          username: "jsmith",
+          fullName: "John Smith",
+          role: "org_publisher"
+        }
+      );
+
+      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/generateToken", {
+        token: "token",
+        expires: TOMORROW.getTime(),
+        username: " c@sey"
+      });
+
+      return UserSession.signIn({
+        username: "c@sey",
+        password: "123456"
+      }).then((session) => {
+        expect(session.username).toEqual("c@sey");
+        expect(session.token).toEqual("token");
+        expect(session.tokenExpires).toEqual(TOMORROW);
+      });
+    });
+  });
 });
