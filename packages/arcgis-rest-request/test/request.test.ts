@@ -531,4 +531,33 @@ describe("request()", () => {
         });
     });
   }
+
+  it("should use a string passed to authentication option as the token", () => {
+    const oldWarn = console.warn;
+
+    console.warn = jasmine.createSpy().and.callFake(() => {
+      return;
+    });
+
+    fetchMock.post("*", {
+      username: "jsmith"
+    });
+
+    return request("https://www.arcgis.com/sharing/rest/portals/self", {
+      authentication: "token"
+    })
+      .then(() => {
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual("https://www.arcgis.com/sharing/rest/portals/self");
+        expect(console.warn).toHaveBeenCalledTimes(1);
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain("token=token");
+      })
+      .catch((e) => {
+        fail(e);
+      })
+      .finally(() => {
+        console.warn = oldWarn;
+      });
+  });
 });
