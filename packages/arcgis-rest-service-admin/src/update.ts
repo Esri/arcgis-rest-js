@@ -21,7 +21,7 @@ export interface IUpdateServiceDefinitionResult {
  * import { updateServiceDefinition } from '@esri/arcgis-rest-service-admin';
  * //
  * updateServiceDefinition(serviceurl, {
- *   authentication: userSession,
+ *   authentication: ArcGISIdentityManager,
  *   updateDefinition: serviceDefinition
  * });
  * ```

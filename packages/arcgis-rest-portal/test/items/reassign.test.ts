@@ -4,7 +4,7 @@
 import fetchMock from "fetch-mock";
 import { reassignItem } from "../../src/items/reassign.js";
 
-import { UserSession } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 import {
   GroupMemberUserResponse,
@@ -15,7 +15,7 @@ describe("reassignItem", () => {
   afterEach(fetchMock.restore);
 
   it("shoulds throw if not authd as org_admin", (done) => {
-    const MOCK_USER_SESSION = new UserSession({
+    const MOCK_USER_SESSION = new ArcGISIdentityManager({
       token: "fake-token",
       tokenExpires: TOMORROW,
       portal: "https://myorg.maps.arcgis.com/sharing/rest"
@@ -40,7 +40,7 @@ describe("reassignItem", () => {
   });
 
   it("should send the folder if passed", (done) => {
-    const MOCK_USER_SESSION = new UserSession({
+    const MOCK_USER_SESSION = new ArcGISIdentityManager({
       token: "fake-token",
       tokenExpires: TOMORROW,
       portal: "https://myorg.maps.arcgis.com/sharing/rest"
@@ -85,7 +85,7 @@ describe("reassignItem", () => {
   });
 
   it("should not send the folder if not passed", (done) => {
-    const MOCK_USER_SESSION = new UserSession({
+    const MOCK_USER_SESSION = new ArcGISIdentityManager({
       token: "fake-token",
       tokenExpires: TOMORROW,
       portal: "https://myorg.maps.arcgis.com/sharing/rest"

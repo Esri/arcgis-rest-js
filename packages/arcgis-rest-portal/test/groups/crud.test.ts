@@ -9,7 +9,11 @@ import { removeGroup } from "../../src/groups/remove.js";
 
 import { GroupEditResponse } from "../mocks/groups/responses.js";
 
-import { encodeParam, UserSession, IGroupAdd } from "@esri/arcgis-rest-request";
+import {
+  encodeParam,
+  ArcGISIdentityManager,
+  IGroupAdd
+} from "@esri/arcgis-rest-request";
 
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
@@ -17,7 +21,7 @@ describe("groups", () => {
   afterEach(fetchMock.restore);
 
   describe("authenticted methods", () => {
-    const MOCK_AUTH = new UserSession({
+    const MOCK_AUTH = new ArcGISIdentityManager({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
       token: "fake-token",

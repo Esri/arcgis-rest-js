@@ -1,6 +1,6 @@
 import fetchMock from "fetch-mock";
 
-import { encodeParam, UserSession } from "@esri/arcgis-rest-request";
+import { encodeParam, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 import { createGroupNotification } from "../../src/groups/notification.js";
@@ -11,7 +11,7 @@ describe("groups", () => {
   afterEach(fetchMock.restore);
 
   describe("createGroupNotification", () => {
-    const MOCK_AUTH = new UserSession({
+    const MOCK_AUTH = new ArcGISIdentityManager({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
       token: "fake-token",

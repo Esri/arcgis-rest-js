@@ -38,7 +38,7 @@ export interface IAddToServiceDefinitionResult {
  * import { addToServiceDefinition } from '@esri/arcgis-rest-service-admin';
  * //
  * addToServiceDefinition(serviceurl, {
- *   authentication: userSession,
+ *   authentication: ArcGISIdentityManager,
  *   layers: [],
  *   tables: []
  * });

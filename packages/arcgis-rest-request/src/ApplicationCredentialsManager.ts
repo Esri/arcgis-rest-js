@@ -5,7 +5,7 @@ import { IAuthenticationManager } from "./utils/IAuthenticationManager.js";
 import { ITokenRequestOptions } from "./utils/ITokenRequestOptions.js";
 import { fetchToken } from "./fetch-token.js";
 
-export interface IApplicationSessionOptions {
+export interface IApplicationCredentialsManagerOptions {
   /**
    * Client ID of your application. Can be obtained by registering an application
    * on [ArcGIS for Developers](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/#registering-your-application),
@@ -44,16 +44,17 @@ export interface IApplicationSessionOptions {
 /**
  * ```js
  * import { ApplicationSession } from '@esri/arcgis-rest-auth';
- * const session = new ApplicationSession({
+ *
+ * const session = ApplicationCredentialsManager.fromCredentials({
  *   clientId: "abc123",
  *   clientSecret: "sshhhhhh"
  * })
- * // visit https://developers.arcgis.com to generate your own clientid and secret
  * ```
- * You can use [App Login](/arcgis-rest-js/guides/node/) to access premium content and services in ArcGIS Online.
+ *
+ * You can use [App Login](/arcgis-rest-js/guides/node/) to access premium content and services.
  *
  */
-export class ApplicationSession implements IAuthenticationManager {
+export class ApplicationCredentialsManager implements IAuthenticationManager {
   public portal: string;
   private clientId: string;
   private clientSecret: string;
@@ -62,12 +63,21 @@ export class ApplicationSession implements IAuthenticationManager {
   private duration: number;
 
   /**
+   * Preferred method for creating an `ApplicationCredentialsManager`
+   */
+  public static fromCredentials(
+    options: IApplicationCredentialsManagerOptions
+  ) {
+    return new ApplicationCredentialsManager(options);
+  }
+
+  /**
    * Internal object to keep track of pending token requests. Used to prevent
    *  duplicate token requests.
    */
   private _pendingTokenRequest: Promise<string>;
 
-  constructor(options: IApplicationSessionOptions) {
+  constructor(options: IApplicationCredentialsManagerOptions) {
     this.clientId = options.clientId;
     this.clientSecret = options.clientSecret;
     this.token = options.token;
@@ -117,4 +127,17 @@ export class ApplicationSession implements IAuthenticationManager {
   public refreshSession() {
     return this.refreshToken().then(() => this);
   }
+}
+
+/**
+ * @deprecated - Use {@linkcode ApplicationCredentialsManager}.
+ */ /* istanbul ignore next */
+export function ApplicationSession(
+  options: IApplicationCredentialsManagerOptions
+) {
+  console.log(
+    "DEPRECATED:, 'ApplicationSession' is deprecated. Use 'ApplicationCredentialsManager' instead."
+  );
+
+  return new ApplicationCredentialsManager(options);
 }

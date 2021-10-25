@@ -6,13 +6,13 @@ import {
 } from "../../src/items/export.js";
 
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
-import { UserSession, encodeParam } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
 
 describe("exportItem", () => {
   afterEach(fetchMock.restore);
 
   describe("Authenticated methods", () => {
-    const authentication = new UserSession({
+    const authentication = new ArcGISIdentityManager({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
       token: "fake-token",

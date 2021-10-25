@@ -21,7 +21,7 @@ export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
  * ```js
  * import { setDefaultRequestOptions } from "@esri/arcgis-rest-request";
  * setDefaultRequestOptions({
- *   authentication: userSession // all requests will use this session by default
+ *   authentication: ArcGISIdentityManager // all requests will use this session by default
  * })
  * ```
  * You should **never** set a default `authentication` when you are in a server side environment where you may be handling requests for many different authenticated users.
@@ -261,7 +261,7 @@ export function request(
       !(globalThis as any).ARCGIS_REST_JS_SUPPRESS_TOKEN_WARNING // we havn't shown the user this warning yet
     ) {
       warn(
-        `Using an oAuth 2.0 access token directly in the token option is discouraged. Consider using UserSession or Application session. See https://esriurl.com/arcgis-rest-js-direct-token-warning for more information.`
+        `Using an oAuth 2.0 access token directly in the token option is discouraged. Consider using ArcGISIdentityManager or Application session. See https://esriurl.com/arcgis-rest-js-direct-token-warning for more information.`
       );
 
       (globalThis as any).ARCGIS_REST_JS_SUPPRESS_TOKEN_WARNING = true;

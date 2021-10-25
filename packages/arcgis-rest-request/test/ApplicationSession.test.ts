@@ -2,15 +2,39 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { ApplicationSession } from "../src/index.js";
+import { ApplicationCredentialsManager } from "../src/index.js";
 import { YESTERDAY, TOMORROW } from "../../../scripts/test-helpers.js";
 
-describe("ApplicationSession", () => {
+describe("ApplicationCredentialsManager", () => {
   afterEach(fetchMock.restore);
+
+  describe(".fromCredentials", () => {
+    it("should construct a new ApplicationCredentialsManager", (done) => {
+      fetchMock.post("https://www.arcgis.com/sharing/rest/oauth2/token/", {
+        access_token: "token",
+        expires_in: 1800
+      });
+
+      const session = ApplicationCredentialsManager.fromCredentials({
+        clientId: "id",
+        clientSecret: "secret"
+      });
+
+      session
+        .getToken("https://www.arcgis.com/sharing/rest/portals/self")
+        .then((token) => {
+          expect(token).toBe("token");
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+  });
 
   describe(".getToken()", () => {
     it("should return the cached token if it is not expired", (done) => {
-      const session = new ApplicationSession({
+      const session = new ApplicationCredentialsManager({
         clientId: "id",
         clientSecret: "secret",
         token: "token",
@@ -34,7 +58,7 @@ describe("ApplicationSession", () => {
     });
 
     it("should fetch a new token if the cached one is expired", (done) => {
-      const session = new ApplicationSession({
+      const session = new ApplicationCredentialsManager({
         clientId: "id",
         clientSecret: "secret",
         token: "token",
@@ -63,7 +87,7 @@ describe("ApplicationSession", () => {
     });
 
     it("should not make multiple refresh requests while a refresh is pending", (done) => {
-      const session = new ApplicationSession({
+      const session = new ApplicationCredentialsManager({
         clientId: "id",
         clientSecret: "secret",
         token: "token",
@@ -99,7 +123,7 @@ describe("ApplicationSession", () => {
   });
 
   it("should provide a method to refresh a session", (done) => {
-    const session = new ApplicationSession({
+    const session = new ApplicationCredentialsManager({
       clientId: "id",
       clientSecret: "secret",
       token: "token",

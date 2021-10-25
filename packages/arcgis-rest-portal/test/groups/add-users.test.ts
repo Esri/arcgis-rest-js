@@ -6,7 +6,7 @@ import {
   addGroupUsers,
   IAddGroupUsersOptions
 } from "../../src/groups/add-users.js";
-import { UserSession, encodeParam } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 function createUsernames(start: number, end: number): string[] {
@@ -20,7 +20,7 @@ function createUsernames(start: number, end: number): string[] {
 }
 
 describe("add-users", () => {
-  const MOCK_AUTH = new UserSession({
+  const MOCK_AUTH = new ArcGISIdentityManager({
     clientId: "clientId",
     redirectUri: "https://example-app.com/redirect-uri",
     token: "fake-token",

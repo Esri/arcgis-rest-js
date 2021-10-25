@@ -1,8 +1,8 @@
 import { ITokenRequestOptions } from "./ITokenRequestOptions.js";
 /**
- * Authentication can be supplied to `request` via [`UserSession`](../../auth/UserSession/) or [`ApplicationSession`](../../auth/ApplicationSession/). Both classes extend `IAuthenticationManager`.
+ * Authentication can be supplied to `request` via [`ArcGISIdentityManager`](../../auth/ArcGISIdentityManager/) or [`ApplicationSession`](../../auth/ApplicationSession/). Both classes extend `IAuthenticationManager`.
  * ```js
- * const session = new UserSession({
+ * const session = new ArcGISIdentityManager({
  *   username: "jsmith",
  *   password: "123456",
  *   // optional

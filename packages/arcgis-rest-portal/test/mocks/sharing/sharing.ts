@@ -1,10 +1,10 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { UserSession } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../../scripts/test-helpers.js";
 
-export const MOCK_USER_SESSION = new UserSession({
+export const MOCK_USER_SESSION = new ArcGISIdentityManager({
   clientId: "clientId",
   redirectUri: "https://example-app.com/redirect-uri",
   token: "fake-token",

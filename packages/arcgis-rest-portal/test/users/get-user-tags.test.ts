@@ -5,7 +5,7 @@ import fetchMock from "fetch-mock";
 import { getUserTags } from "../../src/users/get-user-tags.js";
 import { UserTagsResponse } from "../mocks/users/user-tags.js";
 
-import { UserSession, encodeParam } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
 
 const TOMORROW = (function () {
   const now = new Date();
@@ -17,7 +17,7 @@ describe("users", () => {
   afterEach(fetchMock.restore);
 
   describe("getUserTags", () => {
-    const session = new UserSession({
+    const session = new ArcGISIdentityManager({
       username: "c@sey",
       password: "123456",
       token: "fake-token",

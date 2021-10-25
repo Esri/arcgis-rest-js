@@ -153,7 +153,7 @@ export interface ICreateServiceResult {
  * } from '@esri/arcgis-rest-service-admin';
  * //
  * createFeatureService({
- *   authentication: userSession,
+ *   authentication: ArcGISIdentityManager,
  *   item: {
  *     "name": "NewEmptyService",
  *     "capabilities": "Create,Delete,Query,Update,Editing"
