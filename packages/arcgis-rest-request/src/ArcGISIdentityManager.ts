@@ -1450,7 +1450,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
  */ /* istanbul ignore next */
 export function UserSession(options: IArcGISIdentityManagerOptions) {
   console.log(
-    "DEPRECATED:, 'ArcGISIdentityManager' is deprecated. Use 'ArcGISIdentityManagerOptions' instead."
+    "DEPRECATED:, 'UserSession' is deprecated. Use 'ArcGISIdentityManagerOptions' instead."
   );
 
   return new ArcGISIdentityManager(options);
