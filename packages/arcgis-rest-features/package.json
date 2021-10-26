@@ -44,12 +44,15 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
+    "@esri/arcgis-rest-portal": "^3.0.0",
     "@esri/arcgis-rest-request": "^3.0.0"
   },
   "devDependencies": {
+    "@esri/arcgis-rest-portal": "^3.3.0",
     "@esri/arcgis-rest-request": "^3.3.0"
   },
   "contributors": [
+    "Mike Tschudi <mtschudi@esri.com>",
     "Tom Wayson <twayson@esri.com> (http://tomwayson.com/)"
   ],
   "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
