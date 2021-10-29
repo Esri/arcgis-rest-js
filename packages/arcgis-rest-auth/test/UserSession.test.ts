@@ -981,7 +981,7 @@ describe("UserSession", () => {
           clientId: "clientId123",
           redirectUri: "http://example-app.com/redirect",
           popup: false,
-          expiration: 9000
+          expiration: 9000,
         },
         MockWindow
       );
@@ -1004,7 +1004,7 @@ describe("UserSession", () => {
           clientId: "clientId123",
           redirectUri: "http://example-app.com/redirect",
           popup: false,
-          duration: 9001
+          duration: 9001,
         },
         MockWindow
       );
@@ -1019,8 +1019,7 @@ describe("UserSession", () => {
     it("should return a new user session if it cannot find a valid parent", () => {
       const MockWindow = {
         location: {
-          hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true&persist=true",
+          hash: "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true&persist=true",
         },
         get parent() {
           return this;
@@ -1044,8 +1043,7 @@ describe("UserSession", () => {
     it("should return a new user session with ssl as false when callback hash does not have ssl parameter", () => {
       const MockWindow = {
         location: {
-          hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&persist=true",
+          hash: "#access_token=token&expires_in=1209600&username=c%40sey&persist=true",
         },
         get parent() {
           return this;
@@ -1084,8 +1082,7 @@ describe("UserSession", () => {
           done();
         },
         location: {
-          hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
+          hash: "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
         },
       };
 
@@ -1118,8 +1115,7 @@ describe("UserSession", () => {
           done();
         },
         location: {
-          hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
+          hash: "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
         },
       };
 
@@ -1152,8 +1148,7 @@ describe("UserSession", () => {
           done();
         },
         location: {
-          hash:
-            "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
+          hash: "#access_token=token&expires_in=1209600&username=c%40sey&ssl=true",
         },
       };
 
@@ -1176,7 +1171,7 @@ describe("UserSession", () => {
         },
       };
 
-      expect(function() {
+      expect(function () {
         UserSession.completeOAuth2(
           {
             clientId: "clientId",
@@ -1205,7 +1200,7 @@ describe("UserSession", () => {
         },
       };
 
-      expect(function() {
+      expect(function () {
         UserSession.completeOAuth2(
           {
             clientId: "clientId",
@@ -1310,6 +1305,59 @@ describe("UserSession", () => {
       expect(sourceSpy.calls.count()).toBe(
         1,
         "souce.postMessage should not be called in handler for invalid origin"
+      );
+    });
+
+    it(".enablePostMessage handler returns error if session is expired", () => {
+      // ok, this gets kinda gnarly...
+      const expiredCred = {
+        expires: YESTERDAY.getTime(),
+        server: "https://www.arcgis.com/sharing/rest",
+        ssl: false,
+        token: "token",
+        userId: "jsmith",
+      };
+      // create a mock window object
+      // that will hold the passed in event handler so we can fire it manually
+      const Win = {
+        _fn: (evt: any) => {},
+        addEventListener(evt: any, fn: any) {
+          // enablePostMessageAuth passes in the handler, which is what we're actually testing
+          Win._fn = fn;
+        },
+        removeEventListener() {},
+      };
+      // Create the session
+      const session = UserSession.fromCredential(expiredCred);
+      // enable postMessageAuth allowing storymaps.arcgis.com to recieve creds
+      session.enablePostMessageAuth(["https://storymaps.arcgis.com"], Win);
+      // create an event object, with a matching origin
+      // an a source.postMessage fn that we can spy on
+      const event = {
+        origin: "https://storymaps.arcgis.com",
+        source: {
+          postMessage(msg: any, origin: string) {},
+        },
+        data: {
+          type: "arcgis:auth:requestCredential",
+        },
+      };
+      // create the spy
+      const sourceSpy = spyOn(event.source, "postMessage");
+      // Now, fire the handler, simulating what happens when a postMessage event comes
+      // from an embedded iframe
+      Win._fn(event);
+      // Expectations...
+      expect(sourceSpy.calls.count()).toBe(
+        1,
+        "souce.postMessage should be called in handler"
+      );
+      const args = sourceSpy.calls.argsFor(0);
+      expect(args[0].type).toBe("arcgis:auth:error", "should send error type");
+      expect(args[0].credential).not.toBeDefined();
+      expect(args[0].error.name).toBe(
+        "tokenExpiredError",
+        "should recieve tokenExpiredError"
       );
     });
 
@@ -1477,9 +1525,8 @@ describe("UserSession", () => {
       return session
         .validateAppAccess("abc123")
         .then((response) => {
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-            VERIFYAPPACCESS_URL
-          );
+          const [url, options]: [string, RequestInit] =
+            fetchMock.lastCall(VERIFYAPPACCESS_URL);
           expect(url).toEqual(VERIFYAPPACCESS_URL);
           expect(options.body).toContain("f=json");
           expect(options.body).toContain("token=FAKE-TOKEN");
@@ -1501,7 +1548,7 @@ describe("UserSession", () => {
       },
     };
 
-    expect(function() {
+    expect(function () {
       UserSession.completeOAuth2(
         {
           clientId: "clientId",
@@ -1552,7 +1599,7 @@ describe("UserSession", () => {
         {
           clientId: "clientId",
           redirectUri: "https://example-app.com/redirect-uri",
-          expiration: 10000
+          expiration: 10000,
         },
         MockResponse
       );
@@ -1575,7 +1622,7 @@ describe("UserSession", () => {
         {
           clientId: "clientId",
           redirectUri: "https://example-app.com/redirect-uri",
-          duration: 10001
+          duration: 10001,
         },
         MockResponse
       );
@@ -1638,9 +1685,15 @@ describe("UserSession", () => {
         "code"
       )
         .then((session) => {
-          const twoWeeksFromNow = new Date(Date.now() + (20160 - 1) * 60 * 1000);
-          expect(session.refreshTokenExpires.getTime()).toBeGreaterThan(twoWeeksFromNow.getTime() - 10);
-          expect(session.refreshTokenExpires.getTime()).toBeLessThan(twoWeeksFromNow.getTime() + 10);
+          const twoWeeksFromNow = new Date(
+            Date.now() + (20160 - 1) * 60 * 1000
+          );
+          expect(session.refreshTokenExpires.getTime()).toBeGreaterThan(
+            twoWeeksFromNow.getTime() - 10
+          );
+          expect(session.refreshTokenExpires.getTime()).toBeLessThan(
+            twoWeeksFromNow.getTime() + 10
+          );
           done();
         })
         .catch((e) => {

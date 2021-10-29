@@ -105,14 +105,14 @@ export interface IOAuth2Options {
   /**
    * The requested validity in minutes for a token. Defaults to 20160 (two weeks).
    */
-   expiration?: number;
+  expiration?: number;
 
   /**
    * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
    *
    * @deprecated use 'expiration' instead
    */
-   duration?: number;
+  duration?: number;
 
   /**
    * Determines whether to open the authorization window in a new tab/window or in the current window.
@@ -304,10 +304,14 @@ export class UserSession implements IAuthenticationManager {
    * @browserOnly
    */
   /* istanbul ignore next */
-  public static beginOAuth2(options: IOAuth2Options, win: any = window): Promise<UserSession> | undefined {
-
-    if(options.duration) {
-      console.log("DEPRECATED: 'duration' is deprecated - use 'expiration' instead");
+  public static beginOAuth2(
+    options: IOAuth2Options,
+    win: any = window
+  ): Promise<UserSession> | undefined {
+    if (options.duration) {
+      console.log(
+        "DEPRECATED: 'duration' is deprecated - use 'expiration' instead"
+      );
     }
 
     const {
@@ -336,11 +340,15 @@ export class UserSession implements IAuthenticationManager {
     };
     let url: string;
     if (provider === "arcgis") {
-      url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${options.duration || expiration}&redirect_uri=${encodeURIComponent(
+      url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${
+        options.duration || expiration
+      }&redirect_uri=${encodeURIComponent(
         redirectUri
       )}&state=${state}&locale=${locale}`;
     } else {
-      url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${options.duration || expiration}&redirect_uri=${encodeURIComponent(
+      url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${
+        options.duration || expiration
+      }&redirect_uri=${encodeURIComponent(
         redirectUri
       )}&state=${state}&locale=${locale}`;
     }
@@ -357,7 +365,7 @@ export class UserSession implements IAuthenticationManager {
 
     const session = defer<UserSession>();
 
-    win[`__ESRI_REST_AUTH_HANDLER_${clientId}`] = function(
+    win[`__ESRI_REST_AUTH_HANDLER_${clientId}`] = function (
       errorString: any,
       oauthInfoString: string
     ) {
@@ -541,8 +549,10 @@ export class UserSession implements IAuthenticationManager {
     options: IOAuth2Options,
     response: http.ServerResponse
   ) {
-    if(options.duration) {
-      console.log("DEPRECATED: 'duration' is deprecated - use 'expiration' instead");
+    if (options.duration) {
+      console.log(
+        "DEPRECATED: 'duration' is deprecated - use 'expiration' instead"
+      );
     }
     const { portal, clientId, expiration, redirectUri }: IOAuth2Options = {
       ...{ portal: "https://arcgis.com/sharing/rest", expiration: 20160 },
@@ -550,9 +560,9 @@ export class UserSession implements IAuthenticationManager {
     };
 
     response.writeHead(301, {
-      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${options.duration || expiration}&response_type=code&redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}`,
+      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${
+        options.duration || expiration
+      }&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}`,
     });
 
     response.end();
@@ -635,7 +645,7 @@ export class UserSession implements IAuthenticationManager {
     // At ArcGIS Online 9.1, credentials no longer include the ssl and expires properties
     // Here, we provide default values for them to cover this condition
     const ssl = typeof credential.ssl !== "undefined" ? credential.ssl : true;
-    const expires = credential.expires || Date.now() + 7200000 /* 2 hours */;
+    const expires = credential.expires || Date.now() + 7200000; /* 2 hours */
 
     return new UserSession({
       portal: credential.server.includes("sharing/rest")
@@ -1079,18 +1089,29 @@ export class UserSession implements IAuthenticationManager {
       // Ensure the message type is something we want to handle
       const isValidType = event.data.type === "arcgis:auth:requestCredential";
 
+      const isTokenValid = this.tokenExpires.getTime() > Date.now();
+
       if (isValidOrigin && isValidType) {
-        const credential = this.toCredential();
-        // the following line allows us to conform to our spec without changing other depended-on functionality
-        // https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-auth/post-message-auth-spec.md#arcgisauthcredential
-        credential.server = credential.server.replace("/sharing/rest", "");
-        event.source.postMessage(
-          {
-            type: "arcgis:auth:credential",
-            credential,
-          },
-          event.origin
-        );
+        let msg = {};
+        if (isTokenValid) {
+          const credential = this.toCredential();
+          // arcgis:auth:error with {name: "", message: ""}
+          // the following line allows us to conform to our spec without changing other depended-on functionality
+          // https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-auth/post-message-auth-spec.md#arcgisauthcredential
+          credential.server = credential.server.replace("/sharing/rest", "");
+          msg = { type: "arcgis:auth:credential", credential };
+        } else {
+          // Return an error
+          msg = {
+            type: "arcgis:auth:error",
+            error: {
+              name: "tokenExpiredError",
+              message:
+                "Session token was expired, and not returned to the child application",
+            },
+          };
+        }
+        event.source.postMessage(msg, event.origin);
       }
     };
   }
