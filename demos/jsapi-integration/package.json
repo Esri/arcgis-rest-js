@@ -1,14 +1,14 @@
 {
   "name": "@esri/jsapi-integration",
-  "version": "3.4.2",
+  "version": "3.4.3",
   "private": true,
   "description": "to do",
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "@esri/arcgis-rest-auth": "^3.4.2",
-    "@esri/arcgis-rest-portal": "^3.4.2",
-    "@esri/arcgis-rest-request": "^3.4.2"
+    "@esri/arcgis-rest-auth": "^3.4.3",
+    "@esri/arcgis-rest-portal": "^3.4.3",
+    "@esri/arcgis-rest-request": "^3.4.3"
   },
   "devDependencies": {
     "http-server": "*"
