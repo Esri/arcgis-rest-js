@@ -1169,19 +1169,32 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
 
       // Ensure the message type is something we want to handle
       const isValidType = event.data.type === "arcgis:auth:requestCredential";
+      // Ensure we don't pass an expired session forward
+      const isTokenValid = this.tokenExpires.getTime() > Date.now();
 
       if (isValidOrigin && isValidType) {
-        const credential = this.toCredential();
-        // the following line allows us to conform to our spec without changing other depended-on functionality
-        // https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-auth/post-message-auth-spec.md#arcgisauthcredential
-        credential.server = credential.server.replace("/sharing/rest", "");
-        event.source.postMessage(
-          {
+        let msg = {};
+        if (isTokenValid) {
+          const credential = this.toCredential();
+          // the following line allows us to conform to our spec without changing other depended-on functionality
+          // https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-request/post-message-auth-spec.md#arcgisauthcredential
+          credential.server = credential.server.replace("/sharing/rest", "");
+          msg = {
             type: "arcgis:auth:credential",
             credential
-          },
-          event.origin
-        );
+          };
+        } else {
+          msg = {
+            type: "arcgis:auth:error",
+            error: {
+              name: "tokenExpiredError",
+              message:
+                "Session token was expired, and not returned to the child application"
+            }
+          };
+        }
+
+        event.source.postMessage(msg, event.origin);
       }
     };
   }
