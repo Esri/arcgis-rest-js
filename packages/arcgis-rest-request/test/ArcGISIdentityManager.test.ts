@@ -1333,6 +1333,59 @@ describe("ArcGISIdentityManager", () => {
       );
     });
 
+    it(".enablePostMessage handler returns error if session is expired", () => {
+      // ok, this gets kinda gnarly...
+      const expiredCred = {
+        expires: YESTERDAY.getTime(),
+        server: "https://www.arcgis.com/sharing/rest",
+        ssl: false,
+        token: "token",
+        userId: "jsmith"
+      };
+      // create a mock window object
+      // that will hold the passed in event handler so we can fire it manually
+      const Win = {
+        _fn: (evt: any) => {},
+        addEventListener(evt: any, fn: any) {
+          // enablePostMessageAuth passes in the handler, which is what we're actually testing
+          Win._fn = fn;
+        },
+        removeEventListener() {}
+      };
+      // Create the session
+      const session = ArcGISIdentityManager.fromCredential(expiredCred);
+      // enable postMessageAuth allowing storymaps.arcgis.com to recieve creds
+      session.enablePostMessageAuth(["https://storymaps.arcgis.com"], Win);
+      // create an event object, with a matching origin
+      // an a source.postMessage fn that we can spy on
+      const event = {
+        origin: "https://storymaps.arcgis.com",
+        source: {
+          postMessage(msg: any, origin: string) {}
+        },
+        data: {
+          type: "arcgis:auth:requestCredential"
+        }
+      };
+      // create the spy
+      const sourceSpy = spyOn(event.source, "postMessage");
+      // Now, fire the handler, simulating what happens when a postMessage event comes
+      // from an embedded iframe
+      Win._fn(event);
+      // Expectations...
+      expect(sourceSpy.calls.count()).toBe(
+        1,
+        "souce.postMessage should be called in handler"
+      );
+      const args = sourceSpy.calls.argsFor(0);
+      expect(args[0].type).toBe("arcgis:auth:error", "should send error type");
+      expect(args[0].credential).not.toBeDefined();
+      expect(args[0].error.name).toBe(
+        "tokenExpiredError",
+        "should recieve tokenExpiredError"
+      );
+    });
+
     it(".fromParent happy path", () => {
       // create a mock window that will fire the handler
       const Win = {
