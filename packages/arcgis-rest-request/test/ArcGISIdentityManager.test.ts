@@ -2500,6 +2500,25 @@ describe("ArcGISIdentityManager", () => {
         expect(options.body).toContain("client_id=clientId");
       });
     });
+
+    it("should revoke a token with the signOut() instance method", () => {
+      fetchMock.once("*", { success: true });
+
+      const session = new ArcGISIdentityManager({
+        clientId: "clientId",
+        token: "token"
+      });
+
+      return session.signOut().then((response) => {
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(response).toEqual({ success: true });
+        expect(url).toBe(
+          "https://www.arcgis.com/sharing/rest/oauth2/revokeToken/"
+        );
+        expect(options.body).toContain("auth_token=token");
+        expect(options.body).toContain("client_id=clientId");
+      });
+    });
   });
 
   describe(".fromToken", () => {

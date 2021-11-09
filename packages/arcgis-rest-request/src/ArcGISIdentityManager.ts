@@ -1146,6 +1146,13 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   }
 
   /**
+   * Convenience method for {@linkcode ArcGISIdentityManager.destroy} for this instance of `ArcGISIdentityManager`
+   */
+  public signOut() {
+    return ArcGISIdentityManager.destroy(this);
+  }
+
+  /**
    * Return a function that closes over the validOrigins array and
    * can be used as an event handler for the `message` event
    *
