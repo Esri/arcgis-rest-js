@@ -4,13 +4,13 @@
 import * as isServiceNameAvailableModule from "../../src/services/is-service-name-available.js";
 import fetchMock from "fetch-mock";
 import { getUniqueServiceName } from "../../src/services/get-unique-service-name.js";
-import { UserSession } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("get-unique-service-name:", () => {
   afterEach(fetchMock.restore);
 
-  const MOCK_USER_SESSION = new UserSession({
+  const MOCK_USER_SESSION = new ArcGISIdentityManager({
     clientId: "clientId",
     redirectUri: "https://example-app.com/redirect-uri",
     token: "fake-token",

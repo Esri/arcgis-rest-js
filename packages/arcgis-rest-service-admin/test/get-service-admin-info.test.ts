@@ -4,12 +4,12 @@
 import fetchMock from "fetch-mock";
 import { getServiceAdminInfo } from "../src/get-service-admin-info.js";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
-import { UserSession } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 describe("get-service-admin-info: ", () => {
   afterEach(fetchMock.restore);
 
-  const MOCK_USER_SESSION = new UserSession({
+  const MOCK_USER_SESSION = new ArcGISIdentityManager({
     clientId: "clientId",
     redirectUri: "https://example-app.com/redirect-uri",
     token: "fake-token",

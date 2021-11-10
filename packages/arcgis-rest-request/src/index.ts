@@ -23,20 +23,23 @@ export * from "./utils/process-params.js";
 export * from "./utils/ResponseFormats.js";
 export * from "./utils/retryAuthError.js";
 export * from "./utils/warn.js";
-export * from "./ApplicationSession.js";
-export * from "./ApiKey.js";
-export * from "./UserSession.js";
+export * from "./ApplicationCredentialsManager.js";
+export * from "./ApiKeyManager.js";
+export * from "./ArcGISIdentityManager.js";
 export * from "./fetch-token.js";
 export * from "./generate-token.js";
 export * from "./authenticated-request-options.js";
 export * from "./app-tokens.js";
 export * from "./validate-app-access.js";
 export * from "./federation-utils.js";
-export * from "@esri/arcgis-rest-fetch";
-export * from "@esri/arcgis-rest-form-data";
+export * from "./revoke-token.js";
+
 export * from "./types/feature.js";
 export * from "./types/geometry.js";
 export * from "./types/symbol.js";
 export * from "./types/service.js";
 export * from "./types/group.js";
 export * from "./types/user.js";
+
+export * from "@esri/arcgis-rest-fetch";
+export * from "@esri/arcgis-rest-form-data";

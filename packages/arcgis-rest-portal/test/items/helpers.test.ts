@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { determineOwner } from "../../src/items/helpers.js";
-import { UserSession } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 describe("determineOwner()", () => {
   it("should use owner if passed", (done) => {
@@ -35,7 +35,7 @@ describe("determineOwner()", () => {
 
   it("should lookup owner from authentication if no owner or item owner", (done) => {
     determineOwner({
-      authentication: new UserSession({
+      authentication: new ArcGISIdentityManager({
         token: "ABC",
         username: "Casey"
       })

@@ -10,6 +10,7 @@ import { IParams } from "./utils/IParams.js";
 import { warn } from "./utils/warn.js";
 import { IRetryAuthError } from "./utils/retryAuthError.js";
 import { getFetch } from "@esri/arcgis-rest-fetch";
+import { IAuthenticationManager } from "./index.js";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
@@ -20,7 +21,7 @@ export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
  * ```js
  * import { setDefaultRequestOptions } from "@esri/arcgis-rest-request";
  * setDefaultRequestOptions({
- *   authentication: userSession // all requests will use this session by default
+ *   authentication: ArcGISIdentityManager // all requests will use this session by default
  * })
  * ```
  * You should **never** set a default `authentication` when you are in a server side environment where you may be handling requests for many different authenticated users.
@@ -212,7 +213,7 @@ export function request(
     }
   };
 
-  const { httpMethod, authentication, rawResponse } = options;
+  const { httpMethod, rawResponse } = options;
 
   const params: IParams = {
     ...{ f: "json" },
@@ -237,6 +238,36 @@ export function request(
     url.indexOf("/oauth2/platformSelf") > -1
   ) {
     fetchOptions.credentials = "include";
+  }
+
+  let authentication: IAuthenticationManager;
+
+  // Check to see if this is a raw token as a string and create a IAuthenticationManager like object for it.
+  // Otherwise this just assumes that options.authentication is an IAuthenticationManager.
+  if (typeof options.authentication === "string") {
+    const rawToken = options.authentication;
+
+    authentication = {
+      portal: "https://www.arcgis.com/sharing/rest",
+      getToken: () => {
+        return Promise.resolve(rawToken);
+      }
+    };
+
+    /* istanbul ignore else - we don't need to test NOT warning people */
+    if (
+      !options.authentication.startsWith("AAPK") && // doesn't look like an API Key
+      !options.suppressWarnings && // user doesn't want to suppress warnings for this request
+      !(globalThis as any).ARCGIS_REST_JS_SUPPRESS_TOKEN_WARNING // we havn't shown the user this warning yet
+    ) {
+      warn(
+        `Using an oAuth 2.0 access token directly in the token option is discouraged. Consider using ArcGISIdentityManager or Application session. See https://esriurl.com/arcgis-rest-js-direct-token-warning for more information.`
+      );
+
+      (globalThis as any).ARCGIS_REST_JS_SUPPRESS_TOKEN_WARNING = true;
+    }
+  } else {
+    authentication = options.authentication;
   }
 
   return (

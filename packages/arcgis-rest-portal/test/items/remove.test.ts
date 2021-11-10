@@ -14,14 +14,14 @@ import { ItemSuccessResponse } from "../mocks/items/item.js";
 import { RemoveItemResourceResponse } from "../mocks/items/resources.js";
 
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
-import { UserSession, encodeParam } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
 
 describe("search", () => {
   afterEach(fetchMock.restore);
 
   describe("Authenticated methods", () => {
-    // setup a UserSession to use in all these tests
-    const MOCK_USER_SESSION = new UserSession({
+    // setup a ArcGISIdentityManager to use in all these tests
+    const MOCK_USER_SESSION = new ArcGISIdentityManager({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
       token: "fake-token",

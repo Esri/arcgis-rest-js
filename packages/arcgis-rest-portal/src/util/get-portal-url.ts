@@ -2,6 +2,7 @@
  * Apache-2.0 */
 
 import { IRequestOptions, cleanUrl } from "@esri/arcgis-rest-request";
+import { request } from "http";
 
 /**
  * Helper that returns the appropriate portal url for a given request. `requestOptions.portal` is given
@@ -18,7 +19,10 @@ export function getPortalUrl(requestOptions: IRequestOptions = {}): string {
   }
 
   // if auth was passed, use that portal
-  if (requestOptions.authentication) {
+  if (
+    requestOptions.authentication &&
+    typeof requestOptions.authentication !== "string"
+  ) {
     // the portal url is already scrubbed in the auth package
     return requestOptions.authentication.portal;
   }

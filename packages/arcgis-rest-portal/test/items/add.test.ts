@@ -12,15 +12,15 @@ import {
 import { ItemSuccessResponse } from "../mocks/items/item.js";
 
 import { attachmentFile, TOMORROW } from "../../../../scripts/test-helpers.js";
-import { encodeParam, UserSession } from "@esri/arcgis-rest-request";
+import { encodeParam, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { FormData } from "@esri/arcgis-rest-form-data";
 
 describe("search", () => {
   afterEach(fetchMock.restore);
 
   describe("Authenticated methods", () => {
-    // setup a UserSession to use in all these tests
-    const MOCK_USER_SESSION = new UserSession({
+    // setup a ArcGISIdentityManager to use in all these tests
+    const MOCK_USER_SESSION = new ArcGISIdentityManager({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
       token: "fake-token",

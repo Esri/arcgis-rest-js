@@ -79,8 +79,8 @@ export interface IPlatformSelfResponse {
  * an ArcGIS Enterprise installation. Custom applications can not use this.
  *
  * ```js
- * // convert the encrypted platform cookie into a UserSession
- * import { platformSelf, UserSession } from '@esri/arcgis-rest-auth';
+ * // convert the encrypted platform cookie into a ArcGISIdentityManager
+ * import { platformSelf, ArcGISIdentityManager } from '@esri/arcgis-rest-auth';
  *
  * const portal = 'https://www.arcgis.com/sharing/rest';
  * const clientId = 'YOURAPPCLIENTID';
@@ -91,7 +91,7 @@ export interface IPlatformSelfResponse {
  *  const currentTimestamp = new Date().getTime();
  *  const tokenExpiresTimestamp = currentTimestamp + (response.expires_in * 1000);
  *  // Construct the session and return it
- *  return new UserSession({
+ *  return new ArcGISIdentityManager({
  *    portal,
  *    clientId,
  *    username: response.username,

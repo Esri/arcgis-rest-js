@@ -1,7 +1,7 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { UserSession } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
 
@@ -11,7 +11,7 @@ import { getPortalUrl } from "../util/get-portal-url.js";
  * @param session
  * @returns User url to be used in API requests.
  */
-export function getUserUrl(session: UserSession): string {
+export function getUserUrl(session: ArcGISIdentityManager): string {
   return `${getPortalUrl(session)}/community/users/${encodeURIComponent(
     session.username
   )}`;

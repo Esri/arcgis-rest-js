@@ -40,7 +40,7 @@ export interface ICreateGroupNotificationOptions extends IUserGroupOptions {
  * import { createGroupNotification } from '@esri/arcgis-rest-portal';
  * // send an email to an entire group
  * createGroupNotification({
- *   authentication: UserSession,
+ *   authentication: ArcGISIdentityManager,
  *   subject: "hello",
  *   message: "world!",
  *   id: groupId

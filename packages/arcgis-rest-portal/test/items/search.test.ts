@@ -5,7 +5,7 @@ import fetchMock from "fetch-mock";
 import { searchItems } from "../../src/items/search.js";
 
 import { SearchResponse, BigSearchResponse } from "../mocks/items/search.js";
-import { UserSession } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 import { SearchQueryBuilder } from "../../src/util/SearchQueryBuilder.js";
 
@@ -236,8 +236,8 @@ describe("search", () => {
   });
 
   describe("Authenticated methods", () => {
-    // setup a UserSession to use in all these tests
-    const MOCK_USER_SESSION = new UserSession({
+    // setup a ArcGISIdentityManager to use in all these tests
+    const MOCK_USER_SESSION = new ArcGISIdentityManager({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
       token: "fake-token",

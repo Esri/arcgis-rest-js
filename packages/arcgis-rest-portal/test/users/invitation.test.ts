@@ -14,7 +14,7 @@ import {
   UserInvitationResponse
 } from "../mocks/users/invitation.js";
 
-import { UserSession, encodeParam } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
 
 const TOMORROW = (function () {
   const now = new Date();
@@ -25,7 +25,7 @@ const TOMORROW = (function () {
 describe("invitations", () => {
   afterEach(fetchMock.restore);
 
-  const session = new UserSession({
+  const session = new ArcGISIdentityManager({
     username: "c@sey",
     password: "123456",
     token: "fake-token",

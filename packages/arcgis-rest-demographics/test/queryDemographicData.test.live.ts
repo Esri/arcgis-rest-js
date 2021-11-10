@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { queryDemographicData } from "../src/queryDemographicData.js";
-import { ApiKey } from "@esri/arcgis-rest-request";
+import { ApiKeyManager } from "@esri/arcgis-rest-request";
 import "dotenv/config";
 
 const addEnv = (params: any) => {
@@ -10,7 +10,7 @@ const addEnv = (params: any) => {
     process.env.UNIT_TESTING_API_KEY &&
     process.env.UNIT_TESTING_API_KEY !== ""
   ) {
-    params.authentication = new ApiKey({
+    params.authentication = new ApiKeyManager({
       key: process.env.UNIT_TESTING_API_KEY
     });
   } else {

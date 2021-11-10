@@ -1,5 +1,5 @@
 import fetchMock from "fetch-mock";
-import { UserSession, encodeParam } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 import {
@@ -18,7 +18,7 @@ function createUsernames(start: number, end: number): string[] {
 }
 
 describe("create-org-notification", () => {
-  const MOCK_AUTH = new UserSession({
+  const MOCK_AUTH = new ArcGISIdentityManager({
     clientId: "clientId",
     redirectUri: "https://example-app.com/redirect-uri",
     token: "fake-token",

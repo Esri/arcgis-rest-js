@@ -25,6 +25,19 @@ import { fetchToken, IFetchTokenResponse } from "./fetch-token.js";
 import { canUseOnlineToken, isFederated } from "./federation-utils.js";
 import { IAppAccess, validateAppAccess } from "./validate-app-access.js";
 import { cleanUrl } from "./utils/clean-url.js";
+import { revokeToken } from "./revoke-token.js";
+
+export interface IFromTokenOptions {
+  token: string;
+  tokenExpires?: Date;
+  portal?: string;
+}
+
+export interface ISignInOptions {
+  username: string;
+  password: string;
+  portal?: string;
+}
 
 /**
  * Internal utility for resolving a Promise from outside its constructor.
@@ -72,7 +85,7 @@ function defer<T>(): IDeferred<T> {
 }
 
 /**
- * Options for static OAuth 2.0 helper methods on `UserSession`.
+ * Options for static OAuth 2.0 helper methods on `ArcGISIdentityManager`.
  */
 export interface IOAuth2Options {
   /**
@@ -146,13 +159,18 @@ export interface IOAuth2Options {
    */
   state?: string;
 
+  /**
+   * Sets the color theme of the oAuth 2.0 authorization screen. Will use the system preference or a light theme by default.
+   */
+  style?: "" | "light" | "dark";
+
   [key: string]: any;
 }
 
 /**
- * Options for the `UserSession` constructor.
+ * Options for the `ArcGISIdentityManager` constructor.
  */
-export interface IUserSessionOptions {
+export interface IArcGISIdentityManagerOptions {
   /**
    * Client ID of your application. Can be obtained by registering an application
    * on [ArcGIS for Developers](https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/signing-in-arcgis-online-users/#registering-your-application),
@@ -236,24 +254,24 @@ export interface IUserSessionOptions {
 
 /**
  * ```js
- * import { UserSession } from '@esri/arcgis-rest-auth';
- * UserSession.beginOAuth2({
+ * import { ArcGISIdentityManager } from '@esri/arcgis-rest-auth';
+ * ArcGISIdentityManager.beginOAuth2({
  *   // register an app of your own to create a unique clientId
  *   clientId: "abc123",
  *   redirectUri: 'https://yourapp.com/authenticate.html'
  * })
  *   .then(session)
  * // or
- * new UserSession({
+ * new ArcGISIdentityManager({
  *   username: "jsmith",
  *   password: "123456"
  * })
  * // or
- * UserSession.deserialize(cache)
+ * ArcGISIdentityManager.deserialize(cache)
  * ```
- * Used to authenticate both ArcGIS Online and ArcGIS Enterprise users. `UserSession` includes helper methods for [OAuth 2.0](/arcgis-rest-js/guides/browser-authentication/) in both browser and server applications.
+ * Used to authenticate both ArcGIS Online and ArcGIS Enterprise users. `ArcGISIdentityManager` includes helper methods for [OAuth 2.0](/arcgis-rest-js/guides/browser-authentication/) in both browser and server applications.
  */
-export class UserSession implements IAuthenticationManager {
+export class ArcGISIdentityManager implements IAuthenticationManager {
   /**
    * The current ArcGIS Online or ArcGIS Enterprise `token`.
    */
@@ -283,6 +301,19 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
+   * The currently authenticated user.
+   */
+  get username() {
+    if (this._username) {
+      return this._username;
+    }
+
+    if (this._user && this._user.username) {
+      return this._user.username;
+    }
+  }
+
+  /**
    * Deprecated, use `federatedServers` instead.
    *
    * @deprecated
@@ -293,9 +324,24 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
+   * Returns `true` if this session can be refreshed and `false` if it cannot.
+   */
+  get canRefresh() {
+    if (this.username && this.password) {
+      return true;
+    }
+
+    if (this.clientId && this.refreshToken) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * Begins a new browser-based OAuth 2.0 sign in. If `options.popup` is `true` the
    * authentication window will open in a new tab/window and the function will return
-   * Promise&lt;UserSession&gt;. Otherwise, the user will be redirected to the
+   * Promise&lt;ArcGISIdentityManager&gt;. Otherwise, the user will be redirected to the
    * authorization page in their current tab/window and the function will return `undefined`.
    *
    * @browserOnly
@@ -304,7 +350,7 @@ export class UserSession implements IAuthenticationManager {
   public static beginOAuth2(
     options: IOAuth2Options,
     win: any = window
-  ): Promise<UserSession> | undefined {
+  ): Promise<ArcGISIdentityManager> | undefined {
     if (options.duration) {
       console.log(
         "DEPRECATED: 'duration' is deprecated - use 'expiration' instead"
@@ -321,7 +367,8 @@ export class UserSession implements IAuthenticationManager {
       popupWindowFeatures,
       state,
       locale,
-      params
+      params,
+      style
     }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
@@ -331,23 +378,26 @@ export class UserSession implements IAuthenticationManager {
         popupWindowFeatures:
           "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes",
         state: options.clientId,
-        locale: ""
+        locale: "",
+        style: ""
       },
       ...options
     };
+
     let url: string;
+
     if (provider === "arcgis") {
       url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${
         options.duration || expiration
       }&redirect_uri=${encodeURIComponent(
         redirectUri
-      )}&state=${state}&locale=${locale}`;
+      )}&state=${state}&locale=${locale}&style=${style}`;
     } else {
       url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${
         options.duration || expiration
       }&redirect_uri=${encodeURIComponent(
         redirectUri
-      )}&state=${state}&locale=${locale}`;
+      )}&state=${state}&locale=${locale}&style=${style}`;
     }
 
     // append additional params
@@ -360,7 +410,7 @@ export class UserSession implements IAuthenticationManager {
       return undefined;
     }
 
-    const session = defer<UserSession>();
+    const session = defer<ArcGISIdentityManager>();
 
     win[`__ESRI_REST_AUTH_HANDLER_${clientId}`] = function (
       errorString: any,
@@ -375,7 +425,7 @@ export class UserSession implements IAuthenticationManager {
       if (oauthInfoString) {
         const oauthInfo = JSON.parse(oauthInfoString);
         session.resolve(
-          new UserSession({
+          new ArcGISIdentityManager({
             clientId,
             portal,
             ssl: oauthInfo.ssl,
@@ -394,7 +444,7 @@ export class UserSession implements IAuthenticationManager {
 
   /**
    * Completes a browser-based OAuth 2.0 sign in. If `options.popup` is `true` the user
-   * will be returned to the previous window. Otherwise a new `UserSession`
+   * will be returned to the previous window. Otherwise a new `ArcGISIdentityManager`
    * will be returned. You must pass the same values for `options.popup` and
    * `options.portal` as you used in `beginOAuth2()`.
    *
@@ -447,7 +497,7 @@ export class UserSession implements IAuthenticationManager {
         throw new ArcGISAuthError(error.errorMessage, error.error);
       }
 
-      return new UserSession({
+      return new ArcGISIdentityManager({
         clientId,
         portal,
         ssl: oauthInfo.ssl,
@@ -518,7 +568,7 @@ export class UserSession implements IAuthenticationManager {
         // ensure we only listen to events from the parent
         if (event.source === win.parent && event.data) {
           try {
-            return resolve(UserSession.parentMessageHandler(event));
+            return resolve(ArcGISIdentityManager.parentMessageHandler(event));
           } catch (err) {
             return reject(err);
           }
@@ -574,7 +624,7 @@ export class UserSession implements IAuthenticationManager {
   public static exchangeAuthorizationCode(
     options: IOAuth2Options,
     authorizationCode: string
-  ): Promise<UserSession> {
+  ): Promise<ArcGISIdentityManager> {
     const { portal, clientId, redirectUri, refreshTokenTTL }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
@@ -591,7 +641,7 @@ export class UserSession implements IAuthenticationManager {
         code: authorizationCode
       }
     }).then((response) => {
-      return new UserSession({
+      return new ArcGISIdentityManager({
         clientId,
         portal,
         ssl: response.ssl,
@@ -610,7 +660,7 @@ export class UserSession implements IAuthenticationManager {
 
   public static deserialize(str: string) {
     const options = JSON.parse(str);
-    return new UserSession({
+    return new ArcGISIdentityManager({
       clientId: options.clientId,
       refreshToken: options.refreshToken,
       refreshTokenExpires: new Date(options.refreshTokenExpires),
@@ -622,7 +672,8 @@ export class UserSession implements IAuthenticationManager {
       ssl: options.ssl,
       tokenDuration: options.tokenDuration,
       redirectUri: options.redirectUri,
-      refreshTokenTTL: options.refreshTokenTTL
+      refreshTokenTTL: options.refreshTokenTTL,
+      server: options.server
     });
   }
 
@@ -630,13 +681,13 @@ export class UserSession implements IAuthenticationManager {
    * Translates authentication from the format used in the [ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/).
    *
    * ```js
-   * UserSession.fromCredential({
+   * ArcGISIdentityManager.fromCredential({
    *   userId: "jsmith",
    *   token: "secret"
    * });
    * ```
    *
-   * @returns UserSession
+   * @returns ArcGISIdentityManager
    */
   public static fromCredential(credential: ICredential) {
     // At ArcGIS Online 9.1, credentials no longer include the ssl and expires properties
@@ -644,7 +695,7 @@ export class UserSession implements IAuthenticationManager {
     const ssl = typeof credential.ssl !== "undefined" ? credential.ssl : true;
     const expires = credential.expires || Date.now() + 7200000; /* 2 hours */
 
-    return new UserSession({
+    return new ArcGISIdentityManager({
       portal: credential.server.includes("sharing/rest")
         ? credential.server
         : credential.server + `/sharing/rest`,
@@ -659,9 +710,9 @@ export class UserSession implements IAuthenticationManager {
    * Handle the response from the parent
    * @param event DOM Event
    */
-  private static parentMessageHandler(event: any): UserSession {
+  private static parentMessageHandler(event: any): ArcGISIdentityManager {
     if (event.data.type === "arcgis:auth:credential") {
-      return UserSession.fromCredential(event.data.credential);
+      return ArcGISIdentityManager.fromCredential(event.data.credential);
     }
     if (event.data.type === "arcgis:auth:error") {
       const err = new Error(event.data.error.message);
@@ -673,14 +724,46 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
+   * Revokes all active tokens for a provided {@linkcode ArcGISIdentityManager}. The can be considered the equivalent to signing the user out of your application.
+   */
+  public static destroy(session: ArcGISIdentityManager) {
+    return revokeToken({
+      clientId: session.clientId,
+      portal: session.portal,
+      token: session.refreshToken || session.token
+    });
+  }
+
+  /**
+   * Create a  {@linkcode ArcGISIdentityManager} from an existing token. Useful for when you have a users token from a different authentication system and want to get a  {@linkcode ArcGISIdentityManager}.
+   */
+  public static fromToken(
+    options: IFromTokenOptions
+  ): Promise<ArcGISIdentityManager> {
+    const session = new ArcGISIdentityManager(options);
+
+    return session.getUser().then(() => {
+      return session;
+    });
+  }
+
+  /**
+   * Initialize a {@linkcode ArcGISIdentityManager} with a users `username` and `password`. **This method is intended ONLY for applications without a user interface such as CLI tools.**.
+   *
+   * If possible you should use {@linkcode ArcGISIdentityManager.beginOAuth2} to authenticate users in a browser or {@linkcode ArcGISIdentityManager.authorize} for authenticating users with a web server.
+   */
+  public static signIn(options: ISignInOptions) {
+    const session = new ArcGISIdentityManager(options);
+
+    return session.getUser().then(() => {
+      return session;
+    });
+  }
+
+  /**
    * Client ID being used for authentication if provided in the `constructor`.
    */
   public readonly clientId: string;
-
-  /**
-   * The currently authenticated user if provided in the `constructor`.
-   */
-  public readonly username: string;
 
   /**
    * The currently authenticated user's password if provided in the `constructor`.
@@ -754,6 +837,8 @@ export class UserSession implements IAuthenticationManager {
     [key: string]: Promise<string>;
   };
 
+  private _username: string;
+
   /**
    * Internal list of tokens to 3rd party servers (federated servers) that have
    *  been created via `generateToken`. The object key is the root URL of the server.
@@ -773,11 +858,11 @@ export class UserSession implements IAuthenticationManager {
 
   private _hostHandler: any;
 
-  constructor(options: IUserSessionOptions) {
+  constructor(options: IArcGISIdentityManagerOptions) {
     this.clientId = options.clientId;
     this._refreshToken = options.refreshToken;
     this._refreshTokenExpires = options.refreshTokenExpires;
-    this.username = options.username;
+    this._username = options.username;
     this.password = options.password;
     this._token = options.token;
     this._tokenExpires = options.tokenExpires;
@@ -915,8 +1000,6 @@ export class UserSession implements IAuthenticationManager {
   public getUsername() {
     if (this.username) {
       return Promise.resolve(this.username);
-    } else if (this._user) {
-      return Promise.resolve(this._user.username);
     } else {
       return this.getUser().then((user) => {
         return user.username;
@@ -953,7 +1036,7 @@ export class UserSession implements IAuthenticationManager {
     });
   }
 
-  public toJSON(): IUserSessionOptions {
+  public toJSON(): IArcGISIdentityManagerOptions {
     return {
       clientId: this.clientId,
       refreshToken: this.refreshToken,
@@ -966,7 +1049,8 @@ export class UserSession implements IAuthenticationManager {
       ssl: this.ssl,
       tokenDuration: this.tokenDuration,
       redirectUri: this.redirectUri,
-      refreshTokenTTL: this.refreshTokenTTL
+      refreshTokenTTL: this.refreshTokenTTL,
+      server: this.server
     };
   }
 
@@ -975,7 +1059,7 @@ export class UserSession implements IAuthenticationManager {
   }
   /**
    * For a "Host" app that embeds other platform apps via iframes, after authenticating the user
-   * and creating a UserSession, the app can then enable "post message" style authentication by calling
+   * and creating a ArcGISIdentityManager, the app can then enable "post message" style authentication by calling
    * this method.
    *
    * Internally this adds an event listener on window for the `message` event
@@ -993,7 +1077,7 @@ export class UserSession implements IAuthenticationManager {
 
   /**
    * For a "Host" app that has embedded other platform apps via iframes, when the host needs
-   * to transition routes, it should call `UserSession.disablePostMessageAuth()` to remove
+   * to transition routes, it should call `ArcGISIdentityManager.disablePostMessageAuth()` to remove
    * the event listener and prevent memory leaks
    */
   public disablePostMessageAuth(win?: any) {
@@ -1009,7 +1093,7 @@ export class UserSession implements IAuthenticationManager {
    */
   public refreshSession(
     requestOptions?: ITokenRequestOptions
-  ): Promise<UserSession> {
+  ): Promise<ArcGISIdentityManager> {
     // make sure subsequent calls to getUser() don't returned cached metadata
     this._user = null;
 
@@ -1062,6 +1146,13 @@ export class UserSession implements IAuthenticationManager {
   }
 
   /**
+   * Convenience method for {@linkcode ArcGISIdentityManager.destroy} for this instance of `ArcGISIdentityManager`
+   */
+  public signOut() {
+    return ArcGISIdentityManager.destroy(this);
+  }
+
+  /**
    * Return a function that closes over the validOrigins array and
    * can be used as an event handler for the `message` event
    *
@@ -1085,19 +1176,32 @@ export class UserSession implements IAuthenticationManager {
 
       // Ensure the message type is something we want to handle
       const isValidType = event.data.type === "arcgis:auth:requestCredential";
+      // Ensure we don't pass an expired session forward
+      const isTokenValid = this.tokenExpires.getTime() > Date.now();
 
       if (isValidOrigin && isValidType) {
-        const credential = this.toCredential();
-        // the following line allows us to conform to our spec without changing other depended-on functionality
-        // https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-auth/post-message-auth-spec.md#arcgisauthcredential
-        credential.server = credential.server.replace("/sharing/rest", "");
-        event.source.postMessage(
-          {
+        let msg = {};
+        if (isTokenValid) {
+          const credential = this.toCredential();
+          // the following line allows us to conform to our spec without changing other depended-on functionality
+          // https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-request/post-message-auth-spec.md#arcgisauthcredential
+          credential.server = credential.server.replace("/sharing/rest", "");
+          msg = {
             type: "arcgis:auth:credential",
             credential
-          },
-          event.origin
-        );
+          };
+        } else {
+          msg = {
+            type: "arcgis:auth:error",
+            error: {
+              name: "tokenExpiredError",
+              message:
+                "Session token was expired, and not returned to the child application"
+            }
+          };
+        }
+
+        event.source.postMessage(msg, event.origin);
       }
     };
   }
@@ -1359,4 +1463,15 @@ export class UserSession implements IAuthenticationManager {
       return this;
     });
   }
+}
+
+/**
+ * @deprecated - Use {@linkcode ArcGISIdentityManager}.
+ */ /* istanbul ignore next */
+export function UserSession(options: IArcGISIdentityManagerOptions) {
+  console.log(
+    "DEPRECATED:, 'UserSession' is deprecated. Use 'ArcGISIdentityManagerOptions' instead."
+  );
+
+  return new ArcGISIdentityManager(options);
 }

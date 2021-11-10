@@ -8,7 +8,7 @@
 [npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-geocoding
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
-[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-geocoding/dist/umd/geocoding.umd.min.js?compression=gzip
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-geocoding/dist/bundled/geocoding.umd.min.js?compression=gzip
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
@@ -24,28 +24,27 @@ npm install @esri/arcgis-rest-geocoding
 ```
 
 ```js
-import { geocode } from '@esri/arcgis-rest-geocoding';
+import { geocode } from "@esri/arcgis-rest-geocoding";
 
-geocode("LAX")
-  .then((response) => {
-    response.candidates[0].location;
-    // => { x: -118.409, y: 33.943  }
-  });
+geocode("LAX").then((response) => {
+  response.candidates[0].location;
+  // => { x: -118.409, y: 33.943  }
+});
 ```
 
 ### [API Reference](https://esri.github.io/arcgis-rest-js/api/geocoding/)
 
-* [`geocode("1 World Way Los Angeles 90045")`](https://esri.github.io/arcgis-rest-js/api/geocoding/geocode/)
+- [`geocode("1 World Way Los Angeles 90045")`](https://esri.github.io/arcgis-rest-js/api/geocoding/geocode/)
 
-* [`suggest("Starb")`](https://esri.github.io/arcgis-rest-js/api/geocoding/suggest/)
+- [`suggest("Starb")`](https://esri.github.io/arcgis-rest-js/api/geocoding/suggest/)
 
-* [`reverseGeocode([-118.409,33.943 ])`](https://esri.github.io/arcgis-rest-js/api/geocoding/reverseGeocode/)
+- [`reverseGeocode([-118.409,33.943 ])`](https://esri.github.io/arcgis-rest-js/api/geocoding/reverseGeocode/)
 
-* [`bulkGeocode()`](https://esri.github.io/arcgis-rest-js/api/geocoding/bulkGeocode/)
+- [`bulkGeocode()`](https://esri.github.io/arcgis-rest-js/api/geocoding/bulkGeocode/)
 
 ### Issues
 
-If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/arcgis-rest-js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [**love**](https://github.com/Esri/arcgis-rest-js/issues/new) to hear from you.
+If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/arcgis-rest-js/issues) first. Have you found a new bug? Want to request a new feature? We'd [**love**](https://github.com/Esri/arcgis-rest-js/issues/new) to hear from you.
 
 If you're looking for help you can also post issues on [GIS Stackexchange](http://gis.stackexchange.com/questions/ask?tags=esri-oss).
 
@@ -61,8 +60,8 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### In the wild
 
-| What | Who  |
-| -- | -- |
+| What                                                                       | Who                                      |
+| -------------------------------------------------------------------------- | ---------------------------------------- |
 | [React](https://twitter.com/oppoudel/status/1022209378378805249) component | [@oppoudel](https://github.com/oppoudel) |
 
 ### [Changelog](https://github.com/Esri/arcgis-rest-js/blob/master/CHANGELOG.md)

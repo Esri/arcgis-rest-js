@@ -1,7 +1,11 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IUserRequestOptions, IGroup } from "@esri/arcgis-rest-request";
+import {
+  request,
+  IUserRequestOptions,
+  IGroup
+} from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
 
@@ -34,7 +38,7 @@ export interface IInvitationResult {
 /**
  * ```js
  * import { getUserInvitations } from '@esri/arcgis-rest-portal';
- * // username is inferred from UserSession
+ * // username is inferred from ArcGISIdentityManager
  * getUserInvitations({ authentication })
  *   .then(response) // response.userInvitations.length => 3
  * ```
@@ -64,7 +68,7 @@ export interface IGetUserInvitationOptions extends IUserRequestOptions {
 /**
  * ```js
  * import { getUserInvitation } from '@esri/arcgis-rest-portal';
- * // username is inferred from UserSession
+ * // username is inferred from ArcGISIdentityManager
  * getUserInvitation({
  *   invitationId: "3ef",
  *   authentication
@@ -93,7 +97,7 @@ export function getUserInvitation(
 /**
  * ```js
  * import { acceptInvitation } from '@esri/arcgis-rest-portal';
- * // username is inferred from UserSession
+ * // username is inferred from ArcGISIdentityManager
  * acceptInvitation({
  *   invitationId: "3ef",
  *   authentication
@@ -124,7 +128,7 @@ export function acceptInvitation(
 /**
  * ```js
  * import { declineInvitation } from '@esri/arcgis-rest-portal';
- * // username is inferred from UserSession
+ * // username is inferred from ArcGISIdentityManager
  * declineInvitation({
  *   invitationId: "3ef",
  *   authentication

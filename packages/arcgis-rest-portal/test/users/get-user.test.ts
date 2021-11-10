@@ -10,7 +10,7 @@ import {
   GroupAdminUserResponse
 } from "../mocks/users/user.js";
 
-import { UserSession } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 const TOMORROW = (function () {
   const now = new Date();
@@ -22,7 +22,7 @@ describe("users", () => {
   afterEach(fetchMock.restore);
 
   describe("getUser", () => {
-    const session = new UserSession({
+    const session = new ArcGISIdentityManager({
       username: "c@sey",
       password: "123456",
       token: "fake-token",

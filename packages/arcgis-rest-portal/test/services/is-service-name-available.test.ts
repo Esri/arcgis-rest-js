@@ -3,11 +3,11 @@
 
 import fetchMock from "fetch-mock";
 import { isServiceNameAvailable } from "../../src/services/is-service-name-available.js";
-import { UserSession } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("is-service-name-available", () => {
-  const MOCK_USER_SESSION = new UserSession({
+  const MOCK_USER_SESSION = new ArcGISIdentityManager({
     clientId: "clientId",
     redirectUri: "https://example-app.com/redirect-uri",
     token: "fake-token",
