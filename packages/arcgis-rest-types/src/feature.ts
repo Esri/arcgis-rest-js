@@ -1,7 +1,17 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IGeometry, IHasZM, ISpatialReference, GeometryType } from "./geometry";
+import {
+  IPoint,
+  IPolyline,
+  IPolylineWithCurves,
+  IPolygon,
+  IPolygonWithCurves,
+  IMultipoint,
+  IHasZM,
+  ISpatialReference,
+  GeometryType,
+} from "./geometry";
 import { ISymbol } from "./symbol";
 import { IField } from "./webmap";
 
@@ -16,7 +26,13 @@ import { IField } from "./webmap";
  * ```
  */
 export interface IFeature {
-  geometry?: IGeometry;
+  geometry?:
+    | IPoint
+    | IPolyline
+    | IPolylineWithCurves
+    | IPolygon
+    | IPolygonWithCurves
+    | IMultipoint;
   attributes: { [key: string]: any };
   symbol?: ISymbol;
 }
@@ -37,6 +53,6 @@ export interface IFeatureSet extends IHasZM {
   fields?: IField[];
   features: IFeature[];
   fieldAliases?: {
-    [key: string]: string
-  }
+    [key: string]: string;
+  };
 }

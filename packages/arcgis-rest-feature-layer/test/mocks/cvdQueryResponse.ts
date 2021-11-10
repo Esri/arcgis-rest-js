@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IQueryFeaturesResponse } from "../../src/query";
-import { IFeature, IGeometry } from "@esri/arcgis-rest-types";
+import { IFeature } from "@esri/arcgis-rest-types";
 
 export const cvdQueryResponse: IQueryFeaturesResponse = {
   objectIdFieldName: "objectid",
@@ -111,7 +111,7 @@ export const cvdQueryResponse: IQueryFeaturesResponse = {
       geometry: {
         x: -9603128.0234949309,
         y: 5114408.4976249589
-      } as IGeometry
+      }
     },
     {
       attributes: {
@@ -132,7 +132,7 @@ export const cvdQueryResponse: IQueryFeaturesResponse = {
       geometry: {
         x: -9603103.0477722641,
         y: 5114303.7610201165
-      } as IGeometry
+      }
     },
     {
       attributes: {
@@ -153,7 +153,7 @@ export const cvdQueryResponse: IQueryFeaturesResponse = {
       geometry: {
         x: -9814396.0827533137,
         y: 5124911.0747664627
-      } as IGeometry
+      }
     }
   ] as IFeature[]
 };
@@ -178,7 +178,7 @@ export const cvdFeaturesFormatted: IFeature[] = [
     geometry: {
       x: -9603128.0234949309,
       y: 5114408.4976249589
-    } as IGeometry
+    }
   },
   {
     attributes: {
@@ -199,7 +199,7 @@ export const cvdFeaturesFormatted: IFeature[] = [
     geometry: {
       x: -9603103.0477722641,
       y: 5114303.7610201165
-    } as IGeometry
+    }
   },
   {
     attributes: {
@@ -220,6 +220,6 @@ export const cvdFeaturesFormatted: IFeature[] = [
     geometry: {
       x: -9814396.0827533137,
       y: 5124911.0747664627
-    } as IGeometry
+    }
   }
 ];
