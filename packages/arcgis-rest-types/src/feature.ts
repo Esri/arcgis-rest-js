@@ -7,6 +7,7 @@ import {
   IPolylineWithCurves,
   IPolygon,
   IPolygonWithCurves,
+  IMultipoint,
   IHasZM,
   ISpatialReference,
   GeometryType,
@@ -30,7 +31,8 @@ export interface IFeature {
     | IPolyline
     | IPolylineWithCurves
     | IPolygon
-    | IPolygonWithCurves;
+    | IPolygonWithCurves
+    | IMultipoint;
   attributes: { [key: string]: any };
   symbol?: ISymbol;
 }
