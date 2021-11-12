@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IRequestOptions,  } from "@esri/arcgis-rest-request";
+import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItemUpdate } from "../helpers.js";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
@@ -158,7 +158,7 @@ export function updateItemResource(
  * moveItem({
  *   itemId: "3ef",
  *   folderId: "7c5",
- *   authentication: userSession
+ *   authentication: ArcGISIdentityManager
  * })
  * ```
  * Move an item to a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/move-item.htm) for more information.

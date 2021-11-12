@@ -168,5 +168,9 @@
     "./packages/arcgis-rest-fetch",
     "./packages/arcgis-rest-form-data",
     "./demos/*"
-  ]
+  ],
+  "volta": {
+    "node": "16.13.0",
+    "npm": "8.1.2"
+  }
 }

@@ -5,14 +5,14 @@ import {
   IUserContentRequestOptions
 } from "../../src/items/content.js";
 
-import { UserSession } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("getContent", () => {
   afterEach(fetchMock.restore);
 
   describe("Authenticated methods", () => {
-    const authentication = new UserSession({
+    const authentication = new ArcGISIdentityManager({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
       token: "fake-token",

@@ -1,7 +1,7 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, UserSession } from "@esri/arcgis-rest-request";
+import { request, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IServiceInfo } from "./helpers.js";
 
 /**
@@ -12,12 +12,12 @@ import { IServiceInfo } from "./helpers.js";
  *
  * @export
  * @param {string} serviceUrl
- * @param {UserSession} session
+ * @param {ArcGISIdentityManager} session
  * @return {*}  {Promise<IServiceInfo>}
  */
 export function getServiceAdminInfo(
   serviceUrl: string,
-  session: UserSession
+  session: ArcGISIdentityManager
 ): Promise<IServiceInfo> {
   const serviceAdminUrl = serviceUrl.replace(
     "/rest/services",

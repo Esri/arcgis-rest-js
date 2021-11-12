@@ -33,7 +33,7 @@ export interface ICreateItemResponse extends IUpdateItemResponse {
  * //
  * createFolder({
  *   title: 'Map Collection',
- *   authentication: userSession
+ *   authentication: ArcGISIdentityManager
  * })
  *   .then(response)
  * ```

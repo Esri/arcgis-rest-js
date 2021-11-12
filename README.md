@@ -5,7 +5,7 @@
 
 [npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-request.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-request
-[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-request/dist/umd/request.umd.min.js?compression=gzip
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-request/dist/bundled/request.umd.min.js?compression=gzip
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 [license-img]: https://img.shields.io/badge/license-Apache%202.0-orange.svg?style=flat-square

@@ -2,12 +2,12 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { getViewSources } from "../src/getViewSources.js";
-import { UserSession } from "@esri/arcgis-rest-request";
+import { getViewSources } from "../src/get-view-sources.js";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
 
-describe("getViewSources: ", () => {
-  const MOCK_USER_SESSION = new UserSession({
+describe("get-view-sources: ", () => {
+  const MOCK_USER_SESSION = new ArcGISIdentityManager({
     clientId: "clientId",
     redirectUri: "https://example-app.com/redirect-uri",
     token: "fake-token",
@@ -20,7 +20,7 @@ describe("getViewSources: ", () => {
     portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
   afterEach(fetchMock.restore);
-  
+
   it("makes request to the admin url", () => {
     fetchMock.once("*", { currentVersion: 1234 }, { method: "POST" });
 

@@ -5,7 +5,7 @@ const _ = require("lodash");
 
 const IS_DEV = process.env.ENV !== "prod";
 
-module.exports = function(acetate) {
+module.exports = function (acetate) {
   /**
    * Load SRI hashes.
    */
@@ -58,7 +58,7 @@ module.exports = function(acetate) {
     /**
      * Now map over each page extracting values from it into a new array.
      */
-    page => {
+    (page) => {
       return {
         title: page.navTitle || page.title,
         order: page.order,
@@ -76,7 +76,7 @@ module.exports = function(acetate) {
       }
 
       // does this items `section` already have a `section` in `sections`?
-      const idx = _.findIndex(sections, section => section.id === item.group);
+      const idx = _.findIndex(sections, (section) => section.id === item.group);
 
       if (idx >= 0) {
         // if it does push this item into it.
@@ -96,7 +96,7 @@ module.exports = function(acetate) {
        */
       return _(sections)
         .sortBy("id")
-        .map(section => {
+        .map((section) => {
           section.items = _.sortBy(section.items, "order");
           return section;
         })
@@ -130,7 +130,7 @@ module.exports = function(acetate) {
       (e, contents) => {
         const typedoc = JSON.parse(contents.toString());
 
-        const declarationPages = typedoc.declarations.map(declaration => {
+        const declarationPages = typedoc.declarations.map((declaration) => {
           return createPage.fromTemplate(
             declaration.src,
             path.join(acetate.sourceDir, "api", "_declaration.html"),
@@ -140,7 +140,7 @@ module.exports = function(acetate) {
           );
         });
 
-        const packagePages = typedoc.packages.map(package => {
+        const packagePages = typedoc.packages.map((package) => {
           return createPage.fromTemplate(
             package.src,
             path.join(acetate.sourceDir, "api", "_package.html"),
@@ -160,7 +160,7 @@ module.exports = function(acetate) {
         );
 
         // once all the pages have been generated provide them to Acetate.
-        Promise.all(declarationPages.concat(packagePages)).then(pages => {
+        Promise.all(declarationPages.concat(packagePages)).then((pages) => {
           callback(null, pages.concat(searchIndex));
         });
       }
@@ -176,26 +176,26 @@ module.exports = function(acetate) {
    * Register some tools for working with the typedoc output.
    */
   acetate.global("API_TOOLS", {
-    findById: function(typedoc, id) {
+    findById: function (typedoc, id) {
       return typedoc.index[id];
     },
-    findByName: function(typedoc, name) {
-      return typedoc.declarations.find(c => c.name === name);
+    findByName: function (typedoc, name) {
+      return typedoc.declarations.find((c) => c.name === name);
     },
-    findChildById: function(id, children) {
-      return children.find(c => c.id === id);
+    findChildById: function (id, children) {
+      return children.find((c) => c.id === id);
     }
   });
 
   acetate.filter("findPackage", (typedoc, name) => {
-    return typedoc.packages.find(p => p.pkg.name === name).pkg;
+    return typedoc.packages.find((p) => p.pkg.name === name).pkg;
   });
 
   /**
    * Listen for changes, if we see a change in typedoc.json we know we need to
    * regenerate all the dymanically generated pages so reload this config file.
    */
-  acetate.on("watcher:change", page => {
+  acetate.on("watcher:change", (page) => {
     if (page.src === "typedoc.json") {
       acetate.reloadConfig();
     }
@@ -204,23 +204,23 @@ module.exports = function(acetate) {
   /**
    * Template helper for safely inspecting objects with circular references.
    */
-  acetate.filter("inspect", function(obj) {
+  acetate.filter("inspect", function (obj) {
     return inspect(obj, { depth: 3 });
   });
 
   // without the '.js' on the end, for the benefit of the AMD sample
-  acetate.helper("cdnUrl", function(context, package) {
+  acetate.helper("cdnUrl", function (context, package) {
     return `https://unpkg.com/${
       package.name
-    }@${package.version}/dist/umd/${package.name.replace("@esri/arcgis-rest-", "")}.umd`;
+    }@${package.version}/dist/bundled/${package.name.replace("@esri/arcgis-rest-", "")}.umd`;
   });
 
   // <code> friendly script tag string
-  acetate.helper("scriptTag", function(context, package) {
+  acetate.helper("scriptTag", function (context, package) {
     return acetate.nunjucks.renderString(
       `{% highlight "html" %}<script src="https://unpkg.com/${package.name}@${
         package.version
-      }/dist/umd/${package.name.replace(
+      }/dist/bundled/${package.name.replace(
         "@esri/arcgis-rest-",
         ""
       )}.umd.min.js"></script>{% endhighlight %}`
@@ -228,14 +228,14 @@ module.exports = function(acetate) {
   });
 
   // CDN with SRI only if hash exists
-  acetate.helper("scriptTagSRI", function(context, package) {
+  acetate.helper("scriptTagSRI", function (context, package) {
     const hash = srihashes.packages[package.name];
     if (hash) {
       return acetate.nunjucks.renderString(`
         {%highlight "html" %}
         <script src="https://unpkg.com/${package.name}@${
         package.version
-      }/dist/umd/${package.name.replace(
+      }/dist/bundled/${package.name.replace(
         "@esri/arcgis-rest-",
         ""
       )}.umd.min.js" integrity="${hash}" crossorigin="anonymous"></script>{% endhighlight %}`);
@@ -244,19 +244,19 @@ module.exports = function(acetate) {
     }
   });
 
-  acetate.helper("npmInstallCmd", function(context, package) {
+  acetate.helper("npmInstallCmd", function (context, package) {
     const peers = package.peerDependencies
       ? Object.keys(package.peerDependencies).map(
-          pkg => `${pkg}@${package.peerDependencies[pkg]} `
+          (pkg) => `${pkg}@${package.peerDependencies[pkg]} `
         )
       : [];
     return `npm install ${package.name} ${peers.join(" ")}`;
   });
 
-  acetate.filter("stripThisFromParams", function(params) {
+  acetate.filter("stripThisFromParams", function (params) {
     if (!params || !params.length) {
       return [];
     }
-    return params.filter(p => p.name !== "this");
+    return params.filter((p) => p.name !== "this");
   });
 };

@@ -7,7 +7,7 @@ import { joinGroup, leaveGroup } from "../../src/groups/join.js";
 
 import { GroupEditResponse } from "../mocks/groups/responses.js";
 
-import { encodeParam, UserSession } from "@esri/arcgis-rest-request";
+import { encodeParam, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("groups", () => {
@@ -15,7 +15,7 @@ describe("groups", () => {
 
   describe("authenticted methods", () => {
     const MOCK_REQOPTS = {
-      authentication: new UserSession({
+      authentication: new ArcGISIdentityManager({
         clientId: "clientId",
         redirectUri: "https://example-app.com/redirect-uri",
         token: "fake-token",

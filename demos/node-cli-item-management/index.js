@@ -44,16 +44,10 @@ function authenticate() {
   // prompts returns a `Promise` that resolves with the users input
   return prompts(authPromtpts)
     .then(({ username, password }) => {
-      session = new UserSession({
+      return UserSession.signIn({
         username,
         password
       });
-
-      // this will generate a token and use it to get into about a user
-      return session.getUser();
-    })
-    .then((self) => {
-      return session;
     })
     .catch((error) => {
       // in case of an `ArcGISRequestError` assume the `username` and `password`

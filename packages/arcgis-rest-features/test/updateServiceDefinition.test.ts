@@ -3,7 +3,7 @@
 
 import fetchMock from "fetch-mock";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
-import { UserSession, encodeParam } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
 import { updateServiceDefinition } from "../src/updateServiceDefinition.js";
 import { UpdateServiceDefinitionSuccess } from "./mocks/service.js";
 
@@ -11,8 +11,8 @@ describe("update service definition", () => {
   afterEach(fetchMock.restore);
 
   describe("Authenticated methods", () => {
-    // setup a UserSession to use in all these tests
-    const MOCK_USER_SESSION = new UserSession({
+    // setup a ArcGISIdentityManager to use in all these tests
+    const MOCK_USER_SESSION = new ArcGISIdentityManager({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
       token: "fake-token",

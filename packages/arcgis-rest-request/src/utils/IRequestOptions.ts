@@ -19,9 +19,9 @@ export interface IRequestOptions {
    */
   rawResponse?: boolean;
   /**
-   * The instance of `IAuthenticationManager` to use to authenticate this request.
+   * The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged.
    */
-  authentication?: IAuthenticationManager;
+  authentication?: IAuthenticationManager | string;
   /**
    * Prevents the token from being passed in a URL Query param that is saved in browser history.
    * Instead, the token will be passed in POST request body or through X-Esri-Authorization header.
@@ -51,4 +51,9 @@ export interface IRequestOptions {
   headers?: {
     [key: string]: any;
   };
+
+  /**
+   * Suppress any ArcGIS REST JS related warnings for this request.
+   */
+  suppressWarnings?: boolean;
 }

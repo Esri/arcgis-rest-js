@@ -8,7 +8,7 @@
 [npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-demographics
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
-[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-demographics/dist/umd/demographics.umd.min.js?compression=gzip
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-demographics/dist/bundled/demographics.umd.min.js?compression=gzip
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
@@ -24,23 +24,22 @@ npm install @esri/arcgis-rest-demographics
 ```
 
 ```js
-import { getAvailableDataCollections } from '@esri/arcgis-rest-demographics';
+import { getAvailableDataCollections } from "@esri/arcgis-rest-demographics";
 
-getAvailableDataCollections()
-  .then((response) => {
-    response.DataCollections;
-    // => [{ dataCollectionId: "KeyGlobalFacts", metadata: { ... }, data: [ ... ] }, ... ]
-  });
+getAvailableDataCollections().then((response) => {
+  response.DataCollections;
+  // => [{ dataCollectionId: "KeyGlobalFacts", metadata: { ... }, data: [ ... ] }, ... ]
+});
 ```
 
 ### [API Reference](https://esri.github.io/arcgis-rest-js/api/demographics/)
 
-* [`getAvailableDataCollections({countryCode: 'us'})`](https://esri.github.io/arcgis-rest-js/api/demographics/getAvailableDataCollections/)
-* [`queryDemographicData({studyAreas: [{"geometry":{"x":-117.1956,"y":34.0572}}], authentication})`](https://esri.github.io/arcgis-rest-js/api/demographics/queryDemographicData/)
+- [`getAvailableDataCollections({countryCode: 'us'})`](https://esri.github.io/arcgis-rest-js/api/demographics/getAvailableDataCollections/)
+- [`queryDemographicData({studyAreas: [{"geometry":{"x":-117.1956,"y":34.0572}}], authentication})`](https://esri.github.io/arcgis-rest-js/api/demographics/queryDemographicData/)
 
 ### Issues
 
-If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/arcgis-rest-js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [**love**](https://github.com/Esri/arcgis-rest-js/issues/new) to hear from you.
+If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/arcgis-rest-js/issues) first. Have you found a new bug? Want to request a new feature? We'd [**love**](https://github.com/Esri/arcgis-rest-js/issues/new) to hear from you.
 
 If you're looking for help you can also post issues on [GIS Stackexchange](http://gis.stackexchange.com/questions/ask?tags=esri-oss).
 

@@ -1,7 +1,7 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { UserSession } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { isServiceNameAvailable } from "./is-service-name-available.js";
 
 /**
@@ -10,14 +10,14 @@ import { isServiceNameAvailable } from "./is-service-name-available.js";
  *
  * @export
  * @param {string} name
- * @param {UserSession} session
+ * @param {ArcGISIdentityManager} session
  * @param {number} step
  * @return {*}  {Promise<string>}
  */
 export function getUniqueServiceName(
   name: string,
   type: string,
-  session: UserSession,
+  session: ArcGISIdentityManager,
   step: number
 ): Promise<string> {
   let nameToCheck = name;

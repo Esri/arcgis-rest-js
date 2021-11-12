@@ -15,7 +15,7 @@ import { IRequestOptions } from "../utils/IRequestOptions.js";
  * }).then(result);
  *
  * const queryTrailsAsUser = withOptions({
- *   authentication: userSession
+ *   authentication: ArcGISIdentityManager
  * }, queryTrails);
  *
  * queryTrailsAsUser({
@@ -39,7 +39,7 @@ export function withOptions<
       typeof args[args.length - 1] === "object"
         ? {
             ...defaultOptions,
-            ...args.pop(),
+            ...args.pop()
           }
         : defaultOptions;
 

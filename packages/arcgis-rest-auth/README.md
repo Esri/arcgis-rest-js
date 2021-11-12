@@ -8,7 +8,7 @@
 [npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-auth
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
-[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-auth/dist/umd/auth.umd.min.js?compression=gzip
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-auth/dist/bundled/auth.umd.min.js?compression=gzip
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
@@ -24,11 +24,11 @@ npm install @esri/arcgis-rest-auth
 ```
 
 ```js
-import { UserSession } from '@esri/arcgis-rest-auth';
+import { UserSession } from "@esri/arcgis-rest-auth";
 
 const session = new UserSession({
-    username: "casey",
-    password: "123456"
+  username: "casey",
+  password: "123456"
 });
 ```
 
@@ -36,7 +36,7 @@ const session = new UserSession({
 
 ### Issues
 
-If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/arcgis-rest-js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [**love**](https://github.com/Esri/arcgis-rest-js/issues/new) to hear from you.
+If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/arcgis-rest-js/issues) first. Have you found a new bug? Want to request a new feature? We'd [**love**](https://github.com/Esri/arcgis-rest-js/issues/new) to hear from you.
 
 If you're looking for help you can also post issues on [GIS Stackexchange](http://gis.stackexchange.com/questions/ask?tags=esri-oss).
 
