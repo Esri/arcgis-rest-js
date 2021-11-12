@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { getViewSources } from "../src/get-view-sources.js";
+import { getViewSources } from "../src/getViewSources.js";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
 
