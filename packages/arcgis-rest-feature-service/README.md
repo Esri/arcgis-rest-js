@@ -4,15 +4,15 @@
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/arcgis-rest-js/master/LICENSE)
 
-[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-features.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-features
+[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-feature-service.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-feature-service
 [travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
-[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-features/dist/bundled/feature-layer.umd.min.js?compression=gzip
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-feature-service/dist/bundled/feature-layer.umd.min.js?compression=gzip
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
-# @esri/arcgis-rest-features
+# @esri/arcgis-rest-feature-service
 
 > A module for querying, editing, and administering hosted feature layers and feature services.
 
@@ -20,11 +20,11 @@
 
 ```bash
 npm install @esri/arcgis-rest-request
-npm install @esri/arcgis-rest-features
+npm install @esri/arcgis-rest-feature-service
 ```
 
 ```js
-import { queryFeatures } from '@esri/arcgis-rest-features';
+import { queryFeatures } from '@esri/arcgis-rest-feature-service';
 
 const options = {
   url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Landscape_Trees/FeatureServer/0",

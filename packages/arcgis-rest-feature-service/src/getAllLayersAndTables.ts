@@ -8,7 +8,7 @@ export interface IAllLayersAndTablesResponse {
 
 /**
  * ```js
- * import { getAllLayersAndTables } from '@esri/arcgis-rest-features';
+ * import { getAllLayersAndTables } from '@esri/arcgis-rest-feature-service';
  * getAllLayersAndTables({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0"
  * })

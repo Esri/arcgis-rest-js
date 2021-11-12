@@ -28,7 +28,7 @@ export interface IDeleteFeaturesOptions
 
 /**
  * ```js
- * import { deleteFeatures } from '@esri/arcgis-rest-features';
+ * import { deleteFeatures } from '@esri/arcgis-rest-feature-service';
  * //
  * deleteFeatures({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",

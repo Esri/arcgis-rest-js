@@ -5,7 +5,7 @@
  * `IHasZM` can also be imported from the following packages:
  *
  * ```js
- * import { IHasZM } from "@esri/arcgis-rest-features";
+ * import { IHasZM } from "@esri/arcgis-rest-feature-service";
  * ```
  */
 export interface IHasZM {
@@ -21,7 +21,7 @@ export interface IHasZM {
  * ```js
  * import { ISpatialReference } from "@esri/arcgis-rest-geocoding";
  * import { ISpatialReference } from "@esri/arcgis-rest-service-admin";
- * import { ISpatialReference } from "@esri/arcgis-rest-features";
+ * import { ISpatialReference } from "@esri/arcgis-rest-feature-service";
  * ```
  */
 export interface ISpatialReference {
@@ -39,7 +39,7 @@ export interface ISpatialReference {
  * `IGeometry` can also be imported from the following packages:
  *
  * ```js
- * import { IGeometry } from "@esri/arcgis-rest-features";
+ * import { IGeometry } from "@esri/arcgis-rest-feature-service";
  * ```
  */
 export interface IGeometry {
@@ -167,7 +167,7 @@ export type ElipticArc = IArc;
  * `GeometryType` can also be imported from the following packages:
  *
  * ```js
- * import { GeometryType } from "@esri/arcgis-rest-features";
+ * import { GeometryType } from "@esri/arcgis-rest-feature-service";
  * ```
  */
 export type GeometryType =
@@ -184,7 +184,7 @@ export type GeometryType =
  *
  * ```js
  * import { IExtent } from "@esri/arcgis-rest-demographics";
- * import { IExtent } from "@esri/arcgis-rest-features";
+ * import { IExtent } from "@esri/arcgis-rest-feature-service";
  * import { IExtent } from "@esri/arcgis-rest-geocoding";
  * import { IExtent } from "@esri/arcgis-rest-service-admin";
  * ```
@@ -227,7 +227,7 @@ export interface IMultipoint extends IHasZM, IGeometry {
  * `Units` can also be imported from the following packages:
  *
  * ```js
- * import { Units } from "@esri/arcgis-rest-features";
+ * import { Units } from "@esri/arcgis-rest-feature-service";
  * ```
  */
 export type Units =

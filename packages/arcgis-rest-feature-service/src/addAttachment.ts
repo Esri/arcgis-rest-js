@@ -21,7 +21,7 @@ export interface IAddAttachmentOptions extends IGetLayerOptions {
 
 /**
  * ```js
- * import { addAttachment } from '@esri/arcgis-rest-features';
+ * import { addAttachment } from '@esri/arcgis-rest-feature-service';
  * //
  * addAttachment({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0",

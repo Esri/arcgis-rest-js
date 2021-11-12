@@ -218,7 +218,7 @@ export interface IViewServiceSources {
  *
  * ```js
  * import { IFeatureServiceDefinition } from "@esri/arcgis-rest-service-admin";
- * import { IFeatureServiceDefinition } from "@esri/arcgis-rest-features";
+ * import { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-service";
  * ```
  */
  export interface IFeatureServiceDefinition {
@@ -632,7 +632,7 @@ export type FeatureEditTool =
  *
  * ```js
  * import { ILayerDefinition } from "@esri/arcgis-rest-service-admin";
- * import { ILayerDefinition } from "@esri/arcgis-rest-features";
+ * import { ILayerDefinition } from "@esri/arcgis-rest-feature-service";
  * ```
  */
  export interface ILayerDefinition extends IHasZM {

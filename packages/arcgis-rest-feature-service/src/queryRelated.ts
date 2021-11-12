@@ -47,7 +47,7 @@ export interface IQueryRelatedResponse extends IHasZM {
 /**
  *
  * ```js
- * import { queryRelated } from '@esri/arcgis-rest-features'
+ * import { queryRelated } from '@esri/arcgis-rest-feature-service'
  * //
  * queryRelated({
  *  url: "http://services.myserver/OrgID/ArcGIS/rest/services/Petroleum/KSPetro/FeatureServer/0",

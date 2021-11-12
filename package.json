@@ -161,7 +161,7 @@
     "./packages/arcgis-rest-request",
     "./packages/arcgis-rest-auth",
     "./packages/arcgis-rest-demographics",
-    "./packages/arcgis-rest-features",
+    "./packages/arcgis-rest-feature-service",
     "./packages/arcgis-rest-geocoding",
     "./packages/arcgis-rest-portal",
     "./packages/arcgis-rest-routing",

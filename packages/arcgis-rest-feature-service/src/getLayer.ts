@@ -6,7 +6,7 @@ import { IGetLayerOptions, ILayerDefinition } from "./helpers.js";
 
 /**
  * ```js
- * import { getLayer } from '@esri/arcgis-rest-features';
+ * import { getLayer } from '@esri/arcgis-rest-feature-service';
  * //
  * getLayer({
  *   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/ServiceRequest/FeatureServer/0"

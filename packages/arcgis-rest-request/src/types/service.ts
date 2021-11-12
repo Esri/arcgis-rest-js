@@ -62,7 +62,7 @@ export type IDomain = {
  * `IField` can also be imported from the following packages:
  *
  * ```js
- * import { IField } from "@esri/arcgis-rest-features";
+ * import { IField } from "@esri/arcgis-rest-feature-service";
  * ```
  */
  export interface IField {
