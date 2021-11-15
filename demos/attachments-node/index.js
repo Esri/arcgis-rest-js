@@ -3,7 +3,7 @@ import { fileFromPath } from "formdata-node/file-from-path";
 import mime from "mime-types";
 
 import { Blob, File } from "@esri/arcgis-rest-form-data";
-import { addAttachment, addFeatures } from "@esri/arcgis-rest-feature-layer";
+import { addAttachment, addFeatures } from "@esri/arcgis-rest-feature-service";
 
 const serviceUrl =
   "https://services9.arcgis.com/tPT6CGkx2VJKZshp/arcgis/rest/services/test_w_attachments/FeatureServer/0";

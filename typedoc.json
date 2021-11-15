@@ -5,11 +5,10 @@
   "packages": [
     "./packages/arcgis-rest-auth/",
     "./packages/arcgis-rest-demographics/",
-    "./packages/arcgis-rest-feature-layer/",
+    "./packages/arcgis-rest-feature-service/",
     "./packages/arcgis-rest-geocoding/",
     "./packages/arcgis-rest-portal/",
     "./packages/arcgis-rest-request/",
-    "./packages/arcgis-rest-routing/",
-    "./packages/arcgis-rest-service-admin/"
+    "./packages/arcgis-rest-routing/"
   ]
 }

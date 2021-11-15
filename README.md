@@ -77,8 +77,7 @@ For a specific package
 
 - [`@esri/arcgis-rest-request`](./packages/arcgis-rest-request/) - Core module implementing basic request code, shared TypeScript types and common utilities.
 - [`@esri/arcgis-rest-portal`](./packages/arcgis-rest-portal) - Methods for working with ArcGIS Online/Enterprise content and users.
-- [`@esri/arcgis-rest-feature-layer`](./packages/arcgis-rest-feature-layer) - Functions for querying and editing features inside of hosted feature layers.
-- [`@esri/arcgis-rest-service-admin`](./packages/arcgis-rest-service-admin) - Functions for administering hosted feature services.
+- [`@esri/arcgis-rest-feature-service`](./packages/arcgis-rest-feature-service) - Functions for querying, editing, and administering hosted feature layers and feature services.
 - [`@esri/arcgis-rest-geocoding`](./packages/arcgis-rest-geocoding) - Geocoding wrapper for `@esri/arcgis-rest-js`
 - [`@esri/arcgis-rest-routing`](./packages/arcgis-rest-routing) - Routing and directions wrapper for `@esri/arcgis-rest-js`.
 

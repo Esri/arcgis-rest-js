@@ -5,7 +5,7 @@ import { IRequestOptions } from "../utils/IRequestOptions.js";
  *
  * ```js
  * import { withOptions } from "@esri/arcgis-rest-request";
- * import { queryFeatures } from '@esri/arcgis-rest-feature-layer';
+ * import { queryFeatures } from '@esri/arcgis-rest-feature-service';
  *
  * const queryTrails = withOptions({
  *   url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0/"}, queryFeatures);
