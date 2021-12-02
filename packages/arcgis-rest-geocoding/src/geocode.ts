@@ -35,8 +35,10 @@ export interface IGeocodeOptions extends IEndpointOptions {
   countryCode?: string;
   /**
    * You can create an autocomplete experience by making a call to suggest with partial text and then passing through the magicKey and complete address that are returned to geocode.
+   *
    * ```js
    * import { suggest, geocode } from '@esri/arcgis-rest-geocoding';
+   *
    * suggest("LAX")
    *   .then((response) => {
    *     geocode({

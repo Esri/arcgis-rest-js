@@ -42,17 +42,15 @@ export interface IApplicationCredentialsManagerOptions {
 }
 
 /**
+ * Used to authenticate methods in ArcGIS REST JS with oAuth 2.0 application credentials. The instance of `ApplicationCredentialsManager` can be passed to  {@linkcode IRequestOptions.authentication} to authenticate requests.
  * ```js
  * import { ApplicationSession } from '@esri/arcgis-rest-auth';
  *
  * const session = ApplicationCredentialsManager.fromCredentials({
  *   clientId: "abc123",
- *   clientSecret: "sshhhhhh"
+ *   clientSecret: "••••••"
  * })
  * ```
- *
- * You can use [App Login](/arcgis-rest-js/guides/node/) to access premium content and services.
- *
  */
 export class ApplicationCredentialsManager implements IAuthenticationManager {
   public portal: string;

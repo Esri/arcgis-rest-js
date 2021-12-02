@@ -11,19 +11,15 @@ export interface IApiKeyOptions {
 }
 
 /**
- * ```js
- * import { ApiKey } from '@esri/arcgis-rest-auth';
- 
- * // preferred method
- * const apiKey = new ApiKey.fromKey("...");
+ * Used to authenticate methods in ArcGIS REST JS with an API keys. The instance of `ApiKeyManager` can be passed to  {@linkcode IRequestOptions.authentication} to authenticate requests.
  * 
- * // or construct directly
- * const apiKey = new ApiKey({
- *   key: "..."
- * });
+ * ```js
+ * import { ApiKeyManager } from '@esri/arcgis-rest-auth';
+ 
+ * const apiKey = new ApiKeyManager.fromKey("...");
  * ```
- *
- * Used to authenticate with API Keys.
+ * 
+ * In most cases however the API key can be passed directly to the {@linkcode IRequestOptions.authentication}.
  */
 export class ApiKeyManager implements IAuthenticationManager {
   /**
@@ -34,7 +30,7 @@ export class ApiKeyManager implements IAuthenticationManager {
   private key: string;
 
   /**
-   * The prefered method for creating an instance of `ApiKeyManager`.
+   * The preferred method for creating an instance of `ApiKeyManager`.
    */
   public static fromKey(apiKey: string) {
     return new ApiKeyManager({ key: apiKey });
