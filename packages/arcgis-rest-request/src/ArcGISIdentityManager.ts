@@ -1,17 +1,6 @@
 /* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-/**
- * /generateToken returns a token that cannot be refreshed.
- *
- * oauth2/token can return a token *and* a refreshToken.
- * up until the refreshToken expires, you can use it (and a clientId)
- * to fetch fresh credentials without a username and password.
- *
- * the catch is that this 'authorization_code' flow is only utilized
- * by server based OAuth 2 Node.js applications that call /authorize first.
- */
-
 import * as http from "http";
 import { ArcGISAuthError, request } from "./request.js";
 import { IRequestOptions } from "./utils/IRequestOptions.js";
@@ -27,12 +16,18 @@ import { IAppAccess, validateAppAccess } from "./validate-app-access.js";
 import { cleanUrl } from "./utils/clean-url.js";
 import { revokeToken } from "./revoke-token.js";
 
+/**
+ * Options for {@linkcode ArcGISIdentityManager.fromToken}.
+ */
 export interface IFromTokenOptions {
   token: string;
   tokenExpires?: Date;
   portal?: string;
 }
 
+/**
+ * Options for {@linkcode ArcGISIdentityManager.signIn}.
+ */
 export interface ISignInOptions {
   username: string;
   password: string;
@@ -168,7 +163,7 @@ export interface IOAuth2Options {
 }
 
 /**
- * Options for the `ArcGISIdentityManager` constructor.
+ * Options for the {@linkcode ArcGISIdentityManager} constructor.
  */
 export interface IArcGISIdentityManagerOptions {
   /**
@@ -253,23 +248,25 @@ export interface IArcGISIdentityManagerOptions {
 }
 
 /**
- * ```js
- * import { ArcGISIdentityManager } from '@esri/arcgis-rest-auth';
- * ArcGISIdentityManager.beginOAuth2({
- *   // register an app of your own to create a unique clientId
- *   clientId: "abc123",
- *   redirectUri: 'https://yourapp.com/authenticate.html'
- * })
- *   .then(session)
- * // or
- * new ArcGISIdentityManager({
- *   username: "jsmith",
- *   password: "123456"
- * })
- * // or
- * ArcGISIdentityManager.deserialize(cache)
- * ```
  * Used to authenticate both ArcGIS Online and ArcGIS Enterprise users. `ArcGISIdentityManager` includes helper methods for [OAuth 2.0](/arcgis-rest-js/guides/browser-authentication/) in both browser and server applications.
+ *
+ * **It is not recommended to construct `ArcGISIdentityManager` directly**. Instead there are several static methods used for specific workflows. The 2 primary workflows relate to oAuth 2.0:
+ *
+ * * {@linkcode ArcGISIdentityManager.beginOAuth2} + {@linkcode ArcGISIdentityManager.completeOAuth2} - for oAuth 2.0 in browser-only environment.
+ * * {@linkcode ArcGISIdentityManager.authorize} + {@linkcode ArcGISIdentityManager.exchangeAuthorizationCode} - for oAuth 2.0 for server-enabled application.
+ *
+ * Other more specialized helpers for less common workflows also exist:
+ *
+ * * {@linkcode ArcGISIdentityManager.enablePostMessageAuth} + {@linkcode ArcGISIdentityManager.fromParent} - For when your application needs to pass authentication details between different pages embedded in iframes.
+ * * {@linkcode ArcGISIdentityManager.fromToken} - When you have an existing token from another source and would like create an `ArcGISIdentityManager` instance.
+ * * {@linkcode ArcGISIdentityManager.fromCredential} - For creating  an `ArcGISIdentityManager` instance from a `Credentials` object in the ArcGIS JS API `IdentityManager`
+ * * {@linkcode ArcGISIdentityManager.signIn} - Authenticate directly with a users username and password.
+ *
+ * Once a session has been created there are additional utilities:
+ *
+ * * {@linkcode ArcGISIdentityManager.serialize} can be used to create a JSON object representing an instance of `ArcGISIdentityManager`
+ * * {@linkcode ArcGISIdentityManager.deserialize} will create a new `ArcGISIdentityManager` from a JSON object created with {@linkcode ArcGISIdentityManager.serialize}
+ * * {@linkcode ArcGISIdentityManager.destroy} or {@linkcode ArcGISIdentityManager.signOut} will invalidate any tokens in use by the  `ArcGISIdentityManager`.
  */
 export class ArcGISIdentityManager implements IAuthenticationManager {
   /**
@@ -340,9 +337,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
 
   /**
    * Begins a new browser-based OAuth 2.0 sign in. If `options.popup` is `true` the
-   * authentication window will open in a new tab/window and the function will return
-   * Promise&lt;ArcGISIdentityManager&gt;. Otherwise, the user will be redirected to the
-   * authorization page in their current tab/window and the function will return `undefined`.
+   * authentication window will open in a new tab/window. Otherwise, the user will be redirected to the authorization page in their current tab/window and the function will return `undefined`.
    *
    * @browserOnly
    */
@@ -444,9 +439,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
 
   /**
    * Completes a browser-based OAuth 2.0 sign in. If `options.popup` is `true` the user
-   * will be returned to the previous window. Otherwise a new `ArcGISIdentityManager`
-   * will be returned. You must pass the same values for `options.popup` and
-   * `options.portal` as you used in `beginOAuth2()`.
+   * will be returned to the previous window and the popup will close. Otherwise a new `ArcGISIdentityManager` will be returned. You must pass the same values for `options.popup` and `options.portal` as you used in `beginOAuth2()`.
    *
    * @browserOnly
    */
