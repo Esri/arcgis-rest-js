@@ -52,7 +52,7 @@
     "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-typescript2": "^0.27.2",
     "rollup-plugin-uglify": "^6.0.4",
-    "shelljs": "^0.7.8",
+    "shelljs": "^0.8.5",
     "slug": "^0.9.1",
     "sri-toolbox": "0.2.0",
     "ts-node": "^3.3.0",
