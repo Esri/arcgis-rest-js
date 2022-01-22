@@ -28,6 +28,6 @@
     "@esri/arcgis-rest-feature-layer": "^3.4.3",
     "@esri/arcgis-rest-request": "^3.4.3",
     "isomorphic-form-data": "^2.0.0",
-    "node-fetch": "^2.3.0"
+    "node-fetch": "^3.1.1"
   }
 }
