@@ -43,7 +43,7 @@
     "lerna": "^2.5.1",
     "lint-staged": "^4.3.0",
     "minimatch": "^3.0.4",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "onchange": "^3.3.0",
     "prettier": "^2.3.1",
     "resolve": "^1.5.0",
