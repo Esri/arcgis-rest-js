@@ -70,6 +70,8 @@
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^13.0.4",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
     "@skypack/package-check": "^0.2.2",
     "@types/fetch-mock": "^6.0.6",
     "@types/jasmine": "^2.8.2",
@@ -107,7 +109,7 @@
     "karma-typescript-es6-transform": "^5.5.0",
     "lint-staged": "^4.3.0",
     "minimatch": "^3.0.4",
-    "sass": "^1.41.0",
+    "multi-semantic-release": "^2.11.0",
     "npm-run-all": "^4.1.5",
     "onchange": "^3.3.0",
     "prettier": "^2.3.1",
@@ -118,6 +120,7 @@
     "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript": "^1.0.1",
+    "sass": "^1.41.0",
     "shelljs": "^0.7.8",
     "slug": "^0.9.1",
     "sri-toolbox": "0.2.0",
@@ -172,5 +175,22 @@
   "volta": {
     "node": "16.13.0",
     "npm": "8.1.2"
+  },
+  "release":   {
+    "branches": [
+      "master",
+      {
+        "name": "beta",
+        "prerelease": true
+      }
+    ],
+    "tagFormat": "${name}@${version}",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/git"
+    ]
   }
 }
