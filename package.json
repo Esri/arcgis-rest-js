@@ -68,7 +68,17 @@
       "git add"
     ]
   },
+  "husky": {
+		"hooks": {
+			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+			"pre-commit": "npm run precommit"
+		}
+	},
   "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+		"@commitlint/config-conventional": "^11.0.0",
+		"@commitlint/config-lerna-scopes": "^11.0.0",
+		"@commitlint/prompt": "^11.0.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
@@ -96,7 +106,7 @@
     "gh-release": "^3.4.0",
     "glob": "^7.1.7",
     "globby": "^12.0.2",
-    "husky": "^4.2.3",
+    "husky": "^4.3.0",
     "jasmine": "^3.9.0",
     "jasmine-core": "^3.9.0",
     "karma": "^5.2.2",
