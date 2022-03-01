@@ -18,3 +18,11 @@ export const YESTERDAY = (function () {
 export function attachmentFile(): any {
   return new File(["foo"], "foo.txt", { type: "text/plain" });
 }
+
+export const isNode = new Function(
+  "try {return this===global;}catch(e){return false;}"
+)();
+
+export const isBrowser = new Function(
+  "try {return this===window;}catch(e){ return false;}"
+)();

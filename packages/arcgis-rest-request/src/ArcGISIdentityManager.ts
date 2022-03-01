@@ -15,6 +15,9 @@ import { canUseOnlineToken, isFederated } from "./federation-utils.js";
 import { IAppAccess, validateAppAccess } from "./validate-app-access.js";
 import { cleanUrl } from "./utils/clean-url.js";
 import { revokeToken } from "./revoke-token.js";
+import { generateCodeChallenge } from "./utils/generate-code-challenge.js";
+import { generateRandomString } from "./utils/generate-random-string.js";
+import { ArcGISAccessDeniedError } from "./utils/ArcGISAccessDeniedError.js";
 
 /**
  * Options for {@linkcode ArcGISIdentityManager.fromToken}.
@@ -34,17 +37,6 @@ export interface ISignInOptions {
   portal?: string;
 }
 
-/**
- * Internal utility for resolving a Promise from outside its constructor.
- *
- * See: http://lea.verou.me/2016/12/resolve-promises-externally-with-this-one-weird-trick/
- */
-interface IDeferred<T> {
-  promise: Promise<T>;
-  resolve: (v: T) => void;
-  reject: (v: any) => void;
-}
-
 export type AuthenticationProvider =
   | "arcgis"
   | "facebook"
@@ -62,21 +54,6 @@ export interface ICredential {
   ssl: boolean;
   token: string;
   userId: string;
-}
-
-function defer<T>(): IDeferred<T> {
-  const deferred: any = {
-    promise: null,
-    resolve: null,
-    reject: null
-  };
-
-  deferred.promise = new Promise((resolve, reject) => {
-    deferred.resolve = resolve;
-    deferred.reject = reject;
-  });
-
-  return deferred as IDeferred<T>;
 }
 
 /**
@@ -120,6 +97,13 @@ export interface IOAuth2Options {
   duration?: number;
 
   /**
+   * If `true` will use the PKCE oAuth 2.0 extension spec in to authorize the user and obtain a token. A value of `false` will use the deprecated oAuth 2.0 implicit grant type.
+   *
+   * @browserOnly
+   */
+  pkce?: boolean;
+
+  /**
    * Determines whether to open the authorization window in a new tab/window or in the current window.
    *
    * @browserOnly
@@ -146,13 +130,6 @@ export interface IOAuth2Options {
    * @browserOnly
    */
   locale?: string;
-
-  /**
-   * Applications can specify an opaque value for this parameter to correlate the authorization request sent with the received response. By default, clientId is used.
-   *
-   * @browserOnly
-   */
-  state?: string;
 
   /**
    * Sets the color theme of the oAuth 2.0 authorization screen. Will use the system preference or a light theme by default.
@@ -311,16 +288,6 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   }
 
   /**
-   * Deprecated, use `federatedServers` instead.
-   *
-   * @deprecated
-   */
-  get trustedServers() {
-    console.log("DEPRECATED: use federatedServers instead");
-    return this.federatedServers;
-  }
-
-  /**
    * Returns `true` if this session can be refreshed and `false` if it cannot.
    */
   get canRefresh() {
@@ -341,15 +308,13 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
    *
    * @browserOnly
    */
-  /* istanbul ignore next */
   public static beginOAuth2(
     options: IOAuth2Options,
-    win: any = window
+    win?: any
   ): Promise<ArcGISIdentityManager> | undefined {
-    if (options.duration) {
-      console.log(
-        "DEPRECATED: 'duration' is deprecated - use 'expiration' instead"
-      );
+    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    if (!win && window) {
+      win = window;
     }
 
     const {
@@ -360,10 +325,10 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       redirectUri,
       popup,
       popupWindowFeatures,
-      state,
       locale,
       params,
-      style
+      style,
+      pkce
     }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
@@ -374,121 +339,228 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
           "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes",
         state: options.clientId,
         locale: "",
-        style: ""
+        style: "",
+        pkce: true
       },
       ...options
     };
 
-    let url: string;
+    /**
+     * Generate a  random string for the `state` param and store it in local storage. This is used
+     * to validate that all parts of the oAuth process were performed on the same client.
+     */
+    const stateId = generateRandomString(win);
+    const stateStorageKey = `ARCGIS_REST_JS_AUTH_STATE_${clientId}`;
 
-    if (provider === "arcgis") {
-      url = `${portal}/oauth2/authorize?client_id=${clientId}&response_type=token&expiration=${
-        options.duration || expiration
-      }&redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}&state=${state}&locale=${locale}&style=${style}`;
-    } else {
-      url = `${portal}/oauth2/social/authorize?client_id=${clientId}&socialLoginProviderName=${provider}&autoAccountCreateForSocial=true&response_type=token&expiration=${
-        options.duration || expiration
-      }&redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}&state=${state}&locale=${locale}&style=${style}`;
-    }
+    win.localStorage.setItem(stateStorageKey, stateId);
 
-    // append additional params
-    if (params) {
-      url = `${url}&${encodeQueryString(params)}`;
-    }
-
-    if (!popup) {
-      win.location.href = url;
-      return undefined;
-    }
-
-    const session = defer<ArcGISIdentityManager>();
-
-    win[`__ESRI_REST_AUTH_HANDLER_${clientId}`] = function (
-      errorString: any,
-      oauthInfoString: string
-    ) {
-      if (errorString) {
-        const error = JSON.parse(errorString);
-        session.reject(new ArcGISAuthError(error.errorMessage, error.error));
-        return;
-      }
-
-      if (oauthInfoString) {
-        const oauthInfo = JSON.parse(oauthInfoString);
-        session.resolve(
-          new ArcGISIdentityManager({
-            clientId,
-            portal,
-            ssl: oauthInfo.ssl,
-            token: oauthInfo.token,
-            tokenExpires: new Date(oauthInfo.expires),
-            username: oauthInfo.username
-          })
-        );
-      }
+    // Start setting up the URL to the authorization screen.
+    let authorizeUrl = `${cleanUrl(portal)}/oauth2/authorize`;
+    const authorizeUrlParams: any = {
+      client_id: clientId,
+      response_type: pkce ? "code" : "token",
+      expiration: expiration,
+      redirect_uri: redirectUri,
+      state: JSON.stringify({
+        id: stateId,
+        originalUrl: win.location.href // this is used to reset the URL back the original URL upon return
+      }),
+      locale: locale,
+      style: style
     };
 
-    win.open(url, "oauth-window", popupWindowFeatures);
+    // If we are authorizing through a specific social provider update the params and base URL.
+    if (provider !== "arcgis") {
+      authorizeUrl = `${cleanUrl(portal)}/oauth2/social/authorize`;
+      authorizeUrlParams.socialLoginProviderName = provider;
+      authorizeUrlParams.autoAccountCreateForSocial = true;
+    }
 
-    return session.promise;
+    /**
+     * set a value that will be set to a promise which will later resolve when we are ready
+     * to send users to the authorization page.
+     */
+    let setupAuth;
+
+    if (pkce) {
+      /**
+       * If we are authenticating with PKCE we need to generate the code challange which is
+       * async so we generate the code challenge and assign the resulting Promise to `setupAuth`
+       */
+      const codeVerifier = generateRandomString(win);
+      const codeVerifierStorageKey = `ARCGIS_REST_JS_CODE_VERIFIER_${clientId}`;
+
+      win.localStorage.setItem(codeVerifierStorageKey, codeVerifier);
+
+      setupAuth = generateCodeChallenge(codeVerifier, win).then(function (
+        codeChallenge
+      ) {
+        authorizeUrlParams.code_challenge_method = codeChallenge
+          ? "S256"
+          : "plain";
+
+        authorizeUrlParams.code_challenge = codeChallenge
+          ? codeChallenge
+          : codeVerifier;
+      });
+    } else {
+      /**
+       * If we aren't authenticating with PKCE we can just assign a resolved promise to `setupAuth`
+       */
+      setupAuth = Promise.resolve();
+    }
+
+    /**
+     * Once we are done setting up with (for PKCE) we can start the auth process.
+     */
+    return setupAuth.then(() => {
+      // combine the authorize URL and params
+      authorizeUrl = `${authorizeUrl}?${encodeQueryString(authorizeUrlParams)}`;
+
+      // append additional params passed by the user
+      if (params) {
+        authorizeUrl = `${authorizeUrl}&${encodeQueryString(params)}`;
+      }
+
+      if (popup) {
+        // If we are authenticating a popup we need to return a Promise that will resolve to an ArcGISIdentityManager later.
+        return new Promise((resolve, reject) => {
+          // Add an event listener to listen for when a user calls `ArcGISIdentityManager.completeOAuth2()` in the popup.
+          win.addEventListener(
+            `arcgis-rest-js-popup-auth-${clientId}`,
+            (e: CustomEvent<any>) => {
+              if (e.detail.error === "access_denied") {
+                const error = new ArcGISAccessDeniedError();
+                reject(error);
+                return error;
+              }
+
+              if (e.detail.error) {
+                const error = new ArcGISAuthError(
+                  e.detail.errorMessage,
+                  e.detail.error
+                );
+                reject(error);
+                return error;
+              }
+
+              resolve(
+                new ArcGISIdentityManager({
+                  clientId,
+                  portal,
+                  ssl: e.detail.ssl,
+                  token: e.detail.token,
+                  tokenExpires: e.detail.expires,
+                  username: e.detail.username,
+                  refreshToken: e.detail.refreshToken,
+                  refreshTokenExpires: e.detail.refreshTokenExpires
+                })
+              );
+            },
+            {
+              once: true
+            }
+          );
+
+          // open the popup
+          win.open(authorizeUrl, "oauth-window", popupWindowFeatures);
+
+          win.dispatchEvent(new CustomEvent("arcgis-rest-js-popup-auth-start"));
+        });
+      } else {
+        // If we aren't authenticating with a popup just send the user to the authorization page.
+        win.location.href = authorizeUrl;
+        return undefined;
+      }
+    });
   }
 
   /**
    * Completes a browser-based OAuth 2.0 sign in. If `options.popup` is `true` the user
-   * will be returned to the previous window and the popup will close. Otherwise a new `ArcGISIdentityManager` will be returned. You must pass the same values for `options.popup` and `options.portal` as you used in `beginOAuth2()`.
+   * will be returned to the previous window and the popup will close. Otherwise a new `ArcGISIdentityManager` will be returned. You must pass the same values for `clientId`, `popup`, `portal`, and `pkce` as you used in `beginOAuth2()`.
    *
    * @browserOnly
    */
-  /* istanbul ignore next */
-  public static completeOAuth2(options: IOAuth2Options, win: any = window) {
-    const { portal, clientId, popup }: IOAuth2Options = {
-      ...{ portal: "https://www.arcgis.com/sharing/rest", popup: true },
+  public static completeOAuth2(options: IOAuth2Options, win?: any) {
+    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    if (!win && window) {
+      win = window;
+    }
+
+    // pull out necessary options
+    const { portal, clientId, popup, pkce }: IOAuth2Options = {
+      ...{
+        portal: "https://www.arcgis.com/sharing/rest",
+        popup: true,
+        pkce: true
+      },
       ...options
     };
 
-    function completeSignIn(error: any, oauthInfo?: IFetchTokenResponse) {
-      try {
-        let handlerFn;
-        const handlerFnName = `__ESRI_REST_AUTH_HANDLER_${clientId}`;
+    // pull the saved state id out of local storage
+    const stateStorageKey = `ARCGIS_REST_JS_AUTH_STATE_${clientId}`;
+    const stateId = win.localStorage.getItem(stateStorageKey);
 
-        if (popup) {
-          // Guard b/c IE does not support window.opener
-          if (win.opener) {
-            if (win.opener.parent && win.opener.parent[handlerFnName]) {
-              handlerFn = win.opener.parent[handlerFnName];
-            } else if (win.opener && win.opener[handlerFnName]) {
-              // support pop-out oauth from within an iframe
-              handlerFn = win.opener[handlerFnName];
+    // get the params provided by the server and compare the server state with the client saved state
+    const params = decodeQueryString(
+      pkce
+        ? win.location.search.replace(/^\?/, "")
+        : win.location.hash.replace(/^#/, "")
+    );
+
+    const state = params && params.state ? JSON.parse(params.state) : undefined;
+
+    function reportError(
+      errorMessage: string,
+      error: string,
+      originalUrl?: string
+    ) {
+      win.localStorage.removeItem(stateStorageKey);
+
+      if (popup && win.opener) {
+        win.opener.dispatchEvent(
+          new CustomEvent(`arcgis-rest-js-popup-auth-${clientId}`, {
+            detail: {
+              error,
+              errorMessage
             }
-          } else {
-            // IE
-            if (win !== win.parent && win.parent && win.parent[handlerFnName]) {
-              handlerFn = win.parent[handlerFnName];
-            }
-          }
-          // if we have a handler fn, call it and close the window
-          if (handlerFn) {
-            handlerFn(
-              error ? JSON.stringify(error) : undefined,
-              JSON.stringify(oauthInfo)
-            );
-            win.close();
-            return undefined;
-          }
-        }
-      } catch (e) {
-        throw new ArcGISAuthError(
-          `Unable to complete authentication. It's possible you specified popup based oAuth2 but no handler from "beginOAuth2()" present. This generally happens because the "popup" option differs between "beginOAuth2()" and "completeOAuth2()".`
+          })
         );
+
+        win.close();
       }
 
-      if (error) {
-        throw new ArcGISAuthError(error.errorMessage, error.error);
+      if (originalUrl) {
+        win.history.replaceState(win.history.state, "", originalUrl);
       }
+
+      if (error === "access_denied") {
+        return Promise.reject(new ArcGISAccessDeniedError());
+      }
+
+      return Promise.reject(new ArcGISAuthError(errorMessage, error));
+    }
+
+    // create a function to create the final UserSession from the token info.
+    function createSession(
+      oauthInfo: IFetchTokenResponse,
+      originalUrl: string
+    ) {
+      win.localStorage.removeItem(stateStorageKey);
+
+      if (popup && win.opener) {
+        win.opener.dispatchEvent(
+          new CustomEvent(`arcgis-rest-js-popup-auth-${clientId}`, {
+            detail: {
+              ...oauthInfo
+            }
+          })
+        );
+
+        win.close();
+      }
+
+      win.history.replaceState(win.history.state, "", originalUrl);
 
       return new ArcGISIdentityManager({
         clientId,
@@ -496,37 +568,84 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         ssl: oauthInfo.ssl,
         token: oauthInfo.token,
         tokenExpires: oauthInfo.expires,
-        username: oauthInfo.username
+        username: oauthInfo.username,
+        refreshToken: oauthInfo.refreshToken,
+        refreshTokenExpires: oauthInfo.refreshTokenExpires
       });
     }
 
-    const params = decodeQueryString(win.location.hash);
-
-    if (!params.access_token) {
-      let error;
-      let errorMessage = "Unknown error";
-
-      if (params.error) {
-        error = params.error;
-        errorMessage = params.error_description;
-      }
-
-      return completeSignIn({ error, errorMessage });
+    if (!stateId || !state) {
+      return reportError(
+        "No authentication state was found, call `ArcGISIdentityManager.beginOAuth2(...)` to start the authentication process.",
+        "no-auth-state"
+      );
     }
 
-    const token = params.access_token;
-    const expires = new Date(
-      Date.now() + parseInt(params.expires_in, 10) * 1000 - 60 * 1000
-    );
-    const username = params.username;
-    const ssl = params.ssl === "true";
+    if (state.id !== stateId) {
+      return reportError(
+        "Saved client state did not match server sent state.",
+        "mismatched-auth-state"
+      );
+    }
 
-    return completeSignIn(undefined, {
-      token,
-      expires,
-      ssl,
-      username
-    });
+    if (params.error) {
+      const error = params.error;
+      const errorMessage = params.error_description || "Unknown error";
+
+      return reportError(errorMessage, error, state.originalUrl);
+    }
+    /**
+     * If we are using PKCE the authorization code will be in the query params.
+     * For implicit grants the token will be in the hash.
+     */
+    if (pkce && params.code) {
+      const tokenEndpoint = cleanUrl(`${portal}/oauth2/token/`);
+
+      const codeVerifierStorageKey = `ARCGIS_REST_JS_CODE_VERIFIER_${clientId}`;
+      const codeVerifier = win.localStorage.getItem(codeVerifierStorageKey);
+      win.localStorage.removeItem(codeVerifierStorageKey);
+
+      // exchange our auth code for a token + refresh token
+      return fetchToken(tokenEndpoint, {
+        httpMethod: "POST",
+        params: {
+          client_id: clientId,
+          code_verifier: codeVerifier,
+          grant_type: "authorization_code",
+          redirect_uri: location.href.replace(location.search, ""),
+          code: params.code
+        }
+      })
+        .then((tokenResponse) => {
+          return createSession(
+            { ...tokenResponse, ...state },
+            state.originalUrl
+          );
+        })
+        .catch((e) => {
+          return reportError(e.message, e.error, state.originalUrl);
+        });
+    }
+
+    /* istanbul ignore else: at this point we have pretty much exhausted*/
+    if (!pkce && params.access_token) {
+      return Promise.resolve(
+        createSession(
+          {
+            token: params.access_token,
+            expires: new Date(
+              Date.now() + parseInt(params.expires_in, 10) * 1000
+            ),
+            ssl: params.ssl === "true",
+            username: params.username,
+            ...state
+          },
+          state.originalUrl
+        )
+      );
+    }
+
+    return reportError("Unknown error", "oauth-error", state.originalUrl);
   }
 
   /**
@@ -589,20 +708,15 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     options: IOAuth2Options,
     response: http.ServerResponse
   ) {
-    if (options.duration) {
-      console.log(
-        "DEPRECATED: 'duration' is deprecated - use 'expiration' instead"
-      );
-    }
     const { portal, clientId, expiration, redirectUri }: IOAuth2Options = {
       ...{ portal: "https://arcgis.com/sharing/rest", expiration: 20160 },
       ...options
     };
 
     response.writeHead(301, {
-      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${
-        options.duration || expiration
-      }&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}`
+      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${expiration}&response_type=code&redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}`
     });
 
     response.end();

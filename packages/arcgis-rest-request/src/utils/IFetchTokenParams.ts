@@ -8,4 +8,5 @@ export interface IFetchTokenParams extends IParams {
   redirect_uri?: string;
   refresh_token?: string;
   code?: string;
+  code_verifier?: string;
 }
