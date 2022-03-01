@@ -1,7 +1,6 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-/** TODO: Temporary trivial change to force sem-rel to compute a release */
 export * from "./request.js";
 export * from "./utils/append-custom-params.js";
 export * from "./utils/ArcGISRequestError.js";
