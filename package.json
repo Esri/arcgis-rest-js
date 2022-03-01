@@ -67,7 +67,7 @@
     ],
     "*.ts": [
       "prettier --write --parser typescript --tab-width 2 --use-tabs false",
-      "eslint --project tsconfig.json",
+      "eslint ./packages --ext .ts",
       "git add"
     ]
   },
