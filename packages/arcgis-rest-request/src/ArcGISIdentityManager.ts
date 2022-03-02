@@ -384,7 +384,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
 
     if (pkce) {
       /**
-       * If we are authenticating with PKCE we need to generate the code challange which is
+       * If we are authenticating with PKCE we need to generate the code challenge which is
        * async so we generate the code challenge and assign the resulting Promise to `setupAuth`
        */
       const codeVerifier = generateRandomString(win);
