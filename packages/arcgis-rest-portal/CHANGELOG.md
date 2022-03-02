@@ -1,3 +1,18 @@
+# @esri/arcgis-rest-portal [4.0.0-beta.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.0-beta.1...@esri/arcgis-rest-portal@4.0.0-beta.2) (2022-03-02)
+
+
+### Features
+
+* **arcgis-rest-request:** rewrite oauth 2 functions to use PKCE ([e49f88c](https://github.com/Esri/arcgis-rest-js/commit/e49f88c700694aed472733527124c4d0d54e45d6))
+
+
+
+
+
+### Dependencies
+
+* **@esri/arcgis-rest-request:** upgraded to 4.0.0-beta.2
+
 # @esri/arcgis-rest-portal 1.0.0-beta.1 (2022-02-17)
 
 
