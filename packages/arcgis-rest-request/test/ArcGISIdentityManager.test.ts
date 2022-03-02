@@ -945,9 +945,7 @@ describe("ArcGISIdentityManager", () => {
                 pkce: false
               },
               PopupMockWindow
-            ).catch((e) => {
-              // do nothing
-            });
+            );
           });
 
           return ArcGISIdentityManager.beginOAuth2(
