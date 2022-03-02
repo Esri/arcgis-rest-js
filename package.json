@@ -206,8 +206,5 @@
       "@semantic-release/npm",
       "@semantic-release/git"
     ]
-  },
-  "dependencies": {
-    "karma-source-map-support": "^1.4.0"
   }
 }

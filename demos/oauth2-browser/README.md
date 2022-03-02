@@ -15,7 +15,7 @@ The demo will run using an application configured by the ArcGIS REST JS team.
 ## Running with your own credentials
 
 1. Run `npm run build` in the root directory
-1. [Register an app](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/tutorials/register-your-application/) and copy the Client id into `config.js` in the `clientId` property.
+1. [Register an app](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/tutorials/register-your-application/) and copy the Client ID into `config.js` in the `clientId` property.
 1. [Add redirect URIs](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/tutorials/add-redirect-uri/) for `http://localhost:8080` (for inline redirects) and `http://localhost:8080/authentication.html` (for popup redirects) to your registered application.
 1. Run `npm start` in this directory to spin up the development server.
 1. Visit [http://localhost:8080](http://localhost:8080).
