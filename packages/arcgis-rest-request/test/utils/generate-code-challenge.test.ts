@@ -1,7 +1,7 @@
 import { generateCodeChallenge } from "../../src/utils/generate-code-challenge.js";
 import { isBrowser } from "../../../../scripts/test-helpers.js";
 
-describe("decodeQueryString()", () => {
+describe("generateCodeChallenge()", () => {
   if (isBrowser) {
     it("should give the SHA256 of a string", () => {
       return generateCodeChallenge("Lorem ipsum dolor sit amet quis. ").then(
