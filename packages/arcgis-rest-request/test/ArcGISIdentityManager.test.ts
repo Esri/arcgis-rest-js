@@ -862,7 +862,7 @@ describe("ArcGISIdentityManager", () => {
   });
 
   /**
-   * `beginOAuth2()` and `completeoAuth2()` only work on browsers due to their use of `dispatchEvent()` and `addEventListener()`.
+   * `beginOAuth2()` and `completeOAuth2()` only work on browsers due to their use of `dispatchEvent()` and `addEventListener()`.
    *
    * We COULD make these tests work in Node if we wanted to mock these calls but you actually have to trigger the events.
    */
