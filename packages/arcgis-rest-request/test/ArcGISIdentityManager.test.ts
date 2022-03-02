@@ -1023,7 +1023,7 @@ describe("ArcGISIdentityManager", () => {
               "oauth-window",
               "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
             );
-            return;
+            return Promise.resolve();
           });
         });
 
