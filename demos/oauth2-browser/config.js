@@ -3,4 +3,8 @@ You can generate your own clientid by creating an application on the ArcGIS for 
 
 once you have a clientid of your own, copy/paste it here and rename this file 'config.js'
 */
-let clientId = "QVQNb3XfDzoboWS0"
+const config = {
+  clientId: "3CiiHWyTNMIRNyF1",
+  popupRedirectUri: "http://localhost:8080/authenticate.html",
+  inlineRedirectUri: "http://localhost:8080/"
+};

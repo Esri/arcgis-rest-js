@@ -17,6 +17,10 @@
  *     // handle an authentication error
  *     break;
  *
+ *     case ErrorType.ArcGISAccessDeniedError:
+ *     // handle a user denying an authorization request in an oAuth workflow
+ *     break;
+ *
  *     default:
  *     // handle some other error (usually a network error)
  *   }
@@ -25,5 +29,6 @@
  */
 export enum ErrorTypes {
   ArcGISRequestError = "ArcGISRequestError",
-  ArcGISAuthError = "ArcGISAuthError"
+  ArcGISAuthError = "ArcGISAuthError",
+  ArcGISAccessDeniedError = "ArcGISAccessDeniedError"
 }

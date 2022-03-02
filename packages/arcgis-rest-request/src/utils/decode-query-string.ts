@@ -12,16 +12,18 @@ export function decodeParam(param: string): { key: string; value: string } {
  * @param query A string to be decoded.
  * @returns A decoded query param object.
  */
-export function decodeQueryString(query: string): { [key: string]: string } {
+export function decodeQueryString(query?: string): { [key: string]: string } {
+  if (!query || query.length <= 0) {
+    return {};
+  }
+
   return query
     .replace(/^#/, "")
+    .replace(/^\?/, "")
     .split("&")
-    .reduce(
-      (acc, entry) => {
-        const { key, value } = decodeParam(entry);
-        acc[key] = value;
-        return acc;
-      },
-      {} as any
-    );
+    .reduce((acc, entry) => {
+      const { key, value } = decodeParam(entry);
+      acc[key] = value;
+      return acc;
+    }, {} as any);
 }

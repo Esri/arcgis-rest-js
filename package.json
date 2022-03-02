@@ -4,7 +4,7 @@
   "description": "Compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.",
   "license": "Apache-2.0",
   "type": "module",
-  "private":true,
+  "private": true,
   "scripts": {
     "build": "npm run build:esm && npm run build:cjs && npm run build:bundled",
     "build:esm": "ultra --no-pretty --silent --build -r --filter \"packages/*\" build:esm",
@@ -67,24 +67,24 @@
     ],
     "*.ts": [
       "prettier --write --parser typescript --tab-width 2 --use-tabs false",
-      "eslint ./packages --ext .ts",
+      "eslint",
       "git add"
     ]
   },
   "husky": {
-		"hooks": {
-			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-			"pre-commit": "npm run precommit"
-		}
-	},
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "npm run precommit"
+    }
+  },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
-		"@commitlint/config-conventional": "^11.0.0",
-		"@commitlint/config-lerna-scopes": "^11.0.0",
-		"@commitlint/prompt": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@commitlint/config-lerna-scopes": "^11.0.0",
+    "@commitlint/prompt": "^11.0.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
-		"@semantic-release/changelog": "^6.0.1",
-		"@semantic-release/git": "^10.0.1",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^8.0.0",
     "@skypack/package-check": "^0.2.2",
     "@types/fetch-mock": "^6.0.6",
@@ -190,7 +190,7 @@
     "node": "16.13.0",
     "npm": "8.1.2"
   },
-  "release":   {
+  "release": {
     "branches": [
       "master",
       {

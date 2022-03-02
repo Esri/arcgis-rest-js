@@ -4,6 +4,7 @@
 export * from "./request.js";
 export * from "./utils/append-custom-params.js";
 export * from "./utils/ArcGISRequestError.js";
+export * from "./utils/ArcGISAccessDeniedError.js";
 export * from "./utils/clean-url.js";
 export * from "./utils/encode-form-data.js";
 export * from "./utils/encode-query-string.js";
