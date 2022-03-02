@@ -528,6 +528,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         );
 
         win.close();
+        return;
       }
 
       if (originalUrl) {
@@ -558,6 +559,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         );
 
         win.close();
+        return;
       }
 
       win.history.replaceState(win.history.state, "", originalUrl);

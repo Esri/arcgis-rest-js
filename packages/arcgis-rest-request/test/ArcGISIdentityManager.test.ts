@@ -1002,9 +1002,7 @@ describe("ArcGISIdentityManager", () => {
                 pkce: false
               },
               PopupMockWindow
-            ).catch(() => {
-              // do nothing
-            });
+            );
           });
 
           return ArcGISIdentityManager.beginOAuth2(
@@ -1251,9 +1249,7 @@ describe("ArcGISIdentityManager", () => {
                 redirectUri: "http://example-app.com/redirect"
               },
               PopupMockWindow
-            ).catch((e) => {
-              // do nothing
-            });
+            );
           });
 
           return ArcGISIdentityManager.beginOAuth2(
@@ -1311,9 +1307,7 @@ describe("ArcGISIdentityManager", () => {
                 redirectUri: "http://example-app.com/redirect"
               },
               PopupMockWindow
-            ).catch((e) => {
-              // do nothing
-            });
+            );
           });
 
           return ArcGISIdentityManager.beginOAuth2(
