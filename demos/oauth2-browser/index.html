@@ -153,11 +153,15 @@
 
       // Inline redirects will redirect to this page so we need to call `completeOAuth2()` here 
       // If there is no auth process to complete a `no-auth-state` error will be returned.
-      arcgisRest.ArcGISIdentityManager.completeOAuth2({
-        clientId: config.clientId,
-        popup: false,
-        redirectUri: config.inlineRedirectUri,
-      }).then(newSession => {
+      let opts = {
+          clientId: config.clientId,
+          popup: true,
+          redirectUri: config.inlineRedirectUri
+        }
+        if (config.portal) {
+          opts.portal = config.portal
+        }
+      arcgisRest.ArcGISIdentityManager.completeOAuth2(opts).then(newSession => {
         session = newSession;
         updateSessionInfo(session);
       }).catch(e => {
@@ -170,11 +174,15 @@
       // Attach a listener to the sign in buttons.
       document.getElementById('withPopupButton').addEventListener('click', function (event) {
         // Begin an OAuth2 login using a popup.
-        arcgisRest.ArcGISIdentityManager.beginOAuth2({
+        const opts = {
           clientId: config.clientId,
           redirectUri: config.popupRedirectUri,
           popup: true,
-        }).then(function (newSession) {
+        };
+        if (config.portal) {
+          opts.portal = config.portal;
+        }
+        arcgisRest.ArcGISIdentityManager.beginOAuth2(opts).then(function (newSession) {
           // Upon a successful login, update the session with the new session.
           session = newSession;
           updateSessionInfo(session);
@@ -186,11 +194,15 @@
       // Attach a listener to the sign in buttons.
       document.getElementById('inlineRedirectButton').addEventListener('click', function (event) {
         // Begin an OAuth2 login in the current window.
-        arcgisRest.ArcGISIdentityManager.beginOAuth2({
+        const opts = {
           clientId: config.clientId,
           redirectUri: config.inlineRedirectUri,
           popup: false,
-        });
+        };
+        if (config.portal) {
+          opts.portal = config.portal;
+        }
+        arcgisRest.ArcGISIdentityManager.beginOAuth2(opts);
       });
 
       // Attach a listener to the sign out button.

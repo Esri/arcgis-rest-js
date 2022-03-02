@@ -8,10 +8,14 @@
     <script src="@esri/arcgis-rest-request/dist/bundled/request.umd.js"></script>
     <script src="config.js"></script>
     <script>
-      arcgisRest.ArcGISIdentityManager.completeOAuth2({
-        clientId: config.clientId,
-        popup: true
-      });
+      let opts = {
+          clientId: config.clientId,
+          popup: true,
+        }
+      if (config.portal) {
+        opts.portal = config.portal
+      }
+      arcgisRest.ArcGISIdentityManager.completeOAuth2(opts);
     </script>
   </body>
 </html>
