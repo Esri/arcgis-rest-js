@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-demographics",
-  "version": "3.3.0",
+  "version": "4.0.0-beta.2",
   "description": "Demographics data helpers for @esri/arcgis-rest-js",
   "license": "Apache-2.0",
   "keywords": [
@@ -45,10 +45,10 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-request": "3.3.0"
+    "@esri/arcgis-rest-request": "4.0.0-beta.2"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-request": "3.3.0"
+    "@esri/arcgis-rest-request": "4.0.0-beta.2"
   },
   "contributors": [
     "Gavin Rehkemper <grehkemper@esri.com> (http://gavinr.com/)",
