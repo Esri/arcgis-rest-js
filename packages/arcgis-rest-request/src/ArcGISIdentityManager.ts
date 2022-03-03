@@ -1499,6 +1499,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       },
       ...requestOptions
     };
+
     return fetchToken(`${this.portal}/oauth2/token`, options).then(
       (response) => {
         this._token = response.token;

@@ -51,7 +51,6 @@ export interface IRequestOptions {
   headers?: {
     [key: string]: any;
   };
-
   /**
    * Suppress any ArcGIS REST JS related warnings for this request.
    */

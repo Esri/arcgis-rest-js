@@ -5,7 +5,8 @@ import {
   request,
   ErrorTypes,
   setDefaultRequestOptions,
-  IRequestOptions
+  IRequestOptions,
+  ArcGISIdentityManager
 } from "../src/index.js";
 import fetchMock from "fetch-mock";
 import {
@@ -16,6 +17,7 @@ import { MockParamBuilder } from "./mocks/param-builder.js";
 import { ArcGISOnlineError } from "./mocks/errors.js";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap.js";
 import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection.js";
+import { TOMORROW } from "../../../scripts/test-helpers.js";
 
 describe("request()", () => {
   afterEach(() => {
@@ -559,5 +561,114 @@ describe("request()", () => {
       .finally(() => {
         console.warn = oldWarn;
       });
+  });
+
+  describe("automatic retry", () => {
+    it("should retry requests that fail with an invalid token error", () => {
+      fetchMock.getOnce(
+        "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=INVALID_TOKEN",
+        { error: { code: 498, message: "Invalid token.", details: [] } }
+      );
+
+      fetchMock.getOnce(
+        "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=VALID_TOKEN",
+        {
+          user: {
+            username: "c@sey"
+          }
+        }
+      );
+
+      const session = new ArcGISIdentityManager({
+        clientId: "clientId",
+        token: "INVALID_TOKEN",
+        username: "c@sey",
+        refreshToken: "refreshToken",
+        refreshTokenExpires: TOMORROW
+      });
+
+      expect(session.canRefresh).toBe(true);
+
+      fetchMock.post("https://www.arcgis.com/sharing/rest/oauth2/token", {
+        access_token: "VALID_TOKEN",
+        expires_in: 60,
+        username: " c@sey"
+      });
+
+      return request("https://www.arcgis.com/sharing/rest/portals/self", {
+        httpMethod: "GET",
+        authentication: session
+      })
+        .then((response) => {
+          expect(response.user.username).toBe("c@sey");
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should throw the error from the refresh call if refreshing fails", () => {
+      fetchMock.get(
+        "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=INVALID_TOKEN",
+        { error: { code: 498, message: "Invalid token.", details: [] } }
+      );
+
+      const session = new ArcGISIdentityManager({
+        clientId: "clientId",
+        token: "INVALID_TOKEN",
+        username: "c@sey",
+        refreshToken: "refreshToken",
+        refreshTokenExpires: TOMORROW
+      });
+
+      fetchMock.post("https://www.arcgis.com/sharing/rest/oauth2/token", {
+        error: {
+          code: 498,
+          error: "invalid_request",
+          error_description: "Invalid refresh_token",
+          message: "Invalid refresh_token",
+          details: []
+        }
+      });
+
+      return request("https://www.arcgis.com/sharing/rest/portals/self", {
+        httpMethod: "GET",
+        authentication: session
+      }).catch((e) => {
+        expect(e.code).toBe(498);
+        expect(e.message).toBe("498: Invalid refresh_token");
+        return;
+      });
+    });
+
+    it("should throw throw an error is it also fails with the new token", () => {
+      fetchMock.get(
+        "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=TOKEN",
+        { error: { code: 498, message: "Invalid token.", details: [] } }
+      );
+
+      const session = new ArcGISIdentityManager({
+        clientId: "clientId",
+        token: "TOKEN",
+        username: "c@sey",
+        refreshToken: "refreshToken",
+        refreshTokenExpires: TOMORROW
+      });
+
+      fetchMock.post("https://www.arcgis.com/sharing/rest/oauth2/token", {
+        access_token: "TOKEN",
+        expires_in: 60,
+        username: " c@sey"
+      });
+
+      return request("https://www.arcgis.com/sharing/rest/portals/self", {
+        httpMethod: "GET",
+        authentication: session
+      }).catch((e) => {
+        expect(e.code).toBe(498);
+        expect(e.message).toBe("498: Invalid token.");
+        return;
+      });
+    });
   });
 });
