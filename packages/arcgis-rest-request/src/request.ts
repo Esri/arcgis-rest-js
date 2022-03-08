@@ -473,11 +473,12 @@ export function request(
       e.code === 498 &&
       e.message === "498: Invalid token." &&
       requestOptions.authentication &&
-      (requestOptions.authentication as any).canRefresh &&
-      (requestOptions.authentication as any).refreshSession
+      typeof requestOptions.authentication !== "string" &&
+      requestOptions.authentication.canRefresh &&
+      requestOptions.authentication.refreshCredentials
     ) {
       return e.retry(() => {
-        return (requestOptions.authentication as any).refreshSession();
+        return (requestOptions.authentication as any).refreshCredentials();
       }, 1);
     } else {
       return Promise.reject(e);

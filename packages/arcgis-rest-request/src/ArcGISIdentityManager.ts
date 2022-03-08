@@ -157,7 +157,7 @@ export interface IArcGISIdentityManagerOptions {
   redirectUri?: string;
 
   /**
-   * OAuth 2.0 refresh token from a previous user session.
+   * OAuth 2.0 refresh token.
    */
   refreshToken?: string;
 
@@ -177,7 +177,7 @@ export interface IArcGISIdentityManagerOptions {
   password?: string;
 
   /**
-   * OAuth 2.0 access token from a previous user session.
+   * OAuth 2.0 access token.
    */
   token?: string;
 
@@ -239,7 +239,7 @@ export interface IArcGISIdentityManagerOptions {
  * * {@linkcode ArcGISIdentityManager.fromCredential} - For creating  an `ArcGISIdentityManager` instance from a `Credentials` object in the ArcGIS JS API `IdentityManager`
  * * {@linkcode ArcGISIdentityManager.signIn} - Authenticate directly with a users username and password.
  *
- * Once a session has been created there are additional utilities:
+ * Once a manager is created there are additional utilities:
  *
  * * {@linkcode ArcGISIdentityManager.serialize} can be used to create a JSON object representing an instance of `ArcGISIdentityManager`
  * * {@linkcode ArcGISIdentityManager.deserialize} will create a new `ArcGISIdentityManager` from a JSON object created with {@linkcode ArcGISIdentityManager.serialize}
@@ -288,7 +288,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   }
 
   /**
-   * Returns `true` if this session can be refreshed and `false` if it cannot.
+   * Returns `true` if these credentials can be refreshed and `false` if it cannot.
    */
   get canRefresh() {
     if (this.username && this.password) {
@@ -542,8 +542,8 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       return Promise.reject(new ArcGISAuthError(errorMessage, error));
     }
 
-    // create a function to create the final UserSession from the token info.
-    function createSession(
+    // create a function to create the final ArcGISIdentityManager from the token info.
+    function createManager(
       oauthInfo: IFetchTokenResponse,
       originalUrl: string
     ) {
@@ -619,7 +619,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         }
       })
         .then((tokenResponse) => {
-          return createSession(
+          return createManager(
             { ...tokenResponse, ...state },
             state.originalUrl
           );
@@ -631,7 +631,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
 
     if (!pkce && params.access_token) {
       return Promise.resolve(
-        createSession(
+        createManager(
           {
             token: params.access_token,
             expires: new Date(
@@ -650,7 +650,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   }
 
   /**
-   * Request session information from the parent application
+   * Request credentials information from the parent application
    *
    * When an application is embedded into another application via an IFrame, the embedded app can
    * use `window.postMessage` to request credentials from the host application. This function wraps
@@ -693,9 +693,9 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         { type: "arcgis:auth:requestCredential" },
         parentOrigin
       );
-    }).then((session) => {
+    }).then((manager) => {
       win.removeEventListener("message", handler, false);
-      return session;
+      return manager;
     });
   }
 
@@ -834,11 +834,11 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   /**
    * Revokes all active tokens for a provided {@linkcode ArcGISIdentityManager}. The can be considered the equivalent to signing the user out of your application.
    */
-  public static destroy(session: ArcGISIdentityManager) {
+  public static destroy(manager: ArcGISIdentityManager) {
     return revokeToken({
-      clientId: session.clientId,
-      portal: session.portal,
-      token: session.refreshToken || session.token
+      clientId: manager.clientId,
+      portal: manager.portal,
+      token: manager.refreshToken || manager.token
     });
   }
 
@@ -848,10 +848,10 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   public static fromToken(
     options: IFromTokenOptions
   ): Promise<ArcGISIdentityManager> {
-    const session = new ArcGISIdentityManager(options);
+    const manager = new ArcGISIdentityManager(options);
 
-    return session.getUser().then(() => {
-      return session;
+    return manager.getUser().then(() => {
+      return manager;
     });
   }
 
@@ -861,10 +861,10 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
    * If possible you should use {@linkcode ArcGISIdentityManager.beginOAuth2} to authenticate users in a browser or {@linkcode ArcGISIdentityManager.authorize} for authenticating users with a web server.
    */
   public static signIn(options: ISignInOptions) {
-    const session = new ArcGISIdentityManager(options);
+    const manager = new ArcGISIdentityManager(options);
 
-    return session.getUser().then(() => {
-      return session;
+    return manager.getUser().then(() => {
+      return manager;
     });
   }
 
@@ -1004,7 +1004,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
    * Returns authentication in a format useable in the [ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/).
    *
    * ```js
-   * esriId.registerToken(session.toCredential());
+   * esriId.registerToken(manager.toCredential());
    * ```
    *
    * @returns ICredential
@@ -1023,7 +1023,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
    * Returns information about the currently logged in [user](https://developers.arcgis.com/rest/users-groups-and-items/user.htm). Subsequent calls will *not* result in additional web traffic.
    *
    * ```js
-   * session.getUser()
+   * manager.getUser()
    *   .then(response => {
    *     console.log(response.role); // "org_admin"
    *   })
@@ -1061,7 +1061,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
    * Returns information about the currently logged in user's [portal](https://developers.arcgis.com/rest/users-groups-and-items/portal-self.htm). Subsequent calls will *not* result in additional web traffic.
    *
    * ```js
-   * session.getPortal()
+   * manager.getPortal()
    *   .then(response => {
    *     console.log(portal.name); // "City of ..."
    *   })
@@ -1099,7 +1099,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
    * Returns the username for the currently logged in [user](https://developers.arcgis.com/rest/users-groups-and-items/user.htm). Subsequent calls will *not* result in additional web traffic. This is also used internally when a username is required for some requests but is not present in the options.
    *
    *    * ```js
-   * session.getUsername()
+   * manager.getUsername()
    *   .then(response => {
    *     console.log(response); // "casey_jones"
    *   })
@@ -1199,9 +1199,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   /**
    * Manually refreshes the current `token` and `tokenExpires`.
    */
-  public refreshSession(
-    requestOptions?: ITokenRequestOptions
-  ): Promise<ArcGISIdentityManager> {
+  public refreshCredentials(requestOptions?: ITokenRequestOptions) {
     // make sure subsequent calls to getUser() don't returned cached metadata
     this._user = null;
 
@@ -1304,7 +1302,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
             error: {
               name: "tokenExpiredError",
               message:
-                "Session token was expired, and not returned to the child application"
+                "Token was expired, and not returned to the child application"
             }
           };
         }
@@ -1444,11 +1442,11 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     }
 
     if (!this._pendingTokenRequests[this.portal]) {
-      this._pendingTokenRequests[this.portal] = this.refreshSession(
+      this._pendingTokenRequests[this.portal] = this.refreshCredentials(
         requestOptions
-      ).then((session) => {
+      ).then((manager) => {
         this._pendingTokenRequests[this.portal] = null;
-        return session.token;
+        return manager.token;
       });
     }
 
