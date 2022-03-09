@@ -3,15 +3,31 @@
  *
  * Inspired by: https://www.sensedeep.com/blog/posts/2021/how-to-create-single-source-npm-module.html
  */
-import { writeFile } from "fs/promises";
+import { writeFile, access } from "fs/promises";
 import { join } from "path";
 
-writeFile(
-  join(process.cwd(), "dist", "esm", "package.json"),
-  JSON.stringify({ type: "module" }, null, 2)
-);
+const esmBuildFolder = join(process.cwd(), "dist", "esm");
 
-writeFile(
-  join(process.cwd(), "dist", "cjs", "package.json"),
-  JSON.stringify({ type: "commonjs" }, null, 2)
-);
+access(esmBuildFolder)
+  .then(() => {
+    writeFile(
+      join(esmBuildFolder, "package.json"),
+      JSON.stringify({ type: "module" }, null, 2)
+    );
+  })
+  .catch(() => {
+    // fail silently no ESM build folder was found.
+  });
+
+const cjsBuildFolder = join(process.cwd(), "dist", "cjs");
+
+access(esmBuildFolder)
+  .then(() => {
+    writeFile(
+      join(cjsBuildFolder, "package.json"),
+      JSON.stringify({ type: "commonjs" }, null, 2)
+    );
+  })
+  .catch(() => {
+    // fail silently no CJS build folder was found.
+  });
