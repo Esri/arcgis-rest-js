@@ -641,7 +641,7 @@ describe("request()", () => {
       });
     });
 
-    it("should throw throw an error is it also fails with the new token", () => {
+    it("should throw an error if it also fails with the new token", () => {
       fetchMock.get(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=TOKEN",
         { error: { code: 498, message: "Invalid token.", details: [] } }

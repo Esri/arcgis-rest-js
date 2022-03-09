@@ -262,7 +262,7 @@ export function internalRequest(
     authentication = options.authentication;
   }
 
-  // for errors in GET requests we want the URL passed to the error to the the URL before
+  // for errors in GET requests we want the URL passed to the error to be the URL before
   // query params are applied.
   const originalUrl = url;
 
