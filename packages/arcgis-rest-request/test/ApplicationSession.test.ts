@@ -136,7 +136,7 @@ describe("ApplicationCredentialsManager", () => {
     });
 
     session
-      .refreshSession()
+      .refreshCredentials()
       .then((s) => {
         expect(s).toBe(session);
         done();

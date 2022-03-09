@@ -122,7 +122,7 @@ export class ApplicationCredentialsManager implements IAuthenticationManager {
     );
   }
 
-  public refreshSession() {
+  public refreshCredentials() {
     return this.refreshToken().then(() => this);
   }
 }

@@ -97,7 +97,7 @@ describe("shareItemWithGroup() ::", () => {
     });
 
     // make sure session doesnt cache metadata
-    MOCK_USER_SESSION.refreshSession()
+    MOCK_USER_SESSION.refreshCredentials()
       .then(() => done())
       .catch();
   });
