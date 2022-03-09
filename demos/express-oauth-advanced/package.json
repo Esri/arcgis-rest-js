@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "name": "@esri/arcgis-rest-demo-express-oauth-advanced",
+  "version": "3.3.0",
+  "description": "Demo of @esri/arcgis-rest-* packages in an Express server",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@esri/arcgis-rest-request": "4.0.0-beta.2",
+    "dotenv": "^16.0.0",
+    "express": "^4.16.3",
+    "express-session": "^1.17.2",
+    "session-file-store": "^1.5.0"
+  },
+  "author": ""
+}

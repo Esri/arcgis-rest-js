@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button id="getUserContent">Get Private User Content</button>
+  <button id="refreshSession">Refresh Credentials</button>
+
+  <script type="module">
+    import {ArcGISIdentityManager} from 'https://cdn.skypack.dev/@esri/arcgis-rest-request@beta';
+    import { searchItems, SearchQueryBuilder } from 'https://cdn.skypack.dev/@esri/arcgis-rest-portal@beta';
+    
+    const serverSessionData = `SESSION_JSON`;
+    let session = ArcGISIdentityManager.deserialize(serverSessionData);
+    
+    const refreshSessionButton = document.getElementById("refreshSession");
+
+    refreshSessionButton.addEventListener("click", (e)=>{
+      fetch("/refresh").then(response => {
+        return response.json()
+      }).then(sessionJson => {
+        session = ArcGISIdentityManager.deserialize(JSON.stringify(sessionJson));
+        document.getElementsByTagName("pre")[0].innerText = JSON.stringify(session, null, 2);
+      })
+      e.preventDefault();
+
+    })
+
+    const getUserContentButton = document.getElementById("getUserContent");
+
+    getUserContentButton.addEventListener("click", (e) => {
+      searchItems({
+        q: new SearchQueryBuilder().match(session.username)
+          .in("owner").and().match("private").in("access"),
+        authentication: session
+      }).then((items)=>{
+        console.log(items)
+      }).catch(e => {
+        console.log(e)
+      })
+      e.preventDefault();
+    })
+  </script>
+</body>
+</html>
