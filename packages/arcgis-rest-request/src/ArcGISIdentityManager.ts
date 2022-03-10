@@ -771,11 +771,15 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     return new ArcGISIdentityManager({
       clientId: options.clientId,
       refreshToken: options.refreshToken,
-      refreshTokenExpires: new Date(options.refreshTokenExpires),
+      refreshTokenExpires: options.refreshTokenExpires
+        ? new Date(options.refreshTokenExpires)
+        : undefined,
       username: options.username,
       password: options.password,
       token: options.token,
-      tokenExpires: new Date(options.tokenExpires),
+      tokenExpires: options.tokenExpires
+        ? new Date(options.tokenExpires)
+        : undefined,
       portal: options.portal,
       ssl: options.ssl,
       tokenDuration: options.tokenDuration,
@@ -1486,7 +1490,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       this.refreshTokenExpires &&
       this.refreshTokenExpires.getTime() < Date.now()
     ) {
-      return this.refreshRefreshToken(requestOptions);
+      return this.exchangeRefreshToken(requestOptions);
     }
 
     const options: ITokenRequestOptions = {
@@ -1511,7 +1515,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
    * Exchanges an unexpired `refreshToken` for a new one, also updates `token` and
    * `tokenExpires`.
    */
-  private refreshRefreshToken(requestOptions?: ITokenRequestOptions) {
+  exchangeRefreshToken(requestOptions?: ITokenRequestOptions) {
     const options: ITokenRequestOptions = {
       params: {
         client_id: this.clientId,

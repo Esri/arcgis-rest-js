@@ -66,6 +66,22 @@ describe("ArcGISIdentityManager", () => {
       expect(session2.token).toEqual("token");
       expect(session2.tokenExpires).toEqual(TOMORROW);
     });
+
+    it("should serialize undefined dates as undefined, not invalid date objects", () => {
+      const session = new ArcGISIdentityManager({
+        clientId: "clientId",
+        redirectUri: "https://example-app.com/redirect-uri",
+        token: "token",
+        refreshTokenTTL: 1440,
+        username: "c@sey",
+        password: "123456"
+      });
+      console.log(session.serialize());
+      const session2 = ArcGISIdentityManager.deserialize(session.serialize());
+
+      expect(session2.refreshToken).toBeUndefined();
+      expect(session2.refreshTokenExpires).toBeUndefined();
+    });
   });
 
   describe(".getToken()", () => {
