@@ -76,7 +76,7 @@ describe("ArcGISIdentityManager", () => {
         username: "c@sey",
         password: "123456"
       });
-      console.log(session.serialize());
+
       const session2 = ArcGISIdentityManager.deserialize(session.serialize());
 
       expect(session2.refreshToken).toBeUndefined();
