@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-demographics",
-  "version": "4.0.0-beta.2",
+  "version": "4.0.0-beta.3",
   "description": "Demographics data helpers for @esri/arcgis-rest-js",
   "license": "Apache-2.0",
   "keywords": [
@@ -32,7 +32,9 @@
     "postbuild": "node ../../scripts/create-dist-package-jsons.js",
     "build:bundled": "rollup -c ../../rollup.js",
     "build:cjs": "tsc --outDir ./dist/cjs -m commonjs",
+    "postbuild:cjs": "node ../../scripts/create-dist-package-jsons.js",
     "build:esm": "tsc --outDir ./dist/esm --declaration",
+    "postbuild:esm": "node ../../scripts/create-dist-package-jsons.js",
     "dev": "npm-run-all --parallel dev:*",
     "dev:bundled": "rollup -w -c ../../rollup.js",
     "dev:cjs": "tsc -w --outDir ./dist/cjs -m commonjs",
@@ -45,10 +47,10 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-request": "4.0.0-beta.2"
+    "@esri/arcgis-rest-request": "4.0.0-beta.3"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-request": "4.0.0-beta.2"
+    "@esri/arcgis-rest-request": "4.0.0-beta.3"
   },
   "contributors": [
     "Gavin Rehkemper <grehkemper@esri.com> (http://gavinr.com/)",
