@@ -42,4 +42,5 @@ These instructions are for setting up the demo using credentials setup by the Ar
 4. At the end of the request the value of `request.session` is run through the `encode` option on the session configuration and saved back to disk.
 5. In the application route the session is converted to a plain object, the refresh token is removed and the resulting object embedded in the client code.
 6. On the client we can customize the behavior of how `ArcGISIdentityManager` by subclassing it so that it so that it refreshes tokens when they expire by getting a new token from our server.
-7. The client can hydrate
+7. The client can hydrate the custom subclass of `ArcGISIdentityManager` and use it for requests.
+8. When the client needs to refresh the token it will call the custom `refreshCredentials` method which will call the server. The server will get a new token and send it to the client and the client will update and retry the request with the new token.
