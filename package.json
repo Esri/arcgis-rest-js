@@ -9,7 +9,7 @@
     "build": "npm run build:esm && npm run build:cjs && npm run build:bundled",
     "build:esm": "ultra --no-pretty --silent --build -r --filter \"packages/*\" build:esm",
     "build:cjs": "ultra --no-pretty --silent --build -r --filter \"packages/*\" build:cjs",
-    "build:bundled": "ultra  --no-pretty --silent --build -r --filter \"packages/*\" build:bundled",
+    "build:bundled": "ultra --build -r --filter \"packages/*\" build:bundled",
     "dev:esm": "ultra -r --filter \"packages/*\" dev:esm",
     "dev:cjs": "ultra -r --filter \"packages/*\" dev:cjs",
     "dev:bundled": "ultra -r --filter \"packages/*\" dev:bundled",
