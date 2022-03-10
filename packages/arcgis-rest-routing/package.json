@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-routing",
-  "version": "4.0.0-beta.2",
+  "version": "4.0.0-beta.3",
   "description": "Routing helpers for @esri/arcgis-rest-js",
   "license": "Apache-2.0",
   "keywords": [
@@ -48,10 +48,10 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-request": "4.0.0-beta.2"
+    "@esri/arcgis-rest-request": "4.0.0-beta.3"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-request": "4.0.0-beta.2"
+    "@esri/arcgis-rest-request": "4.0.0-beta.3"
   },
   "contributors": [
     "Gavin Rehkemper <gavin@gavinr.com>"
