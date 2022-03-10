@@ -30,6 +30,7 @@ export function fetchToken(
   requestOptions: ITokenRequestOptions
 ): Promise<IFetchTokenResponse> {
   const options: IRequestOptions = requestOptions;
+
   // we generate a response, so we can't return the raw response
   options.rawResponse = false;
 

@@ -714,7 +714,7 @@ describe("ArcGISIdentityManager", () => {
     });
   });
 
-  describe(".refreshSession()", () => {
+  describe(".refreshCredentials()", () => {
     it("should refresh with a username and password if expired", (done) => {
       const session = new ArcGISIdentityManager({
         username: "c@sey",
@@ -730,7 +730,7 @@ describe("ArcGISIdentityManager", () => {
       });
 
       session
-        .refreshSession()
+        .refreshCredentials()
         .then((s) => {
           expect(s.token).toBe("token");
           expect(s.tokenExpires).toEqual(TOMORROW);
@@ -759,7 +759,7 @@ describe("ArcGISIdentityManager", () => {
       });
 
       session
-        .refreshSession()
+        .refreshCredentials()
         .then((s) => {
           expect(s.token).toBe("newToken");
           expect(s.tokenExpires.getTime()).toBeGreaterThan(
@@ -790,7 +790,7 @@ describe("ArcGISIdentityManager", () => {
       });
 
       session
-        .refreshSession()
+        .refreshCredentials()
         .then((s) => {
           expect(s.token).toBe("newToken");
           expect(s.tokenExpires.getTime()).toBeGreaterThan(
@@ -816,7 +816,7 @@ describe("ArcGISIdentityManager", () => {
 
       expect(session.canRefresh).toBe(false);
 
-      session.refreshSession().catch((e) => {
+      session.refreshCredentials().catch((e) => {
         expect(e instanceof ArcGISAuthError).toBeTruthy();
         expect(e.name).toBe("ArcGISAuthError");
         expect(e.message).toBe("Unable to refresh token.");

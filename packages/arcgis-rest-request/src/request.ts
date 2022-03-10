@@ -75,10 +75,12 @@ export class ArcGISAuthError extends ArcGISRequestError {
       code === "AUTHENTICATION_ERROR_CODE" ? message : `${code}: ${message}`;
   }
 
-  public retry(getSession: IRetryAuthError, retryLimit = 3) {
+  public retry(getSession: IRetryAuthError, retryLimit = 1) {
     let tries = 0;
 
     const retryRequest = (resolve: any, reject: any) => {
+      tries = tries + 1;
+
       getSession(this.url, this.options)
         .then((session) => {
           const newOptions = {
@@ -86,8 +88,7 @@ export class ArcGISAuthError extends ArcGISRequestError {
             ...{ authentication: session }
           };
 
-          tries = tries + 1;
-          return request(this.url, newOptions);
+          return internalRequest(this.url, newOptions);
         })
         .then((response) => {
           resolve(response);
@@ -95,7 +96,11 @@ export class ArcGISAuthError extends ArcGISRequestError {
         .catch((e) => {
           if (e.name === "ArcGISAuthError" && tries < retryLimit) {
             retryRequest(resolve, reject);
-          } else if (e.name === "ArcGISAuthError" && tries >= retryLimit) {
+          } else if (
+            e.name === this.name &&
+            e.message === this.message &&
+            tries >= retryLimit
+          ) {
             reject(this);
           } else {
             reject(e);
@@ -171,30 +176,17 @@ export function checkForErrors(
 }
 
 /**
- * ```js
- * import { request } from '@esri/arcgis-rest-request';
- * //
- * request('https://www.arcgis.com/sharing/rest')
- *   .then(response) // response.currentVersion === 5.2
- * //
- * request('https://www.arcgis.com/sharing/rest', {
- *   httpMethod: "GET"
- * })
- * //
- * request('https://www.arcgis.com/sharing/rest/search', {
- *   params: { q: 'parks' }
- * })
- *   .then(response) // response.total => 78379
- * ```
- * Generic method for making HTTP requests to ArcGIS REST API endpoints.
+ * This is the internal implementation of `request` without the automatic retry behavior to prevent
+ * infinite loops when a server continues to return invalid token errors.
  *
  * @param url - The URL of the ArcGIS REST API endpoint.
  * @param requestOptions - Options for the request, including parameters relevant to the endpoint.
  * @returns A Promise that will resolve with the data from the response.
+ * @internal
  */
-export function request(
+export function internalRequest(
   url: string,
-  requestOptions: IRequestOptions = { params: { f: "json" } }
+  requestOptions: IRequestOptions
 ): Promise<any> {
   const defaults = getDefaultRequestOptions();
   const options: IRequestOptions = {
@@ -269,6 +261,10 @@ export function request(
   } else {
     authentication = options.authentication;
   }
+
+  // for errors in GET requests we want the URL passed to the error to be the URL before
+  // query params are applied.
+  const originalUrl = url;
 
   return (
     authentication
@@ -416,7 +412,7 @@ export function request(
       if ((params.f === "json" || params.f === "geojson") && !rawResponse) {
         const response = checkForErrors(
           data,
-          url,
+          originalUrl,
           params,
           options,
           originalAuthError
@@ -443,4 +439,49 @@ export function request(
         return data;
       }
     });
+}
+
+/**
+ * ```js
+ * import { request } from '@esri/arcgis-rest-request';
+ * //
+ * request('https://www.arcgis.com/sharing/rest')
+ *   .then(response) // response.currentVersion === 5.2
+ * //
+ * request('https://www.arcgis.com/sharing/rest', {
+ *   httpMethod: "GET"
+ * })
+ * //
+ * request('https://www.arcgis.com/sharing/rest/search', {
+ *   params: { q: 'parks' }
+ * })
+ *   .then(response) // response.total => 78379
+ * ```
+ * Generic method for making HTTP requests to ArcGIS REST API endpoints.
+ *
+ * @param url - The URL of the ArcGIS REST API endpoint.
+ * @param requestOptions - Options for the request, including parameters relevant to the endpoint.
+ * @returns A Promise that will resolve with the data from the response.
+ */
+export function request(
+  url: string,
+  requestOptions: IRequestOptions = { params: { f: "json" } }
+): Promise<any> {
+  return internalRequest(url, requestOptions).catch((e) => {
+    if (
+      e instanceof ArcGISAuthError &&
+      e.code === 498 &&
+      e.message === "498: Invalid token." &&
+      requestOptions.authentication &&
+      typeof requestOptions.authentication !== "string" &&
+      requestOptions.authentication.canRefresh &&
+      requestOptions.authentication.refreshCredentials
+    ) {
+      return e.retry(() => {
+        return (requestOptions.authentication as any).refreshCredentials();
+      }, 1);
+    } else {
+      return Promise.reject(e);
+    }
+  });
 }

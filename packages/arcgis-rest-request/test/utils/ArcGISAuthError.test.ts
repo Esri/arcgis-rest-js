@@ -4,12 +4,12 @@
 import {
   ArcGISAuthError,
   IRetryAuthError,
-  ErrorTypes,
+  ErrorTypes
 } from "../../src/index.js";
 import {
   ArcGISOnlineAuthError,
   ArcGISOnlineError,
-  GenerateTokenError,
+  GenerateTokenError
 } from "./../mocks/errors.js";
 import { request } from "../../src/request.js";
 import fetchMock from "fetch-mock";
@@ -56,7 +56,7 @@ describe("ArcGISRequestError", () => {
       },
       retryHandler(url, options) {
         return Promise.resolve(MockAuth);
-      },
+      }
     };
 
     it("should allow retrying a request with a new or updated session", (done) => {
@@ -71,21 +71,21 @@ describe("ArcGISRequestError", () => {
             title: "Test Map",
             tags: "foo",
             type: "Web Map",
-            f: "json",
-          },
+            f: "json"
+          }
         }
       );
 
       fetchMock.once("*", {
         success: true,
         id: "abc",
-        folder: null,
+        folder: null
       });
 
       const retryHandlerSpy = spyOn(MockAuth, "retryHandler").and.callThrough();
 
       error
-        .retry(MockAuth.retryHandler, 1)
+        .retry(MockAuth.retryHandler, 3)
         .then((response: any) => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -118,8 +118,8 @@ describe("ArcGISRequestError", () => {
             title: "Test Map",
             tags: "foo",
             type: "Web Map",
-            f: "json",
-          },
+            f: "json"
+          }
         }
       );
 
@@ -127,7 +127,7 @@ describe("ArcGISRequestError", () => {
 
       const retryHandlerSpy = spyOn(MockAuth, "retryHandler").and.callThrough();
 
-      error.retry(MockAuth.retryHandler).catch((e: any) => {
+      error.retry(MockAuth.retryHandler, 3).catch((e: any) => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem"
@@ -155,8 +155,8 @@ describe("ArcGISRequestError", () => {
           httpMethod: "POST",
           params: {
             type: "Web Map",
-            f: "json",
-          },
+            f: "json"
+          }
         }
       );
 
@@ -185,8 +185,8 @@ describe("ArcGISRequestError", () => {
           username: "correct",
           password: "incorrect",
           expiration: 10260,
-          referer: "localhost",
-        },
+          referer: "localhost"
+        }
       }).catch((err) => {
         expect(err.name).toBe(ErrorTypes.ArcGISAuthError);
         done();

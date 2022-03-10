@@ -2,6 +2,7 @@
   "out": "typedoc",
   "json": "typedoc/typedoc.json",
   "logLevel": "Verbose",
+  "excludeInternal": true,
   "packages": [
     "./packages/arcgis-rest-auth/",
     "./packages/arcgis-rest-demographics/",
