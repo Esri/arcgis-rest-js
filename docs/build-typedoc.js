@@ -3,6 +3,7 @@ const { join } = require("path");
 const { readFile, writeFile } = require("fs");
 const _ = require("lodash");
 const OUTPUT = join(process.cwd(), "docs", "src", `typedoc.json`);
+const RAWOUTPUT = join(process.cwd(), "docs", "src", `rawtypedoc.json`);
 const { prettyifyUrl } = require("acetate/lib/utils.js");
 const slug = require("slug");
 const minimatch = require("minimatch");
@@ -17,7 +18,7 @@ const md = new MarkdownIt();
         "typedoc",
         [
           "-json",
-          OUTPUT,
+          RAWOUTPUT,
           "--exclude",
           "**/*test.ts",
           "--tsconfig",
@@ -35,7 +36,7 @@ const md = new MarkdownIt();
           return;
         }
 
-        readFile(OUTPUT, (error, content) => {
+        readFile(RAWOUTPUT, (error, content) => {
           if (error) {
             reject(error);
             return;
