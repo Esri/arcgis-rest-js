@@ -3,6 +3,7 @@ const { join } = require("path");
 const { readFile, writeFile } = require("fs");
 const _ = require("lodash");
 const OUTPUT = join(process.cwd(), "docs", "src", `typedoc.json`);
+
 const { prettyifyUrl } = require("acetate/lib/utils.js");
 const slug = require("slug");
 const minimatch = require("minimatch");
