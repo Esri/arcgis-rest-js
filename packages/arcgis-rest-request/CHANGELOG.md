@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-request [4.0.0-beta.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.3...@esri/arcgis-rest-request@4.0.0-beta.4) (2022-03-14)
+
+
+### Features
+
+* **arcgis-rest-request:** add demo and code for ability to share session between client and server ([ee9ac4c](https://github.com/Esri/arcgis-rest-js/commit/ee9ac4c5a0de48d8820c15d661b544ed38a7abf7))
+
 # @esri/arcgis-rest-request [4.0.0-beta.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.2...@esri/arcgis-rest-request@4.0.0-beta.3) (2022-03-10)
 
 
