@@ -785,13 +785,13 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
-    it("should refresh with  an expired refresh token", (done) => {
+    it("should refresh with  a refresh token that it is about to expire", (done) => {
       const session = new ArcGISIdentityManager({
         clientId: "clientId",
         token: "token",
         username: "c@sey",
         refreshToken: "refreshToken",
-        refreshTokenExpires: YESTERDAY,
+        refreshTokenExpires: new Date(Date.now() + 1000 * 60 * 60), // expires in one hour
         redirectUri: "https://example-app.com/redirect-uri"
       });
 
@@ -799,7 +799,8 @@ describe("ArcGISIdentityManager", () => {
         access_token: "newToken",
         expires_in: 60,
         username: " c@sey",
-        refresh_token: "newRefreshToken"
+        refresh_token: "newRefreshToken",
+        refresh_token_expires_in: 1209600
       });
 
       session
@@ -2014,10 +2015,11 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
-    it("should return a ArcGISIdentityManager where refreshTokenExpires is 2 weeks from now (within 10 ms)", (done) => {
+    it("should return a ArcGISIdentityManager where refreshTokenExpires is 2 weeks from now (within 5 minutes)", (done) => {
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "token",
         refresh_token: "refreshToken",
+        refresh_token_expires_in: 1209600,
         username: "Casey",
         ssl: true
       });
@@ -2031,13 +2033,13 @@ describe("ArcGISIdentityManager", () => {
       )
         .then((session) => {
           const twoWeeksFromNow = new Date(
-            Date.now() + (20160 - 1) * 60 * 1000
+            Date.now() + (20160 - 1) * 60 * 1000 - 1000 * 60 * 5
           );
           expect(session.refreshTokenExpires.getTime()).toBeGreaterThan(
-            twoWeeksFromNow.getTime() - 10
+            twoWeeksFromNow.getTime() - 1000 * 60 * 10
           );
           expect(session.refreshTokenExpires.getTime()).toBeLessThan(
-            twoWeeksFromNow.getTime() + 10
+            twoWeeksFromNow.getTime() + 1000 * 60 * 10
           );
           done();
         })

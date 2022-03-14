@@ -1456,10 +1456,13 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
    * Refreshes the current `token` and `tokenExpires` with `refreshToken`.
    */
   private refreshWithRefreshToken(requestOptions?: ITokenRequestOptions) {
+    // If our refresh token expires sometime in the next 24 hours then refresh the refresh token
+    const ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
+
     if (
       this.refreshToken &&
       this.refreshTokenExpires &&
-      this.refreshTokenExpires.getTime() < Date.now()
+      this.refreshTokenExpires.getTime() - ONE_DAY_IN_MILLISECONDS < Date.now()
     ) {
       return this.exchangeRefreshToken(requestOptions);
     }

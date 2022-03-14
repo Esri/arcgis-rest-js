@@ -45,7 +45,7 @@ export function fetchToken(
       ),
       ssl: response.ssl === true
     };
-    console.log(response);
+
     if (response.refresh_token) {
       r.refreshToken = response.refresh_token;
     }

@@ -5,7 +5,8 @@ const { clientId } = require("./config.json");
 
 const credentials = {
   clientId,
-  redirectUri: "http://localhost:3000/authenticate"
+  redirectUri: "http://localhost:3000/authenticate",
+  expiration: 10
 };
 
 app.get("/authorize", function (req, res) {
@@ -20,6 +21,7 @@ app.get("/authenticate", function (req, res) {
     // After exchanging we will have a ArcGISIdentityManager we can use in REST JS.
     ArcGISIdentityManager.exchangeAuthorizationCode(credentials, req.query.code)
       .then((session) => {
+        console.log(session);
         // get the users info
         return session.getUser();
       })
