@@ -66,6 +66,22 @@ describe("ArcGISIdentityManager", () => {
       expect(session2.token).toEqual("token");
       expect(session2.tokenExpires).toEqual(TOMORROW);
     });
+
+    it("should serialize undefined dates as undefined, not invalid date objects", () => {
+      const session = new ArcGISIdentityManager({
+        clientId: "clientId",
+        redirectUri: "https://example-app.com/redirect-uri",
+        token: "token",
+        refreshTokenTTL: 1440,
+        username: "c@sey",
+        password: "123456"
+      });
+
+      const session2 = ArcGISIdentityManager.deserialize(session.serialize());
+
+      expect(session2.refreshToken).toBeUndefined();
+      expect(session2.refreshTokenExpires).toBeUndefined();
+    });
   });
 
   describe(".getToken()", () => {
@@ -858,6 +874,19 @@ describe("ArcGISIdentityManager", () => {
         .catch((e) => {
           fail(e);
         });
+    });
+
+    it("should update the token and expiration from an external source", () => {
+      const session = new ArcGISIdentityManager({
+        clientId: "id",
+        token: "token",
+        tokenExpires: YESTERDAY
+      });
+
+      session.updateToken("newToken", TOMORROW);
+
+      expect(session.token).toBe("newToken");
+      expect(session.tokenExpires).toBe(TOMORROW);
     });
   });
 

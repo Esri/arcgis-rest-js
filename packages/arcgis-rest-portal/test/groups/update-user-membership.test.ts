@@ -34,7 +34,7 @@ describe("udpate-user-membership", () => {
       id: "3ef",
       users: ["larry", "curly", "moe"],
       newMemberType: "admin"
-    }).then(() => {
+    } as any).then(() => {
       const opts: RequestInit = fetchMock.lastOptions(
         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/updateUsers"
       );
@@ -53,7 +53,7 @@ describe("udpate-user-membership", () => {
       id: "3ef",
       users: ["larry", "curly", "moe"],
       newMemberType: "member"
-    }).then(() => {
+    } as any).then(() => {
       const opts: RequestInit = fetchMock.lastOptions(
         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/updateUsers"
       );

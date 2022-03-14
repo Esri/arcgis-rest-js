@@ -771,11 +771,15 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     return new ArcGISIdentityManager({
       clientId: options.clientId,
       refreshToken: options.refreshToken,
-      refreshTokenExpires: new Date(options.refreshTokenExpires),
+      refreshTokenExpires: options.refreshTokenExpires
+        ? new Date(options.refreshTokenExpires)
+        : undefined,
       username: options.username,
       password: options.password,
       token: options.token,
-      tokenExpires: new Date(options.tokenExpires),
+      tokenExpires: options.tokenExpires
+        ? new Date(options.tokenExpires)
+        : undefined,
       portal: options.portal,
       ssl: options.ssl,
       tokenDuration: options.tokenDuration,
@@ -1148,11 +1152,11 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     return {
       clientId: this.clientId,
       refreshToken: this.refreshToken,
-      refreshTokenExpires: this.refreshTokenExpires,
+      refreshTokenExpires: this.refreshTokenExpires || undefined,
       username: this.username,
       password: this.password,
       token: this.token,
-      tokenExpires: this.tokenExpires,
+      tokenExpires: this.tokenExpires || undefined,
       portal: this.portal,
       ssl: this.ssl,
       tokenDuration: this.tokenDuration,
@@ -1405,8 +1409,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
                   client: "referer"
                 }
               }).then((response: any) => {
-                this._token = response.token;
-                this._tokenExpires = new Date(response.expires);
+                this.updateToken(response.token, new Date(response.expires));
                 return response;
               });
             }
@@ -1470,8 +1473,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     };
     return generateToken(`${this.portal}/generateToken`, options).then(
       (response: any) => {
-        this._token = response.token;
-        this._tokenExpires = new Date(response.expires);
+        this.updateToken(response.token, new Date(response.expires));
         return this;
       }
     );
@@ -1486,7 +1488,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       this.refreshTokenExpires &&
       this.refreshTokenExpires.getTime() < Date.now()
     ) {
-      return this.refreshRefreshToken(requestOptions);
+      return this.exchangeRefreshToken(requestOptions);
     }
 
     const options: ITokenRequestOptions = {
@@ -1500,18 +1502,31 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
 
     return fetchToken(`${this.portal}/oauth2/token`, options).then(
       (response) => {
-        this._token = response.token;
-        this._tokenExpires = response.expires;
-        return this;
+        return this.updateToken(response.token, response.expires);
       }
     );
+  }
+
+  /**
+   * Update the stored {@linkcode ArcGISIdentityManager.token} and {@linkcode ArcGISIdentityManager.tokenExpires} properties. This method is used internally when refreshing tokens.
+   * You may need to call this if you want update the token with a new token from an external source.
+   *
+   * @param newToken The new token to use for this instance of `ArcGISIdentityManager`.
+   * @param newTokenExpiration The new expiration date of the token.
+   * @returns
+   */
+  updateToken(newToken: string, newTokenExpiration: Date) {
+    this._token = newToken;
+    this._tokenExpires = newTokenExpiration;
+
+    return this;
   }
 
   /**
    * Exchanges an unexpired `refreshToken` for a new one, also updates `token` and
    * `tokenExpires`.
    */
-  private refreshRefreshToken(requestOptions?: ITokenRequestOptions) {
+  exchangeRefreshToken(requestOptions?: ITokenRequestOptions) {
     const options: ITokenRequestOptions = {
       params: {
         client_id: this.clientId,

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button id="getUserContent">Get Private User Content</button>
+  <button id="refreshSession">Refresh Credentials</button>
+
+  <script type="module">
+    import { ArcGISIdentityManager } from 'https://cdn.skypack.dev/@esri/arcgis-rest-request@beta';
+    import { getUserContent, searchItems, SearchQueryBuilder } from 'https://cdn.skypack.dev/@esri/arcgis-rest-portal@beta';
+    
+    let session;
+
+    // We need to customize the behavior of how  ArcGISIdentityManager handles refreshing.
+    class ManagerWithCustomRefresh extends ArcGISIdentityManager {
+      /**
+       * This will be false by default because we do not have a refresh token on the client, we need to
+       * force this to be `true` to internally request will try to refresh tokens.
+       */
+      get canRefresh() {
+        return true;
+      }
+      /**
+       * Now we can override the `refreshCredentials` method to change HOW this will be refreshed.
+       */
+      refreshCredentials() {
+        fetchNewSessionFromServer();
+      }
+    }
+
+    // generic function to get a new session from the server.
+    function fetchNewSessionFromServer () {
+       fetch("/refresh").then(response => {
+        return response.json()
+      }).then(sessionJson => {
+        session.updateToken(sessionJson.token, new Date(session.expires));
+        document.getElementsByTagName("pre")[0].innerText = JSON.stringify(sessionJson, null, 2);
+      })
+    }
+
+
+    // This is where the server inserts serialized session information
+    const serverSessionData = `SESSION_JSON`;
+    session = ManagerWithCustomRefresh.deserialize(serverSessionData);
+
+    // Bind a button to test refreshing from the server
+    const refreshSessionButton = document.getElementById("refreshSession");
+    refreshSessionButton.addEventListener("click", (e)=>{
+      fetchNewSessionFromServer();
+      e.preventDefault();
+    })
+
+    // Bind a button to test getting some private data
+    const getUserContentButton = document.getElementById("getUserContent");
+    getUserContentButton.addEventListener("click", (e) => {
+      getUserContent({
+        authentication: session
+      }).then((items)=>{
+        console.log(items)
+      }).catch(e => {
+        console.log(e)
+      })
+      e.preventDefault();
+    })
+  </script>
+</body>
+</html>
