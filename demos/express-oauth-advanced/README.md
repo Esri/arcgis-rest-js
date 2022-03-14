@@ -31,6 +31,7 @@ These instructions are for setting up the demo using credentials setup by the Ar
 1. Copy `.env.template` to `.env`
 1. [Register an app](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/tutorials/register-your-application/) and copy the Client ID into `.env` in the `CLIENT_ID` property.
 1. [Add redirect URIs](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/tutorials/add-redirect-uri/) for `http://localhost:3000/authenticate` to your registered application.
+1. Replace the `ENCRYPTION_KEY` and `SESSION_SECRET` values with new values. You can use a website like https://randomkeygen.com/ to generate new strong keys.
 1. Run `npm run start`
 1. Visit http://localhost:3000 to start.
 

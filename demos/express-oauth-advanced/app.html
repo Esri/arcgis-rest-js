@@ -11,20 +11,10 @@
   <button id="refreshSession">Refresh Credentials</button>
 
   <script type="module">
-    import {ArcGISIdentityManager} from 'https://cdn.skypack.dev/@esri/arcgis-rest-request@beta';
+    import { ArcGISIdentityManager } from 'https://cdn.skypack.dev/@esri/arcgis-rest-request@beta';
     import { getUserContent, searchItems, SearchQueryBuilder } from 'https://cdn.skypack.dev/@esri/arcgis-rest-portal@beta';
     
     let session;
-
-    // generic function to get a new session from the server.
-    function fetchNewSessionFromServer () {
-       fetch("/refresh").then(response => {
-        return response.json()
-      }).then(sessionJson => {
-        session = ArcGISIdentityManager.deserialize(JSON.stringify(sessionJson));
-        document.getElementsByTagName("pre")[0].innerText = JSON.stringify(session, null, 2);
-      })
-    }
 
     // We need to customize the behavior of how  ArcGISIdentityManager handles refreshing.
     class ManagerWithCustomRefresh extends ArcGISIdentityManager {
@@ -42,6 +32,17 @@
         fetchNewSessionFromServer();
       }
     }
+
+    // generic function to get a new session from the server.
+    function fetchNewSessionFromServer () {
+       fetch("/refresh").then(response => {
+        return response.json()
+      }).then(sessionJson => {
+        session.updateToken(sessionJson.token, new Date(session.expires));
+        document.getElementsByTagName("pre")[0].innerText = JSON.stringify(sessionJson, null, 2);
+      })
+    }
+
 
     // This is where the server inserts serialized session information
     const serverSessionData = `SESSION_JSON`;

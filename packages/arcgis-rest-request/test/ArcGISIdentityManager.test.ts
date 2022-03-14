@@ -875,6 +875,19 @@ describe("ArcGISIdentityManager", () => {
           fail(e);
         });
     });
+
+    it("should update the token and expiration from an external source", () => {
+      const session = new ArcGISIdentityManager({
+        clientId: "id",
+        token: "token",
+        tokenExpires: YESTERDAY
+      });
+
+      session.updateToken("newToken", TOMORROW);
+
+      expect(session.token).toBe("newToken");
+      expect(session.tokenExpires).toBe(TOMORROW);
+    });
   });
 
   /**

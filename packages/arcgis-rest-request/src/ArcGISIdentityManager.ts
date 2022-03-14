@@ -1409,8 +1409,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
                   client: "referer"
                 }
               }).then((response: any) => {
-                this._token = response.token;
-                this._tokenExpires = new Date(response.expires);
+                this.updateToken(response.token, new Date(response.expires));
                 return response;
               });
             }
@@ -1474,8 +1473,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     };
     return generateToken(`${this.portal}/generateToken`, options).then(
       (response: any) => {
-        this._token = response.token;
-        this._tokenExpires = new Date(response.expires);
+        this.updateToken(response.token, new Date(response.expires));
         return this;
       }
     );
@@ -1504,11 +1502,24 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
 
     return fetchToken(`${this.portal}/oauth2/token`, options).then(
       (response) => {
-        this._token = response.token;
-        this._tokenExpires = response.expires;
-        return this;
+        return this.updateToken(response.token, response.expires);
       }
     );
+  }
+
+  /**
+   * Update the stored {@linkcode ArcGISIdentityManager.token} and {@linkcode ArcGISIdentityManager.tokenExpires} properties. This method is used internally when refreshing tokens.
+   * You may need to call this if you want update the token with a new token from an external source.
+   *
+   * @param newToken The new token to use for this instance of `ArcGISIdentityManager`.
+   * @param newTokenExpiration The new expiration date of the token.
+   * @returns
+   */
+  updateToken(newToken: string, newTokenExpiration: Date) {
+    this._token = newToken;
+    this._tokenExpires = newTokenExpiration;
+
+    return this;
   }
 
   /**
