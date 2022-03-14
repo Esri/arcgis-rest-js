@@ -11,7 +11,6 @@ export const MOCK_USER_SESSION = new ArcGISIdentityManager({
   tokenExpires: TOMORROW,
   refreshToken: "refreshToken",
   refreshTokenExpires: TOMORROW,
-  refreshTokenTTL: 1440,
   username: "jsmith",
   password: "123456",
   portal: "https://myorg.maps.arcgis.com/sharing/rest"

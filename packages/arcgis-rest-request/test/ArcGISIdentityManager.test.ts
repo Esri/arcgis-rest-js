@@ -30,7 +30,6 @@ describe("ArcGISIdentityManager", () => {
         tokenExpires: TOMORROW,
         refreshToken: "refreshToken",
         refreshTokenExpires: TOMORROW,
-        refreshTokenTTL: 1440,
         username: "c@sey",
         password: "123456"
       });
@@ -49,7 +48,6 @@ describe("ArcGISIdentityManager", () => {
       expect(session2.username).toEqual("c@sey");
       expect(session2.password).toEqual("123456");
       expect(session2.tokenDuration).toEqual(20160);
-      expect(session2.refreshTokenTTL).toEqual(1440);
     });
 
     it("should serialize to and from JSON with a server", () => {
@@ -72,7 +70,6 @@ describe("ArcGISIdentityManager", () => {
         clientId: "clientId",
         redirectUri: "https://example-app.com/redirect-uri",
         token: "token",
-        refreshTokenTTL: 1440,
         username: "c@sey",
         password: "123456"
       });
@@ -1888,7 +1885,6 @@ describe("ArcGISIdentityManager", () => {
         tokenExpires: TOMORROW,
         refreshToken: "refreshToken",
         refreshTokenExpires: TOMORROW,
-        refreshTokenTTL: 1440,
         username: "jsmith",
         password: "123456"
       });
@@ -2072,7 +2068,6 @@ describe("ArcGISIdentityManager", () => {
         tokenExpires: TOMORROW,
         refreshToken: "refreshToken",
         refreshTokenExpires: TOMORROW,
-        refreshTokenTTL: 1440,
         username: "jsmith",
         password: "123456"
       });
@@ -2114,7 +2109,6 @@ describe("ArcGISIdentityManager", () => {
         tokenExpires: TOMORROW,
         refreshToken: "refreshToken",
         refreshTokenExpires: TOMORROW,
-        refreshTokenTTL: 1440,
         username: "jsmith",
         password: "123456"
       });
@@ -2201,7 +2195,6 @@ describe("ArcGISIdentityManager", () => {
       tokenExpires: TOMORROW,
       refreshToken: "refreshToken",
       refreshTokenExpires: TOMORROW,
-      refreshTokenTTL: 1440,
       username: "jsmith",
       password: "123456"
     });
@@ -2460,7 +2453,6 @@ describe("ArcGISIdentityManager", () => {
         tokenExpires: TOMORROW,
         refreshToken: "refreshToken",
         refreshTokenExpires: TOMORROW,
-        refreshTokenTTL: 1440,
         username: "jsmith",
         password: "123456"
       });
@@ -2504,7 +2496,6 @@ describe("ArcGISIdentityManager", () => {
         tokenExpires: TOMORROW,
         refreshToken: "refreshToken",
         refreshTokenExpires: TOMORROW,
-        refreshTokenTTL: 1440,
         username: "jsmith",
         password: "123456"
       });
