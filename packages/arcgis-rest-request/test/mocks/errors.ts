@@ -74,3 +74,13 @@ export const GenerateTokenError: any = {
     details: ["Invalid username or password."]
   }
 };
+
+export const RefreshTokenError: any = {
+  error: {
+    code: 498,
+    error: "invalid_request",
+    error_description: "refresh_token expired",
+    message: "refresh_token expired",
+    details: []
+  }
+};

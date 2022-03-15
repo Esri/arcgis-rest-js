@@ -6,7 +6,8 @@ import {
   ErrorTypes,
   setDefaultRequestOptions,
   IRequestOptions,
-  ArcGISIdentityManager
+  ArcGISIdentityManager,
+  ArcGISTokenRequestError
 } from "../src/index.js";
 import fetchMock from "fetch-mock";
 import {
@@ -682,8 +683,12 @@ describe("request()", () => {
         httpMethod: "GET",
         authentication: session
       }).catch((e) => {
-        expect(e.code).toBe(498);
-        expect(e.message).toBe("498: Invalid refresh_token");
+        expect(e instanceof ArcGISTokenRequestError).toBe(true);
+        expect(e.name).toBe("ArcGISTokenRequestError");
+        expect(e.code).toBe("REFRESH_TOKEN_EXCHANGE_FAILED");
+        expect(e.message).toBe(
+          "REFRESH_TOKEN_EXCHANGE_FAILED: 498: Invalid refresh_token"
+        );
         return;
       });
     });

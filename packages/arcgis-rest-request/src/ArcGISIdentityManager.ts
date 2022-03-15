@@ -736,19 +736,29 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         redirect_uri: redirectUri,
         code: authorizationCode
       }
-    }).then((response) => {
-      return new ArcGISIdentityManager({
-        clientId,
-        portal,
-        ssl: response.ssl,
-        redirectUri,
-        refreshToken: response.refreshToken,
-        refreshTokenExpires: response.refreshTokenExpires,
-        token: response.token,
-        tokenExpires: response.expires,
-        username: response.username
+    })
+      .then((response) => {
+        return new ArcGISIdentityManager({
+          clientId,
+          portal,
+          ssl: response.ssl,
+          redirectUri,
+          refreshToken: response.refreshToken,
+          refreshTokenExpires: response.refreshTokenExpires,
+          token: response.token,
+          tokenExpires: response.expires,
+          username: response.username
+        });
+      })
+      .catch((e) => {
+        throw new ArcGISTokenRequestError(
+          e.message,
+          ArcGISTokenRequestErrorCodes.REFRESH_TOKEN_EXCHANGE_FAILED,
+          e.response,
+          e.url,
+          e.options
+        );
       });
-    });
   }
 
   public static deserialize(str: string) {
@@ -1192,7 +1202,12 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       return this.refreshWithRefreshToken();
     }
 
-    return Promise.reject(new ArcGISAuthError("Unable to refresh token."));
+    return Promise.reject(
+      new ArcGISTokenRequestError(
+        "Unable to refresh token. No refresh token or password present.",
+        ArcGISTokenRequestErrorCodes.TOKEN_REFRESH_FAILED
+      )
+    );
   }
 
   /**
@@ -1480,11 +1495,19 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       ...requestOptions
     };
 
-    return fetchToken(`${this.portal}/oauth2/token`, options).then(
-      (response) => {
+    return fetchToken(`${this.portal}/oauth2/token`, options)
+      .then((response) => {
         return this.updateToken(response.token, response.expires);
-      }
-    );
+      })
+      .catch((e) => {
+        throw new ArcGISTokenRequestError(
+          e.message,
+          ArcGISTokenRequestErrorCodes.TOKEN_REFRESH_FAILED,
+          e.response,
+          e.url,
+          e.options
+        );
+      });
   }
 
   /**
@@ -1517,15 +1540,23 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       ...requestOptions
     };
 
-    return fetchToken(`${this.portal}/oauth2/token`, options).then(
-      (response) => {
+    return fetchToken(`${this.portal}/oauth2/token`, options)
+      .then((response) => {
         this._token = response.token;
         this._tokenExpires = response.expires;
         this._refreshToken = response.refreshToken;
         this._refreshTokenExpires = response.refreshTokenExpires;
         return this;
-      }
-    );
+      })
+      .catch((e) => {
+        throw new ArcGISTokenRequestError(
+          e.message,
+          ArcGISTokenRequestErrorCodes.REFRESH_TOKEN_EXCHANGE_FAILED,
+          e.response,
+          e.url,
+          e.options
+        );
+      });
   }
 
   /**

@@ -9,12 +9,15 @@ import {
   ArcGISAuthError,
   request,
   ArcGISAccessDeniedError,
-  ErrorTypes
+  ErrorTypes,
+  ArcGISTokenRequestError,
+  ArcGISTokenRequestErrorCodes
 } from "../src/index.js";
 import { FormData } from "@esri/arcgis-rest-form-data";
 import {
   YESTERDAY,
   TOMORROW,
+  FIVE_DAYS_FROM_NOW,
   isBrowser
 } from "../../../scripts/test-helpers.js";
 
@@ -821,6 +824,68 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
+    it("should reject with an ArcGISTokenRequestError if the token cannot be refreshed", () => {
+      const session = new ArcGISIdentityManager({
+        clientId: "clientId",
+        token: "token",
+        username: "c@sey",
+        refreshToken: "refreshToken",
+        refreshTokenExpires: FIVE_DAYS_FROM_NOW,
+        redirectUri: "https://example-app.com/redirect-uri"
+      });
+
+      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
+        error: {
+          code: 400,
+          error: "invalid_client_id",
+          error_description: "Invalid client_id",
+          message: "Invalid client_id",
+          details: []
+        }
+      });
+
+      return session.refreshCredentials().catch((e) => {
+        expect(e instanceof ArcGISTokenRequestError).toBe(true);
+        expect(e.name).toBe("ArcGISTokenRequestError");
+        expect(e.code).toBe(ArcGISTokenRequestErrorCodes.TOKEN_REFRESH_FAILED);
+        expect(e.message).toBe("TOKEN_REFRESH_FAILED: 400: Invalid client_id");
+        return;
+      });
+    });
+
+    it("should reject with an ArcGISTokenRequestError if the refresh token cannot be refreshed", () => {
+      const session = new ArcGISIdentityManager({
+        clientId: "clientId",
+        token: "token",
+        username: "c@sey",
+        refreshToken: "refreshToken",
+        refreshTokenExpires: new Date(Date.now() + 1000 * 60 * 60), // expires in one hour
+        redirectUri: "https://example-app.com/redirect-uri"
+      });
+
+      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
+        error: {
+          code: 400,
+          error: "invalid_client_id",
+          error_description: "Invalid client_id",
+          message: "Invalid client_id",
+          details: []
+        }
+      });
+
+      return session.refreshCredentials().catch((e) => {
+        expect(e instanceof ArcGISTokenRequestError).toBe(true);
+        expect(e.name).toBe("ArcGISTokenRequestError");
+        expect(e.code).toBe(
+          ArcGISTokenRequestErrorCodes.REFRESH_TOKEN_EXCHANGE_FAILED
+        );
+        expect(e.message).toBe(
+          "REFRESH_TOKEN_EXCHANGE_FAILED: 400: Invalid client_id"
+        );
+        return;
+      });
+    });
+
     it("should reject if we cannot refresh the token", (done) => {
       const session = new ArcGISIdentityManager({
         clientId: "clientId",
@@ -831,9 +896,11 @@ describe("ArcGISIdentityManager", () => {
       expect(session.canRefresh).toBe(false);
 
       session.refreshCredentials().catch((e) => {
-        expect(e instanceof ArcGISAuthError).toBeTruthy();
-        expect(e.name).toBe("ArcGISAuthError");
-        expect(e.message).toBe("Unable to refresh token.");
+        expect(e instanceof ArcGISTokenRequestError).toBeTruthy();
+        expect(e.name).toBe("ArcGISTokenRequestError");
+        expect(e.message).toBe(
+          "TOKEN_REFRESH_FAILED: Unable to refresh token. No refresh token or password present."
+        );
         done();
       });
     });
@@ -1976,16 +2043,6 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe(".exchangeAuthorizationCode()", () => {
-    let paramsSpy: jasmine.Spy;
-
-    beforeEach(() => {
-      paramsSpy = spyOn(FormData.prototype, "append").and.callThrough();
-    });
-
-    afterAll(() => {
-      paramsSpy.calls.reset();
-    });
-
     it("should exchange an authorization code for a new ArcGISIdentityManager", (done) => {
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "token",
@@ -2046,6 +2103,35 @@ describe("ArcGISIdentityManager", () => {
         .catch((e) => {
           fail(e);
         });
+    });
+
+    it("should throw an ArcGISTokenRequestError when there is an error exchanging the code", () => {
+      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
+        error: {
+          code: 498,
+          error: "invalid_request",
+          error_description: "refresh_token expired",
+          message: "refresh_token expired",
+          details: []
+        }
+      });
+
+      return ArcGISIdentityManager.exchangeAuthorizationCode(
+        {
+          clientId: "clientId",
+          redirectUri: "https://example-app.com/redirect-uri"
+        },
+        "code"
+      ).catch((e) => {
+        expect(e.name).toBe("ArcGISTokenRequestError");
+        expect(e instanceof ArcGISTokenRequestError).toBe(true);
+        expect(e.code).toBe(
+          ArcGISTokenRequestErrorCodes.REFRESH_TOKEN_EXCHANGE_FAILED
+        );
+        expect(e.message).toBe(
+          "REFRESH_TOKEN_EXCHANGE_FAILED: 498: refresh_token expired"
+        );
+      });
     });
   });
 
