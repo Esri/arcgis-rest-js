@@ -18,6 +18,10 @@ import { revokeToken } from "./revoke-token.js";
 import { generateCodeChallenge } from "./utils/generate-code-challenge.js";
 import { generateRandomString } from "./utils/generate-random-string.js";
 import { ArcGISAccessDeniedError } from "./utils/ArcGISAccessDeniedError.js";
+import {
+  ArcGISTokenRequestError,
+  ArcGISTokenRequestErrorCodes
+} from "./utils/ArcGISTokenRequestError.js";
 
 /**
  * Options for {@linkcode ArcGISIdentityManager.fromToken}.
@@ -748,22 +752,32 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         redirect_uri: redirectUri,
         code: authorizationCode
       }
-    }).then((response) => {
-      return new ArcGISIdentityManager({
-        clientId,
-        portal,
-        ssl: response.ssl,
-        redirectUri,
-        refreshToken: response.refreshToken,
-        refreshTokenTTL,
-        refreshTokenExpires: new Date(
-          Date.now() + (refreshTokenTTL - 1) * 60 * 1000
-        ),
-        token: response.token,
-        tokenExpires: response.expires,
-        username: response.username
+    })
+      .then((response) => {
+        return new ArcGISIdentityManager({
+          clientId,
+          portal,
+          ssl: response.ssl,
+          redirectUri,
+          refreshToken: response.refreshToken,
+          refreshTokenTTL,
+          refreshTokenExpires: new Date(
+            Date.now() + (refreshTokenTTL - 1) * 60 * 1000
+          ),
+          token: response.token,
+          tokenExpires: response.expires,
+          username: response.username
+        });
+      })
+      .catch((e) => {
+        throw new ArcGISTokenRequestError(
+          e.message,
+          ArcGISTokenRequestErrorCodes.REFRESH_TOKEN_EXCHANGE_FAILED,
+          e.response,
+          e.url,
+          e.options
+        );
       });
-    });
   }
 
   public static deserialize(str: string) {
