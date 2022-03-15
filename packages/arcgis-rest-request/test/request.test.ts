@@ -17,7 +17,7 @@ import { MockParamBuilder } from "./mocks/param-builder.js";
 import { ArcGISOnlineError } from "./mocks/errors.js";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap.js";
 import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection.js";
-import { TOMORROW } from "../../../scripts/test-helpers.js";
+import { TOMORROW, FIVE_DAYS_FROM_NOW } from "../../../scripts/test-helpers.js";
 
 describe("request()", () => {
   afterEach(() => {
@@ -564,7 +564,50 @@ describe("request()", () => {
   });
 
   describe("automatic retry", () => {
-    it("should retry requests that fail with an invalid token error", () => {
+    it("should retry requests that fail with an invalid token error, by refreshing the token", () => {
+      fetchMock.getOnce(
+        "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=INVALID_TOKEN",
+        { error: { code: 498, message: "Invalid token.", details: [] } }
+      );
+
+      fetchMock.getOnce(
+        "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=VALID_TOKEN",
+        {
+          user: {
+            username: "c@sey"
+          }
+        }
+      );
+
+      const session = new ArcGISIdentityManager({
+        clientId: "clientId",
+        token: "INVALID_TOKEN",
+        username: "c@sey",
+        refreshToken: "refreshToken",
+        refreshTokenExpires: FIVE_DAYS_FROM_NOW
+      });
+
+      expect(session.canRefresh).toBe(true);
+
+      fetchMock.post("https://www.arcgis.com/sharing/rest/oauth2/token", {
+        access_token: "VALID_TOKEN",
+        expires_in: 60,
+        username: " c@sey"
+      });
+
+      return request("https://www.arcgis.com/sharing/rest/portals/self", {
+        httpMethod: "GET",
+        authentication: session
+      })
+        .then((response) => {
+          expect(response.user.username).toBe("c@sey");
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should retry requests that fail with an invalid token error, by refreshing the token and refresh token", () => {
       fetchMock.getOnce(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=INVALID_TOKEN",
         { error: { code: 498, message: "Invalid token.", details: [] } }
@@ -592,7 +635,9 @@ describe("request()", () => {
       fetchMock.post("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "VALID_TOKEN",
         expires_in: 60,
-        username: " c@sey"
+        username: " c@sey",
+        refresh_token: "NEW_REFRESH_TOKEN",
+        refresh_token_expires_in: 1209600
       });
 
       return request("https://www.arcgis.com/sharing/rest/portals/self", {
@@ -601,6 +646,8 @@ describe("request()", () => {
       })
         .then((response) => {
           expect(response.user.username).toBe("c@sey");
+          expect(session.token).toBe("VALID_TOKEN");
+          expect(session.refreshToken).toBe("NEW_REFRESH_TOKEN");
         })
         .catch((e) => {
           fail(e);
@@ -652,7 +699,7 @@ describe("request()", () => {
         token: "TOKEN",
         username: "c@sey",
         refreshToken: "refreshToken",
-        refreshTokenExpires: TOMORROW
+        refreshTokenExpires: FIVE_DAYS_FROM_NOW
       });
 
       fetchMock.post("https://www.arcgis.com/sharing/rest/oauth2/token", {

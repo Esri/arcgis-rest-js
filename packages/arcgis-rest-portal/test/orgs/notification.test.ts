@@ -25,7 +25,6 @@ describe("create-org-notification", () => {
     tokenExpires: TOMORROW,
     refreshToken: "refreshToken",
     refreshTokenExpires: TOMORROW,
-    refreshTokenTTL: 1440,
     username: "casey",
     password: "123456",
     portal: "https://myorg.maps.arcgis.com/sharing/rest"
