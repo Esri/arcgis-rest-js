@@ -343,7 +343,6 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         popup: true,
         popupWindowFeatures:
           "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes",
-        state: options.clientId,
         locale: "",
         style: "",
         pkce: true
