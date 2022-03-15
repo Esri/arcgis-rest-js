@@ -136,6 +136,11 @@ export interface IOAuth2Options {
    */
   style?: "" | "light" | "dark";
 
+  /**
+   * Custom value for oAuth 2.0 state. A random identifier will be generated if this is not passed.
+   */
+  state?: string;
+
   [key: string]: any;
 }
 
@@ -328,7 +333,8 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       locale,
       params,
       style,
-      pkce
+      pkce,
+      state
     }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
@@ -349,7 +355,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
      * Generate a  random string for the `state` param and store it in local storage. This is used
      * to validate that all parts of the oAuth process were performed on the same client.
      */
-    const stateId = generateRandomString(win);
+    const stateId = state || generateRandomString(win);
     const stateStorageKey = `ARCGIS_REST_JS_AUTH_STATE_${clientId}`;
 
     win.localStorage.setItem(stateStorageKey, stateId);
@@ -709,15 +715,18 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     options: IOAuth2Options,
     response: http.ServerResponse
   ) {
-    const { portal, clientId, expiration, redirectUri }: IOAuth2Options = {
-      ...{ portal: "https://arcgis.com/sharing/rest", expiration: 20160 },
-      ...options
-    };
+    const { portal, clientId, expiration, redirectUri, state }: IOAuth2Options =
+      {
+        ...{ portal: "https://arcgis.com/sharing/rest", expiration: 20160 },
+        ...options
+      };
+
+    const url = `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${expiration}&response_type=code&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&state=${state}`;
 
     response.writeHead(301, {
-      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${expiration}&response_type=code&redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}`
+      Location: url
     });
 
     response.end();
