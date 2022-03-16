@@ -18,6 +18,7 @@ import { revokeToken } from "./revoke-token.js";
 import { generateCodeChallenge } from "./utils/generate-code-challenge.js";
 import { generateRandomString } from "./utils/generate-random-string.js";
 import { ArcGISAccessDeniedError } from "./utils/ArcGISAccessDeniedError.js";
+import { encode } from "querystring";
 
 /**
  * Options for {@linkcode ArcGISIdentityManager.fromToken}.
@@ -125,6 +126,11 @@ export interface IOAuth2Options {
    * Sets the color theme of the oAuth 2.0 authorization screen. Will use the system preference or a light theme by default.
    */
   style?: "" | "light" | "dark";
+
+  /**
+   * Custom value for oAuth 2.0 state. A random identifier will be generated if this is not passed.
+   */
+  state?: string;
 
   [key: string]: any;
 }
@@ -313,7 +319,8 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       locale,
       params,
       style,
-      pkce
+      pkce,
+      state
     }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
@@ -322,7 +329,6 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         popup: true,
         popupWindowFeatures:
           "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes",
-        state: options.clientId,
         locale: "",
         style: "",
         pkce: true
@@ -334,7 +340,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
      * Generate a  random string for the `state` param and store it in local storage. This is used
      * to validate that all parts of the oAuth process were performed on the same client.
      */
-    const stateId = generateRandomString(win);
+    const stateId = state || generateRandomString(win);
     const stateStorageKey = `ARCGIS_REST_JS_AUTH_STATE_${clientId}`;
 
     win.localStorage.setItem(stateStorageKey, stateId);
@@ -694,15 +700,27 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     options: IOAuth2Options,
     response: http.ServerResponse
   ) {
-    const { portal, clientId, expiration, redirectUri }: IOAuth2Options = {
-      ...{ portal: "https://arcgis.com/sharing/rest", expiration: 20160 },
-      ...options
+    const { portal, clientId, expiration, redirectUri, state }: IOAuth2Options =
+      {
+        ...{ portal: "https://arcgis.com/sharing/rest", expiration: 20160 },
+        ...options
+      };
+
+    const queryParams: any = {
+      client_id: clientId,
+      expiration,
+      response_type: "code",
+      redirect_uri: redirectUri
     };
 
+    if (state) {
+      queryParams.state = state;
+    }
+
+    const url = `${portal}/oauth2/authorize?${encodeQueryString(queryParams)}`;
+
     response.writeHead(301, {
-      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${expiration}&response_type=code&redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}`
+      Location: url
     });
 
     response.end();
