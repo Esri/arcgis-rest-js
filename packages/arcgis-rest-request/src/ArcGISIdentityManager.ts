@@ -18,6 +18,7 @@ import { revokeToken } from "./revoke-token.js";
 import { generateCodeChallenge } from "./utils/generate-code-challenge.js";
 import { generateRandomString } from "./utils/generate-random-string.js";
 import { ArcGISAccessDeniedError } from "./utils/ArcGISAccessDeniedError.js";
+import { encode } from "querystring";
 
 /**
  * Options for {@linkcode ArcGISIdentityManager.fromToken}.
@@ -720,9 +721,18 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         ...options
       };
 
-    const url = `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${expiration}&response_type=code&redirect_uri=${encodeURIComponent(
-      redirectUri
-    )}&state=${state}`;
+    const queryParams: any = {
+      client_id: clientId,
+      expiration,
+      response_type: "code",
+      redirect_uri: redirectUri
+    };
+
+    if (state) {
+      queryParams.state = state;
+    }
+
+    const url = `${portal}/oauth2/authorize?${encodeQueryString(queryParams)}`;
 
     response.writeHead(301, {
       Location: url

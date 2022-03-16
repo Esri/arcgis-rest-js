@@ -1916,7 +1916,7 @@ describe("ArcGISIdentityManager", () => {
         end() {
           expect(spy.calls.mostRecent().args[0]).toBe(301);
           expect(spy.calls.mostRecent().args[1].Location).toBe(
-            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=20160&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri&state=undefined"
+            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=20160&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
           );
           done();
         }
@@ -1938,7 +1938,7 @@ describe("ArcGISIdentityManager", () => {
         end() {
           expect(spy.calls.mostRecent().args[0]).toBe(301);
           expect(spy.calls.mostRecent().args[1].Location).toBe(
-            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=10000&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri&state=undefined"
+            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=10000&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
           );
           done();
         }
@@ -1954,6 +1954,30 @@ describe("ArcGISIdentityManager", () => {
       );
     });
 
+    it("should redirect the request to the authorization page with custom state", (done) => {
+      const spy = jasmine.createSpy("spy");
+      const MockResponse: any = {
+        writeHead: spy,
+        end() {
+          expect(spy.calls.mostRecent().args[0]).toBe(301);
+          expect(spy.calls.mostRecent().args[1].Location).toBe(
+            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=10000&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri&state=foo"
+          );
+          done();
+        }
+      };
+
+      ArcGISIdentityManager.authorize(
+        {
+          clientId: "clientId",
+          redirectUri: "https://example-app.com/redirect-uri",
+          expiration: 10000,
+          state: "foo"
+        },
+        MockResponse
+      );
+    });
+
     it("should redirect the request to the authorization page with custom duration (DEPRECATED)", (done) => {
       const spy = jasmine.createSpy("spy");
       const MockResponse: any = {
@@ -1961,7 +1985,7 @@ describe("ArcGISIdentityManager", () => {
         end() {
           expect(spy.calls.mostRecent().args[0]).toBe(301);
           expect(spy.calls.mostRecent().args[1].Location).toBe(
-            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=10001&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri&state=undefined"
+            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=10001&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
           );
           done();
         }
