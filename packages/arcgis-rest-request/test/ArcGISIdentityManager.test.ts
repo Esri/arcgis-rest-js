@@ -941,7 +941,9 @@ describe("ArcGISIdentityManager", () => {
         expect(e instanceof ArcGISTokenRequestError).toBe(true);
         expect(e.name).toBe("ArcGISTokenRequestError");
         expect(e.code).toBe(ArcGISTokenRequestErrorCodes.TOKEN_REFRESH_FAILED);
-        expect(e.message).toBe("TOKEN_REFRESH_FAILED: UNKNOWN_ERROR");
+        expect(e.message).toBe(
+          "TOKEN_REFRESH_FAILED: 400: Unable to generate token."
+        );
         return;
       });
     });
