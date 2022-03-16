@@ -95,6 +95,13 @@ export class ArcGISAuthError extends ArcGISRequestError {
     this.name = "ArcGISAuthError";
     this.message =
       code === "AUTHENTICATION_ERROR_CODE" ? message : `${code}: ${message}`;
+
+    // restore prototype chain, see https://stackoverflow.com/questions/41102060/typescript-extending-error-class
+    // we don't need to check for Object.setPrototypeOf as in the answers because we are ES2017 now.
+    // Also see https://github.com/Microsoft/TypeScript-wiki/blob/main/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
+    // and https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#custom_error_types
+    const actualProto = new.target.prototype;
+    Object.setPrototypeOf(this, actualProto);
   }
 
   public retry(getSession: IRetryAuthError, retryLimit = 1) {
@@ -383,7 +390,7 @@ export function internalRequest(
       /* istanbul ignore next - karma reports coverage on browser tests only */
       if (
         (typeof window === "undefined" ||
-          (window && typeof window.document !== "undefined")) &&
+          (window && typeof window.document === "undefined")) &&
         !fetchOptions.headers.referer
       ) {
         fetchOptions.headers.referer = NODEJS_DEFAULT_REFERER_HEADER;

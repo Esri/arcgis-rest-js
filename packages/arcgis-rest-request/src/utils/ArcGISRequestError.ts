@@ -3,11 +3,6 @@
 
 import { IRequestOptions } from "./IRequestOptions.js";
 
-// TypeScript 2.1 no longer allows you to extend built in types. See https://github.com/Microsoft/TypeScript/issues/12790#issuecomment-265981442
-// and https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
-//
-// This code is from MDN https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Custom_Error_Types.
-
 /**
  * This represents a generic error from an ArcGIS endpoint. There will be details about the error in the {@linkcode ArcGISRequestError.message},  {@linkcode ArcGISRequestError.originalMessage} properties on the error. You
  * can also access the original server response at  {@linkcode ArcGISRequestError.response} which may have additional details.
@@ -77,7 +72,9 @@ export class ArcGISRequestError extends Error {
     super(message);
 
     // restore prototype chain, see https://stackoverflow.com/questions/41102060/typescript-extending-error-class
-    // we don't need to check for Object.setPrototypeOf as in the answers becasue we are ES2017 now
+    // we don't need to check for Object.setPrototypeOf as in the answers because we are ES2017 now.
+    // Also see https://github.com/Microsoft/TypeScript-wiki/blob/main/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
+    // and https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#custom_error_types
     const actualProto = new.target.prototype;
     Object.setPrototypeOf(this, actualProto);
 

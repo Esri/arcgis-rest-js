@@ -1499,8 +1499,8 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       username: this.username,
       password: this.password,
       expiration: this.tokenDuration,
-      client: "referer",
-      referer:
+      referer: "client",
+      client:
         typeof window !== "undefined" &&
         typeof window.document !== "undefined" &&
         window.location &&
