@@ -2565,15 +2565,15 @@ describe("ArcGISIdentityManager", () => {
           expect(options.body).toContain("f=json");
           expect(options.body).toContain("username=jsmith");
           expect(options.body).toContain("password=123456");
-          expect(options.body).toContain("referer=client");
+          expect(options.body).toContain("client=referer");
 
           if (isNode) {
-            expect(options.body).toContain("40esri%2Farcgis-rest-js");
+            expect(options.body).toContain("referer=40esri%2Farcgis-rest-js");
           }
 
           if (isBrowser) {
             expect(options.body).toContain(
-              encodeURIComponent(window.location.host)
+              encodeURIComponent(`referer=${window.location.host}`)
             );
           }
 
