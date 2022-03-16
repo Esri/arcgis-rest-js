@@ -2565,7 +2565,7 @@ describe("ArcGISIdentityManager", () => {
           expect(options.body).toContain("f=json");
           expect(options.body).toContain("username=jsmith");
           expect(options.body).toContain("password=123456");
-          expect(options.body).toContain("client=referer");
+          expect(options.body).toContain("referer=client");
 
           if (isNode) {
             expect(options.body).toContain("40esri%2Farcgis-rest-js");
