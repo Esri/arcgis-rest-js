@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 /**
- * This error code will be thrown by the following methods when the user cancels or denys an authroization request on the OAuth 2.0
+ * This error code will be thrown by the following methods when the user cancels or denies an authorization request on the OAuth 2.0
  * authorization screen.
  *
  * * {@linkcode ArcGISIdentityManager.beginOAuth2} when the `popup` option is `true`
