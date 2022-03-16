@@ -57,7 +57,7 @@ export function getDefaultRequestOptions() {
  * {@linkcode ApplicationCredentialsManager} in the `authentication` option the authentication manager will automatically try to generate
  * a fresh token using either {@linkcode ArcGISIdentityManager.refreshCredentials} or
  * {@linkcode ApplicationCredentialsManager.refreshCredentials}. If the request with the new token fails you will receive an `ArcGISAuthError`
- * if refreshing the token fails you will revice an instance of {@linkcode ArcGISTokenRequestError}.
+ * if refreshing the token fails you will receive an instance of {@linkcode ArcGISTokenRequestError}.
  *
  * ```js
  * request(someUrl, {

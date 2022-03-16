@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 Environmental Systems Research Institute, Inc.
+/* Copyright (c) 2022 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
 import { IRequestOptions } from "./IRequestOptions.js";
@@ -10,7 +10,7 @@ import { IRequestOptions } from "./IRequestOptions.js";
  * * `TOKEN_REFRESH_FAILED` - When a request for an new access token fails.
  * * `UNKNOWN_ERROR_CODE` - The error is unknown. More information may be available in {@linkcode ArcGISTokenRequestError.response}
  *
- * The 3 remaining error codes will inly be thrown when using {@linkcode ArcGISIdentityManager}:
+ * The 3 remaining error codes will only be thrown when using {@linkcode ArcGISIdentityManager}:
  *
  * * `GENERATE_TOKEN_FOR_SERVER_FAILED` - When a request for a token for a specific federated server fails.
  * * `REFRESH_TOKEN_EXCHANGE_FAILED` - When a request for a new refresh token fails.
@@ -58,7 +58,7 @@ export class ArcGISTokenRequestError extends Error {
   public message: string;
 
   /**
-   * The errror message return from the request.
+   * The error message return from the request.
    */
   public originalMessage: string;
 
@@ -102,7 +102,7 @@ export class ArcGISTokenRequestError extends Error {
     super(message);
 
     // restore prototype chain, see https://stackoverflow.com/questions/41102060/typescript-extending-error-class
-    // we don't need to check for Object.setPrototypeOf as in the answers becasue we are ES2017 now
+    // we don't need to check for Object.setPrototypeOf as in the answers because we are ES2017 now
     const actualProto = new.target.prototype;
     Object.setPrototypeOf(this, actualProto);
 
