@@ -2573,7 +2573,7 @@ describe("ArcGISIdentityManager", () => {
 
           if (isBrowser) {
             expect(options.body).toContain(
-              encodeURIComponent(`referer=${window.location.host}`)
+              `referer=${encodeURIComponent(window.location.origin)}`
             );
           }
 

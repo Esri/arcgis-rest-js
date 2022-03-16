@@ -1504,8 +1504,8 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         typeof window !== "undefined" &&
         typeof window.document !== "undefined" &&
         window.location &&
-        window.location.host
-          ? window.location.host
+        window.location.origin
+          ? window.location.origin
           : /* istanbul ignore next */
             NODEJS_DEFAULT_REFERER_HEADER
     };
