@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-request [4.0.0-beta.5](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.4...@esri/arcgis-rest-request@4.0.0-beta.5) (2022-03-16)
+
+
+### Features
+
+* **arcgis-rest-request:** allow state variable to be passed through on server side oauth ([fdbe612](https://github.com/Esri/arcgis-rest-js/commit/fdbe612e103250b33f85d61aa5e30daa496f74e8))
+
 # @esri/arcgis-rest-request [4.0.0-beta.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.3...@esri/arcgis-rest-request@4.0.0-beta.4) (2022-03-14)
 
 
