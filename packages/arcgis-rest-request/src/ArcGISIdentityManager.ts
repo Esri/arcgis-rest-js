@@ -91,9 +91,9 @@ export interface IOAuth2Options {
   /**
    * The requested validity in minutes for a refresh token/access token. Defaults to 20160 (2 weeks).
    *
-   * When using PKCE or server based OAuth this will control the duration of the refresh token. In this scenario access tokens will always have a 30 minute validity.
+   * When using PKCE or server-based OAuth this will control the duration of the refresh token. In this scenario, access tokens will always have a 30 minute validity.
    *
-   * When using implict auth (`pkce: false`) in {@linkcode ArcGISIdentityManager.beginOAuth2} this controls the duration of the access token and no refresh token will be granted.
+   * When using implicit auth (`pkce: false`) in {@linkcode ArcGISIdentityManager.beginOAuth2}, this controls the duration of the access token and no refresh token will be granted.
    */
   expiration?: number;
 
@@ -129,6 +129,11 @@ export interface IOAuth2Options {
    * Sets the color theme of the oAuth 2.0 authorization screen. Will use the system preference or a light theme by default.
    */
   style?: "" | "light" | "dark";
+
+  /**
+   * Custom value for oAuth 2.0 state. A random identifier will be generated if this is not passed.
+   */
+  state?: string;
 
   [key: string]: any;
 }
@@ -317,7 +322,8 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       locale,
       params,
       style,
-      pkce
+      pkce,
+      state
     }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
@@ -326,7 +332,6 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         popup: true,
         popupWindowFeatures:
           "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes",
-        state: options.clientId,
         locale: "",
         style: "",
         pkce: true
@@ -338,7 +343,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
      * Generate a  random string for the `state` param and store it in local storage. This is used
      * to validate that all parts of the oAuth process were performed on the same client.
      */
-    const stateId = generateRandomString(win);
+    const stateId = state || generateRandomString(win);
     const stateStorageKey = `ARCGIS_REST_JS_AUTH_STATE_${clientId}`;
 
     win.localStorage.setItem(stateStorageKey, stateId);
@@ -698,15 +703,27 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     options: IOAuth2Options,
     response: http.ServerResponse
   ) {
-    const { portal, clientId, expiration, redirectUri }: IOAuth2Options = {
-      ...{ portal: "https://arcgis.com/sharing/rest", expiration: 20160 },
-      ...options
+    const { portal, clientId, expiration, redirectUri, state }: IOAuth2Options =
+      {
+        ...{ portal: "https://arcgis.com/sharing/rest", expiration: 20160 },
+        ...options
+      };
+
+    const queryParams: any = {
+      client_id: clientId,
+      expiration,
+      response_type: "code",
+      redirect_uri: redirectUri
     };
 
+    if (state) {
+      queryParams.state = state;
+    }
+
+    const url = `${portal}/oauth2/authorize?${encodeQueryString(queryParams)}`;
+
     response.writeHead(301, {
-      Location: `${portal}/oauth2/authorize?client_id=${clientId}&expiration=${expiration}&response_type=code&redirect_uri=${encodeURIComponent(
-        redirectUri
-      )}`
+      Location: url
     });
 
     response.end();

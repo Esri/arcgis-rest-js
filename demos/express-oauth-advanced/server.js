@@ -4,6 +4,7 @@ import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import session from "express-session";
 import SessionFileStore from "session-file-store";
 import { readFile } from "fs/promises";
+import { randomBytes } from "crypto";
 
 /**
  * Create a new express and file store for our sessions
@@ -72,12 +73,20 @@ app.get("/", (request, response) => {
 
 // When a user visits the authorization page start the oauth 2 process. The `ArcGISIdentityManager.authorize()` method will redirect the user to the authorization page.
 app.get("/authorize", function (request, response) {
+  // set a custom state value, this could be used to identify the user who started the request, here we just use a random string but this could be
+  // something like a user identifier.
+  oauthOptions.state = randomBytes(20).toString("hex");
+
+  console.log("Starting OAuth Request ID:", oauthOptions.state);
+
   // send the user to the authorization screen
   ArcGISIdentityManager.authorize(oauthOptions, response);
 });
 
 // the after authorizing the user is redirected to /authenticate and we can finish the Oauth 2.0 process.
 app.get("/authenticate", async function (request, response) {
+  console.log("Authorization complete for", request.query.state);
+
   // exchange the auth code for a an instance of `ArcGISIdentityManager` save that to the session.
   request.session.arcgis =
     await ArcGISIdentityManager.exchangeAuthorizationCode(
