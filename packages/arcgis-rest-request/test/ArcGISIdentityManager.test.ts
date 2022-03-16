@@ -2568,7 +2568,7 @@ describe("ArcGISIdentityManager", () => {
           expect(options.body).toContain("client=referer");
 
           if (isNode) {
-            expect(options.body).toContain("referer=40esri%2Farcgis-rest-js");
+            expect(options.body).toContain("referer=%40esri%2Farcgis-rest-js");
           }
 
           if (isBrowser) {
