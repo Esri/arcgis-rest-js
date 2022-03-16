@@ -1531,7 +1531,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       })
       .catch((e) => {
         throw new ArcGISTokenRequestError(
-          e.messsage,
+          e.message,
           ArcGISTokenRequestErrorCodes.TOKEN_REFRESH_FAILED,
           e.response,
           e.url,
