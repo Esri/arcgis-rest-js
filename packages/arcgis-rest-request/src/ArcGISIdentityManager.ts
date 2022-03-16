@@ -87,9 +87,9 @@ export interface IOAuth2Options {
   /**
    * The requested validity in minutes for a refresh token/access token. Defaults to 20160 (2 weeks).
    *
-   * When using PKCE or server based OAuth this will control the duration of the refresh token. In this scenario access tokens will always have a 30 minute validity.
+   * When using PKCE or server-based OAuth this will control the duration of the refresh token. In this scenario, access tokens will always have a 30 minute validity.
    *
-   * When using implict auth (`pkce: false`) in {@linkcode ArcGISIdentityManager.beginOAuth2} this controls the duration of the access token and no refresh token will be granted.
+   * When using implicit auth (`pkce: false`) in {@linkcode ArcGISIdentityManager.beginOAuth2}, this controls the duration of the access token and no refresh token will be granted.
    */
   expiration?: number;
 
