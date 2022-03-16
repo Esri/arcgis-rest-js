@@ -85,16 +85,13 @@ export interface IOAuth2Options {
   provider?: AuthenticationProvider;
 
   /**
-   * The requested validity in minutes for a token. Defaults to 20160 (two weeks).
+   * The requested validity in minutes for a refresh token/access token. Defaults to 20160 (2 weeks).
+   *
+   * When using PKCE or server-based OAuth this will control the duration of the refresh token. In this scenario, access tokens will always have a 30 minute validity.
+   *
+   * When using implicit auth (`pkce: false`) in {@linkcode ArcGISIdentityManager.beginOAuth2}, this controls the duration of the access token and no refresh token will be granted.
    */
   expiration?: number;
-
-  /**
-   * Duration (in minutes) that a token will be valid. Defaults to 20160 (two weeks).
-   *
-   * @deprecated use 'expiration' instead
-   */
-  duration?: number;
 
   /**
    * If `true` will use the PKCE oAuth 2.0 extension spec in to authorize the user and obtain a token. A value of `false` will use the deprecated oAuth 2.0 implicit grant type.
@@ -116,13 +113,6 @@ export interface IOAuth2Options {
    * @browserOnly
    */
   popupWindowFeatures?: string;
-
-  /**
-   * Duration (in minutes) that a refresh token will be valid.
-   *
-   * @nodeOnly
-   */
-  refreshTokenTTL?: number;
 
   /**
    * The locale assumed to render the login page.
@@ -205,11 +195,6 @@ export interface IArcGISIdentityManagerOptions {
    * Duration of requested token validity in minutes. Used when requesting tokens with `username` and `password` or when validating the identity of unknown servers. Defaults to two weeks.
    */
   tokenDuration?: number;
-
-  /**
-   * Duration (in minutes) that a refresh token will be valid.
-   */
-  refreshTokenTTL?: number;
 
   /**
    * An unfederated ArcGIS Server instance known to recognize credentials supplied manually.
@@ -733,10 +718,9 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     options: IOAuth2Options,
     authorizationCode: string
   ): Promise<ArcGISIdentityManager> {
-    const { portal, clientId, redirectUri, refreshTokenTTL }: IOAuth2Options = {
+    const { portal, clientId, redirectUri }: IOAuth2Options = {
       ...{
-        portal: "https://www.arcgis.com/sharing/rest",
-        refreshTokenTTL: 20160
+        portal: "https://www.arcgis.com/sharing/rest"
       },
       ...options
     };
@@ -755,10 +739,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         ssl: response.ssl,
         redirectUri,
         refreshToken: response.refreshToken,
-        refreshTokenTTL,
-        refreshTokenExpires: new Date(
-          Date.now() + (refreshTokenTTL - 1) * 60 * 1000
-        ),
+        refreshTokenExpires: response.refreshTokenExpires,
         token: response.token,
         tokenExpires: response.expires,
         username: response.username
@@ -784,7 +765,6 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       ssl: options.ssl,
       tokenDuration: options.tokenDuration,
       redirectUri: options.redirectUri,
-      refreshTokenTTL: options.refreshTokenTTL,
       server: options.server
     });
   }
@@ -908,11 +888,6 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   public readonly redirectUri: string;
 
   /**
-   * Duration of new OAuth 2.0 refresh token validity (in minutes).
-   */
-  public readonly refreshTokenTTL: number;
-
-  /**
    * An unfederated ArcGIS Server instance known to recognize credentials supplied manually.
    * ```js
    * {
@@ -985,7 +960,6 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     this.provider = options.provider || "arcgis";
     this.tokenDuration = options.tokenDuration || 20160;
     this.redirectUri = options.redirectUri;
-    this.refreshTokenTTL = options.refreshTokenTTL || 20160;
     this.server = options.server;
 
     this.federatedServers = {};
@@ -1161,7 +1135,6 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       ssl: this.ssl,
       tokenDuration: this.tokenDuration,
       redirectUri: this.redirectUri,
-      refreshTokenTTL: this.refreshTokenTTL,
       server: this.server
     };
   }
@@ -1483,10 +1456,13 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
    * Refreshes the current `token` and `tokenExpires` with `refreshToken`.
    */
   private refreshWithRefreshToken(requestOptions?: ITokenRequestOptions) {
+    // If our refresh token expires sometime in the next 24 hours then refresh the refresh token
+    const ONE_DAY_IN_MILLISECONDS = 1000 * 60 * 60 * 24;
+
     if (
       this.refreshToken &&
       this.refreshTokenExpires &&
-      this.refreshTokenExpires.getTime() < Date.now()
+      this.refreshTokenExpires.getTime() - ONE_DAY_IN_MILLISECONDS < Date.now()
     ) {
       return this.exchangeRefreshToken(requestOptions);
     }
@@ -1542,9 +1518,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         this._token = response.token;
         this._tokenExpires = response.expires;
         this._refreshToken = response.refreshToken;
-        this._refreshTokenExpires = new Date(
-          Date.now() + (this.refreshTokenTTL - 1) * 60 * 1000
-        );
+        this._refreshTokenExpires = response.refreshTokenExpires;
         return this;
       }
     );
