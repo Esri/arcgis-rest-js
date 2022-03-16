@@ -18,7 +18,8 @@ import {
   YESTERDAY,
   TOMORROW,
   FIVE_DAYS_FROM_NOW,
-  isBrowser
+  isBrowser,
+  isNode
 } from "../../../scripts/test-helpers.js";
 
 describe("ArcGISIdentityManager", () => {
@@ -256,7 +257,7 @@ describe("ArcGISIdentityManager", () => {
         "https://pnp00035.esri.com/portal/sharing/rest/generateToken",
         {
           token: "new-server-token",
-          expires: TOMORROW
+          expires: TOMORROW.getTime()
         }
       );
 
@@ -367,7 +368,7 @@ describe("ArcGISIdentityManager", () => {
 
       fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
         token: "serverToken",
-        expires: TOMORROW
+        expires: TOMORROW.getTime()
       });
 
       session
@@ -382,6 +383,72 @@ describe("ArcGISIdentityManager", () => {
         })
         .then((token) => {
           expect(token).toBe("serverToken");
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should generate a fresh portal token and a new server token for an untrusted, federated server", (done) => {
+      const session = new ArcGISIdentityManager({
+        clientId: "id",
+        token: "token",
+        tokenExpires: new Date(Date.now() - 1000 * 60 * 5),
+        refreshToken: "refresh",
+        refreshTokenExpires: FIVE_DAYS_FROM_NOW,
+        portal: "https://gis.city.gov/sharing/rest"
+      });
+
+      fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
+        currentVersion: 10.51,
+        fullVersion: "10.5.1.120",
+        owningSystemUrl: "https://gis.city.gov",
+        authInfo: {
+          isTokenBasedSecurity: true,
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
+        }
+      });
+
+      fetchMock.getOnce(
+        "https://gis.city.gov/sharing/rest/portals/self?f=json&token=newToken",
+        {
+          authorizedCrossOriginDomains: []
+        }
+      );
+
+      fetchMock.postOnce("https://gis.city.gov/sharing/rest/info", {
+        owningSystemUrl: "http://gis.city.gov",
+        authInfo: {
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+          isTokenBasedSecurity: true
+        }
+      });
+
+      fetchMock.post("https://gis.city.gov/sharing/rest/oauth2/token", {
+        access_token: "newToken",
+        expires_in: 60,
+        username: " c@sey"
+      });
+
+      fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
+        token: "serverToken",
+        expires: TOMORROW.getTime()
+      });
+
+      session
+        .getToken(
+          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+        )
+        .then((token) => {
+          expect(token).toBe("serverToken");
+          return session.getToken(
+            "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+          );
+        })
+        .then((token) => {
+          expect(token).toBe("serverToken");
+          expect(session.token).toBe("newToken");
           done();
         })
         .catch((e) => {
@@ -425,7 +492,7 @@ describe("ArcGISIdentityManager", () => {
 
       fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
         token: "serverToken",
-        expires: TOMORROW
+        expires: TOMORROW.getTime()
       });
 
       session
@@ -485,7 +552,7 @@ describe("ArcGISIdentityManager", () => {
 
       fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
         token: "serverToken",
-        expires: TOMORROW
+        expires: TOMORROW.getTime()
       });
 
       session
@@ -547,7 +614,7 @@ describe("ArcGISIdentityManager", () => {
         "https://gis.city.gov/sharing/generateToken",
         {
           token: "serverToken",
-          expires: TOMORROW
+          expires: TOMORROW.getTime()
         },
         { repeat: 1, method: "POST" }
       );
@@ -610,7 +677,7 @@ describe("ArcGISIdentityManager", () => {
           "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
         )
         .catch((e) => {
-          expect(e.name).toEqual(ErrorTypes.ArcGISAuthError);
+          expect(e.name).toEqual(ErrorTypes.ArcGISTokenRequestError);
           expect(e.code).toEqual("NOT_FEDERATED");
           expect(e.message).toEqual(
             "NOT_FEDERATED: https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query is not federated with https://www.arcgis.com/sharing/rest."
@@ -665,7 +732,7 @@ describe("ArcGISIdentityManager", () => {
           }
         }
       ).catch((e) => {
-        expect(e.name).toEqual(ErrorTypes.ArcGISAuthError);
+        expect(e.name).toEqual(ErrorTypes.ArcGISTokenRequestError);
         expect(e.code).toEqual("NOT_FEDERATED");
         expect(e.message).toEqual(
           "NOT_FEDERATED: https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query is not federated with any portal and is not explicitly trusted."
@@ -849,6 +916,32 @@ describe("ArcGISIdentityManager", () => {
         expect(e.name).toBe("ArcGISTokenRequestError");
         expect(e.code).toBe(ArcGISTokenRequestErrorCodes.TOKEN_REFRESH_FAILED);
         expect(e.message).toBe("TOKEN_REFRESH_FAILED: 400: Invalid client_id");
+        return;
+      });
+    });
+
+    it("should reject with an ArcGISTokenRequestError if the token cannot be refreshed with a username and password", () => {
+      const session = new ArcGISIdentityManager({
+        clientId: "clientId",
+        token: "token",
+        tokenExpires: YESTERDAY,
+        username: "c@sey",
+        password: "password"
+      });
+
+      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/generateToken", {
+        error: {
+          code: 400,
+          message: "Unable to generate token.",
+          details: ["Invalid username or password."]
+        }
+      });
+
+      return session.refreshCredentials().catch((e) => {
+        expect(e instanceof ArcGISTokenRequestError).toBe(true);
+        expect(e.name).toBe("ArcGISTokenRequestError");
+        expect(e.code).toBe(ArcGISTokenRequestErrorCodes.TOKEN_REFRESH_FAILED);
+        expect(e.message).toBe("TOKEN_REFRESH_FAILED: UNKNOWN_ERROR");
         return;
       });
     });
@@ -2418,16 +2511,16 @@ describe("ArcGISIdentityManager", () => {
         server: "https://fakeserver.com/arcgis"
       });
 
-      fetchMock.postOnce("https://fakeserver.com/arcgis/rest/info", {
+      fetchMock.post("https://fakeserver.com/arcgis/rest/info", {
         currentVersion: 10.61,
         fullVersion: "10.6.1",
         authInfo: {
           isTokenBasedSecurity: true,
-          tokenServicesUrl: "https://fakeserver.com/arcgis/tokens/"
+          tokenServicesUrl: "https://fakeserver.com/arcgis/tokens/generateToken"
         }
       });
 
-      fetchMock.postOnce("https://fakeserver.com/arcgis/tokens/", {
+      fetchMock.post("https://fakeserver.com/arcgis/tokens/generateToken", {
         token: "fresh-token",
         expires: TOMORROW.getTime(),
         username: " jsmith"
@@ -2439,18 +2532,70 @@ describe("ArcGISIdentityManager", () => {
         .then((token) => {
           expect(token).toBe("fresh-token");
           const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-            "https://fakeserver.com/arcgis/tokens/"
+            "https://fakeserver.com/arcgis/tokens/generateToken"
+          );
+          expect(url).toBe(
+            "https://fakeserver.com/arcgis/tokens/generateToken"
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
           expect(options.body).toContain("username=jsmith");
           expect(options.body).toContain("password=123456");
           expect(options.body).toContain("client=referer");
+
+          if (isNode) {
+            expect(options.body).toContain("40esri%2Farcgis-rest-js");
+          }
+
+          if (isBrowser) {
+            expect(options.body).toContain(
+              encodeURIComponent(window.location.host)
+            );
+          }
+
           done();
         })
         .catch((err) => {
           fail(err);
         });
+    });
+
+    it("should throw an error if there is an error generating the server token with a username and password.", () => {
+      const MOCK_USER_SESSION = new ArcGISIdentityManager({
+        username: "jsmith",
+        password: "123456",
+        server: "https://fakeserver.com/arcgis"
+      });
+
+      fetchMock.post("https://fakeserver.com/arcgis/rest/info", {
+        currentVersion: 10.61,
+        fullVersion: "10.6.1",
+        authInfo: {
+          isTokenBasedSecurity: true,
+          tokenServicesUrl: "https://fakeserver.com/arcgis/tokens/generateToken"
+        }
+      });
+
+      fetchMock.post("https://fakeserver.com/arcgis/tokens/generateToken", {
+        error: {
+          code: 498,
+          message: "Invalid token.",
+          details: []
+        }
+      });
+
+      return MOCK_USER_SESSION.getToken(
+        "https://fakeserver.com/arcgis/rest/services/Fake/MapServer/"
+      ).catch((e) => {
+        expect(e instanceof ArcGISTokenRequestError);
+        expect(e.name).toBe("ArcGISTokenRequestError");
+        expect(e.message).toBe(
+          "GENERATE_TOKEN_FOR_SERVER_FAILED: 498: Invalid token."
+        );
+        expect(e.code).toBe(
+          ArcGISTokenRequestErrorCodes.GENERATE_TOKEN_FOR_SERVER_FAILED
+        );
+      });
     });
 
     it("should trim down the server url if necessary.", (done) => {
@@ -2462,7 +2607,7 @@ describe("ArcGISIdentityManager", () => {
         server: "https://fakeserver.com/arcgis/rest/services/blah/"
       });
 
-      fetchMock.postOnce("https://fakeserver.com/arcgis/rest/info", {
+      fetchMock.post("https://fakeserver.com/arcgis/rest/info", {
         currentVersion: 10.61,
         fullVersion: "10.6.1",
         authInfo: {
@@ -2635,7 +2780,7 @@ describe("ArcGISIdentityManager", () => {
 
       fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
         token: "serverToken",
-        expires: TOMORROW
+        expires: TOMORROW.getTime()
       });
 
       fetchMock.post(
@@ -2700,7 +2845,7 @@ describe("ArcGISIdentityManager", () => {
 
       fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
         token: "serverToken",
-        expires: TOMORROW
+        expires: TOMORROW.getTime()
       });
 
       fetchMock.post(

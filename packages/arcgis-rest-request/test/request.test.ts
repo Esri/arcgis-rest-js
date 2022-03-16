@@ -18,7 +18,11 @@ import { MockParamBuilder } from "./mocks/param-builder.js";
 import { ArcGISOnlineError } from "./mocks/errors.js";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap.js";
 import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection.js";
-import { TOMORROW, FIVE_DAYS_FROM_NOW } from "../../../scripts/test-helpers.js";
+import {
+  TOMORROW,
+  FIVE_DAYS_FROM_NOW,
+  isNode
+} from "../../../scripts/test-helpers.js";
 
 describe("request()", () => {
   afterEach(() => {
@@ -462,7 +466,7 @@ describe("request()", () => {
     });
   });
 
-  if (typeof window === "undefined") {
+  if (isNode) {
     it("should tack on a generic referer header - in Node.js only", (done) => {
       fetchMock.once("*", WebMapAsJSON);
 

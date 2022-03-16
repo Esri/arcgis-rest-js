@@ -29,7 +29,6 @@ export * from "./ApplicationCredentialsManager.js";
 export * from "./ApiKeyManager.js";
 export * from "./ArcGISIdentityManager.js";
 export * from "./fetch-token.js";
-export * from "./generate-token.js";
 export * from "./authenticated-request-options.js";
 export * from "./app-tokens.js";
 export * from "./validate-app-access.js";

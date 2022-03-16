@@ -2,7 +2,6 @@
  * Apache-2.0 */
 
 import { request } from "./request.js";
-import { ArcGISTokenRequestError } from "./utils/ArcGISTokenRequestError.js";
 import { IRequestOptions } from "./utils/IRequestOptions.js";
 import { ITokenRequestOptions } from "./utils/ITokenRequestOptions.js";
 

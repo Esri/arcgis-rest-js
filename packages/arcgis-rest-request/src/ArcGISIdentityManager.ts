@@ -9,7 +9,6 @@ import { ITokenRequestOptions } from "./utils/ITokenRequestOptions.js";
 import { decodeQueryString } from "./utils/decode-query-string.js";
 import { encodeQueryString } from "./utils/encode-query-string.js";
 import { IUser } from "./types/user.js";
-import { generateToken } from "./generate-token.js";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token.js";
 import { canUseOnlineToken, isFederated } from "./federation-utils.js";
 import { IAppAccess, validateAppAccess } from "./validate-app-access.js";
@@ -22,6 +21,7 @@ import {
   ArcGISTokenRequestError,
   ArcGISTokenRequestErrorCodes
 } from "./utils/ArcGISTokenRequestError.js";
+import { NODEJS_DEFAULT_REFERER_HEADER } from "./index.js";
 
 /**
  * Options for {@linkcode ArcGISIdentityManager.fromToken}.
@@ -1338,29 +1338,29 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         return request(`${root}/rest/info`, {
           credentials: this.getDomainCredentials(url)
         })
-          .then((response) => {
-            if (response.owningSystemUrl) {
+          .then((serverInfo) => {
+            if (serverInfo.owningSystemUrl) {
               /**
                * if this server is not owned by this portal
                * bail out with an error since we know we wont
                * be able to generate a token
                */
-              if (!isFederated(response.owningSystemUrl, this.portal)) {
-                throw new ArcGISAuthError(
+              if (!isFederated(serverInfo.owningSystemUrl, this.portal)) {
+                throw new ArcGISTokenRequestError(
                   `${url} is not federated with ${this.portal}.`,
-                  "NOT_FEDERATED"
+                  ArcGISTokenRequestErrorCodes.NOT_FEDERATED
                 );
               } else {
                 /**
                  * if the server is federated, use the relevant token endpoint.
                  */
                 return request(
-                  `${response.owningSystemUrl}/sharing/rest/info`,
+                  `${serverInfo.owningSystemUrl}/sharing/rest/info`,
                   requestOptions
                 );
               }
             } else if (
-              response.authInfo &&
+              serverInfo.authInfo &&
               this.federatedServers[root] !== undefined
             ) {
               /**
@@ -1368,49 +1368,44 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
                * federation, but the root server url is recognized, use its built in token endpoint.
                */
               return Promise.resolve({
-                authInfo: response.authInfo
+                authInfo: serverInfo.authInfo
               });
             } else {
-              throw new ArcGISAuthError(
+              throw new ArcGISTokenRequestError(
                 `${url} is not federated with any portal and is not explicitly trusted.`,
-                "NOT_FEDERATED"
+                ArcGISTokenRequestErrorCodes.NOT_FEDERATED
               );
             }
           })
-          .then((response: any) => {
-            return response.authInfo.tokenServicesUrl;
-          })
-          .then((tokenServicesUrl: string) => {
-            // an expired token cant be used to generate a new token
-            if (this.token && this.tokenExpires.getTime() > Date.now()) {
-              return generateToken(tokenServicesUrl, {
-                params: {
-                  token: this.token,
-                  serverUrl: url,
-                  expiration: this.tokenDuration,
-                  client: "referer"
-                }
+          .then((serverInfo: any) => {
+            // an expired token cant be used to generate a new token so refresh our credentials before trying to generate a server token
+            if (this.token && this.tokenExpires.getTime() < Date.now()) {
+              // If we are authenticated to a single server just refresh with username and password and use the new credentials as the credentials for this server.
+              if (this.server) {
+                return this.refreshCredentials().then(() => {
+                  return {
+                    token: this.token,
+                    expires: this.tokenExpires
+                  };
+                });
+              }
+
+              // Otherwise refresh the credentials for the portal and generate a URL for the specific server.
+              return this.refreshCredentials().then(() => {
+                return this.generateTokenForServer(
+                  serverInfo.authInfo.tokenServicesUrl,
+                  root
+                );
               });
-              // generate an entirely fresh token if necessary
             } else {
-              return generateToken(tokenServicesUrl, {
-                params: {
-                  username: this.username,
-                  password: this.password,
-                  expiration: this.tokenDuration,
-                  client: "referer"
-                }
-              }).then((response: any) => {
-                this.updateToken(response.token, new Date(response.expires));
-                return response;
-              });
+              return this.generateTokenForServer(
+                serverInfo.authInfo.tokenServicesUrl,
+                root
+              );
             }
           })
           .then((response) => {
-            this.federatedServers[root] = {
-              expires: new Date(response.expires),
-              token: response.token
-            };
+            this.federatedServers[root] = response;
             delete this._pendingTokenRequests[root];
             return response.token;
           });
@@ -1418,6 +1413,34 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     );
 
     return this._pendingTokenRequests[root];
+  }
+
+  /**
+   * Generates a token for a given `serverUrl` using a given `tokenServicesUrl`.
+   */
+  private generateTokenForServer(tokenServicesUrl: string, serverUrl: string) {
+    return request(tokenServicesUrl, {
+      params: {
+        token: this.token,
+        serverUrl,
+        expiration: this.tokenDuration
+      }
+    })
+      .then((response) => {
+        return {
+          token: response.token,
+          expires: new Date(response.expires - 1000 * 60 * 5)
+        };
+      })
+      .catch((e) => {
+        throw new ArcGISTokenRequestError(
+          e.message,
+          ArcGISTokenRequestErrorCodes.GENERATE_TOKEN_FOR_SERVER_FAILED,
+          e.response,
+          e.url,
+          e.options
+        );
+      });
   }
 
   /**
@@ -1439,9 +1462,9 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     if (!this._pendingTokenRequests[this.portal]) {
       this._pendingTokenRequests[this.portal] = this.refreshCredentials(
         requestOptions
-      ).then((manager) => {
+      ).then(() => {
         this._pendingTokenRequests[this.portal] = null;
-        return manager.token;
+        return this.token;
       });
     }
 
@@ -1455,20 +1478,49 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   private refreshWithUsernameAndPassword(
     requestOptions?: ITokenRequestOptions
   ) {
-    const options = {
-      params: {
-        username: this.username,
-        password: this.password,
-        expiration: this.tokenDuration
-      },
-      ...requestOptions
+    const params = {
+      username: this.username,
+      password: this.password,
+      expiration: this.tokenDuration,
+      client: "referer",
+      referer:
+        typeof window !== "undefined" &&
+        typeof window.document !== "undefined" &&
+        window.location &&
+        window.location.host
+          ? window.location.host
+          : /* istanbul ignore next */
+            NODEJS_DEFAULT_REFERER_HEADER
     };
-    return generateToken(`${this.portal}/generateToken`, options).then(
-      (response: any) => {
+
+    return (
+      this.server
+        ? request(`${this.getServerRootUrl(this.server)}/rest/info`).then(
+            (response) => {
+              return request(response.authInfo.tokenServicesUrl, {
+                params,
+                ...requestOptions
+              });
+            }
+          )
+        : request(`${this.portal}/generateToken`, {
+            params,
+            ...requestOptions
+          })
+    )
+      .then((response: any) => {
         this.updateToken(response.token, new Date(response.expires));
         return this;
-      }
-    );
+      })
+      .catch((e) => {
+        throw new ArcGISTokenRequestError(
+          e.messsage,
+          ArcGISTokenRequestErrorCodes.TOKEN_REFRESH_FAILED,
+          e.response,
+          e.url,
+          e.options
+        );
+      });
   }
 
   /**

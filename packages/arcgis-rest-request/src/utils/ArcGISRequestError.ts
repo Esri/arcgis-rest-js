@@ -7,6 +7,20 @@ import { IRequestOptions } from "./IRequestOptions.js";
 // and https://github.com/Microsoft/TypeScript-wiki/blob/master/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
 //
 // This code is from MDN https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#Custom_Error_Types.
+
+/**
+ * This represents a generic error from an ArcGIS endpoint. There will be details about the error in the {@linkcode ArcGISRequestError.message},  {@linkcode ArcGISRequestError.originalMessage} properties on the error. You
+ * can also access the original server response at  {@linkcode ArcGISRequestError.response} which may have additional details.
+ *
+ * ```js
+ * request(someUrl, someOptions).catch(e => {
+ *   if(e.name === "ArcGISRequestError") {
+ *     console.log("Something went wrong with the request:", e);
+ *     console.log("Full server response", e.response);
+ *   }
+ * })
+ * ```
+ */
 export class ArcGISRequestError extends Error {
   /**
    * The name of this error. Will always be `"ArcGISRequestError"` to conform with the [`Error`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) class.
