@@ -99,7 +99,8 @@ export function addItemRelationship(
 /**
  * ```js
  * import { addItemResource } from "@esri/arcgis-rest-portal";
- * //
+ *
+ * ```js
  * // Add a file resource
  * addItemResource({
  *   id: '3ef',
@@ -109,6 +110,9 @@ export function addItemRelationship(
  * })
  *   .then(response)
  * //
+ * ```
+ *
+ * ```js
  * // Add a text resource
  * addItemResource({
  *   id: '4fg',
