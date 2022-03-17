@@ -30,5 +30,6 @@
 export enum ErrorTypes {
   ArcGISRequestError = "ArcGISRequestError",
   ArcGISAuthError = "ArcGISAuthError",
-  ArcGISAccessDeniedError = "ArcGISAccessDeniedError"
+  ArcGISAccessDeniedError = "ArcGISAccessDeniedError",
+  ArcGISTokenRequestError = "ArcGISTokenRequestError"
 }

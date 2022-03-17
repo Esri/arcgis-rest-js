@@ -4,6 +4,7 @@
 import fetchMock from "fetch-mock";
 import { ApplicationCredentialsManager } from "../src/index.js";
 import { YESTERDAY, TOMORROW } from "../../../scripts/test-helpers.js";
+import { ArcGISTokenRequestError } from "../src/utils/ArcGISTokenRequestError.js";
 
 describe("ApplicationCredentialsManager", () => {
   afterEach(fetchMock.restore);
@@ -144,5 +145,33 @@ describe("ApplicationCredentialsManager", () => {
       .catch((e) => {
         fail(e);
       });
+  });
+
+  it("should throw a ArcGISTokenRequestError if refreshing the token fails", () => {
+    const session = new ApplicationCredentialsManager({
+      clientId: "id",
+      clientSecret: "secret",
+      token: "token",
+      expires: YESTERDAY
+    });
+
+    fetchMock.post("https://www.arcgis.com/sharing/rest/oauth2/token/", {
+      error: {
+        code: 400,
+        error: "invalid_request",
+        error_description: "Invalid client_secret",
+        message: "Invalid client_secret",
+        details: []
+      }
+    });
+
+    return session.refreshCredentials().catch((e) => {
+      expect(e instanceof ArcGISTokenRequestError).toBe(true);
+      expect(e.name).toBe("ArcGISTokenRequestError");
+      expect(e.code).toBe("TOKEN_REFRESH_FAILED");
+      expect(e.message).toBe(
+        "TOKEN_REFRESH_FAILED: 400: Invalid client_secret"
+      );
+    });
   });
 });

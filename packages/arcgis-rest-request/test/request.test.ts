@@ -6,7 +6,8 @@ import {
   ErrorTypes,
   setDefaultRequestOptions,
   IRequestOptions,
-  ArcGISIdentityManager
+  ArcGISIdentityManager,
+  ArcGISTokenRequestError
 } from "../src/index.js";
 import fetchMock from "fetch-mock";
 import {
@@ -17,7 +18,11 @@ import { MockParamBuilder } from "./mocks/param-builder.js";
 import { ArcGISOnlineError } from "./mocks/errors.js";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap.js";
 import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection.js";
-import { TOMORROW, FIVE_DAYS_FROM_NOW } from "../../../scripts/test-helpers.js";
+import {
+  TOMORROW,
+  FIVE_DAYS_FROM_NOW,
+  isNode
+} from "../../../scripts/test-helpers.js";
 
 describe("request()", () => {
   afterEach(() => {
@@ -461,7 +466,7 @@ describe("request()", () => {
     });
   });
 
-  if (typeof window === "undefined") {
+  if (isNode) {
     it("should tack on a generic referer header - in Node.js only", (done) => {
       fetchMock.once("*", WebMapAsJSON);
 
@@ -682,8 +687,12 @@ describe("request()", () => {
         httpMethod: "GET",
         authentication: session
       }).catch((e) => {
-        expect(e.code).toBe(498);
-        expect(e.message).toBe("498: Invalid refresh_token");
+        expect(e instanceof ArcGISTokenRequestError).toBe(true);
+        expect(e.name).toBe("ArcGISTokenRequestError");
+        expect(e.code).toBe("REFRESH_TOKEN_EXCHANGE_FAILED");
+        expect(e.message).toBe(
+          "REFRESH_TOKEN_EXCHANGE_FAILED: 498: Invalid refresh_token"
+        );
         return;
       });
     });

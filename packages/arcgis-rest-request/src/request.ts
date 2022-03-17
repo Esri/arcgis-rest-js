@@ -52,6 +52,28 @@ export function getDefaultRequestOptions() {
   );
 }
 
+/**
+ * This error is thrown when a request encounters an invalid token error. Requests that use {@linkcode ArcGISIdentityManager} or
+ * {@linkcode ApplicationCredentialsManager} in the `authentication` option the authentication manager will automatically try to generate
+ * a fresh token using either {@linkcode ArcGISIdentityManager.refreshCredentials} or
+ * {@linkcode ApplicationCredentialsManager.refreshCredentials}. If the request with the new token fails you will receive an `ArcGISAuthError`
+ * if refreshing the token fails you will receive an instance of {@linkcode ArcGISTokenRequestError}.
+ *
+ * ```js
+ * request(someUrl, {
+ *   authentication: identityManager,
+ *   // some additional options...
+ * }).catch(e => {
+ *   if(e.name === "ArcGISAuthError") {
+ *     console.log("Request with a new token failed you might want to have the user authorize again.")
+ *   }
+ *
+ *   if(e.name === "ArcGISTokenRequestError") {
+ *     console.log("There was an error refreshing the token you might want to have the user authorize again.")
+ *   }
+ * })
+ * ```
+ */
 export class ArcGISAuthError extends ArcGISRequestError {
   /**
    * Create a new `ArcGISAuthError`  object.
@@ -73,6 +95,13 @@ export class ArcGISAuthError extends ArcGISRequestError {
     this.name = "ArcGISAuthError";
     this.message =
       code === "AUTHENTICATION_ERROR_CODE" ? message : `${code}: ${message}`;
+
+    // restore prototype chain, see https://stackoverflow.com/questions/41102060/typescript-extending-error-class
+    // we don't need to check for Object.setPrototypeOf as in the answers because we are ES2017 now.
+    // Also see https://github.com/Microsoft/TypeScript-wiki/blob/main/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
+    // and https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#custom_error_types
+    const actualProto = new.target.prototype;
+    Object.setPrototypeOf(this, actualProto);
   }
 
   public retry(getSession: IRetryAuthError, retryLimit = 1) {
@@ -356,8 +385,14 @@ export function internalRequest(
         ...options.headers
       };
 
+      // This should have the same conditional for Node JS as ArcGISIdentityManager.refreshWithUsernameAndPassword()
+      // to ensure that generated tokens have the same referer when used in Node with a username and password.
       /* istanbul ignore next - karma reports coverage on browser tests only */
-      if (typeof window === "undefined" && !fetchOptions.headers.referer) {
+      if (
+        (typeof window === "undefined" ||
+          (window && typeof window.document === "undefined")) &&
+        !fetchOptions.headers.referer
+      ) {
         fetchOptions.headers.referer = NODEJS_DEFAULT_REFERER_HEADER;
       }
 

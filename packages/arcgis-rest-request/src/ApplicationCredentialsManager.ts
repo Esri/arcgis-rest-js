@@ -4,6 +4,11 @@
 import { IAuthenticationManager } from "./utils/IAuthenticationManager.js";
 import { ITokenRequestOptions } from "./utils/ITokenRequestOptions.js";
 import { fetchToken } from "./fetch-token.js";
+import {
+  ArcGISTokenRequestError,
+  ArcGISTokenRequestErrorCodes
+} from "./utils/ArcGISTokenRequestError.js";
+import { ArcGISRequestError } from "./utils/ArcGISRequestError.js";
 
 export interface IApplicationCredentialsManagerOptions {
   /**
@@ -112,14 +117,23 @@ export class ApplicationCredentialsManager implements IAuthenticationManager {
       },
       ...requestOptions
     };
-    return fetchToken(`${this.portal}/oauth2/token/`, options).then(
-      (response) => {
+
+    return fetchToken(`${this.portal}/oauth2/token/`, options)
+      .then((response) => {
         this._pendingTokenRequest = null;
         this.token = response.token;
         this.expires = response.expires;
         return response.token;
-      }
-    );
+      })
+      .catch((e: ArcGISRequestError) => {
+        throw new ArcGISTokenRequestError(
+          e.message,
+          ArcGISTokenRequestErrorCodes.TOKEN_REFRESH_FAILED,
+          e.response,
+          e.url,
+          e.options
+        );
+      });
   }
 
   public refreshCredentials() {
