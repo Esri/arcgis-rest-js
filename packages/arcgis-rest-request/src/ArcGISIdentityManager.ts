@@ -30,6 +30,8 @@ export interface IFromTokenOptions {
   token: string;
   tokenExpires?: Date;
   portal?: string;
+  server?: string;
+  username?: string;
 }
 
 /**
@@ -58,6 +60,17 @@ export interface ICredential {
   ssl: boolean;
   token: string;
   userId: string;
+}
+
+/**
+ * Represents the [`ServerInfo`](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-ServerInfo.html) class
+ * in the ArcGIS API for JavaScript.
+ */
+export interface IServerInfo {
+  server: string;
+  hasPortal: boolean;
+  hasServer: boolean;
+  owningSystemUrl: string | null;
 }
 
 /**
@@ -801,27 +814,48 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   }
 
   /**
-   * Translates authentication from the format used in the [ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/).
+   * Translates authentication from the format used in the [`IdentityManager` class in the ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-Credential.html).
+   *
+   * You will need to call both [`IdentityManger.findCredential`](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-IdentityManager.html#findCredential) and [`IdentityManger.findServerInfo`](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-IdentityManager.html#findServerInfo) to obtain both parameters for this method.
+   *
+   * This method can be used with {@linkcode ArcGISIdentityManager.toCredential} to interop with the ArcGIS API for JavaScript.
    *
    * ```js
-   * ArcGISIdentityManager.fromCredential({
-   *   userId: "jsmith",
-   *   token: "secret"
+   * require(["esri/id"], (esriId) => {
+   *   const credential = esriId.findCredential("https://www.arcgis.com/sharing/rest");
+   *   const serverInfo = esriId.findServerInfo("https://www.arcgis.com/sharing/rest");
+   *
+   *   const manager = ArcGISIdentityManager.fromCredential(credential, serverInfo);
    * });
    * ```
    *
    * @returns ArcGISIdentityManager
    */
-  public static fromCredential(credential: ICredential) {
+  public static fromCredential(
+    credential: ICredential,
+    serverInfo: IServerInfo
+  ) {
     // At ArcGIS Online 9.1, credentials no longer include the ssl and expires properties
     // Here, we provide default values for them to cover this condition
     const ssl = typeof credential.ssl !== "undefined" ? credential.ssl : true;
     const expires = credential.expires || Date.now() + 7200000; /* 2 hours */
 
+    if (serverInfo.hasServer) {
+      return new ArcGISIdentityManager({
+        server: credential.server,
+        ssl,
+        token: credential.token,
+        username: credential.userId,
+        tokenExpires: new Date(expires)
+      });
+    }
+    console.log(credential.server.includes("sharing/rest"));
     return new ArcGISIdentityManager({
-      portal: credential.server.includes("sharing/rest")
-        ? credential.server
-        : credential.server + `/sharing/rest`,
+      portal: cleanUrl(
+        credential.server.includes("sharing/rest")
+          ? credential.server
+          : credential.server + `/sharing/rest`
+      ),
       ssl,
       token: credential.token,
       username: credential.userId,
@@ -835,7 +869,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
    */
   private static parentMessageHandler(event: any): ArcGISIdentityManager {
     if (event.data.type === "arcgis:auth:credential") {
-      return ArcGISIdentityManager.fromCredential(event.data.credential);
+      return new ArcGISIdentityManager(event.data.credential);
     }
     if (event.data.type === "arcgis:auth:error") {
       const err = new Error(event.data.error.message);
@@ -1010,10 +1044,15 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   }
 
   /**
-   * Returns authentication in a format useable in the [ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/).
+   * Returns authentication in a format useable in the [`IdentityManager.registerToken()` method in the ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-IdentityManager.html#registerToken).
+   * 
+   * This method can be used with {@linkcode ArcGISIdentityManager.fromCredential} to interop with the ArcGIS API for JavaScript.
    *
    * ```js
-   * esriId.registerToken(manager.toCredential());
+   * require(["esri/id"], (esriId) => {
+   *   esriId.registerToken(manager.toCredential());
+   * })
+   
    * ```
    *
    * @returns ICredential
@@ -1021,7 +1060,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   public toCredential(): ICredential {
     return {
       expires: this.tokenExpires.getTime(),
-      server: this.portal,
+      server: this.server || this.portal,
       ssl: this.ssl,
       token: this.token,
       userId: this.username
@@ -1301,10 +1340,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       if (isValidOrigin && isValidType) {
         let msg = {};
         if (isTokenValid) {
-          const credential = this.toCredential();
-          // the following line allows us to conform to our spec without changing other depended-on functionality
-          // https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-request/post-message-auth-spec.md#arcgisauthcredential
-          credential.server = credential.server.replace("/sharing/rest", "");
+          const credential = this.toJSON();
           msg = {
             type: "arcgis:auth:credential",
             credential

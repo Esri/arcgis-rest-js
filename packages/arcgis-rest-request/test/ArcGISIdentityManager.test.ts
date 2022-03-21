@@ -11,7 +11,9 @@ import {
   ArcGISAccessDeniedError,
   ErrorTypes,
   ArcGISTokenRequestError,
-  ArcGISTokenRequestErrorCodes
+  ArcGISTokenRequestErrorCodes,
+  IServerInfo,
+  ITokenRequestOptions
 } from "../src/index.js";
 import { FormData } from "@esri/arcgis-rest-form-data";
 import {
@@ -21,6 +23,7 @@ import {
   isBrowser,
   isNode
 } from "../../../scripts/test-helpers.js";
+import { IFromTokenOptions } from "../../arcgis-rest-auth/node_modules/@esri/arcgis-rest-request/dist/esm/ArcGISIdentityManager.js";
 
 describe("ArcGISIdentityManager", () => {
   afterEach(fetchMock.restore);
@@ -1743,30 +1746,35 @@ describe("ArcGISIdentityManager", () => {
       }
     };
 
-    const cred = {
-      expires: TOMORROW.getTime(),
-      server: "https://www.arcgis.com/sharing/rest",
-      ssl: false,
+    const token = {
+      tokenExpires: TOMORROW,
+      portal: "https://www.arcgis.com/sharing/rest",
       token: "token",
-      userId: "jsmith"
+      username: "jsmith"
     };
 
     it(".disablePostMessageAuth removes event listener", () => {
       const removeSpy = spyOn(MockWindow, "removeEventListener");
-      const session = ArcGISIdentityManager.fromCredential(cred);
+      const session = new ArcGISIdentityManager(token);
+
       session.disablePostMessageAuth(MockWindow);
+
       expect(removeSpy.calls.count()).toBe(
         1,
         "should call removeEventListener"
       );
     });
+
     it(".enablePostMessageAuth adds event listener", () => {
       const addSpy = spyOn(MockWindow, "addEventListener");
-      const session = ArcGISIdentityManager.fromCredential(cred);
+
+      const session = new ArcGISIdentityManager(token);
+
       session.enablePostMessageAuth(
         ["https://storymaps.arcgis.com"],
         MockWindow
       );
+
       expect(addSpy.calls.count()).toBe(1, "should call addEventListener");
     });
 
@@ -1784,7 +1792,8 @@ describe("ArcGISIdentityManager", () => {
         removeEventListener() {}
       };
       // Create the session
-      const session = ArcGISIdentityManager.fromCredential(cred);
+      const session = new ArcGISIdentityManager(token);
+
       // enable postMessageAuth allowing storymaps.arcgis.com to recieve creds
       session.enablePostMessageAuth(["https://storymaps.arcgis.com"], Win);
       // create an event object, with a matching origin
@@ -1813,13 +1822,9 @@ describe("ArcGISIdentityManager", () => {
         "arcgis:auth:credential",
         "should send credential type"
       );
-      expect(args[0].credential.userId).toBe(
+      expect(args[0].credential.username).toBe(
         "jsmith",
         "should send credential"
-      );
-      expect(args[0].credential.server).toBe(
-        "https://www.arcgis.com",
-        "sends server url without /sharing/rest"
       );
       // now the case where it's not a valid origin
       event.origin = "https://evil.com";
@@ -1833,11 +1838,10 @@ describe("ArcGISIdentityManager", () => {
     it(".enablePostMessage handler returns error if session is expired", () => {
       // ok, this gets kinda gnarly...
       const expiredCred = {
-        expires: YESTERDAY.getTime(),
-        server: "https://www.arcgis.com/sharing/rest",
-        ssl: false,
+        tokenExpires: YESTERDAY,
+        portal: "https://www.arcgis.com/sharing/rest",
         token: "token",
-        userId: "jsmith"
+        username: "jsmith"
       };
       // create a mock window object
       // that will hold the passed in event handler so we can fire it manually
@@ -1849,8 +1853,9 @@ describe("ArcGISIdentityManager", () => {
         },
         removeEventListener() {}
       };
+
       // Create the session
-      const session = ArcGISIdentityManager.fromCredential(expiredCred);
+      const session = new ArcGISIdentityManager(expiredCred);
       // enable postMessageAuth allowing storymaps.arcgis.com to recieve creds
       session.enablePostMessageAuth(["https://storymaps.arcgis.com"], Win);
       // create an event object, with a matching origin
@@ -1895,7 +1900,7 @@ describe("ArcGISIdentityManager", () => {
           postMessage(msg: any, origin: string) {
             Win._fn({
               origin: "https://origin.com",
-              data: { type: "arcgis:auth:credential", credential: cred },
+              data: { type: "arcgis:auth:credential", credential: token },
               source: Win.parent
             });
           }
@@ -1931,7 +1936,7 @@ describe("ArcGISIdentityManager", () => {
             // fire a second we want to intercept
             Win._fn({
               origin: "https://origin.com",
-              data: { type: "arcgis:auth:credential", credential: cred },
+              data: { type: "arcgis:auth:credential", credential: token },
               source: Win.parent
             });
           }
@@ -2394,6 +2399,13 @@ describe("ArcGISIdentityManager", () => {
       userId: "jsmith"
     };
 
+    const MOCK_SERVER_INFO: IServerInfo = {
+      hasPortal: true,
+      hasServer: false,
+      server: "https://www.arcgis.com",
+      owningSystemUrl: null
+    };
+
     const MOCK_USER_SESSION = new ArcGISIdentityManager({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
@@ -2416,22 +2428,77 @@ describe("ArcGISIdentityManager", () => {
     });
 
     it("should create a ArcGISIdentityManager from a credential", () => {
-      const session = ArcGISIdentityManager.fromCredential(MOCK_CREDENTIAL);
+      const session = ArcGISIdentityManager.fromCredential(
+        MOCK_CREDENTIAL,
+        MOCK_SERVER_INFO
+      );
       expect(session.username).toEqual("jsmith");
       expect(session.portal).toEqual("https://www.arcgis.com/sharing/rest");
+      expect(session.server).toBeUndefined();
       expect(session.ssl).toEqual(false);
       expect(session.token).toEqual("token");
       expect(session.tokenExpires).toEqual(new Date(TOMORROW));
     });
 
-    it("should create a ArcGISIdentityManager from a credential that came from a ArcGISIdentityManager", () => {
-      const creds = MOCK_USER_SESSION.toCredential();
-      const credSession = ArcGISIdentityManager.fromCredential(creds);
-      expect(credSession.username).toEqual("jsmith");
-      expect(credSession.portal).toEqual("https://www.arcgis.com/sharing/rest");
-      expect(credSession.ssl).toEqual(false);
-      expect(credSession.token).toEqual("token");
-      expect(credSession.tokenExpires).toEqual(new Date(TOMORROW));
+    it("should create a ArcGISIdentityManager from a credential without adding /sharing/rest", () => {
+      const MOCK_SERVER_INFO: IServerInfo = {
+        hasPortal: true,
+        hasServer: false,
+        server: "https://www.arcgis.com/sharing/rest",
+        owningSystemUrl: null
+      };
+
+      const MOCK_CREDENTIAL: ICredential = {
+        expires: TOMORROW.getTime(),
+        server: "https://www.arcgis.com/sharing/rest",
+        ssl: false,
+        token: "token",
+        userId: "jsmith"
+      };
+
+      const session = ArcGISIdentityManager.fromCredential(
+        MOCK_CREDENTIAL,
+        MOCK_SERVER_INFO
+      );
+      expect(session.username).toEqual("jsmith");
+      expect(session.portal).toEqual("https://www.arcgis.com/sharing/rest");
+      expect(session.server).toBeUndefined();
+      expect(session.ssl).toEqual(false);
+      expect(session.token).toEqual("token");
+      expect(session.tokenExpires).toEqual(new Date(TOMORROW));
+    });
+
+    it("should create a manager for a specific server", () => {
+      const MOCK_SERVER_CREDENTIAL: ICredential = {
+        expires: TOMORROW.getTime(),
+        server:
+          "https://services.arcgis.com/arcgis/services/test/FeatureServer",
+        ssl: false,
+        token: "token",
+        userId: "jsmith"
+      };
+
+      const MOCK_SERVER_INFO_FOR_SERVER: IServerInfo = {
+        hasPortal: true,
+        hasServer: true,
+        server:
+          "https://services.arcgis.com/arcgis/services/test/FeatureServer",
+        owningSystemUrl: null
+      };
+
+      const session = ArcGISIdentityManager.fromCredential(
+        MOCK_SERVER_CREDENTIAL,
+        MOCK_SERVER_INFO_FOR_SERVER
+      );
+
+      expect(session.username).toEqual("jsmith");
+      expect(session.portal).toEqual("https://www.arcgis.com/sharing/rest");
+      expect(session.server).toBe(
+        "https://services.arcgis.com/arcgis/services/test/FeatureServer"
+      );
+      expect(session.ssl).toEqual(false);
+      expect(session.token).toEqual("token");
+      expect(session.tokenExpires).toEqual(new Date(TOMORROW));
     });
   });
 
@@ -2448,7 +2515,17 @@ describe("ArcGISIdentityManager", () => {
       jasmine.clock().install();
       jasmine.clock().mockDate();
 
-      const session = ArcGISIdentityManager.fromCredential(MOCK_CREDENTIAL);
+      const MOCK_SERVER_INFO: IServerInfo = {
+        hasPortal: true,
+        hasServer: true,
+        server: "https://www.arcgis.com",
+        owningSystemUrl: null
+      };
+
+      const session = ArcGISIdentityManager.fromCredential(
+        MOCK_CREDENTIAL,
+        MOCK_SERVER_INFO
+      );
       expect(session.username).toEqual("jsmith");
       expect(session.portal).toEqual("https://www.arcgis.com/sharing/rest");
       expect(session.ssl).toBeTruthy();

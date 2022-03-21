@@ -6,24 +6,12 @@
   </head>
   <body>
     <script src="@esri/arcgis-rest-request/dist/bundled/request.umd.js"></script>
+    <script src="./config.js"></script>
     <script>
-      /* in a production app, clientId could be hardcoded. here we're using a regex to extract it from the state parameter in the OAuth2 server response to make the demo more interchangeable.
-
-      this relies on the fact that the ClientId is associated with the state parameter internally when another value isn't supplied manually.
-      */
-      const match = window.location.href.match(
-        /&state=([^&]+)/
-      );
-      const clientId = match[1];
-      let session;
-      function processAuthentication() {
-        window.location.href = './';
-        session = arcgisRest.UserSession.completeOAuth2({
-          clientId: clientId,
-        });
-        localStorage.setItem('__ARCGIS_REST_USER_SESSION__', session.serialize());
-      }
-      processAuthentication();
+        arcgisRest.ArcGISIdentityManager.completeOAuth2({
+          clientId: config.clientId,
+          redirectUrl: config.redirectUri
+        })
     </script>
   </body>
 </html>

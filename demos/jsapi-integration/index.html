@@ -33,21 +33,25 @@
   <body>
     <div id="viewDiv"></div>
     <script>
-      // First, log in
-      const redirect_uri = window.location.origin + window.location.pathname + "authenticate.html";
-
-      arcgisRest.UserSession.beginOAuth2({
-          clientId: clientId,
-          redirectUri: redirect_uri,
+      // create a variable to store our session.
+      let session;
+      arcgisRest.ArcGISIdentityManager.beginOAuth2({
+          clientId: config.clientId,
+          redirectUri: config.redirectUri,
           popup: true
-      }).then(session => {
-        // Next, fetch a private item's data (not just the metadata)
-        // 
-        // Change this to an itemId of a private webmap that you have access too.
-        const itemId = "75f08b51fa714d9c863aaf002dfba0c6";
-
-        return arcgisRest.getItemData(itemId, { authentication: session })
-      }).then(response => {
+      }).then(s => {
+        session = s;
+        // fetch the users items (up to 100)
+        return arcgisRest.getUserContent({ authentication: session, num: 100 })
+      }).then(userContent =>{
+        // find a web map in the users items
+        const webMapItem = userContent.items.find(t => t.type === "Web Map");
+        return webMapItem;
+      } ).then(webMapItem => {
+        if(!webMapItem) {
+          alert("No web map found in first 100 items");
+          return
+        }
 
         // once we have the private item, we can create a map
         // NOTE: this is where you would lazy-load the ArcGIS API for JavaScript
@@ -62,14 +66,12 @@
           // JavaScript Identity Manager
           esriId.registerToken(session.toCredential());
 
-          // display the title of its basemap
-          console.debug(response);
-          console.debug('baseMap title:', response.baseMap.title);
+          console.debug(webMapItem);
 
           // create a map with the item
           var webmap = new WebMap({
             portalItem: {
-              id: itemId
+              id: webMapItem.id
             }
           });
 
@@ -79,11 +81,17 @@
             container: "viewDiv"
           });
 
-          // you can also pass credentials in the other direction if you have credentials in teh JS API IdentityManager class
-          esriId.getCredential("https://arcgis.com/sharing/rest/")
-            .then(cred => {
-              const session2 = arcgisRest.UserSession.fromCredential(cred);
-            });
+          // Once the web map loads the JS API should be "aware" of the ArcGIS.com portal.
+          // Using the findCredential and findServerInfo methods we can create an ArcGISIdentityManager
+          // for use in REST JS from the JS API
+          webmap.watch("loaded", function (loaded) {
+            if(loaded) {
+              const credential = esriId.findCredential("https://arcgis.com/sharing/rest/");
+              const serverInfo = esriId.findServerInfo("https://arcgis.com/sharing/rest/");
+              const session2 = arcgisRest.ArcGISIdentityManager.fromCredential(credential, serverInfo);
+              console.log(session2);
+            }
+          });
         });
       });
     </script>
