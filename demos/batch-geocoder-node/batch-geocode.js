@@ -1,6 +1,9 @@
 const fs = require("fs");
 const Papa = require("papaparse");
-const { ApiKey, ApplicationSession } = require("@esri/arcgis-rest-request");
+const {
+  ApiKey,
+  ApplicationCredentialsManager
+} = require("@esri/arcgis-rest-request");
 const { bulkGeocode } = require("@esri/arcgis-rest-geocoding");
 const config = require("./config");
 
@@ -74,7 +77,7 @@ const mapResults = (results) =>
 // IMPLEMENTATION!
 
 // Instantiate an ApplicationSession to run Geocoding service
-const session = new ApplicationSession({
+const session = ApplicationCredentialsManager.fromCredentials({
   clientId: config.clientId,
   clientSecret: config.clientSecret
 });
