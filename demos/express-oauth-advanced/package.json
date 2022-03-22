@@ -9,7 +9,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "@esri/arcgis-rest-request": "file:../../packages/arcgis-rest-request",
+    "@esri/arcgis-rest-request": "beta",
     "dotenv": "^16.0.0",
     "express": "^4.16.3",
     "express-session": "^1.17.2",
