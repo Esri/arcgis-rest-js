@@ -23,7 +23,6 @@ import {
   isBrowser,
   isNode
 } from "../../../scripts/test-helpers.js";
-import { IFromTokenOptions } from "../../arcgis-rest-auth/node_modules/@esri/arcgis-rest-request/dist/esm/ArcGISIdentityManager.js";
 
 describe("ArcGISIdentityManager", () => {
   afterEach(fetchMock.restore);
