@@ -53,7 +53,7 @@
           return
         }
 
-        // once we have the private item, we can create a map
+        // once we have the item, we can create a map
         // NOTE: this is where you would lazy-load the ArcGIS API for JavaScript
         require([
           "esri/identity/IdentityManager",
@@ -69,6 +69,9 @@
           console.debug('Web map:', webMapItem);
 
           // create a map with the item
+          // the JS API will automatically discover all portals and severs associated with the webmap.
+          // this most likly will include https://arcgis.com/sharing/rest/ which is the ArGIS Online portal 
+          // due to the map has a basemap.
           var webmap = new WebMap({
             portalItem: {
               id: webMapItem.id
@@ -81,9 +84,10 @@
             container: "viewDiv"
           });
 
-          // Once the web map loads the JS API should be "aware" of the ArcGIS.com portal.
+          // Once the web map loads the JS API should be "aware" of the ArcGIS.com portal at https://arcgis.com/sharing/rest/.
           // Using the findCredential and findServerInfo methods we can create an ArcGISIdentityManager
-          // for use in REST JS from the JS API
+          // for use in REST JS from the JS API. You could also call `esriId.getCredential("https://arcgis.com/sharing/rest/")`
+          // to forece this.
           webmap.watch("loaded", function (loaded) {
             if(loaded) {
               const credential = esriId.findCredential("https://arcgis.com/sharing/rest/");

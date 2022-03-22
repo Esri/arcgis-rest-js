@@ -19,7 +19,10 @@ session.getToken("https://www.arcgis.com/sharing/rest").then(() => {
 
 // from jsapi
 esriId.getCredential("https://www.arcgis.com/sharing/rest").then((cred) => {
-  const session = UserSession.fromCredential(cred);
+  const serverInfo = esriId.findServerInfo(
+    "https://www.arcgis.com/sharing/rest"
+  );
+  const session = UserSession.fromCredential(cred, serverInfo);
 });
 ```
 
