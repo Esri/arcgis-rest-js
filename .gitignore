@@ -68,6 +68,7 @@ lerna-debug.log*
 
 # docs temp files
 docs/.typedoc_temp/
+docs/build/
 
 # Built files
 dist
