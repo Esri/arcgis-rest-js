@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@esri/arcgis-rest-request": "^3.3.0"
+    "@esri/arcgis-rest-request": "beta"
   },
   "author": ""
 }

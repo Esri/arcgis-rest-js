@@ -42,7 +42,6 @@ app.use(
     // at the end of every request the state of `request.session` will be saved back to disk.
     store: new FileStore({
       ttl: sessionTTL, // session duration
-      retries: 1,
       secret: process.env.ENCRYPTION_KEY, // secret used to encrypt and decrypt sessions on disk
 
       // define how to encode our session to text for storing in the file. We can use the `serialize()` method on the session for this.
@@ -86,14 +85,14 @@ app.get("/authorize", function (request, response) {
 // the after authorizing the user is redirected to /authenticate and we can finish the Oauth 2.0 process.
 app.get("/authenticate", async function (request, response) {
   console.log("Authorization complete for", request.query.state);
-
+  console.log(request.query);
   // exchange the auth code for a an instance of `ArcGISIdentityManager` save that to the session.
   request.session.arcgis =
     await ArcGISIdentityManager.exchangeAuthorizationCode(
       oauthOptions,
       request.query.code
     );
-
+  console.log(request.session.arcgis);
   // once we have the session set redirect the user to the /app route so they can use the app.
   response.redirect("/app");
 });
@@ -134,7 +133,7 @@ app.get("/app", (request, response) => {
     response.redirect("/");
     return;
   }
-
+  console.log(request.session.arcgis);
   // next exchange the current refresh token for a new refresh token, this extends the session for another 2 weeks
   // we also read the template for the app.
   Promise.all([

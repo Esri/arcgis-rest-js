@@ -1,6 +1,6 @@
 const prompts = require("prompts");
 const chalk = require("chalk");
-const { UserSession } = require("@esri/arcgis-rest-request");
+const { ArcGISIdentityManager } = require("@esri/arcgis-rest-request");
 const {
   searchItems,
   removeItem,
@@ -10,6 +10,7 @@ const {
 // 1. Promt the user for sign in. Create a `UserSession`
 authenticate()
   .then((session) => {
+    console.log(session);
     console.log(chalk.blue(`Signed in as ${session.username}`));
     // once the user is signed in search for items
     return searchForItems(session);
@@ -44,7 +45,7 @@ function authenticate() {
   // prompts returns a `Promise` that resolves with the users input
   return prompts(authPromtpts)
     .then(({ username, password }) => {
-      return UserSession.signIn({
+      return ArcGISIdentityManager.signIn({
         username,
         password
       });
