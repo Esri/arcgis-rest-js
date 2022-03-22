@@ -849,7 +849,6 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         tokenExpires: new Date(expires)
       });
     }
-    console.log(credential.server.includes("sharing/rest"));
     return new ArcGISIdentityManager({
       portal: cleanUrl(
         credential.server.includes("sharing/rest")

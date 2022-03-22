@@ -66,7 +66,7 @@
           // JavaScript Identity Manager
           esriId.registerToken(session.toCredential());
 
-          console.debug(webMapItem);
+          console.debug('Web map:', webMapItem);
 
           // create a map with the item
           var webmap = new WebMap({
@@ -89,7 +89,7 @@
               const credential = esriId.findCredential("https://arcgis.com/sharing/rest/");
               const serverInfo = esriId.findServerInfo("https://arcgis.com/sharing/rest/");
               const session2 = arcgisRest.ArcGISIdentityManager.fromCredential(credential, serverInfo);
-              console.log(session2);
+              console.log('Session from ArcGIS REST JS:', session2);
             }
           });
         });
