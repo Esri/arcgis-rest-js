@@ -13,7 +13,6 @@ export {
   isOnline,
   normalizeOnlinePortalUrl,
   fetchToken,
-  generateToken,
   validateAppAccess,
   AuthenticationProvider,
   IApiKeyOptions,
@@ -23,7 +22,6 @@ export {
   IAuthenticatedRequestOptions,
   IUserRequestOptions,
   IFetchTokenResponse,
-  IGenerateTokenResponse,
   IAppAccess,
   IUser
 } from "@esri/arcgis-rest-request";
