@@ -1,7 +1,12 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, cleanUrl, ISpatialReference, IPoint } from "@esri/arcgis-rest-request";
+import {
+  request,
+  cleanUrl,
+  ISpatialReference,
+  IPoint
+} from "@esri/arcgis-rest-request";
 
 import {
   ARCGIS_ONLINE_BULK_GEOCODING_URL,
@@ -46,18 +51,19 @@ export interface IBulkGeocodeResponse {
 /**
  * ```js
  * import { bulkGeocode } from '@esri/arcgis-rest-geocoding';
- * import { ApplicationSession } from '@esri/arcgis-rest-auth';
- * //
+ * import { ApplicationCredentialsManager } from '@esri/arcgis-rest-request';
+ *
  * const addresses = [
  *   { "OBJECTID": 1, "SingleLine": "380 New York Street 92373" },
  *   { "OBJECTID": 2, "SingleLine": "1 World Way Los Angeles 90045" }
  * ];
- * //
+ *
  * bulkGeocode({ addresses, authentication: session })
  *   .then((response) => {
  *     response.locations[0].location; // => { x: -117, y: 34, spatialReference: { wkid: 4326 } }
  *   });
  * ```
+ *
  * Used to geocode a [batch](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm) of addresses.
  *
  * @param requestOptions - Request options to pass to the geocoder, including an array of addresses and authentication session.

@@ -150,7 +150,7 @@
 
 <script>
 // Import the request and auth bit.
-import { request, UserSession } from "@esri/arcgis-rest-request";
+import { request, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 // Import a simple loading indicator.
 import Loader from "./Loader";
 
@@ -205,7 +205,7 @@ export default {
     // returns a promise.
     signInWithPopup() {
       if (this.requireClientId()) {
-        UserSession.beginOAuth2({
+        ArcGISIdentityManager.beginOAuth2({
           clientId: this.clientId,
           // Passing the clientid here is only a requirement of this demo where we allow
           // dynamic clientids via input. Typically you would have this hard-coded on
@@ -227,7 +227,7 @@ export default {
     // the authorization page.
     signInWithInlineRedirect() {
       if (this.requireClientId()) {
-        UserSession.beginOAuth2({
+        ArcGISIdentityManager.beginOAuth2({
           clientId: this.clientId,
           redirectUri: `${this.redirect_uri}#/authenticate?clientID=${
             this.clientId

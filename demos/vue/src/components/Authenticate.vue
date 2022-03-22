@@ -11,7 +11,7 @@
 
 <script>
 // Import the auth bit.
-import { UserSession } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 // Import a simple loading indicator.
 import Loader from "./Loader";
 
@@ -40,15 +40,17 @@ export default {
       // Complete the OAuth2 process. If in a popup, the window will close before
       // this finishes and will be handled by the beginOAuth2 function. If not in
       // a popup, it will proceed to the next couple lines.
-      const session = UserSession.completeOAuth2({
+      ArcGISIdentityManager.completeOAuth2({
         // Required as it is a piece of the key in the popup method. If not using
         // a popup, this shouldn't be required.
         clientId: this.clientId
+      }).then(session => {
+        // Update the application store with the new session.
+        this.$store.dispatch("updateSession", session);
+        // The app is the rerouted to the main application.
+        this.$router.replace("/");
       });
-      // Update the application store with the new session.
-      this.$store.dispatch("updateSession", session);
-      // The app is the rerouted to the main application.
-      this.$router.replace("/");
+      
     }
   }
 };

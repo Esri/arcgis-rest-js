@@ -5,7 +5,7 @@ import Router from "vue-router";
 // Import the store plugin, Vuex.
 import Vuex from "vuex";
 // Import the arcgis-rest-request bit required for deserializing local storage sessions.
-import { UserSession } from "@esri/arcgis-rest-request";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 // Importing the main application.
 import App from "./components/App.vue";
 // Importing the authentication component that post-processes the OAuth response.
@@ -80,7 +80,7 @@ new Vue({
           // If there is a serialized session, deserialize it into a new session object.
           store.dispatch(
             "updateSession",
-            UserSession.deserialize(serializedSession)
+            ArcGISIdentityManager.deserialize(serializedSession)
           );
         }
       }

@@ -1,6 +1,6 @@
 import { ITokenRequestOptions } from "./ITokenRequestOptions.js";
 /**
- * Authentication can be supplied to `request` via [`ArcGISIdentityManager`](../../auth/ArcGISIdentityManager/) or [`ApplicationSession`](../../auth/ApplicationSession/). Both classes extend `IAuthenticationManager`.
+ * Authentication can be supplied to `request` via {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager}. These classes implement {@linkCode IAuthenticationManager}.
  * ```js
  * const session = new ArcGISIdentityManager({
  *   username: "jsmith",
@@ -26,7 +26,8 @@ export interface IAuthenticationManager {
   getToken(url: string, requestOptions?: ITokenRequestOptions): Promise<string>;
 
   /**
-   * Returns the proper [`credentials`] option for `fetch` for a given domain.
+   * Optional. Returns the proper [`credentials` option for `fetch`](https://developer.mozilla.org/en-US/docs/Web/API/fetch) for a given domain.
+   *
    * See [trusted server](https://enterprise.arcgis.com/en/portal/latest/administer/windows/configure-security.htm#ESRI_SECTION1_70CC159B3540440AB325BE5D89DBE94A).
    * Used internally by underlying request methods to add support for specific security considerations.
    *
@@ -36,12 +37,12 @@ export interface IAuthenticationManager {
   getDomainCredentials?(url: string): RequestCredentials;
 
   /**
-   * Should return `true` if these credentials can be refreshed and `false` if it cannot. The
+   * Optional. Should return `true` if these credentials can be refreshed and `false` if it cannot.
    */
   canRefresh?: boolean;
 
   /**
-   * Refresh the stored credentials.
+   * Optional. Refresh the stored credentials.
    */
   refreshCredentials?(requestOptions?: ITokenRequestOptions): Promise<this>;
 }

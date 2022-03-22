@@ -11,8 +11,8 @@
     "start": "npm run serve"
   },
   "dependencies": {
-    "@esri/arcgis-rest-auth": "^3.3.0",
-    "@esri/arcgis-rest-request": "^3.3.0",
+    "@esri/arcgis-rest-auth": "beta",
+    "@esri/arcgis-rest-request": "beta",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

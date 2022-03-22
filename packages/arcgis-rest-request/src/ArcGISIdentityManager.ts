@@ -1703,10 +1703,111 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
 /**
  * @deprecated - Use {@linkcode ArcGISIdentityManager}.
  */ /* istanbul ignore next */
-export function UserSession(options: IArcGISIdentityManagerOptions) {
+function UserSession(options: IArcGISIdentityManagerOptions) {
   console.log(
-    "DEPRECATED:, 'UserSession' is deprecated. Use 'ArcGISIdentityManagerOptions' instead."
+    "DEPRECATED:, 'UserSession' is deprecated. Use 'ArcGISIdentityManager' instead."
   );
 
   return new ArcGISIdentityManager(options);
 }
+
+/**
+ * @deprecated - Use {@linkcode ArcGISIdentityManager.beginOAuth2}.
+ */ /* istanbul ignore next */
+UserSession.beginOAuth2 = function (
+  ...args: Parameters<typeof ArcGISIdentityManager.beginOAuth2>
+) {
+  console.log(
+    "DEPRECATED:, 'UserSession.beginOAuth2' is deprecated. Use 'ArcGISIdentityManager.beginOAuth2' instead."
+  );
+
+  return ArcGISIdentityManager.beginOAuth2(...args);
+};
+
+/**
+ * @deprecated - Use {@linkcode ArcGISIdentityManager.completeOAuth2}.
+ */ /* istanbul ignore next */
+UserSession.completeOAuth2 = function (
+  ...args: Parameters<typeof ArcGISIdentityManager.completeOAuth2>
+) {
+  console.log(
+    "DEPRECATED:, 'UserSession.completeOAuth2' is deprecated. Use 'ArcGISIdentityManager.completeOAuth2' instead."
+  );
+
+  console.warn(
+    "WARNING:, 'UserSession.completeOAuth2' is now async and returns a promise the resolves to an instance of `ArcGISIdentityManager`."
+  );
+
+  return ArcGISIdentityManager.completeOAuth2(...args);
+};
+
+/**
+ * @deprecated - Use {@linkcode ArcGISIdentityManager.fromParent}.
+ */ /* istanbul ignore next */
+UserSession.fromParent = function (
+  ...args: Parameters<typeof ArcGISIdentityManager.fromParent>
+) {
+  console.log(
+    "DEPRECATED:, 'UserSession.fromParent' is deprecated. Use 'ArcGISIdentityManager.fromParent' instead."
+  );
+
+  return ArcGISIdentityManager.fromParent(...args);
+};
+
+/**
+ * @deprecated - Use {@linkcode ArcGISIdentityManager.authorize}.
+ */ /* istanbul ignore next */
+UserSession.authorize = function (
+  ...args: Parameters<typeof ArcGISIdentityManager.authorize>
+) {
+  console.log(
+    "DEPRECATED:, 'UserSession.authorize' is deprecated. Use 'ArcGISIdentityManager.authorize' instead."
+  );
+
+  return ArcGISIdentityManager.authorize(...args);
+};
+
+/**
+ * @deprecated - Use {@linkcode ArcGISIdentityManager.exchangeAuthorizationCode}.
+ */ /* istanbul ignore next */
+UserSession.exchangeAuthorizationCode = function (
+  ...args: Parameters<typeof ArcGISIdentityManager.exchangeAuthorizationCode>
+) {
+  console.log(
+    "DEPRECATED:, 'UserSession.exchangeAuthorizationCode' is deprecated. Use 'ArcGISIdentityManager.exchangeAuthorizationCode' instead."
+  );
+
+  return ArcGISIdentityManager.exchangeAuthorizationCode(...args);
+};
+
+/**
+ * @deprecated - Use {@linkcode ArcGISIdentityManager.fromCredential}.
+ */ /* istanbul ignore next */
+UserSession.fromCredential = function (
+  ...args: Parameters<typeof ArcGISIdentityManager.fromCredential>
+) {
+  console.log(
+    "DEPRECATED:, 'UserSession.fromCredential' is deprecated. Use 'ArcGISIdentityManager.fromCredential' instead."
+  );
+
+  console.warn(
+    "WARNING:, 'UserSession.fromCredential' now requires a `ServerInfo` object from the JS API as a second parameter."
+  );
+
+  return ArcGISIdentityManager.fromCredential(...args);
+};
+
+/**
+ * @deprecated - Use {@linkcode ArcGISIdentityManager.deserialize}.
+ */ /* istanbul ignore next */
+UserSession.deserialize = function (
+  ...args: Parameters<typeof ArcGISIdentityManager.deserialize>
+) {
+  console.log(
+    "DEPRECATED:, 'UserSession.deserialize' is deprecated. Use 'ArcGISIdentityManager.deserialize' instead."
+  );
+
+  return ArcGISIdentityManager.deserialize(...args);
+};
+
+export { UserSession };
