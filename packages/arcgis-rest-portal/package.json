@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-portal",
-  "version": "4.0.0-beta.4",
+  "version": "4.0.0-beta.5",
   "description": "ArcGIS Online and Enterprise content and user helpers for @esri/arcgis-rest-request",
   "license": "Apache-2.0",
   "keywords": [
@@ -47,10 +47,10 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-request": "4.0.0-beta.4"
+    "@esri/arcgis-rest-request": "4.0.0-beta.6"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-request": "4.0.0-beta.4"
+    "@esri/arcgis-rest-request": "4.0.0-beta.6"
   },
   "contributors": [
     "Dave Bouwman <dbouwman@esri.com> (http://blog.davebouwman.com/)"

@@ -1,3 +1,18 @@
+# @esri/arcgis-rest-auth [4.0.0-beta.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-auth@4.0.0-beta.3...@esri/arcgis-rest-auth@4.0.0-beta.4) (2022-03-22)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** add support for server credentials ([#965](https://github.com/Esri/arcgis-rest-js/issues/965)) ([b063bcc](https://github.com/Esri/arcgis-rest-js/commit/b063bcca1780cd671e6b4f25532e4122903dc8b2))
+
+
+
+
+
+### Dependencies
+
+* **@esri/arcgis-rest-request:** upgraded to 4.0.0-beta.6
+
 # @esri/arcgis-rest-auth [4.0.0-beta.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-auth@4.0.0-beta.2...@esri/arcgis-rest-auth@4.0.0-beta.3) (2022-03-10)
 
 
