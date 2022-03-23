@@ -7,7 +7,7 @@ const {
   SearchQueryBuilder
 } = require("@esri/arcgis-rest-portal");
 
-// 1. Promt the user for sign in. Create a `UserSession`
+// 1. Promt the user for sign in. Create a `ArcGISIdentityManager`
 authenticate()
   .then((session) => {
     console.log(session);
@@ -24,7 +24,7 @@ authenticate()
     console.log(chalk.blue(`Done!`));
   });
 
-// Prompt the user for a `username` and `password` return a `UserSession`
+// Prompt the user for a `username` and `password` return a `ArcGISIdentityManager`
 // This function will run again on any error so it will retry until it works
 function authenticate() {
   const authPromtpts = [
@@ -67,7 +67,7 @@ function authenticate() {
     });
 }
 
-// given a `UserSession` prompt the user for some search params and search for items
+// given a `ArcGISIdentityManager` prompt the user for some search params and search for items
 function searchForItems(session) {
   const searchPrompts = [
     {
@@ -151,7 +151,7 @@ function searchForItems(session) {
   );
 }
 
-// this give a list of `items` and a `UserSession` this will ask us 1 at a time
+// this give a list of `items` and a `ArcGISIdentityManager` this will ask us 1 at a time
 // if we want to delte this item. This uses the new async iteration syntax with
 // `Symbol.asyncIterator` to perform an async function in a loop
 async function deleteItems(items, session) {

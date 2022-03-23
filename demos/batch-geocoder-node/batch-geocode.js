@@ -76,7 +76,7 @@ const mapResults = (results) =>
 
 // IMPLEMENTATION!
 
-// Instantiate an ApplicationSession to run Geocoding service
+// Instantiate an ApplicationCredentialsManager to run Geocoding service
 const session = ApplicationCredentialsManager.fromCredentials({
   clientId: config.clientId,
   clientSecret: config.clientSecret

@@ -10,7 +10,7 @@ This demo shows how to use `arcgis-rest-js` with the ArcGIS API for JavaScript. 
 
 ```js
 // from rest-js
-const session = new UserSession(/* */);
+const session = new ArcGISIdentityManager(/* */);
 
 // ensure that our session has a token
 session.getToken("https://www.arcgis.com/sharing/rest").then(() => {
@@ -22,7 +22,7 @@ esriId.getCredential("https://www.arcgis.com/sharing/rest").then((cred) => {
   const serverInfo = esriId.findServerInfo(
     "https://www.arcgis.com/sharing/rest"
   );
-  const session = UserSession.fromCredential(cred, serverInfo);
+  const session = ArcGISIdentityManager.fromCredential(cred, serverInfo);
 });
 ```
 

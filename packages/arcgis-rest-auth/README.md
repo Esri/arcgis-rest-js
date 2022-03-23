@@ -1,56 +1,6 @@
-[![npm version][npm-img]][npm-url]
-[![build status][travis-img]][travis-url]
-[![gzip bundle size][gzip-image]][npm-url]
-[![Coverage Status][coverage-img]][coverage-url]
-[![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/arcgis-rest-js/master/LICENSE)
-
-[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-auth.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-auth
-[travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
-[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-auth/dist/bundled/auth.umd.min.js?compression=gzip
-[coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
-[coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
-
 # @esri/arcgis-rest-auth
 
-> Authentication helpers for [`@esri/arcgis-rest-*`](https://github.com/Esri/arcgis-rest-js).
-
-### Example
-
-```bash
-npm install @esri/arcgis-rest-request
-npm install @esri/arcgis-rest-auth
-```
-
-```js
-import { UserSession } from "@esri/arcgis-rest-auth";
-
-const session = new UserSession({
-  username: "casey",
-  password: "123456"
-});
-```
-
-### [API Reference](https://esri.github.io/arcgis-rest-js/api/auth/)
-
-### Issues
-
-If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/arcgis-rest-js/issues) first. Have you found a new bug? Want to request a new feature? We'd [**love**](https://github.com/Esri/arcgis-rest-js/issues/new) to hear from you.
-
-If you're looking for help you can also post issues on [GIS Stackexchange](http://gis.stackexchange.com/questions/ask?tags=esri-oss).
-
-### Versioning
-
-For transparency into the release cycle and in striving to maintain backward compatibility, @esri/arcgis-rest-js is maintained under Semantic Versioning guidelines and will adhere to these rules whenever possible.
-
-For more information on SemVer, please visit <http://semver.org/>.
-
-### Contributing
-
-Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](CONTRIBUTING.md).
-
-### [Changelog](https://github.com/Esri/arcgis-rest-js/blob/master/CHANGELOG.md)
+`@esri/arcgis-rest-auth` is deprecated at v4.0.0 of ArcGIS REST JS. Authentication helpers are now part of `@esri/arcgis-rest-request`.
 
 ### License
 
