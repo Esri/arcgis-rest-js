@@ -1717,7 +1717,7 @@ function UserSession(options: IArcGISIdentityManagerOptions) {
 UserSession.beginOAuth2 = function (
   ...args: Parameters<typeof ArcGISIdentityManager.beginOAuth2>
 ) {
-  console.log(
+  console.warn(
     "DEPRECATED:, 'UserSession.beginOAuth2' is deprecated. Use 'ArcGISIdentityManager.beginOAuth2' instead."
   );
 
@@ -1730,13 +1730,14 @@ UserSession.beginOAuth2 = function (
 UserSession.completeOAuth2 = function (
   ...args: Parameters<typeof ArcGISIdentityManager.completeOAuth2>
 ) {
-  console.log(
+  console.warn(
     "DEPRECATED:, 'UserSession.completeOAuth2' is deprecated. Use 'ArcGISIdentityManager.completeOAuth2' instead."
   );
-
-  console.warn(
-    "WARNING:, 'UserSession.completeOAuth2' is now async and returns a promise the resolves to an instance of `ArcGISIdentityManager`."
-  );
+  if (args.length <= 1) {
+    console.warn(
+      "WARNING:, 'UserSession.completeOAuth2' is now async and returns a promise the resolves to an instance of `ArcGISIdentityManager`."
+    );
+  }
 
   return ArcGISIdentityManager.completeOAuth2(...args);
 };
@@ -1747,7 +1748,7 @@ UserSession.completeOAuth2 = function (
 UserSession.fromParent = function (
   ...args: Parameters<typeof ArcGISIdentityManager.fromParent>
 ) {
-  console.log(
+  console.warn(
     "DEPRECATED:, 'UserSession.fromParent' is deprecated. Use 'ArcGISIdentityManager.fromParent' instead."
   );
 
@@ -1760,7 +1761,7 @@ UserSession.fromParent = function (
 UserSession.authorize = function (
   ...args: Parameters<typeof ArcGISIdentityManager.authorize>
 ) {
-  console.log(
+  console.warn(
     "DEPRECATED:, 'UserSession.authorize' is deprecated. Use 'ArcGISIdentityManager.authorize' instead."
   );
 
@@ -1773,7 +1774,7 @@ UserSession.authorize = function (
 UserSession.exchangeAuthorizationCode = function (
   ...args: Parameters<typeof ArcGISIdentityManager.exchangeAuthorizationCode>
 ) {
-  console.log(
+  console.warn(
     "DEPRECATED:, 'UserSession.exchangeAuthorizationCode' is deprecated. Use 'ArcGISIdentityManager.exchangeAuthorizationCode' instead."
   );
 
