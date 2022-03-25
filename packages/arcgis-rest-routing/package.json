@@ -67,5 +67,16 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "esri": {
+    "keyExports": [
+      "closestFacility",
+      "decompressGeometry",
+      "isFeatureSet",
+      "normalizeLocationsList",
+      "originDestinationMatrix",
+      "serviceArea",
+      "solveRoute"
+    ]
   }
 }

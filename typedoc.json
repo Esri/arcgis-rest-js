@@ -4,7 +4,6 @@
   "logLevel": "Verbose",
   "excludeInternal": true,
   "packages": [
-    "./packages/arcgis-rest-auth/",
     "./packages/arcgis-rest-demographics/",
     "./packages/arcgis-rest-feature-service/",
     "./packages/arcgis-rest-geocoding/",

@@ -68,5 +68,11 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "esri": {
+    "keyExports": [
+      "queryFeatures",
+      "applyEdits"
+    ]
   }
 }

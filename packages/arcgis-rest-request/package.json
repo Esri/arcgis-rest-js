@@ -65,7 +65,10 @@
   },
   "esri": {
     "keyExports": [
-      "request"
+      "request",
+      "ApiKeyManager",
+      "ApplicationCredentialsManager",
+      "ArcGISIdentityManager"
     ]
   }
 }

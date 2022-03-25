@@ -67,5 +67,14 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "esri": {
+    "keyExports": [
+      "bulkGeocode",
+      "geocode",
+      "getGeocodeService",
+      "reverseGeocode",
+      "suggest"
+    ]
   }
 }

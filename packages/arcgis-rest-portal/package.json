@@ -66,5 +66,12 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "esri": {
+    "keyExports": [
+      "searchItems",
+      "createItem",
+      "createGroup"
+    ]
   }
 }
