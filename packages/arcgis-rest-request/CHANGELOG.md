@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-request [4.0.0-beta.7](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.6...@esri/arcgis-rest-request@4.0.0-beta.7) (2022-03-29)
+
+
+### Features
+
+* **arcgis-rest-request:** add support for AbortSignal ([#970](https://github.com/Esri/arcgis-rest-js/issues/970)) ([0f314f6](https://github.com/Esri/arcgis-rest-js/commit/0f314f689dbb7802431ef52223a53b121c346739))
+
 # @esri/arcgis-rest-request [4.0.0-beta.6](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.5...@esri/arcgis-rest-request@4.0.0-beta.6) (2022-03-22)
 
 
