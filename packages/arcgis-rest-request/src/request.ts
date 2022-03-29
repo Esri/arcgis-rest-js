@@ -245,6 +245,7 @@ export function internalRequest(
 
   const fetchOptions: RequestInit = {
     method: httpMethod,
+    signal: options.signal,
     /* ensures behavior mimics XMLHttpRequest.
     needed to support sending IWA cookies */
     credentials: options.credentials || "same-origin"
