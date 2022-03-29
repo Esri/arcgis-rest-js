@@ -52,6 +52,11 @@ export interface IRequestOptions {
     [key: string]: any;
   };
   /**
+   * An [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) object instance; allows you to abort a request and via an [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController).
+   */
+  signal?: AbortSignal;
+
+  /**
    * Suppress any ArcGIS REST JS related warnings for this request.
    */
   suppressWarnings?: boolean;
