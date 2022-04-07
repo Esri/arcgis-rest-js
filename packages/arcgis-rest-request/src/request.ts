@@ -171,12 +171,7 @@ export function checkForErrors(
     const { message, code, messageCode } = response.error;
     const errorCode = messageCode || code || "UNKNOWN_ERROR_CODE";
 
-    if (
-      code === 498 ||
-      code === 499 ||
-      messageCode === "GWM_0003" ||
-      (code === 400 && message === "Unable to generate token.")
-    ) {
+    if (code === 498 || code === 499) {
       if (originalAuthError) {
         throw originalAuthError;
       } else {

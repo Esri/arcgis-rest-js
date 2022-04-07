@@ -188,7 +188,7 @@ describe("ArcGISRequestError", () => {
           referer: "localhost"
         }
       }).catch((err) => {
-        expect(err.name).toBe(ErrorTypes.ArcGISAuthError);
+        expect(err.name).toBe(ErrorTypes.ArcGISRequestError);
         done();
       });
     });
