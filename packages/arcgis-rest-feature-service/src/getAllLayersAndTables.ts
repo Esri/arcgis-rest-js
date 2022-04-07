@@ -1,5 +1,9 @@
-import { request} from "@esri/arcgis-rest-request";
-import { IGetLayerOptions, parseServiceUrl , ILayerDefinition} from "./helpers.js";
+import { request } from "@esri/arcgis-rest-request";
+import {
+  IGetLayerOptions,
+  parseServiceUrl,
+  ILayerDefinition
+} from "./helpers.js";
 
 export interface IAllLayersAndTablesResponse {
   layers: ILayerDefinition[];
@@ -7,6 +11,9 @@ export interface IAllLayersAndTablesResponse {
 }
 
 /**
+ *  * Fetches all the layers and tables associated with a given layer service.
+ * Wrapper for https://developers.arcgis.com/rest/services-reference/all-layers-and-tables.htm
+ *
  * ```js
  * import { getAllLayersAndTables } from '@esri/arcgis-rest-feature-service';
  * getAllLayersAndTables({
@@ -14,8 +21,6 @@ export interface IAllLayersAndTablesResponse {
  * })
  *   .then(response) // { layers: [...], tables: [...] }
  * ```
- * Fetches all the layers and tables associated with a given layer service.
- * Wrapper for https://developers.arcgis.com/rest/services-reference/all-layers-and-tables.htm
  *
  * @param options - Request options, including the url for the layer service
  * @returns A Promise that will resolve with the layers and tables for the given service

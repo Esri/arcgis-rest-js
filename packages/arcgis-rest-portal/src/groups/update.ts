@@ -10,15 +10,16 @@ export interface IUpdateGroupOptions extends IRequestOptions {
 }
 
 /**
+ * Update the properties of a group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-group.htm) for more information.
+ *
  * ```js
  * import { updateGroup } from '@esri/arcgis-rest-portal';
- * //
+ *
  * updateGroup({
  *   group: { id: "fgr344", title: "new" }
  * })
  *   .then(response)
  * ```
- * Update the properties of a group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-group.htm) for more information.
  *
  * @param requestOptions - Options for the request, including the group
  * @returns A Promise that will resolve with the success/failure status of the request

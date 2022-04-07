@@ -19,16 +19,17 @@ export interface ISetAccessOptions extends ISharingOptions {
 }
 
 /**
+ * Change who is able to access an item.
+ *
  * ```js
  * import { setItemAccess } from "@esri/arcgis-rest-portal";
- * //
+ *
  * setItemAccess({
  *   id: "abc123",
  *   access: "public", // 'org' || 'private'
  *   authentication: session
  * })
  * ```
- * Change who is able to access an item.
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the data from the response.

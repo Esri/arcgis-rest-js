@@ -32,9 +32,11 @@ export interface IRemoveGroupUsersResult {
 }
 
 /**
+ * Add users to a group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/remove-users-from-group.htm) for more information.
+ *
  * ```js
  * import { removeGroupUsers } from "@esri/arcgis-rest-portal";
- * //
+ *
  * removeGroupUsers({
  *   id: groupId,
  *   users: ["username1", "username2"],
@@ -42,7 +44,6 @@ export interface IRemoveGroupUsersResult {
  * })
  * .then(response);
  * ```
- * Add users to a group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/remove-users-from-group.htm) for more information.
  *
  * @param requestOptions  - Options for the request
  * @returns A Promise

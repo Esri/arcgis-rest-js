@@ -1,6 +1,7 @@
 import { ITokenRequestOptions } from "./ITokenRequestOptions.js";
 /**
  * Authentication can be supplied to `request` via {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager}. These classes implement {@linkCode IAuthenticationManager}.
+ *
  * ```js
  * const session = new ArcGISIdentityManager({
  *   username: "jsmith",

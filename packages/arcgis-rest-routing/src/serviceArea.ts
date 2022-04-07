@@ -5,8 +5,8 @@ import {
   request,
   cleanUrl,
   appendCustomParams,
-  ILocation, 
-  IPoint, 
+  ILocation,
+  IPoint,
   IFeatureSet
 } from "@esri/arcgis-rest-request";
 
@@ -64,9 +64,11 @@ function getTravelDirection(
 }
 
 /**
+ * Used to find the area that can be reached from the input location within a given travel time or travel distance. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/service-area-synchronous-service.htm) for more information.
+ *
  * ```js
  * import { serviceArea } from '@esri/arcgis-rest-routing';
- * //
+ *
  * serviceArea({
  *   facilities: [
  *     [-90.444716, 38.635501],
@@ -77,7 +79,6 @@ function getTravelDirection(
  * })
  *   .then(response) // => {routes: {features: [{attributes: { ... }, geometry:{ ... }}]}
  * ```
- * Used to find the area that can be reached from the input location within a given travel time or travel distance. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/service-area-synchronous-service.htm) for more information.
  *
  * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with service area polygons for the request.

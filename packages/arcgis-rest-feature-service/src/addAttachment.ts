@@ -20,6 +20,8 @@ export interface IAddAttachmentOptions extends IGetLayerOptions {
 }
 
 /**
+ * Attach a file to a feature by id. See [Add Attachment](https://developers.arcgis.com/rest/services-reference/add-attachment.htm) for more information.
+ *
  * ```js
  * import { addAttachment } from '@esri/arcgis-rest-feature-service';
  * //
@@ -30,7 +32,6 @@ export interface IAddAttachmentOptions extends IGetLayerOptions {
  * })
  *   .then(response)
  * ```
- * Attach a file to a feature by id. See [Add Attachment](https://developers.arcgis.com/rest/services-reference/add-attachment.htm) for more information.
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the `addAttachment()` response.

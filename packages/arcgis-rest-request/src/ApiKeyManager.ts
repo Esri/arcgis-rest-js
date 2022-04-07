@@ -50,6 +50,7 @@ export class ApiKeyManager implements IAuthenticationManager {
 
 /**
  * @deprecated - Use {@linkcode ApiKeyManager}.
+ * @internal
  */ /* istanbul ignore next */
 export function ApiKey(options: IApiKeyOptions) {
   console.log(

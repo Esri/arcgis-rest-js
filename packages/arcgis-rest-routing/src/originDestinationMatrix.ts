@@ -6,8 +6,8 @@ import {
   cleanUrl,
   appendCustomParams,
   IRequestOptions,
-  ILocation, 
-  IPoint, 
+  ILocation,
+  IPoint,
   IFeatureSet
 } from "@esri/arcgis-rest-request";
 
@@ -68,9 +68,11 @@ export interface IOriginDestinationMatrixResponse {
 }
 
 /**
+ * Used to create an origin-destination (OD) cost matrix from multiple origins to multiple destinations. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/origin-destination-cost-matrix-synchronous-service.htm) for more information.
+ *
  * ```js
  * import { originDestinationMatrix } from '@esri/arcgis-rest-routing';
- * //
+ *
  * originDestinationMatrix({
  *   origins: [
  *     [-90.404302, 38.600621],
@@ -85,7 +87,6 @@ export interface IOriginDestinationMatrixResponse {
  * })
  *   .then(response) // => { ... }
  * ```
- * Used to create an origin-destination (OD) cost matrix from multiple origins to multiple destinations. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/origin-destination-cost-matrix-synchronous-service.htm) for more information.
  *
  * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with travel time and/or distance for each origin-destination pair. It returns either odLines or odCostMatrix for this information depending on the outputType you specify.

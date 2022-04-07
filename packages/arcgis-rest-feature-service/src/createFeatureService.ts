@@ -146,6 +146,8 @@ export interface ICreateServiceResult {
 }
 
 /**
+ * Create a new [hosted feature service](https://developers.arcgis.com/rest/users-groups-and-items/create-service.htm). After the service has been created, call [`addToServiceDefinition()`](../addToServiceDefinition/) if you'd like to update it's schema.
+ *
  * ```js
  * import {
  *   createFeatureService,
@@ -160,7 +162,7 @@ export interface ICreateServiceResult {
  *   }
  * });
  * ```
- * Create a new [hosted feature service](https://developers.arcgis.com/rest/users-groups-and-items/create-service.htm). After the service has been created, call [`addToServiceDefinition()`](../addToServiceDefinition/) if you'd like to update it's schema.
+ *
  * @param requestOptions - Options for the request. NOTE: `rawResponse` is not supported by this operation.
  * @returns A Promise that resolves with service details once the service has been created
  */

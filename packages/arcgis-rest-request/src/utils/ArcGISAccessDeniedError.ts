@@ -24,7 +24,6 @@
  *     console.log("Something else went wrong. Error:", e);
  *   }
  * })
- *
  * ```
  */
 export class ArcGISAccessDeniedError extends Error {

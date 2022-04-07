@@ -49,6 +49,8 @@ export interface IBulkGeocodeResponse {
 }
 
 /**
+ * Used to geocode a [batch](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm) of addresses.
+ *
  * ```js
  * import { bulkGeocode } from '@esri/arcgis-rest-geocoding';
  * import { ApplicationCredentialsManager } from '@esri/arcgis-rest-request';
@@ -63,8 +65,6 @@ export interface IBulkGeocodeResponse {
  *     response.locations[0].location; // => { x: -117, y: 34, spatialReference: { wkid: 4326 } }
  *   });
  * ```
- *
- * Used to geocode a [batch](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-geocode-addresses.htm) of addresses.
  *
  * @param requestOptions - Request options to pass to the geocoder, including an array of addresses and authentication session.
  * @returns A Promise that will resolve with the data from the response. The spatial reference will be added to address locations unless `rawResponse: true` was passed.

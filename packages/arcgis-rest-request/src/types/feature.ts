@@ -1,7 +1,12 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { GeometryType, IHasZM, ISpatialReference, IGeometry } from "./geometry.js";
+import {
+  GeometryType,
+  IHasZM,
+  ISpatialReference,
+  IGeometry
+} from "./geometry.js";
 import { IField } from "./service.js";
 import { ISymbol } from "./symbol.js";
 
@@ -12,7 +17,7 @@ import { ISymbol } from "./symbol.js";
  * import { IFeatureSet } from "@esri/arcgis-rest-feature-service";
  * ```
  */
- export interface IFeatureSet extends IHasZM {
+export interface IFeatureSet extends IHasZM {
   objectIdFieldName?: string; // optional
   globalIdFieldName?: string; // optional
   displayFieldName?: string; // optional
@@ -26,7 +31,7 @@ import { ISymbol } from "./symbol.js";
 }
 
 /**
- * a spatial entity and its corresponding properties
+ * A spatial entity and its corresponding properties
  *
  * `IFeature` can also be imported from the following packages:
  *
@@ -35,7 +40,7 @@ import { ISymbol } from "./symbol.js";
  * import { IFeature } from "@esri/arcgis-rest-routing";
  * ```
  */
- export interface IFeature {
+export interface IFeature {
   geometry?: IGeometry;
   attributes: { [key: string]: any };
   symbol?: ISymbol;

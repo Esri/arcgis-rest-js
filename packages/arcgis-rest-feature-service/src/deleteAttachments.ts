@@ -20,6 +20,8 @@ export interface IDeleteAttachmentsOptions extends IGetLayerOptions {
 }
 
 /**
+ * Delete existing attachment files of a feature by id. See [Delete Attachments](https://developers.arcgis.com/rest/services-reference/delete-attachments.htm) for more information.
+ *
  * ```js
  * import { deleteAttachments } from '@esri/arcgis-rest-feature-service';
  * //
@@ -29,7 +31,6 @@ export interface IDeleteAttachmentsOptions extends IGetLayerOptions {
  *   attachmentIds: [306]
  * });
  * ```
- * Delete existing attachment files of a feature by id. See [Delete Attachments](https://developers.arcgis.com/rest/services-reference/delete-attachments.htm) for more information.
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the `deleteAttachments()` response.

@@ -3,6 +3,7 @@
   "json": "docs/build/4/typedoc.json",
   "logLevel": "Verbose",
   "excludeInternal": true,
+  "excludePrivate": true,
   "packages": [
     "./packages/arcgis-rest-demographics/",
     "./packages/arcgis-rest-feature-service/",

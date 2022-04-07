@@ -102,14 +102,16 @@ export interface IFilteringTag {
 }
 
 /**
+ * Used to determine the data collections available for usage with the Geoenrichment service. See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/data-collections.htm) for more information.
+ *
  * ```js
  * import { getAvailableDataCollections } from '@esri/arcgis-rest-demographics';
- * //
+ *
  * getAvailableDataCollections()
  *   .then((response) => {
  *     response; // => { DataCollections: [ ... ]  }
  *   });
- * //
+ *
  * getAvailableDataCollections({
  *   countryCode: "se",
  *   dataCollection: "EducationalAttainment"
@@ -118,7 +120,7 @@ export interface IFilteringTag {
  *     response.; // => { DataCollections: [ ... ] }
  *   });
  * ```
- * Used to determine the data collections available for usage with the Geoenrichment service. See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/data-collections.htm) for more information.
+ *
  * @param requestOptions Options to pass through to the geoenrichment service.
  * @returns A Promise that will resolve with data collections for the request.
  */

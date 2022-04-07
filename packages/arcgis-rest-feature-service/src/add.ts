@@ -22,6 +22,8 @@ export interface IAddFeaturesOptions extends ISharedEditOptions {
 }
 
 /**
+ * Add features request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-features.htm) for more information.
+ *
  * ```js
  * import { addFeatures } from '@esri/arcgis-rest-feature-service';
  * //
@@ -34,7 +36,6 @@ export interface IAddFeaturesOptions extends ISharedEditOptions {
  * })
  *   .then(response)
  * ```
- * Add features request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-features.htm) for more information.
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the addFeatures response.

@@ -11,14 +11,16 @@ export interface ISubscriptionInfo {
 }
 
 /**
+ * Fetch subscription information about the current portal by id. If no id is passed, portals/self/subscriptionInfo will be called
+ *
  * ```js
  * import { getSubscriptionInfo } from "@esri/arcgis-rest-request";
- * //
+ *
  * getSubscriptionInfo()
  * getSubscriptionInfo("fe8")
  * getSubscriptionInfo(null, { portal: "https://custom.maps.arcgis.com/sharing/rest/" })
  * ```
- * Fetch subscription information about the current portal by id. If no id is passed, portals/self/subscriptionInfo will be called
+ *
  * @param id
  * @param requestOptions
  */

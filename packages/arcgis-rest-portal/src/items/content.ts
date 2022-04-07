@@ -1,7 +1,4 @@
-import { 
-  request,
-  IRequestOptions,
-} from "@esri/arcgis-rest-request";
+import { request, IRequestOptions } from "@esri/arcgis-rest-request";
 import { IItem, IFolder, IPagingParams, IPagedResponse } from "../helpers.js";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
@@ -24,9 +21,13 @@ export interface IUserContentResponse extends IPagedResponse {
 }
 
 /**
+ * Returns a listing of the user's content. If the `username` is not supplied, it defaults to the username of the authenticated user. If `start` is not specified it defaults to the first page.
+ *
+ * If the `num` is not supplied it is defaulted to 10. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/user-content.htm) for more information.
+ *
  * ```js
  * import { getUserContent } from "@esri/arcgis-rest-portal";
- * //
+ *
  * getUserContent({
  *    owner: 'geemike',
  *    folderId: 'bao7',
@@ -35,8 +36,6 @@ export interface IUserContentResponse extends IPagedResponse {
  *    authentication
  * })
  * ```
- * Returns a listing of the user's content. If the `username` is not supplied, it defaults to the username of the authenticated user. If `start` is not specificed it defaults to the first page.
- * If the `num` is not supplied it is defaulted to 10. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/user-content.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise<IUserContentResponse>

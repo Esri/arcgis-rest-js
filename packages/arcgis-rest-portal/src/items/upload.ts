@@ -17,9 +17,11 @@ export interface ICommitItemOptions extends IUserItemOptions {
 }
 
 /**
+ * Add Item Part allows the caller to upload a file part when doing an add or update item operation in multipart mode. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-item-part.htm) for more information.
+ *
  * ```js
  * import { addItemPart } from "@esri/arcgis-rest-portal";
- * //
+ *
  * addItemPart({
  *   id: "30e5fe3149c34df1ba922e6f5bbf808f",
  *   file: data,
@@ -28,7 +30,6 @@ export interface ICommitItemOptions extends IUserItemOptions {
  * })
  *   .then(response)
  * ```
- * Add Item Part allows the caller to upload a file part when doing an add or update item operation in multipart mode. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-item-part.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise to add the item part status.
@@ -63,6 +64,8 @@ export function addItemPart(
 }
 
 /**
+ * Commit is called once all parts are uploaded during a multipart Add Item or Update Item operation. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/commit.htm) for more information.
+ *
  * ```js
  * import { commitItemUpload } from "@esri/arcgis-rest-portal";
  * //
@@ -72,7 +75,6 @@ export function addItemPart(
  * })
  *   .then(response)
  * ```
- * Commit is called once all parts are uploaded during a multipart Add Item or Update Item operation. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/commit.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise to get the commit result.
@@ -97,6 +99,8 @@ export function commitItemUpload(
 }
 
 /**
+ * Cancels a multipart upload on an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/cancel.htm) for more information.
+ *
  * ```js
  * import { cancelItemUpload } from "@esri/arcgis-rest-portal";
  * //
@@ -106,7 +110,6 @@ export function commitItemUpload(
  * })
  *   .then(response)
  * ```
- * Cancels a multipart upload on an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/cancel.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise to get the commit result.

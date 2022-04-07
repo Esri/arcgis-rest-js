@@ -45,10 +45,11 @@ export interface IQueryRelatedResponse extends IHasZM {
   relatedRecordGroups: IRelatedRecordGroup[];
 }
 /**
+ * Query the related records for a feature service. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-records-feature-service-.htm) for more information.
  *
  * ```js
  * import { queryRelated } from '@esri/arcgis-rest-feature-service'
- * //
+ *
  * queryRelated({
  *  url: "http://services.myserver/OrgID/ArcGIS/rest/services/Petroleum/KSPetro/FeatureServer/0",
  *  relationshipId: 1,
@@ -56,7 +57,6 @@ export interface IQueryRelatedResponse extends IHasZM {
  * })
  *  .then(response) // response.relatedRecords
  * ```
- * Query the related records for a feature service. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-records-feature-service-.htm) for more information.
  *
  * @param requestOptions
  * @returns A Promise that will resolve with the query response

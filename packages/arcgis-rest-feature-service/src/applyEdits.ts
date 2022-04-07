@@ -47,6 +47,8 @@ export interface IApplyEditsOptions extends ISharedEditOptions {
 }
 
 /**
+ * Apply edits request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/apply-edits-feature-service-layer-.htm) for more information.
+ *
  * ```js
  * import { applyEdits } from '@esri/arcgis-rest-feature-service';
  * //
@@ -63,7 +65,6 @@ export interface IApplyEditsOptions extends ISharedEditOptions {
  * })
  *   .then(response)
  * ```
- * Apply edits request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/apply-edits-feature-service-layer-.htm) for more information.
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the applyEdits response.

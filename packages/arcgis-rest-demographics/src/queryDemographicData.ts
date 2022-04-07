@@ -50,6 +50,8 @@ export interface IQueryDemographicDataResponse {
 }
 
 /**
+ * Used to get facts about a location or area. See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/enrich.htm) for more information.
+ *
  * ```js
  * import { queryDemographicData } from '@esri/arcgis-rest-demographics';
  * //
@@ -61,7 +63,7 @@ export interface IQueryDemographicDataResponse {
  *     response; // => { results: [ ... ] }
  *   });
  * ```
- * Used to get facts about a location or area. See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/enrich.htm) for more information.
+ *
  * @param requestOptions Options to pass through to the service.
  * @returns A Promise that will resolve with results for the request.
  */

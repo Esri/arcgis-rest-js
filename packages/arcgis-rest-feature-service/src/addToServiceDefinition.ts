@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  IUserRequestOptions,
+  IUserRequestOptions
 } from "@esri/arcgis-rest-request";
 
 import { ILayer, ITable, ILayerDefinition } from "./helpers.js";
@@ -32,7 +32,9 @@ export interface IAddToServiceDefinitionResult {
 }
 
 /**
- * ```js
+ * Add layer(s) and/or table(s) to a hosted feature service. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-to-definition-feature-service-.htm) for more information.
+ *
+ *  ```js
  * import { addToServiceDefinition } from '@esri/arcgis-rest-service-admin';
  * //
  * addToServiceDefinition(serviceurl, {
@@ -41,7 +43,6 @@ export interface IAddToServiceDefinitionResult {
  *   tables: []
  * });
  * ```
- * Add layer(s) and/or table(s) to a hosted feature service. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-to-definition-feature-service-.htm) for more information.
  *
  * @param url - URL of feature service
  * @param requestOptions - Options for the request

@@ -27,9 +27,11 @@ export interface IUpdateGroupUsersOptions extends IUserRequestOptions {
 }
 
 /**
+ * Change the user membership levels of existing users in a group
+ *
  * ```js
  * import { updateUserMemberships } from "@esri/arcgis-rest-portal";
- * //
+ *
  * updateUserMemberships({
  *   id: groupId,
  *   admins: ["username3"],
@@ -37,7 +39,6 @@ export interface IUpdateGroupUsersOptions extends IUserRequestOptions {
  * })
  * .then(response);
  * ```
- * Change the user membership levels of existing users in a group
  *
  * @param requestOptions  - Options for the request
  * @returns A Promise

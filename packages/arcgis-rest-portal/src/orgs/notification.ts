@@ -42,14 +42,11 @@ export interface ICreateOrgNotificationResult {
 }
 
 /**
- * Send a notification to members of the requesting user's org.
- * Operation success will be indicated by a flag on the return
- * object. If there are any errors, they will be placed in an
- * errors array on the return object
+ * Send a notification to members of the requesting user's org. Operation success will be indicated by a flag on the return object. If there are any errors, they will be placed in an errors array on the return object
  *
  * ```js
  * const authentication: IAuthenticationManager; // Typically passed into to the function
- * //
+ *
  * const options: IInviteGroupUsersOptions = {
  *  id: 'group_id',
  *  users: ['larry', 'curly', 'moe'],
@@ -57,20 +54,20 @@ export interface ICreateOrgNotificationResult {
  *  expiration: 20160,
  *  authentication
  * }
- * //
+ *
  * const result = await createOrgNotification(options);
- * //
+ *
  * const if_success_result_looks_like = {
  *  success: true
  * }
- * //
+ *
  * const if_failure_result_looks_like = {
  *  success: false,
  *  errors: [ArcGISRequestError]
  * }
  * ```
- * @param {ICreateOrgNotificationOptions} options
  *
+ * @param {ICreateOrgNotificationOptions} options
  * @returns {ICreateOrgNotificationResult}
  */
 export function createOrgNotification(options: ICreateOrgNotificationOptions) {

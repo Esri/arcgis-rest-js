@@ -13,15 +13,16 @@ import {
 } from "./helpers.js";
 
 /**
+ * Delete an item from the portal. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-item.htm) for more information.
+ *
  * ```js
  * import { removeItem } from "@esri/arcgis-rest-portal";
- * //
+ *
  * removeItem({
  *   id: "3ef",
  *   authentication
  * })
  * ```
- * Delete an item from the portal. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-item.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that deletes an item.
@@ -38,9 +39,11 @@ export function removeItem(
 }
 
 /**
+ * Remove a relationship between two items. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-relationship.htm) for more information.
+ *
  * ```js
  * import { removeItemRelationship } from "@esri/arcgis-rest-portal";
- * //
+ *
  * removeItemRelationship({
  *   originItemId: '3ef',
  *   destinationItemId: 'ae7',
@@ -49,7 +52,6 @@ export function removeItem(
  * })
  *   .then(response)
  * ```
- * Remove a relationship between two items. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-relationship.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise to add item resources.
@@ -102,9 +104,11 @@ export function removeItemResource(
 }
 
 /**
+ * Delete a non-root folder and all the items it contains. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-folder.htm) for more information.
+ *
  * ```js
  * import { removeFolder } from "@esri/arcgis-rest-portal";
- * //
+ *
  * removeFolder({
  *   folderId: "fe4",
  *   owner: "c@sey",
@@ -113,9 +117,6 @@ export function removeItemResource(
  *   .then(response)
  *
  * ```
- * Delete a non-root folder and all the items it contains. See the [REST
- * Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-folder.htm) for
- * more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that deletes a folder

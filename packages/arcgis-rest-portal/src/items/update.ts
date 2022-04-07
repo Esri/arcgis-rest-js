@@ -33,9 +33,11 @@ export interface IMoveItemOptions extends ICreateUpdateItemOptions {
 }
 
 /**
+ * Update an Item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-item.htm) for more information.
+ *
  * ```js
  * import { updateItem } from "@esri/arcgis-rest-portal";
- * //
+ *
  * updateItem({
  *   item: {
  *     id: "3ef",
@@ -45,7 +47,6 @@ export interface IMoveItemOptions extends ICreateUpdateItemOptions {
  * })
  *   .then(response)
  * ```
- * Update an Item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-item.htm) for more information.
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that updates an item.
@@ -73,9 +74,11 @@ export function updateItem(
 }
 
 /**
+ * Update an info file associated with an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-info.htm) for more information.
+ *
  * ```js
  * import { updateItemInfo } from "@esri/arcgis-rest-portal";
- * //
+ *
  * updateItemInfo({
  *   id: '3ef',
  *   file: file,
@@ -83,7 +86,6 @@ export function updateItem(
  * })
  *   .then(response)
  * ```
- * Update an info file associated with an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-info.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that updates an item info file.
@@ -108,9 +110,11 @@ export function updateItemInfo(
 }
 
 /**
+ * Update an info file associated with an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-info.htm) for more information.
+ *
  * ```js
  * import { updateItemResource } from "@esri/arcgis-rest-portal";
- * //
+ *
  * updateItemResource({
  *   id: '3ef',
  *   resource: file,
@@ -152,6 +156,8 @@ export function updateItemResource(
 }
 
 /**
+ * Move an item to a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/move-item.htm) for more information.
+ *
  * ```js
  * import { moveItem } from "@esri/arcgis-rest-portal";
  * //
@@ -161,7 +167,6 @@ export function updateItemResource(
  *   authentication: ArcGISIdentityManager
  * })
  * ```
- * Move an item to a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/move-item.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that resolves with owner and folder details once the move has been completed

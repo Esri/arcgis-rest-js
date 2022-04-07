@@ -26,6 +26,7 @@ export interface IUpdateFeaturesOptions extends ISharedEditOptions {
 }
 
 /**
+ * Update features request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/update-features.htm) for more information.
  *
  * ```js
  * import { updateFeatures } from '@esri/arcgis-rest-feature-service';
@@ -38,7 +39,6 @@ export interface IUpdateFeaturesOptions extends ISharedEditOptions {
  *   }]
  * });
  * ```
- * Update features request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/update-features.htm) for more information.
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the updateFeatures response.

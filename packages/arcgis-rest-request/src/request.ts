@@ -17,13 +17,14 @@ export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 /**
  * Sets the default options that will be passed in **all requests across all `@esri/arcgis-rest-js` modules**.
  *
- *
  * ```js
  * import { setDefaultRequestOptions } from "@esri/arcgis-rest-request";
+ *
  * setDefaultRequestOptions({
  *   authentication: ArcGISIdentityManager // all requests will use this session by default
  * })
  * ```
+ *
  * You should **never** set a default `authentication` when you are in a server side environment where you may be handling requests for many different authenticated users.
  *
  * @param options The default options to pass with every request. Existing default will be overwritten.
@@ -478,22 +479,23 @@ export function internalRequest(
 }
 
 /**
+ * Generic method for making HTTP requests to ArcGIS REST API endpoints.
+ *
  * ```js
  * import { request } from '@esri/arcgis-rest-request';
- * //
+ *
  * request('https://www.arcgis.com/sharing/rest')
  *   .then(response) // response.currentVersion === 5.2
- * //
+ *
  * request('https://www.arcgis.com/sharing/rest', {
  *   httpMethod: "GET"
  * })
- * //
+ *
  * request('https://www.arcgis.com/sharing/rest/search', {
  *   params: { q: 'parks' }
  * })
  *   .then(response) // response.total => 78379
  * ```
- * Generic method for making HTTP requests to ArcGIS REST API endpoints.
  *
  * @param url - The URL of the ArcGIS REST API endpoint.
  * @param requestOptions - Options for the request, including parameters relevant to the endpoint.

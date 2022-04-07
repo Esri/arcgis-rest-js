@@ -5,6 +5,8 @@ import { request, cleanUrl } from "@esri/arcgis-rest-request";
 import { IGetLayerOptions, IFeatureServiceDefinition } from "./helpers.js";
 
 /**
+ * Feature Service request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/feature-service.htm) for more information.
+ *
  * ```js
  * import { getService } from '@esri/arcgis-rest-feature-service';
  * //
@@ -13,7 +15,6 @@ import { IGetLayerOptions, IFeatureServiceDefinition } from "./helpers.js";
  * })
  *   .then(response) // { name: "311", id: 0, ... }
  * ```
- * Feature Service request. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/feature-service.htm) for more information.
  *
  * @param options - Options for the request.
  * @returns A Promise that will resolve with the getService response.

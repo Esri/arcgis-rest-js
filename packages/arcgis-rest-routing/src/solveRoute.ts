@@ -1,9 +1,9 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { 
-  request, 
-  cleanUrl, 
+import {
+  request,
+  cleanUrl,
   ILocation,
   IPoint,
   IFeature,
@@ -32,8 +32,8 @@ export interface ISolveRouteOptions extends IEndpointOptions {
    * Specify two or more locations between which the route is to be found.
    */
   stops:
-  | Array<IPoint | ILocation | [number, number] | [number, number, number]>
-  | IFeatureSet;
+    | Array<IPoint | ILocation | [number, number] | [number, number, number]>
+    | IFeatureSet;
 }
 
 export interface ISolveRouteResponse {
@@ -67,9 +67,11 @@ function isLocation(
 }
 
 /**
+ * Used to find the best way to get from one location to another or to visit several locations. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/route-synchronous-service.htm) for more information.
+ *
  * ```js
  * import { solveRoute } from '@esri/arcgis-rest-routing';
- * //
+ *
  * solveRoute({
  *   stops: [
  *     [-117.195677, 34.056383],
@@ -79,7 +81,6 @@ function isLocation(
  * })
  *   .then(response) // => {routes: {features: [{attributes: { ... }, geometry:{ ... }}]}
  * ```
- * Used to find the best way to get from one location to another or to visit several locations. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/route-synchronous-service.htm) for more information.
  *
  * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with routes and directions for the request.

@@ -86,6 +86,8 @@ export interface IGetGeographyResponse {
 }
 
 /**
+ * Used to get standard geography IDs and features for the supported geographic levels. See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/standard-geography-query.htm) and the [best practices post](https://www.esri.com/arcgis-blog/products/arcgis-online/uncategorized/best-practices-how-to-query-standard-geographies-branches) for more information.
+ *
  * ```js
  * import { getGeography } from '@esri/arcgis-rest-demographics';
  * //
@@ -97,7 +99,7 @@ export interface IGetGeographyResponse {
  *     response.; // => { results: [ ... ] }
  *   });
  * ```
- * Used to get standard geography IDs and features for the supported geographic levels. See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/standard-geography-query.htm) and the [best practices post](https://www.esri.com/arcgis-blog/products/arcgis-online/uncategorized/best-practices-how-to-query-standard-geographies-branches) for more information.
+ *
  * @param requestOptions Options to pass through to the service. All properties are optional, but either `geographyIds` or `geographyQuery` must be sent at a minimum.
  * @returns A Promise that will resolve with return data defined and optionally geometry for the feature.
  */

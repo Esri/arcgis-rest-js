@@ -22,6 +22,8 @@ export interface IGetUserOptions extends IRequestOptions {
 }
 
 /**
+ * Get information about a user. This method has proven so generically useful that you can also call [`ArcGISIdentityManager.getUser()`](/arcgis-rest-js/api/auth/ArcGISIdentityManager#getUser-summary).
+ *
  * ```js
  * import { getUser } from '@esri/arcgis-rest-portal';
  * //
@@ -29,7 +31,6 @@ export interface IGetUserOptions extends IRequestOptions {
  *   .then(response)
  * // => { firstName: "John", lastName: "Smith",tags: ["GIS Analyst", "City of Redlands"] }
  * ```
- * Get information about a user. This method has proven so generically useful that you can also call [`ArcGISIdentityManager.getUser()`](/arcgis-rest-js/api/auth/ArcGISIdentityManager#getUser-summary).
  *
  * @param requestOptions - options to pass through in the request
  * @returns A Promise that will resolve with metadata about the user

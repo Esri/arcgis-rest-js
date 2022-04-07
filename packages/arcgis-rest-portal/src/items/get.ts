@@ -200,6 +200,10 @@ export interface IGetItemResourceOptions extends IRequestOptions {
 }
 
 /**
+ * Fetches an item resource and optionally parses it to the correct format.
+ *
+ * Provides JSON parse error protection by sanitizing out any unescaped control characters before parsing that would otherwise cause an error to be thrown.
+ *
  * ```js
  * import { getItemResource } from "@esri/arcgis-rest-portal";
  *
@@ -215,10 +219,6 @@ export interface IGetItemResourceOptions extends IRequestOptions {
  * getItemResource("3ef",{ rawResponse: true, fileName: "resource.json" })
  *  .then(response => {})
  * ```
- * Fetches an item resource and optionally parses it to the correct format.
- *
- * Note: provides JSON parse error protection by sanitizing out any unescaped control
- * characters before parsing that would otherwise cause an error to be thrown
  *
  * @param {string} itemId
  * @param {IGetItemResourceOptions} requestOptions
@@ -237,13 +237,14 @@ export function getItemResource(
 }
 
 /**
+ * Lists the groups of which the item is a part, only showing the groups that the calling user can access. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/groups.htm) for more information.
+ *
  * ```js
  * import { getItemGroups } from "@esri/arcgis-rest-portal";
- * //
+ *
  * getItemGroups("30e5fe3149c34df1ba922e6f5bbf808f")
  *   .then(response)
  * ```
- * Lists the groups of which the item is a part, only showing the groups that the calling user can access. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/groups.htm) for more information.
  *
  * @param id - The Id of the item to query group association for.
  * @param requestOptions - Options for the request
@@ -280,16 +281,17 @@ export interface IGetItemStatusResponse {
 }
 
 /**
+ * Inquire about status when publishing an item, adding an item in async mode, or adding with a multipart upload. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/status.htm) for more information.
+ *
  * ```js
  * import { getItemStatus } from "@esri/arcgis-rest-portal";
- * //
+ *
  * getItemStatus({
  *   id: "30e5fe3149c34df1ba922e6f5bbf808f",
  *   authentication
  * })
  *   .then(response)
  * ```
- * Inquire about status when publishing an item, adding an item in async mode, or adding with a multipart upload. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/status.htm) for more information.
  *
  * @param id - The Id of the item to get status for.
  * @param requestOptions - Options for the request
@@ -318,16 +320,17 @@ export interface IGetItemPartsResponse {
 }
 
 /**
+ * Lists the part numbers of the file parts that have already been uploaded in a multipart file upload. This method can be used to verify the parts that have been received as well as those parts that were not received by the server. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/parts.htm) for more information.
+ *
  * ```js
  * import { getItemParts } from "@esri/arcgis-rest-portal";
- * //
+ *
  * getItemParts({
  *   id: "30e5fe3149c34df1ba922e6f5bbf808f",
  *   authentication
  * })
  *   .then(response)
  * ```
- * Lists the part numbers of the file parts that have already been uploaded in a multipart file upload. This method can be used to verify the parts that have been received as well as those parts that were not received by the server. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/parts.htm) for more information.
  *
  * @param id - The Id of the item to get part list.
  * @param requestOptions - Options for the request

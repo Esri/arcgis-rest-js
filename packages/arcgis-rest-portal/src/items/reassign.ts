@@ -17,9 +17,11 @@ interface IReassignItemResponse {
 }
 
 /**
+ * Reassign an item from one user to another. Caller must be an org admin or the request will fail. `currentOwner` and `targetUsername` must be in the same organization or the request will fail
+ *
  * ```js
  * import { reassignItem } from '@esri/arcgis-rest-portal';
- * //
+ *
  * reassignItem({
  *   id: "abc123",
  *   currentOwner: "charles",
@@ -27,10 +29,7 @@ interface IReassignItemResponse {
  *   authentication
  * })
  * ```
- * Reassign an item from one user to another.
- * Caller must be an org admin or the request will fail.
- * `currentOwner` and `targetUsername` must be in the same
- * organization or the request will fail
+ *
  * @param reassignOptions - Options for the request
  */
 export function reassignItem(

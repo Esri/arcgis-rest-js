@@ -28,16 +28,17 @@ export interface ICreateItemResponse extends IUpdateItemResponse {
 }
 
 /**
+ * Create a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/create-folder.htm) for more information.
+ *
  * ```js
  * import { createFolder } from "@esri/arcgis-rest-portal";
- * //
+ *
  * createFolder({
  *   title: 'Map Collection',
  *   authentication: ArcGISIdentityManager
  * })
  *   .then(response)
  * ```
- * Create a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/create-folder.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that resolves with folder details once the folder has been created
@@ -59,9 +60,11 @@ export function createFolder(
 }
 
 /**
+ * Create an item in a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-item.htm) for more information.
+ *
  * ```js
  * import { createItemInFolder } from "@esri/arcgis-rest-portal";
- * //
+ *
  * createItemInFolder({
  *   item: {
  *     title: "The Amazing Voyage",
@@ -71,7 +74,6 @@ export function createFolder(
  *   authentication
  * })
  * ```
- * Create an item in a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-item.htm) for more information.
  *
  * @param requestOptions = Options for the request
  */
@@ -121,9 +123,11 @@ export function createItemInFolder(
 }
 
 /**
+ * Create an Item in the user's root folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-item.htm) for more information.
+ *
  * ```js
  * import { createItem } from "@esri/arcgis-rest-portal";
- * //
+ *
  * createItem({
  *   item: {
  *     title: "The Amazing Voyage",
@@ -132,7 +136,6 @@ export function createItemInFolder(
  *   authentication
  * })
  * ```
- * Create an Item in the user's root folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-item.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that creates an item.

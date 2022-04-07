@@ -36,6 +36,8 @@ export interface ICreateGroupNotificationOptions extends IUserGroupOptions {
 }
 
 /**
+ * Create a group notification.
+ *
  * ```js
  * import { createGroupNotification } from '@esri/arcgis-rest-portal';
  * // send an email to an entire group
@@ -46,10 +48,8 @@ export interface ICreateGroupNotificationOptions extends IUserGroupOptions {
  *   id: groupId
  * })
  * ```
- * Create a group notification.
  *
  * @param requestOptions - Options for the request
- *
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function createGroupNotification(

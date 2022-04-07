@@ -37,6 +37,8 @@ export interface IAddGroupUsersResult {
 }
 
 /**
+ * Add users to a group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-users-to-group.htm) for more information.
+ *
  * ```js
  * import { addGroupUsers } from "@esri/arcgis-rest-portal";
  * //
@@ -48,7 +50,6 @@ export interface IAddGroupUsersResult {
  * })
  * .then(response);
  * ```
- * Add users to a group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-users-to-group.htm) for more information.
  *
  * @param requestOptions  - Options for the request
  * @returns A Promise

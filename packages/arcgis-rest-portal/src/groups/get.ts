@@ -5,10 +5,10 @@ import {
   request,
   IRequestOptions,
   appendCustomParams,
-  IGroup, 
+  IGroup,
   IUser
 } from "@esri/arcgis-rest-request";
-import { IItem , IPagingParams} from "../helpers.js";
+import { IItem, IPagingParams } from "../helpers.js";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
 
@@ -41,13 +41,14 @@ export interface IGroupUsersResult {
 }
 
 /**
+ * Fetch a group using its id. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/group.htm) for more information.
+ *
  * ```js
  * import { getGroup } from "@esri/arcgis-rest-portal";
  * //
  * getGroup("fxb988") // id
  *   .then(response)
  * ```
- * Fetch a group using its id. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/group.htm) for more information.
  *
  * @param id - Group Id
  * @param requestOptions  - Options for the request
@@ -159,13 +160,14 @@ export interface ISearchGroupUsersResult {
 }
 
 /**
+ * Search the users in a group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/group-users-list.htm) for more information.
+ *
  * ```js
  * import { searchGroupUsers } from "@esri/arcgis-rest-portal";
- * //
+ *
  * searchGroupUsers('abc123')
  *   .then(response)
  * ```
- * Search the users in a group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/group-users-list.htm) for more information.
  *
  * @param id - The group id
  * @param searchOptions - Options for the request, including paging parameters.

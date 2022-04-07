@@ -220,6 +220,7 @@ export interface IArcGISIdentityManagerOptions {
 
   /**
    * An unfederated ArcGIS Server instance known to recognize credentials supplied manually.
+   *
    * ```js
    * {
    *   server: "https://sampleserver6.arcgisonline.com/arcgis",
@@ -236,15 +237,14 @@ export interface IArcGISIdentityManagerOptions {
  *
  * **It is not recommended to construct `ArcGISIdentityManager` directly**. Instead there are several static methods used for specific workflows. The 2 primary workflows relate to oAuth 2.0:
  *
- * * {@linkcode ArcGISIdentityManager.beginOAuth2} + {@linkcode ArcGISIdentityManager.completeOAuth2} - for oAuth 2.0 in browser-only environment.
- * * {@linkcode ArcGISIdentityManager.authorize} + {@linkcode ArcGISIdentityManager.exchangeAuthorizationCode} - for oAuth 2.0 for server-enabled application.
+ * * {@linkcode ArcGISIdentityManager.beginOAuth2} and {@linkcode ArcGISIdentityManager.completeOAuth2} for oAuth 2.0 in browser-only environment.
+ * * {@linkcode ArcGISIdentityManager.authorize} and {@linkcode ArcGISIdentityManager.exchangeAuthorizationCode} for oAuth 2.0 for server-enabled application.
  *
  * Other more specialized helpers for less common workflows also exist:
  *
- * * {@linkcode ArcGISIdentityManager.enablePostMessageAuth} + {@linkcode ArcGISIdentityManager.fromParent} - For when your application needs to pass authentication details between different pages embedded in iframes.
- * * {@linkcode ArcGISIdentityManager.fromToken} - When you have an existing token from another source and would like create an `ArcGISIdentityManager` instance.
- * * {@linkcode ArcGISIdentityManager.fromCredential} - For creating  an `ArcGISIdentityManager` instance from a `Credentials` object in the ArcGIS JS API `IdentityManager`
- * * {@linkcode ArcGISIdentityManager.signIn} - Authenticate directly with a users username and password.
+ * * {@linkcode ArcGISIdentityManager.fromToken} for when you have an existing token from another source and would like create an `ArcGISIdentityManager` instance.
+ * * {@linkcode ArcGISIdentityManager.fromCredential} for creating  an `ArcGISIdentityManager` instance from a `Credentials` object in the ArcGIS JS API `IdentityManager`
+ * * {@linkcode ArcGISIdentityManager.signIn} for authenticating directly with a users username and password for environments with a user interface for oAuth 2.0.
  *
  * Once a manager is created there are additional utilities:
  *
@@ -310,8 +310,11 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   }
 
   /**
-   * Begins a new browser-based OAuth 2.0 sign in. If `options.popup` is `true` the
-   * authentication window will open in a new tab/window. Otherwise, the user will be redirected to the authorization page in their current tab/window and the function will return `undefined`.
+   * Begins a new browser-based OAuth 2.0 sign in. If `options.popup` is `true` the authentication window will open in a new tab/window. Otherwise, the user will be redirected to the authorization page in their current tab/window and the function will return `undefined`.
+   *
+   * If `popup` is `true` (the default) this method will return a `Promise` that resolves to an `ArcGISIdentityManager` instance and you must call {@linkcode ArcGISIdentityManager.completeOAuth2} on the page defined in the `redirectUri`. Otherwise it will return undefined and the {@linkcode ArcGISIdentityManager.completeOAuth2} method will return a `Promise` that resolves to an `ArcGISIdentityManager` instance.
+   *
+   * A {@linkcode ArcGISAccessDeniedError} error will be thrown if the user denies the request on the authorization screen.
    *
    * @browserOnly
    */
@@ -486,6 +489,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
    * Completes a browser-based OAuth 2.0 sign in. If `options.popup` is `true` the user
    * will be returned to the previous window and the popup will close. Otherwise a new `ArcGISIdentityManager` will be returned. You must pass the same values for `clientId`, `popup`, `portal`, and `pkce` as you used in `beginOAuth2()`.
    *
+   * A {@linkcode ArcGISAccessDeniedError} error will be thrown if the user denies the request on the authorization screen.
    * @browserOnly
    */
   public static completeOAuth2(options: IOAuth2Options, win?: any) {
@@ -953,6 +957,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
 
   /**
    * An unfederated ArcGIS Server instance known to recognize credentials supplied manually.
+   *
    * ```js
    * {
    *   server: "https://sampleserver6.arcgisonline.com/arcgis",
@@ -1145,7 +1150,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   /**
    * Returns the username for the currently logged in [user](https://developers.arcgis.com/rest/users-groups-and-items/user.htm). Subsequent calls will *not* result in additional web traffic. This is also used internally when a username is required for some requests but is not present in the options.
    *
-   *    * ```js
+   * ```js
    * manager.getUsername()
    *   .then(response => {
    *     console.log(response); // "casey_jones"
@@ -1702,6 +1707,8 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
 
 /**
  * @deprecated - Use {@linkcode ArcGISIdentityManager}.
+ * @internal
+ *
  */ /* istanbul ignore next */
 function UserSession(options: IArcGISIdentityManagerOptions) {
   console.log(
@@ -1713,6 +1720,8 @@ function UserSession(options: IArcGISIdentityManagerOptions) {
 
 /**
  * @deprecated - Use {@linkcode ArcGISIdentityManager.beginOAuth2}.
+ * @internal
+ *
  */ /* istanbul ignore next */
 UserSession.beginOAuth2 = function (
   ...args: Parameters<typeof ArcGISIdentityManager.beginOAuth2>
@@ -1726,6 +1735,8 @@ UserSession.beginOAuth2 = function (
 
 /**
  * @deprecated - Use {@linkcode ArcGISIdentityManager.completeOAuth2}.
+ * @internal
+ *
  */ /* istanbul ignore next */
 UserSession.completeOAuth2 = function (
   ...args: Parameters<typeof ArcGISIdentityManager.completeOAuth2>
@@ -1744,6 +1755,8 @@ UserSession.completeOAuth2 = function (
 
 /**
  * @deprecated - Use {@linkcode ArcGISIdentityManager.fromParent}.
+ * @internal
+ *
  */ /* istanbul ignore next */
 UserSession.fromParent = function (
   ...args: Parameters<typeof ArcGISIdentityManager.fromParent>
@@ -1757,6 +1770,8 @@ UserSession.fromParent = function (
 
 /**
  * @deprecated - Use {@linkcode ArcGISIdentityManager.authorize}.
+ * @internal
+ *
  */ /* istanbul ignore next */
 UserSession.authorize = function (
   ...args: Parameters<typeof ArcGISIdentityManager.authorize>
@@ -1770,6 +1785,8 @@ UserSession.authorize = function (
 
 /**
  * @deprecated - Use {@linkcode ArcGISIdentityManager.exchangeAuthorizationCode}.
+ * @internal
+ *
  */ /* istanbul ignore next */
 UserSession.exchangeAuthorizationCode = function (
   ...args: Parameters<typeof ArcGISIdentityManager.exchangeAuthorizationCode>
@@ -1783,6 +1800,8 @@ UserSession.exchangeAuthorizationCode = function (
 
 /**
  * @deprecated - Use {@linkcode ArcGISIdentityManager.fromCredential}.
+ * @internal
+ *
  */ /* istanbul ignore next */
 UserSession.fromCredential = function (
   ...args: Parameters<typeof ArcGISIdentityManager.fromCredential>
@@ -1800,6 +1819,7 @@ UserSession.fromCredential = function (
 
 /**
  * @deprecated - Use {@linkcode ArcGISIdentityManager.deserialize}.
+ *
  */ /* istanbul ignore next */
 UserSession.deserialize = function (
   ...args: Parameters<typeof ArcGISIdentityManager.deserialize>

@@ -7,14 +7,14 @@ import { IRequestOptions } from "./IRequestOptions.js";
  * There are 5 potential error codes that might be thrown by {@linkcode ArcGISTokenRequestError}. 2 of these codes are used by both
  * {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationCredentialsManager}:
  *
- * * `TOKEN_REFRESH_FAILED` - When a request for an new access token fails.
- * * `UNKNOWN_ERROR_CODE` - The error is unknown. More information may be available in {@linkcode ArcGISTokenRequestError.response}
+ * * `TOKEN_REFRESH_FAILED` when a request for an new access token fails.
+ * * `UNKNOWN_ERROR_CODE` the error is unknown. More information may be available in {@linkcode ArcGISTokenRequestError.response}
  *
  * The 3 remaining error codes will only be thrown when using {@linkcode ArcGISIdentityManager}:
  *
- * * `GENERATE_TOKEN_FOR_SERVER_FAILED` - When a request for a token for a specific federated server fails.
- * * `REFRESH_TOKEN_EXCHANGE_FAILED` - When a request for a new refresh token fails.
- * * `NOT_FEDERATED` - When the requested server isn't federated with the portal specified in {@linkcode ArcGISIdentityManager.portal}.
+ * * `GENERATE_TOKEN_FOR_SERVER_FAILED` when a request for a token for a specific federated server fails.
+ * * `REFRESH_TOKEN_EXCHANGE_FAILED` when a request for a new refresh token fails.
+ * * `NOT_FEDERATED` when the requested server isn't federated with the portal specified in {@linkcode ArcGISIdentityManager.portal}.
  */
 export enum ArcGISTokenRequestErrorCodes {
   TOKEN_REFRESH_FAILED = "TOKEN_REFRESH_FAILED",

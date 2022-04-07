@@ -51,6 +51,8 @@ export interface IGeographyLevelHierarchy {
 }
 
 /**
+ * Returns a list of available geography data layers, which can then be used in [getGeography()](). See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/standard-geography-levels.htm) for more information.
+ *
  * ```js
  * import { getAvailableGeographyLevels } from '@esri/arcgis-rest-demographics';
  * //
@@ -59,7 +61,7 @@ export interface IGeographyLevelHierarchy {
  *     response; // => { geographyLevels: [ ... ]  }
  *   });
  * ```
- * Returns a list of available geography data layers, which can then be used in [getGeography()](). See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/standard-geography-levels.htm) for more information.
+ *
  * @param requestOptions Options to pass through to the geoenrichment service.
  * @returns A Promise that will resolve with available geography levels for the request.
  */

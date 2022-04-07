@@ -28,9 +28,11 @@ export interface IAddItemDataOptions extends IUserItemOptions {
 }
 
 /**
+ * Send a file or blob to an item to be stored as the `/data` resource. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-item.htm) for more information.
+ *
  * ```js
  * import { addItemData } from "@esri/arcgis-rest-portal";
- * //
+ *
  * addItemData({
  *   id: '3ef',
  *   data: file,
@@ -38,7 +40,6 @@ export interface IAddItemDataOptions extends IUserItemOptions {
  * })
  *   .then(response)
  * ```
- * Send a file or blob to an item to be stored as the `/data` resource. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-item.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with an object reporting
@@ -63,9 +64,11 @@ export function addItemData(
 }
 
 /**
+ * Add a relationship between two items. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-relationship.htm) for more information.
+ *
  * ```js
  * import { addItemRelationship } from "@esri/arcgis-rest-portal";
- * //
+ *
  * addItemRelationship({
  *   originItemId: '3ef',
  *   destinationItemId: 'ae7',
@@ -74,7 +77,6 @@ export function addItemData(
  * })
  *   .then(response)
  * ```
- * Add a relationship between two items. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-relationship.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise to add item resources.
@@ -97,10 +99,11 @@ export function addItemRelationship(
 }
 
 /**
+ * Add a resource associated with an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-resources.htm) for more information.
+ *
  * ```js
  * import { addItemResource } from "@esri/arcgis-rest-portal";
  *
- * ```js
  * // Add a file resource
  * addItemResource({
  *   id: '3ef',
@@ -109,10 +112,7 @@ export function addItemRelationship(
  *   authentication
  * })
  *   .then(response)
- * //
- * ```
  *
- * ```js
  * // Add a text resource
  * addItemResource({
  *   id: '4fg',
@@ -122,7 +122,6 @@ export function addItemRelationship(
  * })
  *   .then(response)
  * ```
- * Add a resource associated with an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-resources.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise to add item resources.
