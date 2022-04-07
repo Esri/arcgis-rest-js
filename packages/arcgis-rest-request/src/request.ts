@@ -503,8 +503,6 @@ export function request(
   return internalRequest(url, requestOptions).catch((e) => {
     if (
       e instanceof ArcGISAuthError &&
-      e.code === 498 &&
-      e.message === "498: Invalid token." &&
       requestOptions.authentication &&
       typeof requestOptions.authentication !== "string" &&
       requestOptions.authentication.canRefresh &&
