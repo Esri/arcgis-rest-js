@@ -4,9 +4,8 @@
 import { IParamBuilder, warn } from "@esri/arcgis-rest-request";
 
 /**
- * `SearchQueryBuilder` can be used to construct the `q` param for
- * [`searchItems`](/arcgis-rest-js/api/portal/searchItems#searchItems-search) or
- * [`searchGroups`](/arcgis-rest-js/api/portal/searchGroups#searchGroups-search).
+ * `SearchQueryBuilder` can be used to construct the `q` param for {@linkcode searchItems} or {@linkcode searchGroups}.
+ *
  * By chaining methods, it helps build complex search queries.
  *
  * ```js
@@ -212,10 +211,10 @@ export class SearchQueryBuilder implements IParamBuilder {
    * Begins a new range query.
    *
    * ```js
-   * 
+   *
    * const NEWYEARS = new Date("2020-01-01")
    * const TODAY = new Date()
-   * 
+   *
    * const query = new SearchQueryBuilder()
    *   .from(NEWYEARS)
    *   .to(TODAY)
