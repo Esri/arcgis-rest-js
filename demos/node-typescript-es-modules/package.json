@@ -1,4 +1,5 @@
 {
+  "private": "true",
   "name": "ts-node-rest",
   "version": "1.0.0",
   "description": "",
