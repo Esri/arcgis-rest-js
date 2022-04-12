@@ -139,7 +139,7 @@ describe("updateUser", () => {
         expect(options.body).toContain("f=json");
         expect(options.body).toContain("token=fake-token");
         expect(options.body).toContain(encodeParam("description", "real"));
-        expect(e.name).toBe("ArcGISAuthError");
+        expect(e.name).toBe("ArcGISRequestError");
         expect(e.code).toBe("GWM_0003");
         expect(e.originalMessage).toBe(
           "You do not have permissions to access this resource or perform this operation."
