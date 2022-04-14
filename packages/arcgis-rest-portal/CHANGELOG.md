@@ -1,3 +1,18 @@
+# @esri/arcgis-rest-portal [4.0.0-beta.6](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.0-beta.5...@esri/arcgis-rest-portal@4.0.0-beta.6) (2022-04-14)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** adds test to issue with append custom params ([2b9060f](https://github.com/Esri/arcgis-rest-js/commit/2b9060fdadc31e5165e1d676125fbcca1a7cacbd))
+
+
+
+
+
+### Dependencies
+
+* **@esri/arcgis-rest-request:** upgraded to 4.0.0-beta.8
+
 # @esri/arcgis-rest-portal [4.0.0-beta.5](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.0-beta.4...@esri/arcgis-rest-portal@4.0.0-beta.5) (2022-03-22)
 
 
