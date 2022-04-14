@@ -4,6 +4,7 @@
   "logLevel": "Verbose",
   "excludeInternal": true,
   "excludePrivate": true,
+  "excludeExternals": true,
   "packages": [
     "./packages/arcgis-rest-demographics/",
     "./packages/arcgis-rest-feature-service/",

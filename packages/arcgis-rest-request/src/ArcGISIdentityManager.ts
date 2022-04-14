@@ -1819,6 +1819,7 @@ UserSession.fromCredential = function (
 
 /**
  * @deprecated - Use {@linkcode ArcGISIdentityManager.deserialize}.
+ * @internal
  *
  */ /* istanbul ignore next */
 UserSession.deserialize = function (
