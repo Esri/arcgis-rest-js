@@ -30,7 +30,11 @@ export function appendCustomParams<T extends IRequestOptions>(
 
   // merge all keys in customOptions into options.params
   options.params = keys.reduce((value, key) => {
-    if (customOptions[key] || typeof customOptions[key] === "boolean") {
+    if (
+      customOptions[key] ||
+      typeof customOptions[key] === "boolean" || 
+      (typeof customOptions[key] === "number" && customOptions[key] as unknown === 0)
+    ) {
       value[key as any] = customOptions[key];
     }
     return value;
