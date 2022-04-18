@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-form-data",
-  "version": "4.0.0-beta.1",
+  "version": "4.0.0",
   "type": "commonjs",
   "module": "browser-ponyfill.mjs",
   "browser": "browser-ponyfill.js",
