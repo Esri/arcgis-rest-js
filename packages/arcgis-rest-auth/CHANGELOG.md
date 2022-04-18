@@ -1,3 +1,30 @@
+# @esri/arcgis-rest-auth [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-auth@3.4.3...@esri/arcgis-rest-auth@4.0.0) (2022-04-18)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** add support for server credentials ([#965](https://github.com/Esri/arcgis-rest-js/issues/965)) ([b063bcc](https://github.com/Esri/arcgis-rest-js/commit/b063bcca1780cd671e6b4f25532e4122903dc8b2))
+* add package.json files to builds for individual build types ([#955](https://github.com/Esri/arcgis-rest-js/issues/955)) ([c162125](https://github.com/Esri/arcgis-rest-js/commit/c16212594f0b914425548be5d61d7435d54a2718))
+
+
+### Features
+
+* add breaking change ([8205840](https://github.com/Esri/arcgis-rest-js/commit/8205840d81106173fdb1fe3750822e1754611c3b))
+* **arcgis-rest-request:** rewrite oauth 2 functions to use PKCE ([e49f88c](https://github.com/Esri/arcgis-rest-js/commit/e49f88c700694aed472733527124c4d0d54e45d6))
+
+
+### BREAKING CHANGES
+
+* force 4.x release
+
+
+
+
+
+### Dependencies
+
+* **@esri/arcgis-rest-request:** upgraded to 4.0.0
+
 # @esri/arcgis-rest-auth [4.0.0-beta.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-auth@4.0.0-beta.3...@esri/arcgis-rest-auth@4.0.0-beta.4) (2022-03-22)
 
 
