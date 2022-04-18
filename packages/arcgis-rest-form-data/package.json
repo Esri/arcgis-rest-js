@@ -1,6 +1,14 @@
 {
   "name": "@esri/arcgis-rest-form-data",
   "version": "4.0.0",
+  "license": "Apache-2.0",
+  "keywords": [
+    "ES6",
+    "Node",
+    "browsers",
+    "form data",
+    "ponyfill"
+  ],
   "type": "commonjs",
   "module": "browser-ponyfill.mjs",
   "browser": "browser-ponyfill.js",
@@ -15,7 +23,19 @@
     "./package.json": "./package.json"
   },
   "types": "index.types.d.ts",
+  "files": [
+    "browser-ponyfill.js",
+    "browser-ponyfill.mjs",
+    "index.types.d.ts",
+    "node-ponyfill.js",
+    "node-ponyfill.mjs"
+  ],
   "dependencies": {
     "formdata-node": "^4.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/arcgis-rest-js.git",
+    "directory": "packages/arcgis-rest-form-data"
   }
 }

@@ -24,6 +24,9 @@
   },
   "types": "dist/esm/index.d.ts",
   "sideEffects": false,
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "build": "npm-run-all --parallel build:*",
     "postbuild": "node ../../scripts/create-dist-package-jsons.js",
