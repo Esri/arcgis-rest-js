@@ -5,7 +5,7 @@ name: Build, Test, Release
 on:
   push:
     branches:
-      # - main
+      - main
       - beta
     # Dont run if it's just markdown or doc files
     paths-ignore:

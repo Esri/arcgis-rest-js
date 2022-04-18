@@ -5,7 +5,7 @@ name: Pre-Release Tests
 on:
   push:
     branches:
-      - master
+      - main
     # Dont run if it's just markdown or doc files
     paths-ignore:
       - "**.md"

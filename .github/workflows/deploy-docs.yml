@@ -2,7 +2,7 @@ name: Deploy Documentation
 # After a push to master, redeploy the docs
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   build-and-deploy:
