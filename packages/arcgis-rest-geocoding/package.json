@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-geocoding",
-  "version": "4.0.0-beta.5",
+  "version": "4.0.0",
   "description": "Geocoding helpers for @esri/arcgis-rest-js",
   "license": "Apache-2.0",
   "keywords": [
@@ -48,10 +48,10 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-request": "4.0.0-beta.5"
+    "@esri/arcgis-rest-request": "4.0.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-request": "4.0.0-beta.5"
+    "@esri/arcgis-rest-request": "4.0.0"
   },
   "contributors": [
     "Patrick Arlt <parlt@esri.com> (http://patrickarlt.com/)"
