@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-portal [4.0.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.0...@esri/arcgis-rest-portal@4.0.1) (2022-04-18)
+
+
+### Bug Fixes
+
+* **arcgis-rest-portal:** use correct path for unpkg ([6e24c1d](https://github.com/Esri/arcgis-rest-js/commit/6e24c1dde15856fa8f7507cbc0bf78e371a12a7a))
+
 # @esri/arcgis-rest-portal [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@3.4.3...@esri/arcgis-rest-portal@4.0.0) (2022-04-18)
 
 
