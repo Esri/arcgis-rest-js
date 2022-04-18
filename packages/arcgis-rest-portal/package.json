@@ -14,7 +14,7 @@
   "type": "module",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "unpkg": "dist/bundled/request.umd.min.js",
+  "unpkg": "dist/bundled/portal.umd.min.js",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
