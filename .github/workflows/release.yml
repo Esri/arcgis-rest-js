@@ -5,13 +5,15 @@ name: Build, Test, Release
 on:
   push:
     branches:
-      # UMCOMMENT BEFORE WE MERGE BETA -> MASTER
-      # - master -
+      - main
       - beta
     # Dont run if it's just markdown or doc files
     paths-ignore:
-      - "**.md"
+      # UNCOMMENT THIS AFTER
+      # - "**.md"
       - "docs/**"
+      - "demos/**"
+      - "scripts/**"
 
 jobs:
   # First, build and test on multiple os's
