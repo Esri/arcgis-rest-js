@@ -1,3 +1,18 @@
+## @esri/arcgis-rest-feature-service [4.0.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.0.0...@esri/arcgis-rest-feature-service@4.0.1) (2022-04-18)
+
+
+### Bug Fixes
+
+* **arcgis-rest-feature-service:** use correct path for unpkg ([7585ce7](https://github.com/Esri/arcgis-rest-js/commit/7585ce73201d0a7b47f7f533db2fc07e45c36b9a))
+
+
+
+
+
+### Dependencies
+
+* **@esri/arcgis-rest-portal:** upgraded to 4.0.1
+
 # @esri/arcgis-rest-feature-service [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@3.4.3...@esri/arcgis-rest-feature-service@4.0.0) (2022-04-18)
 
 
