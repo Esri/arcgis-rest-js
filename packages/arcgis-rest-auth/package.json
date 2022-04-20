@@ -44,7 +44,7 @@
     "node": ">=12.20.0"
   },
   "dependencies": {
-    "@esri/arcgis-rest-request": "4.0.0",
+    "@esri/arcgis-rest-request": "^4.0.0",
     "tslib": "^2.3.0"
   },
   "contributors": [

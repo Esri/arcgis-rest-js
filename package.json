@@ -15,7 +15,7 @@
     "dev:bundled": "ultra -r --filter \"packages/*\" dev:bundled",
     "clean": "trash packages/*/dist/",
     "precommit": "lint-staged",
-    "docs:build": "rimraf docs/build && unzip -d docs/ docs/v3-archive.zip && mv docs/v3-archive docs/build && npm run typedoc",
+    "docs:build": "rimraf docs/build && unzip -d docs/build docs/v3-archive.zip && npm run typedoc",
     "lint": "eslint ./packages --ext .ts",
     "skypack-check": "npm exec -w ./packages package-check",
     "srihash": "node scripts/generate-sri-hashes.js",

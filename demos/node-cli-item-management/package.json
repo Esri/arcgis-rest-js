@@ -15,8 +15,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@esri/arcgis-rest-portal": "beta",
-    "@esri/arcgis-rest-request": "beta",
+    "@esri/arcgis-rest-portal": "^4.0.0",
+    "@esri/arcgis-rest-request": "^4.0.0",
     "chalk": "^2.3.0",
     "prompts": "^2.0.3"
   },

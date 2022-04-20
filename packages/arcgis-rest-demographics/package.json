@@ -47,10 +47,10 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-request": "4.0.0"
+    "@esri/arcgis-rest-request": "^4.0.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-request": "4.0.0"
+    "@esri/arcgis-rest-request": "^4.0.0"
   },
   "contributors": [
     "Gavin Rehkemper <grehkemper@esri.com> (http://gavinr.com/)",
