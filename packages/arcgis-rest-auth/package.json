@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-auth",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Authentication helpers for @esri/arcgis-rest-js.",
   "license": "Apache-2.0",
   "keywords": [
@@ -44,7 +44,7 @@
     "node": ">=12.20.0"
   },
   "dependencies": {
-    "@esri/arcgis-rest-request": "^4.0.0",
+    "@esri/arcgis-rest-request": "4.0.1",
     "tslib": "^2.3.0"
   },
   "contributors": [
