@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-request [4.0.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0...@esri/arcgis-rest-request@4.0.1) (2022-04-20)
+
+
+### Bug Fixes
+
+* update package versions post v4 launch ([2560c34](https://github.com/Esri/arcgis-rest-js/commit/2560c34b77e718ed2dd95411d1aabcf2a9d9cb57))
+
 # @esri/arcgis-rest-request [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@3.4.3...@esri/arcgis-rest-request@4.0.0) (2022-04-18)
 
 

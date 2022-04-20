@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-request",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Common methods and utilities for @esri/arcgis-rest-js packages.",
   "license": "Apache-2.0",
   "keywords": [
@@ -44,8 +44,8 @@
     "node": ">=12.20.0"
   },
   "dependencies": {
-    "@esri/arcgis-rest-fetch": "^4.0.0",
-    "@esri/arcgis-rest-form-data": "^4.0.0",
+    "@esri/arcgis-rest-fetch": "4.0.0",
+    "@esri/arcgis-rest-form-data": "4.0.0",
     "tslib": "^2.3.1"
   },
   "contributors": [
