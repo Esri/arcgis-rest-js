@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-feature-service",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Feature layer query and edit helpers for @esri/arcgis-rest-js",
   "license": "Apache-2.0",
   "keywords": [
@@ -46,12 +46,12 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-portal": "^4.0.1",
-    "@esri/arcgis-rest-request": "^4.0.0"
+    "@esri/arcgis-rest-portal": "4.0.2",
+    "@esri/arcgis-rest-request": "4.0.1"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-portal": "^4.0.1",
-    "@esri/arcgis-rest-request": "^4.0.0"
+    "@esri/arcgis-rest-portal": "4.0.2",
+    "@esri/arcgis-rest-request": "4.0.1"
   },
   "contributors": [
     "Mike Tschudi <mtschudi@esri.com>",
