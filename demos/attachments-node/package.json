@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@esri/arcgis-rest-request": "beta",
+    "@esri/arcgis-rest-request": "^4.0.0",
     "fetch-blob": "^3.1.2",
     "mime": "^2.5.2",
     "mime-types": "^2.1.32"

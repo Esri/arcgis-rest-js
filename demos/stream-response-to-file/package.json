@@ -16,8 +16,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@esri/arcgis-rest-feature-layer": "beta",
-    "@esri/arcgis-rest-request": "beta"
+    "@esri/arcgis-rest-feature-service": "^4.0.1",
+    "@esri/arcgis-rest-request": "^4.0.0"
   },
   "author": "Joshua Tanner",
   "homepage": "https://github.com/Esri/arcgis-rest-js#readme",

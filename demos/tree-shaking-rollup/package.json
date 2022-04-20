@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@esri/arcgis-rest-request": "beta"
+    "@esri/arcgis-rest-request": "^4.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^20.0.0",

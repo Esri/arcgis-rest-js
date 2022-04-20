@@ -18,8 +18,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@esri/arcgis-rest-geocoding": "beta",
-    "@esri/arcgis-rest-request": "beta",
+    "@esri/arcgis-rest-geocoding": "^4.0.0",
+    "@esri/arcgis-rest-request": "^4.0.0",
     "papaparse": "^4.6.0"
   },
   "author": "Max Payson (mpayson)",

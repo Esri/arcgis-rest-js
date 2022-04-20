@@ -11,8 +11,8 @@
     "start": "ts-node index.ts"
   },
   "dependencies": {
-    "@esri/arcgis-rest-portal": "beta",
-    "@esri/arcgis-rest-request": "beta"
+    "@esri/arcgis-rest-portal": "^4.0.0",
+    "@esri/arcgis-rest-request": "^4.0.0"
   },
   "devDependencies": {
     "ts-node": "^10.7.0",
