@@ -17,7 +17,7 @@ export interface IUpdateServiceDefinitionResult {
 }
 
 /**
- * Update a definition property in a hosted feature service. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/update-definition-feature-service-.htm) for more information.
+ * Update a definition property in a hosted feature service. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/online/update-definition-feature-service-.htm) for more information.
  *
  * ```js
  * import { updateServiceDefinition } from '@esri/arcgis-rest-service-admin';
