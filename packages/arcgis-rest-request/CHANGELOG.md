@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-request [4.0.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.1...@esri/arcgis-rest-request@4.0.2) (2022-04-27)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** add withOptions to export ([ea3f2ec](https://github.com/Esri/arcgis-rest-js/commit/ea3f2ec495ee26b12476f8e319a26992cee92c5d))
+
 ## @esri/arcgis-rest-request [4.0.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0...@esri/arcgis-rest-request@4.0.1) (2022-04-20)
 
 
