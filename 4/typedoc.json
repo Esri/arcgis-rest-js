@@ -22113,7 +22113,7 @@
 					"kindString": "Interface",
 					"flags": {},
 					"comment": {
-						"shortText": "Related record query request options. Additional arguments can be passed via the {@linkcode IQueryRelatedOptions.params} property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-feature-service-.htm) for more information and a full list of parameters."
+						"shortText": "Related record query request options. Additional arguments can be passed via the {@linkcode IQueryRelatedOptions.params} property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/enterprise/query-related-records-feature-service-.htm) for more information and a full list of parameters."
 					},
 					"children": [
 						{
@@ -28490,7 +28490,7 @@
 							"kindString": "Call signature",
 							"flags": {},
 							"comment": {
-								"shortText": "Update a definition property in a hosted feature service. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/update-definition-feature-service-.htm) for more information.",
+								"shortText": "Update a definition property in a hosted feature service. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/online/update-definition-feature-service-.htm) for more information.",
 								"text": "```js\nimport { updateServiceDefinition } from '@esri/arcgis-rest-service-admin';\n//\nupdateServiceDefinition(serviceurl, {\n  authentication: ArcGISIdentityManager,\n  updateDefinition: serviceDefinition\n});\n```\n",
 								"returns": "A Promise that resolves with success or error\n"
 							},
@@ -68958,7 +68958,7 @@
 										"typeArguments": [
 											{
 												"type": "reference",
-												"id": 3627,
+												"id": 3639,
 												"name": "IUser"
 											}
 										],
@@ -71021,7 +71021,7 @@
 					]
 				},
 				{
-					"id": 3530,
+					"id": 3542,
 					"name": "IArc",
 					"kind": 256,
 					"kindString": "Interface",
@@ -71031,7 +71031,7 @@
 					},
 					"children": [
 						{
-							"id": 3531,
+							"id": 3543,
 							"name": "a",
 							"kind": 1024,
 							"kindString": "Property",
@@ -71048,12 +71048,12 @@
 								"elements": [
 									{
 										"type": "reference",
-										"id": 3528,
+										"id": 3540,
 										"name": "Position"
 									},
 									{
 										"type": "reference",
-										"id": 3529,
+										"id": 3541,
 										"name": "Position2D"
 									},
 									{
@@ -71085,7 +71085,7 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3531
+								3543
 							]
 						}
 					],
@@ -72085,7 +72085,7 @@
 					]
 				},
 				{
-					"id": 3532,
+					"id": 3544,
 					"name": "IBezierCurve",
 					"kind": 256,
 					"kindString": "Interface",
@@ -72095,7 +72095,7 @@
 					},
 					"children": [
 						{
-							"id": 3533,
+							"id": 3545,
 							"name": "b",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72112,17 +72112,17 @@
 								"elements": [
 									{
 										"type": "reference",
-										"id": 3528,
+										"id": 3540,
 										"name": "Position"
 									},
 									{
 										"type": "reference",
-										"id": 3529,
+										"id": 3541,
 										"name": "Position2D"
 									},
 									{
 										"type": "reference",
-										"id": 3529,
+										"id": 3541,
 										"name": "Position2D"
 									}
 								]
@@ -72134,7 +72134,7 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3533
+								3545
 							]
 						}
 					],
@@ -72147,7 +72147,7 @@
 					]
 				},
 				{
-					"id": 3534,
+					"id": 3546,
 					"name": "ICircularArc",
 					"kind": 256,
 					"kindString": "Interface",
@@ -72157,7 +72157,7 @@
 					},
 					"children": [
 						{
-							"id": 3535,
+							"id": 3547,
 							"name": "c",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72174,12 +72174,12 @@
 								"elements": [
 									{
 										"type": "reference",
-										"id": 3528,
+										"id": 3540,
 										"name": "Position"
 									},
 									{
 										"type": "reference",
-										"id": 3529,
+										"id": 3541,
 										"name": "Position2D"
 									}
 								]
@@ -72191,7 +72191,7 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3535
+								3547
 							]
 						}
 					],
@@ -72326,7 +72326,7 @@
 					]
 				},
 				{
-					"id": 3538,
+					"id": 3550,
 					"name": "IExtent",
 					"kind": 256,
 					"kindString": "Interface",
@@ -72337,7 +72337,7 @@
 					},
 					"children": [
 						{
-							"id": 3545,
+							"id": 3557,
 							"name": "spatialReference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72353,12 +72353,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3486,
+								"id": 3498,
 								"name": "ISpatialReference"
 							}
 						},
 						{
-							"id": 3542,
+							"id": 3554,
 							"name": "xmax",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72376,7 +72376,7 @@
 							}
 						},
 						{
-							"id": 3539,
+							"id": 3551,
 							"name": "xmin",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72394,7 +72394,7 @@
 							}
 						},
 						{
-							"id": 3543,
+							"id": 3555,
 							"name": "ymax",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72412,7 +72412,7 @@
 							}
 						},
 						{
-							"id": 3540,
+							"id": 3552,
 							"name": "ymin",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72430,7 +72430,7 @@
 							}
 						},
 						{
-							"id": 3544,
+							"id": 3556,
 							"name": "zmax",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72450,7 +72450,7 @@
 							}
 						},
 						{
-							"id": 3541,
+							"id": 3553,
 							"name": "zmin",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72475,13 +72475,13 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3545,
-								3542,
-								3539,
-								3543,
-								3540,
-								3544,
-								3541
+								3557,
+								3554,
+								3551,
+								3555,
+								3552,
+								3556,
+								3553
 							]
 						}
 					],
@@ -72494,7 +72494,7 @@
 					]
 				},
 				{
-					"id": 3476,
+					"id": 3488,
 					"name": "IFeature",
 					"kind": 256,
 					"kindString": "Interface",
@@ -72505,7 +72505,7 @@
 					},
 					"children": [
 						{
-							"id": 3478,
+							"id": 3490,
 							"name": "attributes",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72520,20 +72520,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3479,
+									"id": 3491,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 3480,
+										"id": 3492,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3481,
+												"id": 3493,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -72552,7 +72552,7 @@
 							}
 						},
 						{
-							"id": 3477,
+							"id": 3489,
 							"name": "geometry",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72568,12 +72568,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3493,
+								"id": 3505,
 								"name": "IGeometry"
 							}
 						},
 						{
-							"id": 3482,
+							"id": 3494,
 							"name": "symbol",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72589,7 +72589,7 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3555,
+								"id": 3567,
 								"name": "ISymbol"
 							}
 						}
@@ -72599,9 +72599,9 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3478,
-								3477,
-								3482
+								3490,
+								3489,
+								3494
 							]
 						}
 					],
@@ -72614,7 +72614,7 @@
 					]
 				},
 				{
-					"id": 3462,
+					"id": 3474,
 					"name": "IFeatureSet",
 					"kind": 256,
 					"kindString": "Interface",
@@ -72625,7 +72625,7 @@
 					},
 					"children": [
 						{
-							"id": 3465,
+							"id": 3477,
 							"name": "displayFieldName",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72645,7 +72645,7 @@
 							}
 						},
 						{
-							"id": 3469,
+							"id": 3481,
 							"name": "features",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72661,13 +72661,13 @@
 								"type": "array",
 								"elementType": {
 									"type": "reference",
-									"id": 3476,
+									"id": 3488,
 									"name": "IFeature"
 								}
 							}
 						},
 						{
-							"id": 3470,
+							"id": 3482,
 							"name": "fieldAliases",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72684,20 +72684,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3471,
+									"id": 3483,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 3472,
+										"id": 3484,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3473,
+												"id": 3485,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -72716,7 +72716,7 @@
 							}
 						},
 						{
-							"id": 3468,
+							"id": 3480,
 							"name": "fields",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72734,13 +72734,13 @@
 								"type": "array",
 								"elementType": {
 									"type": "reference",
-									"id": 3574,
+									"id": 3586,
 									"name": "IField"
 								}
 							}
 						},
 						{
-							"id": 3466,
+							"id": 3478,
 							"name": "geometryType",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72756,12 +72756,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3537,
+								"id": 3549,
 								"name": "GeometryType"
 							}
 						},
 						{
-							"id": 3464,
+							"id": 3476,
 							"name": "globalIdFieldName",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72781,7 +72781,7 @@
 							}
 						},
 						{
-							"id": 3475,
+							"id": 3487,
 							"name": "hasM",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72801,12 +72801,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3485,
+								"id": 3497,
 								"name": "IHasZM.hasM"
 							}
 						},
 						{
-							"id": 3474,
+							"id": 3486,
 							"name": "hasZ",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72826,12 +72826,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3484,
+								"id": 3496,
 								"name": "IHasZM.hasZ"
 							}
 						},
 						{
-							"id": 3463,
+							"id": 3475,
 							"name": "objectIdFieldName",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72851,7 +72851,7 @@
 							}
 						},
 						{
-							"id": 3467,
+							"id": 3479,
 							"name": "spatialReference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -72867,7 +72867,7 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3486,
+								"id": 3498,
 								"name": "ISpatialReference"
 							}
 						}
@@ -72877,16 +72877,16 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3465,
-								3469,
-								3470,
-								3468,
-								3466,
-								3464,
+								3477,
+								3481,
+								3482,
+								3480,
+								3478,
+								3476,
+								3487,
+								3486,
 								3475,
-								3474,
-								3463,
-								3467
+								3479
 							]
 						}
 					],
@@ -72900,7 +72900,7 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3483,
+							"id": 3495,
 							"name": "IHasZM"
 						}
 					]
@@ -73250,7 +73250,7 @@
 					]
 				},
 				{
-					"id": 3574,
+					"id": 3586,
 					"name": "IField",
 					"kind": 256,
 					"kindString": "Interface",
@@ -73261,7 +73261,7 @@
 					},
 					"children": [
 						{
-							"id": 3577,
+							"id": 3589,
 							"name": "alias",
 							"kind": 1024,
 							"kindString": "Property",
@@ -73284,7 +73284,7 @@
 							}
 						},
 						{
-							"id": 3583,
+							"id": 3595,
 							"name": "defaultValue",
 							"kind": 1024,
 							"kindString": "Property",
@@ -73307,7 +73307,7 @@
 							}
 						},
 						{
-							"id": 3578,
+							"id": 3590,
 							"name": "domain",
 							"kind": 1024,
 							"kindString": "Property",
@@ -73326,12 +73326,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3565,
+								"id": 3577,
 								"name": "IDomain"
 							}
 						},
 						{
-							"id": 3579,
+							"id": 3591,
 							"name": "editable",
 							"kind": 1024,
 							"kindString": "Property",
@@ -73354,7 +73354,7 @@
 							}
 						},
 						{
-							"id": 3580,
+							"id": 3592,
 							"name": "exactMatch",
 							"kind": 1024,
 							"kindString": "Property",
@@ -73377,7 +73377,7 @@
 							}
 						},
 						{
-							"id": 3581,
+							"id": 3593,
 							"name": "length",
 							"kind": 1024,
 							"kindString": "Property",
@@ -73400,7 +73400,7 @@
 							}
 						},
 						{
-							"id": 3575,
+							"id": 3587,
 							"name": "name",
 							"kind": 1024,
 							"kindString": "Property",
@@ -73421,7 +73421,7 @@
 							}
 						},
 						{
-							"id": 3582,
+							"id": 3594,
 							"name": "nullable",
 							"kind": 1024,
 							"kindString": "Property",
@@ -73444,7 +73444,7 @@
 							}
 						},
 						{
-							"id": 3576,
+							"id": 3588,
 							"name": "type",
 							"kind": 1024,
 							"kindString": "Property",
@@ -73461,7 +73461,7 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3559,
+								"id": 3571,
 								"name": "FieldType"
 							}
 						}
@@ -73471,15 +73471,15 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3577,
-								3583,
-								3578,
-								3579,
-								3580,
-								3581,
-								3575,
-								3582,
-								3576
+								3589,
+								3595,
+								3590,
+								3591,
+								3592,
+								3593,
+								3587,
+								3594,
+								3588
 							]
 						}
 					],
@@ -73785,7 +73785,7 @@
 					]
 				},
 				{
-					"id": 3493,
+					"id": 3505,
 					"name": "IGeometry",
 					"kind": 256,
 					"kindString": "Interface",
@@ -73796,7 +73796,7 @@
 					},
 					"children": [
 						{
-							"id": 3494,
+							"id": 3506,
 							"name": "spatialReference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -73812,7 +73812,7 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3486,
+								"id": 3498,
 								"name": "ISpatialReference"
 							}
 						}
@@ -73822,7 +73822,7 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3494
+								3506
 							]
 						}
 					],
@@ -73836,38 +73836,38 @@
 					"extendedBy": [
 						{
 							"type": "reference",
-							"id": 3495,
+							"id": 3507,
 							"name": "IPoint"
 						},
 						{
 							"type": "reference",
-							"id": 3508,
+							"id": 3520,
 							"name": "IPolyline"
 						},
 						{
 							"type": "reference",
-							"id": 3513,
+							"id": 3525,
 							"name": "IPolylineWithCurves"
 						},
 						{
 							"type": "reference",
-							"id": 3518,
+							"id": 3530,
 							"name": "IPolygon"
 						},
 						{
 							"type": "reference",
-							"id": 3523,
+							"id": 3535,
 							"name": "IPolygonWithCurves"
 						},
 						{
 							"type": "reference",
-							"id": 3549,
+							"id": 3561,
 							"name": "IMultipoint"
 						}
 					]
 				},
 				{
-					"id": 3601,
+					"id": 3613,
 					"name": "IGroup",
 					"kind": 256,
 					"kindString": "Interface",
@@ -73878,7 +73878,7 @@
 					},
 					"children": [
 						{
-							"id": 3620,
+							"id": 3632,
 							"name": "access",
 							"kind": 1024,
 							"kindString": "Property",
@@ -73909,12 +73909,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3587,
+								"id": 3599,
 								"name": "IGroupAdd.access"
 							}
 						},
 						{
-							"id": 3612,
+							"id": 3624,
 							"name": "autoJoin",
 							"kind": 1024,
 							"kindString": "Property",
@@ -73932,12 +73932,12 @@
 							},
 							"overwrites": {
 								"type": "reference",
-								"id": 3597,
+								"id": 3609,
 								"name": "IGroupAdd.autoJoin"
 							}
 						},
 						{
-							"id": 3605,
+							"id": 3617,
 							"name": "created",
 							"kind": 1024,
 							"kindString": "Property",
@@ -73955,7 +73955,7 @@
 							}
 						},
 						{
-							"id": 3621,
+							"id": 3633,
 							"name": "description",
 							"kind": 1024,
 							"kindString": "Property",
@@ -73975,12 +73975,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3590,
+								"id": 3602,
 								"name": "IGroupAdd.description"
 							}
 						},
 						{
-							"id": 3618,
+							"id": 3630,
 							"name": "hasCategorySchema",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74000,7 +74000,7 @@
 							}
 						},
 						{
-							"id": 3602,
+							"id": 3614,
 							"name": "id",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74018,7 +74018,7 @@
 							}
 						},
 						{
-							"id": 3611,
+							"id": 3623,
 							"name": "isFav",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74036,7 +74036,7 @@
 							}
 						},
 						{
-							"id": 3608,
+							"id": 3620,
 							"name": "isInvitationOnly",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74054,12 +74054,12 @@
 							},
 							"overwrites": {
 								"type": "reference",
-								"id": 3595,
+								"id": 3607,
 								"name": "IGroupAdd.isInvitationOnly"
 							}
 						},
 						{
-							"id": 3610,
+							"id": 3622,
 							"name": "isOpenData",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74079,7 +74079,7 @@
 							}
 						},
 						{
-							"id": 3609,
+							"id": 3621,
 							"name": "isViewOnly",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74097,12 +74097,12 @@
 							},
 							"overwrites": {
 								"type": "reference",
-								"id": 3594,
+								"id": 3606,
 								"name": "IGroupAdd.isViewOnly"
 							}
 						},
 						{
-							"id": 3606,
+							"id": 3618,
 							"name": "modified",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74120,7 +74120,7 @@
 							}
 						},
 						{
-							"id": 3603,
+							"id": 3615,
 							"name": "owner",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74138,12 +74138,12 @@
 							},
 							"overwrites": {
 								"type": "reference",
-								"id": 3588,
+								"id": 3600,
 								"name": "IGroupAdd.owner"
 							}
 						},
 						{
-							"id": 3622,
+							"id": 3634,
 							"name": "phone",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74163,12 +74163,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3591,
+								"id": 3603,
 								"name": "IGroupAdd.phone"
 							}
 						},
 						{
-							"id": 3607,
+							"id": 3619,
 							"name": "protected",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74186,7 +74186,7 @@
 							}
 						},
 						{
-							"id": 3626,
+							"id": 3638,
 							"name": "snippet",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74206,12 +74206,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3598,
+								"id": 3610,
 								"name": "IGroupAdd.snippet"
 							}
 						},
 						{
-							"id": 3623,
+							"id": 3635,
 							"name": "sortField",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74256,12 +74256,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3592,
+								"id": 3604,
 								"name": "IGroupAdd.sortField"
 							}
 						},
 						{
-							"id": 3624,
+							"id": 3636,
 							"name": "sortOrder",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74290,12 +74290,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3593,
+								"id": 3605,
 								"name": "IGroupAdd.sortOrder"
 							}
 						},
 						{
-							"id": 3604,
+							"id": 3616,
 							"name": "tags",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74316,12 +74316,12 @@
 							},
 							"overwrites": {
 								"type": "reference",
-								"id": 3589,
+								"id": 3601,
 								"name": "IGroupAdd.tags"
 							}
 						},
 						{
-							"id": 3625,
+							"id": 3637,
 							"name": "thumbnail",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74341,12 +74341,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3596,
+								"id": 3608,
 								"name": "IGroupAdd.thumbnail"
 							}
 						},
 						{
-							"id": 3619,
+							"id": 3631,
 							"name": "title",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74364,12 +74364,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3586,
+								"id": 3598,
 								"name": "IGroupAdd.title"
 							}
 						},
 						{
-							"id": 3613,
+							"id": 3625,
 							"name": "userMembership",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74386,14 +74386,14 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3614,
+									"id": 3626,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"children": [
 										{
-											"id": 3617,
+											"id": 3629,
 											"name": "applications",
 											"kind": 1024,
 											"kindString": "Property",
@@ -74413,7 +74413,7 @@
 											}
 										},
 										{
-											"id": 3616,
+											"id": 3628,
 											"name": "memberType",
 											"kind": 1024,
 											"kindString": "Property",
@@ -74429,12 +74429,12 @@
 											],
 											"type": {
 												"type": "reference",
-												"id": 3584,
+												"id": 3596,
 												"name": "GroupMembership"
 											}
 										},
 										{
-											"id": 3615,
+											"id": 3627,
 											"name": "username",
 											"kind": 1024,
 											"kindString": "Property",
@@ -74459,9 +74459,9 @@
 											"title": "Properties",
 											"kind": 1024,
 											"children": [
-												3617,
-												3616,
-												3615
+												3629,
+												3628,
+												3627
 											]
 										}
 									]
@@ -74474,27 +74474,27 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
+								3632,
+								3624,
+								3617,
+								3633,
+								3630,
+								3614,
+								3623,
 								3620,
-								3612,
-								3605,
+								3622,
 								3621,
 								3618,
-								3602,
-								3611,
-								3608,
-								3610,
-								3609,
-								3606,
-								3603,
-								3622,
-								3607,
-								3626,
-								3623,
-								3624,
-								3604,
-								3625,
+								3615,
+								3634,
 								3619,
-								3613
+								3638,
+								3635,
+								3636,
+								3616,
+								3637,
+								3631,
+								3625
 							]
 						}
 					],
@@ -74508,13 +74508,13 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3585,
+							"id": 3597,
 							"name": "IGroupAdd"
 						}
 					]
 				},
 				{
-					"id": 3585,
+					"id": 3597,
 					"name": "IGroupAdd",
 					"kind": 256,
 					"kindString": "Interface",
@@ -74525,7 +74525,7 @@
 					},
 					"children": [
 						{
-							"id": 3587,
+							"id": 3599,
 							"name": "access",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74556,7 +74556,7 @@
 							}
 						},
 						{
-							"id": 3597,
+							"id": 3609,
 							"name": "autoJoin",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74576,7 +74576,7 @@
 							}
 						},
 						{
-							"id": 3590,
+							"id": 3602,
 							"name": "description",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74596,7 +74596,7 @@
 							}
 						},
 						{
-							"id": 3595,
+							"id": 3607,
 							"name": "isInvitationOnly",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74616,7 +74616,7 @@
 							}
 						},
 						{
-							"id": 3594,
+							"id": 3606,
 							"name": "isViewOnly",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74636,7 +74636,7 @@
 							}
 						},
 						{
-							"id": 3588,
+							"id": 3600,
 							"name": "owner",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74656,7 +74656,7 @@
 							}
 						},
 						{
-							"id": 3591,
+							"id": 3603,
 							"name": "phone",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74676,7 +74676,7 @@
 							}
 						},
 						{
-							"id": 3598,
+							"id": 3610,
 							"name": "snippet",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74696,7 +74696,7 @@
 							}
 						},
 						{
-							"id": 3592,
+							"id": 3604,
 							"name": "sortField",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74741,7 +74741,7 @@
 							}
 						},
 						{
-							"id": 3593,
+							"id": 3605,
 							"name": "sortOrder",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74770,7 +74770,7 @@
 							}
 						},
 						{
-							"id": 3589,
+							"id": 3601,
 							"name": "tags",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74793,7 +74793,7 @@
 							}
 						},
 						{
-							"id": 3596,
+							"id": 3608,
 							"name": "thumbnail",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74813,7 +74813,7 @@
 							}
 						},
 						{
-							"id": 3586,
+							"id": 3598,
 							"name": "title",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74836,19 +74836,19 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3587,
-								3597,
-								3590,
-								3595,
-								3594,
-								3588,
-								3591,
-								3598,
-								3592,
-								3593,
-								3589,
-								3596,
-								3586
+								3599,
+								3609,
+								3602,
+								3607,
+								3606,
+								3600,
+								3603,
+								3610,
+								3604,
+								3605,
+								3601,
+								3608,
+								3598
 							]
 						}
 					],
@@ -74860,14 +74860,14 @@
 						}
 					],
 					"indexSignature": {
-						"id": 3599,
+						"id": 3611,
 						"name": "__index",
 						"kind": 8192,
 						"kindString": "Index signature",
 						"flags": {},
 						"parameters": [
 							{
-								"id": 3600,
+								"id": 3612,
 								"name": "key",
 								"kind": 32768,
 								"flags": {},
@@ -74885,13 +74885,13 @@
 					"extendedBy": [
 						{
 							"type": "reference",
-							"id": 3601,
+							"id": 3613,
 							"name": "IGroup"
 						}
 					]
 				},
 				{
-					"id": 3483,
+					"id": 3495,
 					"name": "IHasZM",
 					"kind": 256,
 					"kindString": "Interface",
@@ -74902,7 +74902,7 @@
 					},
 					"children": [
 						{
-							"id": 3485,
+							"id": 3497,
 							"name": "hasM",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74922,7 +74922,7 @@
 							}
 						},
 						{
-							"id": 3484,
+							"id": 3496,
 							"name": "hasZ",
 							"kind": 1024,
 							"kindString": "Property",
@@ -74947,8 +74947,8 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3485,
-								3484
+								3497,
+								3496
 							]
 						}
 					],
@@ -74962,43 +74962,43 @@
 					"extendedBy": [
 						{
 							"type": "reference",
-							"id": 3462,
+							"id": 3474,
 							"name": "IFeatureSet"
 						},
 						{
 							"type": "reference",
-							"id": 3495,
+							"id": 3507,
 							"name": "IPoint"
 						},
 						{
 							"type": "reference",
-							"id": 3508,
+							"id": 3520,
 							"name": "IPolyline"
 						},
 						{
 							"type": "reference",
-							"id": 3513,
+							"id": 3525,
 							"name": "IPolylineWithCurves"
 						},
 						{
 							"type": "reference",
-							"id": 3518,
+							"id": 3530,
 							"name": "IPolygon"
 						},
 						{
 							"type": "reference",
-							"id": 3523,
+							"id": 3535,
 							"name": "IPolygonWithCurves"
 						},
 						{
 							"type": "reference",
-							"id": 3549,
+							"id": 3561,
 							"name": "IMultipoint"
 						}
 					]
 				},
 				{
-					"id": 3502,
+					"id": 3514,
 					"name": "ILocation",
 					"kind": 256,
 					"kindString": "Interface",
@@ -75009,7 +75009,7 @@
 					},
 					"children": [
 						{
-							"id": 3505,
+							"id": 3517,
 							"name": "lat",
 							"kind": 1024,
 							"kindString": "Property",
@@ -75029,7 +75029,7 @@
 							}
 						},
 						{
-							"id": 3503,
+							"id": 3515,
 							"name": "latitude",
 							"kind": 1024,
 							"kindString": "Property",
@@ -75049,7 +75049,7 @@
 							}
 						},
 						{
-							"id": 3506,
+							"id": 3518,
 							"name": "long",
 							"kind": 1024,
 							"kindString": "Property",
@@ -75069,7 +75069,7 @@
 							}
 						},
 						{
-							"id": 3504,
+							"id": 3516,
 							"name": "longitude",
 							"kind": 1024,
 							"kindString": "Property",
@@ -75089,7 +75089,7 @@
 							}
 						},
 						{
-							"id": 3507,
+							"id": 3519,
 							"name": "z",
 							"kind": 1024,
 							"kindString": "Property",
@@ -75114,11 +75114,11 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3505,
-								3503,
-								3506,
-								3504,
-								3507
+								3517,
+								3515,
+								3518,
+								3516,
+								3519
 							]
 						}
 					],
@@ -75131,7 +75131,7 @@
 					]
 				},
 				{
-					"id": 3549,
+					"id": 3561,
 					"name": "IMultipoint",
 					"kind": 256,
 					"kindString": "Interface",
@@ -75141,7 +75141,7 @@
 					},
 					"children": [
 						{
-							"id": 3552,
+							"id": 3564,
 							"name": "hasM",
 							"kind": 1024,
 							"kindString": "Property",
@@ -75161,12 +75161,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3485,
+								"id": 3497,
 								"name": "IHasZM.hasM"
 							}
 						},
 						{
-							"id": 3551,
+							"id": 3563,
 							"name": "hasZ",
 							"kind": 1024,
 							"kindString": "Property",
@@ -75186,12 +75186,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3484,
+								"id": 3496,
 								"name": "IHasZM.hasZ"
 							}
 						},
 						{
-							"id": 3550,
+							"id": 3562,
 							"name": "points",
 							"kind": 1024,
 							"kindString": "Property",
@@ -75207,13 +75207,13 @@
 								"type": "array",
 								"elementType": {
 									"type": "reference",
-									"id": 3528,
+									"id": 3540,
 									"name": "Position"
 								}
 							}
 						},
 						{
-							"id": 3553,
+							"id": 3565,
 							"name": "spatialReference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -75229,12 +75229,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3486,
+								"id": 3498,
 								"name": "ISpatialReference"
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3494,
+								"id": 3506,
 								"name": "IGeometry.spatialReference"
 							}
 						}
@@ -75244,10 +75244,10 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3552,
-								3551,
-								3550,
-								3553
+								3564,
+								3563,
+								3562,
+								3565
 							]
 						}
 					],
@@ -75261,12 +75261,12 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3483,
+							"id": 3495,
 							"name": "IHasZM"
 						},
 						{
 							"type": "reference",
-							"id": 3493,
+							"id": 3505,
 							"name": "IGeometry"
 						}
 					]
@@ -75621,7 +75621,7 @@
 					}
 				},
 				{
-					"id": 3547,
+					"id": 3559,
 					"name": "IOldCircularArc",
 					"kind": 256,
 					"kindString": "Interface",
@@ -75629,7 +75629,7 @@
 					"comment": {},
 					"children": [
 						{
-							"id": 3548,
+							"id": 3560,
 							"name": "a",
 							"kind": 1024,
 							"kindString": "Property",
@@ -75646,12 +75646,12 @@
 								"elements": [
 									{
 										"type": "reference",
-										"id": 3528,
+										"id": 3540,
 										"name": "Position"
 									},
 									{
 										"type": "reference",
-										"id": 3529,
+										"id": 3541,
 										"name": "Position2D"
 									},
 									{
@@ -75671,7 +75671,7 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3548
+								3560
 							]
 						}
 					],
@@ -75965,7 +75965,7 @@
 					]
 				},
 				{
-					"id": 3495,
+					"id": 3507,
 					"name": "IPoint",
 					"kind": 256,
 					"kindString": "Interface",
@@ -75976,7 +75976,7 @@
 					},
 					"children": [
 						{
-							"id": 3500,
+							"id": 3512,
 							"name": "hasM",
 							"kind": 1024,
 							"kindString": "Property",
@@ -75996,12 +75996,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3485,
+								"id": 3497,
 								"name": "IHasZM.hasM"
 							}
 						},
 						{
-							"id": 3499,
+							"id": 3511,
 							"name": "hasZ",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76021,12 +76021,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3484,
+								"id": 3496,
 								"name": "IHasZM.hasZ"
 							}
 						},
 						{
-							"id": 3501,
+							"id": 3513,
 							"name": "spatialReference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76042,17 +76042,17 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3486,
+								"id": 3498,
 								"name": "ISpatialReference"
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3494,
+								"id": 3506,
 								"name": "IGeometry.spatialReference"
 							}
 						},
 						{
-							"id": 3496,
+							"id": 3508,
 							"name": "x",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76070,7 +76070,7 @@
 							}
 						},
 						{
-							"id": 3497,
+							"id": 3509,
 							"name": "y",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76088,7 +76088,7 @@
 							}
 						},
 						{
-							"id": 3498,
+							"id": 3510,
 							"name": "z",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76113,12 +76113,12 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3500,
-								3499,
-								3501,
-								3496,
-								3497,
-								3498
+								3512,
+								3511,
+								3513,
+								3508,
+								3509,
+								3510
 							]
 						}
 					],
@@ -76132,18 +76132,18 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3483,
+							"id": 3495,
 							"name": "IHasZM"
 						},
 						{
 							"type": "reference",
-							"id": 3493,
+							"id": 3505,
 							"name": "IGeometry"
 						}
 					]
 				},
 				{
-					"id": 3518,
+					"id": 3530,
 					"name": "IPolygon",
 					"kind": 256,
 					"kindString": "Interface",
@@ -76151,7 +76151,7 @@
 					"comment": {},
 					"children": [
 						{
-							"id": 3521,
+							"id": 3533,
 							"name": "hasM",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76171,12 +76171,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3485,
+								"id": 3497,
 								"name": "IHasZM.hasM"
 							}
 						},
 						{
-							"id": 3520,
+							"id": 3532,
 							"name": "hasZ",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76196,12 +76196,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3484,
+								"id": 3496,
 								"name": "IHasZM.hasZ"
 							}
 						},
 						{
-							"id": 3519,
+							"id": 3531,
 							"name": "rings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76219,14 +76219,14 @@
 									"type": "array",
 									"elementType": {
 										"type": "reference",
-										"id": 3528,
+										"id": 3540,
 										"name": "Position"
 									}
 								}
 							}
 						},
 						{
-							"id": 3522,
+							"id": 3534,
 							"name": "spatialReference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76242,12 +76242,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3486,
+								"id": 3498,
 								"name": "ISpatialReference"
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3494,
+								"id": 3506,
 								"name": "IGeometry.spatialReference"
 							}
 						}
@@ -76257,10 +76257,10 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3521,
-								3520,
-								3519,
-								3522
+								3533,
+								3532,
+								3531,
+								3534
 							]
 						}
 					],
@@ -76274,18 +76274,18 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3483,
+							"id": 3495,
 							"name": "IHasZM"
 						},
 						{
 							"type": "reference",
-							"id": 3493,
+							"id": 3505,
 							"name": "IGeometry"
 						}
 					]
 				},
 				{
-					"id": 3523,
+					"id": 3535,
 					"name": "IPolygonWithCurves",
 					"kind": 256,
 					"kindString": "Interface",
@@ -76293,7 +76293,7 @@
 					"comment": {},
 					"children": [
 						{
-							"id": 3524,
+							"id": 3536,
 							"name": "curveRings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76314,12 +76314,12 @@
 										"types": [
 											{
 												"type": "reference",
-												"id": 3528,
+												"id": 3540,
 												"name": "Position"
 											},
 											{
 												"type": "reference",
-												"id": 3546,
+												"id": 3558,
 												"name": "JsonCurve"
 											}
 										]
@@ -76328,7 +76328,7 @@
 							}
 						},
 						{
-							"id": 3526,
+							"id": 3538,
 							"name": "hasM",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76348,12 +76348,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3485,
+								"id": 3497,
 								"name": "IHasZM.hasM"
 							}
 						},
 						{
-							"id": 3525,
+							"id": 3537,
 							"name": "hasZ",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76373,12 +76373,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3484,
+								"id": 3496,
 								"name": "IHasZM.hasZ"
 							}
 						},
 						{
-							"id": 3527,
+							"id": 3539,
 							"name": "spatialReference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76394,12 +76394,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3486,
+								"id": 3498,
 								"name": "ISpatialReference"
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3494,
+								"id": 3506,
 								"name": "IGeometry.spatialReference"
 							}
 						}
@@ -76409,10 +76409,10 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3524,
-								3526,
-								3525,
-								3527
+								3536,
+								3538,
+								3537,
+								3539
 							]
 						}
 					],
@@ -76426,18 +76426,18 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3483,
+							"id": 3495,
 							"name": "IHasZM"
 						},
 						{
 							"type": "reference",
-							"id": 3493,
+							"id": 3505,
 							"name": "IGeometry"
 						}
 					]
 				},
 				{
-					"id": 3508,
+					"id": 3520,
 					"name": "IPolyline",
 					"kind": 256,
 					"kindString": "Interface",
@@ -76448,7 +76448,7 @@
 					},
 					"children": [
 						{
-							"id": 3511,
+							"id": 3523,
 							"name": "hasM",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76468,12 +76468,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3485,
+								"id": 3497,
 								"name": "IHasZM.hasM"
 							}
 						},
 						{
-							"id": 3510,
+							"id": 3522,
 							"name": "hasZ",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76493,12 +76493,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3484,
+								"id": 3496,
 								"name": "IHasZM.hasZ"
 							}
 						},
 						{
-							"id": 3509,
+							"id": 3521,
 							"name": "paths",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76516,14 +76516,14 @@
 									"type": "array",
 									"elementType": {
 										"type": "reference",
-										"id": 3528,
+										"id": 3540,
 										"name": "Position"
 									}
 								}
 							}
 						},
 						{
-							"id": 3512,
+							"id": 3524,
 							"name": "spatialReference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76539,12 +76539,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3486,
+								"id": 3498,
 								"name": "ISpatialReference"
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3494,
+								"id": 3506,
 								"name": "IGeometry.spatialReference"
 							}
 						}
@@ -76554,10 +76554,10 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3511,
-								3510,
-								3509,
-								3512
+								3523,
+								3522,
+								3521,
+								3524
 							]
 						}
 					],
@@ -76571,18 +76571,18 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3483,
+							"id": 3495,
 							"name": "IHasZM"
 						},
 						{
 							"type": "reference",
-							"id": 3493,
+							"id": 3505,
 							"name": "IGeometry"
 						}
 					]
 				},
 				{
-					"id": 3513,
+					"id": 3525,
 					"name": "IPolylineWithCurves",
 					"kind": 256,
 					"kindString": "Interface",
@@ -76590,7 +76590,7 @@
 					"comment": {},
 					"children": [
 						{
-							"id": 3514,
+							"id": 3526,
 							"name": "curvePaths",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76611,12 +76611,12 @@
 										"types": [
 											{
 												"type": "reference",
-												"id": 3528,
+												"id": 3540,
 												"name": "Position"
 											},
 											{
 												"type": "reference",
-												"id": 3546,
+												"id": 3558,
 												"name": "JsonCurve"
 											}
 										]
@@ -76625,7 +76625,7 @@
 							}
 						},
 						{
-							"id": 3516,
+							"id": 3528,
 							"name": "hasM",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76645,12 +76645,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3485,
+								"id": 3497,
 								"name": "IHasZM.hasM"
 							}
 						},
 						{
-							"id": 3515,
+							"id": 3527,
 							"name": "hasZ",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76670,12 +76670,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3484,
+								"id": 3496,
 								"name": "IHasZM.hasZ"
 							}
 						},
 						{
-							"id": 3517,
+							"id": 3529,
 							"name": "spatialReference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -76691,12 +76691,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3486,
+								"id": 3498,
 								"name": "ISpatialReference"
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3494,
+								"id": 3506,
 								"name": "IGeometry.spatialReference"
 							}
 						}
@@ -76706,10 +76706,10 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3514,
-								3516,
-								3515,
-								3517
+								3526,
+								3528,
+								3527,
+								3529
 							]
 						}
 					],
@@ -76723,12 +76723,12 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3483,
+							"id": 3495,
 							"name": "IHasZM"
 						},
 						{
 							"type": "reference",
-							"id": 3493,
+							"id": 3505,
 							"name": "IGeometry"
 						}
 					]
@@ -77753,7 +77753,7 @@
 					]
 				},
 				{
-					"id": 3486,
+					"id": 3498,
 					"name": "ISpatialReference",
 					"kind": 256,
 					"kindString": "Interface",
@@ -77764,7 +77764,7 @@
 					},
 					"children": [
 						{
-							"id": 3490,
+							"id": 3502,
 							"name": "latestVcsWkid",
 							"kind": 1024,
 							"kindString": "Property",
@@ -77784,7 +77784,7 @@
 							}
 						},
 						{
-							"id": 3488,
+							"id": 3500,
 							"name": "latestWkid",
 							"kind": 1024,
 							"kindString": "Property",
@@ -77804,7 +77804,7 @@
 							}
 						},
 						{
-							"id": 3492,
+							"id": 3504,
 							"name": "latestWkt",
 							"kind": 1024,
 							"kindString": "Property",
@@ -77824,7 +77824,7 @@
 							}
 						},
 						{
-							"id": 3489,
+							"id": 3501,
 							"name": "vcsWkid",
 							"kind": 1024,
 							"kindString": "Property",
@@ -77844,7 +77844,7 @@
 							}
 						},
 						{
-							"id": 3487,
+							"id": 3499,
 							"name": "wkid",
 							"kind": 1024,
 							"kindString": "Property",
@@ -77864,7 +77864,7 @@
 							}
 						},
 						{
-							"id": 3491,
+							"id": 3503,
 							"name": "wkt",
 							"kind": 1024,
 							"kindString": "Property",
@@ -77889,12 +77889,12 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3490,
-								3488,
-								3492,
-								3489,
-								3487,
-								3491
+								3502,
+								3500,
+								3504,
+								3501,
+								3499,
+								3503
 							]
 						}
 					],
@@ -77907,7 +77907,7 @@
 					]
 				},
 				{
-					"id": 3555,
+					"id": 3567,
 					"name": "ISymbol",
 					"kind": 256,
 					"kindString": "Interface",
@@ -77915,7 +77915,7 @@
 					"comment": {},
 					"children": [
 						{
-							"id": 3557,
+							"id": 3569,
 							"name": "style",
 							"kind": 1024,
 							"kindString": "Property",
@@ -77935,7 +77935,7 @@
 							}
 						},
 						{
-							"id": 3556,
+							"id": 3568,
 							"name": "type",
 							"kind": 1024,
 							"kindString": "Property",
@@ -77949,7 +77949,7 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3558,
+								"id": 3570,
 								"name": "SymbolType"
 							}
 						}
@@ -77959,8 +77959,8 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3557,
-								3556
+								3569,
+								3568
 							]
 						}
 					],
@@ -78119,7 +78119,7 @@
 					]
 				},
 				{
-					"id": 3627,
+					"id": 3639,
 					"name": "IUser",
 					"kind": 256,
 					"kindString": "Interface",
@@ -78130,7 +78130,7 @@
 					},
 					"children": [
 						{
-							"id": 3641,
+							"id": 3653,
 							"name": "access",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78150,7 +78150,7 @@
 							}
 						},
 						{
-							"id": 3631,
+							"id": 3643,
 							"name": "assignedCredits",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78170,7 +78170,7 @@
 							}
 						},
 						{
-							"id": 3630,
+							"id": 3642,
 							"name": "availableCredits",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78190,7 +78190,7 @@
 							}
 						},
 						{
-							"id": 3645,
+							"id": 3657,
 							"name": "cOrgId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78210,7 +78210,7 @@
 							}
 						},
 						{
-							"id": 3656,
+							"id": 3668,
 							"name": "created",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78230,7 +78230,7 @@
 							}
 						},
 						{
-							"id": 3653,
+							"id": 3665,
 							"name": "culture",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78250,7 +78250,7 @@
 							}
 						},
 						{
-							"id": 3635,
+							"id": 3647,
 							"name": "description",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78270,7 +78270,7 @@
 							}
 						},
 						{
-							"id": 3650,
+							"id": 3662,
 							"name": "disabled",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78290,7 +78290,7 @@
 							}
 						},
 						{
-							"id": 3636,
+							"id": 3648,
 							"name": "email",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78310,7 +78310,7 @@
 							}
 						},
 						{
-							"id": 3638,
+							"id": 3650,
 							"name": "favGroupId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78330,7 +78330,7 @@
 							}
 						},
 						{
-							"id": 3632,
+							"id": 3644,
 							"name": "firstName",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78350,7 +78350,7 @@
 							}
 						},
 						{
-							"id": 3629,
+							"id": 3641,
 							"name": "fullName",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78370,7 +78370,7 @@
 							}
 						},
 						{
-							"id": 3658,
+							"id": 3670,
 							"name": "groups",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78388,13 +78388,13 @@
 								"type": "array",
 								"elementType": {
 									"type": "reference",
-									"id": 3601,
+									"id": 3613,
 									"name": "IGroup"
 								}
 							}
 						},
 						{
-							"id": 3637,
+							"id": 3649,
 							"name": "idpUsername",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78414,7 +78414,7 @@
 							}
 						},
 						{
-							"id": 3639,
+							"id": 3651,
 							"name": "lastLogin",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78434,7 +78434,7 @@
 							}
 						},
 						{
-							"id": 3633,
+							"id": 3645,
 							"name": "lastName",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78454,7 +78454,7 @@
 							}
 						},
 						{
-							"id": 3649,
+							"id": 3661,
 							"name": "level",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78474,7 +78474,7 @@
 							}
 						},
 						{
-							"id": 3640,
+							"id": 3652,
 							"name": "mfaEnabled",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78494,7 +78494,7 @@
 							}
 						},
 						{
-							"id": 3657,
+							"id": 3669,
 							"name": "modified",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78514,7 +78514,7 @@
 							}
 						},
 						{
-							"id": 3644,
+							"id": 3656,
 							"name": "orgId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78534,7 +78534,7 @@
 							}
 						},
 						{
-							"id": 3634,
+							"id": 3646,
 							"name": "preferredView",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78554,7 +78554,7 @@
 							}
 						},
 						{
-							"id": 3647,
+							"id": 3659,
 							"name": "privileges",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78577,7 +78577,7 @@
 							}
 						},
 						{
-							"id": 3659,
+							"id": 3671,
 							"name": "provider",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78614,7 +78614,7 @@
 							}
 						},
 						{
-							"id": 3654,
+							"id": 3666,
 							"name": "region",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78634,7 +78634,7 @@
 							}
 						},
 						{
-							"id": 3646,
+							"id": 3658,
 							"name": "role",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78667,7 +78667,7 @@
 							}
 						},
 						{
-							"id": 3648,
+							"id": 3660,
 							"name": "roleId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78687,7 +78687,7 @@
 							}
 						},
 						{
-							"id": 3643,
+							"id": 3655,
 							"name": "storageQuota",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78707,7 +78707,7 @@
 							}
 						},
 						{
-							"id": 3642,
+							"id": 3654,
 							"name": "storageUsage",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78727,7 +78727,7 @@
 							}
 						},
 						{
-							"id": 3652,
+							"id": 3664,
 							"name": "tags",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78750,7 +78750,7 @@
 							}
 						},
 						{
-							"id": 3655,
+							"id": 3667,
 							"name": "thumbnail",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78770,7 +78770,7 @@
 							}
 						},
 						{
-							"id": 3651,
+							"id": 3663,
 							"name": "units",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78790,7 +78790,7 @@
 							}
 						},
 						{
-							"id": 3628,
+							"id": 3640,
 							"name": "username",
 							"kind": 1024,
 							"kindString": "Property",
@@ -78815,38 +78815,38 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3641,
-								3631,
-								3630,
-								3645,
-								3656,
 								3653,
-								3635,
-								3650,
-								3636,
-								3638,
-								3632,
-								3629,
-								3658,
-								3637,
-								3639,
-								3633,
-								3649,
-								3640,
-								3657,
-								3644,
-								3634,
-								3647,
-								3659,
-								3654,
-								3646,
-								3648,
 								3643,
 								3642,
-								3652,
-								3655,
+								3657,
+								3668,
+								3665,
+								3647,
+								3662,
+								3648,
+								3650,
+								3644,
+								3641,
+								3670,
+								3649,
 								3651,
-								3628
+								3645,
+								3661,
+								3652,
+								3669,
+								3656,
+								3646,
+								3659,
+								3671,
+								3666,
+								3658,
+								3660,
+								3655,
+								3654,
+								3664,
+								3667,
+								3663,
+								3640
 							]
 						}
 					],
@@ -79281,7 +79281,7 @@
 					}
 				},
 				{
-					"id": 3560,
+					"id": 3572,
 					"name": "DomainType",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -79315,7 +79315,7 @@
 					}
 				},
 				{
-					"id": 3536,
+					"id": 3548,
 					"name": "ElipticArc",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -79330,12 +79330,12 @@
 					],
 					"type": {
 						"type": "reference",
-						"id": 3530,
+						"id": 3542,
 						"name": "IArc"
 					}
 				},
 				{
-					"id": 3559,
+					"id": 3571,
 					"name": "FieldType",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -79409,7 +79409,7 @@
 					}
 				},
 				{
-					"id": 3537,
+					"id": 3549,
 					"name": "GeometryType",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -79487,7 +79487,7 @@
 					}
 				},
 				{
-					"id": 3584,
+					"id": 3596,
 					"name": "GroupMembership",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -79556,7 +79556,7 @@
 					}
 				},
 				{
-					"id": 3561,
+					"id": 3573,
 					"name": "ICodedValue",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -79574,14 +79574,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 3562,
+							"id": 3574,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 3564,
+									"id": 3576,
 									"name": "code",
 									"kind": 1024,
 									"kindString": "Property",
@@ -79611,7 +79611,7 @@
 									}
 								},
 								{
-									"id": 3563,
+									"id": 3575,
 									"name": "name",
 									"kind": 1024,
 									"kindString": "Property",
@@ -79637,8 +79637,8 @@
 									"title": "Properties",
 									"kind": 1024,
 									"children": [
-										3564,
-										3563
+										3576,
+										3575
 									]
 								}
 							],
@@ -79653,7 +79653,7 @@
 					}
 				},
 				{
-					"id": 3565,
+					"id": 3577,
 					"name": "IDomain",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -79671,14 +79671,14 @@
 					"type": {
 						"type": "reflection",
 						"declaration": {
-							"id": 3566,
+							"id": 3578,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
 							"flags": {},
 							"children": [
 								{
-									"id": 3570,
+									"id": 3582,
 									"name": "codedValues",
 									"kind": 1024,
 									"kindString": "Property",
@@ -79699,13 +79699,13 @@
 										"type": "array",
 										"elementType": {
 											"type": "reference",
-											"id": 3561,
+											"id": 3573,
 											"name": "ICodedValue"
 										}
 									}
 								},
 								{
-									"id": 3571,
+									"id": 3583,
 									"name": "description",
 									"kind": 1024,
 									"kindString": "Property",
@@ -79728,7 +79728,7 @@
 									}
 								},
 								{
-									"id": 3572,
+									"id": 3584,
 									"name": "mergePolicy",
 									"kind": 1024,
 									"kindString": "Property",
@@ -79751,7 +79751,7 @@
 									}
 								},
 								{
-									"id": 3568,
+									"id": 3580,
 									"name": "name",
 									"kind": 1024,
 									"kindString": "Property",
@@ -79774,7 +79774,7 @@
 									}
 								},
 								{
-									"id": 3569,
+									"id": 3581,
 									"name": "range",
 									"kind": 1024,
 									"kindString": "Property",
@@ -79806,7 +79806,7 @@
 									}
 								},
 								{
-									"id": 3573,
+									"id": 3585,
 									"name": "splitPolicy",
 									"kind": 1024,
 									"kindString": "Property",
@@ -79829,7 +79829,7 @@
 									}
 								},
 								{
-									"id": 3567,
+									"id": 3579,
 									"name": "type",
 									"kind": 1024,
 									"kindString": "Property",
@@ -79846,7 +79846,7 @@
 									],
 									"type": {
 										"type": "reference",
-										"id": 3560,
+										"id": 3572,
 										"name": "DomainType"
 									}
 								}
@@ -79856,13 +79856,13 @@
 									"title": "Properties",
 									"kind": 1024,
 									"children": [
-										3570,
-										3571,
-										3572,
-										3568,
-										3569,
-										3573,
-										3567
+										3582,
+										3583,
+										3584,
+										3580,
+										3581,
+										3585,
+										3579
 									]
 								}
 							],
@@ -79953,7 +79953,7 @@
 					}
 				},
 				{
-					"id": 3546,
+					"id": 3558,
 					"name": "JsonCurve",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -79971,29 +79971,29 @@
 						"types": [
 							{
 								"type": "reference",
-								"id": 3534,
+								"id": 3546,
 								"name": "ICircularArc"
 							},
 							{
 								"type": "reference",
-								"id": 3530,
+								"id": 3542,
 								"name": "IArc"
 							},
 							{
 								"type": "reference",
-								"id": 3547,
+								"id": 3559,
 								"name": "IOldCircularArc"
 							},
 							{
 								"type": "reference",
-								"id": 3532,
+								"id": 3544,
 								"name": "IBezierCurve"
 							}
 						]
 					}
 				},
 				{
-					"id": 3528,
+					"id": 3540,
 					"name": "Position",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -80011,7 +80011,7 @@
 						"types": [
 							{
 								"type": "reference",
-								"id": 3529,
+								"id": 3541,
 								"name": "Position2D"
 							},
 							{
@@ -80056,7 +80056,7 @@
 					}
 				},
 				{
-					"id": 3529,
+					"id": 3541,
 					"name": "Position2D",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -80133,7 +80133,7 @@
 					}
 				},
 				{
-					"id": 3558,
+					"id": 3570,
 					"name": "SymbolType",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -80177,7 +80177,7 @@
 					}
 				},
 				{
-					"id": 3554,
+					"id": 3566,
 					"name": "Units",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -80224,7 +80224,7 @@
 					}
 				},
 				{
-					"id": 3669,
+					"id": 3681,
 					"name": "Blob",
 					"kind": 32,
 					"kindString": "Variable",
@@ -80247,7 +80247,7 @@
 					}
 				},
 				{
-					"id": 3668,
+					"id": 3680,
 					"name": "File",
 					"kind": 32,
 					"kindString": "Variable",
@@ -80270,7 +80270,7 @@
 					}
 				},
 				{
-					"id": 3667,
+					"id": 3679,
 					"name": "FormData",
 					"kind": 32,
 					"kindString": "Variable",
@@ -81140,7 +81140,7 @@
 					]
 				},
 				{
-					"id": 3660,
+					"id": 3672,
 					"name": "getFetch",
 					"kind": 64,
 					"kindString": "Function",
@@ -81154,7 +81154,7 @@
 					],
 					"signatures": [
 						{
-							"id": 3661,
+							"id": 3673,
 							"name": "getFetch",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -81165,14 +81165,14 @@
 									{
 										"type": "reflection",
 										"declaration": {
-											"id": 3662,
+											"id": 3674,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 3666,
+													"id": 3678,
 													"name": "Headers",
 													"kind": 1024,
 													"kindString": "Property",
@@ -81193,7 +81193,7 @@
 													}
 												},
 												{
-													"id": 3664,
+													"id": 3676,
 													"name": "Request",
 													"kind": 1024,
 													"kindString": "Property",
@@ -81214,7 +81214,7 @@
 													}
 												},
 												{
-													"id": 3665,
+													"id": 3677,
 													"name": "Response",
 													"kind": 1024,
 													"kindString": "Property",
@@ -81235,7 +81235,7 @@
 													}
 												},
 												{
-													"id": 3663,
+													"id": 3675,
 													"name": "fetch",
 													"kind": 1024,
 													"kindString": "Property",
@@ -81261,10 +81261,10 @@
 													"title": "Properties",
 													"kind": 1024,
 													"children": [
-														3666,
-														3664,
-														3665,
-														3663
+														3678,
+														3676,
+														3677,
+														3675
 													]
 												}
 											],
@@ -81938,6 +81938,189 @@
 							}
 						}
 					]
+				},
+				{
+					"id": 3462,
+					"name": "withOptions",
+					"kind": 64,
+					"kindString": "Function",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "arcgis-rest-request/src/utils/with-options.ts",
+							"line": 30,
+							"character": 16
+						}
+					],
+					"signatures": [
+						{
+							"id": 3463,
+							"name": "withOptions",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Allows you to wrap individual methods with a default set of request options. This is useful to avoid setting the same option more then once and allows for interacting and setting defaults in a functional manner.",
+								"text": "```js\nimport { withOptions } from \"@esri/arcgis-rest-request\";\nimport { queryFeatures } from '@esri/arcgis-rest-feature-service';\n\nconst queryTrails = withOptions({\n  url: \"https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0/\"}, queryFeatures);\n\nqueryTrails({\n  where: \"ELEV_FT > 1000\"\n}).then(result);\n\nconst queryTrailsAsUser = withOptions({\n  authentication: ArcGISIdentityManager\n}, queryTrails);\n\nqueryTrailsAsUser({\n  where: \"TRL_NAME LIKE '%backbone%'\"\n}).then(result);\n```\n",
+								"returns": "A copy of `func` with the `defaultOptions` passed in as defaults.\n"
+							},
+							"typeParameter": [
+								{
+									"id": 3464,
+									"name": "K",
+									"kind": 131072,
+									"kindString": "Type parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 3039,
+										"name": "IRequestOptions"
+									}
+								},
+								{
+									"id": 3468,
+									"name": "T",
+									"kind": 131072,
+									"kindString": "Type parameter",
+									"flags": {},
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 3465,
+											"name": "__type",
+											"kind": 65536,
+											"kindString": "Type literal",
+											"flags": {},
+											"signatures": [
+												{
+													"id": 3466,
+													"name": "__type",
+													"kind": 4096,
+													"kindString": "Call signature",
+													"flags": {},
+													"parameters": [
+														{
+															"id": 3467,
+															"name": "args",
+															"kind": 32768,
+															"kindString": "Parameter",
+															"flags": {
+																"isRest": true
+															},
+															"type": {
+																"type": "array",
+																"elementType": {
+																	"type": "intrinsic",
+																	"name": "any"
+																}
+															}
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "any"
+													}
+												}
+											]
+										}
+									}
+								}
+							],
+							"parameters": [
+								{
+									"id": 3469,
+									"name": "defaultOptions",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "The options to pass into to the `func`."
+									},
+									"type": {
+										"type": "reference",
+										"id": 3039,
+										"name": "IRequestOptions"
+									}
+								},
+								{
+									"id": 3470,
+									"name": "func",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"comment": {
+										"text": "Any function that accepts anything extending `IRequestOptions` as its last parameter."
+									},
+									"type": {
+										"type": "reference",
+										"name": "T"
+									}
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 3471,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"sources": [
+										{
+											"fileName": "arcgis-rest-request/src/utils/with-options.ts",
+											"line": 36,
+											"character": 3
+										}
+									],
+									"signatures": [
+										{
+											"id": 3472,
+											"name": "__type",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"comment": {
+												"shortText": "Allows you to wrap individual methods with a default set of request options. This is useful to avoid setting the same option more then once and allows for interacting and setting defaults in a functional manner.",
+												"text": "```js\nimport { withOptions } from \"@esri/arcgis-rest-request\";\nimport { queryFeatures } from '@esri/arcgis-rest-feature-service';\n\nconst queryTrails = withOptions({\n  url: \"https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0/\"}, queryFeatures);\n\nqueryTrails({\n  where: \"ELEV_FT > 1000\"\n}).then(result);\n\nconst queryTrailsAsUser = withOptions({\n  authentication: ArcGISIdentityManager\n}, queryTrails);\n\nqueryTrailsAsUser({\n  where: \"TRL_NAME LIKE '%backbone%'\"\n}).then(result);\n```\n",
+												"returns": "A copy of `func` with the `defaultOptions` passed in as defaults.\n"
+											},
+											"parameters": [
+												{
+													"id": 3473,
+													"name": "funcArgs",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {
+														"isRest": true
+													},
+													"type": {
+														"type": "reference",
+														"typeArguments": [
+															{
+																"type": "reference",
+																"name": "T"
+															}
+														],
+														"name": "Parameters"
+													}
+												}
+											],
+											"type": {
+												"type": "reference",
+												"typeArguments": [
+													{
+														"type": "reference",
+														"name": "T"
+													}
+												],
+												"name": "ReturnType"
+											}
+										}
+									]
+								}
+							}
+						}
+					]
 				}
 			],
 			"groups": [
@@ -81976,47 +82159,47 @@
 						3112,
 						3420,
 						3079,
-						3530,
+						3542,
 						3162,
 						3371,
 						2999,
-						3532,
-						3534,
+						3544,
+						3546,
 						3137,
-						3538,
-						3476,
-						3462,
+						3550,
+						3488,
+						3474,
 						3012,
 						3364,
-						3574,
+						3586,
 						3126,
 						3021,
-						3493,
-						3601,
-						3585,
-						3483,
-						3502,
-						3549,
+						3505,
+						3613,
+						3597,
+						3495,
+						3514,
+						3561,
 						3148,
-						3547,
+						3559,
 						3032,
 						3028,
 						3035,
 						3411,
-						3495,
-						3518,
-						3523,
-						3508,
-						3513,
+						3507,
+						3530,
+						3535,
+						3520,
+						3525,
 						3039,
 						3443,
 						3460,
 						3143,
 						3132,
-						3486,
-						3555,
+						3498,
+						3567,
 						3054,
-						3627,
+						3639,
 						3386
 					]
 				},
@@ -82025,31 +82208,31 @@
 					"kind": 4194304,
 					"children": [
 						3136,
-						3560,
-						3536,
-						3559,
-						3537,
+						3572,
+						3548,
+						3571,
+						3549,
 						2997,
-						3584,
+						3596,
 						2998,
-						3561,
-						3565,
+						3573,
+						3577,
 						3068,
-						3546,
-						3528,
-						3529,
-						3067,
 						3558,
-						3554
+						3540,
+						3541,
+						3067,
+						3570,
+						3566
 					]
 				},
 				{
 					"title": "Variables",
 					"kind": 32,
 					"children": [
-						3669,
-						3668,
-						3667,
+						3681,
+						3680,
+						3679,
 						2899
 					]
 				},
@@ -82069,7 +82252,7 @@
 						3401,
 						3360,
 						2882,
-						3660,
+						3672,
 						3429,
 						3432,
 						3423,
@@ -82081,7 +82264,8 @@
 						3440,
 						2878,
 						3415,
-						3073
+						3073,
+						3462
 					]
 				}
 			],
@@ -82101,14 +82285,14 @@
 			"flags": {},
 			"children": [
 				{
-					"id": 3758,
+					"id": 3770,
 					"name": "IClosestFacilityOptions",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3780,
+							"id": 3792,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82140,12 +82324,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3903,
+								"id": 3915,
 								"name": "IEndpointOptions.authentication"
 							}
 						},
 						{
-							"id": 3763,
+							"id": 3775,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82164,7 +82348,7 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3704,
+										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -82174,12 +82358,12 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3685,
+													"id": 3697,
 													"name": "ILocation"
 												},
 												{
 													"type": "reference",
-													"id": 3691,
+													"id": 3703,
 													"name": "IPoint"
 												},
 												{
@@ -82202,7 +82386,7 @@
 							}
 						},
 						{
-							"id": 3783,
+							"id": 3795,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82225,12 +82409,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3906,
+								"id": 3918,
 								"name": "IEndpointOptions.credentials"
 							}
 						},
 						{
-							"id": 3768,
+							"id": 3780,
 							"name": "directionsLengthUnits",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82299,7 +82483,7 @@
 							}
 						},
 						{
-							"id": 3767,
+							"id": 3779,
 							"name": "directionsOutputType",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82344,7 +82528,7 @@
 							}
 						},
 						{
-							"id": 3776,
+							"id": 3788,
 							"name": "endpoint",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82367,12 +82551,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3899,
+								"id": 3911,
 								"name": "IEndpointOptions.endpoint"
 							}
 						},
 						{
-							"id": 3760,
+							"id": 3772,
 							"name": "facilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82392,7 +82576,7 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3704,
+										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -82402,12 +82586,12 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3685,
+													"id": 3697,
 													"name": "ILocation"
 												},
 												{
 													"type": "reference",
-													"id": 3691,
+													"id": 3703,
 													"name": "IPoint"
 												},
 												{
@@ -82430,7 +82614,7 @@
 							}
 						},
 						{
-							"id": 3785,
+							"id": 3797,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82450,20 +82634,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3786,
+									"id": 3798,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 3787,
+										"id": 3799,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3788,
+												"id": 3800,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -82482,12 +82666,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3908,
+								"id": 3920,
 								"name": "IEndpointOptions.headers"
 							}
 						},
 						{
-							"id": 3781,
+							"id": 3793,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82510,12 +82694,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3904,
+								"id": 3916,
 								"name": "IEndpointOptions.hideToken"
 							}
 						},
 						{
-							"id": 3778,
+							"id": 3790,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82538,12 +82722,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3901,
+								"id": 3913,
 								"name": "IEndpointOptions.httpMethod"
 							}
 						},
 						{
-							"id": 3759,
+							"id": 3771,
 							"name": "incidents",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82563,7 +82747,7 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3704,
+										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -82573,12 +82757,12 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3685,
+													"id": 3697,
 													"name": "ILocation"
 												},
 												{
 													"type": "reference",
-													"id": 3691,
+													"id": 3703,
 													"name": "IPoint"
 												},
 												{
@@ -82601,7 +82785,7 @@
 							}
 						},
 						{
-							"id": 3784,
+							"id": 3796,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82624,12 +82808,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3907,
+								"id": 3919,
 								"name": "IEndpointOptions.maxUrlLength"
 							}
 						},
 						{
-							"id": 3769,
+							"id": 3781,
 							"name": "outputLines",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82649,7 +82833,7 @@
 							}
 						},
 						{
-							"id": 3777,
+							"id": 3789,
 							"name": "params",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82672,12 +82856,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3900,
+								"id": 3912,
 								"name": "IEndpointOptions.params"
 							}
 						},
 						{
-							"id": 3765,
+							"id": 3777,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82693,12 +82877,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3764,
+							"id": 3776,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82714,12 +82898,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3782,
+							"id": 3794,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82742,12 +82926,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3905,
+								"id": 3917,
 								"name": "IEndpointOptions.portal"
 							}
 						},
 						{
-							"id": 3775,
+							"id": 3787,
 							"name": "preserveObjectID",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82767,7 +82951,7 @@
 							}
 						},
 						{
-							"id": 3779,
+							"id": 3791,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82790,12 +82974,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3902,
+								"id": 3914,
 								"name": "IEndpointOptions.rawResponse"
 							}
 						},
 						{
-							"id": 3772,
+							"id": 3784,
 							"name": "returnBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82815,7 +82999,7 @@
 							}
 						},
 						{
-							"id": 3761,
+							"id": 3773,
 							"name": "returnCFRoutes",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82836,7 +83020,7 @@
 							}
 						},
 						{
-							"id": 3766,
+							"id": 3778,
 							"name": "returnDirections",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82856,7 +83040,7 @@
 							}
 						},
 						{
-							"id": 3770,
+							"id": 3782,
 							"name": "returnFacilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82876,7 +83060,7 @@
 							}
 						},
 						{
-							"id": 3771,
+							"id": 3783,
 							"name": "returnIncidents",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82896,7 +83080,7 @@
 							}
 						},
 						{
-							"id": 3774,
+							"id": 3786,
 							"name": "returnPolygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82916,7 +83100,7 @@
 							}
 						},
 						{
-							"id": 3773,
+							"id": 3785,
 							"name": "returnPolylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82936,7 +83120,7 @@
 							}
 						},
 						{
-							"id": 3789,
+							"id": 3801,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82959,12 +83143,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3912,
+								"id": 3924,
 								"name": "IEndpointOptions.signal"
 							}
 						},
 						{
-							"id": 3790,
+							"id": 3802,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82987,12 +83171,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3913,
+								"id": 3925,
 								"name": "IEndpointOptions.suppressWarnings"
 							}
 						},
 						{
-							"id": 3762,
+							"id": 3774,
 							"name": "travelDirection",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83026,35 +83210,35 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3780,
-								3763,
-								3783,
-								3768,
-								3767,
-								3776,
-								3760,
-								3785,
-								3781,
-								3778,
-								3759,
-								3784,
-								3769,
-								3777,
-								3765,
-								3764,
-								3782,
+								3792,
 								3775,
+								3795,
+								3780,
 								3779,
+								3788,
 								3772,
-								3761,
-								3766,
-								3770,
-								3771,
-								3774,
-								3773,
-								3789,
+								3797,
+								3793,
 								3790,
-								3762
+								3771,
+								3796,
+								3781,
+								3789,
+								3777,
+								3776,
+								3794,
+								3787,
+								3791,
+								3784,
+								3773,
+								3778,
+								3782,
+								3783,
+								3786,
+								3785,
+								3801,
+								3802,
+								3774
 							]
 						}
 					],
@@ -83068,20 +83252,20 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3898,
+							"id": 3910,
 							"name": "IEndpointOptions"
 						}
 					]
 				},
 				{
-					"id": 3791,
+					"id": 3803,
 					"name": "IClosestFacilityResponse",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3802,
+							"id": 3814,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83097,12 +83281,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3794,
+							"id": 3806,
 							"name": "directions",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83121,14 +83305,14 @@
 								"elementType": {
 									"type": "reflection",
 									"declaration": {
-										"id": 3795,
+										"id": 3807,
 										"name": "__type",
 										"kind": 65536,
 										"kindString": "Type literal",
 										"flags": {},
 										"children": [
 											{
-												"id": 3799,
+												"id": 3811,
 												"name": "features",
 												"kind": 1024,
 												"kindString": "Property",
@@ -83144,13 +83328,13 @@
 													"type": "array",
 													"elementType": {
 														"type": "reference",
-														"id": 3718,
+														"id": 3730,
 														"name": "IFeature"
 													}
 												}
 											},
 											{
-												"id": 3796,
+												"id": 3808,
 												"name": "routeId",
 												"kind": 1024,
 												"kindString": "Property",
@@ -83168,7 +83352,7 @@
 												}
 											},
 											{
-												"id": 3797,
+												"id": 3809,
 												"name": "routeName",
 												"kind": 1024,
 												"kindString": "Property",
@@ -83186,7 +83370,7 @@
 												}
 											},
 											{
-												"id": 3798,
+												"id": 3810,
 												"name": "summary",
 												"kind": 1024,
 												"kindString": "Property",
@@ -83209,10 +83393,10 @@
 												"title": "Properties",
 												"kind": 1024,
 												"children": [
-													3799,
-													3796,
-													3797,
-													3798
+													3811,
+													3808,
+													3809,
+													3810
 												]
 											}
 										]
@@ -83221,7 +83405,7 @@
 							}
 						},
 						{
-							"id": 3801,
+							"id": 3813,
 							"name": "facilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83237,12 +83421,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3800,
+							"id": 3812,
 							"name": "incidents",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83258,12 +83442,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3792,
+							"id": 3804,
 							"name": "messages",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83284,7 +83468,7 @@
 							}
 						},
 						{
-							"id": 3803,
+							"id": 3815,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83300,12 +83484,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3804,
+							"id": 3816,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83321,12 +83505,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3793,
+							"id": 3805,
 							"name": "routes",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83351,14 +83535,14 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3802,
-								3794,
-								3801,
-								3800,
-								3792,
-								3803,
+								3814,
+								3806,
+								3813,
+								3812,
 								3804,
-								3793
+								3815,
+								3816,
+								3805
 							]
 						}
 					],
@@ -83371,14 +83555,14 @@
 					]
 				},
 				{
-					"id": 3898,
+					"id": 3910,
 					"name": "IEndpointOptions",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3903,
+							"id": 3915,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83410,12 +83594,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3674,
+								"id": 3686,
 								"name": "IRequestOptions.authentication"
 							}
 						},
 						{
-							"id": 3906,
+							"id": 3918,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83438,12 +83622,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3677,
+								"id": 3689,
 								"name": "IRequestOptions.credentials"
 							}
 						},
 						{
-							"id": 3899,
+							"id": 3911,
 							"name": "endpoint",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83466,7 +83650,7 @@
 							}
 						},
 						{
-							"id": 3908,
+							"id": 3920,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83486,20 +83670,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3909,
+									"id": 3921,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 3910,
+										"id": 3922,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3911,
+												"id": 3923,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -83518,12 +83702,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3679,
+								"id": 3691,
 								"name": "IRequestOptions.headers"
 							}
 						},
 						{
-							"id": 3904,
+							"id": 3916,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83546,12 +83730,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3675,
+								"id": 3687,
 								"name": "IRequestOptions.hideToken"
 							}
 						},
 						{
-							"id": 3901,
+							"id": 3913,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83574,12 +83758,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3672,
+								"id": 3684,
 								"name": "IRequestOptions.httpMethod"
 							}
 						},
 						{
-							"id": 3907,
+							"id": 3919,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83602,12 +83786,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3678,
+								"id": 3690,
 								"name": "IRequestOptions.maxUrlLength"
 							}
 						},
 						{
-							"id": 3900,
+							"id": 3912,
 							"name": "params",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83630,12 +83814,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3671,
+								"id": 3683,
 								"name": "IRequestOptions.params"
 							}
 						},
 						{
-							"id": 3905,
+							"id": 3917,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83658,12 +83842,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3676,
+								"id": 3688,
 								"name": "IRequestOptions.portal"
 							}
 						},
 						{
-							"id": 3902,
+							"id": 3914,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83686,12 +83870,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3673,
+								"id": 3685,
 								"name": "IRequestOptions.rawResponse"
 							}
 						},
 						{
-							"id": 3912,
+							"id": 3924,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83714,12 +83898,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3683,
+								"id": 3695,
 								"name": "IRequestOptions.signal"
 							}
 						},
 						{
-							"id": 3913,
+							"id": 3925,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83742,7 +83926,7 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3684,
+								"id": 3696,
 								"name": "IRequestOptions.suppressWarnings"
 							}
 						}
@@ -83752,18 +83936,18 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3903,
-								3906,
-								3899,
-								3908,
-								3904,
-								3901,
-								3907,
-								3900,
-								3905,
-								3902,
+								3915,
+								3918,
+								3911,
+								3920,
+								3916,
+								3913,
+								3919,
 								3912,
-								3913
+								3917,
+								3914,
+								3924,
+								3925
 							]
 						}
 					],
@@ -83777,35 +83961,35 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3670,
+							"id": 3682,
 							"name": "IRequestOptions"
 						}
 					],
 					"extendedBy": [
 						{
 							"type": "reference",
-							"id": 3728,
+							"id": 3740,
 							"name": "ISolveRouteOptions"
 						},
 						{
 							"type": "reference",
-							"id": 3758,
+							"id": 3770,
 							"name": "IClosestFacilityOptions"
 						},
 						{
 							"type": "reference",
-							"id": 3808,
+							"id": 3820,
 							"name": "IServiceAreaOptions"
 						},
 						{
 							"type": "reference",
-							"id": 3846,
+							"id": 3858,
 							"name": "IOriginDestinationMatrixOptions"
 						}
 					]
 				},
 				{
-					"id": 3718,
+					"id": 3730,
 					"name": "IFeature",
 					"kind": 256,
 					"kindString": "Interface",
@@ -83816,7 +84000,7 @@
 					},
 					"children": [
 						{
-							"id": 3720,
+							"id": 3732,
 							"name": "attributes",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83831,20 +84015,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3721,
+									"id": 3733,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 3722,
+										"id": 3734,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3723,
+												"id": 3735,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -83863,7 +84047,7 @@
 							}
 						},
 						{
-							"id": 3719,
+							"id": 3731,
 							"name": "geometry",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83883,7 +84067,7 @@
 							}
 						},
 						{
-							"id": 3724,
+							"id": 3736,
 							"name": "symbol",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83908,9 +84092,9 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3720,
-								3719,
-								3724
+								3732,
+								3731,
+								3736
 							]
 						}
 					],
@@ -83923,7 +84107,7 @@
 					]
 				},
 				{
-					"id": 3704,
+					"id": 3716,
 					"name": "IFeatureSet",
 					"kind": 256,
 					"kindString": "Interface",
@@ -83934,7 +84118,7 @@
 					},
 					"children": [
 						{
-							"id": 3707,
+							"id": 3719,
 							"name": "displayFieldName",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83954,7 +84138,7 @@
 							}
 						},
 						{
-							"id": 3711,
+							"id": 3723,
 							"name": "features",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83970,13 +84154,13 @@
 								"type": "array",
 								"elementType": {
 									"type": "reference",
-									"id": 3718,
+									"id": 3730,
 									"name": "IFeature"
 								}
 							}
 						},
 						{
-							"id": 3712,
+							"id": 3724,
 							"name": "fieldAliases",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83993,20 +84177,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3713,
+									"id": 3725,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 3714,
+										"id": 3726,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3715,
+												"id": 3727,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -84025,7 +84209,7 @@
 							}
 						},
 						{
-							"id": 3710,
+							"id": 3722,
 							"name": "fields",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84048,7 +84232,7 @@
 							}
 						},
 						{
-							"id": 3708,
+							"id": 3720,
 							"name": "geometryType",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84068,7 +84252,7 @@
 							}
 						},
 						{
-							"id": 3706,
+							"id": 3718,
 							"name": "globalIdFieldName",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84088,7 +84272,7 @@
 							}
 						},
 						{
-							"id": 3717,
+							"id": 3729,
 							"name": "hasM",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84112,7 +84296,7 @@
 							}
 						},
 						{
-							"id": 3716,
+							"id": 3728,
 							"name": "hasZ",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84136,7 +84320,7 @@
 							}
 						},
 						{
-							"id": 3705,
+							"id": 3717,
 							"name": "objectIdFieldName",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84156,7 +84340,7 @@
 							}
 						},
 						{
-							"id": 3709,
+							"id": 3721,
 							"name": "spatialReference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84181,16 +84365,16 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3707,
-								3711,
-								3712,
-								3710,
-								3708,
-								3706,
+								3719,
+								3723,
+								3724,
+								3722,
+								3720,
+								3718,
+								3729,
+								3728,
 								3717,
-								3716,
-								3705,
-								3709
+								3721
 							]
 						}
 					],
@@ -84209,7 +84393,7 @@
 					]
 				},
 				{
-					"id": 3685,
+					"id": 3697,
 					"name": "ILocation",
 					"kind": 256,
 					"kindString": "Interface",
@@ -84220,7 +84404,7 @@
 					},
 					"children": [
 						{
-							"id": 3688,
+							"id": 3700,
 							"name": "lat",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84240,7 +84424,7 @@
 							}
 						},
 						{
-							"id": 3686,
+							"id": 3698,
 							"name": "latitude",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84260,7 +84444,7 @@
 							}
 						},
 						{
-							"id": 3689,
+							"id": 3701,
 							"name": "long",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84280,7 +84464,7 @@
 							}
 						},
 						{
-							"id": 3687,
+							"id": 3699,
 							"name": "longitude",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84300,7 +84484,7 @@
 							}
 						},
 						{
-							"id": 3690,
+							"id": 3702,
 							"name": "z",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84325,11 +84509,11 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3688,
-								3686,
-								3689,
-								3687,
-								3690
+								3700,
+								3698,
+								3701,
+								3699,
+								3702
 							]
 						}
 					],
@@ -84342,14 +84526,14 @@
 					]
 				},
 				{
-					"id": 3846,
+					"id": 3858,
 					"name": "IOriginDestinationMatrixOptions",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3862,
+							"id": 3874,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84381,12 +84565,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3903,
+								"id": 3915,
 								"name": "IEndpointOptions.authentication"
 							}
 						},
 						{
-							"id": 3850,
+							"id": 3862,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84405,7 +84589,7 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3704,
+										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -84415,12 +84599,12 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3685,
+													"id": 3697,
 													"name": "ILocation"
 												},
 												{
 													"type": "reference",
-													"id": 3691,
+													"id": 3703,
 													"name": "IPoint"
 												},
 												{
@@ -84443,7 +84627,7 @@
 							}
 						},
 						{
-							"id": 3865,
+							"id": 3877,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84466,12 +84650,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3906,
+								"id": 3918,
 								"name": "IEndpointOptions.credentials"
 							}
 						},
 						{
-							"id": 3848,
+							"id": 3860,
 							"name": "destinations",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84491,7 +84675,7 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3704,
+										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -84501,12 +84685,12 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3685,
+													"id": 3697,
 													"name": "ILocation"
 												},
 												{
 													"type": "reference",
-													"id": 3691,
+													"id": 3703,
 													"name": "IPoint"
 												},
 												{
@@ -84529,7 +84713,7 @@
 							}
 						},
 						{
-							"id": 3858,
+							"id": 3870,
 							"name": "endpoint",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84552,12 +84736,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3899,
+								"id": 3911,
 								"name": "IEndpointOptions.endpoint"
 							}
 						},
 						{
-							"id": 3867,
+							"id": 3879,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84577,20 +84761,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3868,
+									"id": 3880,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 3869,
+										"id": 3881,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3870,
+												"id": 3882,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -84609,12 +84793,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3908,
+								"id": 3920,
 								"name": "IEndpointOptions.headers"
 							}
 						},
 						{
-							"id": 3863,
+							"id": 3875,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84637,12 +84821,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3904,
+								"id": 3916,
 								"name": "IEndpointOptions.hideToken"
 							}
 						},
 						{
-							"id": 3860,
+							"id": 3872,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84665,12 +84849,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3901,
+								"id": 3913,
 								"name": "IEndpointOptions.httpMethod"
 							}
 						},
 						{
-							"id": 3866,
+							"id": 3878,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84693,12 +84877,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3907,
+								"id": 3919,
 								"name": "IEndpointOptions.maxUrlLength"
 							}
 						},
 						{
-							"id": 3847,
+							"id": 3859,
 							"name": "origins",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84718,7 +84902,7 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3704,
+										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -84728,12 +84912,12 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3685,
+													"id": 3697,
 													"name": "ILocation"
 												},
 												{
 													"type": "reference",
-													"id": 3691,
+													"id": 3703,
 													"name": "IPoint"
 												},
 												{
@@ -84756,7 +84940,7 @@
 							}
 						},
 						{
-							"id": 3849,
+							"id": 3861,
 							"name": "outputType",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84792,7 +84976,7 @@
 							}
 						},
 						{
-							"id": 3859,
+							"id": 3871,
 							"name": "params",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84815,12 +84999,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3900,
+								"id": 3912,
 								"name": "IEndpointOptions.params"
 							}
 						},
 						{
-							"id": 3852,
+							"id": 3864,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84836,12 +85020,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3851,
+							"id": 3863,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84857,12 +85041,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3864,
+							"id": 3876,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84885,12 +85069,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3905,
+								"id": 3917,
 								"name": "IEndpointOptions.portal"
 							}
 						},
 						{
-							"id": 3861,
+							"id": 3873,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84913,12 +85097,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3902,
+								"id": 3914,
 								"name": "IEndpointOptions.rawResponse"
 							}
 						},
 						{
-							"id": 3855,
+							"id": 3867,
 							"name": "returnBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84938,7 +85122,7 @@
 							}
 						},
 						{
-							"id": 3854,
+							"id": 3866,
 							"name": "returnDestinations",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84958,7 +85142,7 @@
 							}
 						},
 						{
-							"id": 3853,
+							"id": 3865,
 							"name": "returnOrigins",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84978,7 +85162,7 @@
 							}
 						},
 						{
-							"id": 3857,
+							"id": 3869,
 							"name": "returnPolygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84998,7 +85182,7 @@
 							}
 						},
 						{
-							"id": 3856,
+							"id": 3868,
 							"name": "returnPolylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85018,7 +85202,7 @@
 							}
 						},
 						{
-							"id": 3871,
+							"id": 3883,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85041,12 +85225,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3912,
+								"id": 3924,
 								"name": "IEndpointOptions.signal"
 							}
 						},
 						{
-							"id": 3872,
+							"id": 3884,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85069,7 +85253,7 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3913,
+								"id": 3925,
 								"name": "IEndpointOptions.suppressWarnings"
 							}
 						}
@@ -85079,29 +85263,29 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
+								3874,
 								3862,
-								3850,
-								3865,
-								3848,
-								3858,
-								3867,
-								3863,
+								3877,
 								3860,
-								3866,
-								3847,
-								3849,
+								3870,
+								3879,
+								3875,
+								3872,
+								3878,
 								3859,
-								3852,
-								3851,
-								3864,
 								3861,
-								3855,
-								3854,
-								3853,
-								3857,
-								3856,
 								3871,
-								3872
+								3864,
+								3863,
+								3876,
+								3873,
+								3867,
+								3866,
+								3865,
+								3869,
+								3868,
+								3883,
+								3884
 							]
 						}
 					],
@@ -85115,20 +85299,20 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3898,
+							"id": 3910,
 							"name": "IEndpointOptions"
 						}
 					]
 				},
 				{
-					"id": 3873,
+					"id": 3885,
 					"name": "IOriginDestinationMatrixResponse",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3882,
+							"id": 3894,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85148,7 +85332,7 @@
 							}
 						},
 						{
-							"id": 3881,
+							"id": 3893,
 							"name": "destinations",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85168,7 +85352,7 @@
 							}
 						},
 						{
-							"id": 3874,
+							"id": 3886,
 							"name": "messages",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85186,14 +85370,14 @@
 									{
 										"type": "reflection",
 										"declaration": {
-											"id": 3875,
+											"id": 3887,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 3877,
+													"id": 3889,
 													"name": "description",
 													"kind": 1024,
 													"kindString": "Property",
@@ -85211,7 +85395,7 @@
 													}
 												},
 												{
-													"id": 3876,
+													"id": 3888,
 													"name": "type",
 													"kind": 1024,
 													"kindString": "Property",
@@ -85234,8 +85418,8 @@
 													"title": "Properties",
 													"kind": 1024,
 													"children": [
-														3877,
-														3876
+														3889,
+														3888
 													]
 												}
 											]
@@ -85245,7 +85429,7 @@
 							}
 						},
 						{
-							"id": 3878,
+							"id": 3890,
 							"name": "odCostMatrix",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85268,7 +85452,7 @@
 							}
 						},
 						{
-							"id": 3879,
+							"id": 3891,
 							"name": "odLines",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85291,7 +85475,7 @@
 							}
 						},
 						{
-							"id": 3880,
+							"id": 3892,
 							"name": "origins",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85311,7 +85495,7 @@
 							}
 						},
 						{
-							"id": 3884,
+							"id": 3896,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85331,7 +85515,7 @@
 							}
 						},
 						{
-							"id": 3883,
+							"id": 3895,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85356,14 +85540,14 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3882,
-								3881,
-								3874,
-								3878,
-								3879,
-								3880,
-								3884,
-								3883
+								3894,
+								3893,
+								3886,
+								3890,
+								3891,
+								3892,
+								3896,
+								3895
 							]
 						}
 					],
@@ -85376,7 +85560,7 @@
 					]
 				},
 				{
-					"id": 3691,
+					"id": 3703,
 					"name": "IPoint",
 					"kind": 256,
 					"kindString": "Interface",
@@ -85387,7 +85571,7 @@
 					},
 					"children": [
 						{
-							"id": 3696,
+							"id": 3708,
 							"name": "hasM",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85411,7 +85595,7 @@
 							}
 						},
 						{
-							"id": 3695,
+							"id": 3707,
 							"name": "hasZ",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85435,7 +85619,7 @@
 							}
 						},
 						{
-							"id": 3697,
+							"id": 3709,
 							"name": "spatialReference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85459,7 +85643,7 @@
 							}
 						},
 						{
-							"id": 3692,
+							"id": 3704,
 							"name": "x",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85477,7 +85661,7 @@
 							}
 						},
 						{
-							"id": 3693,
+							"id": 3705,
 							"name": "y",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85495,7 +85679,7 @@
 							}
 						},
 						{
-							"id": 3694,
+							"id": 3706,
 							"name": "z",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85520,12 +85704,12 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3696,
-								3695,
-								3697,
-								3692,
-								3693,
-								3694
+								3708,
+								3707,
+								3709,
+								3704,
+								3705,
+								3706
 							]
 						}
 					],
@@ -85548,7 +85732,7 @@
 					]
 				},
 				{
-					"id": 3698,
+					"id": 3710,
 					"name": "IPolyline",
 					"kind": 256,
 					"kindString": "Interface",
@@ -85559,7 +85743,7 @@
 					},
 					"children": [
 						{
-							"id": 3701,
+							"id": 3713,
 							"name": "hasM",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85583,7 +85767,7 @@
 							}
 						},
 						{
-							"id": 3700,
+							"id": 3712,
 							"name": "hasZ",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85607,7 +85791,7 @@
 							}
 						},
 						{
-							"id": 3699,
+							"id": 3711,
 							"name": "paths",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85631,7 +85815,7 @@
 							}
 						},
 						{
-							"id": 3702,
+							"id": 3714,
 							"name": "spatialReference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85660,10 +85844,10 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3701,
-								3700,
-								3699,
-								3702
+								3713,
+								3712,
+								3711,
+								3714
 							]
 						}
 					],
@@ -85686,7 +85870,7 @@
 					]
 				},
 				{
-					"id": 3670,
+					"id": 3682,
 					"name": "IRequestOptions",
 					"kind": 256,
 					"kindString": "Interface",
@@ -85696,7 +85880,7 @@
 					},
 					"children": [
 						{
-							"id": 3674,
+							"id": 3686,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85728,7 +85912,7 @@
 							}
 						},
 						{
-							"id": 3677,
+							"id": 3689,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85751,7 +85935,7 @@
 							}
 						},
 						{
-							"id": 3679,
+							"id": 3691,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85771,20 +85955,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3680,
+									"id": 3692,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 3681,
+										"id": 3693,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3682,
+												"id": 3694,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -85803,7 +85987,7 @@
 							}
 						},
 						{
-							"id": 3675,
+							"id": 3687,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85826,7 +86010,7 @@
 							}
 						},
 						{
-							"id": 3672,
+							"id": 3684,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85849,7 +86033,7 @@
 							}
 						},
 						{
-							"id": 3678,
+							"id": 3690,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85872,7 +86056,7 @@
 							}
 						},
 						{
-							"id": 3671,
+							"id": 3683,
 							"name": "params",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85895,7 +86079,7 @@
 							}
 						},
 						{
-							"id": 3676,
+							"id": 3688,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85918,7 +86102,7 @@
 							}
 						},
 						{
-							"id": 3673,
+							"id": 3685,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85941,7 +86125,7 @@
 							}
 						},
 						{
-							"id": 3683,
+							"id": 3695,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85964,7 +86148,7 @@
 							}
 						},
 						{
-							"id": 3684,
+							"id": 3696,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85992,17 +86176,17 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3674,
-								3677,
-								3679,
-								3675,
-								3672,
-								3678,
-								3671,
-								3676,
-								3673,
+								3686,
+								3689,
+								3691,
+								3687,
+								3684,
+								3690,
 								3683,
-								3684
+								3688,
+								3685,
+								3695,
+								3696
 							]
 						}
 					],
@@ -86016,20 +86200,20 @@
 					"extendedBy": [
 						{
 							"type": "reference",
-							"id": 3898,
+							"id": 3910,
 							"name": "IEndpointOptions"
 						}
 					]
 				},
 				{
-					"id": 3808,
+					"id": 3820,
 					"name": "IServiceAreaOptions",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3824,
+							"id": 3836,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86061,12 +86245,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3903,
+								"id": 3915,
 								"name": "IEndpointOptions.authentication"
 							}
 						},
 						{
-							"id": 3811,
+							"id": 3823,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86085,7 +86269,7 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3704,
+										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -86095,12 +86279,12 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3685,
+													"id": 3697,
 													"name": "ILocation"
 												},
 												{
 													"type": "reference",
-													"id": 3691,
+													"id": 3703,
 													"name": "IPoint"
 												},
 												{
@@ -86123,7 +86307,7 @@
 							}
 						},
 						{
-							"id": 3827,
+							"id": 3839,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86146,12 +86330,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3906,
+								"id": 3918,
 								"name": "IEndpointOptions.credentials"
 							}
 						},
 						{
-							"id": 3820,
+							"id": 3832,
 							"name": "endpoint",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86174,12 +86358,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3899,
+								"id": 3911,
 								"name": "IEndpointOptions.endpoint"
 							}
 						},
 						{
-							"id": 3809,
+							"id": 3821,
 							"name": "facilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86199,7 +86383,7 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3704,
+										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -86209,12 +86393,12 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3685,
+													"id": 3697,
 													"name": "ILocation"
 												},
 												{
 													"type": "reference",
-													"id": 3691,
+													"id": 3703,
 													"name": "IPoint"
 												},
 												{
@@ -86237,7 +86421,7 @@
 							}
 						},
 						{
-							"id": 3829,
+							"id": 3841,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86257,20 +86441,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3830,
+									"id": 3842,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 3831,
+										"id": 3843,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3832,
+												"id": 3844,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -86289,12 +86473,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3908,
+								"id": 3920,
 								"name": "IEndpointOptions.headers"
 							}
 						},
 						{
-							"id": 3825,
+							"id": 3837,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86317,12 +86501,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3904,
+								"id": 3916,
 								"name": "IEndpointOptions.hideToken"
 							}
 						},
 						{
-							"id": 3822,
+							"id": 3834,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86345,12 +86529,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3901,
+								"id": 3913,
 								"name": "IEndpointOptions.httpMethod"
 							}
 						},
 						{
-							"id": 3828,
+							"id": 3840,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86373,12 +86557,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3907,
+								"id": 3919,
 								"name": "IEndpointOptions.maxUrlLength"
 							}
 						},
 						{
-							"id": 3814,
+							"id": 3826,
 							"name": "outputLines",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86398,7 +86582,7 @@
 							}
 						},
 						{
-							"id": 3821,
+							"id": 3833,
 							"name": "params",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86421,12 +86605,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3900,
+								"id": 3912,
 								"name": "IEndpointOptions.params"
 							}
 						},
 						{
-							"id": 3813,
+							"id": 3825,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86442,12 +86626,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3812,
+							"id": 3824,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86463,12 +86647,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3826,
+							"id": 3838,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86491,12 +86675,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3905,
+								"id": 3917,
 								"name": "IEndpointOptions.portal"
 							}
 						},
 						{
-							"id": 3819,
+							"id": 3831,
 							"name": "preserveObjectID",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86516,7 +86700,7 @@
 							}
 						},
 						{
-							"id": 3823,
+							"id": 3835,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86539,12 +86723,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3902,
+								"id": 3914,
 								"name": "IEndpointOptions.rawResponse"
 							}
 						},
 						{
-							"id": 3816,
+							"id": 3828,
 							"name": "returnBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86564,7 +86748,7 @@
 							}
 						},
 						{
-							"id": 3815,
+							"id": 3827,
 							"name": "returnFacilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86584,7 +86768,7 @@
 							}
 						},
 						{
-							"id": 3818,
+							"id": 3830,
 							"name": "returnPolygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86604,7 +86788,7 @@
 							}
 						},
 						{
-							"id": 3817,
+							"id": 3829,
 							"name": "returnPolylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86624,7 +86808,7 @@
 							}
 						},
 						{
-							"id": 3833,
+							"id": 3845,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86647,12 +86831,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3912,
+								"id": 3924,
 								"name": "IEndpointOptions.signal"
 							}
 						},
 						{
-							"id": 3834,
+							"id": 3846,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86675,12 +86859,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3913,
+								"id": 3925,
 								"name": "IEndpointOptions.suppressWarnings"
 							}
 						},
 						{
-							"id": 3810,
+							"id": 3822,
 							"name": "travelDirection",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86717,29 +86901,29 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3824,
-								3811,
-								3827,
-								3820,
-								3809,
-								3829,
-								3825,
-								3822,
-								3828,
-								3814,
-								3821,
-								3813,
-								3812,
-								3826,
-								3819,
+								3836,
 								3823,
-								3816,
-								3815,
-								3818,
-								3817,
-								3833,
+								3839,
+								3832,
+								3821,
+								3841,
+								3837,
 								3834,
-								3810
+								3840,
+								3826,
+								3833,
+								3825,
+								3824,
+								3838,
+								3831,
+								3835,
+								3828,
+								3827,
+								3830,
+								3829,
+								3845,
+								3846,
+								3822
 							]
 						}
 					],
@@ -86753,20 +86937,20 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3898,
+							"id": 3910,
 							"name": "IEndpointOptions"
 						}
 					]
 				},
 				{
-					"id": 3835,
+					"id": 3847,
 					"name": "IServiceAreaResponse",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3840,
+							"id": 3852,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86782,12 +86966,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3839,
+							"id": 3851,
 							"name": "facilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86803,12 +86987,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3838,
+							"id": 3850,
 							"name": "incidents",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86824,12 +87008,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3836,
+							"id": 3848,
 							"name": "messages",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86850,7 +87034,7 @@
 							}
 						},
 						{
-							"id": 3841,
+							"id": 3853,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86866,12 +87050,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3842,
+							"id": 3854,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86887,12 +87071,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3704,
+								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3837,
+							"id": 3849,
 							"name": "saPolygons",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86917,13 +87101,13 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3840,
-								3839,
-								3838,
-								3836,
-								3841,
-								3842,
-								3837
+								3852,
+								3851,
+								3850,
+								3848,
+								3853,
+								3854,
+								3849
 							]
 						}
 					],
@@ -86936,14 +87120,14 @@
 					]
 				},
 				{
-					"id": 3728,
+					"id": 3740,
 					"name": "ISolveRouteOptions",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3734,
+							"id": 3746,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86975,12 +87159,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3903,
+								"id": 3915,
 								"name": "IEndpointOptions.authentication"
 							}
 						},
 						{
-							"id": 3737,
+							"id": 3749,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87003,12 +87187,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3906,
+								"id": 3918,
 								"name": "IEndpointOptions.credentials"
 							}
 						},
 						{
-							"id": 3730,
+							"id": 3742,
 							"name": "endpoint",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87031,12 +87215,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3899,
+								"id": 3911,
 								"name": "IEndpointOptions.endpoint"
 							}
 						},
 						{
-							"id": 3739,
+							"id": 3751,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87056,20 +87240,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3740,
+									"id": 3752,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 3741,
+										"id": 3753,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3742,
+												"id": 3754,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -87088,12 +87272,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3908,
+								"id": 3920,
 								"name": "IEndpointOptions.headers"
 							}
 						},
 						{
-							"id": 3735,
+							"id": 3747,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87116,12 +87300,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3904,
+								"id": 3916,
 								"name": "IEndpointOptions.hideToken"
 							}
 						},
 						{
-							"id": 3732,
+							"id": 3744,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87144,12 +87328,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3901,
+								"id": 3913,
 								"name": "IEndpointOptions.httpMethod"
 							}
 						},
 						{
-							"id": 3738,
+							"id": 3750,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87172,12 +87356,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3907,
+								"id": 3919,
 								"name": "IEndpointOptions.maxUrlLength"
 							}
 						},
 						{
-							"id": 3731,
+							"id": 3743,
 							"name": "params",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87200,12 +87384,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3900,
+								"id": 3912,
 								"name": "IEndpointOptions.params"
 							}
 						},
 						{
-							"id": 3736,
+							"id": 3748,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87228,12 +87412,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3905,
+								"id": 3917,
 								"name": "IEndpointOptions.portal"
 							}
 						},
 						{
-							"id": 3733,
+							"id": 3745,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87256,12 +87440,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3902,
+								"id": 3914,
 								"name": "IEndpointOptions.rawResponse"
 							}
 						},
 						{
-							"id": 3743,
+							"id": 3755,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87284,12 +87468,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3912,
+								"id": 3924,
 								"name": "IEndpointOptions.signal"
 							}
 						},
 						{
-							"id": 3729,
+							"id": 3741,
 							"name": "stops",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87309,7 +87493,7 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3704,
+										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -87319,12 +87503,12 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3685,
+													"id": 3697,
 													"name": "ILocation"
 												},
 												{
 													"type": "reference",
-													"id": 3691,
+													"id": 3703,
 													"name": "IPoint"
 												},
 												{
@@ -87364,7 +87548,7 @@
 							}
 						},
 						{
-							"id": 3744,
+							"id": 3756,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87387,7 +87571,7 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3913,
+								"id": 3925,
 								"name": "IEndpointOptions.suppressWarnings"
 							}
 						}
@@ -87397,19 +87581,19 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3734,
-								3737,
-								3730,
-								3739,
-								3735,
-								3732,
-								3738,
-								3731,
-								3736,
-								3733,
+								3746,
+								3749,
+								3742,
+								3751,
+								3747,
+								3744,
+								3750,
 								3743,
-								3729,
-								3744
+								3748,
+								3745,
+								3755,
+								3741,
+								3756
 							]
 						}
 					],
@@ -87423,20 +87607,20 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3898,
+							"id": 3910,
 							"name": "IEndpointOptions"
 						}
 					]
 				},
 				{
-					"id": 3745,
+					"id": 3757,
 					"name": "ISolveRouteResponse",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3747,
+							"id": 3759,
 							"name": "checksum",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87454,7 +87638,7 @@
 							}
 						},
 						{
-							"id": 3749,
+							"id": 3761,
 							"name": "directions",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87473,14 +87657,14 @@
 								"elementType": {
 									"type": "reflection",
 									"declaration": {
-										"id": 3750,
+										"id": 3762,
 										"name": "__type",
 										"kind": 65536,
 										"kindString": "Type literal",
 										"flags": {},
 										"children": [
 											{
-												"id": 3754,
+												"id": 3766,
 												"name": "features",
 												"kind": 1024,
 												"kindString": "Property",
@@ -87496,13 +87680,13 @@
 													"type": "array",
 													"elementType": {
 														"type": "reference",
-														"id": 3718,
+														"id": 3730,
 														"name": "IFeature"
 													}
 												}
 											},
 											{
-												"id": 3751,
+												"id": 3763,
 												"name": "routeId",
 												"kind": 1024,
 												"kindString": "Property",
@@ -87520,7 +87704,7 @@
 												}
 											},
 											{
-												"id": 3752,
+												"id": 3764,
 												"name": "routeName",
 												"kind": 1024,
 												"kindString": "Property",
@@ -87538,7 +87722,7 @@
 												}
 											},
 											{
-												"id": 3753,
+												"id": 3765,
 												"name": "summary",
 												"kind": 1024,
 												"kindString": "Property",
@@ -87561,10 +87745,10 @@
 												"title": "Properties",
 												"kind": 1024,
 												"children": [
-													3754,
-													3751,
-													3752,
-													3753
+													3766,
+													3763,
+													3764,
+													3765
 												]
 											}
 										]
@@ -87573,7 +87757,7 @@
 							}
 						},
 						{
-							"id": 3746,
+							"id": 3758,
 							"name": "messages",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87594,7 +87778,7 @@
 							}
 						},
 						{
-							"id": 3748,
+							"id": 3760,
 							"name": "routes",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87617,10 +87801,10 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3747,
-								3749,
-								3746,
-								3748
+								3759,
+								3761,
+								3758,
+								3760
 							]
 						}
 					],
@@ -87633,7 +87817,7 @@
 					]
 				},
 				{
-					"id": 3703,
+					"id": 3715,
 					"name": "Position2D",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -87664,7 +87848,7 @@
 					}
 				},
 				{
-					"id": 3895,
+					"id": 3907,
 					"name": "ARCGIS_ONLINE_CLOSEST_FACILITY_URL",
 					"kind": 32,
 					"kindString": "Variable",
@@ -87685,7 +87869,7 @@
 					"defaultValue": "\"https://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World\""
 				},
 				{
-					"id": 3897,
+					"id": 3909,
 					"name": "ARCGIS_ONLINE_ORIGIN_DESTINATION_MATRIX_URL",
 					"kind": 32,
 					"kindString": "Variable",
@@ -87706,7 +87890,7 @@
 					"defaultValue": "\"https://route.arcgis.com/arcgis/rest/services/World/OriginDestinationCostMatrix/NAServer/OriginDestinationCostMatrix_World\""
 				},
 				{
-					"id": 3894,
+					"id": 3906,
 					"name": "ARCGIS_ONLINE_ROUTING_URL",
 					"kind": 32,
 					"kindString": "Variable",
@@ -87727,7 +87911,7 @@
 					"defaultValue": "\"https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World\""
 				},
 				{
-					"id": 3896,
+					"id": 3908,
 					"name": "ARCGIS_ONLINE_SERVICE_AREA_URL",
 					"kind": 32,
 					"kindString": "Variable",
@@ -87748,7 +87932,7 @@
 					"defaultValue": "\"https://route.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World\""
 				},
 				{
-					"id": 3755,
+					"id": 3767,
 					"name": "closestFacility",
 					"kind": 64,
 					"kindString": "Function",
@@ -87762,7 +87946,7 @@
 					],
 					"signatures": [
 						{
-							"id": 3756,
+							"id": 3768,
 							"name": "closestFacility",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -87784,7 +87968,7 @@
 							},
 							"parameters": [
 								{
-									"id": 3757,
+									"id": 3769,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -87794,7 +87978,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 3758,
+										"id": 3770,
 										"name": "IClosestFacilityOptions"
 									}
 								}
@@ -87804,7 +87988,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 3791,
+										"id": 3803,
 										"name": "IClosestFacilityResponse"
 									}
 								],
@@ -87814,7 +87998,7 @@
 					]
 				},
 				{
-					"id": 3888,
+					"id": 3900,
 					"name": "decompressGeometry",
 					"kind": 64,
 					"kindString": "Function",
@@ -87828,14 +88012,14 @@
 					],
 					"signatures": [
 						{
-							"id": 3889,
+							"id": 3901,
 							"name": "decompressGeometry",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 3890,
+									"id": 3902,
 									"name": "str",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -87848,14 +88032,14 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3698,
+								"id": 3710,
 								"name": "IPolyline"
 							}
 						}
 					]
 				},
 				{
-					"id": 3891,
+					"id": 3903,
 					"name": "isFeatureSet",
 					"kind": 64,
 					"kindString": "Function",
@@ -87869,7 +88053,7 @@
 					],
 					"signatures": [
 						{
-							"id": 3892,
+							"id": 3904,
 							"name": "isFeatureSet",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -87879,7 +88063,7 @@
 							},
 							"parameters": [
 								{
-									"id": 3893,
+									"id": 3905,
 									"name": "arg",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -87896,7 +88080,7 @@
 								"asserts": false,
 								"targetType": {
 									"type": "reference",
-									"id": 3704,
+									"id": 3716,
 									"name": "IFeatureSet"
 								}
 							}
@@ -87904,7 +88088,7 @@
 					]
 				},
 				{
-					"id": 3885,
+					"id": 3897,
 					"name": "normalizeLocationsList",
 					"kind": 64,
 					"kindString": "Function",
@@ -87918,14 +88102,14 @@
 					],
 					"signatures": [
 						{
-							"id": 3886,
+							"id": 3898,
 							"name": "normalizeLocationsList",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 3887,
+									"id": 3899,
 									"name": "locations",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -87937,12 +88121,12 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3691,
+													"id": 3703,
 													"name": "IPoint"
 												},
 												{
 													"type": "reference",
-													"id": 3685,
+													"id": 3697,
 													"name": "ILocation"
 												},
 												{
@@ -87974,7 +88158,7 @@
 					]
 				},
 				{
-					"id": 3843,
+					"id": 3855,
 					"name": "originDestinationMatrix",
 					"kind": 64,
 					"kindString": "Function",
@@ -87988,7 +88172,7 @@
 					],
 					"signatures": [
 						{
-							"id": 3844,
+							"id": 3856,
 							"name": "originDestinationMatrix",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -88006,7 +88190,7 @@
 							},
 							"parameters": [
 								{
-									"id": 3845,
+									"id": 3857,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -88016,7 +88200,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 3846,
+										"id": 3858,
 										"name": "IOriginDestinationMatrixOptions"
 									}
 								}
@@ -88026,7 +88210,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 3873,
+										"id": 3885,
 										"name": "IOriginDestinationMatrixResponse"
 									}
 								],
@@ -88036,7 +88220,7 @@
 					]
 				},
 				{
-					"id": 3805,
+					"id": 3817,
 					"name": "serviceArea",
 					"kind": 64,
 					"kindString": "Function",
@@ -88050,7 +88234,7 @@
 					],
 					"signatures": [
 						{
-							"id": 3806,
+							"id": 3818,
 							"name": "serviceArea",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -88068,7 +88252,7 @@
 							},
 							"parameters": [
 								{
-									"id": 3807,
+									"id": 3819,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -88078,7 +88262,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 3808,
+										"id": 3820,
 										"name": "IServiceAreaOptions"
 									}
 								}
@@ -88088,7 +88272,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 3835,
+										"id": 3847,
 										"name": "IServiceAreaResponse"
 									}
 								],
@@ -88098,7 +88282,7 @@
 					]
 				},
 				{
-					"id": 3725,
+					"id": 3737,
 					"name": "solveRoute",
 					"kind": 64,
 					"kindString": "Function",
@@ -88112,7 +88296,7 @@
 					],
 					"signatures": [
 						{
-							"id": 3726,
+							"id": 3738,
 							"name": "solveRoute",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -88130,7 +88314,7 @@
 							},
 							"parameters": [
 								{
-									"id": 3727,
+									"id": 3739,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -88140,7 +88324,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 3728,
+										"id": 3740,
 										"name": "ISolveRouteOptions"
 									}
 								}
@@ -88150,7 +88334,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 3745,
+										"id": 3757,
 										"name": "ISolveRouteResponse"
 									}
 								],
@@ -88165,51 +88349,51 @@
 					"title": "Interfaces",
 					"kind": 256,
 					"children": [
-						3758,
-						3791,
-						3898,
-						3718,
-						3704,
-						3685,
-						3846,
-						3873,
-						3691,
-						3698,
-						3670,
-						3808,
-						3835,
-						3728,
-						3745
+						3770,
+						3803,
+						3910,
+						3730,
+						3716,
+						3697,
+						3858,
+						3885,
+						3703,
+						3710,
+						3682,
+						3820,
+						3847,
+						3740,
+						3757
 					]
 				},
 				{
 					"title": "Type aliases",
 					"kind": 4194304,
 					"children": [
-						3703
+						3715
 					]
 				},
 				{
 					"title": "Variables",
 					"kind": 32,
 					"children": [
-						3895,
-						3897,
-						3894,
-						3896
+						3907,
+						3909,
+						3906,
+						3908
 					]
 				},
 				{
 					"title": "Functions",
 					"kind": 64,
 					"children": [
-						3755,
-						3888,
-						3891,
-						3885,
-						3843,
-						3805,
-						3725
+						3767,
+						3900,
+						3903,
+						3897,
+						3855,
+						3817,
+						3737
 					]
 				}
 			],
