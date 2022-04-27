@@ -15,7 +15,7 @@ import {
 import { IGetLayerOptions } from "./helpers.js";
 
 /**
- * Related record query request options. Additional arguments can be passed via the {@linkcode IQueryRelatedOptions.params} property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-related-feature-service-.htm) for more information and a full list of parameters.
+ * Related record query request options. Additional arguments can be passed via the {@linkcode IQueryRelatedOptions.params} property. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/enterprise/query-related-records-feature-service-.htm) for more information and a full list of parameters.
  */
 export interface IQueryRelatedOptions extends IGetLayerOptions {
   relationshipId?: number;
