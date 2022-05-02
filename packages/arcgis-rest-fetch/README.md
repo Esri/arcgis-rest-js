@@ -1,4 +1,4 @@
-# `@esri/arcgis-rest-request`
+# `@esri/arcgis-rest-fetch`
 
 This package exists to expose the `node-fetch` package in a consistent way for both Node JS 12.16+ and various bundlers with consistent TypeScript types based on the browser types.
 
