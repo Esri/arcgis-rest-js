@@ -82285,51 +82285,14 @@
 			"flags": {},
 			"children": [
 				{
-					"id": 3770,
+					"id": 3701,
 					"name": "IClosestFacilityOptions",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3792,
-							"name": "authentication",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 23,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "union",
-								"types": [
-									{
-										"type": "intrinsic",
-										"name": "string"
-									},
-									{
-										"type": "reference",
-										"name": "IAuthenticationManager"
-									}
-								]
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3915,
-								"name": "IEndpointOptions.authentication"
-							}
-						},
-						{
-							"id": 3775,
+							"id": 3706,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82348,7 +82311,6 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -82358,13 +82320,11 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3697,
-													"name": "ILocation"
+													"name": "IPoint"
 												},
 												{
 													"type": "reference",
-													"id": 3703,
-													"name": "IPoint"
+													"name": "ILocation"
 												},
 												{
 													"type": "tuple",
@@ -82386,35 +82346,7 @@
 							}
 						},
 						{
-							"id": 3795,
-							"name": "credentials",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "A string indicating whether credentials (cookies) will be sent with the request. Used internally for authentication workflows."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 41,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "RequestCredentials"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3918,
-								"name": "IEndpointOptions.credentials"
-							}
-						},
-						{
-							"id": 3780,
+							"id": 3711,
 							"name": "directionsLengthUnits",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82483,7 +82415,7 @@
 							}
 						},
 						{
-							"id": 3779,
+							"id": 3710,
 							"name": "directionsOutputType",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82528,7 +82460,7 @@
 							}
 						},
 						{
-							"id": 3788,
+							"id": 3719,
 							"name": "endpoint",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82551,12 +82483,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3911,
+								"id": 3800,
 								"name": "IEndpointOptions.endpoint"
 							}
 						},
 						{
-							"id": 3772,
+							"id": 3703,
 							"name": "facilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82576,7 +82508,6 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -82586,13 +82517,11 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3697,
-													"name": "ILocation"
+													"name": "IPoint"
 												},
 												{
 													"type": "reference",
-													"id": 3703,
-													"name": "IPoint"
+													"name": "ILocation"
 												},
 												{
 													"type": "tuple",
@@ -82614,120 +82543,7 @@
 							}
 						},
 						{
-							"id": 3797,
-							"name": "headers",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Additional [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers) to pass into the request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 49,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reflection",
-								"declaration": {
-									"id": 3798,
-									"name": "__type",
-									"kind": 65536,
-									"kindString": "Type literal",
-									"flags": {},
-									"indexSignature": {
-										"id": 3799,
-										"name": "__index",
-										"kind": 8192,
-										"kindString": "Index signature",
-										"flags": {},
-										"parameters": [
-											{
-												"id": 3800,
-												"name": "key",
-												"kind": 32768,
-												"flags": {},
-												"type": {
-													"type": "intrinsic",
-													"name": "string"
-												}
-											}
-										],
-										"type": {
-											"type": "intrinsic",
-											"name": "any"
-										}
-									}
-								}
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3920,
-								"name": "IEndpointOptions.headers"
-							}
-						},
-						{
-							"id": 3793,
-							"name": "hideToken",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Prevents the token from being passed in a URL Query param that is saved in browser history.\nInstead, the token will be passed in POST request body or through X-Esri-Authorization header.\nNOTE: This will force POST requests in browsers since auth header is not yet supported by preflight OPTIONS check with CORS."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 29,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3916,
-								"name": "IEndpointOptions.hideToken"
-							}
-						},
-						{
-							"id": 3790,
-							"name": "httpMethod",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "The HTTP method to send the request with."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 15,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "HTTPMethods"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3913,
-								"name": "IEndpointOptions.httpMethod"
-							}
-						},
-						{
-							"id": 3771,
+							"id": 3702,
 							"name": "incidents",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82747,7 +82563,6 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -82757,13 +82572,11 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3697,
-													"name": "ILocation"
+													"name": "IPoint"
 												},
 												{
 													"type": "reference",
-													"id": 3703,
-													"name": "IPoint"
+													"name": "ILocation"
 												},
 												{
 													"type": "tuple",
@@ -82785,35 +82598,7 @@
 							}
 						},
 						{
-							"id": 3796,
-							"name": "maxUrlLength",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "If the length of a GET request's URL exceeds `maxUrlLength` the request will use POST instead."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 45,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3919,
-								"name": "IEndpointOptions.maxUrlLength"
-							}
-						},
-						{
-							"id": 3781,
+							"id": 3712,
 							"name": "outputLines",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82833,35 +82618,7 @@
 							}
 						},
 						{
-							"id": 3789,
-							"name": "params",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Additional parameters to pass in the request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 11,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "IParams"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3912,
-								"name": "IEndpointOptions.params"
-							}
-						},
-						{
-							"id": 3777,
+							"id": 3708,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82877,12 +82634,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3776,
+							"id": 3707,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82898,40 +82654,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3794,
-							"name": "portal",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Base url for the portal you want to make the request to. Defaults to authentication.portal if authentication\nexists, otherwise to 'https://www.arcgis.com/sharing/rest'."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 34,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3917,
-								"name": "IEndpointOptions.portal"
-							}
-						},
-						{
-							"id": 3787,
+							"id": 3718,
 							"name": "preserveObjectID",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82951,35 +82678,7 @@
 							}
 						},
 						{
-							"id": 3791,
-							"name": "rawResponse",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Return the raw [response](https://developer.mozilla.org/en-US/docs/Web/API/Response)"
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 19,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3914,
-								"name": "IEndpointOptions.rawResponse"
-							}
-						},
-						{
-							"id": 3784,
+							"id": 3715,
 							"name": "returnBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -82999,7 +82698,7 @@
 							}
 						},
 						{
-							"id": 3773,
+							"id": 3704,
 							"name": "returnCFRoutes",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83020,7 +82719,7 @@
 							}
 						},
 						{
-							"id": 3778,
+							"id": 3709,
 							"name": "returnDirections",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83040,7 +82739,7 @@
 							}
 						},
 						{
-							"id": 3782,
+							"id": 3713,
 							"name": "returnFacilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83060,7 +82759,7 @@
 							}
 						},
 						{
-							"id": 3783,
+							"id": 3714,
 							"name": "returnIncidents",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83080,7 +82779,7 @@
 							}
 						},
 						{
-							"id": 3786,
+							"id": 3717,
 							"name": "returnPolygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83100,7 +82799,7 @@
 							}
 						},
 						{
-							"id": 3785,
+							"id": 3716,
 							"name": "returnPolylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83120,63 +82819,7 @@
 							}
 						},
 						{
-							"id": 3801,
-							"name": "signal",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "An [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) object instance; allows you to abort a request and via an [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 55,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "AbortSignal"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3924,
-								"name": "IEndpointOptions.signal"
-							}
-						},
-						{
-							"id": 3802,
-							"name": "suppressWarnings",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Suppress any ArcGIS REST JS related warnings for this request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 59,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3925,
-								"name": "IEndpointOptions.suppressWarnings"
-							}
-						},
-						{
-							"id": 3774,
+							"id": 3705,
 							"name": "travelDirection",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83210,35 +82853,24 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3792,
-								3775,
-								3795,
-								3780,
-								3779,
-								3788,
-								3772,
-								3797,
-								3793,
-								3790,
-								3771,
-								3796,
-								3781,
-								3789,
-								3777,
-								3776,
-								3794,
-								3787,
-								3791,
-								3784,
-								3773,
-								3778,
-								3782,
-								3783,
-								3786,
-								3785,
-								3801,
-								3802,
-								3774
+								3706,
+								3711,
+								3710,
+								3719,
+								3703,
+								3702,
+								3712,
+								3708,
+								3707,
+								3718,
+								3715,
+								3704,
+								3709,
+								3713,
+								3714,
+								3717,
+								3716,
+								3705
 							]
 						}
 					],
@@ -83252,20 +82884,20 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3910,
+							"id": 3799,
 							"name": "IEndpointOptions"
 						}
 					]
 				},
 				{
-					"id": 3803,
+					"id": 3720,
 					"name": "IClosestFacilityResponse",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3814,
+							"id": 3731,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83281,12 +82913,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3806,
+							"id": 3723,
 							"name": "directions",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83305,14 +82936,14 @@
 								"elementType": {
 									"type": "reflection",
 									"declaration": {
-										"id": 3807,
+										"id": 3724,
 										"name": "__type",
 										"kind": 65536,
 										"kindString": "Type literal",
 										"flags": {},
 										"children": [
 											{
-												"id": 3811,
+												"id": 3728,
 												"name": "features",
 												"kind": 1024,
 												"kindString": "Property",
@@ -83328,13 +82959,12 @@
 													"type": "array",
 													"elementType": {
 														"type": "reference",
-														"id": 3730,
 														"name": "IFeature"
 													}
 												}
 											},
 											{
-												"id": 3808,
+												"id": 3725,
 												"name": "routeId",
 												"kind": 1024,
 												"kindString": "Property",
@@ -83352,7 +82982,7 @@
 												}
 											},
 											{
-												"id": 3809,
+												"id": 3726,
 												"name": "routeName",
 												"kind": 1024,
 												"kindString": "Property",
@@ -83370,7 +83000,7 @@
 												}
 											},
 											{
-												"id": 3810,
+												"id": 3727,
 												"name": "summary",
 												"kind": 1024,
 												"kindString": "Property",
@@ -83393,10 +83023,10 @@
 												"title": "Properties",
 												"kind": 1024,
 												"children": [
-													3811,
-													3808,
-													3809,
-													3810
+													3728,
+													3725,
+													3726,
+													3727
 												]
 											}
 										]
@@ -83405,7 +83035,7 @@
 							}
 						},
 						{
-							"id": 3813,
+							"id": 3730,
 							"name": "facilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83421,12 +83051,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3812,
+							"id": 3729,
 							"name": "incidents",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83442,12 +83071,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3804,
+							"id": 3721,
 							"name": "messages",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83468,7 +83096,7 @@
 							}
 						},
 						{
-							"id": 3815,
+							"id": 3732,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83484,12 +83112,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3816,
+							"id": 3733,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83505,12 +83132,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3805,
+							"id": 3722,
 							"name": "routes",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83535,14 +83161,14 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3814,
-								3806,
-								3813,
-								3812,
-								3804,
-								3815,
-								3816,
-								3805
+								3731,
+								3723,
+								3730,
+								3729,
+								3721,
+								3732,
+								3733,
+								3722
 							]
 						}
 					],
@@ -83555,79 +83181,14 @@
 					]
 				},
 				{
-					"id": 3910,
+					"id": 3799,
 					"name": "IEndpointOptions",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3915,
-							"name": "authentication",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 23,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "union",
-								"types": [
-									{
-										"type": "intrinsic",
-										"name": "string"
-									},
-									{
-										"type": "reference",
-										"name": "IAuthenticationManager"
-									}
-								]
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3686,
-								"name": "IRequestOptions.authentication"
-							}
-						},
-						{
-							"id": 3918,
-							"name": "credentials",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "A string indicating whether credentials (cookies) will be sent with the request. Used internally for authentication workflows."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 41,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "RequestCredentials"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3689,
-								"name": "IRequestOptions.credentials"
-							}
-						},
-						{
-							"id": 3911,
+							"id": 3800,
 							"name": "endpoint",
 							"kind": 1024,
 							"kindString": "Property",
@@ -83648,287 +83209,6 @@
 								"type": "intrinsic",
 								"name": "string"
 							}
-						},
-						{
-							"id": 3920,
-							"name": "headers",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Additional [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers) to pass into the request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 49,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reflection",
-								"declaration": {
-									"id": 3921,
-									"name": "__type",
-									"kind": 65536,
-									"kindString": "Type literal",
-									"flags": {},
-									"indexSignature": {
-										"id": 3922,
-										"name": "__index",
-										"kind": 8192,
-										"kindString": "Index signature",
-										"flags": {},
-										"parameters": [
-											{
-												"id": 3923,
-												"name": "key",
-												"kind": 32768,
-												"flags": {},
-												"type": {
-													"type": "intrinsic",
-													"name": "string"
-												}
-											}
-										],
-										"type": {
-											"type": "intrinsic",
-											"name": "any"
-										}
-									}
-								}
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3691,
-								"name": "IRequestOptions.headers"
-							}
-						},
-						{
-							"id": 3916,
-							"name": "hideToken",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Prevents the token from being passed in a URL Query param that is saved in browser history.\nInstead, the token will be passed in POST request body or through X-Esri-Authorization header.\nNOTE: This will force POST requests in browsers since auth header is not yet supported by preflight OPTIONS check with CORS."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 29,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3687,
-								"name": "IRequestOptions.hideToken"
-							}
-						},
-						{
-							"id": 3913,
-							"name": "httpMethod",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "The HTTP method to send the request with."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 15,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "HTTPMethods"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3684,
-								"name": "IRequestOptions.httpMethod"
-							}
-						},
-						{
-							"id": 3919,
-							"name": "maxUrlLength",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "If the length of a GET request's URL exceeds `maxUrlLength` the request will use POST instead."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 45,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3690,
-								"name": "IRequestOptions.maxUrlLength"
-							}
-						},
-						{
-							"id": 3912,
-							"name": "params",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Additional parameters to pass in the request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 11,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "IParams"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3683,
-								"name": "IRequestOptions.params"
-							}
-						},
-						{
-							"id": 3917,
-							"name": "portal",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Base url for the portal you want to make the request to. Defaults to authentication.portal if authentication\nexists, otherwise to 'https://www.arcgis.com/sharing/rest'."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 34,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3688,
-								"name": "IRequestOptions.portal"
-							}
-						},
-						{
-							"id": 3914,
-							"name": "rawResponse",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Return the raw [response](https://developer.mozilla.org/en-US/docs/Web/API/Response)"
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 19,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3685,
-								"name": "IRequestOptions.rawResponse"
-							}
-						},
-						{
-							"id": 3924,
-							"name": "signal",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "An [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) object instance; allows you to abort a request and via an [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 55,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "AbortSignal"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3695,
-								"name": "IRequestOptions.signal"
-							}
-						},
-						{
-							"id": 3925,
-							"name": "suppressWarnings",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Suppress any ArcGIS REST JS related warnings for this request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 59,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3696,
-								"name": "IRequestOptions.suppressWarnings"
-							}
 						}
 					],
 					"groups": [
@@ -83936,18 +83216,7 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3915,
-								3918,
-								3911,
-								3920,
-								3916,
-								3913,
-								3919,
-								3912,
-								3917,
-								3914,
-								3924,
-								3925
+								3800
 							]
 						}
 					],
@@ -83961,616 +83230,41 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3682,
 							"name": "IRequestOptions"
 						}
 					],
 					"extendedBy": [
 						{
 							"type": "reference",
-							"id": 3740,
+							"id": 3685,
 							"name": "ISolveRouteOptions"
 						},
 						{
 							"type": "reference",
-							"id": 3770,
+							"id": 3701,
 							"name": "IClosestFacilityOptions"
 						},
 						{
 							"type": "reference",
-							"id": 3820,
+							"id": 3737,
 							"name": "IServiceAreaOptions"
 						},
 						{
 							"type": "reference",
-							"id": 3858,
+							"id": 3761,
 							"name": "IOriginDestinationMatrixOptions"
 						}
 					]
 				},
 				{
-					"id": 3730,
-					"name": "IFeature",
-					"kind": 256,
-					"kindString": "Interface",
-					"flags": {},
-					"comment": {
-						"shortText": "A spatial entity and its corresponding properties",
-						"text": "`IFeature` can also be imported from the following packages:\n\n```js\nimport { IFeature } from \"@esri/arcgis-rest-feature-service\";\nimport { IFeature } from \"@esri/arcgis-rest-routing\";\n```\n"
-					},
-					"children": [
-						{
-							"id": 3732,
-							"name": "attributes",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/feature.d.ts",
-									"line": 35,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reflection",
-								"declaration": {
-									"id": 3733,
-									"name": "__type",
-									"kind": 65536,
-									"kindString": "Type literal",
-									"flags": {},
-									"indexSignature": {
-										"id": 3734,
-										"name": "__index",
-										"kind": 8192,
-										"kindString": "Index signature",
-										"flags": {},
-										"parameters": [
-											{
-												"id": 3735,
-												"name": "key",
-												"kind": 32768,
-												"flags": {},
-												"type": {
-													"type": "intrinsic",
-													"name": "string"
-												}
-											}
-										],
-										"type": {
-											"type": "intrinsic",
-											"name": "any"
-										}
-									}
-								}
-							}
-						},
-						{
-							"id": 3731,
-							"name": "geometry",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/feature.d.ts",
-									"line": 34,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "IGeometry"
-							}
-						},
-						{
-							"id": 3736,
-							"name": "symbol",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/feature.d.ts",
-									"line": 38,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "ISymbol"
-							}
-						}
-					],
-					"groups": [
-						{
-							"title": "Properties",
-							"kind": 1024,
-							"children": [
-								3732,
-								3731,
-								3736
-							]
-						}
-					],
-					"sources": [
-						{
-							"fileName": "arcgis-rest-request/dist/esm/types/feature.d.ts",
-							"line": 33,
-							"character": 17
-						}
-					]
-				},
-				{
-					"id": 3716,
-					"name": "IFeatureSet",
-					"kind": 256,
-					"kindString": "Interface",
-					"flags": {},
-					"comment": {
-						"shortText": "`IFeatureSet` can also be imported from the following packages:",
-						"text": "```js\nimport { IFeatureSet } from \"@esri/arcgis-rest-feature-service\";\n```\n"
-					},
-					"children": [
-						{
-							"id": 3719,
-							"name": "displayFieldName",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/feature.d.ts",
-									"line": 14,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							}
-						},
-						{
-							"id": 3723,
-							"name": "features",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/feature.d.ts",
-									"line": 18,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "array",
-								"elementType": {
-									"type": "reference",
-									"id": 3730,
-									"name": "IFeature"
-								}
-							}
-						},
-						{
-							"id": 3724,
-							"name": "fieldAliases",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/feature.d.ts",
-									"line": 19,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reflection",
-								"declaration": {
-									"id": 3725,
-									"name": "__type",
-									"kind": 65536,
-									"kindString": "Type literal",
-									"flags": {},
-									"indexSignature": {
-										"id": 3726,
-										"name": "__index",
-										"kind": 8192,
-										"kindString": "Index signature",
-										"flags": {},
-										"parameters": [
-											{
-												"id": 3727,
-												"name": "key",
-												"kind": 32768,
-												"flags": {},
-												"type": {
-													"type": "intrinsic",
-													"name": "string"
-												}
-											}
-										],
-										"type": {
-											"type": "intrinsic",
-											"name": "string"
-										}
-									}
-								}
-							}
-						},
-						{
-							"id": 3722,
-							"name": "fields",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/feature.d.ts",
-									"line": 17,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "array",
-								"elementType": {
-									"type": "reference",
-									"name": "IField"
-								}
-							}
-						},
-						{
-							"id": 3720,
-							"name": "geometryType",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/feature.d.ts",
-									"line": 15,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "GeometryType"
-							}
-						},
-						{
-							"id": 3718,
-							"name": "globalIdFieldName",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/feature.d.ts",
-									"line": 13,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							}
-						},
-						{
-							"id": 3729,
-							"name": "hasM",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 10,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "IHasZM.hasM"
-							}
-						},
-						{
-							"id": 3728,
-							"name": "hasZ",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 9,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "IHasZM.hasZ"
-							}
-						},
-						{
-							"id": 3717,
-							"name": "objectIdFieldName",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/feature.d.ts",
-									"line": 12,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							}
-						},
-						{
-							"id": 3721,
-							"name": "spatialReference",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/feature.d.ts",
-									"line": 16,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "ISpatialReference"
-							}
-						}
-					],
-					"groups": [
-						{
-							"title": "Properties",
-							"kind": 1024,
-							"children": [
-								3719,
-								3723,
-								3724,
-								3722,
-								3720,
-								3718,
-								3729,
-								3728,
-								3717,
-								3721
-							]
-						}
-					],
-					"sources": [
-						{
-							"fileName": "arcgis-rest-request/dist/esm/types/feature.d.ts",
-							"line": 11,
-							"character": 17
-						}
-					],
-					"extendedTypes": [
-						{
-							"type": "reference",
-							"name": "IHasZM"
-						}
-					]
-				},
-				{
-					"id": 3697,
-					"name": "ILocation",
-					"kind": 256,
-					"kindString": "Interface",
-					"flags": {},
-					"comment": {
-						"shortText": "`ILocation` can also be imported from the following packages:",
-						"text": "```js\nimport { ILocation } from \"@esri/arcgis-rest-routing\";\nimport { ILocation } from \"@esri/arcgis-rest-geocoding\";\n```\n"
-					},
-					"children": [
-						{
-							"id": 3700,
-							"name": "lat",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 69,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							}
-						},
-						{
-							"id": 3698,
-							"name": "latitude",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 67,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							}
-						},
-						{
-							"id": 3701,
-							"name": "long",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 70,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							}
-						},
-						{
-							"id": 3699,
-							"name": "longitude",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 68,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							}
-						},
-						{
-							"id": 3702,
-							"name": "z",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 71,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							}
-						}
-					],
-					"groups": [
-						{
-							"title": "Properties",
-							"kind": 1024,
-							"children": [
-								3700,
-								3698,
-								3701,
-								3699,
-								3702
-							]
-						}
-					],
-					"sources": [
-						{
-							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 66,
-							"character": 17
-						}
-					]
-				},
-				{
-					"id": 3858,
+					"id": 3761,
 					"name": "IOriginDestinationMatrixOptions",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3874,
-							"name": "authentication",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 23,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "union",
-								"types": [
-									{
-										"type": "intrinsic",
-										"name": "string"
-									},
-									{
-										"type": "reference",
-										"name": "IAuthenticationManager"
-									}
-								]
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3915,
-								"name": "IEndpointOptions.authentication"
-							}
-						},
-						{
-							"id": 3862,
+							"id": 3765,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84589,7 +83283,6 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -84599,13 +83292,11 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3697,
-													"name": "ILocation"
+													"name": "IPoint"
 												},
 												{
 													"type": "reference",
-													"id": 3703,
-													"name": "IPoint"
+													"name": "ILocation"
 												},
 												{
 													"type": "tuple",
@@ -84627,35 +83318,7 @@
 							}
 						},
 						{
-							"id": 3877,
-							"name": "credentials",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "A string indicating whether credentials (cookies) will be sent with the request. Used internally for authentication workflows."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 41,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "RequestCredentials"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3918,
-								"name": "IEndpointOptions.credentials"
-							}
-						},
-						{
-							"id": 3860,
+							"id": 3763,
 							"name": "destinations",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84675,7 +83338,6 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -84685,13 +83347,11 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3697,
-													"name": "ILocation"
+													"name": "IPoint"
 												},
 												{
 													"type": "reference",
-													"id": 3703,
-													"name": "IPoint"
+													"name": "ILocation"
 												},
 												{
 													"type": "tuple",
@@ -84713,7 +83373,7 @@
 							}
 						},
 						{
-							"id": 3870,
+							"id": 3773,
 							"name": "endpoint",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84736,153 +83396,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3911,
+								"id": 3800,
 								"name": "IEndpointOptions.endpoint"
 							}
 						},
 						{
-							"id": 3879,
-							"name": "headers",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Additional [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers) to pass into the request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 49,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reflection",
-								"declaration": {
-									"id": 3880,
-									"name": "__type",
-									"kind": 65536,
-									"kindString": "Type literal",
-									"flags": {},
-									"indexSignature": {
-										"id": 3881,
-										"name": "__index",
-										"kind": 8192,
-										"kindString": "Index signature",
-										"flags": {},
-										"parameters": [
-											{
-												"id": 3882,
-												"name": "key",
-												"kind": 32768,
-												"flags": {},
-												"type": {
-													"type": "intrinsic",
-													"name": "string"
-												}
-											}
-										],
-										"type": {
-											"type": "intrinsic",
-											"name": "any"
-										}
-									}
-								}
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3920,
-								"name": "IEndpointOptions.headers"
-							}
-						},
-						{
-							"id": 3875,
-							"name": "hideToken",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Prevents the token from being passed in a URL Query param that is saved in browser history.\nInstead, the token will be passed in POST request body or through X-Esri-Authorization header.\nNOTE: This will force POST requests in browsers since auth header is not yet supported by preflight OPTIONS check with CORS."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 29,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3916,
-								"name": "IEndpointOptions.hideToken"
-							}
-						},
-						{
-							"id": 3872,
-							"name": "httpMethod",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "The HTTP method to send the request with."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 15,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "HTTPMethods"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3913,
-								"name": "IEndpointOptions.httpMethod"
-							}
-						},
-						{
-							"id": 3878,
-							"name": "maxUrlLength",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "If the length of a GET request's URL exceeds `maxUrlLength` the request will use POST instead."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 45,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3919,
-								"name": "IEndpointOptions.maxUrlLength"
-							}
-						},
-						{
-							"id": 3859,
+							"id": 3762,
 							"name": "origins",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84902,7 +83421,6 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -84912,13 +83430,11 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3697,
-													"name": "ILocation"
+													"name": "IPoint"
 												},
 												{
 													"type": "reference",
-													"id": 3703,
-													"name": "IPoint"
+													"name": "ILocation"
 												},
 												{
 													"type": "tuple",
@@ -84940,7 +83456,7 @@
 							}
 						},
 						{
-							"id": 3861,
+							"id": 3764,
 							"name": "outputType",
 							"kind": 1024,
 							"kindString": "Property",
@@ -84976,35 +83492,7 @@
 							}
 						},
 						{
-							"id": 3871,
-							"name": "params",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Additional parameters to pass in the request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 11,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "IParams"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3912,
-								"name": "IEndpointOptions.params"
-							}
-						},
-						{
-							"id": 3864,
+							"id": 3767,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85020,12 +83508,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3863,
+							"id": 3766,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85041,68 +83528,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3876,
-							"name": "portal",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Base url for the portal you want to make the request to. Defaults to authentication.portal if authentication\nexists, otherwise to 'https://www.arcgis.com/sharing/rest'."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 34,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3917,
-								"name": "IEndpointOptions.portal"
-							}
-						},
-						{
-							"id": 3873,
-							"name": "rawResponse",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Return the raw [response](https://developer.mozilla.org/en-US/docs/Web/API/Response)"
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 19,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3914,
-								"name": "IEndpointOptions.rawResponse"
-							}
-						},
-						{
-							"id": 3867,
+							"id": 3770,
 							"name": "returnBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85122,7 +83552,7 @@
 							}
 						},
 						{
-							"id": 3866,
+							"id": 3769,
 							"name": "returnDestinations",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85142,7 +83572,7 @@
 							}
 						},
 						{
-							"id": 3865,
+							"id": 3768,
 							"name": "returnOrigins",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85162,7 +83592,7 @@
 							}
 						},
 						{
-							"id": 3869,
+							"id": 3772,
 							"name": "returnPolygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85182,7 +83612,7 @@
 							}
 						},
 						{
-							"id": 3868,
+							"id": 3771,
 							"name": "returnPolylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85200,62 +83630,6 @@
 								"type": "intrinsic",
 								"name": "boolean"
 							}
-						},
-						{
-							"id": 3883,
-							"name": "signal",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "An [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) object instance; allows you to abort a request and via an [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 55,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "AbortSignal"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3924,
-								"name": "IEndpointOptions.signal"
-							}
-						},
-						{
-							"id": 3884,
-							"name": "suppressWarnings",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Suppress any ArcGIS REST JS related warnings for this request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 59,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3925,
-								"name": "IEndpointOptions.suppressWarnings"
-							}
 						}
 					],
 					"groups": [
@@ -85263,29 +83637,18 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3874,
-								3862,
-								3877,
-								3860,
-								3870,
-								3879,
-								3875,
-								3872,
-								3878,
-								3859,
-								3861,
-								3871,
-								3864,
-								3863,
-								3876,
-								3873,
-								3867,
-								3866,
-								3865,
-								3869,
-								3868,
-								3883,
-								3884
+								3765,
+								3763,
+								3773,
+								3762,
+								3764,
+								3767,
+								3766,
+								3770,
+								3769,
+								3768,
+								3772,
+								3771
 							]
 						}
 					],
@@ -85299,20 +83662,20 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3910,
+							"id": 3799,
 							"name": "IEndpointOptions"
 						}
 					]
 				},
 				{
-					"id": 3885,
+					"id": 3774,
 					"name": "IOriginDestinationMatrixResponse",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3894,
+							"id": 3783,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85332,7 +83695,7 @@
 							}
 						},
 						{
-							"id": 3893,
+							"id": 3782,
 							"name": "destinations",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85352,7 +83715,7 @@
 							}
 						},
 						{
-							"id": 3886,
+							"id": 3775,
 							"name": "messages",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85370,14 +83733,14 @@
 									{
 										"type": "reflection",
 										"declaration": {
-											"id": 3887,
+											"id": 3776,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 3889,
+													"id": 3778,
 													"name": "description",
 													"kind": 1024,
 													"kindString": "Property",
@@ -85395,7 +83758,7 @@
 													}
 												},
 												{
-													"id": 3888,
+													"id": 3777,
 													"name": "type",
 													"kind": 1024,
 													"kindString": "Property",
@@ -85418,8 +83781,8 @@
 													"title": "Properties",
 													"kind": 1024,
 													"children": [
-														3889,
-														3888
+														3778,
+														3777
 													]
 												}
 											]
@@ -85429,7 +83792,7 @@
 							}
 						},
 						{
-							"id": 3890,
+							"id": 3779,
 							"name": "odCostMatrix",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85452,7 +83815,7 @@
 							}
 						},
 						{
-							"id": 3891,
+							"id": 3780,
 							"name": "odLines",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85475,7 +83838,7 @@
 							}
 						},
 						{
-							"id": 3892,
+							"id": 3781,
 							"name": "origins",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85495,7 +83858,7 @@
 							}
 						},
 						{
-							"id": 3896,
+							"id": 3785,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85515,7 +83878,7 @@
 							}
 						},
 						{
-							"id": 3895,
+							"id": 3784,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85540,14 +83903,14 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3894,
-								3893,
-								3886,
-								3890,
-								3891,
-								3892,
-								3896,
-								3895
+								3783,
+								3782,
+								3775,
+								3779,
+								3780,
+								3781,
+								3785,
+								3784
 							]
 						}
 					],
@@ -85560,697 +83923,14 @@
 					]
 				},
 				{
-					"id": 3703,
-					"name": "IPoint",
-					"kind": 256,
-					"kindString": "Interface",
-					"flags": {},
-					"comment": {
-						"shortText": "A simple point geometry, with spatial reference defined.",
-						"text": "`IPoint` can also be imported from the following packages:\n\n```js\nimport { IPoint } from \"@esri/arcgis-rest-routing\";\nimport { IPoint } from \"@esri/arcgis-rest-geocoding\";\n```\n"
-					},
-					"children": [
-						{
-							"id": 3708,
-							"name": "hasM",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 10,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "IHasZM.hasM"
-							}
-						},
-						{
-							"id": 3707,
-							"name": "hasZ",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 9,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "IHasZM.hasZ"
-							}
-						},
-						{
-							"id": 3709,
-							"name": "spatialReference",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 41,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "ISpatialReference"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "IGeometry.spatialReference"
-							}
-						},
-						{
-							"id": 3704,
-							"name": "x",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 54,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							}
-						},
-						{
-							"id": 3705,
-							"name": "y",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 55,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							}
-						},
-						{
-							"id": 3706,
-							"name": "z",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 56,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							}
-						}
-					],
-					"groups": [
-						{
-							"title": "Properties",
-							"kind": 1024,
-							"children": [
-								3708,
-								3707,
-								3709,
-								3704,
-								3705,
-								3706
-							]
-						}
-					],
-					"sources": [
-						{
-							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 53,
-							"character": 17
-						}
-					],
-					"extendedTypes": [
-						{
-							"type": "reference",
-							"name": "IHasZM"
-						},
-						{
-							"type": "reference",
-							"name": "IGeometry"
-						}
-					]
-				},
-				{
-					"id": 3710,
-					"name": "IPolyline",
-					"kind": 256,
-					"kindString": "Interface",
-					"flags": {},
-					"comment": {
-						"shortText": "A polyline geometry.",
-						"text": "`IPolyLine` can also be imported from the following packages:\n\n```\nimport { IPolyLine } from \"@esri/arcgis-rest-routing\";\n```\n"
-					},
-					"children": [
-						{
-							"id": 3713,
-							"name": "hasM",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 10,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "IHasZM.hasM"
-							}
-						},
-						{
-							"id": 3712,
-							"name": "hasZ",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 9,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "IHasZM.hasZ"
-							}
-						},
-						{
-							"id": 3711,
-							"name": "paths",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 83,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "array",
-								"elementType": {
-									"type": "array",
-									"elementType": {
-										"type": "reference",
-										"name": "Position"
-									}
-								}
-							}
-						},
-						{
-							"id": 3714,
-							"name": "spatialReference",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 41,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "ISpatialReference"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "IGeometry.spatialReference"
-							}
-						}
-					],
-					"groups": [
-						{
-							"title": "Properties",
-							"kind": 1024,
-							"children": [
-								3713,
-								3712,
-								3711,
-								3714
-							]
-						}
-					],
-					"sources": [
-						{
-							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 82,
-							"character": 17
-						}
-					],
-					"extendedTypes": [
-						{
-							"type": "reference",
-							"name": "IHasZM"
-						},
-						{
-							"type": "reference",
-							"name": "IGeometry"
-						}
-					]
-				},
-				{
-					"id": 3682,
-					"name": "IRequestOptions",
-					"kind": 256,
-					"kindString": "Interface",
-					"flags": {},
-					"comment": {
-						"shortText": "Options for the `request()` method."
-					},
-					"children": [
-						{
-							"id": 3686,
-							"name": "authentication",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 23,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "union",
-								"types": [
-									{
-										"type": "intrinsic",
-										"name": "string"
-									},
-									{
-										"type": "reference",
-										"name": "IAuthenticationManager"
-									}
-								]
-							}
-						},
-						{
-							"id": 3689,
-							"name": "credentials",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "A string indicating whether credentials (cookies) will be sent with the request. Used internally for authentication workflows."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 41,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "RequestCredentials"
-							}
-						},
-						{
-							"id": 3691,
-							"name": "headers",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Additional [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers) to pass into the request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 49,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reflection",
-								"declaration": {
-									"id": 3692,
-									"name": "__type",
-									"kind": 65536,
-									"kindString": "Type literal",
-									"flags": {},
-									"indexSignature": {
-										"id": 3693,
-										"name": "__index",
-										"kind": 8192,
-										"kindString": "Index signature",
-										"flags": {},
-										"parameters": [
-											{
-												"id": 3694,
-												"name": "key",
-												"kind": 32768,
-												"flags": {},
-												"type": {
-													"type": "intrinsic",
-													"name": "string"
-												}
-											}
-										],
-										"type": {
-											"type": "intrinsic",
-											"name": "any"
-										}
-									}
-								}
-							}
-						},
-						{
-							"id": 3687,
-							"name": "hideToken",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Prevents the token from being passed in a URL Query param that is saved in browser history.\nInstead, the token will be passed in POST request body or through X-Esri-Authorization header.\nNOTE: This will force POST requests in browsers since auth header is not yet supported by preflight OPTIONS check with CORS."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 29,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							}
-						},
-						{
-							"id": 3684,
-							"name": "httpMethod",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "The HTTP method to send the request with."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 15,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "HTTPMethods"
-							}
-						},
-						{
-							"id": 3690,
-							"name": "maxUrlLength",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "If the length of a GET request's URL exceeds `maxUrlLength` the request will use POST instead."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 45,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							}
-						},
-						{
-							"id": 3683,
-							"name": "params",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Additional parameters to pass in the request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 11,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "IParams"
-							}
-						},
-						{
-							"id": 3688,
-							"name": "portal",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Base url for the portal you want to make the request to. Defaults to authentication.portal if authentication\nexists, otherwise to 'https://www.arcgis.com/sharing/rest'."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 34,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							}
-						},
-						{
-							"id": 3685,
-							"name": "rawResponse",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Return the raw [response](https://developer.mozilla.org/en-US/docs/Web/API/Response)"
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 19,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							}
-						},
-						{
-							"id": 3695,
-							"name": "signal",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "An [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) object instance; allows you to abort a request and via an [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 55,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "AbortSignal"
-							}
-						},
-						{
-							"id": 3696,
-							"name": "suppressWarnings",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Suppress any ArcGIS REST JS related warnings for this request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 59,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							}
-						}
-					],
-					"groups": [
-						{
-							"title": "Properties",
-							"kind": 1024,
-							"children": [
-								3686,
-								3689,
-								3691,
-								3687,
-								3684,
-								3690,
-								3683,
-								3688,
-								3685,
-								3695,
-								3696
-							]
-						}
-					],
-					"sources": [
-						{
-							"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-							"line": 7,
-							"character": 17
-						}
-					],
-					"extendedBy": [
-						{
-							"type": "reference",
-							"id": 3910,
-							"name": "IEndpointOptions"
-						}
-					]
-				},
-				{
-					"id": 3820,
+					"id": 3737,
 					"name": "IServiceAreaOptions",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3836,
-							"name": "authentication",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 23,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "union",
-								"types": [
-									{
-										"type": "intrinsic",
-										"name": "string"
-									},
-									{
-										"type": "reference",
-										"name": "IAuthenticationManager"
-									}
-								]
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3915,
-								"name": "IEndpointOptions.authentication"
-							}
-						},
-						{
-							"id": 3823,
+							"id": 3740,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86269,7 +83949,6 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -86279,13 +83958,11 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3697,
-													"name": "ILocation"
+													"name": "IPoint"
 												},
 												{
 													"type": "reference",
-													"id": 3703,
-													"name": "IPoint"
+													"name": "ILocation"
 												},
 												{
 													"type": "tuple",
@@ -86307,35 +83984,7 @@
 							}
 						},
 						{
-							"id": 3839,
-							"name": "credentials",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "A string indicating whether credentials (cookies) will be sent with the request. Used internally for authentication workflows."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 41,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "RequestCredentials"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3918,
-								"name": "IEndpointOptions.credentials"
-							}
-						},
-						{
-							"id": 3832,
+							"id": 3749,
 							"name": "endpoint",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86358,12 +84007,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3911,
+								"id": 3800,
 								"name": "IEndpointOptions.endpoint"
 							}
 						},
 						{
-							"id": 3821,
+							"id": 3738,
 							"name": "facilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86383,7 +84032,6 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3716,
 										"name": "IFeatureSet"
 									},
 									{
@@ -86393,13 +84041,11 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3697,
-													"name": "ILocation"
+													"name": "IPoint"
 												},
 												{
 													"type": "reference",
-													"id": 3703,
-													"name": "IPoint"
+													"name": "ILocation"
 												},
 												{
 													"type": "tuple",
@@ -86421,148 +84067,7 @@
 							}
 						},
 						{
-							"id": 3841,
-							"name": "headers",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Additional [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers) to pass into the request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 49,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reflection",
-								"declaration": {
-									"id": 3842,
-									"name": "__type",
-									"kind": 65536,
-									"kindString": "Type literal",
-									"flags": {},
-									"indexSignature": {
-										"id": 3843,
-										"name": "__index",
-										"kind": 8192,
-										"kindString": "Index signature",
-										"flags": {},
-										"parameters": [
-											{
-												"id": 3844,
-												"name": "key",
-												"kind": 32768,
-												"flags": {},
-												"type": {
-													"type": "intrinsic",
-													"name": "string"
-												}
-											}
-										],
-										"type": {
-											"type": "intrinsic",
-											"name": "any"
-										}
-									}
-								}
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3920,
-								"name": "IEndpointOptions.headers"
-							}
-						},
-						{
-							"id": 3837,
-							"name": "hideToken",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Prevents the token from being passed in a URL Query param that is saved in browser history.\nInstead, the token will be passed in POST request body or through X-Esri-Authorization header.\nNOTE: This will force POST requests in browsers since auth header is not yet supported by preflight OPTIONS check with CORS."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 29,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3916,
-								"name": "IEndpointOptions.hideToken"
-							}
-						},
-						{
-							"id": 3834,
-							"name": "httpMethod",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "The HTTP method to send the request with."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 15,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "HTTPMethods"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3913,
-								"name": "IEndpointOptions.httpMethod"
-							}
-						},
-						{
-							"id": 3840,
-							"name": "maxUrlLength",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "If the length of a GET request's URL exceeds `maxUrlLength` the request will use POST instead."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 45,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3919,
-								"name": "IEndpointOptions.maxUrlLength"
-							}
-						},
-						{
-							"id": 3826,
+							"id": 3743,
 							"name": "outputLines",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86582,35 +84087,7 @@
 							}
 						},
 						{
-							"id": 3833,
-							"name": "params",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Additional parameters to pass in the request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 11,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "IParams"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3912,
-								"name": "IEndpointOptions.params"
-							}
-						},
-						{
-							"id": 3825,
+							"id": 3742,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86626,12 +84103,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3824,
+							"id": 3741,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86647,40 +84123,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3838,
-							"name": "portal",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Base url for the portal you want to make the request to. Defaults to authentication.portal if authentication\nexists, otherwise to 'https://www.arcgis.com/sharing/rest'."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 34,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3917,
-								"name": "IEndpointOptions.portal"
-							}
-						},
-						{
-							"id": 3831,
+							"id": 3748,
 							"name": "preserveObjectID",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86700,35 +84147,7 @@
 							}
 						},
 						{
-							"id": 3835,
-							"name": "rawResponse",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Return the raw [response](https://developer.mozilla.org/en-US/docs/Web/API/Response)"
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 19,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3914,
-								"name": "IEndpointOptions.rawResponse"
-							}
-						},
-						{
-							"id": 3828,
+							"id": 3745,
 							"name": "returnBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86748,7 +84167,7 @@
 							}
 						},
 						{
-							"id": 3827,
+							"id": 3744,
 							"name": "returnFacilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86768,7 +84187,7 @@
 							}
 						},
 						{
-							"id": 3830,
+							"id": 3747,
 							"name": "returnPolygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86788,7 +84207,7 @@
 							}
 						},
 						{
-							"id": 3829,
+							"id": 3746,
 							"name": "returnPolylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86808,63 +84227,7 @@
 							}
 						},
 						{
-							"id": 3845,
-							"name": "signal",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "An [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) object instance; allows you to abort a request and via an [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 55,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "AbortSignal"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3924,
-								"name": "IEndpointOptions.signal"
-							}
-						},
-						{
-							"id": 3846,
-							"name": "suppressWarnings",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Suppress any ArcGIS REST JS related warnings for this request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 59,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3925,
-								"name": "IEndpointOptions.suppressWarnings"
-							}
-						},
-						{
-							"id": 3822,
+							"id": 3739,
 							"name": "travelDirection",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86901,29 +84264,18 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3836,
-								3823,
-								3839,
-								3832,
-								3821,
-								3841,
-								3837,
-								3834,
-								3840,
-								3826,
-								3833,
-								3825,
-								3824,
-								3838,
-								3831,
-								3835,
-								3828,
-								3827,
-								3830,
-								3829,
-								3845,
-								3846,
-								3822
+								3740,
+								3749,
+								3738,
+								3743,
+								3742,
+								3741,
+								3748,
+								3745,
+								3744,
+								3747,
+								3746,
+								3739
 							]
 						}
 					],
@@ -86937,20 +84289,20 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3910,
+							"id": 3799,
 							"name": "IEndpointOptions"
 						}
 					]
 				},
 				{
-					"id": 3847,
+					"id": 3750,
 					"name": "IServiceAreaResponse",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3852,
+							"id": 3755,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86966,12 +84318,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3851,
+							"id": 3754,
 							"name": "facilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86987,12 +84338,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3850,
+							"id": 3753,
 							"name": "incidents",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87008,12 +84358,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3848,
+							"id": 3751,
 							"name": "messages",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87034,7 +84383,7 @@
 							}
 						},
 						{
-							"id": 3853,
+							"id": 3756,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87050,12 +84399,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3854,
+							"id": 3757,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87071,12 +84419,11 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3716,
 								"name": "IFeatureSet"
 							}
 						},
 						{
-							"id": 3849,
+							"id": 3752,
 							"name": "saPolygons",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87101,13 +84448,13 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3852,
-								3851,
-								3850,
-								3848,
-								3853,
-								3854,
-								3849
+								3755,
+								3754,
+								3753,
+								3751,
+								3756,
+								3757,
+								3752
 							]
 						}
 					],
@@ -87120,79 +84467,14 @@
 					]
 				},
 				{
-					"id": 3740,
+					"id": 3685,
 					"name": "ISolveRouteOptions",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3746,
-							"name": "authentication",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 23,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "union",
-								"types": [
-									{
-										"type": "intrinsic",
-										"name": "string"
-									},
-									{
-										"type": "reference",
-										"name": "IAuthenticationManager"
-									}
-								]
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3915,
-								"name": "IEndpointOptions.authentication"
-							}
-						},
-						{
-							"id": 3749,
-							"name": "credentials",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "A string indicating whether credentials (cookies) will be sent with the request. Used internally for authentication workflows."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 41,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "RequestCredentials"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3918,
-								"name": "IEndpointOptions.credentials"
-							}
-						},
-						{
-							"id": 3742,
+							"id": 3687,
 							"name": "endpoint",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87215,265 +84497,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3911,
+								"id": 3800,
 								"name": "IEndpointOptions.endpoint"
 							}
 						},
 						{
-							"id": 3751,
-							"name": "headers",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Additional [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers) to pass into the request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 49,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reflection",
-								"declaration": {
-									"id": 3752,
-									"name": "__type",
-									"kind": 65536,
-									"kindString": "Type literal",
-									"flags": {},
-									"indexSignature": {
-										"id": 3753,
-										"name": "__index",
-										"kind": 8192,
-										"kindString": "Index signature",
-										"flags": {},
-										"parameters": [
-											{
-												"id": 3754,
-												"name": "key",
-												"kind": 32768,
-												"flags": {},
-												"type": {
-													"type": "intrinsic",
-													"name": "string"
-												}
-											}
-										],
-										"type": {
-											"type": "intrinsic",
-											"name": "any"
-										}
-									}
-								}
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3920,
-								"name": "IEndpointOptions.headers"
-							}
-						},
-						{
-							"id": 3747,
-							"name": "hideToken",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Prevents the token from being passed in a URL Query param that is saved in browser history.\nInstead, the token will be passed in POST request body or through X-Esri-Authorization header.\nNOTE: This will force POST requests in browsers since auth header is not yet supported by preflight OPTIONS check with CORS."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 29,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3916,
-								"name": "IEndpointOptions.hideToken"
-							}
-						},
-						{
-							"id": 3744,
-							"name": "httpMethod",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "The HTTP method to send the request with."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 15,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "HTTPMethods"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3913,
-								"name": "IEndpointOptions.httpMethod"
-							}
-						},
-						{
-							"id": 3750,
-							"name": "maxUrlLength",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "If the length of a GET request's URL exceeds `maxUrlLength` the request will use POST instead."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 45,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "number"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3919,
-								"name": "IEndpointOptions.maxUrlLength"
-							}
-						},
-						{
-							"id": 3743,
-							"name": "params",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Additional parameters to pass in the request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 11,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "IParams"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3912,
-								"name": "IEndpointOptions.params"
-							}
-						},
-						{
-							"id": 3748,
-							"name": "portal",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Base url for the portal you want to make the request to. Defaults to authentication.portal if authentication\nexists, otherwise to 'https://www.arcgis.com/sharing/rest'."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 34,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3917,
-								"name": "IEndpointOptions.portal"
-							}
-						},
-						{
-							"id": 3745,
-							"name": "rawResponse",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Return the raw [response](https://developer.mozilla.org/en-US/docs/Web/API/Response)"
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 19,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3914,
-								"name": "IEndpointOptions.rawResponse"
-							}
-						},
-						{
-							"id": 3755,
-							"name": "signal",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "An [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) object instance; allows you to abort a request and via an [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 55,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "AbortSignal"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3924,
-								"name": "IEndpointOptions.signal"
-							}
-						},
-						{
-							"id": 3741,
+							"id": 3686,
 							"name": "stops",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87492,32 +84521,21 @@
 								"type": "union",
 								"types": [
 									{
-										"type": "reference",
-										"id": 3716,
-										"name": "IFeatureSet"
-									},
-									{
 										"type": "array",
 										"elementType": {
 											"type": "union",
 											"types": [
 												{
 													"type": "reference",
-													"id": 3697,
-													"name": "ILocation"
+													"name": "IPoint"
 												},
 												{
 													"type": "reference",
-													"id": 3703,
-													"name": "IPoint"
+													"name": "ILocation"
 												},
 												{
 													"type": "tuple",
 													"elements": [
-														{
-															"type": "intrinsic",
-															"name": "number"
-														},
 														{
 															"type": "intrinsic",
 															"name": "number"
@@ -87531,6 +84549,10 @@
 												{
 													"type": "tuple",
 													"elements": [
+														{
+															"type": "intrinsic",
+															"name": "number"
+														},
 														{
 															"type": "intrinsic",
 															"name": "number"
@@ -87543,36 +84565,12 @@
 												}
 											]
 										}
+									},
+									{
+										"type": "reference",
+										"name": "IFeatureSet"
 									}
 								]
-							}
-						},
-						{
-							"id": 3756,
-							"name": "suppressWarnings",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"comment": {
-								"shortText": "Suppress any ArcGIS REST JS related warnings for this request."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
-									"line": 59,
-									"character": 4
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 3925,
-								"name": "IEndpointOptions.suppressWarnings"
 							}
 						}
 					],
@@ -87581,19 +84579,8 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3746,
-								3749,
-								3742,
-								3751,
-								3747,
-								3744,
-								3750,
-								3743,
-								3748,
-								3745,
-								3755,
-								3741,
-								3756
+								3687,
+								3686
 							]
 						}
 					],
@@ -87607,20 +84594,20 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3910,
+							"id": 3799,
 							"name": "IEndpointOptions"
 						}
 					]
 				},
 				{
-					"id": 3757,
+					"id": 3688,
 					"name": "ISolveRouteResponse",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3759,
+							"id": 3690,
 							"name": "checksum",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87638,7 +84625,7 @@
 							}
 						},
 						{
-							"id": 3761,
+							"id": 3692,
 							"name": "directions",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87657,14 +84644,14 @@
 								"elementType": {
 									"type": "reflection",
 									"declaration": {
-										"id": 3762,
+										"id": 3693,
 										"name": "__type",
 										"kind": 65536,
 										"kindString": "Type literal",
 										"flags": {},
 										"children": [
 											{
-												"id": 3766,
+												"id": 3697,
 												"name": "features",
 												"kind": 1024,
 												"kindString": "Property",
@@ -87680,13 +84667,12 @@
 													"type": "array",
 													"elementType": {
 														"type": "reference",
-														"id": 3730,
 														"name": "IFeature"
 													}
 												}
 											},
 											{
-												"id": 3763,
+												"id": 3694,
 												"name": "routeId",
 												"kind": 1024,
 												"kindString": "Property",
@@ -87704,7 +84690,7 @@
 												}
 											},
 											{
-												"id": 3764,
+												"id": 3695,
 												"name": "routeName",
 												"kind": 1024,
 												"kindString": "Property",
@@ -87722,7 +84708,7 @@
 												}
 											},
 											{
-												"id": 3765,
+												"id": 3696,
 												"name": "summary",
 												"kind": 1024,
 												"kindString": "Property",
@@ -87745,10 +84731,10 @@
 												"title": "Properties",
 												"kind": 1024,
 												"children": [
-													3766,
-													3763,
-													3764,
-													3765
+													3697,
+													3694,
+													3695,
+													3696
 												]
 											}
 										]
@@ -87757,7 +84743,7 @@
 							}
 						},
 						{
-							"id": 3758,
+							"id": 3689,
 							"name": "messages",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87778,7 +84764,7 @@
 							}
 						},
 						{
-							"id": 3760,
+							"id": 3691,
 							"name": "routes",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87801,10 +84787,10 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3759,
-								3761,
-								3758,
-								3760
+								3690,
+								3692,
+								3689,
+								3691
 							]
 						}
 					],
@@ -87817,38 +84803,7 @@
 					]
 				},
 				{
-					"id": 3715,
-					"name": "Position2D",
-					"kind": 4194304,
-					"kindString": "Type alias",
-					"flags": {},
-					"comment": {
-						"shortText": "`Position2D` can also be imported from the following packages:",
-						"text": "```\nimport { Position2D } from \"@esri/arcgis-rest-routing\";\n```\n"
-					},
-					"sources": [
-						{
-							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 114,
-							"character": 20
-						}
-					],
-					"type": {
-						"type": "tuple",
-						"elements": [
-							{
-								"type": "intrinsic",
-								"name": "number"
-							},
-							{
-								"type": "intrinsic",
-								"name": "number"
-							}
-						]
-					}
-				},
-				{
-					"id": 3907,
+					"id": 3796,
 					"name": "ARCGIS_ONLINE_CLOSEST_FACILITY_URL",
 					"kind": 32,
 					"kindString": "Variable",
@@ -87869,7 +84824,7 @@
 					"defaultValue": "\"https://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World\""
 				},
 				{
-					"id": 3909,
+					"id": 3798,
 					"name": "ARCGIS_ONLINE_ORIGIN_DESTINATION_MATRIX_URL",
 					"kind": 32,
 					"kindString": "Variable",
@@ -87890,7 +84845,7 @@
 					"defaultValue": "\"https://route.arcgis.com/arcgis/rest/services/World/OriginDestinationCostMatrix/NAServer/OriginDestinationCostMatrix_World\""
 				},
 				{
-					"id": 3906,
+					"id": 3795,
 					"name": "ARCGIS_ONLINE_ROUTING_URL",
 					"kind": 32,
 					"kindString": "Variable",
@@ -87911,7 +84866,7 @@
 					"defaultValue": "\"https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World\""
 				},
 				{
-					"id": 3908,
+					"id": 3797,
 					"name": "ARCGIS_ONLINE_SERVICE_AREA_URL",
 					"kind": 32,
 					"kindString": "Variable",
@@ -87932,7 +84887,7 @@
 					"defaultValue": "\"https://route.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World\""
 				},
 				{
-					"id": 3767,
+					"id": 3698,
 					"name": "closestFacility",
 					"kind": 64,
 					"kindString": "Function",
@@ -87946,7 +84901,7 @@
 					],
 					"signatures": [
 						{
-							"id": 3768,
+							"id": 3699,
 							"name": "closestFacility",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -87968,7 +84923,7 @@
 							},
 							"parameters": [
 								{
-									"id": 3769,
+									"id": 3700,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -87978,7 +84933,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 3770,
+										"id": 3701,
 										"name": "IClosestFacilityOptions"
 									}
 								}
@@ -87988,7 +84943,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 3803,
+										"id": 3720,
 										"name": "IClosestFacilityResponse"
 									}
 								],
@@ -87998,7 +84953,7 @@
 					]
 				},
 				{
-					"id": 3900,
+					"id": 3789,
 					"name": "decompressGeometry",
 					"kind": 64,
 					"kindString": "Function",
@@ -88012,14 +84967,14 @@
 					],
 					"signatures": [
 						{
-							"id": 3901,
+							"id": 3790,
 							"name": "decompressGeometry",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 3902,
+									"id": 3791,
 									"name": "str",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -88032,14 +84987,13 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 3710,
 								"name": "IPolyline"
 							}
 						}
 					]
 				},
 				{
-					"id": 3903,
+					"id": 3792,
 					"name": "isFeatureSet",
 					"kind": 64,
 					"kindString": "Function",
@@ -88053,7 +85007,7 @@
 					],
 					"signatures": [
 						{
-							"id": 3904,
+							"id": 3793,
 							"name": "isFeatureSet",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -88063,7 +85017,7 @@
 							},
 							"parameters": [
 								{
-									"id": 3905,
+									"id": 3794,
 									"name": "arg",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -88080,7 +85034,6 @@
 								"asserts": false,
 								"targetType": {
 									"type": "reference",
-									"id": 3716,
 									"name": "IFeatureSet"
 								}
 							}
@@ -88088,7 +85041,7 @@
 					]
 				},
 				{
-					"id": 3897,
+					"id": 3786,
 					"name": "normalizeLocationsList",
 					"kind": 64,
 					"kindString": "Function",
@@ -88102,14 +85055,14 @@
 					],
 					"signatures": [
 						{
-							"id": 3898,
+							"id": 3787,
 							"name": "normalizeLocationsList",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 3899,
+									"id": 3788,
 									"name": "locations",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -88121,12 +85074,10 @@
 											"types": [
 												{
 													"type": "reference",
-													"id": 3703,
 													"name": "IPoint"
 												},
 												{
 													"type": "reference",
-													"id": 3697,
 													"name": "ILocation"
 												},
 												{
@@ -88158,7 +85109,7 @@
 					]
 				},
 				{
-					"id": 3855,
+					"id": 3758,
 					"name": "originDestinationMatrix",
 					"kind": 64,
 					"kindString": "Function",
@@ -88172,7 +85123,7 @@
 					],
 					"signatures": [
 						{
-							"id": 3856,
+							"id": 3759,
 							"name": "originDestinationMatrix",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -88190,7 +85141,7 @@
 							},
 							"parameters": [
 								{
-									"id": 3857,
+									"id": 3760,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -88200,7 +85151,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 3858,
+										"id": 3761,
 										"name": "IOriginDestinationMatrixOptions"
 									}
 								}
@@ -88210,7 +85161,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 3885,
+										"id": 3774,
 										"name": "IOriginDestinationMatrixResponse"
 									}
 								],
@@ -88220,7 +85171,7 @@
 					]
 				},
 				{
-					"id": 3817,
+					"id": 3734,
 					"name": "serviceArea",
 					"kind": 64,
 					"kindString": "Function",
@@ -88234,7 +85185,7 @@
 					],
 					"signatures": [
 						{
-							"id": 3818,
+							"id": 3735,
 							"name": "serviceArea",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -88252,7 +85203,7 @@
 							},
 							"parameters": [
 								{
-									"id": 3819,
+									"id": 3736,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -88262,7 +85213,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 3820,
+										"id": 3737,
 										"name": "IServiceAreaOptions"
 									}
 								}
@@ -88272,7 +85223,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 3847,
+										"id": 3750,
 										"name": "IServiceAreaResponse"
 									}
 								],
@@ -88282,7 +85233,7 @@
 					]
 				},
 				{
-					"id": 3737,
+					"id": 3682,
 					"name": "solveRoute",
 					"kind": 64,
 					"kindString": "Function",
@@ -88296,7 +85247,7 @@
 					],
 					"signatures": [
 						{
-							"id": 3738,
+							"id": 3683,
 							"name": "solveRoute",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -88314,7 +85265,7 @@
 							},
 							"parameters": [
 								{
-									"id": 3739,
+									"id": 3684,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -88324,7 +85275,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 3740,
+										"id": 3685,
 										"name": "ISolveRouteOptions"
 									}
 								}
@@ -88334,7 +85285,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 3757,
+										"id": 3688,
 										"name": "ISolveRouteResponse"
 									}
 								],
@@ -88349,51 +85300,38 @@
 					"title": "Interfaces",
 					"kind": 256,
 					"children": [
-						3770,
-						3803,
-						3910,
-						3730,
-						3716,
-						3697,
-						3858,
-						3885,
-						3703,
-						3710,
-						3682,
-						3820,
-						3847,
-						3740,
-						3757
-					]
-				},
-				{
-					"title": "Type aliases",
-					"kind": 4194304,
-					"children": [
-						3715
+						3701,
+						3720,
+						3799,
+						3761,
+						3774,
+						3737,
+						3750,
+						3685,
+						3688
 					]
 				},
 				{
 					"title": "Variables",
 					"kind": 32,
 					"children": [
-						3907,
-						3909,
-						3906,
-						3908
+						3796,
+						3798,
+						3795,
+						3797
 					]
 				},
 				{
 					"title": "Functions",
 					"kind": 64,
 					"children": [
-						3767,
-						3900,
-						3903,
-						3897,
-						3855,
-						3817,
-						3737
+						3698,
+						3789,
+						3792,
+						3786,
+						3758,
+						3734,
+						3682
 					]
 				}
 			],
