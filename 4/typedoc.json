@@ -67107,7 +67107,7 @@
 					"flags": {},
 					"comment": {
 						"shortText": "Used to authenticate methods in ArcGIS REST JS with oAuth 2.0 application credentials. The instance of `ApplicationCredentialsManager` can be passed to {@linkcode IRequestOptions.authentication} to authenticate requests.",
-						"text": "```js\nimport { ApplicationSession } from '@esri/arcgis-rest-auth';\n\nconst session = ApplicationCredentialsManager.fromCredentials({\n  clientId: \"abc123\",\n  clientSecret: \"••••••\"\n})\n```\n"
+						"text": "```js\nimport { ApplicationCredentialsManager } from '@esri/arcgis-rest-request';\n\nconst session = ApplicationCredentialsManager.fromCredentials({\n  clientId: \"abc123\",\n  clientSecret: \"••••••\"\n})\n```\n"
 					},
 					"children": [
 						{
