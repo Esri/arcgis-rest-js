@@ -80,7 +80,7 @@ export interface IPlatformSelfResponse {
  *
  * ```js
  * // convert the encrypted platform cookie into a ArcGISIdentityManager
- * import { platformSelf, ArcGISIdentityManager } from '@esri/arcgis-rest-auth';
+ * import { platformSelf, ArcGISIdentityManager } from '@esri/arcgis-rest-request';
  *
  * const portal = 'https://www.arcgis.com/sharing/rest';
  * const clientId = 'YOURAPPCLIENTID';
