@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-request [4.0.0-beta.9](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.8...@esri/arcgis-rest-request@4.0.0-beta.9) (2022-05-09)
+
+
+### Bug Fixes
+
+* change to request to see how peer-deps are updated ([6f60cc3](https://github.com/Esri/arcgis-rest-js/commit/6f60cc37560409656aecdcb5bc5f18277cc415a6))
+
 # @esri/arcgis-rest-request [4.0.0-beta.8](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.7...@esri/arcgis-rest-request@4.0.0-beta.8) (2022-04-14)
 
 
