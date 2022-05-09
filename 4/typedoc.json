@@ -57496,7 +57496,7 @@
 					"flags": {},
 					"comment": {
 						"shortText": "An ArcGIS Online or Enterprise user",
-						"text": "`IUser` can also be imported from the following packages:\n\n```js\nimport { IUser } from \"@esri/arcgis-rest-auth\";\nimport { IUser } from \"@esri/arcgis-rest-portal\";\n```\n"
+						"text": "`IUser` can also be imported from the following packages:\n\n```js\nimport { IUser } from \"@esri/arcgis-rest-request\";\nimport { IUser } from \"@esri/arcgis-rest-portal\";\n```\n"
 					},
 					"children": [
 						{
@@ -66876,7 +66876,7 @@
 					"flags": {},
 					"comment": {
 						"shortText": "Used to authenticate methods in ArcGIS REST JS with an API keys. The instance of `ApiKeyManager` can be passed to  {@linkcode IRequestOptions.authentication} to authenticate requests.",
-						"text": "```js\nimport { ApiKeyManager } from '@esri/arcgis-rest-auth';\n\nconst apiKey = new ApiKeyManager.fromKey(\"...\");\n```\n\nIn most cases however the API key can be passed directly to the {@linkcode IRequestOptions.authentication}.\n"
+						"text": "```js\nimport { ApiKeyManager } from '@esri/arcgis-rest-request';\n\nconst apiKey = new ApiKeyManager.fromKey(\"...\");\n```\n\nIn most cases however the API key can be passed directly to the {@linkcode IRequestOptions.authentication}.\n"
 					},
 					"children": [
 						{
@@ -78126,7 +78126,7 @@
 					"flags": {},
 					"comment": {
 						"shortText": "An ArcGIS Online or Enterprise user",
-						"text": "`IUser` can also be imported from the following packages:\n\n```js\nimport { IUser } from \"@esri/arcgis-rest-auth\";\nimport { IUser } from \"@esri/arcgis-rest-portal\";\n```\n"
+						"text": "`IUser` can also be imported from the following packages:\n\n```js\nimport { IUser } from \"@esri/arcgis-rest-request\";\nimport { IUser } from \"@esri/arcgis-rest-portal\";\n```\n"
 					},
 					"children": [
 						{
@@ -81476,7 +81476,7 @@
 							"flags": {},
 							"comment": {
 								"shortText": "Request a token for a specific application using the esri_aopc encrypted cookie",
-								"text": "When a client app boots up, it will know its clientId and the redirectUri for use\nin the normal /oauth/authorize pop-out oAuth flow.\n\nIf the app sees an `esri_aopc` cookie (only set if the app is hosted on *.arcgis.com),\nit can call the /oauth2/platformSelf end-point passing in the clientId and redirectUri\nin headers, and it will receive back an app-specific token, assuming the user has\naccess to the app.\n\nSince there are scenarios where an app can boot using credentials/token from localstorage\nbut those credentials are not for the same user as the esri_aopc cookie, it is recommended that\nan app check the returned username against any existing identity they may have loaded.\n\nNote: This is only usable by Esri applications hosted on *arcgis.com, *esri.com or within\nan ArcGIS Enterprise installation. Custom applications can not use this.\n\n```js\n// convert the encrypted platform cookie into a ArcGISIdentityManager\nimport { platformSelf, ArcGISIdentityManager } from '@esri/arcgis-rest-auth';\n\nconst portal = 'https://www.arcgis.com/sharing/rest';\nconst clientId = 'YOURAPPCLIENTID';\n\n// exchange esri_aopc cookie\nreturn platformSelf(clientId, 'https://your-app-redirect-uri', portal)\n.then((response) => {\n const currentTimestamp = new Date().getTime();\n const tokenExpiresTimestamp = currentTimestamp + (response.expires_in * 1000);\n // Construct the session and return it\n return new ArcGISIdentityManager({\n   portal,\n   clientId,\n   username: response.username,\n   token: response.token,\n   tokenExpires: new Date(tokenExpiresTimestamp),\n   ssl: true\n });\n})\n\n```\n\n"
+								"text": "When a client app boots up, it will know its clientId and the redirectUri for use\nin the normal /oauth/authorize pop-out oAuth flow.\n\nIf the app sees an `esri_aopc` cookie (only set if the app is hosted on *.arcgis.com),\nit can call the /oauth2/platformSelf end-point passing in the clientId and redirectUri\nin headers, and it will receive back an app-specific token, assuming the user has\naccess to the app.\n\nSince there are scenarios where an app can boot using credentials/token from localstorage\nbut those credentials are not for the same user as the esri_aopc cookie, it is recommended that\nan app check the returned username against any existing identity they may have loaded.\n\nNote: This is only usable by Esri applications hosted on *arcgis.com, *esri.com or within\nan ArcGIS Enterprise installation. Custom applications can not use this.\n\n```js\n// convert the encrypted platform cookie into a ArcGISIdentityManager\nimport { platformSelf, ArcGISIdentityManager } from '@esri/arcgis-rest-request';\n\nconst portal = 'https://www.arcgis.com/sharing/rest';\nconst clientId = 'YOURAPPCLIENTID';\n\n// exchange esri_aopc cookie\nreturn platformSelf(clientId, 'https://your-app-redirect-uri', portal)\n.then((response) => {\n const currentTimestamp = new Date().getTime();\n const tokenExpiresTimestamp = currentTimestamp + (response.expires_in * 1000);\n // Construct the session and return it\n return new ArcGISIdentityManager({\n   portal,\n   clientId,\n   username: response.username,\n   token: response.token,\n   tokenExpires: new Date(tokenExpiresTimestamp),\n   ssl: true\n });\n})\n\n```\n\n"
 							},
 							"parameters": [
 								{
@@ -81835,7 +81835,7 @@
 							"flags": {},
 							"comment": {
 								"shortText": "Validates that the user has access to the application\nand if they user should be presented a \"View Only\" mode",
-								"text": "This is only needed/valid for Esri applications that are \"licensed\"\nand shipped in ArcGIS Online or ArcGIS Enterprise. Most custom applications\nshould not need or use this.\n\n```js\nimport { validateAppAccess } from '@esri/arcgis-rest-auth';\n\nreturn validateAppAccess('your-token', 'theClientId')\n.then((result) => {\n   if (!result.value) {\n     // redirect or show some other ui\n   } else {\n     if (result.viewOnlyUserTypeApp) {\n       // use this to inform your app to show a \"View Only\" mode\n     }\n   }\n})\n.catch((err) => {\n // two possible errors\n // invalid clientId: {\"error\":{\"code\":400,\"messageCode\":\"GWM_0007\",\"message\":\"Invalid request\",\"details\":[]}}\n // invalid token: {\"error\":{\"code\":498,\"message\":\"Invalid token.\",\"details\":[]}}\n})\n```\n\nNote: This is only usable by Esri applications hosted on *arcgis.com, *esri.com or within\nan ArcGIS Enterprise installation. Custom applications can not use this.\n"
+								"text": "This is only needed/valid for Esri applications that are \"licensed\"\nand shipped in ArcGIS Online or ArcGIS Enterprise. Most custom applications\nshould not need or use this.\n\n```js\nimport { validateAppAccess } from '@esri/arcgis-rest-request';\n\nreturn validateAppAccess('your-token', 'theClientId')\n.then((result) => {\n   if (!result.value) {\n     // redirect or show some other ui\n   } else {\n     if (result.viewOnlyUserTypeApp) {\n       // use this to inform your app to show a \"View Only\" mode\n     }\n   }\n})\n.catch((err) => {\n // two possible errors\n // invalid clientId: {\"error\":{\"code\":400,\"messageCode\":\"GWM_0007\",\"message\":\"Invalid request\",\"details\":[]}}\n // invalid token: {\"error\":{\"code\":498,\"message\":\"Invalid token.\",\"details\":[]}}\n})\n```\n\nNote: This is only usable by Esri applications hosted on *arcgis.com, *esri.com or within\nan ArcGIS Enterprise installation. Custom applications can not use this.\n"
 							},
 							"parameters": [
 								{
