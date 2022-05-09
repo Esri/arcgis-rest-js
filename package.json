@@ -34,8 +34,8 @@
     "prettify": "prettier --write --parser typescript --tab-width 2 --use-tabs false \"packages/**/+(src|test)/**/*.ts\"",
     "typedoc": "typedoc --options ./typedoc.json",
     "prettify:packages-jsons": "prettier-package-json --write ./**/*/package.json",
-    "release:dry": "multi-semantic-release --dry-run --debug --deps.release=inherit --ignore-private-packages",
-    "release": "multi-semantic-release  --deps.release=inherid --ignore-private-packages"
+    "release:dry": "multi-semantic-release --dry-run --deps-bump=satisfy --deps.release=inherit --ignore-private-packages --debug ",
+    "release": "multi-semantic-release --deps-bump=satisfy --deps.release=override --ignore-private-packages"
   },
   "engines": {
     "npm": ">=7.0.0",
