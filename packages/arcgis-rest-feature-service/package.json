@@ -46,8 +46,8 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@esri/arcgis-rest-portal": "4.0.0-beta.5",
-    "@esri/arcgis-rest-request": "4.0.0-beta.6"
+    "@esri/arcgis-rest-portal": "4.0.0-beta.x",
+    "@esri/arcgis-rest-request": "4.0.0-beta.x"
   },
   "devDependencies": {
     "@esri/arcgis-rest-portal": "4.0.0-beta.5",
