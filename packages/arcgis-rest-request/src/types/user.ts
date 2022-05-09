@@ -9,7 +9,7 @@ import { IGroup } from "./group.js";
  * `IUser` can also be imported from the following packages:
  *
  * ```js
- * import { IUser } from "@esri/arcgis-rest-auth";
+ * import { IUser } from "@esri/arcgis-rest-request";
  * import { IUser } from "@esri/arcgis-rest-portal";
  * ```
  */

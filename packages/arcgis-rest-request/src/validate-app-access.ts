@@ -25,7 +25,7 @@ export interface IAppAccess {
  * should not need or use this.
  *
  * ```js
- * import { validateAppAccess } from '@esri/arcgis-rest-auth';
+ * import { validateAppAccess } from '@esri/arcgis-rest-request';
  *
  * return validateAppAccess('your-token', 'theClientId')
  * .then((result) => {
