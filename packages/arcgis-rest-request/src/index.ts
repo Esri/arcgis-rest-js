@@ -1,6 +1,6 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-// TRIVIAL CHANGE - DELETE THIS LINE
+
 export * from "./request.js";
 export * from "./utils/append-custom-params.js";
 export * from "./utils/ArcGISRequestError.js";

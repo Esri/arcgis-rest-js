@@ -17,7 +17,6 @@ import {
 export interface IAddressBulk {
   /**
    * A unique id must be passed along for each individual address.
-   * TRIVIAL CHANGE DELETE THIS LINE
    */
   OBJECTID: number;
   address?: string;
