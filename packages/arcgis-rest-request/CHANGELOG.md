@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-request [4.0.0-beta.10](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.9...@esri/arcgis-rest-request@4.0.0-beta.10) (2022-05-10)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** release: inherit, bump: satisfy ([93e67a8](https://github.com/Esri/arcgis-rest-js/commit/93e67a877e232f2ab14e1c9be838070495e9818a))
+
 # @esri/arcgis-rest-request [4.0.0-beta.9](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.8...@esri/arcgis-rest-request@4.0.0-beta.9) (2022-05-09)
 
 
