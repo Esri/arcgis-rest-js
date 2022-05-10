@@ -1,7 +1,7 @@
 /* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-// TRIVIAL CHANGE TO TEST PEERDEPS RELEASE
+// TRIVIAL CHANGE TO TEST PEERDEPS RELEASE TAKE 2
 
 import { IAuthenticationManager } from "./utils/IAuthenticationManager.js";
 

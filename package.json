@@ -35,7 +35,7 @@
     "typedoc": "typedoc --options ./typedoc.json",
     "prettify:packages-jsons": "prettier-package-json --write ./**/*/package.json",
     "release:dry": "multi-semantic-release --dry-run --deps.bump=satisfy --deps.release=inherit --ignore-private-packages --debug ",
-    "release": "multi-semantic-release --deps-bump=satisfy --deps.release=override --ignore-private-packages"
+    "release": "multi-semantic-release --deps-bump=satisfy --deps.release=inherit --ignore-private-packages"
   },
   "engines": {
     "npm": ">=7.0.0",
