@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-portal [4.0.0-beta.8](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.0-beta.7...@esri/arcgis-rest-portal@4.0.0-beta.8) (2022-05-10)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** change portal peer-dep to beta.x ([194f3b2](https://github.com/Esri/arcgis-rest-js/commit/194f3b26d095328f84fb9a4cf5ed4c4ebd7b22cd))
+
 # @esri/arcgis-rest-portal [4.0.0-beta.7](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.0-beta.6...@esri/arcgis-rest-portal@4.0.0-beta.7) (2022-05-10)
 
 
