@@ -1,7 +1,7 @@
 {
   "private": "true",
   "name": "ts-node-rest",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.1",
   "description": "",
   "license": "MIT",
   "keywords": [],
@@ -11,8 +11,8 @@
     "start": "ts-node index.ts"
   },
   "dependencies": {
-    "@esri/arcgis-rest-portal": "beta",
-    "@esri/arcgis-rest-request": "beta"
+    "@esri/arcgis-rest-portal": "4.0.0-beta.7",
+    "@esri/arcgis-rest-request": "4.0.0-beta.10"
   },
   "devDependencies": {
     "ts-node": "^10.7.0",
