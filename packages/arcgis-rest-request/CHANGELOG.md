@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-request [4.0.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.2...@esri/arcgis-rest-request@4.0.3) (2022-05-11)
+
+
+### Bug Fixes
+
+* change all in-repo dep and peerDeps to use ranges ([8091910](https://github.com/Esri/arcgis-rest-js/commit/809191013b56dd71c394db13e6657301fce9f30f))
+
 ## @esri/arcgis-rest-request [4.0.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.1...@esri/arcgis-rest-request@4.0.2) (2022-04-27)
 
 
