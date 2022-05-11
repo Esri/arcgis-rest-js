@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-demographics",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Demographics data helpers for @esri/arcgis-rest-js",
   "license": "Apache-2.0",
   "keywords": [
