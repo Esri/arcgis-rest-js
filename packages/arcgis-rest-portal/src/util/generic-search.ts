@@ -45,6 +45,7 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
         "searchUserAccess",
         "searchUserName",
         "filter",
+        "bbox",
         "countFields",
         "countSize",
         "categories",
