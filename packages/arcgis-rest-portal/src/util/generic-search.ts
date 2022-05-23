@@ -45,7 +45,8 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
         "sortField",
         "sortOrder",
         "searchUserAccess",
-        "searchUserName"
+        "searchUserName",
+        "bbox"
       ],
       {
         httpMethod: "GET"
