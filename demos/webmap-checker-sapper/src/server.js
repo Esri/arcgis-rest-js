@@ -11,10 +11,10 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 import { Store } from "svelte/store.js";
 import { userInfoMiddleware } from "./userInfoMiddleware";
 
-// setup file storeage for user sessions
+// setup file storage for user sessions
 const FileStore = SessionFileStore(session);
 
-// load and setup our config variables from out .env file
+// load and setup our config variables from our .env file
 require("dotenv").config();
 const { PORT, NODE_ENV, ENCRYPTION_KEY, SESSION_SECRET } = process.env;
 const dev = NODE_ENV === "development";
@@ -26,12 +26,12 @@ express()
     // compress responses
     compression({ threshold: 0 }),
 
-    // serve static assets like images, css ect...
+    // serve static assets like images, css, etc...
     sirv("static", { dev }),
 
     // setup sessions, express will set a cookie on the client
     // to keep track of a session id and rehydrate the
-    // correstponding session on the server.
+    // corresponding session on the server.
     session({
       name: "webmap-checker-session",
       secret: SESSION_SECRET,
@@ -43,7 +43,7 @@ express()
 
       // store session data in a secure, encrypted file
       // sessions will be loaded from these files and decrypted
-      // at the end of every request the state of `request.session`
+      // at the end of every request. The state of `request.session`
       // will be saved back to disk.
       store: new FileStore({
         ttl: 2592000000 / 1000, // 30 days in seconds
@@ -51,7 +51,7 @@ express()
         secret: ENCRYPTION_KEY,
 
         // custom encoding and decoding for sessions means we can
-        // initalize a single `UserSession` object for use with rest js
+        // initialize a single `UserSession` object for use with rest js
         encoder: sessionObj => {
           sessionObj.userSession = sessionObj.userSession.serialize();
           return JSON.stringify(sessionObj);
@@ -70,14 +70,14 @@ express()
     // the rest api for use in our app.
     userInfoMiddleware,
 
-    // finally we can setup sapper by creating a Store that will syncronize
+    // finally we can setup sapper by creating a Store that will synchronize
     // server side data with the client
     sapper.middleware({
       store: request => {
         let userSession;
 
         // since the store is shared between the client and server
-        // we dont want to put refresh tokens in it. The store also needs to be
+        // we don't want to put refresh tokens in it. The store also needs to be
         // in a serializable format so sapper and send it to the client.
         if (request.session && request.session.userSession) {
           userSession = request.session.userSession.toJSON();
@@ -85,7 +85,7 @@ express()
           delete userSession.refreshTokenExpires;
         }
 
-        // now we can initalize the store with our session (from the encrypted
+        // now we can initialize the store with our session (from the encrypted
         // file) and the org and user info which userInfoMiddleware attached to
         // the request object.
         return new Store({

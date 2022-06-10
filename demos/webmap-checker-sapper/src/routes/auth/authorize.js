@@ -4,9 +4,9 @@ import { UserSession } from "@esri/arcgis-rest-auth";
 require("dotenv").config();
 const { CLIENT_ID, REDIRECT_URI } = process.env;
 
-// when a user access /auth/authorize we will allow
+// when a user accesses /auth/authorize we will allow
 // UserSession.authorize to handle the response and
-// redirect a user to the oAuth sign in page.
+// redirect a user to the OAuth sign in page.
 export function get(request, response, next) {
   UserSession.authorize(
     {

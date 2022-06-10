@@ -17,7 +17,7 @@
     },
     methods: {
       intializeWebMap() {
-        // get the id of the webmap from the component
+        // get the id of the web map from the component
         const { itemId } = this.get();
 
         // set the session from the global store
@@ -33,8 +33,8 @@
           "esri/identity/IdentityManager"
         ])
           .then(([MapView, WebMap, esriId]) => {
-            // since our webmap might be private we can pass teh credentials
-            // from the ArcGIS REST JS session to the JS API Identity Manager
+            // since our web map might be private we can pass the credentials
+            // from the ArcGIS REST JS session to the JS API IdentityManager
             // the JS API will then use these credentials for future requests
             esriId.registerToken(session.toCredential());
 
