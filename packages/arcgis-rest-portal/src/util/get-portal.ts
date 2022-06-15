@@ -23,7 +23,7 @@ export function getSelf(requestOptions?: IRequestOptions): Promise<IPortal> {
 
 /**
  * ```js
- * import { getPortal } from "@esri/arcgis-rest-request";
+ * import { getPortal } from "@esri/arcgis-rest-portal";
  * //
  * getPortal()
  * getPortal("fe8")
