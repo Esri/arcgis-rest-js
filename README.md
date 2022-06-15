@@ -21,7 +21,7 @@
 - [API Reference](#api-reference)
 - [Instructions](#instructions)
 - [Packages](#packages)
-- [FAQ](#frequently-asked-questions)
+- [FAQ](https://developers.arcgis.com/arcgis-rest-js/faq/)
 - [Issues](#issues)
 - [Versioning](#versioning)
 - [Contributing](#contributing)
@@ -81,16 +81,6 @@ For a specific package
 - [`@esri/arcgis-rest-geocoding`](./packages/arcgis-rest-geocoding) - Geocoding wrapper for `@esri/arcgis-rest-js`
 - [`@esri/arcgis-rest-routing`](./packages/arcgis-rest-routing) - Routing and directions wrapper for `@esri/arcgis-rest-js`.
 
-### Frequently Asked Questions
-
-- [Why should I use this library?](https://esri.github.io/arcgis-rest-js/guides/package-overview/)
-- [Is this a _supported_ Esri product?](docs/FAQ.md#is-this-a-supported-esri-product)
-- [How does this project compare with the ArcGIS API for JavaScript?](docs/FAQ.md#comparison-with-the-arcgis-api-for-javascript)
-- [Is this similar to the ArcGIS API for Python?](docs/FAQ.md#comparison-with-the-arcgis-api-for-python)
-- [Who uses ArcGIS REST JS?](docs/FAQ.md#who-is-using-these-packages)
-- [Why TypeScript?](docs/FAQ.md#why-typescript) What if I prefer [VanillaJS](https://stackoverflow.com/questions/20435653/what-is-vanillajs)?
-- [More](https://github.com/Esri/arcgis-rest-js/issues?q=is%3Aissue+sort%3Aupdated-desc+label%3Afaq+is%3Aclosed)
-
 ### Issues
 
 If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/arcgis-rest-js/issues) first. Have you found a new bug? Want to request a new feature? We'd [**love**](https://github.com/Esri/arcgis-rest-js/issues/new) to hear from you.
@@ -109,7 +99,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### License
 
-Copyright &copy; 2017-2021 Esri
+Copyright &copy; 2017-2022 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
