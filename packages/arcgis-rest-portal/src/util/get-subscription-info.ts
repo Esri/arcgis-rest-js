@@ -12,7 +12,7 @@ export interface ISubscriptionInfo {
 
 /**
  * ```js
- * import { getSubscriptionInfo } from "@esri/arcgis-rest-request";
+ * import { getSubscriptionInfo } from "@esri/arcgis-rest-portal";
  * //
  * getSubscriptionInfo()
  * getSubscriptionInfo("fe8")
