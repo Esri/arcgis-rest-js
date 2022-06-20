@@ -15,12 +15,12 @@ export const Solve = {
       Total_TravelTime: "Total_TravelTime",
       Total_Kilometers: "Total_Kilometers",
       Total_Miles: "Total_Miles",
-      Shape_Length: "Shape_Length",
+      Shape_Length: "Shape_Length"
     },
     geometryType: "esriGeometryPolyline",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -33,7 +33,7 @@ export const Solve = {
           Total_TravelTime: 73.070791262950962,
           Total_Kilometers: 84.98294502390344,
           Total_Miles: 52.80595386934268,
-          Shape_Length: 0.87271129860372554,
+          Shape_Length: 0.87271129860372554
         },
         geometry: {
           paths: [
@@ -599,12 +599,12 @@ export const Solve = {
               [-117.91540999999995, 33.813130000000058],
               [-117.91540999999995, 33.812690000000032],
               [-117.91540999999995, 33.812580000000025],
-              [-117.91540092099996, 33.812171446000036],
-            ],
-          ],
-        },
-      },
-    ],
+              [-117.91540092099996, 33.812171446000036]
+            ]
+          ]
+        }
+      }
+    ]
   },
   directions: [
     {
@@ -621,9 +621,9 @@ export const Solve = {
           ymax: 34.067360000000065,
           spatialReference: {
             wkid: 4326,
-            latestWkid: 4326,
-          },
-        },
+            latestWkid: 4326
+          }
+        }
       },
       features: [
         {
@@ -633,9 +633,9 @@ export const Solve = {
             text: "Start at Location 1",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTDepart",
+            maneuverType: "esriDMTDepart"
           },
-          compressedGeometry: "+hf6e7-1vvvvtn+ij4dus+0+0",
+          compressedGeometry: "+hf6e7-1vvvvtn+ij4dus+0+0"
         },
         {
           attributes: {
@@ -644,10 +644,10 @@ export const Solve = {
             text: "Go north on New York St toward Orange Blossom Trl",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTStraight",
+            maneuverType: "esriDMTStraight"
           },
           compressedGeometry:
-            "+hf6e4-1vvvvio+ij4drm-5n+15o7+0+2g5-5n+8ua+5n+4f5+0+2ae",
+            "+hf6e4-1vvvvio+ij4drm-5n+15o7+0+2g5-5n+8ua+5n+4f5+0+2ae"
         },
         {
           attributes: {
@@ -656,10 +656,10 @@ export const Solve = {
             text: "Turn left on W Redlands Blvd",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTTurnLeft",
+            maneuverType: "esriDMTTurnLeft"
           },
           compressedGeometry:
-            "+hf4e7-1vvolmu+ij41rb-1ct4+cs8-8u9+2g5-b8m+372-dj5+3o8-22ht+ijf-anh+31a-4f5+183-68d+1p8-geo+4qj-ts5+6e4-50a+h5-5n7+bf-ac3-12b",
+            "+hf4e7-1vvolmu+ij41rb-1ct4+cs8-8u9+2g5-b8m+372-dj5+3o8-22ht+ijf-anh+31a-4f5+183-68d+1p8-geo+4qj-ts5+6e4-50a+h5-5n7+bf-ac3-12b"
         },
         {
           attributes: {
@@ -668,10 +668,10 @@ export const Solve = {
             text: "Make sharp right on Alabama St",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTSharpRight",
+            maneuverType: "esriDMTSharpRight"
           },
           compressedGeometry:
-            "+hf4e7-1vvvvtn+ij5s06+be+7m6+5o+3o8+0+7gf+5n+4qj+0+3tu+0+5sv+5n+750+0+751+5n+8u9+0+3cp-5n+49d+5n+7ao+0+2g5+0+5sv",
+            "+hf4e7-1vvvvtn+ij5s06+be+7m6+5o+3o8+0+7gf+5n+4qj+0+3tu+0+5sv+5n+750+0+751+5n+8u9+0+3cp-5n+49d+5n+7ao+0+2g5+0+5sv"
         },
         {
           attributes: {
@@ -680,23 +680,22 @@ export const Solve = {
             text: "Turn left onto ramp and go on I-10 W toward Los Angeles",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTTurnLeft",
+            maneuverType: "esriDMTTurnLeft"
           },
           compressedGeometry:
-            "+heoks-1vukonc+iirqjr-1efm-5hc-1ptr-55u-62i+0-3o5+0-cgh+0-hme+0-8u3+0-vko+0-8cu+0-7m1+0-2jrh-be-lq2-5n-ana+0-4fcs+0-dis+0-143q+0-3bq8+0-688+0-6pe-5n-4323-1p7-idb-24l-trh-689-688-1do-877-1p7-3g99-oft-1spe-8ik-1n2a-370-bjt-5n-iop+0-fnh-5n-877+0-1p18+h5-1g35+5bl-oa5+2ac-fhq+5n-1b8m-370-1olq-4f1-7m1-h5-mml-1jg",
+            "+heoks-1vukonc+iirqjr-1efm-5hc-1ptr-55u-62i+0-3o5+0-cgh+0-hme+0-8u3+0-vko+0-8cu+0-7m1+0-2jrh-be-lq2-5n-ana+0-4fcs+0-dis+0-143q+0-3bq8+0-688+0-6pe-5n-4323-1p7-idb-24l-trh-689-688-1do-877-1p7-3g99-oft-1spe-8ik-1n2a-370-bjt-5n-iop+0-fnh-5n-877+0-1p18+h5-1g35+5bl-oa5+2ac-fhq+5n-1b8m-370-1olq-4f1-7m1-h5-mml-1jg"
         },
         {
           attributes: {
             length: 0.22364848069693544,
             time: 0.25424163999999982,
-            text:
-              "Bear right onto ramp to I-215 S / Riverside / I-215 N toward San Bernardino / Barstow",
+            text: "Bear right onto ramp to I-215 S / Riverside / I-215 N toward San Bernardino / Barstow",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTRampRight",
+            maneuverType: "esriDMTRampRight"
           },
           compressedGeometry:
-            "+heo1u-1vvtqi6+iip7gm-4ko+1dp-9qm+h5-15t0+5n-gvi+5n",
+            "+heo1u-1vvtqi6+iip7gm-4ko+1dp-9qm+h5-15t0+5n-gvi+5n"
         },
         {
           attributes: {
@@ -705,10 +704,10 @@ export const Solve = {
             text: "At fork keep left on I-215 S / Riverside",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTForkLeft",
+            maneuverType: "esriDMTForkLeft"
           },
           compressedGeometry:
-            "+heedq-1vusmi6+iif1r4-1j97+5h8-knc+24k-asq-ms-knb-6dr-oqt-hge-9f2-c4r-5sn-cro-2lp-vk6-be-knb-181-fbp-e9f-1io2-asr-gjr-ham-le7-du2-doa-tfi-mgh-9kp-6jj-273v-1hlo-sj-ms-1p6-181-21oe-1e93-abl-74o-2biv-1ldr-1nie-1fsi-2lp-2ab-1g81-1amo-bdv-a5u-15sb-11dc-36u-2rg-qeb-nd4-4qc-498-eku-d75-17fp-12r4-i7a-g2l-497-3o3-14ej-11oq-3cl-3cl-2ab-2lp-93l-a5u-4kl-55r-14ej-18cd-1e3c-1ick-f0c-gv8-36u-3o3-55q-685-10s7-1cft-hgd-qeb-mar-117l-2rf-498-5n0-8co-1k5q-2e8n-1q88-2n0u-3cl-55r-jl1-t44-1do-2ab-1p6-2lp-62e-93k-3ic-5bi-3ic-55r",
+            "+heedq-1vusmi6+iif1r4-1j97+5h8-knc+24k-asq-ms-knb-6dr-oqt-hge-9f2-c4r-5sn-cro-2lp-vk6-be-knb-181-fbp-e9f-1io2-asr-gjr-ham-le7-du2-doa-tfi-mgh-9kp-6jj-273v-1hlo-sj-ms-1p6-181-21oe-1e93-abl-74o-2biv-1ldr-1nie-1fsi-2lp-2ab-1g81-1amo-bdv-a5u-15sb-11dc-36u-2rg-qeb-nd4-4qc-498-eku-d75-17fp-12r4-i7a-g2l-497-3o3-14ej-11oq-3cl-3cl-2ab-2lp-93l-a5u-4kl-55r-14ej-18cd-1e3c-1ick-f0c-gv8-36u-3o3-55q-685-10s7-1cft-hgd-qeb-mar-117l-2rf-498-5n0-8co-1k5q-2e8n-1q88-2n0u-3cl-55r-jl1-t44-1do-2ab-1p6-2lp-62e-93k-3ic-5bi-3ic-55r"
         },
         {
           attributes: {
@@ -717,23 +716,22 @@ export const Solve = {
             text: "Go on CA-91 W (Riverside Fwy)",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTStraight",
+            maneuverType: "esriDMTStraight"
           },
           compressedGeometry:
-            "+hc08g-1vn1auc+ieo354-m7m-100r-ara-h89-hdv-pjs-hpb-qrn-2r3-48k-24b-2fn-17r-24a-1uk-2fn-2ld-42u-1ou-2ld-982-d5b-e7f-l5h-17s-1ot-24a-2fn-n45-keo-8sm-554-a4h-5rs-k92-d5b-btf-9je-gbp-irg-48l-61j-bnp-hv1-c8r-hdv-bd-h3-bte-gn6-jtm-l5h-k3c-h89-7qg-6cv-bcd-alj-dmc-ds3-8ha-ck8-982-mop-2a0-8sl-92c-qrn-h2j-ro6-sf-1j8-1ou-2r3-4ea-6u2-24b-3c5-h88-r1e-sev-1b7h-125-1ot-sf-1di-b6m-nfh-1di-48l-5m6-100r-1uk-1ejm-1ou-15sn-36g-g64-sf-36f-b6m-ohn-gbq-kke-f9k-cvk-tsh-m7n-skl-nfh-hjl-lgt-9do-ghg-79e-gn6-5m6-g64-24a-5gg-554-b6m-5rs-a4h-g64-i4o-o0k-jcj-1joq-1508-4k1-3c5-8sm-679-eu8-ara-bi2-8bj-3c6-2fn-7f4-5m6-alk-7kq-155u-q4v-jtl-bte-1lnf-udj-g0d-8sm-23jh-16jg-1508-kvr-p2q-e1p-1ev2-qgb-vr5-i4n-o0k-ds3-6il-3ni-9p5-5m7-hpb-a4h-174i-mdc-2ld-1j8-30q-1ot-j6s-alk-11pp-j17-eu8-85t-ghg-9do-1dbr-ppi-kvr-btf-qal-eu8-qrn-f9k-aa7-5rt-1ee0-qm1-k92-bcc-3t9-24a-10t9-ilr-85t-4pn-9ur-5rs-g63-8sm-ck8-73o-lsa-c35-2ld-1j7-3hs-24b-3hr-1uk-lb8-c35-1l6b-udj-7kq-48l-5m7-3c5-aa7-5rt-85t-4k1-uul-hjl-1amf-o6a-36f-1uk-s99-gbq-1gtn-ro6-1n4v-vfo-gst-9do-hpb-8sm-33q2-143p-c35-3c6-1nam-b10-12m8-9uq-3ni-17s-36f-17r-2dic-16dq-100r-alj-19ej-7kr-18nq-17r-3a1b+cpu-85t+5m-15hb-24a-155u-7kq-149f-cvk-6il-30q-24g1-10c7-6ob-3c6-r1d-cpt-va2-eoi-3hrs-1lt5-hjl-8bj-1dhh-lgt-213r-uum-ohm-ara-jtm-7kq-b6m-3hs-qak-6il-1130-553-1ib9-30q-26ka-3ni-1gtn-2fm-186o-1ul-ig4-17r-807-bc-ceh-h3-1fri-3t8-g64-2a1-2ltv-kq4-42u-17s-7qh-2a0-143p-9ur-va2-92c-1b1q-c8r-162e-7kq-qm1-mp-1gia+4k1-7qh+sf-6ob+sf-jcj+2a0-1cfc+4po-5rt+mo-lmj+2r3-hjl+1ou-7qh+sf-s3i+2r3-d5a+1di-19vm+4eb-m7m+24a-o6a+2fn-qal+2ld-2an9+7kq-12ar+3t8-1nam+61j-1a5c+2fn-1ee0-3nj-3ioa-irg-20u5-alk-1508-61i-17ll-4eb-10c7+mp-db0+1dh-18th+5aq-ls9+2ld-131k+4pn-2638+8sm-2kge+ck8-1vat+kke-iad+679-ot3+8sl-eu9+4k1-uov+6u2-16us+3hs-17ll-1uk-pv8-42v-1fg6-btf-1b1q-alj-1mpk-ds3-1hep-c35-2jvb-k92-11pp-8n0-8bj-2ld-6cv-2a0-6u2-2ld-eoi-6il-15ha-m20-155v-vfo-s98-ond-1k47-1d0f-ot3-f3u-31ab-12m8-1jug-btf-skm-1uk-g63+bc-10ht+3c6-16p6+afu-cei+4pn-eoi+6cv-bcc+553-s3j+cei-73n+36f-ds3+6cv-9p5+4eb-1dhh+jtm-18nr+ar9-1ame+2fn-qrn-2r3-ck8-2fn-pv8-806-qgb-btf-vfo-ed6-mj2-aa7-hpb-8bj-4jrb-23dr-f9k-4eb-kvr-42v-143p-1dh-eu8+17r-27b4+6oc-1811+48k-15bk+4pn-198t+ck8-d5a+4pn-198t+eoi-8h9+30q-aa8+3hr-11k2+btf-79e+2ld-1joq+e1q-ro6+36f-11pp+h3-27mf-afu-bnp-1uk-qal-4k1-1ttb-alk-qm1-48k-3vi8-9p5-1f4p-c8r-at8d-58fp-qga-cpu-1kl9-pph-17fv-j6t-sev-c8s-s3i-79e-9dp-1j7-rcp-1uk-6u2+0-553+0-287j+1dh-nl7+bd-471d+2fm-1ib8-7f4-ot3-8h9-p2p-c8r-ohn-gn7-7f4-678-eu8-db1-jia-ghg-moo-jcj-4ve-48k-36f-2r3-7f4-61j-m20-eu8-1cl3-keo-ilq-807-1ab2-ck8-skl-8h9-c8r-17r-k92+30p-r73+gn6-gbq+cpu-807+679-7qg+6u1-ed6+a4h-e1p+b10-79e+5m6-982+6u2-554+3t8-c35+982-6u1+554-8bj+4pn-p2q+db0-8mv+30q-qal+5ap-14kr-se-2r3-h3-143q-85t-2cg6-jcj-ed6-3hs-1vat-g0d-1lne-db1-2r3-mo-2ld-mp-9ur-2a1-73n-1ou-13od-92b-9do-2fn-79e-1ou-1b7h-7kq-qal-1ou-hpb-mp-1jug+4vd-n45+4k1",
+            "+hc08g-1vn1auc+ieo354-m7m-100r-ara-h89-hdv-pjs-hpb-qrn-2r3-48k-24b-2fn-17r-24a-1uk-2fn-2ld-42u-1ou-2ld-982-d5b-e7f-l5h-17s-1ot-24a-2fn-n45-keo-8sm-554-a4h-5rs-k92-d5b-btf-9je-gbp-irg-48l-61j-bnp-hv1-c8r-hdv-bd-h3-bte-gn6-jtm-l5h-k3c-h89-7qg-6cv-bcd-alj-dmc-ds3-8ha-ck8-982-mop-2a0-8sl-92c-qrn-h2j-ro6-sf-1j8-1ou-2r3-4ea-6u2-24b-3c5-h88-r1e-sev-1b7h-125-1ot-sf-1di-b6m-nfh-1di-48l-5m6-100r-1uk-1ejm-1ou-15sn-36g-g64-sf-36f-b6m-ohn-gbq-kke-f9k-cvk-tsh-m7n-skl-nfh-hjl-lgt-9do-ghg-79e-gn6-5m6-g64-24a-5gg-554-b6m-5rs-a4h-g64-i4o-o0k-jcj-1joq-1508-4k1-3c5-8sm-679-eu8-ara-bi2-8bj-3c6-2fn-7f4-5m6-alk-7kq-155u-q4v-jtl-bte-1lnf-udj-g0d-8sm-23jh-16jg-1508-kvr-p2q-e1p-1ev2-qgb-vr5-i4n-o0k-ds3-6il-3ni-9p5-5m7-hpb-a4h-174i-mdc-2ld-1j8-30q-1ot-j6s-alk-11pp-j17-eu8-85t-ghg-9do-1dbr-ppi-kvr-btf-qal-eu8-qrn-f9k-aa7-5rt-1ee0-qm1-k92-bcc-3t9-24a-10t9-ilr-85t-4pn-9ur-5rs-g63-8sm-ck8-73o-lsa-c35-2ld-1j7-3hs-24b-3hr-1uk-lb8-c35-1l6b-udj-7kq-48l-5m7-3c5-aa7-5rt-85t-4k1-uul-hjl-1amf-o6a-36f-1uk-s99-gbq-1gtn-ro6-1n4v-vfo-gst-9do-hpb-8sm-33q2-143p-c35-3c6-1nam-b10-12m8-9uq-3ni-17s-36f-17r-2dic-16dq-100r-alj-19ej-7kr-18nq-17r-3a1b+cpu-85t+5m-15hb-24a-155u-7kq-149f-cvk-6il-30q-24g1-10c7-6ob-3c6-r1d-cpt-va2-eoi-3hrs-1lt5-hjl-8bj-1dhh-lgt-213r-uum-ohm-ara-jtm-7kq-b6m-3hs-qak-6il-1130-553-1ib9-30q-26ka-3ni-1gtn-2fm-186o-1ul-ig4-17r-807-bc-ceh-h3-1fri-3t8-g64-2a1-2ltv-kq4-42u-17s-7qh-2a0-143p-9ur-va2-92c-1b1q-c8r-162e-7kq-qm1-mp-1gia+4k1-7qh+sf-6ob+sf-jcj+2a0-1cfc+4po-5rt+mo-lmj+2r3-hjl+1ou-7qh+sf-s3i+2r3-d5a+1di-19vm+4eb-m7m+24a-o6a+2fn-qal+2ld-2an9+7kq-12ar+3t8-1nam+61j-1a5c+2fn-1ee0-3nj-3ioa-irg-20u5-alk-1508-61i-17ll-4eb-10c7+mp-db0+1dh-18th+5aq-ls9+2ld-131k+4pn-2638+8sm-2kge+ck8-1vat+kke-iad+679-ot3+8sl-eu9+4k1-uov+6u2-16us+3hs-17ll-1uk-pv8-42v-1fg6-btf-1b1q-alj-1mpk-ds3-1hep-c35-2jvb-k92-11pp-8n0-8bj-2ld-6cv-2a0-6u2-2ld-eoi-6il-15ha-m20-155v-vfo-s98-ond-1k47-1d0f-ot3-f3u-31ab-12m8-1jug-btf-skm-1uk-g63+bc-10ht+3c6-16p6+afu-cei+4pn-eoi+6cv-bcc+553-s3j+cei-73n+36f-ds3+6cv-9p5+4eb-1dhh+jtm-18nr+ar9-1ame+2fn-qrn-2r3-ck8-2fn-pv8-806-qgb-btf-vfo-ed6-mj2-aa7-hpb-8bj-4jrb-23dr-f9k-4eb-kvr-42v-143p-1dh-eu8+17r-27b4+6oc-1811+48k-15bk+4pn-198t+ck8-d5a+4pn-198t+eoi-8h9+30q-aa8+3hr-11k2+btf-79e+2ld-1joq+e1q-ro6+36f-11pp+h3-27mf-afu-bnp-1uk-qal-4k1-1ttb-alk-qm1-48k-3vi8-9p5-1f4p-c8r-at8d-58fp-qga-cpu-1kl9-pph-17fv-j6t-sev-c8s-s3i-79e-9dp-1j7-rcp-1uk-6u2+0-553+0-287j+1dh-nl7+bd-471d+2fm-1ib8-7f4-ot3-8h9-p2p-c8r-ohn-gn7-7f4-678-eu8-db1-jia-ghg-moo-jcj-4ve-48k-36f-2r3-7f4-61j-m20-eu8-1cl3-keo-ilq-807-1ab2-ck8-skl-8h9-c8r-17r-k92+30p-r73+gn6-gbq+cpu-807+679-7qg+6u1-ed6+a4h-e1p+b10-79e+5m6-982+6u2-554+3t8-c35+982-6u1+554-8bj+4pn-p2q+db0-8mv+30q-qal+5ap-14kr-se-2r3-h3-143q-85t-2cg6-jcj-ed6-3hs-1vat-g0d-1lne-db1-2r3-mo-2ld-mp-9ur-2a1-73n-1ou-13od-92b-9do-2fn-79e-1ou-1b7h-7kq-qal-1ou-hpb-mp-1jug+4vd-n45+4k1"
         },
         {
           attributes: {
             length: 0.16419987519651613,
             time: 0.23724612000000889,
-            text:
-              "At exit 31 take ramp on the right to CA-57 S / CA-57 N toward Santa Ana / Pomona",
+            text: "At exit 31 take ramp on the right to CA-57 S / CA-57 N toward Santa Ana / Pomona",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTRampRight",
+            maneuverType: "esriDMTRampRight"
           },
           compressedGeometry:
-            "+hbvs7-1vvuim6+ic2p3k-u7s+ceh-36f+17r-3c6+17r-8bj+48l",
+            "+hbvs7-1vvuim6+ic2p3k-u7s+ceh-36f+17r-3c6+17r-8bj+48l"
         },
         {
           attributes: {
@@ -742,23 +740,22 @@ export const Solve = {
             text: "At fork keep left on CA-57 S toward Santa Ana",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTForkLeft",
+            maneuverType: "esriDMTForkLeft"
           },
           compressedGeometry:
-            "+hbukk-1vvre1b+ic22ea-svv+i4m-b0v+6il-m7k+3ni-dmb-42u-b0v-982-5gg-f9j+4k1-1cqk+mp-48k-bd-79e+5n-ck6+0-85s+0-1ou-5n-1ror+0-12ao+0-806-bc-20o8-bc-1mpe-5n-hdu-bc-1ama-5m-14f2+5m-2nsb-sf-11k0-1ou-dmb-5gf-ski-a4g-10t7-118j-2ibs-5gf-d59",
+            "+hbukk-1vvre1b+ic22ea-svv+i4m-b0v+6il-m7k+3ni-dmb-42u-b0v-982-5gg-f9j+4k1-1cqk+mp-48k-bd-79e+5n-ck6+0-85s+0-1ou-5n-1ror+0-12ao+0-806-bc-20o8-bc-1mpe-5n-hdu-bc-1ama-5m-14f2+5m-2nsb-sf-11k0-1ou-dmb-5gf-ski-a4g-10t7-118j-2ibs-5gf-d59"
         },
         {
           attributes: {
             length: 0.27235541468188984,
             time: 0.64907230999999688,
-            text:
-              "At exit 2 take ramp on the right to Katella Ave toward Disneyland / Honda Center / Convention Center",
+            text: "At exit 2 take ramp on the right to Katella Ave toward Disneyland / Honda Center / Convention Center",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTRampRight",
+            maneuverType: "esriDMTRampRight"
           },
           compressedGeometry:
-            "+hbu9l-1vvungk+ibc53m-ff9-ohk-4pm-4pm-ji7-bi1-h3-fqm",
+            "+hbu9l-1vvungk+ibc53m-ff9-ohk-4pm-4pm-ji7-bi1-h3-fqm"
         },
         {
           attributes: {
@@ -767,10 +764,10 @@ export const Solve = {
             text: "Turn right on E Katella Ave",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTTurnRight",
+            maneuverType: "esriDMTTurnRight"
           },
           compressedGeometry:
-            "+hbrar-1vvl2k8+ib786e-6ct-h3-6ij-17r-gn1-677-6oa-4pm-3t7-2lc-f3q-alg-2lc-1ou-30p-1ot-g08-9jc-b6j-4pm-2ld-se-hus-24a-5ao+0-10t1-5m-79b+0-f9h+5m-lgn+0-5rr+0-cvg+h2-8sj-5m-48k+0-61g+0-dm9+0-pdv-bc-1uj+0-kk9-5m-jnq+0-6tv+0-4pm+0-73m+0-b6j+0-8bg-5m",
+            "+hbrar-1vvl2k8+ib786e-6ct-h3-6ij-17r-gn1-677-6oa-4pm-3t7-2lc-f3q-alg-2lc-1ou-30p-1ot-g08-9jc-b6j-4pm-2ld-se-hus-24a-5ao+0-10t1-5m-79b+0-f9h+5m-lgn+0-5rr+0-cvg+h2-8sj-5m-48k+0-61g+0-dm9+0-pdv-bc-1uj+0-kk9-5m-jnq+0-6tv+0-4pm+0-73m+0-b6j+0-8bg-5m"
         },
         {
           attributes: {
@@ -779,23 +776,22 @@ export const Solve = {
             text: "Turn right onto ramp and go on I-5 N toward Los Angeles",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTTurnRight",
+            maneuverType: "esriDMTTurnRight"
           },
           compressedGeometry:
-            "+hbplb-1vvpqrg+ib4066-bta+bhu-143c+qln-qrd+g07-8ms+6tv-167l+13cj-c8n+bta-gsl+gbk-1e23+1cvu",
+            "+hbplb-1vvpqrg+ib4066-bta+bhu-143c+qln-qrd+g07-8ms+6tv-167l+13cj-c8n+bta-gsl+gbk-1e23+1cvu"
         },
         {
           attributes: {
             length: 0.33157335003384958,
             time: 0.81261686999999561,
-            text:
-              "At exit 110 take ramp on the right to Harbor Blvd toward Ball Rd / Anaheim / HOSPITAL",
+            text: "At exit 110 take ramp on the right to Harbor Blvd toward Ball Rd / Anaheim / HOSPITAL",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTRampRight",
+            maneuverType: "esriDMTRampRight"
           },
           compressedGeometry:
-            "+hbp6p-1vvua8g+ib8ql3-aa3+cec-f9e+gsm-5ge+c8m-bc+drt-7qd+677-b0s-1j7-3c4+0",
+            "+hbp6p-1vvua8g+ib8ql3-aa3+cec-f9e+gsm-5ge+c8m-bc+drt-7qd+677-b0s-1j7-3c4+0"
         },
         {
           attributes: {
@@ -804,10 +800,10 @@ export const Solve = {
             text: "Turn left on S Harbor Blvd",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTTurnLeft",
+            maneuverType: "esriDMTTurnLeft"
           },
           compressedGeometry:
-            "+hbp6p-1vvvvv8+ibamoo+bc-eim+h3-9un+5m-6ii+0-2fm+5m-3t7+0-676+5m-dar+0-7qd+0-1uk+55-78g",
+            "+hbp6p-1vvvvv8+ibamoo+bc-eim+h3-9un+5m-6ii+0-2fm+5m-3t7+0-676+5m-dar+0-7qd+0-1uk+55-78g"
         },
         {
           attributes: {
@@ -816,13 +812,13 @@ export const Solve = {
             text: "Finish at Location 2, on the right",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTStop",
+            maneuverType: "esriDMTStop"
           },
-          compressedGeometry: "+hbp76-1vvvvsf+ib8d21+0+0",
-        },
-      ],
-    },
-  ],
+          compressedGeometry: "+hbp76-1vvvvsf+ib8d21+0+0"
+        }
+      ]
+    }
+  ]
 };
 
 export const SolveNoDirections = {
@@ -838,12 +834,12 @@ export const SolveNoDirections = {
       Total_TravelTime: "Total_TravelTime",
       Total_Kilometers: "Total_Kilometers",
       Total_Miles: "Total_Miles",
-      Shape_Length: "Shape_Length",
+      Shape_Length: "Shape_Length"
     },
     geometryType: "esriGeometryPolyline",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -856,7 +852,7 @@ export const SolveNoDirections = {
           Total_TravelTime: 73.070791262950962,
           Total_Kilometers: 84.98294502390344,
           Total_Miles: 52.80595386934268,
-          Shape_Length: 0.87271129860372554,
+          Shape_Length: 0.87271129860372554
         },
         geometry: {
           paths: [
@@ -1422,13 +1418,13 @@ export const SolveNoDirections = {
               [-117.91540999999995, 33.813130000000058],
               [-117.91540999999995, 33.812690000000032],
               [-117.91540999999995, 33.812580000000025],
-              [-117.91540092099996, 33.812171446000036],
-            ],
-          ],
-        },
-      },
-    ],
-  },
+              [-117.91540092099996, 33.812171446000036]
+            ]
+          ]
+        }
+      }
+    ]
+  }
 };
 
 export const SolveWebMercator: any = {
@@ -1436,8 +1432,8 @@ export const SolveWebMercator: any = {
     {
       type: 50,
       description:
-        'Network elements with avoid-restrictions are traversed in the output (restriction attribute names: "Through Traffic Prohibited").',
-    },
+        'Network elements with avoid-restrictions are traversed in the output (restriction attribute names: "Through Traffic Prohibited").'
+    }
   ],
   checksum: "akCHAF8_hwA.",
   routes: {
@@ -1471,12 +1467,12 @@ export const SolveWebMercator: any = {
       Total_WalkTime: "Total_WalkTime",
       Total_TruckMinutes: "Total_TruckMinutes",
       Total_TruckTravelTime: "Total_TruckTravelTime",
-      Shape_Length: "Shape_Length",
+      Shape_Length: "Shape_Length"
     },
     geometryType: "esriGeometryPolyline",
     spatialReference: {
       wkid: 102100,
-      latestWkid: 3857,
+      latestWkid: 3857
     },
     features: [
       {
@@ -1510,7 +1506,7 @@ export const SolveWebMercator: any = {
           Total_WalkTime: null,
           Total_TruckMinutes: null,
           Total_TruckTravelTime: null,
-          Shape_Length: 2150.8849339441495,
+          Shape_Length: 2150.8849339441495
         },
         geometry: {
           paths: [
@@ -1546,12 +1542,12 @@ export const SolveWebMercator: any = {
               [-13044986.773800001, 4036182.8572999984],
               [-13044961.170299999, 4036145.235799998],
               [-13044820.9077, 4036143.8922000006],
-              [-13044862.4627, 4036130.2753000036],
-            ],
-          ],
-        },
-      },
-    ],
+              [-13044862.4627, 4036130.2753000036]
+            ]
+          ]
+        }
+      }
+    ]
   },
   directions: [
     {
@@ -1568,9 +1564,9 @@ export const SolveWebMercator: any = {
           ymax: 4036792.8795825001,
           spatialReference: {
             wkid: 102100,
-            latestWkid: 3857,
-          },
-        },
+            latestWkid: 3857
+          }
+        }
       },
       features: [
         {
@@ -1580,15 +1576,15 @@ export const SolveWebMercator: any = {
             text: "Start at Location 1",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTDepart",
+            maneuverType: "esriDMTDepart"
           },
           compressedGeometry: "+54-1voegsr+jn9k5c+0+0",
           strings: [
             {
               string: "Location 1",
-              stringType: "esriDSTStreetName",
-            },
-          ],
+              stringType: "esriDSTStreetName"
+            }
+          ]
         },
         {
           attributes: {
@@ -1597,15 +1593,15 @@ export const SolveWebMercator: any = {
             text: "Go west toward New York St",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTStraight",
+            maneuverType: "esriDMTStraight"
           },
           compressedGeometry: "+54-1voegsr+jn9k5c-7p+m",
           strings: [
             {
               string: "New York St",
-              stringType: "esriDSTCrossStreet",
-            },
-          ],
+              stringType: "esriDSTCrossStreet"
+            }
+          ]
         },
         {
           attributes: {
@@ -1614,16 +1610,16 @@ export const SolveWebMercator: any = {
             text: "Turn right on New York St",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTTurnRight",
+            maneuverType: "esriDMTTurnRight"
           },
           compressedGeometry:
             "+54-1voeh4k+jn9k62+0+cm9+0+bjs+0+bqo+0+2bo+0+1g6+0+2ph+0+3e6+0+1n3+0+19a-5m+aoa+5m+5c5",
           strings: [
             {
               string: "New York St",
-              stringType: "esriDSTStreetName",
-            },
-          ],
+              stringType: "esriDSTStreetName"
+            }
+          ]
         },
         {
           attributes: {
@@ -1632,16 +1628,16 @@ export const SolveWebMercator: any = {
             text: "Turn right on W Redlands Blvd",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTTurnRight",
+            maneuverType: "esriDMTTurnRight"
           },
           compressedGeometry:
             "+54-1voeh4k+jnbljg+bir-3ru+10ve-gbc+oun-f21+8c5-3rv+437-19a+55e-1g7+8ni-do+2hf7-42r",
           strings: [
             {
               string: "W Redlands Blvd",
-              stringType: "esriDSTStreetName",
-            },
-          ],
+              stringType: "esriDSTStreetName"
+            }
+          ]
         },
         {
           attributes: {
@@ -1650,16 +1646,16 @@ export const SolveWebMercator: any = {
             text: "Turn right on N Eureka St",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTTurnRight",
+            maneuverType: "esriDMTTurnRight"
           },
           compressedGeometry:
             "+54-1vo8vo1+jna742+0-7nt+0-9f0+0-19a-5m-dhr+3i3-7h0+1jb-2bo",
           strings: [
             {
               string: "N Eureka St",
-              stringType: "esriDSTStreetName",
-            },
-          ],
+              stringType: "esriDSTStreetName"
+            }
+          ]
         },
         {
           attributes: {
@@ -1668,15 +1664,15 @@ export const SolveWebMercator: any = {
             text: "Continue forward on S Eureka St",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTStraight",
+            maneuverType: "esriDMTStraight"
           },
           compressedGeometry: "+54-1vo8qo9+jn8t58+48u-5pu+2a5-3e5+437-60q",
           strings: [
             {
               string: "S Eureka St",
-              stringType: "esriDSTStreetName",
-            },
-          ],
+              stringType: "esriDSTStreetName"
+            }
+          ]
         },
         {
           attributes: {
@@ -1685,15 +1681,15 @@ export const SolveWebMercator: any = {
             text: "Turn left on W Vine St",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTTurnLeft",
+            maneuverType: "esriDMTTurnLeft"
           },
           compressedGeometry: "+54-1vo8g1v+jn8dsb+mer-6t",
           strings: [
             {
               string: "W Vine St",
-              stringType: "esriDSTStreetName",
-            },
-          ],
+              stringType: "esriDSTStreetName"
+            }
+          ]
         },
         {
           attributes: {
@@ -1702,9 +1698,9 @@ export const SolveWebMercator: any = {
             text: "Make a sharp right",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTSharpRight",
+            maneuverType: "esriDMTSharpRight"
           },
-          compressedGeometry: "+54-1vo7pj4+jn8dle-6kv-25p",
+          compressedGeometry: "+54-1vo7pj4+jn8dle-6kv-25p"
         },
         {
           attributes: {
@@ -1713,19 +1709,19 @@ export const SolveWebMercator: any = {
             text: "Finish at Location 2, on the right",
             ETA: -2209161600000,
             arriveTimeUTC: -2209161600000,
-            maneuverType: "esriDMTStop",
+            maneuverType: "esriDMTStop"
           },
           compressedGeometry: "+54-1vo8083+jn8bfl+0+0",
           strings: [
             {
               string: "Location 2",
-              stringType: "esriDSTStreetName",
-            },
-          ],
-        },
-      ],
-    },
-  ],
+              stringType: "esriDSTStreetName"
+            }
+          ]
+        }
+      ]
+    }
+  ]
 };
 
 export const ClosestFacility: any = {
@@ -1751,12 +1747,12 @@ export const ClosestFacility: any = {
       Total_WalkTime: "Total_WalkTime",
       Total_TruckMinutes: "Total_TruckMinutes",
       Total_TruckTravelTime: "Total_TruckTravelTime",
-      Shape_Length: "Shape_Length",
+      Shape_Length: "Shape_Length"
     },
     geometryType: "esriGeometryPolyline",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -1764,8 +1760,7 @@ export const ClosestFacility: any = {
           ObjectID: 1,
           FacilityID: 3,
           FacilityRank: 1,
-          Name:
-            "Echo Park Ave & W Sunset Blvd, Los Angeles, California, 90026 - Flint Wash Trail",
+          Name: "Echo Park Ave & W Sunset Blvd, Los Angeles, California, 90026 - Flint Wash Trail",
           IncidentCurbApproach: 1,
           FacilityCurbApproach: 2,
           IncidentID: 1,
@@ -1781,7 +1776,7 @@ export const ClosestFacility: any = {
           Total_WalkTime: null,
           Total_TruckMinutes: null,
           Total_TruckTravelTime: null,
-          Shape_Length: 0.17714882500237122,
+          Shape_Length: 0.17714882500237122
         },
         geometry: {
           paths: [
@@ -1967,13 +1962,13 @@ export const ClosestFacility: any = {
               [-118.20210999999995, 34.194640000000049],
               [-118.20219999999995, 34.194450000000074],
               [-118.20305999999999, 34.194270000000074],
-              [-118.20332258899998, 34.193816244000061],
-            ],
-          ],
-        },
-      },
-    ],
-  },
+              [-118.20332258899998, 34.193816244000061]
+            ]
+          ]
+        }
+      }
+    ]
+  }
 };
 
 export const ClosestFacilityWebMercator: any = {
@@ -1999,12 +1994,12 @@ export const ClosestFacilityWebMercator: any = {
       Total_WalkTime: "Total_WalkTime",
       Total_TruckMinutes: "Total_TruckMinutes",
       Total_TruckTravelTime: "Total_TruckTravelTime",
-      Shape_Length: "Shape_Length",
+      Shape_Length: "Shape_Length"
     },
     geometryType: "esriGeometryPolyline",
     spatialReference: {
       wkid: 102100,
-      latestWkid: 3857,
+      latestWkid: 3857
     },
     features: [
       {
@@ -2012,8 +2007,7 @@ export const ClosestFacilityWebMercator: any = {
           ObjectID: 1,
           FacilityID: 3,
           FacilityRank: 1,
-          Name:
-            "Echo Park Ave & W Sunset Blvd, Los Angeles, California, 90026 - Flint Wash Trail",
+          Name: "Echo Park Ave & W Sunset Blvd, Los Angeles, California, 90026 - Flint Wash Trail",
           IncidentCurbApproach: 1,
           FacilityCurbApproach: 2,
           IncidentID: 1,
@@ -2029,7 +2023,7 @@ export const ClosestFacilityWebMercator: any = {
           Total_WalkTime: null,
           Total_TruckMinutes: null,
           Total_TruckTravelTime: null,
-          Shape_Length: 22645.646955428248,
+          Shape_Length: 22645.646955428248
         },
         geometry: {
           paths: [
@@ -2215,13 +2209,13 @@ export const ClosestFacilityWebMercator: any = {
               [-13158198.695900001, 4054967.4619000033],
               [-13158208.714600001, 4054941.8909000009],
               [-13158304.4494, 4054917.6657000035],
-              [-13158333.6807, 4054856.5974999964],
-            ],
-          ],
-        },
-      },
-    ],
-  },
+              [-13158333.6807, 4054856.5974999964]
+            ]
+          ]
+        }
+      }
+    ]
+  }
 };
 
 export const ServiceArea: any = {
@@ -2234,12 +2228,12 @@ export const ServiceArea: any = {
       FromBreak: "FromBreak",
       ToBreak: "ToBreak",
       Shape_Length: "Shape_Length",
-      Shape_Area: "Shape_Area",
+      Shape_Area: "Shape_Area"
     },
     geometryType: "esriGeometryPolygon",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -2250,7 +2244,7 @@ export const ServiceArea: any = {
           FromBreak: 10,
           ToBreak: 15,
           Shape_Length: 0.7535526436504939,
-          Shape_Area: 0.0039483437001568934,
+          Shape_Area: 0.0039483437001568934
         },
         geometry: {
           rings: [
@@ -2784,7 +2778,7 @@ export const ServiceArea: any = {
               [-117.99541838999994, 33.86383244700005],
               [-117.99586754599994, 33.864955336000037],
               [-117.99496923499999, 33.865629069000079],
-              [-117.99496923499999, 33.865853647000051],
+              [-117.99496923499999, 33.865853647000051]
             ],
             [
               [-117.91591785099996, 33.808586310000067],
@@ -2841,10 +2835,10 @@ export const ServiceArea: any = {
               [-117.91861278499999, 33.809484621000024],
               [-117.91704073999995, 33.809709199000054],
               [-117.91659158499999, 33.808810888000039],
-              [-117.91591785099996, 33.808586310000067],
-            ],
-          ],
-        },
+              [-117.91591785099996, 33.808586310000067]
+            ]
+          ]
+        }
       },
       {
         attributes: {
@@ -2854,7 +2848,7 @@ export const ServiceArea: any = {
           FromBreak: 5,
           ToBreak: 10,
           Shape_Length: 0.05674581997981152,
-          Shape_Area: 7.6157127636770723e-5,
+          Shape_Area: 7.6157127636770723e-5
         },
         geometry: {
           rings: [
@@ -2906,10 +2900,10 @@ export const ServiceArea: any = {
               [-117.92400265199996, 33.819815199000061],
               [-117.92445180699997, 33.822060977000035],
               [-117.92265518499994, 33.823633022000024],
-              [-117.92265518499994, 33.823857600000053],
-            ],
-          ],
-        },
+              [-117.92265518499994, 33.823857600000053]
+            ]
+          ]
+        }
       },
       {
         attributes: {
@@ -2919,7 +2913,7 @@ export const ServiceArea: any = {
           FromBreak: 0,
           ToBreak: 5,
           Shape_Length: 0.022233010159051159,
-          Shape_Area: 2.0300162261347881e-5,
+          Shape_Area: 2.0300162261347881e-5
         },
         geometry: {
           rings: [
@@ -2939,10 +2933,10 @@ export const ServiceArea: any = {
               [-117.91659158499999, 33.813527021000027],
               [-117.91793905099996, 33.814649910000071],
               [-117.91748989599995, 33.815548221000029],
-              [-117.91659158499999, 33.815772799000058],
-            ],
-          ],
-        },
+              [-117.91659158499999, 33.815772799000058]
+            ]
+          ]
+        }
       },
       {
         attributes: {
@@ -2952,7 +2946,7 @@ export const ServiceArea: any = {
           FromBreak: 10,
           ToBreak: 15,
           Shape_Length: 3.7076606865786021,
-          Shape_Area: 0.018574497020526267,
+          Shape_Area: 0.018574497020526267
         },
         geometry: {
           rings: [
@@ -3022,7 +3016,7 @@ export const ServiceArea: any = {
               [-117.18154846599998, 34.186775314000045],
               [-117.18042557699999, 34.186101581000059],
               [-117.17840437699999, 34.187224470000046],
-              [-117.17705690999998, 34.187224470000046],
+              [-117.17705690999998, 34.187224470000046]
             ],
             [
               [-117.15662033099994, 33.969833166000058],
@@ -4094,7 +4088,7 @@ export const ServiceArea: any = {
               [-117.15414997499994, 33.97544761000006],
               [-117.15527286399998, 33.971180632000028],
               [-117.15572201899994, 33.97028232100007],
-              [-117.15662033099994, 33.969833166000058],
+              [-117.15662033099994, 33.969833166000058]
             ],
             [
               [-117.19345108899995, 33.994312145000038],
@@ -4139,7 +4133,7 @@ export const ServiceArea: any = {
               [-117.19165446599999, 33.99857912300007],
               [-117.19187904399996, 33.995435034000025],
               [-117.19232819999996, 33.99476130100004],
-              [-117.19345108899995, 33.994312145000038],
+              [-117.19345108899995, 33.994312145000038]
             ],
             [
               [-117.21276477899994, 34.010706324000068],
@@ -4164,7 +4158,7 @@ export const ServiceArea: any = {
               [-117.21164188999995, 34.014524147000031],
               [-117.21074357899994, 34.013625835000028],
               [-117.21074357899994, 34.012278369000057],
-              [-117.21276477899994, 34.010706324000068],
+              [-117.21276477899994, 34.010706324000068]
             ],
             [
               [-117.34346905499996, 34.013401258000044],
@@ -5162,13 +5156,13 @@ export const ServiceArea: any = {
               [-117.33628256599997, 34.021935214000052],
               [-117.33987580999997, 34.017892814000049],
               [-117.34234616599997, 34.013850413000057],
-              [-117.34346905499996, 34.013401258000044],
+              [-117.34346905499996, 34.013401258000044]
             ],
             [
               [-117.20894695699997, 34.015422458000046],
               [-117.20715033399995, 34.016994502000045],
               [-117.20872237899999, 34.015422458000046],
-              [-117.20894695699997, 34.015422458000046],
+              [-117.20894695699997, 34.015422458000046]
             ],
             [
               [-117.22331993499995, 34.018791125000064],
@@ -5193,7 +5187,7 @@ export const ServiceArea: any = {
               [-117.21905295699997, 34.019464858000049],
               [-117.21950211299998, 34.020363169000063],
               [-117.22174789099995, 34.019914014000051],
-              [-117.22331993499995, 34.018791125000064],
+              [-117.22331993499995, 34.018791125000064]
             ],
             [
               [-117.25161673699995, 34.038778548000039],
@@ -5204,7 +5198,7 @@ export const ServiceArea: any = {
               [-117.25318878199994, 34.03945228200007],
               [-117.25363793699995, 34.039676860000043],
               [-117.25184131499998, 34.039676860000043],
-              [-117.25161673699995, 34.038778548000039],
+              [-117.25161673699995, 34.038778548000039]
             ],
             [
               [-117.19008242199999, 34.136694466000051],
@@ -5215,10 +5209,10 @@ export const ServiceArea: any = {
               [-117.19098073299995, 34.140736867000044],
               [-117.19030699999996, 34.137592778000055],
               [-117.19030699999996, 34.137368200000026],
-              [-117.19008242199999, 34.136694466000051],
-            ],
-          ],
-        },
+              [-117.19008242199999, 34.136694466000051]
+            ]
+          ]
+        }
       },
       {
         attributes: {
@@ -5228,7 +5222,7 @@ export const ServiceArea: any = {
           FromBreak: 5,
           ToBreak: 10,
           Shape_Length: 1.8160312432967285,
-          Shape_Area: 0.0079932960397267223,
+          Shape_Area: 0.0079932960397267223
         },
         geometry: {
           rings: [
@@ -6180,7 +6174,7 @@ export const ServiceArea: any = {
               [-117.19075615499997, 34.144779267000047],
               [-117.19075615499997, 34.147698778000063],
               [-117.18985784399996, 34.148372512000037],
-              [-117.18985784399996, 34.148597089000077],
+              [-117.18985784399996, 34.148597089000077]
             ],
             [
               [-117.18940868799996, 34.034736148000036],
@@ -6407,10 +6401,10 @@ export const ServiceArea: any = {
               [-117.19142988899995, 34.03585903700008],
               [-117.19053157699994, 34.036083615000052],
               [-117.19030699999996, 34.035185304000038],
-              [-117.18940868799996, 34.034736148000036],
-            ],
-          ],
-        },
+              [-117.18940868799996, 34.034736148000036]
+            ]
+          ]
+        }
       },
       {
         attributes: {
@@ -6420,7 +6414,7 @@ export const ServiceArea: any = {
           FromBreak: 0,
           ToBreak: 5,
           Shape_Length: 0.33960159097279891,
-          Shape_Area: 0.0019826827947779274,
+          Shape_Area: 0.0019826827947779274
         },
         geometry: {
           rings: [
@@ -6649,13 +6643,13 @@ export const ServiceArea: any = {
               [-117.19210362199999, 34.08189748500007],
               [-117.19187904399996, 34.08324495100004],
               [-117.19120531099998, 34.08346952900007],
-              [-117.19120531099998, 34.083694107000042],
-            ],
-          ],
-        },
-      },
-    ],
-  },
+              [-117.19120531099998, 34.083694107000042]
+            ]
+          ]
+        }
+      }
+    ]
+  }
 };
 
 export const ServiceAreaWebMercator: any = {
@@ -6668,12 +6662,12 @@ export const ServiceAreaWebMercator: any = {
       FromBreak: "FromBreak",
       ToBreak: "ToBreak",
       Shape_Length: "Shape_Length",
-      Shape_Area: "Shape_Area",
+      Shape_Area: "Shape_Area"
     },
     geometryType: "esriGeometryPolygon",
     spatialReference: {
       wkid: 102100,
-      latestWkid: 3857,
+      latestWkid: 3857
     },
     features: [
       {
@@ -6684,7 +6678,7 @@ export const ServiceAreaWebMercator: any = {
           FromBreak: 10,
           ToBreak: 15,
           Shape_Length: 91112.41637233652,
-          Shape_Area: 58893520.148465134,
+          Shape_Area: 58893520.148465134
         },
         geometry: {
           rings: [
@@ -7218,7 +7212,7 @@ export const ServiceAreaWebMercator: any = {
               [-13135189.891100001, 4010532.6726000011],
               [-13135239.890900001, 4010683.2092999965],
               [-13135139.8914, 4010773.5320999995],
-              [-13135139.8914, 4010803.6400000006],
+              [-13135139.8914, 4010803.6400000006]
             ],
             [
               [-13126339.931600001, 4003128.7116999999],
@@ -7275,10 +7269,10 @@ export const ServiceAreaWebMercator: any = {
               [-13126639.930300001, 4003249.0631000027],
               [-13126464.931, 4003279.1511000022],
               [-13126414.931299999, 4003158.7995000035],
-              [-13126339.931600001, 4003128.7116999999],
-            ],
-          ],
-        },
+              [-13126339.931600001, 4003128.7116999999]
+            ]
+          ]
+        }
       },
       {
         attributes: {
@@ -7288,7 +7282,7 @@ export const ServiceAreaWebMercator: any = {
           FromBreak: 5,
           ToBreak: 10,
           Shape_Length: 6861.9593974191221,
-          Shape_Area: 1135925.9289546104,
+          Shape_Area: 1135925.9289546104
         },
         geometry: {
           rings: [
@@ -7340,10 +7334,10 @@ export const ServiceAreaWebMercator: any = {
               [-13127239.9275, 4004633.1943000033],
               [-13127289.927200001, 4004934.1146000028],
               [-13127089.928199999, 4005144.7634999976],
-              [-13127089.928199999, 4005174.8566000015],
-            ],
-          ],
-        },
+              [-13127089.928199999, 4005174.8566000015]
+            ]
+          ]
+        }
       },
       {
         attributes: {
@@ -7353,7 +7347,7 @@ export const ServiceAreaWebMercator: any = {
           FromBreak: 0,
           ToBreak: 5,
           Shape_Length: 2769.104973477868,
-          Shape_Area: 302767.53686170676,
+          Shape_Area: 302767.53686170676
         },
         geometry: {
           rings: [
@@ -7373,10 +7367,10 @@ export const ServiceAreaWebMercator: any = {
               [-13126414.931299999, 4003790.6596999988],
               [-13126564.930500001, 4003941.1077999994],
               [-13126514.9308, 4004061.4676999971],
-              [-13126414.931299999, 4004091.5578999966],
-            ],
-          ],
-        },
+              [-13126414.931299999, 4004091.5578999966]
+            ]
+          ]
+        }
       },
       {
         attributes: {
@@ -7386,7 +7380,7 @@ export const ServiceAreaWebMercator: any = {
           FromBreak: 10,
           ToBreak: 15,
           Shape_Length: 449285.76667892095,
-          Shape_Area: 277913245.4271071,
+          Shape_Area: 277913245.4271071
         },
         geometry: {
           rings: [
@@ -7456,7 +7450,7 @@ export const ServiceAreaWebMercator: any = {
               [-13044590.305599999, 4053909.0446999967],
               [-13044465.306200001, 4053818.3792999983],
               [-13044240.3072, 4053969.4887000024],
-              [-13044090.3079, 4053969.4887000024],
+              [-13044090.3079, 4053969.4887000024]
             ],
             [
               [-13041815.318300001, 4024752.0763000026],
@@ -8528,7 +8522,7 @@ export const ServiceAreaWebMercator: any = {
               [-13041540.319499999, 4025505.7163000032],
               [-13041665.319, 4024932.9452999979],
               [-13041715.318700001, 4024812.3655999973],
-              [-13041815.318300001, 4024752.0763000026],
+              [-13041815.318300001, 4024752.0763000026]
             ],
             [
               [-13045915.2995, 4028038.3117000014],
@@ -8573,7 +8567,7 @@ export const ServiceAreaWebMercator: any = {
               [-13045715.3004, 4028611.2387000024],
               [-13045740.3003, 4028189.0791999996],
               [-13045790.300099999, 4028098.6185000017],
-              [-13045915.2995, 4028038.3117000014],
+              [-13045915.2995, 4028038.3117000014]
             ],
             [
               [-13048065.2897, 4030239.7145000026],
@@ -8598,7 +8592,7 @@ export const ServiceAreaWebMercator: any = {
               [-13047940.290199999, 4030752.4310000017],
               [-13047840.2907, 4030631.7895999998],
               [-13047840.2907, 4030450.8303000033],
-              [-13048065.2897, 4030239.7145000026],
+              [-13048065.2897, 4030239.7145000026]
             ],
             [
               [-13062615.223099999, 4030601.6296000034],
@@ -9596,13 +9590,13 @@ export const ServiceAreaWebMercator: any = {
               [-13061815.2268, 4031747.7699000016],
               [-13062215.2249, 4031204.8470000029],
               [-13062490.2237, 4030661.9499000013],
-              [-13062615.223099999, 4030601.6296000034],
+              [-13062615.223099999, 4030601.6296000034]
             ],
             [
               [-13047640.2917, 4030873.0734999999],
               [-13047440.2925, 4031084.2009000033],
               [-13047615.2918, 4030873.0734999999],
-              [-13047640.2917, 4030873.0734999999],
+              [-13047640.2917, 4030873.0734999999]
             ],
             [
               [-13049240.284299999, 4031325.4943000004],
@@ -9627,7 +9621,7 @@ export const ServiceAreaWebMercator: any = {
               [-13048765.2864, 4031415.9804999977],
               [-13048815.2863, 4031536.6300999969],
               [-13049065.2851, 4031476.3052000031],
-              [-13049240.284299999, 4031325.4943000004],
+              [-13049240.284299999, 4031325.4943000004]
             ],
             [
               [-13052390.2699, 4034010.2269999981],
@@ -9638,7 +9632,7 @@ export const ServiceAreaWebMercator: any = {
               [-13052565.269099999, 4034100.7347000018],
               [-13052615.2688, 4034130.9041000009],
               [-13052415.2698, 4034130.9041000009],
-              [-13052390.2699, 4034010.2269999981],
+              [-13052390.2699, 4034010.2269999981]
             ],
             [
               [-13045540.301199999, 4047171.554899998],
@@ -9649,10 +9643,10 @@ export const ServiceAreaWebMercator: any = {
               [-13045640.300799999, 4047715.2400000021],
               [-13045565.301100001, 4047292.3716999963],
               [-13045565.301100001, 4047262.1673000008],
-              [-13045540.301199999, 4047171.554899998],
-            ],
-          ],
-        },
+              [-13045540.301199999, 4047171.554899998]
+            ]
+          ]
+        }
       },
       {
         attributes: {
@@ -9662,7 +9656,7 @@ export const ServiceAreaWebMercator: any = {
           FromBreak: 5,
           ToBreak: 10,
           Shape_Length: 219418.46479304781,
-          Shape_Area: 119572000.75689353,
+          Shape_Area: 119572000.75689353
         },
         geometry: {
           rings: [
@@ -10614,7 +10608,7 @@ export const ServiceAreaWebMercator: any = {
               [-13045615.300900001, 4048258.9509999976],
               [-13045615.300900001, 4048651.6473999992],
               [-13045515.3013, 4048742.2716000006],
-              [-13045515.3013, 4048772.4796999991],
+              [-13045515.3013, 4048772.4796999991]
             ],
             [
               [-13045465.3015, 4033467.1963],
@@ -10841,10 +10835,10 @@ export const ServiceAreaWebMercator: any = {
               [-13045690.3006, 4033618.0355999991],
               [-13045590.300900001, 4033648.2036999986],
               [-13045565.301100001, 4033527.5319000036],
-              [-13045465.3015, 4033467.1963],
-            ],
-          ],
-        },
+              [-13045465.3015, 4033467.1963]
+            ]
+          ]
+        }
       },
       {
         attributes: {
@@ -10854,7 +10848,7 @@ export const ServiceAreaWebMercator: any = {
           FromBreak: 0,
           ToBreak: 5,
           Shape_Length: 41096.00028220714,
-          Shape_Area: 29656369.611196712,
+          Shape_Area: 29656369.611196712
         },
         geometry: {
           rings: [
@@ -11083,13 +11077,13 @@ export const ServiceAreaWebMercator: any = {
               [-13045765.3002, 4039804.1657999977],
               [-13045740.3003, 4039985.2738000005],
               [-13045665.3007, 4040015.4588000029],
-              [-13045665.3007, 4040045.6437999979],
-            ],
-          ],
-        },
-      },
-    ],
-  },
+              [-13045665.3007, 4040045.6437999979]
+            ]
+          ]
+        }
+      }
+    ]
+  }
 };
 
 // with default `outputType` of "esriNAODOutputSparseMatrix"
@@ -11099,9 +11093,9 @@ export const OriginDestinationMatrix: any = {
     "1": {
       "1": [23.997715775219728, 10.432671969745961, 16.78975803847885],
       "2": [27.045690926225312, 13.077116708940189, 21.045579312832636],
-      "3": [16.379585979609043, 11.632798517137694, 18.72117449676444],
+      "3": [16.379585979609043, 11.632798517137694, 18.72117449676444]
     },
-    costAttributeNames: ["TravelTime", "Miles", "Kilometers"],
+    costAttributeNames: ["TravelTime", "Miles", "Kilometers"]
   },
   origins: {
     fieldAliases: {
@@ -11125,12 +11119,12 @@ export const OriginDestinationMatrix: any = {
       Cutoff_TimeAt1KPH: "Cutoff_TimeAt1KPH",
       Cutoff_WalkTime: "Cutoff_WalkTime",
       Cutoff_TruckMinutes: "Cutoff_TruckMinutes",
-      Cutoff_TruckTravelTime: "Cutoff_TruckTravelTime",
+      Cutoff_TruckTravelTime: "Cutoff_TruckTravelTime"
     },
     geometryType: "esriGeometryPoint",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -11155,13 +11149,13 @@ export const OriginDestinationMatrix: any = {
           Cutoff_TimeAt1KPH: null,
           Cutoff_WalkTime: null,
           Cutoff_TruckMinutes: null,
-          Cutoff_TruckTravelTime: null,
+          Cutoff_TruckTravelTime: null
         },
         geometry: {
           x: -118.25736299999994,
-          y: 34.07676300000003,
-        },
-      },
+          y: 34.07676300000003
+        }
+      }
     ],
     geoJson: {
       type: "FeatureCollection",
@@ -11170,7 +11164,7 @@ export const OriginDestinationMatrix: any = {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.25736299999994, 34.07676300000003],
+            coordinates: [-118.25736299999994, 34.07676300000003]
           },
           properties: {
             ObjectID: 1,
@@ -11193,11 +11187,11 @@ export const OriginDestinationMatrix: any = {
             Cutoff_TimeAt1KPH: null,
             Cutoff_WalkTime: null,
             Cutoff_TruckMinutes: null,
-            Cutoff_TruckTravelTime: null,
-          },
-        },
-      ],
-    },
+            Cutoff_TruckTravelTime: null
+          }
+        }
+      ]
+    }
   },
   destinations: {
     fieldAliases: {
@@ -11212,12 +11206,12 @@ export const OriginDestinationMatrix: any = {
       SnapX: "SnapX",
       SnapY: "SnapY",
       SnapZ: "SnapZ",
-      DistanceToNetworkInMeters: "DistanceToNetworkInMeters",
+      DistanceToNetworkInMeters: "DistanceToNetworkInMeters"
     },
     geometryType: "esriGeometryPoint",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -11233,12 +11227,12 @@ export const OriginDestinationMatrix: any = {
           SnapX: -118.34180563529411,
           SnapY: 34.0045635911765,
           SnapZ: 0,
-          DistanceToNetworkInMeters: 5.655576999689277,
+          DistanceToNetworkInMeters: 5.655576999689277
         },
         geometry: {
           x: -118.34179319999998,
-          y: 34.00451385000002,
-        },
+          y: 34.00451385000002
+        }
       },
       {
         attributes: {
@@ -11253,12 +11247,12 @@ export const OriginDestinationMatrix: any = {
           SnapX: -118.08793999999995,
           SnapY: 34.01807000000008,
           SnapZ: 0,
-          DistanceToNetworkInMeters: 61.475564892513894,
+          DistanceToNetworkInMeters: 61.475564892513894
         },
         geometry: {
           x: -118.08787999999998,
-          y: 34.01752000000005,
-        },
+          y: 34.01752000000005
+        }
       },
       {
         attributes: {
@@ -11273,13 +11267,13 @@ export const OriginDestinationMatrix: any = {
           SnapX: -118.20332258883245,
           SnapY: 34.19381624365488,
           SnapZ: 0,
-          DistanceToNetworkInMeters: 4.860151450592478,
+          DistanceToNetworkInMeters: 4.860151450592478
         },
         geometry: {
           x: -118.20326999999997,
-          y: 34.19382000000007,
-        },
-      },
+          y: 34.19382000000007
+        }
+      }
     ],
     geoJson: {
       type: "FeatureCollection",
@@ -11288,7 +11282,7 @@ export const OriginDestinationMatrix: any = {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.34179319999998, 34.00451385000002],
+            coordinates: [-118.34179319999998, 34.00451385000002]
           },
           properties: {
             ObjectID: 1,
@@ -11302,14 +11296,14 @@ export const OriginDestinationMatrix: any = {
             SnapX: -118.34180563529411,
             SnapY: 34.0045635911765,
             SnapZ: 0,
-            DistanceToNetworkInMeters: 5.655576999689277,
-          },
+            DistanceToNetworkInMeters: 5.655576999689277
+          }
         },
         {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.08787999999998, 34.01752000000005],
+            coordinates: [-118.08787999999998, 34.01752000000005]
           },
           properties: {
             ObjectID: 2,
@@ -11323,14 +11317,14 @@ export const OriginDestinationMatrix: any = {
             SnapX: -118.08793999999995,
             SnapY: 34.01807000000008,
             SnapZ: 0,
-            DistanceToNetworkInMeters: 61.475564892513894,
-          },
+            DistanceToNetworkInMeters: 61.475564892513894
+          }
         },
         {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.20326999999997, 34.19382000000007],
+            coordinates: [-118.20326999999997, 34.19382000000007]
           },
           properties: {
             ObjectID: 3,
@@ -11344,11 +11338,11 @@ export const OriginDestinationMatrix: any = {
             SnapX: -118.20332258883245,
             SnapY: 34.19381624365488,
             SnapZ: 0,
-            DistanceToNetworkInMeters: 4.860151450592478,
-          },
-        },
-      ],
-    },
+            DistanceToNetworkInMeters: 4.860151450592478
+          }
+        }
+      ]
+    }
   },
   barriers: {
     fieldAliases: {
@@ -11369,18 +11363,18 @@ export const OriginDestinationMatrix: any = {
       Attr_TimeAt1KPH: "Attr_TimeAt1KPH",
       Attr_WalkTime: "Attr_WalkTime",
       Attr_TruckMinutes: "Attr_TruckMinutes",
-      Attr_TruckTravelTime: "Attr_TruckTravelTime",
+      Attr_TruckTravelTime: "Attr_TruckTravelTime"
     },
     geometryType: "esriGeometryPoint",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [],
     geoJson: {
       type: "FeatureCollection",
-      features: [],
-    },
+      features: []
+    }
   },
   polygonBarriers: {
     fieldAliases: {
@@ -11397,18 +11391,18 @@ export const OriginDestinationMatrix: any = {
       Attr_TruckMinutes: "Attr_TruckMinutes",
       Attr_TruckTravelTime: "Attr_TruckTravelTime",
       Shape_Length: "Shape_Length",
-      Shape_Area: "Shape_Area",
+      Shape_Area: "Shape_Area"
     },
     geometryType: "esriGeometryPolygon",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [],
     geoJson: {
       type: "FeatureCollection",
-      features: [],
-    },
+      features: []
+    }
   },
   polylineBarriers: {
     fieldAliases: {
@@ -11424,19 +11418,19 @@ export const OriginDestinationMatrix: any = {
       Attr_WalkTime: "Attr_WalkTime",
       Attr_TruckMinutes: "Attr_TruckMinutes",
       Attr_TruckTravelTime: "Attr_TruckTravelTime",
-      Shape_Length: "Shape_Length",
+      Shape_Length: "Shape_Length"
     },
     geometryType: "esriGeometryPolyline",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [],
     geoJson: {
       type: "FeatureCollection",
-      features: [],
-    },
-  },
+      features: []
+    }
+  }
 };
 
 // with optional `outputType` of "esriNAODOutputStraightLines"
@@ -11457,12 +11451,12 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
       Total_WalkTime: "Total_WalkTime",
       Total_TruckMinutes: "Total_TruckMinutes",
       Total_TruckTravelTime: "Total_TruckTravelTime",
-      Shape_Length: "Shape_Length",
+      Shape_Length: "Shape_Length"
     },
     geometryType: "esriGeometryPolyline",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -11480,16 +11474,16 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
           Total_WalkTime: null,
           Total_TruckMinutes: null,
           Total_TruckTravelTime: null,
-          Shape_Length: 0.1289511298826301,
+          Shape_Length: 0.1289511298826301
         },
         geometry: {
           paths: [
             [
               [-118.25736299999994, 34.07676300000003],
-              [-118.20326999999997, 34.19382000000007],
-            ],
-          ],
-        },
+              [-118.20326999999997, 34.19382000000007]
+            ]
+          ]
+        }
       },
       {
         attributes: {
@@ -11506,16 +11500,16 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
           Total_WalkTime: null,
           Total_TruckMinutes: null,
           Total_TruckTravelTime: null,
-          Shape_Length: 0.11112334744674655,
+          Shape_Length: 0.11112334744674655
         },
         geometry: {
           paths: [
             [
               [-118.25736299999994, 34.07676300000003],
-              [-118.34179319999998, 34.00451385000002],
-            ],
-          ],
-        },
+              [-118.34179319999998, 34.00451385000002]
+            ]
+          ]
+        }
       },
       {
         attributes: {
@@ -11532,17 +11526,17 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
           Total_WalkTime: null,
           Total_TruckMinutes: null,
           Total_TruckTravelTime: null,
-          Shape_Length: 0.17953891037316436,
+          Shape_Length: 0.17953891037316436
         },
         geometry: {
           paths: [
             [
               [-118.25736299999994, 34.07676300000003],
-              [-118.08787999999998, 34.01752000000005],
-            ],
-          ],
-        },
-      },
+              [-118.08787999999998, 34.01752000000005]
+            ]
+          ]
+        }
+      }
     ],
     geoJson: {
       type: "FeatureCollection",
@@ -11553,8 +11547,8 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
             type: "LineString",
             coordinates: [
               [-118.25736299999994, 34.07676300000003],
-              [-118.20326999999997, 34.19382000000007],
-            ],
+              [-118.20326999999997, 34.19382000000007]
+            ]
           },
           properties: {
             ObjectID: 1,
@@ -11570,8 +11564,8 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
             Total_WalkTime: null,
             Total_TruckMinutes: null,
             Total_TruckTravelTime: null,
-            Shape_Length: 0.1289511298826301,
-          },
+            Shape_Length: 0.1289511298826301
+          }
         },
         {
           type: "Feature",
@@ -11579,8 +11573,8 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
             type: "LineString",
             coordinates: [
               [-118.25736299999994, 34.07676300000003],
-              [-118.34179319999998, 34.00451385000002],
-            ],
+              [-118.34179319999998, 34.00451385000002]
+            ]
           },
           properties: {
             ObjectID: 2,
@@ -11596,8 +11590,8 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
             Total_WalkTime: null,
             Total_TruckMinutes: null,
             Total_TruckTravelTime: null,
-            Shape_Length: 0.11112334744674655,
-          },
+            Shape_Length: 0.11112334744674655
+          }
         },
         {
           type: "Feature",
@@ -11605,8 +11599,8 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
             type: "LineString",
             coordinates: [
               [-118.25736299999994, 34.07676300000003],
-              [-118.08787999999998, 34.01752000000005],
-            ],
+              [-118.08787999999998, 34.01752000000005]
+            ]
           },
           properties: {
             ObjectID: 3,
@@ -11622,11 +11616,11 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
             Total_WalkTime: null,
             Total_TruckMinutes: null,
             Total_TruckTravelTime: null,
-            Shape_Length: 0.17953891037316436,
-          },
-        },
-      ],
-    },
+            Shape_Length: 0.17953891037316436
+          }
+        }
+      ]
+    }
   },
   origins: {
     fieldAliases: {
@@ -11650,12 +11644,12 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
       Cutoff_TimeAt1KPH: "Cutoff_TimeAt1KPH",
       Cutoff_WalkTime: "Cutoff_WalkTime",
       Cutoff_TruckMinutes: "Cutoff_TruckMinutes",
-      Cutoff_TruckTravelTime: "Cutoff_TruckTravelTime",
+      Cutoff_TruckTravelTime: "Cutoff_TruckTravelTime"
     },
     geometryType: "esriGeometryPoint",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -11680,13 +11674,13 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
           Cutoff_TimeAt1KPH: null,
           Cutoff_WalkTime: null,
           Cutoff_TruckMinutes: null,
-          Cutoff_TruckTravelTime: null,
+          Cutoff_TruckTravelTime: null
         },
         geometry: {
           x: -118.25736299999994,
-          y: 34.07676300000003,
-        },
-      },
+          y: 34.07676300000003
+        }
+      }
     ],
     geoJson: {
       type: "FeatureCollection",
@@ -11695,7 +11689,7 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.25736299999994, 34.07676300000003],
+            coordinates: [-118.25736299999994, 34.07676300000003]
           },
           properties: {
             ObjectID: 1,
@@ -11718,11 +11712,11 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
             Cutoff_TimeAt1KPH: null,
             Cutoff_WalkTime: null,
             Cutoff_TruckMinutes: null,
-            Cutoff_TruckTravelTime: null,
-          },
-        },
-      ],
-    },
+            Cutoff_TruckTravelTime: null
+          }
+        }
+      ]
+    }
   },
   destinations: {
     fieldAliases: {
@@ -11737,12 +11731,12 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
       SnapX: "SnapX",
       SnapY: "SnapY",
       SnapZ: "SnapZ",
-      DistanceToNetworkInMeters: "DistanceToNetworkInMeters",
+      DistanceToNetworkInMeters: "DistanceToNetworkInMeters"
     },
     geometryType: "esriGeometryPoint",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -11758,12 +11752,12 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
           SnapX: -118.34180563529411,
           SnapY: 34.0045635911765,
           SnapZ: 0,
-          DistanceToNetworkInMeters: 5.655576999689277,
+          DistanceToNetworkInMeters: 5.655576999689277
         },
         geometry: {
           x: -118.34179319999998,
-          y: 34.00451385000002,
-        },
+          y: 34.00451385000002
+        }
       },
       {
         attributes: {
@@ -11778,12 +11772,12 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
           SnapX: -118.08793999999995,
           SnapY: 34.01807000000008,
           SnapZ: 0,
-          DistanceToNetworkInMeters: 61.475564892513894,
+          DistanceToNetworkInMeters: 61.475564892513894
         },
         geometry: {
           x: -118.08787999999998,
-          y: 34.01752000000005,
-        },
+          y: 34.01752000000005
+        }
       },
       {
         attributes: {
@@ -11798,13 +11792,13 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
           SnapX: -118.20332258883245,
           SnapY: 34.19381624365488,
           SnapZ: 0,
-          DistanceToNetworkInMeters: 4.860151450592478,
+          DistanceToNetworkInMeters: 4.860151450592478
         },
         geometry: {
           x: -118.20326999999997,
-          y: 34.19382000000007,
-        },
-      },
+          y: 34.19382000000007
+        }
+      }
     ],
     geoJson: {
       type: "FeatureCollection",
@@ -11813,7 +11807,7 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.34179319999998, 34.00451385000002],
+            coordinates: [-118.34179319999998, 34.00451385000002]
           },
           properties: {
             ObjectID: 1,
@@ -11827,14 +11821,14 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
             SnapX: -118.34180563529411,
             SnapY: 34.0045635911765,
             SnapZ: 0,
-            DistanceToNetworkInMeters: 5.655576999689277,
-          },
+            DistanceToNetworkInMeters: 5.655576999689277
+          }
         },
         {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.08787999999998, 34.01752000000005],
+            coordinates: [-118.08787999999998, 34.01752000000005]
           },
           properties: {
             ObjectID: 2,
@@ -11848,14 +11842,14 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
             SnapX: -118.08793999999995,
             SnapY: 34.01807000000008,
             SnapZ: 0,
-            DistanceToNetworkInMeters: 61.475564892513894,
-          },
+            DistanceToNetworkInMeters: 61.475564892513894
+          }
         },
         {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.20326999999997, 34.19382000000007],
+            coordinates: [-118.20326999999997, 34.19382000000007]
           },
           properties: {
             ObjectID: 3,
@@ -11869,11 +11863,11 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
             SnapX: -118.20332258883245,
             SnapY: 34.19381624365488,
             SnapZ: 0,
-            DistanceToNetworkInMeters: 4.860151450592478,
-          },
-        },
-      ],
-    },
+            DistanceToNetworkInMeters: 4.860151450592478
+          }
+        }
+      ]
+    }
   },
   barriers: {
     fieldAliases: {
@@ -11894,18 +11888,18 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
       Attr_TimeAt1KPH: "Attr_TimeAt1KPH",
       Attr_WalkTime: "Attr_WalkTime",
       Attr_TruckMinutes: "Attr_TruckMinutes",
-      Attr_TruckTravelTime: "Attr_TruckTravelTime",
+      Attr_TruckTravelTime: "Attr_TruckTravelTime"
     },
     geometryType: "esriGeometryPoint",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [],
     geoJson: {
       type: "FeatureCollection",
-      features: [],
-    },
+      features: []
+    }
   },
   polygonBarriers: {
     fieldAliases: {
@@ -11922,18 +11916,18 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
       Attr_TruckMinutes: "Attr_TruckMinutes",
       Attr_TruckTravelTime: "Attr_TruckTravelTime",
       Shape_Length: "Shape_Length",
-      Shape_Area: "Shape_Area",
+      Shape_Area: "Shape_Area"
     },
     geometryType: "esriGeometryPolygon",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [],
     geoJson: {
       type: "FeatureCollection",
-      features: [],
-    },
+      features: []
+    }
   },
   polylineBarriers: {
     fieldAliases: {
@@ -11949,19 +11943,19 @@ export const OriginDestinationMatrix_esriNAODOutputStraightLines: any = {
       Attr_WalkTime: "Attr_WalkTime",
       Attr_TruckMinutes: "Attr_TruckMinutes",
       Attr_TruckTravelTime: "Attr_TruckTravelTime",
-      Shape_Length: "Shape_Length",
+      Shape_Length: "Shape_Length"
     },
     geometryType: "esriGeometryPolyline",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [],
     geoJson: {
       type: "FeatureCollection",
-      features: [],
-    },
-  },
+      features: []
+    }
+  }
 };
 
 // with optional `outputType` of "esriNAODOutputNoLines"
@@ -11982,12 +11976,12 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
       Total_WalkTime: "Total_WalkTime",
       Total_TruckMinutes: "Total_TruckMinutes",
       Total_TruckTravelTime: "Total_TruckTravelTime",
-      Shape_Length: "Shape_Length",
+      Shape_Length: "Shape_Length"
     },
     geometryType: "esriGeometryPolyline",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -12005,8 +11999,8 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
           Total_WalkTime: null,
           Total_TruckMinutes: null,
           Total_TruckTravelTime: null,
-          Shape_Length: 0,
-        },
+          Shape_Length: 0
+        }
       },
       {
         attributes: {
@@ -12023,8 +12017,8 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
           Total_WalkTime: null,
           Total_TruckMinutes: null,
           Total_TruckTravelTime: null,
-          Shape_Length: 0,
-        },
+          Shape_Length: 0
+        }
       },
       {
         attributes: {
@@ -12041,10 +12035,10 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
           Total_WalkTime: null,
           Total_TruckMinutes: null,
           Total_TruckTravelTime: null,
-          Shape_Length: 0,
-        },
-      },
-    ],
+          Shape_Length: 0
+        }
+      }
+    ]
   },
   origins: {
     fieldAliases: {
@@ -12068,12 +12062,12 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
       Cutoff_TimeAt1KPH: "Cutoff_TimeAt1KPH",
       Cutoff_WalkTime: "Cutoff_WalkTime",
       Cutoff_TruckMinutes: "Cutoff_TruckMinutes",
-      Cutoff_TruckTravelTime: "Cutoff_TruckTravelTime",
+      Cutoff_TruckTravelTime: "Cutoff_TruckTravelTime"
     },
     geometryType: "esriGeometryPoint",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -12098,13 +12092,13 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
           Cutoff_TimeAt1KPH: null,
           Cutoff_WalkTime: null,
           Cutoff_TruckMinutes: null,
-          Cutoff_TruckTravelTime: null,
+          Cutoff_TruckTravelTime: null
         },
         geometry: {
           x: -118.25736299999994,
-          y: 34.07676300000003,
-        },
-      },
+          y: 34.07676300000003
+        }
+      }
     ],
     geoJson: {
       type: "FeatureCollection",
@@ -12113,7 +12107,7 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.25736299999994, 34.07676300000003],
+            coordinates: [-118.25736299999994, 34.07676300000003]
           },
           properties: {
             ObjectID: 1,
@@ -12136,11 +12130,11 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
             Cutoff_TimeAt1KPH: null,
             Cutoff_WalkTime: null,
             Cutoff_TruckMinutes: null,
-            Cutoff_TruckTravelTime: null,
-          },
-        },
-      ],
-    },
+            Cutoff_TruckTravelTime: null
+          }
+        }
+      ]
+    }
   },
   destinations: {
     fieldAliases: {
@@ -12155,12 +12149,12 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
       SnapX: "SnapX",
       SnapY: "SnapY",
       SnapZ: "SnapZ",
-      DistanceToNetworkInMeters: "DistanceToNetworkInMeters",
+      DistanceToNetworkInMeters: "DistanceToNetworkInMeters"
     },
     geometryType: "esriGeometryPoint",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -12176,12 +12170,12 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
           SnapX: -118.34180563529411,
           SnapY: 34.0045635911765,
           SnapZ: 0,
-          DistanceToNetworkInMeters: 5.655576999689277,
+          DistanceToNetworkInMeters: 5.655576999689277
         },
         geometry: {
           x: -118.34179319999998,
-          y: 34.00451385000002,
-        },
+          y: 34.00451385000002
+        }
       },
       {
         attributes: {
@@ -12196,12 +12190,12 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
           SnapX: -118.08793999999995,
           SnapY: 34.01807000000008,
           SnapZ: 0,
-          DistanceToNetworkInMeters: 61.475564892513894,
+          DistanceToNetworkInMeters: 61.475564892513894
         },
         geometry: {
           x: -118.08787999999998,
-          y: 34.01752000000005,
-        },
+          y: 34.01752000000005
+        }
       },
       {
         attributes: {
@@ -12216,13 +12210,13 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
           SnapX: -118.20332258883245,
           SnapY: 34.19381624365488,
           SnapZ: 0,
-          DistanceToNetworkInMeters: 4.860151450592478,
+          DistanceToNetworkInMeters: 4.860151450592478
         },
         geometry: {
           x: -118.20326999999997,
-          y: 34.19382000000007,
-        },
-      },
+          y: 34.19382000000007
+        }
+      }
     ],
     geoJson: {
       type: "FeatureCollection",
@@ -12231,7 +12225,7 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.34179319999998, 34.00451385000002],
+            coordinates: [-118.34179319999998, 34.00451385000002]
           },
           properties: {
             ObjectID: 1,
@@ -12245,14 +12239,14 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
             SnapX: -118.34180563529411,
             SnapY: 34.0045635911765,
             SnapZ: 0,
-            DistanceToNetworkInMeters: 5.655576999689277,
-          },
+            DistanceToNetworkInMeters: 5.655576999689277
+          }
         },
         {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.08787999999998, 34.01752000000005],
+            coordinates: [-118.08787999999998, 34.01752000000005]
           },
           properties: {
             ObjectID: 2,
@@ -12266,14 +12260,14 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
             SnapX: -118.08793999999995,
             SnapY: 34.01807000000008,
             SnapZ: 0,
-            DistanceToNetworkInMeters: 61.475564892513894,
-          },
+            DistanceToNetworkInMeters: 61.475564892513894
+          }
         },
         {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.20326999999997, 34.19382000000007],
+            coordinates: [-118.20326999999997, 34.19382000000007]
           },
           properties: {
             ObjectID: 3,
@@ -12287,11 +12281,11 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
             SnapX: -118.20332258883245,
             SnapY: 34.19381624365488,
             SnapZ: 0,
-            DistanceToNetworkInMeters: 4.860151450592478,
-          },
-        },
-      ],
-    },
+            DistanceToNetworkInMeters: 4.860151450592478
+          }
+        }
+      ]
+    }
   },
   barriers: {
     fieldAliases: {
@@ -12312,18 +12306,18 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
       Attr_TimeAt1KPH: "Attr_TimeAt1KPH",
       Attr_WalkTime: "Attr_WalkTime",
       Attr_TruckMinutes: "Attr_TruckMinutes",
-      Attr_TruckTravelTime: "Attr_TruckTravelTime",
+      Attr_TruckTravelTime: "Attr_TruckTravelTime"
     },
     geometryType: "esriGeometryPoint",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [],
     geoJson: {
       type: "FeatureCollection",
-      features: [],
-    },
+      features: []
+    }
   },
   polygonBarriers: {
     fieldAliases: {
@@ -12340,18 +12334,18 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
       Attr_TruckMinutes: "Attr_TruckMinutes",
       Attr_TruckTravelTime: "Attr_TruckTravelTime",
       Shape_Length: "Shape_Length",
-      Shape_Area: "Shape_Area",
+      Shape_Area: "Shape_Area"
     },
     geometryType: "esriGeometryPolygon",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [],
     geoJson: {
       type: "FeatureCollection",
-      features: [],
-    },
+      features: []
+    }
   },
   polylineBarriers: {
     fieldAliases: {
@@ -12367,19 +12361,19 @@ export const OriginDestinationMatrix_esriNAODOutputNoLines: any = {
       Attr_WalkTime: "Attr_WalkTime",
       Attr_TruckMinutes: "Attr_TruckMinutes",
       Attr_TruckTravelTime: "Attr_TruckTravelTime",
-      Shape_Length: "Shape_Length",
+      Shape_Length: "Shape_Length"
     },
     geometryType: "esriGeometryPolyline",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [],
     geoJson: {
       type: "FeatureCollection",
-      features: [],
-    },
-  },
+      features: []
+    }
+  }
 };
 
 // with optional `barriers`, `polylineBarriers`, and `polygonBarriers`
@@ -12389,9 +12383,9 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
     "1": {
       "1": [23.997715775219728, 10.432671969745961, 16.78975803847885],
       "2": [27.045690926225312, 13.077116708940189, 21.045579312832636],
-      "3": [16.379585979609043, 11.632798517137694, 18.72117449676444],
+      "3": [16.379585979609043, 11.632798517137694, 18.72117449676444]
     },
-    costAttributeNames: ["TravelTime", "Miles", "Kilometers"],
+    costAttributeNames: ["TravelTime", "Miles", "Kilometers"]
   },
   origins: {
     fieldAliases: {
@@ -12415,12 +12409,12 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
       Cutoff_TimeAt1KPH: "Cutoff_TimeAt1KPH",
       Cutoff_WalkTime: "Cutoff_WalkTime",
       Cutoff_TruckMinutes: "Cutoff_TruckMinutes",
-      Cutoff_TruckTravelTime: "Cutoff_TruckTravelTime",
+      Cutoff_TruckTravelTime: "Cutoff_TruckTravelTime"
     },
     geometryType: "esriGeometryPoint",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -12445,13 +12439,13 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
           Cutoff_TimeAt1KPH: null,
           Cutoff_WalkTime: null,
           Cutoff_TruckMinutes: null,
-          Cutoff_TruckTravelTime: null,
+          Cutoff_TruckTravelTime: null
         },
         geometry: {
           x: -118.25736299999994,
-          y: 34.07676300000003,
-        },
-      },
+          y: 34.07676300000003
+        }
+      }
     ],
     geoJson: {
       type: "FeatureCollection",
@@ -12460,7 +12454,7 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.25736299999994, 34.07676300000003],
+            coordinates: [-118.25736299999994, 34.07676300000003]
           },
           properties: {
             ObjectID: 1,
@@ -12483,11 +12477,11 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
             Cutoff_TimeAt1KPH: null,
             Cutoff_WalkTime: null,
             Cutoff_TruckMinutes: null,
-            Cutoff_TruckTravelTime: null,
-          },
-        },
-      ],
-    },
+            Cutoff_TruckTravelTime: null
+          }
+        }
+      ]
+    }
   },
   destinations: {
     fieldAliases: {
@@ -12502,12 +12496,12 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
       SnapX: "SnapX",
       SnapY: "SnapY",
       SnapZ: "SnapZ",
-      DistanceToNetworkInMeters: "DistanceToNetworkInMeters",
+      DistanceToNetworkInMeters: "DistanceToNetworkInMeters"
     },
     geometryType: "esriGeometryPoint",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -12523,12 +12517,12 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
           SnapX: -118.34180563529411,
           SnapY: 34.0045635911765,
           SnapZ: 0,
-          DistanceToNetworkInMeters: 5.655576999689277,
+          DistanceToNetworkInMeters: 5.655576999689277
         },
         geometry: {
           x: -118.34179319999998,
-          y: 34.00451385000002,
-        },
+          y: 34.00451385000002
+        }
       },
       {
         attributes: {
@@ -12543,12 +12537,12 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
           SnapX: -118.08793999999995,
           SnapY: 34.01807000000008,
           SnapZ: 0,
-          DistanceToNetworkInMeters: 61.475564892513894,
+          DistanceToNetworkInMeters: 61.475564892513894
         },
         geometry: {
           x: -118.08787999999998,
-          y: 34.01752000000005,
-        },
+          y: 34.01752000000005
+        }
       },
       {
         attributes: {
@@ -12563,13 +12557,13 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
           SnapX: -118.20332258883245,
           SnapY: 34.19381624365488,
           SnapZ: 0,
-          DistanceToNetworkInMeters: 4.860151450592478,
+          DistanceToNetworkInMeters: 4.860151450592478
         },
         geometry: {
           x: -118.20326999999997,
-          y: 34.19382000000007,
-        },
-      },
+          y: 34.19382000000007
+        }
+      }
     ],
     geoJson: {
       type: "FeatureCollection",
@@ -12578,7 +12572,7 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.34179319999998, 34.00451385000002],
+            coordinates: [-118.34179319999998, 34.00451385000002]
           },
           properties: {
             ObjectID: 1,
@@ -12592,14 +12586,14 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
             SnapX: -118.34180563529411,
             SnapY: 34.0045635911765,
             SnapZ: 0,
-            DistanceToNetworkInMeters: 5.655576999689277,
-          },
+            DistanceToNetworkInMeters: 5.655576999689277
+          }
         },
         {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.08787999999998, 34.01752000000005],
+            coordinates: [-118.08787999999998, 34.01752000000005]
           },
           properties: {
             ObjectID: 2,
@@ -12613,14 +12607,14 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
             SnapX: -118.08793999999995,
             SnapY: 34.01807000000008,
             SnapZ: 0,
-            DistanceToNetworkInMeters: 61.475564892513894,
-          },
+            DistanceToNetworkInMeters: 61.475564892513894
+          }
         },
         {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-118.20326999999997, 34.19382000000007],
+            coordinates: [-118.20326999999997, 34.19382000000007]
           },
           properties: {
             ObjectID: 3,
@@ -12634,11 +12628,11 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
             SnapX: -118.20332258883245,
             SnapY: 34.19381624365488,
             SnapZ: 0,
-            DistanceToNetworkInMeters: 4.860151450592478,
-          },
-        },
-      ],
-    },
+            DistanceToNetworkInMeters: 4.860151450592478
+          }
+        }
+      ]
+    }
   },
   barriers: {
     fieldAliases: {
@@ -12659,12 +12653,12 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
       Attr_TimeAt1KPH: "Attr_TimeAt1KPH",
       Attr_WalkTime: "Attr_WalkTime",
       Attr_TruckMinutes: "Attr_TruckMinutes",
-      Attr_TruckTravelTime: "Attr_TruckTravelTime",
+      Attr_TruckTravelTime: "Attr_TruckTravelTime"
     },
     geometryType: "esriGeometryPoint",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -12686,12 +12680,12 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
           Attr_TimeAt1KPH: 0,
           Attr_WalkTime: 0,
           Attr_TruckMinutes: 0,
-          Attr_TruckTravelTime: 0,
+          Attr_TruckTravelTime: 0
         },
         geometry: {
           x: -117.19569999999999,
-          y: 34.05640000000005,
-        },
+          y: 34.05640000000005
+        }
       },
       {
         attributes: {
@@ -12712,13 +12706,13 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
           Attr_TimeAt1KPH: 0,
           Attr_WalkTime: 0,
           Attr_TruckMinutes: 0,
-          Attr_TruckTravelTime: 0,
+          Attr_TruckTravelTime: 0
         },
         geometry: {
           x: -117.18399999999997,
-          y: 34.05460000000005,
-        },
-      },
+          y: 34.05460000000005
+        }
+      }
     ],
     geoJson: {
       type: "FeatureCollection",
@@ -12727,7 +12721,7 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-117.19569999999999, 34.05640000000005],
+            coordinates: [-117.19569999999999, 34.05640000000005]
           },
           properties: {
             ObjectID: 1,
@@ -12747,14 +12741,14 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
             Attr_TimeAt1KPH: 0,
             Attr_WalkTime: 0,
             Attr_TruckMinutes: 0,
-            Attr_TruckTravelTime: 0,
-          },
+            Attr_TruckTravelTime: 0
+          }
         },
         {
           type: "Feature",
           geometry: {
             type: "Point",
-            coordinates: [-117.18399999999997, 34.05460000000005],
+            coordinates: [-117.18399999999997, 34.05460000000005]
           },
           properties: {
             ObjectID: 2,
@@ -12774,11 +12768,11 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
             Attr_TimeAt1KPH: 0,
             Attr_WalkTime: 0,
             Attr_TruckMinutes: 0,
-            Attr_TruckTravelTime: 0,
-          },
-        },
-      ],
-    },
+            Attr_TruckTravelTime: 0
+          }
+        }
+      ]
+    }
   },
   polygonBarriers: {
     fieldAliases: {
@@ -12795,12 +12789,12 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
       Attr_TruckMinutes: "Attr_TruckMinutes",
       Attr_TruckTravelTime: "Attr_TruckTravelTime",
       Shape_Length: "Shape_Length",
-      Shape_Area: "Shape_Area",
+      Shape_Area: "Shape_Area"
     },
     geometryType: "esriGeometryPolygon",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -12817,7 +12811,7 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
           Attr_TruckMinutes: 1,
           Attr_TruckTravelTime: 1,
           Shape_Length: 0.03899540954580688,
-          Shape_Area: 0.00008629999999982654,
+          Shape_Area: 0.00008629999999982654
         },
         geometry: {
           rings: [
@@ -12826,10 +12820,10 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
               [-97.06379999999996, 32.83000000000004],
               [-97.06339999999994, 32.84420000000006],
               [-97.05539999999996, 32.84000000000003],
-              [-97.05579999999998, 32.832700000000045],
-            ],
-          ],
-        },
+              [-97.05579999999998, 32.832700000000045]
+            ]
+          ]
+        }
       },
       {
         attributes: {
@@ -12845,7 +12839,7 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
           Attr_TruckMinutes: 1,
           Attr_TruckTravelTime: 1,
           Shape_Length: 0.03337606897722636,
-          Shape_Area: 0.00003363500000005887,
+          Shape_Area: 0.00003363500000005887
         },
         geometry: {
           rings: [
@@ -12854,18 +12848,18 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
               [-97.07669999999996, 32.822700000000054],
               [-97.08029999999997, 32.823500000000024],
               [-97.07759999999996, 32.82770000000005],
-              [-97.07399999999996, 32.82540000000006],
+              [-97.07399999999996, 32.82540000000006]
             ],
             [
               [-97.08309999999994, 32.82920000000007],
               [-97.08529999999996, 32.82590000000005],
               [-97.08919999999995, 32.82790000000006],
               [-97.08709999999996, 32.83110000000005],
-              [-97.08309999999994, 32.82920000000007],
-            ],
-          ],
-        },
-      },
+              [-97.08309999999994, 32.82920000000007]
+            ]
+          ]
+        }
+      }
     ],
     geoJson: {
       type: "FeatureCollection",
@@ -12880,9 +12874,9 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
                 [-97.05539999999996, 32.84000000000003],
                 [-97.06339999999994, 32.84420000000006],
                 [-97.06379999999996, 32.83000000000004],
-                [-97.05579999999998, 32.832700000000045],
-              ],
-            ],
+                [-97.05579999999998, 32.832700000000045]
+              ]
+            ]
           },
           properties: {
             ObjectID: 1,
@@ -12897,8 +12891,8 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
             Attr_TruckMinutes: 1,
             Attr_TruckTravelTime: 1,
             Shape_Length: 0.03899540954580688,
-            Shape_Area: 0.00008629999999982654,
-          },
+            Shape_Area: 0.00008629999999982654
+          }
         },
         {
           type: "Feature",
@@ -12911,8 +12905,8 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
                   [-97.07759999999996, 32.82770000000005],
                   [-97.08029999999997, 32.823500000000024],
                   [-97.07669999999996, 32.822700000000054],
-                  [-97.07399999999996, 32.82540000000006],
-                ],
+                  [-97.07399999999996, 32.82540000000006]
+                ]
               ],
               [
                 [
@@ -12920,10 +12914,10 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
                   [-97.08709999999996, 32.83110000000005],
                   [-97.08919999999995, 32.82790000000006],
                   [-97.08529999999996, 32.82590000000005],
-                  [-97.08309999999994, 32.82920000000007],
-                ],
-              ],
-            ],
+                  [-97.08309999999994, 32.82920000000007]
+                ]
+              ]
+            ]
           },
           properties: {
             ObjectID: 2,
@@ -12938,11 +12932,11 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
             Attr_TruckMinutes: 1,
             Attr_TruckTravelTime: 1,
             Shape_Length: 0.03337606897722636,
-            Shape_Area: 0.00003363500000005887,
-          },
-        },
-      ],
-    },
+            Shape_Area: 0.00003363500000005887
+          }
+        }
+      ]
+    }
   },
   polylineBarriers: {
     fieldAliases: {
@@ -12958,12 +12952,12 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
       Attr_WalkTime: "Attr_WalkTime",
       Attr_TruckMinutes: "Attr_TruckMinutes",
       Attr_TruckTravelTime: "Attr_TruckTravelTime",
-      Shape_Length: "Shape_Length",
+      Shape_Length: "Shape_Length"
     },
     geometryType: "esriGeometryPolyline",
     spatialReference: {
       wkid: 4326,
-      latestWkid: 4326,
+      latestWkid: 4326
     },
     features: [
       {
@@ -12979,16 +12973,16 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
           Attr_WalkTime: 1,
           Attr_TruckMinutes: 1,
           Attr_TruckTravelTime: 1,
-          Shape_Length: 0.005001213808678202,
+          Shape_Length: 0.005001213808678202
         },
         geometry: {
           paths: [
             [
               [-97.06137999699996, 32.83700000300007],
-              [-97.06126999899999, 32.83199999900006],
-            ],
-          ],
-        },
+              [-97.06126999899999, 32.83199999900006]
+            ]
+          ]
+        }
       },
       {
         attributes: {
@@ -13003,22 +12997,22 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
           Attr_WalkTime: 1,
           Attr_TruckMinutes: 1,
           Attr_TruckTravelTime: 1,
-          Shape_Length: 0.009013276856517165,
+          Shape_Length: 0.009013276856517165
         },
         geometry: {
           paths: [
             [
               [-97.06326000099995, 32.75899999600006],
-              [-97.06297999599997, 32.75500000100004],
+              [-97.06297999599997, 32.75500000100004]
             ],
             [
               [-97.06137999699996, 32.83700000300007],
               [-97.06124000399996, 32.833999998000024],
-              [-97.06126999899999, 32.83199999900006],
-            ],
-          ],
-        },
-      },
+              [-97.06126999899999, 32.83199999900006]
+            ]
+          ]
+        }
+      }
     ],
     geoJson: {
       type: "FeatureCollection",
@@ -13029,8 +13023,8 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
             type: "LineString",
             coordinates: [
               [-97.06137999699996, 32.83700000300007],
-              [-97.06126999899999, 32.83199999900006],
-            ],
+              [-97.06126999899999, 32.83199999900006]
+            ]
           },
           properties: {
             ObjectID: 1,
@@ -13044,8 +13038,8 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
             Attr_WalkTime: 1,
             Attr_TruckMinutes: 1,
             Attr_TruckTravelTime: 1,
-            Shape_Length: 0.005001213808678202,
-          },
+            Shape_Length: 0.005001213808678202
+          }
         },
         {
           type: "Feature",
@@ -13054,14 +13048,14 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
             coordinates: [
               [
                 [-97.06326000099995, 32.75899999600006],
-                [-97.06297999599997, 32.75500000100004],
+                [-97.06297999599997, 32.75500000100004]
               ],
               [
                 [-97.06137999699996, 32.83700000300007],
                 [-97.06124000399996, 32.833999998000024],
-                [-97.06126999899999, 32.83199999900006],
-              ],
-            ],
+                [-97.06126999899999, 32.83199999900006]
+              ]
+            ]
           },
           properties: {
             ObjectID: 2,
@@ -13075,12 +13069,12 @@ export const OriginDestinationMatrix_AllBarrierTypes: any = {
             Attr_WalkTime: 1,
             Attr_TruckMinutes: 1,
             Attr_TruckTravelTime: 1,
-            Shape_Length: 0.009013276856517165,
-          },
-        },
-      ],
-    },
-  },
+            Shape_Length: 0.009013276856517165
+          }
+        }
+      ]
+    }
+  }
 };
 
 // optional `outSR` in Web Mercator 102100, with optional `barriers`, `polylineBarriers`, and `polygonBarriers`
@@ -13090,9 +13084,9 @@ export const OriginDestinationMatrix_AllBarrierTypes_WebMercator: any = {
     "1": {
       "1": [23.997715775219728, 10.432671969745961, 16.78975803847885],
       "2": [27.045690926225312, 13.077116708940189, 21.045579312832636],
-      "3": [16.379585979609043, 11.632798517137694, 18.72117449676444],
+      "3": [16.379585979609043, 11.632798517137694, 18.72117449676444]
     },
-    costAttributeNames: ["TravelTime", "Miles", "Kilometers"],
+    costAttributeNames: ["TravelTime", "Miles", "Kilometers"]
   },
   origins: {
     fieldAliases: {
@@ -13116,12 +13110,12 @@ export const OriginDestinationMatrix_AllBarrierTypes_WebMercator: any = {
       Cutoff_TimeAt1KPH: "Cutoff_TimeAt1KPH",
       Cutoff_WalkTime: "Cutoff_WalkTime",
       Cutoff_TruckMinutes: "Cutoff_TruckMinutes",
-      Cutoff_TruckTravelTime: "Cutoff_TruckTravelTime",
+      Cutoff_TruckTravelTime: "Cutoff_TruckTravelTime"
     },
     geometryType: "esriGeometryPoint",
     spatialReference: {
       wkid: 102100,
-      latestWkid: 3857,
+      latestWkid: 3857
     },
     features: [
       {
@@ -13146,14 +13140,14 @@ export const OriginDestinationMatrix_AllBarrierTypes_WebMercator: any = {
           Cutoff_TimeAt1KPH: null,
           Cutoff_WalkTime: null,
           Cutoff_TruckMinutes: null,
-          Cutoff_TruckTravelTime: null,
+          Cutoff_TruckTravelTime: null
         },
         geometry: {
           x: -13164349.431699999,
-          y: 4039114.0847999975,
-        },
-      },
-    ],
+          y: 4039114.0847999975
+        }
+      }
+    ]
   },
   destinations: {
     fieldAliases: {
@@ -13168,12 +13162,12 @@ export const OriginDestinationMatrix_AllBarrierTypes_WebMercator: any = {
       SnapX: "SnapX",
       SnapY: "SnapY",
       SnapZ: "SnapZ",
-      DistanceToNetworkInMeters: "DistanceToNetworkInMeters",
+      DistanceToNetworkInMeters: "DistanceToNetworkInMeters"
     },
     geometryType: "esriGeometryPoint",
     spatialReference: {
       wkid: 102100,
-      latestWkid: 3857,
+      latestWkid: 3857
     },
     features: [
       {
@@ -13189,12 +13183,12 @@ export const OriginDestinationMatrix_AllBarrierTypes_WebMercator: any = {
           SnapX: -118.34180563529411,
           SnapY: 34.0045635911765,
           SnapZ: 0,
-          DistanceToNetworkInMeters: 5.655576999689277,
+          DistanceToNetworkInMeters: 5.655576999689277
         },
         geometry: {
           x: -13173748.158599999,
-          y: 4029408.141999997,
-        },
+          y: 4029408.141999997
+        }
       },
       {
         attributes: {
@@ -13209,12 +13203,12 @@ export const OriginDestinationMatrix_AllBarrierTypes_WebMercator: any = {
           SnapX: -118.08793999999995,
           SnapY: 34.01807000000008,
           SnapZ: 0,
-          DistanceToNetworkInMeters: 61.475564892513894,
+          DistanceToNetworkInMeters: 61.475564892513894
         },
         geometry: {
           x: -13145482.6705,
-          y: 4031154.776799999,
-        },
+          y: 4031154.776799999
+        }
       },
       {
         attributes: {
@@ -13229,14 +13223,14 @@ export const OriginDestinationMatrix_AllBarrierTypes_WebMercator: any = {
           SnapX: -118.20332258883245,
           SnapY: 34.19381624365488,
           SnapZ: 0,
-          DistanceToNetworkInMeters: 4.860151450592478,
+          DistanceToNetworkInMeters: 4.860151450592478
         },
         geometry: {
           x: -13158327.8265,
-          y: 4054857.103,
-        },
-      },
-    ],
+          y: 4054857.103
+        }
+      }
+    ]
   },
   barriers: {
     fieldAliases: {
@@ -13257,14 +13251,14 @@ export const OriginDestinationMatrix_AllBarrierTypes_WebMercator: any = {
       Attr_TimeAt1KPH: "Attr_TimeAt1KPH",
       Attr_WalkTime: "Attr_WalkTime",
       Attr_TruckMinutes: "Attr_TruckMinutes",
-      Attr_TruckTravelTime: "Attr_TruckTravelTime",
+      Attr_TruckTravelTime: "Attr_TruckTravelTime"
     },
     geometryType: "esriGeometryPoint",
     spatialReference: {
       wkid: 102100,
-      latestWkid: 3857,
+      latestWkid: 3857
     },
-    features: [],
+    features: []
   },
   polygonBarriers: {
     fieldAliases: {
@@ -13281,14 +13275,14 @@ export const OriginDestinationMatrix_AllBarrierTypes_WebMercator: any = {
       Attr_TruckMinutes: "Attr_TruckMinutes",
       Attr_TruckTravelTime: "Attr_TruckTravelTime",
       Shape_Length: "Shape_Length",
-      Shape_Area: "Shape_Area",
+      Shape_Area: "Shape_Area"
     },
     geometryType: "esriGeometryPolygon",
     spatialReference: {
       wkid: 102100,
-      latestWkid: 3857,
+      latestWkid: 3857
     },
-    features: [],
+    features: []
   },
   polylineBarriers: {
     fieldAliases: {
@@ -13304,13 +13298,13 @@ export const OriginDestinationMatrix_AllBarrierTypes_WebMercator: any = {
       Attr_WalkTime: "Attr_WalkTime",
       Attr_TruckMinutes: "Attr_TruckMinutes",
       Attr_TruckTravelTime: "Attr_TruckTravelTime",
-      Shape_Length: "Shape_Length",
+      Shape_Length: "Shape_Length"
     },
     geometryType: "esriGeometryPolyline",
     spatialReference: {
       wkid: 102100,
-      latestWkid: 3857,
+      latestWkid: 3857
     },
-    features: [],
-  },
+    features: []
+  }
 };

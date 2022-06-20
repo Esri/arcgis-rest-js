@@ -9,8 +9,7 @@ export const WebMapAsJSON = {
     {
       id: "Alternative_Fueling_Stations_3694",
       layerType: "ArcGISFeatureLayer",
-      url:
-        "http://services.arcgis.com/rOo16HdIMeOBI4Mb/arcgis/rest/services/Alternative_Fueling_Stations/FeatureServer/0",
+      url: "http://services.arcgis.com/rOo16HdIMeOBI4Mb/arcgis/rest/services/Alternative_Fueling_Stations/FeatureServer/0",
       visibility: true,
       opacity: 1,
       title: "Alternative Fueling Stations",
