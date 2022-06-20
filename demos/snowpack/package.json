@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "name": "@esri/arcgis-rest-demo-snowpack",
+  "version": "3.3.0",
+  "description": "Demo of @esri/arcgis-rest-* w/ Snowpack",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "snowpack build",
+    "start": "snowpack dev"
+  },
+  "dependencies": {
+    "@esri/arcgis-rest-portal": "^4.0.0",
+    "@esri/arcgis-rest-request": "^4.0.0"
+  },
+  "devDependencies": {
+    "snowpack": "^3.8.8"
+  },
+  "author": ""
+}

@@ -1,14 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions } from "@esri/arcgis-rest-request";
 import {
+  IRequestOptions,
   ILocation,
   IPoint,
   IPolyline,
   Position2D,
   IFeatureSet
-} from "@esri/arcgis-rest-types";
+} from "@esri/arcgis-rest-request";
 
 // https always
 export const ARCGIS_ONLINE_ROUTING_URL =
@@ -92,7 +92,7 @@ export function decompressGeometry(str: string) {
   }
 
   return {
-    paths: [points],
+    paths: [points]
   } as IPolyline;
 }
 
@@ -100,5 +100,5 @@ export function decompressGeometry(str: string) {
  * User Defined Type Guard that verifies this is a featureSet
  */
 export function isFeatureSet(arg: any): arg is IFeatureSet {
-  return Object.prototype.hasOwnProperty.call(arg, 'features');
+  return Object.prototype.hasOwnProperty.call(arg, "features");
 }

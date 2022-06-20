@@ -1,11 +1,11 @@
-import { IRequestOptions } from "../utils/IRequestOptions";
+import { IRequestOptions } from "../utils/IRequestOptions.js";
 
 /**
  * Allows you to wrap individual methods with a default set of request options. This is useful to avoid setting the same option more then once and allows for interacting and setting defaults in a functional manner.
  *
  * ```js
  * import { withOptions } from "@esri/arcgis-rest-request";
- * import { queryFeatures } from '@esri/arcgis-rest-feature-layer';
+ * import { queryFeatures } from '@esri/arcgis-rest-feature-service';
  *
  * const queryTrails = withOptions({
  *   url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0/"}, queryFeatures);
@@ -15,7 +15,7 @@ import { IRequestOptions } from "../utils/IRequestOptions";
  * }).then(result);
  *
  * const queryTrailsAsUser = withOptions({
- *   authentication: userSession
+ *   authentication: ArcGISIdentityManager
  * }, queryTrails);
  *
  * queryTrailsAsUser({

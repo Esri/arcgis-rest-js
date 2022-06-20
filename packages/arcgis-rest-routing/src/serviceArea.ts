@@ -5,21 +5,17 @@ import {
   request,
   cleanUrl,
   appendCustomParams,
-} from "@esri/arcgis-rest-request";
-
-import {
   ILocation,
   IPoint,
-  IFeature,
-  IFeatureSet,
-} from "@esri/arcgis-rest-types";
+  IFeatureSet
+} from "@esri/arcgis-rest-request";
 
 import {
   ARCGIS_ONLINE_SERVICE_AREA_URL,
   IEndpointOptions,
   normalizeLocationsList,
-  isFeatureSet,
-} from "./helpers";
+  isFeatureSet
+} from "./helpers.js";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
 
@@ -68,9 +64,11 @@ function getTravelDirection(
 }
 
 /**
+ * Used to find the area that can be reached from the input location within a given travel time or travel distance. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/service-area-synchronous-service.htm) for more information.
+ *
  * ```js
  * import { serviceArea } from '@esri/arcgis-rest-routing';
- * //
+ *
  * serviceArea({
  *   facilities: [
  *     [-90.444716, 38.635501],
@@ -81,7 +79,6 @@ function getTravelDirection(
  * })
  *   .then(response) // => {routes: {features: [{attributes: { ... }, geometry:{ ... }}]}
  * ```
- * Used to find the area that can be reached from the input location within a given travel time or travel distance. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/service-area-synchronous-service.htm) for more information.
  *
  * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with service area polygons for the request.
@@ -98,7 +95,7 @@ export function serviceArea(
     returnPolylineBarriers: true,
     returnPolygonBarriers: true,
     preserveObjectID: true,
-    ...requestOptions.params,
+    ...requestOptions.params
   };
 
   const options = appendCustomParams<IServiceAreaOptions>(requestOptions, [
@@ -110,7 +107,7 @@ export function serviceArea(
     "returnBarriers",
     "returnPolylineBarriers",
     "returnPolygonBarriers",
-    "preserveObjectID",
+    "preserveObjectID"
   ]);
 
   // Set travelDirection
@@ -169,5 +166,5 @@ function cleanResponse(res: any): IServiceAreaResponse {
 }
 
 export default {
-  serviceArea,
+  serviceArea
 };

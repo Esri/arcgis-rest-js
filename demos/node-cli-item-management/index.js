@@ -1,18 +1,16 @@
-require('cross-fetch/polyfill');
-require("isomorphic-form-data");
 const prompts = require("prompts");
 const chalk = require("chalk");
-const { setDefaultRequestOptions } = require('@esri/arcgis-rest-request');
-const { UserSession } = require("@esri/arcgis-rest-auth");
+const { ArcGISIdentityManager } = require("@esri/arcgis-rest-request");
 const {
   searchItems,
   removeItem,
   SearchQueryBuilder
 } = require("@esri/arcgis-rest-portal");
 
-// 1. Promt the user for sign in. Create a `UserSession`
+// 1. Promt the user for sign in. Create a `ArcGISIdentityManager`
 authenticate()
-  .then(session => {
+  .then((session) => {
+    console.log(session);
     console.log(chalk.blue(`Signed in as ${session.username}`));
     // once the user is signed in search for items
     return searchForItems(session);
@@ -26,7 +24,7 @@ authenticate()
     console.log(chalk.blue(`Done!`));
   });
 
-// Prompt the user for a `username` and `password` return a `UserSession`
+// Prompt the user for a `username` and `password` return a `ArcGISIdentityManager`
 // This function will run again on any error so it will retry until it works
 function authenticate() {
   const authPromtpts = [
@@ -47,18 +45,12 @@ function authenticate() {
   // prompts returns a `Promise` that resolves with the users input
   return prompts(authPromtpts)
     .then(({ username, password }) => {
-      session = new UserSession({
+      return ArcGISIdentityManager.signIn({
         username,
         password
       });
-
-      // this will generate a token and use it to get into about a user
-      return session.getUser();
     })
-    .then(self => {
-      return session;
-    })
-    .catch(error => {
+    .catch((error) => {
       // in case of an `ArcGISRequestError` assume the `username` and `password`
       // are incorrect run the `authenticate` function again
       if (error.name === "ArcGISRequestError") {
@@ -75,7 +67,7 @@ function authenticate() {
     });
 }
 
-// given a `UserSession` prompt the user for some search params and search for items
+// given a `ArcGISIdentityManager` prompt the user for some search params and search for items
 function searchForItems(session) {
   const searchPrompts = [
     {
@@ -109,7 +101,7 @@ function searchForItems(session) {
         .in("owner");
 
       // format the search query for item types
-      const types = itemTypes.filter(type => type.length);
+      const types = itemTypes.filter((type) => type.length);
 
       // format the search query for item types
       if (types.length) {
@@ -124,7 +116,7 @@ function searchForItems(session) {
       }
 
       // format the search query for item tags
-      const tags = itemTags.filter(tag => tag.length);
+      const tags = itemTags.filter((tag) => tag.length);
 
       if (tags.length) {
         query.and().startGroup();
@@ -149,17 +141,17 @@ function searchForItems(session) {
         q: query,
         num: number
       })
-      .then(response => {
-        return { response, session };
-      })
-      .catch(err => {
-        console.warn(err);
-      })
+        .then((response) => {
+          return { response, session };
+        })
+        .catch((err) => {
+          console.warn(err);
+        });
     }
   );
 }
 
-// this give a list of `items` and a `UserSession` this will ask us 1 at a time
+// this give a list of `items` and a `ArcGISIdentityManager` this will ask us 1 at a time
 // if we want to delte this item. This uses the new async iteration syntax with
 // `Symbol.asyncIterator` to perform an async function in a loop
 async function deleteItems(items, session) {
@@ -167,7 +159,7 @@ async function deleteItems(items, session) {
   const asyncIterable = {
     [Symbol.asyncIterator]: () => ({
       // every time we ask for a new item
-      next: function() {
+      next: function () {
         // remove the next item from the array
         const item = items.pop();
 

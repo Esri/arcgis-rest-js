@@ -1,11 +1,14 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, cleanUrl } from "@esri/arcgis-rest-request";
+import {
+  request,
+  cleanUrl,
+  IPoint,
+  ILocation
+} from "@esri/arcgis-rest-request";
 
-import { IPoint, ILocation } from "@esri/arcgis-rest-types";
-
-import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers";
+import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers.js";
 
 export interface IReverseGeocodeResponse {
   address: {
@@ -33,6 +36,8 @@ function isLocation(
 }
 
 /**
+ * Used to determine the address of a [location](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-reverse-geocode.htm).
+ *
  * ```js
  * import { reverseGeocode } from '@esri/arcgis-rest-geocoding';
  * //
@@ -46,7 +51,6 @@ function isLocation(
  * reverseGeocode({ x: -118.409, y: 33.9425 }) // wgs84 is assumed
  * reverseGeocode({ x: -13181226, y: 4021085, spatialReference: { wkid: 3857 })
  * ```
- * Used to determine the address of a [location](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-reverse-geocode.htm).
  *
  * @param coordinates - the location you'd like to associate an address with.
  * @param requestOptions - Additional options for the request including authentication.

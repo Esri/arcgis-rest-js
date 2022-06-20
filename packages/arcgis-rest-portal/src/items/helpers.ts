@@ -1,9 +1,12 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions, ArcGISRequestError } from "@esri/arcgis-rest-request";
-import { IItemAdd, IItemUpdate, IItem } from "@esri/arcgis-rest-types";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
+import {
+  IRequestOptions,
+  IUserRequestOptions
+} from "@esri/arcgis-rest-request";
+
+import type { Blob, File } from "@esri/arcgis-rest-request";
 
 /**
  * Base options interface for making authenticated requests for items.
@@ -56,7 +59,7 @@ export type ItemRelationshipType =
   | "TrackView2Map"
   | "WebStyle2DesktopStyle"
   | "WMA2Code"
-  | "WorkforceMap2FeatureService"
+  | "WorkforceMap2FeatureService";
 
 /**
  * Names of methods for reading the body of a fetch response, see:
@@ -148,7 +151,7 @@ export interface ICreateUpdateItemOptions extends IUserRequestOptions {
   /**
    * The file to be uploaded. If uploading a file, the request must be a multipart request.
    */
-  file?: any;
+  file?: Blob | File;
   /**
    * The URL where the item can be downloaded. The resource will be downloaded and stored as a file type. Similar to uploading a file to be added, but instead of transferring the contents of the file, the URL of the data file is referenced and creates a file item.
    */
@@ -244,29 +247,6 @@ export interface IMoveItemResponse {
    * Alphanumeric id of folder now housing item.
    */
   folder: string;
-}
-
-/**
- * Serialize an item and its data into a json format accepted by the Portal API for create and update operations
- *
- * @param item Item to be serialized
- * @returns a formatted json object to be sent to Portal
- */
-export function serializeItem(item: IItemAdd | IItemUpdate | IItem): any {
-  // create a clone so we're not messing with the original
-  const clone = JSON.parse(JSON.stringify(item));
-
-  // binary data needs POSTed as a `file`
-  // JSON object literals should be passed as `text`.
-  if (clone.data) {
-    (typeof Blob !== "undefined" && item.data instanceof Blob) ||
-    // Node.js doesn't implement Blob
-    item.data.constructor.name === "ReadStream"
-      ? (clone.file = item.data)
-      : (clone.text = item.data);
-    delete clone.data;
-  }
-  return clone;
 }
 
 /**

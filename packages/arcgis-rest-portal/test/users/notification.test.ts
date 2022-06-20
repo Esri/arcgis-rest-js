@@ -1,21 +1,20 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import fetchMock from "fetch-mock";
 import {
   getUserNotifications,
   removeNotification
-} from "../../src/users/notification";
+} from "../../src/users/notification.js";
 
 import {
   UserNotificationsResponse,
   IDeleteSuccessResponse
-} from "../mocks/users/notification";
+} from "../mocks/users/notification.js";
 
-import { encodeParam } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import * as fetchMock from "fetch-mock";
+import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
 
-const TOMORROW = (function() {
+const TOMORROW = (function () {
   const now = new Date();
   now.setDate(now.getDate() + 1);
   return now;
@@ -25,7 +24,7 @@ describe("users", () => {
   afterEach(fetchMock.restore);
 
   describe("getUserNotifications", () => {
-    const session = new UserSession({
+    const session = new ArcGISIdentityManager({
       username: "c@sey",
       password: "123456",
       token: "fake-token",
@@ -33,11 +32,11 @@ describe("users", () => {
       portal: "https://myorg.maps.arcgis.com/sharing/rest"
     });
 
-    it("should make an authenticated request for user notifications", done => {
+    it("should make an authenticated request for user notifications", (done) => {
       fetchMock.once("*", UserNotificationsResponse);
 
       getUserNotifications({ authentication: session })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -47,16 +46,16 @@ describe("users", () => {
           expect(response.notifications.length).toEqual(2);
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should remove a notification", done => {
+    it("should remove a notification", (done) => {
       fetchMock.once("*", IDeleteSuccessResponse);
 
       removeNotification({ id: "3ef", ...{ authentication: session } })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -69,7 +68,7 @@ describe("users", () => {
           expect(response.notificationId).toBe("3ef");
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });

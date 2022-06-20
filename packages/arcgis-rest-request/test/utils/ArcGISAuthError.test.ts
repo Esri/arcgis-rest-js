@@ -1,18 +1,23 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { ArcGISAuthError, IRetryAuthError, ErrorTypes } from "../../src/index";
+import {
+  ArcGISAuthError,
+  IRetryAuthError,
+  ErrorTypes
+} from "../../src/index.js";
 import {
   ArcGISOnlineAuthError,
   ArcGISOnlineError,
   GenerateTokenError
-} from "./../mocks/errors";
-import { request } from "../../src/request";
-import * as fetchMock from "fetch-mock";
+} from "./../mocks/errors.js";
+import { request } from "../../src/request.js";
+import fetchMock from "fetch-mock";
 
 describe("ArcGISRequestError", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("should be an instanceof Error", () => {
     expect(new ArcGISAuthError() instanceof Error).toBe(true);
   });
@@ -54,7 +59,7 @@ describe("ArcGISRequestError", () => {
       }
     };
 
-    it("should allow retrying a request with a new or updated session", done => {
+    it("should allow retrying a request with a new or updated session", (done) => {
       const error = new ArcGISAuthError(
         "Invalid token.",
         498,
@@ -80,7 +85,7 @@ describe("ArcGISRequestError", () => {
       const retryHandlerSpy = spyOn(MockAuth, "retryHandler").and.callThrough();
 
       error
-        .retry(MockAuth.retryHandler, 1)
+        .retry(MockAuth.retryHandler, 3)
         .then((response: any) => {
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -101,7 +106,7 @@ describe("ArcGISRequestError", () => {
         });
     });
 
-    it("should retry a request with a new or updated session up to the limit", done => {
+    it("should retry a request with a new or updated session up to the limit", (done) => {
       const error = new ArcGISAuthError(
         "Invalid token.",
         498,
@@ -122,7 +127,7 @@ describe("ArcGISRequestError", () => {
 
       const retryHandlerSpy = spyOn(MockAuth, "retryHandler").and.callThrough();
 
-      error.retry(MockAuth.retryHandler).catch((e: any) => {
+      error.retry(MockAuth.retryHandler, 3).catch((e: any) => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem"
@@ -138,7 +143,7 @@ describe("ArcGISRequestError", () => {
       });
     });
 
-    it("should throw an error if retrying throws a non-auth error", done => {
+    it("should throw an error if retrying throws a non-auth error", (done) => {
       const requestUrl =
         "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem";
       const error = new ArcGISAuthError(
@@ -172,7 +177,7 @@ describe("ArcGISRequestError", () => {
       });
     });
 
-    it("should throw an authentication error for invalid credentials", done => {
+    it("should throw an authentication error for invalid credentials", (done) => {
       fetchMock.post("*", GenerateTokenError);
 
       request("https://www.arcgis.com/sharing/rest/generateToken", {
@@ -182,8 +187,8 @@ describe("ArcGISRequestError", () => {
           expiration: 10260,
           referer: "localhost"
         }
-      }).catch(err => {
-        expect(err.name).toBe(ErrorTypes.ArcGISAuthError);
+      }).catch((err) => {
+        expect(err.name).toBe(ErrorTypes.ArcGISRequestError);
         done();
       });
     });

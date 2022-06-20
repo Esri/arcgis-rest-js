@@ -1,19 +1,18 @@
-import { request } from "@esri/arcgis-rest-request";
-import { IUser } from "@esri/arcgis-rest-types";
-import { getPortalUrl } from "../util/get-portal-url";
+import { request, IUser } from "@esri/arcgis-rest-request";
+import { getPortalUrl } from "../util/get-portal-url.js";
 import {
   IGroupSharingOptions,
   ISharingResponse,
-  getUserMembership,
-} from "./helpers";
-import { getUser } from "../users/get-user";
-import { addGroupUsers, IAddGroupUsersResult } from "../groups/add-users";
-import { removeGroupUsers } from "../groups/remove-users";
+  getUserMembership
+} from "./helpers.js";
+import { getUser } from "../users/get-user.js";
+import { addGroupUsers, IAddGroupUsersResult } from "../groups/add-users.js";
+import { removeGroupUsers } from "../groups/remove-users.js";
 import {
   updateUserMemberships,
-  IUpdateGroupUsersResult,
-} from "../groups/update-user-membership";
-import { isItemSharedWithGroup } from "../sharing/is-item-shared-with-group";
+  IUpdateGroupUsersResult
+} from "../groups/update-user-membership.js";
+import { isItemSharedWithGroup } from "../sharing/is-item-shared-with-group.js";
 
 interface IEnsureMembershipResult {
   promise: Promise<IAddGroupUsersResult>;
@@ -21,9 +20,13 @@ interface IEnsureMembershipResult {
 }
 
 /**
+ * Share an item with a group, either as an [item owner](https://developers.arcgis.com/rest/users-groups-and-items/share-item-as-item-owner-.htm), [group admin](https://developers.arcgis.com/rest/users-groups-and-items/share-item-as-group-admin-.htm) or organization admin.
+ *
+ * Sharing the item as an Admin will use the `/content/users/:ownername/items/:itemid/share` end-point
+ *
  * ```js
  * import { shareItemWithGroup } from '@esri/arcgis-rest-portal';
- * //
+ *
  * shareItemWithGroup({
  *   id: "abc123",
  *   groupId: "xyz987",
@@ -31,12 +34,6 @@ interface IEnsureMembershipResult {
  *   authentication
  * })
  * ```
- * Share an item with a group, either as an
- * [item owner](https://developers.arcgis.com/rest/users-groups-and-items/share-item-as-item-owner-.htm),
- * [group admin](https://developers.arcgis.com/rest/users-groups-and-items/share-item-as-group-admin-.htm) or
- * organization admin.
- *
- * Note: Sharing the item as an Admin will use the `/content/users/:ownername/items/:itemid/share` end-point
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the data from the response.
@@ -51,14 +48,14 @@ export function shareItemWithGroup(
         return {
           itemId: requestOptions.id,
           shortcut: true,
-          notSharedWith: [],
+          notSharedWith: []
         } as ISharingResponse;
       }
 
       const {
         authentication: { username },
         owner,
-        confirmItemControl,
+        confirmItemControl
       } = requestOptions;
       const itemOwner = owner || username;
 
@@ -71,13 +68,13 @@ export function shareItemWithGroup(
         return Promise.all([
           getUser({
             username,
-            authentication: requestOptions.authentication,
+            authentication: requestOptions.authentication
           }),
           getUser({
             username: itemOwner,
-            authentication: requestOptions.authentication,
+            authentication: requestOptions.authentication
           }),
-          getUserMembership(requestOptions),
+          getUserMembership(requestOptions)
         ])
           .then(([currentUser, ownerUser, membership]) => {
             const isSharedEditingGroup = !!confirmItemControl;
@@ -97,8 +94,8 @@ export function shareItemWithGroup(
                 promise: Promise.resolve({ notAdded: [] }),
                 revert: (sharingResults: ISharingResponse) => {
                   return Promise.resolve(sharingResults);
-                },
-              } as IEnsureMembershipResult,
+                }
+              } as IEnsureMembershipResult
             ] = membershipAdjustments;
             // perform all membership adjustments
             return Promise.all(
@@ -217,7 +214,7 @@ function shareToGroup(
   // now its finally time to do the sharing
   requestOptions.params = {
     groups: requestOptions.groupId,
-    confirmItemControl: requestOptions.confirmItemControl,
+    confirmItemControl: requestOptions.confirmItemControl
   };
 
   return request(url, requestOptions);
@@ -262,7 +259,7 @@ export function ensureMembership(
         id: requestOptions.groupId,
         users: [ownerUser.username],
         newMemberType: "admin",
-        authentication: requestOptions.authentication,
+        authentication: requestOptions.authentication
       })
         .then((results: IUpdateGroupUsersResult) => {
           // convert the result into the right type
@@ -281,7 +278,7 @@ export function ensureMembership(
           id: requestOptions.groupId,
           users: [ownerUser.username],
           newMemberType: "member",
-          authentication: requestOptions.authentication,
+          authentication: requestOptions.authentication
         })
           .then(() => sharingResults)
           .catch(() => sharingResults);
@@ -300,7 +297,7 @@ export function ensureMembership(
     promise = addGroupUsers({
       id: requestOptions.groupId,
       [userType]: [ownerUser.username],
-      authentication: requestOptions.authentication,
+      authentication: requestOptions.authentication
     })
       .then((results) => {
         // results.errors includes an ArcGISAuthError when the group
@@ -316,7 +313,7 @@ export function ensureMembership(
       return removeGroupUsers({
         id: requestOptions.groupId,
         users: [ownerUser.username],
-        authentication: requestOptions.authentication,
+        authentication: requestOptions.authentication
       }).then(() => {
         // always resolves, suppress any resolved errors
         return sharingResults;
@@ -331,6 +328,6 @@ export function ensureMembership(
       }
       return membershipResponse;
     }),
-    revert,
+    revert
   };
 }

@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "name": "arcgis-rest-js-vite",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite",
+    "serve": "vite preview",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@esri/arcgis-rest-portal": "^4.0.0",
+    "@esri/arcgis-rest-request": "^4.0.0"
+  },
+  "devDependencies": {
+    "vite": "^2.5.4"
+  }
+}

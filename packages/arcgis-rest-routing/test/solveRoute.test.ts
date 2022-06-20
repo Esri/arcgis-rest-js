@@ -1,95 +1,99 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { solveRoute } from "../src/solveRoute";
+import { solveRoute } from "../src/solveRoute.js";
 
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
 
-import { Solve, SolveNoDirections, SolveWebMercator } from "./mocks/responses";
-import { IPoint, ILocation, IFeatureSet } from "@esri/arcgis-rest-types";
+import {
+  Solve,
+  SolveNoDirections,
+  SolveWebMercator
+} from "./mocks/responses.js";
+import { IPoint, ILocation, IFeatureSet } from "@esri/arcgis-rest-request";
 
 // -117.195677,34.056383;-117.918976,33.812092
 const stops: Array<[number, number]> = [
   [-117.195677, 34.056383],
-  [-117.918976, 33.812092],
+  [-117.918976, 33.812092]
 ];
 
 // -117.195677,34.056383,10.11;-117.918976,33.812092,8.43
 const stops3: Array<[number, number, number]> = [
   [-117.195677, 34.056383, 10.11],
-  [-117.918976, 33.812092, 8.43],
+  [-117.918976, 33.812092, 8.43]
 ];
 
 const stopsObjectsLatLong: ILocation[] = [
   {
     lat: 34.056383,
-    long: -117.195677,
+    long: -117.195677
   },
   {
     lat: 33.812092,
-    long: -117.918976,
-  },
+    long: -117.918976
+  }
 ];
 
 const stopsObjectsLatLong3: ILocation[] = [
   {
     lat: 34.056383,
     long: -117.195677,
-    z: 10.11,
+    z: 10.11
   },
   {
     lat: 33.812092,
     long: -117.918976,
-    z: 8.43,
-  },
+    z: 8.43
+  }
 ];
 
 const stopsObjectsLatitudeLongitude: ILocation[] = [
   {
     latitude: 34.056383,
-    longitude: -117.195677,
+    longitude: -117.195677
   },
   {
     latitude: 33.812092,
-    longitude: -117.918976,
-  },
+    longitude: -117.918976
+  }
 ];
 
 const stopsObjectsLatitudeLongitude3: ILocation[] = [
   {
     latitude: 34.056383,
     longitude: -117.195677,
-    z: 10.11,
+    z: 10.11
   },
   {
     latitude: 33.812092,
     longitude: -117.918976,
-    z: 8.43,
-  },
+    z: 8.43
+  }
 ];
 
 const stopsObjectsPoint: IPoint[] = [
   {
     x: -117.195677,
-    y: 34.056383,
+    y: 34.056383
   },
   {
     x: -117.918976,
-    y: 33.812092,
-  },
+    y: 33.812092
+  }
 ];
 
 const stopsObjectsPoint3: IPoint[] = [
   {
     x: -117.195677,
     y: 34.056383,
-    z: 10.11,
+    z: 10.11
   },
   {
     x: -117.918976,
     y: 33.812092,
-    z: 8.43,
-  },
+    z: 8.43
+  }
 ];
 
 const stopsFeatureSet: IFeatureSet = {
@@ -99,22 +103,22 @@ const stopsFeatureSet: IFeatureSet = {
         x: -117.195677,
         y: 34.056383,
         spatialReference: {
-          wkid: 4326,
-        },
+          wkid: 4326
+        }
       } as IPoint,
-      attributes: {},
+      attributes: {}
     },
     {
       geometry: {
         x: -117.918976,
         y: 33.812092,
         spatialReference: {
-          wkid: 4326,
-        },
+          wkid: 4326
+        }
       } as IPoint,
-      attributes: {},
-    },
-  ],
+      attributes: {}
+    }
+  ]
 };
 
 // const customRoutingUrl =
@@ -127,7 +131,7 @@ describe("solveRoute", () => {
     fetchMock.once("*", Solve);
 
     solveRoute({
-      stops,
+      stops
     })
       // tslint:disable-next-line
       .catch((e) => {
@@ -145,7 +149,7 @@ describe("solveRoute", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     solveRoute({ stops, authentication: MOCK_AUTH })
@@ -182,7 +186,7 @@ describe("solveRoute", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     solveRoute({ stops: stops3, authentication: MOCK_AUTH })
@@ -219,12 +223,12 @@ describe("solveRoute", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     solveRoute({
       stops: stopsObjectsLatLong,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -259,12 +263,12 @@ describe("solveRoute", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     solveRoute({
       stops: stopsObjectsLatLong3,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -299,12 +303,12 @@ describe("solveRoute", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     solveRoute({
       stops: stopsObjectsLatitudeLongitude,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -339,12 +343,12 @@ describe("solveRoute", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     solveRoute({
       stops: stopsObjectsLatitudeLongitude3,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -379,12 +383,12 @@ describe("solveRoute", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     solveRoute({
       stops: stopsObjectsLatitudeLongitude,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -419,12 +423,12 @@ describe("solveRoute", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     solveRoute({
       stops: stopsObjectsLatitudeLongitude3,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -459,12 +463,12 @@ describe("solveRoute", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     solveRoute({
       stops: stopsObjectsPoint,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -499,12 +503,12 @@ describe("solveRoute", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     solveRoute({
       stops: stopsObjectsPoint3,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -539,12 +543,12 @@ describe("solveRoute", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     solveRoute({
       stops: stopsFeatureSet,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -576,12 +580,12 @@ describe("solveRoute", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     solveRoute({
       stops: stopsObjectsPoint,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -602,15 +606,15 @@ describe("solveRoute", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     solveRoute({
       stops: stopsObjectsPoint,
       authentication: MOCK_AUTH,
       params: {
-        returnDirections: false,
-      },
+        returnDirections: false
+      }
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -629,12 +633,12 @@ describe("solveRoute", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     solveRoute({
       stops: stopsObjectsPoint,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -654,15 +658,15 @@ describe("solveRoute", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     solveRoute({
       stops: stopsObjectsPoint,
       authentication: MOCK_AUTH,
       params: {
-        outSR: 102100,
-      },
+        outSR: 102100
+      }
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);

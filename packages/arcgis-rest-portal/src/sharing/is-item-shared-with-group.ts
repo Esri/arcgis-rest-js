@@ -1,11 +1,13 @@
-import { IGroupSharingOptions } from "./helpers";
-import { searchItems } from "../items/search";
-import { ISearchOptions } from "../util/search";
+import { IGroupSharingOptions } from "./helpers.js";
+import { searchItems } from "../items/search.js";
+import { ISearchOptions } from "../util/search.js";
 
 /**
+ * Find out whether or not an item is already shared with a group.
+ * 
  * ```js
  * import { isItemSharedWithGroup } from "@esri/arcgis-rest-portal";
- * //
+ * 
  * isItemSharedWithGroup({
  *   groupId: 'bc3,
  *   itemId: 'f56,
@@ -13,7 +15,7 @@ import { ISearchOptions } from "../util/search";
  * })
  * .then(isShared => {})
  * ```
- * Find out whether or not an item is already shared with a group.
+ 
  *
  * @param requestOptions - Options for the request. NOTE: `rawResponse` is not supported by this operation.
  * @returns Promise that will resolve with true/false
@@ -30,7 +32,7 @@ export function isItemSharedWithGroup(
     httpMethod: "POST"
   } as ISearchOptions;
 
-  return searchItems(searchOpts).then(searchResponse => {
+  return searchItems(searchOpts).then((searchResponse) => {
     let result = false;
     if (searchResponse.total > 0) {
       result = searchResponse.results.some((itm: any) => {

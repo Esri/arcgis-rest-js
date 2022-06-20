@@ -2,9 +2,9 @@
  * Apache-2.0 */
 
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
-import { IItemUpdate } from "@esri/arcgis-rest-types";
+import { IItemUpdate } from "../helpers.js";
 
-import { getPortalUrl } from "../util/get-portal-url";
+import { getPortalUrl } from "../util/get-portal-url.js";
 import {
   ICreateUpdateItemOptions,
   IMoveItemResponse,
@@ -13,9 +13,8 @@ import {
   IItemInfoResponse,
   IItemResourceResponse,
   IUpdateItemResponse,
-  serializeItem,
   determineOwner
-} from "./helpers";
+} from "./helpers.js";
 
 export interface IUpdateItemOptions extends ICreateUpdateItemOptions {
   item: IItemUpdate;
@@ -34,9 +33,11 @@ export interface IMoveItemOptions extends ICreateUpdateItemOptions {
 }
 
 /**
+ * Update an Item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-item.htm) for more information.
+ *
  * ```js
  * import { updateItem } from "@esri/arcgis-rest-portal";
- * //
+ *
  * updateItem({
  *   item: {
  *     id: "3ef",
@@ -46,7 +47,6 @@ export interface IMoveItemOptions extends ICreateUpdateItemOptions {
  * })
  *   .then(response)
  * ```
- * Update an Item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-item.htm) for more information.
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that updates an item.
@@ -54,15 +54,19 @@ export interface IMoveItemOptions extends ICreateUpdateItemOptions {
 export function updateItem(
   requestOptions: IUpdateItemOptions
 ): Promise<IUpdateItemResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = requestOptions.folderId
-      ? `${getPortalUrl(requestOptions)}/content/users/${owner}/${requestOptions.folderId}/items/${requestOptions.item.id}/update`
-      : `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${requestOptions.item.id}/update`;
+      ? `${getPortalUrl(requestOptions)}/content/users/${owner}/${
+          requestOptions.folderId
+        }/items/${requestOptions.item.id}/update`
+      : `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+          requestOptions.item.id
+        }/update`;
 
     // serialize the item into something Portal will accept
     requestOptions.params = {
       ...requestOptions.params,
-      ...serializeItem(requestOptions.item)
+      ...requestOptions.item
     };
 
     return request(url, requestOptions);
@@ -70,9 +74,11 @@ export function updateItem(
 }
 
 /**
+ * Update an info file associated with an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-info.htm) for more information.
+ *
  * ```js
  * import { updateItemInfo } from "@esri/arcgis-rest-portal";
- * //
+ *
  * updateItemInfo({
  *   id: '3ef',
  *   file: file,
@@ -80,7 +86,6 @@ export function updateItem(
  * })
  *   .then(response)
  * ```
- * Update an info file associated with an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-info.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that updates an item info file.
@@ -88,7 +93,7 @@ export function updateItem(
 export function updateItemInfo(
   requestOptions: IItemInfoOptions
 ): Promise<IItemInfoResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(
       requestOptions as IRequestOptions
     )}/content/users/${owner}/items/${requestOptions.id}/updateinfo`;
@@ -105,9 +110,11 @@ export function updateItemInfo(
 }
 
 /**
+ * Update an info file associated with an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/update-info.htm) for more information.
+ *
  * ```js
  * import { updateItemResource } from "@esri/arcgis-rest-portal";
- * //
+ *
  * updateItemResource({
  *   id: '3ef',
  *   resource: file,
@@ -124,7 +131,7 @@ export function updateItemInfo(
 export function updateItemResource(
   requestOptions: IItemResourceOptions
 ): Promise<IItemResourceResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(
       requestOptions as IRequestOptions
     )}/content/users/${owner}/items/${requestOptions.id}/updateResources`;
@@ -149,16 +156,17 @@ export function updateItemResource(
 }
 
 /**
+ * Move an item to a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/move-item.htm) for more information.
+ *
  * ```js
  * import { moveItem } from "@esri/arcgis-rest-portal";
  * //
  * moveItem({
  *   itemId: "3ef",
  *   folderId: "7c5",
- *   authentication: userSession
+ *   authentication: ArcGISIdentityManager
  * })
  * ```
- * Move an item to a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/move-item.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that resolves with owner and folder details once the move has been completed
@@ -166,7 +174,7 @@ export function updateItemResource(
 export function moveItem(
   requestOptions: IMoveItemOptions
 ): Promise<IMoveItemResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.itemId
     }/move`;

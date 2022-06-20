@@ -2,9 +2,9 @@
  * Apache-2.0 */
 
 import { request } from "@esri/arcgis-rest-request";
-import { IUserGroupOptions } from "./helpers";
+import { IUserGroupOptions } from "./helpers.js";
 
-import { getPortalUrl } from "../util/get-portal-url";
+import { getPortalUrl } from "../util/get-portal-url.js";
 
 export type NotificationChannelType = "push" | "email" | "builtin";
 
@@ -36,20 +36,20 @@ export interface ICreateGroupNotificationOptions extends IUserGroupOptions {
 }
 
 /**
+ * Create a group notification.
+ *
  * ```js
  * import { createGroupNotification } from '@esri/arcgis-rest-portal';
  * // send an email to an entire group
  * createGroupNotification({
- *   authentication: UserSession,
+ *   authentication: ArcGISIdentityManager,
  *   subject: "hello",
  *   message: "world!",
  *   id: groupId
  * })
  * ```
- * Create a group notification.
  *
  * @param requestOptions - Options for the request
- *
  * @returns A Promise that will resolve with the success/failure status of the request
  */
 export function createGroupNotification(

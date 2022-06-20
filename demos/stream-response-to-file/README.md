@@ -1,6 +1,6 @@
 # Running this demo
 
-1. Make sure you run `npm run bootstrap` in the root folder to setup the dependencies
+1. Make sure you run `npm run build` in the root folder to setup the dependencies
 1. cd into `/demos/stream-response-to-file/`
 1. Run `npm start`
 

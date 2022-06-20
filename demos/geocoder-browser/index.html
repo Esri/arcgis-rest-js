@@ -16,6 +16,10 @@
     </div>
     <div class="col-md-4">
         <p>
+            <a href="" class="btn btn-default" id="sign-in" role="button">Sign In</a><br>
+        </p>
+
+        <p>
             <button class="btn btn-default" id="metadata" role="button">get service info</button>
         </p>
 
@@ -33,19 +37,14 @@
         </p>
 
         <p>
-            <a href="" class="btn btn-default" id="sign-in" role="button">Sign In</a><br>
-        </p>
-
-        <p>
             <button class="btn btn-default" id="bulk" role="button">geocode many addresses</button>
         </p>
     </div>
 </div>
 
 <script src="config.js"></script>
-<script src="node_modules/@esri/arcgis-rest-request/dist/umd/request.umd.js"></script>
-<script src="node_modules/@esri/arcgis-rest-auth/dist/umd/auth.umd.js"></script>
-<script src="node_modules/@esri/arcgis-rest-geocoding/dist/umd/geocoding.umd.js"></script>
+<script src="@esri/arcgis-rest-request/dist/bundled/request.umd.js"></script>
+<script src="@esri/arcgis-rest-geocoding/dist/bundled/geocoding.umd.js"></script>
 
 <script>
 var auth;
@@ -54,9 +53,9 @@ var auth;
 var authBtn = document.getElementById('sign-in');
 
 authBtn.addEventListener('click', function (e) {
-  arcgisRest.UserSession.beginOAuth2({
+  arcgisRest.ArcGISIdentityManager.beginOAuth2({
     clientId: ClientId,
-    redirectUri: "http://localhost:8080/post-sign-in.html",
+    redirectUri: "http://localhost:8080/authenticate.html",
     popup: true,
     portal: "https://www.arcgis.com/sharing/rest"
   }).then((session) => {
@@ -72,7 +71,10 @@ authBtn.addEventListener('click', function (e) {
 var geocodeBtn = document.getElementById('geocode');
 
 geocodeBtn.addEventListener('click', function (e) {
-    arcgisRest.geocode(document.getElementById("geocodeInput").value)
+    arcgisRest.geocode({
+        address: document.getElementById("geocodeInput").value,
+        authentication: auth
+    })
     .then((response) => {
         console.log("geocode", response);
     });
@@ -82,7 +84,9 @@ var suggestBtn = document.getElementById('suggest');
 
 suggestBtn.addEventListener('click', function (e) {
     console.log(document.getElementById("suggestInput").value);
-    arcgisRest.suggest(document.getElementById("suggestInput").value)
+    arcgisRest.suggest(document.getElementById("suggestInput").value, {
+        authentication: auth
+    })
     .then((response) => {
         console.log("suggest", response);
     });
@@ -92,7 +96,9 @@ var reverseBtn = document.getElementById('reverse');
 
 reverseBtn.addEventListener('click', function (e) {
   // need to parse
-  arcgisRest.reverseGeocode(document.getElementById("reverseInput").value.split(','))
+  arcgisRest.reverseGeocode(document.getElementById("reverseInput").value.split(','), {
+        authentication: auth
+    })
     .then((response) => {
         console.log("reverseGeocode", response);
     });
@@ -101,7 +107,9 @@ reverseBtn.addEventListener('click', function (e) {
 var metadataBtn = document.getElementById('metadata');
 
 metadataBtn.addEventListener('click', function (e) {
-    arcgisRest.getGeocodeService()
+    arcgisRest.getGeocodeService({
+        authentication: auth
+    })
     .then((response) => {
         console.log("metadata", response);
     });

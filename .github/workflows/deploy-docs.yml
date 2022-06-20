@@ -1,21 +1,29 @@
 name: Deploy Documentation
+
 # After a push to master, redeploy the docs
 on:
   push:
-    branches: [master]
+    branches: [main]
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [16]
+
     steps:
       - uses: actions/checkout@v2
 
       - uses: actions/setup-node@v2
-        with:
-          node-version: "12.x"
 
       - name: NPM Install
         run: npm install
+
+      - name: Build Packages
+        run: npm run build
 
       - name: Build Docs
         run: npm run docs:build
@@ -24,4 +32,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: docs/build/arcgis-rest-js # The folder the action should deploy.
+          folder: docs/build # The folder the action should deploy.

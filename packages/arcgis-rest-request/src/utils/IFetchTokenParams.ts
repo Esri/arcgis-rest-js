@@ -1,5 +1,5 @@
-import { GrantTypes } from "./GrantTypes";
-import { IParams } from "./IParams";
+import { GrantTypes } from "./GrantTypes.js";
+import { IParams } from "./IParams.js";
 
 export interface IFetchTokenParams extends IParams {
   client_id: string;
@@ -8,4 +8,5 @@ export interface IFetchTokenParams extends IParams {
   redirect_uri?: string;
   refresh_token?: string;
   code?: string;
+  code_verifier?: string;
 }

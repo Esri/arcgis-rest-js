@@ -4,19 +4,20 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams
+  appendCustomParams,
+  IGroup
 } from "@esri/arcgis-rest-request";
-import { IItem, IGroup } from "@esri/arcgis-rest-types";
+import { IItem } from "../helpers.js";
 
-import { getPortalUrl } from "../util/get-portal-url";
-import { scrubControlChars } from '../util/scrub-control-chars';
+import { getPortalUrl } from "../util/get-portal-url.js";
+import { scrubControlChars } from "../util/scrub-control-chars.js";
 import {
   IItemDataOptions,
   IItemRelationshipOptions,
   IUserItemOptions,
   determineOwner,
   FetchReadMethodName
-} from "./helpers";
+} from "./helpers.js";
 
 /**
  * ```
@@ -95,7 +96,7 @@ export function getItemData(
     options.params.f = null;
   }
 
-  return request(url, options).catch(err => {
+  return request(url, options).catch((err) => {
     /* if the item doesn't include data, the response will be empty
        and the internal call to response.json() will fail */
     const emptyResponseErr = RegExp(
@@ -199,6 +200,10 @@ export interface IGetItemResourceOptions extends IRequestOptions {
 }
 
 /**
+ * Fetches an item resource and optionally parses it to the correct format.
+ *
+ * Provides JSON parse error protection by sanitizing out any unescaped control characters before parsing that would otherwise cause an error to be thrown.
+ *
  * ```js
  * import { getItemResource } from "@esri/arcgis-rest-portal";
  *
@@ -214,10 +219,6 @@ export interface IGetItemResourceOptions extends IRequestOptions {
  * getItemResource("3ef",{ rawResponse: true, fileName: "resource.json" })
  *  .then(response => {})
  * ```
- * Fetches an item resource and optionally parses it to the correct format.
- *
- * Note: provides JSON parse error protection by sanitizing out any unescaped control
- * characters before parsing that would otherwise cause an error to be thrown
  *
  * @param {string} itemId
  * @param {IGetItemResourceOptions} requestOptions
@@ -226,19 +227,24 @@ export function getItemResource(
   itemId: string,
   requestOptions: IGetItemResourceOptions
 ) {
-  const readAs = requestOptions.readAs || 'blob';
-  return getItemFile(itemId, `/resources/${requestOptions.fileName}`, readAs, requestOptions);
+  const readAs = requestOptions.readAs || "blob";
+  return getItemFile(
+    itemId,
+    `/resources/${requestOptions.fileName}`,
+    readAs,
+    requestOptions
+  );
 }
 
-
 /**
+ * Lists the groups of which the item is a part, only showing the groups that the calling user can access. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/groups.htm) for more information.
+ *
  * ```js
  * import { getItemGroups } from "@esri/arcgis-rest-portal";
- * //
+ *
  * getItemGroups("30e5fe3149c34df1ba922e6f5bbf808f")
  *   .then(response)
  * ```
- * Lists the groups of which the item is a part, only showing the groups that the calling user can access. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/groups.htm) for more information.
  *
  * @param id - The Id of the item to query group association for.
  * @param requestOptions - Options for the request
@@ -275,16 +281,17 @@ export interface IGetItemStatusResponse {
 }
 
 /**
+ * Inquire about status when publishing an item, adding an item in async mode, or adding with a multipart upload. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/status.htm) for more information.
+ *
  * ```js
  * import { getItemStatus } from "@esri/arcgis-rest-portal";
- * //
+ *
  * getItemStatus({
  *   id: "30e5fe3149c34df1ba922e6f5bbf808f",
  *   authentication
  * })
  *   .then(response)
  * ```
- * Inquire about status when publishing an item, adding an item in async mode, or adding with a multipart upload. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/status.htm) for more information.
  *
  * @param id - The Id of the item to get status for.
  * @param requestOptions - Options for the request
@@ -293,7 +300,7 @@ export interface IGetItemStatusResponse {
 export function getItemStatus(
   requestOptions: IItemStatusOptions
 ): Promise<IGetItemStatusResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/status`;
@@ -313,16 +320,17 @@ export interface IGetItemPartsResponse {
 }
 
 /**
+ * Lists the part numbers of the file parts that have already been uploaded in a multipart file upload. This method can be used to verify the parts that have been received as well as those parts that were not received by the server. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/parts.htm) for more information.
+ *
  * ```js
  * import { getItemParts } from "@esri/arcgis-rest-portal";
- * //
+ *
  * getItemParts({
  *   id: "30e5fe3149c34df1ba922e6f5bbf808f",
  *   authentication
  * })
  *   .then(response)
  * ```
- * Lists the part numbers of the file parts that have already been uploaded in a multipart file upload. This method can be used to verify the parts that have been received as well as those parts that were not received by the server. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/parts.htm) for more information.
  *
  * @param id - The Id of the item to get part list.
  * @param requestOptions - Options for the request
@@ -331,7 +339,7 @@ export interface IGetItemPartsResponse {
 export function getItemParts(
   requestOptions: IUserItemOptions
 ): Promise<IGetItemPartsResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/parts`;
@@ -426,12 +434,14 @@ function getItemFile(
   options.rawResponse = true;
   options.params.f = null;
 
-  return request(url, options).then(response => {
+  return request(url, options).then((response) => {
     if (justReturnResponse) {
       return response;
     }
-    return readMethod !== 'json'
+    return readMethod !== "json"
       ? response[readMethod]()
-      : response.text().then((text: string) => JSON.parse(scrubControlChars(text)));
+      : response
+          .text()
+          .then((text: string) => JSON.parse(scrubControlChars(text)));
   });
 }

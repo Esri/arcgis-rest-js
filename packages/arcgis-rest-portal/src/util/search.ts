@@ -1,14 +1,19 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { IPagingParams, IItem, IGroup, IUser } from "@esri/arcgis-rest-types";
-import { SearchQueryBuilder } from "./SearchQueryBuilder";
+import { IRequestOptions, IGroup, IUser } from "@esri/arcgis-rest-request";
+import { IItem, IPagingParams } from "../helpers.js";
+import { SearchQueryBuilder } from "./SearchQueryBuilder.js";
 
 export interface ISearchOptions extends IRequestOptions, IPagingParams {
+  /** The query string to search against. */
   q: string | SearchQueryBuilder;
+
+  /** Field to sort by. */
   sortField?: string;
-  sortOrder?: string;
+
+  /** Describes whether order returns in ascending or descending order. The default is ascending. */
+  sortOrder?: "asc" | "desc";
   [key: string]: any;
 }
 

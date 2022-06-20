@@ -1,14 +1,14 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
 
-import { MOCK_USER_SESSION } from "../mocks/sharing/sharing";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { updateUserMemberships } from "../../src/groups/update-user-membership";
+import { MOCK_USER_SESSION } from "../mocks/sharing/sharing.js";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
+import { updateUserMemberships } from "../../src/groups/update-user-membership.js";
 
 describe("udpate-user-membership", () => {
-  beforeEach(done => {
+  beforeEach((done) => {
     fetchMock.post("https://myorg.maps.arcgis.com/sharing/rest/generateToken", {
       token: "fake-token",
       expires: TOMORROW.getTime(),
@@ -16,24 +16,25 @@ describe("udpate-user-membership", () => {
     });
 
     // make sure session doesnt cache metadata
-    MOCK_USER_SESSION.refreshSession()
+    MOCK_USER_SESSION.refreshCredentials()
       .then(() => done())
       .catch();
   });
 
   afterEach(fetchMock.restore);
 
-  it("converts member to admin", done => {
+  it("converts member to admin", (done) => {
     fetchMock.post(
       "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/updateUsers",
       { results: [{ username: "casey", success: true }] }
     );
-    return updateUserMemberships({
+
+    updateUserMemberships({
       authentication: MOCK_USER_SESSION,
       id: "3ef",
       users: ["larry", "curly", "moe"],
       newMemberType: "admin"
-    }).then(() => {
+    } as any).then(() => {
       const opts: RequestInit = fetchMock.lastOptions(
         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/updateUsers"
       );
@@ -41,17 +42,18 @@ describe("udpate-user-membership", () => {
       done();
     });
   });
-  it("converts admin to member", done => {
+  it("converts admin to member", (done) => {
     fetchMock.post(
       "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/updateUsers",
       { results: [{ username: "casey", success: true }] }
     );
-    return updateUserMemberships({
+
+    updateUserMemberships({
       authentication: MOCK_USER_SESSION,
       id: "3ef",
       users: ["larry", "curly", "moe"],
       newMemberType: "member"
-    }).then(() => {
+    } as any).then(() => {
       const opts: RequestInit = fetchMock.lastOptions(
         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/updateUsers"
       );

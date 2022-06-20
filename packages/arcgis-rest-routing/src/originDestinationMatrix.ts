@@ -6,21 +6,17 @@ import {
   cleanUrl,
   appendCustomParams,
   IRequestOptions,
-} from "@esri/arcgis-rest-request";
-
-import {
   ILocation,
   IPoint,
-  IFeature,
-  IFeatureSet,
-} from "@esri/arcgis-rest-types";
+  IFeatureSet
+} from "@esri/arcgis-rest-request";
 
 import {
   ARCGIS_ONLINE_ORIGIN_DESTINATION_MATRIX_URL,
   IEndpointOptions,
   normalizeLocationsList,
-  isFeatureSet,
-} from "./helpers";
+  isFeatureSet
+} from "./helpers.js";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
 
@@ -55,7 +51,7 @@ interface IFeatureSetWithGeoJson extends IFeatureSet {
 }
 
 export interface IOriginDestinationMatrixResponse {
-  messages: [ { type: number, description: string } ];
+  messages: [{ type: number; description: string }];
   /**
    *  Only present if outputType is "esriNAODOutputSparseMatrix". Full description is available at https://developers.arcgis.com/rest/network/api-reference/origin-destination-cost-matrix-synchronous-service.htm#ESRI_SECTION2_114F8364507C4B56B780DFAD505270FB.
    */
@@ -72,9 +68,11 @@ export interface IOriginDestinationMatrixResponse {
 }
 
 /**
+ * Used to create an origin-destination (OD) cost matrix from multiple origins to multiple destinations. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/origin-destination-cost-matrix-synchronous-service.htm) for more information.
+ *
  * ```js
  * import { originDestinationMatrix } from '@esri/arcgis-rest-routing';
- * //
+ *
  * originDestinationMatrix({
  *   origins: [
  *     [-90.404302, 38.600621],
@@ -89,7 +87,6 @@ export interface IOriginDestinationMatrixResponse {
  * })
  *   .then(response) // => { ... }
  * ```
- * Used to create an origin-destination (OD) cost matrix from multiple origins to multiple destinations. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/origin-destination-cost-matrix-synchronous-service.htm) for more information.
  *
  * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with travel time and/or distance for each origin-destination pair. It returns either odLines or odCostMatrix for this information depending on the outputType you specify.
@@ -108,7 +105,7 @@ export function originDestinationMatrix(
     returnBarriers: true,
     returnPolylineBarriers: true,
     returnPolygonBarriers: true,
-    ...requestOptions.params,
+    ...requestOptions.params
   };
 
   const options = appendCustomParams<IOriginDestinationMatrixOptions>(
@@ -122,7 +119,7 @@ export function originDestinationMatrix(
       "returnDestinations",
       "returnBarriers",
       "returnPolylineBarriers",
-      "returnPolygonBarriers",
+      "returnPolygonBarriers"
     ]
   );
 
@@ -168,7 +165,7 @@ export function originDestinationMatrix(
   }
 
   return request(`${cleanUrl(endpoint)}/solveODCostMatrix`, options).then(
-    function(res) {
+    function (res) {
       return cleanResponse(res, options);
     }
   );
@@ -219,5 +216,5 @@ function cleanResponse(
 }
 
 export default {
-  originDestinationMatrix,
+  originDestinationMatrix
 };

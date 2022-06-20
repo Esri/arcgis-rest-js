@@ -1,24 +1,24 @@
-import * as fetchMock from "fetch-mock";
-
+import fetchMock from "fetch-mock";
 import {
-  getUserContent, IUserContentResponse, IUserContentRequestOptions
-} from "../../src/items/content";
+  getUserContent,
+  IUserContentResponse,
+  IUserContentRequestOptions
+} from "../../src/items/content.js";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("getContent", () => {
   afterEach(fetchMock.restore);
 
   describe("Authenticated methods", () => {
-    const authentication = new UserSession({
+    const authentication = new ArcGISIdentityManager({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
       token: "fake-token",
       tokenExpires: TOMORROW,
       refreshToken: "refreshToken",
       refreshTokenExpires: TOMORROW,
-      refreshTokenTTL: 1440,
       username: "moses",
       password: "123456",
       portal: "https://myorg.maps.arcgis.com/sharing/rest"
@@ -52,27 +52,28 @@ describe("getContent", () => {
           size: 10,
           title: "Test Title #2",
           type: "CSV"
-        }          
+        }
       ],
       folders: [
         {
-          username: 'geemike',
-          id: 'ba07',
-          title: 'testing',
+          username: "geemike",
+          id: "ba07",
+          title: "testing",
           created: 1576264694000
         }
       ]
     };
 
-    it("should get the user content defaulting the start and num parameters", done => {
+    it("should get the user content defaulting the start and num parameters", (done) => {
       fetchMock.once("*", mockResponse);
 
       const requestOptions: IUserContentRequestOptions = {
-        owner: 'geemike',
+        owner: "geemike",
         authentication
       };
 
-      getUserContent(requestOptions).then(response => {
+      getUserContent(requestOptions)
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -80,22 +81,23 @@ describe("getContent", () => {
           );
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should get the user content using the supplied start and num parameters", done => {
+    it("should get the user content using the supplied start and num parameters", (done) => {
       fetchMock.once("*", mockResponse);
 
       const requestOptions: IUserContentRequestOptions = {
-        owner: 'geemike',
+        owner: "geemike",
         start: 2,
         num: 1,
         authentication
       };
 
-      getUserContent(requestOptions).then(response => {
+      getUserContent(requestOptions)
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -103,12 +105,12 @@ describe("getContent", () => {
           );
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should get the user content using the authenticated username", done => {
+    it("should get the user content using the authenticated username", (done) => {
       fetchMock.once("*", mockResponse);
 
       const requestOptions: IUserContentRequestOptions = {
@@ -117,7 +119,8 @@ describe("getContent", () => {
         authentication
       };
 
-      getUserContent(requestOptions).then(response => {
+      getUserContent(requestOptions)
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -125,12 +128,12 @@ describe("getContent", () => {
           );
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should get the user content using the supplied folderId", done => {
+    it("should get the user content using the supplied folderId", (done) => {
       fetchMock.once("*", mockResponse);
 
       const requestOptions: IUserContentRequestOptions = {
@@ -140,7 +143,8 @@ describe("getContent", () => {
         authentication
       };
 
-      getUserContent(requestOptions).then(response => {
+      getUserContent(requestOptions)
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -148,9 +152,9 @@ describe("getContent", () => {
           );
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
-    });    
+    });
   });
 });

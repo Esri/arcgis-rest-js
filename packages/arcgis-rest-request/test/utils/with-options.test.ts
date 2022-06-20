@@ -1,11 +1,11 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request } from "../../src/request";
-import { IRequestOptions } from "../../src/utils/IRequestOptions";
-import { withOptions } from "../../src/utils/with-options";
+import { request } from "../../src/request.js";
+import { IRequestOptions } from "../../src/utils/IRequestOptions.js";
+import { withOptions } from "../../src/utils/with-options.js";
 
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
 
 const SharingRestInfo = {
   owningSystemUrl: "http://www.arcgis.com",
@@ -16,9 +16,11 @@ const SharingRestInfo = {
 };
 
 describe("withOptions()", () => {
-  afterEach(fetchMock.restore);
+  afterEach(() => {
+    fetchMock.restore();
+  });
 
-  it("should wrap a basic request with default options", done => {
+  it("should wrap a basic request with default options", (done) => {
     fetchMock.once("*", SharingRestInfo);
     const requestWithOptions = withOptions(
       {
@@ -41,7 +43,7 @@ describe("withOptions()", () => {
       });
   });
 
-  it("should wrap a custom request implementation with default options", done => {
+  it("should wrap a custom request implementation with default options", (done) => {
     const MockResponse = {
       test: "bar"
     };
@@ -87,7 +89,7 @@ describe("withOptions()", () => {
       });
   });
 
-  it("should wrap a custom request implementation with multiple parameters with a default URL", done => {
+  it("should wrap a custom request implementation with multiple parameters with a default URL", (done) => {
     const MockResponse = {
       test: "bar"
     };

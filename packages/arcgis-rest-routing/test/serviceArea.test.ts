@@ -1,104 +1,104 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { serviceArea } from "../src/serviceArea";
+import { serviceArea } from "../src/serviceArea.js";
 
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
 
 import {
   barriers,
   barriersFeatureSet,
   polylineBarriers,
-  polygonBarriers,
-} from "./mocks/inputs";
+  polygonBarriers
+} from "./mocks/inputs.js";
 
-import { ServiceArea, ServiceAreaWebMercator } from "./mocks/responses";
+import { ServiceArea, ServiceAreaWebMercator } from "./mocks/responses.js";
 
 import {
   IPoint,
   ILocation,
   IFeatureSet,
   IPolyline,
-  IPolygon,
-} from "@esri/arcgis-rest-types";
+  IPolygon
+} from "@esri/arcgis-rest-request";
 
 const facilities: Array<[number, number]> = [
   [-118.3417932, 34.00451385],
   [-118.08788, 34.01752],
-  [-118.20327, 34.19382],
+  [-118.20327, 34.19382]
 ];
 
 const facilitiesLatLong: ILocation[] = [
   {
     lat: 34.00451385,
-    long: -118.3417932,
+    long: -118.3417932
   },
   {
     lat: 34.01752,
-    long: -118.08788,
+    long: -118.08788
   },
   {
     lat: 34.19382,
-    long: -118.20327,
-  },
+    long: -118.20327
+  }
 ];
 
 const facilitiesLatitudeLongitude: ILocation[] = [
   {
     latitude: 34.00451385,
-    longitude: -118.3417932,
+    longitude: -118.3417932
   },
   {
     latitude: 34.01752,
-    longitude: -118.08788,
+    longitude: -118.08788
   },
   {
     latitude: 34.19382,
-    longitude: -118.20327,
-  },
+    longitude: -118.20327
+  }
 ];
 
 const facilitiesPoint: IPoint[] = [
   {
     x: -118.3417932,
-    y: 34.00451385,
+    y: 34.00451385
   },
   {
     x: -118.08788,
-    y: 34.01752,
+    y: 34.01752
   },
   {
     x: -118.20327,
-    y: 34.19382,
-  },
+    y: 34.19382
+  }
 ];
 
 const facilitiesFeatureSet: IFeatureSet = {
   spatialReference: {
-    wkid: 102100,
+    wkid: 102100
   },
   features: [
     {
       geometry: {
         x: -122.4079,
-        y: 37.78356,
+        y: 37.78356
       } as IPoint,
       attributes: {
         Name: "Fire Station 34",
-        Attr_TravelTime: 4,
-      },
+        Attr_TravelTime: 4
+      }
     },
     {
       geometry: {
         x: -122.404,
-        y: 37.782,
+        y: 37.782
       } as IPoint,
       attributes: {
         Name: "Fire Station 29",
-        Attr_TravelTime: 5,
-      },
-    },
-  ],
+        Attr_TravelTime: 5
+      }
+    }
+  ]
 };
 
 // const customRoutingUrl =
@@ -111,7 +111,7 @@ describe("serviceArea", () => {
     fetchMock.once("*", ServiceArea);
 
     serviceArea({
-      facilities,
+      facilities
     })
       // tslint:disable-next-line
       .catch((e) => {
@@ -129,12 +129,12 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
       facilities,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -169,15 +169,15 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
       facilities,
       params: {
-        outSR: 102100,
+        outSR: 102100
       },
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -202,7 +202,7 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
@@ -212,7 +212,7 @@ describe("serviceArea", () => {
       returnPolylineBarriers: false,
       returnPolygonBarriers: false,
       preserveObjectID: false,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -236,12 +236,12 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
       facilities: facilitiesLatLong,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -265,12 +265,12 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
       facilities: facilitiesLatitudeLongitude,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -294,12 +294,12 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
       facilities: facilitiesPoint,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -323,12 +323,12 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
       facilities: facilitiesFeatureSet,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -352,13 +352,13 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
       facilities: facilitiesPoint,
       travelDirection: "facilitiesToIncidents",
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -380,13 +380,13 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
       facilities: facilitiesPoint,
       travelDirection: "incidentsToFacilities",
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -408,13 +408,13 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
       facilities: facilitiesPoint,
       barriers,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -436,13 +436,13 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
       facilities: facilitiesPoint,
       barriers: barriersFeatureSet,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -464,13 +464,13 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
       facilities: facilitiesPoint,
       polylineBarriers,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -494,13 +494,13 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
       facilities: facilitiesPoint,
       polygonBarriers,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -524,12 +524,12 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
       facilities: facilitiesPoint,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -549,12 +549,12 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
       facilities: facilitiesPoint,
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -578,15 +578,15 @@ describe("serviceArea", () => {
       getToken() {
         return Promise.resolve("token");
       },
-      portal: "https://mapsdev.arcgis.com",
+      portal: "https://mapsdev.arcgis.com"
     };
 
     serviceArea({
       facilities: facilitiesPoint,
       authentication: MOCK_AUTH,
       params: {
-        outSR: 102100,
-      },
+        outSR: 102100
+      }
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);

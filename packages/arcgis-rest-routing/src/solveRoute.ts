@@ -1,22 +1,21 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, cleanUrl } from "@esri/arcgis-rest-request";
-
 import {
+  request,
+  cleanUrl,
   ILocation,
-  ISpatialReference,
   IPoint,
   IFeature,
-  IFeatureSet,
-} from "@esri/arcgis-rest-types";
+  IFeatureSet
+} from "@esri/arcgis-rest-request";
 
 import {
   ARCGIS_ONLINE_ROUTING_URL,
   IEndpointOptions,
   decompressGeometry,
-  isFeatureSet,
-} from "./helpers";
+  isFeatureSet
+} from "./helpers.js";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
 
@@ -68,9 +67,11 @@ function isLocation(
 }
 
 /**
+ * Used to find the best way to get from one location to another or to visit several locations. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/route-synchronous-service.htm) for more information.
+ *
  * ```js
  * import { solveRoute } from '@esri/arcgis-rest-routing';
- * //
+ *
  * solveRoute({
  *   stops: [
  *     [-117.195677, 34.056383],
@@ -80,7 +81,6 @@ function isLocation(
  * })
  *   .then(response) // => {routes: {features: [{attributes: { ... }, geometry:{ ... }}]}
  * ```
- * Used to find the best way to get from one location to another or to visit several locations. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/route-synchronous-service.htm) for more information.
  *
  * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with routes and directions for the request.
@@ -92,7 +92,7 @@ export function solveRoute(
   const options: ISolveRouteOptions = {
     endpoint: requestOptions.endpoint || ARCGIS_ONLINE_ROUTING_URL,
     params: {},
-    ...requestOptions,
+    ...requestOptions
   };
 
   // the SAAS service does not support anonymous requests
@@ -163,18 +163,18 @@ function cleanResponse(res: any): ISolveRouteResponse {
       return {
         type: "Feature",
         geometry: arcgisToGeoJSON(feature.geometry),
-        properties: Object.assign({}, feature.attributes),
+        properties: Object.assign({}, feature.attributes)
       };
     });
 
     res.routes.geoJson = {
       type: "FeatureCollection",
-      features,
+      features
     };
   }
   return res;
 }
 
 export default {
-  solveRoute,
+  solveRoute
 };

@@ -2,25 +2,26 @@
  * Apache-2.0 */
 
 import { request, appendCustomParams } from "@esri/arcgis-rest-request";
-import { IItemAdd } from "@esri/arcgis-rest-types";
+import { IItemAdd } from "../helpers.js";
 
-import { getPortalUrl } from "../util/get-portal-url";
+import { getPortalUrl } from "../util/get-portal-url.js";
 import {
   IUserItemOptions,
   IUpdateItemResponse,
   determineOwner,
-  IItemPartOptions,
-  serializeItem
-} from "./helpers";
+  IItemPartOptions
+} from "./helpers.js";
 
 export interface ICommitItemOptions extends IUserItemOptions {
   item: IItemAdd;
 }
 
 /**
+ * Add Item Part allows the caller to upload a file part when doing an add or update item operation in multipart mode. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-item-part.htm) for more information.
+ *
  * ```js
  * import { addItemPart } from "@esri/arcgis-rest-portal";
- * //
+ *
  * addItemPart({
  *   id: "30e5fe3149c34df1ba922e6f5bbf808f",
  *   file: data,
@@ -29,7 +30,6 @@ export interface ICommitItemOptions extends IUserItemOptions {
  * })
  *   .then(response)
  * ```
- * Add Item Part allows the caller to upload a file part when doing an add or update item operation in multipart mode. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-item-part.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise to add the item part status.
@@ -40,10 +40,14 @@ export function addItemPart(
   const partNum = requestOptions.partNum;
 
   if (!Number.isInteger(partNum) || partNum < 1 || partNum > 10000) {
-    return Promise.reject(new Error('The part number must be an integer between 1 to 10000, inclusive.'))
+    return Promise.reject(
+      new Error(
+        "The part number must be an integer between 1 to 10000, inclusive."
+      )
+    );
   }
 
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     // AGO adds the "partNum" parameter in the query string, not in the body
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
@@ -60,6 +64,8 @@ export function addItemPart(
 }
 
 /**
+ * Commit is called once all parts are uploaded during a multipart Add Item or Update Item operation. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/commit.htm) for more information.
+ *
  * ```js
  * import { commitItemUpload } from "@esri/arcgis-rest-portal";
  * //
@@ -69,7 +75,6 @@ export function addItemPart(
  * })
  *   .then(response)
  * ```
- * Commit is called once all parts are uploaded during a multipart Add Item or Update Item operation. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/commit.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise to get the commit result.
@@ -77,27 +82,25 @@ export function addItemPart(
 export function commitItemUpload(
   requestOptions?: ICommitItemOptions
 ): Promise<IUpdateItemResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/commit`;
 
-    const options = appendCustomParams<ICommitItemOptions>(
-      requestOptions,
-      [],
-      {
-        params: {
-          ...requestOptions.params,
-          ...serializeItem(requestOptions.item)
-        }
+    const options = appendCustomParams<ICommitItemOptions>(requestOptions, [], {
+      params: {
+        ...requestOptions.params,
+        ...requestOptions.item
       }
-    );
+    });
 
     return request(url, options);
   });
 }
 
 /**
+ * Cancels a multipart upload on an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/cancel.htm) for more information.
+ *
  * ```js
  * import { cancelItemUpload } from "@esri/arcgis-rest-portal";
  * //
@@ -107,7 +110,6 @@ export function commitItemUpload(
  * })
  *   .then(response)
  * ```
- * Cancels a multipart upload on an item. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/cancel.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise to get the commit result.
@@ -115,7 +117,7 @@ export function commitItemUpload(
 export function cancelItemUpload(
   requestOptions?: IUserItemOptions
 ): Promise<IUpdateItemResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/cancel`;

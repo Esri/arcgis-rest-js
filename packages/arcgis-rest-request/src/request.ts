@@ -1,41 +1,37 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { encodeFormData } from "./utils/encode-form-data";
-import { encodeQueryString } from "./utils/encode-query-string";
-import { requiresFormData } from "./utils/process-params";
-import { ArcGISRequestError } from "./utils/ArcGISRequestError";
-import { IRequestOptions } from "./utils/IRequestOptions";
-import { IParams } from "./utils/IParams";
-import { warn } from "./utils/warn";
-import { IRetryAuthError } from "./utils/retryAuthError";
+import { encodeFormData } from "./utils/encode-form-data.js";
+import { encodeQueryString } from "./utils/encode-query-string.js";
+import { requiresFormData } from "./utils/process-params.js";
+import { ArcGISRequestError } from "./utils/ArcGISRequestError.js";
+import { IRequestOptions } from "./utils/IRequestOptions.js";
+import { IParams } from "./utils/IParams.js";
+import { warn } from "./utils/warn.js";
+import { IRetryAuthError } from "./utils/retryAuthError.js";
+import { getFetch } from "@esri/arcgis-rest-fetch";
+import { IAuthenticationManager } from "./index.js";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
-
-let DEFAULT_ARCGIS_REQUEST_OPTIONS: IRequestOptions = {
-  httpMethod: "POST",
-  params: {
-    f: "json",
-  },
-};
 
 /**
  * Sets the default options that will be passed in **all requests across all `@esri/arcgis-rest-js` modules**.
  *
- *
  * ```js
  * import { setDefaultRequestOptions } from "@esri/arcgis-rest-request";
+ *
  * setDefaultRequestOptions({
- *   authentication: userSession // all requests will use this session by default
+ *   authentication: ArcGISIdentityManager // all requests will use this session by default
  * })
  * ```
+ *
  * You should **never** set a default `authentication` when you are in a server side environment where you may be handling requests for many different authenticated users.
  *
  * @param options The default options to pass with every request. Existing default will be overwritten.
  * @param hideWarnings Silence warnings about setting default `authentication` in shared environments.
  */
 export function setDefaultRequestOptions(
-  options: typeof DEFAULT_ARCGIS_REQUEST_OPTIONS,
+  options: IRequestOptions,
   hideWarnings?: boolean
 ) {
   if (options.authentication && !hideWarnings) {
@@ -43,9 +39,42 @@ export function setDefaultRequestOptions(
       "You should not set `authentication` as a default in a shared environment such as a web server which will process multiple users requests. You can call `setDefaultRequestOptions` with `true` as a second argument to disable this warning."
     );
   }
-  DEFAULT_ARCGIS_REQUEST_OPTIONS = options;
+  (globalThis as any).DEFAULT_ARCGIS_REQUEST_OPTIONS = options;
 }
 
+export function getDefaultRequestOptions() {
+  return (
+    (globalThis as any).DEFAULT_ARCGIS_REQUEST_OPTIONS || {
+      httpMethod: "POST",
+      params: {
+        f: "json"
+      }
+    }
+  );
+}
+
+/**
+ * This error is thrown when a request encounters an invalid token error. Requests that use {@linkcode ArcGISIdentityManager} or
+ * {@linkcode ApplicationCredentialsManager} in the `authentication` option the authentication manager will automatically try to generate
+ * a fresh token using either {@linkcode ArcGISIdentityManager.refreshCredentials} or
+ * {@linkcode ApplicationCredentialsManager.refreshCredentials}. If the request with the new token fails you will receive an `ArcGISAuthError`
+ * if refreshing the token fails you will receive an instance of {@linkcode ArcGISTokenRequestError}.
+ *
+ * ```js
+ * request(someUrl, {
+ *   authentication: identityManager,
+ *   // some additional options...
+ * }).catch(e => {
+ *   if(e.name === "ArcGISAuthError") {
+ *     console.log("Request with a new token failed you might want to have the user authorize again.")
+ *   }
+ *
+ *   if(e.name === "ArcGISTokenRequestError") {
+ *     console.log("There was an error refreshing the token you might want to have the user authorize again.")
+ *   }
+ * })
+ * ```
+ */
 export class ArcGISAuthError extends ArcGISRequestError {
   /**
    * Create a new `ArcGISAuthError`  object.
@@ -67,21 +96,29 @@ export class ArcGISAuthError extends ArcGISRequestError {
     this.name = "ArcGISAuthError";
     this.message =
       code === "AUTHENTICATION_ERROR_CODE" ? message : `${code}: ${message}`;
+
+    // restore prototype chain, see https://stackoverflow.com/questions/41102060/typescript-extending-error-class
+    // we don't need to check for Object.setPrototypeOf as in the answers because we are ES2017 now.
+    // Also see https://github.com/Microsoft/TypeScript-wiki/blob/main/Breaking-Changes.md#extending-built-ins-like-error-array-and-map-may-no-longer-work
+    // and https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error#custom_error_types
+    const actualProto = new.target.prototype;
+    Object.setPrototypeOf(this, actualProto);
   }
 
-  public retry(getSession: IRetryAuthError, retryLimit = 3) {
+  public retry(getSession: IRetryAuthError, retryLimit = 1) {
     let tries = 0;
 
     const retryRequest = (resolve: any, reject: any) => {
+      tries = tries + 1;
+
       getSession(this.url, this.options)
         .then((session) => {
           const newOptions = {
             ...this.options,
-            ...{ authentication: session },
+            ...{ authentication: session }
           };
 
-          tries = tries + 1;
-          return request(this.url, newOptions);
+          return internalRequest(this.url, newOptions);
         })
         .then((response) => {
           resolve(response);
@@ -89,7 +126,11 @@ export class ArcGISAuthError extends ArcGISRequestError {
         .catch((e) => {
           if (e.name === "ArcGISAuthError" && tries < retryLimit) {
             retryRequest(resolve, reject);
-          } else if (e.name === "ArcGISAuthError" && tries >= retryLimit) {
+          } else if (
+            e.name === this.name &&
+            e.message === this.message &&
+            tries >= retryLimit
+          ) {
             reject(this);
           } else {
             reject(e);
@@ -130,12 +171,7 @@ export function checkForErrors(
     const { message, code, messageCode } = response.error;
     const errorCode = messageCode || code || "UNKNOWN_ERROR_CODE";
 
-    if (
-      code === 498 ||
-      code === 499 ||
-      messageCode === "GWM_0003" ||
-      (code === 400 && message === "Unable to generate token.")
-    ) {
+    if (code === 498 || code === 499) {
       if (originalAuthError) {
         throw originalAuthError;
       } else {
@@ -165,96 +201,50 @@ export function checkForErrors(
 }
 
 /**
- * ```js
- * import { request } from '@esri/arcgis-rest-request';
- * //
- * request('https://www.arcgis.com/sharing/rest')
- *   .then(response) // response.currentVersion === 5.2
- * //
- * request('https://www.arcgis.com/sharing/rest', {
- *   httpMethod: "GET"
- * })
- * //
- * request('https://www.arcgis.com/sharing/rest/search', {
- *   params: { q: 'parks' }
- * })
- *   .then(response) // response.total => 78379
- * ```
- * Generic method for making HTTP requests to ArcGIS REST API endpoints.
+ * This is the internal implementation of `request` without the automatic retry behavior to prevent
+ * infinite loops when a server continues to return invalid token errors.
  *
  * @param url - The URL of the ArcGIS REST API endpoint.
  * @param requestOptions - Options for the request, including parameters relevant to the endpoint.
  * @returns A Promise that will resolve with the data from the response.
+ * @internal
  */
-export function request(
+export function internalRequest(
   url: string,
-  requestOptions: IRequestOptions = { params: { f: "json" } }
+  requestOptions: IRequestOptions
 ): Promise<any> {
+  const defaults = getDefaultRequestOptions();
   const options: IRequestOptions = {
     ...{ httpMethod: "POST" },
-    ...DEFAULT_ARCGIS_REQUEST_OPTIONS,
+    ...defaults,
     ...requestOptions,
     ...{
       params: {
-        ...DEFAULT_ARCGIS_REQUEST_OPTIONS.params,
-        ...requestOptions.params,
+        ...defaults.params,
+        ...requestOptions.params
       },
       headers: {
-        ...DEFAULT_ARCGIS_REQUEST_OPTIONS.headers,
-        ...requestOptions.headers,
-      },
-    },
+        ...defaults.headers,
+        ...requestOptions.headers
+      }
+    }
   };
 
-  const missingGlobals: string[] = [];
-  const recommendedPackages: string[] = [];
-
-  // don't check for a global fetch if a custom implementation was passed through
-  if (!options.fetch && typeof fetch !== "undefined") {
-    options.fetch = fetch.bind(Function("return this")());
-  } else {
-    missingGlobals.push("`fetch`");
-    recommendedPackages.push("`node-fetch`");
-  }
-
-  if (typeof Promise === "undefined") {
-    missingGlobals.push("`Promise`");
-    recommendedPackages.push("`es6-promise`");
-  }
-
-  if (typeof FormData === "undefined") {
-    missingGlobals.push("`FormData`");
-    recommendedPackages.push("`isomorphic-form-data`");
-  }
-
-  if (
-    !options.fetch ||
-    typeof Promise === "undefined" ||
-    typeof FormData === "undefined"
-  ) {
-    throw new Error(
-      `\`arcgis-rest-request\` requires a \`fetch\` implementation and global variables for \`Promise\` and \`FormData\` to be present in the global scope. You are missing ${missingGlobals.join(
-        ", "
-      )}. We recommend installing the ${recommendedPackages.join(
-        ", "
-      )} modules at the root of your application to add these to the global scope. See https://bit.ly/2KNwWaJ for more info.`
-    );
-  }
-
-  const { httpMethod, authentication, rawResponse } = options;
+  const { httpMethod, rawResponse } = options;
 
   const params: IParams = {
     ...{ f: "json" },
-    ...options.params,
+    ...options.params
   };
 
   let originalAuthError: ArcGISAuthError = null;
 
   const fetchOptions: RequestInit = {
     method: httpMethod,
+    signal: options.signal,
     /* ensures behavior mimics XMLHttpRequest.
     needed to support sending IWA cookies */
-    credentials: options.credentials || "same-origin",
+    credentials: options.credentials || "same-origin"
   };
 
   // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
@@ -268,24 +258,59 @@ export function request(
     fetchOptions.credentials = "include";
   }
 
-  return (authentication
-    ? authentication.getToken(url, { fetch: options.fetch }).catch((err) => {
-        /**
-         * append original request url and requestOptions
-         * to the error thrown by getToken()
-         * to assist with retrying
-         */
-        err.url = url;
-        err.options = options;
-        /**
-         * if an attempt is made to talk to an unfederated server
-         * first try the request anonymously. if a 'token required'
-         * error is thrown, throw the UNFEDERATED error then.
-         */
-        originalAuthError = err;
-        return Promise.resolve("");
-      })
-    : Promise.resolve("")
+  let authentication: IAuthenticationManager;
+
+  // Check to see if this is a raw token as a string and create a IAuthenticationManager like object for it.
+  // Otherwise this just assumes that options.authentication is an IAuthenticationManager.
+  if (typeof options.authentication === "string") {
+    const rawToken = options.authentication;
+
+    authentication = {
+      portal: "https://www.arcgis.com/sharing/rest",
+      getToken: () => {
+        return Promise.resolve(rawToken);
+      }
+    };
+
+    /* istanbul ignore else - we don't need to test NOT warning people */
+    if (
+      !options.authentication.startsWith("AAPK") && // doesn't look like an API Key
+      !options.suppressWarnings && // user doesn't want to suppress warnings for this request
+      !(globalThis as any).ARCGIS_REST_JS_SUPPRESS_TOKEN_WARNING // we havn't shown the user this warning yet
+    ) {
+      warn(
+        `Using an oAuth 2.0 access token directly in the token option is discouraged. Consider using ArcGISIdentityManager or Application session. See https://esriurl.com/arcgis-rest-js-direct-token-warning for more information.`
+      );
+
+      (globalThis as any).ARCGIS_REST_JS_SUPPRESS_TOKEN_WARNING = true;
+    }
+  } else {
+    authentication = options.authentication;
+  }
+
+  // for errors in GET requests we want the URL passed to the error to be the URL before
+  // query params are applied.
+  const originalUrl = url;
+
+  return (
+    authentication
+      ? authentication.getToken(url).catch((err) => {
+          /**
+           * append original request url and requestOptions
+           * to the error thrown by getToken()
+           * to assist with retrying
+           */
+          err.url = url;
+          err.options = options;
+          /**
+           * if an attempt is made to talk to an unfederated server
+           * first try the request anonymously. if a 'token required'
+           * error is thrown, throw the UNFEDERATED error then.
+           */
+          originalAuthError = err;
+          return Promise.resolve("");
+        })
+      : Promise.resolve("")
   )
     .then((token) => {
       if (token.length) {
@@ -348,17 +373,23 @@ export function request(
       const forceFormData = new RegExp("/items/.+/updateResources").test(url);
 
       if (fetchOptions.method === "POST") {
-        fetchOptions.body = encodeFormData(params, forceFormData);
+        fetchOptions.body = encodeFormData(params, forceFormData) as any;
       }
 
       // Mixin headers from request options
       fetchOptions.headers = {
         ...requestHeaders,
-        ...options.headers,
+        ...options.headers
       };
 
+      // This should have the same conditional for Node JS as ArcGISIdentityManager.refreshWithUsernameAndPassword()
+      // to ensure that generated tokens have the same referer when used in Node with a username and password.
       /* istanbul ignore next - karma reports coverage on browser tests only */
-      if (typeof window === "undefined" && !fetchOptions.headers.referer) {
+      if (
+        (typeof window === "undefined" ||
+          (window && typeof window.document === "undefined")) &&
+        !fetchOptions.headers.referer
+      ) {
         fetchOptions.headers.referer = NODEJS_DEFAULT_REFERER_HEADER;
       }
 
@@ -368,9 +399,19 @@ export function request(
           "application/x-www-form-urlencoded";
       }
 
-      return options.fetch(url, fetchOptions);
+      /**
+       * Check for a global fetch first and use it if available. This allows us to use the default
+       * configuration of fetch-mock in tests.
+       */
+
+      /* istanbul ignore next coverage is based on browser code and we don't test for the absence of global fetch so we can skip the else here. */
+      return globalThis.fetch
+        ? globalThis.fetch(url, fetchOptions)
+        : getFetch().then(({ fetch }) => {
+            return fetch(url, fetchOptions);
+          });
     })
-    .then((response) => {
+    .then((response: any) => {
       if (!response.ok) {
         // server responded w/ an actual error (404, 500, etc)
         const { status, statusText } = response;
@@ -403,7 +444,7 @@ export function request(
       if ((params.f === "json" || params.f === "geojson") && !rawResponse) {
         const response = checkForErrors(
           data,
-          url,
+          originalUrl,
           params,
           options,
           originalAuthError
@@ -421,7 +462,7 @@ export function request(
           (options.authentication as any).federatedServers[truncatedUrl] = {
             token: [],
             // default to 24 hours
-            expires: new Date(Date.now() + 86400 * 1000),
+            expires: new Date(Date.now() + 86400 * 1000)
           };
           originalAuthError = null;
         }
@@ -430,4 +471,48 @@ export function request(
         return data;
       }
     });
+}
+
+/**
+ * Generic method for making HTTP requests to ArcGIS REST API endpoints.
+ *
+ * ```js
+ * import { request } from '@esri/arcgis-rest-request';
+ *
+ * request('https://www.arcgis.com/sharing/rest')
+ *   .then(response) // response.currentVersion === 5.2
+ *
+ * request('https://www.arcgis.com/sharing/rest', {
+ *   httpMethod: "GET"
+ * })
+ *
+ * request('https://www.arcgis.com/sharing/rest/search', {
+ *   params: { q: 'parks' }
+ * })
+ *   .then(response) // response.total => 78379
+ * ```
+ *
+ * @param url - The URL of the ArcGIS REST API endpoint.
+ * @param requestOptions - Options for the request, including parameters relevant to the endpoint.
+ * @returns A Promise that will resolve with the data from the response.
+ */
+export function request(
+  url: string,
+  requestOptions: IRequestOptions = { params: { f: "json" } }
+): Promise<any> {
+  return internalRequest(url, requestOptions).catch((e) => {
+    if (
+      e instanceof ArcGISAuthError &&
+      requestOptions.authentication &&
+      typeof requestOptions.authentication !== "string" &&
+      requestOptions.authentication.canRefresh &&
+      requestOptions.authentication.refreshCredentials
+    ) {
+      return e.retry(() => {
+        return (requestOptions.authentication as any).refreshCredentials();
+      }, 1);
+    } else {
+      return Promise.reject(e);
+    }
+  });
 }

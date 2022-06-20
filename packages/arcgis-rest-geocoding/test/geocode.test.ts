@@ -1,14 +1,13 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { geocode } from "../src/geocode";
+import fetchMock from "fetch-mock";
+import { geocode } from "../src/geocode.js";
 import {
   FindAddressCandidates,
   FindAddressCandidates3857,
   FindAddressCandidatesNullExtent
-} from "./mocks/responses";
-
-import * as fetchMock from "fetch-mock";
+} from "./mocks/responses.js";
 
 const customGeocoderUrl =
   "https://foo.com/arcgis/rest/services/Custom/GeocodeServer/";
@@ -16,11 +15,11 @@ const customGeocoderUrl =
 describe("geocode", () => {
   afterEach(fetchMock.restore);
 
-  it("should make a simple, single geocoding request", done => {
+  it("should make a simple, single geocoding request", (done) => {
     fetchMock.once("*", FindAddressCandidates);
 
     geocode("LAX")
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -32,19 +31,21 @@ describe("geocode", () => {
         // the only properties this lib tacks on
         expect(response.spatialReference.wkid).toEqual(4326);
         expect(response.geoJson.features.length).toBeGreaterThan(0);
-        expect(response.geoJson.features[0].properties.score).toBeGreaterThan(0);
+        expect(response.geoJson.features[0].properties.score).toBeGreaterThan(
+          0
+        );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should a geocoding request with custom parameters", done => {
+  it("should a geocoding request with custom parameters", (done) => {
     fetchMock.once("*", FindAddressCandidates);
 
     geocode({ address: "1600 Pennsylvania Avenue", city: "Washington D.C." })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -62,19 +63,19 @@ describe("geocode", () => {
         expect(response.spatialReference.wkid).toEqual(4326);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a simple, single geocoding request with a named parameter", done => {
+  it("should make a simple, single geocoding request with a named parameter", (done) => {
     fetchMock.once("*", FindAddressCandidates);
 
     geocode({
       singleLine: "380 New York Street",
       outFields: ["Addr_type", "Score"]
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -89,12 +90,12 @@ describe("geocode", () => {
         expect(response.spatialReference.wkid).toEqual(4326);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a simple, single geocoding request with a custom parameter", done => {
+  it("should make a simple, single geocoding request with a custom parameter", (done) => {
     fetchMock.once("*", FindAddressCandidates);
 
     geocode({
@@ -104,7 +105,7 @@ describe("geocode", () => {
         outFields: ["Addr_type", "Score"]
       }
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -122,12 +123,12 @@ describe("geocode", () => {
         expect(response.spatialReference.wkid).toEqual(4326);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should make a single geocoding request to a custom geocoding service", done => {
+  it("should make a single geocoding request to a custom geocoding service", (done) => {
     fetchMock.once("*", FindAddressCandidates3857);
 
     geocode({
@@ -138,7 +139,7 @@ describe("geocode", () => {
         postal: 92373
       }
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -156,12 +157,12 @@ describe("geocode", () => {
         expect(response.geoJson).toBeUndefined();
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should pass through all requestOptions when making a geocoding request", done => {
+  it("should pass through all requestOptions when making a geocoding request", (done) => {
     fetchMock.once("*", FindAddressCandidates3857);
 
     geocode({
@@ -173,7 +174,7 @@ describe("geocode", () => {
       },
       httpMethod: "GET"
     })
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -184,16 +185,16 @@ describe("geocode", () => {
         expect(response.spatialReference.wkid).toEqual(102100);
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should handle geocoders that return null extents for location candidates", done => {
+  it("should handle geocoders that return null extents for location candidates", (done) => {
     fetchMock.once("*", FindAddressCandidatesNullExtent);
 
     geocode("LAX")
-      .then(response => {
+      .then((response) => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
         expect(url).toEqual(
@@ -205,16 +206,16 @@ describe("geocode", () => {
         // the only property this lib tacks on
         expect(response.spatialReference.wkid).toEqual(4326);
         expect(
-          response.candidates.every(candidate => candidate.extent == null)
+          response.candidates.every((candidate) => candidate.extent == null)
         );
         done();
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });
 
-  it("should support rawResponse", done => {
+  it("should support rawResponse", (done) => {
     fetchMock.once("*", FindAddressCandidates);
     geocode({
       address: "1600 Pennsylvania Avenue",
@@ -246,7 +247,7 @@ describe("geocode", () => {
         // this used to work with isomorphic-fetch
         // expect(response instanceof Response).toBe(true);
       })
-      .catch(e => {
+      .catch((e) => {
         fail(e);
       });
   });

@@ -3,10 +3,12 @@
 
 import { request } from "@esri/arcgis-rest-request";
 
-import { getPortalUrl } from "../util/get-portal-url";
-import { IUserGroupOptions } from "./helpers";
+import { getPortalUrl } from "../util/get-portal-url.js";
+import { IUserGroupOptions } from "./helpers.js";
 
 /**
+ * Delete a group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-group.htm) for more information.
+ *
  * ```js
  * import { removeGroup } from '@esri/arcgis-rest-portal';
  * //
@@ -16,7 +18,6 @@ import { IUserGroupOptions } from "./helpers";
  * })
  *   .then(response)
  * ```
- * Delete a group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-group.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the success/failure status of the request

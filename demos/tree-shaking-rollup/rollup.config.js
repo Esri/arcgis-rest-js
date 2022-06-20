@@ -1,6 +1,6 @@
 // rollup.config.js
-import resolve from "rollup-plugin-node-resolve";
-import babel from "rollup-plugin-babel";
+import nodeResolve from "@rollup/plugin-node-resolve";
+import { visualizer } from "rollup-plugin-visualizer";
 
 export default {
   input: "src/index.js",
@@ -8,10 +8,6 @@ export default {
     file: "dist/bundle.js",
     format: "iife"
   },
-  plugins: [
-    resolve(),
-    babel({
-      exclude: "node_modules/**" // only transpile our source code
-    })
-  ]
+
+  plugins: [nodeResolve(), visualizer()]
 };

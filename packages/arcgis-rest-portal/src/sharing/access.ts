@@ -9,7 +9,7 @@ import {
   isItemOwner,
   getSharingUrl,
   isOrgAdmin
-} from "./helpers";
+} from "./helpers.js";
 
 export interface ISetAccessOptions extends ISharingOptions {
   /**
@@ -19,16 +19,17 @@ export interface ISetAccessOptions extends ISharingOptions {
 }
 
 /**
+ * Change who is able to access an item.
+ *
  * ```js
  * import { setItemAccess } from "@esri/arcgis-rest-portal";
- * //
+ *
  * setItemAccess({
  *   id: "abc123",
  *   access: "public", // 'org' || 'private'
  *   authentication: session
  * })
  * ```
- * Change who is able to access an item.
  *
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the data from the response.
@@ -43,7 +44,7 @@ export function setItemAccess(
     return updateItemAccess(url, requestOptions);
   } else {
     // otherwise we need to check to see if they are an organization admin
-    return isOrgAdmin(requestOptions).then(admin => {
+    return isOrgAdmin(requestOptions).then((admin) => {
       if (admin) {
         return updateItemAccess(url, requestOptions);
       } else {

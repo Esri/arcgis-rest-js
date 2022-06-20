@@ -68,6 +68,7 @@ lerna-debug.log*
 
 # docs temp files
 docs/.typedoc_temp/
+docs/build/
 
 # Built files
 dist
@@ -99,3 +100,12 @@ packages/**/test/mocks/**/*.map
 
 # Ignore built TypeDoc files
 typedoc
+
+# Ignore srihash output
+srihashes.json
+
+# Prevent caches from ultra runner
+**/.ultra.cache.json
+
+# Prevent package locks from npm installs in demos
+demos/*/package-lock.json

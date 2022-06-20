@@ -4,11 +4,14 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams
+  appendCustomParams,
+  IExtent
 } from "@esri/arcgis-rest-request";
-import { IEnvelope } from "@esri/arcgis-rest-types";
 
-import { ARCGIS_ONLINE_GEOENRICHMENT_URL, IEndpointOptions } from "./helpers";
+import {
+  ARCGIS_ONLINE_GEOENRICHMENT_URL,
+  IEndpointOptions
+} from "./helpers.js";
 
 export interface IGetAvailableCountriesOptions extends IEndpointOptions {
   /**
@@ -30,7 +33,7 @@ export interface ICountry {
   continent: string;
   distanceUnits: string;
   esriUnits: string;
-  defaultExtent: IEnvelope;
+  defaultExtent: IExtent;
   defaultDatasetID: string;
   datasets?: string[];
   hierarchies?: IHierarchy[];
@@ -68,17 +71,18 @@ export interface IApportionmentThreshold {
   maximumSize?: number;
 }
 
-
 /**
+ * Return a list of information for all countries. See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/countries.htm) for more information.
+ *
  * ```js
  * import { getAvailableCountries } from '@esri/arcgis-rest-demographics';
- * //
+ *
  * getAvailableCountries()
  *   .then((response) => {
  *     response; // => { countries: [ ... ]  }
  *   });
  * ```
- * Return a list of information for all countries. See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/countries.htm) for more information.
+ *
  * @param requestOptions Options to pass through to the geoenrichment service.
  * @returns A Promise that will resolve with available geography levels for the request.
  */
@@ -104,10 +108,7 @@ export function getAvailableCountries(
     }
   }
 
-
-  return request(cleanUrl(endpoint), options).then(
-    (response: any) => {
-      return response;
-    }
-  );
+  return request(cleanUrl(endpoint), options).then((response: any) => {
+    return response;
+  });
 }

@@ -3,25 +3,26 @@
 
 import { request, appendCustomParams } from "@esri/arcgis-rest-request";
 
-import { getPortalUrl } from "../util/get-portal-url";
+import { getPortalUrl } from "../util/get-portal-url.js";
 import {
   IUserItemOptions,
   IRemoveItemResourceOptions,
   IFolderIdOptions,
   determineOwner,
   IManageItemRelationshipOptions
-} from "./helpers";
+} from "./helpers.js";
 
 /**
+ * Delete an item from the portal. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-item.htm) for more information.
+ *
  * ```js
  * import { removeItem } from "@esri/arcgis-rest-portal";
- * //
+ *
  * removeItem({
  *   id: "3ef",
  *   authentication
  * })
  * ```
- * Delete an item from the portal. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-item.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that deletes an item.
@@ -29,7 +30,7 @@ import {
 export function removeItem(
   requestOptions: IUserItemOptions
 ): Promise<{ success: boolean; itemId: string }> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/delete`;
@@ -38,9 +39,11 @@ export function removeItem(
 }
 
 /**
+ * Remove a relationship between two items. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-relationship.htm) for more information.
+ *
  * ```js
  * import { removeItemRelationship } from "@esri/arcgis-rest-portal";
- * //
+ *
  * removeItemRelationship({
  *   originItemId: '3ef',
  *   destinationItemId: 'ae7',
@@ -49,7 +52,6 @@ export function removeItem(
  * })
  *   .then(response)
  * ```
- * Remove a relationship between two items. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-relationship.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise to add item resources.
@@ -57,7 +59,7 @@ export function removeItem(
 export function removeItemRelationship(
   requestOptions: IManageItemRelationshipOptions
 ): Promise<{ success: boolean }> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(
       requestOptions
     )}/content/users/${owner}/deleteRelationship`;
@@ -81,7 +83,7 @@ export function removeItemRelationship(
 export function removeItemResource(
   requestOptions: IRemoveItemResourceOptions
 ): Promise<{ success: boolean }> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/removeResources`;
@@ -102,9 +104,11 @@ export function removeItemResource(
 }
 
 /**
+ * Delete a non-root folder and all the items it contains. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-folder.htm) for more information.
+ *
  * ```js
  * import { removeFolder } from "@esri/arcgis-rest-portal";
- * //
+ *
  * removeFolder({
  *   folderId: "fe4",
  *   owner: "c@sey",
@@ -113,16 +117,11 @@ export function removeItemResource(
  *   .then(response)
  *
  * ```
- * Delete a non-root folder and all the items it contains. See the [REST
- * Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-folder.htm) for
- * more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that deletes a folder
  */
-export function removeFolder(
-  requestOptions: IFolderIdOptions
-): Promise<{
+export function removeFolder(requestOptions: IFolderIdOptions): Promise<{
   success: boolean;
   folder: {
     username: string;
@@ -130,7 +129,7 @@ export function removeFolder(
     title: string;
   };
 }> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const url = `${getPortalUrl(
       requestOptions
     )}/content/users/${encodeURIComponent(owner)}/${

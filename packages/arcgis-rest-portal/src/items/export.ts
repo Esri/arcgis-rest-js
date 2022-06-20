@@ -1,9 +1,16 @@
-import { request } from "@esri/arcgis-rest-request";
-import { determineOwner, IUserItemOptions } from './helpers';
-import { getPortalUrl } from "../util/get-portal-url";
-import { ISpatialReference } from '@esri/arcgis-rest-types';
+import { request, ISpatialReference } from "@esri/arcgis-rest-request";
+import { determineOwner, IUserItemOptions } from "./helpers.js";
+import { getPortalUrl } from "../util/get-portal-url.js";
 
-type ExportFormat = 'Shapefile' | 'CSV' | 'File Geodatabase' | 'Feature Collection' | 'GeoJson' | 'Scene Package' | 'KML' | 'Excel';
+type ExportFormat =
+  | "Shapefile"
+  | "CSV"
+  | "File Geodatabase"
+  | "Feature Collection"
+  | "GeoJson"
+  | "Scene Package"
+  | "KML"
+  | "Excel";
 
 export interface IExportLayerInfo {
   id: number;
@@ -34,28 +41,31 @@ export interface IExportItemResponse {
 }
 
 /**
+ * Exports an item from the portal. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/export-item.htm) for more information.
+ *
  * ```js
  * import { exportItem } from "@esri/arcgis-rest-portal";
- * //
+ *
  * exportItem({
- *      id: '3daf',
- *      owner: 'geemike',
- *      exportFormat: 'CSV',
- *      exportParameters: {
- *        layers: [
- *          { id: 0 },
- *          { id: 1, where: 'POP1999 > 100000' }
- *        ]
- *      },
- *      authentication,
- *    })
+ *   id: '3daf',
+ *   owner: 'geemike',
+ *   exportFormat: 'CSV',
+ *   exportParameters: {
+ *     layers: [
+ *       { id: 0 },
+ *       { id: 1, where: 'POP1999 > 100000' }
+ *     ]
+ *   },
+ *   authentication,
+ * })
  * ```
- * Exports an item from the portal. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/export-item.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise<IExportItemResponse>
  */
-export const exportItem = (requestOptions: IExportItemRequestOptions) : Promise<IExportItemResponse> => {
+export const exportItem = (
+  requestOptions: IExportItemRequestOptions
+): Promise<IExportItemResponse> => {
   const {
     authentication,
     id: itemId,
@@ -65,9 +75,12 @@ export const exportItem = (requestOptions: IExportItemRequestOptions) : Promise<
   } = requestOptions;
 
   return determineOwner(requestOptions)
-    .then(owner => `${getPortalUrl(requestOptions)}/content/users/${owner}/export`)
-    .then(url => request(url, {
-        httpMethod: 'POST',
+    .then(
+      (owner) => `${getPortalUrl(requestOptions)}/content/users/${owner}/export`
+    )
+    .then((url) =>
+      request(url, {
+        httpMethod: "POST",
         authentication,
         params: {
           itemId,
@@ -77,4 +90,4 @@ export const exportItem = (requestOptions: IExportItemRequestOptions) : Promise<
         }
       })
     );
-}
+};

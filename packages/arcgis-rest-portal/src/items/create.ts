@@ -2,16 +2,15 @@
  * Apache-2.0 */
 
 import { request, appendCustomParams } from "@esri/arcgis-rest-request";
-import { IItemAdd } from "@esri/arcgis-rest-types";
+import { IItemAdd } from "../helpers.js";
 
-import { getPortalUrl } from "../util/get-portal-url";
+import { getPortalUrl } from "../util/get-portal-url.js";
 import {
   IAddFolderResponse,
   IUpdateItemResponse,
   ICreateUpdateItemOptions,
-  serializeItem,
   determineOwner
-} from "./helpers";
+} from "./helpers.js";
 
 export interface ICreateFolderOptions extends ICreateUpdateItemOptions {
   /**
@@ -29,16 +28,17 @@ export interface ICreateItemResponse extends IUpdateItemResponse {
 }
 
 /**
+ * Create a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/create-folder.htm) for more information.
+ *
  * ```js
  * import { createFolder } from "@esri/arcgis-rest-portal";
- * //
+ *
  * createFolder({
  *   title: 'Map Collection',
- *   authentication: userSession
+ *   authentication: ArcGISIdentityManager
  * })
  *   .then(response)
  * ```
- * Create a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/create-folder.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that resolves with folder details once the folder has been created
@@ -46,7 +46,7 @@ export interface ICreateItemResponse extends IUpdateItemResponse {
 export function createFolder(
   requestOptions: ICreateFolderOptions
 ): Promise<IAddFolderResponse> {
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
     const url = `${baseUrl}/createFolder`;
 
@@ -60,9 +60,11 @@ export function createFolder(
 }
 
 /**
+ * Create an item in a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-item.htm) for more information.
+ *
  * ```js
  * import { createItemInFolder } from "@esri/arcgis-rest-portal";
- * //
+ *
  * createItemInFolder({
  *   item: {
  *     title: "The Amazing Voyage",
@@ -72,7 +74,6 @@ export function createFolder(
  *   authentication
  * })
  * ```
- * Create an item in a folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-item.htm) for more information.
  *
  * @param requestOptions = Options for the request
  */
@@ -85,7 +86,7 @@ export function createItemInFolder(
     );
   }
 
-  return determineOwner(requestOptions).then(owner => {
+  return determineOwner(requestOptions).then((owner) => {
     const baseUrl = `${getPortalUrl(requestOptions)}/content/users/${owner}`;
     let url = `${baseUrl}/addItem`;
 
@@ -95,7 +96,7 @@ export function createItemInFolder(
 
     requestOptions.params = {
       ...requestOptions.params,
-      ...serializeItem(requestOptions.item)
+      ...requestOptions.item
     };
 
     // serialize the item into something Portal will accept
@@ -122,9 +123,11 @@ export function createItemInFolder(
 }
 
 /**
+ * Create an Item in the user's root folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-item.htm) for more information.
+ *
  * ```js
  * import { createItem } from "@esri/arcgis-rest-portal";
- * //
+ *
  * createItem({
  *   item: {
  *     title: "The Amazing Voyage",
@@ -133,7 +136,6 @@ export function createItemInFolder(
  *   authentication
  * })
  * ```
- * Create an Item in the user's root folder. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/add-item.htm) for more information.
  *
  * @param requestOptions - Options for the request
  * @returns A Promise that creates an item.

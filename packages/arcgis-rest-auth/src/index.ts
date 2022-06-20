@@ -1,13 +1,32 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-export * from "./ApplicationSession";
-export * from "./ApiKey";
-export * from "./UserSession";
-export * from "./fetch-token";
-export * from "./generate-token";
-export * from "./authenticated-request-options";
-export { IUser } from "@esri/arcgis-rest-types";
-export * from "./app-tokens";
+export {
+  ApiKey,
+  ApplicationSession,
+  UserSession,
+  exchangeToken,
+  platformSelf,
+  canUseOnlineToken,
+  getOnlineEnvironment,
+  isFederated,
+  isOnline,
+  normalizeOnlinePortalUrl,
+  fetchToken,
+  validateAppAccess,
+  AuthenticationProvider,
+  IApiKeyOptions,
+  ICredential,
+  IOAuth2Options,
+  IPlatformSelfResponse,
+  IAuthenticatedRequestOptions,
+  IUserRequestOptions,
+  IFetchTokenResponse,
+  IAppAccess,
+  IUser
+} from "@esri/arcgis-rest-request";
 
-export * from "./validate-app-access";
+import { IArcGISIdentityManagerOptions } from "@esri/arcgis-rest-request";
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface IUserSessionOptions extends IArcGISIdentityManagerOptions {}

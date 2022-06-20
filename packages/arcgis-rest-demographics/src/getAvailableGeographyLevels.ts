@@ -7,7 +7,10 @@ import {
   appendCustomParams
 } from "@esri/arcgis-rest-request";
 
-import { ARCGIS_ONLINE_GEOENRICHMENT_URL, IEndpointOptions } from "./helpers";
+import {
+  ARCGIS_ONLINE_GEOENRICHMENT_URL,
+  IEndpointOptions
+} from "./helpers.js";
 
 export interface IGetAvailableGeographyLevelsResponse {
   messages?: string[] | null;
@@ -47,8 +50,9 @@ export interface IGeographyLevelHierarchy {
   levels?: ILevel[] | null;
 }
 
-
 /**
+ * Returns a list of available geography data layers, which can then be used in [getGeography()](). See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/standard-geography-levels.htm) for more information.
+ *
  * ```js
  * import { getAvailableGeographyLevels } from '@esri/arcgis-rest-demographics';
  * //
@@ -57,7 +61,7 @@ export interface IGeographyLevelHierarchy {
  *     response; // => { geographyLevels: [ ... ]  }
  *   });
  * ```
- * Returns a list of available geography data layers, which can then be used in [getGeography()](). See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/standard-geography-levels.htm) for more information.
+ *
  * @param requestOptions Options to pass through to the geoenrichment service.
  * @returns A Promise that will resolve with available geography levels for the request.
  */
@@ -73,16 +77,12 @@ export function getAvailableGeographyLevels(
     if (requestOptions.endpoint) {
       endpoint = `${requestOptions.endpoint}/StandardGeographyLevels`;
     }
-    options = appendCustomParams<IEndpointOptions>(
-      requestOptions,
-      [],
-      { params: { ...requestOptions.params } }
-    );
+    options = appendCustomParams<IEndpointOptions>(requestOptions, [], {
+      params: { ...requestOptions.params }
+    });
   }
 
-  return request(`${cleanUrl(endpoint)}`, options).then(
-    (response: any) => {
-      return response;
-    }
-  );
+  return request(`${cleanUrl(endpoint)}`, options).then((response: any) => {
+    return response;
+  });
 }

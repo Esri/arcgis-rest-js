@@ -1,13 +1,11 @@
-import { encodeParam } from "@esri/arcgis-rest-request";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
+import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 import {
   createOrgNotification,
-  ICreateOrgNotificationOptions,
-} from "../../src/orgs/notification";
+  ICreateOrgNotificationOptions
+} from "../../src/orgs/notification.js";
 
 function createUsernames(start: number, end: number): string[] {
   const usernames = [];
@@ -20,17 +18,16 @@ function createUsernames(start: number, end: number): string[] {
 }
 
 describe("create-org-notification", () => {
-  const MOCK_AUTH = new UserSession({
+  const MOCK_AUTH = new ArcGISIdentityManager({
     clientId: "clientId",
     redirectUri: "https://example-app.com/redirect-uri",
     token: "fake-token",
     tokenExpires: TOMORROW,
     refreshToken: "refreshToken",
     refreshTokenExpires: TOMORROW,
-    refreshTokenTTL: 1440,
     username: "casey",
     password: "123456",
-    portal: "https://myorg.maps.arcgis.com/sharing/rest",
+    portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
 
   afterEach(fetchMock.restore);
@@ -63,7 +60,7 @@ describe("create-org-notification", () => {
       subject: "Attention",
       message: "This is a test",
       notificationChannelType: "email",
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     };
 
     createOrgNotification(params)
@@ -84,9 +81,9 @@ describe("create-org-notification", () => {
         error: {
           code: 400,
           messageCode: "ORG_9001",
-          message: "error message for creating org notification",
-        },
-      },
+          message: "error message for creating org notification"
+        }
+      }
     ];
 
     fetchMock.post("*", () => responses.shift());
@@ -96,7 +93,7 @@ describe("create-org-notification", () => {
       subject: "Attention",
       message: "This is a test",
       notificationChannelType: "email",
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     };
 
     createOrgNotification(params)
@@ -128,7 +125,7 @@ describe("create-org-notification", () => {
       subject: "Attention",
       notificationChannelType: "email",
       users: [],
-      authentication: MOCK_AUTH,
+      authentication: MOCK_AUTH
     };
     fetchMock.post("*", () => 200);
     createOrgNotification(params)

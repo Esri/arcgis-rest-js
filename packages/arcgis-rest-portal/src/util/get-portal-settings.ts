@@ -1,10 +1,9 @@
 /* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IExtent } from "@esri/arcgis-rest-types";
-import { request, IRequestOptions } from "@esri/arcgis-rest-request";
+import { request, IRequestOptions, IExtent } from "@esri/arcgis-rest-request";
 
-import { getPortalUrl } from "./get-portal-url";
+import { getPortalUrl } from "./get-portal-url.js";
 
 export interface IPortalSettings {
   allowedRedirectUris: string[];
@@ -15,14 +14,16 @@ export interface IPortalSettings {
 }
 
 /**
+ * Fetch the settings for the current portal by id. If no id is passed, portals/self/settings will be called
+ *
  * ```js
  * import { getPortalSettings } from "@esri/arcgis-rest-portal";
- * //
+ *
  * getPortalSettings()
  * getPortalSettings("fe8")
  * getPortalSettings(null, { portal: "https://custom.maps.arcgis.com/sharing/rest/" })
  * ```
- * Fetch the settings for the current portal by id. If no id is passed, portals/self/settings will be called
+ *
  * @param id
  * @param requestOptions
  */

@@ -7,7 +7,11 @@ import {
   appendCustomParams
 } from "@esri/arcgis-rest-request";
 
-import { ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL, IGeoenrichmentResult, IEndpointOptions } from "./helpers";
+import {
+  ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL,
+  IGeoenrichmentResult,
+  IEndpointOptions
+} from "./helpers.js";
 
 export interface IGetGeographyOptions extends IEndpointOptions {
   /**
@@ -76,13 +80,14 @@ export interface IGetGeographyOptions extends IEndpointOptions {
   langCode?: string;
 }
 
-
 export interface IGetGeographyResponse {
   results: IGeoenrichmentResult[] | null;
   messages: string[] | null;
 }
 
 /**
+ * Used to get standard geography IDs and features for the supported geographic levels. See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/standard-geography-query.htm) and the [best practices post](https://www.esri.com/arcgis-blog/products/arcgis-online/uncategorized/best-practices-how-to-query-standard-geographies-branches) for more information.
+ *
  * ```js
  * import { getGeography } from '@esri/arcgis-rest-demographics';
  * //
@@ -94,14 +99,16 @@ export interface IGetGeographyResponse {
  *     response.; // => { results: [ ... ] }
  *   });
  * ```
- * Used to get standard geography IDs and features for the supported geographic levels. See the [REST Documentation](https://developers.arcgis.com/rest/geoenrichment/api-reference/standard-geography-query.htm) and the [best practices post](https://www.esri.com/arcgis-blog/products/arcgis-online/uncategorized/best-practices-how-to-query-standard-geographies-branches) for more information.
+ *
  * @param requestOptions Options to pass through to the service. All properties are optional, but either `geographyIds` or `geographyQuery` must be sent at a minimum.
  * @returns A Promise that will resolve with return data defined and optionally geometry for the feature.
  */
 export function getGeography(
   requestOptions?: IGetGeographyOptions
 ): Promise<IGetGeographyResponse> {
-  const endpoint = `${requestOptions.endpoint || ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL}/execute`;
+  const endpoint = `${
+    requestOptions.endpoint || ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL
+  }/execute`;
 
   const options = appendCustomParams<IGetGeographyOptions>(
     requestOptions,
@@ -121,15 +128,13 @@ export function getGeography(
       "useFuzzySearch",
       "featureLimit",
       "featureOffset",
-      "langCode",
+      "langCode"
     ],
     { params: { ...requestOptions.params } }
   );
 
   // the SAAS service does not support anonymous requests
-  if (
-    !requestOptions.authentication
-  ) {
+  if (!requestOptions.authentication) {
     return Promise.reject(
       "Geoenrichment using the ArcGIS service requires authentication"
     );
@@ -141,12 +146,9 @@ export function getGeography(
       options.params[parameter] = JSON.stringify(options.params[parameter]);
     }
   });
-  
 
   // add spatialReference property to individual matches
-  return request(`${cleanUrl(endpoint)}`, options).then(
-    (response: any) => {
-      return response;
-    }
-  );
+  return request(`${cleanUrl(endpoint)}`, options).then((response: any) => {
+    return response;
+  });
 }

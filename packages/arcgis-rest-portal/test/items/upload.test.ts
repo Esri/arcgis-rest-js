@@ -1,26 +1,29 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as fetchMock from "fetch-mock";
-import { commitItemUpload, cancelItemUpload, addItemPart } from "../../src/items/upload";
-import { ItemSuccessResponse } from "../mocks/items/item";
-import { attachmentFile } from "../../../arcgis-rest-feature-layer/test/attachments.test";
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
+import fetchMock from "fetch-mock";
+import {
+  commitItemUpload,
+  cancelItemUpload,
+  addItemPart
+} from "../../src/items/upload.js";
+import { ItemSuccessResponse } from "../mocks/items/item.js";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
+import { TOMORROW, attachmentFile } from "../../../../scripts/test-helpers.js";
+import { FormData } from "@esri/arcgis-rest-form-data";
 
 describe("search", () => {
   afterEach(fetchMock.restore);
 
   describe("Authenticated methods", () => {
-    // setup a UserSession to use in all these tests
-    const MOCK_USER_SESSION = new UserSession({
+    // setup a ArcGISIdentityManager to use in all these tests
+    const MOCK_USER_SESSION = new ArcGISIdentityManager({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
       token: "fake-token",
       tokenExpires: TOMORROW,
       refreshToken: "refreshToken",
       refreshTokenExpires: TOMORROW,
-      refreshTokenTTL: 1440,
       username: "casey",
       password: "123456",
       portal: "https://myorg.maps.arcgis.com/sharing/rest"
@@ -30,18 +33,18 @@ describe("search", () => {
       authentication: MOCK_USER_SESSION
     };
 
-    it("should commit the item upload", done => {
+    it("should commit the item upload", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
 
       commitItemUpload({
         id: "3ef",
         item: {
-          title: 'test',
-          type: 'PDF'
+          title: "test",
+          type: "PDF"
         },
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -54,24 +57,24 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should commit the item upload for the other owner", done => {
+    it("should commit the item upload for the other owner", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
 
       commitItemUpload({
         id: "3ef",
         item: {
-          title: 'test',
-          type: 'PDF'
+          title: "test",
+          type: "PDF"
         },
         owner: "fanny",
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -84,19 +87,19 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should cancel the item upload", done => {
+    it("should cancel the item upload", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
 
       cancelItemUpload({
         id: "3ef",
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -109,12 +112,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should cancel the item upload for the other owner", done => {
+    it("should cancel the item upload for the other owner", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
 
       cancelItemUpload({
@@ -122,7 +125,7 @@ describe("search", () => {
         owner: "fanny",
         ...MOCK_USER_REQOPTS
       })
-        .then(response => {
+        .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
@@ -135,12 +138,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add a binary part to an item", done => {
+    it("should add a binary part to an item", (done) => {
       fetchMock.once("*", {
         success: true
       });
@@ -172,12 +175,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should add a binary part to an item with the owner parameter", done => {
+    it("should add a binary part to an item with the owner parameter", (done) => {
       fetchMock.once("*", {
         success: true
       });
@@ -210,12 +213,12 @@ describe("search", () => {
 
           done();
         })
-        .catch(e => {
+        .catch((e) => {
           fail(e);
         });
     });
 
-    it("should throw an error if the part number is invalid", done => {
+    it("should throw an error if the part number is invalid", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
 
       const file = attachmentFile();
@@ -231,13 +234,13 @@ describe("search", () => {
         .then(() => {
           fail();
         })
-        .catch(e => {
-          expect(fetchMock.called()).toBeFalsy()
-          done()
+        .catch((e) => {
+          expect(fetchMock.called()).toBeFalsy();
+          done();
         });
     });
 
-    it("should throw an error if the part number is smaller than 1", done => {
+    it("should throw an error if the part number is smaller than 1", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
 
       const file = attachmentFile();
@@ -252,13 +255,13 @@ describe("search", () => {
         .then(() => {
           fail();
         })
-        .catch(e => {
-          expect(fetchMock.called()).toBeFalsy()
-          done()
+        .catch((e) => {
+          expect(fetchMock.called()).toBeFalsy();
+          done();
         });
     });
 
-    it("should throw an error if the part number is lager than 10000", done => {
+    it("should throw an error if the part number is lager than 10000", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
 
       const file = attachmentFile();
@@ -273,9 +276,9 @@ describe("search", () => {
         .then(() => {
           fail();
         })
-        .catch(e => {
-          expect(fetchMock.called()).toBeFalsy()
-          done()
+        .catch((e) => {
+          expect(fetchMock.called()).toBeFalsy();
+          done();
         });
     });
   });

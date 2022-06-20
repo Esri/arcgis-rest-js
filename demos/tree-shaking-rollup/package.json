@@ -1,25 +1,22 @@
 {
+  "private": true,
   "name": "@esri/arcgis-rest-tree-shaking-rollup",
   "version": "3.3.0",
-  "private": true,
   "description": "",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build:app": "rollup -c"
-  },
-  "keywords": [],
-  "author": "",
   "license": "Apache-2.0",
-  "devDependencies": {
-    "@babel/core": "^7.4.0",
-    "@babel/preset-env": "^7.4.2",
-    "babel-loader": "^8.0.5",
-    "rollup": "^1.7.4",
-    "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-node-resolve": "^4.0.1"
+  "keywords": [],
+  "scripts": {
+    "build:app": "rollup -c",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@esri/arcgis-rest-portal": "^3.3.0",
-    "@esri/arcgis-rest-request": "^3.3.0"
-  }
+    "@esri/arcgis-rest-request": "^4.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.4",
+    "rollup": "^2.56.3",
+    "rollup-plugin-visualizer": "^5.5.2"
+  },
+  "author": ""
 }

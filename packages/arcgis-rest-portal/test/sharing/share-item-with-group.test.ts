@@ -1,13 +1,13 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as fetchMock from "fetch-mock";
+import fetchMock from "fetch-mock";
 import {
   shareItemWithGroup,
-  ensureMembership,
-} from "../../src/sharing/share-item-with-group";
-import { MOCK_USER_SESSION } from "../mocks/sharing/sharing";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
+  ensureMembership
+} from "../../src/sharing/share-item-with-group.js";
+import { MOCK_USER_SESSION } from "../mocks/sharing/sharing.js";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
 import { ArcGISAuthError } from "@esri/arcgis-rest-request";
 
 import {
@@ -15,26 +15,26 @@ import {
   GroupMemberUserResponse,
   GroupAdminUserResponse,
   OrgAdminUserResponse,
-  AnonUserResponse,
-} from "../mocks/users/user";
+  AnonUserResponse
+} from "../mocks/users/user.js";
 
-import { SearchResponse } from "../mocks/items/search";
-import { ISharingResponse } from "../../src/sharing/helpers";
+import { SearchResponse } from "../mocks/items/search.js";
+import { ISharingResponse } from "../../src/sharing/helpers.js";
 
 const SharingResponse = {
   notSharedWith: [] as any,
-  itemId: "n3v",
+  itemId: "n3v"
 };
 
 const FailedSharingResponse = {
   notSharedWith: ["t6b"],
-  itemId: "n3v",
+  itemId: "n3v"
 };
 
 const CachedSharingResponse = {
   notSharedWith: [] as any,
   itemId: "a5b",
-  shortcut: true,
+  shortcut: true
 };
 
 const NoResultsSearchResponse = {
@@ -43,39 +43,39 @@ const NoResultsSearchResponse = {
   start: 0,
   num: 0,
   nextStart: 0,
-  results: [] as any,
+  results: [] as any
 };
 
 export const GroupOwnerResponse = {
   id: "tb6",
   title: "fake group",
   userMembership: {
-    memberType: "owner",
-  },
+    memberType: "owner"
+  }
 };
 
 export const GroupMemberResponse = {
   id: "tb6",
   title: "fake group",
   userMembership: {
-    memberType: "member",
-  },
+    memberType: "member"
+  }
 };
 
 export const GroupNonMemberResponse = {
   id: "tb6",
   title: "fake group",
   userMembership: {
-    memberType: "none",
-  },
+    memberType: "none"
+  }
 };
 
 export const GroupAdminResponse = {
   id: "tb6",
   title: "fake group",
   userMembership: {
-    memberType: "admin",
-  },
+    memberType: "admin"
+  }
 };
 
 export const GroupNoAccessResponse = {
@@ -83,8 +83,8 @@ export const GroupNoAccessResponse = {
     code: 400,
     messageCode: "COM_0003",
     message: "Group does not exist or is inaccessible.",
-    details: [] as any[],
-  },
+    details: [] as any[]
+  }
 };
 
 describe("shareItemWithGroup() ::", () => {
@@ -93,11 +93,11 @@ describe("shareItemWithGroup() ::", () => {
     fetchMock.post("https://myorg.maps.arcgis.com/sharing/rest/generateToken", {
       token: "fake-token",
       expires: TOMORROW.getTime(),
-      username: "jsmith",
+      username: "jsmith"
     });
 
     // make sure session doesnt cache metadata
-    MOCK_USER_SESSION.refreshSession()
+    MOCK_USER_SESSION.refreshCredentials()
       .then(() => done())
       .catch();
   });
@@ -120,7 +120,7 @@ describe("shareItemWithGroup() ::", () => {
       shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
-        groupId: "t6b",
+        groupId: "t6b"
       })
         .then((response) => {
           expect(fetchMock.done()).toBeTruthy(
@@ -157,7 +157,7 @@ describe("shareItemWithGroup() ::", () => {
         {
           username: "casey",
           orgId: "qWAReEOCnD7eTxOe",
-          groups: [] as any[],
+          groups: [] as any[]
         }
       );
 
@@ -180,7 +180,7 @@ describe("shareItemWithGroup() ::", () => {
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
-        owner: "casey",
+        owner: "casey"
       })
         .then((response) => {
           expect(fetchMock.done()).toBeTruthy(
@@ -214,7 +214,7 @@ describe("shareItemWithGroup() ::", () => {
         {
           username: "otherguy",
           orgId: "qWAReEOCnD7eTxOe",
-          groups: [] as any[],
+          groups: [] as any[]
         }
       );
 
@@ -238,7 +238,7 @@ describe("shareItemWithGroup() ::", () => {
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
-        owner: "otherguy",
+        owner: "otherguy"
       })
         .then((response) => {
           expect(fetchMock.done()).toBeTruthy(
@@ -278,7 +278,7 @@ describe("shareItemWithGroup() ::", () => {
       shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "a5b",
-        groupId: "t6b",
+        groupId: "t6b"
       })
         .then((response) => {
           // no web request to share at all
@@ -304,7 +304,7 @@ describe("shareItemWithGroup() ::", () => {
         {
           username: "casey",
           orgId: "qWAReEOCnD7eTxOe",
-          groups: [] as any[],
+          groups: [] as any[]
         }
       );
 
@@ -328,7 +328,7 @@ describe("shareItemWithGroup() ::", () => {
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
-        owner: "casey",
+        owner: "casey"
       })
         .then((response) => {
           expect(fetchMock.done()).toBeTruthy(
@@ -362,7 +362,7 @@ describe("shareItemWithGroup() ::", () => {
         {
           username: "casey",
           orgId: "qWAReEOCnD7eTxOe",
-          groups: [] as any[],
+          groups: [] as any[]
         }
       );
 
@@ -382,7 +382,7 @@ describe("shareItemWithGroup() ::", () => {
         id: "n3v",
         groupId: "t6b",
         owner: "casey",
-        confirmItemControl: true,
+        confirmItemControl: true
       }).catch((e) => {
         expect(fetchMock.done()).toBeTruthy(
           "All fetchMocks should have been called"
@@ -408,7 +408,7 @@ describe("shareItemWithGroup() ::", () => {
       shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
-        groupId: "t6b",
+        groupId: "t6b"
       }).catch((e) => {
         expect(fetchMock.done()).toBeTruthy(
           "All fetchMocks should have been called"
@@ -439,7 +439,7 @@ describe("shareItemWithGroup() ::", () => {
           {
             username: "casey",
             orgId: "qWAReEOCnD7eTxOe",
-            groups: [] as any[],
+            groups: [] as any[]
           }
         )
         .post(
@@ -456,7 +456,7 @@ describe("shareItemWithGroup() ::", () => {
         id: "n3v",
         groupId: "t6b",
         owner: "casey",
-        confirmItemControl: true,
+        confirmItemControl: true
       })
         .then((result) => {
           expect(fetchMock.done()).toBeTruthy(
@@ -499,7 +499,7 @@ describe("shareItemWithGroup() ::", () => {
           "https://myorg.maps.arcgis.com/sharing/rest/community/users/casey?f=json&token=fake-token",
           {
             username: "casey",
-            orgId: "qWAReEOCnD7eTxOe",
+            orgId: "qWAReEOCnD7eTxOe"
           }
         )
         .post(
@@ -516,7 +516,7 @@ describe("shareItemWithGroup() ::", () => {
         id: "n3v",
         groupId: "t6b",
         owner: "casey",
-        confirmItemControl: true,
+        confirmItemControl: true
       })
         .then((result) => {
           expect(fetchMock.done()).toBeTruthy(
@@ -563,10 +563,10 @@ describe("shareItemWithGroup() ::", () => {
               {
                 id: "t6b",
                 userMembership: {
-                  memberType: "member",
-                },
-              },
-            ] as any[],
+                  memberType: "member"
+                }
+              }
+            ] as any[]
           }
         )
         .post(
@@ -583,7 +583,7 @@ describe("shareItemWithGroup() ::", () => {
         id: "n3v",
         groupId: "t6b",
         owner: "casey",
-        confirmItemControl: true,
+        confirmItemControl: true
       })
         .then((result) => {
           expect(fetchMock.done()).toBeTruthy(
@@ -630,10 +630,10 @@ describe("shareItemWithGroup() ::", () => {
               {
                 id: "t6b",
                 userMembership: {
-                  memberType: "admin",
-                },
-              },
-            ] as any[],
+                  memberType: "admin"
+                }
+              }
+            ] as any[]
           }
         )
         .post(
@@ -646,7 +646,7 @@ describe("shareItemWithGroup() ::", () => {
         id: "n3v",
         groupId: "t6b",
         owner: "casey",
-        confirmItemControl: true,
+        confirmItemControl: true
       })
         .then((result) => {
           expect(fetchMock.done()).toBeTruthy(
@@ -688,10 +688,10 @@ describe("shareItemWithGroup() ::", () => {
               {
                 id: "t6b",
                 userMembership: {
-                  memberType: "member",
-                },
-              },
-            ] as any[],
+                  memberType: "member"
+                }
+              }
+            ] as any[]
           }
         )
         .post(
@@ -699,12 +699,12 @@ describe("shareItemWithGroup() ::", () => {
           { results: [{ username: "casey", success: false }] }
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
         owner: "casey",
-        confirmItemControl: true,
+        confirmItemControl: true
       })
         .then(() => {
           expect("").toBe("Should Throw, but it returned");
@@ -730,7 +730,7 @@ describe("shareItemWithGroup() ::", () => {
           "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
           {
             ...OrgAdminUserResponse,
-            groups: [],
+            groups: []
           }
         )
         .once(
@@ -750,10 +750,10 @@ describe("shareItemWithGroup() ::", () => {
               {
                 id: "t6b",
                 userMembership: {
-                  memberType: "admin",
-                },
-              },
-            ] as any[],
+                  memberType: "admin"
+                }
+              }
+            ] as any[]
           }
         )
         .post(
@@ -761,12 +761,12 @@ describe("shareItemWithGroup() ::", () => {
           { errors: [new ArcGISAuthError("my error", 717)] }
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
         owner: "casey",
-        confirmItemControl: true,
+        confirmItemControl: true
       })
         .then(() => {
           expect("").toBe("Should Throw, but it returned");
@@ -805,19 +805,19 @@ describe("shareItemWithGroup() ::", () => {
               {
                 id: "t6b",
                 userMembership: {
-                  memberType: "member",
-                },
-              },
-            ] as any[],
+                  memberType: "member"
+                }
+              }
+            ] as any[]
           }
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
         owner: "casey",
-        confirmItemControl: false,
+        confirmItemControl: false
       })
         .then(() => {
           expect("").toBe("Should Throw, but it returned");
@@ -852,16 +852,16 @@ describe("shareItemWithGroup() ::", () => {
           {
             username: "casey",
             orgId: "some-other-org",
-            groups: [] as any[],
+            groups: [] as any[]
           }
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
         owner: "casey",
-        confirmItemControl: true,
+        confirmItemControl: true
       })
         .then(() => {
           expect("").toBe("Should Throw, but it returned");
@@ -882,7 +882,7 @@ describe("shareItemWithGroup() ::", () => {
       const caseyUser = {
         username: "casey",
         orgId: "qWAReEOCnD7eTxOe",
-        groups: new Array(512),
+        groups: new Array(512)
       };
       caseyUser.groups.fill({ id: "not-real-group" });
       fetchMock
@@ -903,12 +903,12 @@ describe("shareItemWithGroup() ::", () => {
           caseyUser
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
         owner: "casey",
-        confirmItemControl: true,
+        confirmItemControl: true
       })
         .then(() => {
           expect("").toBe("Should Throw, but it returned");
@@ -949,10 +949,10 @@ describe("shareItemWithGroup() ::", () => {
               {
                 id: "t6b",
                 userMembership: {
-                  memberType: "member",
-                },
-              },
-            ] as any[],
+                  memberType: "member"
+                }
+              }
+            ] as any[]
           }
         )
         .post(
@@ -960,12 +960,12 @@ describe("shareItemWithGroup() ::", () => {
           { throws: true }
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
         owner: "casey",
-        confirmItemControl: true,
+        confirmItemControl: true
       })
         .then(() => {
           expect("").toBe("Should Throw, but it returned");
@@ -992,7 +992,7 @@ describe("shareItemWithGroup() ::", () => {
           "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
           {
             ...OrgAdminUserResponse,
-            groups: [],
+            groups: []
           }
         )
         .once(
@@ -1012,10 +1012,10 @@ describe("shareItemWithGroup() ::", () => {
               {
                 id: "t6b",
                 userMembership: {
-                  memberType: "admin",
-                },
-              },
-            ] as any[],
+                  memberType: "admin"
+                }
+              }
+            ] as any[]
           }
         )
         .post(
@@ -1031,12 +1031,12 @@ describe("shareItemWithGroup() ::", () => {
           { notRemoved: [] }
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
         owner: "casey",
-        confirmItemControl: true,
+        confirmItemControl: true
       })
         .then((result) => {
           expect(fetchMock.done()).toBeTruthy(
@@ -1060,7 +1060,7 @@ describe("shareItemWithGroup() ::", () => {
           "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
           {
             ...OrgAdminUserResponse,
-            groups: [],
+            groups: []
           }
         )
         .once(
@@ -1080,10 +1080,10 @@ describe("shareItemWithGroup() ::", () => {
               {
                 id: "t6b",
                 userMembership: {
-                  memberType: "admin",
-                },
-              },
-            ] as any[],
+                  memberType: "admin"
+                }
+              }
+            ] as any[]
           }
         )
         .post(
@@ -1099,12 +1099,12 @@ describe("shareItemWithGroup() ::", () => {
           { throws: true }
         );
 
-      return shareItemWithGroup({
+      shareItemWithGroup({
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
         owner: "casey",
-        confirmItemControl: true,
+        confirmItemControl: true
       })
         .then((result) => {
           expect(fetchMock.done()).toBeTruthy(
@@ -1133,10 +1133,10 @@ describe("shareItemWithGroup() ::", () => {
                 ...OrgAdminUserResponse.groups[0],
                 userMembership: {
                   ...OrgAdminUserResponse.groups[0].userMembership,
-                  memberType: "member",
-                },
-              },
-            ],
+                  memberType: "member"
+                }
+              }
+            ]
           }
         )
         .once(
@@ -1156,10 +1156,10 @@ describe("shareItemWithGroup() ::", () => {
               {
                 id: "t6b",
                 userMembership: {
-                  memberType: "member",
-                },
-              },
-            ] as any[],
+                  memberType: "member"
+                }
+              }
+            ] as any[]
           }
         )
         .once(
@@ -1176,7 +1176,7 @@ describe("shareItemWithGroup() ::", () => {
         id: "n3v",
         groupId: "t6b",
         owner: "casey",
-        confirmItemControl: true,
+        confirmItemControl: true
       })
         .then((result) => {
           expect(fetchMock.done()).toBeTruthy(
@@ -1201,7 +1201,7 @@ describe("shareItemWithGroup() ::", () => {
         });
     });
   });
-  describe("ensureMembership", function() {
+  describe("ensureMembership", function () {
     it("should revert the user promotion and suppress resolved error", (done) => {
       fetchMock
         .once(
@@ -1222,7 +1222,7 @@ describe("shareItemWithGroup() ::", () => {
           id: "n3v",
           groupId: "t6b",
           owner: "casey",
-          confirmItemControl: true,
+          confirmItemControl: true
         }
       );
       revert({ notSharedWith: [] } as ISharingResponse)
@@ -1256,7 +1256,7 @@ describe("shareItemWithGroup() ::", () => {
           id: "n3v",
           groupId: "t6b",
           owner: "casey",
-          confirmItemControl: true,
+          confirmItemControl: true
         }
       );
       revert({ notSharedWith: [] } as ISharingResponse)
@@ -1278,7 +1278,7 @@ describe("shareItemWithGroup() ::", () => {
           "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
           {
             ...OrgAdminUserResponse,
-            favGroupId: "t6b",
+            favGroupId: "t6b"
           }
         )
         .once(
@@ -1294,7 +1294,7 @@ describe("shareItemWithGroup() ::", () => {
           {
             username: "casey",
             orgId: "qWAReEOCnD7eTxOe",
-            groups: [] as any[],
+            groups: [] as any[]
           }
         )
         .post(
@@ -1306,7 +1306,7 @@ describe("shareItemWithGroup() ::", () => {
         authentication: MOCK_USER_SESSION,
         id: "n3v",
         groupId: "t6b",
-        owner: "casey",
+        owner: "casey"
       })
         .then((result) => {
           expect(fetchMock.done()).toBeTruthy(

@@ -1,40 +1,41 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as fetchMock from "fetch-mock";
-
+import fetchMock from "fetch-mock";
 import {
   createFolder,
   createItem,
-  createItemInFolder,
-} from "../../src/items/create";
+  createItemInFolder
+} from "../../src/items/create.js";
 
-import { ItemSuccessResponse } from "../mocks/items/item";
+import { ItemSuccessResponse } from "../mocks/items/item.js";
 
-import { UserSession } from "@esri/arcgis-rest-auth";
-import { TOMORROW } from "@esri/arcgis-rest-auth/test/utils";
-import { encodeParam } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
+import {
+  ArcGISIdentityManager,
+  encodeParam,
+  File
+} from "@esri/arcgis-rest-request";
 
 describe("search", () => {
   afterEach(fetchMock.restore);
 
   describe("Authenticated methods", () => {
-    // setup a UserSession to use in all these tests
-    const MOCK_USER_SESSION = new UserSession({
+    // setup a ArcGISIdentityManager to use in all these tests
+    const MOCK_USER_SESSION = new ArcGISIdentityManager({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
       token: "fake-token",
       tokenExpires: TOMORROW,
       refreshToken: "refreshToken",
       refreshTokenExpires: TOMORROW,
-      refreshTokenTTL: 1440,
       username: "casey",
       password: "123456",
-      portal: "https://myorg.maps.arcgis.com/sharing/rest",
+      portal: "https://myorg.maps.arcgis.com/sharing/rest"
     });
 
     const MOCK_USER_REQOPTS = {
-      authentication: MOCK_USER_SESSION,
+      authentication: MOCK_USER_SESSION
     };
 
     it("should create an item with data", (done) => {
@@ -48,18 +49,18 @@ describe("search", () => {
         typeKeywords: ["fake", "kwds"],
         tags: ["fakey", "mcfakepants"],
         properties: {
-          key: "somevalue",
+          key: "somevalue"
         },
         data: {
           values: {
-            key: "value",
-          },
-        },
+            key: "value"
+          }
+        }
       };
       createItem({
         item: fakeItem,
         owner: "dbouwman",
-        ...MOCK_USER_REQOPTS,
+        ...MOCK_USER_REQOPTS
       })
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
@@ -100,12 +101,12 @@ describe("search", () => {
         typeKeywords: ["fake", "kwds"],
         tags: ["fakey", "mcfakepants"],
         properties: {
-          key: "somevalue",
-        },
+          key: "somevalue"
+        }
       };
       createItem({
         item: fakeItem,
-        ...MOCK_USER_REQOPTS,
+        ...MOCK_USER_REQOPTS
       })
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
@@ -145,13 +146,13 @@ describe("search", () => {
         typeKeywords: ["fake", "kwds"],
         tags: ["fakey", "mcfakepants"],
         properties: {
-          key: "somevalue",
-        },
+          key: "somevalue"
+        }
       };
       // why not just use item.owner??
       createItem({
         item: fakeItem,
-        ...MOCK_USER_REQOPTS,
+        ...MOCK_USER_REQOPTS
       })
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
@@ -189,12 +190,12 @@ describe("search", () => {
         snippet: "so very fake",
         type: "Web Mapping Application",
         properties: {
-          key: "somevalue",
-        },
+          key: "somevalue"
+        }
       };
       createItem({
         item: fakeItem,
-        ...MOCK_USER_REQOPTS,
+        ...MOCK_USER_REQOPTS
       })
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
@@ -229,13 +230,13 @@ describe("search", () => {
         snipped: "so very fake",
         type: "Web Mapping Application",
         typeKeywords: ["fake", "kwds"],
-        tags: ["fakey", "mcfakepants"],
+        tags: ["fakey", "mcfakepants"]
       };
       createItemInFolder({
         owner: "dbouwman",
         item: fakeItem,
         folderId: "fe8",
-        ...MOCK_USER_REQOPTS,
+        ...MOCK_USER_REQOPTS
       })
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
@@ -270,16 +271,16 @@ describe("search", () => {
         snipped: "so very fake",
         type: "Web Mapping Application",
         typeKeywords: ["fake", "kwds"],
-        tags: ["fakey", "mcfakepants"],
+        tags: ["fakey", "mcfakepants"]
       };
       createItemInFolder({
         owner: "dbouwman",
         item: fakeItem,
         folderId: "fe8",
         params: {
-          foo: "bar",
+          foo: "bar"
         },
-        ...MOCK_USER_REQOPTS,
+        ...MOCK_USER_REQOPTS
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -315,11 +316,11 @@ describe("search", () => {
         snipped: "so very fake",
         type: "Web Mapping Application",
         typeKeywords: ["fake", "kwds"],
-        tags: ["fakey", "mcfakepants"],
+        tags: ["fakey", "mcfakepants"]
       };
       createItemInFolder({
         item: fakeItem,
-        ...MOCK_USER_REQOPTS,
+        ...MOCK_USER_REQOPTS
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
@@ -350,7 +351,7 @@ describe("search", () => {
       const title = "an amazing folder";
       createFolder({
         title,
-        ...MOCK_USER_REQOPTS,
+        ...MOCK_USER_REQOPTS
       })
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
@@ -377,16 +378,18 @@ describe("search", () => {
       const fakeItem = {
         owner: "casey",
         title: "my fake item",
-        type: "Web Mapping Application",
+        type: "Web Mapping Application"
       };
       fetchMock.post("*", () => 200);
       createItemInFolder({
         item: fakeItem,
-        file: "some file",
+        file: new File(["some text"], undefined, {
+          type: "text/html"
+        }),
         multipart: true,
         // multipart is required for a multipart request
         filename: "",
-        ...MOCK_USER_REQOPTS,
+        ...MOCK_USER_REQOPTS
       })
         .then(() => {
           fail();

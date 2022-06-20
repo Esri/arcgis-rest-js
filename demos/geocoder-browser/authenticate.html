@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ArcGIS Rest JS OAuth redirect</title>
+  </head>
+  <body>
+    <script src="@esri/arcgis-rest-request/dist/bundled/request.umd.js"></script>
+    <script src="config.js"></script>
+
+    <script>
+      arcgisRest.ArcGISIdentityManager.completeOAuth2({
+        clientId: ClientId,
+      }).then((session)=>{
+        localStorage.setItem('__ARCGIS_REST_USER_SESSION__', session.serialize());
+      });
+    </script>
+  </body>
+</html>
