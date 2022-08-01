@@ -4,8 +4,8 @@ import mitt from "mitt";
 
 const emitter = mitt();
 
-const createJob = (url, params) => {
-  return request(url, params).then(response => response).then(result => result);
+const createJob = (url: string, params: {}) => {
+  return request(url, params).then((response: any) => response).then((result: {}) => result);
   // const submitJobUrlCheck = url.endsWith("submitJob?")
   //   ? url
   //   : url.concat("submitJob?");
@@ -23,31 +23,33 @@ const createJob = (url, params) => {
 // const details = { f: "json", authentication: ApiKeyManager.fromKey("AAPK59244520da284b68bc5d426a1c22d08fp9HQo6v2E2xWsNgC39us1eQQvnrCLxBEYUAI_qR6xaHgU-S7osfaONVFd0YEi9dH"), facilities: "-117.133163,34.022445", defaultBreaks:"2.5", travelDirection:"esriNATravelDirectionToFacility", travelMode: "{'attributeParameterValues':[{'attributeName':'Avoid Private Roads','parameterName':'Restriction Usage','value':'AVOID_MEDIUM'},{'attributeName':'Walking','parameterName':'Restriction Usage','value':'PROHIBITED'},{'attributeName':'Preferred for Pedestrians','parameterName':'Restriction Usage','value':'PREFER_LOW'},{'attributeName':'WalkTime','parameterName':'Walking Speed (km/h)','value':5},{'attributeName':'Avoid Roads Unsuitable for Pedestrians','parameterName':'Restriction Usage','value':'AVOID_HIGH'}],'description':'Follows paths and roads that allow pedestrian traffic and finds solutions that optimize travel distance.','distanceAttributeName':'Kilometers','id':'yFuMFwIYblqKEefX','impedanceAttributeName':'Kilometers','name':'Walking Distance','restrictionAttributeNames':['Avoid Private Roads','Avoid Roads Unsuitable for Pedestrians','Preferred for Pedestrians','Walking'],'simplificationTolerance':2,'simplificationToleranceUnits':'esriMeters','timeAttributeName':'WalkTime','type':'WALK','useHierarchy':false,'uturnAtJunctions':'esriNFSBAllowBacktrack'}"}
 
 
-const details = { f: "json", authentication: ApiKeyManager.fromKey("AAPK59244520da284b68bc5d426a1c22d08fp9HQo6v2E2xWsNgC39us1eQQvnrCLxBEYUAI_qR6xaHgU-S7osfaONVFd0YEi9dH"), Input_Observation_Point: {
-  "displayFieldName": "",
-  "geometryType": "esriGeometryPoint",
-  "spatialReference": {
-   "wkid": 54003,
-   "latestWkid": 54003
-  },
-  "fields": [
-   {
-    "name": "OBJECTID",
-    "type": "esriFieldTypeOID",
-    "alias": "OBJECTID"
-   },
-   {
-    "name": "OffsetA",
-    "type": "esriFieldTypeSmallInteger",
-    "alias": "OffsetA"
-   }
-  ],
-  "features": [],
-  "exceededTransferLimit": false
- }, Viewshed_Distance: {
-  "distance": 15000,
-  "units": "esriMeters"
- }, elev_raster: "elevation"};
+const details = {
+  f: "json", authentication: ApiKeyManager.fromKey("AAPK59244520da284b68bc5d426a1c22d08fp9HQo6v2E2xWsNgC39us1eQQvnrCLxBEYUAI_qR6xaHgU-S7osfaONVFd0YEi9dH"), Input_Observation_Point: {
+    "displayFieldName": "",
+    "geometryType": "esriGeometryPoint",
+    "spatialReference": {
+      "wkid": 54003,
+      "latestWkid": 54003
+    },
+    "fields": [
+      {
+        "name": "OBJECTID",
+        "type": "esriFieldTypeOID",
+        "alias": "OBJECTID"
+      },
+      {
+        "name": "OffsetA",
+        "type": "esriFieldTypeSmallInteger",
+        "alias": "OffsetA"
+      }
+    ],
+    "features": [],
+    "exceededTransferLimit": false
+  }, Viewshed_Distance: {
+    "distance": 15000,
+    "units": "esriMeters"
+  }, elev_raster: "elevation"
+};
 
 createJob("https://logistics.arcgis.com/arcgis/rest/services/Viewshed/GPServer/Viewshed/submitJob?", details).then(response => request(`https://logistics.arcgis.com/arcgis/rest/services/Viewshed/GPServer/Viewshed/jobs/${response}?f=json&token=AAPK59244520da284b68bc5d426a1c22d08fp9HQo6v2E2xWsNgC39us1eQQvnrCLxBEYUAI_qR6xaHgU-S7osfaONVFd0YEi9dH`)).then(results => console.log(results));
 

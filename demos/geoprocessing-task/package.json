@@ -1,32 +1,33 @@
 {
+  "private": true,
   "name": "@esri/arcgis-rest-geoprocessing",
   "version": "1.0.0",
   "description": "Geoprocessing Task for @esri/arcgis-rest-geoprocessing.",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "keywords": [
     "ES6",
     "arcgis",
     "esri",
-    "geoprocessing"
-  ],
+    "geoprocessing"],
   "type": "module",
   "main": "index.js",
-  "module": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "ts-node index.ts"
   },
   "dependencies": {
+    "@esri/arcgis-rest-portal": "^4.0.0",
     "@esri/arcgis-rest-request": "^4.0.0",
-    "fs-extra": "^10.0.0",
     "mitt": "^3.0.0"
   },
   "devDependencies": {
     "ts-node": "^10.7.0",
     "typescript": "^4.6.2"
   },
-  "contributors": [
-    "Marcy Silverman <msilverman@esri.com> (http://marcysilverman.com/)"
-  ],
+  "author": "Marcy Silverman <msilverman@esri.com> (http://marcysilverman.com/)",
+  "volta": {
+    "node": "16.14.0",
+    "npm": "8.5.3"
+  },
   "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
   "repository": {
     "type": "git",
