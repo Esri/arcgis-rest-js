@@ -1,119 +1,192 @@
-//create a method called createJob that takes in a some options
-import { request, cleanUrl } from "@esri/arcgis-rest-request";
+import { request, cleanUrl, ApiKeyManager } from "@esri/arcgis-rest-request";
 
-export const createJob = (url: string, params: {}) => {
-  const submitJobUrlCheck = url.endsWith("submitJob?")
-    ? url
-    : url.concat("submitJob?");
-  // const token = "AAPK094b7ef1c5da49a4b8f34a1f601845ab5_vWmRc7gHN8pIiEuZABbXyBqCA3crscYLmem3oR9BNcvheqSoe4Llgk4vPkfdGE"
+// j4fa1db2338f042a19eb68856afabc27e
 
-  const headers = {
-    Accept: "application/json",
-    Authorization:
-      "token=AAPK094b7ef1c5da49a4b8f34a1f601845ab5_vWmRc7gHN8pIiEuZABbXyBqCA3crscYLmem3oR9BNcvheqSoe4Llgk4vPkfdGE"
+import mitt from "mitt";
+
+interface IRequestParamsProps {
+  url: string;
+  params?: any;
+  didTurnMonitoringOn: boolean;
+  pollingRate: number;
+  isPolling: boolean;
+}
+
+export class GeoprocessingJob {
+  pollingRate: number;
+  readonly url: string;
+  readonly jobId: string;
+  readonly resultParams: any;
+  readonly authentication: any;
+  readonly jobUrl: string;
+  static jobId: any;
+  static authentication: string;
+  static jobUrl: string;
+  static cancelJobRequest: string;
+  setIntervalHandler: any;
+  emitter: any;
+  didTurnMonitoringOn: any;
+  params: any;
+  isPolling: boolean;
+
+  constructor(options: any) {
+    this.params = options.params;
+    this.url = options.url; //user passes in the initial endpoint
+    this.jobId = options.params.jobId; //saved from the response from the static create job
+    this.authentication = options.params.authentication; //saved from the static create job
+    this.isPolling = options.isPolling || true; // boolean async request that checks to see if it has or has not returned something
+    this.pollingRate = options.pollingRate || 5000;
+    this.emitter = mitt(); //interval between each polling request
+    this.didTurnMonitoringOn = options.didTurnMonitoringOn || true;
+    this.jobUrl = this.url.replace("submitJob", `jobs/${this.jobId}`);
+    this.isPolling = options.isPolling || true;
+  }
+
+  getJobInfo() {
+    return request(this.jobUrl, {
+      authentication: this.authentication
+    });
+  }
+
+  static createJob(requestOptions: IRequestParamsProps) {
+    const { url, params, didTurnMonitoringOn, pollingRate, isPolling } =
+      requestOptions;
+    return request(cleanUrl(url), { params }).then(
+      (response) =>
+        new GeoprocessingJob({
+          url,
+          params: {
+            jobId: "j4fa1db2338f042a19eb68856afabc27e",
+            authentication: params.authentication
+          },
+          didTurnMonitoringOn,
+          pollingRate,
+          isPolling
+        })
+    );
+  }
+
+  //if the user already has a jobId and doesn't need the original call for the submitJob
+  static fromJobId() {
+    return request(this.jobUrl, {
+      authentication: this.authentication,
+      params: { jobId: this.jobId, returnMessages: true }
+    });
+  }
+
+  executePoll = async () => {
+    this.didTurnMonitoringOn = true;
+    let result;
+    try {
+      result = await this.getStatus();
+    } catch (error) {
+      this.emitter.emit("error", error);
+      return;
+    }
+    this.emitter.emit("status", result);
+
+    switch (result.jobStatus) {
+      case "esriJobCancelled":
+        this.emitter.emit("cancelled", result);
+        break;
+      case "esriJobCancelling":
+        this.emitter.emit("cancelling", result);
+        break;
+      case "esriJobNew":
+        this.emitter.emit("new", result);
+        break;
+      case "esriJobWaiting":
+        this.emitter.emit("waiting", result);
+        break;
+      case "esriJobExecuting":
+        this.emitter.emit("executing", result);
+        break;
+      case "esriJobSubmitted":
+        this.emitter.emit("submitted", result);
+        break;
+      case "esriJobTimedOut":
+        this.emitter.emit("timed-out", result);
+        break;
+      case "esriJobFailed":
+        this.emitter.emit("failed", result);
+        break;
+      case "expectedFailure":
+        this.emitter.emit("failed", result);
+        break;
+      case "esriJobSucceeded":
+        this.emitter.emit("succeeded", result);
+        break;
+    }
   };
 
-  const options = {
-    headers: headers,
-    method: "GET",
-    payload: params as {},
-    dataType: "application/json"
-  };
+  getStatus() {
+    return request(this.jobUrl, {
+      authentication: this.authentication,
+      params: { jobId: this.jobId, authentication: this.authentication }
+    });
+  }
 
-  const response = request(cleanUrl(submitJobUrlCheck), options)
-    .then((response: any) => response.json())
-    .then((results: any) => results);
+  async getResults(result: string) {
+    // if (this.didTurnMonitoringOn === false) {
+    //   this.startEventMonitoring();
+    // }
+    const jobInfo = await this.getJobInfo();
+    if (jobInfo.jobStatus === "esriJobSucceeded") {
+      return request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
+        authentication: this.authentication
+      });
+    }
+  }
 
-  return response;
-  // return {
-  //   //make sure the url has the submitJob? appended to the url
-  //   url: cleanUrl(submitJobUrlCheck),
-  //   monitorEvents: monitorEvents, // start polling for results by default, defaults to true.
-  //   monitorEventRate: monitorEventRate,
-  //   //params any be anything so long as the object is formated correctly with a correct property name and string value
-  //   //example params: {name: "911 calls", dataType: "JSON", keywords: ["Hotspot", "911", "Calls"]}
-  //   params: params
-  // }
-};
+  cancelJob() {
+    return request(this.jobUrl + "/cancel", {
+      authentication: this.authentication,
+      params: { jobId: this.jobId, returnMessages: false }
+    }).then((response) => this.emitter.emit("cancelled", response));
+  }
 
-const details = {
-  headers: {
-    Accept: "application/json",
-    Authorization:
-      "token=AAPK094b7ef1c5da49a4b8f34a1f601845ab5_vWmRc7gHN8pIiEuZABbXyBqCA3crscYLmem3oR9BNcvheqSoe4Llgk4vPkfdGE"
-  },
-  method: "GET",
-  payload: {
-    defaultBreaks: "2.5",
-    travelDirection: "esriNATravelDirectionToFacility",
-    travelMode:
-      "{'attributeParameterValues':[{'attributeName':'Avoid Private Roads','parameterName':'Restriction Usage','value':'AVOID_MEDIUM'},{'attributeName':'Walking','parameterName':'Restriction Usage','value':'PROHIBITED'},{'attributeName':'Preferred for Pedestrians','parameterName':'Restriction Usage','value':'PREFER_LOW'},{'attributeName':'WalkTime','parameterName':'Walking Speed (km/h)','value':5},{'attributeName':'Avoid Roads Unsuitable for Pedestrians','parameterName':'Restriction Usage','value':'AVOID_HIGH'}],'description':'Follows paths and roads that allow pedestrian traffic and finds solutions that optimize travel distance.','distanceAttributeName':'Kilometers','id':'yFuMFwIYblqKEefX','impedanceAttributeName':'Kilometers','name':'Walking Distance','restrictionAttributeNames':['Avoid Private Roads','Avoid Roads Unsuitable for Pedestrians','Preferred for Pedestrians','Walking'],'simplificationTolerance':2,'simplificationToleranceUnits':'esriMeters','timeAttributeName':'WalkTime','type':'WALK','useHierarchy':false,'uturnAtJunctions':'esriNFSBAllowBacktrack'}"
-  },
-  dataType: "json"
-};
+  startEventMonitoring() {
+    // if (this.didTurnMonitoringOn === false) {
+    //   this.getJobInfo()
+    // }
+    if (!this.setIntervalHandler) {
+      this.setIntervalHandler = setInterval(this.executePoll, this.pollingRate);
+    }
+  }
 
-console.log(
-  createJob(
-    "https://logistics.arcgis.com/arcgis/rest/services/World/ServiceAreas/GPServer/GenerateServiceAreas/submitJob?",
-    details
-  ),
-  "hello"
-);
+  //if we trigger it we stop it
+  //if user triggers it we don't stop monitoring
+  stopEventMonitoring() {
+    if (this.setIntervalHandler) {
+      clearTimeout(this.setIntervalHandler);
+    }
+  }
+}
 
-//params
-// {
-//   defaultBreaks:"2.5",
-//   travelDirection: "esriNATravelDirectionToFacility",
-//   travelMode: "{'attributeParameterValues':[{'attributeName':'Avoid Private Roads','parameterName':'Restriction Usage','value':'AVOID_MEDIUM'},{'attributeName':'Walking','parameterName':'Restriction Usage','value':'PROHIBITED'},{'attributeName':'Preferred for Pedestrians','parameterName':'Restriction Usage','value':'PREFER_LOW'},{'attributeName':'WalkTime','parameterName':'Walking Speed (km/h)','value':5},{'attributeName':'Avoid Roads Unsuitable for Pedestrians','parameterName':'Restriction Usage','value':'AVOID_HIGH'}],'description':'Follows paths and roads that allow pedestrian traffic and finds solutions that optimize travel distance.','distanceAttributeName':'Kilometers','id':'yFuMFwIYblqKEefX','impedanceAttributeName':'Kilometers','name':'Walking Distance','restrictionAttributeNames':['Avoid Private Roads','Avoid Roads Unsuitable for Pedestrians','Preferred for Pedestrians','Walking'],'simplificationTolerance':2,'simplificationToleranceUnits':'esriMeters','timeAttributeName':'WalkTime','type':'WALK','useHierarchy':false,'uturnAtJunctions':'esriNFSBAllowBacktrack'}"
-// }
+// GeoprocessingJob.createJob({
+//   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob",
+//   params: { Query: `"DATE" > date '1998-01-01 00:00:00' AND "DATE" < date '1998-01-31 00:00:00') AND ("Day" = 'SUN' OR "Day"= 'SAT')`},
+//   didTurnMonitoringOn: true,
+//   pollingRate: 5000,
+//   isPolling: true
+// })
+//   .then((job) => {
+//     // console.log(job);
+//     job.startEventMonitoring();
+//     job.getJobInfo()
+//     job.emitter.on("succeeded", () => {
+//       job
+//         .getResults("Output_Features")
+//         .then((results: any) => console.log(results, "Output_Features"));
+//       // job
+//       //     .getResults("Hotspot_Raster")
+//       //     .then((results: any) => console.log(results, "Hotspot_Raster"));
+//       //   job.stopEventMonitoring();
+//     });
+//     job.emitter.on("status", (status: any) => console.log(status));
+//   });
 
-//once that call is made
-//job ID job status
-
-// class GeoprocessingJob extends EventEmitter {
-//   pollingRate: number;
-
-//   readonly url: string;
-//   readonly params: any;
-//   readonly jobId: string;
-//   readonly isPolling: boolean;
-//   readonly executionType: "sync" | "async";
-//   readonly monitorEvents: boolean;
-//   readonly monitorEventRate: number;
-
-//   static fromJobId(): Promise<GeoprocessingJob> {
-//     //get the param inputs and options returned from the createJob request
-//     //return all the necessary propertiers, call them options
-//   }
-
-//   constructor(options: any) {
-//     super();
-//     this.url = options.url;
-//     this.jobId = options.jobId;
-//     this.isPolling = options.isPolling;
-//     this.pollingRate = options.pollingRate;
-//     this.params = options.params;
-//     this.executionType = options.sync;
-
-//     if (options.monitorEvents) {
-//       this.startEventMonitoring(/*...*/)
-//     }
-//   }
-
-//   //   getStatus(): Promise<any> {
-//   //     /* get the current status of the job */
-//   //   }
-
-//   //   getResults (paramName?: string[] | string, requestOptions?: IRequestOptions) : Promise<any> {
-//   //     /* get the results for paramNames or all results by default */
-//   //   }
-//   //   cancelJob(requestOptions?: IRequestOptions): Promise<void> {
-//   //     // cancel request on server, stop polling, and throw error in any pending getResults Promise.
-//   //   }
-//   //   startEventMonitoring(errorHandler?, requestOptions?: IRequestOptions) : Promise<void> {
-//   //     // start polling again at the polling rate, trigger events
-//   //   }
-//   //   stopEventMonitoring(requestOptions?: IRequestOptions) {
-//   //    // stop polling for results
-//   //   }
-// }
+// this should be the end user custom code
+// GeoprocessingJob.createJob("https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob", { Query: 'THROW ERROR' }).then(job => {
+//     job.getResults("Output_Features").then((results: any) => console.log(results))
+// });
