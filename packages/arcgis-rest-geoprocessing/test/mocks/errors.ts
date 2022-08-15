@@ -4,8 +4,7 @@
 export const EsriJobFailed: any = {
   error: {
     code: 400,
-    message: "job has failed",
-    details: []
+    description: "job has failed",
   }
 };
 

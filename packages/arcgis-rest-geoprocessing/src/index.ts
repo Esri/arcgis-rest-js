@@ -119,6 +119,30 @@ export class GeoprocessingJob {
     }
   };
 
+  on(eventName: string, handler:(e:any) => void) {
+    this.emitter.on(eventName, handler);
+  }
+
+  once(eventName: string, handler:(e:any) => void) {
+    const fn = (arg:any) => {
+      this.emitter.off(eventName, fn);
+      handler(arg)
+    }
+
+    this.emitter.on(eventName, fn)
+
+    (handler as any).__arcgis_geoprocessing_job_once_original_function__ = fn;
+
+  }
+
+  off(eventName: string, handler: (e: any) => void) {
+    if((handler as any).__arcgis_geoprocessing_job_once_original_function__) {
+      this.emitter.off(eventName,  (handler as any).__arcgis_geoprocessing_job_once_original_function__)
+      return;
+    }
+    this.emitter.off(eventName, handler)
+  }
+
   getStatus() {
     return request(this.jobUrl, {
       authentication: this.authentication,
@@ -127,9 +151,6 @@ export class GeoprocessingJob {
   }
 
   async getResults(result: string) {
-    // if (this.didTurnMonitoringOn === false) {
-    //   this.startEventMonitoring();
-    // }
     const jobInfo = await this.getJobInfo();
     if (jobInfo.jobStatus === "esriJobSucceeded") {
       return request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
@@ -146,10 +167,7 @@ export class GeoprocessingJob {
   }
 
   startEventMonitoring() {
-    // if (this.didTurnMonitoringOn === false) {
-    //   this.getJobInfo()
-    // }
-    if (!this.setIntervalHandler) {
+    if (!this.setIntervalHandler && this.didTurnMonitoringOn) {
       this.setIntervalHandler = setInterval(this.executePoll, this.pollingRate);
     }
   }
