@@ -1,5 +1,4 @@
 import { request, cleanUrl, ApiKeyManager } from "@esri/arcgis-rest-request";
-// j4fa1db2338f042a19eb68856afabc27e
 
 import mitt from "mitt";
 
@@ -10,7 +9,7 @@ interface IRequestParamsProps {
   pollingRate: number;
 }
 
-export class GeoprocessingJob {
+export class Job {
   pollingRate: number;
   readonly url: string;
   readonly jobId: string;
@@ -46,12 +45,12 @@ export class GeoprocessingJob {
     });
   }
 
-  static createJob(requestOptions: IRequestParamsProps) {
+  static submitJob(requestOptions: IRequestParamsProps) {
     const { url, params, didTurnMonitoringOn, pollingRate } =
       requestOptions;
     return request(cleanUrl(url), { params }).then(
       (response) =>
-        new GeoprocessingJob({
+        new Job({
           url,
           params: {
             jobId: "j4fa1db2338f042a19eb68856afabc27e",
@@ -64,7 +63,7 @@ export class GeoprocessingJob {
   }
 
   //if the user already has a jobId and doesn't need the original call for the submitJob
-  static fromJobId() {
+  static fromExistingJob() {
     return request(this.jobUrl, {
       authentication: this.authentication,
       params: { jobId: this.jobId, returnMessages: true }
@@ -182,28 +181,28 @@ export class GeoprocessingJob {
   }
 }
 
-GeoprocessingJob.createJob({
-  url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob",
-  params: { Query: `"DATE" > date '1998-01-01 00:00:00' AND "DATE" < date '1998-01-31 00:00:00') AND ("Day" = 'SUN' OR "Day"= 'SAT')`},
-  didTurnMonitoringOn: true,
-  pollingRate: 5000
-})
-  .then((job) => {
-    // console.log(job);
-    job.getJobInfo()
-    job.emitter.on("succeeded", () => {
-      job
-        .getResults("Output_Features")
-        .then((results: any) => console.log(results, "Output_Features"));
-      // job
-      //     .getResults("Hotspot_Raster")
-      //     .then((results: any) => console.log(results, "Hotspot_Raster"));
-      //   job.stopEventMonitoring();
-    });
-    job.emitter.on("status", (status: any) => console.log(status));
-  });
+// GeoprocessingJob.createJob({
+//   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob",
+//   params: { Query: `"DATE" > date '1998-01-01 00:00:00' AND "DATE" < date '1998-01-31 00:00:00') AND ("Day" = 'SUN' OR "Day"= 'SAT')`},
+//   didTurnMonitoringOn: true,
+//   pollingRate: 5000
+// })
+//   .then((job) => {
+//     // console.log(job);
+//     job.getJobInfo()
+//     job.emitter.on("succeeded", () => {
+//       job
+//         .getResults("Output_Features")
+//         .then((results: any) => console.log(results, "Output_Features"));
+//       // job
+//       //     .getResults("Hotspot_Raster")
+//       //     .then((results: any) => console.log(results, "Hotspot_Raster"));
+//       //   job.stopEventMonitoring();
+//     });
+//     job.emitter.on("status", (status: any) => console.log(status));
+//   });
 
-// this should be the end user custom code
-// GeoprocessingJob.createJob("https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob", { Query: 'THROW ERROR' }).then(job => {
-//     job.getResults("Output_Features").then((results: any) => console.log(results))
-// });
+// // this should be the end user custom code
+// // GeoprocessingJob.createJob("https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob", { Query: 'THROW ERROR' }).then(job => {
+// //     job.getResults("Output_Features").then((results: any) => console.log(results))
+// // });

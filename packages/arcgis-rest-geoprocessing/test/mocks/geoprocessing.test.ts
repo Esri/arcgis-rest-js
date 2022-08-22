@@ -1,5 +1,5 @@
 import fetchMock from "fetch-mock";
-import { GeoprocessingJob } from "../../src/index";
+import { Job } from "../../src/index";
 import {
   GPJobIdResponse,
   GPEndpointCall,
@@ -9,12 +9,13 @@ import {
 
 import { EsriJobFailed } from "./errors";
 
-describe("GeoprocessingJob Class", () => {
+describe("Job Class", () => {
   describe("createJob", () => {
     it("should return a jobId", () => {
       fetchMock.mock("*", GPJobIdResponse);
       fetchMock.once("*", GPEndpointCall);
-      GeoprocessingJob.createJob(GPEndpointCall).then((job) => {
+      
+      Job.createJob(GPEndpointCall).then((job) => {
         expect(job.jobId).toEqual(GPJobIdResponse.jobId);
       });
     });
@@ -25,7 +26,8 @@ describe("GeoprocessingJob Class", () => {
       fetchMock.once("*", mockResults);
       fetchMock.once("*", GPEndpointCall);
 
-      GeoprocessingJob.createJob(GPEndpointCall).then((response) => {
+      
+      Job.createJob(GPEndpointCall).then((response) => {
         response.emitter.on("submitted", (result: any) =>
           expect(result).toEqual({ jobStatus: "esriJobSubmitted" })
         );
@@ -40,7 +42,8 @@ describe("GeoprocessingJob Class", () => {
     it("should return results once status is succeeded", () => {
       fetchMock.once("*", mockResults);
       fetchMock.once("*", GPEndpointCall);
-      GeoprocessingJob.createJob(GPEndpointCall).then((response) => {
+      
+      Job.createJob(GPEndpointCall).then((response) => {
         response.startEventMonitoring();
         response.emitter.on("succeeded", (results: any) =>
           expect(results).toEqual(mockResults)
@@ -52,7 +55,8 @@ describe("GeoprocessingJob Class", () => {
       fetchMock.once("*", mockResults);
       fetchMock.once("*", GPEndpointCall);
 
-      GeoprocessingJob.createJob(GPEndpointCall).then((response) => {
+      
+      Job.createJob(GPEndpointCall).then((response) => {
         response.emitter.on("succeeded", () => {
           response
             .getResults("Hotspot_Raster")
@@ -66,7 +70,8 @@ describe("GeoprocessingJob Class", () => {
       fetchMock.once("*", EsriJobFailed);
       fetchMock.once("*", GPEndpointCall);
 
-      GeoprocessingJob.createJob(GPEndpointCall).then((response) => {
+      
+      Job.createJob(GPEndpointCall).then((response) => {
         response.emitter.on("failed", (error: any) => expect(error).toEqual(EsriJobFailed));
       });
     });
