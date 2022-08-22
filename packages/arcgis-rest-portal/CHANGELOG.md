@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-portal [4.0.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.3...@esri/arcgis-rest-portal@4.0.4) (2022-08-22)
+
+
+### Bug Fixes
+
+* resolve cross-org sharing as admin bug ([1ae4f1a](https://github.com/Esri/arcgis-rest-js/commit/1ae4f1a17b9e0510f0f28ea0e49ad18e2576e133))
+
 ## @esri/arcgis-rest-portal [4.0.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.2...@esri/arcgis-rest-portal@4.0.3) (2022-05-11)
 
 
