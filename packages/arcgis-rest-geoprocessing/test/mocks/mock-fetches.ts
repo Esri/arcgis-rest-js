@@ -2,14 +2,30 @@ export const GPEndpointCall = {
   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob",
   params: {
     Query: `"DATE" > date '1998-01-01 00:00:00' AND "DATE" < date '1998-01-31 00:00:00') AND ("Day" = 'SUN' OR "Day"= 'SAT')
-  `},
-  didTurnMonitoringOn: true,
+  `
+  },
+  startMonitoring: false,
   pollingRate: 5000
 };
 
 export const GPJobIdResponse = {
   jobId: "j4fa1db2338f042a19eb68856afabc27e",
   jobStatus: "esriJobSubmitted"
+};
+
+export const GPJobInfoWithResults = {
+  jobId: "j4fa1db2338f042a19eb68856afabc27e",
+  jobStatus: "esriJobSucceeded",
+  results: [
+    {
+      Hotspot_Raster: {
+        paramUrl: "results/hotspot_raster"
+      },
+      Output_Features: {
+        paramUrl: "results/output_features"
+      }
+    }
+  ]
 };
 
 export const mockResults = {
@@ -37,50 +53,51 @@ const GPServiceAreasCall = {
     defaultBreaks: "2.5",
     travelDirection: "esriNATravelDirectionToFacility",
     travelMode: {
-      "attributeParameterValues": [
+      attributeParameterValues: [
         {
-          "attributeName": "Avoid Private Roads",
-          "parameterName": "Restriction Usage",
-          "value": "AVOID_MEDIUM"
+          attributeName: "Avoid Private Roads",
+          parameterName: "Restriction Usage",
+          value: "AVOID_MEDIUM"
         },
         {
-          "attributeName": "Walking",
-          "parameterName": "Restriction Usage",
-          "value": "PROHIBITED"
+          attributeName: "Walking",
+          parameterName: "Restriction Usage",
+          value: "PROHIBITED"
         },
         {
-          "attributeName": "Preferred for Pedestrians",
-          "parameterName": "Restriction Usage",
-          "value": "PREFER_LOW"
+          attributeName: "Preferred for Pedestrians",
+          parameterName: "Restriction Usage",
+          value: "PREFER_LOW"
         },
         {
-          "attributeName": "WalkTime",
-          "parameterName": "Walking Speed (km/h)",
-          "value": 5
+          attributeName: "WalkTime",
+          parameterName: "Walking Speed (km/h)",
+          value: 5
         },
         {
-          "attributeName": "Avoid Roads Unsuitable for Pedestrians",
-          "parameterName": "Restriction Usage",
-          "value": "AVOID_HIGH"
+          attributeName: "Avoid Roads Unsuitable for Pedestrians",
+          parameterName: "Restriction Usage",
+          value: "AVOID_HIGH"
         }
       ],
-      "description": "Follows paths and roads that allow pedestrian traffic and finds solutions that optimize travel distance.",
-      "distanceAttributeName": "Kilometers",
-      "id": "yFuMFwIYblqKEefX",
-      "impedanceAttributeName": "Kilometers",
-      "name": "Walking Distance",
-      "restrictionAttributeNames": [
+      description:
+        "Follows paths and roads that allow pedestrian traffic and finds solutions that optimize travel distance.",
+      distanceAttributeName: "Kilometers",
+      id: "yFuMFwIYblqKEefX",
+      impedanceAttributeName: "Kilometers",
+      name: "Walking Distance",
+      restrictionAttributeNames: [
         "Avoid Private Roads",
         "Avoid Roads Unsuitable for Pedestrians",
         "Preferred for Pedestrians",
         "Walking"
       ],
-      "simplificationTolerance": 2,
-      "simplificationToleranceUnits": "esriMeters",
-      "timeAttributeName": "WalkTime",
-      "type": "WALK",
-      "useHierarchy": false,
-      "uturnAtJunctions": "esriNFSBAllowBacktrack"
+      simplificationTolerance: 2,
+      simplificationToleranceUnits: "esriMeters",
+      timeAttributeName: "WalkTime",
+      type: "WALK",
+      useHierarchy: false,
+      uturnAtJunctions: "esriNFSBAllowBacktrack"
     }
   }
-}
+};

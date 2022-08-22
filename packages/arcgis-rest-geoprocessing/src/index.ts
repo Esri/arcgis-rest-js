@@ -2,12 +2,14 @@ import { request, cleanUrl, ApiKeyManager } from "@esri/arcgis-rest-request";
 
 import mitt from "mitt";
 
-interface IRequestParamsProps {
+interface IJobOptions {
+  id: string;
   url: string;
   params?: any;
-  didTurnMonitoringOn: boolean;
+  startMonitoring: boolean;
   pollingRate: number;
 }
+type ISubmitJobOptions = Omit<IJobOptions, "id">;
 
 export class Job {
   pollingRate: number;
@@ -16,27 +18,35 @@ export class Job {
   readonly resultParams: any;
   readonly authentication: any;
   readonly jobUrl: string;
+
   static jobId: any;
   static authentication: string;
   static jobUrl: string;
   static cancelJobRequest: string;
-  setIntervalHandler: any;
+
   emitter: any;
-  didTurnMonitoringOn: any;
+
+  private didUserEnableMonitoring: any;
+  private setIntervalHandler: any;
+
   params: any;
-  isPolling: boolean;
 
   constructor(options: any) {
     this.params = options.params;
     this.url = options.url; //user passes in the initial endpoint
     this.jobId = options.params.jobId; //saved from the response from the static create job
     this.authentication = options.params.authentication; //saved from the static create job
-    this.isPolling = options.isPolling || true; // boolean async request that checks to see if it has or has not returned something
     this.pollingRate = options.pollingRate || 5000;
     this.emitter = mitt(); //interval between each polling request
-    this.didTurnMonitoringOn = options.didTurnMonitoringOn || true;
     this.jobUrl = this.url.replace("submitJob", `jobs/${this.jobId}`);
-    this.isPolling = options.didTurnMonitoringOn;
+
+    if (options.startMonitoring) {
+      this.startEventMonitoring();
+    }
+  }
+
+  get isMonitoring() {
+    return !!this.setIntervalHandler;
   }
 
   getJobInfo() {
@@ -45,9 +55,8 @@ export class Job {
     });
   }
 
-  static submitJob(requestOptions: IRequestParamsProps) {
-    const { url, params, didTurnMonitoringOn, pollingRate } =
-      requestOptions;
+  static submitJob(requestOptions: ISubmitJobOptions) {
+    const { url, params, startMonitoring, pollingRate } = requestOptions;
     return request(cleanUrl(url), { params }).then(
       (response) =>
         new Job({
@@ -56,7 +65,7 @@ export class Job {
             jobId: "j4fa1db2338f042a19eb68856afabc27e",
             authentication: params.authentication
           },
-          didTurnMonitoringOn,
+          startMonitoring,
           pollingRate
         })
     );
@@ -70,8 +79,7 @@ export class Job {
     });
   }
 
-  executePoll = async () => {
-    this.didTurnMonitoringOn = true;
+  private executePoll = async () => {
     let result;
     try {
       result = await this.getStatus();
@@ -115,7 +123,7 @@ export class Job {
     }
   };
 
-  //getAllResults 
+  //getAllResults
 
   on(eventName: string, handler: (e: any) => void) {
     this.emitter.on(eventName, handler);
@@ -124,21 +132,24 @@ export class Job {
   once(eventName: string, handler: (e: any) => void) {
     const fn = (arg: any) => {
       this.emitter.off(eventName, fn);
-      handler(arg)
-    }
+      handler(arg);
+    };
 
-    this.emitter.on(eventName, fn)
-
-      (handler as any).__arcgis_geoprocessing_job_once_original_function__ = fn;
-
+    this.emitter.on(
+      eventName,
+      fn
+    )(handler as any).__arcgis_geoprocessing_job_once_original_function__ = fn;
   }
 
   off(eventName: string, handler: (e: any) => void) {
     if ((handler as any).__arcgis_geoprocessing_job_once_original_function__) {
-      this.emitter.off(eventName, (handler as any).__arcgis_geoprocessing_job_once_original_function__)
+      this.emitter.off(
+        eventName,
+        (handler as any).__arcgis_geoprocessing_job_once_original_function__
+      );
       return;
     }
-    this.emitter.off(eventName, handler)
+    this.emitter.off(eventName, handler);
   }
 
   getStatus() {
@@ -150,11 +161,52 @@ export class Job {
 
   async getResults(result: string) {
     const jobInfo = await this.getJobInfo();
-    if (jobInfo.jobStatus === "esriJobSucceeded" && !this.didTurnMonitoringOn) {
-      this.stopEventMonitoring();
 
+    if (jobInfo.jobStatus === "esriJobSucceeded") {
       return request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
         authentication: this.authentication
+      });
+    } else {
+      return new Promise((resolve, reject) => {
+        this.startInternalEventMonitoring();
+
+        this.once("succeeded", (jobInfo) => {
+          request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
+            authentication: this.authentication
+          })
+            .then((result) => resolve(result))
+            .catch((e) => reject(e));
+        });
+
+        this.once("cancelled", (jobInfo) => {
+          this.stopInternalEventMonitoring();
+          reject(jobInfo);
+        });
+
+        this.once("timed-out", (jobInfo) => {
+          this.stopInternalEventMonitoring();
+          reject(jobInfo);
+        });
+
+        this.once("failed", (jobInfo) => {
+          this.stopInternalEventMonitoring();
+          reject(jobInfo);
+        });
+
+        this.once("succeeded", (jobInfo) => {
+          // we should error if the job succeeded but the users desired result wasn't found i.e. due to a typo
+          request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
+            authentication: this.authentication
+          })
+            .then((result) => {
+              this.stopInternalEventMonitoring();
+              resolve(result);
+            })
+            .catch((e) => {
+              this.stopInternalEventMonitoring();
+              reject(e);
+            });
+        });
       });
     }
   }
@@ -165,9 +217,23 @@ export class Job {
       params: { jobId: this.jobId, returnMessages: false }
     }).then((response) => this.emitter.emit("cancelled", response));
   }
+  private startInternalEventMonitoring() {
+    if (!this.setIntervalHandler) {
+      this.setIntervalHandler = setInterval(this.executePoll, this.pollingRate);
+    }
+  }
 
-  startEventMonitoring() {
-    if (!this.setIntervalHandler && this.didTurnMonitoringOn) {
+  //if we trigger it we stop it
+  //if user triggers it we don't stop monitoring
+  private stopInternalEventMonitoring() {
+    if (this.setIntervalHandler && !this.didUserEnableMonitoring) {
+      clearTimeout(this.setIntervalHandler);
+    }
+  }
+
+  startEventMonitoring(internal?: boolean) {
+    this.didUserEnableMonitoring = true;
+    if (!this.setIntervalHandler) {
       this.setIntervalHandler = setInterval(this.executePoll, this.pollingRate);
     }
   }
@@ -175,7 +241,7 @@ export class Job {
   //if we trigger it we stop it
   //if user triggers it we don't stop monitoring
   stopEventMonitoring() {
-    if (this.setIntervalHandler) {
+    if (this.setIntervalHandler && this.didUserEnableMonitoring) {
       clearTimeout(this.setIntervalHandler);
     }
   }
