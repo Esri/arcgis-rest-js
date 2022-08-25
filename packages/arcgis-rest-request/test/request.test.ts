@@ -589,7 +589,8 @@ describe("request()", () => {
         token: "INVALID_TOKEN",
         username: "c@sey",
         refreshToken: "refreshToken",
-        refreshTokenExpires: FIVE_DAYS_FROM_NOW
+        refreshTokenExpires: FIVE_DAYS_FROM_NOW,
+        redirectUri: "https://example-app.com/redirect-uri"
       });
 
       expect(session.canRefresh).toBe(true);
@@ -632,7 +633,8 @@ describe("request()", () => {
         token: "INVALID_TOKEN",
         username: "c@sey",
         refreshToken: "refreshToken",
-        refreshTokenExpires: TOMORROW
+        refreshTokenExpires: TOMORROW,
+        redirectUri: "https://example-app.com/redirect-uri"
       });
 
       expect(session.canRefresh).toBe(true);
@@ -670,7 +672,8 @@ describe("request()", () => {
         token: "INVALID_TOKEN",
         username: "c@sey",
         refreshToken: "refreshToken",
-        refreshTokenExpires: TOMORROW
+        refreshTokenExpires: TOMORROW,
+        redirectUri: "https://example-app.com/redirect-uri"
       });
 
       fetchMock.post("https://www.arcgis.com/sharing/rest/oauth2/token", {
@@ -708,7 +711,8 @@ describe("request()", () => {
         token: "TOKEN",
         username: "c@sey",
         refreshToken: "refreshToken",
-        refreshTokenExpires: FIVE_DAYS_FROM_NOW
+        refreshTokenExpires: FIVE_DAYS_FROM_NOW,
+        redirectUri: "https://example-app.com/redirect-uri"
       });
 
       fetchMock.post("https://www.arcgis.com/sharing/rest/oauth2/token", {

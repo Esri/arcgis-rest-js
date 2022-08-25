@@ -13,7 +13,8 @@ import {
   ArcGISTokenRequestError,
   ArcGISTokenRequestErrorCodes,
   IServerInfo,
-  ITokenRequestOptions
+  ITokenRequestOptions,
+  IOAuth2Options
 } from "../src/index.js";
 import { FormData } from "@esri/arcgis-rest-form-data";
 import {
@@ -832,7 +833,8 @@ describe("ArcGISIdentityManager", () => {
         token: "token",
         username: "c@sey",
         refreshToken: "refreshToken",
-        refreshTokenExpires: TOMORROW
+        refreshTokenExpires: TOMORROW,
+        redirectUri: "https://example-app.com/redirect-uri"
       });
 
       expect(session.canRefresh).toBe(true);
@@ -1526,6 +1528,57 @@ describe("ArcGISIdentityManager", () => {
             .then(() => {
               expect(MockWindow.location.href).toBe(
                 "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId12345&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&code_challenge_method=S256&code_challenge=DwBzhbb51LfusnSGBa_hqYSgo7-j8BTQnip4TOnlzRo"
+              );
+            })
+            .catch((e) => {
+              fail(e);
+            });
+        });
+
+        it("should fallback to window.location.href if redirect URI is omitted in a popup workflow", () => {
+          let PopupMockWindow: any;
+
+          fetchMock.once("*", {
+            access_token: "token",
+            expires_in: 1800,
+            username: "c@sey",
+            ssl: true,
+            refresh_token: "refresh_token",
+            refresh_token_expires_in: 1209600
+          });
+
+          window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
+            PopupMockWindow = createMock();
+            PopupMockWindow.location.href = "http://example-app.com/redirect";
+            PopupMockWindow.location.search =
+              "?code=auth_code&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+            PopupMockWindow.opener = MockWindow;
+
+            ArcGISIdentityManager.completeOAuth2(
+              {
+                clientId: "clientId1234"
+              } as any,
+              PopupMockWindow
+            );
+          });
+
+          return ArcGISIdentityManager.beginOAuth2(
+            {
+              clientId: "clientId1234",
+              redirectUri: "http://example-app.com/redirect"
+            },
+            MockWindow
+          )
+            .then((session) => {
+              expect(MockWindow.open).toHaveBeenCalledWith(
+                "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId1234&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&code_challenge_method=S256&code_challenge=DwBzhbb51LfusnSGBa_hqYSgo7-j8BTQnip4TOnlzRo",
+                "oauth-window",
+                "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
+              );
+
+              expect(PopupMockWindow.close).toHaveBeenCalled();
+              expect(session.redirectUri).toBe(
+                "http://example-app.com/redirect"
               );
             })
             .catch((e) => {
