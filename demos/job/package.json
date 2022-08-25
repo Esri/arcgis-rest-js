@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "name": "job",
+  "version": "1.0.0",
+  "description": "Job Task",
+  "license": "MIT",
+  "keywords": [
+    "ES6",
+    "arcgis",
+    "esri",
+    "geoprocessing"],
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node index.ts"
+  },
+  "dependencies": {
+    "@esri/arcgis-rest-request": "^4.0.3"
+  },
+  "devDependencies": {
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  },
+  "author": "Marcy Silverman <msilverman@esri.com> (http://marcysilverman.com/)"
+}

@@ -1,13 +1,17 @@
-import { request, cleanUrl, ApiKeyManager } from "@esri/arcgis-rest-request";
-
+import { request } from "./request.js";
+import { cleanUrl } from "./utils/clean-url.js"
+import { ApiKeyManager, IRequestOptions } from "./index.js";
 import mitt from "mitt";
 
-interface IJobOptions {
-  id: string;
-  url: string;
+
+interface IJobOptions extends IRequestOptions {
+  id?: string;
+  url?: string;
   params?: any;
-  startMonitoring: boolean;
-  pollingRate: number;
+  startMonitoring?: boolean;
+  pollingRate?: number;
+  token?: string;
+  authentication?: string
 }
 type ISubmitJobOptions = Omit<IJobOptions, "id">;
 
@@ -18,6 +22,7 @@ export class Job {
   readonly resultParams: any;
   readonly authentication: any;
   readonly jobUrl: string;
+  readonly token: string;
 
   static jobId: any;
   static authentication: string;
@@ -32,13 +37,15 @@ export class Job {
   params: any;
 
   constructor(options: any) {
-    this.params = options.params;
+    // this.params = options.requestOptions;
+    console.log(options)
     this.url = options.url; //user passes in the initial endpoint
-    this.jobId = options.params.jobId; //saved from the response from the static create job
-    this.authentication = options.params.authentication; //saved from the static create job
+    this.jobId = options.jobId; //saved from the response from the static create job
+    // this.authentication = options.params.authentication; //saved from the static create job
     this.pollingRate = options.pollingRate || 5000;
     this.emitter = mitt(); //interval between each polling request
     this.jobUrl = this.url.replace("submitJob", `jobs/${this.jobId}`);
+    this.authentication = options.authentication;
 
     if (options.startMonitoring) {
       this.startEventMonitoring();
@@ -48,23 +55,18 @@ export class Job {
   get isMonitoring() {
     return !!this.setIntervalHandler;
   }
-
   getJobInfo() {
-    return request(this.jobUrl, {
-      authentication: this.authentication
-    });
+    return request(this.jobUrl, { authentication: this.token , httpMethod: "GET" });
   }
 
-  static submitJob(requestOptions: ISubmitJobOptions) {
+  static submitJob(requestOptions: IJobOptions) {
     const { url, params, startMonitoring, pollingRate } = requestOptions;
     return request(cleanUrl(url), { params }).then(
       (response) =>
         new Job({
           url,
-          params: {
-            jobId: "j4fa1db2338f042a19eb68856afabc27e",
-            authentication: params.authentication
-          },
+          authentication: params.token,
+          jobId: response.jobId,
           startMonitoring,
           pollingRate
         })
@@ -118,7 +120,7 @@ export class Job {
         this.emitter.emit("failed", result);
         break;
       case "esriJobSucceeded":
-        this.emitter.emit("succeeded", result);
+        this.emitter.emit("succeeded", console.log(result));
         break;
     }
   };
@@ -246,29 +248,3 @@ export class Job {
     }
   }
 }
-
-// GeoprocessingJob.createJob({
-//   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob",
-//   params: { Query: `"DATE" > date '1998-01-01 00:00:00' AND "DATE" < date '1998-01-31 00:00:00') AND ("Day" = 'SUN' OR "Day"= 'SAT')`},
-//   didTurnMonitoringOn: true,
-//   pollingRate: 5000
-// })
-//   .then((job) => {
-//     // console.log(job);
-//     job.getJobInfo()
-//     job.emitter.on("succeeded", () => {
-//       job
-//         .getResults("Output_Features")
-//         .then((results: any) => console.log(results, "Output_Features"));
-//       // job
-//       //     .getResults("Hotspot_Raster")
-//       //     .then((results: any) => console.log(results, "Hotspot_Raster"));
-//       //   job.stopEventMonitoring();
-//     });
-//     job.emitter.on("status", (status: any) => console.log(status));
-//   });
-
-// // this should be the end user custom code
-// // GeoprocessingJob.createJob("https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob", { Query: 'THROW ERROR' }).then(job => {
-// //     job.getResults("Output_Features").then((results: any) => console.log(results))
-// // });
