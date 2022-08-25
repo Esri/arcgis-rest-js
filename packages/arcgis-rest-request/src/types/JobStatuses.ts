@@ -1,4 +1,4 @@
-export enum JobStatuses {
+export enum JOB_STATUSES {
   Success = "succeeded",
   Failed = "failed",
   Waiting = "waiting",

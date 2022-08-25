@@ -1,6 +1,6 @@
 import { request } from "./request.js";
 import { cleanUrl } from "./utils/clean-url.js"
-import { ApiKeyManager, IRequestOptions } from "./index.js";
+import { IRequestOptions } from "./index.js";
 import mitt from "mitt";
 
 
@@ -11,7 +11,6 @@ interface IJobOptions extends IRequestOptions {
   startMonitoring?: boolean;
   pollingRate?: number;
   token?: string;
-  authentication?: string
 }
 type ISubmitJobOptions = Omit<IJobOptions, "id">;
 
@@ -22,7 +21,6 @@ export class Job {
   readonly resultParams: any;
   readonly authentication: any;
   readonly jobUrl: string;
-  readonly token: string;
 
   static jobId: any;
   static authentication: string;
@@ -37,11 +35,10 @@ export class Job {
   params: any;
 
   constructor(options: any) {
-    // this.params = options.requestOptions;
+    this.params = options.requestOptions;
     console.log(options)
     this.url = options.url; //user passes in the initial endpoint
     this.jobId = options.jobId; //saved from the response from the static create job
-    // this.authentication = options.params.authentication; //saved from the static create job
     this.pollingRate = options.pollingRate || 5000;
     this.emitter = mitt(); //interval between each polling request
     this.jobUrl = this.url.replace("submitJob", `jobs/${this.jobId}`);
@@ -56,16 +53,16 @@ export class Job {
     return !!this.setIntervalHandler;
   }
   getJobInfo() {
-    return request(this.jobUrl, { authentication: this.token , httpMethod: "GET" });
+    return request(this.jobUrl, { authentication: this.authentication , httpMethod: "GET" });
   }
 
   static submitJob(requestOptions: IJobOptions) {
-    const { url, params, startMonitoring, pollingRate } = requestOptions;
-    return request(cleanUrl(url), { params }).then(
+    const { url, params, startMonitoring, pollingRate, authentication } = requestOptions;
+    return request(cleanUrl(url), { params, authentication }).then(
       (response) =>
         new Job({
           url,
-          authentication: params.token,
+          authentication: authentication,
           jobId: response.jobId,
           startMonitoring,
           pollingRate
@@ -120,7 +117,7 @@ export class Job {
         this.emitter.emit("failed", result);
         break;
       case "esriJobSucceeded":
-        this.emitter.emit("succeeded", console.log(result));
+        this.emitter.emit("succeeded", result);
         break;
     }
   };

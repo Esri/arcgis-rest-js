@@ -1,4 +1,4 @@
-import { ApiKeyManager, Job } from "@esri/arcgis-rest-request";
+import { ApiKeyManager, Job, JOB_STATUSES } from "@esri/arcgis-rest-request";
 
 // f = json" \
 // -d "token = <ACCESS_TOKEN>" \
@@ -24,7 +24,7 @@ import { ApiKeyManager, Job } from "@esri/arcgis-rest-request";
 Job.submitJob({
   url: "https://logistics.arcgis.com/arcgis/rest/services/World/VehicleRoutingProblem/GPServer/SolveVehicleRoutingProblem/submitJob",
   params: {
-    f: "json", token: "AAPK59244520da284b68bc5d426a1c22d08fp9HQo6v2E2xWsNgC39us1eQQvnrCLxBEYUAI_qR6xaHgU-S7osfaONVFd0YEi9dH", orders: { 'features': [{ 'geometry': { 'x': -122.51, 'y': 37.7724 }, 'attributes': { 'DeliveryQuantities': 1706, 'Name': 'Store_1', 'ServiceTime': 25, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.4889, 'y': 37.7538 }, 'attributes': { 'DeliveryQuantities': 1533, 'Name': 'Store_2', 'ServiceTime': 23, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.4649, 'y': 37.7747 }, 'attributes': { 'DeliveryQuantities': 1580, 'Name': 'Store_3', 'ServiceTime': 24, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.4739, 'y': 37.7432 }, 'attributes': { 'DeliveryQuantities': 1289, 'Name': 'Store_4', 'ServiceTime': 20, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.4493, 'y': 37.7315 }, 'attributes': { 'DeliveryQuantities': 1302, 'Name': 'Store_5', 'ServiceTime': 21, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.4917, 'y': 37.6493 }, 'attributes': { 'DeliveryQuantities': 1775, 'Name': 'Store_6', 'ServiceTime': 26, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.4832, 'y': 37.7012 }, 'attributes': { 'DeliveryQuantities': 1014, 'Name': 'Store_7', 'ServiceTime': 17, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.5301, 'y': 37.8935 }, 'attributes': { 'DeliveryQuantities': 1761, 'Name': 'Store_8', 'ServiceTime': 26, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.2875, 'y': 37.8909 }, 'attributes': { 'DeliveryQuantities': 1815, 'Name': 'Store_9', 'ServiceTime': 27, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }] },
+    f: "json", orders: { 'features': [{ 'geometry': { 'x': -122.51, 'y': 37.7724 }, 'attributes': { 'DeliveryQuantities': 1706, 'Name': 'Store_1', 'ServiceTime': 25, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.4889, 'y': 37.7538 }, 'attributes': { 'DeliveryQuantities': 1533, 'Name': 'Store_2', 'ServiceTime': 23, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.4649, 'y': 37.7747 }, 'attributes': { 'DeliveryQuantities': 1580, 'Name': 'Store_3', 'ServiceTime': 24, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.4739, 'y': 37.7432 }, 'attributes': { 'DeliveryQuantities': 1289, 'Name': 'Store_4', 'ServiceTime': 20, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.4493, 'y': 37.7315 }, 'attributes': { 'DeliveryQuantities': 1302, 'Name': 'Store_5', 'ServiceTime': 21, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.4917, 'y': 37.6493 }, 'attributes': { 'DeliveryQuantities': 1775, 'Name': 'Store_6', 'ServiceTime': 26, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.4832, 'y': 37.7012 }, 'attributes': { 'DeliveryQuantities': 1014, 'Name': 'Store_7', 'ServiceTime': 17, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.5301, 'y': 37.8935 }, 'attributes': { 'DeliveryQuantities': 1761, 'Name': 'Store_8', 'ServiceTime': 26, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }, { 'geometry': { 'x': -122.2875, 'y': 37.8909 }, 'attributes': { 'DeliveryQuantities': 1815, 'Name': 'Store_9', 'ServiceTime': 27, 'TimeWindowStart1': 1608051600000, 'TimeWindowEnd1': 1608080400000, 'MaxViolationTime1': 0 } }] },
     depots: { 'features': [{ 'geometry': { 'x': -122.3943, 'y': 37.7967 }, 'attributes': { 'Name': 'San Francisco', 'TimeWindowStart1': 1608048000000, 'TimeWindowEnd1': 1608080400000 } }] },
     routes: { 'features': [{ 'attributes': { 'Name': 'Truck_1', 'StartDepotName': 'San Francisco', 'EndDepotName': 'San Francisco', 'StartDepotServiceTime': 60, 'EarliestStartTime': 1608048000000, 'LatestStartTime': 1608048000000, 'Capacities': '15000', 'CostPerUnitTime': 0.2, 'CostPerUnitDistance': 1.5, 'MaxOrderCount': 3, 'MaxTotalTime': 360, 'MaxTotalTravelTime': 180, 'MaxTotalDistance': 100 } }, { 'attributes': { 'Name': 'Truck_2', 'StartDepotName': 'San Francisco', 'EndDepotName': 'San Francisco', 'StartDepotServiceTime': 60, 'EarliestStartTime': 1608048000000, 'LatestStartTime': 1608048000000, 'Capacities': '15000', 'CostPerUnitTime': 0.2, 'CostPerUnitDistance': 1.5, 'MaxOrderCount': 3, 'MaxTotalTime': 360, 'MaxTotalTravelTime': 180, 'MaxTotalDistance': 100 } }, { 'attributes': { 'Name': 'Truck_3', 'StartDepotName': 'San Francisco', 'EndDepotName': 'San Francisco', 'StartDepotServiceTime': 60, 'EarliestStartTime': 1608048000000, 'LatestStartTime': 1608048000000, 'Capacities': '15000', 'CostPerUnitTime': 0.2, 'CostPerUnitDistance': 1.5, 'MaxOrderCount': 3, 'MaxTotalTime': 360, 'MaxTotalTravelTime': 180, 'MaxTotalDistance': 100 } }] },
     time_units: "Minutes",
@@ -34,12 +34,17 @@ Job.submitJob({
     directions_language: "en",
     populate_route_lines: false,
     default_date: "1608051600000"
-
   },
+  authentication: "AAPK59244520da284b68bc5d426a1c22d08fp9HQo6v2E2xWsNgC39us1eQQvnrCLxBEYUAI_qR6xaHgU-S7osfaONVFd0YEi9dH",
+  httpMethod: "POST",
   startMonitoring: true,
-  pollingRate: 2000
+  pollingRate: 1000
 }).then((job: any) => {
-    // console.log(job, "FJDKLSL");
-    // //   job.getJobInfo()
-      job.on("status", (status: any) => console.log(status));
+    job.getJobInfo().then((response:any) => console.log(response))
+    job.on(JOB_STATUSES.Executing, () => {
+      console.log("running");
+    })
+    job.on(JOB_STATUSES.Success, () => {
+      console.log("job is done");
+    })
   });
