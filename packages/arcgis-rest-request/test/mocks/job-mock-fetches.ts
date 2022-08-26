@@ -4,7 +4,7 @@ export const GPEndpointCall = {
     Query: `"DATE" > date '1998-01-01 00:00:00' AND "DATE" < date '1998-01-31 00:00:00') AND ("Day" = 'SUN' OR "Day"= 'SAT')
   `
   },
-  startMonitoring: false,
+  startMonitoring: true,
   pollingRate: 5000
 };
 
@@ -28,20 +28,31 @@ export const GPJobInfoWithResults = {
   ]
 };
 
-export const mockResults = {
-  results: [
+export const failedState = {
+  jobStatus: "esriJobFailed",
+  message: [
     {
-      Hotspot_Raster: {
-        paramUrl: "results/hotspot_raster"
-      },
-      Output_Features: {
-        paramUrl: "results/output_features"
-      }
+      description: "Failed"
     }
-  ]
-};
+  ],
+  statusCode: 400
+}
+
+// export const mockResults = {
+//   results: [
+//     {
+//       Hotspot_Raster: {
+//         paramUrl: "results/hotspot_raster"
+//       },
+//       Output_Features: {
+//         paramUrl: "results/output_features"
+//       }
+//     }
+//   ]
+// };
 
 export const mockHotspot_Raster = {
+  paramUrl: "results/hotspot_raster",
   distance: "123",
   item: "123"
 };

@@ -1,8 +1,7 @@
 import { request } from "./request.js";
-import { cleanUrl } from "./utils/clean-url.js"
+import { cleanUrl } from "./utils/clean-url.js";
 import { IRequestOptions } from "./index.js";
 import mitt from "mitt";
-
 
 interface IJobOptions extends IRequestOptions {
   id?: string;
@@ -36,7 +35,6 @@ export class Job {
 
   constructor(options: any) {
     this.params = options.requestOptions;
-    console.log(options)
     this.url = options.url; //user passes in the initial endpoint
     this.jobId = options.jobId; //saved from the response from the static create job
     this.pollingRate = options.pollingRate || 5000;
@@ -53,11 +51,14 @@ export class Job {
     return !!this.setIntervalHandler;
   }
   getJobInfo() {
-    return request(this.jobUrl, { authentication: this.authentication , httpMethod: "GET" });
+    return request(this.jobUrl, {
+      authentication: this.authentication
+    });
   }
 
   static submitJob(requestOptions: IJobOptions) {
-    const { url, params, startMonitoring, pollingRate, authentication } = requestOptions;
+    const { url, params, startMonitoring, pollingRate, authentication } =
+      requestOptions;
     return request(cleanUrl(url), { params, authentication }).then(
       (response) =>
         new Job({
@@ -160,9 +161,11 @@ export class Job {
 
   async getResults(result: string) {
     const jobInfo = await this.getJobInfo();
+    // console.log(this.jobUrl + "/" + jobInfo.results[result].paramUrl);
+
 
     if (jobInfo.jobStatus === "esriJobSucceeded") {
-      return request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
+      return request(this.jobUrl + "/" + jobInfo.results[0][result].paramUrl, {
         authentication: this.authentication
       });
     } else {
