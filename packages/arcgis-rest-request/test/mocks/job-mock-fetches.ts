@@ -13,6 +13,15 @@ export const GPJobIdResponse = {
   jobStatus: "esriJobSubmitted"
 };
 
+export const GPJobInfoFailure = {
+  jobId: "j4fa1db2338f042a19eb68856afabc27e",
+  jobStatus: "error",
+  messages: [
+    { description: "error" }
+  ]
+};
+
+
 export const GPJobInfoWithResults = {
   jobId: "j4fa1db2338f042a19eb68856afabc27e",
   jobStatus: "esriJobSucceeded",
@@ -38,18 +47,14 @@ export const failedState = {
   statusCode: 400
 }
 
-// export const mockResults = {
-//   results: [
-//     {
-//       Hotspot_Raster: {
-//         paramUrl: "results/hotspot_raster"
-//       },
-//       Output_Features: {
-//         paramUrl: "results/output_features"
+// export const timeoutState = {
+//     jobStatus: "esriJobTimeOut",
+//     message: [
+//       {
+//         description: "TimeOut"
 //       }
-//     }
-//   ]
-// };
+//     ]
+// }
 
 export const mockHotspot_Raster = {
   paramUrl: "results/hotspot_raster",
@@ -57,58 +62,3 @@ export const mockHotspot_Raster = {
   item: "123"
 };
 
-const GPServiceAreasCall = {
-  url: "https://logistics.arcgis.com/arcgis/rest/services/World/ServiceAreas/GPServer/GenerateServiceAreas/submitJob",
-  params: {
-    facilities: "117.133163,34.022445",
-    defaultBreaks: "2.5",
-    travelDirection: "esriNATravelDirectionToFacility",
-    travelMode: {
-      attributeParameterValues: [
-        {
-          attributeName: "Avoid Private Roads",
-          parameterName: "Restriction Usage",
-          value: "AVOID_MEDIUM"
-        },
-        {
-          attributeName: "Walking",
-          parameterName: "Restriction Usage",
-          value: "PROHIBITED"
-        },
-        {
-          attributeName: "Preferred for Pedestrians",
-          parameterName: "Restriction Usage",
-          value: "PREFER_LOW"
-        },
-        {
-          attributeName: "WalkTime",
-          parameterName: "Walking Speed (km/h)",
-          value: 5
-        },
-        {
-          attributeName: "Avoid Roads Unsuitable for Pedestrians",
-          parameterName: "Restriction Usage",
-          value: "AVOID_HIGH"
-        }
-      ],
-      description:
-        "Follows paths and roads that allow pedestrian traffic and finds solutions that optimize travel distance.",
-      distanceAttributeName: "Kilometers",
-      id: "yFuMFwIYblqKEefX",
-      impedanceAttributeName: "Kilometers",
-      name: "Walking Distance",
-      restrictionAttributeNames: [
-        "Avoid Private Roads",
-        "Avoid Roads Unsuitable for Pedestrians",
-        "Preferred for Pedestrians",
-        "Walking"
-      ],
-      simplificationTolerance: 2,
-      simplificationToleranceUnits: "esriMeters",
-      timeAttributeName: "WalkTime",
-      type: "WALK",
-      useHierarchy: false,
-      uturnAtJunctions: "esriNFSBAllowBacktrack"
-    }
-  }
-};

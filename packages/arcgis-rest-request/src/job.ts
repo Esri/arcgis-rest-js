@@ -1,6 +1,6 @@
 import { request } from "./request.js";
 import { cleanUrl } from "./utils/clean-url.js";
-import { IRequestOptions } from "./index.js";
+import { IRequestOptions, JOB_STATUSES} from "./index.js";
 import mitt from "mitt";
 
 interface IJobOptions extends IRequestOptions {
@@ -56,7 +56,7 @@ export class Job {
     });
   }
 
-  static submitJob(requestOptions: IJobOptions) {
+  static submitJob(requestOptions: ISubmitJobOptions) {
     const { url, params, startMonitoring, pollingRate, authentication } =
       requestOptions;
     return request(cleanUrl(url), { params, authentication }).then(
@@ -82,48 +82,47 @@ export class Job {
   private executePoll = async () => {
     let result;
     try {
-      result = await this.getStatus();
+      result = await this.getJobInfo();
     } catch (error) {
-      this.emitter.emit("error", error);
+      this.emitter.emit(JOB_STATUSES.Error, error);
       return;
     }
-    this.emitter.emit("status", result);
+    this.emitter.emit(JOB_STATUSES.Status, result);
 
     switch (result.jobStatus) {
       case "esriJobCancelled":
-        this.emitter.emit("cancelled", result);
+        this.emitter.emit(JOB_STATUSES.Cancelled, result);
         break;
       case "esriJobCancelling":
-        this.emitter.emit("cancelling", result);
+        this.emitter.emit(JOB_STATUSES.Cancelling, result);
         break;
       case "esriJobNew":
-        this.emitter.emit("new", result);
+        this.emitter.emit(JOB_STATUSES.New, result);
         break;
       case "esriJobWaiting":
-        this.emitter.emit("waiting", result);
+        this.emitter.emit(JOB_STATUSES.Waiting, result);
         break;
       case "esriJobExecuting":
-        this.emitter.emit("executing", result);
+        this.emitter.emit(JOB_STATUSES.Executing, result);
         break;
       case "esriJobSubmitted":
-        this.emitter.emit("submitted", result);
+        this.emitter.emit(JOB_STATUSES.Submitted, result);
         break;
       case "esriJobTimedOut":
-        this.emitter.emit("timed-out", result);
+        this.emitter.emit(JOB_STATUSES.TimedOut, result);
         break;
       case "esriJobFailed":
-        this.emitter.emit("failed", result);
+        this.emitter.emit(JOB_STATUSES.Failed, result);
         break;
       case "expectedFailure":
-        this.emitter.emit("failed", result);
+        this.emitter.emit(JOB_STATUSES.Failure, result);
         break;
       case "esriJobSucceeded":
-        this.emitter.emit("succeeded", result);
+        this.emitter.emit(JOB_STATUSES.Success, result);
         break;
     }
   };
 
-  //getAllResults
 
   on(eventName: string, handler: (e: any) => void) {
     this.emitter.on(eventName, handler);
@@ -138,7 +137,9 @@ export class Job {
     this.emitter.on(
       eventName,
       fn
-    )(handler as any).__arcgis_geoprocessing_job_once_original_function__ = fn;
+    ); 
+    
+    (handler as any).__arcgis_geoprocessing_job_once_original_function__ = fn;
   }
 
   off(eventName: string, handler: (e: any) => void) {
@@ -152,17 +153,15 @@ export class Job {
     this.emitter.off(eventName, handler);
   }
 
-  getStatus() {
-    return request(this.jobUrl, {
-      authentication: this.authentication,
-      params: { jobId: this.jobId, authentication: this.authentication }
-    });
-  }
+  // getStatus() {
+  //   return request(this.jobUrl, {
+  //     authentication: this.authentication,
+  //     params: { jobId: this.jobId, authentication: this.authentication }
+  //   });
+  // }
 
   async getResults(result: string) {
     const jobInfo = await this.getJobInfo();
-    // console.log(this.jobUrl + "/" + jobInfo.results[result].paramUrl);
-
 
     if (jobInfo.jobStatus === "esriJobSucceeded") {
       return request(this.jobUrl + "/" + jobInfo.results[0][result].paramUrl, {
@@ -172,32 +171,25 @@ export class Job {
       return new Promise((resolve, reject) => {
         this.startInternalEventMonitoring();
 
-        this.once("succeeded", (jobInfo) => {
-          request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
-            authentication: this.authentication
-          })
-            .then((result) => resolve(result))
-            .catch((e) => reject(e));
-        });
-
-        this.once("cancelled", (jobInfo) => {
+        this.once(JOB_STATUSES.Cancelled, (jobInfo) => {
           this.stopInternalEventMonitoring();
           reject(jobInfo);
         });
 
-        this.once("timed-out", (jobInfo) => {
+        this.once(JOB_STATUSES.TimedOut, (jobInfo) => {
+          console.log(jobInfo, "info");
           this.stopInternalEventMonitoring();
           reject(jobInfo);
         });
 
-        this.once("failed", (jobInfo) => {
+        this.once(JOB_STATUSES.Failed, (jobInfo) => {
           this.stopInternalEventMonitoring();
           reject(jobInfo);
         });
 
-        this.once("succeeded", (jobInfo) => {
+        this.once(JOB_STATUSES.Success, (jobInfo) => {
           // we should error if the job succeeded but the users desired result wasn't found i.e. due to a typo
-          request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
+          request(this.jobUrl + "/" + jobInfo.results[0][result].paramUrl, {
             authentication: this.authentication
           })
             .then((result) => {

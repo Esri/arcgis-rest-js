@@ -7,6 +7,8 @@ export enum JOB_STATUSES {
   New = "new",
   Executing = "executing",
   Submitted = "submitted",
-  Failure = "failed",
-  TimedOut = "timed-out"
+  Failure = "failure",
+  TimedOut = "timed-out",
+  Error = "error",
+  Status = "status",
 }
