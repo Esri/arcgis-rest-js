@@ -1417,9 +1417,12 @@ describe("ArcGISIdentityManager", () => {
 
       describe(".completeOAuth2() with PKCE", () => {
         it("should authorize with a popup", () => {
-          let PopupMockWindow: any;
+          let PopupMockWindow = createMock();
+          PopupMockWindow.location.search =
+            "?code=auth_code&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+          PopupMockWindow.opener = MockWindow;
 
-          fetchMock.once("*", {
+          fetchMock.post("*", {
             access_token: "token",
             expires_in: 1800,
             username: "c@sey",
@@ -1429,18 +1432,15 @@ describe("ArcGISIdentityManager", () => {
           });
 
           window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
-            PopupMockWindow = createMock();
-            PopupMockWindow.location.search =
-              "?code=auth_code&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-            PopupMockWindow.opener = MockWindow;
-
-            ArcGISIdentityManager.completeOAuth2(
-              {
-                clientId: "clientId1234",
-                redirectUri: "http://example-app.com/redirect"
-              },
-              PopupMockWindow
-            );
+            setTimeout(() => {
+              ArcGISIdentityManager.completeOAuth2(
+                {
+                  clientId: "clientId1234",
+                  redirectUri: "http://example-app.com/redirect"
+                },
+                PopupMockWindow
+              );
+            }, 100);
           });
 
           return ArcGISIdentityManager.beginOAuth2(
@@ -1457,11 +1457,12 @@ describe("ArcGISIdentityManager", () => {
                 "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
               );
 
-              expect(PopupMockWindow.close).toHaveBeenCalled();
               expect(session.token).toBe("token");
               expect(session.username).toBe("c@sey");
               expect(session.ssl).toBe(true);
-
+              expect(session.redirectUri).toBe(
+                "http://example-app.com/redirect"
+              );
               // now - 5 minutes (offset) + the above expiration (1800 seconds)
               const expectedDate = new Date(
                 Date.now() - 5 * 60 * 1000 + 1800 * 1000
