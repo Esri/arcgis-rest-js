@@ -458,7 +458,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       if (popup) {
         // If we are authenticating a popup we need to return a Promise that will resolve to an ArcGISIdentityManager later.
         return new Promise((resolve, reject) => {
-          // Add an event listener to listen for when a user calls `ArcGISIdentityManager.completeOAuth2()()` in the popup.
+          // Add an event listener to listen for when a user calls `ArcGISIdentityManager.completeOAuth2()` in the popup.
           win.addEventListener(
             `arcgis-rest-js-popup-auth-${clientId}`,
             (e: CustomEvent<any>) => {
