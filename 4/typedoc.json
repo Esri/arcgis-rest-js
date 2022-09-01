@@ -13137,9 +13137,29 @@
 								}
 							],
 							"type": {
-								"type": "reference",
-								"id": 348,
-								"name": "IGeometry"
+								"type": "union",
+								"types": [
+									{
+										"type": "reference",
+										"name": "IPoint"
+									},
+									{
+										"type": "reference",
+										"name": "IPolyline"
+									},
+									{
+										"type": "reference",
+										"name": "IPolylineWithCurves"
+									},
+									{
+										"type": "reference",
+										"name": "IPolygon"
+									},
+									{
+										"type": "reference",
+										"name": "IPolygonWithCurves"
+									}
+								]
 							}
 						},
 						{
@@ -72513,7 +72533,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/feature.ts",
-									"line": 45,
+									"line": 54,
 									"character": 2
 								}
 							],
@@ -72562,14 +72582,39 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/feature.ts",
-									"line": 44,
+									"line": 48,
 									"character": 2
 								}
 							],
 							"type": {
-								"type": "reference",
-								"id": 3507,
-								"name": "IGeometry"
+								"type": "union",
+								"types": [
+									{
+										"type": "reference",
+										"id": 3509,
+										"name": "IPoint"
+									},
+									{
+										"type": "reference",
+										"id": 3522,
+										"name": "IPolyline"
+									},
+									{
+										"type": "reference",
+										"id": 3527,
+										"name": "IPolylineWithCurves"
+									},
+									{
+										"type": "reference",
+										"id": 3532,
+										"name": "IPolygon"
+									},
+									{
+										"type": "reference",
+										"id": 3537,
+										"name": "IPolygonWithCurves"
+									}
+								]
 							}
 						},
 						{
@@ -72583,7 +72628,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/feature.ts",
-									"line": 46,
+									"line": 55,
 									"character": 2
 								}
 							],
@@ -72608,7 +72653,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/feature.ts",
-							"line": 43,
+							"line": 47,
 							"character": 17
 						}
 					]
@@ -72635,7 +72680,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/feature.ts",
-									"line": 23,
+									"line": 27,
 									"character": 2
 								}
 							],
@@ -72653,7 +72698,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/feature.ts",
-									"line": 27,
+									"line": 31,
 									"character": 2
 								}
 							],
@@ -72677,7 +72722,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/feature.ts",
-									"line": 28,
+									"line": 32,
 									"character": 2
 								}
 							],
@@ -72726,7 +72771,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/feature.ts",
-									"line": 26,
+									"line": 30,
 									"character": 2
 								}
 							],
@@ -72750,7 +72795,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/feature.ts",
-									"line": 24,
+									"line": 28,
 									"character": 2
 								}
 							],
@@ -72771,7 +72816,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/feature.ts",
-									"line": 22,
+									"line": 26,
 									"character": 2
 								}
 							],
@@ -72841,7 +72886,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/feature.ts",
-									"line": 21,
+									"line": 25,
 									"character": 2
 								}
 							],
@@ -72861,7 +72906,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/feature.ts",
-									"line": 25,
+									"line": 29,
 									"character": 2
 								}
 							],
@@ -72893,7 +72938,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/feature.ts",
-							"line": 20,
+							"line": 24,
 							"character": 17
 						}
 					],
@@ -84125,8 +84170,31 @@
 								}
 							],
 							"type": {
-								"type": "reference",
-								"name": "IGeometry"
+								"type": "union",
+								"types": [
+									{
+										"type": "reference",
+										"id": 3705,
+										"name": "IPoint"
+									},
+									{
+										"type": "reference",
+										"id": 3712,
+										"name": "IPolyline"
+									},
+									{
+										"type": "reference",
+										"name": "IPolylineWithCurves"
+									},
+									{
+										"type": "reference",
+										"name": "IPolygon"
+									},
+									{
+										"type": "reference",
+										"name": "IPolygonWithCurves"
+									}
+								]
 							}
 						},
 						{
