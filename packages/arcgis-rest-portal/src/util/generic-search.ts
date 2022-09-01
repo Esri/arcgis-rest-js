@@ -35,7 +35,7 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
       }
     };
   } else {
-    // searchUserAccess has one (knonw) valid value: "groupMember"
+    // searchUserAccess has one (known) valid value: "groupMember"
     options = appendCustomParams<ISearchOptions>(
       search,
       [
@@ -45,7 +45,12 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
         "sortField",
         "sortOrder",
         "searchUserAccess",
-        "searchUserName"
+        "searchUserName",
+        "filter",
+        "countFields",
+        "countSize",
+        "categories",
+        "categoryFilters"
       ],
       {
         httpMethod: "GET"
