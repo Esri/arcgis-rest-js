@@ -1,3 +1,5 @@
+import { ArcGISRequestError } from "../../src/index.js";
+
 export const GPEndpointCall = {
   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob",
   params: {

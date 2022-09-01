@@ -71,14 +71,6 @@ export class Job {
     );
   }
 
-  //if the user already has a jobId and doesn't need the original call for the submitJob
-  static fromExistingJob() {
-    return request(this.jobUrl, {
-      authentication: this.authentication,
-      params: { jobId: this.jobId, returnMessages: true }
-    });
-  }
-
   private executePoll = async () => {
     let result;
     try {
@@ -139,26 +131,19 @@ export class Job {
       fn
     ); 
     
-    (handler as any).__arcgis_geoprocessing_job_once_original_function__ = fn;
+    (handler as any).__arcgis_job_once_original_function__ = fn;
   }
 
   off(eventName: string, handler: (e: any) => void) {
-    if ((handler as any).__arcgis_geoprocessing_job_once_original_function__) {
+    if ((handler as any).__arcgis_job_once_original_function__) {
       this.emitter.off(
         eventName,
-        (handler as any).__arcgis_geoprocessing_job_once_original_function__
+        (handler as any).__arcgis_job_once_original_function__
       );
       return;
     }
     this.emitter.off(eventName, handler);
   }
-
-  // getStatus() {
-  //   return request(this.jobUrl, {
-  //     authentication: this.authentication,
-  //     params: { jobId: this.jobId, authentication: this.authentication }
-  //   });
-  // }
 
   async getResults(result: string) {
     const jobInfo = await this.getJobInfo();
@@ -177,7 +162,6 @@ export class Job {
         });
 
         this.once(JOB_STATUSES.TimedOut, (jobInfo) => {
-          console.log(jobInfo, "info");
           this.stopInternalEventMonitoring();
           reject(jobInfo);
         });
@@ -217,8 +201,7 @@ export class Job {
     }
   }
 
-  //if we trigger it we stop it
-  //if user triggers it we don't stop monitoring
+  //interal monitoring if the user specifies startMonitoring: false, we need to check the status to see when the results are returned
   private stopInternalEventMonitoring() {
     if (this.setIntervalHandler && !this.didUserEnableMonitoring) {
       clearTimeout(this.setIntervalHandler);
