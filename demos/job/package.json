@@ -8,7 +8,7 @@
     "ES6",
     "arcgis",
     "esri",
-    "geoprocessing"],
+    "job"],
   "type": "module",
   "main": "index.js",
   "scripts": {

@@ -1,4 +1,5 @@
 import { ApiKeyManager, Job, JOB_STATUSES } from "@esri/arcgis-rest-request";
+import { join } from "path";
 
 // f = json" \
 // -d "token = <ACCESS_TOKEN>" \
@@ -285,11 +286,7 @@ Job.submitJob({
   startMonitoring: true,
   pollingRate: 1000
 }).then((job: any) => {
-  job.getJobInfo().then((response: any) => console.log(response));
-  job.on(JOB_STATUSES.Executing, () => {
-    console.log("running");
-  });
-  job.on(JOB_STATUSES.Success, () => {
-    console.log("job is done");
+  job.on(JOB_STATUSES.Success, (response: any) => {
+    console.log(job.jobUrl + "/" + response.results['out_unassigned_stops'].paramUrl);
   });
 });
