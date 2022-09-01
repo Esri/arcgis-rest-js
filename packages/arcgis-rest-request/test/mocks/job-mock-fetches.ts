@@ -1,5 +1,3 @@
-import { ArcGISRequestError } from "../../src/index.js";
-
 export const GPEndpointCall = {
   url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob",
   params: {
@@ -27,7 +25,7 @@ export const GPJobInfoFailure = {
 export const GPJobInfoWithResults = {
   jobId: "j4fa1db2338f042a19eb68856afabc27e",
   jobStatus: "esriJobSucceeded",
-  results: [
+  results:
     {
       Hotspot_Raster: {
         paramUrl: "results/hotspot_raster"
@@ -36,7 +34,6 @@ export const GPJobInfoWithResults = {
         paramUrl: "results/output_features"
       }
     }
-  ]
 };
 
 export const failedState = {
@@ -49,15 +46,20 @@ export const failedState = {
   statusCode: 400
 }
 
-// export const timeoutState = {
-//     jobStatus: "esriJobTimeOut",
-//     message: [
-//       {
-//         description: "TimeOut"
-//       }
-//     ]
-// }
-
+export const mockCancelledState = {
+  jobI: "j4fa1db2338f042a19eb68856afabc27e",
+  jobStatus: "esriJobCancelled",
+  messages: [
+    {
+      type: "esriJobMessageTypeInformative",
+      description: "Submitted."
+    },
+    {
+      type: "esriJobMessageTypeInformative",
+      description: "Cancel complete."
+    }
+  ]
+}
 export const mockHotspot_Raster = {
   paramUrl: "results/hotspot_raster",
   distance: "123",

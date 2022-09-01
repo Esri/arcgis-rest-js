@@ -1,6 +1,6 @@
 import { request } from "./request.js";
 import { cleanUrl } from "./utils/clean-url.js";
-import { IRequestOptions, JOB_STATUSES} from "./index.js";
+import { IRequestOptions, JOB_STATUSES } from "./index.js";
 import mitt from "mitt";
 
 interface IJobOptions extends IRequestOptions {
@@ -50,7 +50,8 @@ export class Job {
   get isMonitoring() {
     return !!this.setIntervalHandler;
   }
-  getJobInfo() {
+
+  fromExistingJob() {
     return request(this.jobUrl, {
       authentication: this.authentication
     });
@@ -74,7 +75,7 @@ export class Job {
   private executePoll = async () => {
     let result;
     try {
-      result = await this.getJobInfo();
+      result = await this.fromExistingJob();
     } catch (error) {
       this.emitter.emit(JOB_STATUSES.Error, error);
       return;
@@ -129,8 +130,8 @@ export class Job {
     this.emitter.on(
       eventName,
       fn
-    ); 
-    
+    );
+
     (handler as any).__arcgis_job_once_original_function__ = fn;
   }
 
@@ -146,10 +147,10 @@ export class Job {
   }
 
   async getResults(result: string) {
-    const jobInfo = await this.getJobInfo();
+    const jobInfo = await this.fromExistingJob();
 
     if (jobInfo.jobStatus === "esriJobSucceeded") {
-      return request(this.jobUrl + "/" + jobInfo.results[0][result].paramUrl, {
+      return request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
         authentication: this.authentication
       });
     } else {
@@ -172,8 +173,7 @@ export class Job {
         });
 
         this.once(JOB_STATUSES.Success, (jobInfo) => {
-          // we should error if the job succeeded but the users desired result wasn't found i.e. due to a typo
-          request(this.jobUrl + "/" + jobInfo.results[0][result].paramUrl, {
+          request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
             authentication: this.authentication
           })
             .then((result) => {
@@ -189,12 +189,38 @@ export class Job {
     }
   }
 
+
+
+  // async getAllResults() {
+  //   const results = {
+  //     "out_unassigned_stops": { paramUrl: 'results/out_unassigned_stops' },
+  //     "out_stops": { paramUrl: 'results/out_stops' },
+  //     "out_routes": { paramUrl: 'results/out_routes' }
+  //   };
+
+  //   for (const key in results) {
+  //     const res = await Promise.all([
+  //       request(this.jobUrl + "/results" + key, {
+  //         authentication: this.authentication
+  //       }).then((result) => {
+  //         return result;
+  //       })
+  //   ])
+  //   return res;
+  //   }
+
+  //   //uses key value pairs for the results obj to get each result property to do their own request
+  //   // Promise.all will do all the individual requests and wait until their all done
+  //   // return a object with all the individual result property
+  // };
+
   cancelJob() {
     return request(this.jobUrl + "/cancel", {
       authentication: this.authentication,
       params: { jobId: this.jobId, returnMessages: false }
     }).then((response) => this.emitter.emit("cancelled", response));
   }
+
   private startInternalEventMonitoring() {
     if (!this.setIntervalHandler) {
       this.setIntervalHandler = setInterval(this.executePoll, this.pollingRate);
@@ -215,8 +241,6 @@ export class Job {
     }
   }
 
-  //if we trigger it we stop it
-  //if user triggers it we don't stop monitoring
   stopEventMonitoring() {
     if (this.setIntervalHandler && this.didUserEnableMonitoring) {
       clearTimeout(this.setIntervalHandler);

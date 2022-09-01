@@ -7,7 +7,7 @@ import {
   GPJobInfoWithResults,
   mockHotspot_Raster,
   failedState,
-  // GPJobInfoFailure,
+  mockCancelledState,
 } from "./mocks/job-mock-fetches.js";
 
 describe("Job Class", () => {
@@ -454,48 +454,37 @@ describe("Job Class", () => {
       });
     })
     fit("it listens for the off function", (done) => {
-      fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
+      // fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
 
-      fetchMock.once(
-        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-        {
-          jobStatus: "esriJobWaiting"
-        }
-      );
+      // fetchMock.once(
+      //   "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
+      //   {
+      //     jobStatus: "esriJobSuccess"
+      //   }
+      // );
 
+      // Job.submitJob({ ...GPEndpointCall, pollingRate: 10 }).then((job) => {
+      //   const handler = spyOn('func').and.returnValue("success");
 
-      Job.submitJob({ ...GPEndpointCall, pollingRate: 10 }).then((job) => {
-        job.on(JOB_STATUSES.Waiting, (result: any) => {
-          expect(result).toEqual({ jobStatus: "esriJobWaiting" });
-          fetchMock.once(
-            "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-            {
-              jobStatus: "esriJobCancelling"
-            }
-          );
-          (job as any).executePoll();
-        });
+      //   job.on(JOB_STATUSES.Success, () => handler);
 
-        job.on(JOB_STATUSES.Cancelling, (result: any) => {
-          expect(result).toEqual({ jobStatus: "esriJobCancelling" });
-          fetchMock.once(
-            "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-            {
-              jobStatus: "esriJobCancelled"
-            }
-          );
-          (job as any).executePoll();
-        });
+      //   expect(job.emitter.all.get(JOB_STATUSES.Success)).toBe(handler);
 
-        job.off(JOB_STATUSES.Cancelled, result => {
-          expect(result).toEqual({
-            jobStatus: "esriJobCancelled"
-          })
-        });
-        console.log(job.emitter.all);
+      //   job.off(JOB_STATUSES.Success, () => handler);
 
-        (job as any).executePoll();
-      });
+      //   expect(job.emitter.all.get(JOB_STATUSES.Success)).toBeFalsy();
+
+      //   job.once(JOB_STATUSES.Success, () => handler);
+
+      //   expect(job.emitter.all.get(JOB_STATUSES.Success)).toBeTruthy();
+
+      //   job.off(JOB_STATUSES.Success, () => handler);
+
+      //   expect(job.emitter.all.get(JOB_STATUSES.Success)).toBeFalsy();
+      //   done();
+      //   (job as any).executePoll();
+      // });
+
     })
     it("cancels a job", (done) => {
       fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
@@ -509,18 +498,13 @@ describe("Job Class", () => {
 
       fetchMock.once(
         "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e/cancel",
-        {
-          jobStatus: "esriJobCancelled"
-        }
+        mockCancelledState
       );
 
       Job.submitJob(GPEndpointCall).then((job) => {
-        job.cancelJob().then(response => {
+        job.cancelJob().then(() => {
           job.on(JOB_STATUSES.Cancelled, result => {
-            expect(result).toEqual({
-              jobStatus: "esriJobCancelled"
-            });
-
+            expect(result).toEqual(mockCancelledState);
           })
           done();
         });
@@ -530,3 +514,4 @@ describe("Job Class", () => {
     });
   });
 });
+
