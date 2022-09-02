@@ -2,7 +2,6 @@ import { request } from "./request.js";
 import { cleanUrl } from "./utils/clean-url.js";
 import { IRequestOptions, JOB_STATUSES } from "./index.js";
 import mitt from "mitt";
-import serialize from "serialize-javascript";
 
 interface IJobOptions extends IRequestOptions {
   id?: string;
@@ -20,7 +19,6 @@ export class Job {
   readonly id: string;
   readonly resultParams: any;
   readonly authentication: any;
-  readonly jobUrl: string;
 
   static id: any;
   static authentication: string;
@@ -32,14 +30,11 @@ export class Job {
   private didUserEnableMonitoring: any;
   private setIntervalHandler: any;
 
-  params: any;
-
   constructor(options: any) {
     this.url = options.url; //user passes in the initial endpoint
     this.id = options.id; //saved from the response from the static create job
     this.pollingRate = options.pollingRate || 5000;
     this.emitter = mitt(); //interval between each polling request
-    this.jobUrl = this.url.replace("submitJob", `jobs/${this.id}`);
     this.authentication = options.authentication;
 
     if (options.startMonitoring) {
@@ -47,29 +42,33 @@ export class Job {
     }
   }
 
+  private get jobUrl() {
+    return this.url + `/jobs/${this.id}`;
+  }
+
   get isMonitoring() {
     return !!this.setIntervalHandler;
   }
 
-  fromExistingJob() {
+  getJobInfo() {
     return request(this.jobUrl, {
       authentication: this.authentication
     });
   }
 
-  static fromJobId() {
-    return request(this.jobUrl, {
-      authentication: this.authentication
-    });
+  static fromExistingJob(options: IJobOptions) {
+    return new Job(options);
   }
 
   static submitJob(requestOptions: ISubmitJobOptions) {
     const { url, params, startMonitoring, pollingRate, authentication } =
-      requestOptions;
-    return request(cleanUrl(url), { params, authentication }).then(
+    requestOptions;
+    const baseUrl = cleanUrl(url.replace(/\/submitJob\/?/, ""));
+    const submitUrl = baseUrl + "/submitJob";
+    return request(submitUrl, { params, authentication }).then(
       (response) =>
         new Job({
-          url,
+          url: baseUrl,
           authentication: authentication,
           id: response.jobId,
           startMonitoring,
@@ -81,7 +80,7 @@ export class Job {
   private executePoll = async () => {
     let result;
     try {
-      result = await this.fromExistingJob();
+      result = await this.getJobInfo();
     } catch (error) {
       this.emitter.emit(JOB_STATUSES.Error, error);
       return;
@@ -153,83 +152,89 @@ export class Job {
   }
 
   async getResults(result: string) {
-    const jobInfo = await this.fromExistingJob();
-
-    if (jobInfo.jobStatus === "esriJobSucceeded") {
+    return this.waitForJobCompletion().then(jobInfo => {
       return request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
         authentication: this.authentication
       });
-    } else {
-      return new Promise((resolve, reject) => {
-        this.startInternalEventMonitoring();
+    });
+  }
 
-        this.once(JOB_STATUSES.Cancelled, (jobInfo) => {
-          this.stopInternalEventMonitoring();
-          reject(jobInfo);
-        });
-
-        this.once(JOB_STATUSES.TimedOut, (jobInfo) => {
-          this.stopInternalEventMonitoring();
-          reject(jobInfo);
-        });
-
-        this.once(JOB_STATUSES.Failed, (jobInfo) => {
-          this.stopInternalEventMonitoring();
-          reject(jobInfo);
-        });
-
-        this.once(JOB_STATUSES.Success, (jobInfo) => {
-          request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
-            authentication: this.authentication
-          })
-            .then((result) => {
-              this.stopInternalEventMonitoring();
-              resolve(result);
-            })
-            .catch((e) => {
-              this.stopInternalEventMonitoring();
-              reject(e);
-            });
-        });
-      });
+  toJSON() {
+    return {
+      id: this.id,
+      url: this.url,
+      startMonitoring: this.isMonitoring,
+      pollingRate: this.pollingRate
     }
   }
 
-  static toJSON(jobObj: {}) {
-    return JSON.stringify(jobObj);
-  }
-
-  static serialize(jobObj: {}) {
-    return serialize(jobObj);
+  serialize() {
+    return JSON.stringify(this)
   }
 
   static deserialize(serializeString: string) {
-    return eval('(' + serializeString + ')');
+    return new Job(JSON.parse(serializeString));
   }
 
+  async waitForJobCompletion() {
+    const jobInfo = await this.getJobInfo();
 
-  // async getAllResults() {
-  //   const results = {
-  //     "out_unassigned_stops": { paramUrl: 'results/out_unassigned_stops' },
-  //     "out_stops": { paramUrl: 'results/out_stops' },
-  //     "out_routes": { paramUrl: 'results/out_routes' }
-  //   };
+    if (jobInfo.jobStatus === "esriJobSucceeded") {
+      return Promise.resolve(jobInfo);
+    }
+    //if jobStatus comes back immediately with one of the statuses
+    if (jobInfo.jobStatus === "esriJobTimeOut" || jobInfo.jobStatus === "esriJobCancelled" || jobInfo.jobStatus === "esriJobFailed") {
+      this.stopInternalEventMonitoring();
+      return Promise.reject(jobInfo);
+    }
+    //waits to see what the status is if not immediate
+    return new Promise((resolve, reject) => {
+      this.startInternalEventMonitoring();
 
-  //   for (const key in results) {
-  //     const res = await Promise.all([
-  //       request(this.jobUrl + "/results" + key, {
-  //         authentication: this.authentication
-  //       }).then((result) => {
-  //         return result;
-  //       })
-  //   ])
-  //   return res;
-  //   }
+      this.once(JOB_STATUSES.Cancelled, (jobInfo) => {
+        this.stopInternalEventMonitoring();
+        reject(jobInfo);
+      });
 
-  //   //uses key value pairs for the results obj to get each result property to do their own request
-  //   // Promise.all will do all the individual requests and wait until their all done
-  //   // return a object with all the individual result property
-  // };
+      this.once(JOB_STATUSES.TimedOut, (jobInfo) => {
+        this.stopInternalEventMonitoring();
+        reject(jobInfo);
+      });
+
+      this.once(JOB_STATUSES.Failed, (jobInfo) => {
+        this.stopInternalEventMonitoring();
+        reject(jobInfo);
+      });
+
+      this.once(JOB_STATUSES.Success, (jobInfo) => {
+        this.stopInternalEventMonitoring();
+        resolve(jobInfo);
+      });
+    });
+  }
+
+  async getAllResults() {
+    return this.waitForJobCompletion().then(jobInfo => {
+
+      const keys = Object.keys(jobInfo.results);
+      console.log(keys);
+
+      const requests = keys.map(key => {
+        return request(this.jobUrl + "/" + jobInfo.results[key].paramUrl, {
+          authentication: this.authentication
+        }).then(results => {
+          return results
+        });
+      });
+      return Promise.all(requests).then((resultsArray: any) => {
+        return keys.reduce((finalResults: any, key: string, index: number) => {
+          finalResults[keys[index]] = resultsArray[index];
+          return finalResults;
+        }, {})
+      });
+
+    });
+  };
 
   cancelJob() {
     return request(this.jobUrl + "/cancel", {
@@ -254,7 +259,7 @@ export class Job {
     }
   }
 
-  startEventMonitoring(internal?: boolean) {
+  startEventMonitoring() {
     this.didUserEnableMonitoring = true;
     if (!this.setIntervalHandler) {
       this.setIntervalHandler = setInterval(this.executePoll, this.pollingRate);

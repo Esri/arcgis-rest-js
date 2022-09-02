@@ -262,17 +262,7 @@ Job.submitJob({
   },
   authentication: SECRET_KEY,
   startMonitoring: true,
-  pollingRate: 10
+  pollingRate: 1000
 }).then(async (job: any) => {
-  job.on(JOB_STATUSES.Success, (response: any) => {
-    console.log(response)
-  });
-  // job.getAllResults();
-
-  // await job.getResults("solve_succeeded").then((result:any) => {
-  //   console.log(result);
-  // }).catch((error: any) =>{
-  //   console.error(error);
-  // });
-  
+  job.getAllResults().then((results: any) => console.log(results));
 });
