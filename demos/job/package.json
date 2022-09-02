@@ -8,14 +8,16 @@
     "ES6",
     "arcgis",
     "esri",
-    "job"],
+    "job"
+  ],
   "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts"
   },
   "dependencies": {
-    "@esri/arcgis-rest-request": "^4.0.3"
+    "@esri/arcgis-rest-request": "^4.0.3",
+    "dotenv": "^16.0.2"
   },
   "devDependencies": {
     "ts-node": "^10.7.0",

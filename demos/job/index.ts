@@ -1,5 +1,6 @@
 import { ApiKeyManager, Job, JOB_STATUSES } from "@esri/arcgis-rest-request";
-import { join } from "path";
+import * as dotenv from 'dotenv';
+const SECRET_KEY = dotenv.config().parsed?.SECRET_KEY;
 
 Job.submitJob({
   url: "https://logistics.arcgis.com/arcgis/rest/services/World/VehicleRoutingProblem/GPServer/SolveVehicleRoutingProblem/submitJob",
@@ -259,15 +260,14 @@ Job.submitJob({
     populate_route_lines: false,
     default_date: "1608051600000"
   },
-  authentication:
-  "AAPK59244520da284b68bc5d426a1c22d08fp9HQo6v2E2xWsNgC39us1eQQvnrCLxBEYUAI_qR6xaHgU-S7osfaONVFd0YEi9dH",
+  authentication: SECRET_KEY,
   startMonitoring: true,
   pollingRate: 10
 }).then(async (job: any) => {
-  // job.on(JOB_STATUSES.Success, (response: any) => {
-  //   console.log(response)
-  // });
-  job.getAllResults();
+  job.on(JOB_STATUSES.Success, (response: any) => {
+    console.log(response)
+  });
+  // job.getAllResults();
 
   // await job.getResults("solve_succeeded").then((result:any) => {
   //   console.log(result);
