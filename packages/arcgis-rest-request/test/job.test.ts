@@ -18,7 +18,7 @@ describe("Job Class", () => {
       fetchMock.mock("*", GPJobIdResponse);
       fetchMock.once("*", GPEndpointCall);
       return Job.submitJob(GPEndpointCall).then((job) => {
-        expect(job.jobId).toEqual(GPJobIdResponse.jobId);
+        expect(job.id).toEqual(GPJobIdResponse.jobId);
       });
     });
 
@@ -36,7 +36,7 @@ describe("Job Class", () => {
       Job.submitJob(GPEndpointCall).then((job) => {
         // 4. listen for the executing event, this will fire when we fake polling
         job.on(JOB_STATUSES.Executing, (result: any) => {
-          // 7. this executes once teh event from the fake poll in step 6 happens.
+          // 7. this executes once the event from the fake poll in step 6 happens.
           expect(result).toEqual({ jobStatus: "esriJobExecuting" });
 
           //8. Now we want to tell fetch mock how to respond to the next fake polling request
@@ -453,7 +453,7 @@ describe("Job Class", () => {
         done();
       });
     })
-    fit("it listens for the off function", (done) => {
+    // it("it listens for the off function", (done) => {
       // fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
 
       // fetchMock.once(
@@ -485,7 +485,7 @@ describe("Job Class", () => {
       //   (job as any).executePoll();
       // });
 
-    })
+    // })
     it("cancels a job", (done) => {
       fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
 

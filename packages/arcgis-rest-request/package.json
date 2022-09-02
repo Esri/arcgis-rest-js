@@ -46,8 +46,9 @@
   "dependencies": {
     "@esri/arcgis-rest-fetch": "^4.0.0",
     "@esri/arcgis-rest-form-data": "^4.0.0",
-    "tslib": "^2.3.1",
-    "mitt": "^3.0.0"
+    "mitt": "^3.0.0",
+    "serialize-javascript": "^6.0.0",
+    "tslib": "^2.3.1"
   },
   "contributors": [
     "Patrick Arlt <parlt@esri.com> (http://patrickarlt.com/)"
@@ -71,5 +72,8 @@
       "ApplicationCredentialsManager",
       "ArcGISIdentityManager"
     ]
+  },
+  "devDependencies": {
+    "@types/serialize-javascript": "^5.0.2"
   }
 }

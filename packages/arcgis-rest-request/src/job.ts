@@ -2,6 +2,7 @@ import { request } from "./request.js";
 import { cleanUrl } from "./utils/clean-url.js";
 import { IRequestOptions, JOB_STATUSES } from "./index.js";
 import mitt from "mitt";
+import serialize from "serialize-javascript";
 
 interface IJobOptions extends IRequestOptions {
   id?: string;
@@ -16,12 +17,12 @@ type ISubmitJobOptions = Omit<IJobOptions, "id">;
 export class Job {
   pollingRate: number;
   readonly url: string;
-  readonly jobId: string;
+  readonly id: string;
   readonly resultParams: any;
   readonly authentication: any;
   readonly jobUrl: string;
 
-  static jobId: any;
+  static id: any;
   static authentication: string;
   static jobUrl: string;
   static cancelJobRequest: string;
@@ -34,12 +35,11 @@ export class Job {
   params: any;
 
   constructor(options: any) {
-    this.params = options.requestOptions;
     this.url = options.url; //user passes in the initial endpoint
-    this.jobId = options.jobId; //saved from the response from the static create job
+    this.id = options.id; //saved from the response from the static create job
     this.pollingRate = options.pollingRate || 5000;
     this.emitter = mitt(); //interval between each polling request
-    this.jobUrl = this.url.replace("submitJob", `jobs/${this.jobId}`);
+    this.jobUrl = this.url.replace("submitJob", `jobs/${this.id}`);
     this.authentication = options.authentication;
 
     if (options.startMonitoring) {
@@ -57,6 +57,12 @@ export class Job {
     });
   }
 
+  static fromJobId() {
+    return request(this.jobUrl, {
+      authentication: this.authentication
+    });
+  }
+
   static submitJob(requestOptions: ISubmitJobOptions) {
     const { url, params, startMonitoring, pollingRate, authentication } =
       requestOptions;
@@ -65,7 +71,7 @@ export class Job {
         new Job({
           url,
           authentication: authentication,
-          jobId: response.jobId,
+          id: response.jobId,
           startMonitoring,
           pollingRate
         })
@@ -189,6 +195,17 @@ export class Job {
     }
   }
 
+  static toJSON(jobObj: {}) {
+    return JSON.stringify(jobObj);
+  }
+
+  static serialize(jobObj: {}) {
+    return serialize(jobObj);
+  }
+
+  static deserialize(serializeString: string) {
+    return eval('(' + serializeString + ')');
+  }
 
 
   // async getAllResults() {
@@ -217,8 +234,11 @@ export class Job {
   cancelJob() {
     return request(this.jobUrl + "/cancel", {
       authentication: this.authentication,
-      params: { jobId: this.jobId, returnMessages: false }
-    }).then((response) => this.emitter.emit("cancelled", response));
+      params: { id: this.id, returnMessages: false }
+    }).then((response: any) => {
+      this.emitter.emit("cancelled", response);
+      return response;
+    });
   }
 
   private startInternalEventMonitoring() {

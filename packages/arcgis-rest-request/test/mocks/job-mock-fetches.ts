@@ -47,7 +47,7 @@ export const failedState = {
 }
 
 export const mockCancelledState = {
-  jobI: "j4fa1db2338f042a19eb68856afabc27e",
+  jobId: "j4fa1db2338f042a19eb68856afabc27e",
   jobStatus: "esriJobCancelled",
   messages: [
     {
