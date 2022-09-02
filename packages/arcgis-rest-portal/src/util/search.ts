@@ -25,7 +25,7 @@ export interface ISearchOptions extends IRequestOptions, IPagingParams {
   filter?: string;
 
   /** A JSON array or comma-separated list of up to eight org content categories to search items. */
-  categories?: string;
+  categories?: string | Array<string>;
 
   /** A comma-separated list of up to three category terms to search for items that have matching categories. */
   categoryFilters?: string;

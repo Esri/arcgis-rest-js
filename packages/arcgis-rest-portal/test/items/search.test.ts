@@ -130,6 +130,27 @@ describe("search", () => {
       });
   });
 
+  it("should accept categories as an array", (done) => {
+    fetchMock.once("*", SearchResponse);
+
+    searchItems({
+      q: "Washington",
+      categories: ["/Categories/Water", "/Categories/Forest"]
+    })
+      .then(() => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://www.arcgis.com/sharing/rest/search?f=json&q=Washington&categories=%2FCategories%2FWater%2C%2FCategories%2FForest"
+        );
+        expect(options.method).toBe("GET");
+        done();
+      })
+      .catch((e) => {
+        fail(e);
+      });
+  });
+
   it("should properly handle options for which 0 is a valid value", (done) => {
     fetchMock.once("*", SearchResponse);
 
