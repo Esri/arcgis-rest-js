@@ -81,7 +81,7 @@ export const mockAllResultsRequest = {
     dataType: 'GPRecordSet',
     value: {
       displayFieldName: '',
-      fields: [Array],
+      fields: [] as any,
       features: [] as any,
       exceededTransferLimit: false
     }
@@ -91,8 +91,8 @@ export const mockAllResultsRequest = {
     dataType: 'GPRecordSet',
     value: {
       displayFieldName: '',
-      fields: [Array],
-      features: [Array],
+      fields: [] as any,
+      features: [] as any,
       exceededTransferLimit: false
     }
   },
@@ -102,9 +102,9 @@ export const mockAllResultsRequest = {
     value: {
       displayFieldName: '',
       geometryType: 'esriGeometryPolyline',
-      spatialReference: [Object],
-      fields: [Array],
-      features: [Array],
+      spatialReference: [] as any,
+      fields: [] as any,
+      features: [] as any,
       exceededTransferLimit: false
     }
   }

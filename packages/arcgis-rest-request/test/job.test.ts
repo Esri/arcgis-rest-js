@@ -102,7 +102,7 @@ describe("Job Class", () => {
           dataType: 'GPRecordSet',
           value: {
             displayFieldName: '',
-            fields: [Array],
+            fields: [] as any,
             features: [] as any,
             exceededTransferLimit: false
           }
@@ -117,8 +117,8 @@ describe("Job Class", () => {
           dataType: 'GPRecordSet',
           value: {
             displayFieldName: '',
-            fields: [Array],
-            features: [Array],
+            fields: [] as any,
+            features: [] as any,
             exceededTransferLimit: false
           }
         }
@@ -131,9 +131,9 @@ describe("Job Class", () => {
           value: {
             displayFieldName: '',
             geometryType: 'esriGeometryPolyline',
-            spatialReference: [Object],
-            fields: [Array],
-            features: [Array],
+            spatialReference: [] as any,
+            fields: [] as any,
+            features: [] as any,
             exceededTransferLimit: false
           }
         }
@@ -169,7 +169,7 @@ describe("Job Class", () => {
           dataType: 'GPRecordSet',
           value: {
             displayFieldName: '',
-            fields: ["1", "2", "3"],
+            fields: [] as any,
             features: [] as any,
             exceededTransferLimit: false
           }
@@ -184,7 +184,7 @@ describe("Job Class", () => {
             dataType: 'GPRecordSet',
             value: {
               displayFieldName: '',
-              fields: ["1", "2", "3"],
+              fields:[] as any,
               features: [] as any,
               exceededTransferLimit: false
             }
@@ -321,46 +321,39 @@ describe("Job Class", () => {
         (job as any).executePoll(); // fake a polling request
       });
     });
-    // fit("should call off method", (done) => {
-    //   fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
+    it("should call off method", (done) => {
+      fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
 
-    //   fetchMock.once(
-    //     "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-    //     { jobStatus: "esriJobWaiting" }
-    //   );
+      fetchMock.once(
+        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
+        {
+          jobId: "j4fa1db2338f042a19eb68856afabc27e",
+          jobStatus: "esriJobSucceeded"
+        }
+      );
 
-    //   fetchMock.once(
-    //     "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-    //     { jobStatus: "esriJobExecuting" }
-    //   );
+      Job.submitJob(GPEndpointCall).then((job) => {
 
-    //   fetchMock.once(
-    //     "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-    //     { jobStatus: "esriJobSucceeded" }
-    //   );
+        const handler = (results:any) => results;
 
-    //   Job.submitJob(GPEndpointCall).then((job) => {
-    //     job.on(JOB_STATUSES.Success, (result: any) => {
-    //       expect(job.emitter.all.get(JOB_STATUSES.Success)).toBeTruthy();
+        job.on(JOB_STATUSES.Success, handler);
 
-    //       fetchMock.once(
-    //         "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-    //         { jobStatus: "esriJobFailed" }
-    //       );
+        job.off(JOB_STATUSES.Success, handler);
 
-    //       (job as any).executePoll();
-    //     });
-
-    //     job.off(JOB_STATUSES.Failed  , (result: any) => {
-    //       expect(job.emitter.all.get(JOB_STATUSES.Failed)).toBeFalsy();
-
-    //       done();
-    //     });
-
-    //     (job as any).executePoll();
+        expect(job.emitter.all.get(JOB_STATUSES.Success).length).toBe(0)
         
-    //   });
-    // })
+        job.once(JOB_STATUSES.Success, handler);
+
+        job.off(JOB_STATUSES.Success, handler);
+
+        expect(job.emitter.all.get(JOB_STATUSES.Success).length).toBe(0)
+
+        job.stopEventMonitoring();
+
+        done();
+
+        });
+    });
       it("create a new job with a cancelled and cancelling state", (done) => {
         fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
 
