@@ -26,14 +26,14 @@ export const GPJobInfoWithResults = {
   jobId: "j4fa1db2338f042a19eb68856afabc27e",
   jobStatus: "esriJobSucceeded",
   results:
-    {
-      Hotspot_Raster: {
-        paramUrl: "results/hotspot_raster"
-      },
-      Output_Features: {
-        paramUrl: "results/output_features"
-      }
+  {
+    Hotspot_Raster: {
+      paramUrl: "results/hotspot_raster"
+    },
+    Output_Features: {
+      paramUrl: "results/output_features"
     }
+  }
 };
 
 export const failedState = {
@@ -66,3 +66,46 @@ export const mockHotspot_Raster = {
   item: "123"
 };
 
+export const mockAllResults = {
+  jobStatus: "esriJobSucceeded",
+  results: {
+    out_unassigned_stops: { paramUrl: 'results/out_unassigned_stops' },
+    out_stops: { paramUrl: 'results/out_stops' },
+    out_routes: { paramUrl: 'results/out_routes' }
+  }
+
+}
+export const mockAllResultsRequest = {
+  out_unassigned_stops: {
+    paramName: 'out_unassigned_stops',
+    dataType: 'GPRecordSet',
+    value: {
+      displayFieldName: '',
+      fields: [Array],
+      features: [] as any,
+      exceededTransferLimit: false
+    }
+  },
+  out_stops: {
+    paramName: 'out_stops',
+    dataType: 'GPRecordSet',
+    value: {
+      displayFieldName: '',
+      fields: [Array],
+      features: [Array],
+      exceededTransferLimit: false
+    }
+  },
+  out_routes: {
+    paramName: 'out_routes',
+    dataType: 'GPFeatureRecordSetLayer',
+    value: {
+      displayFieldName: '',
+      geometryType: 'esriGeometryPolyline',
+      spatialReference: [Object],
+      fields: [Array],
+      features: [Array],
+      exceededTransferLimit: false
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { ApiKeyManager, Job, JOB_STATUSES } from "@esri/arcgis-rest-request";
+import { Job } from "@esri/arcgis-rest-request";
 import * as dotenv from 'dotenv';
 const SECRET_KEY = dotenv.config().parsed?.SECRET_KEY;
 

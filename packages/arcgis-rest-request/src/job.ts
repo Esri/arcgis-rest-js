@@ -178,7 +178,6 @@ export class Job {
 
   async waitForJobCompletion() {
     const jobInfo = await this.getJobInfo();
-
     if (jobInfo.jobStatus === "esriJobSucceeded") {
       return Promise.resolve(jobInfo);
     }
@@ -215,9 +214,7 @@ export class Job {
 
   async getAllResults() {
     return this.waitForJobCompletion().then(jobInfo => {
-
       const keys = Object.keys(jobInfo.results);
-      console.log(keys);
 
       const requests = keys.map(key => {
         return request(this.jobUrl + "/" + jobInfo.results[key].paramUrl, {
