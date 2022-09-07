@@ -1,6 +1,4 @@
-import { inviteGroupUsers } from "@esri/arcgis-rest-portal";
-import { resolve } from "dns";
-import fetchMock, { done, mock } from "fetch-mock";
+import fetchMock from "fetch-mock";
 import { Job, JOB_STATUSES, ArcGISRequestError } from "../src/index.js";
 import {
   GPJobIdResponse,
@@ -323,46 +321,46 @@ describe("Job Class", () => {
         (job as any).executePoll(); // fake a polling request
       });
     });
-    fit("should call off method", (done) => {
-      fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
+    // fit("should call off method", (done) => {
+    //   fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
 
-      fetchMock.once(
-        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-        { jobStatus: "esriJobWaiting" }
-      );
+    //   fetchMock.once(
+    //     "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
+    //     { jobStatus: "esriJobWaiting" }
+    //   );
 
-      fetchMock.once(
-        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-        { jobStatus: "esriJobExecuting" }
-      );
+    //   fetchMock.once(
+    //     "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
+    //     { jobStatus: "esriJobExecuting" }
+    //   );
 
-      fetchMock.once(
-        "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-        { jobStatus: "esriJobSucceeded" }
-      );
+    //   fetchMock.once(
+    //     "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
+    //     { jobStatus: "esriJobSucceeded" }
+    //   );
 
-      Job.submitJob(GPEndpointCall).then((job) => {
-        job.on(JOB_STATUSES.Success, (result: any) => {
-          expect(job.emitter.all.get(JOB_STATUSES.Success)).toBeTruthy();
+    //   Job.submitJob(GPEndpointCall).then((job) => {
+    //     job.on(JOB_STATUSES.Success, (result: any) => {
+    //       expect(job.emitter.all.get(JOB_STATUSES.Success)).toBeTruthy();
 
-          fetchMock.once(
-            "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-            { jobStatus: "esriJobFailed" }
-          );
+    //       fetchMock.once(
+    //         "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
+    //         { jobStatus: "esriJobFailed" }
+    //       );
 
-          (job as any).executePoll();
-        });
+    //       (job as any).executePoll();
+    //     });
 
-        job.off(JOB_STATUSES.Failed  , (result: any) => {
-          expect(job.emitter.all.get(JOB_STATUSES.Failed)).toBeFalsy();
+    //     job.off(JOB_STATUSES.Failed  , (result: any) => {
+    //       expect(job.emitter.all.get(JOB_STATUSES.Failed)).toBeFalsy();
 
-          done();
-        });
+    //       done();
+    //     });
 
-        (job as any).executePoll();
+    //     (job as any).executePoll();
         
-      });
-    })
+    //   });
+    // })
       it("create a new job with a cancelled and cancelling state", (done) => {
         fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
 
