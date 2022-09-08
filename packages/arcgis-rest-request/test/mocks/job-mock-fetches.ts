@@ -68,6 +68,7 @@ export const mockHotspot_Raster = {
 
 export const mockAllResults = {
   jobStatus: "esriJobSucceeded",
+  jobId: "j4fa1db2338f042a19eb68856afabc27e",
   results: {
     out_unassigned_stops: { paramUrl: 'results/out_unassigned_stops' },
     out_stops: { paramUrl: 'results/out_stops' },

@@ -430,14 +430,6 @@ describe("Job Class", () => {
 
         fetchMock.once(
           "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-          {
-            jobId: "j4fa1db2338f042a19eb68856afabc27e",
-            jobStatus: "esriJobWaiting"
-          }
-        );
-
-        fetchMock.once(
-          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
           GPJobInfoWithResults
         );
 
@@ -501,15 +493,6 @@ describe("Job Class", () => {
           }
         );
 
-
-        fetchMock.once(
-          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-          {
-            jobId: "j4fa1db2338f042a19eb68856afabc27e",
-            jobStatus: "esriJobWaiting"
-          }
-        );
-
         fetchMock.once(
           "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
           {
@@ -530,15 +513,6 @@ describe("Job Class", () => {
       });
       it("it gets the results however it returns a cancelled status", (done) => {
         fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
-
-        fetchMock.once(
-          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-          {
-            jobId: "j4fa1db2338f042a19eb68856afabc27e",
-            jobStatus: "esriJobWaiting"
-          }
-        );
-
 
         fetchMock.once(
           "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
@@ -578,14 +552,6 @@ describe("Job Class", () => {
           }
         );
 
-
-        fetchMock.once(
-          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-          {
-            jobId: "j4fa1db2338f042a19eb68856afabc27e",
-            jobStatus: "esriJobWaiting"
-          }
-        );
 
         fetchMock.once(
           "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
