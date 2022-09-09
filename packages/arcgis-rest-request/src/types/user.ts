@@ -46,4 +46,5 @@ export interface IUser {
   modified?: number;
   groups?: IGroup[];
   provider?: "arcgis" | "enterprise" | "facebook" | "google";
+  id?: string;
 }
