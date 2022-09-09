@@ -20,8 +20,9 @@ export interface IDecodeValuesOptions extends IRequestOptions {
    */
   queryResponse: IQueryFeaturesResponse;
   /**
-   * * If a fieldset is provided, no internal metadata check will be issued to gather info about coded value domains.
+   * If a fieldset is provided, no internal metadata check will be issued to gather info about coded value domains.
    *
+   * ```js
    * getFeatureService(url)
    *   .then(metadata => {
    *     queryFeatures({ url })
@@ -34,6 +35,7 @@ export interface IDecodeValuesOptions extends IRequestOptions {
    *           .then(decodedResponse)
    *       })
    *   })
+   * ```
    */
   fields?: IField[];
 }

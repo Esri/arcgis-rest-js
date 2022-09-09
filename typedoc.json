@@ -5,7 +5,8 @@
   "excludeInternal": true,
   "excludePrivate": true,
   "excludeExternals": true,
-  "packages": [
+  "entryPointStrategy": "packages",
+  "entryPoints": [
     "./packages/arcgis-rest-demographics/",
     "./packages/arcgis-rest-feature-service/",
     "./packages/arcgis-rest-geocoding/",

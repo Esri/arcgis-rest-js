@@ -448,7 +448,7 @@ export interface IFieldFormat {
  * Defines how a field in the dataset participates (or does not participate) in a popup window.
  */
 export interface IFieldInfo {
-  /** A string containing the field name as defined by the service. Anywhere that a fieldname is referenced as {field-name} in popupInfo, an Arcade expression can also be referenced as{expression/}`. */
+  /** A string containing the field name as defined by the service. Anywhere that a fieldname is referenced as `field-name` in popupInfo, an Arcade expression can also be referenced as `expression`. */
   fieldName?: any;
   /** A format object used with numerical or date fields to provide more detail about how the value should be displayed in a web map popup window. */
   format?: IFieldFormat;

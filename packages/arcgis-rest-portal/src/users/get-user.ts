@@ -22,7 +22,7 @@ export interface IGetUserOptions extends IRequestOptions {
 }
 
 /**
- * Get information about a user. This method has proven so generically useful that you can also call {@linkcode ArcGISIdentityManager.getUser}.
+ * Get information about a user. This method has proven so generically useful that you can also call {@linkcode @esri/arcgis-rest-request!ArcGISIdentityManager.getUser}.
  *
  * ```js
  * import { getUser } from '@esri/arcgis-rest-portal';
