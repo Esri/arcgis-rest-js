@@ -1,59 +1,57 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-
-
 /**
  * Field type.
  */
- export type FieldType =
- | "esriFieldTypeBlob"
- | "esriFieldTypeDate"
- | "esriFieldTypeDouble"
- | "esriFieldTypeGeometry"
- | "esriFieldTypeGlobalID"
- | "esriFieldTypeGUID"
- | "esriFieldTypeInteger"
- | "esriFieldTypeOID"
- | "esriFieldTypeRaster"
- | "esriFieldTypeSingle"
- | "esriFieldTypeSmallInteger"
- | "esriFieldTypeString"
- | "esriFieldTypeXML";
+export type FieldType =
+  | "esriFieldTypeBlob"
+  | "esriFieldTypeDate"
+  | "esriFieldTypeDouble"
+  | "esriFieldTypeGeometry"
+  | "esriFieldTypeGlobalID"
+  | "esriFieldTypeGUID"
+  | "esriFieldTypeInteger"
+  | "esriFieldTypeOID"
+  | "esriFieldTypeRaster"
+  | "esriFieldTypeSingle"
+  | "esriFieldTypeSmallInteger"
+  | "esriFieldTypeString"
+  | "esriFieldTypeXML";
 
 /**
-* Domain types
-*/
+ * Domain types
+ */
 export type DomainType = "range" | "codedValue" | "inherited";
 
 /**
-* CodedValue type
-*/
+ * CodedValue type
+ */
 export type ICodedValue = {
- /**  User-friendly name for what the code means. */
- name: string;
- /**  The value stored in the feature attribute. */
- code: string | number;
+  /**  User-friendly name for what the code means. */
+  name: string;
+  /**  The value stored in the feature attribute. */
+  code: string | number;
 };
 
 /**
-* Information for a field with a domain
-*/
+ * Information for a field with a domain
+ */
 export type IDomain = {
- /** A string defining the domain type. */
- type: DomainType;
- /** A string defining the field name. */
- name?: string;
- /** A 2 element array defining the range of possible values. */
- range?: [number, number];
- /** An array of CodedValues for domains of type codedValue. */
- codedValues?: ICodedValue[];
- /** Description of the domain */
- description?: string;
- /** Merge policy */
- mergePolicy?: string;
- /** Split Policy */
- splitPolicy?: string;
+  /** A string defining the domain type. */
+  type: DomainType;
+  /** A string defining the field name. */
+  name?: string;
+  /** A 2 element array defining the range of possible values. */
+  range?: [number, number];
+  /** An array of CodedValues for domains of type codedValue. */
+  codedValues?: ICodedValue[];
+  /** Description of the domain */
+  description?: string;
+  /** Merge policy */
+  mergePolicy?: string;
+  /** Split Policy */
+  splitPolicy?: string;
 };
 
 /**
@@ -65,7 +63,7 @@ export type IDomain = {
  * import { IField } from "@esri/arcgis-rest-feature-service";
  * ```
  */
- export interface IField {
+export interface IField {
   /** A string defining the field name. */
   name: string;
   /** A string defining the field type. */

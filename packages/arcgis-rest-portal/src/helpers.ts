@@ -1,14 +1,12 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  ISpatialReference
-} from "@esri/arcgis-rest-request";
+import { ISpatialReference } from "@esri/arcgis-rest-request";
 
 /**
  * A Portal [Item](https://developers.arcgis.com/rest/users-groups-and-items/common-parameters.htm) that has not been created yet.
  */
- export interface IItemAdd {
+export interface IItemAdd {
   title: string;
   type: string;
   owner?: string;
@@ -61,7 +59,7 @@ export interface IFolder {
 /**
  * Params for paging operations
  */
- export interface IPagingParams {
+export interface IPagingParams {
   start?: number;
   num?: number;
 }
@@ -78,6 +76,6 @@ export interface IPagedResponse extends IPagingParams {
 /**
  * Response from the portals/Self/isServiceNameAvailable request
  */
- export interface IServiceNameAvailable {
+export interface IServiceNameAvailable {
   available: boolean;
 }

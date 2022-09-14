@@ -1,7 +1,7 @@
 /* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-import { 
-  cleanUrl, 
+import {
+  cleanUrl,
   IRequestOptions,
   GeometryType,
   IGeometry,
@@ -12,19 +12,18 @@ import {
   IFeature
 } from "@esri/arcgis-rest-request";
 
-
 /**
  * The spatial relationship used to compare input geometries
  */
- export type SpatialRelationship =
- | "esriSpatialRelIntersects"
- | "esriSpatialRelContains"
- | "esriSpatialRelCrosses"
- | "esriSpatialRelEnvelopeIntersects"
- | "esriSpatialRelIndexIntersects"
- | "esriSpatialRelOverlaps"
- | "esriSpatialRelTouches"
- | "esriSpatialRelWithin";
+export type SpatialRelationship =
+  | "esriSpatialRelIntersects"
+  | "esriSpatialRelContains"
+  | "esriSpatialRelCrosses"
+  | "esriSpatialRelEnvelopeIntersects"
+  | "esriSpatialRelIndexIntersects"
+  | "esriSpatialRelOverlaps"
+  | "esriSpatialRelTouches"
+  | "esriSpatialRelWithin";
 
 /**
  * Base options for making requests against feature layers
@@ -179,7 +178,7 @@ export interface ILayer {
  * Very generic structure representing the return value from the
  * /arcgis/rest/admin/services/<service-name>/FeatureServer?f=json response
  */
- export interface IServiceInfo extends Record<string, unknown> {
+export interface IServiceInfo extends Record<string, unknown> {
   adminServiceInfo: {
     name: string;
     type: string;
@@ -197,7 +196,7 @@ export interface ILayer {
  * Individual View Source entry
  */
 
- export interface IViewServiceSource {
+export interface IViewServiceSource {
   name: string;
   type: string;
   url: string;
@@ -212,7 +211,6 @@ export interface IViewServiceSources {
   services: IViewServiceSource[];
 }
 
-
 /**
  * `IFeatureServiceDefinition` can also be imported from the following packages:
  *
@@ -221,7 +219,7 @@ export interface IViewServiceSources {
  * import { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-service";
  * ```
  */
- export interface IFeatureServiceDefinition {
+export interface IFeatureServiceDefinition {
   currentVersion?: number;
   serviceDescription: string;
   hasVersionedData: boolean;
@@ -322,7 +320,6 @@ export interface IViewServiceSources {
   zDefault?: number;
 }
 
-
 /**
  * Root element in the web map specifying an array of table objects.
  *
@@ -332,7 +329,7 @@ export interface IViewServiceSources {
  * import { ITable } from "@esri-arcgis-rest-service-admin"
  * ```
  */
- export interface ITable {
+export interface ITable {
   /** Table name */
   name?: string;
   /** A comma-separated string listing which editing operations are allowed on an editable feature service. Available operations include: 'Create', 'Delete', 'Query', 'Update', and 'Editing'. */
@@ -399,11 +396,10 @@ export interface IDefinitionEditor {
   parameterizedExpression?: string;
 }
 
-
 /**
  * Arcade expression added to the pop-up.
  */
- export interface IPopupExpressionInfo {
+export interface IPopupExpressionInfo {
   /** The Arcade expression. */
   expression?: string;
   /** Unique identifier for the expression. */
@@ -414,11 +410,10 @@ export interface IDefinitionEditor {
   title?: string;
 }
 
-
 /**
  * The format object can be used with numerical or date fields to provide more detail about how values should be displayed in popup windows.
  */
- export interface IFieldFormat {
+export interface IFieldFormat {
   /** A string used with date fields to specify how the date should appear in popup windows. */
   dateFormat?:
     | "shortDate"
@@ -473,7 +468,7 @@ export interface IFieldInfo {
 /**
  * Defines the look and feel of popup windows when a user clicks or queries a feature.
  */
- export interface IPopupInfo {
+export interface IPopupInfo {
   /** A string that appears in the body of the popup window as a description. It is also possible to specify the description as HTML-formatted content. */
   description?: string | null;
   /** List of Arcade expressions added to the pop-up. */
@@ -500,7 +495,7 @@ export interface IFieldInfo {
 /**
  * The sort in the popupInfo for the parent feature. This impacts the sorting order for the returned child records.
  */
- export interface IRelatedRecordsInfo {
+export interface IRelatedRecordsInfo {
   /** Array of orderByFields objects indicating the field display order for the related records and whether they should be sorted in ascending 'asc' or descending 'desc' order. */
   orderByFields?: IOrderByField[];
   /** Required boolean value indicating whether to display related records. If true, client should let the user navigate to the related records. Defaults to true if the layer participates in a relationship AND the related layer/table has already been added to the map (either as an operationalLayer or as a table). */
@@ -510,18 +505,17 @@ export interface IFieldInfo {
 /**
  * Object indicating the field display order for the related records and whether they should be sorted in ascending or descending order.
  */
- export interface IOrderByField {
+export interface IOrderByField {
   /** The attribute value of the field selected that will drive the sorting of related records. */
   field?: string;
   /** Set the ascending or descending sort order of the returned related records. */
   order?: "asc" | "desc";
 }
 
-
 /**
  * The value object contains information for popup windows about how images should be retrieved or charts constructed.
  */
- export interface IMediaInfoValue {
+export interface IMediaInfoValue {
   /** Used with charts. An array of strings, with each string containing the name of a field to display in the chart. */
   fields?: string[];
   /** Used with images. A string containing a URL to be launched in a browser when a user clicks the image. */
@@ -534,11 +528,10 @@ export interface IFieldInfo {
   tooltipField?: string;
 }
 
-
 /**
  * Defines an image or a chart to be displayed in a popup window.
  */
- export interface IMediaInfo {
+export interface IMediaInfo {
   /** A string caption describing the media. */
   caption?: any;
   /** Refresh interval of the layer in minutes. Non-zero value indicates automatic layer refresh at the specified interval. Value of 0 indicates auto refresh is not enabled. If the property does not exist, it's equivalent to having a value of 0. Only applicable when type is set to image. */
@@ -584,13 +577,10 @@ export interface IPopupElement {
   type?: "text" | "fields" | "media" | "attachments";
 }
 
-
-
 export interface IEditingInfo {
   /** date of last edit to the layer  */
   lastEditDate?: number;
 }
-
 
 export type FeatureEditTool =
   | "esriFeatureEditToolAutoCompletePolygon"
@@ -614,7 +604,7 @@ export type FeatureEditTool =
  * Templates are not used with ArcGIS feature services as these already have templates defined in the service. They are also defined as properties
  * of the layer definition when there are no defined types. Otherwise, templates are defined as properties of the types.
  */
- export interface ITemplate {
+export interface ITemplate {
   /** A string value containing a detailed description of the template. */
   description?: any;
   /**
@@ -635,7 +625,7 @@ export type FeatureEditTool =
  * import { ILayerDefinition } from "@esri/arcgis-rest-feature-service";
  * ```
  */
- export interface ILayerDefinition extends IHasZM {
+export interface ILayerDefinition extends IHasZM {
   /** Boolean value indicating whether the geometry of the features in the layer can be edited. */
   allowGeometryUpdates?: boolean;
   /** A comma separated list of supported capabilities, e.g. Query,Editing. */

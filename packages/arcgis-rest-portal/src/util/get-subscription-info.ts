@@ -14,7 +14,7 @@ export interface ISubscriptionInfo {
  * Fetch subscription information about the current portal by id. If no id is passed, portals/self/subscriptionInfo will be called
  *
  * ```js
- * import { getSubscriptionInfo } from "@esri/arcgis-rest-request";
+ * import { getSubscriptionInfo } from "@esri/arcgis-rest-portal";
  *
  * getSubscriptionInfo()
  * getSubscriptionInfo("fe8")

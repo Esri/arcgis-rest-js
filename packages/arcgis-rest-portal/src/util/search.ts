@@ -2,9 +2,8 @@
  * Apache-2.0 */
 
 import { IRequestOptions, IGroup, IUser } from "@esri/arcgis-rest-request";
-import { IItem , IPagingParams } from "../helpers.js";
+import { IItem, IPagingParams } from "../helpers.js";
 import { SearchQueryBuilder } from "./SearchQueryBuilder.js";
-
 
 export interface ISearchOptions extends IRequestOptions, IPagingParams {
   /** The query string to search against. */

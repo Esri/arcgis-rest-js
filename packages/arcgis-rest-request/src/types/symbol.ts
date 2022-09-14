@@ -4,7 +4,7 @@
 /**
  *
  */
- export interface ISymbol {
+export interface ISymbol {
   type: SymbolType;
   style?: string;
 }

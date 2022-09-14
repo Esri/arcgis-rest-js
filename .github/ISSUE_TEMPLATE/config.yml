@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Esri Community
+    url: https://community.esri.com/t5/arcgis-rest-js/ct-p/arcgis-rest-js
+    about: Ask questions and discuss with other ArcGIS REST JS users.

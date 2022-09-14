@@ -11,8 +11,8 @@ const SharingRestInfo = {
   owningSystemUrl: "http://www.arcgis.com",
   authInfo: {
     tokenServicesUrl: "https://www.arcgis.com/sharing/rest/generateToken",
-    isTokenBasedSecurity: true,
-  },
+    isTokenBasedSecurity: true
+  }
 };
 
 describe("withOptions()", () => {
@@ -25,8 +25,8 @@ describe("withOptions()", () => {
     const requestWithOptions = withOptions(
       {
         headers: {
-          "Test-Header": "Test",
-        },
+          "Test-Header": "Test"
+        }
       },
       request
     );
@@ -45,7 +45,7 @@ describe("withOptions()", () => {
 
   it("should wrap a custom request implementation with default options", (done) => {
     const MockResponse = {
-      test: "bar",
+      test: "bar"
     };
 
     fetchMock.once("*", MockResponse);
@@ -60,7 +60,7 @@ describe("withOptions()", () => {
 
     function customRequest(options: ICustomOptions): Promise<ICustomResponse> {
       options.params = {
-        id: options.id,
+        id: options.id
       };
       return request("https://www.arcgis.com/sharing/rest/info", options);
     }
@@ -68,14 +68,14 @@ describe("withOptions()", () => {
     const requestWithOptions = withOptions(
       {
         headers: {
-          "Test-Header": "Test",
-        },
+          "Test-Header": "Test"
+        }
       },
       customRequest
     );
 
     requestWithOptions({
-      id: "foo",
+      id: "foo"
     })
       .then(() => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
@@ -91,7 +91,7 @@ describe("withOptions()", () => {
 
   it("should wrap a custom request implementation with multiple parameters with a default URL", (done) => {
     const MockResponse = {
-      test: "bar",
+      test: "bar"
     };
 
     fetchMock.once("*", MockResponse);
@@ -106,7 +106,7 @@ describe("withOptions()", () => {
     ): Promise<ICustomResponse> {
       options = {
         ...options,
-        ...{ params: { ...options.params, ...{ id } } },
+        ...{ params: { ...options.params, ...{ id } } }
       };
       return request("https://www.arcgis.com/sharing/rest/info", options);
     }
@@ -114,8 +114,8 @@ describe("withOptions()", () => {
     const requestWithOptions = withOptions(
       {
         headers: {
-          "Test-Header": "Test",
-        },
+          "Test-Header": "Test"
+        }
       },
       customRequest
     );

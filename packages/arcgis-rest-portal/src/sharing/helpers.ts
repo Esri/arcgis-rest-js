@@ -1,7 +1,12 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IUserRequestOptions, IGroup, IUser, GroupMembership } from "@esri/arcgis-rest-request";
+import {
+  IUserRequestOptions,
+  IGroup,
+  IUser,
+  GroupMembership
+} from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "../util/get-portal-url.js";
 import { getGroup } from "../groups/get.js";
 

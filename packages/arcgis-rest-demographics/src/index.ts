@@ -7,7 +7,7 @@ export * from "./getAvailableGeographyLevels.js";
 export * from "./getGeography.js";
 export * from "./queryDemographicData.js";
 
-// Types that are used in this package are re-exported for convenience and 
+// Types that are used in this package are re-exported for convenience and
 // to make the links work correctly in the documentation pages.
 export type {
   IRequestOptions,

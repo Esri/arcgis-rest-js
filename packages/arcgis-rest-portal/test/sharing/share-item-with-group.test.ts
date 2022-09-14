@@ -1325,4 +1325,58 @@ describe("shareItemWithGroup() ::", () => {
         });
     });
   });
+  describe("share item from another org to admin user's favorites group ::", () => {
+    it("should share item", (done) => {
+      fetchMock
+        .once(
+          "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
+          {
+            ...OrgAdminUserResponse,
+            favGroupId: "t6b"
+          }
+        )
+        .once(
+          "https://myorg.maps.arcgis.com/sharing/rest/search",
+          NoResultsSearchResponse
+        )
+        .get(
+          "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b?f=json&token=fake-token",
+          GroupOwnerResponse
+        )
+        .once(
+          "https://myorg.maps.arcgis.com/sharing/rest/community/users/casey?f=json&token=fake-token",
+          {
+            username: "casey",
+            orgId: "SOMEOTHERORG",
+            groups: [] as any[]
+          }
+        )
+        .post(
+          "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share",
+          { notSharedWith: [], itemId: "n3v" }
+        );
+
+      shareItemWithGroup({
+        authentication: MOCK_USER_SESSION,
+        id: "n3v",
+        groupId: "t6b",
+        owner: "casey"
+      })
+        .then((result) => {
+          expect(fetchMock.done()).toBeTruthy(
+            "All fetchMocks should have been called"
+          );
+          // verify we shared the item
+          const shareOptions: RequestInit = fetchMock.lastOptions(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/items/n3v/share"
+          );
+          expect(shareOptions.body).toContain("groups=t6b");
+
+          done();
+        })
+        .catch((e) => {
+          fail();
+        });
+    });
+  });
 });

@@ -1,7 +1,10 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { ILayerDefinition, IFeatureServiceDefinition } from "../../src/helpers.js";
+import {
+  ILayerDefinition,
+  IFeatureServiceDefinition
+} from "../../src/helpers.js";
 import { cvdServiceFields } from "./fields.js";
 import { ICreateServiceResult } from "../../src/createFeatureService.js";
 import { IAddToServiceDefinitionResult } from "../../src/addToServiceDefinition.js";

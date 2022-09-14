@@ -57,9 +57,9 @@ export * from "./util/SearchQueryBuilder.js";
 // we dont export 'generic-search' because its an internal utility method
 // export * from "./util/generic-search"; because its an internal utility method
 
-// Types that are used in this package are re-exported for convenience and 
+// Types that are used in this package are re-exported for convenience and
 // to make the links work correctly in the documentation pages.
-export * from './helpers.js';
+export * from "./helpers.js";
 export type {
   IUser,
   IGroup,

@@ -80,9 +80,9 @@ export interface ILocation {
 
 /**
  * A polyline geometry.
- * 
+ *
  * `IPolyLine` can also be imported from the following packages:
- * 
+ *
  * ```
  * import { IPolyLine } from "@esri/arcgis-rest-routing";
  * ```
@@ -122,7 +122,7 @@ export type Position =
 
 /**
  * `Position2D` can also be imported from the following packages:
- * 
+ *
  * ```
  * import { Position2D } from "@esri/arcgis-rest-routing";
  * ```

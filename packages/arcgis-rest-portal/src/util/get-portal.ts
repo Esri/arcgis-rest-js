@@ -27,7 +27,7 @@ export function getSelf(requestOptions?: IRequestOptions): Promise<IPortal> {
  * If you intend to request a portal by id and it is different from the portal specified by options.authentication, you must also pass options.portal.
  *
  *  ```js
- * import { getPortal } from "@esri/arcgis-rest-request";
+ * import { getPortal } from "@esri/arcgis-rest-portal";
  * //
  * getPortal()
  * getPortal("fe8")

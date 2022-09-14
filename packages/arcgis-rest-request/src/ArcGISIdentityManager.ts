@@ -27,11 +27,34 @@ import { NODEJS_DEFAULT_REFERER_HEADER } from "./index.js";
  * Options for {@linkcode ArcGISIdentityManager.fromToken}.
  */
 export interface IFromTokenOptions {
+  /**
+   * The token you want to create the {@linkcode ArcGISIdentityManager} instance with.
+   */
   token: string;
+  /**
+   * Date when this token will expire.
+   */
   tokenExpires?: Date;
+  /**
+   * The portal that the token was generated from. Defaults to `https://www.arcgis.com/sharing/rest`. Required if you are not using the default portal.
+   */
   portal?: string;
+  /**
+   * If the token is for a specific instance of ArcGIS Server, set `portal` to `null` or `undefined` and set `server` the URL of the ArcGIS Server.
+   */
   server?: string;
+  /**
+   * Optionally set the username. Recommended if available.
+   */
   username?: string;
+  /**
+   * Optional client ID. Used for refreshing expired tokens.
+   */
+  clientId?: string;
+  /**
+   * Optional set a valid redirect URL for the registered client ID. Used internally to refresh expired tokens.
+   */
+  redirectUri?: string;
 }
 
 /**
@@ -237,7 +260,7 @@ export interface IArcGISIdentityManagerOptions {
  *
  * **It is not recommended to construct `ArcGISIdentityManager` directly**. Instead there are several static methods used for specific workflows. The 2 primary workflows relate to oAuth 2.0:
  *
- * * {@linkcode ArcGISIdentityManager.beginOAuth2} and {@linkcode ArcGISIdentityManager.completeOAuth2} for oAuth 2.0 in browser-only environment.
+ * * {@linkcode ArcGISIdentityManager.beginOAuth2} and {@linkcode ArcGISIdentityManager.completeOAuth2()} for oAuth 2.0 in browser-only environment.
  * * {@linkcode ArcGISIdentityManager.authorize} and {@linkcode ArcGISIdentityManager.exchangeAuthorizationCode} for oAuth 2.0 for server-enabled application.
  *
  * Other more specialized helpers for less common workflows also exist:
@@ -302,7 +325,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       return true;
     }
 
-    if (this.clientId && this.refreshToken) {
+    if (this.clientId && this.refreshToken && this.redirectUri) {
       return true;
     }
 
@@ -312,7 +335,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   /**
    * Begins a new browser-based OAuth 2.0 sign in. If `options.popup` is `true` the authentication window will open in a new tab/window. Otherwise, the user will be redirected to the authorization page in their current tab/window and the function will return `undefined`.
    *
-   * If `popup` is `true` (the default) this method will return a `Promise` that resolves to an `ArcGISIdentityManager` instance and you must call {@linkcode ArcGISIdentityManager.completeOAuth2} on the page defined in the `redirectUri`. Otherwise it will return undefined and the {@linkcode ArcGISIdentityManager.completeOAuth2} method will return a `Promise` that resolves to an `ArcGISIdentityManager` instance.
+   * If `popup` is `true` (the default) this method will return a `Promise` that resolves to an `ArcGISIdentityManager` instance and you must call {@linkcode ArcGISIdentityManager.completeOAuth2()} on the page defined in the `redirectUri`. Otherwise it will return undefined and the {@linkcode ArcGISIdentityManager.completeOAuth2()} method will return a `Promise` that resolves to an `ArcGISIdentityManager` instance.
    *
    * A {@linkcode ArcGISAccessDeniedError} error will be thrown if the user denies the request on the authorization screen.
    *
@@ -445,7 +468,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
                 return error;
               }
 
-              if (e.detail.error) {
+              if (e.detail.errorMessage) {
                 const error = new ArcGISAuthError(
                   e.detail.errorMessage,
                   e.detail.error
@@ -463,7 +486,8 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
                   tokenExpires: e.detail.expires,
                   username: e.detail.username,
                   refreshToken: e.detail.refreshToken,
-                  refreshTokenExpires: e.detail.refreshTokenExpires
+                  refreshTokenExpires: e.detail.refreshTokenExpires,
+                  redirectUri
                 })
               );
             },
@@ -499,7 +523,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     }
 
     // pull out necessary options
-    const { portal, clientId, popup, pkce }: IOAuth2Options = {
+    const { portal, clientId, popup, pkce, redirectUri }: IOAuth2Options = {
       ...{
         portal: "https://www.arcgis.com/sharing/rest",
         popup: true,
@@ -539,6 +563,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         );
 
         win.close();
+
         return;
       }
 
@@ -570,6 +595,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         );
 
         win.close();
+
         return;
       }
 
@@ -583,7 +609,15 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
         tokenExpires: oauthInfo.expires,
         username: oauthInfo.username,
         refreshToken: oauthInfo.refreshToken,
-        refreshTokenExpires: oauthInfo.refreshTokenExpires
+        refreshTokenExpires: oauthInfo.refreshTokenExpires,
+        // At 4.0.0 it was possible (in JS code) to not pass redirectUri and fallback to win.location.href, however this broke support for redirect URIs with query params.
+        // Now similar to 3.x.x you must pass the redirectUri parameter explicitly. See https://github.com/Esri/arcgis-rest-js/issues/995
+        redirectUri:
+          redirectUri ||
+          /* istanbul ignore next: TypeScript wont compile if we omit redirectUri */ location.href.replace(
+            location.search,
+            ""
+          )
       });
     }
 
@@ -625,7 +659,9 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
           client_id: clientId,
           code_verifier: codeVerifier,
           grant_type: "authorization_code",
-          redirect_uri: location.href.replace(location.search, ""),
+          // using location.href here does not support query params but shipped with 4.0.0. See https://github.com/Esri/arcgis-rest-js/issues/995
+          redirect_uri:
+            redirectUri || location.href.replace(location.search, ""),
           code: params.code
         }
       })
@@ -636,7 +672,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
           );
         })
         .catch((e) => {
-          return reportError(e.message, e.error, state.originalUrl);
+          return reportError(e.originalMessage, e.code, state.originalUrl);
         });
     }
 
@@ -1742,11 +1778,11 @@ UserSession.completeOAuth2 = function (
   ...args: Parameters<typeof ArcGISIdentityManager.completeOAuth2>
 ) {
   console.warn(
-    "DEPRECATED:, 'UserSession.completeOAuth2' is deprecated. Use 'ArcGISIdentityManager.completeOAuth2' instead."
+    "DEPRECATED:, 'UserSession.completeOAuth2()' is deprecated. Use 'ArcGISIdentityManager.completeOAuth2()' instead."
   );
   if (args.length <= 1) {
     console.warn(
-      "WARNING:, 'UserSession.completeOAuth2' is now async and returns a promise the resolves to an instance of `ArcGISIdentityManager`."
+      "WARNING:, 'UserSession.completeOAuth2()' is now async and returns a promise the resolves to an instance of `ArcGISIdentityManager`."
     );
   }
 
