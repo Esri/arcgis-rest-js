@@ -1,58 +1,77 @@
 import { request } from "./request.js";
 import { cleanUrl } from "./utils/clean-url.js";
-import { IRequestOptions, JOB_STATUSES } from "./index.js";
+import {
+  IRequestOptions,
+  JOB_STATUSES,
+  IAuthenticationManager
+} from "./index.js";
 import mitt from "mitt";
 
-interface IJobOptions extends IRequestOptions {
-  id?: string;
-  url?: string;
-  params?: any;
+/**
+ * Options for creating a new {@linkcode Job}.
+ */
+export interface IJobOptions {
+  /**
+   * The ID of the job. Can be used to rehydrate an instance of {@linkcode Job} with {@linkcode Job.fromExistingJob} or {@linkcode Job.deserialize}.
+   */
+  id: string;
+
+  /**
+   * The base URL of the job.
+   */
+  url: string;
+
+  /**
+   * Automatically monitor the job for status changes once it is created.
+   */
+  startMonitoring?: boolean;
+
+  /**
+   * Rate in milliseconds to poll for job status changes.
+   */
+  pollingRate?: number;
+
+  /**
+   * Authentication manager or access token to use for all job requests.
+   */
+  authentication?: IAuthenticationManager | string;
+}
+
+/**
+ * Options for {@linkcode Job.submitJob}.
+ */
+export interface ISubmitJobOptions {
+  params: any;
+  url: string;
   startMonitoring?: boolean;
   pollingRate?: number;
-  token?: string;
+  authentication?: IAuthenticationManager | string;
 }
-type ISubmitJobOptions = Omit<IJobOptions, "id">;
 
+/**
+ * Jobs represnt long running processing tasks running on ArcGIS Services. Typically these represent complex analysis tasks such as [geoprocessing tasks], [logistics analysis] or [sptaial anayusis].
+ *
+ * To create a {@linkcode Job} use the {@linkcode Job.submitJob} method which will return an instance of the  {@linkcode Job} class with a unique is.
+ *
+ * If you have an existing job you can use {@linkcode Job.serialize} and {@linkcode Job.deserialize} to save job information as a string and recreate the job to get results later.
+ *
+ * ```js
+ * import { Job,  JOB_STATUSES  } from "@esri/arcgis-rest-request";
+ *
+ * const job  = async Job.submitJob(options);
+ *
+ * // will automatically wait for job completion and get results when the job is finished.
+ * job.getAllResults().then((results) => {console.log(results)})
+ *
+ * // watch for all status updates
+ * job.on("status", ({jobStatus}) => {console.log(job.status)})
+ * ```
+ */
 export class Job {
-  pollingRate: number;
-  readonly url: string;
-  readonly id: string;
-  readonly resultParams: any;
-  readonly authentication: any;
-
-  static id: any;
-  static authentication: string;
-  static jobUrl: string;
-  static cancelJobRequest: string;
-
-  emitter: any;
-
-  private didUserEnableMonitoring: any;
-  private setIntervalHandler: any;
-
-  constructor(options: any) {
-    this.url = options.url; //user passes in the initial endpoint
-    this.id = options.id; //saved from the response from the static create job
-    this.pollingRate = options.pollingRate || 5000;
-    this.emitter = mitt(); //interval between each polling request
-    this.authentication = options.authentication;
-
-    if (options.startMonitoring) {
-      this.startEventMonitoring();
-    }
-  }
-
-  private get jobUrl() {
-    return this.url + `/jobs/${this.id}`;
-  }
-
-  get isMonitoring() {
-    return !!this.setIntervalHandler;
-  }
-
-  getJobInfo() {
-    return request(this.jobUrl, {
-      authentication: this.authentication
+  static deserialize(serializeString: string, options?: IJobOptions) {
+    return new Job({
+      ...JSON.parse(serializeString),
+      ...options
     });
   }
 
@@ -62,7 +81,7 @@ export class Job {
 
   static submitJob(requestOptions: ISubmitJobOptions) {
     const { url, params, startMonitoring, pollingRate, authentication } =
-    requestOptions;
+      requestOptions;
     const baseUrl = cleanUrl(url.replace(/\/submitJob\/?/, ""));
     const submitUrl = baseUrl + "/submitJob";
     return request(submitUrl, { params, authentication }).then(
@@ -75,6 +94,57 @@ export class Job {
           pollingRate
         })
     );
+  }
+
+  readonly url: string;
+  readonly id: string;
+  readonly resultParams: any;
+  readonly authentication: IAuthenticationManager | string;
+
+  emitter: any;
+
+  private _pollingRate: number;
+  private didUserEnableMonitoring: any;
+  private setIntervalHandler: any;
+
+  constructor(options: IJobOptions) {
+    const { url, id, pollingRate }: Partial<IJobOptions> = {
+      ...{ pollingRate: 5000, startMonitoring: true },
+      ...options
+    };
+
+    this.url = url; //user passes in the initial endpoint
+    this.id = id; //saved from the response from the static create job
+    this._pollingRate = pollingRate;
+    this.emitter = mitt(); //interval between each polling request
+    this.authentication = options.authentication;
+
+    if (options.startMonitoring) {
+      this.startEventMonitoring(pollingRate);
+    }
+  }
+
+  private get jobUrl() {
+    return this.url + `/jobs/${this.id}`;
+  }
+
+  get isMonitoring() {
+    return !!this.setIntervalHandler;
+  }
+
+  get pollingRate() {
+    return this._pollingRate;
+  }
+
+  set pollingRate(newRate: number) {
+    this.stopEventMonitoring();
+    this.startEventMonitoring(newRate);
+  }
+
+  getJobInfo() {
+    return request(this.jobUrl, {
+      authentication: this.authentication
+    });
   }
 
   private executePoll = async () => {
@@ -121,7 +191,6 @@ export class Job {
     }
   };
 
-
   on(eventName: string, handler: (e: any) => void) {
     this.emitter.on(eventName, handler);
   }
@@ -132,10 +201,7 @@ export class Job {
       handler(arg);
     };
 
-    this.emitter.on(
-      eventName,
-      fn
-    );
+    this.emitter.on(eventName, fn);
 
     (handler as any).__arcgis_job_once_original_function__ = fn;
   }
@@ -151,8 +217,25 @@ export class Job {
     this.emitter.off(eventName, handler);
   }
 
-  async getResults(result: string) {
-    return this.waitForJobCompletion().then(jobInfo => {
+  /**
+   * Get the specific results of a successful job by result name. To get all results see {@linkcode Job.getAllResults}.
+   *
+   * If monitoring is disabled it will be enabled until the job classes resolves or rejects this promise.
+   *
+   * ```
+   * Job.submitJob(options)
+   *  .then((job) => {
+   *    return job.getResults("result_name")
+   *  }).then(result => {
+   *     console.log(result);
+   *   })
+   * ```
+   *
+   * @param result The name of the result that you want to retrieve.
+   * @returns An object representing the result of the job.
+   */
+  async getResult(result: string) {
+    return this.waitForJobCompletion().then((jobInfo) => {
       return request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
         authentication: this.authentication
       });
@@ -165,15 +248,11 @@ export class Job {
       url: this.url,
       startMonitoring: this.isMonitoring,
       pollingRate: this.pollingRate
-    }
+    };
   }
 
   serialize() {
-    return JSON.stringify(this)
-  }
-
-  static deserialize(serializeString: string) {
-    return new Job(JSON.parse(serializeString));
+    return JSON.stringify(this);
   }
 
   async waitForJobCompletion() {
@@ -182,7 +261,11 @@ export class Job {
       return Promise.resolve(jobInfo);
     }
     //if jobStatus comes back immediately with one of the statuses
-    if (jobInfo.jobStatus === "esriJobTimeOut" || jobInfo.jobStatus === "esriJobCancelled" || jobInfo.jobStatus === "esriJobFailed") {
+    if (
+      jobInfo.jobStatus === "esriJobTimeOut" ||
+      jobInfo.jobStatus === "esriJobCancelled" ||
+      jobInfo.jobStatus === "esriJobFailed"
+    ) {
       this.stopInternalEventMonitoring();
       return Promise.reject(jobInfo);
     }
@@ -213,25 +296,24 @@ export class Job {
   }
 
   async getAllResults() {
-    return this.waitForJobCompletion().then(jobInfo => {
+    return this.waitForJobCompletion().then((jobInfo) => {
       const keys = Object.keys(jobInfo.results);
 
-      const requests = keys.map(key => {
+      const requests = keys.map((key) => {
         return request(this.jobUrl + "/" + jobInfo.results[key].paramUrl, {
           authentication: this.authentication
-        }).then(results => {
-          return results
+        }).then((results) => {
+          return results;
         });
       });
       return Promise.all(requests).then((resultsArray: any) => {
         return keys.reduce((finalResults: any, key: string, index: number) => {
           finalResults[keys[index]] = resultsArray[index];
           return finalResults;
-        }, {})
+        }, {});
       });
-
     });
-  };
+  }
 
   cancelJob() {
     return request(this.jobUrl + "/cancel", {
@@ -244,27 +326,35 @@ export class Job {
   }
 
   private startInternalEventMonitoring() {
-    if (!this.setIntervalHandler) {
+    /* istanbul ignore else - if monitoring is already running do nothing */
+    if (!this.isMonitoring) {
       this.setIntervalHandler = setInterval(this.executePoll, this.pollingRate);
     }
   }
 
-  //interal monitoring if the user specifies startMonitoring: false, we need to check the status to see when the results are returned
+  //internal monitoring if the user specifies startMonitoring: false, we need to check the status to see when the results are returned
   private stopInternalEventMonitoring() {
-    if (this.setIntervalHandler && !this.didUserEnableMonitoring) {
+    if (this.isMonitoring && !this.didUserEnableMonitoring) {
       clearTimeout(this.setIntervalHandler);
     }
   }
 
-  startEventMonitoring() {
+  startEventMonitoring(pollingRate = 5000) {
+    this._pollingRate = pollingRate;
     this.didUserEnableMonitoring = true;
-    if (!this.setIntervalHandler) {
-      this.setIntervalHandler = setInterval(this.executePoll, this.pollingRate);
+
+    /* istanbul ignore else - if not monitoring do nothing */
+    if (!this.isMonitoring) {
+      this.setIntervalHandler = setInterval(
+        this.executePoll,
+        this._pollingRate
+      );
     }
   }
 
   stopEventMonitoring() {
-    if (this.setIntervalHandler && this.didUserEnableMonitoring) {
+    /* istanbul ignore else - if not monitoring do nothing */
+    if (this.isMonitoring && this.didUserEnableMonitoring) {
       clearTimeout(this.setIntervalHandler);
     }
   }
