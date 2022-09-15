@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-portal [4.0.5](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.4...@esri/arcgis-rest-portal@4.0.5) (2022-09-15)
+
+
+### Bug Fixes
+
+* **arcgis-rest-portal:** add supported search fields ([#1017](https://github.com/Esri/arcgis-rest-js/issues/1017)) ([2be361a](https://github.com/Esri/arcgis-rest-js/commit/2be361abcdbc806027b074d70e9444e8780811ec))
+
 ## @esri/arcgis-rest-portal [4.0.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.3...@esri/arcgis-rest-portal@4.0.4) (2022-08-22)
 
 
