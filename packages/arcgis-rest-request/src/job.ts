@@ -49,7 +49,7 @@ export interface ISubmitJobOptions {
 }
 
 /**
- * Jobs represnt long running processing tasks running on ArcGIS Services. Typically these represent complex analysis tasks such as [geoprocessing tasks], [logistics analysis] or [sptaial anayusis].
+ * Jobs represent long running processing tasks running on ArcGIS Services. Typically these represent complex analysis tasks such as [geoprocessing tasks](https://developers.arcgis.com/rest/services-reference/enterprise/submit-gp-job.htm), [logistics analysis such as fleet routing](https://developers.arcgis.com/rest/network/api-reference/vehicle-routing-problem-service.htm) or [spatial analysis tasks](https://developers.arcgis.com/rest/analysis/api-reference/tasks-overview.htm).
  *
  * To create a {@linkcode Job} use the {@linkcode Job.submitJob} method which will return an instance of the  {@linkcode Job} class with a unique is.
  *
