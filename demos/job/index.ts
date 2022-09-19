@@ -1,4 +1,4 @@
-import { Job } from "@esri/arcgis-rest-request";
+import { Job, JOB_STATUSES } from "@esri/arcgis-rest-request";
 import * as dotenv from 'dotenv';
 const SECRET_KEY = dotenv.config().parsed?.SECRET_KEY;
 
@@ -264,5 +264,5 @@ Job.submitJob({
   startMonitoring: true,
   pollingRate: 1000
 }).then(async (job: any) => {
-  job.getAllResults().then((results: any) => console.log(results));
+  job.getAllResults().then((result:any )=> console.log(result))
 });
