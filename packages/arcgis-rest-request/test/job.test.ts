@@ -317,6 +317,20 @@ describe("Job Class", () => {
       (job as any).executePoll(); // fake a polling request
     });
   });
+  it("should test if the polling rate has changed", () => {
+
+    fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
+
+    Job.submitJob(GPEndpointCall).then((job) => {
+      job.pollingRate = 5000
+      expect(job.pollingRate).toBe(5000);
+      job.pollingRate = 1000
+      expect(job.pollingRate).toBe(1000);
+      job.stopEventMonitoring()
+      job.startEventMonitoring()
+      expect(job.pollingRate).toBe(5000);
+    });
+  });
   it("should call off method", (done) => {
     fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
 
@@ -475,12 +489,12 @@ describe("Job Class", () => {
       ...GPEndpointCall,
       startMonitoring: false,
       pollingRate: 10
-    }).then((job) => {
-      job.getResult("Hotspot_Raster").catch((result: any) => {
+    })
+      .then((job) => job.getResult("Hotspot_Raster"))
+      .catch((result: any) => {
         expect(new ArcGISRequestError(result) instanceof Error).toBe(true);
         done();
       });
-    });
   });
   it("it gets the results however it returns a timed out status", (done) => {
     fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
@@ -505,15 +519,15 @@ describe("Job Class", () => {
       ...GPEndpointCall,
       startMonitoring: false,
       pollingRate: 10
-    }).then((job) => {
-      job.getResult("Hotspot_Raster").catch((error) => {
+    })
+      .then((job) => job.getResult("Hotspot_Raster"))
+      .catch((error) => {
         expect(error).toEqual({
           jobId: "j4fa1db2338f042a19eb68856afabc27e",
           jobStatus: "esriJobTimedOut"
         });
         done();
       });
-    });
   });
   it("it gets the results however it returns a cancelled status", (done) => {
     fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
@@ -538,15 +552,15 @@ describe("Job Class", () => {
       ...GPEndpointCall,
       startMonitoring: false,
       pollingRate: 10
-    }).then((job) => {
-      job.getResult("Hotspot_Raster").catch((error) => {
+    })
+      .then((job) => job.getResult("Hotspot_Raster"))
+      .catch((error) => {
         expect(error).toEqual({
           jobId: "j4fa1db2338f042a19eb68856afabc27e",
           jobStatus: "esriJobCancelled"
         });
         done();
       });
-    });
   });
 
   it("it gets the results however it returns a failed status", (done) => {
@@ -572,15 +586,15 @@ describe("Job Class", () => {
       ...GPEndpointCall,
       startMonitoring: false,
       pollingRate: 10
-    }).then((job) => {
-      job.getResult("Hotspot_Raster").catch((error) => {
+    })
+      .then((job) => job.getResult("Hotspot_Raster"))
+      .catch((error) => {
         expect(error).toEqual({
           jobId: "j4fa1db2338f042a19eb68856afabc27e",
           jobStatus: "esriJobFailed"
         });
         done();
       });
-    });
   });
   it("makes sure to get isMonitoring function", (done) => {
     fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
@@ -621,12 +635,13 @@ describe("Job Class", () => {
     );
 
     Job.submitJob(GPEndpointCall).then((job) => {
-      job.cancelJob().then(() => {
-        job.on(JOB_STATUSES.Cancelled, (result) => {
-          expect(result).toEqual(mockCancelledState);
+      job.cancelJob()
+        .then(() => {
+          job.on(JOB_STATUSES.Cancelled, (result) => {
+            expect(result).toEqual(mockCancelledState);
+          });
+          done();
         });
-        done();
-      });
       (job as any).executePoll();
     });
   });

@@ -1,7 +1,6 @@
 import { request } from "./request.js";
 import { cleanUrl } from "./utils/clean-url.js";
 import {
-  IRequestOptions,
   JOB_STATUSES,
   IAuthenticationManager
 } from "./index.js";
@@ -75,10 +74,22 @@ export class Job {
     });
   }
 
+  /**
+   * Creates a new instance of {@linkcode Job} with an existing job id.
+   *
+   * @param options Requires request endpoint url and id from an existing job id.
+   * @returns An new instance of Job class with options.
+   */
   static fromExistingJob(options: IJobOptions) {
     return new Job(options);
   }
 
+  /**
+   * Submits a job request that will return an object with jobId and jobStatus. 
+   * 
+   * @param requestOptions Requires url and params from requestOptions.
+   * @returns An new instance of Job class with the returned job id from submitJob request and requestOptions;
+   */
   static submitJob(requestOptions: ISubmitJobOptions) {
     const { url, params, startMonitoring, pollingRate, authentication } =
       requestOptions;
@@ -96,15 +107,35 @@ export class Job {
     );
   }
 
+  /**
+   * The base URL of the job.
+   */
   readonly url: string;
+  /**
+   * The job id indicating the specific job.
+   */
   readonly id: string;
-  readonly resultParams: any;
+  /**
+   * Authentication manager or access token to use for all job requests. 
+   */
   readonly authentication: IAuthenticationManager | string;
 
+  /**
+   * Emitter is a third-party package used for our custom event listeners.
+   */
   emitter: any;
 
+  /**
+   * Private pollingRate that is set if the user changes the pollingRate.
+   */
   private _pollingRate: number;
+  /**
+   * Private boolean that checks to see if the user enables startMonitoring. 
+   */
   private didUserEnableMonitoring: any;
+  /**
+   * Private method that calls setInterval();
+   */
   private setIntervalHandler: any;
 
   constructor(options: IJobOptions) {
@@ -119,34 +150,65 @@ export class Job {
     this.emitter = mitt(); //interval between each polling request
     this.authentication = options.authentication;
 
+    /**
+     * If the startMonitoring from the requestOptions is set to true, {@linkcode Job.executePoll} will be called inside the startEventMonitoring.
+     */
     if (options.startMonitoring) {
       this.startEventMonitoring(pollingRate);
     }
   }
 
+  /**
+   * Getter that appends the job id to the base url.
+   */
   private get jobUrl() {
     return this.url + `/jobs/${this.id}`;
   }
 
+  /**
+   * Getter that will return the boolean of setIntervalHandler.
+   */
   get isMonitoring() {
     return !!this.setIntervalHandler;
   }
 
+  /**
+   * Getter that returns the private polling rate.
+   */
   get pollingRate() {
     return this._pollingRate;
   }
 
+  /**
+   * Setter that sets a new polling rate if the user changes the rate during the job task.
+   */
   set pollingRate(newRate: number) {
     this.stopEventMonitoring();
     this.startEventMonitoring(newRate);
   }
 
+  /**
+   * Retrieves the status of the current job. 
+   * 
+   * @returns An object with the job id and jobStatus.
+   */
   getJobInfo() {
     return request(this.jobUrl, {
       authentication: this.authentication
     });
   }
 
+  /**
+   * Function that calls the {@linkcode Job.getJobInfo} to check the job status, and emits the current job status. There are custom event emitters that
+   * the user is able to listen based on the job status. Refer to {@linkcode JOB_STATUSES} to see the various enums of the job status.
+   * To get results array from the job task, the job status must be {@linkcode JOB_STATUSES.Success}.
+   * 
+   * These job statuses are based on what are returned from the job request task and have been into an enum type in {@linkcode JOB_STATUSES}.
+   * 
+   * Reference {@link https://developers.arcgis.com/rest/services-reference/enterprise/checking-job-status.html}
+   * 
+   * @returns An object with the job id, job status, and messages array with a status property of type and description.
+   */
   private executePoll = async () => {
     let result;
     try {
@@ -191,10 +253,22 @@ export class Job {
     }
   };
 
+  /**
+   * A handler that listens for an eventName and returns custom handler.
+   * 
+   * @param eventName A string of what event to listen for.
+   * @param handler A function of what to do when eventName was called.
+   */
   on(eventName: string, handler: (e: any) => void) {
     this.emitter.on(eventName, handler);
   }
 
+  /**
+   * A handler that listens for a event once and returns a custom handler.
+   * 
+   * @param eventName A string of what event to listen for.
+   * @param handler A function of what to do when eventName was called.
+   */
   once(eventName: string, handler: (e: any) => void) {
     const fn = (arg: any) => {
       this.emitter.off(eventName, fn);
@@ -206,6 +280,12 @@ export class Job {
     (handler as any).__arcgis_job_once_original_function__ = fn;
   }
 
+  /**
+   * A handler that will remove a listener after its emitted and returns a custom handler. 
+   * 
+   * @param eventName A string of what event to listen for.
+   * @param handler A function of what to do when eventName was called.
+   */
   off(eventName: string, handler: (e: any) => void) {
     if ((handler as any).__arcgis_job_once_original_function__) {
       this.emitter.off(
@@ -225,14 +305,14 @@ export class Job {
    * ```
    * Job.submitJob(options)
    *  .then((job) => {
-   *    return job.getResults("result_name")
+   *    return job.getResult("result_name")
    *  }).then(result => {
    *     console.log(result);
    *   })
    * ```
    *
    * @param result The name of the result that you want to retrieve.
-   * @returns An object representing the result of the job.
+   * @returns An object representing the individual result of the job.
    */
   async getResult(result: string) {
     return this.waitForJobCompletion().then((jobInfo) => {
@@ -242,6 +322,11 @@ export class Job {
     });
   }
 
+  /**
+   * Formats the requestOptions to JSON format.
+   * 
+   * @returns An object as a JSON.
+   */
   toJSON() {
     return {
       id: this.id,
@@ -251,10 +336,24 @@ export class Job {
     };
   }
 
+  /**
+   * Converts JSON to a single string.
+   * 
+   * @returns A string.
+   */
   serialize() {
     return JSON.stringify(this);
   }
 
+  /**
+   * Checks for job status and if the job status is successful it resolves the job information, else if the jobStatus returns a failure state such as  "esriJobTimeOut", "esriJobCancelled", "esriJobFailed"
+   * it will reject the job information.
+   * 
+   * If neither of the above are true, this will return a new Promise and start {@linkcode Job.startInternalEventMonitoring} which will return a jobStatus and will only resolve the results if the job status comes 
+   * back as successful. All other status will be rejected and {@linkcode Job.stopInternalEventMonitoring} will be called.
+   * 
+   * @returns 
+   */
   async waitForJobCompletion() {
     const jobInfo = await this.getJobInfo();
     if (jobInfo.jobStatus === "esriJobSucceeded") {
@@ -295,6 +394,22 @@ export class Job {
     });
   }
 
+  /**
+   * Gets all the results from a successful job by ordering all the result paramUrl requests and calling each of them until all of them are complete and returns an object with all the results.
+   *
+   * If monitoring is disabled it will be enabled until the job classes resolves or rejects this promise.
+   *
+   * ```
+   * Job.submitJob(options)
+   *  .then((job) => {
+   *    return job.getAllResults();
+   *  }).then(allResults => {
+   *     console.log(allResults);
+   *   })
+   * ```
+   *
+   * @returns An object representing all the results from a job.
+   */
   async getAllResults() {
     return this.waitForJobCompletion().then((jobInfo) => {
       const keys = Object.keys(jobInfo.results);
@@ -315,6 +430,11 @@ export class Job {
     });
   }
 
+  /**
+   * Cancels the job request and voids the job.
+   * 
+   * @returns An object that has job id, job status and messages array sequencing the status of the cancellation being submitted and completed.
+   */
   cancelJob() {
     return request(this.jobUrl + "/cancel", {
       authentication: this.authentication,
@@ -325,6 +445,9 @@ export class Job {
     });
   }
 
+  /**
+   * An internal monitoring if the user specifies startMonitoring: false, we need to check the status to see when the results are returned.
+   */
   private startInternalEventMonitoring() {
     /* istanbul ignore else - if monitoring is already running do nothing */
     if (!this.isMonitoring) {
@@ -332,13 +455,20 @@ export class Job {
     }
   }
 
-  //internal monitoring if the user specifies startMonitoring: false, we need to check the status to see when the results are returned
+  /**
+   * Stops the internal monitoring once the job has been successfully completed with results.
+   */
   private stopInternalEventMonitoring() {
     if (this.isMonitoring && !this.didUserEnableMonitoring) {
       clearTimeout(this.setIntervalHandler);
     }
   }
 
+  /**
+   * Starts the event polling if the user enables the startMonitoring param.
+   * 
+   * @param pollingRate Able to pass in a specific number or will default to 5000.
+   */
   startEventMonitoring(pollingRate = 5000) {
     this._pollingRate = pollingRate;
     this.didUserEnableMonitoring = true;
@@ -352,6 +482,9 @@ export class Job {
     }
   }
 
+  /**
+  * Stops the event polling rate. This is can only be enabled if the user calls this method directly. 
+  */
   stopEventMonitoring() {
     /* istanbul ignore else - if not monitoring do nothing */
     if (this.isMonitoring && this.didUserEnableMonitoring) {
