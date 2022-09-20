@@ -16,7 +16,7 @@ export interface IJobOptions {
   id: string;
 
   /**
-   * The base URL of the job.
+   * The base URL of the job without `/submitJob` or a trailing job id.
    */
   url: string;
 
@@ -81,7 +81,7 @@ export class Job {
   }
 
   /**
-   * Creates a new instance of {@linkcode Job} with an existing job id.
+   * Creates a new instance of {@linkcode Job} from an existing job id.
    *
    * @param options Requires request endpoint url and id from an existing job id.
    * @returns An new instance of Job class with options.
@@ -91,7 +91,7 @@ export class Job {
   }
 
   /**
-   * Submits a job request that will return an object with jobId and jobStatus. 
+   * Submits a job request that will return a new instance of {@linkcode Job}. 
    * 
    * @param requestOptions Requires url and params from requestOptions.
    * @returns An new instance of Job class with the returned job id from submitJob request and requestOptions;
@@ -127,7 +127,7 @@ export class Job {
   readonly authentication: IAuthenticationManager | string;
 
   /**
-   * Emitter is a third-party package used for our custom event listeners.
+   * Internal instance of [`mitt`](https://github.com/developit/mitt) used for event handlers. It is recommended to use {@linkcode Job.on}, {@linkcode Job.off} or {@linkcode Job.once} instead of `emitter.`
    */
   emitter: any;
 
@@ -140,7 +140,7 @@ export class Job {
    */
   private didUserEnableMonitoring: any;
   /**
-   * Private method that calls setInterval();
+   * Internal handler for `setInterval()` used when polling.;
    */
   private setIntervalHandler: any;
 
@@ -188,21 +188,21 @@ export class Job {
   }
 
   /**
-   * Getter that will return the boolean of setIntervalHandler.
+   * Returns `true` is the job is polling for status changes.
    */
   get isMonitoring() {
     return !!this.setIntervalHandler;
   }
 
   /**
-   * Getter that returns the private polling rate.
+   * The rate at which event monitoring is occurring in milliseconds.
    */
   get pollingRate() {
     return this._pollingRate;
   }
 
   /**
-   * Setter that sets a new polling rate if the user changes the rate during the job task.
+   * Sets a new polling rate and restart polling for status changes.
    */
   set pollingRate(newRate: number) {
     this.stopEventMonitoring();
@@ -228,8 +228,6 @@ export class Job {
    * These job statuses are based on what are returned from the job request task and have been into an enum type in {@linkcode JOB_STATUSES}.
    * 
    * Reference {@link https://developers.arcgis.com/rest/services-reference/enterprise/checking-job-status.html}
-   * 
-   * @returns An object with the job id, job status, and messages array with a status property of type and description.
    */
   private executePoll = async () => {
     let result;
