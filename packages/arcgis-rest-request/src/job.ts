@@ -337,7 +337,7 @@ export class Job {
   }
 
   /**
-   * Converts JSON to a single string.
+   * Converts the `Job` to a JSON string. You can rehydrate the state of the `Job` with {@linkcode Job.deserialize}.
    * 
    * @returns A JSON string representing the `Job`.
    */
