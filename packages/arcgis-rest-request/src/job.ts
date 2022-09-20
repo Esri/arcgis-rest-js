@@ -339,7 +339,7 @@ export class Job {
   /**
    * Converts JSON to a single string.
    * 
-   * @returns A string.
+   * @returns A JSON string representing the `Job`.
    */
   serialize() {
     return JSON.stringify(this);
