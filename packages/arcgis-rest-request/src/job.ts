@@ -354,7 +354,7 @@ export class Job {
    * 
    * @returns 
    */
-  async waitForJobCompletion() {
+  async waitForJobCompletion() : Promise<IJobInfo> {
     const jobInfo = await this.getJobInfo();
     if (jobInfo.jobStatus === "esriJobSucceeded") {
       return Promise.resolve(jobInfo);
