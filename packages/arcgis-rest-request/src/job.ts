@@ -325,7 +325,7 @@ export class Job {
   /**
    * Formats the requestOptions to JSON format.
    * 
-   * @returns An object as a JSON.
+   * @returns The `Job` as a plain JavaScript object.
    */
   toJSON() {
     return {
