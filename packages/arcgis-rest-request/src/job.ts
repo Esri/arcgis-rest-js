@@ -26,7 +26,7 @@ export interface IJobOptions {
   startMonitoring?: boolean;
 
   /**
-   * Rate in milliseconds to poll for job status changes.
+   * Rate in milliseconds to poll for job status changes. Defaults to `5000`.
    */
   pollingRate?: number;
 
