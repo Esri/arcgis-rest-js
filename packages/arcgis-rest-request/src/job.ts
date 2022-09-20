@@ -21,7 +21,7 @@ export interface IJobOptions {
   url: string;
 
   /**
-   * Automatically monitor the job for status changes once it is created.
+   * Automatically monitor the job for status changes once it is created. Defaults to `true`.
    */
   startMonitoring?: boolean;
 
