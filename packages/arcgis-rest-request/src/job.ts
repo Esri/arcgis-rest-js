@@ -47,6 +47,12 @@ export interface ISubmitJobOptions {
   authentication?: IAuthenticationManager | string;
 }
 
+export interface IJobInfo {
+  results?: {}
+  id: string
+  jobStatus: string
+}
+
 /**
  * Jobs represent long running processing tasks running on ArcGIS Services. Typically these represent complex analysis tasks such as [geoprocessing tasks](https://developers.arcgis.com/rest/services-reference/enterprise/submit-gp-job.htm), [logistics analysis such as fleet routing](https://developers.arcgis.com/rest/network/api-reference/vehicle-routing-problem-service.htm) or [spatial analysis tasks](https://developers.arcgis.com/rest/analysis/api-reference/tasks-overview.htm).
  *
@@ -144,10 +150,26 @@ export class Job {
       ...options
     };
 
-    this.url = url; //user passes in the initial endpoint
+    /**
+     * The base URL that is passed as part of {@linkcode ISubmitJobOptions}.
+     */
+    this.url = url; 
+    /**
+     * Id that represents a string that is returned from a successful {@linkcode Job.submitJob}.
+     */
     this.id = id; //saved from the response from the static create job
+    /**
+     * Privatley used variable that will be set in {@linkcode Job.pollingRate}.
+     */
     this._pollingRate = pollingRate;
-    this.emitter = mitt(); //interval between each polling request
+    /**
+     * Sets an instance of the mitt package within the class.
+     */
+    this.emitter = mitt(); 
+    /**
+    *
+    * Authentication manager or access token to use for all job requests that is passed from {@linkcode Job.ISubmitJobOptions}.
+    */
     this.authentication = options.authentication;
 
     /**
@@ -315,7 +337,7 @@ export class Job {
    * @returns An object representing the individual result of the job.
    */
   async getResult(result: string) {
-    return this.waitForJobCompletion().then((jobInfo) => {
+    return this.waitForJobCompletion().then((jobInfo:any) => {
       return request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
         authentication: this.authentication
       });
@@ -352,7 +374,7 @@ export class Job {
    * If neither of the above are true, this will return a new Promise and start {@linkcode Job.startInternalEventMonitoring} which will return a jobStatus and will only resolve the results if the job status comes 
    * back as successful. All other status will be rejected and {@linkcode Job.stopInternalEventMonitoring} will be called.
    * 
-   * @returns 
+   * @returns An object with a successful job status, id, and results.
    */
   async waitForJobCompletion() : Promise<IJobInfo> {
     const jobInfo = await this.getJobInfo();
@@ -411,7 +433,7 @@ export class Job {
    * @returns An object representing all the results from a job.
    */
   async getAllResults() {
-    return this.waitForJobCompletion().then((jobInfo) => {
+    return this.waitForJobCompletion().then((jobInfo:any) => {
       const keys = Object.keys(jobInfo.results);
 
       const requests = keys.map((key) => {
