@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-request [4.0.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.3...@esri/arcgis-rest-request@4.0.4) (2022-09-15)
+
+
+### Bug Fixes
+
+* [#995](https://github.com/Esri/arcgis-rest-js/issues/995) and [#1006](https://github.com/Esri/arcgis-rest-js/issues/1006), issues with redirect urls ([f03ed13](https://github.com/Esri/arcgis-rest-js/commit/f03ed1382e41a04484c23ab8d28f7cf9189b55b8))
+
 ## @esri/arcgis-rest-request [4.0.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.2...@esri/arcgis-rest-request@4.0.3) (2022-05-11)
 
 

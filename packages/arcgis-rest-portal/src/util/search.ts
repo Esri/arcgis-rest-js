@@ -14,6 +14,22 @@ export interface ISearchOptions extends IRequestOptions, IPagingParams {
 
   /** Describes whether order returns in ascending or descending order. The default is ascending. */
   sortOrder?: "asc" | "desc";
+
+  /** A comma-separated list of fields to count. The maximum count fields allowed per request is three. Supported count fields are tags, type, access, contentstatus, and categories. */
+  countFields?: string;
+
+  /** The maximum number of field values to count for each `countFields`. The default value is 10, and the maximum number allowed is 200. */
+  countSize?: number;
+
+  /** Structured filtering is accomplished by specifying a field name followed by a colon and the term you are searching for with double quotation marks. It allows the passing in of application-level filters based on the context. Use an exact keyword match of the expected value for the specified field. Partially matching the filter keyword will not return meaningful results. */
+  filter?: string;
+
+  /** A JSON array or comma-separated list of up to eight org content categories to search items. */
+  categories?: string | Array<string>;
+
+  /** A comma-separated list of up to three category terms to search for items that have matching categories. */
+  categoryFilters?: string;
+
   [key: string]: any;
 }
 
