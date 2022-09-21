@@ -290,3 +290,26 @@ export function determineOwner(requestOptions: any): Promise<string> {
     );
   }
 }
+
+/**
+ * checks if the extent is a valid BBox (2 element array of coordinate pair arrays)
+ * @param extent
+ * @returns
+ */
+ export function isBBox (extent: unknown): boolean {
+  return (
+    Array.isArray(extent) &&
+    Array.isArray(extent[0]) &&
+    Array.isArray(extent[1])
+  );
+};
+
+/**
+ * Given a Bbox, convert it to a string. Some api endpoints expect a string
+ *
+ * @param {BBox} extent
+ * @return {*}  {string}
+ */
+ export function bboxToString (extent: number[][]): string {
+  return extent.map((a) => a.join(", ")).join(", ");
+};

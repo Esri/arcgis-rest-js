@@ -14,7 +14,9 @@ import {
   IItemResourceResponse,
   IUpdateItemResponse,
   serializeItem,
-  determineOwner
+  determineOwner,
+  isBBox,
+  bboxToString
 } from "./helpers";
 
 export interface IUpdateItemOptions extends ICreateUpdateItemOptions {
@@ -64,6 +66,11 @@ export function updateItem(
       ...requestOptions.params,
       ...serializeItem(requestOptions.item)
     };
+
+    // convert extent, if present, into a string from bbox
+    if (requestOptions.params.extent && isBBox(requestOptions.params.extent)) {
+      requestOptions.params.extent = bboxToString(requestOptions.params.extent);
+    }
 
     return request(url, requestOptions);
   });

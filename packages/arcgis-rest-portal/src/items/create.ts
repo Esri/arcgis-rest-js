@@ -10,7 +10,9 @@ import {
   IUpdateItemResponse,
   ICreateUpdateItemOptions,
   serializeItem,
-  determineOwner
+  determineOwner,
+  isBBox,
+  bboxToString
 } from "./helpers";
 
 export interface ICreateFolderOptions extends ICreateUpdateItemOptions {
@@ -97,6 +99,11 @@ export function createItemInFolder(
       ...requestOptions.params,
       ...serializeItem(requestOptions.item)
     };
+
+    // convert extent, if present, into a string from bbox
+    if (requestOptions.params.extent && isBBox(requestOptions.params.extent)) {
+      requestOptions.params.extent = bboxToString(requestOptions.params.extent);
+    }
 
     // serialize the item into something Portal will accept
     const options = appendCustomParams<ICreateItemOptions>(
