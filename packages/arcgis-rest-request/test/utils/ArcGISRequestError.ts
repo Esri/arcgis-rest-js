@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { ArcGISRequestError } from "../../src/index.js";
-import { ArcGISOnlineError } from "./../mocks/errors.js";
+import { ArcGISOnlineError } from "../mocks/errors.js";
 
 describe("ArcGISRequestError", () => {
   it("should be an instanceof Error", () => {

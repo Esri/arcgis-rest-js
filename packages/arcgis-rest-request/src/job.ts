@@ -1,6 +1,7 @@
 import { request } from "./request.js";
 import { cleanUrl } from "./utils/clean-url.js";
 import {
+  ArcGISJobError,
   JOB_STATUSES,
   IAuthenticationManager
 } from "./index.js";
@@ -47,10 +48,31 @@ export interface ISubmitJobOptions {
   authentication?: IAuthenticationManager | string;
 }
 
+/**
+ * Describes the status of a job. See the [GP Job documentation for more information](https://developers.arcgis.com/rest/services-reference/enterprise/gp-job.htm).
+ */
 export interface IJobInfo {
-  results?: {}
-  id: string
-  jobStatus: string
+  id: string;
+  status: JOB_STATUSES;
+  results?: {
+    [key: string]: {
+      paramUrl: string;
+    };
+  };
+  inputs?: {
+    [key: string]: {
+      paramUrl: string;
+    };
+  };
+  messages?: Array<{
+    type: string;
+    description: string;
+  }>;
+  progress?: {
+    type: string;
+    message: string;
+    percentage: number;
+  };
 }
 
 /**
@@ -74,9 +96,15 @@ export interface IJobInfo {
  */
 export class Job {
   static deserialize(serializeString: string, options?: IJobOptions) {
-    return new Job({
+    const jobOptions: IJobOptions = {
       ...JSON.parse(serializeString),
       ...options
+    };
+
+    return request(`${jobOptions.url}/jobs/${jobOptions.id}`, {
+      authentication: jobOptions.authentication
+    }).then(() => {
+      return new Job(jobOptions);
     });
   }
 
@@ -87,12 +115,17 @@ export class Job {
    * @returns An new instance of Job class with options.
    */
   static fromExistingJob(options: IJobOptions) {
-    return new Job(options);
+    const baseUrl = cleanUrl(options.url.replace(/\/submitJob\/?/, ""));
+    return request(`${baseUrl}/jobs/${options.id}`, {
+      authentication: options.authentication
+    }).then(() => {
+      return new Job(options);
+    });
   }
 
   /**
-   * Submits a job request that will return a new instance of {@linkcode Job}. 
-   * 
+   * Submits a job request that will return a new instance of {@linkcode Job}.
+   *
    * @param requestOptions Requires url and params from requestOptions.
    * @returns An new instance of Job class with the returned job id from submitJob request and requestOptions;
    */
@@ -122,7 +155,7 @@ export class Job {
    */
   readonly id: string;
   /**
-   * Authentication manager or access token to use for all job requests. 
+   * Authentication manager or access token to use for all job requests.
    */
   readonly authentication: IAuthenticationManager | string;
 
@@ -136,7 +169,7 @@ export class Job {
    */
   private _pollingRate: number;
   /**
-   * Private boolean that checks to see if the user enables startMonitoring. 
+   * Private boolean that checks to see if the user enables startMonitoring.
    */
   private didUserEnableMonitoring: any;
   /**
@@ -153,23 +186,23 @@ export class Job {
     /**
      * The base URL that is passed as part of {@linkcode ISubmitJobOptions}.
      */
-    this.url = url; 
+    this.url = url;
     /**
      * Id that represents a string that is returned from a successful {@linkcode Job.submitJob}.
      */
     this.id = id; //saved from the response from the static create job
     /**
-     * Privatley used variable that will be set in {@linkcode Job.pollingRate}.
+     * Privately used variable that will be set in {@linkcode Job.pollingRate}.
      */
     this._pollingRate = pollingRate;
     /**
      * Sets an instance of the mitt package within the class.
      */
-    this.emitter = mitt(); 
+    this.emitter = mitt();
     /**
-    *
-    * Authentication manager or access token to use for all job requests that is passed from {@linkcode Job.ISubmitJobOptions}.
-    */
+     *
+     * Authentication manager or access token to use for all job requests that is passed from {@linkcode Job.ISubmitJobOptions}.
+     */
     this.authentication = options.authentication;
 
     /**
@@ -184,7 +217,7 @@ export class Job {
    * Getter that appends the job id to the base url.
    */
   private get jobUrl() {
-    return this.url + `/jobs/${this.id}`;
+    return `${this.url}/jobs/${this.id}`;
   }
 
   /**
@@ -210,13 +243,59 @@ export class Job {
   }
 
   /**
-   * Retrieves the status of the current job. 
-   * 
+   * Retrieves the status of the current job.
+   *
    * @returns An object with the job id and jobStatus.
    */
-  getJobInfo() {
+  getJobInfo(): Promise<IJobInfo> {
     return request(this.jobUrl, {
       authentication: this.authentication
+    }).then((rawJobInfo: any) => {
+      const info: any = Object.assign(
+        {
+          id: rawJobInfo.jobId,
+          status: undefined
+        },
+        rawJobInfo
+      );
+
+      delete info.jobId;
+      delete info.jobStatus;
+
+      switch (rawJobInfo.jobStatus) {
+        case "esriJobCancelled":
+          info.status = JOB_STATUSES.Cancelled;
+          break;
+        case "esriJobCancelling":
+          info.status = JOB_STATUSES.Cancelling;
+          break;
+        case "esriJobNew":
+          info.status = JOB_STATUSES.New;
+          break;
+        case "esriJobWaiting":
+          info.status = JOB_STATUSES.Waiting;
+          break;
+        case "esriJobExecuting":
+          info.status = JOB_STATUSES.Executing;
+          break;
+        case "esriJobSubmitted":
+          info.status = JOB_STATUSES.Submitted;
+          break;
+        case "esriJobTimedOut":
+          info.status = JOB_STATUSES.TimedOut;
+          break;
+        case "esriJobFailed":
+          info.status = JOB_STATUSES.Failed;
+          break;
+        case "expectedFailure":
+          info.status = JOB_STATUSES.Failure;
+          break;
+        case "esriJobSucceeded":
+          info.status = JOB_STATUSES.Success;
+          break;
+      }
+
+      return info as IJobInfo;
     });
   }
 
@@ -224,9 +303,9 @@ export class Job {
    * Function that calls the {@linkcode Job.getJobInfo} to check the job status, and emits the current job status. There are custom event emitters that
    * the user is able to listen based on the job status. Refer to {@linkcode JOB_STATUSES} to see the various enums of the job status.
    * To get results array from the job task, the job status must be {@linkcode JOB_STATUSES.Success}.
-   * 
+   *
    * These job statuses are based on what are returned from the job request task and have been into an enum type in {@linkcode JOB_STATUSES}.
-   * 
+   *
    * Reference {@link https://developers.arcgis.com/rest/services-reference/enterprise/checking-job-status.html}
    */
   private executePoll = async () => {
@@ -237,59 +316,28 @@ export class Job {
       this.emitter.emit(JOB_STATUSES.Error, error);
       return;
     }
-    this.emitter.emit(JOB_STATUSES.Status, result);
 
-    switch (result.jobStatus) {
-      case "esriJobCancelled":
-        this.emitter.emit(JOB_STATUSES.Cancelled, result);
-        break;
-      case "esriJobCancelling":
-        this.emitter.emit(JOB_STATUSES.Cancelling, result);
-        break;
-      case "esriJobNew":
-        this.emitter.emit(JOB_STATUSES.New, result);
-        break;
-      case "esriJobWaiting":
-        this.emitter.emit(JOB_STATUSES.Waiting, result);
-        break;
-      case "esriJobExecuting":
-        this.emitter.emit(JOB_STATUSES.Executing, result);
-        break;
-      case "esriJobSubmitted":
-        this.emitter.emit(JOB_STATUSES.Submitted, result);
-        break;
-      case "esriJobTimedOut":
-        this.emitter.emit(JOB_STATUSES.TimedOut, result);
-        break;
-      case "esriJobFailed":
-        this.emitter.emit(JOB_STATUSES.Failed, result);
-        break;
-      case "expectedFailure":
-        this.emitter.emit(JOB_STATUSES.Failure, result);
-        break;
-      case "esriJobSucceeded":
-        this.emitter.emit(JOB_STATUSES.Success, result);
-        break;
-    }
+    this.emitter.emit(JOB_STATUSES.Status, result);
+    this.emitter.emit(result.status, result);
   };
 
   /**
    * A handler that listens for an eventName and returns custom handler.
-   * 
+   *
    * @param eventName A string of what event to listen for.
    * @param handler A function of what to do when eventName was called.
    */
-  on(eventName: string, handler: (e: any) => void) {
+  on(eventName: string, handler: (e: IJobInfo) => void) {
     this.emitter.on(eventName, handler);
   }
 
   /**
    * A handler that listens for a event once and returns a custom handler.
-   * 
+   *
    * @param eventName A string of what event to listen for.
    * @param handler A function of what to do when eventName was called.
    */
-  once(eventName: string, handler: (e: any) => void) {
+  once(eventName: string, handler: (e: IJobInfo) => void) {
     const fn = (arg: any) => {
       this.emitter.off(eventName, fn);
       handler(arg);
@@ -301,12 +349,12 @@ export class Job {
   }
 
   /**
-   * A handler that will remove a listener after its emitted and returns a custom handler. 
-   * 
+   * A handler that will remove a listener after its emitted and returns a custom handler.
+   *
    * @param eventName A string of what event to listen for.
    * @param handler A function of what to do when eventName was called.
    */
-  off(eventName: string, handler: (e: any) => void) {
+  off(eventName: string, handler: (e: IJobInfo) => void) {
     if ((handler as any).__arcgis_job_once_original_function__) {
       this.emitter.off(
         eventName,
@@ -327,15 +375,21 @@ export class Job {
    *  .then((job) => {
    *    return job.getResult("result_name")
    *  }).then(result => {
-   *     console.log(result);
-   *   })
+   *    console.log(result);
+   *  }).catch(e => {
+   *    if(e.name === "ArcGISJobError") {
+   *      console.log("Something went wrong while running the job", e.jobInfo);
+   *    }
+   *  })
    * ```
+   *
+   *  Will throw a {@linkcode ArcGISJobError} if it encounters a cancelled or failure status in the job.
    *
    * @param result The name of the result that you want to retrieve.
    * @returns An object representing the individual result of the job.
    */
   async getResult(result: string) {
-    return this.waitForJobCompletion().then((jobInfo:any) => {
+    return this.waitForJobCompletion().then((jobInfo: any) => {
       return request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
         authentication: this.authentication
       });
@@ -344,7 +398,7 @@ export class Job {
 
   /**
    * Formats the requestOptions to JSON format.
-   * 
+   *
    * @returns The `Job` as a plain JavaScript object.
    */
   toJSON() {
@@ -358,7 +412,7 @@ export class Job {
 
   /**
    * Converts the `Job` to a JSON string. You can rehydrate the state of the `Job` with {@linkcode Job.deserialize}.
-   * 
+   *
    * @returns A JSON string representing the `Job`.
    */
   serialize() {
@@ -366,45 +420,61 @@ export class Job {
   }
 
   /**
-   * Checks for job status and if the job status is successful it resolves the job information, else if the jobStatus returns a failure state such as  "esriJobTimeOut", "esriJobCancelled", "esriJobFailed"
-   * it will reject the job information.
-   * 
-   * If neither of the above are true, this will return a new Promise and start {@linkcode Job.startInternalEventMonitoring} which will return a jobStatus and will only resolve the results if the job status comes 
-   * back as successful. All other status will be rejected and {@linkcode Job.stopInternalEventMonitoring} will be called.
-   * 
+   * Checks for job status and if the job status is successful it resolves the job information. Otherwise will throw a {@linkcode ArcGISJobError} if it encounters a cancelled or failure status in the job.
+   *
+   * ```
+   * Job.submitJob(options)
+   *  .then((job) => {
+   *    return job.waitForJobCompletion();
+   *  })
+   * .then((jobInfo) => {
+   *    console.log("job finished", e.jobInfo);
+   *  })
+   * .catch(e => {
+   *    if(e.name === "ArcGISJobError") {
+   *      console.log("Something went wrong while running the job", e.jobInfo);
+   *    }
+   *  })
+   * ```
+   *
    * @returns An object with a successful job status, id, and results.
    */
-  async waitForJobCompletion() : Promise<IJobInfo> {
+  async waitForJobCompletion(): Promise<IJobInfo> {
     const jobInfo = await this.getJobInfo();
-    if (jobInfo.jobStatus === "esriJobSucceeded") {
+    if (jobInfo.status === JOB_STATUSES.Success) {
       return Promise.resolve(jobInfo);
     }
     //if jobStatus comes back immediately with one of the statuses
     if (
-      jobInfo.jobStatus === "esriJobTimeOut" ||
-      jobInfo.jobStatus === "esriJobCancelled" ||
-      jobInfo.jobStatus === "esriJobFailed"
+      jobInfo.status === JOB_STATUSES.Cancelling ||
+      jobInfo.status === JOB_STATUSES.Cancelled ||
+      jobInfo.status === JOB_STATUSES.Failed ||
+      jobInfo.status === JOB_STATUSES.Failure ||
+      jobInfo.status === JOB_STATUSES.TimedOut
     ) {
       this.stopInternalEventMonitoring();
-      return Promise.reject(jobInfo);
+      return Promise.reject(
+        new ArcGISJobError("Job cancelled or failed.", jobInfo)
+      );
     }
+
     //waits to see what the status is if not immediate
     return new Promise((resolve, reject) => {
       this.startInternalEventMonitoring();
 
       this.once(JOB_STATUSES.Cancelled, (jobInfo) => {
         this.stopInternalEventMonitoring();
-        reject(jobInfo);
+        reject(new ArcGISJobError("Job cancelled.", jobInfo));
       });
 
       this.once(JOB_STATUSES.TimedOut, (jobInfo) => {
         this.stopInternalEventMonitoring();
-        reject(jobInfo);
+        reject(new ArcGISJobError("Job timed out.", jobInfo));
       });
 
       this.once(JOB_STATUSES.Failed, (jobInfo) => {
         this.stopInternalEventMonitoring();
-        reject(jobInfo);
+        reject(new ArcGISJobError("Job failed.", jobInfo));
       });
 
       this.once(JOB_STATUSES.Success, (jobInfo) => {
@@ -424,14 +494,20 @@ export class Job {
    *  .then((job) => {
    *    return job.getAllResults();
    *  }).then(allResults => {
-   *     console.log(allResults);
-   *   })
+   *    console.log(allResults);
+   *  }).catch(e => {
+   *    if(e.name === "ArcGISJobError") {
+   *      console.log("Something went wrong while running the job", e.jobInfo);
+   *    }
+   *  })
    * ```
+   *
+   * Will throw a {@linkcode ArcGISJobError} if it encounters a cancelled or failure status in the job.
    *
    * @returns An object representing all the results from a job.
    */
   async getAllResults() {
-    return this.waitForJobCompletion().then((jobInfo:any) => {
+    return this.waitForJobCompletion().then((jobInfo: any) => {
       const keys = Object.keys(jobInfo.results);
 
       const requests = keys.map((key) => {
@@ -452,7 +528,7 @@ export class Job {
 
   /**
    * Cancels the job request and voids the job.
-   * 
+   *
    * @returns An object that has job id, job status and messages array sequencing the status of the cancellation being submitted and completed.
    */
   cancelJob() {
@@ -486,7 +562,7 @@ export class Job {
 
   /**
    * Starts the event polling if the user enables the startMonitoring param.
-   * 
+   *
    * @param pollingRate Able to pass in a specific number or will default to 5000.
    */
   startEventMonitoring(pollingRate = 5000) {
@@ -503,8 +579,8 @@ export class Job {
   }
 
   /**
-  * Stops the event polling rate. This is can only be enabled if the user calls this method directly. 
-  */
+   * Stops the event polling rate. This is can only be enabled if the user calls this method directly.
+   */
   stopEventMonitoring() {
     /* istanbul ignore else - if not monitoring do nothing */
     if (this.isMonitoring && this.didUserEnableMonitoring) {
