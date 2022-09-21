@@ -77,7 +77,7 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("f", "json"));
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           expect(options.body).toContain(encodeParam("owner", "dbouwman"));
-          expect(options.body).toContain(encodeParam("extent", "1, 2, 3, 4"));
+          expect(options.body).toContain(encodeParam("extent", "1,2,3,4"));
           // ensure the array props are serialized into strings
           expect(options.body).toContain(
             encodeParam("typeKeywords", "fake,kwds")

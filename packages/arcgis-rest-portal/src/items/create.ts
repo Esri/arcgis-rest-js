@@ -101,6 +101,9 @@ export function createItemInFolder(
     };
 
     // convert extent, if present, into a string from bbox
+    // processParams was previously doing this sort of work,
+    // however now we need to let array of arrays through
+    // Thus for extents we need to move this logic here
     if (requestOptions.params.extent && isBBox(requestOptions.params.extent)) {
       requestOptions.params.extent = bboxToString(requestOptions.params.extent);
     }

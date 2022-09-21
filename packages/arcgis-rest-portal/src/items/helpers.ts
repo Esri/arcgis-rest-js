@@ -311,5 +311,5 @@ export function determineOwner(requestOptions: any): Promise<string> {
  * @return {*}  {string}
  */
  export function bboxToString (extent: number[][]): string {
-  return extent.map((a) => a.join(", ")).join(", ");
+  return extent.join(",");
 };
