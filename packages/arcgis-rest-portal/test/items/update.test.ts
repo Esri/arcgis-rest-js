@@ -53,6 +53,10 @@ describe("search", () => {
         type: "Web Mapping Application",
         typeKeywords: ["fake", "kwds"],
         tags: ["fakey", "mcfakepants"],
+        extent: [
+          [1, 2],
+          [3, 4]
+        ],
         properties: {
           key: "somevalue"
         },
@@ -74,6 +78,7 @@ describe("search", () => {
           expect(options.body).toContain(encodeParam("token", "fake-token"));
           expect(options.body).toContain(encodeParam("owner", "dbouwman"));
           // ensure the array props are serialized into strings
+          expect(options.body).toContain(encodeParam("extent", "1,2,3,4"));
           expect(options.body).toContain(
             encodeParam("typeKeywords", "fake,kwds")
           );
