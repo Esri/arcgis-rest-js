@@ -3,7 +3,7 @@
   "name": "job",
   "version": "1.0.0",
   "description": "Job Task",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": [
     "ES6",
     "arcgis",
