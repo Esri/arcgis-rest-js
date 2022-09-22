@@ -332,7 +332,7 @@ export class Job {
   }
 
   /**
-   * A handler that listens for a event once and returns a custom handler.
+   * A handler that listens for an event once and returns a custom handler.
    *
    * @param eventName A string of what event to listen for.
    * @param handler A function of what to do when eventName was called.
