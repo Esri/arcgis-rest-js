@@ -221,7 +221,7 @@ export class Job {
   }
 
   /**
-   * Returns `true` is the job is polling for status changes.
+   * Returns `true` if the job is polling for status changes.
    */
   get isMonitoring() {
     return !!this.setIntervalHandler;
