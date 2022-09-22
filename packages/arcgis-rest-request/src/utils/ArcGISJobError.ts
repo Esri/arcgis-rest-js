@@ -43,7 +43,7 @@ export class ArcGISJobError extends Error {
   public id: string;
 
   /**
-   * Create a new `ArcGISJobError`  object.
+   * Create a new `ArcGISJobError` object.
    *
    * @param message - The error message from the API
    * @param jobInfo - The info of the job that is in an error state
