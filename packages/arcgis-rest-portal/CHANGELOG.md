@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-portal [4.0.6](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.5...@esri/arcgis-rest-portal@4.0.6) (2022-09-22)
+
+
+### Bug Fixes
+
+* encode item extent prior to calling request ([135600c](https://github.com/Esri/arcgis-rest-js/commit/135600c64dd7184ddf7425f5dd96296e4cc94b8a))
+
 ## @esri/arcgis-rest-portal [4.0.5](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.4...@esri/arcgis-rest-portal@4.0.5) (2022-09-15)
 
 
