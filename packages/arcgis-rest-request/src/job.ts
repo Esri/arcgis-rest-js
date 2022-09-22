@@ -41,10 +41,26 @@ export interface IJobOptions {
  * Options for {@linkcode Job.submitJob}.
  */
 export interface ISubmitJobOptions {
+  /**
+   * Parameters necessary that are passed to the {@linkcode Job.submitJob} method.
+   */
   params: any;
+  /**
+   * The base URL of the job without `/submitJob` or a trailing job id.
+   */
   url: string;
+  /**
+   *
+   * Automatically monitor the job for status changes once it is created. Defaults to `true`.
+   */
   startMonitoring?: boolean;
+  /**
+  * Rate in milliseconds to poll for job status changes. Defaults to `5000`.
+  */
   pollingRate?: number;
+  /**
+   * Authentication manager or access token to use for all job requests.
+   */
   authentication?: IAuthenticationManager | string;
 }
 
@@ -52,22 +68,40 @@ export interface ISubmitJobOptions {
  * Describes the status of a job. See the [GP Job documentation for more information](https://developers.arcgis.com/rest/services-reference/enterprise/gp-job.htm).
  */
 export interface IJobInfo {
+  /**
+   * The ID of the job. Can be used to rehydrate an instance of {@linkcode Job} with {@linkcode Job.fromExistingJob} or {@linkcode Job.deserialize}.
+   */
   id: string;
+  /**
+   * Represents the status of the current job. 
+   */
   status: JOB_STATUSES;
+  /**
+   * A results property that are returned from a successful job.
+   */
   results?: {
     [key: string]: {
       paramUrl: string;
     };
   };
+  /**
+   * An input property that are returned from a successful job.
+   */
   inputs?: {
     [key: string]: {
       paramUrl: string;
     };
   };
+  /**
+   * A message property that are returned from a successful job.
+   */
   messages?: Array<{
     type: string;
     description: string;
   }>;
+  /**
+   * A progress property that is returned while the job status is {@linkcode JOB_STATUSES.Executing}
+   */
   progress?: {
     type: string;
     message: string;
@@ -162,7 +196,7 @@ export class Job {
   /**
    * Internal instance of [`mitt`](https://github.com/developit/mitt) used for event handlers. It is recommended to use {@linkcode Job.on}, {@linkcode Job.off} or {@linkcode Job.once} instead of `emitter.`
    */
-  emitter: any;
+  private emitter: any;
 
   /**
    * Private pollingRate that is set if the user changes the pollingRate.

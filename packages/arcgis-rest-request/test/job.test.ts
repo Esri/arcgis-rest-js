@@ -357,18 +357,18 @@ describe("Job", () => {
 
     Job.submitJob(GPEndpointCall).then((job) => {
       const handler = (results: any) => results;
-
+      
       job.on(JOB_STATUSES.Success, handler);
-
+      
       job.off(JOB_STATUSES.Success, handler);
-
-      expect(job.emitter.all.get(JOB_STATUSES.Success).length).toBe(0);
+      
+      expect((job as any).emitter.all.get(JOB_STATUSES.Success).length).toBe(0);
 
       job.once(JOB_STATUSES.Success, handler);
 
       job.off(JOB_STATUSES.Success, handler);
 
-      expect(job.emitter.all.get(JOB_STATUSES.Success).length).toBe(0);
+      expect((job as any).emitter.all.get(JOB_STATUSES.Success).length).toBe(0);
 
       job.stopEventMonitoring();
 
