@@ -7,7 +7,7 @@ npm whoami || exit 1
 VERSION=$(node --eval "console.log(require('./lerna.json').version);")
 
 # publish each package on npm
-lerna publish --skip-git --yes --repo-version $VERSION --force-publish=*
+lerna publish--dist-tag "3.x" --skip-git --yes --repo-version $VERSION --force-publish=*
 
 # generate `docs/src/srihashes.json` after release and before committing
 npm run docs:srihash
