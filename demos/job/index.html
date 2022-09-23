@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>ArcGIS REST JS Browser w/ Modules</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+</head>
+
+<body>
+  <!-- Load the ES Modules Polyfill so we can use importmap in FF and Safari -->
+  <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.18/dist/es-module-shims.js"></script>
+
+  <!-- Map package imports to URLS starting with @esri/... which will get served from the local build of the modules -->
+  <script type="importmap">
+  {
+    "imports": {
+      "@esri/arcgis-rest-request": "/@esri/arcgis-rest-request/dist/bundled/request.esm.js"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import { Job, JOB_STATUSES } from "@esri/arcgis-rest-request";
+
+    Job.submitJob({
+      url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspotPro/GPServer/911%20Calls%20Hotspot",
+      params: {
+        Query: `("DATE" > date '1998-01-01 00:00:00' AND "DATE" < date '1998-01-31 00:00:00') AND ("Day" = 'SUN' OR "Day"= 'SAT')`,
+      }
+    }).then(async (job) => {
+      job.on(JOB_STATUSES.Status, (jobInfo) => console.log(jobInfo.messages?.pop()));
+
+      return job.getAllResults();
+    }).then((results) => console.log(results))
+  </script>
+</body>
+
+</html>
