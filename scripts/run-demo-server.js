@@ -16,6 +16,7 @@ import getPackages from "./get-package-json.js";
   browserSync.create().init({
     port: 8080,
     server: cwd,
-    serveStatic: [...packageFolders]
+    serveStatic: [...packageFolders],
+    https: true
   });
 })();

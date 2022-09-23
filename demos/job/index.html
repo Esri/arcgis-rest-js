@@ -26,15 +26,15 @@
     import { Job, JOB_STATUSES } from "@esri/arcgis-rest-request";
 
     Job.submitJob({
-      url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspotPro/GPServer/911%20Calls%20Hotspot",
+      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspotPro/GPServer/911%20Calls%20Hotspot",
       params: {
         Query: `("DATE" > date '1998-01-01 00:00:00' AND "DATE" < date '1998-01-31 00:00:00') AND ("Day" = 'SUN' OR "Day"= 'SAT')`,
       }
     }).then(async (job) => {
-      job.on(JOB_STATUSES.Status, (jobInfo) => console.log(jobInfo.messages?.pop()));
+      job.on(JOB_STATUSES.Status, (jobInfo) => console.log(jobInfo.messages?.pop().description));
 
       return job.getAllResults();
-    }).then((results) => console.log(results))
+    }).then((results) => console.log("RESULTS:", results))
   </script>
 </body>
 

@@ -1,10 +1,8 @@
 import { request } from "./request.js";
 import { cleanUrl } from "./utils/clean-url.js";
-import {
-  ArcGISJobError,
-  JOB_STATUSES,
-  IAuthenticationManager
-} from "./index.js";
+import { ArcGISJobError } from "./utils/ArcGISJobError.js";
+import { JOB_STATUSES } from "./types/job-statuses.js";
+import { IAuthenticationManager } from "./utils/IAuthenticationManager.js";
 import mitt from "mitt";
 
 /**
@@ -22,12 +20,12 @@ export interface IJobOptions {
   url: string;
 
   /**
-   * Automatically monitor the job for status changes once it is created. Defaults to `true`.
+   * Automatically monitor the job for status changes once it is created. Defaults to `false`.
    */
   startMonitoring?: boolean;
 
   /**
-   * Rate in milliseconds to poll for job status changes. Defaults to `5000`.
+   * Rate in milliseconds to poll for job status changes. Defaults to `2000`.
    */
   pollingRate?: number;
 
@@ -45,19 +43,22 @@ export interface ISubmitJobOptions {
    * Parameters necessary that are passed to the {@linkcode Job.submitJob} method.
    */
   params: any;
+
   /**
    * The base URL of the job without `/submitJob` or a trailing job id.
    */
   url: string;
+
   /**
-   *
-   * Automatically monitor the job for status changes once it is created. Defaults to `true`.
+   * Automatically monitor the job for status changes once it is created. Defaults to `false`.
    */
   startMonitoring?: boolean;
+
   /**
-   * Rate in milliseconds to poll for job status changes. Defaults to `5000`.
+   * Rate in milliseconds to poll for job status changes. Defaults to `2000`.
    */
   pollingRate?: number;
+
   /**
    * Authentication manager or access token to use for all job requests.
    */
@@ -109,9 +110,9 @@ export interface IJobInfo {
   };
 }
 
-const DefaultJobOptions = {
+const DefaultJobOptions: Partial<IJobOptions> = {
   pollingRate: 2000,
-  startMonitoring: true
+  startMonitoring: false
 };
 
 /**
@@ -132,10 +133,13 @@ const DefaultJobOptions = {
  * // watch for all status updates
  * job.on("status", ({jobStatus}) => {console.log(job.status)})
  * ```
+ *
+ * By default event monitoring is started when you call {@linkcode Job.waitForCompletion}, {@linkcode Job.getResults} or, {@linkcode Job.getResult} and stops automatically when those promises complete. Use {@linkcode Job.startEventMonitoring} and {@linkcode Job.stopEventMonitoring} to manually start and stop event monitoring outside those methods. Starting monitoring with {@linkcode Job.startEventMonitoring} will not stop monitoring when {@linkcode Job.waitForCompletion}, {@linkcode Job.getResults} or, {@linkcode Job.getResult} complete.
  */
 export class Job {
   static deserialize(serializeString: string, options?: IJobOptions) {
     const jobOptions: IJobOptions = {
+      ...DefaultJobOptions,
       ...JSON.parse(serializeString),
       ...options
     };
@@ -154,11 +158,15 @@ export class Job {
    * @returns An new instance of Job class with options.
    */
   static fromExistingJob(options: IJobOptions) {
-    const baseUrl = cleanUrl(options.url.replace(/\/submitJob\/?/, ""));
-    return request(`${baseUrl}/jobs/${options.id}`, {
-      authentication: options.authentication
+    const jobOptions: IJobOptions = {
+      ...DefaultJobOptions,
+      ...options
+    };
+    const baseUrl = cleanUrl(jobOptions.url.replace(/\/submitJob\/?/, ""));
+    return request(`${baseUrl}/jobs/${jobOptions.id}`, {
+      authentication: jobOptions.authentication
     }).then(() => {
-      return new Job(options);
+      return new Job(jobOptions);
     });
   }
 
@@ -182,7 +190,10 @@ export class Job {
 
     const baseUrl = cleanUrl(url.replace(/\/submitJob\/?/, ""));
     const submitUrl = baseUrl + "/submitJob";
-    return request(submitUrl, { params, authentication }).then(
+    return request(submitUrl, {
+      params,
+      authentication
+    }).then(
       (response) =>
         new Job({
           url: baseUrl,
@@ -226,35 +237,18 @@ export class Job {
   private setIntervalHandler: any;
 
   constructor(options: IJobOptions) {
-    const { url, id, pollingRate }: Partial<IJobOptions> = {
+    const { url, id, pollingRate, authentication }: Partial<IJobOptions> = {
       ...DefaultJobOptions,
       ...options
     };
-    /**
-     * The base URL that is passed as part of {@linkcode ISubmitJobOptions}.
-     */
-    this.url = url;
-    /**
-     * Id that represents a string that is returned from a successful {@linkcode Job.submitJob}.
-     */
-    this.id = id; //saved from the response from the static create job
-    /**
-     * Privately used variable that will be set in {@linkcode Job.pollingRate}.
-     */
-    this._pollingRate = pollingRate;
-    /**
-     * Sets an instance of the mitt package within the class.
-     */
-    this.emitter = mitt();
-    /**
-     *
-     * Authentication manager or access token to use for all job requests that is passed from {@linkcode Job.ISubmitJobOptions}.
-     */
-    this.authentication = options.authentication;
 
-    /**
-     * If the startMonitoring from the requestOptions is set to true, {@linkcode Job.executePoll} will be called inside the startEventMonitoring.
-     */
+    // Setup internal properties
+    this.url = url;
+    this.id = id;
+    this.authentication = authentication;
+    this._pollingRate = pollingRate;
+    this.emitter = mitt();
+
     if (options.startMonitoring) {
       this.startEventMonitoring(pollingRate);
     }
@@ -436,7 +430,7 @@ export class Job {
    * @returns An object representing the individual result of the job.
    */
   async getResult(result: string) {
-    return this.waitForJobCompletion().then((jobInfo: any) => {
+    return this.waitForCompletion().then((jobInfo: any) => {
       return request(this.jobUrl + "/" + jobInfo.results[result].paramUrl, {
         authentication: this.authentication
       });
@@ -448,7 +442,7 @@ export class Job {
    *
    * @returns The `Job` as a plain JavaScript object.
    */
-  toJSON() {
+  toJSON(): IJobOptions {
     return {
       id: this.id,
       url: this.url,
@@ -472,7 +466,7 @@ export class Job {
    * ```
    * Job.submitJob(options)
    *  .then((job) => {
-   *    return job.waitForJobCompletion();
+   *    return job.waitForCompletion();
    *  })
    * .then((jobInfo) => {
    *    console.log("job finished", e.jobInfo);
@@ -486,7 +480,7 @@ export class Job {
    *
    * @returns An object with a successful job status, id, and results.
    */
-  async waitForJobCompletion(): Promise<IJobInfo> {
+  async waitForCompletion(): Promise<IJobInfo> {
     const jobInfo = await this.getJobInfo();
     if (jobInfo.status === JOB_STATUSES.Success) {
       return Promise.resolve(jobInfo);
@@ -500,6 +494,7 @@ export class Job {
       jobInfo.status === JOB_STATUSES.TimedOut
     ) {
       this.stopInternalEventMonitoring();
+
       return Promise.reject(
         new ArcGISJobError("Job cancelled or failed.", jobInfo)
       );
@@ -554,7 +549,7 @@ export class Job {
    * @returns An object representing all the results from a job.
    */
   async getAllResults() {
-    return this.waitForJobCompletion().then((jobInfo: any) => {
+    return this.waitForCompletion().then((jobInfo: any) => {
       const keys = Object.keys(jobInfo.results);
 
       const requests = keys.map((key) => {
@@ -592,7 +587,11 @@ export class Job {
   /**
    * An internal monitoring if the user specifies startMonitoring: false, we need to check the status to see when the results are returned.
    */
-  private startInternalEventMonitoring() {
+  private startInternalEventMonitoring(
+    pollingRate = DefaultJobOptions.pollingRate
+  ) {
+    this._pollingRate = pollingRate;
+
     /* istanbul ignore else - if monitoring is already running do nothing */
     if (!this.isMonitoring) {
       this.setIntervalHandler = setInterval(this.executePoll, this.pollingRate);
@@ -613,7 +612,7 @@ export class Job {
    *
    * @param pollingRate Able to pass in a specific number or will default to 5000.
    */
-  startEventMonitoring(pollingRate = 5000) {
+  startEventMonitoring(pollingRate = DefaultJobOptions.pollingRate) {
     this._pollingRate = pollingRate;
     this.didUserEnableMonitoring = true;
 
