@@ -13,15 +13,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node index.ts"
+    "start": "node ../../scripts/run-demo-server.js"
   },
   "dependencies": {
-    "@esri/arcgis-rest-request": "^4.0.3",
-    "dotenv": "^16.0.2"
-  },
-  "devDependencies": {
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.2"
+    "@esri/arcgis-rest-request": "^4.0.3"
   },
   "author": "Marcy Silverman <msilverman@esri.com> (http://marcysilverman.com/)"
 }

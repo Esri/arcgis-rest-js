@@ -55,8 +55,8 @@ export interface ISubmitJobOptions {
    */
   startMonitoring?: boolean;
   /**
-  * Rate in milliseconds to poll for job status changes. Defaults to `5000`.
-  */
+   * Rate in milliseconds to poll for job status changes. Defaults to `5000`.
+   */
   pollingRate?: number;
   /**
    * Authentication manager or access token to use for all job requests.
@@ -73,7 +73,7 @@ export interface IJobInfo {
    */
   id: string;
   /**
-   * Represents the status of the current job. 
+   * Represents the status of the current job.
    */
   status: JOB_STATUSES;
   /**
@@ -108,6 +108,11 @@ export interface IJobInfo {
     percentage: number;
   };
 }
+
+const DefaultJobOptions = {
+  pollingRate: 2000,
+  startMonitoring: true
+};
 
 /**
  * Jobs represent long running processing tasks running on ArcGIS Services. Typically these represent complex analysis tasks such as [geoprocessing tasks](https://developers.arcgis.com/rest/services-reference/enterprise/submit-gp-job.htm), [logistics analysis such as fleet routing](https://developers.arcgis.com/rest/network/api-reference/vehicle-routing-problem-service.htm) or [spatial analysis tasks](https://developers.arcgis.com/rest/analysis/api-reference/tasks-overview.htm).
@@ -164,8 +169,17 @@ export class Job {
    * @returns An new instance of Job class with the returned job id from submitJob request and requestOptions;
    */
   static submitJob(requestOptions: ISubmitJobOptions) {
-    const { url, params, startMonitoring, pollingRate, authentication } =
-      requestOptions;
+    const {
+      url,
+      params,
+      authentication,
+      pollingRate,
+      startMonitoring
+    }: Partial<ISubmitJobOptions> = {
+      ...DefaultJobOptions,
+      ...requestOptions
+    };
+
     const baseUrl = cleanUrl(url.replace(/\/submitJob\/?/, ""));
     const submitUrl = baseUrl + "/submitJob";
     return request(submitUrl, { params, authentication }).then(
@@ -213,10 +227,9 @@ export class Job {
 
   constructor(options: IJobOptions) {
     const { url, id, pollingRate }: Partial<IJobOptions> = {
-      ...{ pollingRate: 5000, startMonitoring: true },
+      ...DefaultJobOptions,
       ...options
     };
-
     /**
      * The base URL that is passed as part of {@linkcode ISubmitJobOptions}.
      */
@@ -283,6 +296,7 @@ export class Job {
    */
   getJobInfo(): Promise<IJobInfo> {
     return request(this.jobUrl, {
+      httpMethod: "GET",
       authentication: this.authentication
     }).then((rawJobInfo: any) => {
       const info: any = Object.assign(
@@ -340,7 +354,7 @@ export class Job {
    *
    * These job statuses are based on what are returned from the job request task and have been into an enum type in {@linkcode JOB_STATUSES}.
    *
-   * Reference {@link https://developers.arcgis.com/rest/services-reference/enterprise/checking-job-status.html}
+   * Reference {@link https://developers.arcgis.com/rest/services-reference/enterprise/geoanalytics-checking-job-status.htm}
    */
   private executePoll = async () => {
     let result;
@@ -551,6 +565,7 @@ export class Job {
           return results;
         });
       });
+
       return Promise.all(requests).then((resultsArray: any) => {
         return keys.reduce((finalResults: any, key: string, index: number) => {
           finalResults[keys[index]] = resultsArray[index];
@@ -605,10 +620,7 @@ export class Job {
 
     /* istanbul ignore else - if not monitoring do nothing */
     if (!this.isMonitoring) {
-      this.setIntervalHandler = setInterval(
-        this.executePoll,
-        this._pollingRate
-      );
+      this.setIntervalHandler = setInterval(this.executePoll, this.pollingRate);
     }
   }
 
