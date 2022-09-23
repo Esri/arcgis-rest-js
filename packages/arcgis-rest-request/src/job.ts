@@ -186,7 +186,7 @@ export class Job {
       (response) =>
         new Job({
           url: baseUrl,
-          authentication: authentication,
+          authentication,
           id: response.jobId,
           startMonitoring,
           pollingRate
@@ -296,7 +296,6 @@ export class Job {
    */
   getJobInfo(): Promise<IJobInfo> {
     return request(this.jobUrl, {
-      httpMethod: "GET",
       authentication: this.authentication
     }).then((rawJobInfo: any) => {
       const info: any = Object.assign(
