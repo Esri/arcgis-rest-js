@@ -1,6 +1,4 @@
 import fetchMock, { done } from "fetch-mock";
-import { STATUS_CODES } from "http";
-import { disconnect } from "process";
 import { Job, JOB_STATUSES, ArcGISRequestError } from "../src/index.js";
 import {
   GPJobIdResponse,
@@ -475,8 +473,9 @@ describe("Job", () => {
             mockHotspot_Raster
           );
         });
-
+        
         return job.getResult("Hotspot_Raster");
+        
       })
       .then((result) => {
         expect(result).toEqual(mockHotspot_Raster);
