@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-portal [4.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.6...@esri/arcgis-rest-portal@4.1.0) (2022-09-28)
+
+
+### Features
+
+* **arcgis-rest-request:** add a new Job class to support asynchronous long running tasks. ([9c222aa](https://github.com/Esri/arcgis-rest-js/commit/9c222aa7a4e70a4b0951438ebb83c10de1d0912e))
+
 ## @esri/arcgis-rest-portal [4.0.6](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.5...@esri/arcgis-rest-portal@4.0.6) (2022-09-22)
 
 
