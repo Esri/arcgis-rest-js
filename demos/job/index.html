@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>ArcGIS REST JS Browser w/ Modules</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+</head>
+
+<body>
+  <div class="container-md mt-5">
+    <h1>Messages</h1>
+    <pre class="bg-light border p-3"><code id="messages"></code></pre>
+    <h1>Results</h1>
+    <pre class="bg-light border p-3"><code id="results"></code></pre>
+  </div>
+
+  <!-- Load the ES Modules Polyfill so we can use importmap in FF and Safari -->
+  <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.18/dist/es-module-shims.js"></script>
+
+  <!-- Map package imports to URLS starting with @esri/... which will get served from the local build of the modules -->
+  <script type="importmap">
+  {
+    "imports": {
+      "@esri/arcgis-rest-request": "/@esri/arcgis-rest-request/dist/bundled/request.esm.js"
+    }
+  }
+  </script>
+
+  <script type="module">
+    import { Job, JOB_STATUSES } from "@esri/arcgis-rest-request";
+
+    Job.submitJob({
+      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspotPro/GPServer/911%20Calls%20Hotspot",
+      params: {
+        Query: `("DATE" > date '1998-01-01 00:00:00' AND "DATE" < date '1998-01-31 00:00:00') AND ("Day" = 'SUN' OR "Day"= 'SAT')`,
+      }
+    }).then(async (job) => {
+      // listen to the status event to get update every time the job status is checked.
+      job.on(JOB_STATUSES.Status, (jobInfo) => {
+        document.getElementById("messages").innerText = jobInfo.messages.map(({ description }) => description).join("\n");
+      });
+
+      // get all the results, this will start monitoring and trigger events
+      return job.getAllResults();
+    }).then((results) => {
+      console.log("RESULTS:", results);
+      document.getElementById("results").innerText = JSON.stringify(results, null, 2);
+    })
+  </script>
+</body>
+
+</html>

@@ -9,7 +9,7 @@ import {
   IPolyline,
   IPolylineWithCurves,
   IPolygon,
-  IPolygonWithCurves,
+  IPolygonWithCurves
 } from "./geometry.js";
 import { IField } from "./service.js";
 import { ISymbol } from "./symbol.js";
@@ -46,11 +46,11 @@ export interface IFeatureSet extends IHasZM {
  */
 export interface IFeature {
   geometry?:
-  | IPoint
-  | IPolyline
-  | IPolylineWithCurves
-  | IPolygon
-  | IPolygonWithCurves;
+    | IPoint
+    | IPolyline
+    | IPolylineWithCurves
+    | IPolygon
+    | IPolygonWithCurves;
   attributes: { [key: string]: any };
   symbol?: ISymbol;
 }

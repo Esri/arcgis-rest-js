@@ -6,6 +6,7 @@ export * from "./utils/append-custom-params.js";
 export * from "./utils/ArcGISRequestError.js";
 export * from "./utils/ArcGISTokenRequestError.js";
 export * from "./utils/ArcGISAccessDeniedError.js";
+export * from "./utils/ArcGISJobError.js";
 export * from "./utils/clean-url.js";
 export * from "./utils/encode-form-data.js";
 export * from "./utils/encode-query-string.js";
@@ -34,6 +35,7 @@ export * from "./app-tokens.js";
 export * from "./validate-app-access.js";
 export * from "./federation-utils.js";
 export * from "./revoke-token.js";
+export * from "./job.js";
 export * from "./utils/with-options.js";
 
 export * from "./types/feature.js";
@@ -42,6 +44,7 @@ export * from "./types/symbol.js";
 export * from "./types/service.js";
 export * from "./types/group.js";
 export * from "./types/user.js";
+export * from "./types/job-statuses.js";
 
 export * from "@esri/arcgis-rest-fetch";
 export * from "@esri/arcgis-rest-form-data";
