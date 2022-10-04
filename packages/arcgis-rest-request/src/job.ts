@@ -45,11 +45,6 @@ export interface ISubmitJobOptions {
   params: any;
 
   /**
-   * Processes arrays to JSON strings for Geoprocessing services. See “GPMultiValue” in {@link https://developers.arcgis.com/rest/services-reference/enterprise/gp-data-types.htm}
-   */
-  processedParams: any;
-
-  /**
    * The base URL of the job without `/submitJob` or a trailing job id.
    */
   url: string;
