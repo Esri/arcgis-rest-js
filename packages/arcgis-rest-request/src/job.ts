@@ -45,6 +45,11 @@ export interface ISubmitJobOptions {
   params: any;
 
   /**
+   * Processes arrays to JSON strings for Geoprocessing services. See “GPMultiValue” in {@link https://developers.arcgis.com/rest/services-reference/enterprise/gp-data-types.htm}
+   */
+  processedParams: any;
+
+  /**
    * The base URL of the job without `/submitJob` or a trailing job id.
    */
   url: string;
@@ -188,10 +193,19 @@ export class Job {
       ...requestOptions
     };
 
+    /**
+     * Processes arrays to JSON strings for Geoprocessing services. See “GPMultiValue” in {@link https://developers.arcgis.com/rest/services-reference/enterprise/gp-data-types.htm}
+     */
+    const processedParams = Object.keys(params).reduce((newParams:any, key)=> {
+    const value = params[key]
+    const type = value.constructor.name;
+    newParams[key] = type === "Array" ? JSON.stringify(value) : value;
+    return newParams;
+    }, {});
     const baseUrl = cleanUrl(url.replace(/\/submitJob\/?/, ""));
     const submitUrl = baseUrl + "/submitJob";
     return request(submitUrl, {
-      params,
+      params: processedParams,
       authentication
     }).then(
       (response) =>
