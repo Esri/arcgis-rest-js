@@ -1,5 +1,6 @@
 import fetchMock, { done } from "fetch-mock";
 import { Job, JOB_STATUSES, ArcGISRequestError } from "../src/index.js";
+import { processJobParams } from "../src/utils/process-job-params.js";
 import {
   GPJobIdResponse,
   GPEndpointCall,
@@ -684,7 +685,7 @@ describe("Job", () => {
   });
 
   it("parses params if there is multi-value input", () => {
-    Job.processedParamsFunc({
+    processJobParams({
       url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob",
       params: {
         summarizeType: "['CentralFeature', 'MeanCenter', 'MedianCenter', 'Ellipse']",
@@ -702,7 +703,7 @@ describe("Job", () => {
       }
     });
 
-    expect(Job.processedParamsFunc({
+    expect(processJobParams({
       summarizeType: ['CentralFeature', 'MeanCenter', 'MedianCenter', 'Ellipse'],
       weightField: 'NUM_TREES',
       ellipseSize: '1 standard deviation',
