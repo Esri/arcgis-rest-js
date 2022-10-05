@@ -169,7 +169,20 @@ export class Job {
       return new Job(jobOptions);
     });
   }
-
+  
+  /**
+   * Processes arrays to JSON strings for Geoprocessing services. See “GPMultiValue” in {@link https://developers.arcgis.com/rest/services-reference/enterprise/gp-data-types.htm}
+   */
+  static processedParamsFunc(params:any) {
+    const processedParams = Object.keys(params).reduce((newParams:any, key)=> {
+      const value = params[key]
+      const type = value.constructor.name;
+      newParams[key] = type === "Array" ? JSON.stringify(value) : value;
+      return newParams;
+      }, {});
+      
+      return processedParams
+  }
   /**
    * Submits a job request that will return a new instance of {@linkcode Job}.
    *
@@ -188,15 +201,7 @@ export class Job {
       ...requestOptions
     };
 
-    /**
-     * Processes arrays to JSON strings for Geoprocessing services. See “GPMultiValue” in {@link https://developers.arcgis.com/rest/services-reference/enterprise/gp-data-types.htm}
-     */
-    const processedParams = Object.keys(params).reduce((newParams:any, key)=> {
-    const value = params[key]
-    const type = value.constructor.name;
-    newParams[key] = type === "Array" ? JSON.stringify(value) : value;
-    return newParams;
-    }, {});
+    const processedParams = this.processedParamsFunc(params);
     const baseUrl = cleanUrl(url.replace(/\/submitJob\/?/, ""));
     const submitUrl = baseUrl + "/submitJob";
     return request(submitUrl, {
@@ -244,6 +249,7 @@ export class Job {
    * Internal handler for `setInterval()` used when polling.;
    */
   private setIntervalHandler: any;
+
 
   constructor(options: IJobOptions) {
     const { url, id, pollingRate, authentication }: Partial<IJobOptions> = {
