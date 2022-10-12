@@ -4,6 +4,7 @@ import { ArcGISJobError } from "./utils/ArcGISJobError.js";
 import { JOB_STATUSES } from "./types/job-statuses.js";
 import { IAuthenticationManager } from "./utils/IAuthenticationManager.js";
 import mitt from "mitt";
+import { processJobParams } from "./utils/process-job-params.js";
 
 /**
  * Options for creating a new {@linkcode Job}.
@@ -188,10 +189,11 @@ export class Job {
       ...requestOptions
     };
 
+    const processedParams = processJobParams(params);
     const baseUrl = cleanUrl(url.replace(/\/submitJob\/?/, ""));
     const submitUrl = baseUrl + "/submitJob";
     return request(submitUrl, {
-      params,
+      params: processedParams,
       authentication
     }).then(
       (response) =>
@@ -235,6 +237,7 @@ export class Job {
    * Internal handler for `setInterval()` used when polling.;
    */
   private setIntervalHandler: any;
+
 
   constructor(options: IJobOptions) {
     const { url, id, pollingRate, authentication }: Partial<IJobOptions> = {

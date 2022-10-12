@@ -1,5 +1,6 @@
 import fetchMock, { done } from "fetch-mock";
 import { Job, JOB_STATUSES, ArcGISRequestError } from "../src/index.js";
+import { processJobParams } from "../src/utils/process-job-params.js";
 import {
   GPJobIdResponse,
   GPEndpointCall,
@@ -473,9 +474,7 @@ describe("Job", () => {
             mockHotspot_Raster
           );
         });
-        
         return job.getResult("Hotspot_Raster");
-        
       })
       .then((result) => {
         expect(result).toEqual(mockHotspot_Raster);
@@ -681,6 +680,55 @@ describe("Job", () => {
     Job.submitJob(GPEndpointCall).then((job) => {
       expect(job.isMonitoring).toEqual(true);
       done();
+
+    });
+  });
+
+  it("parses params if there is multi-value input", () => {
+    processJobParams({
+      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob",
+      params: {
+        summarizeType: "['CentralFeature', 'MeanCenter', 'MedianCenter', 'Ellipse']",
+        weightField: 'NUM_TREES',
+        ellipseSize: '1 standard deviation',
+        context: {
+          extent: {
+            xmin: -15034729.266472297,
+            ymin: 5716733.479048933,
+            xmax: -12070195.56146081,
+            ymax: 7808050.572930799,
+            spatialReference: { wkid: 102100, latestWkid: 3857 },
+          },
+        },
+      }
+    });
+
+    expect(processJobParams({
+      summarizeType: ['CentralFeature', 'MeanCenter', 'MedianCenter', 'Ellipse'],
+      weightField: 'NUM_TREES',
+      ellipseSize: '1 standard deviation',
+      context: {
+        extent: {
+          xmin: -15034729.266472297,
+          ymin: 5716733.479048933,
+          xmax: -12070195.56146081,
+          ymax: 7808050.572930799,
+          spatialReference: { wkid: 102100, latestWkid: 3857 },
+        },
+      }
+    })).toEqual({
+      summarizeType:'["CentralFeature","MeanCenter","MedianCenter","Ellipse"]',
+      weightField: 'NUM_TREES',
+      ellipseSize: '1 standard deviation',
+      context: {
+        extent: {
+          xmin: -15034729.266472297,
+          ymin: 5716733.479048933,
+          xmax: -12070195.56146081,
+          ymax: 7808050.572930799,
+          spatialReference: { wkid: 102100, latestWkid: 3857 },
+        },
+      }
     });
   });
 
