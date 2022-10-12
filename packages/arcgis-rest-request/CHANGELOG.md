@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-request [4.1.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.1.0...@esri/arcgis-rest-request@4.1.1) (2022-10-12)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** Added Params Preprocessor for GP Mutilvalue Inputs ([#1027](https://github.com/Esri/arcgis-rest-js/issues/1027)) ([cf75cd6](https://github.com/Esri/arcgis-rest-js/commit/cf75cd609ba3a795ef37590392cada5eab061b79))
+
 # @esri/arcgis-rest-request [4.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.4...@esri/arcgis-rest-request@4.1.0) (2022-09-28)
 
 
