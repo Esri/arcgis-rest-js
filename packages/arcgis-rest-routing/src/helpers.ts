@@ -102,3 +102,10 @@ export function decompressGeometry(str: string) {
 export function isFeatureSet(arg: any): arg is IFeatureSet {
   return Object.prototype.hasOwnProperty.call(arg, "features");
 }
+
+/**
+ * User Defined Type Guard that verifies this is a JSON with `url` property
+ */
+export function isJsonWithURL(arg: any): arg is Object {
+  return "url" in arg;
+}

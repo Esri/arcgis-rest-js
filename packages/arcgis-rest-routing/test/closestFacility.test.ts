@@ -157,6 +157,14 @@ const facilitiesFeatureSet: IFeatureSet = {
   ]
 };
 
+const incidentsUrl = {
+  url: "https://services1.arcgis.com/testing_url/arcgis/rest/services/testing_incidents/FeatureServer/0"
+};
+
+const facilitiesUrl = {
+  url: "https://services1.arcgis.com/testing_url2/arcgis/rest/services/testing_facilities/FeatureServer/0"
+};
+
 // const customRoutingUrl =
 //   "https://foo.com/ArcGIS/rest/services/Network/USA/NAServer/";
 
@@ -430,6 +438,38 @@ describe("closestFacility", () => {
           `facilities=${encodeURIComponent(
             JSON.stringify(facilitiesFeatureSet)
           )}`
+        );
+        done();
+      })
+      .catch((e) => {
+        fail(e);
+      });
+  });
+
+  it("should make a simple closestFacility request (JSON with url)", (done) => {
+    fetchMock.once("*", ClosestFacility);
+
+    const MOCK_AUTH = {
+      getToken() {
+        return Promise.resolve("token");
+      },
+      portal: "https://mapsdev.arcgis.com"
+    };
+
+    closestFacility({
+      incidents: incidentsUrl,
+      facilities: facilitiesUrl,
+      returnCFRoutes: true,
+      authentication: MOCK_AUTH
+    })
+      .then((response) => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(options.body).toContain(
+          `incidents=${encodeURIComponent(JSON.stringify(incidentsUrl))}`
+        );
+        expect(options.body).toContain(
+          `facilities=${encodeURIComponent(JSON.stringify(facilitiesUrl))}`
         );
         done();
       })
