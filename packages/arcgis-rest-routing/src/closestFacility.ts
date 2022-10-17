@@ -25,7 +25,6 @@ export interface IClosestFacilityOptions extends IEndpointOptions {
   /**
    * Specify one or more locations from which the service searches for the nearby locations. These locations are referred to as incidents.
    */
-  // incidents: Array<IPoint | ILocation | [number, number]> | IFeatureSet;
   incidents:
     | Array<IPoint | ILocation | [number, number]>
     | IFeatureSet
