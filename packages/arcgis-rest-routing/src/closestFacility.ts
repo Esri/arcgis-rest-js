@@ -34,7 +34,6 @@ export interface IClosestFacilityOptions extends IEndpointOptions {
   /**
    * Specify one or more locations that are searched for when finding the closest location.
    */
-  // facilities: Array<IPoint | ILocation | [number, number]> | IFeatureSet;
   facilities:
     | Array<IPoint | ILocation | [number, number]>
     | IFeatureSet
