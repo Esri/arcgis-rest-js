@@ -15,7 +15,8 @@ import {
   ARCGIS_ONLINE_CLOSEST_FACILITY_URL,
   IEndpointOptions,
   normalizeLocationsList,
-  isFeatureSet
+  isFeatureSet,
+  isJsonWithURL
 } from "./helpers.js";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
@@ -24,12 +25,18 @@ export interface IClosestFacilityOptions extends IEndpointOptions {
   /**
    * Specify one or more locations from which the service searches for the nearby locations. These locations are referred to as incidents.
    */
-  incidents: Array<IPoint | ILocation | [number, number]> | IFeatureSet;
+  incidents:
+    | Array<IPoint | ILocation | [number, number]>
+    | IFeatureSet
+    | { url: string };
 
   /**
    * Specify one or more locations that are searched for when finding the closest location.
    */
-  facilities: Array<IPoint | ILocation | [number, number]> | IFeatureSet;
+  facilities:
+    | Array<IPoint | ILocation | [number, number]>
+    | IFeatureSet
+    | { url: string };
   /**
    *  Specify if the service should return routes.
    */
@@ -176,7 +183,10 @@ export function closestFacility(
     );
   }
 
-  if (isFeatureSet(requestOptions.incidents)) {
+  if (
+    isFeatureSet(requestOptions.incidents) ||
+    isJsonWithURL(requestOptions.incidents)
+  ) {
     options.params.incidents = requestOptions.incidents;
   } else {
     options.params.incidents = normalizeLocationsList(
@@ -184,7 +194,10 @@ export function closestFacility(
     ).join(";");
   }
 
-  if (isFeatureSet(requestOptions.facilities)) {
+  if (
+    isFeatureSet(requestOptions.facilities) ||
+    isJsonWithURL(requestOptions.facilities)
+  ) {
     options.params.facilities = requestOptions.facilities;
   } else {
     options.params.facilities = normalizeLocationsList(
