@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-routing [4.0.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-routing@4.0.2...@esri/arcgis-rest-routing@4.0.3) (2022-10-19)
+
+
+### Bug Fixes
+
+* **arcgis-rest-routing:** url param ([#1028](https://github.com/Esri/arcgis-rest-js/issues/1028)) ([3713b81](https://github.com/Esri/arcgis-rest-js/commit/3713b814f24a14128ffa48aeae3932ffb4c83ee8))
+
 ## @esri/arcgis-rest-routing [4.0.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-routing@4.0.1...@esri/arcgis-rest-routing@4.0.2) (2022-05-11)
 
 
