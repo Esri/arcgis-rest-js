@@ -85304,7 +85304,7 @@
 					"flags": {},
 					"children": [
 						{
-							"id": 3868,
+							"id": 3872,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85314,7 +85314,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 38,
+									"line": 45,
 									"character": 2
 								}
 							],
@@ -85358,7 +85358,7 @@
 							}
 						},
 						{
-							"id": 3873,
+							"id": 3877,
 							"name": "directionsLengthUnits",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85368,7 +85368,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 49,
+									"line": 56,
 									"character": 2
 								}
 							],
@@ -85427,7 +85427,7 @@
 							}
 						},
 						{
-							"id": 3872,
+							"id": 3876,
 							"name": "directionsOutputType",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85437,7 +85437,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 42,
+									"line": 49,
 									"character": 2
 								}
 							],
@@ -85472,7 +85472,7 @@
 							}
 						},
 						{
-							"id": 3881,
+							"id": 3885,
 							"name": "endpoint",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85495,12 +85495,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3962,
+								"id": 3969,
 								"name": "IEndpointOptions.endpoint"
 							}
 						},
 						{
-							"id": 3865,
+							"id": 3867,
 							"name": "facilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85511,7 +85511,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 32,
+									"line": 36,
 									"character": 2
 								}
 							],
@@ -85546,6 +85546,45 @@
 															"type": "intrinsic",
 															"name": "number"
 														}
+													]
+												}
+											]
+										}
+									},
+									{
+										"type": "reflection",
+										"declaration": {
+											"id": 3868,
+											"name": "__type",
+											"kind": 65536,
+											"kindString": "Type literal",
+											"flags": {},
+											"children": [
+												{
+													"id": 3869,
+													"name": "url",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"sources": [
+														{
+															"fileName": "arcgis-rest-routing/src/closestFacility.ts",
+															"line": 39,
+															"character": 8
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													}
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"kind": 1024,
+													"children": [
+														3869
 													]
 												}
 											]
@@ -85566,7 +85605,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 27,
+									"line": 28,
 									"character": 2
 								}
 							],
@@ -85605,12 +85644,51 @@
 												}
 											]
 										}
+									},
+									{
+										"type": "reflection",
+										"declaration": {
+											"id": 3865,
+											"name": "__type",
+											"kind": 65536,
+											"kindString": "Type literal",
+											"flags": {},
+											"children": [
+												{
+													"id": 3866,
+													"name": "url",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"sources": [
+														{
+															"fileName": "arcgis-rest-routing/src/closestFacility.ts",
+															"line": 31,
+															"character": 8
+														}
+													],
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													}
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"kind": 1024,
+													"children": [
+														3866
+													]
+												}
+											]
+										}
 									}
 								]
 							}
 						},
 						{
-							"id": 3874,
+							"id": 3878,
 							"name": "outputLines",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85620,7 +85698,87 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 62,
+									"line": 69,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "boolean"
+							}
+						},
+						{
+							"id": 3874,
+							"name": "polygonBarriers",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
+									"line": 47,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "IFeatureSet"
+							}
+						},
+						{
+							"id": 3873,
+							"name": "polylineBarriers",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
+									"line": 46,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "IFeatureSet"
+							}
+						},
+						{
+							"id": 3884,
+							"name": "preserveObjectID",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
+									"line": 75,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "boolean"
+							}
+						},
+						{
+							"id": 3881,
+							"name": "returnBarriers",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
+									"line": 72,
 									"character": 2
 								}
 							],
@@ -85631,86 +85789,6 @@
 						},
 						{
 							"id": 3870,
-							"name": "polygonBarriers",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 40,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "IFeatureSet"
-							}
-						},
-						{
-							"id": 3869,
-							"name": "polylineBarriers",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 39,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "IFeatureSet"
-							}
-						},
-						{
-							"id": 3880,
-							"name": "preserveObjectID",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 68,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							}
-						},
-						{
-							"id": 3877,
-							"name": "returnBarriers",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 65,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							}
-						},
-						{
-							"id": 3866,
 							"name": "returnCFRoutes",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85721,27 +85799,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 36,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							}
-						},
-						{
-							"id": 3871,
-							"name": "returnDirections",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 41,
+									"line": 43,
 									"character": 2
 								}
 							],
@@ -85752,7 +85810,7 @@
 						},
 						{
 							"id": 3875,
-							"name": "returnFacilities",
+							"name": "returnDirections",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
@@ -85761,27 +85819,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 63,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "boolean"
-							}
-						},
-						{
-							"id": 3876,
-							"name": "returnIncidents",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 64,
+									"line": 48,
 									"character": 2
 								}
 							],
@@ -85792,6 +85830,46 @@
 						},
 						{
 							"id": 3879,
+							"name": "returnFacilities",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
+									"line": 70,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "boolean"
+							}
+						},
+						{
+							"id": 3880,
+							"name": "returnIncidents",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
+									"line": 71,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "boolean"
+							}
+						},
+						{
+							"id": 3883,
 							"name": "returnPolygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85801,7 +85879,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 67,
+									"line": 74,
 									"character": 2
 								}
 							],
@@ -85811,7 +85889,7 @@
 							}
 						},
 						{
-							"id": 3878,
+							"id": 3882,
 							"name": "returnPolylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85821,7 +85899,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 66,
+									"line": 73,
 									"character": 2
 								}
 							],
@@ -85831,7 +85909,7 @@
 							}
 						},
 						{
-							"id": 3867,
+							"id": 3871,
 							"name": "travelDirection",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85841,7 +85919,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 37,
+									"line": 44,
 									"character": 2
 								}
 							],
@@ -85865,51 +85943,51 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3868,
-								3873,
 								3872,
-								3881,
-								3865,
-								3864,
-								3874,
-								3870,
-								3869,
-								3880,
 								3877,
-								3866,
-								3871,
-								3875,
 								3876,
-								3879,
+								3885,
+								3867,
+								3864,
 								3878,
-								3867
+								3874,
+								3873,
+								3884,
+								3881,
+								3870,
+								3875,
+								3879,
+								3880,
+								3883,
+								3882,
+								3871
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-							"line": 23,
+							"line": 24,
 							"character": 17
 						}
 					],
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3961,
+							"id": 3968,
 							"name": "IEndpointOptions"
 						}
 					]
 				},
 				{
-					"id": 3882,
+					"id": 3886,
 					"name": "IClosestFacilityResponse",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3893,
+							"id": 3897,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85919,7 +85997,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 86,
+									"line": 93,
 									"character": 2
 								}
 							],
@@ -85929,7 +86007,7 @@
 							}
 						},
 						{
-							"id": 3885,
+							"id": 3889,
 							"name": "directions",
 							"kind": 1024,
 							"kindString": "Property",
@@ -85939,7 +86017,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 78,
+									"line": 85,
 									"character": 2
 								}
 							],
@@ -85948,14 +86026,14 @@
 								"elementType": {
 									"type": "reflection",
 									"declaration": {
-										"id": 3886,
+										"id": 3890,
 										"name": "__type",
 										"kind": 65536,
 										"kindString": "Type literal",
 										"flags": {},
 										"children": [
 											{
-												"id": 3890,
+												"id": 3894,
 												"name": "features",
 												"kind": 1024,
 												"kindString": "Property",
@@ -85963,7 +86041,7 @@
 												"sources": [
 													{
 														"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-														"line": 82,
+														"line": 89,
 														"character": 4
 													}
 												],
@@ -85976,7 +86054,7 @@
 												}
 											},
 											{
-												"id": 3887,
+												"id": 3891,
 												"name": "routeId",
 												"kind": 1024,
 												"kindString": "Property",
@@ -85984,7 +86062,7 @@
 												"sources": [
 													{
 														"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-														"line": 79,
+														"line": 86,
 														"character": 4
 													}
 												],
@@ -85994,7 +86072,7 @@
 												}
 											},
 											{
-												"id": 3888,
+												"id": 3892,
 												"name": "routeName",
 												"kind": 1024,
 												"kindString": "Property",
@@ -86002,7 +86080,7 @@
 												"sources": [
 													{
 														"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-														"line": 80,
+														"line": 87,
 														"character": 4
 													}
 												],
@@ -86012,7 +86090,7 @@
 												}
 											},
 											{
-												"id": 3889,
+												"id": 3893,
 												"name": "summary",
 												"kind": 1024,
 												"kindString": "Property",
@@ -86020,7 +86098,7 @@
 												"sources": [
 													{
 														"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-														"line": 81,
+														"line": 88,
 														"character": 4
 													}
 												],
@@ -86035,10 +86113,10 @@
 												"title": "Properties",
 												"kind": 1024,
 												"children": [
-													3890,
-													3887,
-													3888,
-													3889
+													3894,
+													3891,
+													3892,
+													3893
 												]
 											}
 										]
@@ -86047,7 +86125,7 @@
 							}
 						},
 						{
-							"id": 3892,
+							"id": 3896,
 							"name": "facilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86057,7 +86135,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 85,
+									"line": 92,
 									"character": 2
 								}
 							],
@@ -86067,8 +86145,89 @@
 							}
 						},
 						{
-							"id": 3891,
+							"id": 3895,
 							"name": "incidents",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
+									"line": 91,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "IFeatureSet"
+							}
+						},
+						{
+							"id": 3887,
+							"name": "messages",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
+									"line": 83,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "string"
+								}
+							}
+						},
+						{
+							"id": 3898,
+							"name": "polygonBarriers",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
+									"line": 94,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "IFeatureSet"
+							}
+						},
+						{
+							"id": 3899,
+							"name": "polylineBarriers",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
+									"line": 95,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "IFeatureSet"
+							}
+						},
+						{
+							"id": 3888,
+							"name": "routes",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
@@ -86083,87 +86242,6 @@
 							],
 							"type": {
 								"type": "reference",
-								"name": "IFeatureSet"
-							}
-						},
-						{
-							"id": 3883,
-							"name": "messages",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 76,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "array",
-								"elementType": {
-									"type": "intrinsic",
-									"name": "string"
-								}
-							}
-						},
-						{
-							"id": 3894,
-							"name": "polygonBarriers",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 87,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "IFeatureSet"
-							}
-						},
-						{
-							"id": 3895,
-							"name": "polylineBarriers",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 88,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "IFeatureSet"
-							}
-						},
-						{
-							"id": 3884,
-							"name": "routes",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {
-								"isOptional": true
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-									"line": 77,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "reference",
 								"name": "IFeatureSetWithGeoJson"
 							}
 						}
@@ -86173,34 +86251,34 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3893,
-								3885,
-								3892,
-								3891,
-								3883,
-								3894,
+								3897,
+								3889,
+								3896,
 								3895,
-								3884
+								3887,
+								3898,
+								3899,
+								3888
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-							"line": 75,
+							"line": 82,
 							"character": 17
 						}
 					]
 				},
 				{
-					"id": 3961,
+					"id": 3968,
 					"name": "IEndpointOptions",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3962,
+							"id": 3969,
 							"name": "endpoint",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86228,7 +86306,7 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3962
+								3969
 							]
 						}
 					],
@@ -86258,25 +86336,25 @@
 						},
 						{
 							"type": "reference",
-							"id": 3899,
+							"id": 3903,
 							"name": "IServiceAreaOptions"
 						},
 						{
 							"type": "reference",
-							"id": 3923,
+							"id": 3927,
 							"name": "IOriginDestinationMatrixOptions"
 						}
 					]
 				},
 				{
-					"id": 3923,
+					"id": 3927,
 					"name": "IOriginDestinationMatrixOptions",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3927,
+							"id": 3931,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86330,7 +86408,7 @@
 							}
 						},
 						{
-							"id": 3925,
+							"id": 3929,
 							"name": "destinations",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86385,7 +86463,7 @@
 							}
 						},
 						{
-							"id": 3935,
+							"id": 3939,
 							"name": "endpoint",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86408,12 +86486,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3962,
+								"id": 3969,
 								"name": "IEndpointOptions.endpoint"
 							}
 						},
 						{
-							"id": 3924,
+							"id": 3928,
 							"name": "origins",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86468,7 +86546,7 @@
 							}
 						},
 						{
-							"id": 3926,
+							"id": 3930,
 							"name": "outputType",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86504,7 +86582,7 @@
 							}
 						},
 						{
-							"id": 3929,
+							"id": 3933,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86524,7 +86602,7 @@
 							}
 						},
 						{
-							"id": 3928,
+							"id": 3932,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86544,7 +86622,7 @@
 							}
 						},
 						{
-							"id": 3932,
+							"id": 3936,
 							"name": "returnBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86564,7 +86642,7 @@
 							}
 						},
 						{
-							"id": 3931,
+							"id": 3935,
 							"name": "returnDestinations",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86584,7 +86662,7 @@
 							}
 						},
 						{
-							"id": 3930,
+							"id": 3934,
 							"name": "returnOrigins",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86604,7 +86682,7 @@
 							}
 						},
 						{
-							"id": 3934,
+							"id": 3938,
 							"name": "returnPolygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86624,7 +86702,7 @@
 							}
 						},
 						{
-							"id": 3933,
+							"id": 3937,
 							"name": "returnPolylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86649,18 +86727,18 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3927,
-								3925,
-								3935,
-								3924,
-								3926,
-								3929,
-								3928,
-								3932,
 								3931,
+								3929,
+								3939,
+								3928,
 								3930,
+								3933,
+								3932,
+								3936,
+								3935,
 								3934,
-								3933
+								3938,
+								3937
 							]
 						}
 					],
@@ -86674,20 +86752,20 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3961,
+							"id": 3968,
 							"name": "IEndpointOptions"
 						}
 					]
 				},
 				{
-					"id": 3936,
+					"id": 3940,
 					"name": "IOriginDestinationMatrixResponse",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3945,
+							"id": 3949,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86707,7 +86785,7 @@
 							}
 						},
 						{
-							"id": 3944,
+							"id": 3948,
 							"name": "destinations",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86727,7 +86805,7 @@
 							}
 						},
 						{
-							"id": 3937,
+							"id": 3941,
 							"name": "messages",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86745,14 +86823,14 @@
 									{
 										"type": "reflection",
 										"declaration": {
-											"id": 3938,
+											"id": 3942,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 3940,
+													"id": 3944,
 													"name": "description",
 													"kind": 1024,
 													"kindString": "Property",
@@ -86770,7 +86848,7 @@
 													}
 												},
 												{
-													"id": 3939,
+													"id": 3943,
 													"name": "type",
 													"kind": 1024,
 													"kindString": "Property",
@@ -86793,8 +86871,8 @@
 													"title": "Properties",
 													"kind": 1024,
 													"children": [
-														3940,
-														3939
+														3944,
+														3943
 													]
 												}
 											]
@@ -86804,7 +86882,7 @@
 							}
 						},
 						{
-							"id": 3941,
+							"id": 3945,
 							"name": "odCostMatrix",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86827,7 +86905,7 @@
 							}
 						},
 						{
-							"id": 3942,
+							"id": 3946,
 							"name": "odLines",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86850,7 +86928,7 @@
 							}
 						},
 						{
-							"id": 3943,
+							"id": 3947,
 							"name": "origins",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86870,7 +86948,7 @@
 							}
 						},
 						{
-							"id": 3947,
+							"id": 3951,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86890,7 +86968,7 @@
 							}
 						},
 						{
-							"id": 3946,
+							"id": 3950,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86915,14 +86993,14 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3945,
-								3944,
-								3937,
+								3949,
+								3948,
 								3941,
-								3942,
-								3943,
+								3945,
+								3946,
 								3947,
-								3946
+								3951,
+								3950
 							]
 						}
 					],
@@ -86935,14 +87013,14 @@
 					]
 				},
 				{
-					"id": 3899,
+					"id": 3903,
 					"name": "IServiceAreaOptions",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3902,
+							"id": 3906,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -86996,7 +87074,7 @@
 							}
 						},
 						{
-							"id": 3911,
+							"id": 3915,
 							"name": "endpoint",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87019,12 +87097,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3962,
+								"id": 3969,
 								"name": "IEndpointOptions.endpoint"
 							}
 						},
 						{
-							"id": 3900,
+							"id": 3904,
 							"name": "facilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87079,7 +87157,7 @@
 							}
 						},
 						{
-							"id": 3905,
+							"id": 3909,
 							"name": "outputLines",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87099,7 +87177,7 @@
 							}
 						},
 						{
-							"id": 3904,
+							"id": 3908,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87119,7 +87197,7 @@
 							}
 						},
 						{
-							"id": 3903,
+							"id": 3907,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87139,7 +87217,7 @@
 							}
 						},
 						{
-							"id": 3910,
+							"id": 3914,
 							"name": "preserveObjectID",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87159,7 +87237,7 @@
 							}
 						},
 						{
-							"id": 3907,
+							"id": 3911,
 							"name": "returnBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87179,7 +87257,7 @@
 							}
 						},
 						{
-							"id": 3906,
+							"id": 3910,
 							"name": "returnFacilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87199,7 +87277,7 @@
 							}
 						},
 						{
-							"id": 3909,
+							"id": 3913,
 							"name": "returnPolygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87219,7 +87297,7 @@
 							}
 						},
 						{
-							"id": 3908,
+							"id": 3912,
 							"name": "returnPolylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87239,7 +87317,7 @@
 							}
 						},
 						{
-							"id": 3901,
+							"id": 3905,
 							"name": "travelDirection",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87276,18 +87354,18 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3902,
-								3911,
-								3900,
-								3905,
-								3904,
-								3903,
-								3910,
-								3907,
 								3906,
+								3915,
+								3904,
 								3909,
 								3908,
-								3901
+								3907,
+								3914,
+								3911,
+								3910,
+								3913,
+								3912,
+								3905
 							]
 						}
 					],
@@ -87301,20 +87379,20 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3961,
+							"id": 3968,
 							"name": "IEndpointOptions"
 						}
 					]
 				},
 				{
-					"id": 3912,
+					"id": 3916,
 					"name": "IServiceAreaResponse",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
 					"children": [
 						{
-							"id": 3917,
+							"id": 3921,
 							"name": "barriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87334,7 +87412,7 @@
 							}
 						},
 						{
-							"id": 3916,
+							"id": 3920,
 							"name": "facilities",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87354,7 +87432,7 @@
 							}
 						},
 						{
-							"id": 3915,
+							"id": 3919,
 							"name": "incidents",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87374,7 +87452,7 @@
 							}
 						},
 						{
-							"id": 3913,
+							"id": 3917,
 							"name": "messages",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87395,7 +87473,7 @@
 							}
 						},
 						{
-							"id": 3918,
+							"id": 3922,
 							"name": "polygonBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87415,7 +87493,7 @@
 							}
 						},
 						{
-							"id": 3919,
+							"id": 3923,
 							"name": "polylineBarriers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87435,7 +87513,7 @@
 							}
 						},
 						{
-							"id": 3914,
+							"id": 3918,
 							"name": "saPolygons",
 							"kind": 1024,
 							"kindString": "Property",
@@ -87460,13 +87538,13 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3917,
-								3916,
-								3915,
-								3913,
-								3918,
+								3921,
+								3920,
 								3919,
-								3914
+								3917,
+								3922,
+								3923,
+								3918
 							]
 						}
 					],
@@ -87509,7 +87587,7 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 3962,
+								"id": 3969,
 								"name": "IEndpointOptions.endpoint"
 							}
 						},
@@ -87606,7 +87684,7 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 3961,
+							"id": 3968,
 							"name": "IEndpointOptions"
 						}
 					]
@@ -87815,7 +87893,7 @@
 					]
 				},
 				{
-					"id": 3958,
+					"id": 3965,
 					"name": "ARCGIS_ONLINE_CLOSEST_FACILITY_URL",
 					"kind": 32,
 					"kindString": "Variable",
@@ -87836,7 +87914,7 @@
 					"defaultValue": "\"https://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World\""
 				},
 				{
-					"id": 3960,
+					"id": 3967,
 					"name": "ARCGIS_ONLINE_ORIGIN_DESTINATION_MATRIX_URL",
 					"kind": 32,
 					"kindString": "Variable",
@@ -87857,7 +87935,7 @@
 					"defaultValue": "\"https://route.arcgis.com/arcgis/rest/services/World/OriginDestinationCostMatrix/NAServer/OriginDestinationCostMatrix_World\""
 				},
 				{
-					"id": 3957,
+					"id": 3964,
 					"name": "ARCGIS_ONLINE_ROUTING_URL",
 					"kind": 32,
 					"kindString": "Variable",
@@ -87878,7 +87956,7 @@
 					"defaultValue": "\"https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World\""
 				},
 				{
-					"id": 3959,
+					"id": 3966,
 					"name": "ARCGIS_ONLINE_SERVICE_AREA_URL",
 					"kind": 32,
 					"kindString": "Variable",
@@ -87907,7 +87985,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-routing/src/closestFacility.ts",
-							"line": 127,
+							"line": 134,
 							"character": 16
 						}
 					],
@@ -87955,7 +88033,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 3882,
+										"id": 3886,
 										"name": "IClosestFacilityResponse"
 									}
 								],
@@ -87965,7 +88043,7 @@
 					]
 				},
 				{
-					"id": 3951,
+					"id": 3955,
 					"name": "decompressGeometry",
 					"kind": 64,
 					"kindString": "Function",
@@ -87979,14 +88057,14 @@
 					],
 					"signatures": [
 						{
-							"id": 3952,
+							"id": 3956,
 							"name": "decompressGeometry",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 3953,
+									"id": 3957,
 									"name": "str",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -88005,7 +88083,7 @@
 					]
 				},
 				{
-					"id": 3954,
+					"id": 3958,
 					"name": "isFeatureSet",
 					"kind": 64,
 					"kindString": "Function",
@@ -88019,7 +88097,7 @@
 					],
 					"signatures": [
 						{
-							"id": 3955,
+							"id": 3959,
 							"name": "isFeatureSet",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -88029,7 +88107,7 @@
 							},
 							"parameters": [
 								{
-									"id": 3956,
+									"id": 3960,
 									"name": "arg",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -88053,7 +88131,55 @@
 					]
 				},
 				{
-					"id": 3948,
+					"id": 3961,
+					"name": "isJsonWithURL",
+					"kind": 64,
+					"kindString": "Function",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "arcgis-rest-routing/src/helpers.ts",
+							"line": 109,
+							"character": 16
+						}
+					],
+					"signatures": [
+						{
+							"id": 3962,
+							"name": "isJsonWithURL",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "User Defined Type Guard that verifies this is a JSON with `url` property"
+							},
+							"parameters": [
+								{
+									"id": 3963,
+									"name": "arg",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "any"
+									}
+								}
+							],
+							"type": {
+								"type": "predicate",
+								"name": "arg",
+								"asserts": false,
+								"targetType": {
+									"type": "reference",
+									"name": "Object"
+								}
+							}
+						}
+					]
+				},
+				{
+					"id": 3952,
 					"name": "normalizeLocationsList",
 					"kind": 64,
 					"kindString": "Function",
@@ -88067,14 +88193,14 @@
 					],
 					"signatures": [
 						{
-							"id": 3949,
+							"id": 3953,
 							"name": "normalizeLocationsList",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 3950,
+									"id": 3954,
 									"name": "locations",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -88121,7 +88247,7 @@
 					]
 				},
 				{
-					"id": 3920,
+					"id": 3924,
 					"name": "originDestinationMatrix",
 					"kind": 64,
 					"kindString": "Function",
@@ -88135,7 +88261,7 @@
 					],
 					"signatures": [
 						{
-							"id": 3921,
+							"id": 3925,
 							"name": "originDestinationMatrix",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -88153,7 +88279,7 @@
 							},
 							"parameters": [
 								{
-									"id": 3922,
+									"id": 3926,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -88163,7 +88289,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 3923,
+										"id": 3927,
 										"name": "IOriginDestinationMatrixOptions"
 									}
 								}
@@ -88173,7 +88299,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 3936,
+										"id": 3940,
 										"name": "IOriginDestinationMatrixResponse"
 									}
 								],
@@ -88183,7 +88309,7 @@
 					]
 				},
 				{
-					"id": 3896,
+					"id": 3900,
 					"name": "serviceArea",
 					"kind": 64,
 					"kindString": "Function",
@@ -88197,7 +88323,7 @@
 					],
 					"signatures": [
 						{
-							"id": 3897,
+							"id": 3901,
 							"name": "serviceArea",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -88215,7 +88341,7 @@
 							},
 							"parameters": [
 								{
-									"id": 3898,
+									"id": 3902,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -88225,7 +88351,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 3899,
+										"id": 3903,
 										"name": "IServiceAreaOptions"
 									}
 								}
@@ -88235,7 +88361,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 3912,
+										"id": 3916,
 										"name": "IServiceAreaResponse"
 									}
 								],
@@ -88313,12 +88439,12 @@
 					"kind": 256,
 					"children": [
 						3863,
-						3882,
-						3961,
-						3923,
-						3936,
-						3899,
-						3912,
+						3886,
+						3968,
+						3927,
+						3940,
+						3903,
+						3916,
 						3847,
 						3850
 					]
@@ -88327,10 +88453,10 @@
 					"title": "Variables",
 					"kind": 32,
 					"children": [
-						3958,
-						3960,
-						3957,
-						3959
+						3965,
+						3967,
+						3964,
+						3966
 					]
 				},
 				{
@@ -88338,11 +88464,12 @@
 					"kind": 64,
 					"children": [
 						3860,
-						3951,
-						3954,
-						3948,
-						3920,
-						3896,
+						3955,
+						3958,
+						3961,
+						3952,
+						3924,
+						3900,
 						3844
 					]
 				}
