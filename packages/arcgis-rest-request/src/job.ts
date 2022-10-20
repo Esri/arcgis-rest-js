@@ -350,7 +350,7 @@ export class Job {
    *
    * These job statuses are based on what are returned from the job request task and have been into an enum type in {@linkcode JOB_STATUSES}.
    *
-   * Reference {@link https://developers.arcgis.com/rest/services-reference/enterprise/geoanalytics-checking-job-status.htm}
+   * Reference https://developers.arcgis.com/rest/services-reference/enterprise/geoanalytics-checking-job-status.htm
    */
   private executePoll = async () => {
     let result;
