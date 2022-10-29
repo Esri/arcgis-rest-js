@@ -19,6 +19,10 @@ export interface IAddItemDataOptions extends IUserItemOptions {
    * Object to store
    */
   data: any;
+  /**
+   * The size of data stream in bytes. Required if the data is a Nodejs ReadStream.
+   */
+  dataSize?: number;
 }
 
 /**

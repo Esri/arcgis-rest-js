@@ -21,6 +21,10 @@ import {
 
 export interface IUpdateItemOptions extends ICreateUpdateItemOptions {
   item: IItemUpdate;
+  /**
+   * The size of data stream in bytes. Required if the data is a Nodejs ReadStream.
+   */
+  dataSize?: number;
 }
 
 export interface IMoveItemOptions extends ICreateUpdateItemOptions {
@@ -73,6 +77,18 @@ export function updateItem(
     // Thus for extents we need to move this logic here
     if (requestOptions.params.extent && isBBox(requestOptions.params.extent)) {
       requestOptions.params.extent = bboxToString(requestOptions.params.extent);
+    }
+
+    if (
+      requestOptions.params.data &&
+      requestOptions.params.data.constructor &&
+      requestOptions.params.data.constructor.name === 'ReadStream'
+    ) {
+      // dataSize is not an official parameter for the ArcGIS REST API but is needed 
+      // to encode the ReadStream with an appropriate length. This is to overcome 
+      // the form-data library bug:
+      // https://github.com/form-data/form-data/issues/508
+      requestOptions.params.dataSize = requestOptions.dataSize
     }
 
     return request(url, requestOptions);
