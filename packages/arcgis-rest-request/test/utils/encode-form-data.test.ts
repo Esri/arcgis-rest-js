@@ -41,11 +41,6 @@ describe("encodeFormData", () => {
   });
 
   it("should encode nodejs ReadStream in form data with the given dataSize parameter", () => {
-    if (typeof process !== 'object') {
-      pending('This test is for node only.')
-      return
-    }
-
     const data = attachmentFile();
     
     if (!data.name) {
@@ -63,6 +58,12 @@ describe("encodeFormData", () => {
     const encodedFormData = encodeFormData(params);
 
     expect(encodedFormData instanceof FormData).toBeTruthy();
+
+    if ((encodedFormData as any).hasKnownLength() === undefined) {
+      pending('This test is for node only.')
+      return
+    }
+
     expect((encodedFormData as any).hasKnownLength()).toBeTruthy();
   });
 
