@@ -59,7 +59,7 @@ describe("encodeFormData", () => {
 
     expect(encodedFormData instanceof FormData).toBeTruthy();
 
-    if ((encodedFormData as any).hasKnownLength() === undefined) {
+    if ((encodedFormData as any).hasKnownLength === undefined) {
       pending('This test is for node only.')
       return
     }
