@@ -79,10 +79,11 @@ export function updateItem(
       requestOptions.params.extent = bboxToString(requestOptions.params.extent);
     }
 
+    /* istanbul ignore if */
     if (
-      requestOptions.params.data &&
-      requestOptions.params.data.constructor &&
-      requestOptions.params.data.constructor.name === 'ReadStream'
+      requestOptions.params.file &&
+      requestOptions.params.file.constructor &&
+      requestOptions.params.file.constructor.name === 'ReadStream'
     ) {
       // dataSize is not an official parameter for the ArcGIS REST API but is needed 
       // to encode the ReadStream with an appropriate length. This is to overcome 

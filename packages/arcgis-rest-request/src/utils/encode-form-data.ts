@@ -27,7 +27,9 @@ export function encodeFormData(
         */
         const filename = newParams["fileName"] || newParams[key].name || key;
         formData.append(key, newParams[key], filename);
-      } else if (
+      } 
+      /* istanbul ignore next */
+      else if (
         newParams[key].constructor &&
         newParams[key].constructor.name === 'ReadStream' && 
         // TODO: only specify the knownLength option if a valid value is given.
