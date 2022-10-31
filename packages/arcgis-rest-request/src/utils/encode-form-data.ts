@@ -27,6 +27,23 @@ export function encodeFormData(
         */
         const filename = newParams["fileName"] || newParams[key].name || key;
         formData.append(key, newParams[key], filename);
+      } 
+      /* istanbul ignore next */
+      else if (
+        newParams[key].constructor &&
+        newParams[key].constructor.name === 'ReadStream' && 
+        // TODO: only specify the knownLength option if a valid value is given.
+        // If we can verify in all REST API that the option is need for
+        // node ReadStream, it can throw an error for the missing dataSize value.
+        // Note that such change will be a breaking change.
+        Number.isInteger(newParams["dataSize"])
+      ) {
+        // have to cast the formData to any so that I can use the unofficial API
+        // in the form-data library to handle Node ReadStream. See
+        // https://github.com/form-data/form-data/issues/508
+        (formData as any).append(key, newParams[key], {
+          knownLength: newParams["dataSize"]
+        });
       } else {
         formData.append(key, newParams[key]);
       }

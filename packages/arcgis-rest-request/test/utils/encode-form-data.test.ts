@@ -40,6 +40,33 @@ describe("encodeFormData", () => {
     }
   });
 
+  it("should encode nodejs ReadStream in form data with the given dataSize parameter", () => {
+    const data = attachmentFile();
+    
+    if (!data.name) {
+      // The file's name is used for adding files to a form, so supply a name when we're in a testing
+      // environment that doesn't support File (attachmentFile creates a File with the name "foo.txt"
+      // if File is supported and a file stream otherwise)
+      data.name = "foo.txt";
+    }
+
+    const params = {
+      data,
+      dataSize: 10
+    };
+
+    const encodedFormData = encodeFormData(params);
+
+    expect(encodedFormData instanceof FormData).toBeTruthy();
+
+    if ((encodedFormData as any).hasKnownLength === undefined) {
+      pending('This test is for node only.')
+      return
+    }
+
+    expect((encodedFormData as any).hasKnownLength()).toBeTruthy();
+  });
+
   it("should encode as query string for basic types", () => {
     const dateValue = 1471417200000;
 
