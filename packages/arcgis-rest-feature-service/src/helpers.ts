@@ -50,16 +50,24 @@ export interface ISharedQueryOptions extends IGetLayerOptions {
 /**
  * Add, update and delete features result Object.
  */
-export interface IEditFeatureResult {
+export type IEditFeatureResult = {
   objectId: number;
   globalId?: string;
-  success: boolean;
+  success: true;
+} | {
+  objectId: number;
+  globalId?: string;
+  success: false;
+  error: {
+    code: number;
+    description: string;
+  };
 }
 
 /**
  * `globalId` always returned with attachments via apply edits.
  */
-export interface IApplyEditsAttachmentResult extends IEditFeatureResult {
+export type IApplyEditsAttachmentResult = IEditFeatureResult & {
   globalId: string;
 }
 
