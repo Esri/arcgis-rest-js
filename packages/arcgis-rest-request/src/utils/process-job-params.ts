@@ -1,5 +1,5 @@
  /**
-   * Processes arrays to JSON strings for Geoprocessing services. See “GPMultiValue” in {@link https://developers.arcgis.com/rest/services-reference/enterprise/gp-data-types.htm}
+   * Processes arrays to JSON strings for Geoprocessing services. See “GPMultiValue” in https://developers.arcgis.com/rest/services-reference/enterprise/gp-data-types.htm
    */
   export function processJobParams(params: any) {
   const processedParams = Object.keys(params).reduce((newParams: any, key) => {
