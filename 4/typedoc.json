@@ -67461,7 +67461,7 @@
 					"flags": {},
 					"comment": {
 						"shortText": "These statuses are based on what are returned from the job request task and have been into an enum type.",
-						"text": "Reference {@link https://developers.arcgis.com/rest/services-reference/enterprise/geoanalytics-checking-job-status.htm}\n"
+						"text": "Reference https://developers.arcgis.com/rest/services-reference/enterprise/geoanalytics-checking-job-status.htm\n"
 					},
 					"children": [
 						{
