@@ -135,7 +135,7 @@ const DefaultJobOptions: Partial<IJobOptions> = {
  * job.on("status", ({jobStatus}) => {console.log(job.status)})
  * ```
  *
- * By default event monitoring is started when you call {@linkcode Job.waitForCompletion}, {@linkcode Job.getResults} or, {@linkcode Job.getResult} and stops automatically when those promises complete. Use {@linkcode Job.startEventMonitoring} and {@linkcode Job.stopEventMonitoring} to manually start and stop event monitoring outside those methods. Starting monitoring with {@linkcode Job.startEventMonitoring} will not stop monitoring when {@linkcode Job.waitForCompletion}, {@linkcode Job.getResults} or, {@linkcode Job.getResult} complete.
+ * By default event monitoring is started when you call {@linkcode Job.waitForCompletion}, {@linkcode Job.getAllResults} or, {@linkcode Job.getResult} and stops automatically when those promises complete. Use {@linkcode Job.startEventMonitoring} and {@linkcode Job.stopEventMonitoring} to manually start and stop event monitoring outside those methods. Starting monitoring with {@linkcode Job.startEventMonitoring} will not stop monitoring when {@linkcode Job.waitForCompletion}, {@linkcode Job.getAllResults} or, {@linkcode Job.getResult} complete.
  */
 export class Job {
   static deserialize(serializeString: string, options?: IJobOptions) {
