@@ -81,7 +81,7 @@ For a specific package
 - Run `npm build:esm`
 - Check in the root `node_modules/@esri` that your new custom package has been added
 - Go into `/demos`, create a new folder and title what you want to call your demo
-- Add a local `package.json` in your new demo folder. Add your custom package name as a dependency. Be sure to have at least these properties in your `package.json`, `dependency, name, version, - description, license, type, main, scripts, and author`.
+- Add a local `package.json` in your new demo folder. Add your custom package name as a dependency and be sure to have at least these properties in your `package.json`, `dependency, name, version, - description, license, type, main, scripts, and author`.
 - Add a `.gitignore` in the root level of your demo folder that ignore `node_modules`. Be sure to ignore an `env` file as well if your demo is using any personal keys or tokens.
 - Run `mpm install` within the `/demos` directory and make sure your demo folder has it's own local node_modules.
 - In your `demo/index`, import your custom package.
