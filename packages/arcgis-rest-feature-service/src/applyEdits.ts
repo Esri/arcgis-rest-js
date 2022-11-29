@@ -8,7 +8,12 @@ import {
   IFeature
 } from "@esri/arcgis-rest-request";
 
-import { ISharedEditOptions, IApplyEditsResult } from "./helpers.js";
+import {
+  ISharedEditOptions,
+  IApplyEditsResult,
+  IApplyEditsAddAttachmentOptions,
+  IApplyEditsUpdateAttachmentOptions
+} from "./helpers.js";
 
 /**
  * Apply edits request options. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/apply-edits-feature-service-layer-.htm) for more information.
@@ -40,8 +45,8 @@ export interface IApplyEditsOptions extends ISharedEditOptions {
    * See [attachment](https://developers.arcgis.com/rest/services-reference/apply-edits-feature-service-layer-.htm) param details.
    */
   attachments?: {
-    adds?: any[];
-    updates?: any[];
+    adds?: IApplyEditsAddAttachmentOptions[];
+    updates?: IApplyEditsUpdateAttachmentOptions[];
     deletes?: string[];
   };
 }

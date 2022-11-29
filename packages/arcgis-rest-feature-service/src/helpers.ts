@@ -64,6 +64,54 @@ export interface IEditFeatureResult {
 }
 
 /**
+ * Shared add/update attachment options for apply edits.
+ */
+interface IApplyEditsSharedAttachmentOptions {
+  /**
+   * Attachment file content type.
+   */
+  contentType: string;
+  /**
+   * Name of the file including extension.
+   */
+  name: string;
+  /**
+   * Upload id of file to be attached.
+   */
+  uploadId?: string;
+  /**
+   * Base 64 encoded data of attachment.
+   */
+  data?: string;
+}
+
+/**
+ * Add attachment options for apply edits.
+ */
+export interface IApplyEditsAddAttachmentOptions
+  extends IApplyEditsSharedAttachmentOptions {
+  /**
+   * Global id of attachment (must be provided by client).
+   */
+  globalId: string;
+  /**
+   * Global id of feature to attach.
+   */
+  parentGlobalId: string;
+}
+
+/**
+ * Update attachment options for apply edits.
+ */
+export interface IApplyEditsUpdateAttachmentOptions
+  extends IApplyEditsSharedAttachmentOptions {
+  /**
+   * Global id of attachment.
+   */
+  globalId: string;
+}
+
+/**
  * `globalId` always returned with attachments via apply edits.
  */
 export interface IApplyEditsAttachmentResult extends IEditFeatureResult {
