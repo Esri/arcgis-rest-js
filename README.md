@@ -73,6 +73,22 @@ For a specific package
 - `npm run build:bundled -w @esri/arcgis-rest-request` - run the rollup build in a specific workspace
 - `npm run dev:bundled -w @esri/arcgis-rest-request` - run the rollup dev command in a specific workspace
 
+#### How to add a new package
+- In `/packages`, create a new folder with your desired new package name
+- Each package will have it’s own local `package.json` and tsconfig.json if using typescript
+- Create a folder in your new package called `src` in which your code will be defined
+- After creating your custom package, go to the root `package.json`, under the property `workspaces`, add the title of your custom package
+- Run `npm build:esm`
+- Check in the root `node_modules/@esri` that your new custom package has been added
+- Go into `/demos`, create a new folder and title what you want to call your demo
+- Add a local `package.json` in your new demo folder. Add your custom package name as a dependency and be sure to have at least these properties in your `package.json`, `dependency, name, version, - description, license, type, main, scripts, and author`.
+- Add a `.gitignore` in the root level of your demo folder that ignore `node_modules`. Be sure to ignore an `env` file as well if your demo is using any personal keys or tokens.
+- Run `mpm install` within the `/demos` directory and make sure your demo folder has it's own local node_modules.
+- In your `demo/index`, import your custom package.
+- To run your demo be sure to have script that has a property `start` in your demo directory and your script is pointing to the correct index file. 
+- Run `npm run start` while being in your `/demos/custom-demo` directory.
+- Add a readme describing your demo.
+
 ### Packages
 
 - [`@esri/arcgis-rest-request`](./packages/arcgis-rest-request/) - Core module implementing basic request code, shared TypeScript types and common utilities.
