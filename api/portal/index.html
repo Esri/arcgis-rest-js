@@ -27,17 +27,8 @@
 
     <div id="page" class="wrapper">
       <!-- Sample HTML -->
-      <div style="background: #e9c31c; color: black; text-align:center; padding: 0.5rem 0;">
-        <div class="grid-container" >
-          <div class="column-24">
-            This documentation is for ArcGIS REST JS 3.x which is no longer maintained. For the latest 4.x documentation see <a
-              href="https://developers.arcgis.com/arcgis-rest-js/" style="color: black; text-decoration: underline;">ArcGIS REST JS on the ArcGIS Developer website</a>.
-          </div>
-        </div>
-      </div>
       <header class="top-nav">
         <div class="grid-container">
-
           <div class="column-24">
             <!-- desktop sized navigation -->
             <div class="tablet-hide">
@@ -753,6 +744,14 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/arcgis-rest-js/api/portal/getRelatedItems/" class="tsd-kind-icon padding-right-1">getRelatedItems</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/bboxToString/" class="tsd-kind-icon padding-right-1">bboxToString</a>
+            </li>
+            
+            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
+              <a href="/arcgis-rest-js/api/portal/isBBox/" class="tsd-kind-icon padding-right-1">isBBox</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -2044,7 +2043,7 @@
 
   <div class="column-18">
     <div class="panel panel-white padding-left-1 padding-right-1 padding-trailer-1 padding-leader-half">
-      <small class="label right">Version 3.4.3</small>
+      <small class="label right">Version 3.5.1</small>
 <h1 class="tsd-kind-module font-size-3 trailer-half code-face">
   <a href="/arcgis-rest-js/api/portal/" class="is-active">@esri/arcgis-rest-portal</a>
 </h1>
@@ -2093,6 +2092,8 @@
   getItemResources,
   getItemStatus,
   getRelatedItems,
+  bboxToString,
+  isBBox,
   serializeItem,
   protectItem,
   unprotectItem,
@@ -2140,10 +2141,10 @@
 } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-portal"</span>;</code></pre>
 
 <h2 class="font-size-0 trailer-quarter">CDN:</h2>
-<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/arcgis-rest-portal@3.4.3/dist/umd/portal.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/arcgis-rest-portal@3.5.1/dist/umd/portal.umd.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 <h2 class="font-size-0 trailer-quarter">CDN with SRI:</h2>
 
-        <pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/arcgis-rest-portal@3.4.3/dist/umd/portal.umd.min.js"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-bwKyi60FEqgg95Bp2N72VBd9RTkTqWcH238I43ttFbBGTT27EFYQbrybh33VGjaC"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+        <pre><code class="html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/@esri/arcgis-rest-portal@3.5.1/dist/umd/portal.umd.min.js"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string">"sha384-6B2veMPkNBiF/iKQafV7hGeecsKuoswdd/SUlzSpzCvZw8uuBlakwuqf1OLYXyFU"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 <hr class="leader-half trailer-quarter" />
 <ul class="list-plain package-contents">
   
@@ -2301,6 +2302,14 @@
   
   <li class="tsd-kind-function">
     <a href="/arcgis-rest-js/api/portal/getRelatedItems/" class="tsd-kind-icon">getRelatedItems</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/arcgis-rest-js/api/portal/bboxToString/" class="tsd-kind-icon">bboxToString</a>
+  </li>
+  
+  <li class="tsd-kind-function">
+    <a href="/arcgis-rest-js/api/portal/isBBox/" class="tsd-kind-icon">isBBox</a>
   </li>
   
   <li class="tsd-kind-function">
