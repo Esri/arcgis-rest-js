@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - main
-    # Dont run if it's just markdown or doc files
+    # Don't run if it's just markdown or doc files
     paths-ignore:
       - "**.md"
       - "docs/**"
@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        node: [12, 14, 16, 18]
+        node: [14, 16, 18]
 
     steps:
       - uses: actions/checkout@v2
