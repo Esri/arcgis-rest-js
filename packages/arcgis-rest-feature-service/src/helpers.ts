@@ -54,6 +54,13 @@ export interface IEditFeatureResult {
   objectId: number;
   globalId?: string;
   success: boolean;
+  /**
+   * Error is optional and is only returned when `success` is `false`.
+   */
+  error?: {
+    code: number;
+    description: string;
+  }
 }
 
 /**
