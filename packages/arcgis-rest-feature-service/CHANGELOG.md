@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-feature-service [4.0.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.0.3...@esri/arcgis-rest-feature-service@4.0.4) (2022-12-19)
+
+
+### Bug Fixes
+
+* add error parameter to IEditFeatureResult ([#1038](https://github.com/Esri/arcgis-rest-js/issues/1038)) ([36f78e5](https://github.com/Esri/arcgis-rest-js/commit/36f78e5d5ee98674af942b79338cd5a9427ea259))
+
 ## @esri/arcgis-rest-feature-service [4.0.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.0.2...@esri/arcgis-rest-feature-service@4.0.3) (2022-05-11)
 
 
