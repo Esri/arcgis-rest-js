@@ -651,7 +651,7 @@ describe("solveRoute", () => {
       });
   });
 
-  it("should not include routes.geoJson in the return for non-4326", (done) => {
+  it("should not include routes.geoJSON in the return for non-4326", (done) => {
     fetchMock.once("*", SolveWebMercator);
 
     const MOCK_AUTH = {
