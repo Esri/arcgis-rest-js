@@ -22,7 +22,7 @@ export interface IDeleteFeaturesOptions
   /**
    * Array of objectIds to delete.
    */
-  objectIds: number[];
+  objectIds?: number[];
 }
 
 /**
