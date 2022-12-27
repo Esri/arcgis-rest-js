@@ -1,0 +1,105 @@
+"use strict";
+/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.declineInvitation = exports.acceptInvitation = exports.getUserInvitation = exports.getUserInvitations = void 0;
+const arcgis_rest_request_1 = require("@esri/arcgis-rest-request");
+const get_portal_url_js_1 = require("../util/get-portal-url.js");
+/**
+ * Get all invitations for a user. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/user-invitations.htm) for more information.
+ *
+ * ```js
+ * import { getUserInvitations } from '@esri/arcgis-rest-portal';
+ *
+ * getUserInvitations({ authentication })
+ *   .then(response) // response.userInvitations.length => 3
+ * ```
+ *
+ * @param requestOptions - options to pass through in the request
+ * @returns A Promise that will resolve with the user's invitations
+ */
+function getUserInvitations(requestOptions) {
+    let options = { httpMethod: "GET" };
+    const username = encodeURIComponent(requestOptions.authentication.username);
+    const portalUrl = (0, get_portal_url_js_1.getPortalUrl)(requestOptions);
+    const url = `${portalUrl}/community/users/${username}/invitations`;
+    options = Object.assign(Object.assign({}, requestOptions), options);
+    // send the request
+    return (0, arcgis_rest_request_1.request)(url, options);
+}
+exports.getUserInvitations = getUserInvitations;
+/**
+ * Get an invitation for a user by id. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/user-invitation.htm) for more information.
+ *
+ * ```js
+ * import { getUserInvitation } from '@esri/arcgis-rest-portal';
+ * // username is inferred from ArcGISIdentityManager
+ * getUserInvitation({
+ *   invitationId: "3ef",
+ *   authentication
+ * })
+ *   .then(response) // => response.accepted => true
+ * ```
+ *
+ * @param requestOptions - options to pass through in the request
+ * @returns A Promise that will resolve with the invitation
+ */
+function getUserInvitation(requestOptions) {
+    const username = encodeURIComponent(requestOptions.authentication.username);
+    const portalUrl = (0, get_portal_url_js_1.getPortalUrl)(requestOptions);
+    const url = `${portalUrl}/community/users/${username}/invitations/${requestOptions.invitationId}`;
+    let options = { httpMethod: "GET" };
+    options = Object.assign(Object.assign({}, requestOptions), options);
+    // send the request
+    return (0, arcgis_rest_request_1.request)(url, options);
+}
+exports.getUserInvitation = getUserInvitation;
+/**
+ * Accept an invitation. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/accept-invitation.htm) for more information.
+ *
+ * ```js
+ * import { acceptInvitation } from '@esri/arcgis-rest-portal';
+ *
+ * acceptInvitation({
+ *   invitationId: "3ef",
+ *   authentication
+ * })
+ *   .then(response)
+ * ```
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise that will resolve with the success/failure status of the request
+ */
+function acceptInvitation(requestOptions) {
+    const username = encodeURIComponent(requestOptions.authentication.username);
+    const portalUrl = (0, get_portal_url_js_1.getPortalUrl)(requestOptions);
+    const url = `${portalUrl}/community/users/${username}/invitations/${requestOptions.invitationId}/accept`;
+    const options = Object.assign({}, requestOptions);
+    return (0, arcgis_rest_request_1.request)(url, options);
+}
+exports.acceptInvitation = acceptInvitation;
+/**
+ * Decline an invitation. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/decline-invitation.htm) for more information.
+ *
+ * ```js
+ * import { declineInvitation } from '@esri/arcgis-rest-portal';
+ * // username is inferred from ArcGISIdentityManager
+ * declineInvitation({
+ *   invitationId: "3ef",
+ *   authentication
+ * })
+ *   .then(response)
+ * ```
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise that will resolve with the success/failure status of the request
+ */
+function declineInvitation(requestOptions) {
+    const username = encodeURIComponent(requestOptions.authentication.username);
+    const portalUrl = (0, get_portal_url_js_1.getPortalUrl)(requestOptions);
+    const url = `${portalUrl}/community/users/${username}/invitations/${requestOptions.invitationId}/decline`;
+    const options = Object.assign({}, requestOptions);
+    return (0, arcgis_rest_request_1.request)(url, options);
+}
+exports.declineInvitation = declineInvitation;
+//# sourceMappingURL=invitation.js.map

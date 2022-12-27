@@ -1,0 +1,45 @@
+{
+  "name": "default-browser-id",
+  "version": "2.0.0",
+  "description": "Get the bundle identifier of the default browser (OS X). Example: com.apple.Safari",
+  "license": "MIT",
+  "repository": "sindresorhus/default-browser-id",
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "test": "xo && ava"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "osx",
+    "browser",
+    "default",
+    "plist",
+    "web",
+    "bundle",
+    "bundleid",
+    "id",
+    "identifier",
+    "uti"
+  ],
+  "dependencies": {
+    "bplist-parser": "^0.1.0",
+    "pify": "^2.3.0",
+    "untildify": "^2.0.0"
+  },
+  "devDependencies": {
+    "ava": "*",
+    "xo": "*"
+  },
+  "xo": {
+    "esnext": true
+  }
+}

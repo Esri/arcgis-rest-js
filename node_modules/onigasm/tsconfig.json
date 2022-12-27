@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "commonjs",
+        "sourceMap": true,
+        "outDir": "lib",
+        "declaration": true,
+        "declarationDir": "lib/typings"
+    }
+}

@@ -1,0 +1,4 @@
+[submodule "oniguruma"]
+	path = oniguruma
+	url = https://github.com/kkos/oniguruma
+	ignore = all

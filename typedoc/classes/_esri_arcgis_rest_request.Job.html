@@ -1,0 +1,949 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Job | @esri/arcgis-rest-js</title>
+	<meta name="description" content="Documentation for @esri/arcgis-rest-js">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@esri/arcgis-rest-js</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../modules.html">@esri/arcgis-rest-js</a>
+				</li>
+				<li>
+					<a href="../modules/_esri_arcgis_rest_request.html">@esri/arcgis-rest-request</a>
+				</li>
+				<li>
+					<a href="_esri_arcgis_rest_request.Job.html">Job</a>
+				</li>
+			</ul>
+			<h1>Class Job</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Jobs represent long running processing tasks running on ArcGIS Services. Typically these represent complex analysis tasks such as <a href="https://developers.arcgis.com/rest/services-reference/enterprise/submit-gp-job.htm">geoprocessing tasks</a>, <a href="https://developers.arcgis.com/rest/network/api-reference/vehicle-routing-problem-service.htm">logistics analysis such as fleet routing</a> or <a href="https://developers.arcgis.com/rest/analysis/api-reference/tasks-overview.htm">spatial analysis tasks</a>.</p>
+					</div>
+					<p>To create a <a href="_esri_arcgis_rest_request.Job.html"><code>Job</code></a>, use the <a href="_esri_arcgis_rest_request.Job.html#submitJob"><code>Job.submitJob</code></a> method which will return an instance of the <a href="_esri_arcgis_rest_request.Job.html"><code>Job</code></a> class with a unique id.</p>
+					<p>If you have an existing job you can use <a href="_esri_arcgis_rest_request.Job.html#serialize"><code>Job.serialize</code></a> and <a href="_esri_arcgis_rest_request.Job.html#deserialize"><code>Job.deserialize</code></a> to save job information as a string and recreate the job to get results later.</p>
+					<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Job</span><span style="color: #000000">,  </span><span style="color: #001080">JOB_STATUSES</span><span style="color: #000000">  } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@esri/arcgis-rest-request&quot;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">job</span><span style="color: #000000">  = </span><span style="color: #001080">async</span><span style="color: #000000"> </span><span style="color: #001080">Job</span><span style="color: #000000">.</span><span style="color: #795E26">submitJob</span><span style="color: #000000">(</span><span style="color: #001080">options</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// will automatically wait for job completion and get results when the job is finished.</span>
+<span style="color: #001080">job</span><span style="color: #000000">.</span><span style="color: #795E26">getAllResults</span><span style="color: #000000">().</span><span style="color: #795E26">then</span><span style="color: #000000">((</span><span style="color: #001080">results</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">results</span><span style="color: #000000">)})</span>
+
+<span style="color: #008000">// watch for all status updates</span>
+<span style="color: #001080">job</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;status&quot;</span><span style="color: #000000">, ({</span><span style="color: #001080">jobStatus</span><span style="color: #000000">}) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">job</span><span style="color: #000000">.</span><span style="color: #001080">status</span><span style="color: #000000">)})</span>
+</code></pre>
+					<p>By default event monitoring is started when you call <a href="_esri_arcgis_rest_request.Job.html#waitForCompletion"><code>Job.waitForCompletion</code></a>, <a href="_esri_arcgis_rest_request.Job.html#getAllResults"><code>Job.getAllResults</code></a> or, <a href="_esri_arcgis_rest_request.Job.html#getResult"><code>Job.getResult</code></a> and stops automatically when those promises complete. Use <a href="_esri_arcgis_rest_request.Job.html#startEventMonitoring"><code>Job.startEventMonitoring</code></a> and <a href="_esri_arcgis_rest_request.Job.html#stopEventMonitoring"><code>Job.stopEventMonitoring</code></a> to manually start and stop event monitoring outside those methods. Starting monitoring with <a href="_esri_arcgis_rest_request.Job.html#startEventMonitoring"><code>Job.startEventMonitoring</code></a> will not stop monitoring when <a href="_esri_arcgis_rest_request.Job.html#waitForCompletion"><code>Job.waitForCompletion</code></a>, <a href="_esri_arcgis_rest_request.Job.html#getAllResults"><code>Job.getAllResults</code></a> or, <a href="_esri_arcgis_rest_request.Job.html#getResult"><code>Job.getResult</code></a> complete.</p>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">Job</span>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Constructors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#authentication" class="tsd-kind-icon">authentication</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#url" class="tsd-kind-icon">url</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#isMonitoring" class="tsd-kind-icon">is<wbr>Monitoring</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#pollingRate" class="tsd-kind-icon">polling<wbr>Rate</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Methods</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#cancelJob" class="tsd-kind-icon">cancel<wbr>Job</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#getAllResults" class="tsd-kind-icon">get<wbr>All<wbr>Results</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#getJobInfo" class="tsd-kind-icon">get<wbr>Job<wbr>Info</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#getResult" class="tsd-kind-icon">get<wbr>Result</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#off" class="tsd-kind-icon">off</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#on" class="tsd-kind-icon">on</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#once" class="tsd-kind-icon">once</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#serialize" class="tsd-kind-icon">serialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#startEventMonitoring" class="tsd-kind-icon">start<wbr>Event<wbr>Monitoring</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#stopEventMonitoring" class="tsd-kind-icon">stop<wbr>Event<wbr>Monitoring</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#toJSON" class="tsd-kind-icon">toJSON</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_esri_arcgis_rest_request.Job.html#waitForCompletion" class="tsd-kind-icon">wait<wbr>For<wbr>Completion</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_esri_arcgis_rest_request.Job.html#deserialize" class="tsd-kind-icon">deserialize</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_esri_arcgis_rest_request.Job.html#fromExistingJob" class="tsd-kind-icon">from<wbr>Existing<wbr>Job</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="_esri_arcgis_rest_request.Job.html#submitJob" class="tsd-kind-icon">submit<wbr>Job</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Constructors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+					<a name="constructor" class="tsd-anchor"></a>
+					<h3>constructor</h3>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Job<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IJobOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_request.Job.html" class="tsd-signature-type" data-tsd-kind="Class">Job</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L242">arcgis-rest-request/src/job.ts:242</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>options: <a href="../interfaces/_esri_arcgis_rest_request.IJobOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_esri_arcgis_rest_request.Job.html" class="tsd-signature-type" data-tsd-kind="Class">Job</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="authentication" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> authentication</h3>
+					<div class="tsd-signature tsd-kind-icon">authentication<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_esri_arcgis_rest_request.IAuthenticationManager.html" class="tsd-signature-type" data-tsd-kind="Interface">IAuthenticationManager</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L221">arcgis-rest-request/src/job.ts:221</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Authentication manager or access token to use for all job requests.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="id" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L217">arcgis-rest-request/src/job.ts:217</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The job id indicating the specific job.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="url" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> url</h3>
+					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L213">arcgis-rest-request/src/job.ts:213</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The base URL of the job.</p>
+						</div>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="isMonitoring" class="tsd-anchor"></a>
+					<h3>is<wbr>Monitoring</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> isMonitoring<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L270">arcgis-rest-request/src/job.ts:270</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns <code>true</code> if the job is polling for status changes.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="pollingRate" class="tsd-anchor"></a>
+					<h3>polling<wbr>Rate</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> pollingRate<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> pollingRate<span class="tsd-signature-symbol">(</span>newRate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L277">arcgis-rest-request/src/job.ts:277</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The rate at which event monitoring is occurring in milliseconds.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L284">arcgis-rest-request/src/job.ts:284</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets a new polling rate and restart polling for status changes.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>newRate: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="cancelJob" class="tsd-anchor"></a>
+					<h3>cancel<wbr>Job</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">cancel<wbr>Job<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L580">arcgis-rest-request/src/job.ts:580</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Cancels the job request and voids the job.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>An object that has job id, job status and messages array sequencing the status of the cancellation being submitted and completed.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getAllResults" class="tsd-anchor"></a>
+					<h3>get<wbr>All<wbr>Results</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>All<wbr>Results<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L554">arcgis-rest-request/src/job.ts:554</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets all the results from a successful job by ordering all the result paramUrl requests and calling each of them until all of them are complete and returns an object with all the results.</p>
+								</div>
+								<p>If monitoring is disabled it will be enabled until the job classes resolves or rejects this promise.</p>
+								<pre><code><span style="color: #001080">Job</span><span style="color: #000000">.</span><span style="color: #795E26">submitJob</span><span style="color: #000000">(</span><span style="color: #001080">options</span><span style="color: #000000">)</span>
+<span style="color: #000000"> .</span><span style="color: #795E26">then</span><span style="color: #000000">((</span><span style="color: #001080">job</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">   </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">job</span><span style="color: #000000">.</span><span style="color: #795E26">getAllResults</span><span style="color: #000000">();</span>
+<span style="color: #000000"> }).</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #001080">allResults</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">   </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">allResults</span><span style="color: #000000">);</span>
+<span style="color: #000000"> }).</span><span style="color: #795E26">catch</span><span style="color: #000000">(</span><span style="color: #001080">e</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">   </span><span style="color: #AF00DB">if</span><span style="color: #000000">(</span><span style="color: #001080">e</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000"> === </span><span style="color: #A31515">&quot;ArcGISJobError&quot;</span><span style="color: #000000">) {</span>
+<span style="color: #000000">     </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Something went wrong while running the job&quot;</span><span style="color: #000000">, </span><span style="color: #001080">e</span><span style="color: #000000">.</span><span style="color: #001080">jobInfo</span><span style="color: #000000">);</span>
+<span style="color: #000000">   }</span>
+<span style="color: #000000"> })</span>
+</code></pre>
+								<p>Will throw a <a href="_esri_arcgis_rest_request.ArcGISJobError.html"><code>ArcGISJobError</code></a> if it encounters a cancelled or failure status in the job.</p>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>An object representing all the results from a job.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getJobInfo" class="tsd-anchor"></a>
+					<h3>get<wbr>Job<wbr>Info</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Job<wbr>Info<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L294">arcgis-rest-request/src/job.ts:294</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Retrieves the status of the current job.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>An object with the job id and jobStatus.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getResult" class="tsd-anchor"></a>
+					<h3>get<wbr>Result</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Result<span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L435">arcgis-rest-request/src/job.ts:435</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the specific results of a successful job by result name. To get all results see <a href="_esri_arcgis_rest_request.Job.html#getAllResults"><code>Job.getAllResults</code></a>.</p>
+								</div>
+								<p>If monitoring is disabled it will be enabled until the job classes resolves or rejects this promise.</p>
+								<pre><code><span style="color: #001080">Job</span><span style="color: #000000">.</span><span style="color: #795E26">submitJob</span><span style="color: #000000">(</span><span style="color: #001080">options</span><span style="color: #000000">)</span>
+<span style="color: #000000"> .</span><span style="color: #795E26">then</span><span style="color: #000000">((</span><span style="color: #001080">job</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">   </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">job</span><span style="color: #000000">.</span><span style="color: #795E26">getResult</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;result_name&quot;</span><span style="color: #000000">)</span>
+<span style="color: #000000"> }).</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #001080">result</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">   </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">result</span><span style="color: #000000">);</span>
+<span style="color: #000000"> }).</span><span style="color: #795E26">catch</span><span style="color: #000000">(</span><span style="color: #001080">e</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">   </span><span style="color: #AF00DB">if</span><span style="color: #000000">(</span><span style="color: #001080">e</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000"> === </span><span style="color: #A31515">&quot;ArcGISJobError&quot;</span><span style="color: #000000">) {</span>
+<span style="color: #000000">     </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Something went wrong while running the job&quot;</span><span style="color: #000000">, </span><span style="color: #001080">e</span><span style="color: #000000">.</span><span style="color: #001080">jobInfo</span><span style="color: #000000">);</span>
+<span style="color: #000000">   }</span>
+<span style="color: #000000"> })</span>
+</code></pre>
+								<p> Will throw a <a href="_esri_arcgis_rest_request.ArcGISJobError.html"><code>ArcGISJobError</code></a> if it encounters a cancelled or failure status in the job.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>result: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The name of the result that you want to retrieve.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>An object representing the individual result of the job.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="off" class="tsd-anchor"></a>
+					<h3>off</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">off<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L401">arcgis-rest-request/src/job.ts:401</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>A handler that will remove a listener after its emitted and returns a custom handler.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>eventName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A string of what event to listen for.</p>
+									</div>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A function of what to do when eventName was called.</p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>e: <a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="on" class="tsd-anchor"></a>
+					<h3>on</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">on<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L374">arcgis-rest-request/src/job.ts:374</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>A handler that listens for an eventName and returns custom handler.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>eventName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A string of what event to listen for.</p>
+									</div>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A function of what to do when eventName was called.</p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>e: <a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="once" class="tsd-anchor"></a>
+					<h3>once</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">once<span class="tsd-signature-symbol">(</span>eventName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L384">arcgis-rest-request/src/job.ts:384</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>A handler that listens for an event once and returns a custom handler.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>eventName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A string of what event to listen for.</p>
+									</div>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A function of what to do when eventName was called.</p>
+									</div>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-signature">
+											<ul class="tsd-signatures tsd-kind-type-literal">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>e<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>e: <a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="serialize" class="tsd-anchor"></a>
+					<h3>serialize</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">serialize<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L462">arcgis-rest-request/src/job.ts:462</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts the <code>Job</code> to a JSON string. You can rehydrate the state of the <code>Job</code> with <a href="_esri_arcgis_rest_request.Job.html#deserialize"><code>Job.deserialize</code></a>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>A JSON string representing the <code>Job</code>.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="startEventMonitoring" class="tsd-anchor"></a>
+					<h3>start<wbr>Event<wbr>Monitoring</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">start<wbr>Event<wbr>Monitoring<span class="tsd-signature-symbol">(</span>pollingRate<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L618">arcgis-rest-request/src/job.ts:618</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Starts the event polling if the user enables the startMonitoring param.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>pollingRate: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = ...</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Able to pass in a specific number or will default to 5000.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="stopEventMonitoring" class="tsd-anchor"></a>
+					<h3>stop<wbr>Event<wbr>Monitoring</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">stop<wbr>Event<wbr>Monitoring<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L631">arcgis-rest-request/src/job.ts:631</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Stops the event polling rate. This is can only be enabled if the user calls this method directly.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="toJSON" class="tsd-anchor"></a>
+					<h3>toJSON</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">toJSON<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IJobOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L448">arcgis-rest-request/src/job.ts:448</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Formats the requestOptions to JSON format.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_esri_arcgis_rest_request.IJobOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobOptions</a></h4>
+							<p>The <code>Job</code> as a plain JavaScript object.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="waitForCompletion" class="tsd-anchor"></a>
+					<h3>wait<wbr>For<wbr>Completion</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">wait<wbr>For<wbr>Completion<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L486">arcgis-rest-request/src/job.ts:486</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks for job status and if the job status is successful it resolves the job information. Otherwise will throw a <a href="_esri_arcgis_rest_request.ArcGISJobError.html"><code>ArcGISJobError</code></a> if it encounters a cancelled or failure status in the job.</p>
+								</div>
+								<pre><code><span style="color: #001080">Job</span><span style="color: #000000">.</span><span style="color: #795E26">submitJob</span><span style="color: #000000">(</span><span style="color: #001080">options</span><span style="color: #000000">)</span>
+<span style="color: #000000"> .</span><span style="color: #795E26">then</span><span style="color: #000000">((</span><span style="color: #001080">job</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">   </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">job</span><span style="color: #000000">.</span><span style="color: #795E26">waitForCompletion</span><span style="color: #000000">();</span>
+<span style="color: #000000"> })</span>
+<span style="color: #000000">.</span><span style="color: #795E26">then</span><span style="color: #000000">((</span><span style="color: #001080">jobInfo</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">   </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;job finished&quot;</span><span style="color: #000000">, </span><span style="color: #001080">e</span><span style="color: #000000">.</span><span style="color: #001080">jobInfo</span><span style="color: #000000">);</span>
+<span style="color: #000000"> })</span>
+<span style="color: #000000">.</span><span style="color: #795E26">catch</span><span style="color: #000000">(</span><span style="color: #001080">e</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">   </span><span style="color: #AF00DB">if</span><span style="color: #000000">(</span><span style="color: #001080">e</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000"> === </span><span style="color: #A31515">&quot;ArcGISJobError&quot;</span><span style="color: #000000">) {</span>
+<span style="color: #000000">     </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Something went wrong while running the job&quot;</span><span style="color: #000000">, </span><span style="color: #001080">e</span><span style="color: #000000">.</span><span style="color: #001080">jobInfo</span><span style="color: #000000">);</span>
+<span style="color: #000000">   }</span>
+<span style="color: #000000"> })</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobInfo</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>An object with a successful job status, id, and results.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="deserialize" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> deserialize</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">deserialize<span class="tsd-signature-symbol">(</span>serializeString<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_esri_arcgis_rest_request.IJobOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_esri_arcgis_rest_request.Job.html" class="tsd-signature-type" data-tsd-kind="Class">Job</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L141">arcgis-rest-request/src/job.ts:141</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>serializeString: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/_esri_arcgis_rest_request.IJobOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_esri_arcgis_rest_request.Job.html" class="tsd-signature-type" data-tsd-kind="Class">Job</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="fromExistingJob" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> from<wbr>Existing<wbr>Job</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">from<wbr>Existing<wbr>Job<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IJobOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_esri_arcgis_rest_request.Job.html" class="tsd-signature-type" data-tsd-kind="Class">Job</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L161">arcgis-rest-request/src/job.ts:161</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a new instance of <a href="_esri_arcgis_rest_request.Job.html"><code>Job</code></a> from an existing job id.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>options: <a href="../interfaces/_esri_arcgis_rest_request.IJobOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IJobOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Requires request endpoint url and id from an existing job id.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_esri_arcgis_rest_request.Job.html" class="tsd-signature-type" data-tsd-kind="Class">Job</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>An new instance of Job class with options.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="submitJob" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> submit<wbr>Job</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">submit<wbr>Job<span class="tsd-signature-symbol">(</span>requestOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.ISubmitJobOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ISubmitJobOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_esri_arcgis_rest_request.Job.html" class="tsd-signature-type" data-tsd-kind="Class">Job</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/job.ts#L180">arcgis-rest-request/src/job.ts:180</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Submits a job request that will return a new instance of <a href="_esri_arcgis_rest_request.Job.html"><code>Job</code></a>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestOptions: <a href="../interfaces/_esri_arcgis_rest_request.ISubmitJobOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ISubmitJobOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Requires url and params from requestOptions.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_esri_arcgis_rest_request.Job.html" class="tsd-signature-type" data-tsd-kind="Class">Job</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>An new instance of Job class with the returned job id from submitJob request and requestOptions;</p>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="../modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_demographics.html">@esri/arcgis-<wbr>rest-<wbr>demographics</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_feature_service.html">@esri/arcgis-<wbr>rest-<wbr>feature-<wbr>service</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_geocoding.html">@esri/arcgis-<wbr>rest-<wbr>geocoding</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_portal.html">@esri/arcgis-<wbr>rest-<wbr>portal</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_request.html">@esri/arcgis-<wbr>rest-<wbr>request</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/_esri_arcgis_rest_routing.html">@esri/arcgis-<wbr>rest-<wbr>routing</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.Job.html" class="tsd-kind-icon">Job</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#authentication" class="tsd-kind-icon">authentication</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#id" class="tsd-kind-icon">id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#url" class="tsd-kind-icon">url</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#isMonitoring" class="tsd-kind-icon">is<wbr>Monitoring</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#pollingRate" class="tsd-kind-icon">polling<wbr>Rate</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#cancelJob" class="tsd-kind-icon">cancel<wbr>Job</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#getAllResults" class="tsd-kind-icon">get<wbr>All<wbr>Results</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#getJobInfo" class="tsd-kind-icon">get<wbr>Job<wbr>Info</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#getResult" class="tsd-kind-icon">get<wbr>Result</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#off" class="tsd-kind-icon">off</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#on" class="tsd-kind-icon">on</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#once" class="tsd-kind-icon">once</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#serialize" class="tsd-kind-icon">serialize</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#startEventMonitoring" class="tsd-kind-icon">start<wbr>Event<wbr>Monitoring</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#stopEventMonitoring" class="tsd-kind-icon">stop<wbr>Event<wbr>Monitoring</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#toJSON" class="tsd-kind-icon">toJSON</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_esri_arcgis_rest_request.Job.html#waitForCompletion" class="tsd-kind-icon">wait<wbr>For<wbr>Completion</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_esri_arcgis_rest_request.Job.html#deserialize" class="tsd-kind-icon">deserialize</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_esri_arcgis_rest_request.Job.html#fromExistingJob" class="tsd-kind-icon">from<wbr>Existing<wbr>Job</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="_esri_arcgis_rest_request.Job.html#submitJob" class="tsd-kind-icon">submit<wbr>Job</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<ul class="after-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

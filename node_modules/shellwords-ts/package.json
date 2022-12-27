@@ -1,0 +1,33 @@
+{
+  "author": "Marques Lee <marques.b.lee@gmail.com>",
+  "name": "shellwords-ts",
+  "description": "JS lib with TS typings to manipulate strings according to the word parsing rules of the UNIX Bourne shell.",
+  "version": "3.0.0",
+  "homepage": "https://github.com/marques-work/shellwords",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/marques-work/shellwords.git"
+  },
+  "main": "./dist/shellwords.js",
+  "types": "./dist/shellwords.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p .",
+    "lint": "tslint --fix --format stylish --project tsconfig.with-tests.json --config tslint.json",
+    "test": "mocha --require ts-node/register --watch-extensions ts,tsx \"spec/**/*_spec.{ts,tsx}\""
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/chai": "^4.2.8",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^13.5.2",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2",
+    "ts-node": "^8.6.2",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.5"
+  }
+}

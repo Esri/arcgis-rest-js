@@ -1,0 +1,75 @@
+# @terraformer/arcgis
+
+[![npm][npm-image]][npm-url]
+[![travis][travis-image]][travis-url]
+[![standard][standard-image]][standard-url]
+
+[npm-image]: https://img.shields.io/npm/v/@terraformer/arcgis.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@terraformer/arcgis
+[travis-image]: https://img.shields.io/travis/terraformer-js/terraformer/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/terraformer-js/terraformer
+[standard-image]: https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg?style=flat-square
+[standard-url]: http://npm.im/semistandard
+
+> Convert ArcGIS JSON geometries to GeoJSON geometries and vice versa.
+
+## Install
+
+```shell
+npm install @terraformer/arcgis
+```
+
+## API Reference
+
+{{>main}}
+* * *
+
+## Usage
+
+### Browser (from CDN)
+
+This package is distributed as a [UMD](https://github.com/umdjs/umd) module and can also be used in AMD based systems or as a global under the `Terraformer` namespace.
+
+```html
+<script src="https://unpkg.com/@terraformer/arcgis"></script>
+```
+```js
+Terraformer.arcgisToGeoJSON(/* ... */);
+```
+
+### Node.js
+
+```js
+const Terraformer = require('@terraformer/arcgis');
+
+Terraformer.geojsonToArcGIS(/* ... */);
+```
+
+### ES module in the browser
+
+```html
+<script type='module'>
+  import { arcgisToGeoJSON } from 'https://unpkg.com/@terraformer/arcgis?module';
+
+  // look ma, no build step!
+  arcgisToGeoJSON(/* ... */);
+</script>
+```
+
+## [Contributing](./CONTRIBUTING.md)
+
+## TypeScript
+
+Type definitions for `@terraformer/arcgis` can be found at [@types/terraformer__arcgis](https://www.npmjs.com/package/@types/terraformer__arcgis). To install into your own project:
+
+```
+npm install @types/terraformer__arcgis
+```
+
+## Ports
+
+| Project | Language | Status | Maintainer |
+| - | - | - | - |
+| [`arcgis2geojson`](https://github.com/chris48s/arcgis2geojson/) | Python | Incomplete | [@chris48s](https://github.com/chris48s) |
+
+## [LICENSE](https://raw.githubusercontent.com/terraformer-js/terraformer/master/LICENSE)

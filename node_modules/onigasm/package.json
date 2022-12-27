@@ -1,0 +1,52 @@
+{
+  "name": "onigasm",
+  "version": "2.2.5",
+  "description": "WebAssembly port of Oniguruma regex library",
+  "main": "lib/index.js",
+  "typings": "lib/typings/index.d.ts",
+  "scripts": {
+    "build::onig": "./scripts/build.sh",
+    "watch::onig": "onchange 'src/**/*.cc' -w -p 1000 -- npm run build::onig",
+    "build::tsc": "tsc",
+    "watch::tsc": "tsc -w",
+    "build": "concurrently \"npm run build::tsc\" \"npm run build::onig\"",
+    "watch": "concurrently \"npm run watch::tsc\" \"npm run watch::onig\"",
+    "clean": "git submodule foreach --recursive git clean -xfd && rimraf lib",
+    "test": "node test/index.js",
+    "benchmark": "node benchmark.js",
+    "preversion": "npm run setup-emsdk && npm run clean && npm run build && npm run test",
+    "setup-emsdk": "./scripts/setup-emsdk.sh 1.39.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NeekSandhu/onigasm.git"
+  },
+  "keywords": [
+    "oniguruma",
+    "onig",
+    "regex",
+    "wasm",
+    "asm",
+    "web",
+    "assembly"
+  ],
+  "author": "Neek Sandhu <neek.sandhu@outlook.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NeekSandhu/onigasm/issues"
+  },
+  "homepage": "https://github.com/NeekSandhu/onigasm#readme",
+  "devDependencies": {
+    "@types/lru-cache": "^5.1.0",
+    "concurrently": "^5.0.0",
+    "durations": "^3.4.1",
+    "jasmine-focused": "^1.0.7",
+    "onchange": "^6.1.0",
+    "rimraf": "^3.0.0",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "lru-cache": "^5.1.1"
+  }
+}

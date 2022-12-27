@@ -1,0 +1,30 @@
+{
+  "name": "is-valid-identifier",
+  "description": "check if a string is a valid ECMAscript identifier",
+  "author": "Yerko",
+  "version": "2.0.2",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "from-code-point.js"
+  ],
+  "scripts": {
+    "test": "standard --verbose | snazzy && ava"
+  },
+  "standard": {
+    "ignore": [
+      "from-code-point.js"
+    ]
+  },
+  "repository": "YerkoPalma/is-valid-identifier",
+  "keywords": [],
+  "license": "MIT",
+  "dependencies": {
+    "assert": "^1.4.1"
+  },
+  "devDependencies": {
+    "ava": "*",
+    "snazzy": "^5.0.0",
+    "standard": "^8.2.0"
+  }
+}

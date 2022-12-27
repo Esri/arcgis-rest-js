@@ -1,0 +1,1 @@
+{"version":3,"file":"IParamBuilder.js","sourceRoot":"","sources":["../../../src/utils/IParamBuilder.ts"],"names":[],"mappings":"","sourcesContent":["export interface IParamBuilder {\n  toParam(): any;\n}\n"]}

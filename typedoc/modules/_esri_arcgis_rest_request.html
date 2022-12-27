@@ -1,0 +1,1965 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@esri/arcgis-rest-request | @esri/arcgis-rest-js</title>
+	<meta name="description" content="Documentation for @esri/arcgis-rest-js">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">@esri/arcgis-rest-js</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../modules.html">@esri/arcgis-rest-js</a>
+				</li>
+				<li>
+					<a href="_esri_arcgis_rest_request.html">@esri/arcgis-rest-request</a>
+				</li>
+			</ul>
+			<h1>Module @esri/arcgis-rest-request</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Namespaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-namespace tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.UserSession.html" class="tsd-kind-icon">User<wbr>Session</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Enumerations</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum tsd-parent-kind-module"><a href="../enums/_esri_arcgis_rest_request.ArcGISTokenRequestErrorCodes.html" class="tsd-kind-icon">ArcGISToken<wbr>Request<wbr>Error<wbr>Codes</a></li>
+								<li class="tsd-kind-enum tsd-parent-kind-module"><a href="../enums/_esri_arcgis_rest_request.ErrorTypes.html" class="tsd-kind-icon">Error<wbr>Types</a></li>
+								<li class="tsd-kind-enum tsd-parent-kind-module"><a href="../enums/_esri_arcgis_rest_request.JOB_STATUSES.html" class="tsd-kind-icon">JOB_<wbr>STATUSES</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Classes</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_esri_arcgis_rest_request.ApiKeyManager.html" class="tsd-kind-icon">Api<wbr>Key<wbr>Manager</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_esri_arcgis_rest_request.ApplicationCredentialsManager.html" class="tsd-kind-icon">Application<wbr>Credentials<wbr>Manager</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_esri_arcgis_rest_request.ArcGISAccessDeniedError.html" class="tsd-kind-icon">ArcGISAccess<wbr>Denied<wbr>Error</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_esri_arcgis_rest_request.ArcGISAuthError.html" class="tsd-kind-icon">ArcGISAuth<wbr>Error</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_esri_arcgis_rest_request.ArcGISIdentityManager.html" class="tsd-kind-icon">ArcGISIdentity<wbr>Manager</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_esri_arcgis_rest_request.ArcGISJobError.html" class="tsd-kind-icon">ArcGISJob<wbr>Error</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_esri_arcgis_rest_request.ArcGISRequestError.html" class="tsd-kind-icon">ArcGISRequest<wbr>Error</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_esri_arcgis_rest_request.ArcGISTokenRequestError.html" class="tsd-kind-icon">ArcGISToken<wbr>Request<wbr>Error</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module"><a href="../classes/_esri_arcgis_rest_request.Job.html" class="tsd-kind-icon">Job</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IApiKeyOptions.html" class="tsd-kind-icon">IApi<wbr>Key<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IAppAccess.html" class="tsd-kind-icon">IApp<wbr>Access</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IApplicationCredentialsManagerOptions.html" class="tsd-kind-icon">IApplication<wbr>Credentials<wbr>Manager<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IArc.html" class="tsd-kind-icon">IArc</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IArcGISIdentityManagerOptions.html" class="tsd-kind-icon">IArcGISIdentity<wbr>Manager<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IAuthenticatedRequestOptions.html" class="tsd-kind-icon">IAuthenticated<wbr>Request<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IAuthenticationManager.html" class="tsd-kind-icon">IAuthentication<wbr>Manager</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IBezierCurve.html" class="tsd-kind-icon">IBezier<wbr>Curve</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.ICircularArc.html" class="tsd-kind-icon">ICircular<wbr>Arc</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.ICredential.html" class="tsd-kind-icon">ICredential</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IExtent.html" class="tsd-kind-icon">IExtent</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IFeature.html" class="tsd-kind-icon">IFeature</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IFeatureSet.html" class="tsd-kind-icon">IFeature<wbr>Set</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IFetchTokenParams.html" class="tsd-kind-icon">IFetch<wbr>Token<wbr>Params</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IFetchTokenResponse.html" class="tsd-kind-icon">IFetch<wbr>Token<wbr>Response</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IField.html" class="tsd-kind-icon">IField</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IFromTokenOptions.html" class="tsd-kind-icon">IFrom<wbr>Token<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IGenerateTokenParams.html" class="tsd-kind-icon">IGenerate<wbr>Token<wbr>Params</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IGeometry.html" class="tsd-kind-icon">IGeometry</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IGroup.html" class="tsd-kind-icon">IGroup</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IGroupAdd.html" class="tsd-kind-icon">IGroup<wbr>Add</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IHasZM.html" class="tsd-kind-icon">IHasZM</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-kind-icon">IJob<wbr>Info</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IJobOptions.html" class="tsd-kind-icon">IJob<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.ILocation.html" class="tsd-kind-icon">ILocation</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IMultipoint.html" class="tsd-kind-icon">IMultipoint</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IOAuth2Options.html" class="tsd-kind-icon">IOAuth2<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IOldCircularArc.html" class="tsd-kind-icon">IOld<wbr>Circular<wbr>Arc</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IParamBuilder.html" class="tsd-kind-icon">IParam<wbr>Builder</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IParams.html" class="tsd-kind-icon">IParams</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IParamsBuilder.html" class="tsd-kind-icon">IParams<wbr>Builder</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IPlatformSelfResponse.html" class="tsd-kind-icon">IPlatform<wbr>Self<wbr>Response</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IPoint.html" class="tsd-kind-icon">IPoint</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IPolygon.html" class="tsd-kind-icon">IPolygon</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IPolygonWithCurves.html" class="tsd-kind-icon">IPolygon<wbr>With<wbr>Curves</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IPolyline.html" class="tsd-kind-icon">IPolyline</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IPolylineWithCurves.html" class="tsd-kind-icon">IPolyline<wbr>With<wbr>Curves</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-kind-icon">IRequest<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IRevokeTokenOptions.html" class="tsd-kind-icon">IRevoke<wbr>Token<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IRevokeTokenResponse.html" class="tsd-kind-icon">IRevoke<wbr>Token<wbr>Response</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IServerInfo.html" class="tsd-kind-icon">IServer<wbr>Info</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.ISignInOptions.html" class="tsd-kind-icon">ISign<wbr>InOptions</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.ISpatialReference.html" class="tsd-kind-icon">ISpatial<wbr>Reference</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.ISubmitJobOptions.html" class="tsd-kind-icon">ISubmit<wbr>Job<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.ISymbol.html" class="tsd-kind-icon">ISymbol</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.ITokenRequestOptions.html" class="tsd-kind-icon">IToken<wbr>Request<wbr>Options</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IUser.html" class="tsd-kind-icon">IUser</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/_esri_arcgis_rest_request.IUserRequestOptions.html" class="tsd-kind-icon">IUser<wbr>Request<wbr>Options</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#AuthenticationProvider" class="tsd-kind-icon">Authentication<wbr>Provider</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#DomainType" class="tsd-kind-icon">Domain<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#ElipticArc" class="tsd-kind-icon">Eliptic<wbr>Arc</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#FieldType" class="tsd-kind-icon">Field<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#GeometryType" class="tsd-kind-icon">Geometry<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#GrantTypes" class="tsd-kind-icon">Grant<wbr>Types</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#GroupMembership" class="tsd-kind-icon">Group<wbr>Membership</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#HTTPMethods" class="tsd-kind-icon">HTTPMethods</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#ICodedValue" class="tsd-kind-icon">ICoded<wbr>Value</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#IDomain" class="tsd-kind-icon">IDomain</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#IRetryAuthError" class="tsd-kind-icon">IRetry<wbr>Auth<wbr>Error</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#JsonCurve" class="tsd-kind-icon">Json<wbr>Curve</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#Position" class="tsd-kind-icon">Position</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#Position2D" class="tsd-kind-icon">Position2D</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#ResponseFormats" class="tsd-kind-icon">Response<wbr>Formats</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#SymbolType" class="tsd-kind-icon">Symbol<wbr>Type</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#Units" class="tsd-kind-icon">Units</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Variables</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#Blob" class="tsd-kind-icon">Blob</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#File" class="tsd-kind-icon">File</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#FormData" class="tsd-kind-icon">Form<wbr>Data</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#NODEJS_DEFAULT_REFERER_HEADER" class="tsd-kind-icon">NODEJS_<wbr>DEFAULT_<wbr>REFERER_<wbr>HEADER</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="_esri_arcgis_rest_request.html#appendCustomParams" class="tsd-kind-icon">append<wbr>Custom<wbr>Params</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#canUseOnlineToken" class="tsd-kind-icon">can<wbr>Use<wbr>Online<wbr>Token</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#checkForErrors" class="tsd-kind-icon">check<wbr>For<wbr>Errors</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#cleanUrl" class="tsd-kind-icon">clean<wbr>Url</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#decodeParam" class="tsd-kind-icon">decode<wbr>Param</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#decodeQueryString" class="tsd-kind-icon">decode<wbr>Query<wbr>String</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#encodeFormData" class="tsd-kind-icon">encode<wbr>Form<wbr>Data</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#encodeParam" class="tsd-kind-icon">encode<wbr>Param</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#encodeQueryString" class="tsd-kind-icon">encode<wbr>Query<wbr>String</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#exchangeToken" class="tsd-kind-icon">exchange<wbr>Token</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#fetchToken" class="tsd-kind-icon">fetch<wbr>Token</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#getDefaultRequestOptions" class="tsd-kind-icon">get<wbr>Default<wbr>Request<wbr>Options</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#getFetch" class="tsd-kind-icon">get<wbr>Fetch</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#getOnlineEnvironment" class="tsd-kind-icon">get<wbr>Online<wbr>Environment</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#isFederated" class="tsd-kind-icon">is<wbr>Federated</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#isOnline" class="tsd-kind-icon">is<wbr>Online</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#normalizeOnlinePortalUrl" class="tsd-kind-icon">normalize<wbr>Online<wbr>Portal<wbr>Url</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#platformSelf" class="tsd-kind-icon">platform<wbr>Self</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#processParams" class="tsd-kind-icon">process<wbr>Params</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#request" class="tsd-kind-icon">request</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#requiresFormData" class="tsd-kind-icon">requires<wbr>Form<wbr>Data</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#revokeToken" class="tsd-kind-icon">revoke<wbr>Token</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#setDefaultRequestOptions" class="tsd-kind-icon">set<wbr>Default<wbr>Request<wbr>Options</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#validateAppAccess" class="tsd-kind-icon">validate<wbr>App<wbr>Access</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_esri_arcgis_rest_request.html#warn" class="tsd-kind-icon">warn</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="_esri_arcgis_rest_request.html#withOptions" class="tsd-kind-icon">with<wbr>Options</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="AuthenticationProvider" class="tsd-anchor"></a>
+					<h3>Authentication<wbr>Provider</h3>
+					<div class="tsd-signature tsd-kind-icon">Authentication<wbr>Provider<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;arcgis&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;facebook&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;google&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;github&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;apple&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/ArcGISIdentityManager.ts#L69">arcgis-rest-request/src/ArcGISIdentityManager.ts:69</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="DomainType" class="tsd-anchor"></a>
+					<h3>Domain<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Domain<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;range&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;codedValue&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;inherited&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/types/service.ts#L25">arcgis-rest-request/src/types/service.ts:25</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Domain types</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="ElipticArc" class="tsd-anchor"></a>
+					<h3>Eliptic<wbr>Arc</h3>
+					<div class="tsd-signature tsd-kind-icon">Eliptic<wbr>Arc<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_esri_arcgis_rest_request.IArc.html" class="tsd-signature-type" data-tsd-kind="Interface">IArc</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/types/geometry.ts#L164">arcgis-rest-request/src/types/geometry.ts:164</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="FieldType" class="tsd-anchor"></a>
+					<h3>Field<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Field<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;esriFieldTypeBlob&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriFieldTypeDate&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriFieldTypeDouble&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriFieldTypeGeometry&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriFieldTypeGlobalID&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriFieldTypeGUID&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriFieldTypeInteger&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriFieldTypeOID&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriFieldTypeRaster&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriFieldTypeSingle&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriFieldTypeSmallInteger&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriFieldTypeString&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriFieldTypeXML&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/types/service.ts#L7">arcgis-rest-request/src/types/service.ts:7</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Field type.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="GeometryType" class="tsd-anchor"></a>
+					<h3>Geometry<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Geometry<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;esriGeometryPoint&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriGeometryMultipoint&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriGeometryPolyline&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriGeometryPolygon&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriGeometryEnvelope&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/types/geometry.ts#L173">arcgis-rest-request/src/types/geometry.ts:173</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p><code>GeometryType</code> can also be imported from the following packages:</p>
+						</div>
+						<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">GeometryType</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@esri/arcgis-rest-feature-service&quot;</span><span style="color: #000000">;</span>
+</code></pre>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="GrantTypes" class="tsd-anchor"></a>
+					<h3>Grant<wbr>Types</h3>
+					<div class="tsd-signature tsd-kind-icon">Grant<wbr>Types<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;authorization_code&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;refresh_token&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;client_credentials&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;exchange_refresh_token&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/utils/GrantTypes.ts#L1">arcgis-rest-request/src/utils/GrantTypes.ts:1</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="GroupMembership" class="tsd-anchor"></a>
+					<h3>Group<wbr>Membership</h3>
+					<div class="tsd-signature tsd-kind-icon">Group<wbr>Membership<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;owner&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;admin&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;member&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;none&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/types/group.ts#L11">arcgis-rest-request/src/types/group.ts:11</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p><code>GroupMembership</code> can also be imported from the following packages:</p>
+						</div>
+						<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">GroupMembership</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@esri/arcgis-rest-portal&quot;</span><span style="color: #000000">;</span>
+</code></pre>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="HTTPMethods" class="tsd-anchor"></a>
+					<h3>HTTPMethods</h3>
+					<div class="tsd-signature tsd-kind-icon">HTTPMethods<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;GET&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;POST&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/utils/HTTPMethods.ts#L6">arcgis-rest-request/src/utils/HTTPMethods.ts:6</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>HTTP methods used by the ArcGIS REST API.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="ICodedValue" class="tsd-anchor"></a>
+					<h3>ICoded<wbr>Value</h3>
+					<div class="tsd-signature tsd-kind-icon">ICoded<wbr>Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>code<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/types/service.ts#L30">arcgis-rest-request/src/types/service.ts:30</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>CodedValue type</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>code<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>The value stored in the feature attribute.</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>User-friendly name for what the code means.</p>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="IDomain" class="tsd-anchor"></a>
+					<h3>IDomain</h3>
+					<div class="tsd-signature tsd-kind-icon">IDomain<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>codedValues<span class="tsd-signature-symbol">?: </span><a href="_esri_arcgis_rest_request.html#ICodedValue" class="tsd-signature-type" data-tsd-kind="Type alias">ICodedValue</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>description<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>mergePolicy<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>range<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">; </span>splitPolicy<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>type<span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_request.html#DomainType" class="tsd-signature-type" data-tsd-kind="Type alias">DomainType</a><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/types/service.ts#L40">arcgis-rest-request/src/types/service.ts:40</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Information for a field with a domain</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> coded<wbr>Values<span class="tsd-signature-symbol">?: </span><a href="_esri_arcgis_rest_request.html#ICodedValue" class="tsd-signature-type" data-tsd-kind="Type alias">ICodedValue</a><span class="tsd-signature-symbol">[]</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>An array of CodedValues for domains of type codedValue.</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> description<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Description of the domain</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> merge<wbr>Policy<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Merge policy</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>A string defining the field name.</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> range<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>A 2 element array defining the range of possible values.</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> split<wbr>Policy<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>Split Policy</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>type<span class="tsd-signature-symbol">: </span><a href="_esri_arcgis_rest_request.html#DomainType" class="tsd-signature-type" data-tsd-kind="Type alias">DomainType</a></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>A string defining the domain type.</p>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="IRetryAuthError" class="tsd-anchor"></a>
+					<h3>IRetry<wbr>Auth<wbr>Error</h3>
+					<div class="tsd-signature tsd-kind-icon">IRetry<wbr>Auth<wbr>Error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_esri_arcgis_rest_request.IAuthenticationManager.html" class="tsd-signature-type" data-tsd-kind="Interface">IAuthenticationManager</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/utils/retryAuthError.ts#L7">arcgis-rest-request/src/utils/retryAuthError.ts:7</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-signature">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_esri_arcgis_rest_request.IAuthenticationManager.html" class="tsd-signature-type" data-tsd-kind="Interface">IAuthenticationManager</a><span class="tsd-signature-symbol">&gt;</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>url: <span class="tsd-signature-type">string</span></h5>
+											</li>
+											<li>
+												<h5>options: <a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestOptions</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_esri_arcgis_rest_request.IAuthenticationManager.html" class="tsd-signature-type" data-tsd-kind="Interface">IAuthenticationManager</a><span class="tsd-signature-symbol">&gt;</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="JsonCurve" class="tsd-anchor"></a>
+					<h3>Json<wbr>Curve</h3>
+					<div class="tsd-signature tsd-kind-icon">Json<wbr>Curve<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_esri_arcgis_rest_request.ICircularArc.html" class="tsd-signature-type" data-tsd-kind="Interface">ICircularArc</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_esri_arcgis_rest_request.IArc.html" class="tsd-signature-type" data-tsd-kind="Interface">IArc</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_esri_arcgis_rest_request.IOldCircularArc.html" class="tsd-signature-type" data-tsd-kind="Interface">IOldCircularArc</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_esri_arcgis_rest_request.IBezierCurve.html" class="tsd-signature-type" data-tsd-kind="Interface">IBezierCurve</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/types/geometry.ts#L205">arcgis-rest-request/src/types/geometry.ts:205</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="Position" class="tsd-anchor"></a>
+					<h3>Position</h3>
+					<div class="tsd-signature tsd-kind-icon">Position<span class="tsd-signature-symbol">:</span> <a href="_esri_arcgis_rest_request.html#Position2D" class="tsd-signature-type" data-tsd-kind="Type alias">Position2D</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/types/geometry.ts#L118">arcgis-rest-request/src/types/geometry.ts:118</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="Position2D" class="tsd-anchor"></a>
+					<h3>Position2D</h3>
+					<div class="tsd-signature tsd-kind-icon">Position2D<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/types/geometry.ts#L130">arcgis-rest-request/src/types/geometry.ts:130</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p><code>Position2D</code> can also be imported from the following packages:</p>
+						</div>
+						<pre><code><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Position2D</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@esri/arcgis-rest-routing&quot;</span><span style="color: #000000">;</span>
+</code></pre>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="ResponseFormats" class="tsd-anchor"></a>
+					<h3>Response<wbr>Formats</h3>
+					<div class="tsd-signature tsd-kind-icon">Response<wbr>Formats<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;json&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;geojson&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;text&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;html&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;image&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;zip&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/utils/ResponseFormats.ts#L4">arcgis-rest-request/src/utils/ResponseFormats.ts:4</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Valid response formats for the <code>f</code> parameter.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="SymbolType" class="tsd-anchor"></a>
+					<h3>Symbol<wbr>Type</h3>
+					<div class="tsd-signature tsd-kind-icon">Symbol<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;esriSLS&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriSMS&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriSFS&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriPMS&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriPFS&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriTS&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/types/symbol.ts#L15">arcgis-rest-request/src/types/symbol.ts:15</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="Units" class="tsd-anchor"></a>
+					<h3>Units</h3>
+					<div class="tsd-signature tsd-kind-icon">Units<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;esriSRUnit_Meter&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriSRUnit_StatuteMile&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriSRUnit_Foot&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriSRUnit_Kilometer&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriSRUnit_NauticalMile&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;esriSRUnit_USNauticalMile&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/types/geometry.ts#L233">arcgis-rest-request/src/types/geometry.ts:233</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p><code>Units</code> can also be imported from the following packages:</p>
+						</div>
+						<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Units</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@esri/arcgis-rest-feature-service&quot;</span><span style="color: #000000">;</span>
+</code></pre>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
+					<a name="Blob" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Blob</h3>
+					<div class="tsd-signature tsd-kind-icon">Blob<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">_Blob</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-form-data/index.types.d.ts#L8">arcgis-rest-form-data/index.types.d.ts:8</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
+					<a name="File" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> File</h3>
+					<div class="tsd-signature tsd-kind-icon">File<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">_File</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-form-data/index.types.d.ts#L7">arcgis-rest-form-data/index.types.d.ts:7</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
+					<a name="FormData" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Form<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">Form<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">_FormData</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-form-data/index.types.d.ts#L6">arcgis-rest-form-data/index.types.d.ts:6</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
+					<a name="NODEJS_DEFAULT_REFERER_HEADER" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> NODEJS_<wbr>DEFAULT_<wbr>REFERER_<wbr>HEADER</h3>
+					<div class="tsd-signature tsd-kind-icon">NODEJS_<wbr>DEFAULT_<wbr>REFERER_<wbr>HEADER<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;@esri/arcgis-rest-js&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/request.ts#L15">arcgis-rest-request/src/request.ts:15</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="appendCustomParams" class="tsd-anchor"></a>
+					<h3>append<wbr>Custom<wbr>Params</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">append<wbr>Custom<wbr>Params&lt;T&gt;<span class="tsd-signature-symbol">(</span>customOptions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, keys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span>, baseOptions<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestOptions</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/utils/append-custom-params.ts#L9">arcgis-rest-request/src/utils/append-custom-params.ts:9</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Helper for methods with lots of first order request options to pass through as request parameters.</p>
+								</div>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestOptions</a></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>customOptions: <span class="tsd-signature-type">T</span></h5>
+								</li>
+								<li>
+									<h5>keys: <span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> baseOptions: <span class="tsd-signature-type">Partial</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestOptions</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="canUseOnlineToken" class="tsd-anchor"></a>
+					<h3>can<wbr>Use<wbr>Online<wbr>Token</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">can<wbr>Use<wbr>Online<wbr>Token<span class="tsd-signature-symbol">(</span>portalUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, requestUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/federation-utils.ts#L74">arcgis-rest-request/src/federation-utils.ts:74</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>portalUrl: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>requestUrl: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="checkForErrors" class="tsd-anchor"></a>
+					<h3>check<wbr>For<wbr>Errors</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">check<wbr>For<wbr>Errors<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, url<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, params<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_esri_arcgis_rest_request.IParams.html" class="tsd-signature-type" data-tsd-kind="Interface">IParams</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestOptions</a>, originalAuthError<span class="tsd-signature-symbol">?: </span><a href="../classes/_esri_arcgis_rest_request.ArcGISAuthError.html" class="tsd-signature-type" data-tsd-kind="Class">ArcGISAuthError</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/request.ts#L156">arcgis-rest-request/src/request.ts:156</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks for errors in a JSON response from the ArcGIS REST API. If there are no errors, it will return the <code>data</code> passed in. If there is an error, it will throw an <code>ArcGISRequestError</code> or <code>ArcGISAuthError</code>.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>response: <span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> url: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The url of the original request</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> params: <a href="../interfaces/_esri_arcgis_rest_request.IParams.html" class="tsd-signature-type" data-tsd-kind="Interface">IParams</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The parameters of the original request</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The options of the original request</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> originalAuthError: <a href="../classes/_esri_arcgis_rest_request.ArcGISAuthError.html" class="tsd-signature-type" data-tsd-kind="Class">ArcGISAuthError</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<p>The data that was passed in the <code>data</code> parameter</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="cleanUrl" class="tsd-anchor"></a>
+					<h3>clean<wbr>Url</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">clean<wbr>Url<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/utils/clean-url.ts#L7">arcgis-rest-request/src/utils/clean-url.ts:7</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Helper method to ensure that user supplied urls don&#39;t include whitespace or a trailing slash.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="decodeParam" class="tsd-anchor"></a>
+					<h3>decode<wbr>Param</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">decode<wbr>Param<span class="tsd-signature-symbol">(</span>param<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/utils/decode-query-string.ts#L4">arcgis-rest-request/src/utils/decode-query-string.ts:4</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>param: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="decodeQueryString" class="tsd-anchor"></a>
+					<h3>decode<wbr>Query<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">decode<wbr>Query<wbr>String<span class="tsd-signature-symbol">(</span>query<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/utils/decode-query-string.ts#L15">arcgis-rest-request/src/utils/decode-query-string.ts:15</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Decodes the passed query string as an object.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> query: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A string to be decoded.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{}</span></h4>
+							<p>A decoded query param object.</p>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-index-signature">
+									<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="encodeFormData" class="tsd-anchor"></a>
+					<h3>encode<wbr>Form<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">encode<wbr>Form<wbr>Data<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, forceFormData<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FormData</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/utils/encode-form-data.ts#L14">arcgis-rest-request/src/utils/encode-form-data.ts:14</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Encodes parameters in a <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData">FormData</a> object in browsers or in a <a href="https://github.com/form-data/form-data">FormData</a> in Node.js</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An object to be encoded.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> forceFormData: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">FormData</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h4>
+							<p>The complete <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData">FormData</a> object.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="encodeParam" class="tsd-anchor"></a>
+					<h3>encode<wbr>Param</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">encode<wbr>Param<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/utils/encode-query-string.ts#L13">arcgis-rest-request/src/utils/encode-query-string.ts:13</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Encodes keys and parameters for use in a URL&#39;s query string.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>key: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Parameter&#39;s key</p>
+									</div>
+								</li>
+								<li>
+									<h5>value: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Parameter&#39;s value</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>Query string with key and value pairs separated by &quot;&amp;&quot;</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="encodeQueryString" class="tsd-anchor"></a>
+					<h3>encode<wbr>Query<wbr>String</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">encode<wbr>Query<wbr>String<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/utils/encode-query-string.ts#L30">arcgis-rest-request/src/utils/encode-query-string.ts:30</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Encodes the passed object as a query string.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>An object to be encoded.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>An encoded query string.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="exchangeToken" class="tsd-anchor"></a>
+					<h3>exchange<wbr>Token</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">exchange<wbr>Token<span class="tsd-signature-symbol">(</span>token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, clientId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, portal<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/app-tokens.ts#L26">arcgis-rest-request/src/app-tokens.ts:26</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Request app-specific token, passing in the token for the current app.</p>
+								</div>
+								<p>This call returns a token after performing the same checks made by validateAppAccess.
+									It returns an app-specific token of the signed-in user only if the user has access
+								to the app and the encrypted platform cookie is valid.</p>
+								<p>A scenario where an app would use this is if it is iframed into another platform app
+									and receives credentials via postMessage. Those credentials contain a token that is
+									specific to the host app, so the embedded app would use <code>exchangeToken</code> to get one
+								that is specific to itself.</p>
+								<p>Note: This is only usable by Esri applications hosted on *arcgis.com, *esri.com or within
+								an ArcGIS Enterprise installation. Custom applications can not use this.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>token: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>clientId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>application</p>
+									</div>
+								</li>
+								<li>
+									<h5>portal: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;https://www.arcgis.com/sharing/rest&quot;</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="fetchToken" class="tsd-anchor"></a>
+					<h3>fetch<wbr>Token</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">fetch<wbr>Token<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, requestOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.ITokenRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ITokenRequestOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_esri_arcgis_rest_request.IFetchTokenResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">IFetchTokenResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/fetch-token.ts#L28">arcgis-rest-request/src/fetch-token.ts:28</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>requestOptions: <a href="../interfaces/_esri_arcgis_rest_request.ITokenRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">ITokenRequestOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_esri_arcgis_rest_request.IFetchTokenResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">IFetchTokenResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="getDefaultRequestOptions" class="tsd-anchor"></a>
+					<h3>get<wbr>Default<wbr>Request<wbr>Options</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Default<wbr>Request<wbr>Options<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/request.ts#L45">arcgis-rest-request/src/request.ts:45</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="getFetch" class="tsd-anchor"></a>
+					<h3>get<wbr>Fetch</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Fetch<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>Headers<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">Headers</span><span class="tsd-signature-symbol">; </span>Request<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">Request</span><span class="tsd-signature-symbol">; </span>Response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">; </span>fetch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">fetch</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-fetch/index.types.d.ts#L2">arcgis-rest-fetch/index.types.d.ts:2</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>Headers<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">Headers</span><span class="tsd-signature-symbol">; </span>Request<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">Request</span><span class="tsd-signature-symbol">; </span>Response<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">; </span>fetch<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">fetch</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="getOnlineEnvironment" class="tsd-anchor"></a>
+					<h3>get<wbr>Online<wbr>Environment</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Online<wbr>Environment<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/federation-utils.ts#L39">arcgis-rest-request/src/federation-utils.ts:39</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="isFederated" class="tsd-anchor"></a>
+					<h3>is<wbr>Federated</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Federated<span class="tsd-signature-symbol">(</span>owningSystemUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, portalUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/federation-utils.ts#L58">arcgis-rest-request/src/federation-utils.ts:58</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>owningSystemUrl: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>portalUrl: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="isOnline" class="tsd-anchor"></a>
+					<h3>is<wbr>Online</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Online<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/federation-utils.ts#L20">arcgis-rest-request/src/federation-utils.ts:20</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="normalizeOnlinePortalUrl" class="tsd-anchor"></a>
+					<h3>normalize<wbr>Online<wbr>Portal<wbr>Url</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">normalize<wbr>Online<wbr>Portal<wbr>Url<span class="tsd-signature-symbol">(</span>portalUrl<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/federation-utils.ts#L24">arcgis-rest-request/src/federation-utils.ts:24</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>portalUrl: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="platformSelf" class="tsd-anchor"></a>
+					<h3>platform<wbr>Self</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">platform<wbr>Self<span class="tsd-signature-symbol">(</span>clientId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, redirectUri<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, portal<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_esri_arcgis_rest_request.IPlatformSelfResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">IPlatformSelfResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/app-tokens.ts#L111">arcgis-rest-request/src/app-tokens.ts:111</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Request a token for a specific application using the esri_aopc encrypted cookie</p>
+								</div>
+								<p>When a client app boots up, it will know its clientId and the redirectUri for use
+								in the normal /oauth/authorize pop-out oAuth flow.</p>
+								<p>If the app sees an <code>esri_aopc</code> cookie (only set if the app is hosted on *.arcgis.com),
+									it can call the /oauth2/platformSelf end-point passing in the clientId and redirectUri
+									in headers, and it will receive back an app-specific token, assuming the user has
+								access to the app.</p>
+								<p>Since there are scenarios where an app can boot using credentials/token from localstorage
+									but those credentials are not for the same user as the esri_aopc cookie, it is recommended that
+								an app check the returned username against any existing identity they may have loaded.</p>
+								<p>Note: This is only usable by Esri applications hosted on *arcgis.com, *esri.com or within
+								an ArcGIS Enterprise installation. Custom applications can not use this.</p>
+								<pre><code class="language-js"><span style="color: #008000">// convert the encrypted platform cookie into a ArcGISIdentityManager</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">platformSelf</span><span style="color: #000000">, </span><span style="color: #001080">ArcGISIdentityManager</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@esri/arcgis-rest-request&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">portal</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;https://www.arcgis.com/sharing/rest&#039;</span><span style="color: #000000">;</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">clientId</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;YOURAPPCLIENTID&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #008000">// exchange esri_aopc cookie</span>
+<span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #795E26">platformSelf</span><span style="color: #000000">(</span><span style="color: #001080">clientId</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;https://your-app-redirect-uri&#039;</span><span style="color: #000000">, </span><span style="color: #001080">portal</span><span style="color: #000000">)</span>
+<span style="color: #000000">.</span><span style="color: #795E26">then</span><span style="color: #000000">((</span><span style="color: #001080">response</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000"> </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">currentTimestamp</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Date</span><span style="color: #000000">().</span><span style="color: #795E26">getTime</span><span style="color: #000000">();</span>
+<span style="color: #000000"> </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">tokenExpiresTimestamp</span><span style="color: #000000"> = </span><span style="color: #001080">currentTimestamp</span><span style="color: #000000"> + (</span><span style="color: #001080">response</span><span style="color: #000000">.</span><span style="color: #001080">expires_in</span><span style="color: #000000"> * </span><span style="color: #098658">1000</span><span style="color: #000000">);</span>
+<span style="color: #000000"> </span><span style="color: #008000">// Construct the session and return it</span>
+<span style="color: #000000"> </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">ArcGISIdentityManager</span><span style="color: #000000">({</span>
+<span style="color: #000000">   </span><span style="color: #001080">portal</span><span style="color: #000000">,</span>
+<span style="color: #000000">   </span><span style="color: #001080">clientId</span><span style="color: #000000">,</span>
+<span style="color: #000000">   </span><span style="color: #001080">username:</span><span style="color: #000000"> </span><span style="color: #001080">response</span><span style="color: #000000">.</span><span style="color: #001080">username</span><span style="color: #000000">,</span>
+<span style="color: #000000">   </span><span style="color: #001080">token:</span><span style="color: #000000"> </span><span style="color: #001080">response</span><span style="color: #000000">.</span><span style="color: #001080">token</span><span style="color: #000000">,</span>
+<span style="color: #000000">   </span><span style="color: #001080">tokenExpires:</span><span style="color: #000000"> </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Date</span><span style="color: #000000">(</span><span style="color: #001080">tokenExpiresTimestamp</span><span style="color: #000000">),</span>
+<span style="color: #000000">   </span><span style="color: #001080">ssl:</span><span style="color: #000000"> </span><span style="color: #0000FF">true</span>
+<span style="color: #000000"> });</span>
+<span style="color: #000000">})</span>
+
+</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>clientId: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>redirectUri: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>portal: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;https://www.arcgis.com/sharing/rest&quot;</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_esri_arcgis_rest_request.IPlatformSelfResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">IPlatformSelfResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="processParams" class="tsd-anchor"></a>
+					<h3>process<wbr>Params</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">process<wbr>Params<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/utils/process-params.ts#L49">arcgis-rest-request/src/utils/process-params.ts:49</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Converts parameters to the proper representation to send to the ArcGIS REST API.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The object whose keys will be encoded.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<p>A new object with properly encoded values.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="request" class="tsd-anchor"></a>
+					<h3>request</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">request<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, requestOptions<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/request.ts#L499">arcgis-rest-request/src/request.ts:499</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Generic method for making HTTP requests to ArcGIS REST API endpoints.</p>
+								</div>
+								<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">request</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@esri/arcgis-rest-request&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #795E26">request</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;https://www.arcgis.com/sharing/rest&#039;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #001080">response</span><span style="color: #000000">) </span><span style="color: #008000">// response.currentVersion === 5.2</span>
+
+<span style="color: #795E26">request</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;https://www.arcgis.com/sharing/rest&#039;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">  </span><span style="color: #001080">httpMethod:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;GET&quot;</span>
+<span style="color: #000000">})</span>
+
+<span style="color: #795E26">request</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;https://www.arcgis.com/sharing/rest/search&#039;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">  </span><span style="color: #001080">params:</span><span style="color: #000000"> { </span><span style="color: #001080">q:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;parks&#039;</span><span style="color: #000000"> }</span>
+<span style="color: #000000">})</span>
+<span style="color: #000000">  .</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #001080">response</span><span style="color: #000000">) </span><span style="color: #008000">// response.total =&gt; 78379</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The URL of the ArcGIS REST API endpoint.</p>
+									</div>
+								</li>
+								<li>
+									<h5>requestOptions: <a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestOptions</a><span class="tsd-signature-symbol"> = ...</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Options for the request, including parameters relevant to the endpoint.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>A Promise that will resolve with the data from the response.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="requiresFormData" class="tsd-anchor"></a>
+					<h3>requires<wbr>Form<wbr>Data</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">requires<wbr>Form<wbr>Data<span class="tsd-signature-symbol">(</span>params<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/utils/process-params.ts#L9">arcgis-rest-request/src/utils/process-params.ts:9</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks parameters to see if we should use FormData to send the request</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>params: <span class="tsd-signature-type">any</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The object whose keys will be encoded.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>A boolean indicating if FormData will be required.</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="revokeToken" class="tsd-anchor"></a>
+					<h3>revoke<wbr>Token</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">revoke<wbr>Token<span class="tsd-signature-symbol">(</span>requestOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IRevokeTokenOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRevokeTokenOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_esri_arcgis_rest_request.IRevokeTokenResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">IRevokeTokenResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/revoke-token.ts#L38">arcgis-rest-request/src/revoke-token.ts:38</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Revokes a token generated via any oAuth 2.0 method. <code>token</code> can be either a refresh token OR an access token. If you are using  <a href="../classes/_esri_arcgis_rest_request.ArcGISIdentityManager.html"><code>ArcGISIdentityManager</code></a> you should use  <a href="../classes/_esri_arcgis_rest_request.ArcGISIdentityManager.html#destroy"><code>ArcGISIdentityManager.destroy</code></a> instead. Cannot revoke API keys or tokens generated by <a href="../classes/_esri_arcgis_rest_request.ApplicationCredentialsManager.html"><code>ApplicationCredentialsManager</code></a>.</p>
+								</div>
+								<p>See <a href="https://developers.arcgis.com/rest/users-groups-and-items/revoke-token.htm"><code>revokeToken</code></a> on the ArcGIS REST API for more details.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>requestOptions: <a href="../interfaces/_esri_arcgis_rest_request.IRevokeTokenOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRevokeTokenOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_esri_arcgis_rest_request.IRevokeTokenResponse.html" class="tsd-signature-type" data-tsd-kind="Interface">IRevokeTokenResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="setDefaultRequestOptions" class="tsd-anchor"></a>
+					<h3>set<wbr>Default<wbr>Request<wbr>Options</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Default<wbr>Request<wbr>Options<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestOptions</a>, hideWarnings<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/request.ts#L33">arcgis-rest-request/src/request.ts:33</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Sets the default options that will be passed in <strong>all requests across all <code>@esri/arcgis-rest-js</code> modules</strong>.</p>
+								</div>
+								<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">setDefaultRequestOptions</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@esri/arcgis-rest-request&quot;</span><span style="color: #000000">;</span>
+
+<span style="color: #795E26">setDefaultRequestOptions</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #001080">authentication:</span><span style="color: #000000"> </span><span style="color: #001080">ArcGISIdentityManager</span><span style="color: #000000"> </span><span style="color: #008000">// all requests will use this session by default</span>
+<span style="color: #000000">})</span>
+</code></pre>
+								<p>You should <strong>never</strong> set a default <code>authentication</code> when you are in a server side environment where you may be handling requests for many different authenticated users.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>options: <a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The default options to pass with every request. Existing default will be overwritten.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> hideWarnings: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Silence warnings about setting default <code>authentication</code> in shared environments.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="validateAppAccess" class="tsd-anchor"></a>
+					<h3>validate<wbr>App<wbr>Access</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">validate<wbr>App<wbr>Access<span class="tsd-signature-symbol">(</span>token<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, clientId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, portal<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_esri_arcgis_rest_request.IAppAccess.html" class="tsd-signature-type" data-tsd-kind="Interface">IAppAccess</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/validate-app-access.ts#L54">arcgis-rest-request/src/validate-app-access.ts:54</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Validates that the user has access to the application
+									and if they user should be presented a &quot;View Only&quot; mode</p>
+								</div>
+								<p>This is only needed/valid for Esri applications that are &quot;licensed&quot;
+									and shipped in ArcGIS Online or ArcGIS Enterprise. Most custom applications
+								should not need or use this.</p>
+								<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">validateAppAccess</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@esri/arcgis-rest-request&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #795E26">validateAppAccess</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;your-token&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;theClientId&#039;</span><span style="color: #000000">)</span>
+<span style="color: #000000">.</span><span style="color: #795E26">then</span><span style="color: #000000">((</span><span style="color: #001080">result</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">   </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (!</span><span style="color: #001080">result</span><span style="color: #000000">.</span><span style="color: #001080">value</span><span style="color: #000000">) {</span>
+<span style="color: #000000">     </span><span style="color: #008000">// redirect or show some other ui</span>
+<span style="color: #000000">   } </span><span style="color: #AF00DB">else</span><span style="color: #000000"> {</span>
+<span style="color: #000000">     </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">result</span><span style="color: #000000">.</span><span style="color: #001080">viewOnlyUserTypeApp</span><span style="color: #000000">) {</span>
+<span style="color: #000000">       </span><span style="color: #008000">// use this to inform your app to show a &quot;View Only&quot; mode</span>
+<span style="color: #000000">     }</span>
+<span style="color: #000000">   }</span>
+<span style="color: #000000">})</span>
+<span style="color: #000000">.</span><span style="color: #795E26">catch</span><span style="color: #000000">((</span><span style="color: #001080">err</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000"> </span><span style="color: #008000">// two possible errors</span>
+<span style="color: #000000"> </span><span style="color: #008000">// invalid clientId: {&quot;error&quot;:{&quot;code&quot;:400,&quot;messageCode&quot;:&quot;GWM_0007&quot;,&quot;message&quot;:&quot;Invalid request&quot;,&quot;details&quot;:[]}}</span>
+<span style="color: #000000"> </span><span style="color: #008000">// invalid token: {&quot;error&quot;:{&quot;code&quot;:498,&quot;message&quot;:&quot;Invalid token.&quot;,&quot;details&quot;:[]}}</span>
+<span style="color: #000000">})</span>
+</code></pre>
+								<p>Note: This is only usable by Esri applications hosted on *arcgis.com, *esri.com or within
+								an ArcGIS Enterprise installation. Custom applications can not use this.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>token: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>platform token</p>
+									</div>
+								</li>
+								<li>
+									<h5>clientId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>application client id</p>
+									</div>
+								</li>
+								<li>
+									<h5>portal: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = &quot;https://www.arcgis.com/sharing/rest&quot;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Optional</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_esri_arcgis_rest_request.IAppAccess.html" class="tsd-signature-type" data-tsd-kind="Interface">IAppAccess</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="warn" class="tsd-anchor"></a>
+					<h3>warn</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">warn<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/utils/warn.ts#L7">arcgis-rest-request/src/utils/warn.ts:7</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Method used internally to surface messages to developers.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>message: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+					<a name="withOptions" class="tsd-anchor"></a>
+					<h3>with<wbr>Options</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">with<wbr>Options&lt;K, T&gt;<span class="tsd-signature-symbol">(</span>defaultOptions<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestOptions</a>, func<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>funcArgs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Parameters</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">ReturnType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Esri/arcgis-rest-js/blob/367a49c56/packages/arcgis-rest-request/src/utils/with-options.ts#L30">arcgis-rest-request/src/utils/with-options.ts:30</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Allows you to wrap individual methods with a default set of request options. This is useful to avoid setting the same option more then once and allows for interacting and setting defaults in a functional manner.</p>
+								</div>
+								<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">withOptions</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@esri/arcgis-rest-request&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">queryFeatures</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@esri/arcgis-rest-feature-service&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">queryTrails</span><span style="color: #000000"> = </span><span style="color: #795E26">withOptions</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #001080">url:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0/&quot;</span><span style="color: #000000">}, </span><span style="color: #001080">queryFeatures</span><span style="color: #000000">);</span>
+
+<span style="color: #795E26">queryTrails</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #001080">where:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;ELEV_FT &gt; 1000&quot;</span>
+<span style="color: #000000">}).</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #001080">result</span><span style="color: #000000">);</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">queryTrailsAsUser</span><span style="color: #000000"> = </span><span style="color: #795E26">withOptions</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #001080">authentication:</span><span style="color: #000000"> </span><span style="color: #001080">ArcGISIdentityManager</span>
+<span style="color: #000000">}, </span><span style="color: #001080">queryTrails</span><span style="color: #000000">);</span>
+
+<span style="color: #795E26">queryTrailsAsUser</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #001080">where:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;TRL_NAME LIKE &#039;%backbone%&#039;&quot;</span>
+<span style="color: #000000">}).</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #001080">result</span><span style="color: #000000">);</span>
+</code></pre>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>K<span class="tsd-signature-symbol">: </span><a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestOptions</a></h4>
+								</li>
+								<li>
+									<h4>T<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">any</span></h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>defaultOptions: <a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-signature-type" data-tsd-kind="Interface">IRequestOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The options to pass into to the <code>func</code>.</p>
+									</div>
+								</li>
+								<li>
+									<h5>func: <span class="tsd-signature-type">T</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Any function that accepts anything extending <code>IRequestOptions</code> as its last parameter.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>funcArgs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Parameters</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">ReturnType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<p>A copy of <code>func</code> with the <code>defaultOptions</code> passed in as defaults.</p>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-signature">
+									<ul class="tsd-signatures tsd-kind-type-literal">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>funcArgs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Parameters</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReturnType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<div class="tsd-comment tsd-typography">
+												<div class="lead">
+													<p>Allows you to wrap individual methods with a default set of request options. This is useful to avoid setting the same option more then once and allows for interacting and setting defaults in a functional manner.</p>
+												</div>
+												<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">withOptions</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;@esri/arcgis-rest-request&quot;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">queryFeatures</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@esri/arcgis-rest-feature-service&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">queryTrails</span><span style="color: #000000"> = </span><span style="color: #795E26">withOptions</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #001080">url:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trailheads/FeatureServer/0/&quot;</span><span style="color: #000000">}, </span><span style="color: #001080">queryFeatures</span><span style="color: #000000">);</span>
+
+<span style="color: #795E26">queryTrails</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #001080">where:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;ELEV_FT &gt; 1000&quot;</span>
+<span style="color: #000000">}).</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #001080">result</span><span style="color: #000000">);</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">queryTrailsAsUser</span><span style="color: #000000"> = </span><span style="color: #795E26">withOptions</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #001080">authentication:</span><span style="color: #000000"> </span><span style="color: #001080">ArcGISIdentityManager</span>
+<span style="color: #000000">}, </span><span style="color: #001080">queryTrails</span><span style="color: #000000">);</span>
+
+<span style="color: #795E26">queryTrailsAsUser</span><span style="color: #000000">({</span>
+<span style="color: #000000">  </span><span style="color: #001080">where:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;TRL_NAME LIKE &#039;%backbone%&#039;&quot;</span>
+<span style="color: #000000">}).</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #001080">result</span><span style="color: #000000">);</span>
+</code></pre>
+											</div>
+											<h4 class="tsd-parameters-title">Parameters</h4>
+											<ul class="tsd-parameters">
+												<li>
+													<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>funcArgs: <span class="tsd-signature-type">Parameters</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+												</li>
+											</ul>
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ReturnType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+											<p>A copy of <code>func</code> with the <code>defaultOptions</code> passed in as defaults.</p>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="../modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_esri_arcgis_rest_demographics.html">@esri/arcgis-<wbr>rest-<wbr>demographics</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_esri_arcgis_rest_feature_service.html">@esri/arcgis-<wbr>rest-<wbr>feature-<wbr>service</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_esri_arcgis_rest_geocoding.html">@esri/arcgis-<wbr>rest-<wbr>geocoding</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_esri_arcgis_rest_portal.html">@esri/arcgis-<wbr>rest-<wbr>portal</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="_esri_arcgis_rest_request.html">@esri/arcgis-<wbr>rest-<wbr>request</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_esri_arcgis_rest_routing.html">@esri/arcgis-<wbr>rest-<wbr>routing</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum tsd-parent-kind-module">
+						<a href="../enums/_esri_arcgis_rest_request.ArcGISTokenRequestErrorCodes.html" class="tsd-kind-icon">ArcGISToken<wbr>Request<wbr>Error<wbr>Codes</a>
+					</li>
+					<li class=" tsd-kind-enum tsd-parent-kind-module">
+						<a href="../enums/_esri_arcgis_rest_request.ErrorTypes.html" class="tsd-kind-icon">Error<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-enum tsd-parent-kind-module">
+						<a href="../enums/_esri_arcgis_rest_request.JOB_STATUSES.html" class="tsd-kind-icon">JOB_<wbr>STATUSES</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_esri_arcgis_rest_request.ApiKeyManager.html" class="tsd-kind-icon">Api<wbr>Key<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_esri_arcgis_rest_request.ApplicationCredentialsManager.html" class="tsd-kind-icon">Application<wbr>Credentials<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_esri_arcgis_rest_request.ArcGISAccessDeniedError.html" class="tsd-kind-icon">ArcGISAccess<wbr>Denied<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_esri_arcgis_rest_request.ArcGISAuthError.html" class="tsd-kind-icon">ArcGISAuth<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_esri_arcgis_rest_request.ArcGISIdentityManager.html" class="tsd-kind-icon">ArcGISIdentity<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_esri_arcgis_rest_request.ArcGISJobError.html" class="tsd-kind-icon">ArcGISJob<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_esri_arcgis_rest_request.ArcGISRequestError.html" class="tsd-kind-icon">ArcGISRequest<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_esri_arcgis_rest_request.ArcGISTokenRequestError.html" class="tsd-kind-icon">ArcGISToken<wbr>Request<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_esri_arcgis_rest_request.Job.html" class="tsd-kind-icon">Job</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IApiKeyOptions.html" class="tsd-kind-icon">IApi<wbr>Key<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IAppAccess.html" class="tsd-kind-icon">IApp<wbr>Access</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IApplicationCredentialsManagerOptions.html" class="tsd-kind-icon">IApplication<wbr>Credentials<wbr>Manager<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IArc.html" class="tsd-kind-icon">IArc</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IArcGISIdentityManagerOptions.html" class="tsd-kind-icon">IArcGISIdentity<wbr>Manager<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IAuthenticatedRequestOptions.html" class="tsd-kind-icon">IAuthenticated<wbr>Request<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IAuthenticationManager.html" class="tsd-kind-icon">IAuthentication<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IBezierCurve.html" class="tsd-kind-icon">IBezier<wbr>Curve</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.ICircularArc.html" class="tsd-kind-icon">ICircular<wbr>Arc</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.ICredential.html" class="tsd-kind-icon">ICredential</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IExtent.html" class="tsd-kind-icon">IExtent</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IFeature.html" class="tsd-kind-icon">IFeature</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IFeatureSet.html" class="tsd-kind-icon">IFeature<wbr>Set</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IFetchTokenParams.html" class="tsd-kind-icon">IFetch<wbr>Token<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IFetchTokenResponse.html" class="tsd-kind-icon">IFetch<wbr>Token<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IField.html" class="tsd-kind-icon">IField</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IFromTokenOptions.html" class="tsd-kind-icon">IFrom<wbr>Token<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IGenerateTokenParams.html" class="tsd-kind-icon">IGenerate<wbr>Token<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IGeometry.html" class="tsd-kind-icon">IGeometry</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IGroup.html" class="tsd-kind-icon">IGroup</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IGroupAdd.html" class="tsd-kind-icon">IGroup<wbr>Add</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IHasZM.html" class="tsd-kind-icon">IHasZM</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IJobInfo.html" class="tsd-kind-icon">IJob<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IJobOptions.html" class="tsd-kind-icon">IJob<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.ILocation.html" class="tsd-kind-icon">ILocation</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IMultipoint.html" class="tsd-kind-icon">IMultipoint</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IOAuth2Options.html" class="tsd-kind-icon">IOAuth2<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IOldCircularArc.html" class="tsd-kind-icon">IOld<wbr>Circular<wbr>Arc</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IParamBuilder.html" class="tsd-kind-icon">IParam<wbr>Builder</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IParams.html" class="tsd-kind-icon">IParams</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IParamsBuilder.html" class="tsd-kind-icon">IParams<wbr>Builder</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IPlatformSelfResponse.html" class="tsd-kind-icon">IPlatform<wbr>Self<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IPoint.html" class="tsd-kind-icon">IPoint</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IPolygon.html" class="tsd-kind-icon">IPolygon</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IPolygonWithCurves.html" class="tsd-kind-icon">IPolygon<wbr>With<wbr>Curves</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IPolyline.html" class="tsd-kind-icon">IPolyline</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IPolylineWithCurves.html" class="tsd-kind-icon">IPolyline<wbr>With<wbr>Curves</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IRequestOptions.html" class="tsd-kind-icon">IRequest<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IRevokeTokenOptions.html" class="tsd-kind-icon">IRevoke<wbr>Token<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IRevokeTokenResponse.html" class="tsd-kind-icon">IRevoke<wbr>Token<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IServerInfo.html" class="tsd-kind-icon">IServer<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.ISignInOptions.html" class="tsd-kind-icon">ISign<wbr>InOptions</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.ISpatialReference.html" class="tsd-kind-icon">ISpatial<wbr>Reference</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.ISubmitJobOptions.html" class="tsd-kind-icon">ISubmit<wbr>Job<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.ISymbol.html" class="tsd-kind-icon">ISymbol</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.ITokenRequestOptions.html" class="tsd-kind-icon">IToken<wbr>Request<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IUser.html" class="tsd-kind-icon">IUser</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_esri_arcgis_rest_request.IUserRequestOptions.html" class="tsd-kind-icon">IUser<wbr>Request<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#AuthenticationProvider" class="tsd-kind-icon">Authentication<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#DomainType" class="tsd-kind-icon">Domain<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#ElipticArc" class="tsd-kind-icon">Eliptic<wbr>Arc</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#FieldType" class="tsd-kind-icon">Field<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#GeometryType" class="tsd-kind-icon">Geometry<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#GrantTypes" class="tsd-kind-icon">Grant<wbr>Types</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#GroupMembership" class="tsd-kind-icon">Group<wbr>Membership</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#HTTPMethods" class="tsd-kind-icon">HTTPMethods</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#ICodedValue" class="tsd-kind-icon">ICoded<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#IDomain" class="tsd-kind-icon">IDomain</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#IRetryAuthError" class="tsd-kind-icon">IRetry<wbr>Auth<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#JsonCurve" class="tsd-kind-icon">Json<wbr>Curve</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#Position" class="tsd-kind-icon">Position</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#Position2D" class="tsd-kind-icon">Position2D</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#ResponseFormats" class="tsd-kind-icon">Response<wbr>Formats</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#SymbolType" class="tsd-kind-icon">Symbol<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#Units" class="tsd-kind-icon">Units</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#Blob" class="tsd-kind-icon">Blob</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#File" class="tsd-kind-icon">File</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#FormData" class="tsd-kind-icon">Form<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#NODEJS_DEFAULT_REFERER_HEADER" class="tsd-kind-icon">NODEJS_<wbr>DEFAULT_<wbr>REFERER_<wbr>HEADER</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="_esri_arcgis_rest_request.html#appendCustomParams" class="tsd-kind-icon">append<wbr>Custom<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#canUseOnlineToken" class="tsd-kind-icon">can<wbr>Use<wbr>Online<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#checkForErrors" class="tsd-kind-icon">check<wbr>For<wbr>Errors</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#cleanUrl" class="tsd-kind-icon">clean<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#decodeParam" class="tsd-kind-icon">decode<wbr>Param</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#decodeQueryString" class="tsd-kind-icon">decode<wbr>Query<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#encodeFormData" class="tsd-kind-icon">encode<wbr>Form<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#encodeParam" class="tsd-kind-icon">encode<wbr>Param</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#encodeQueryString" class="tsd-kind-icon">encode<wbr>Query<wbr>String</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#exchangeToken" class="tsd-kind-icon">exchange<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#fetchToken" class="tsd-kind-icon">fetch<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#getDefaultRequestOptions" class="tsd-kind-icon">get<wbr>Default<wbr>Request<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#getFetch" class="tsd-kind-icon">get<wbr>Fetch</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#getOnlineEnvironment" class="tsd-kind-icon">get<wbr>Online<wbr>Environment</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#isFederated" class="tsd-kind-icon">is<wbr>Federated</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#isOnline" class="tsd-kind-icon">is<wbr>Online</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#normalizeOnlinePortalUrl" class="tsd-kind-icon">normalize<wbr>Online<wbr>Portal<wbr>Url</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#platformSelf" class="tsd-kind-icon">platform<wbr>Self</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#processParams" class="tsd-kind-icon">process<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#request" class="tsd-kind-icon">request</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#requiresFormData" class="tsd-kind-icon">requires<wbr>Form<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#revokeToken" class="tsd-kind-icon">revoke<wbr>Token</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#setDefaultRequestOptions" class="tsd-kind-icon">set<wbr>Default<wbr>Request<wbr>Options</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#validateAppAccess" class="tsd-kind-icon">validate<wbr>App<wbr>Access</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="_esri_arcgis_rest_request.html#warn" class="tsd-kind-icon">warn</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="_esri_arcgis_rest_request.html#withOptions" class="tsd-kind-icon">with<wbr>Options</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-namespace"><span class="tsd-kind-icon">Namespace</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

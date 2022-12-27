@@ -1,0 +1,41 @@
+{
+  "name": "@lerna/list",
+  "version": "3.21.0",
+  "description": "List local packages",
+  "keywords": [
+    "lerna",
+    "command"
+  ],
+  "homepage": "https://github.com/lerna/lerna/tree/master/commands/list#readme",
+  "license": "MIT",
+  "author": {
+    "name": "Daniel Stockman",
+    "url": "https://github.com/evocateur"
+  },
+  "files": [
+    "command.js",
+    "index.js"
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">= 6.9.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lerna/lerna.git",
+    "directory": "commands/list"
+  },
+  "scripts": {
+    "test": "echo \"Run tests from root\" && exit 1"
+  },
+  "dependencies": {
+    "@lerna/command": "3.21.0",
+    "@lerna/filter-options": "3.20.0",
+    "@lerna/listable": "3.18.5",
+    "@lerna/output": "3.13.0"
+  },
+  "gitHead": "3367257cabe1540a3b9468acbfa0d01ba391077d"
+}

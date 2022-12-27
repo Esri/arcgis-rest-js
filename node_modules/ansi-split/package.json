@@ -1,0 +1,27 @@
+{
+  "name": "ansi-split",
+  "version": "1.0.1",
+  "description": "Split a string into an array based on where an ansi code is present",
+  "main": "index.js",
+  "dependencies": {
+    "ansi-regex": "^3.0.0"
+  },
+  "devDependencies": {
+    "chalk": "^2.1.0",
+    "standard": "^10.0.3",
+    "tape": "^4.8.0"
+  },
+  "scripts": {
+    "test": "standard && tape test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mafintosh/ansi-split.git"
+  },
+  "author": "Mathias Buus (@mafintosh)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mafintosh/ansi-split/issues"
+  },
+  "homepage": "https://github.com/mafintosh/ansi-split"
+}

@@ -1,0 +1,107 @@
+/* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
+ * Apache-2.0 */
+import { request, cleanUrl, appendCustomParams } from "@esri/arcgis-rest-request";
+import { ARCGIS_ONLINE_CLOSEST_FACILITY_URL, normalizeLocationsList, isFeatureSet, isJsonWithURL } from "./helpers.js";
+import { arcgisToGeoJSON } from "@terraformer/arcgis";
+function getTravelDirection(key) {
+    if (key === "incidentsToFacilities") {
+        return "esriNATravelDirectionFromFacility";
+    }
+    else {
+        return "esriNATravelDirectionToFacility";
+    }
+}
+/**
+ * Used to find a route to the nearest of several possible destinations. See the [REST Documentation](https://developers.arcgis.com/rest/network/api-reference/closest-facility-synchronous-service.htm) for more information.
+ *
+ * ```js
+ * import { closestFacility } from '@esri/arcgis-rest-routing';
+ *
+ * closestFacility({
+ *   incidents: [
+ *     [-90.404302, 38.600621],
+ *     [-90.364293, 38.620427],
+ *    ],
+ *   facilities: [
+ *     [-90.444716, 38.635501],
+ *     [-90.311919, 38.633523],
+ *     [-90.451147, 38.581107]
+ *    ],
+ *    authentication
+ * })
+ *   .then(response) // => {routes: {features: [{attributes: { ... }, geometry:{ ... }}]}
+ * ```
+ *
+ * @param requestOptions Options to pass through to the routing service.
+ * @returns A Promise that will resolve with routes and directions for the request.
+ * @restlink https://developers.arcgis.com/rest/network/api-reference/closest-facility-synchronous-service.htm
+ * @inline IClosestFacilityOptions
+ */
+export function closestFacility(requestOptions) {
+    const endpoint = requestOptions.endpoint || ARCGIS_ONLINE_CLOSEST_FACILITY_URL;
+    requestOptions.params = Object.assign({ returnFacilities: true, returnDirections: true, returnIncidents: true, returnBarriers: true, returnPolylineBarriers: true, returnPolygonBarriers: true, preserveObjectID: true }, requestOptions.params);
+    const options = appendCustomParams(requestOptions, [
+        "returnCFRoutes",
+        // "travelDirection",
+        "barriers",
+        "polylineBarriers",
+        "polygonBarriers",
+        "returnDirections",
+        "directionsOutputType",
+        "directionsLengthUnits",
+        "outputLines",
+        "returnFacilities",
+        "returnIncidents",
+        "returnBarriers",
+        "returnPolylineBarriers",
+        "returnPolygonBarriers",
+        "preserveObjectID"
+    ]);
+    // Set travelDirection
+    if (requestOptions.travelDirection) {
+        options.params.travelDirection = getTravelDirection(requestOptions.travelDirection);
+    }
+    // the SAAS service does not support anonymous requests
+    if (!requestOptions.authentication &&
+        endpoint === ARCGIS_ONLINE_CLOSEST_FACILITY_URL) {
+        return Promise.reject("Finding the closest facility using the ArcGIS service requires authentication");
+    }
+    if (isFeatureSet(requestOptions.incidents) ||
+        isJsonWithURL(requestOptions.incidents)) {
+        options.params.incidents = requestOptions.incidents;
+    }
+    else {
+        options.params.incidents = normalizeLocationsList(requestOptions.incidents).join(";");
+    }
+    if (isFeatureSet(requestOptions.facilities) ||
+        isJsonWithURL(requestOptions.facilities)) {
+        options.params.facilities = requestOptions.facilities;
+    }
+    else {
+        options.params.facilities = normalizeLocationsList(requestOptions.facilities).join(";");
+    }
+    // optional input param that may need point geometry normalizing
+    if (requestOptions.barriers) {
+        if (isFeatureSet(requestOptions.barriers)) {
+            options.params.barriers = requestOptions.barriers;
+        }
+        else {
+            // optional point geometry barriers must be normalized, too
+            // but not if provided as IFeatureSet type
+            // note that optional polylineBarriers and polygonBarriers do not need to be normalized
+            options.params.barriers = normalizeLocationsList(requestOptions.barriers).join(";");
+        }
+    }
+    return request(`${cleanUrl(endpoint)}/solveClosestFacility`, options).then(cleanResponse);
+}
+function cleanResponse(res) {
+    // add "geoJson" property to "routes"
+    if (res.routes.spatialReference.wkid === 4326) {
+        res.routes.geoJson = arcgisToGeoJSON(res.routes);
+    }
+    return res;
+}
+export default {
+    closestFacility
+};
+//# sourceMappingURL=closestFacility.js.map

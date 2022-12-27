@@ -1,0 +1,18 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TypeSerializer = void 0;
+const models_1 = require("../../../models");
+const components_1 = require("../../components");
+class TypeSerializer extends components_1.TypeSerializerComponent {
+    supports(t) {
+        return t instanceof models_1.Type;
+    }
+    toObject(type, obj) {
+        return {
+            ...obj,
+            type: type.type,
+        };
+    }
+}
+exports.TypeSerializer = TypeSerializer;
+TypeSerializer.PRIORITY = 1000;

@@ -1,0 +1,28 @@
+{
+  "name": "pid-cwd",
+  "version": "1.2.0",
+  "description": "Get working directory of process by PID - cross platform",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NeekSandhu/pid-cwd.git"
+  },
+  "keywords": [
+    "pid",
+    "process",
+    "cwd",
+    "wd",
+    "current",
+    "working",
+    "directory",
+    "cross",
+    "platfrom"
+  ],
+  "author": "Neek Sandhu <neek.sandhu@outlook.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NeekSandhu/pid-cwd/issues"
+  },
+  "homepage": "https://github.com/NeekSandhu/pid-cwd#readme"
+}

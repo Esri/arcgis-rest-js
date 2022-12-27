@@ -1,0 +1,47 @@
+{
+	"name": "@sindresorhus/df",
+	"version": "3.1.1",
+	"description": "Get free disk space info from `df -kP`",
+	"license": "MIT",
+	"repository": "sindresorhus/df",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "sindresorhus.com"
+	},
+	"engines": {
+		"node": ">=8"
+	},
+	"scripts": {
+		"test": "xo && ava && tsd"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"keywords": [
+		"df",
+		"dfkp",
+		"df-kp",
+		"disk",
+		"space",
+		"free",
+		"info",
+		"data",
+		"fs",
+		"filesystem",
+		"file-system",
+		"drive",
+		"mount",
+		"size",
+		"capacity"
+	],
+	"dependencies": {
+		"execa": "^2.0.1"
+	},
+	"devDependencies": {
+		"ava": "^2.1.0",
+		"tsd": "^0.7.1",
+		"xo": "^0.24.0"
+	}
+}
