@@ -267,7 +267,7 @@ export interface IArcGISIdentityManagerOptions {
  *
  * * {@linkcode ArcGISIdentityManager.fromToken} for when you have an existing token from another source and would like create an `ArcGISIdentityManager` instance.
  * * {@linkcode ArcGISIdentityManager.fromCredential} for creating  an `ArcGISIdentityManager` instance from a `Credentials` object in the ArcGIS JS API `IdentityManager`
- * * {@linkcode ArcGISIdentityManager.signIn} for authenticating directly with a users username and password for environments with a user interface for oAuth 2.0.
+ * * {@linkcode ArcGISIdentityManager.signIn} for authenticating directly with a user's username and password for environments with a user interface for oAuth 2.0.
  *
  * Once a manager is created there are additional utilities:
  *
@@ -944,7 +944,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   }
 
   /**
-   * Initialize a {@linkcode ArcGISIdentityManager} with a users `username` and `password`. **This method is intended ONLY for applications without a user interface such as CLI tools.**.
+   * Initialize a {@linkcode ArcGISIdentityManager} with a user's `username` and `password`. **This method is intended ONLY for applications without a user interface such as CLI tools.**.
    *
    * If possible you should use {@linkcode ArcGISIdentityManager.beginOAuth2} to authenticate users in a browser or {@linkcode ArcGISIdentityManager.authorize} for authenticating users with a web server.
    */
