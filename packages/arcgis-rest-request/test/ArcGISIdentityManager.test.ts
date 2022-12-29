@@ -2716,6 +2716,63 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
+    it("should use provided referer.", (done) => {
+      const MOCK_USER_SESSION = new ArcGISIdentityManager({
+        username: "jsmith",
+        password: "123456",
+        token: "token",
+        tokenExpires: YESTERDAY,
+        server: "https://fakeserver.com/arcgis",
+        referer: "testreferer"
+      });
+
+      fetchMock.post("https://fakeserver.com/arcgis/rest/info", {
+        currentVersion: 10.61,
+        fullVersion: "10.6.1",
+        authInfo: {
+          isTokenBasedSecurity: true,
+          tokenServicesUrl: "https://fakeserver.com/arcgis/tokens/generateToken"
+        }
+      });
+
+      fetchMock.post("https://fakeserver.com/arcgis/tokens/generateToken", {
+        token: "fresh-token",
+        expires: TOMORROW.getTime(),
+        username: " jsmith"
+      });
+
+      MOCK_USER_SESSION.getToken(
+        "https://fakeserver.com/arcgis/rest/services/Fake/MapServer/"
+      )
+        .then((token) => {
+          expect(token).toBe("fresh-token");
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+            "https://fakeserver.com/arcgis/tokens/generateToken"
+          );
+          expect(url).toBe(
+            "https://fakeserver.com/arcgis/tokens/generateToken"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("username=jsmith");
+          expect(options.body).toContain("password=123456");
+          expect(options.body).toContain("client=referer");
+
+          if (isNode) {
+            expect(options.body).toContain("referer=testreferer");
+          }
+
+          if (isBrowser) {
+            expect(options.body).toContain(`referer=testreferer`);
+          }
+
+          done();
+        })
+        .catch((err) => {
+          fail(err);
+        });
+    });
+
     it("should throw an error if there is an error generating the server token with a username and password.", () => {
       const MOCK_USER_SESSION = new ArcGISIdentityManager({
         username: "jsmith",
