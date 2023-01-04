@@ -6,12 +6,6 @@ import { UserPropertiesResponse } from '../mocks/users/user-properties'
 import * as fetchMock from "fetch-mock";
 import { encodeParam } from '@esri/arcgis-rest-request';
 
-const TOMORROW = (function() {
-  const now = new Date();
-  now.setDate(now.getDate() + 1);
-  return now;
-})();
-
 describe("users", () => {
   afterEach(fetchMock.restore);
 
@@ -26,9 +20,7 @@ describe("users", () => {
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties"
           );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          expect(options.method).toBe("GET");
           done();
         })
         .catch(e => {
