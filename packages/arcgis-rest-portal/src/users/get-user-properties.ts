@@ -3,18 +3,6 @@
 
 import { IRequestOptions, request } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "../util/get-portal-url";
-import { UserSession } from "@esri/arcgis-rest-auth";
-
-export interface IGetUserPropertiesOptions extends IRequestOptions {
-  /**
-   * A session representing a logged in user.
-   */
-  authentication?: UserSession;
-  /**
-   * Supply a username if you'd like to fetch information about a different user than is being used to authenticate the request.
-   */
-  username?: string;
-}
 
 export interface IGetUserPropertiesResponse {
   /**
@@ -22,11 +10,12 @@ export interface IGetUserPropertiesResponse {
    */
   landingPage: {
     url: string
-  }
+  },
   /**
    * user MapViewer configuration
    */
-  mapViewer: "classic" | "modern"
+  mapViewer: "classic" | "modern",
+  [ key: string ]: unknown
 }
 
 /**
@@ -35,10 +24,11 @@ export interface IGetUserPropertiesResponse {
  * @param IGetUserPropertiesOptions - options to pass through in the request
  * @returns User properties object
  */
-export function getUserProperties(requestOptions: IGetUserPropertiesOptions): Promise<IGetUserPropertiesResponse> {
-  const username =
-    requestOptions.username || requestOptions.authentication.username;
+export async function getUserProperties(username: string, requestOptions?: IRequestOptions): Promise<IGetUserPropertiesResponse> {
   const url = `${getPortalUrl(requestOptions)}/community/users/${encodeURIComponent(username)}/properties`;
-
-  return request(url, requestOptions);
+  const response = await request(url, requestOptions);
+  if (!response.mapViewer) {
+    response.mapViewer = "modern";
+  }
+  return response;
 }
