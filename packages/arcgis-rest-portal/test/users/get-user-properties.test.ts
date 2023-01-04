@@ -1,7 +1,6 @@
 /* Copyright (c) 2023 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { UserSession } from '@esri/arcgis-rest-auth';
 import { getUserProperties } from '../../src/users/get-user-properties'
 import { UserPropertiesResponse } from '../mocks/users/user-properties'
 import * as fetchMock from "fetch-mock";
@@ -17,46 +16,15 @@ describe("users", () => {
   afterEach(fetchMock.restore);
 
   describe("getUserProperties", () => {
-    const session = new UserSession({
-      username: "c@sey",
-      password: "123456",
-      token: "fake-token",
-      tokenExpires: TOMORROW,
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
-    });
-
     it("should make an authenticated request for user properties", done => {
       fetchMock.once("*", UserPropertiesResponse);
 
-      getUserProperties({ authentication: session })
+      getUserProperties("c@sey")
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          done();
-        })
-        .catch(e => {
-          fail(e);
-        });
-    });
-
-    it("should make an authenticated request for user properties for a different user", done => {
-      fetchMock.once("*", UserPropertiesResponse);
-
-      getUserProperties({
-        username: "jsmith",
-        authentication: session
-      })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith/properties"
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
