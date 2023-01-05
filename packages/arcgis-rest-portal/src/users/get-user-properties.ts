@@ -4,7 +4,7 @@
 import { IRequestOptions, request } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "../util/get-portal-url";
 
-export interface IGetUserPropertiesResponse {
+export interface IUserProperties {
   /**
    * user landing page configuration
    */
@@ -24,11 +24,21 @@ export interface IGetUserPropertiesResponse {
  * @param IGetUserPropertiesOptions - options to pass through in the request
  * @returns User properties object
  */
-export async function getUserProperties(username: string, requestOptions?: IRequestOptions): Promise<IGetUserPropertiesResponse> {
+export async function getUserProperties(username: string, requestOptions?: IRequestOptions): Promise<IUserProperties> {
   const url = `${getPortalUrl(requestOptions)}/community/users/${encodeURIComponent(username)}/properties`;
-  const response = await request(url, requestOptions);
+  const response = await request(url, { httpMethod: 'GET', ...requestOptions });
   if (!response.mapViewer) {
     response.mapViewer = "modern";
   }
-  return response;
+  return response.properties;
+}
+
+export function setUserProperties(username: string, properties: IUserProperties, requestOptions?: IRequestOptions): Promise<void> {
+  const url = `${getPortalUrl(requestOptions)}/community/users/${encodeURIComponent(username)}/setProperties`;
+  const options: IRequestOptions = {
+    httpMethod: 'POST',
+    params: { properties },
+    ...requestOptions
+  };
+  return request(url, requestOptions);
 }
