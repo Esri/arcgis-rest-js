@@ -19,10 +19,9 @@ Any open issues are fair game. Even just telling us what you want to see would b
 
 ### Getting a development environment set up
 
-You don't _have to_ but we recommend installing TypeScript, TSLint, Prettier and EditorConfig extensions for your editor of choice.
+You don't _have to_ but we recommend installing TypeScript, Prettier and EditorConfig extensions for your editor of choice.
 
 * https://code.visualstudio.com/
-* https://atom.io/packages/atom-typescript
 * https://github.com/Microsoft/TypeScript-Sublime-Plugin
 * etc...
 
