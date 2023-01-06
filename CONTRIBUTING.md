@@ -39,11 +39,9 @@ Using [`npm run c`](https://github.com/Esri/arcgis-rest-js/blob/fd9005fef74c33c6
 
 This isn't mandatory, but it is pretty cool. :sparkles:
 
-### Building the documentation site locally
+### Documentation Site
 
-We use TypeDoc and acetate to turn the inline documentation into a snazzy website.
-
-* `npm run docs:serve` > http://localhost:3000/arcgis-rest-js/
+We use TypeDoc to turn the inline documentation into the [API Reference section of the documentation website](https://developers.arcgis.com/arcgis-rest-js/api-reference/). If you see any issue with any page on the API Reference, you can fix that by updating the inline documentation comments in this repository. If you have an issue with one of the samples or other guide pages, please [log a documentation issue](https://github.com/Esri/arcgis-rest-js/issues/new?assignees=&labels=Documentation&template=documentation.yml).
 
 ### Watching local source for changes
 
