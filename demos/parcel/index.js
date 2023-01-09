@@ -4,5 +4,5 @@ let element = document.createElement("pre");
 document.body.appendChild(element);
 
 searchItems("water").then((response) => {
-  element.textContent = JSON.stringify(respons, null, 2); // false
+  element.textContent = JSON.stringify(response, null, 2); // false
 });

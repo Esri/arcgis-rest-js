@@ -98,6 +98,9 @@ packages/**/test/mocks/**/*.d.ts
 packages/**/test/mocks/**/*.js
 packages/**/test/mocks/**/*.map
 
+# Parcel cache (for Parcel demo)
+.parcel-cache
+
 # Ignore built TypeDoc files
 typedoc
 
