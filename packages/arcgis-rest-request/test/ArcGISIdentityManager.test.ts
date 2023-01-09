@@ -3317,5 +3317,43 @@ describe("ArcGISIdentityManager", () => {
         expect(session.tokenExpires).toEqual(TOMORROW);
       });
     });
+
+    it("should initialize a session from a username and password and pass a referer", () => {
+      // we intentionally only mock one response
+      fetchMock.once(
+        "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
+        {
+          username: "jsmith",
+          fullName: "John Smith",
+          role: "org_publisher"
+        }
+      );
+
+      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/generateToken", {
+        token: "token",
+        expires: TOMORROW.getTime(),
+        username: " c@sey"
+      });
+
+      return ArcGISIdentityManager.signIn({
+        username: "c@sey",
+        password: "123456",
+        referer: "testreferer"
+      }).then((session) => {
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          "https://fakeserver.com/arcgis/tokens/generateToken"
+        );
+
+        if (isNode) {
+          expect(options.body).toContain("referer=testreferer");
+        }
+
+        if (isBrowser) {
+          expect(options.body).toContain(`referer=testreferer`);
+        }
+
+        done();
+      });
+    });
   });
 });
