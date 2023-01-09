@@ -3318,7 +3318,7 @@ describe("ArcGISIdentityManager", () => {
       });
     });
 
-    it("should initialize a session from a username and password and pass a referer", () => {
+    it("should initialize a session from a username and password and pass a referer", (done) => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
@@ -3339,9 +3339,9 @@ describe("ArcGISIdentityManager", () => {
         username: "c@sey",
         password: "123456",
         referer: "testreferer"
-      }).then((session) => {
+      }).then(() => {
         const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-          "https://fakeserver.com/arcgis/tokens/generateToken"
+          "https://www.arcgis.com/sharing/rest/generateToken"
         );
 
         if (isNode) {
