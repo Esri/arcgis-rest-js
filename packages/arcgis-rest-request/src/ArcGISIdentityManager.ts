@@ -64,6 +64,7 @@ export interface ISignInOptions {
   username: string;
   password: string;
   portal?: string;
+  referer?: string;
 }
 
 export type AuthenticationProvider =
