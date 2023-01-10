@@ -2,7 +2,7 @@
   "private": true,
   "name": "@esri/arcgis-rest-demo-parcel",
   "version": "3.3.0",
-  "description": "Demo of @esri/arcgis-rest-* w/ Snowpack",
+  "description": "Demo of @esri/arcgis-rest-* w/ Parcel",
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
@@ -14,7 +14,7 @@
     "@esri/arcgis-rest-request": "^4.0.0"
   },
   "devDependencies": {
-    "parcel-bundler": "^1.12.5"
+    "parcel": "^2.0.0"
   },
   "author": ""
 }
