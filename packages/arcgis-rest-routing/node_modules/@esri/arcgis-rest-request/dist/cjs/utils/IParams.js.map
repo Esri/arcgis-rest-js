@@ -1,1 +1,0 @@
-{"version":3,"file":"IParams.js","sourceRoot":"","sources":["../../../src/utils/IParams.ts"],"names":[],"mappings":"","sourcesContent":["import { ResponseFormats } from \"./ResponseFormats.js\";\n\nexport interface IParams {\n  f?: ResponseFormats;\n  [key: string]: any;\n}\n"]}

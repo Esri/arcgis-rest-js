@@ -1,1 +1,0 @@
-{"version":3,"file":"ResponseFormats.js","sourceRoot":"","sources":["../../../src/utils/ResponseFormats.ts"],"names":[],"mappings":"","sourcesContent":["/**\n * Valid response formats for the `f` parameter.\n */\nexport type ResponseFormats =\n  | \"json\"\n  | \"geojson\"\n  | \"text\"\n  | \"html\"\n  | \"image\"\n  | \"zip\";\n"]}

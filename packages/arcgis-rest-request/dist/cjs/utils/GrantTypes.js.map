@@ -1,1 +1,0 @@
-{"version":3,"file":"GrantTypes.js","sourceRoot":"","sources":["../../../src/utils/GrantTypes.ts"],"names":[],"mappings":"","sourcesContent":["export type GrantTypes =\n  | \"authorization_code\"\n  | \"refresh_token\"\n  | \"client_credentials\"\n  | \"exchange_refresh_token\";\n"]}

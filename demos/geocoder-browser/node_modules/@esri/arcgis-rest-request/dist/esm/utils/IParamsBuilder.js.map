@@ -1,1 +1,0 @@
-{"version":3,"file":"IParamsBuilder.js","sourceRoot":"","sources":["../../../src/utils/IParamsBuilder.ts"],"names":[],"mappings":"","sourcesContent":["import { IParams } from \"./IParams.js\";\n\nexport interface IParamsBuilder {\n  toParams(additionalParams?: IParams): IParams;\n}\n"]}

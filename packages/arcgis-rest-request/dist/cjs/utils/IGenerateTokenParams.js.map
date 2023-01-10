@@ -1,1 +1,0 @@
-{"version":3,"file":"IGenerateTokenParams.js","sourceRoot":"","sources":["../../../src/utils/IGenerateTokenParams.ts"],"names":[],"mappings":"","sourcesContent":["import { IParams } from \"./IParams.js\";\n\nexport interface IGenerateTokenParams extends IParams {\n  username?: string;\n  password?: string;\n  expiration?: number;\n  token?: string;\n  serverUrl?: string;\n}\n"]}
