@@ -58469,6 +58469,14 @@
 									{
 										"type": "literal",
 										"value": "google"
+									},
+									{
+										"type": "literal",
+										"value": "apple"
+									},
+									{
+										"type": "literal",
+										"value": "github"
 									}
 								]
 							}
@@ -81550,7 +81558,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/user.ts",
-									"line": 49,
+									"line": 55,
 									"character": 2
 								}
 							],
@@ -81771,6 +81779,14 @@
 									{
 										"type": "literal",
 										"value": "google"
+									},
+									{
+										"type": "literal",
+										"value": "github"
+									},
+									{
+										"type": "literal",
+										"value": "apple"
 									},
 									{
 										"type": "literal",
