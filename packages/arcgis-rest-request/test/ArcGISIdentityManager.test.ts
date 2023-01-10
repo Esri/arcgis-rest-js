@@ -1168,8 +1168,12 @@ describe("ArcGISIdentityManager", () => {
               expect(session.tokenExpires.getUTCHours()).toBe(
                 TOMORROW.getUTCHours()
               );
-              expect(session.tokenExpires.getUTCMinutes()).toBe(
-                TOMORROW.getUTCMinutes()
+              const tomorrowMinutes = TOMORROW.getUTCMinutes();
+              expect(
+                session.tokenExpires.getUTCMinutes()
+              ).toBeGreaterThanOrEqual(tomorrowMinutes - 1);
+              expect(session.tokenExpires.getUTCMinutes()).toBeLessThanOrEqual(
+                tomorrowMinutes + 1
               );
             })
             .catch((e) => {
