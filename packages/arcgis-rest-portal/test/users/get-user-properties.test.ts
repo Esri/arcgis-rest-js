@@ -1,11 +1,10 @@
 /* Copyright (c) 2023 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { encodeParam } from "@esri/arcgis-rest-request";
-import { getUserProperties } from '../../src/users/get-user-properties'
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
+import { IUserProperties, getUserProperties, setUserProperties } from '../../src/users/get-user-properties'
 import { UserPropertiesResponse } from '../mocks/users/user-properties'
 import * as fetchMock from "fetch-mock";
-import { UserSession } from "@esri/arcgis-rest-auth";
 
 const TOMORROW = (function() {
   const now = new Date();
@@ -17,7 +16,7 @@ describe("users", () => {
   afterEach(fetchMock.restore);
 
   describe("getUserProperties", () => {
-    const session = new UserSession({
+    const session = new ArcGISIdentityManager({
       username: "c@sey",
       password: "123456",
       token: "fake-token",
@@ -33,11 +32,33 @@ describe("users", () => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties"
+            "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties?f=json&token=fake-token"
           );
           expect(options.method).toBe("GET");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          done();
+        })
+        .catch(e => {
+          fail(e);
+        });
+    });
+
+    it("should make a request to set user properties", done => {
+      fetchMock.once("*", UserPropertiesResponse);
+      const properties: IUserProperties = {
+        landingPage: {
+          url: "index.html"
+        },
+        mapViewer: "modern"
+      }
+
+      setUserProperties(properties, { authentication: session })
+        .then(() => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties?f=json&token=fake-token"
+          );
+          expect(options.method).toBe("POST");
           done();
         })
         .catch(e => {

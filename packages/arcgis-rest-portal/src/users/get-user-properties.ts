@@ -1,7 +1,7 @@
 /* Copyright (c) 2023 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions, request } from "@esri/arcgis-rest-request";
+import { IRequestOptions, IUserRequestOptions, request } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "../util/get-portal-url";
 
 export interface IUserProperties {
@@ -24,7 +24,7 @@ export interface IUserProperties {
  * @param IGetUserPropertiesOptions - options to pass through in the request
  * @returns User properties object
  */
-export async function getUserProperties(username: string, requestOptions?: IRequestOptions): Promise<IUserProperties> {
+export async function getUserProperties(username: string, requestOptions: IRequestOptions): Promise<IUserProperties> {
   const url = `${getPortalUrl(requestOptions)}/community/users/${encodeURIComponent(username)}/properties`;
   const response = await request(url, { httpMethod: 'GET', ...requestOptions });
   if (!response.mapViewer) {
@@ -33,7 +33,8 @@ export async function getUserProperties(username: string, requestOptions?: IRequ
   return response.properties;
 }
 
-export function setUserProperties(username: string, properties: IUserProperties, requestOptions?: IRequestOptions): Promise<void> {
+export function setUserProperties(properties: IUserProperties, requestOptions: IUserRequestOptions): Promise<void> {
+  const username = requestOptions.authentication.username;
   const url = `${getPortalUrl(requestOptions)}/community/users/${encodeURIComponent(username)}/setProperties`;
   const options: IRequestOptions = {
     httpMethod: 'POST',
