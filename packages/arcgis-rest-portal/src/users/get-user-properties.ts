@@ -36,13 +36,13 @@ export async function getUserProperties(
     requestOptions
   )}/community/users/${encodeURIComponent(username)}/properties`;
   const response = await request(url, { httpMethod: "GET", ...requestOptions });
-  if (!response.mapViewer) {
-    response.mapViewer = "modern";
+  if (!response.properties.mapViewer) {
+    response.properties.mapViewer = "modern";
   }
   return response.properties;
 }
 
-export function setUserProperties(
+export async function setUserProperties(
   properties: IUserProperties,
   requestOptions: IUserRequestOptions
 ): Promise<void> {
@@ -55,5 +55,14 @@ export function setUserProperties(
     params: { properties },
     ...requestOptions
   };
-  return request(url, requestOptions);
+  try {
+    const response = await request(url, options);
+    if (!response.success) {
+      throw new Error("Success was false");
+    }
+    return response;
+  } catch (e) {
+    const error = e as Error;
+    throw new Error(`Failed to set user properties: ${error.message}`);
+  }
 }

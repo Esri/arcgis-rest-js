@@ -7,7 +7,11 @@ import {
   getUserProperties,
   setUserProperties
 } from "../../src/users/get-user-properties.js";
-import { UserPropertiesResponse } from "../mocks/users/user-properties.js";
+import {
+  userPropertiesResponse,
+  userSetPropertiesResponseFailure,
+  userSetPropertiesResponseSuccess
+} from "../mocks/users/user-properties.js";
 import fetchMock from "fetch-mock";
 
 const TOMORROW = (function () {
@@ -19,22 +23,25 @@ const TOMORROW = (function () {
 describe("users", () => {
   afterEach(fetchMock.restore);
 
-  describe("user properties", () => {
-    const session = new ArcGISIdentityManager({
-      username: "c@sey",
-      password: "123456",
-      token: "fake-token",
-      tokenExpires: TOMORROW,
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
-    });
+  const session = new ArcGISIdentityManager({
+    username: "c@sey",
+    password: "123456",
+    token: "fake-token",
+    tokenExpires: TOMORROW,
+    portal: "https://myorg.maps.arcgis.com/sharing/rest"
+  });
 
+  describe("getUserProperties", () => {
     it("should make a request for user properties", (done) => {
-      fetchMock.once("*", UserPropertiesResponse);
+      fetchMock.getOnce(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties?f=json&token=fake-token",
+        userPropertiesResponse
+      );
 
       getUserProperties("c@sey", { authentication: session })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall();
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties?f=json&token=fake-token"
           );
@@ -46,8 +53,35 @@ describe("users", () => {
         });
     });
 
+    it("should set mapViewer by default", (done) => {
+      fetchMock.getOnce(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties?f=json&token=fake-token",
+        { properties: {} }
+      );
+
+      getUserProperties("c@sey", { authentication: session })
+        .then((response) => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall();
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties?f=json&token=fake-token"
+          );
+          expect(options.method).toBe("GET");
+          expect(response.mapViewer).toBe("modern");
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+  });
+
+  describe("setUserProperties", () => {
     it("should make a request to set user properties", (done) => {
-      fetchMock.once("*", UserPropertiesResponse);
+      fetchMock.postOnce(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/setProperties",
+        userSetPropertiesResponseSuccess
+      );
       const properties: IUserProperties = {
         landingPage: {
           url: "index.html"
@@ -58,7 +92,7 @@ describe("users", () => {
       setUserProperties(properties, { authentication: session })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall();
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/setProperties"
           );
@@ -67,6 +101,33 @@ describe("users", () => {
         })
         .catch((e) => {
           fail(e);
+        });
+    });
+
+    it("should handle set user property errors", (done) => {
+      fetchMock.postOnce(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/setProperties",
+        userSetPropertiesResponseFailure
+      );
+      const properties: IUserProperties = {
+        landingPage: {
+          url: "index.html"
+        },
+        mapViewer: "modern"
+      };
+
+      setUserProperties(properties, { authentication: session })
+        .then(() => {
+          fail(new Error("API did not serve error response"));
+        })
+        .catch(() => {
+          expect(fetchMock.called()).toEqual(true);
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall();
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/setProperties"
+          );
+          expect(options.method).toBe("POST");
+          done();
         });
     });
   });
