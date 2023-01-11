@@ -6,9 +6,9 @@ import {
   IUserProperties,
   getUserProperties,
   setUserProperties
-} from "../../src/users/get-user-properties";
-import { UserPropertiesResponse } from "../mocks/users/user-properties";
-import * as fetchMock from "fetch-mock";
+} from "../../src/users/get-user-properties.js";
+import { UserPropertiesResponse } from "../mocks/users/user-properties.js";
+import fetchMock from "fetch-mock";
 
 const TOMORROW = (function () {
   const now = new Date();
@@ -19,7 +19,7 @@ const TOMORROW = (function () {
 describe("users", () => {
   afterEach(fetchMock.restore);
 
-  describe("getUserProperties", () => {
+  describe("user properties", () => {
     const session = new ArcGISIdentityManager({
       username: "c@sey",
       password: "123456",
@@ -60,7 +60,7 @@ describe("users", () => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
           expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties?f=json&token=fake-token"
+            "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/setProperties"
           );
           expect(options.method).toBe("POST");
           done();
