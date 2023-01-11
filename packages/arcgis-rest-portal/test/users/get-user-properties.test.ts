@@ -38,7 +38,7 @@ describe("users", () => {
         userPropertiesResponse
       );
 
-      getUserProperties("c@sey", { authentication: session })
+      getUserProperties(session.username, { authentication: session })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall();
@@ -59,7 +59,7 @@ describe("users", () => {
         { properties: {} }
       );
 
-      getUserProperties("c@sey", { authentication: session })
+      getUserProperties(session.username, { authentication: session })
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall();
@@ -89,10 +89,13 @@ describe("users", () => {
         mapViewer: "modern"
       };
 
-      setUserProperties(properties, { authentication: session })
+      setUserProperties(session.username, properties, {
+        authentication: session
+      })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall();
+          console.log("options:", options);
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/setProperties"
           );
@@ -116,7 +119,9 @@ describe("users", () => {
         mapViewer: "modern"
       };
 
-      setUserProperties(properties, { authentication: session })
+      setUserProperties(session.username, properties, {
+        authentication: session
+      })
         .then(() => {
           fail(new Error("API did not serve error response"));
         })
