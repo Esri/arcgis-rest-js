@@ -2,7 +2,6 @@
  * Apache-2.0 */
 
 import { IRequestOptions, request } from "@esri/arcgis-rest-request";
-import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { getPortalUrl } from "../util/get-portal-url";
 
 export interface IUserProperties {
@@ -32,29 +31,4 @@ export async function getUserProperties(username: string, requestOptions: IReque
     response.properties.mapViewer = "modern";
   }
   return response.properties;
-}
-
-/**
- * Updates the properties for a user
- * @param username The user whose properties to update
- * @param properties IUserProperties object with properties to update
- * @param requestOptions An IRequestOptions object
- * @returns a promise that resolves to { success: boolean }
- */
-export async function setUserProperties(username: string, properties: IUserProperties, requestOptions: IRequestOptions): Promise<{ success: boolean }> {
-  const url = `${getPortalUrl(requestOptions)}/community/users/${encodeURIComponent(username)}/setProperties`;
-  const options: IRequestOptions = {
-    httpMethod: 'POST',
-    params: { properties },
-    ...requestOptions
-  };
-  try {
-    const response = await request(url, options)
-    if (!response.success) {
-      throw new Error("Success was false");
-    }
-    return response;
-  } catch(e) {
-    throw new Error(`Failed to set user properties: ${e.message}`);
-  }
 }
