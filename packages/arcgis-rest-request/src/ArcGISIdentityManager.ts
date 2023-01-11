@@ -64,6 +64,7 @@ export interface ISignInOptions {
   username: string;
   password: string;
   portal?: string;
+  referer?: string;
 }
 
 export type AuthenticationProvider =
@@ -253,6 +254,11 @@ export interface IArcGISIdentityManagerOptions {
    * ```
    */
   server?: string;
+
+  /**
+   * The referer to use when getting the token with `.signIn()`
+   */
+  referer?: string;
 }
 
 /**
@@ -1005,6 +1011,11 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   public readonly server: string;
 
   /**
+   * The referer to use when getting the token with `.signIn()`
+   */
+  public readonly referer: string;
+
+  /**
    * Hydrated by a call to [getUser()](#getUser-summary).
    */
   private _user: IUser;
@@ -1066,6 +1077,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     this.tokenDuration = options.tokenDuration || 20160;
     this.redirectUri = options.redirectUri;
     this.server = options.server;
+    this.referer = options.referer;
 
     this.federatedServers = {};
     this.trustedDomains = [];
@@ -1576,14 +1588,15 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       password: this.password,
       expiration: this.tokenDuration,
       client: "referer",
-      referer:
-        typeof window !== "undefined" &&
-        typeof window.document !== "undefined" &&
-        window.location &&
-        window.location.origin
-          ? window.location.origin
-          : /* istanbul ignore next */
-            NODEJS_DEFAULT_REFERER_HEADER
+      referer: this.referer
+        ? this.referer
+        : typeof window !== "undefined" &&
+          typeof window.document !== "undefined" &&
+          window.location &&
+          window.location.origin
+        ? window.location.origin
+        : /* istanbul ignore next */
+          NODEJS_DEFAULT_REFERER_HEADER
     };
 
     return (
