@@ -20,10 +20,10 @@ export interface IUserProperties {
 }
 
 /**
- * Helper that returns the properties attribute for a user.
- *
- * @param IGetUserPropertiesOptions - options to pass through in the request
- * @returns User properties object
+ * Fetches the properties for a user
+ * @param username The user whose properties to fetch
+ * @param requestOptions An IRequestOptions object
+ * @returns a promise that resolves an IUserProperties object
  */
 export async function getUserProperties(username: string, requestOptions: IRequestOptions): Promise<IUserProperties> {
   const url = `${getPortalUrl(requestOptions)}/community/users/${encodeURIComponent(username)}/properties`;
@@ -34,8 +34,14 @@ export async function getUserProperties(username: string, requestOptions: IReque
   return response.properties;
 }
 
-export async function setUserProperties(properties: IUserProperties, requestOptions: IUserRequestOptions): Promise<void> {
-  const username = requestOptions.authentication.username;
+/**
+ * Updates the properties for a user
+ * @param username The user whose properties to update
+ * @param properties IUserProperties object with properties to update
+ * @param requestOptions An IRequestOptions object
+ * @returns a promise that resolves to { success: boolean }
+ */
+export async function setUserProperties(username: string, properties: IUserProperties, requestOptions: IRequestOptions): Promise<{ success: boolean }> {
   const url = `${getPortalUrl(requestOptions)}/community/users/${encodeURIComponent(username)}/setProperties`;
   const options: IRequestOptions = {
     httpMethod: 'POST',
