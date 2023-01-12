@@ -1,7 +1,8 @@
 /* Copyright (c) 2023 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions, request } from "@esri/arcgis-rest-request";
+import { request } from "@esri/arcgis-rest-request";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { getPortalUrl } from "../util/get-portal-url";
 
 export interface IUserProperties {
@@ -21,10 +22,10 @@ export interface IUserProperties {
 /**
  * Fetches the properties for a user
  * @param username The user whose properties to fetch
- * @param requestOptions An IRequestOptions object
+ * @param requestOptions An IUserRequestOptions object
  * @returns a promise that resolves an IUserProperties object
  */
-export async function getUserProperties(username: string, requestOptions: IRequestOptions): Promise<IUserProperties> {
+export async function getUserProperties(username: string, requestOptions: IUserRequestOptions): Promise<IUserProperties> {
   const url = `${getPortalUrl(requestOptions)}/community/users/${encodeURIComponent(username)}/properties`;
   const response = await request(url, { httpMethod: 'GET', ...requestOptions });
   if (!response.properties.mapViewer) {

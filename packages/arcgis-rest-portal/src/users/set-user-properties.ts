@@ -1,7 +1,8 @@
 /* Copyright (c) 2023 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IUserRequestOptions, request } from "@esri/arcgis-rest-request";
+import { request } from "@esri/arcgis-rest-request";
+import { IUserRequestOptions } from "@esri/arcgis-rest-auth";
 import { getPortalUrl } from "../util/get-portal-url";
 import { IUserProperties } from "./get-user-properties";
 
