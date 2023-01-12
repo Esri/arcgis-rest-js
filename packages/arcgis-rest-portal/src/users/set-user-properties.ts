@@ -9,7 +9,7 @@ import { IUserProperties } from "./get-user-properties.js";
  * Updates the properties for a user
  * @param username The user whose properties to update
  * @param properties IUserProperties object with properties to update
- * @param requestOptions An IRequestOptions object
+ * @param requestOptions An IUserRequestOptions object
  * @returns a promise that resolves to { success: boolean }
  */
 export async function setUserProperties(
