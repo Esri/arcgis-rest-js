@@ -1,7 +1,7 @@
 /* Copyright (c) 2023 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IRequestOptions, request } from "@esri/arcgis-rest-request";
+import { IUserRequestOptions, request } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "../util/get-portal-url.js";
 import { IUserProperties } from "./get-user-properties.js";
 
@@ -15,12 +15,12 @@ import { IUserProperties } from "./get-user-properties.js";
 export async function setUserProperties(
   username: string,
   properties: IUserProperties,
-  requestOptions: IRequestOptions
+  requestOptions: IUserRequestOptions
 ): Promise<{ success: boolean }> {
   const url = `${getPortalUrl(
     requestOptions
   )}/community/users/${encodeURIComponent(username)}/setProperties`;
-  const options: IRequestOptions = {
+  const options: IUserRequestOptions = {
     httpMethod: "POST",
     params: { properties },
     ...requestOptions
