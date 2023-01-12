@@ -46,7 +46,6 @@ describe("users", () => {
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
           const [url, options]: [string, RequestInit] = fetchMock.lastCall();
-          console.log("options:", options);
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/setProperties"
           );
