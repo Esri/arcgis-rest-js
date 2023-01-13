@@ -37,6 +37,8 @@ export * from "./users/invitation";
 export * from "./users/notification";
 export * from "./users/search-users";
 export * from "./users/update";
+export * from "./users/get-user-properties";
+export * from "./users/set-user-properties";
 
 export * from "./sharing/access";
 export * from "./sharing/share-item-with-group";
