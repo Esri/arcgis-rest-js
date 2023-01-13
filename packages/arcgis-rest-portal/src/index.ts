@@ -37,6 +37,8 @@ export * from "./users/invitation.js";
 export * from "./users/notification.js";
 export * from "./users/search-users.js";
 export * from "./users/update.js";
+export * from "./users/get-user-properties.js";
+export * from "./users/set-user-properties.js";
 
 export * from "./sharing/access.js";
 export * from "./sharing/share-item-with-group.js";
