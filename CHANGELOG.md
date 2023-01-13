@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.6.0](https://github.com/Esri/arcgis-rest-js/compare/v3.5.0...v3.6.0) - Jan 13, 2023
+
+### Added
+
+- **arcgis-rest-portal** added `getUserProperties` and `setUserProperties` functions.
+
 ## [3.5.1](https://github.com/Esri/arcgis-rest-js/compare/v3.5.0...v3.5.1) - Dec 1 2022
 
 ### Fixed
