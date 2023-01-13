@@ -96,3 +96,5 @@ packages/**/test/**/*.map
 packages/**/test/mocks/**/*.d.ts
 packages/**/test/mocks/**/*.js
 packages/**/test/mocks/**/*.map
+
+.ultra.cache.json

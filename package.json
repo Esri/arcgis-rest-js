@@ -213,5 +213,8 @@
   "eslintIgnore": [
     "packages/**/test",
     "packages/**/dist"
-  ]
+  ],
+  "volta": {
+    "node": "14.21.2"
+  }
 }
