@@ -542,11 +542,20 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     const stateStorageKey = `ARCGIS_REST_JS_AUTH_STATE_${clientId}`;
     const stateId = win.localStorage.getItem(stateStorageKey);
 
+    // if redirectUri has hash already, we need special treatment
+    const redirectHasHash =
+      new URL(redirectUri).hash && win.location.toString().includes(redirectUri)
+        ? true
+        : false;
+    const fixedURL: URL | Location = redirectHasHash
+      ? new URL(win.location.toString().replace("#", ""))
+      : win.location;
+
     // get the params provided by the server and compare the server state with the client saved state
     const params = decodeQueryString(
       pkce
-        ? win.location.search.replace(/^\?/, "")
-        : win.location.hash.replace(/^#/, "")
+        ? fixedURL.search.replace(/^\?/, "")
+        : fixedURL.hash.replace(/^#/, "")
     );
 
     const state = params && params.state ? JSON.parse(params.state) : undefined;
