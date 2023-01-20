@@ -16,7 +16,8 @@
     "dev:esm": "tsc -w"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "tag": "3.x"
   },
   "repository": {
     "type": "git",
