@@ -1,0 +1,117 @@
+{
+  "results": [
+    {
+      "placeId": "6eb039fa6c292d431b370f8ff9182955",
+      "location": {
+        "x": -118.001355,
+        "y": 33.802582
+      },
+      "categories": [
+        {
+          "categoryId": "13002",
+          "label": "Bakery"
+        },
+        {
+          "categoryId": "13043",
+          "label": "Donut Shop"
+        },
+        {
+          "categoryId": "13065",
+          "label": "Restaurant"
+        }
+      ],
+      "name": "Donut King and Water"
+    },
+    {
+      "placeId": "c602ca8f1010f95618c231046dbef3f6",
+      "location": {
+        "x": -118.001474,
+        "y": 33.831752
+      },
+      "categories": [
+        {
+          "categoryId": "13002",
+          "label": "Bakery"
+        }
+      ],
+      "name": "Tlaxcala Bakery"
+    },
+    {
+      "placeId": "188ab43b2bec75c6e4f6d5df10afc003",
+      "location": {
+        "x": -118.008796,
+        "y": 33.81685
+      },
+      "categories": [
+        {
+          "categoryId": "13002",
+          "label": "Bakery"
+        }
+      ],
+      "name": "Maxs Baked Goods"
+    },
+    {
+      "placeId": "941ffcd55a06d1e0d509d11da5b32b25",
+      "location": {
+        "x": -118.012663,
+        "y": 33.802565
+      },
+      "categories": [
+        {
+          "categoryId": "13002",
+          "label": "Bakery"
+        },
+        {
+          "categoryId": "13039",
+          "label": "Deli"
+        },
+        {
+          "categoryId": "13334",
+          "label": "Sandwich Restaurant"
+        }
+      ],
+      "name": "Joe's Deli & Gourmet Sandwiches"
+    },
+    {
+      "placeId": "c82393e528e1f38ed3953c995f6cb62e",
+      "location": {
+        "x": -118.008363,
+        "y": 33.803276
+      },
+      "categories": [
+        {
+          "categoryId": "13002",
+          "label": "Bakery"
+        },
+        {
+          "categoryId": "13040",
+          "label": "Dessert Shop"
+        },
+        {
+          "categoryId": "13065",
+          "label": "Restaurant"
+        }
+      ],
+      "name": "Kelley's Kookies"
+    },
+    {
+      "placeId": "66d8c01f2c8132316c52b1172a955afe",
+      "location": {
+        "x": -118.001545,
+        "y": 33.831716
+      },
+      "categories": [
+        {
+          "categoryId": "13002",
+          "label": "Bakery"
+        },
+        {
+          "categoryId": "13145",
+          "label": "Fast Food Restaurant"
+        }
+      ],
+      "name": "La Colmena Bakery"
+    }
+  ],
+  "maxResultsExceeded": false
+}

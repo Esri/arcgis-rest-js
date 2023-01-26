@@ -1,0 +1,19 @@
+{
+  "results": [
+    {
+      "placeId": "4bd2219823f36d1212204cfb10f708ac",
+      "location": {
+        "x": -118.013037,
+        "y": 33.803874
+      },
+      "categories": [
+        {
+          "categoryId": "13035",
+          "label": "Coffee Shop"
+        }
+      ],
+      "name": "Starbucks"
+    }
+  ],
+  "maxResultsExceeded": false
+}

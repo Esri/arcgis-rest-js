@@ -412,16 +412,44 @@ export function internalRequest(
           });
     })
     .then((response: any) => {
+      // the request got back an error status code (4xx, 5xx)
       if (!response.ok) {
-        // server responded w/ an actual error (404, 500, etc)
-        const { status, statusText } = response;
-        throw new ArcGISRequestError(
-          statusText,
-          `HTTP ${status}`,
-          response,
-          url,
-          options
-        );
+        // we need to determine if the server returned a JSON body with more details.
+        // this is the format used by newer services such as the Places and Style service.
+        return response
+          .json()
+          .then((jsonError: any) => {
+            // The body can be parsed as JSON
+            const { status, statusText } = response;
+            const { message, details } = jsonError.error;
+            const formattedMessage = `${message}. ${
+              details ? details.join(" ") : ""
+            }`.trim();
+
+            throw new ArcGISRequestError(
+              formattedMessage,
+              `HTTP ${status} ${statusText}`,
+              jsonError,
+              url,
+              options
+            );
+          })
+          .catch((e: any) => {
+            // if we already were about to format this as an ArcGISRequestError throw that error
+            if (e.name === "ArcGISRequestError") {
+              throw e;
+            }
+
+            // server responded w/ an actual error (404, 500, etc) but we could not parse it as JSON
+            const { status, statusText } = response;
+            throw new ArcGISRequestError(
+              statusText,
+              `HTTP ${status}`,
+              response,
+              url,
+              options
+            );
+          });
       }
       if (rawResponse) {
         return response;
@@ -441,6 +469,8 @@ export function internalRequest(
       }
     })
     .then((data) => {
+      // Check for an error in the JSON body of a successful response.
+      // Most ArcGIS Server services will return a successful status code but include an error in the response body.
       if ((params.f === "json" || params.f === "geojson") && !rawResponse) {
         const response = checkForErrors(
           data,

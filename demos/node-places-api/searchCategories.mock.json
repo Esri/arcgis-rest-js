@@ -1,0 +1,86 @@
+{
+  "categories": [
+    {
+      "categoryId": "13032",
+      "fullLabel": [
+        "Dining and Drinking",
+        "Cafes, Coffee, and Tea Houses"
+      ],
+      "parents": [
+        "13000"
+      ]
+    },
+    {
+      "categoryId": "13033",
+      "fullLabel": [
+        "Dining and Drinking",
+        "Cafes, Coffee, and Tea Houses",
+        "Bubble Tea Shop"
+      ],
+      "parents": [
+        "13000",
+        "13032"
+      ]
+    },
+    {
+      "categoryId": "13034",
+      "fullLabel": [
+        "Dining and Drinking",
+        "Cafes, Coffee, and Tea Houses",
+        "Café"
+      ],
+      "parents": [
+        "13000",
+        "13032"
+      ]
+    },
+    {
+      "categoryId": "13035",
+      "fullLabel": [
+        "Dining and Drinking",
+        "Cafes, Coffee, and Tea Houses",
+        "Coffee Shop"
+      ],
+      "parents": [
+        "13000",
+        "13032"
+      ]
+    },
+    {
+      "categoryId": "13036",
+      "fullLabel": [
+        "Dining and Drinking",
+        "Cafes, Coffee, and Tea Houses",
+        "Tea Room"
+      ],
+      "parents": [
+        "13000",
+        "13032"
+      ]
+    },
+    {
+      "categoryId": "13063",
+      "fullLabel": [
+        "Dining and Drinking",
+        "Cafes, Coffee, and Tea Houses",
+        "Pet Café"
+      ],
+      "parents": [
+        "13000",
+        "13032"
+      ]
+    },
+    {
+      "categoryId": "13383",
+      "fullLabel": [
+        "Dining and Drinking",
+        "Restaurant",
+        "Steakhouse"
+      ],
+      "parents": [
+        "13000",
+        "13065"
+      ]
+    }
+  ]
+}
