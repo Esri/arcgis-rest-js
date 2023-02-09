@@ -45,6 +45,12 @@ export interface IUser {
   created?: number;
   modified?: number;
   groups?: IGroup[];
-  provider?: "arcgis" | "enterprise" | "facebook" | "google";
+  provider?:
+    | "arcgis"
+    | "enterprise"
+    | "facebook"
+    | "google"
+    | "apple"
+    | "github";
   id?: string;
 }

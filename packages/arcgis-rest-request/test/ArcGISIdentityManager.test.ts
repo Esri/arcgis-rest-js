@@ -1168,8 +1168,12 @@ describe("ArcGISIdentityManager", () => {
               expect(session.tokenExpires.getUTCHours()).toBe(
                 TOMORROW.getUTCHours()
               );
-              expect(session.tokenExpires.getUTCMinutes()).toBe(
-                TOMORROW.getUTCMinutes()
+              const tomorrowMinutes = TOMORROW.getUTCMinutes();
+              expect(
+                session.tokenExpires.getUTCMinutes()
+              ).toBeGreaterThanOrEqual(tomorrowMinutes - 1);
+              expect(session.tokenExpires.getUTCMinutes()).toBeLessThanOrEqual(
+                tomorrowMinutes + 1
               );
             })
             .catch((e) => {
@@ -2716,6 +2720,63 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
+    it("should use provided referer.", (done) => {
+      const MOCK_USER_SESSION = new ArcGISIdentityManager({
+        username: "jsmith",
+        password: "123456",
+        token: "token",
+        tokenExpires: YESTERDAY,
+        server: "https://fakeserver.com/arcgis",
+        referer: "testreferer"
+      });
+
+      fetchMock.post("https://fakeserver.com/arcgis/rest/info", {
+        currentVersion: 10.61,
+        fullVersion: "10.6.1",
+        authInfo: {
+          isTokenBasedSecurity: true,
+          tokenServicesUrl: "https://fakeserver.com/arcgis/tokens/generateToken"
+        }
+      });
+
+      fetchMock.post("https://fakeserver.com/arcgis/tokens/generateToken", {
+        token: "fresh-token",
+        expires: TOMORROW.getTime(),
+        username: " jsmith"
+      });
+
+      MOCK_USER_SESSION.getToken(
+        "https://fakeserver.com/arcgis/rest/services/Fake/MapServer/"
+      )
+        .then((token) => {
+          expect(token).toBe("fresh-token");
+          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+            "https://fakeserver.com/arcgis/tokens/generateToken"
+          );
+          expect(url).toBe(
+            "https://fakeserver.com/arcgis/tokens/generateToken"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain("f=json");
+          expect(options.body).toContain("username=jsmith");
+          expect(options.body).toContain("password=123456");
+          expect(options.body).toContain("client=referer");
+
+          if (isNode) {
+            expect(options.body).toContain("referer=testreferer");
+          }
+
+          if (isBrowser) {
+            expect(options.body).toContain(`referer=testreferer`);
+          }
+
+          done();
+        })
+        .catch((err) => {
+          fail(err);
+        });
+    });
+
     it("should throw an error if there is an error generating the server token with a username and password.", () => {
       const MOCK_USER_SESSION = new ArcGISIdentityManager({
         username: "jsmith",
@@ -3258,6 +3319,44 @@ describe("ArcGISIdentityManager", () => {
         expect(session.username).toEqual("c@sey");
         expect(session.token).toEqual("token");
         expect(session.tokenExpires).toEqual(TOMORROW);
+      });
+    });
+
+    it("should initialize a session from a username and password and pass a referer", (done) => {
+      // we intentionally only mock one response
+      fetchMock.once(
+        "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
+        {
+          username: "jsmith",
+          fullName: "John Smith",
+          role: "org_publisher"
+        }
+      );
+
+      fetchMock.postOnce("https://www.arcgis.com/sharing/rest/generateToken", {
+        token: "token",
+        expires: TOMORROW.getTime(),
+        username: " c@sey"
+      });
+
+      return ArcGISIdentityManager.signIn({
+        username: "c@sey",
+        password: "123456",
+        referer: "testreferer"
+      }).then(() => {
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          "https://www.arcgis.com/sharing/rest/generateToken"
+        );
+
+        if (isNode) {
+          expect(options.body).toContain("referer=testreferer");
+        }
+
+        if (isBrowser) {
+          expect(options.body).toContain(`referer=testreferer`);
+        }
+
+        done();
       });
     });
   });

@@ -1,0 +1,24 @@
+name: "Documentation"
+description: Suggest an idea or report an issue with the documentation site, https://developers.arcgis.com/arcgis-rest-js
+labels: [Documentation]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to submit your feedback! If you have an issue with the examples or guide pages on https://developers.arcgis.com/arcgis-rest-js, please log it here and we will work on a fix.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please provide a clear and concise description the idea or issue. The more information you can provide here, the better.
+      placeholder: I'd like to add a sample that does ...
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: Link to page
+      description: Please provide the URL to the associated documentation page, if applicable.
+      placeholder: e.g. https://developers.arcgis.com/arcgis-rest-js/layers/get-layer-meta-data/
+    validations:
+      required: false

@@ -64,6 +64,7 @@ export interface ISignInOptions {
   username: string;
   password: string;
   portal?: string;
+  referer?: string;
 }
 
 export type AuthenticationProvider =
@@ -253,6 +254,11 @@ export interface IArcGISIdentityManagerOptions {
    * ```
    */
   server?: string;
+
+  /**
+   * The referer to use when getting the token with `.signIn()`
+   */
+  referer?: string;
 }
 
 /**
@@ -267,7 +273,7 @@ export interface IArcGISIdentityManagerOptions {
  *
  * * {@linkcode ArcGISIdentityManager.fromToken} for when you have an existing token from another source and would like create an `ArcGISIdentityManager` instance.
  * * {@linkcode ArcGISIdentityManager.fromCredential} for creating  an `ArcGISIdentityManager` instance from a `Credentials` object in the ArcGIS JS API `IdentityManager`
- * * {@linkcode ArcGISIdentityManager.signIn} for authenticating directly with a users username and password for environments with a user interface for oAuth 2.0.
+ * * {@linkcode ArcGISIdentityManager.signIn} for authenticating directly with a user's username and password for environments with a user interface for oAuth 2.0.
  *
  * Once a manager is created there are additional utilities:
  *
@@ -944,7 +950,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   }
 
   /**
-   * Initialize a {@linkcode ArcGISIdentityManager} with a users `username` and `password`. **This method is intended ONLY for applications without a user interface such as CLI tools.**.
+   * Initialize a {@linkcode ArcGISIdentityManager} with a user's `username` and `password`. **This method is intended ONLY for applications without a user interface such as CLI tools.**.
    *
    * If possible you should use {@linkcode ArcGISIdentityManager.beginOAuth2} to authenticate users in a browser or {@linkcode ArcGISIdentityManager.authorize} for authenticating users with a web server.
    */
@@ -1003,6 +1009,11 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
    * ```
    */
   public readonly server: string;
+
+  /**
+   * The referer to use when getting the token with `.signIn()`
+   */
+  public readonly referer: string;
 
   /**
    * Hydrated by a call to [getUser()](#getUser-summary).
@@ -1066,6 +1077,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
     this.tokenDuration = options.tokenDuration || 20160;
     this.redirectUri = options.redirectUri;
     this.server = options.server;
+    this.referer = options.referer;
 
     this.federatedServers = {};
     this.trustedDomains = [];
@@ -1576,14 +1588,15 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       password: this.password,
       expiration: this.tokenDuration,
       client: "referer",
-      referer:
-        typeof window !== "undefined" &&
-        typeof window.document !== "undefined" &&
-        window.location &&
-        window.location.origin
-          ? window.location.origin
-          : /* istanbul ignore next */
-            NODEJS_DEFAULT_REFERER_HEADER
+      referer: this.referer
+        ? this.referer
+        : typeof window !== "undefined" &&
+          typeof window.document !== "undefined" &&
+          window.location &&
+          window.location.origin
+        ? window.location.origin
+        : /* istanbul ignore next */
+          NODEJS_DEFAULT_REFERER_HEADER
     };
 
     return (
