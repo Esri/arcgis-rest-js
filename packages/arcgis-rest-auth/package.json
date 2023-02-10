@@ -34,7 +34,8 @@
     "dev:node": "tsc -w --module commonjs --outDir ./dist/node"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "tag": "3.x"  
   },
   "repository": {
     "type": "git",
