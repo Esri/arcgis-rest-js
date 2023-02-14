@@ -103,6 +103,7 @@ describe("shareItemWithGroup() ::", () => {
   });
 
   afterEach(fetchMock.restore);
+
   describe("share item as owner::", () => {
     it("should share an item with a group by owner", (done) => {
       // this is called when we try to determine if the item is already in the group
@@ -1203,16 +1204,12 @@ describe("shareItemWithGroup() ::", () => {
   });
   describe("ensureMembership", function () {
     it("should revert the user promotion and suppress resolved error", (done) => {
-      fetchMock
-        .once(
-          "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/updateUsers",
-          { results: [{ username: "jsmith", success: true }] }
-        )
-        .once(
-          "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/updateUsers",
-          { results: [{ username: "jsmith", success: false }] }
-        );
-      const { revert } = ensureMembership(
+      fetchMock.once(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/updateUsers",
+        { results: [{ username: "jsmith", success: true }] },
+        { overwriteRoutes: true }
+      );
+      const { revert, promise } = ensureMembership(
         GroupAdminUserResponse,
         GroupMemberUserResponse,
         true,
@@ -1225,28 +1222,33 @@ describe("shareItemWithGroup() ::", () => {
           confirmItemControl: true
         }
       );
-      revert({ notSharedWith: [] } as ISharingResponse)
-        .then(() => {
-          expect(fetchMock.done()).toBeTruthy(
-            "All fetchMocks should have been called"
-          );
-          done();
-        })
-        .catch((e) => {
-          fail();
-        });
+
+      promise.then(() => {
+        fetchMock.once(
+          "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/updateUsers",
+          { results: [{ username: "jsmith", success: false }] },
+          { overwriteRoutes: true }
+        );
+        revert({ notSharedWith: [] } as any)
+          .then(() => {
+            expect(fetchMock.done()).toBeTruthy(
+              "All fetchMocks should have been called"
+            );
+            done();
+          })
+          .catch((e) => {
+            fail();
+          });
+      });
     });
     it("should revert the user promotion and suppress rejected error", (done) => {
-      fetchMock
-        .once(
-          "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/updateUsers",
-          { results: [{ username: "jsmith", success: true }] }
-        )
-        .once(
-          "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/updateUsers",
-          { throws: true }
-        );
-      const { revert } = ensureMembership(
+      fetchMock.once(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/groups/t6b/updateUsers",
+        { results: [{ username: "jsmith", success: true }] },
+        { overwriteRoutes: true }
+      );
+
+      const { revert, promise } = ensureMembership(
         GroupAdminUserResponse,
         GroupMemberUserResponse,
         true,
@@ -1259,16 +1261,19 @@ describe("shareItemWithGroup() ::", () => {
           confirmItemControl: true
         }
       );
-      revert({ notSharedWith: [] } as ISharingResponse)
-        .then(() => {
-          expect(fetchMock.done()).toBeTruthy(
-            "All fetchMocks should have been called"
-          );
-          done();
-        })
-        .catch((e) => {
-          fail();
-        });
+
+      promise.then(() => {
+        revert({ notSharedWith: [] } as ISharingResponse)
+          .then(() => {
+            expect(fetchMock.done()).toBeTruthy(
+              "All fetchMocks should have been called"
+            );
+            done();
+          })
+          .catch((e) => {
+            fail();
+          });
+      });
     });
   });
   describe("share item to admin user's favorites group ::", () => {

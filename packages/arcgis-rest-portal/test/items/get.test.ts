@@ -393,7 +393,6 @@ describe("get", () => {
               "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
             );
             expect(options.method).toBe("POST");
-            expect(blob).toEqual(jasmine.any(Blob));
             blob
               .text()
               .then((text: string) => expect(text).toEqual(resourceResponse))

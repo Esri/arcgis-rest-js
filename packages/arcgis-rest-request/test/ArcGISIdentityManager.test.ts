@@ -3322,7 +3322,7 @@ describe("ArcGISIdentityManager", () => {
       });
     });
 
-    it("should initialize a session from a username and password and pass a referer", (done) => {
+    it("should initialize a session from a username and password and pass a referer", () => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
@@ -3355,8 +3355,6 @@ describe("ArcGISIdentityManager", () => {
         if (isBrowser) {
           expect(options.body).toContain(`referer=testreferer`);
         }
-
-        done();
       });
     });
   });

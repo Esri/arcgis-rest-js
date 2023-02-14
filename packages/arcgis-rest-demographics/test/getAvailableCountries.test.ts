@@ -13,12 +13,13 @@ describe("getAvailableCountries", () => {
     getAvailableCountries()
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const { request } = fetchMock.lastCall("*");
+        const { url } = request;
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/countries"
         );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
+        expect(request.method).toBe("POST");
+        expect(request.body).toContain("f=json");
         done();
       })
       .catch((e) => {
@@ -34,11 +35,12 @@ describe("getAvailableCountries", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const { request } = fetchMock.lastCall("*");
+        const { url } = request;
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/countries/us"
         );
-        expect(options.body).not.toContain("countryCode=us");
+        expect(request.body).not.toContain("countryCode=us");
         done();
       })
       .catch((e) => {
@@ -56,13 +58,14 @@ describe("getAvailableCountries", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const { request } = fetchMock.lastCall("*");
+        const { url } = request;
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/countries"
         );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain("foo=bar");
+        expect(request.method).toBe("POST");
+        expect(request.body).toContain("f=json");
+        expect(request.body).toContain("foo=bar");
         done();
       })
       .catch((e) => {
@@ -77,8 +80,8 @@ describe("getAvailableCountries", () => {
       endpoint: "https://esri.com/test"
     })
       .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const { request } = fetchMock.lastCall("*");
+        const { url } = request;
         expect(url).toEqual("https://esri.com/test/countries");
         done();
       })

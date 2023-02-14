@@ -272,7 +272,7 @@ describe("search", () => {
           "https://www.arcgis.com/sharing/rest/search?f=json&q=DC%20AND%20typekeywords%3AhubSiteApplication"
         );
         if (r.nextPage) {
-          fetchMock.once("*", BigSearchResponse);
+          fetchMock.once("*", BigSearchResponse, { overwriteRoutes: true });
 
           r.nextPage()
             .then(() => {
@@ -307,7 +307,7 @@ describe("search", () => {
           "https://www.arcgis.com/sharing/rest/search?f=json&q=DC%20AND%20typekeywords%3AhubSiteApplication"
         );
         if (r.nextPage) {
-          fetchMock.once("*", BigSearchResponse);
+          fetchMock.once("*", BigSearchResponse, { overwriteRoutes: true });
 
           r.nextPage()
             .then(() => {

@@ -31,7 +31,7 @@ describe("setItemAccess()", () => {
   afterEach(fetchMock.restore);
 
   it("should share an item with everyone", (done) => {
-    fetchMock.once("*", SharingResponse);
+    fetchMock.once("*", SharingResponse, { overwriteRoutes: true });
 
     setItemAccess({
       authentication: MOCK_USER_SESSION,

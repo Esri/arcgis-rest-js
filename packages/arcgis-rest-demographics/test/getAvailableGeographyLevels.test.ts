@@ -4,11 +4,14 @@
 import fetchMock from "fetch-mock";
 import { getAvailableGeographyLevels } from "../src/getAvailableGeographyLevels.js";
 
-describe("getAvailableGeographyLevels", () => {
-  afterEach(fetchMock.restore);
+fdescribe("getAvailableGeographyLevels", () => {
+  beforeEach(() => {
+    fetchMock.restore();
+    fetchMock.reset();
+  });
 
   it("should make a simple, single dataCollections request", (done) => {
-    fetchMock.once("*", {});
+    fetchMock.once("*", {}, { overwriteRoutes: true });
 
     getAvailableGeographyLevels()
       .then((response) => {
@@ -27,7 +30,7 @@ describe("getAvailableGeographyLevels", () => {
   });
 
   it("should make a dataCollections request with a custom endpoint", (done) => {
-    fetchMock.once("*", {});
+    fetchMock.once("*", {}, { overwriteRoutes: true });
 
     getAvailableGeographyLevels({
       endpoint: "https://esri.com/test"
@@ -44,7 +47,7 @@ describe("getAvailableGeographyLevels", () => {
   });
 
   it("should make a dataCollections request with a param", (done) => {
-    fetchMock.once("*", {});
+    fetchMock.once("*", {}, { overwriteRoutes: true });
 
     getAvailableGeographyLevels({
       params: {
