@@ -13,7 +13,6 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     files: [
-      // uncomment this line to restore the full test suite
       "packages/!(arcgis-rest-auth)/{src,test}/**/!(*.test.live).ts",
       "scripts/test-helpers.ts"
     ],
@@ -26,7 +25,7 @@ module.exports = function (config) {
 
     karmaTypescriptConfig: {
       coverageOptions: {
-        instrumentation: false,
+        instrumentation: true,
         threshold: {
           global: {
             statements: 100,
