@@ -11,8 +11,9 @@ import { encodeParam, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("groups", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   describe("authenticted methods", () => {
     const MOCK_REQOPTS = {
       authentication: new ArcGISIdentityManager({
@@ -34,7 +35,7 @@ describe("groups", () => {
       protectGroup({ id: "5bc", ...MOCK_REQOPTS })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/protect"
           );
@@ -53,7 +54,7 @@ describe("groups", () => {
       unprotectGroup({ id: "5bc", ...MOCK_REQOPTS })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/unprotect"
           );

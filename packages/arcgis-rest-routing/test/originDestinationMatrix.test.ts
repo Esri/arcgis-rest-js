@@ -153,8 +153,9 @@ const destinationsFeatureSet: IFeatureSet = {
 };
 
 describe("originDestinationMatrix", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("should throw an error when a originDestinationMatrix request is made without a token", (done) => {
     fetchMock.once("*", {});
 
@@ -188,7 +189,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://route.arcgis.com/arcgis/rest/services/World/OriginDestinationCostMatrix/NAServer/OriginDestinationCostMatrix_World/solveODCostMatrix"
         );
@@ -239,7 +240,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain("outputType=esriNAODOutputSparseMatrix");
         expect(options.body).toContain("returnOrigins=true");
         expect(options.body).toContain("returnDestinations=true");
@@ -276,7 +277,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           "outputType=esriNAODOutputStraightLines"
         );
@@ -313,7 +314,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual("https://esri.com/test/solveODCostMatrix");
         done();
       })
@@ -339,7 +340,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `origins=${encodeURIComponent("-118.257363,34.076763")}`
         );
@@ -372,7 +373,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `origins=${encodeURIComponent("-118.257363,34.076763")}`
         );
@@ -405,7 +406,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `origins=${encodeURIComponent("-118.257363,34.076763")}`
         );
@@ -438,7 +439,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `origins=${encodeURIComponent(JSON.stringify(originsFeatureSet))}`
         );
@@ -472,7 +473,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(`outputType=esriNAODOutputSparseMatrix`);
         expect(Object.keys(response)).toContain("odCostMatrix");
         done();
@@ -500,7 +501,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `outputType=esriNAODOutputStraightLines`
         );
@@ -530,7 +531,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(`outputType=esriNAODOutputNoLines`);
         expect(Object.keys(response)).toContain("odLines");
         done();
@@ -558,7 +559,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `barriers=${encodeURIComponent("-117.1957,34.0564;-117.184,34.0546")}`
         );
@@ -587,7 +588,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `barriers=${encodeURIComponent(JSON.stringify(barriersFeatureSet))}`
         );
@@ -616,7 +617,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `polylineBarriers=${encodeURIComponent(
             JSON.stringify(polylineBarriers)
@@ -647,7 +648,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `polygonBarriers=${encodeURIComponent(
             JSON.stringify(polygonBarriers)
@@ -680,7 +681,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
 
         // origins
         expect(Object.keys(response.origins)).toContain("geoJson");
@@ -769,7 +770,7 @@ describe("originDestinationMatrix", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
 
         // origins
         expect(Object.keys(response.origins)).not.toContain("geoJson");

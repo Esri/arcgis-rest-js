@@ -4,10 +4,9 @@
 import fetchMock from "fetch-mock";
 import { getAvailableGeographyLevels } from "../src/getAvailableGeographyLevels.js";
 
-fdescribe("getAvailableGeographyLevels", () => {
+describe("getAvailableGeographyLevels", () => {
   beforeEach(() => {
     fetchMock.restore();
-    fetchMock.reset();
   });
 
   it("should make a simple, single dataCollections request", (done) => {
@@ -16,7 +15,7 @@ fdescribe("getAvailableGeographyLevels", () => {
     getAvailableGeographyLevels()
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/StandardGeographyLevels"
         );
@@ -37,7 +36,7 @@ fdescribe("getAvailableGeographyLevels", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url] = fetchMock.lastCall("*");
         expect(url).toEqual("https://esri.com/test/StandardGeographyLevels");
         done();
       })
@@ -56,7 +55,7 @@ fdescribe("getAvailableGeographyLevels", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/StandardGeographyLevels"
         );

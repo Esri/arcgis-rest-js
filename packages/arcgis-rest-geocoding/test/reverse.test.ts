@@ -6,15 +6,16 @@ import { reverseGeocode } from "../src/reverse.js";
 import { ReverseGeocode } from "./mocks/responses.js";
 
 describe("geocode", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("should make a reverse geocoding request", (done) => {
     fetchMock.once("*", ReverseGeocode);
 
     reverseGeocode({ x: -118.409, y: 33.9425 })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode"
         );
@@ -40,7 +41,7 @@ describe("geocode", () => {
     )
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=json&location=%7B%22x%22%3A-118.409%2C%22y%22%3A33.9425%2C%22spatialReference%22%3A%7B%22wkid%22%3A4326%7D%7D"
         );
@@ -59,7 +60,7 @@ describe("geocode", () => {
     reverseGeocode({ longitude: -118.409, latitude: 33.9425 })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode"
         );
@@ -82,7 +83,7 @@ describe("geocode", () => {
     reverseGeocode({ lat: 33.9425, long: -118.409 })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode"
         );
@@ -105,7 +106,7 @@ describe("geocode", () => {
     reverseGeocode([-118, 34])
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode"
         );

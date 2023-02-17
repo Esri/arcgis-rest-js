@@ -7,8 +7,9 @@ import { fetchToken } from "../src/index.js";
 const TOKEN_URL = "https://www.arcgis.com/sharing/rest/oauth2/token";
 
 describe("fetchToken()", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("should request a token with `client_credentials`, `client_id` and `client_secret`", (done) => {
     fetchMock.postOnce(TOKEN_URL, {
       access_token: "token",
@@ -24,8 +25,7 @@ describe("fetchToken()", () => {
       }
     })
       .then((response) => {
-        const [url, options]: [string, RequestInit] =
-          fetchMock.lastCall(TOKEN_URL);
+        const [url, options] = fetchMock.lastCall(TOKEN_URL);
         expect(url).toEqual(TOKEN_URL);
         expect(options.body).toContain("f=json");
         expect(options.body).toContain("client_id=clientId");
@@ -59,8 +59,7 @@ describe("fetchToken()", () => {
       }
     })
       .then((response) => {
-        const [url, options]: [string, RequestInit] =
-          fetchMock.lastCall(TOKEN_URL);
+        const [url, options] = fetchMock.lastCall(TOKEN_URL);
         expect(url).toEqual(TOKEN_URL);
         expect(options.body).toContain("f=json");
         expect(options.body).toContain("client_id=clientId");

@@ -11,8 +11,9 @@ import {
 } from "./../mocks/portal/response.js";
 
 describe("portal", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   describe("getPortal", () => {
     // setup an authmgr to use in all these tests
     const MOCK_AUTH = {
@@ -30,7 +31,7 @@ describe("portal", () => {
       getPortal("5BZFaKe", MOCK_REQOPTS)
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/portals/5BZFaKe?f=json&token=fake-token"
           );
@@ -46,7 +47,7 @@ describe("portal", () => {
       getPortal(null, MOCK_REQOPTS)
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/portals/self?f=json&token=fake-token"
           );
@@ -75,7 +76,7 @@ describe("portal", () => {
       getSelf(MOCK_REQOPTS)
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/portals/self?f=json&token=fake-token"
           );
@@ -105,7 +106,7 @@ describe("portal", () => {
       getSubscriptionInfo("5BZFaKe", MOCK_REQOPTS)
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/portals/5BZFaKe/subscriptionInfo?f=json&token=fake-token"
           );
@@ -122,7 +123,7 @@ describe("portal", () => {
       getSubscriptionInfo(null, MOCK_REQOPTS)
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/portals/self/subscriptionInfo?f=json&token=fake-token"
           );

@@ -5,21 +5,23 @@ import fetchMock from "fetch-mock";
 import { getAvailableCountries } from "../src/getAvailableCountries.js";
 
 describe("getAvailableCountries", () => {
-  afterEach(fetchMock.restore);
+  beforeEach(() => {
+    fetchMock.reset();
+  });
 
   it("should make a simple, single getAvailableCountries request", (done) => {
-    fetchMock.once("*", {});
+    fetchMock.once("*", { prop: "val" });
 
     getAvailableCountries()
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const { request } = fetchMock.lastCall("*");
-        const { url } = request;
+        const [url, options] = fetchMock.lastCall("*");
+
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/countries"
         );
-        expect(request.method).toBe("POST");
-        expect(request.body).toContain("f=json");
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=json");
         done();
       })
       .catch((e) => {
@@ -35,12 +37,11 @@ describe("getAvailableCountries", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const { request } = fetchMock.lastCall("*");
-        const { url } = request;
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/countries/us"
         );
-        expect(request.body).not.toContain("countryCode=us");
+        expect(options.body).not.toContain("countryCode=us");
         done();
       })
       .catch((e) => {
@@ -58,14 +59,13 @@ describe("getAvailableCountries", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const { request } = fetchMock.lastCall("*");
-        const { url } = request;
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/countries"
         );
-        expect(request.method).toBe("POST");
-        expect(request.body).toContain("f=json");
-        expect(request.body).toContain("foo=bar");
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain("foo=bar");
         done();
       })
       .catch((e) => {
@@ -80,8 +80,7 @@ describe("getAvailableCountries", () => {
       endpoint: "https://esri.com/test"
     })
       .then((response) => {
-        const { request } = fetchMock.lastCall("*");
-        const { url } = request;
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual("https://esri.com/test/countries");
         done();
       })

@@ -105,8 +105,9 @@ const facilitiesFeatureSet: IFeatureSet = {
 //   "https://foo.com/ArcGIS/rest/services/Network/USA/NAServer/";
 
 describe("serviceArea", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("should throw an error when a serviceArea request is made without a token", (done) => {
     fetchMock.once("*", ServiceArea);
 
@@ -138,7 +139,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://route.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World/solveServiceArea"
         );
@@ -181,7 +182,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain("returnFacilities=true");
         expect(options.body).toContain("returnBarriers=true");
         expect(options.body).toContain("returnPolylineBarriers=true");
@@ -216,7 +217,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain("returnFacilities=false");
         expect(options.body).toContain("returnBarriers=false");
         expect(options.body).toContain("returnPolylineBarriers=false");
@@ -245,7 +246,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `facilities=${encodeURIComponent(
             "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
@@ -274,7 +275,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `facilities=${encodeURIComponent(
             "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
@@ -303,7 +304,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `facilities=${encodeURIComponent(
             "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
@@ -332,7 +333,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `facilities=${encodeURIComponent(
             JSON.stringify(facilitiesFeatureSet)
@@ -362,7 +363,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `travelDirection=esriNATravelDirectionToFacility`
         );
@@ -390,7 +391,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `travelDirection=esriNATravelDirectionFromFacility`
         );
@@ -418,7 +419,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `barriers=${encodeURIComponent("-117.1957,34.0564;-117.184,34.0546")}`
         );
@@ -446,7 +447,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `barriers=${encodeURIComponent(JSON.stringify(barriersFeatureSet))}`
         );
@@ -474,7 +475,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `polylineBarriers=${encodeURIComponent(
             JSON.stringify(polylineBarriers)
@@ -504,7 +505,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `polygonBarriers=${encodeURIComponent(
             JSON.stringify(polygonBarriers)
@@ -533,7 +534,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(Object.keys(response.saPolygons)).not.toContain("fieldAliases");
         done();
       })
@@ -558,7 +559,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(Object.keys(response.saPolygons)).toContain("geoJson");
         expect(Object.keys(response.saPolygons.geoJson)).toContain("type");
         expect(response.saPolygons.geoJson.type).toEqual("FeatureCollection");
@@ -590,7 +591,7 @@ describe("serviceArea", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(Object.keys(response.saPolygons)).not.toContain("geoJson");
         done();
       })

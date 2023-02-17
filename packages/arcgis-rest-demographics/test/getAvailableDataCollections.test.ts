@@ -6,15 +6,16 @@ import { getAvailableDataCollections } from "../src/getAvailableDataCollections.
 import { dataCollectionsResponse } from "./mocks/responses.js";
 
 describe("getAvailableDataCollections", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("should make a simple, single dataCollections request", (done) => {
     fetchMock.once("*", dataCollectionsResponse);
 
     getAvailableDataCollections()
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/dataCollections"
         );
@@ -35,7 +36,7 @@ describe("getAvailableDataCollections", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/dataCollections/us"
         );
@@ -56,7 +57,7 @@ describe("getAvailableDataCollections", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/dataCollections/us/EducationalAttainment"
         );
@@ -80,7 +81,7 @@ describe("getAvailableDataCollections", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/dataCollections"
         );
@@ -103,7 +104,7 @@ describe("getAvailableDataCollections", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual("https://esri.com/test/dataCollections");
         done();
       })

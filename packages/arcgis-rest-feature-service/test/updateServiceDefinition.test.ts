@@ -8,8 +8,9 @@ import { updateServiceDefinition } from "../src/updateServiceDefinition.js";
 import { UpdateServiceDefinitionSuccess } from "./mocks/service.js";
 
 describe("update service definition", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   describe("Authenticated methods", () => {
     // setup a ArcGISIdentityManager to use in all these tests
     const MOCK_USER_SESSION = new ArcGISIdentityManager({
@@ -45,7 +46,7 @@ describe("update service definition", () => {
         .then((response) => {
           // Check service call
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
 
           expect(url).toEqual(
             "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/updateDefinition"
@@ -78,7 +79,7 @@ describe("update service definition", () => {
         .then((response) => {
           // Check service call
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
 
           expect(url).toEqual(
             "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/updateDefinition"

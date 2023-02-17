@@ -13,9 +13,8 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     files: [
-      // "packages/!(arcgis-rest-auth)/{src,test}/**/!(*.test.live).ts",
-      "packages/!(arcgis-rest-auth)/src/**/!(*.test.live).ts",
-      "packages/arcgis-rest-demographics/test/getAvailableCountries.test.ts",
+      // uncomment this line to restore the full test suite
+      "packages/!(arcgis-rest-auth)/{src,test}/**/!(*.test.live).ts",
       "scripts/test-helpers.ts"
     ],
 
@@ -49,7 +48,20 @@ module.exports = function (config) {
       },
       tsconfig: "./tsconfig.json",
       bundlerOptions: {
-        transforms: [require("karma-typescript-es6-transform")()],
+        transforms: [
+          require("karma-typescript-es6-transform")({
+            presets: [
+              [
+                "env",
+                {
+                  targets: {
+                    browsers: ["last 2 Chrome versions"]
+                  }
+                }
+              ]
+            ]
+          })
+        ],
         resolve: {
           // karmas resolver cant figure out the symlinked deps from lerna
           // so we need to manually alias each package here.

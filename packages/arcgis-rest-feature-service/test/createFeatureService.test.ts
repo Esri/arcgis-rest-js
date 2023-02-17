@@ -8,8 +8,9 @@ import { TOMORROW } from "../../../scripts/test-helpers.js";
 import { encodeParam, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 describe("create feature service", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   describe("Authenticated methods", () => {
     // setup a ArcGISIdentityManager to use in all these tests
     const MOCK_USER_SESSION = new ArcGISIdentityManager({
@@ -71,7 +72,7 @@ describe("create feature service", () => {
             expect(fetchMock.called("end:createService")).toEqual(true);
 
             // Check create service call
-            const [urlCreate, optionsCreate]: [string, RequestInit] =
+            const [urlCreate, optionsCreate] =
               fetchMock.lastCall("end:createService");
             expect(urlCreate).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createService"
@@ -117,7 +118,7 @@ describe("create feature service", () => {
             expect(fetchMock.called("end:createService")).toEqual(true);
 
             // Check create service call
-            const [urlCreate, optionsCreate]: [string, RequestInit] =
+            const [urlCreate, optionsCreate] =
               fetchMock.lastCall("end:createService");
             expect(urlCreate).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createService"
@@ -163,7 +164,7 @@ describe("create feature service", () => {
             expect(fetchMock.called("end:createService")).toEqual(true);
 
             // Check create service call
-            const [urlCreate, optionsCreate]: [string, RequestInit] =
+            const [urlCreate, optionsCreate] =
               fetchMock.lastCall("end:createService");
             expect(urlCreate).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createService"
@@ -209,7 +210,7 @@ describe("create feature service", () => {
             expect(fetchMock.called("end:createService")).toEqual(true);
 
             // Check create service call
-            const [urlCreate, optionsCreate]: [string, RequestInit] =
+            const [urlCreate, optionsCreate] =
               fetchMock.lastCall("end:createService");
             expect(urlCreate).toEqual(
               "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/83216cba44bf4357bf06687ec88a847b/createService"
@@ -255,7 +256,7 @@ describe("create feature service", () => {
           expect(fetchMock.called("end:createService")).toEqual(true);
 
           // Check create service call
-          const [urlCreate, optionsCreate]: [string, RequestInit] =
+          const [urlCreate, optionsCreate] =
             fetchMock.lastCall("end:createService");
           expect(urlCreate).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/83216cba44bf4357bf06687ec88a847b/createService"

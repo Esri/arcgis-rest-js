@@ -13,8 +13,9 @@ import { TOMORROW, attachmentFile } from "../../../../scripts/test-helpers.js";
 import { FormData } from "@esri/arcgis-rest-form-data";
 
 describe("search", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   describe("Authenticated methods", () => {
     // setup a ArcGISIdentityManager to use in all these tests
     const MOCK_USER_SESSION = new ArcGISIdentityManager({
@@ -46,7 +47,7 @@ describe("search", () => {
       })
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/commit"
           );
@@ -76,7 +77,7 @@ describe("search", () => {
       })
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/fanny/items/3ef/commit"
           );
@@ -101,7 +102,7 @@ describe("search", () => {
       })
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/cancel"
           );
@@ -127,7 +128,7 @@ describe("search", () => {
       })
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/fanny/items/3ef/cancel"
           );
@@ -159,7 +160,7 @@ describe("search", () => {
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/addPart?partNum=1"
           );
@@ -197,7 +198,7 @@ describe("search", () => {
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/joe/items/3ef/addPart?partNum=1"
           );
