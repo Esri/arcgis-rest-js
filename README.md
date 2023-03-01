@@ -44,7 +44,7 @@ request(url).then((response) => {
 
 ### API Reference
 
-The documentation is published at http://esri.github.io/arcgis-rest-js/ (source code [here](/docs/src)).
+The documentation is published at https://developers.arcgis.com/arcgis-rest-js. Version 3.x documentation is published at https://esri.github.io/arcgis-rest-js/ (source code [here](/docs)).
 
 ### Instructions
 
@@ -115,7 +115,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### License
 
-Copyright &copy; 2017-2022 Esri
+Copyright &copy; 2017-2023 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
