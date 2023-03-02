@@ -27,7 +27,7 @@ describe("is-service-name-available", () => {
       "Feature Service",
       MOCK_USER_SESSION
     ).then((result) => {
-      const [url]: [string, RequestInit] = fetchMock.lastCall("*");
+      const [url] = fetchMock.lastCall("*");
 
       expect(result.available).toBe(true, "should return the api response");
       expect(url).toContain(

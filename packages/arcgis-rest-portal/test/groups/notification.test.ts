@@ -8,8 +8,9 @@ import { createGroupNotification } from "../../src/groups/notification.js";
 import { GroupNotificationResponse } from "../mocks/groups/responses.js";
 
 describe("groups", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   describe("createGroupNotification", () => {
     const MOCK_AUTH = new ArcGISIdentityManager({
       clientId: "clientId",
@@ -40,7 +41,7 @@ describe("groups", () => {
       createGroupNotification(opts)
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/createNotification"
           );
@@ -79,7 +80,7 @@ describe("groups", () => {
       createGroupNotification(opts)
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/createNotification"
           );

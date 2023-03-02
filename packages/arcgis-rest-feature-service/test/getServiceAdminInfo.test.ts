@@ -7,8 +7,9 @@ import { TOMORROW } from "../../../scripts/test-helpers.js";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 describe("getServiceAdminInfo: ", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   const MOCK_USER_SESSION = new ArcGISIdentityManager({
     clientId: "clientId",
     redirectUri: "https://example-app.com/redirect-uri",
@@ -28,7 +29,7 @@ describe("getServiceAdminInfo: ", () => {
       "https://servicesqa.arcgis.com/orgid/arcgis/rest/services/mysevice/FeatureServer",
       MOCK_USER_SESSION
     ).then((result) => {
-      const [url]: [string, RequestInit] = fetchMock.lastCall("*");
+      const [url] = fetchMock.lastCall("*");
 
       expect(result.foo).toBe("bar", "should return the api response");
 

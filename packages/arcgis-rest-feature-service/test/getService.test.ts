@@ -10,14 +10,15 @@ const layerUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer";
 
 describe("getServer()", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("should fetch feature service metadata", (done) => {
     fetchMock.once("*", getFeatureServerResponse);
     getService({ url: layerUrl })
       .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(layerUrl);
         expect(options.method).toBe("POST");
         expect(response).toEqual(getFeatureServerResponse);

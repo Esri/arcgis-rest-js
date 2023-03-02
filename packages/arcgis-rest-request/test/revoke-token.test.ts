@@ -12,7 +12,7 @@ describe("revokeToken", () => {
       clientId: "clientId",
       token: "token"
     }).then((response) => {
-      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+      const [url, options] = fetchMock.lastCall("*");
 
       expect(response).toEqual({ success: true });
       expect(url).toBe(
@@ -31,7 +31,7 @@ describe("revokeToken", () => {
       token: "token",
       portal: "https://myportal.com/sharing/rest/"
     }).then((response) => {
-      const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+      const [url, options] = fetchMock.lastCall("*");
 
       expect(response).toEqual({ success: true });
       expect(url).toBe("https://myportal.com/sharing/rest/oauth2/revokeToken/");

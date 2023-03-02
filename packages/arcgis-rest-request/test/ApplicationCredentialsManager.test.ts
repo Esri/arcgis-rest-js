@@ -7,8 +7,9 @@ import { YESTERDAY, TOMORROW } from "../../../scripts/test-helpers.js";
 import { ArcGISTokenRequestError } from "../src/utils/ArcGISTokenRequestError.js";
 
 describe("ApplicationCredentialsManager", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   describe(".fromCredentials", () => {
     it("should construct a new ApplicationCredentialsManager", (done) => {
       fetchMock.post("https://www.arcgis.com/sharing/rest/oauth2/token/", {

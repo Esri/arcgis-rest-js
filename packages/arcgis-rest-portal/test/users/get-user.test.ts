@@ -19,8 +19,9 @@ const TOMORROW = (function () {
 })();
 
 describe("users", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   describe("getUser", () => {
     const session = new ArcGISIdentityManager({
       username: "c@sey",
@@ -36,7 +37,7 @@ describe("users", () => {
       getUser("jsmith")
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://www.arcgis.com/sharing/rest/community/users/jsmith?f=json"
           );
@@ -54,7 +55,7 @@ describe("users", () => {
       getUser({ authentication: session })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey?f=json&token=fake-token"
           );
@@ -75,7 +76,7 @@ describe("users", () => {
       })
         .then(() => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token"
           );

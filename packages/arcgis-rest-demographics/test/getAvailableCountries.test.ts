@@ -5,15 +5,18 @@ import fetchMock from "fetch-mock";
 import { getAvailableCountries } from "../src/getAvailableCountries.js";
 
 describe("getAvailableCountries", () => {
-  afterEach(fetchMock.restore);
+  beforeEach(() => {
+    fetchMock.reset();
+  });
 
   it("should make a simple, single getAvailableCountries request", (done) => {
-    fetchMock.once("*", {});
+    fetchMock.once("*", { prop: "val" });
 
     getAvailableCountries()
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
+
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/countries"
         );
@@ -34,7 +37,7 @@ describe("getAvailableCountries", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/countries/us"
         );
@@ -56,7 +59,7 @@ describe("getAvailableCountries", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/countries"
         );
@@ -77,8 +80,7 @@ describe("getAvailableCountries", () => {
       endpoint: "https://esri.com/test"
     })
       .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual("https://esri.com/test/countries");
         done();
       })

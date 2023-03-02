@@ -9,8 +9,9 @@ import { TOMORROW } from "../../../../scripts/test-helpers.js";
 import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
 
 describe("exportItem", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   describe("Authenticated methods", () => {
     const authentication = new ArcGISIdentityManager({
       clientId: "clientId",
@@ -52,7 +53,7 @@ describe("exportItem", () => {
       exportItem(exportOptions)
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             `https://myorg.maps.arcgis.com/sharing/rest/content/users/${exportOptions.owner}/export`
           );
@@ -97,7 +98,7 @@ describe("exportItem", () => {
       })
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             `https://myorg.maps.arcgis.com/sharing/rest/content/users/${authentication.username}/export`
           );

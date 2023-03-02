@@ -169,8 +169,9 @@ const facilitiesUrl = {
 //   "https://foo.com/ArcGIS/rest/services/Network/USA/NAServer/";
 
 describe("closestFacility", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("should throw an error when a closestFacility request is made without a token", (done) => {
     fetchMock.once("*", ClosestFacility);
 
@@ -206,7 +207,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World/solveClosestFacility"
         );
@@ -254,7 +255,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain("returnDirections=true");
         expect(options.body).toContain("returnFacilities=true");
         expect(options.body).toContain("returnIncidents=true");
@@ -295,7 +296,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain("returnDirections=false");
         expect(options.body).toContain("returnFacilities=false");
         expect(options.body).toContain("returnIncidents=false");
@@ -328,7 +329,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `incidents=${encodeURIComponent("-118.257363,34.076763")}`
         );
@@ -362,7 +363,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `incidents=${encodeURIComponent("-118.257363,34.076763")}`
         );
@@ -396,7 +397,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `incidents=${encodeURIComponent("-118.257363,34.076763")}`
         );
@@ -430,7 +431,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `incidents=${encodeURIComponent(JSON.stringify(incidentsFeatureSet))}`
         );
@@ -464,7 +465,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `incidents=${encodeURIComponent(JSON.stringify(incidentsUrl))}`
         );
@@ -497,7 +498,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `travelDirection=esriNATravelDirectionToFacility`
         );
@@ -527,7 +528,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `travelDirection=esriNATravelDirectionFromFacility`
         );
@@ -557,7 +558,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `barriers=${encodeURIComponent("-117.1957,34.0564;-117.184,34.0546")}`
         );
@@ -587,7 +588,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `barriers=${encodeURIComponent(JSON.stringify(barriersFeatureSet))}`
         );
@@ -617,7 +618,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `polylineBarriers=${encodeURIComponent(
             JSON.stringify(polylineBarriers)
@@ -649,7 +650,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(options.body).toContain(
           `polygonBarriers=${encodeURIComponent(
             JSON.stringify(polygonBarriers)
@@ -680,7 +681,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(Object.keys(response.routes)).toContain("geoJson");
         expect(Object.keys(response.routes.geoJson)).toContain("type");
         expect(response.routes.geoJson.type).toEqual("FeatureCollection");
@@ -715,7 +716,7 @@ describe("closestFacility", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(Object.keys(response.routes)).not.toContain("geoJson");
         done();
       })

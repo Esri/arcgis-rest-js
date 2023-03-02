@@ -5,8 +5,9 @@ import { ApiKeyManager } from "../src/index.js";
 import fetchMock from "fetch-mock";
 
 describe("ApiKeyManager", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   describe(".getToken()", () => {
     it("should return the Api Key", (done) => {
       const session = new ApiKeyManager({

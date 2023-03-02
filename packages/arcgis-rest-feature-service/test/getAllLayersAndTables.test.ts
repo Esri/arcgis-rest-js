@@ -7,14 +7,15 @@ const layerUrlBase =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer";
 
 describe("getAllLayersAndTables()", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("should fetch all layers and table associated with the service", (done) => {
     fetchMock.once("*", allLayersAndTablesResponse);
     getAllLayersAndTables({ url: layerUrlBase + "/0" })
       .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(layerUrlBase + "/layers");
         expect(options.method).toBe("POST");
         expect(response).toEqual(allLayersAndTablesResponse);

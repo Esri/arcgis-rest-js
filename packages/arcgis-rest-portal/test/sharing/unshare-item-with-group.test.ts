@@ -58,8 +58,9 @@ describe("unshareItemWithGroup() ::", () => {
       .catch();
   });
 
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("should unshare an item with a group by owner", (done) => {
     fetchMock.once(
       "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token",
@@ -87,7 +88,7 @@ describe("unshareItemWithGroup() ::", () => {
       groupId: "t6b"
     })
       .then((response) => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        const [url, options] = fetchMock.lastCall(
           "https://myorg.maps.arcgis.com/sharing/rest/content/users/jsmith/items/a5b/unshare"
         );
         expect(url).toBe(
@@ -135,7 +136,7 @@ describe("unshareItemWithGroup() ::", () => {
       owner: "casey"
     })
       .then((response) => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        const [url, options] = fetchMock.lastCall(
           "https://myorg.maps.arcgis.com/sharing/rest/content/items/a5b/unshare"
         );
         expect(url).toBe(
@@ -180,7 +181,7 @@ describe("unshareItemWithGroup() ::", () => {
       owner: "otherguy"
     })
       .then((response) => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        const [url, options] = fetchMock.lastCall(
           "https://myorg.maps.arcgis.com/sharing/rest/content/items/a5b/unshare"
         );
         expect(url).toBe(

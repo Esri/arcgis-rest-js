@@ -33,8 +33,9 @@ describe("remove-users", () => {
     portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
 
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("should send multiple requests for a long user array", (done) => {
     const requests = [createUsernames(0, 25), createUsernames(25, 35)];
 

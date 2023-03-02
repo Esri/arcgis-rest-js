@@ -25,6 +25,7 @@ module.exports = function (config) {
 
     karmaTypescriptConfig: {
       coverageOptions: {
+        instrumentation: true,
         threshold: {
           global: {
             statements: 100,
@@ -46,7 +47,20 @@ module.exports = function (config) {
       },
       tsconfig: "./tsconfig.json",
       bundlerOptions: {
-        transforms: [require("karma-typescript-es6-transform")()],
+        transforms: [
+          require("karma-typescript-es6-transform")({
+            presets: [
+              [
+                "env",
+                {
+                  targets: {
+                    browsers: ["last 2 Chrome versions"]
+                  }
+                }
+              ]
+            ]
+          })
+        ],
         resolve: {
           // karmas resolver cant figure out the symlinked deps from lerna
           // so we need to manually alias each package here.

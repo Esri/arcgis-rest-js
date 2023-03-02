@@ -15,8 +15,7 @@ describe("validateAppAccess: ", () => {
     });
     return validateAppAccess("FAKE-TOKEN", "abc123")
       .then((response) => {
-        const [url, options]: [string, RequestInit] =
-          fetchMock.lastCall(VERIFYAPPACCESS_URL);
+        const [url, options] = fetchMock.lastCall(VERIFYAPPACCESS_URL);
         expect(url).toEqual(VERIFYAPPACCESS_URL);
         expect(options.body).toContain("f=json");
         expect(options.body).toContain("token=FAKE-TOKEN");
@@ -35,8 +34,7 @@ describe("validateAppAccess: ", () => {
     });
     return validateAppAccess("FAKE-TOKEN", "abc123", PORTAL_BASE_URL)
       .then((response) => {
-        const [url, options]: [string, RequestInit] =
-          fetchMock.lastCall(PORTAL_VERIFY_URL);
+        const [url, options] = fetchMock.lastCall(PORTAL_VERIFY_URL);
         expect(url).toEqual(PORTAL_VERIFY_URL);
       })
       .catch((e) => fail(e));
