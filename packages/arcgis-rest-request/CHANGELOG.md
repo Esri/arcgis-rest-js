@@ -1,3 +1,16 @@
+## @esri/arcgis-rest-request [4.1.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.1.1...@esri/arcgis-rest-request@4.1.2) (2023-03-02)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** added social providers ([caf8d11](https://github.com/Esri/arcgis-rest-js/commit/caf8d11a61ed5b1ef715dc6f019e3ef2a36d6323))
+* **arcgis-rest-request:** pass referer ([c950c4a](https://github.com/Esri/arcgis-rest-js/commit/c950c4a9112c391e5f49204233bdbef9f65582d1))
+* **arcgis-rest-request:** pass referer ([81c2de8](https://github.com/Esri/arcgis-rest-js/commit/81c2de8c5f5c2508abfe795edb7cbf0fc7f59040))
+* **arcgis-rest-request:** pass referer ([57de1f6](https://github.com/Esri/arcgis-rest-js/commit/57de1f64d0f86bdfeed89e09ddcb7af50c2ad4c4))
+* **arcgis-rest-request:** pass referer ([5af0c3b](https://github.com/Esri/arcgis-rest-js/commit/5af0c3bec26ddf083525b24cd622ce4af79d95e4))
+* **arcgis-rest-request:** pass referer ([08ec6fd](https://github.com/Esri/arcgis-rest-js/commit/08ec6fd1f0dcb24332719f7a2578fdca5ec611fa))
+* **arcgis-rest-request:** pass referer ([8ba4890](https://github.com/Esri/arcgis-rest-js/commit/8ba4890b8c34101498201eca6b37f82236b15d97))
+
 ## @esri/arcgis-rest-request [4.1.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.1.0...@esri/arcgis-rest-request@4.1.1) (2022-10-12)
 
 
