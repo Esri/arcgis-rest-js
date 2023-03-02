@@ -2,6 +2,7 @@
  * Apache-2.0 */
 
 import { File } from "@esri/arcgis-rest-form-data";
+import fetchMock from "fetch-mock";
 
 export const TOMORROW = (function () {
   const now = new Date();
@@ -32,3 +33,5 @@ export const isNode = new Function(
 export const isBrowser = new Function(
   "try {return this===window;}catch(e){ return false;}"
 )();
+
+fetchMock.config.overwriteRoutes = true;

@@ -26,8 +26,9 @@ const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
 
 describe("attachment methods", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("should return an array of attachmentInfos for a feature by id", (done) => {
     const requestOptions = {
       url: serviceUrl,
@@ -40,7 +41,7 @@ describe("attachment methods", () => {
     getAttachments(requestOptions)
       .then(() => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           `${requestOptions.url}/${requestOptions.featureId}/attachments?f=json&gdbVersion=SDE.DEFAULT`
         );
@@ -67,7 +68,7 @@ describe("attachment methods", () => {
     addAttachment(requestOptions)
       .then(() => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           `${requestOptions.url}/${requestOptions.featureId}/addAttachment`
         );
@@ -108,7 +109,7 @@ describe("attachment methods", () => {
       })
       .catch((error) => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           `${requestOptions.url}/${requestOptions.featureId}/addAttachment`
         );
@@ -135,7 +136,7 @@ describe("attachment methods", () => {
     updateAttachment(requestOptions)
       .then(() => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           `${requestOptions.url}/${requestOptions.featureId}/updateAttachment`
         );
@@ -166,7 +167,7 @@ describe("attachment methods", () => {
     deleteAttachments(requestOptions)
       .then(() => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           `${requestOptions.url}/${requestOptions.featureId}/deleteAttachments`
         );

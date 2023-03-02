@@ -26,8 +26,9 @@ import {
 } from "../../../scripts/test-helpers.js";
 
 describe("ArcGISIdentityManager", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   describe(".serialize() and ArcGISIdentityManager.deserialize", () => {
     it("should serialize to and from JSON", () => {
       const session = new ArcGISIdentityManager({
@@ -2116,8 +2117,7 @@ describe("ArcGISIdentityManager", () => {
       return session
         .validateAppAccess("abc123")
         .then((response) => {
-          const [url, options]: [string, RequestInit] =
-            fetchMock.lastCall(VERIFYAPPACCESS_URL);
+          const [url, options] = fetchMock.lastCall(VERIFYAPPACCESS_URL);
           expect(url).toEqual(VERIFYAPPACCESS_URL);
           expect(options.body).toContain("f=json");
           expect(options.body).toContain("token=FAKE-TOKEN");
@@ -2317,8 +2317,9 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe(".getUser()", () => {
-    afterEach(fetchMock.restore);
-
+    afterEach(() => {
+      fetchMock.restore();
+    });
     it("should cache metadata about the user", (done) => {
       // we intentionally only mock one response
       fetchMock.once(
@@ -2393,8 +2394,9 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe(".getUsername()", () => {
-    afterEach(fetchMock.restore);
-
+    afterEach(() => {
+      fetchMock.restore();
+    });
     it("should fetch the username via getUser()", (done) => {
       // we intentionally only mock one response
       fetchMock.once(
@@ -2691,7 +2693,7 @@ describe("ArcGISIdentityManager", () => {
       )
         .then((token) => {
           expect(token).toBe("fresh-token");
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          const [url, options] = fetchMock.lastCall(
             "https://fakeserver.com/arcgis/tokens/generateToken"
           );
           expect(url).toBe(
@@ -2750,7 +2752,7 @@ describe("ArcGISIdentityManager", () => {
       )
         .then((token) => {
           expect(token).toBe("fresh-token");
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+          const [url, options] = fetchMock.lastCall(
             "https://fakeserver.com/arcgis/tokens/generateToken"
           );
           expect(url).toBe(
@@ -2885,8 +2887,9 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe(".getPortal()", () => {
-    afterEach(fetchMock.restore);
-
+    afterEach(() => {
+      fetchMock.restore();
+    });
     it("should cache metadata about the portal", (done) => {
       // we intentionally only mock one response
       fetchMock.once(
@@ -3016,7 +3019,7 @@ describe("ArcGISIdentityManager", () => {
         .then((response) => {
           const { credentials } = fetchMock.lastOptions(
             "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-          );
+          ) as RequestInit;
           expect(credentials).toEqual("same-origin");
 
           done();
@@ -3081,7 +3084,7 @@ describe("ArcGISIdentityManager", () => {
         .then((response) => {
           const { credentials } = fetchMock.lastOptions(
             "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-          );
+          ) as RequestInit;
           expect(credentials).toEqual("include");
 
           done();
@@ -3147,7 +3150,7 @@ describe("ArcGISIdentityManager", () => {
       .then((response) => {
         const { credentials } = fetchMock.lastOptions(
           "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-        );
+        ) as RequestInit;
         expect(credentials).toEqual("same-origin");
 
         done();
@@ -3219,7 +3222,7 @@ describe("ArcGISIdentityManager", () => {
         refreshTokenExpires: TOMORROW
       });
       return ArcGISIdentityManager.destroy(session).then((response) => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(response).toEqual({ success: true });
         expect(url).toBe(
           "https://www.arcgis.com/sharing/rest/oauth2/revokeToken/"
@@ -3237,7 +3240,7 @@ describe("ArcGISIdentityManager", () => {
         token: "token"
       });
       return ArcGISIdentityManager.destroy(session).then((response) => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(response).toEqual({ success: true });
         expect(url).toBe(
           "https://www.arcgis.com/sharing/rest/oauth2/revokeToken/"
@@ -3256,7 +3259,7 @@ describe("ArcGISIdentityManager", () => {
       });
 
       return session.signOut().then((response) => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(response).toEqual({ success: true });
         expect(url).toBe(
           "https://www.arcgis.com/sharing/rest/oauth2/revokeToken/"
@@ -3268,8 +3271,9 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe(".fromToken", () => {
-    afterEach(fetchMock.restore);
-
+    afterEach(() => {
+      fetchMock.restore();
+    });
     it("should initialize a session from a token", () => {
       // we intentionally only mock one response
       fetchMock.once(
@@ -3293,8 +3297,9 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe(".signIn", () => {
-    afterEach(fetchMock.restore);
-
+    afterEach(() => {
+      fetchMock.restore();
+    });
     it("should initialize a session from a username and password", () => {
       // we intentionally only mock one response
       fetchMock.once(
@@ -3322,7 +3327,7 @@ describe("ArcGISIdentityManager", () => {
       });
     });
 
-    it("should initialize a session from a username and password and pass a referer", (done) => {
+    it("should initialize a session from a username and password and pass a referer", () => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
@@ -3344,7 +3349,7 @@ describe("ArcGISIdentityManager", () => {
         password: "123456",
         referer: "testreferer"
       }).then(() => {
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall(
+        const [url, options] = fetchMock.lastCall(
           "https://www.arcgis.com/sharing/rest/generateToken"
         );
 
@@ -3355,8 +3360,6 @@ describe("ArcGISIdentityManager", () => {
         if (isBrowser) {
           expect(options.body).toContain(`referer=testreferer`);
         }
-
-        done();
       });
     });
   });

@@ -5,15 +5,17 @@ import fetchMock from "fetch-mock";
 import { getAvailableGeographyLevels } from "../src/getAvailableGeographyLevels.js";
 
 describe("getAvailableGeographyLevels", () => {
-  afterEach(fetchMock.restore);
+  beforeEach(() => {
+    fetchMock.restore();
+  });
 
   it("should make a simple, single dataCollections request", (done) => {
-    fetchMock.once("*", {});
+    fetchMock.once("*", {}, { overwriteRoutes: true });
 
     getAvailableGeographyLevels()
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/StandardGeographyLevels"
         );
@@ -27,14 +29,14 @@ describe("getAvailableGeographyLevels", () => {
   });
 
   it("should make a dataCollections request with a custom endpoint", (done) => {
-    fetchMock.once("*", {});
+    fetchMock.once("*", {}, { overwriteRoutes: true });
 
     getAvailableGeographyLevels({
       endpoint: "https://esri.com/test"
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url] = fetchMock.lastCall("*");
         expect(url).toEqual("https://esri.com/test/StandardGeographyLevels");
         done();
       })
@@ -44,7 +46,7 @@ describe("getAvailableGeographyLevels", () => {
   });
 
   it("should make a dataCollections request with a param", (done) => {
-    fetchMock.once("*", {});
+    fetchMock.once("*", {}, { overwriteRoutes: true });
 
     getAvailableGeographyLevels({
       params: {
@@ -53,7 +55,7 @@ describe("getAvailableGeographyLevels", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/StandardGeographyLevels"
         );

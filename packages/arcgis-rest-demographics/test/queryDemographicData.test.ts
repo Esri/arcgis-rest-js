@@ -12,8 +12,9 @@ const MOCK_AUTH = {
 };
 
 describe("queryDemographicData", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("should throw an error when a queryDemographicData request is made without a token", (done) => {
     fetchMock.once("*", {});
 
@@ -38,7 +39,7 @@ describe("queryDemographicData", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/enrich"
         );
@@ -61,7 +62,7 @@ describe("queryDemographicData", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual("https://esri.com/test/enrich");
         expect(options.method).toBe("POST");
         expect(options.body).toContain("f=json");
@@ -97,7 +98,7 @@ describe("queryDemographicData", () => {
     })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/enrich"
         );

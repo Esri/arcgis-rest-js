@@ -22,8 +22,9 @@ const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
 
 describe("feature", () => {
-  afterEach(fetchMock.restore);
-
+  afterEach(() => {
+    fetchMock.restore();
+  });
   it("should return objectId of the added feature and a truthy success", (done) => {
     const requestOptions = {
       url: serviceUrl,
@@ -49,7 +50,7 @@ describe("feature", () => {
     addFeatures(requestOptions)
       .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/addFeatures`);
         expect(options.body).toContain(
           "features=" +
@@ -86,7 +87,7 @@ describe("feature", () => {
     updateFeatures(requestOptions)
       .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/updateFeatures`);
         expect(options.method).toBe("POST");
         expect(options.body).toContain(
@@ -115,7 +116,7 @@ describe("feature", () => {
     deleteFeatures(requestOptions)
       .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/deleteFeatures`);
         expect(options.body).toContain("objectIds=1001");
         expect(options.body).toContain("where=1%3D1");
@@ -165,7 +166,7 @@ describe("feature", () => {
     applyEdits(requestOptions)
       .then((response) => {
         expect(fetchMock.called()).toBeTruthy();
-        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(`${requestOptions.url}/applyEdits`);
         expect(options.method).toBe("POST");
         expect(options.body).toContain(
