@@ -20,7 +20,7 @@
   "dependencies": {
     "@esri/arcgis-rest-geocoding": "^4.0.0",
     "@esri/arcgis-rest-request": "^4.0.0",
-    "papaparse": "^4.6.0"
+    "papaparse": "^5.2.0"
   },
   "author": "Max Payson (mpayson)",
   "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
