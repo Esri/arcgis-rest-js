@@ -1,3 +1,19 @@
+# @esri/arcgis-rest-portal [4.2.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.1.0...@esri/arcgis-rest-portal@4.2.0) (2023-03-02)
+
+
+### Features
+
+* **arcgis-rest-portal:** add documentation ([826e7fd](https://github.com/Esri/arcgis-rest-js/commit/826e7fd42c4207fddbf120819bded92835923509))
+* **arcgis-rest-portal:** add user properties functions ([a9e7352](https://github.com/Esri/arcgis-rest-js/commit/a9e7352c8485970da499b5fd27f0e5a38a62c066))
+* **arcgis-rest-portal:** code coverage ([b668b15](https://github.com/Esri/arcgis-rest-js/commit/b668b15cd079380799c3127f6c3aa9b7e03de433))
+* **arcgis-rest-portal:** export functions ([92831f2](https://github.com/Esri/arcgis-rest-js/commit/92831f23ffcd9e8c9a997951382f728effc8c9ba))
+* **arcgis-rest-portal:** pr feedback ([9f0c721](https://github.com/Esri/arcgis-rest-js/commit/9f0c721be5a7608ca0a77d51cc27ef020dfb509d))
+* **arcgis-rest-portal:** pr feedback ([2e26348](https://github.com/Esri/arcgis-rest-js/commit/2e26348ddc43e30c561ba646149422dcd12c846d))
+* **arcgis-rest-portal:** remove console statement ([4981383](https://github.com/Esri/arcgis-rest-js/commit/4981383f32fbc310379f35d92b23c7a24192ea29))
+* **arcgis-rest-portal:** split set user properties ([46e15fb](https://github.com/Esri/arcgis-rest-js/commit/46e15fb94b2a04241da2f89bc0df3fed59303677))
+* **arcgis-rest-portal:** update comment ([96be4bd](https://github.com/Esri/arcgis-rest-js/commit/96be4bd1727f5c90a2809ee5ea63a38f6ad6a15c))
+* **arcgis-rest-portal:** v4 updates ([6332675](https://github.com/Esri/arcgis-rest-js/commit/6332675f3140c7e31dd5a0950412c493b96fe12f))
+
 # @esri/arcgis-rest-portal [4.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.6...@esri/arcgis-rest-portal@4.1.0) (2022-09-28)
 
 
