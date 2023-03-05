@@ -4,8 +4,9 @@ This demo shows some more advanced uses of authentication features in ArcGIS RES
 
 1. Performing server based oAuth 2.0 to obtain a refresh token store the resulting token and refresh token in a session object on the server that can be looked up via an encrypted cookie.
 2. Sending the short lived token information to hydrate `ArcGISIdentityManager` in a client side environment while keeping the refresh token secure on the server.
-3. Customizing `ArcGISIdentityManager` to ask the server for a new short lived token.
+3. Customizing `ArcGISIdentityManager` to ask the server for a new short lived token when one is needed
 4. Storing a session id in the in an encrypted cookie.
+5. Syncing the `ArcGISIdentityManager` based auth to JS API `IdentityManager` based auth to load private content like web maps.
 
 This demo showcases several security best practices:
 
@@ -13,6 +14,8 @@ This demo showcases several security best practices:
 - Session information is encrypted when it is stored on disk on the server.
 - Only short lived tokens (30 minutes) are used on the client, new tokens are requested from the server automatically.
 - The refresh token on the server is valid for 2 weeks the default but is extended for another 2 weeks every time the user access the app.
+
+Using long lived sessions on the server also means that the server can perform background work for the user such as scheduled jobs.
 
 ## Setup with provided credentials
 
