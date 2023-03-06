@@ -132,10 +132,10 @@
 
     let html = ''
     let template = document.getElementById("web-map-card");
-    document.getElementById("webmaps").innerHTML = results.reduce((html, item) => {
+    document.getElementById("webmaps").innerHTML = results.length ? results.reduce((html, item) => {
       item.thumbnail = `${session.portal}/content/items/${item.id}/info/${item.thumbnail}?token=${session.token}`;
       return html += interpolate(template.innerHTML, item);
-    }, "")
+    }, "") : '<div class="cell">No webmaps found</div>'
     
     e.preventDefault();
   });
@@ -206,7 +206,7 @@
       <img src="${thumbnail}" alt="${title}" class="thumbnail border-none">
       <div class="card-section">
         <h6 class="font-bold">${title}</h6>
-        <p>${snippet}</p>
+        <p>${snippet || ""}</p>
       </div>
     </a>
   </div>

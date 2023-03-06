@@ -1,6 +1,6 @@
 # ArcGIS REST JS Express Advanced oAuth 2.0 Demo
 
-This demo shows some more advanced uses of authentication features in ArcGIS REST JS. Specically:
+This demo shows some more advanced uses of authentication features in ArcGIS REST JS. Specifically:
 
 1. Performing server based oAuth 2.0 to obtain a refresh token store the resulting token and refresh token in a session object on the server that can be looked up via an encrypted cookie.
 2. Sending the short lived token information to hydrate `ArcGISIdentityManager` in a client side environment while keeping the refresh token secure on the server.
