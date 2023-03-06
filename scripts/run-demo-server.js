@@ -1,6 +1,8 @@
 import browserSync from "browser-sync";
 import { join, resolve, dirname } from "path";
 import getPackages from "./get-package-json.js";
+import yargs from "yargs";
+const args = yargs(process.argv).argv;
 
 (async () => {
   const cwd = process.cwd();
@@ -17,6 +19,6 @@ import getPackages from "./get-package-json.js";
     port: 8080,
     server: cwd,
     serveStatic: [...packageFolders],
-    https: true
+    https: args.https !== "false"
   });
 })();

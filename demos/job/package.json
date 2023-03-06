@@ -13,7 +13,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "node ../../scripts/run-demo-server.js"
+    "start": "node ../../scripts/run-demo-server.js --https=false"
   },
   "dependencies": {
     "@esri/arcgis-rest-request": "^4.0.3"

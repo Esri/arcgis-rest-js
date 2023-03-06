@@ -3,15 +3,29 @@
 
 <head>
   <meta charset="utf-8">
-  <title>ArcGIS REST JS Browser w/ Modules</title>
+  <title>ArcGIS REST JS Job class demo</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/1.0.5/calcite.css" />
 </head>
 
 <body>
-  <div class="container-md mt-5">
-    <h1>Messages</h1>
-    <pre class="bg-light border p-3"><code id="messages"></code></pre>
+  <div class="p-3">
+    <calcite-label>URL
+      <calcite-input id="urlInput"
+        value="https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspotPro/GPServer/911%20Calls%20Hotspot"></calcite-input>
+    </calcite-label>
+    <calcite-label>Query
+      <calcite-input id="queryInput"
+        value="(&quot;DATE&quot; > date '1998-01-01 00:00:00' AND &quot;DATE&quot; < date '1998-01-31 00:00:00') AND (&quot;Day&quot; = 'SUN' OR &quot;Day&quot;= 'SAT')"></calcite-input>
+    </calcite-label>
+    <calcite-button id="submitButton">Submit job</calcite-button>
+    <calcite-button id="resetButton">Reset</calcite-button>
+  </div>
+
+  <div class="p-3 mt-4">
+    <h1>Progress</h1>
+    <pre class="bg-light border p-3"><code id="progress"></code></pre>
     <h1>Results</h1>
     <pre class="bg-light border p-3"><code id="results"></code></pre>
   </div>
@@ -31,24 +45,58 @@
   <script type="module">
     import { Job, JOB_STATUSES } from "@esri/arcgis-rest-request";
 
-    Job.submitJob({
-      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspotPro/GPServer/911%20Calls%20Hotspot",
-      params: {
-        Query: `("DATE" > date '1998-01-01 00:00:00' AND "DATE" < date '1998-01-31 00:00:00') AND ("Day" = 'SUN' OR "Day"= 'SAT')`,
-      }
-    }).then(async (job) => {
-      // listen to the status event to get update every time the job status is checked.
-      job.on(JOB_STATUSES.Status, (jobInfo) => {
-        document.getElementById("messages").innerText = jobInfo.messages.map(({ description }) => description).join("\n");
+    const EXISTING_JOB = "ARCGIS_REST_JS_EXISTING_JOB";
+    const urlInput = document.getElementById("urlInput");
+    const queryInput = document.getElementById("queryInput");
+    const progressElement = document.getElementById("progress");
+    const resultsElement = document.getElementById("results");
+
+    if (localStorage.getItem(EXISTING_JOB)) {
+      Job.deserialize(localStorage.getItem(EXISTING_JOB)).then((job) => {
+        fetchResults(job);
+      });
+    }
+
+    document.getElementById("submitButton").onclick = async function () {
+      const url = urlInput.value;
+      const query = queryInput.value;
+      const job = await Job.submitJob({
+        url: url,
+        params: { Query: query },
+      });
+
+      progressElement.innerText += "Submitted...\n";
+
+      localStorage.setItem(EXISTING_JOB, job.serialize());
+
+      fetchResults(job);
+    };
+
+    function fetchResults(job) {
+      // Set up listeners
+      job.on(JOB_STATUSES.Executing, (jobInfo) => {
+        progressElement.innerText += "Executing...\n";
+      });
+
+      job.on(JOB_STATUSES.Success, (jobInfo) => {
+        progressElement.innerText += "Success!\n";
       });
 
       // get all the results, this will start monitoring and trigger events
-      return job.getAllResults();
-    }).then((results) => {
-      console.log("RESULTS:", results);
-      document.getElementById("results").innerText = JSON.stringify(results, null, 2);
-    })
+      job.getAllResults().then((results) => {
+        document.getElementById("results").innerText = JSON.stringify(results, null, 2);
+      });
+    }
+
+    document.getElementById("resetButton").onclick = function () {
+      localStorage.removeItem(EXISTING_JOB);
+      progressElement.innerText = "";
+      resultsElement.innerText = "";
+    };
+
   </script>
+
+  <script type="module" src="https://js.arcgis.com/calcite-components/1.0.5/calcite.esm.js"></script>
 </body>
 
 </html>
