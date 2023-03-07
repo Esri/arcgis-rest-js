@@ -20,6 +20,7 @@
         value="(&quot;DATE&quot; > date '1998-01-01 00:00:00' AND &quot;DATE&quot; < date '1998-01-31 00:00:00') AND (&quot;Day&quot; = 'SUN' OR &quot;Day&quot;= 'SAT')"></calcite-input>
     </calcite-label>
     <calcite-button id="submitButton">Submit job</calcite-button>
+    <calcite-button id="submitRefreshButton">Submit job with refresh</calcite-button>
     <calcite-button id="resetButton">Reset</calcite-button>
   </div>
 
@@ -58,6 +59,7 @@
     }
 
     document.getElementById("submitButton").onclick = async function () {
+      reset();
       const url = urlInput.value;
       const query = queryInput.value;
       const job = await Job.submitJob({
@@ -70,6 +72,22 @@
       localStorage.setItem(EXISTING_JOB, job.serialize());
 
       fetchResults(job);
+    };
+
+    document.getElementById("submitRefreshButton").onclick = async function () {
+      reset();
+      const url = urlInput.value;
+      const query = queryInput.value;
+      const job = await Job.submitJob({
+        url: url,
+        params: { Query: query },
+      });
+
+      progressElement.innerText += "Submitted...\n";
+
+      localStorage.setItem(EXISTING_JOB, job.serialize());
+
+      window.location.reload();
     };
 
     function fetchResults(job) {
@@ -89,10 +107,14 @@
     }
 
     document.getElementById("resetButton").onclick = function () {
+      reset();
+    };
+
+    function reset() {
       localStorage.removeItem(EXISTING_JOB);
       progressElement.innerText = "";
       resultsElement.innerText = "";
-    };
+    }
 
   </script>
 
