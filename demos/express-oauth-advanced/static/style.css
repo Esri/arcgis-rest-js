@@ -1,0 +1,16 @@
+.equal-height-cards .cell {
+  display: flex;
+  align-items: stretch;
+}
+
+.thumbnail {
+  aspect-ratio: 200 / 133;
+}
+
+#map-view {
+  height: calc(65vh - 40px);
+}
+
+:root {
+  --calcite-modal-content-padding: 0;
+}
