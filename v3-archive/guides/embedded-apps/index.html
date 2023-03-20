@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Passing Authentication to iFramed apps | Guide | ArcGIS REST JS</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with the ArcGIS REST API.">
+    
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/arcgis-rest-js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">ArcGIS REST JS</h2>
+          <a href="/arcgis-rest-js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/arcgis-rest-js/api/" class="side-nav-link">API Reference</a>
+          <a href="https://github.com/Esri/arcgis-rest-js" class="side-nav-link">GitHub</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/arcgis-rest-js/" class="top-nav-title">ArcGIS REST JS</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/arcgis-rest-js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/arcgis-rest-js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/arcgis-rest-js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/arcgis-rest-js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/arcgis-rest-js/" class="top-nav-link">ArcGIS REST API JavaScript Client</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Introduction</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/arcgis-rest-js/guides/package-overview/">Package Overview</a></li>
+            
+          </ul>
+        
+          <li>Get Started</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/arcgis-rest-js/guides/from-a-cdn/">From a CDN</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/bundlers/">Bundlers</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/amd-requirejs-dojo/">AMD (Require.js or Dojo)</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/node/">Node.js</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/whats-new-v2-0/">What's New in v2.0.0</a></li>
+            
+          </ul>
+        
+          <li>Authentication</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/arcgis-rest-js/guides/browser-authentication/">Browser-based OAuth 2.0</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/server-authentication/">Server-based OAuth 2.0</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/client-server-authentication/">Shared client server authentication</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/cli-authentication/">Authentication for CLI Apps</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/embedded-apps/" class="is-active">Embedded Authentication</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <p><strong>Note</strong> This is a new api feature, and currently there are <em>no</em> platform applications that support the authentication flows discussed in this guide. However, this guide exists to help other platform app teams add this functionality to their apps.</p>
+<h1>Authentication with Embedded Applications</h1>
+<p>Sometimes an application will need to embed another application using an <code>&lt;iframe&gt;</code>. If both applications are backed by items that are publicly accessible, things will &quot;just work&quot;.</p>
+<p>However, if the embedded application is not public and the user has already logged into the &quot;Host&quot; application, we then run into the question of how to pass authentication from the &quot;Host&quot; to the embedded application.</p>
+<h1>Message Types and Objects</h1>
+<p>Although this is internalized within the functions, the message types and the objects are documented in the repo in the <a href="https://github.com/Esri/arcgis-rest-js/tree/master/packages/arcgis-rest-auth/post-message-auth-spec.md">postMessage Auth Spec document</a></p>
+<h3>Cross Origin Embedding</h3>
+<p>Cross-Origin embedding occurs when the &quot;host&quot; app and the &quot;embedded&quot; application are served from different locations. This is only supported for ArcGIS Platform apps that support embedding.</p>
+<p>For example, you can build a custom app, hosted at <code>http://myapp.com</code> and iframe in a &quot;platform app&quot; that supports embedding. However, you can not embed your custom app into a StoryMap, and expect the StoryMap to pass authentication to your app. This is done for security reasons.</p>
+<h2>Using <code>postMessage</code></h2>
+<p>The browser's <code>postMessage</code> api is designed to allow communication between various &quot;frames&quot; in a page, and it is how this works internally. You can read more about <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage">postMessage</a> at the Mozilla Developer Network.</p>
+<h1>Authentication Flow</h1>
+<p>We will walk through the flows at a high-level</p>
+<h2>1 Host App uses oAuth</h2>
+<p>The application acting as the host, should use oAuth to authenticate the user, and <em>before</em> rendering the iframe with the embedded application it must call <code>session.enablePostMessageAuth(validOrigins)</code>. This sets up a listener that will process the requests from the embedded application(s).</p>
+<p>The <code>validOrigins</code> argument is an array of &quot;origins&quot; your app expects to get auth requests from. <strong>NOTE</strong> This should be a constrained list of just the domains this particular application will actually be embedding.</p>
+<pre><code class="js"><span class="hljs-comment">// register your own app to create a unique clientId</span>
+<span class="hljs-keyword">const</span> clientId = <span class="hljs-string">"abc123"</span>;
+
+UserSession.beginOAuth2({
+  clientId,
+  <span class="hljs-attr">redirectUri</span>: <span class="hljs-string">"https://yourapp.com/authenticate.html"</span>,
+}).then(<span class="hljs-function">(<span class="hljs-params">session</span>) =&gt;</span> {
+  <span class="hljs-comment">// for this example we will only send auth to embeds hosted on storymaps.arcgis.com</span>
+  <span class="hljs-keyword">const</span> validOrigins = [<span class="hljs-string">"https://storymaps.arcgis.com"</span>];
+  session.enablePostMessageAuth(validOrigins);
+});
+</code></pre>
+<h4>2 Host App adds params to embed url</h4>
+<p>Let's suppose the host app is embedding <code>https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd</code>. To tell the embedded app that it should request authentication from the parent, we need to add two url parameters:</p>
+<ul>
+<li><code>arcgis-auth-origin=https://myapp.com</code> - This tells the app it's embedded in an iframe and should request auth from the parent, and what 'origin' to expect messages from, what origin to post messages to, and also to ignore other origins.</li>
+<li><code>arcgis-auth-portal=https://www.arcgis.com/sharing/rest</code> - This tells the embedded app the ArcGIS Portal that the parent will provide authentication for.
+<ul>
+<li><strong>note</strong> the uri must encoded via <code>encodeURIComponent()</code> as shown below</li>
+</ul>
+</li>
+</ul>
+<pre><code class="js"><span class="hljs-keyword">const</span> originalUrl =
+  <span class="hljs-string">"https://storymaps.arcgis.com/stories/15a9b9991fff47ad84f4618a28b01afd"</span>;
+<span class="hljs-keyword">const</span> embedUrl = <span class="hljs-string">`<span class="hljs-subst">${originalUrl}</span>
+    ?arcgis-auth-origin=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(<span class="hljs-built_in">window</span>.location.origin)}</span>
+    &amp;arcgis-auth-portal=<span class="hljs-subst">${<span class="hljs-built_in">encodeURIComponent</span>(session.portal)}</span>`</span>;
+<span class="hljs-comment">// then use embedUrl in your component that renders the &lt;iframe&gt;</span>
+</code></pre>
+<h4>3 Embed App boots and Requests Auth</h4>
+<p>In the embedded application, early in its boot sequence it should read the query string parameters and make the determination that it is running inside an iframe, and that it can request authentication information from the parent.</p>
+<pre><code class="js"><span class="hljs-comment">// Parse up any url params</span>
+<span class="hljs-keyword">let</span> params = <span class="hljs-keyword">new</span> URLSearchParams(<span class="hljs-built_in">document</span>.location.search.substring(<span class="hljs-number">1</span>));
+<span class="hljs-keyword">const</span> arcgisAuthOrigin = params.get(<span class="hljs-string">"arcgis-auth-origin"</span>);
+<span class="hljs-comment">// const arcgisAuthPortal = params.get("arcgis-auth-portal"); // can optionally check this value too</span>
+<span class="hljs-keyword">if</span> (arcgisAuthOrigin) {
+  UserSession.fromParent(arcgisAuthOrigin)
+    .then(<span class="hljs-function">(<span class="hljs-params">session</span>) =&gt;</span> {
+      <span class="hljs-comment">// session is a UserSession instance, populated from the parent app</span>
+      <span class="hljs-comment">// the embedded app should exchange this token for one specific to the application</span>
+    })
+    .catch(<span class="hljs-function">(<span class="hljs-params">ex</span>) =&gt;</span> {
+      <span class="hljs-comment">// The only case it will reject is if the parent is unable to return a credential</span>
+      <span class="hljs-comment">// if the parent does not see the child as a valid origin, the parent will never respond.</span>
+    });
+}
+</code></pre>
+<h4>Clean up</h4>
+<p>While rest-js will attempt to clean up the listeners automatically, if the host application is no longer going to render the iframe before the embedded app has had a chance to request the authentication, then the app should manually clean up the listener by calling <code>session.disablePostMessageAuth()</code></p>
+<p>Typically you would make this call in the life-cycle hooks of your application framework (i.e. an Angular, Ember, React etc app with a router). The example below uses the <code>disconnectedCallback</code> that is part of the Stencil.js component life-cycle.</p>
+<pre><code class="js">  <span class="hljs-comment">// Use your framework's hooks...</span>
+  disconnectedCallback () {
+    <span class="hljs-comment">// stop listening for requests from children</span>
+    state.session.disablePostMessageAuth();
+  }
+</code></pre>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/arcgis-rest-js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>
