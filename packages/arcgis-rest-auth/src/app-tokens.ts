@@ -41,6 +41,7 @@ export function exchangeToken(
 }
 
 /**
+ * @internal
  * Response from the `platformSelf(...)` function.
  */
 export interface IPlatformSelfResponse {
@@ -60,7 +61,7 @@ export interface IPlatformSelfResponse {
 }
 
 /**
- * @private
+ * @internal
  * Request a token for a specific application using the esri_aopc encrypted cookie
  *
  * When a client app boots up, it will know its clientId and the redirectUri for use

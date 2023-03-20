@@ -24,14 +24,14 @@ const md = new MarkdownIt();
         "common",
         "--tsconfig",
         "./tsconfig.json",
-        "--excludePrivate"
+        "--excludePrivate",
       ],
       {
-        stdio: "inherit"
+        stdio: "inherit",
       }
     );
 
-    typedoc.on("close", code => {
+    typedoc.on("close", (code) => {
       if (code !== 0) {
         reject(code);
         return;
@@ -47,7 +47,7 @@ const md = new MarkdownIt();
       });
     });
   })
-    .then(json => {
+    .then((json) => {
       /**
        * `json.children` will be a list of all TypeScript files in our project.
        * We dont care about the files, we just need all their children so we reduce
@@ -58,55 +58,55 @@ const md = new MarkdownIt();
         []
       );
     })
-    .then(children => {
+    .then((children) => {
       /**
        * We dont want TypeScript files that have been symlinked into `node_modules`
        * folders by Lerna so ignore any child whose source file has `node_modules`
        * in its `fileName`
        */
       return children.filter(
-        c => !minimatch(c.sources[0].fileName, "**/node_modules/**")
+        (c) => !minimatch(c.sources[0].fileName, "**/node_modules/**")
       );
     })
-    .then(children => {
+    .then((children) => {
       /**
        * We now only want children that are actual source files, not tests, so
        * filter out all children without `src` in their path.
        */
-      return children.filter(c =>
+      return children.filter((c) =>
         minimatch(c.sources[0].fileName, "**/src/**/*.ts")
       );
     })
-    .then(children => {
+    .then((children) => {
       /**
        * Some children might be empty so there is nothing to document in them.
        * For example most `index.ts` files don't have anything besides `import`
        * or `export` so we can safely filter these children out.
        */
-      return children.filter(c => !!c.children);
+      return children.filter((c) => !!c.children);
     })
-    .then(children => {
+    .then((children) => {
       /**
        * The `name` of each child is wrapped in extra quote marks remove these
        * quote marks and add `.ts` back to the end of the `name`,
        */
-      return children.map(child => {
+      return children.map((child) => {
         child.name = child.name.replace(/"/g, "") + ".ts";
         return child;
       });
     })
-    .then(children => {
+    .then((children) => {
       /**
        * Now determine which `package` each of our children belongs to based on
        * its name.
        */
-      return children.map(child => {
+      return children.map((child) => {
         child.name = _.first(child.name.split("/"));
         child.package = child.name;
         return child;
       });
     })
-    .then(children => {
+    .then((children) => {
       /**
        * `children` is currently a list of all TypeScript source files in
        * `packages`. `children.children` is an array of all declarations in that
@@ -119,22 +119,22 @@ const md = new MarkdownIt();
           return allChildren;
         }
         return allChildren.concat(
-          child.children.map(c => {
+          child.children.map((c) => {
             c.package = child.package;
             return c;
           })
         );
       }, []);
     })
-    .then(declarations => {
+    .then((declarations) => {
       /**
        * Next we remove all children that are not exported out of their files.
        */
       return declarations.filter(
-        declaration => declaration.flags && declaration.flags.isExported
+        (declaration) => declaration.flags && declaration.flags.isExported
       );
     })
-    .then(declarations => {
+    .then((declarations) => {
       const blacklist = [
         "genericSearch",
         "appendCustomParams",
@@ -148,16 +148,18 @@ const md = new MarkdownIt();
         "checkForErrors",
         "determineOwner",
         "isItemOwner",
-        "isOrgAdmin"
+        "isOrgAdmin",
+        "platformSelf", // use of @private or @internal did not remove platformSelf so adding to this list
+        "IPlatformSelfResponse",
       ];
       /**
        * Next we remove any declarations we want to blacklist from the API ref
        */
       return declarations.filter(
-        declaration => !blacklist.includes(declaration.name)
+        (declaration) => !blacklist.includes(declaration.name)
       );
     })
-    .then(declarations => {
+    .then((declarations) => {
       /**
        * Now that we have a list of all declarations across the entire project
        * we can begin to generate additional information about each declaration.
@@ -168,18 +170,16 @@ const md = new MarkdownIt();
        * merged into the `declaration`. This also adds a `title`, `description`
        * and `titleSegments` to each page which are used in the template for SEO.
        */
-      return declarations.map(declaration => {
+      return declarations.map((declaration) => {
         const abbreviatedPackageName = declaration.package.replace(
           "arcgis-rest-",
           ""
         );
-        const src = `arcgis-rest-js/api/${abbreviatedPackageName}/${
-          declaration.name
-        }.html`;
+        const src = `arcgis-rest-js/api/${abbreviatedPackageName}/${declaration.name}.html`;
         let children;
 
         if (declaration.children) {
-          children = declaration.children.map(child => {
+          children = declaration.children.map((child) => {
             child.icon = `tsd-kind-${slug(
               child.kindString
             ).toLowerCase()} tsd-parent-kind-${slug(
@@ -199,7 +199,7 @@ const md = new MarkdownIt();
             }
 
             if (child.signatures) {
-              child.signatures = child.signatures.map(sig => {
+              child.signatures = child.signatures.map((sig) => {
                 sig.icon = child.icon;
                 return sig;
               });
@@ -223,11 +223,11 @@ const md = new MarkdownIt();
           src,
           pageUrl: prettyifyUrl(src),
           icon: `tsd-kind-${slug(declaration.kindString).toLowerCase()}`,
-          children
+          children,
         });
       });
     })
-    .then(declarations => {
+    .then((declarations) => {
       /**
        * We now have a list of `declarations` that will be used to generate the
        * individual API reference pages, but we still need to generate a landing
@@ -240,7 +240,7 @@ const md = new MarkdownIt();
       return {
         declarations,
         packages: _(declarations)
-          .map(d => d.package)
+          .map((d) => d.package)
           .uniq()
           .reduce((packages, package) => {
             const abbreviatedPackageName = package.replace("arcgis-rest-", "");
@@ -255,7 +255,7 @@ const md = new MarkdownIt();
               titleSegments: ["API Reference"],
               name: package,
               declarations: declarations
-                .filter(d => d.package === package)
+                .filter((d) => d.package === package)
                 .sort((da, db) => {
                   const types = [
                     "Class",
@@ -264,11 +264,11 @@ const md = new MarkdownIt();
                     "Variable",
                     "Enumeration",
                     "Type alias",
-                    "Interface"
+                    "Interface",
                   ];
 
-                  const aIndex = types.findIndex(t => da.kindString === t);
-                  const bIndex = types.findIndex(t => db.kindString === t);
+                  const aIndex = types.findIndex((t) => da.kindString === t);
+                  const bIndex = types.findIndex((t) => db.kindString === t);
 
                   if (aIndex > bIndex) {
                     return 1;
@@ -280,13 +280,13 @@ const md = new MarkdownIt();
                 }),
               icon: "tsd-kind-module",
               src,
-              pageUrl: prettyifyUrl(src)
+              pageUrl: prettyifyUrl(src),
             });
             return packages;
-          }, [])
+          }, []),
       };
     })
-    .then(api => {
+    .then((api) => {
       /**
        * Since we generated the TypeDoc for the entire project at once each
        * `declaration` has a unique numerical `id` property. We occasionally
@@ -300,7 +300,7 @@ const md = new MarkdownIt();
 
       return api;
     })
-    .then(api => {
+    .then((api) => {
       /**
        * In order to power the API reference quick search we can build an array
        * of all declarations and child items
@@ -309,11 +309,11 @@ const md = new MarkdownIt();
         (quickSearchIndex, declaration) => {
           if (declaration.children) {
             quickSearchIndex = quickSearchIndex.concat(
-              declaration.children.map(child => {
+              declaration.children.map((child) => {
                 return {
                   title: `${declaration.name}.${child.name}`,
                   url: `${declaration.pageUrl}#${child.name}`,
-                  icon: child.icon
+                  icon: child.icon,
                 };
               })
             );
@@ -323,8 +323,8 @@ const md = new MarkdownIt();
             {
               title: declaration.name,
               url: declaration.pageUrl,
-              icon: declaration.icon
-            }
+              icon: declaration.icon,
+            },
           ]);
         },
         []
@@ -332,11 +332,11 @@ const md = new MarkdownIt();
 
       return api;
     })
-    .then(api => {
+    .then((api) => {
       /**
        * Next we can sort the children of each declaration to sort by required/optional/inherited
        */
-      api.declarations = api.declarations.map(declaration => {
+      api.declarations = api.declarations.map((declaration) => {
         if (declaration.children) {
           declaration.children.sort((ca, cb) => {
             const aIndex = rankChild(ca);
@@ -354,11 +354,11 @@ const md = new MarkdownIt();
         }
 
         if (declaration.groups) {
-          declaration.groups.forEach(group => {
+          declaration.groups.forEach((group) => {
             if (group.children) {
               group.children.sort((ca, cb) => {
-                const childA = declaration.children.find(c => c.id === ca);
-                const childB = declaration.children.find(c => c.id === cb);
+                const childA = declaration.children.find((c) => c.id === ca);
+                const childB = declaration.children.find((c) => c.id === cb);
 
                 const aIndex = rankChild(childA);
                 const bIndex = rankChild(childB);
@@ -381,7 +381,7 @@ const md = new MarkdownIt();
 
       return api;
     })
-    .then(api => {
+    .then((api) => {
       /**
        * Our final object looks like this:
        *
@@ -394,7 +394,7 @@ const md = new MarkdownIt();
        * We now export this to the Acetate source directory.
        */
       return new Promise((resolve, reject) => {
-        writeFile(OUTPUT, JSON.stringify(api, null, 2), e => {
+        writeFile(OUTPUT, JSON.stringify(api, null, 2), (e) => {
           if (e) {
             reject(e);
             return;
@@ -404,15 +404,13 @@ const md = new MarkdownIt();
         });
       });
     })
-    .catch(e => {
+    .catch((e) => {
       console.error(e);
     });
 })();
 
 function rankChild(child) {
-  const { isPrivate, isOptional, isStatic } = child
-    ? child.flags
-    : {};
+  const { isPrivate, isOptional, isStatic } = child ? child.flags : {};
 
   const isInherited = child.inheritedFrom ? true : false;
 
