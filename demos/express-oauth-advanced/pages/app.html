@@ -132,17 +132,10 @@
 
     let html = ''
     let template = document.getElementById("web-map-card");
-<<<<<<< HEAD
-    document.getElementById("webmaps").innerHTML = results.reduce((html, item) => {
-      item.thumbnail = `${session.portal}/content/items/${item.id}/info/${item.thumbnail}?token=${session.token}`;
-      return html += interpolate(template.innerHTML, item);
-    }, "")
-=======
     document.getElementById("webmaps").innerHTML = results.length ? results.reduce((html, item) => {
       item.thumbnail = `${session.portal}/content/items/${item.id}/info/${item.thumbnail}?token=${session.token}`;
       return html += interpolate(template.innerHTML, item);
     }, "") : '<div class="cell">No webmaps found</div>'
->>>>>>> 403e1382661098a65f35c4485942f13f365b9278
     
     e.preventDefault();
   });
