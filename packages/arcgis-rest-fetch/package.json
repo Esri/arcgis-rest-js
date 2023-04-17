@@ -31,7 +31,7 @@
     "node-ponyfill.mjs"
   ],
   "dependencies": {
-    "node-fetch": "^3.0.0"
+    "node-fetch": "^3.2.10"
   },
   "repository": {
     "type": "git",
