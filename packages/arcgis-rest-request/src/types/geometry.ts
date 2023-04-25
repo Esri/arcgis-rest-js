@@ -175,7 +175,8 @@ export type GeometryType =
   | "esriGeometryMultipoint"
   | "esriGeometryPolyline"
   | "esriGeometryPolygon"
-  | "esriGeometryEnvelope";
+  | "esriGeometryEnvelope"
+  | "esriGeometryMultiPatch";
 
 /**
  * Extents are used to define rectangles and bounding boxes.
