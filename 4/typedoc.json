@@ -76199,7 +76199,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/fetch-token.ts",
-									"line": 21,
+									"line": 26,
 									"character": 2
 								}
 							],
@@ -76219,7 +76219,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/fetch-token.ts",
-									"line": 24,
+									"line": 29,
 									"character": 2
 								}
 							],
@@ -76239,7 +76239,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/fetch-token.ts",
-									"line": 25,
+									"line": 30,
 									"character": 2
 								}
 							],
@@ -76253,11 +76253,13 @@
 							"name": "ssl",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {},
+							"flags": {
+								"isOptional": true
+							},
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/fetch-token.ts",
-									"line": 23,
+									"line": 28,
 									"character": 2
 								}
 							],
@@ -76275,7 +76277,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/fetch-token.ts",
-									"line": 20,
+									"line": 25,
 									"character": 2
 								}
 							],
@@ -76293,7 +76295,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/fetch-token.ts",
-									"line": 22,
+									"line": 27,
 									"character": 2
 								}
 							],
@@ -76320,7 +76322,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/fetch-token.ts",
-							"line": 19,
+							"line": 24,
 							"character": 17
 						}
 					]
@@ -84904,7 +84906,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/fetch-token.ts",
-							"line": 28,
+							"line": 33,
 							"character": 16
 						}
 					],
