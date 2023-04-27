@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import fetchMock from "fetch-mock";
+import fetchMock, { MockCall } from "fetch-mock";
 import { fetchToken } from "../src/index.js";
 
 const TOKEN_URL = "https://www.arcgis.com/sharing/rest/oauth2/token";
@@ -101,6 +101,37 @@ describe("fetchToken()", () => {
       .then((response) => {
         expect(response.ssl).toEqual(false);
         done();
+      })
+      .catch((e) => {
+        fail(e);
+      });
+  });
+
+  it("should generate a token for an instance of ArcGIS Server", () => {
+    const SERVER_URL =
+      "https://my-arcgis-server.com/arcgis/tokens/generateToken";
+    const expiresDate = Date.now();
+
+    fetchMock.postOnce(SERVER_URL, {
+      token: "token",
+      expires: expiresDate
+    });
+
+    return fetchToken(SERVER_URL, {
+      params: {
+        username: "Casey",
+        password: "password"
+      }
+    })
+      .then((response) => {
+        const [url, options] = fetchMock.lastCall(SERVER_URL) as MockCall;
+        expect(url).toEqual(SERVER_URL);
+        expect(options?.body).toContain("f=json");
+        expect(options?.body).toContain("username=Casey");
+        expect(options?.body).toContain("password=password");
+        expect(response.token).toEqual("token");
+        expect(response.expires).toEqual(new Date(expiresDate));
+        expect(response.username).toEqual("Casey");
       })
       .catch((e) => {
         fail(e);
