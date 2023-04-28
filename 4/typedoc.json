@@ -27438,6 +27438,10 @@
 							{
 								"type": "literal",
 								"value": "esriGeometryEnvelope"
+							},
+							{
+								"type": "literal",
+								"value": "esriGeometryMultiPatch"
 							}
 						]
 					}
@@ -75398,7 +75402,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 199,
+									"line": 200,
 									"character": 2
 								}
 							],
@@ -75417,7 +75421,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 196,
+									"line": 197,
 									"character": 2
 								}
 							],
@@ -75435,7 +75439,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 193,
+									"line": 194,
 									"character": 2
 								}
 							],
@@ -75453,7 +75457,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 197,
+									"line": 198,
 									"character": 2
 								}
 							],
@@ -75471,7 +75475,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 194,
+									"line": 195,
 									"character": 2
 								}
 							],
@@ -75491,7 +75495,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 198,
+									"line": 199,
 									"character": 2
 								}
 							],
@@ -75511,7 +75515,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 195,
+									"line": 196,
 									"character": 2
 								}
 							],
@@ -75539,7 +75543,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 192,
+							"line": 193,
 							"character": 17
 						}
 					]
@@ -78933,7 +78937,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 223,
+									"line": 224,
 									"character": 2
 								}
 							],
@@ -78988,7 +78992,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 222,
+							"line": 223,
 							"character": 17
 						}
 					],
@@ -79371,7 +79375,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 211,
+									"line": 212,
 									"character": 2
 								}
 							],
@@ -79412,7 +79416,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 210,
+							"line": 211,
 							"character": 17
 						}
 					]
@@ -83291,6 +83295,10 @@
 							{
 								"type": "literal",
 								"value": "esriGeometryEnvelope"
+							},
+							{
+								"type": "literal",
+								"value": "esriGeometryMultiPatch"
 							}
 						]
 					}
@@ -83806,7 +83814,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 205,
+							"line": 206,
 							"character": 12
 						}
 					],
@@ -84033,7 +84041,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 233,
+							"line": 234,
 							"character": 12
 						}
 					],
