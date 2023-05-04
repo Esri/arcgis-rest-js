@@ -7,7 +7,8 @@ import {
   setDefaultRequestOptions,
   IRequestOptions,
   ArcGISIdentityManager,
-  ArcGISTokenRequestError
+  ArcGISTokenRequestError,
+  ArcGISRequestError
 } from "../src/index.js";
 import fetchMock from "fetch-mock";
 import {
@@ -303,10 +304,10 @@ describe("request()", () => {
       });
   });
 
-  it("should re-throw HTTP errors (404, 500, etc)", (done) => {
+  it("should re-throw HTTP errors (404, 500, etc) without a JSON formatted body", () => {
     fetchMock.once("*", 404);
 
-    request(
+    return request(
       "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
     ).catch((error) => {
       expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
@@ -317,9 +318,57 @@ describe("request()", () => {
       );
       expect(error.options.params).toEqual({ f: "json" });
       expect(error.options.httpMethod).toEqual("POST");
-      // expect(typeof error.options.fetch).toEqual("function");
-      // expect(error.options.fetch.length).toEqual(2);
-      done();
+    });
+  });
+
+  it("should try to parse a JSON error out of an HTTP error  (404, 500, etc)", () => {
+    fetchMock.once("*", {
+      status: 400,
+      body: {
+        error: {
+          code: 400,
+          message: "Parameter invalid",
+          details: [
+            "Invalid parameter: 'offset' value: '300'. The value must be a number between 0 and 200."
+          ]
+        }
+      }
+    });
+
+    return request(
+      "https://places-service.esri.com/rest/v1/world/places/near-point"
+    ).catch((error) => {
+      expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
+      expect(error.message).toBe(
+        "HTTP 400 Bad Request: Parameter invalid. Invalid parameter: 'offset' value: '300'. The value must be a number between 0 and 200."
+      );
+      expect(error instanceof ArcGISRequestError).toBeTruthy();
+      expect(error.url).toBe(
+        "https://places-service.esri.com/rest/v1/world/places/near-point"
+      );
+    });
+  });
+
+  it("should handle a missing details array in a JSON body in a HTTP error  (404, 500, etc)", () => {
+    fetchMock.once("*", {
+      status: 400,
+      body: {
+        error: {
+          code: 400,
+          message: "Parameter invalid"
+        }
+      }
+    });
+
+    return request(
+      "https://places-service.esri.com/rest/v1/world/places/near-point"
+    ).catch((error) => {
+      expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
+      expect(error.message).toBe("HTTP 400 Bad Request: Parameter invalid.");
+      expect(error instanceof ArcGISRequestError).toBeTruthy();
+      expect(error.url).toBe(
+        "https://places-service.esri.com/rest/v1/world/places/near-point"
+      );
     });
   });
 

@@ -10,6 +10,7 @@
     "./packages/arcgis-rest-feature-service/",
     "./packages/arcgis-rest-geocoding/",
     "./packages/arcgis-rest-portal/",
+    "./packages/arcgis-rest-places/",
     "./packages/arcgis-rest-request/",
     "./packages/arcgis-rest-routing/"
   ]

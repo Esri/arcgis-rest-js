@@ -151,6 +151,7 @@
     "packages/arcgis-rest-feature-service",
     "packages/arcgis-rest-geocoding",
     "packages/arcgis-rest-portal",
+    "packages/arcgis-rest-places",                             
     "packages/arcgis-rest-routing",
     "packages/arcgis-rest-fetch",
     "packages/arcgis-rest-form-data",
