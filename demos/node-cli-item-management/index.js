@@ -7,7 +7,7 @@ const {
   SearchQueryBuilder
 } = require("@esri/arcgis-rest-portal");
 
-// 1. Promt the user for sign in. Create a `ArcGISIdentityManager`
+// 1. Prompt the user for sign in. Create a `ArcGISIdentityManager`
 authenticate()
   .then((session) => {
     console.log(session);
@@ -27,7 +27,7 @@ authenticate()
 // Prompt the user for a `username` and `password` return a `ArcGISIdentityManager`
 // This function will run again on any error so it will retry until it works
 function authenticate() {
-  const authPromtpts = [
+  const authPrompts = [
     {
       type: "text",
       name: "username",
@@ -43,7 +43,7 @@ function authenticate() {
   let session;
 
   // prompts returns a `Promise` that resolves with the users input
-  return prompts(authPromtpts)
+  return prompts(authPrompts)
     .then(({ username, password }) => {
       return ArcGISIdentityManager.signIn({
         username,

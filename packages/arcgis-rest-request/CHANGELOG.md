@@ -1,3 +1,17 @@
+## @esri/arcgis-rest-request [4.1.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.1.3...@esri/arcgis-rest-request@4.1.4) (2023-04-28)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** geometry type esriGeometryMultiPatch ([#1102](https://github.com/Esri/arcgis-rest-js/issues/1102)) ([b5e1aa4](https://github.com/Esri/arcgis-rest-js/commit/b5e1aa42dba39ae0322cf0b435f83409e61a8493))
+
+## @esri/arcgis-rest-request [4.1.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.1.2...@esri/arcgis-rest-request@4.1.3) (2023-04-27)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** fix [#1035](https://github.com/Esri/arcgis-rest-js/issues/1035) by adding parsing for generateToken endpoints on ArcGIS Server ([c0ff7a3](https://github.com/Esri/arcgis-rest-js/commit/c0ff7a384ff70b19884310cfa3cc2e7a71c9a0cd))
+
 ## @esri/arcgis-rest-request [4.1.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.1.1...@esri/arcgis-rest-request@4.1.2) (2023-03-02)
 
 

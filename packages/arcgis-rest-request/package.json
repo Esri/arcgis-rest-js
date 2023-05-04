@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-request",
-  "version": "4.1.2",
+  "version": "4.1.4",
   "description": "Common methods and utilities for @esri/arcgis-rest-js packages.",
   "license": "Apache-2.0",
   "keywords": [
@@ -49,6 +49,9 @@
     "mitt": "^3.0.0",
     "tslib": "^2.3.1"
   },
+  "devDependencies": {
+    "@types/serialize-javascript": "^5.0.2"
+  },
   "contributors": [
     "Patrick Arlt <parlt@esri.com> (http://patrickarlt.com/)"
   ],
@@ -71,8 +74,5 @@
       "ApplicationCredentialsManager",
       "ArcGISIdentityManager"
     ]
-  },
-  "devDependencies": {
-    "@types/serialize-javascript": "^5.0.2"
   }
 }
