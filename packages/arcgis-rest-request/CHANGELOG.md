@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-request [4.2.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.1.4...@esri/arcgis-rest-request@4.2.0) (2023-05-04)
+
+
+### Features
+
+* **arcgis-rest-places:** Add support for the new Places service via a new arcgis-rest-places package ([6ee5a54](https://github.com/Esri/arcgis-rest-js/commit/6ee5a54f7f71b0590e4b905fa6de97a22f337bd9))
+
 ## @esri/arcgis-rest-request [4.1.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.1.3...@esri/arcgis-rest-request@4.1.4) (2023-04-28)
 
 
