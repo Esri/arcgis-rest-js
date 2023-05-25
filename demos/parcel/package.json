@@ -10,7 +10,7 @@
     "start": "NODE_PATH=../../ parcel index.html"
   },
   "dependencies": {
-    "@esri/arcgis-rest-places": "^4.0.0",
+    "@esri/arcgis-rest-places": "^1.0.0",
     "@esri/arcgis-rest-request": "^4.0.0"
   },
   "devDependencies": {
