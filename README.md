@@ -44,7 +44,9 @@ request(url).then((response) => {
 
 ### API Reference
 
-The documentation is published at http://esri.github.io/arcgis-rest-js/ (source code [here](/docs/src)).
+https://developers.arcgis.com/arcgis-rest-js/
+
+Version 3.x documentation http://esri.github.io/arcgis-rest-js/.
 
 ### Instructions
 
