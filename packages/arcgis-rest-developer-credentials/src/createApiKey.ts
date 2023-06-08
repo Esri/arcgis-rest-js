@@ -9,7 +9,7 @@ import {
 } from "@esri/arcgis-rest-portal";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
-import { registerApp, IRegisterAppOptions } from "./helpers.js";
+import { registerApp, IRegisterAppOptions } from "./registerApp.js";
 
 export interface ICreateApiKeyOptions
   extends ICreateItemOptions,
@@ -23,8 +23,8 @@ interface ICreateApiKeyResponse {
 }
 
 export const createAPIKey = async (requestOptions: ICreateApiKeyOptions) => {
-  // step 1: add item
   requestOptions.httpMethod = "POST";
+  // step 1: add item
   const createItemResponse = await createItem(requestOptions);
   if (!createItemResponse.success) {
     throw new Error("createItem() is not successful.");

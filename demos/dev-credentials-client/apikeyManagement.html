@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>dev-credentials client</title>
+</head>
+<body>
+<div id="content" style="display: none">
+    <h3 id="pageTitle"></h3>
+    <button id="createKey">create key</button>
+    <button id="signOut">sign out</button>
+    <br/><br/>
+    <input type="text" id="title" placeholder="title" required>
+    <input type="text" id="desc" placeholder="description" required>
+    <br/><br/>
+    <select id="privileges" multiple size="20"></select>
+    <p></p>
+</div>
+<script type="importmap">
+  {
+    "imports": {
+      "@esri/arcgis-rest-request": "/node_modules/@esri/arcgis-rest-request/dist/bundled/request.esm.js",
+      "@esri/arcgis-rest-portal": "/node_modules/@esri/arcgis-rest-portal/dist/bundled/portal.esm.js",
+      "@esri/arcgis-rest-developer-credentials": "/node_modules/@esri/arcgis-rest-developer-credentials/dist/bundled/developer-credentials.esm.js"
+    }
+  }
+
+</script>
+<script src="/demos/dev-credentials-client/app.js" type="module"></script>
+</body>
+</html>
