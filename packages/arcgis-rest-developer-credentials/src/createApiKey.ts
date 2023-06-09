@@ -12,9 +12,10 @@ import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { registerApp, IRegisterAppOptions } from "./registerApp.js";
 
 export interface ICreateApiKeyOptions
-  extends ICreateItemOptions,
-    Omit<IRegisterAppOptions, "itemId"> {
+  extends Omit<IRegisterAppOptions, "itemId" | "redirect_uris" | "appType"> {
   authentication: ArcGISIdentityManager;
+  title: string;
+  description: string;
 }
 
 interface ICreateApiKeyResponse {
@@ -23,15 +24,26 @@ interface ICreateApiKeyResponse {
 }
 
 export const createAPIKey = async (requestOptions: ICreateApiKeyOptions) => {
+  requestOptions.params = { f: "json" };
   requestOptions.httpMethod = "POST";
   // step 1: add item
-  const createItemResponse = await createItem(requestOptions);
+  const createItemOption: ICreateItemOptions = {
+    item: {
+      title: requestOptions.title,
+      description: requestOptions.description,
+      type: "API Key"
+    },
+    ...requestOptions
+  };
+  const createItemResponse = await createItem(createItemOption);
   if (!createItemResponse.success) {
     throw new Error("createItem() is not successful.");
   } else {
     // step 2: register app
     const registerAppOption: IRegisterAppOptions = {
       itemId: createItemResponse.id,
+      appType: "apikey",
+      redirect_uris: [],
       ...requestOptions
     };
     const registerAppResponse = await registerApp(registerAppOption);

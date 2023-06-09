@@ -85,14 +85,12 @@ if (serializedSession === null || serializedSession === "undefined") {
       try {
         const option: ICreateApiKeyOptions = {
           authentication: session,
-          item: { title: title, type: "API Key", description: desc }, // add item info
-          params: { f: "json" },
-          appType: "apikey",
-          redirect_uris: [],
+          title: title,
+          description: desc,
           httpReferrers: [],
           privileges: selectedPrivileges
         };
-        // TODO: Do we need to abstract "redirect_uris", "httpReferrers", "appType"... away from user? (only keep auth, title and description as func input).
+
         const apiKeyInfo = await createAPIKey(option);
         paragraphElement.innerHTML = `<pre><code>${JSON.stringify(
           apiKeyInfo,

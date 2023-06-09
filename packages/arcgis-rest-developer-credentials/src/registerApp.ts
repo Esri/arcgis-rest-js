@@ -6,6 +6,7 @@ import {
   appendCustomParams,
   IRequestOptions
 } from "@esri/arcgis-rest-request";
+import { getPortalUrl } from "@esri/arcgis-rest-portal";
 import { Privileges } from "./utils/PRIVILEGE.js";
 
 // TODO: - definition of IRegisterAppOptions may need to be modified in the future.
@@ -40,8 +41,7 @@ export const registerApp = async (requestOptions: IRegisterAppOptions) => {
     }
   });
 
-  // TODO: - should determine url at runtime? (Enterprise or online usr)
-  const url = "https://www.arcgis.com/sharing/rest/oauth2/registerApp";
+  const url = getPortalUrl(options) + "/oauth2/registerApp";
   options.httpMethod = "POST";
   return await request(url, options);
 };
