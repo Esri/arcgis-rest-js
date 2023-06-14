@@ -1,27 +1,14 @@
 /* Copyright (c) 2023 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { ICreateItemOptions, createItem } from "@esri/arcgis-rest-portal";
 import {
-  ICreateItemOptions,
-  IItem,
-  createItem,
-  getItem
-} from "@esri/arcgis-rest-portal";
-import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
+  IApiKeyResponse,
+  ICreateApiKeyOptions
+} from "./shared/types/apiKeyType.js";
 
-import { registerApp, IRegisterAppOptions } from "./registerApp.js";
-
-export interface ICreateApiKeyOptions
-  extends Omit<IRegisterAppOptions, "itemId" | "redirect_uris" | "appType"> {
-  authentication: ArcGISIdentityManager;
-  title: string;
-  description: string;
-}
-
-interface ICreateApiKeyResponse {
-  item: IItem;
-  apiKey: string;
-}
+import { registerApp } from "./shared/registerApp.js";
+import { IRegisterAppOptions } from "./shared/types/appType.js";
 
 export const createAPIKey = async (requestOptions: ICreateApiKeyOptions) => {
   requestOptions.params = { f: "json" };
@@ -46,15 +33,6 @@ export const createAPIKey = async (requestOptions: ICreateApiKeyOptions) => {
       redirect_uris: [],
       ...requestOptions
     };
-    const registerAppResponse = await registerApp(registerAppOption);
-    // step 3: get item info
-    const getItemResponse = await getItem(
-      createItemResponse.id,
-      requestOptions
-    );
-    return {
-      item: getItemResponse,
-      apiKey: registerAppResponse.apiKey
-    } as ICreateApiKeyResponse;
+    return (await registerApp(registerAppOption)) as IApiKeyResponse;
   }
 };

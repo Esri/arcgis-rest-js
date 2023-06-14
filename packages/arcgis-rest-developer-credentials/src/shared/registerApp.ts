@@ -1,22 +1,13 @@
 /* Copyright (c) 2023 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  appendCustomParams,
-  IRequestOptions
-} from "@esri/arcgis-rest-request";
+import { request, appendCustomParams } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "@esri/arcgis-rest-portal";
-import { Privileges } from "./utils/PRIVILEGE.js";
-
-// TODO: - definition of IRegisterAppOptions may need to be modified in the future.
-export interface IRegisterAppOptions extends IRequestOptions {
-  itemId: string;
-  appType: "apikey" | "browser" | "native" | "server" | "multiple";
-  redirect_uris: string[];
-  httpReferrers: string[];
-  privileges: Array<keyof typeof Privileges>;
-}
+import {
+  IRegisterAppOptions,
+  IRegisteredAppResponse
+} from "./types/appType.js";
+import { Privileges } from "./enum/PRIVILEGE.js";
 
 export const registerApp = async (requestOptions: IRegisterAppOptions) => {
   // privileges validation
@@ -43,5 +34,6 @@ export const registerApp = async (requestOptions: IRegisterAppOptions) => {
 
   const url = getPortalUrl(options) + "/oauth2/registerApp";
   options.httpMethod = "POST";
-  return await request(url, options);
+  options.params.f = "json";
+  return (await request(url, options)) as IRegisteredAppResponse;
 };
