@@ -5,7 +5,7 @@ import {
 import { UnixTime } from "@esri/arcgis-rest-portal";
 import { Privileges } from "../enum/PRIVILEGE.js";
 
-type AppType = "apikey" | "browser" | "native" | "server" | "multiple";
+export type AppType = "apikey" | "browser" | "native" | "server" | "multiple";
 
 export interface IRegisterAppOptions extends IRequestOptions {
   itemId: string;
