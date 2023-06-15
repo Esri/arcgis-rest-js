@@ -32,6 +32,11 @@ export interface IGetApiKeyOptions extends IRequestOptions {
   itemId: string;
 }
 
+export interface IGetAppInfoOptions extends IRequestOptions {
+  authentication: ArcGISIdentityManager; // Must be named token as username is required
+  itemId: string;
+}
+
 export interface IRegisteredAppResponse {
   itemId: string;
   apiKey?: string; // Only if appType is apikey
