@@ -3,7 +3,7 @@
 import { request } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "@esri/arcgis-rest-portal";
 
-import { IRegisteredAppResponse, IGetAppInfoOptions } from "./types/appType.js";
+import { IRegisteredAppResponse } from "./types/appType.js";
 
 export const getRegisteredAppInfo = async (
   requestOptions: IGetAppInfoOptions

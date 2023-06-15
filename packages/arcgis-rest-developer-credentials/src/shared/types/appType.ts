@@ -22,14 +22,12 @@ export interface IRegisterAppOptions extends IRequestOptions {
  */
 export interface IUpdateAppOptions extends IRequestOptions {
   authentication: ArcGISIdentityManager;
-  app: IRegisteredAppResponse;
-  updatedField: {
-    httpReferrers?: string[];
-    privileges?: Array<keyof typeof Privileges>;
-  };
+  clientId: string;
+  httpReferrers?: string[];
+  privileges?: Array<keyof typeof Privileges>;
 }
 
-export interface IGetAppInfoOptions extends IRequestOptions {
+export interface IGetApiKeyOptions extends IRequestOptions {
   authentication: ArcGISIdentityManager; // Must be named token as username is required
   itemId: string;
 }
