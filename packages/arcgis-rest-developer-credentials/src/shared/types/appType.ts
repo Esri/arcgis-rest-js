@@ -16,6 +16,19 @@ export interface IRegisterAppOptions extends IRequestOptions {
   authentication: ArcGISIdentityManager;
 }
 
+/* TODO: - /sharing/rest/oauth2/apps/appId/update documentation is unclear.
+ *       - At app level, is this endpoint capable to update more field other than "privileges" and "httpReferrers"?
+ *       - e.g. "redirect_uris"...
+ */
+export interface IUpdateAppOptions extends IRequestOptions {
+  authentication: ArcGISIdentityManager;
+  app: IRegisteredAppResponse;
+  updatedField: {
+    httpReferrers?: string[];
+    privileges?: Array<keyof typeof Privileges>;
+  };
+}
+
 export interface IGetAppInfoOptions extends IRequestOptions {
   authentication: ArcGISIdentityManager; // Must be named token as username is required
   itemId: string;

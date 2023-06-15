@@ -11,7 +11,11 @@ import { registerApp } from "./shared/registerApp.js";
 import { IRegisterAppOptions } from "./shared/types/appType.js";
 
 export const createAPIKey = async (requestOptions: ICreateApiKeyOptions) => {
-  requestOptions.params = { f: "json" };
+  if (!requestOptions.params) {
+    requestOptions.params = { f: "json" };
+  } else {
+    requestOptions.params.f = "json";
+  }
   requestOptions.httpMethod = "POST";
   // step 1: add item
   const createItemOption: ICreateItemOptions = {
@@ -33,6 +37,7 @@ export const createAPIKey = async (requestOptions: ICreateApiKeyOptions) => {
       redirect_uris: [],
       ...requestOptions
     };
+    // returned appType must be API Key => can directly cast to key object
     return (await registerApp(registerAppOption)) as IApiKeyResponse;
   }
 };

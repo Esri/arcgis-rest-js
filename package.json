@@ -37,7 +37,8 @@
     "release:dry": "multi-semantic-release --dry-run --deps.bump=inherit --deps.release=inherit --ignore-private-packages --debug ",
     "release": "multi-semantic-release --deps.bump=inherit --deps.release=inherit --ignore-private-packages",
     "dev-bench:client": "cd demos/dev-credentials-client && tsc && cd ../.. && browser-sync start --ss ./",
-    "dev-bench:package": "npm run clean && npm run build && npm run dev-bench:client"
+    "dev-bench:package": "npm run clean && npm run build && npm run dev-bench:client",
+    "dev-bench:launch": "browser-sync start --ss ./"
   },
   "engines": {
     "npm": ">=7.0.0",

@@ -5,16 +5,31 @@ import {
   IApiKeyResponse,
   IUpdateApiKeyOptions
 } from "./shared/types/apiKeyType.js";
-import { registerApp } from "./shared/registerApp.js";
-import { IRegisterAppOptions } from "./shared/types/appType.js";
+import { updateApp } from "./shared/updateApp.js";
+import {
+  IGetAppInfoOptions,
+  IUpdateAppOptions
+} from "./shared/types/appType.js";
+import { getRegisteredAppInfo } from "./shared/getRegisteredAppInfo.js";
 
 export const updateApiKey = async (requestOptions: IUpdateApiKeyOptions) => {
-  const registerAppOption: IRegisterAppOptions = {
-    ...requestOptions.apiKey,
-    appType: "apikey",
-    redirect_uris: [],
-    ...requestOptions.updatedField,
+  // get app obj as it is required to pass into updateApp as an old app obj
+  const getAppOption: IGetAppInfoOptions = {
+    ...requestOptions,
+    itemId: requestOptions.apiKey.itemId
+  };
+  const appResponse = await getRegisteredAppInfo(getAppOption);
+
+  const updateAppOption: IUpdateAppOptions = {
+    app: appResponse,
+    updatedField: requestOptions.updatedField,
     authentication: requestOptions.authentication
   };
-  return (await registerApp(registerAppOption)) as IApiKeyResponse;
+  const updatedAppResponse = await updateApp(updateAppOption);
+  // updateApp() return missing apiKey field. Need add apiKey manually to be able to cast to key object
+  const updatedKeyResponse: IApiKeyResponse = {
+    ...updatedAppResponse,
+    apiKey: requestOptions.apiKey.apiKey
+  };
+  return updatedKeyResponse;
 };
