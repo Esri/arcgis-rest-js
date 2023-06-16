@@ -1,7 +1,7 @@
 import {
   Privileges,
   ICreateApiKeyOptions,
-  createAPIKey,
+  createApiKey,
   updateApiKey,
   IUpdateApiKeyOptions,
   getApiKey,
