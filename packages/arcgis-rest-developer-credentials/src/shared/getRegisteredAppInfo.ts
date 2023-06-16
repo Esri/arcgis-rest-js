@@ -13,6 +13,7 @@ export const getRegisteredAppInfo = async (
     getPortalUrl(requestOptions) +
     `/content/users/${userName}/items/${requestOptions.itemId}/registeredAppInfo`;
   requestOptions.httpMethod = "POST";
+
   if (requestOptions.params) {
     requestOptions.params.f = "json";
   } else {
