@@ -5,24 +5,20 @@ import {
   ICreateItemOptions,
   createItem,
   getItem,
-  IItem
+  IItemAdd
 } from "@esri/arcgis-rest-portal";
 import {
-  IApiKeyInfo,
   IApiKeyResponse,
   ICreateApiKeyOptions
 } from "./shared/types/apiKeyType.js";
 
 import { registerApp } from "./shared/registerApp.js";
+import { IRegisterAppOptions } from "./shared/types/appType.js";
 import {
-  IRegisterAppOptions,
-  IRegisteredAppResponse
-} from "./shared/types/appType.js";
-import { appInfoResponseToApiKeyProperties } from "./shared/helpers.js";
-
-export interface ICreateApiKeyResponse extends IRegisteredAppResponse {
-  item: IItem;
-}
+  appToApiKeyProperties,
+  filterKeys,
+  getIRequestOptions
+} from "./shared/helpers.js";
 
 export async function createApiKey(
   requestOptions: ICreateApiKeyOptions
@@ -35,24 +31,40 @@ export async function createApiKey(
 
   requestOptions.httpMethod = "POST";
 
-  /**
-   * @Todo filter out 3 param buckets
-   * 1. common things for all requests. https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-demographics/IRequestOptions
-   * 2. Parameters for createItem
-   * 3. parameters for registerApp
-   *
-   * only want to send documented params to each endpoint
-   **/
+  // filter param buckets:
+
+  const iRequestOptions = getIRequestOptions(requestOptions);
+
+  const itemAddProperties: Array<keyof IItemAdd> = [
+    "categories",
+    "culture",
+    "description",
+    "documentation",
+    "extent",
+    "owner",
+    "properties",
+    "snippet",
+    "spatialReference",
+    "tags",
+    "title",
+    "type",
+    "typeKeywords",
+    "url"
+  ];
+  const items: Omit<IItemAdd, "type"> = filterKeys(
+    requestOptions,
+    itemAddProperties
+  );
 
   // step 1: add item
   const createItemOption: ICreateItemOptions = {
     item: {
-      // @Todo handle other item create options like tags
-      title: requestOptions.title,
-      description: requestOptions.description,
-      type: "API Key"
+      ...items,
+      type: "API Key",
+      title: items.title
     },
-    ...requestOptions
+    ...iRequestOptions,
+    authentication: requestOptions.authentication
   };
 
   const createItemResponse = await createItem(createItemOption);
@@ -65,17 +77,22 @@ export async function createApiKey(
       itemId: createItemResponse.id,
       appType: "apikey",
       redirect_uris: [],
-      ...requestOptions
+      httpReferrers:
+        "httpReferrers" in requestOptions ? requestOptions.httpReferrers : [],
+      privileges: requestOptions.privileges,
+      ...iRequestOptions,
+      authentication: requestOptions.authentication
     };
 
     const registeredAppResponse = await registerApp(registerAppOption);
 
-    const itemInfo = await getItem(createItemResponse.id, {
-      ...requestOptions
-    });
+    const itemInfo = await getItem(
+      registeredAppResponse.itemId,
+      iRequestOptions
+    );
 
     return {
-      ...appInfoResponseToApiKeyProperties(registeredAppResponse),
+      ...appToApiKeyProperties(registeredAppResponse),
       item: itemInfo
     };
   }

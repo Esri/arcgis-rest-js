@@ -4,12 +4,20 @@
 import { request, appendCustomParams } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "@esri/arcgis-rest-portal";
 import {
+  IApp,
   IRegisterAppOptions,
   IRegisteredAppResponse
 } from "./types/appType.js";
-import { isPrivilegesValid, paramsEncodingToJsonStr } from "./helpers.js";
+import {
+  getIRequestOptions,
+  isPrivilegesValid,
+  paramsEncodingToJsonStr,
+  registeredAppResponseToApp
+} from "./helpers.js";
 
-export const registerApp = async (requestOptions: IRegisterAppOptions) => {
+export async function registerApp(
+  requestOptions: IRegisterAppOptions
+): Promise<IApp> {
   // privileges validation
   if (!isPrivilegesValid(requestOptions.privileges))
     throw new Error("Contain invalid privileges");
@@ -28,5 +36,10 @@ export const registerApp = async (requestOptions: IRegisterAppOptions) => {
   const url = getPortalUrl(options) + "/oauth2/registerApp";
   options.httpMethod = "POST";
   options.params.f = "json";
-  return (await request(url, options)) as IRegisteredAppResponse;
-};
+
+  const registeredAppResponse: IRegisteredAppResponse = await request(
+    url,
+    getIRequestOptions(options)
+  );
+  return registeredAppResponseToApp(registeredAppResponse);
+}

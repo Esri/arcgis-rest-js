@@ -7,12 +7,19 @@ import {
 } from "./shared/types/apiKeyType.js";
 import { getRegisteredAppInfo } from "./shared/getRegisteredAppInfo.js";
 import {
+  appToApiKeyProperties,
+  getIRequestOptions,
   isPrivilegesValid,
-  paramsEncodingToJsonStr
+  paramsEncodingToJsonStr,
+  registeredAppResponseToApp
 } from "./shared/helpers.js";
-import { getPortalUrl } from "@esri/arcgis-rest-portal";
+import { getItem, getPortalUrl } from "@esri/arcgis-rest-portal";
 import { appendCustomParams, request } from "@esri/arcgis-rest-request";
-import { getApiKey } from "./getApiKey.js";
+import {
+  IApp,
+  IGetAppInfoOptions,
+  IRegisteredAppResponse
+} from "./shared/types/appType.js";
 
 export async function updateApiKey(
   requestOptions: IUpdateApiKeyOptions
@@ -25,36 +32,44 @@ export async function updateApiKey(
     throw new Error("Contain invalid privileges");
   }
 
-  // get app obj as it is required to pass into updateApp as an old app obj
-  const getAppOption = {
-    ...requestOptions,
+  // get app
+  const iRequestOptions = getIRequestOptions(requestOptions);
+  const getAppOption: IGetAppInfoOptions = {
+    ...iRequestOptions,
+    authentication: requestOptions.authentication,
     itemId: requestOptions.itemId
   };
-
   const appResponse = await getRegisteredAppInfo(getAppOption);
 
   const clientId = appResponse.client_id;
-
   const options = appendCustomParams(
     { ...appResponse, ...requestOptions }, // object with the custom params to look in
-    [...(Object.keys(appResponse) as any)], // keys you want copied to the params object
-    requestOptions // options that are part of IRequestOptions
+    ["privileges", "httpReferrers"] // keys you want copied to the params object
   );
 
   // encode special params value (e.g. array type...) in advance in order to make encodeQueryString() works correctly
   paramsEncodingToJsonStr(options);
 
-  const url =
-    getPortalUrl({ authentication: options.authentication }) +
-    `/oauth2/apps/${clientId}/update`;
+  const url = getPortalUrl(options) + `/oauth2/apps/${clientId}/update`;
 
   options.httpMethod = "POST";
   options.params.f = "json";
 
-  await request(url, options);
+  // Raw response from `/oauth2/apps/${clientId}/update`, apiKey not included because key is same.
+  const updateResponse: Omit<IRegisteredAppResponse, "apiKey"> = await request(
+    url,
+    getIRequestOptions(options)
+  );
 
-  return getApiKey({
-    itemId: requestOptions.itemId,
-    authentication: requestOptions.authentication
+  const app: IApp = registeredAppResponseToApp({
+    ...updateResponse,
+    apiKey: appResponse.apiKey
   });
+
+  const itemInfo = await getItem(requestOptions.itemId, iRequestOptions);
+
+  return {
+    ...appToApiKeyProperties(app),
+    item: itemInfo
+  };
 }

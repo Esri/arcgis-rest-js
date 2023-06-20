@@ -3,11 +3,16 @@
 import { request } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "@esri/arcgis-rest-portal";
 
-import { IRegisteredAppResponse, IGetAppInfoOptions } from "./types/appType.js";
+import {
+  IRegisteredAppResponse,
+  IGetAppInfoOptions,
+  IApp
+} from "./types/appType.js";
+import { getIRequestOptions, registeredAppResponseToApp } from "./helpers.js";
 
-export const getRegisteredAppInfo = async (
+export async function getRegisteredAppInfo(
   requestOptions: IGetAppInfoOptions
-) => {
+): Promise<IApp> {
   const userName = await requestOptions.authentication.getUsername();
   const url =
     getPortalUrl(requestOptions) +
@@ -19,5 +24,9 @@ export const getRegisteredAppInfo = async (
   } else {
     requestOptions.params = { f: "json" };
   }
-  return (await request(url, requestOptions)) as IRegisteredAppResponse;
-};
+  const registeredAppResponse: IRegisteredAppResponse = await request(
+    url,
+    getIRequestOptions(requestOptions)
+  );
+  return registeredAppResponseToApp(registeredAppResponse);
+}
