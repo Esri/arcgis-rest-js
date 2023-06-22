@@ -58,7 +58,7 @@ You can install dependencies by cloning the repository and running:
 npm install && npm run build
 ```
 
-THis will install all dependencies and do an inital build. Afterward, you can run any of the [demo apps](./demos/) by `cd`'ing by following the README for the specific demo. For a list of all available commands run `npm run`.
+This will install all dependencies and do an initial build. Afterward, you can run any of the [demo apps](./demos/) by `cd`'ing by following the README for the specific demo. For a list of all available commands run `npm run`.
 
 For all packages:
 
