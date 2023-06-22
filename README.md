@@ -42,27 +42,31 @@ request(url).then((response) => {
 });
 ```
 
-### API Reference
+### Get Started
 
-The documentation is published at http://esri.github.io/arcgis-rest-js/ (source code [here](/docs/src)).
+To get started, go to [ArcGIS REST JS on the ArcGIS Developers website](https://developers.arcgis.com/arcgis-rest-js/).
+
+### Documentation
+
+The documentation is published at https://developers.arcgis.com/arcgis-rest-js/ and is maintained in a private repository and managed by the ArcGIS Developer Experience team. The [API reference](https://developers.arcgis.com/arcgis-rest-js/api-reference/) is generated automatically by [TypeDoc](https://typedoc.org/) via the `npm run typedoc` command and the [`typedoc.json` configuration file](./typedoc.json).
 
 ### Instructions
 
 You can install dependencies by cloning the repository and running:
 
 ```bash
-npm install
+npm install && npm run build
 ```
 
-Afterward, for a list of all available commands run `npm run`.
+This will install all dependencies and do an initial build. Afterward, you can run any of the [demo apps](./demos/) by `cd`'ing by following the README for the specific demo. For a list of all available commands run `npm run`.
 
-For all packages
+For all packages:
 
 - `npm run build` - builds all distributions of every package with `ultra`, inside each package builds are done in parallel with `npm-run-all`. Output is errors only.
 - `npm run build:esm`, `npm run build:cjs`, `npm run build:bundled` - as as the above but only one of our target distributions.
 - `npm run dev:esm`, `npm run dev:cjs`, `npm run dev:bundled` - runs the appropriate watch command in all packages.
 
-For a specific package
+For a specific package:
 
 - `npm run build -w @esri/arcgis-rest-request` - run all builds in a specific workspace
 - `npm run dev -w @esri/arcgis-rest-request` - run all dev commands in a specific workspace
@@ -73,29 +77,15 @@ For a specific package
 - `npm run build:bundled -w @esri/arcgis-rest-request` - run the rollup build in a specific workspace
 - `npm run dev:bundled -w @esri/arcgis-rest-request` - run the rollup dev command in a specific workspace
 
-#### How to add a new package
-- In `/packages`, create a new folder with your desired new package name
-- Each package will have it’s own local `package.json` and tsconfig.json if using typescript
-- Create a folder in your new package called `src` in which your code will be defined
-- After creating your custom package, go to the root `package.json`, under the property `workspaces`, add the title of your custom package
-- Run `npm build:esm`
-- Check in the root `node_modules/@esri` that your new custom package has been added
-- Go into `/demos`, create a new folder and title what you want to call your demo
-- Add a local `package.json` in your new demo folder. Add your custom package name as a dependency and be sure to have at least these properties in your `package.json`, `dependency, name, version, - description, license, type, main, scripts, and author`.
-- Add a `.gitignore` in the root level of your demo folder that ignore `node_modules`. Be sure to ignore an `env` file as well if your demo is using any personal keys or tokens.
-- Run `mpm install` within the `/demos` directory and make sure your demo folder has it's own local node_modules.
-- In your `demo/index`, import your custom package.
-- To run your demo be sure to have script that has a property `start` in your demo directory and your script is pointing to the correct index file. 
-- Run `npm run start` while being in your `/demos/custom-demo` directory.
-- Add a readme describing your demo.
-
 ### Packages
 
 - [`@esri/arcgis-rest-request`](./packages/arcgis-rest-request/) - Core module implementing basic request code, shared TypeScript types and common utilities.
 - [`@esri/arcgis-rest-portal`](./packages/arcgis-rest-portal) - Methods for working with ArcGIS Online/Enterprise content and users.
 - [`@esri/arcgis-rest-feature-service`](./packages/arcgis-rest-feature-service) - Functions for querying, editing, and administering hosted feature layers and feature services.
-- [`@esri/arcgis-rest-geocoding`](./packages/arcgis-rest-geocoding) - Geocoding wrapper for `@esri/arcgis-rest-js`
-- [`@esri/arcgis-rest-routing`](./packages/arcgis-rest-routing) - Routing and directions wrapper for `@esri/arcgis-rest-js`.
+- [`@esri/arcgis-rest-geocoding`](./packages/arcgis-rest-geocoding) - Wrapper around geocoding services.
+- [`@esri/arcgis-rest-routing`](./packages/arcgis-rest-routing) - Wrapper around routing and directions services.
+- [`@esri/arcgis-rest-demographics`](./packages/arcgis-rest-demographics) - Wrapper around demographic data services.
+- [`@esri/arcgis-rest-places`](./packages/arcgis-rest-places) - Wrapper around place finding and place data services.
 
 ### Issues
 
@@ -105,7 +95,7 @@ If you're looking for help you can also post issues on [Stack Overflow](https://
 
 ### Versioning
 
-For transparency into the release cycle and in striving to maintain backward compatibility, @esri/arcgis-rest-js is maintained under Semantic Versioning guidelines and will adhere to these rules whenever possible.
+For transparency into the release cycle and in striving to maintain backward compatibility, `@esri/arcgis-rest-js` is maintained under [Semantic Versioning guidelines](https://semver.org/) and will adhere to these rules whenever possible.
 
 For more information on SemVer, please visit <http://semver.org/>.
 
@@ -115,7 +105,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### License
 
-Copyright &copy; 2017-2022 Esri
+Copyright &copy; 2017-2023 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
