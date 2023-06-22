@@ -48,7 +48,7 @@ To get started, go to [ArcGIS REST JS on the ArcGIS Developers website](https://
 
 ### Documentation
 
-The documentation is published at https://developers.arcgis.com/arcgis-rest-js/ and is maintained ina private repository and managed by the ArcGIS Developer Experience team. The [API reference](https://developers.arcgis.com/arcgis-rest-js/api-reference/) is generated automatically by [TypeDoc](https://typedoc.org/) via the `npm run typedoc` command and the [`typedoc.json` configuration file](./typedoc.json).
+The documentation is published at https://developers.arcgis.com/arcgis-rest-js/ and is maintained in a private repository and managed by the ArcGIS Developer Experience team. The [API reference](https://developers.arcgis.com/arcgis-rest-js/api-reference/) is generated automatically by [TypeDoc](https://typedoc.org/) via the `npm run typedoc` command and the [`typedoc.json` configuration file](./typedoc.json).
 
 ### Instructions
 
