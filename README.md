@@ -85,7 +85,7 @@ For a specific package:
 - [`@esri/arcgis-rest-geocoding`](./packages/arcgis-rest-geocoding) - Wrapper around geocoding services.
 - [`@esri/arcgis-rest-routing`](./packages/arcgis-rest-routing) - Wrapper around routing and directions services.
 - [`@esri/arcgis-rest-demographics`](./packages/arcgis-rest-demographics) - Wrapper around demographic data services.
-- [`@esri/arcgis-rest-palces`](./packages/arcgis-rest-palces) - Wrapper around place finding and place\ data services.
+- [`@esri/arcgis-rest-places`](./packages/arcgis-rest-places) - Wrapper around place finding and place data services.
 
 ### Issues
 
