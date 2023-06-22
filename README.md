@@ -44,7 +44,7 @@ request(url).then((response) => {
 
 ### Get Started
 
-Refer to the documentation for [ArcGIS REST JS on the ArcGIS Developers website](https://developers.arcgis.com/arcgis-rest-js/) for information about how to get started.
+To get started, go to [ArcGIS REST JS on the ArcGIS Developers website](https://developers.arcgis.com/arcgis-rest-js/).
 
 ### Documentation
 
