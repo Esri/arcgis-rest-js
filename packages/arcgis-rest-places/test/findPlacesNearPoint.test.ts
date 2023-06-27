@@ -1,5 +1,5 @@
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
-import fetchMock from "fetch-mock";
+import fetchMock, { MockCall } from "fetch-mock";
 import { findPlacesNearPoint } from "../src/index.js";
 import {
   placeNearPointMockNoMoreResults,
@@ -21,7 +21,7 @@ describe("findPlacesNearPoint()", () => {
       authentication: ApiKeyManager.fromKey("MOCK_KEY")
     });
 
-    const [url, options] = fetchMock.lastCall("*");
+    const [url, options] = fetchMock.lastCall("*") as MockCall;
 
     expect(response.results).toEqual(
       placeNearPointMockNoMoreResults.results as any
