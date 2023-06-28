@@ -1,11 +1,11 @@
 import {
   Privileges,
   ICreateApiKeyOptions,
-  createAPIKey,
+  createApiKey,
   updateApiKey,
   IUpdateApiKeyOptions,
   getApiKey,
-  IGetAppInfoOptions
+  IGetApiKeyOptions
 } from "@esri/arcgis-rest-developer-credentials";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
@@ -127,7 +127,7 @@ if (serializedSession === null || serializedSession === "undefined") {
             httpReferrers: selectedReferrers,
             privileges: selectedPrivileges
           };
-          const apiKeyInfo = await createAPIKey(option);
+          const apiKeyInfo = await createApiKey(option);
           paragraphElement.innerHTML = `<pre><code>${JSON.stringify(
             apiKeyInfo,
             null,
@@ -138,11 +138,9 @@ if (serializedSession === null || serializedSession === "undefined") {
           // edit
           const option: IUpdateApiKeyOptions = {
             authentication: session,
-            apiKey: table.row(selectedRow).data(),
-            updatedField: {
-              httpReferrers: selectedReferrers,
-              privileges: selectedPrivileges
-            }
+            itemId: table.row(selectedRow).data().itemId,
+            httpReferrers: selectedReferrers,
+            privileges: selectedPrivileges
           };
           const apiKeyInfo = await updateApiKey(option);
           paragraphElement.innerHTML = `<pre><code>${JSON.stringify(
@@ -179,7 +177,7 @@ if (serializedSession === null || serializedSession === "undefined") {
         selectedRow = this;
         isEdit = true;
 
-        const getApiKeyOptions: IGetAppInfoOptions = {
+        const getApiKeyOptions: IGetApiKeyOptions = {
           authentication: session,
           itemId: table.row(selectedRow).data().itemId
         };

@@ -1,7 +1,11 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, appendCustomParams } from "@esri/arcgis-rest-request";
+import {
+  request,
+  appendCustomParams,
+  IRequestOptions
+} from "@esri/arcgis-rest-request";
 import { IItemAdd } from "../helpers.js";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
@@ -13,6 +17,15 @@ import {
   isBBox,
   bboxToString
 } from "./helpers.js";
+
+export const paramsEncodingToJsonStr = (requestOptions: IRequestOptions) => {
+  Object.entries(requestOptions.params).forEach((entry) => {
+    const [key, value] = entry;
+    if (value.constructor.name === "Array") {
+      requestOptions.params[key] = JSON.stringify(value);
+    }
+  });
+};
 
 export interface ICreateFolderOptions extends ICreateUpdateItemOptions {
   /**
@@ -127,7 +140,7 @@ export function createItemInFolder(
         params: { ...requestOptions.params }
       }
     );
-
+    paramsEncodingToJsonStr(options);
     return request(url, options);
   });
 }

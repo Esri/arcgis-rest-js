@@ -16,22 +16,12 @@ export interface IRegisterAppOptions extends IRequestOptions {
   authentication: ArcGISIdentityManager;
 }
 
-/* TODO: - /sharing/rest/oauth2/apps/appId/update documentation is unclear.
- *       - At app level, is this endpoint capable to update more field other than "privileges" and "httpReferrers"?
- *       - e.g. "redirect_uris"...
- */
-export interface IUpdateAppOptions extends IRequestOptions {
-  authentication: ArcGISIdentityManager;
-  clientId: string;
-  httpReferrers?: string[];
-  privileges?: Array<keyof typeof Privileges>;
-}
-
-export interface IGetApiKeyOptions extends IRequestOptions {
+export interface IGetAppInfoOptions extends IRequestOptions {
   authentication: ArcGISIdentityManager; // Must be named token as username is required
   itemId: string;
 }
 
+// raw response from registered App endpoint
 export interface IRegisteredAppResponse {
   itemId: string;
   apiKey?: string; // Only if appType is apikey
@@ -43,4 +33,23 @@ export interface IRegisteredAppResponse {
   privileges: Array<keyof typeof Privileges>;
   registered: UnixTime;
   modified: UnixTime;
+  apnsProdCert: any; // type TBD
+  apnsSandboxCert: any; // type TBD
+  gcmApiKey: any; // type TBD
+  isBeta: boolean;
+}
+
+// optimized interface represents app object (1. get rid of unwanted properties 2. timestamp -> date)
+export interface IApp
+  extends Omit<
+    IRegisteredAppResponse,
+    | "registered"
+    | "modified"
+    | "apnsProdCert"
+    | "apnsSandboxCert"
+    | "gcmApiKey"
+    | "isBeta"
+  > {
+  registered: Date;
+  modified: Date;
 }
