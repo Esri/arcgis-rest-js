@@ -8,6 +8,8 @@ As of v4, the ArcGIS REST JS packages are released automatically via Semantic Re
 2. Find the most recent failed [`Build, Test, Release` GitHub action workflow run](https://github.com/Esri/arcgis-rest-js/actions/workflows/release.yml), and re-run it.
 3. After the release is complete, re-enable the branch protection rules from step 1.
 
+**Note:** Any new packages added are published at v1.0.0 instead of 4.0.0.
+
 ## v3
 
 The release process has been entirely automated, but it is not perfect, so it requires some attentive human oversight.

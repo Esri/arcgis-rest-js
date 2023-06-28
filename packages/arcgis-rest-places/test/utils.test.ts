@@ -6,7 +6,6 @@ describe("hasNextPage()", () => {
   it("should return if a response has a next page of results", async () => {
     expect(
       hasNextPage({
-        maxResultsExceeded: true,
         links: {
           next: "next"
         }
@@ -15,17 +14,25 @@ describe("hasNextPage()", () => {
 
     expect(
       hasNextPage({
-        maxResultsExceeded: false
+        pagination: {
+          nextUrl: "next"
+        }
+      })
+    ).toBeTruthy();
+
+    expect(hasNextPage({})).toBeFalsy();
+    expect(hasNextPage(undefined)).toBeFalsy();
+
+    expect(
+      hasNextPage({
+        links: {}
       })
     ).toBeFalsy();
 
     expect(
       hasNextPage({
-        maxResultsExceeded: true,
-        links: {}
+        pagination: {}
       })
     ).toBeFalsy();
-
-    expect(hasNextPage(undefined)).toBeFalsy();
   });
 });
