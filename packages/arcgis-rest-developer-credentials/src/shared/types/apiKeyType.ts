@@ -6,12 +6,17 @@ import { IRegisterAppOptions, IApp } from "./appType.js";
 import { Privileges } from "../enum/PRIVILEGE.js";
 import { IItem, IItemAdd } from "@esri/arcgis-rest-portal";
 
+// issue of Omit using with interface index signature: https://github.com/microsoft/TypeScript/issues/45367
+export type FieldTypePreservingOmit<T, K extends keyof any> = {
+  [P in keyof T as Exclude<P, K>]: T[P];
+};
+
 export interface ICreateApiKeyOptions
   extends Omit<
       IRegisterAppOptions,
       "itemId" | "redirect_uris" | "appType" | "httpReferrers"
     >,
-    Omit<IItemAdd, "type"> {
+    FieldTypePreservingOmit<IItemAdd, "type"> {
   httpReferrers?: string[];
 }
 

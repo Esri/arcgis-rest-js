@@ -9,7 +9,8 @@ import {
 } from "@esri/arcgis-rest-portal";
 import {
   IApiKeyResponse,
-  ICreateApiKeyOptions
+  ICreateApiKeyOptions,
+  FieldTypePreservingOmit
 } from "./shared/types/apiKeyType.js";
 
 import { registerApp } from "./shared/registerApp.js";
@@ -17,12 +18,16 @@ import { IRegisterAppOptions } from "./shared/types/appType.js";
 import {
   appToApiKeyProperties,
   filterKeys,
-  getIRequestOptions
+  getIRequestOptions,
+  isPrivilegesValid
 } from "./shared/helpers.js";
 
 export async function createApiKey(
   requestOptions: ICreateApiKeyOptions
 ): Promise<IApiKeyResponse> {
+  if (!isPrivilegesValid(requestOptions.privileges))
+    throw new Error("Contain invalid privileges");
+
   if (!requestOptions.params) {
     requestOptions.params = { f: "json" };
   } else {
@@ -33,7 +38,7 @@ export async function createApiKey(
 
   // filter param buckets:
 
-  const iRequestOptions = getIRequestOptions(requestOptions);
+  const iRequestOptions = getIRequestOptions(requestOptions); // snapshot of basic IRequestOptions before customized params being built into it
 
   const itemAddProperties: Array<keyof IItemAdd> = [
     "categories",
@@ -51,7 +56,7 @@ export async function createApiKey(
     "typeKeywords",
     "url"
   ];
-  const items: Omit<IItemAdd, "type"> = filterKeys(
+  const items: FieldTypePreservingOmit<IItemAdd, "type"> = filterKeys(
     requestOptions,
     itemAddProperties
   );
@@ -60,40 +65,31 @@ export async function createApiKey(
   const createItemOption: ICreateItemOptions = {
     item: {
       ...items,
-      type: "API Key",
-      title: items.title
+      type: "API Key"
     },
-    ...iRequestOptions,
+    ...getIRequestOptions(iRequestOptions), // deep copy iRequestOptions snapshot in case of some function modified its values which is ref typed.
     authentication: requestOptions.authentication
   };
 
   const createItemResponse = await createItem(createItemOption);
 
-  if (!createItemResponse.success) {
-    throw new Error("createItem() is not successful.");
-  } else {
-    // step 2: register app
-    const registerAppOption: IRegisterAppOptions = {
-      itemId: createItemResponse.id,
-      appType: "apikey",
-      redirect_uris: [],
-      httpReferrers:
-        "httpReferrers" in requestOptions ? requestOptions.httpReferrers : [],
-      privileges: requestOptions.privileges,
-      ...iRequestOptions,
-      authentication: requestOptions.authentication
-    };
+  // step 2: register app
+  const registerAppOption: IRegisterAppOptions = {
+    itemId: createItemResponse.id,
+    appType: "apikey",
+    redirect_uris: [],
+    httpReferrers:
+      "httpReferrers" in requestOptions ? requestOptions.httpReferrers : [],
+    privileges: requestOptions.privileges,
+    ...getIRequestOptions(iRequestOptions),
+    authentication: requestOptions.authentication
+  };
 
-    const registeredAppResponse = await registerApp(registerAppOption);
+  const registeredAppResponse = await registerApp(registerAppOption);
+  const itemInfo = await getItem(registeredAppResponse.itemId, iRequestOptions);
 
-    const itemInfo = await getItem(
-      registeredAppResponse.itemId,
-      iRequestOptions
-    );
-
-    return {
-      ...appToApiKeyProperties(registeredAppResponse),
-      item: itemInfo
-    };
-  }
+  return {
+    ...appToApiKeyProperties(registeredAppResponse),
+    item: itemInfo
+  };
 }

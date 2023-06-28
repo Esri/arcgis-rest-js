@@ -32,14 +32,25 @@ export async function updateApiKey(
     throw new Error("Contain invalid privileges");
   }
 
+  if (!requestOptions.params) {
+    requestOptions.params = { f: "json" };
+  } else {
+    requestOptions.params.f = "json";
+  }
+  requestOptions.httpMethod = "POST";
+
   // get app
-  const iRequestOptions = getIRequestOptions(requestOptions);
+  const iRequestOptions = getIRequestOptions(requestOptions); // get base requestOptions snapshot
   const getAppOption: IGetAppInfoOptions = {
-    ...iRequestOptions,
+    ...getIRequestOptions(iRequestOptions),
     authentication: requestOptions.authentication,
     itemId: requestOptions.itemId
   };
   const appResponse = await getRegisteredAppInfo(getAppOption);
+
+  // appType must be APIKey to continue
+  if (appResponse.appType !== "apikey" || !("apiKey" in appResponse))
+    throw new Error("App type is not api key.");
 
   const clientId = appResponse.client_id;
   const options = appendCustomParams(
@@ -52,11 +63,8 @@ export async function updateApiKey(
 
   const url = getPortalUrl(options) + `/oauth2/apps/${clientId}/update`;
 
-  options.httpMethod = "POST";
-  options.params.f = "json";
-
   // Raw response from `/oauth2/apps/${clientId}/update`, apiKey not included because key is same.
-  const updateResponse: Omit<IRegisteredAppResponse, "apiKey"> = await request(
+  const updateResponse: IRegisteredAppResponse = await request(
     url,
     getIRequestOptions(options)
   );
