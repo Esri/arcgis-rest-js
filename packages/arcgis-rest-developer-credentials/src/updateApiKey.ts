@@ -8,7 +8,7 @@ import {
 import { getRegisteredAppInfo } from "./shared/getRegisteredAppInfo.js";
 import {
   appToApiKeyProperties,
-  getIRequestOptions,
+  extractBaseRequestOptions,
   isPrivilegesValid,
   paramsEncodingToJsonStr,
   registeredAppResponseToApp
@@ -40,9 +40,9 @@ export async function updateApiKey(
   requestOptions.httpMethod = "POST";
 
   // get app
-  const iRequestOptions = getIRequestOptions(requestOptions); // get base requestOptions snapshot
+  const baseRequestOptions = extractBaseRequestOptions(requestOptions); // get base requestOptions snapshot
   const getAppOption: IGetAppInfoOptions = {
-    ...getIRequestOptions(iRequestOptions),
+    ...extractBaseRequestOptions(baseRequestOptions),
     authentication: requestOptions.authentication,
     itemId: requestOptions.itemId
   };
@@ -65,17 +65,20 @@ export async function updateApiKey(
   const url = getPortalUrl(options) + `/oauth2/apps/${clientId}/update`;
 
   // Raw response from `/oauth2/apps/${clientId}/update`, apiKey not included because key is same.
-  const updateResponse: IRegisteredAppResponse = await request(
-    url,
-    getIRequestOptions(options)
-  );
+  const updateResponse: IRegisteredAppResponse = await request(url, {
+    ...extractBaseRequestOptions(options),
+    authentication: requestOptions.authentication
+  });
 
   const app: IApp = registeredAppResponseToApp({
     ...updateResponse,
     apiKey: appResponse.apiKey
   });
 
-  const itemInfo = await getItem(requestOptions.itemId, iRequestOptions);
+  const itemInfo = await getItem(requestOptions.itemId, {
+    ...baseRequestOptions,
+    authentication: requestOptions.authentication
+  });
 
   return {
     ...appToApiKeyProperties(app),

@@ -12,6 +12,7 @@
     "./packages/arcgis-rest-portal/",
     "./packages/arcgis-rest-places/",
     "./packages/arcgis-rest-request/",
-    "./packages/arcgis-rest-routing/"
+    "./packages/arcgis-rest-routing/",
+    "./packages/arcgis-rest-developer-credentials/"
   ]
 }

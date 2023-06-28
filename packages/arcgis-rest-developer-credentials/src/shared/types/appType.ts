@@ -7,7 +7,7 @@ import { Privileges } from "../enum/PRIVILEGE.js";
 
 export type AppType = "apikey" | "browser" | "native" | "server" | "multiple";
 
-export interface IRegisterAppOptions extends IRequestOptions {
+export interface IRegisterAppOptions extends Omit<IRequestOptions, "params"> {
   itemId: string;
   appType: AppType;
   redirect_uris: string[];

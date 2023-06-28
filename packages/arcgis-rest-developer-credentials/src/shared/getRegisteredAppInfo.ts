@@ -8,7 +8,7 @@ import {
   IGetAppInfoOptions,
   IApp
 } from "./types/appType.js";
-import { getIRequestOptions, registeredAppResponseToApp } from "./helpers.js";
+import { registeredAppResponseToApp } from "./helpers.js";
 
 export async function getRegisteredAppInfo(
   requestOptions: IGetAppInfoOptions
@@ -24,9 +24,11 @@ export async function getRegisteredAppInfo(
   } else {
     requestOptions.params = { f: "json" };
   }
+
   const registeredAppResponse: IRegisteredAppResponse = await request(
     url,
-    getIRequestOptions(requestOptions)
+    requestOptions
   );
+
   return registeredAppResponseToApp(registeredAppResponse);
 }
