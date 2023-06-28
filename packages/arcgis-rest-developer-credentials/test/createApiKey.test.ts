@@ -371,7 +371,7 @@ describe("createApiKey()", () => {
       encodeParam("description", "test 4")
     );
     expect(actualOptionAddItemRoute.body).toContain(
-      encodeParam("tags", JSON.stringify(["tag 1", "tag 2"]))
+      encodeParam("tags", ["tag 1", "tag 2"])
     );
 
     // verify second fetch
