@@ -66,7 +66,7 @@ export async function updateApiKey(
 
   // Raw response from `/oauth2/apps/${clientId}/update`, apiKey not included because key is same.
   const updateResponse: IRegisteredAppResponse = await request(url, {
-    ...extractBaseRequestOptions(options),
+    ...options,
     authentication: requestOptions.authentication
   });
 

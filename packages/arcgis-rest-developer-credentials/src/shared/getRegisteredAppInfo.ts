@@ -13,7 +13,7 @@ import { registeredAppResponseToApp } from "./helpers.js";
 export async function getRegisteredAppInfo(
   requestOptions: IGetAppInfoOptions
 ): Promise<IApp> {
-  const userName = await requestOptions.authentication?.getUsername();
+  const userName = await requestOptions.authentication.getUsername();
   const url =
     getPortalUrl(requestOptions) +
     `/content/users/${userName}/items/${requestOptions.itemId}/registeredAppInfo`;
