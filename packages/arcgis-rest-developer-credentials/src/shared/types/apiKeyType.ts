@@ -34,6 +34,12 @@ export interface IApiKeyInfo
     "client_id" | "client_secret" | "redirect_uris" | "appType"
   > {
   apiKey: string;
+  registered: Date;
+  modified: Date;
+}
+
+export interface IApiKeyResponse extends IApiKeyInfo {
+  item: IItem;
 }
 
 export interface IApiKeyResponse extends IApiKeyInfo {

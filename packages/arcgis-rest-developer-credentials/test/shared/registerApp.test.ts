@@ -1,4 +1,4 @@
-import fetchMock from "fetch-mock";
+import fetchMock, { MockCall } from "fetch-mock";
 import {
   IRegisterAppOptions,
   IRegisteredAppResponse,
@@ -119,17 +119,17 @@ describe("registerApp()", () => {
 
     // fetch({actual}) vs fetch({expect})
     const actualOption = fetchMock.lastOptions("registerAppRoute");
-    expect(actualOption.body).toContain("f=json"); // body should contain necessary key-value pairs
-    expect(actualOption.body).toContain("token=fake-token");
-    expect(actualOption.body).toContain("itemId=fake-itemID");
-    expect(actualOption.body).toContain("appType=apikey");
-    expect(actualOption.body).toContain(
+    expect(actualOption?.body).toContain("f=json"); // body should contain necessary key-value pairs
+    expect(actualOption?.body).toContain("token=fake-token");
+    expect(actualOption?.body).toContain("itemId=fake-itemID");
+    expect(actualOption?.body).toContain("appType=apikey");
+    expect(actualOption?.body).toContain(
       encodeParam("redirect_uris", JSON.stringify(requestOptions.redirect_uris))
     );
-    expect(actualOption.body).toContain(
+    expect(actualOption?.body).toContain(
       encodeParam("httpReferrers", JSON.stringify(requestOptions.httpReferrers))
     );
-    expect(actualOption.body).toContain(
+    expect(actualOption?.body).toContain(
       encodeParam("privileges", JSON.stringify(requestOptions.privileges))
     );
 
@@ -173,7 +173,6 @@ describe("registerApp()", () => {
       httpReferrers: ["https://www.esri.com/en-us/home"],
       privileges: [],
       authentication: authOnline,
-      params: { f: "json" },
       httpMethod: "GET"
     };
 
@@ -183,17 +182,17 @@ describe("registerApp()", () => {
 
     // fetch({actual}) vs fetch({expect})
     const actualOption = fetchMock.lastOptions("registerAppRoute");
-    expect(actualOption.body).toContain("f=json"); // body should contain necessary key-value pairs
-    expect(actualOption.body).toContain("token=fake-token");
-    expect(actualOption.body).toContain("itemId=fake-itemID");
-    expect(actualOption.body).toContain("appType=multiple");
-    expect(actualOption.body).toContain(
+    expect(actualOption?.body).toContain("f=json"); // body should contain necessary key-value pairs
+    expect(actualOption?.body).toContain("token=fake-token");
+    expect(actualOption?.body).toContain("itemId=fake-itemID");
+    expect(actualOption?.body).toContain("appType=multiple");
+    expect(actualOption?.body).toContain(
       encodeParam("redirect_uris", JSON.stringify(requestOptions.redirect_uris))
     );
-    expect(actualOption.body).toContain(
+    expect(actualOption?.body).toContain(
       encodeParam("httpReferrers", JSON.stringify(requestOptions.httpReferrers))
     );
-    expect(actualOption.body).toContain(
+    expect(actualOption?.body).toContain(
       encodeParam("privileges", JSON.stringify(requestOptions.privileges))
     );
 

@@ -22,7 +22,6 @@ export const paramsEncodingToJsonStr = (requestOptions: IRequestOptions) => {
 export function registeredAppResponseToApp(
   response: IRegisteredAppResponse
 ): IApp {
-  response = deepCopy(response); // deep copy
   const omittedKeys = [
     "apnsProdCert",
     "apnsSandboxCert",
@@ -44,61 +43,55 @@ export function registeredAppResponseToApp(
 }
 
 export function appToApiKeyProperties(response: IApp): IApiKeyInfo {
-  if (response.appType !== "apikey" || !("apiKey" in response))
+  if (response.appType !== "apikey" || !("apiKey" in response)) {
     throw new Error("App type is not api key.");
-  const { client_id, client_secret, redirect_uris, appType, ...app } = response;
-  return {
-    ...deepCopy(app as any),
-    modified: response.modified,
-    registered: response.registered
-  }; // deep copy should skip Date object
+  }
+
+  delete response.client_id;
+  delete response.client_secret;
+  delete response.redirect_uris;
+  delete response.appType;
+
+  return response as IApiKeyInfo;
 }
 
 // separate pure iRequestOptions from hybrid options, also deep copy all values
-export function getIRequestOptions<T extends IRequestOptions>(
+export function extractBaseRequestOptions<T extends IRequestOptions>(
   options: T
-): IRequestOptions {
+): Partial<IRequestOptions> {
   // it is impossible to extract properties of iRequestOptions interface since interface doesn't exist at runtime
-  const requestOptionsProperties: Array<keyof IRequestOptions> = [
-    "authentication",
+  const requestOptionsProperties = [
     "credentials",
     "headers",
     "hideToken",
     "httpMethod",
     "maxUrlLength",
-    "params",
     "portal",
     "rawResponse",
     "signal",
     "suppressWarnings"
   ];
-  const requestOptions: IRequestOptions = {
-    ...filterKeys(options, requestOptionsProperties)
-  };
-  if ("authentication" in options)
-    // object with member functions should not be deep copied
-    requestOptions.authentication = options.authentication;
-  if ("signal" in options) requestOptions.signal = options.signal;
 
-  return requestOptions;
+  return Object.keys(options)
+    .filter((key) => requestOptionsProperties.includes(key))
+    .reduce((obj, key) => {
+      obj[key] = (options as any)[key];
+      return obj;
+    }, {} as any);
 }
 
-// deep copied filtered object, do not filter object with values containing member functions
-export function filterKeys<T>(object: T, includedKeys: Array<keyof T>): any {
-  object = deepCopy(object); // deep copy
+//filter object with values containing member functions
+export function filterKeys<T extends object>(
+  object: T,
+  includedKeys: Array<keyof T>
+): any {
   return includedKeys.reduce(
     (obj: { [key: string | number | symbol]: any }, ele) => {
-      if (ele in object) obj[ele] = object[ele];
+      if (ele in object) {
+        obj[ele] = object[ele];
+      }
       return obj;
     },
     {}
   );
-}
-
-/*
-Consider deep copy when using spread operator for copy purpose if object value can be reference type
-reference: https://developer.mozilla.org/en-US/docs/Glossary/Deep_copy
- */
-export function deepCopy<T>(object: T): T {
-  return JSON.parse(JSON.stringify(object));
 }

@@ -9,7 +9,7 @@ import {
   IRegisteredAppResponse
 } from "./types/appType.js";
 import {
-  getIRequestOptions,
+  extractBaseRequestOptions,
   isPrivilegesValid,
   paramsEncodingToJsonStr,
   registeredAppResponseToApp
@@ -19,8 +19,9 @@ export async function registerApp(
   requestOptions: IRegisterAppOptions
 ): Promise<IApp> {
   // privileges validation
-  if (!isPrivilegesValid(requestOptions.privileges))
+  if (!isPrivilegesValid(requestOptions.privileges)) {
     throw new Error("Contain invalid privileges");
+  }
 
   // build params
   const options = appendCustomParams(requestOptions, [
@@ -39,7 +40,8 @@ export async function registerApp(
 
   const registeredAppResponse: IRegisteredAppResponse = await request(
     url,
-    getIRequestOptions(options)
+    options
   );
+
   return registeredAppResponseToApp(registeredAppResponse);
 }

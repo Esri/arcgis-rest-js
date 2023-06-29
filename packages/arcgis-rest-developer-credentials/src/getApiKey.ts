@@ -7,17 +7,20 @@ import {
   IGetApiKeyOptions
 } from "./shared/types/apiKeyType.js";
 import { getItem } from "@esri/arcgis-rest-portal";
-import { appToApiKeyProperties, getIRequestOptions } from "./shared/helpers.js";
+import {
+  appToApiKeyProperties,
+  extractBaseRequestOptions
+} from "./shared/helpers.js";
 
 export async function getApiKey(
   requestOptions: IGetApiKeyOptions
 ): Promise<IApiKeyResponse> {
   const appResponse = await getRegisteredAppInfo(requestOptions);
 
-  const itemInfo = await getItem(
-    requestOptions.itemId,
-    getIRequestOptions(requestOptions)
-  );
+  const itemInfo = await getItem(requestOptions.itemId, {
+    ...extractBaseRequestOptions(requestOptions),
+    authentication: requestOptions.authentication
+  });
 
   return {
     ...appToApiKeyProperties(appResponse),
