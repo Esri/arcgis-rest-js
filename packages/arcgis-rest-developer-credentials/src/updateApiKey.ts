@@ -21,6 +21,37 @@ import {
   IRegisteredAppResponse
 } from "./shared/types/appType.js";
 
+/**
+ * Used to update an API key. See the [ConfluenceWikiDev Documentation](https://confluencewikidev.esri.com/display/AGO/API+Keys#APIKeys-UpdateAPIkey) for more information about update endpoint.
+ *
+ * Notes about `privileges` and `httpReferrers` options:
+ * 1. Provided option will override corresponding old option.
+ * 2. Unprovided option will not trigger corresponding option updates.
+ *
+ * ```js
+ * import { updateApiKey, IApiKeyResponse } from '@esri/arcgis-rest-developer-credentials';
+ * import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
+ *
+ * const authSession: ArcGISIdentityManager = await ArcGISIdentityManager.signIn({
+ *   username: "xyz_usrName",
+ *   password: "xyz_pw"
+ * });
+ *
+ * updateApiKey({
+ *   itemId: "xyz_itemId",
+ *   privileges: ["premium:user:geocode"],
+ *   httpReferrers: [], // httpReferrers will be set to be empty
+ *   authentication: authSession
+ * }).then((updatedAPIKey: IApiKeyResponse) => {
+ *   // => {apiKey: "xyz_key", item: {tags: ["xyz_tag1", "xyz_tag2"], ...}, ...}
+ * }).catch(e => {
+ *   // => an exception object
+ * });
+ * ```
+ *
+ * @param requestOptions - Options for {@linkcode updateApiKey | updateApiKey()}, including `itemId` of which API key to be operated on, optional new `privileges`, optional new `httpReferrers` and an {@linkcode ArcGISIdentityManager} authentication session.
+ * @returns A Promise that will resolve to an {@linkcode IApiKeyResponse} object representing updated API key.
+ */
 export async function updateApiKey(
   requestOptions: IUpdateApiKeyOptions
 ): Promise<IApiKeyResponse> {
@@ -32,17 +63,12 @@ export async function updateApiKey(
     throw new Error("Contain invalid privileges");
   }
 
-  if (!requestOptions.params) {
-    requestOptions.params = { f: "json" };
-  } else {
-    requestOptions.params.f = "json";
-  }
   requestOptions.httpMethod = "POST";
 
   // get app
   const baseRequestOptions = extractBaseRequestOptions(requestOptions); // get base requestOptions snapshot
   const getAppOption: IGetAppInfoOptions = {
-    ...extractBaseRequestOptions(baseRequestOptions),
+    ...baseRequestOptions,
     authentication: requestOptions.authentication,
     itemId: requestOptions.itemId
   };
@@ -58,6 +84,7 @@ export async function updateApiKey(
     { ...appResponse, ...requestOptions }, // object with the custom params to look in
     ["privileges", "httpReferrers"] // keys you want copied to the params object
   );
+  options.params.f = "json";
 
   // encode special params value (e.g. array type...) in advance in order to make encodeQueryString() works correctly
   paramsEncodingToJsonStr(options);
@@ -77,7 +104,8 @@ export async function updateApiKey(
 
   const itemInfo = await getItem(requestOptions.itemId, {
     ...baseRequestOptions,
-    authentication: requestOptions.authentication
+    authentication: requestOptions.authentication,
+    params: { f: "json" }
   });
 
   return {

@@ -3,13 +3,19 @@ import { Privileges } from "./enum/PRIVILEGE.js";
 import { IRegisteredAppResponse, IApp } from "./types/appType.js";
 import { IApiKeyInfo } from "./types/apiKeyType.js";
 
-// Check privileges validity as user's input at runtime is non-deterministic
+/**
+ * @internal
+ * Used to check privileges validity.
+ */
 export const isPrivilegesValid = (
   privileges: Array<keyof typeof Privileges>
 ): boolean => privileges.every((element) => element in Privileges);
 
-// TODO: This func may be modified in future to support more types e.g. object
-// encode special params value (e.g. array type...) in advance in order to make encodeQueryString() works correctly. This is case by case usage
+// TODO: This func may be modified to support more types e.g. object
+/**
+ * @internal
+ * Encode special params value (e.g. array type...) in advance in order to make {@linkcode encodeParam} works correctly. Usage is case by case.
+ */
 export const paramsEncodingToJsonStr = (requestOptions: IRequestOptions) => {
   Object.entries(requestOptions.params).forEach((entry) => {
     const [key, value] = entry;
@@ -19,6 +25,10 @@ export const paramsEncodingToJsonStr = (requestOptions: IRequestOptions) => {
   });
 };
 
+/**
+ * @internal
+ * Used to convert {@linkcode IRegisteredAppResponse} to {@linkcode IApp}.
+ */
 export function registeredAppResponseToApp(
   response: IRegisteredAppResponse
 ): IApp {
@@ -42,6 +52,10 @@ export function registeredAppResponseToApp(
     }, {});
 }
 
+/**
+ * @internal
+ * Used to convert {@linkcode IApp} to {@linkcode IApiKeyInfo} only if `appType` is "apikey".
+ */
 export function appToApiKeyProperties(response: IApp): IApiKeyInfo {
   if (response.appType !== "apikey" || !("apiKey" in response)) {
     throw new Error("App type is not api key.");
@@ -55,12 +69,14 @@ export function appToApiKeyProperties(response: IApp): IApiKeyInfo {
   return response as IApiKeyInfo;
 }
 
-// separate pure iRequestOptions from hybrid options, also deep copy all values
+/**
+ * @internal
+ * Used to extract base request options from a hybrid option and exclude `params` and `authentication`.
+ */
 export function extractBaseRequestOptions<T extends IRequestOptions>(
   options: T
 ): Partial<IRequestOptions> {
-  // it is impossible to extract properties of iRequestOptions interface since interface doesn't exist at runtime
-  const requestOptionsProperties = [
+  const requestOptionsProperties: Array<keyof T> = [
     "credentials",
     "headers",
     "hideToken",
@@ -72,15 +88,13 @@ export function extractBaseRequestOptions<T extends IRequestOptions>(
     "suppressWarnings"
   ];
 
-  return Object.keys(options)
-    .filter((key) => requestOptionsProperties.includes(key))
-    .reduce((obj, key) => {
-      obj[key] = (options as any)[key];
-      return obj;
-    }, {} as any);
+  return filterKeys(options, requestOptionsProperties);
 }
 
-//filter object with values containing member functions
+/**
+ * @internal
+ * Used to create a new object including only specified keys from another object.
+ */
 export function filterKeys<T extends object>(
   object: T,
   includedKeys: Array<keyof T>

@@ -21,6 +21,34 @@ import {
   isPrivilegesValid
 } from "./shared/helpers.js";
 
+/**
+ * Used to register an API key. See the [security and authentication](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/api-keys/) for more information about API key.
+ *
+ * ```js
+ * import { createApiKey, IApiKeyResponse } from '@esri/arcgis-rest-developer-credentials';
+ * import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
+ *
+ * const authSession: ArcGISIdentityManager = await ArcGISIdentityManager.signIn({
+ *   username: "xyz_usrName",
+ *   password: "xyz_pw"
+ * });
+ *
+ * createApiKey({
+ *   title: "xyz_title",
+ *   description: "xyz_desc",
+ *   tags: ["xyz_tag1", "xyz_tag2"],
+ *   privileges: ["premium:user:geocode", "premium:user:featurereport"],
+ *   authentication: authSession
+ * }).then((registeredAPIKey: IApiKeyResponse) => {
+ *   // => {apiKey: "xyz_key", item: {tags: ["xyz_tag1", "xyz_tag2"], ...}, ...}
+ * }).catch(e => {
+ *   // => an exception object
+ * });
+ * ```
+ *
+ * @param requestOptions - Options for {@linkcode createApiKey | createApiKey()}, including necessary params to register an API key and an {@linkcode ArcGISIdentityManager} authentication session.
+ * @returns A Promise that will resolve to an {@linkcode IApiKeyResponse} object representing the newly registered API key.
+ */
 export async function createApiKey(
   requestOptions: ICreateApiKeyOptions
 ): Promise<IApiKeyResponse> {
@@ -80,7 +108,8 @@ export async function createApiKey(
   const registeredAppResponse = await registerApp(registerAppOption);
   const itemInfo = await getItem(registeredAppResponse.itemId, {
     ...baseRequestOptions,
-    authentication: requestOptions.authentication
+    authentication: requestOptions.authentication,
+    params: { f: "json" }
   });
 
   return {

@@ -1,5 +1,5 @@
-/* TODO: - Some special privileges depends on itemID, which is not implemented yet
- *       - e.g. portal:app:access:item:{itemId}
+/**
+ * Used to describe privilege list of an app. See the [ConfluenceWikiDev Documentation](https://confluencewikidev.esri.com/display/AGO/Current+Privilege+List) for more information about accepted privileges.
  */
 export enum Privileges {
   "portal:apikey:basemaps" = "portal:apikey:basemaps",

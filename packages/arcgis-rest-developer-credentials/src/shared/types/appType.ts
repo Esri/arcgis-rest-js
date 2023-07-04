@@ -5,26 +5,64 @@ import {
 import { UnixTime } from "@esri/arcgis-rest-portal";
 import { Privileges } from "../enum/PRIVILEGE.js";
 
+/**
+ * Accepted app types.
+ */
 export type AppType = "apikey" | "browser" | "native" | "server" | "multiple";
 
+/**
+ * Options to register an app.
+ */
 export interface IRegisterAppOptions extends Omit<IRequestOptions, "params"> {
+  /**
+   * itemId that the newly registered app will be based on.
+   */
   itemId: string;
+  /**
+   * App types. For more info, refer to {@linkcode AppType}.
+   */
   appType: AppType;
+  /**
+   * Redirect URIs set for this app.
+   */
   redirect_uris: string[];
+  /**
+   * Http Referrers set for this app.
+   */
   httpReferrers: string[];
+  /**
+   * Privilege lists. For more info, refer to {@linkcode Privileges}.
+   */
   privileges: Array<keyof typeof Privileges>;
+  /**
+   * {@linkcode ArcGISIdentityManager} authentication.
+   */
   authentication: ArcGISIdentityManager;
 }
 
-export interface IGetAppInfoOptions extends IRequestOptions {
-  authentication: ArcGISIdentityManager; // Must be named token as username is required
+/**
+ * Options to retrieve an app.
+ */
+export interface IGetAppInfoOptions extends Omit<IRequestOptions, "params"> {
+  /**
+   * {@linkcode ArcGISIdentityManager} authentication.
+   */
+  authentication: ArcGISIdentityManager;
+  /**
+   * itemId of which app to be retrieved.
+   */
   itemId: string;
 }
 
-// raw response from registered App endpoint
+/**
+ * Raw response of app related endpoints calls.
+ */
 export interface IRegisteredAppResponse {
   itemId: string;
-  apiKey?: string; // Only if appType is apikey
+  /**
+   * Only to be present if appType is apikey
+   */
+  apiKey?: string;
   appType: AppType;
   client_id: string;
   client_secret: string;
@@ -33,13 +71,15 @@ export interface IRegisteredAppResponse {
   privileges: Array<keyof typeof Privileges>;
   registered: UnixTime;
   modified: UnixTime;
-  apnsProdCert: any; // type TBD
-  apnsSandboxCert: any; // type TBD
-  gcmApiKey: any; // type TBD
+  apnsProdCert: any;
+  apnsSandboxCert: any;
+  gcmApiKey: any;
   isBeta: boolean;
 }
 
-// optimized interface represents app object (1. get rid of unwanted properties 2. timestamp -> date)
+/**
+ * Return value of {@linkcode registerApp} and {@linkcode getRegisteredAppInfo} representing an app entity.
+ */
 export interface IApp
   extends Omit<
     IRegisteredAppResponse,

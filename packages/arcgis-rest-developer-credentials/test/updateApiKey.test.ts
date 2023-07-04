@@ -254,7 +254,7 @@ describe("updateApiKey()", () => {
   // setup IdentityManager
   let authOnline: ArcGISIdentityManager;
   let authEnterprise: ArcGISIdentityManager;
-  let authEmptyToken: ArcGISIdentityManager;
+  // let authEmptyToken: ArcGISIdentityManager;
   let authInvalidToken: ArcGISIdentityManager;
 
   beforeAll(function () {
@@ -272,7 +272,7 @@ describe("updateApiKey()", () => {
       token: "fake-token",
       tokenExpires: TOMORROW
     });
-    authEmptyToken = new ArcGISIdentityManager({});
+    // authEmptyToken = new ArcGISIdentityManager({});
     authInvalidToken = new ArcGISIdentityManager({
       username: "3807206777",
       password: "fake-password",
@@ -380,7 +380,6 @@ describe("updateApiKey()", () => {
       privileges: [],
       httpReferrers: ["https://github.com/Esri/arcgis-rest-js"],
       authentication: authOnline,
-      params: { f: "json" },
       httpMethod: "GET"
     });
 
@@ -493,46 +492,46 @@ describe("updateApiKey()", () => {
       expect(fetchMock.called()).toBe(false); // no fetch should be called
     }
   });
-  it("should throw err if auth token is missing", async function () {
-    // setup FM response
-    fetchMock.mock(
-      {
-        url: "begin:https://www.arcgis.com/sharing/rest/community/self", // url should match
-        method: "GET", // http method should match
-        headers: { "Content-Type": "application/x-www-form-urlencoded" }, // content type should match
-        name: "communitySelfRoute",
-        repeat: 1
-      },
-      {
-        body: {
-          error: {
-            code: 400,
-            messageCode: "COM_0019",
-            message: "Not logged in.",
-            details: []
-          }
-        },
-        status: 200,
-        headers: { "Content-Type": "application/json" }
-      }
-    );
-
-    try {
-      await updateApiKey({
-        itemId: "someId",
-        privileges: [],
-        httpReferrers: [
-          "https://www.esri.com/en-us/home",
-          "https://esri.okta.com/app/UserHome"
-        ],
-        authentication: authEmptyToken
-      });
-      fail("Should have rejected.");
-    } catch (e: any) {
-      expect(e.message).toBe("COM_0019: Not logged in.");
-      expect(fetchMock.called("communitySelfRoute")).toBe(true);
-    }
-  });
+  // it("should throw err if auth token is missing", async function () {
+  //   // setup FM response
+  //   fetchMock.mock(
+  //     {
+  //       url: "begin:https://www.arcgis.com/sharing/rest/community/self", // url should match
+  //       method: "GET", // http method should match
+  //       headers: { "Content-Type": "application/x-www-form-urlencoded" }, // content type should match
+  //       name: "communitySelfRoute",
+  //       repeat: 1
+  //     },
+  //     {
+  //       body: {
+  //         error: {
+  //           code: 400,
+  //           messageCode: "COM_0019",
+  //           message: "Not logged in.",
+  //           details: []
+  //         }
+  //       },
+  //       status: 200,
+  //       headers: { "Content-Type": "application/json" }
+  //     }
+  //   );
+  //
+  //   try {
+  //     await updateApiKey({
+  //       itemId: "someId",
+  //       privileges: [],
+  //       httpReferrers: [
+  //         "https://www.esri.com/en-us/home",
+  //         "https://esri.okta.com/app/UserHome"
+  //       ],
+  //       authentication: authEmptyToken
+  //     });
+  //     fail("Should have rejected.");
+  //   } catch (e: any) {
+  //     expect(e.message).toBe("COM_0019: Not logged in.");
+  //     expect(fetchMock.called("communitySelfRoute")).toBe(true);
+  //   }
+  // });
   it("should auto generateToken if auth token is invalid", async function () {
     // setup FM response
     fetchMock

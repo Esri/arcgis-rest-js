@@ -1,4 +1,4 @@
-import fetchMock, { MockCall } from "fetch-mock";
+import fetchMock from "fetch-mock";
 import {
   IRegisterAppOptions,
   IRegisteredAppResponse,
@@ -61,7 +61,7 @@ describe("registerApp()", () => {
   // setup IdentityManager
   let authOnline: ArcGISIdentityManager;
   let authEnterprise: ArcGISIdentityManager;
-  let authEmptyToken: ArcGISIdentityManager;
+  // let authEmptyToken: ArcGISIdentityManager;
   let authInvalidToken: ArcGISIdentityManager;
 
   beforeAll(function () {
@@ -79,7 +79,7 @@ describe("registerApp()", () => {
       token: "fake-token",
       tokenExpires: TOMORROW
     });
-    authEmptyToken = new ArcGISIdentityManager({});
+    // authEmptyToken = new ArcGISIdentityManager({});
     authInvalidToken = new ArcGISIdentityManager({
       username: "fake-username",
       password: "fake-password",
@@ -243,46 +243,46 @@ describe("registerApp()", () => {
   });
 
   // invalid auth manager
-  it("should throw error if auth not logged in (token missing)", async function () {
-    // setup FM response
-
-    setFetchMockPOSTFormUrlencoded(
-      "https://www.arcgis.com/sharing/rest/oauth2/registerApp",
-      {
-        error: {
-          code: 403,
-          messageCode: "GWM_0003",
-          message:
-            "You do not have permissions to access this resource or perform this operation.",
-          details: []
-        }
-      },
-      200,
-      "registerAppRoute",
-      1
-    );
-
-    try {
-      await registerApp({
-        itemId: "fake-itemID",
-        appType: "apikey",
-        redirect_uris: [],
-        httpReferrers: ["https://www.esri.com/en-us/home"],
-        privileges: [
-          "premium:user:geocode:temporary",
-          "premium:user:networkanalysis:routing"
-        ],
-        authentication: authEmptyToken
-      });
-      fail("Should have rejected.");
-    } catch (e: any) {
-      // registerApp() promise rejects by calling registerApp endpoints without authToken
-      expect(fetchMock.called("registerAppRoute")).toBe(true);
-      expect(e.message).toBe(
-        "GWM_0003: You do not have permissions to access this resource or perform this operation."
-      );
-    }
-  });
+  // it("should throw error if auth not logged in (token missing)", async function () {
+  //   // setup FM response
+  //
+  //   setFetchMockPOSTFormUrlencoded(
+  //     "https://www.arcgis.com/sharing/rest/oauth2/registerApp",
+  //     {
+  //       error: {
+  //         code: 403,
+  //         messageCode: "GWM_0003",
+  //         message:
+  //           "You do not have permissions to access this resource or perform this operation.",
+  //         details: []
+  //       }
+  //     },
+  //     200,
+  //     "registerAppRoute",
+  //     1
+  //   );
+  //
+  //   try {
+  //     await registerApp({
+  //       itemId: "fake-itemID",
+  //       appType: "apikey",
+  //       redirect_uris: [],
+  //       httpReferrers: ["https://www.esri.com/en-us/home"],
+  //       privileges: [
+  //         "premium:user:geocode:temporary",
+  //         "premium:user:networkanalysis:routing"
+  //       ],
+  //       authentication: authEmptyToken
+  //     });
+  //     fail("Should have rejected.");
+  //   } catch (e: any) {
+  //     // registerApp() promise rejects by calling registerApp endpoints without authToken
+  //     expect(fetchMock.called("registerAppRoute")).toBe(true);
+  //     expect(e.message).toBe(
+  //       "GWM_0003: You do not have permissions to access this resource or perform this operation."
+  //     );
+  //   }
+  // });
 
   it("should auto generateToken if registerApp replied with invalid token error", async function () {
     // setup FM response

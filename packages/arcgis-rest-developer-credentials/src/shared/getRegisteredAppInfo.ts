@@ -10,6 +10,31 @@ import {
 } from "./types/appType.js";
 import { registeredAppResponseToApp } from "./helpers.js";
 
+/**
+ * Used to retrieve registered app info. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/registered-app-info.htm) for more information.
+ *
+ * ```js
+ * import { getRegisteredAppInfo, IApp } from '@esri/arcgis-rest-developer-credentials';
+ * import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
+ *
+ * const authSession: ArcGISIdentityManager = await ArcGISIdentityManager.signIn({
+ *   username: "xyz_usrName",
+ *   password: "xyz_pw"
+ * });
+ *
+ * getRegisteredAppInfo({
+ *   itemId: "xyz_itemId",
+ *   authentication: authSession
+ * }).then((registeredApp: IApp) => {
+ *   // => {client_id: "xyz_id", client_secret: "xyz_secret", ...}
+ * }).catch(e => {
+ *   // => an exception object
+ * });
+ * ```
+ *
+ * @param requestOptions - Options for {@linkcode getRegisteredAppInfo | getRegisteredAppInfo()}, including an itemId of which app to retrieve and an {@linkcode ArcGISIdentityManager} authentication session.
+ * @returns A Promise that will resolve to an {@linkcode IApp} object representing successfully retrieved app.
+ */
 export async function getRegisteredAppInfo(
   requestOptions: IGetAppInfoOptions
 ): Promise<IApp> {
@@ -19,16 +44,10 @@ export async function getRegisteredAppInfo(
     `/content/users/${userName}/items/${requestOptions.itemId}/registeredAppInfo`;
   requestOptions.httpMethod = "POST";
 
-  if (requestOptions.params) {
-    requestOptions.params.f = "json";
-  } else {
-    requestOptions.params = { f: "json" };
-  }
-
-  const registeredAppResponse: IRegisteredAppResponse = await request(
-    url,
-    requestOptions
-  );
+  const registeredAppResponse: IRegisteredAppResponse = await request(url, {
+    ...requestOptions,
+    params: { f: "json" }
+  });
 
   return registeredAppResponseToApp(registeredAppResponse);
 }

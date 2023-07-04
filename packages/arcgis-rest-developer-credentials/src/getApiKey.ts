@@ -12,6 +12,31 @@ import {
   extractBaseRequestOptions
 } from "./shared/helpers.js";
 
+/**
+ * Used to retrieve the API key with given `itemId`. See the [security and authentication](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/api-keys/) for more information about API key.
+ *
+ * ```js
+ * import { getApiKey, IApiKeyResponse } from '@esri/arcgis-rest-developer-credentials';
+ * import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
+ *
+ * const authSession: ArcGISIdentityManager = await ArcGISIdentityManager.signIn({
+ *   username: "xyz_usrName",
+ *   password: "xyz_pw"
+ * });
+ *
+ * getApiKey({
+ *   itemId: "xyz_itemId",
+ *   authentication: authSession
+ * }).then((retrievedAPIKey: IApiKeyResponse) => {
+ *   // => {apiKey: "xyz_key", item: {tags: ["xyz_tag1", "xyz_tag2"], ...}, ...}
+ * }).catch(e => {
+ *   // => an exception object
+ * });
+ * ```
+ *
+ * @param requestOptions - Options for {@linkcode getApiKey | getApiKey()}, including `itemId` of which API key to retrieve and an {@linkcode ArcGISIdentityManager} authentication session.
+ * @returns A Promise that will resolve to an {@linkcode IApiKeyResponse} object representing successfully retrieved API key.
+ */
 export async function getApiKey(
   requestOptions: IGetApiKeyOptions
 ): Promise<IApiKeyResponse> {
