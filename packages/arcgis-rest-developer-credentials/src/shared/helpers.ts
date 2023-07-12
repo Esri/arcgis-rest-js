@@ -57,7 +57,7 @@ export function registeredAppResponseToApp(
  */
 export function appToApiKeyProperties(response: IApp): IApiKeyInfo {
   if (response.appType !== "apikey" || !("apiKey" in response)) {
-    throw new Error("Item is not an API key.is not api key.");
+    throw new Error("Item is not an API key.");
   }
 
   delete response.client_id;

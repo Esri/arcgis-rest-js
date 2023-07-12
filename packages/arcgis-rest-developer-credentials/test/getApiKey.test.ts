@@ -294,7 +294,7 @@ describe("getApiKey()", () => {
     } catch (e: any) {
       expect(fetchMock.called("getAppRoute")).toBe(true);
       expect(fetchMock.called("getItemRoute")).toBe(true);
-      expect(e.message).toBe("Item is not an API key.is not api key.");
+      expect(e.message).toBe("Item is not an API key.");
     }
   });
 

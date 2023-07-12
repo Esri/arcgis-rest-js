@@ -472,7 +472,7 @@ describe("updateApiKey()", () => {
       fail("should have rejected.");
     } catch (e: any) {
       expect(fetchMock.called("getAppRoute")).toBe(true);
-      expect(e.message).toBe("Item is not an API key.is not api key.");
+      expect(e.message).toBe("Item is not an API key.");
     }
   });
   it("should throw err if privilege is invalid", async function () {
