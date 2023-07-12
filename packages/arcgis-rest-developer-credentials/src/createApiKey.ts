@@ -18,7 +18,7 @@ import {
   appToApiKeyProperties,
   filterKeys,
   extractBaseRequestOptions as extractBaseRequestOptions,
-  isPrivilegesValid
+  arePrivilegesValid
 } from "./shared/helpers.js";
 
 /**
@@ -52,8 +52,8 @@ import {
 export async function createApiKey(
   requestOptions: ICreateApiKeyOptions
 ): Promise<IApiKeyResponse> {
-  if (!isPrivilegesValid(requestOptions.privileges))
-    throw new Error("Contain invalid privileges");
+  if (!arePrivilegesValid(requestOptions.privileges))
+    throw new Error("The `privileges` option contains invalid privileges.");
 
   requestOptions.httpMethod = "POST";
 

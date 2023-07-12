@@ -8,16 +8,17 @@
 <script type="importmap">
   {
     "imports": {
-      "@esri/arcgis-rest-request": "/node_modules/@esri/arcgis-rest-request/dist/bundled/request.esm.js"
+      "@esri/arcgis-rest-request": "/@esri/arcgis-rest-request/dist/bundled/request.esm.js"
     }
   }
+
 
 </script>
 <script type="module">
     import {ArcGISIdentityManager} from "@esri/arcgis-rest-request";
 
     const clientId = "xwQy4KdPdZw3J6aN";
-    const redirectUri = window.location.origin + "/demos/dev-credentials-client/apikeyManagement.html";
+    const redirectUri = window.location.origin + "/apikeyManagement.html";
     ArcGISIdentityManager.beginOAuth2({
         popup: false,
         clientId: clientId,

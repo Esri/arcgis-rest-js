@@ -1,5 +1,5 @@
 /**
- * Used to describe privilege list of an app. See the [ConfluenceWikiDev Documentation](https://confluencewikidev.esri.com/display/AGO/Current+Privilege+List) for more information about accepted privileges.
+ * Used to describe privilege list of an app.
  */
 export enum Privileges {
   "portal:apikey:basemaps" = "portal:apikey:basemaps",

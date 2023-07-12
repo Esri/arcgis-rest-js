@@ -53,15 +53,13 @@ const mockNormalResponse: IRegisteredAppResponse = {
 /* test plans:
 1. create app without IRequestOptions (APIKey type app, empty redirected_uri, Enterprise portal) => empty or non-empty array can be added to params normally; root url should be enterprise
 2. create key with IRequestOptions (non APIKey type app, empty privilege, Online portal) => apikey should be omitted in response; empty privilege is acceptable; root url should be online
-3. throw error if isPrivilegesValid() false
-4. throw error if auth not logged in (token missing)
-5. auto generateToken if registerApp replied with invalid token error
+3. throw error if arePrivilegesValid() false
+4. auto generateToken if registerApp replied with invalid token error
  */
 describe("registerApp()", () => {
   // setup IdentityManager
   let authOnline: ArcGISIdentityManager;
   let authEnterprise: ArcGISIdentityManager;
-  // let authEmptyToken: ArcGISIdentityManager;
   let authInvalidToken: ArcGISIdentityManager;
 
   beforeAll(function () {
@@ -79,7 +77,6 @@ describe("registerApp()", () => {
       token: "fake-token",
       tokenExpires: TOMORROW
     });
-    // authEmptyToken = new ArcGISIdentityManager({});
     authInvalidToken = new ArcGISIdentityManager({
       username: "fake-username",
       password: "fake-password",
@@ -238,51 +235,11 @@ describe("registerApp()", () => {
     } catch (e: any) {
       // validation should reject before reach fetch()
       expect(fetchMock.called()).toBe(false);
-      expect(e.message).toBe("Contain invalid privileges");
+      expect(e.message).toBe(
+        "The `privileges` option contains invalid privileges."
+      );
     }
   });
-
-  // invalid auth manager
-  // it("should throw error if auth not logged in (token missing)", async function () {
-  //   // setup FM response
-  //
-  //   setFetchMockPOSTFormUrlencoded(
-  //     "https://www.arcgis.com/sharing/rest/oauth2/registerApp",
-  //     {
-  //       error: {
-  //         code: 403,
-  //         messageCode: "GWM_0003",
-  //         message:
-  //           "You do not have permissions to access this resource or perform this operation.",
-  //         details: []
-  //       }
-  //     },
-  //     200,
-  //     "registerAppRoute",
-  //     1
-  //   );
-  //
-  //   try {
-  //     await registerApp({
-  //       itemId: "fake-itemID",
-  //       appType: "apikey",
-  //       redirect_uris: [],
-  //       httpReferrers: ["https://www.esri.com/en-us/home"],
-  //       privileges: [
-  //         "premium:user:geocode:temporary",
-  //         "premium:user:networkanalysis:routing"
-  //       ],
-  //       authentication: authEmptyToken
-  //     });
-  //     fail("Should have rejected.");
-  //   } catch (e: any) {
-  //     // registerApp() promise rejects by calling registerApp endpoints without authToken
-  //     expect(fetchMock.called("registerAppRoute")).toBe(true);
-  //     expect(e.message).toBe(
-  //       "GWM_0003: You do not have permissions to access this resource or perform this operation."
-  //     );
-  //   }
-  // });
 
   it("should auto generateToken if registerApp replied with invalid token error", async function () {
     // setup FM response

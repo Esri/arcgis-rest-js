@@ -18,15 +18,14 @@ let session: ArcGISIdentityManager;
 
 const clientId = "xwQy4KdPdZw3J6aN";
 const host = window.location.origin;
-const redirectUri =
-  host + "/demos/dev-credentials-client/apikeyManagement.html";
+const redirectUri = host + "/apikeyManagement.html";
 
 const serializedSession = localStorage.getItem("__ARCGIS_REST_USER_SESSION__");
 
 const clearSession = () => {
   session.signOut();
   localStorage.removeItem("__ARCGIS_REST_USER_SESSION__");
-  location.replace(host + "/demos/dev-credentials-client/index.html");
+  location.replace(host + "/index.html");
 };
 
 if (serializedSession === null || serializedSession === "undefined") {
@@ -42,7 +41,7 @@ if (serializedSession === null || serializedSession === "undefined") {
     })
     .catch(() => {
       // Failed completeOAuth2 needs re-direct to sign in page
-      location.replace(host + "/demos/dev-credentials-client/index.html");
+      location.replace(host + "/index.html");
     });
 } else {
   session = ArcGISIdentityManager.deserialize(serializedSession);
@@ -104,12 +103,12 @@ if (serializedSession === null || serializedSession === "undefined") {
 
     createKeyElement.addEventListener("click", async () => {
       const selectedPrivileges: Array<keyof typeof Privileges> = [];
-      select2Privilege.select2("data").forEach((element) => {
+      select2Privilege.select2("data").forEach((element: any) => {
         selectedPrivileges.push(element.id as keyof typeof Privileges);
       });
 
       const selectedReferrers: string[] = [];
-      select2Referrer.select2("data").forEach((element) => {
+      select2Referrer.select2("data").forEach((element: any) => {
         selectedReferrers.push(element.id);
       });
 

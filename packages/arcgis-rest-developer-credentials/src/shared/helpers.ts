@@ -7,16 +7,15 @@ import { IApiKeyInfo } from "./types/apiKeyType.js";
  * @internal
  * Used to check privileges validity.
  */
-export const isPrivilegesValid = (
+export const arePrivilegesValid = (
   privileges: Array<keyof typeof Privileges>
 ): boolean => privileges.every((element) => element in Privileges);
 
-// TODO: This func may be modified to support more types e.g. object
 /**
  * @internal
  * Encode special params value (e.g. array type...) in advance in order to make {@linkcode encodeParam} works correctly. Usage is case by case.
  */
-export const paramsEncodingToJsonStr = (requestOptions: IRequestOptions) => {
+export const stringifyArrays = (requestOptions: IRequestOptions) => {
   Object.entries(requestOptions.params).forEach((entry) => {
     const [key, value] = entry;
     if (value.constructor.name === "Array") {
@@ -58,7 +57,7 @@ export function registeredAppResponseToApp(
  */
 export function appToApiKeyProperties(response: IApp): IApiKeyInfo {
   if (response.appType !== "apikey" || !("apiKey" in response)) {
-    throw new Error("App type is not api key.");
+    throw new Error("Item is not an API key.is not api key.");
   }
 
   delete response.client_id;

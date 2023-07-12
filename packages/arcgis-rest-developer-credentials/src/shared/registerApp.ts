@@ -9,8 +9,8 @@ import {
   IRegisteredAppResponse
 } from "./types/appType.js";
 import {
-  isPrivilegesValid,
-  paramsEncodingToJsonStr,
+  arePrivilegesValid,
+  stringifyArrays,
   registeredAppResponseToApp
 } from "./helpers.js";
 
@@ -54,8 +54,8 @@ export async function registerApp(
   requestOptions: IRegisterAppOptions
 ): Promise<IApp> {
   // privileges validation
-  if (!isPrivilegesValid(requestOptions.privileges)) {
-    throw new Error("Contain invalid privileges");
+  if (!arePrivilegesValid(requestOptions.privileges)) {
+    throw new Error("The `privileges` option contains invalid privileges.");
   }
 
   // build params
@@ -67,7 +67,7 @@ export async function registerApp(
     "privileges"
   ]);
   // encode special params value (e.g. array type...) in advance in order to make encodeQueryString() works correctly
-  paramsEncodingToJsonStr(options);
+  stringifyArrays(options);
 
   const url = getPortalUrl(options) + "/oauth2/registerApp";
   options.httpMethod = "POST";

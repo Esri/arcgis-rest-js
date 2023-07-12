@@ -9,8 +9,8 @@ import { getRegisteredAppInfo } from "./shared/getRegisteredAppInfo.js";
 import {
   appToApiKeyProperties,
   extractBaseRequestOptions,
-  isPrivilegesValid,
-  paramsEncodingToJsonStr,
+  arePrivilegesValid,
+  stringifyArrays,
   registeredAppResponseToApp
 } from "./shared/helpers.js";
 import { getItem, getPortalUrl } from "@esri/arcgis-rest-portal";
@@ -22,7 +22,7 @@ import {
 } from "./shared/types/appType.js";
 
 /**
- * Used to update an API key. See the [ConfluenceWikiDev Documentation](https://confluencewikidev.esri.com/display/AGO/API+Keys#APIKeys-UpdateAPIkey) for more information about update endpoint.
+ * Used to update an API key.
  *
  * Notes about `privileges` and `httpReferrers` options:
  * 1. Provided option will override corresponding old option.
@@ -58,9 +58,9 @@ export async function updateApiKey(
   // privileges validation
   if (
     requestOptions.privileges &&
-    !isPrivilegesValid(requestOptions.privileges)
+    !arePrivilegesValid(requestOptions.privileges)
   ) {
-    throw new Error("Contain invalid privileges");
+    throw new Error("The `privileges` option contains invalid privileges.");
   }
 
   requestOptions.httpMethod = "POST";
@@ -77,7 +77,7 @@ export async function updateApiKey(
 
   // appType must be APIKey to continue
   if (appResponse.appType !== "apikey" || !("apiKey" in appResponse))
-    throw new Error("App type is not api key.");
+    throw new Error("Item is not an API key.is not api key.");
 
   const clientId = appResponse.client_id;
   const options = appendCustomParams(
@@ -87,7 +87,7 @@ export async function updateApiKey(
   options.params.f = "json";
 
   // encode special params value (e.g. array type...) in advance in order to make encodeQueryString() works correctly
-  paramsEncodingToJsonStr(options);
+  stringifyArrays(options);
 
   const url = getPortalUrl(options) + `/oauth2/apps/${clientId}/update`;
 

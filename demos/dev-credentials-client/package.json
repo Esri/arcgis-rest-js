@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
-    "start": "tsc"
+    "start": "tsc && node ../../scripts/run-demo-server.js"
   },
   "dependencies": {
     "@esri/arcgis-rest-developer-credentials": "^1.0.0",

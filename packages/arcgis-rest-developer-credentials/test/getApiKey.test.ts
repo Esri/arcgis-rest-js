@@ -111,14 +111,12 @@ const getApiKeyResponseExpected: IApiKeyResponse = {
 2. get key with IRequestOptions (Online portal) => root url should be online at getRegisteredAppInfo() and getItem() endpoints
 3. throw err if itemId is not found by getRegisteredAppInfo()
 4. throw err if itemId is found by getRegisteredAppInfo() but appType is not ApiKey
-5. throw err if auth token is missing
-6. auto generateToken if auth token is invalid
+5. auto generateToken if auth token is invalid
  */
 describe("getApiKey()", () => {
   // setup IdentityManager
   let authOnline: ArcGISIdentityManager;
   let authEnterprise: ArcGISIdentityManager;
-  // let authEmptyToken: ArcGISIdentityManager;
   let authInvalidToken: ArcGISIdentityManager;
 
   beforeAll(function () {
@@ -136,7 +134,6 @@ describe("getApiKey()", () => {
       token: "fake-token",
       tokenExpires: TOMORROW
     });
-    // authEmptyToken = new ArcGISIdentityManager({});
     authInvalidToken = new ArcGISIdentityManager({
       username: "745062756",
       password: "fake-password",
@@ -297,44 +294,10 @@ describe("getApiKey()", () => {
     } catch (e: any) {
       expect(fetchMock.called("getAppRoute")).toBe(true);
       expect(fetchMock.called("getItemRoute")).toBe(true);
-      expect(e.message).toBe("App type is not api key.");
+      expect(e.message).toBe("Item is not an API key.is not api key.");
     }
   });
-  // it("should throw err if auth token is missing", async function () {
-  //   // setup FM response
-  //   fetchMock.mock(
-  //     {
-  //       url: "begin:https://www.arcgis.com/sharing/rest/community/self", // url should match
-  //       method: "GET", // http method should match
-  //       headers: { "Content-Type": "application/x-www-form-urlencoded" }, // content type should match
-  //       name: "communitySelfRoute",
-  //       repeat: 1
-  //     },
-  //     {
-  //       body: {
-  //         error: {
-  //           code: 400,
-  //           messageCode: "COM_0019",
-  //           message: "Not logged in.",
-  //           details: []
-  //         }
-  //       },
-  //       status: 200,
-  //       headers: { "Content-Type": "application/json" }
-  //     }
-  //   );
-  //
-  //   try {
-  //     await getApiKey({
-  //       itemId: "fake-itemID",
-  //       authentication: authEmptyToken
-  //     });
-  //     fail("Should have rejected.");
-  //   } catch (e: any) {
-  //     expect(fetchMock.called("communitySelfRoute")).toBe(true);
-  //     expect(e.message).toBe("COM_0019: Not logged in.");
-  //   }
-  // });
+
   it("should auto generateToken if auth token is invalid", async function () {
     // setup FM response
     fetchMock

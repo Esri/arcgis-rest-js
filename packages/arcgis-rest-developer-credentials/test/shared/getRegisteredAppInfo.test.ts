@@ -54,16 +54,14 @@ const mockNormalResponse: IRegisteredAppResponse = {
 1. get app without IRequestOptions (APIKey type app, Enterprise portal) => root url should be enterprise
 2. get app with IRequestOptions (non APIKey type app, Online portal) => apikey should be omitted in response; root url should be online
 3. throw error if itemId is not found
-4. throw error if auth not logged in (token missing)
-5. auto generateToken if getAppInfo replied with invalid token error
-6. throw error if response status code >= 400
+4. auto generateToken if getAppInfo replied with invalid token error
+5. throw error if response status code >= 400
  */
 
 describe("registerApp()", () => {
   // setup IdentityManager
   let authOnline: ArcGISIdentityManager;
   let authEnterprise: ArcGISIdentityManager;
-  // let authEmptyToken: ArcGISIdentityManager;
   let authInvalidToken: ArcGISIdentityManager;
 
   beforeAll(function () {
@@ -81,7 +79,6 @@ describe("registerApp()", () => {
       token: "fake-token",
       tokenExpires: TOMORROW
     });
-    // authEmptyToken = new ArcGISIdentityManager({});
     authInvalidToken = new ArcGISIdentityManager({
       username: "fake-username",
       password: "fake-password",
@@ -214,43 +211,6 @@ describe("registerApp()", () => {
       );
     }
   });
-
-  // invalid auth manager
-  // it("should throw error if auth not logged in (token missing)", async function () {
-  //   // setup FM response
-  //   fetchMock.mock(
-  //     {
-  //       url: "begin:https://www.arcgis.com/sharing/rest/community/self", // url should match
-  //       method: "GET", // http method should match
-  //       headers: { "Content-Type": "application/x-www-form-urlencoded" }, // content type should match
-  //       name: "communitySelfRoute",
-  //       repeat: 1
-  //     },
-  //     {
-  //       body: {
-  //         error: {
-  //           code: 400,
-  //           messageCode: "COM_0019",
-  //           message: "Not logged in.",
-  //           details: []
-  //         }
-  //       },
-  //       status: 200,
-  //       headers: { "Content-Type": "application/json" }
-  //     }
-  //   );
-  //
-  //   try {
-  //     await getRegisteredAppInfo({
-  //       itemId: "fake-itemID",
-  //       authentication: authEmptyToken
-  //     });
-  //     fail("Should have rejected.");
-  //   } catch (e: any) {
-  //     expect(fetchMock.called("communitySelfRoute")).toBe(true);
-  //     expect(e.message).toBe("COM_0019: Not logged in.");
-  //   }
-  // });
 
   it("should auto generateToken if getAppInfo replied with invalid token error", async function () {
     // setup FM response
