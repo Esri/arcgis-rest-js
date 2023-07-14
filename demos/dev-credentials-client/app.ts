@@ -48,41 +48,50 @@ if (serializedSession === null || serializedSession === "undefined") {
   const tokenRemainingTime =
     session.tokenExpires.getTime() - new Date().getTime(); // in seconds
 
-  if (tokenRemainingTime <= 0) clearSession();
+  if (tokenRemainingTime <= 0) {
+    clearSession();
+  }
 
   setTimeout(clearSession, tokenRemainingTime * 1000);
 
   // active session (signed in)
   console.log(session.token);
-  const contentElement = document.getElementById("content")!;
+  const contentElement = document.getElementById("content") as HTMLElement;
   contentElement.style.display = "block";
   document.addEventListener("DOMContentLoaded", () => {
-    const pageTitleElement = document.getElementById("pageTitle")!;
+    const pageTitleElement = document.getElementById(
+      "pageTitle"
+    ) as HTMLElement;
     const privilegesElement = document.getElementById(
       "privileges"
     ) as HTMLSelectElement;
     const titleElement = document.getElementById("title") as HTMLInputElement;
     const descElement = document.getElementById("desc") as HTMLInputElement;
-    const titleAndDescElement = document.getElementById("titleAndDesc")!;
+    const titleAndDescElement = document.getElementById(
+      "titleAndDesc"
+    ) as HTMLElement;
     const createKeyElement = document.getElementById(
       "createKey"
     ) as HTMLButtonElement;
     const signOutElement = document.getElementById(
       "signOut"
     ) as HTMLButtonElement;
-    const selectedKeyElement = document.getElementById("selectedKey")!;
-    const paragraphElement = document.querySelector("p")!;
+    const selectedKeyElement = document.getElementById(
+      "selectedKey"
+    ) as HTMLElement;
+    const paragraphElement = document.querySelector(
+      "p"
+    ) as HTMLParagraphElement;
+    const inputForm = document.getElementById("form") as HTMLFormElement;
 
     pageTitleElement.innerHTML = `APIKey Management (sign in as: ${session.username})`;
 
     // populate user's privileges into multi-select input
-    session.getUser().then((usr) => {
-      const privilegesSelectOptions = usr.privileges!;
-      privilegesSelectOptions.forEach((val, idx) => {
-        privilegesSelectOptions[idx] = `<option value="${val}">${val}</option>`;
-      });
-      privilegesElement.innerHTML = privilegesSelectOptions.join("");
+    const privilegesSelectOptions: string[] = Object.keys(Privileges);
+    privilegesSelectOptions.forEach((val, idx) => {
+      privilegesSelectOptions[idx] = `<option value="${val}">${val}</option>`;
     });
+    privilegesElement.innerHTML = privilegesSelectOptions.join("");
 
     const select2Referrer = $("#httpreferrer").select2({
       tags: true,
@@ -101,7 +110,9 @@ if (serializedSession === null || serializedSession === "undefined") {
       searching: false
     });
 
-    createKeyElement.addEventListener("click", async () => {
+    inputForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
       const selectedPrivileges: Array<keyof typeof Privileges> = [];
       select2Privilege.select2("data").forEach((element: any) => {
         selectedPrivileges.push(element.id as keyof typeof Privileges);
@@ -116,6 +127,12 @@ if (serializedSession === null || serializedSession === "undefined") {
       try {
         if (!isEdit) {
           // create
+          if (!titleElement.checkValidity()) {
+            titleElement.classList.add("is-invalid");
+            return false;
+          }
+          titleElement.classList.remove("is-invalid");
+
           const title = titleElement.value;
           const desc = descElement.value;
 
@@ -132,7 +149,14 @@ if (serializedSession === null || serializedSession === "undefined") {
             null,
             2
           )}</code></pre>`;
-          table.rows.add([apiKeyInfo]).draw();
+          table.rows
+            .add([
+              {
+                ...apiKeyInfo,
+                modified: apiKeyInfo.modified.toLocaleString()
+              }
+            ])
+            .draw();
         } else {
           // edit
           const option: IUpdateApiKeyOptions = {
@@ -147,7 +171,13 @@ if (serializedSession === null || serializedSession === "undefined") {
             null,
             2
           )}</code></pre>`;
-          table.row(selectedRow).data(apiKeyInfo).draw();
+          table
+            .row(selectedRow)
+            .data({
+              ...apiKeyInfo,
+              modified: apiKeyInfo.modified.toLocaleString()
+            })
+            .draw();
         }
       } catch (e) {
         console.log(e);
@@ -163,7 +193,7 @@ if (serializedSession === null || serializedSession === "undefined") {
         selectedRow = null;
         isEdit = false;
         paragraphElement.innerHTML = "";
-        titleAndDescElement.style.display = "block";
+        titleAndDescElement.style.display = "flex";
         selectedKeyElement.innerHTML = "Selected: ";
         createKeyElement.innerHTML = "Create";
 
@@ -187,17 +217,13 @@ if (serializedSession === null || serializedSession === "undefined") {
           2
         )}</code></pre>`;
         titleAndDescElement.style.display = "none";
-        selectedKeyElement.innerHTML = `Selected: ${
-          table.row(selectedRow).data().itemId
-        }`;
+        selectedKeyElement.innerHTML = `Selected: ${getApiKeyResponse.itemId}`;
         createKeyElement.innerHTML = "Edit";
 
         $("#httpreferrer")
-          .val(table.row(selectedRow).data().httpReferrers)
+          .val(getApiKeyResponse.httpReferrers)
           .trigger("change");
-        $("#privileges")
-          .val(table.row(selectedRow).data().privileges)
-          .trigger("change");
+        $("#privileges").val(getApiKeyResponse.privileges).trigger("change");
       }
     });
     signOutElement.addEventListener("click", clearSession);

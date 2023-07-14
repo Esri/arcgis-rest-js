@@ -52,8 +52,9 @@ import {
 export async function createApiKey(
   requestOptions: ICreateApiKeyOptions
 ): Promise<IApiKeyResponse> {
-  if (!arePrivilegesValid(requestOptions.privileges))
+  if (!arePrivilegesValid(requestOptions.privileges)) {
     throw new Error("The `privileges` option contains invalid privileges.");
+  }
 
   requestOptions.httpMethod = "POST";
 

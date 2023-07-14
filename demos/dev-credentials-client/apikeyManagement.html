@@ -21,32 +21,37 @@
 </head>
 <body>
 <div id="content" class="container" style="display: none">
-    <div class="card mt-4">
-        <h5 class="card-header">Create/Edit Key</h5>
-        <div class="card-body">
-            <h5 id="pageTitle" class="card-title"></h5>
-            <div class="mb-3">
-                <label for="privileges" class="form-label">Privileges</label>
-                <select class="form-select" id="privileges" multiple="multiple"></select>
-            </div>
-            <div class="mb-3">
-                <label for="httpreferrer" class="form-label">Http Referrers</label>
-                <select class="form-select" id="httpreferrer" multiple="multiple"></select>
-            </div>
-            <div class="row mb-3" id="titleAndDesc">
-                <div class="col-md-6">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title">
+    <form id="form" novalidate>
+        <div class="card mt-4">
+            <h5 class="card-header">Create/Edit Key</h5>
+            <div class="card-body">
+                <h5 id="pageTitle" class="card-title"></h5>
+                <div class="mb-3">
+                    <label for="privileges" class="form-label">Privileges</label>
+                    <select class="form-select" id="privileges" multiple="multiple"></select>
                 </div>
-                <div class="col-md-6">
-                    <label for="desc" class="form-label">Description</label>
-                    <input type="text" class="form-control" id="desc">
+                <div class="mb-3">
+                    <label for="httpreferrer" class="form-label">Http Referrers</label>
+                    <select class="form-select" id="httpreferrer" multiple="multiple"></select>
                 </div>
+                <div class="row mb-3" id="titleAndDesc">
+                    <div class="col-md-6">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" required>
+                        <div class="invalid-feedback">
+                            Please provide a non-empty title.
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="desc" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="desc">
+                    </div>
+                </div>
+                <button id="createKey" type="submit" class="btn btn-primary">Create</button>
+                <button id="signOut" type="button" class="btn btn-primary">sign out</button>
             </div>
-            <button id="createKey" type="button" class="btn btn-primary">Create</button>
-            <button id="signOut" type="button" class="btn btn-primary">sign out</button>
         </div>
-    </div>
+    </form>
 
     <div class="card mt-4">
         <h5 class="card-header" id="selectedKey">Selected: </h5>
@@ -81,6 +86,7 @@
       "@esri/arcgis-rest-developer-credentials": "/@esri/arcgis-rest-developer-credentials/dist/bundled/developer-credentials.esm.js"
     }
   }
+
 
 
 </script>

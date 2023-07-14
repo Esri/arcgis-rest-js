@@ -76,8 +76,9 @@ export async function updateApiKey(
   const appResponse = await getRegisteredAppInfo(getAppOption);
 
   // appType must be APIKey to continue
-  if (appResponse.appType !== "apikey" || !("apiKey" in appResponse))
+  if (appResponse.appType !== "apikey" || !("apiKey" in appResponse)) {
     throw new Error("Item is not an API key.");
+  }
 
   const clientId = appResponse.client_id;
   const options = appendCustomParams(
