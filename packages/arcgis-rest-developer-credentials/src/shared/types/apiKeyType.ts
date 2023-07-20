@@ -81,5 +81,30 @@ export interface IUpdateApiKeyOptions extends Omit<IRequestOptions, "params"> {
   /**
    * Override previous `privileges` if this value is provided.
    */
-  privileges?: Array<keyof typeof Privileges>;
+  privileges?: Array<Privileges | `${Privileges}`>;
+}
+
+/**
+ * Options to delete an API key.
+ */
+export interface IDeleteApiKeyOption extends Omit<IRequestOptions, "params"> {
+  /**
+   * {@linkcode ArcGISIdentityManager} authentication.
+   */
+  authentication: ArcGISIdentityManager;
+  /**
+   * itemId of which API key to be removed.
+   */
+  itemId: string;
+}
+
+/**
+ * Response of API key deletion.
+ */
+export interface IDeleteApiKeyResponse {
+  /**
+   * itemId of which API key has been removed.
+   */
+  itemId: string;
+  success: boolean;
 }

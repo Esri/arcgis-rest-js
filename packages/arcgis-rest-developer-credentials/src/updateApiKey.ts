@@ -39,7 +39,7 @@ import {
  *
  * updateApiKey({
  *   itemId: "xyz_itemId",
- *   privileges: ["premium:user:geocode"],
+ *   privileges: [Privileges.Geocode],
  *   httpReferrers: [], // httpReferrers will be set to be empty
  *   authentication: authSession
  * }).then((updatedAPIKey: IApiKeyResponse) => {

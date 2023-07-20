@@ -2,14 +2,18 @@ import { IRequestOptions } from "@esri/arcgis-rest-request";
 import { Privileges } from "./enum/PRIVILEGE.js";
 import { IRegisteredAppResponse, IApp } from "./types/appType.js";
 import { IApiKeyInfo } from "./types/apiKeyType.js";
+import { IOAuthAppInfo } from "./types/oAuthType.js";
 
 /**
  * @internal
  * Used to check privileges validity.
  */
 export const arePrivilegesValid = (
-  privileges: Array<keyof typeof Privileges>
-): boolean => privileges.every((element) => element in Privileges);
+  privileges: Array<Privileges | `${Privileges}`>
+): boolean =>
+  privileges.every((element) =>
+    Object.values(Privileges).includes(element as any)
+  );
 
 /**
  * @internal
@@ -66,6 +70,22 @@ export function appToApiKeyProperties(response: IApp): IApiKeyInfo {
   delete response.appType;
 
   return response as IApiKeyInfo;
+}
+
+/**
+ * @internal
+ * Used to convert {@linkcode IApp} to {@linkcode IOAuthAppInfo}.
+ */
+export function appToOAuthAppProperties(response: IApp): IOAuthAppInfo {
+  if (response.appType === "apikey") {
+    throw new Error("Item is not an OAuth 2.0 app.");
+  }
+
+  delete response.appType;
+  delete response.httpReferrers;
+  delete response.privileges;
+
+  return response as IOAuthAppInfo;
 }
 
 /**

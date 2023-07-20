@@ -1,10 +1,11 @@
 import fetchMock from "fetch-mock";
+import { getRegisteredAppInfo } from "../../src/shared/getRegisteredAppInfo.js";
 import {
-  getRegisteredAppInfo,
   IGetAppInfoOptions,
   IRegisteredAppResponse
-} from "../../src";
+} from "../../src/shared/types/appType.js";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
+import { Privileges } from "../../src/shared/enum/PRIVILEGE.js";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 function setFetchMockPOSTFormUrlencoded(
@@ -44,10 +45,7 @@ const mockNormalResponse: IRegisteredAppResponse = {
   gcmApiKey: null,
   isBeta: false,
   httpReferrers: ["https://www.esri.com/en-us/home"],
-  privileges: [
-    "premium:user:geocode:temporary",
-    "premium:user:networkanalysis:routing"
-  ]
+  privileges: [Privileges.GeocodeTemporary, Privileges.NetworkAnalysisRouting]
 };
 
 /* test plans:

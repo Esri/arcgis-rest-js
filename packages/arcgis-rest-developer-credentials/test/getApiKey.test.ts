@@ -1,8 +1,11 @@
 import fetchMock from "fetch-mock";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { getApiKey, IRegisteredAppResponse, IApiKeyResponse } from "../src";
-import { TOMORROW } from "../../../scripts/test-helpers";
+import { getApiKey } from "../src/getApiKey.js";
+import { IRegisteredAppResponse } from "../src/shared/types/appType.js";
+import { IApiKeyResponse } from "../src/shared/types/apiKeyType.js";
+import { Privileges } from "../src/shared/enum/PRIVILEGE.js";
+import { TOMORROW } from "../../../scripts/test-helpers.js";
 
 function setFetchMockPOSTFormUrlencoded(
   url: string,
@@ -39,7 +42,7 @@ const mockGetAppInfoResponse: IRegisteredAppResponse = {
   apnsSandboxCert: null,
   gcmApiKey: null,
   httpReferrers: [],
-  privileges: ["premium:user:networkanalysis"],
+  privileges: [Privileges.NetworkAnalysis],
   isBeta: false,
   apiKey:
     "AAPKb3c949a2a9b04f5baf4acbd4b96fd2d0aagzgFeAHCXEGzVXtClRiQE2aHgEYyDOUoQmygarcwG5R5PfY04lezi9GZt98L-F"
@@ -100,7 +103,7 @@ const getApiKeyResponseExpected: IApiKeyResponse = {
   registered: new Date(1687824330000),
   modified: new Date(1687824330000),
   httpReferrers: [],
-  privileges: ["premium:user:networkanalysis"],
+  privileges: [Privileges.NetworkAnalysis],
   apiKey:
     "AAPKb3c949a2a9b04f5baf4acbd4b96fd2d0aagzgFeAHCXEGzVXtClRiQE2aHgEYyDOUoQmygarcwG5R5PfY04lezi9GZt98L-F",
   item: mockGetItemResponse
@@ -269,7 +272,7 @@ describe("getApiKey()", () => {
         apnsSandboxCert: null,
         gcmApiKey: null,
         httpReferrers: [],
-        privileges: ["premium:user:networkanalysis"],
+        privileges: [Privileges.NetworkAnalysis],
         isBeta: false
       } as IRegisteredAppResponse,
       200,

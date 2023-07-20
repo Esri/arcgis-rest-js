@@ -1,8 +1,12 @@
 import fetchMock from "fetch-mock";
-import { TOMORROW } from "../../../scripts/test-helpers";
+import { TOMORROW } from "../../../scripts/test-helpers.js";
 import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
 import { ICreateItemResponse, IItem } from "@esri/arcgis-rest-portal";
-import { IRegisteredAppResponse, IApiKeyResponse, createApiKey } from "../src";
+
+import { IRegisteredAppResponse } from "../src/shared/types/appType.js";
+import { IApiKeyResponse } from "../src/shared/types/apiKeyType.js";
+import { createApiKey } from "../src/createApiKey.js";
+import { Privileges } from "../src/shared/enum/PRIVILEGE.js";
 
 function setFetchMockPOSTFormUrlencoded(
   url: string,
@@ -45,7 +49,7 @@ const mockRegisterAppResponseNoParams: IRegisteredAppResponse = {
   apnsSandboxCert: null,
   gcmApiKey: null,
   httpReferrers: [],
-  privileges: ["premium:user:networkanalysis", "premium:user:places"],
+  privileges: [Privileges.NetworkAnalysis, Privileges.Places],
   isBeta: false,
   apiKey:
     "AAPKaf04c75ae5a94b9b942bd715275a1dd361OFPxBJl2ytI7Seqy1RMSSbtC7osyRZNGx9LNz5r6dCdiofOBplYIk1P-ih8sRU"
@@ -105,7 +109,7 @@ const keyResponseExpectedNoParams: IApiKeyResponse = {
   registered: new Date(1687880984000),
   modified: new Date(1687880984000),
   httpReferrers: [],
-  privileges: ["premium:user:networkanalysis", "premium:user:places"],
+  privileges: [Privileges.NetworkAnalysis, Privileges.Places],
   apiKey:
     "AAPKaf04c75ae5a94b9b942bd715275a1dd361OFPxBJl2ytI7Seqy1RMSSbtC7osyRZNGx9LNz5r6dCdiofOBplYIk1P-ih8sRU"
 };
@@ -261,7 +265,7 @@ describe("createApiKey()", () => {
     );
 
     const creatApiKeyResponse = await createApiKey({
-      privileges: ["premium:user:networkanalysis", "premium:user:places"],
+      privileges: [Privileges.NetworkAnalysis, Privileges.Places],
       title: "test 4",
       description: "test 4",
       authentication: authEnterprise

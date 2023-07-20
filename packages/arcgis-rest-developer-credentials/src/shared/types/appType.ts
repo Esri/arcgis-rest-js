@@ -33,7 +33,7 @@ export interface IRegisterAppOptions extends Omit<IRequestOptions, "params"> {
   /**
    * Privilege lists. For more info, refer to {@linkcode Privileges}.
    */
-  privileges: Array<keyof typeof Privileges>;
+  privileges: Array<Privileges | `${Privileges}`>;
   /**
    * {@linkcode ArcGISIdentityManager} authentication.
    */
@@ -68,7 +68,7 @@ export interface IRegisteredAppResponse {
   client_secret: string;
   httpReferrers: string[];
   redirect_uris: string[];
-  privileges: Array<keyof typeof Privileges>;
+  privileges: Array<Privileges | `${Privileges}`>;
   registered: UnixTime;
   modified: UnixTime;
   apnsProdCert: any;
@@ -92,4 +92,29 @@ export interface IApp
   > {
   registered: Date;
   modified: Date;
+}
+
+/**
+ * Options to unregister an app.
+ */
+export interface IUnregisterAppOptions extends Omit<IRequestOptions, "params"> {
+  /**
+   * {@linkcode ArcGISIdentityManager} authentication.
+   */
+  authentication: ArcGISIdentityManager;
+  /**
+   * itemId of which app to be unregistered.
+   */
+  itemId: string;
+}
+
+/**
+ * Response of app un-registration.
+ */
+export interface IUnregisterAppResponse {
+  success: true | false;
+  /**
+   * itemId of which app has been unregistered.
+   */
+  itemId: string;
 }

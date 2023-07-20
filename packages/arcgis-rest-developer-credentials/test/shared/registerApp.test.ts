@@ -1,10 +1,11 @@
 import fetchMock from "fetch-mock";
 import {
   IRegisterAppOptions,
-  IRegisteredAppResponse,
-  registerApp
-} from "../../src";
+  IRegisteredAppResponse
+} from "../../src/shared/types/appType.js";
+import { registerApp } from "../../src/shared/registerApp.js";
 import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
+import { Privileges } from "../../src/shared/enum/PRIVILEGE.js";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 function setFetchMockPOSTFormUrlencoded(
@@ -44,10 +45,7 @@ const mockNormalResponse: IRegisteredAppResponse = {
   gcmApiKey: null,
   isBeta: false,
   httpReferrers: ["https://www.esri.com/en-us/home"],
-  privileges: [
-    "premium:user:geocode:temporary",
-    "premium:user:networkanalysis:routing"
-  ]
+  privileges: [Privileges.GeocodeTemporary, Privileges.NetworkAnalysisRouting]
 };
 
 /* test plans:
@@ -104,8 +102,8 @@ describe("registerApp()", () => {
       redirect_uris: [],
       httpReferrers: ["https://www.esri.com/en-us/home"],
       privileges: [
-        "premium:user:geocode:temporary",
-        "premium:user:networkanalysis:routing"
+        Privileges.GeocodeTemporary,
+        Privileges.NetworkAnalysisRouting
       ],
       authentication: authEnterprise
     };
@@ -225,10 +223,7 @@ describe("registerApp()", () => {
         appType: "apikey",
         redirect_uris: [],
         httpReferrers: ["https://www.esri.com/en-us/home"],
-        privileges: [
-          "premium:user:networkanalysis",
-          "invalid privilege"
-        ] as any, // second is invalid
+        privileges: [Privileges.NetworkAnalysis, "invalid privilege"] as any, // second is invalid
         authentication: authOnline
       });
       fail("Should have rejected.");
@@ -290,8 +285,8 @@ describe("registerApp()", () => {
         redirect_uris: [],
         httpReferrers: ["https://www.esri.com/en-us/home"],
         privileges: [
-          "premium:user:geocode:temporary",
-          "premium:user:networkanalysis:routing"
+          Privileges.GeocodeTemporary,
+          Privileges.NetworkAnalysisRouting
         ],
         authentication: authInvalidToken
       });

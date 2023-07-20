@@ -38,7 +38,7 @@ import {
  *   appType: "multiple",
  *   redirect_uris: ["http://localhost:3000/"],
  *   httpReferrers: ["http://localhost:3000/"],
- *   privileges: ["premium:user:geocode", "premium:user:featurereport"],
+ *   privileges: [Privileges.Geocode, Privileges.FeatureReport],
  *   authentication: authSession
  * }).then((registeredApp: IApp) => {
  *   // => {client_id: "xyz_id", client_secret: "xyz_secret", ...}

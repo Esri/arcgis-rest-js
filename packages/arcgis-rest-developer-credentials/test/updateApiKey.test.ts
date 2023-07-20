@@ -1,8 +1,11 @@
 import fetchMock from "fetch-mock";
-import { TOMORROW } from "../../../scripts/test-helpers";
+import { TOMORROW } from "../../../scripts/test-helpers.js";
 import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-portal";
-import { IRegisteredAppResponse, IApiKeyResponse, updateApiKey } from "../src";
+import { IRegisteredAppResponse } from "../src/shared/types/appType.js";
+import { IApiKeyResponse } from "../src/shared/types/apiKeyType.js";
+import { updateApiKey } from "../src/updateApiKey.js";
+import { Privileges } from "../src/shared/enum/PRIVILEGE.js";
 
 function setFetchMockPOSTFormUrlencoded(
   url: string,
@@ -44,8 +47,8 @@ const mockGetAppResponseNoParams: IRegisteredAppResponse = {
     "https://esri.okta.com/app/UserHome"
   ],
   privileges: [
-    "premium:user:networkanalysis:servicearea",
-    "premium:user:networkanalysis:routing"
+    Privileges.NetworkAnalysisServiceArea,
+    Privileges.NetworkAnalysisRouting
   ],
   isBeta: false,
   apiKey:
@@ -67,8 +70,8 @@ const mockUpdateKeyResponseNoParams: IRegisteredAppResponse = {
     "https://esri.okta.com/app/UserHome"
   ],
   privileges: [
-    "premium:user:networkanalysis:servicearea",
-    "premium:user:networkanalysis:routing"
+    Privileges.NetworkAnalysisServiceArea,
+    Privileges.NetworkAnalysisRouting
   ],
   isBeta: false
 };
@@ -131,8 +134,8 @@ const keyResponseExpectedNoParams: IApiKeyResponse = {
     "https://esri.okta.com/app/UserHome"
   ],
   privileges: [
-    "premium:user:networkanalysis:servicearea",
-    "premium:user:networkanalysis:routing"
+    Privileges.NetworkAnalysisServiceArea,
+    Privileges.NetworkAnalysisRouting
   ],
   apiKey:
     "AAPK27f2b7b36acd49778e872bb59fdc6137WeIxBAmg3WKOEIoeUPhuVDRyyBXxKCIaOHn7Dl2zhkMvy0mBndPvk0BSWRsxhnHb"
@@ -151,7 +154,7 @@ const mockGetAppResponseWithParams: IRegisteredAppResponse = {
   apnsSandboxCert: null,
   gcmApiKey: null,
   httpReferrers: [],
-  privileges: ["premium:user:networkanalysis:routing"],
+  privileges: [Privileges.NetworkAnalysisRouting],
   isBeta: false,
   apiKey:
     "AAPKb5da4a3b877d4a409ac1ee25d45703956AMdCnhP3UR6Q8XR5wRoFx6TvHwauLnx4K-pt-5fguVsG1hzNxsUossx1dIVXyRw"

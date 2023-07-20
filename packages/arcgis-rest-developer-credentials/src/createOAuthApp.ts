@@ -7,25 +7,21 @@ import {
   getItem,
   IItemAdd
 } from "@esri/arcgis-rest-portal";
-import {
-  IApiKeyResponse,
-  ICreateApiKeyOptions
-} from "./shared/types/apiKeyType.js";
 
 import { registerApp } from "./shared/registerApp.js";
 import { IRegisterAppOptions } from "./shared/types/appType.js";
 import {
-  appToApiKeyProperties,
   filterKeys,
   extractBaseRequestOptions,
-  arePrivilegesValid
+  appToOAuthAppProperties
 } from "./shared/helpers.js";
+import { ICreateOAuthAppOption, IOAuthApp } from "./shared/types/oAuthType.js";
 
 /**
- * Used to register an API key. See the [security and authentication](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/api-keys/) for more information about API key.
+ * Used to register an OAuth2.0 app. See the [OAuth2.0](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/oauth-2.0/) for more information.
  *
  * ```js
- * import { createApiKey, IApiKeyResponse } from '@esri/arcgis-rest-developer-credentials';
+ * import { createOAuthApp, IOAuthApp } from '@esri/arcgis-rest-developer-credentials';
  * import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
  *
  * const authSession: ArcGISIdentityManager = await ArcGISIdentityManager.signIn({
@@ -33,34 +29,30 @@ import {
  *   password: "xyz_pw"
  * });
  *
- * createApiKey({
+ * createOAuthApp({
  *   title: "xyz_title",
  *   description: "xyz_desc",
  *   tags: ["xyz_tag1", "xyz_tag2"],
- *   privileges: [Privileges.Geocode, Privileges.FeatureReport],
+ *   redirect_uris: ["http://localhost:3000/"],
  *   authentication: authSession
- * }).then((registeredAPIKey: IApiKeyResponse) => {
- *   // => {apiKey: "xyz_key", item: {tags: ["xyz_tag1", "xyz_tag2"], ...}, ...}
+ * }).then((registeredOAuthApp: IOAuthApp) => {
+ *   // => {redirect_uris: ["http://localhost:3000/"], item: {tags: ["xyz_tag1", "xyz_tag2"], ...}, ...}
  * }).catch(e => {
  *   // => an exception object
  * });
  * ```
  *
- * @param requestOptions - Options for {@linkcode createApiKey | createApiKey()}, including necessary params to register an API key and an {@linkcode ArcGISIdentityManager} authentication session.
- * @returns A Promise that will resolve to an {@linkcode IApiKeyResponse} object representing the newly registered API key.
+ * @param requestOptions - Options for {@linkcode createOAuthApp | createOAuthApp()}, including necessary params to register an OAuth app and an {@linkcode ArcGISIdentityManager} authentication session.
+ * @returns A Promise that will resolve to an {@linkcode IOAuthApp} object representing the newly registered OAuth app.
  */
-export async function createApiKey(
-  requestOptions: ICreateApiKeyOptions
-): Promise<IApiKeyResponse> {
-  if (!arePrivilegesValid(requestOptions.privileges)) {
-    throw new Error("The `privileges` option contains invalid privileges.");
-  }
-
+export async function createOAuthApp(
+  requestOptions: ICreateOAuthAppOption
+): Promise<IOAuthApp> {
   requestOptions.httpMethod = "POST";
 
   // filter param buckets:
 
-  const baseRequestOptions = extractBaseRequestOptions(requestOptions); // snapshot of basic IRequestOptions before customized params being built into it
+  const baseRequestOptions = extractBaseRequestOptions(requestOptions);
 
   const itemAddProperties: Array<keyof IItemAdd> = [
     "categories",
@@ -83,7 +75,7 @@ export async function createApiKey(
   const createItemOption: ICreateItemOptions = {
     item: {
       ...filterKeys(requestOptions, itemAddProperties),
-      type: "API Key"
+      type: "Application"
     },
     ...baseRequestOptions,
     authentication: requestOptions.authentication,
@@ -97,10 +89,10 @@ export async function createApiKey(
   // step 2: register app
   const registerAppOption: IRegisterAppOptions = {
     itemId: createItemResponse.id,
-    appType: "apikey",
-    redirect_uris: [],
-    httpReferrers: requestOptions?.httpReferrers || [],
-    privileges: requestOptions.privileges,
+    appType: "multiple",
+    redirect_uris: requestOptions?.redirect_uris || [],
+    httpReferrers: [],
+    privileges: [],
     ...baseRequestOptions,
     authentication: requestOptions.authentication
   };
@@ -113,7 +105,7 @@ export async function createApiKey(
   });
 
   return {
-    ...appToApiKeyProperties(registeredAppResponse),
+    ...appToOAuthAppProperties(registeredAppResponse),
     item: itemInfo
   };
 }

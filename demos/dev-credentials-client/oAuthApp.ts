@@ -1,14 +1,13 @@
 import {
-  Privileges,
-  ICreateApiKeyOptions,
-  createApiKey,
-  updateApiKey,
-  IUpdateApiKeyOptions,
-  getApiKey,
-  IGetApiKeyOptions,
-  IDeleteApiKeyOption,
-  IDeleteApiKeyResponse,
-  deleteApiKey
+  createOAuthApp,
+  getOAuthAppInfo,
+  updateOAuthApp,
+  ICreateOAuthAppOption,
+  IGetOAuthAppOptions,
+  IUpdateOAuthOptions,
+  IDeleteOAuthAppOption,
+  IDeleteOAuthAppResponse,
+  deleteOAuthApp
 } from "@esri/arcgis-rest-developer-credentials";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
@@ -21,14 +20,14 @@ let session: ArcGISIdentityManager;
 
 const clientId = "xwQy4KdPdZw3J6aN";
 const host = window.location.origin;
-const redirectUri = host + "/apikeyManagement.html";
+const redirectUri = host + "/oAuthAppManagement.html";
 
 const serializedSession = localStorage.getItem("__ARCGIS_REST_USER_SESSION__");
 
 const clearSession = () => {
   session.signOut();
   localStorage.removeItem("__ARCGIS_REST_USER_SESSION__");
-  location.replace(host + "/index.html");
+  location.replace(host + "/oAuthAppIndex.html");
 };
 
 if (serializedSession === null || serializedSession === "undefined") {
@@ -44,7 +43,7 @@ if (serializedSession === null || serializedSession === "undefined") {
     })
     .catch(() => {
       // Failed completeOAuth2 needs re-direct to sign in page
-      location.replace(host + "/index.html");
+      location.replace(host + "/oAuthAppIndex.html");
     });
 } else {
   session = ArcGISIdentityManager.deserialize(serializedSession);
@@ -65,16 +64,13 @@ if (serializedSession === null || serializedSession === "undefined") {
     const pageTitleElement = document.getElementById(
       "pageTitle"
     ) as HTMLElement;
-    const privilegesElement = document.getElementById(
-      "privileges"
-    ) as HTMLSelectElement;
     const titleElement = document.getElementById("title") as HTMLInputElement;
     const descElement = document.getElementById("desc") as HTMLInputElement;
     const titleAndDescElement = document.getElementById(
       "titleAndDesc"
     ) as HTMLElement;
-    const createKeyElement = document.getElementById(
-      "createKey"
+    const createAppElement = document.getElementById(
+      "submit"
     ) as HTMLButtonElement;
     const deleteButtonElement = document.getElementById(
       "deleteButton"
@@ -82,46 +78,39 @@ if (serializedSession === null || serializedSession === "undefined") {
     const signOutElement = document.getElementById(
       "signOut"
     ) as HTMLButtonElement;
-    const selectedKeyElement = document.getElementById(
-      "selectedKey"
+    const selectedAppElement = document.getElementById(
+      "selectedApp"
     ) as HTMLElement;
     const paragraphElement = document.querySelector(
       "p"
     ) as HTMLParagraphElement;
     const inputForm = document.getElementById("form") as HTMLFormElement;
 
-    pageTitleElement.innerHTML = `APIKey Management (sign in as: ${session.username})`;
+    pageTitleElement.innerHTML = `OAuth2.0 App Management (sign in as: ${session.username})`;
 
-    // populate user's privileges into multi-select input
-    const privilegesSelectOptions: string[] = Object.keys(Privileges);
-    privilegesSelectOptions.forEach((val, idx) => {
-      privilegesSelectOptions[idx] = `<option value="${val}">${val}</option>`;
-    });
-    privilegesElement.innerHTML = privilegesSelectOptions.join("");
-
-    const select2Referrer = $("#httpreferrer").select2({
+    const select2RedirectUri = $("#redirectUri").select2({
       tags: true,
       width: "100%"
     });
-    const select2Privilege = $("#privileges").select2({ width: "100%" });
 
     const table = $("#datatable").DataTable({
       columns: [
         { data: "itemId" },
-        { data: "apiKey" },
-        { data: "privileges" },
-        { data: "httpReferrers" },
+        { data: "client_id" },
+        { data: "redirect_uris" },
         { data: "modified" }
       ],
       searching: false
     });
 
     deleteButtonElement.addEventListener("click", async () => {
-      const option: IDeleteApiKeyOption = {
+      const option: IDeleteOAuthAppOption = {
         authentication: session,
         itemId: table.row(selectedRow).data().itemId
       };
-      const deleteResponse: IDeleteApiKeyResponse = await deleteApiKey(option);
+      const deleteResponse: IDeleteOAuthAppResponse = await deleteOAuthApp(
+        option
+      );
       paragraphElement.innerHTML = `<pre><code>${JSON.stringify(
         deleteResponse,
         null,
@@ -133,25 +122,17 @@ if (serializedSession === null || serializedSession === "undefined") {
       selectedRow = null;
       isEdit = false;
       titleAndDescElement.style.display = "flex";
-      selectedKeyElement.innerHTML = "Selected: ";
-      createKeyElement.innerHTML = "Create";
+      selectedAppElement.innerHTML = "Selected: ";
+      createAppElement.innerHTML = "Create";
       $("#httpreferrer").val(null).trigger("change");
-      $("#privileges").val(null).trigger("change");
     });
 
     inputForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const selectedPrivileges: Array<Privileges | `${Privileges}`> = [];
-      select2Privilege.select2("data").forEach((element: any) => {
-        selectedPrivileges.push(
-          Privileges[element.id as keyof typeof Privileges]
-        );
-      });
-
-      const selectedReferrers: string[] = [];
-      select2Referrer.select2("data").forEach((element: any) => {
-        selectedReferrers.push(element.id);
+      const selectedRedirectUri: string[] = [];
+      select2RedirectUri.select2("data").forEach((element: any) => {
+        selectedRedirectUri.push(element.id);
       });
 
       // create/edit button click
@@ -167,46 +148,45 @@ if (serializedSession === null || serializedSession === "undefined") {
           const title = titleElement.value;
           const desc = descElement.value;
 
-          const option: ICreateApiKeyOptions = {
+          const option: ICreateOAuthAppOption = {
             authentication: session,
             title: title,
-            description: desc,
-            httpReferrers: selectedReferrers,
-            privileges: selectedPrivileges
+            snippet: desc,
+            redirect_uris: selectedRedirectUri
           };
-          const apiKeyInfo = await createApiKey(option);
+
+          const oAuthApp = await createOAuthApp(option);
           paragraphElement.innerHTML = `<pre><code>${JSON.stringify(
-            apiKeyInfo,
+            oAuthApp,
             null,
             2
           )}</code></pre>`;
           table.rows
             .add([
               {
-                ...apiKeyInfo,
-                modified: apiKeyInfo.modified.toLocaleString()
+                ...oAuthApp,
+                modified: oAuthApp.modified.toLocaleString()
               }
             ])
             .draw();
         } else {
           // edit
-          const option: IUpdateApiKeyOptions = {
+          const option: IUpdateOAuthOptions = {
             authentication: session,
             itemId: table.row(selectedRow).data().itemId,
-            httpReferrers: selectedReferrers,
-            privileges: selectedPrivileges
+            redirect_uris: selectedRedirectUri
           };
-          const apiKeyInfo = await updateApiKey(option);
+          const oAuthApp = await updateOAuthApp(option);
           paragraphElement.innerHTML = `<pre><code>${JSON.stringify(
-            apiKeyInfo,
+            oAuthApp,
             null,
             2
           )}</code></pre>`;
           table
             .row(selectedRow)
             .data({
-              ...apiKeyInfo,
-              modified: apiKeyInfo.modified.toLocaleString()
+              ...oAuthApp,
+              modified: oAuthApp.modified.toLocaleString()
             })
             .draw();
         }
@@ -221,16 +201,16 @@ if (serializedSession === null || serializedSession === "undefined") {
       if ($(this).hasClass("selected")) {
         // de-select a row
         deleteButtonElement.style.display = "none";
+
         $(this).removeClass("selected");
         selectedRow = null;
         isEdit = false;
         paragraphElement.innerHTML = "";
         titleAndDescElement.style.display = "flex";
-        selectedKeyElement.innerHTML = "Selected: ";
-        createKeyElement.innerHTML = "Create";
+        selectedAppElement.innerHTML = "Selected: ";
+        createAppElement.innerHTML = "Create";
 
-        $("#httpreferrer").val(null).trigger("change");
-        $("#privileges").val(null).trigger("change");
+        $("#redirectUri").val(null).trigger("change");
       } else {
         // select row
         deleteButtonElement.style.display = "initial";
@@ -239,30 +219,22 @@ if (serializedSession === null || serializedSession === "undefined") {
         selectedRow = this;
         isEdit = true;
 
-        const getApiKeyOptions: IGetApiKeyOptions = {
+        const getOAuthAppOptions: IGetOAuthAppOptions = {
           authentication: session,
           itemId: table.row(selectedRow).data().itemId
         };
-        const getApiKeyResponse = await getApiKey(getApiKeyOptions);
+        const getOAuthAppResponse = await getOAuthAppInfo(getOAuthAppOptions);
         paragraphElement.innerHTML = `<pre><code>${JSON.stringify(
-          getApiKeyResponse,
+          getOAuthAppResponse,
           null,
           2
         )}</code></pre>`;
         titleAndDescElement.style.display = "none";
-        selectedKeyElement.innerHTML = `Selected: ${getApiKeyResponse.itemId}`;
-        createKeyElement.innerHTML = "Edit";
+        selectedAppElement.innerHTML = `Selected: ${getOAuthAppResponse.itemId}`;
+        createAppElement.innerHTML = "Edit";
 
-        $("#httpreferrer")
-          .val(getApiKeyResponse.httpReferrers)
-          .trigger("change");
-        $("#privileges")
-          .val(
-            getApiKeyResponse.privileges.map((val) => {
-              const index = Object.values(Privileges).indexOf(val as any);
-              return Object.keys(Privileges)[index];
-            })
-          )
+        $("#redirectUri")
+          .val(getOAuthAppResponse.redirect_uris)
           .trigger("change");
       }
     });
