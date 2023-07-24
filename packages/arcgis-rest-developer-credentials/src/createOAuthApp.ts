@@ -90,7 +90,7 @@ export async function createOAuthApp(
   const registerAppOption: IRegisterAppOptions = {
     itemId: createItemResponse.id,
     appType: "multiple",
-    redirect_uris: requestOptions?.redirect_uris || [],
+    redirect_uris: requestOptions.redirect_uris || [],
     httpReferrers: [],
     privileges: [],
     ...baseRequestOptions,

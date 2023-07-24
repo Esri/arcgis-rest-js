@@ -99,7 +99,7 @@ export async function createApiKey(
     itemId: createItemResponse.id,
     appType: "apikey",
     redirect_uris: [],
-    httpReferrers: requestOptions?.httpReferrers || [],
+    httpReferrers: requestOptions.httpReferrers || [],
     privileges: requestOptions.privileges,
     ...baseRequestOptions,
     authentication: requestOptions.authentication
