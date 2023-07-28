@@ -60,7 +60,7 @@ export interface IEditFeatureResult {
   error?: {
     code: number;
     description: string;
-  }
+  };
 }
 
 /**
@@ -170,7 +170,7 @@ function stripQueryString(url: string) {
 
 export interface IStatisticDefinition {
   /**
-   * Statistical operation to perform (count, sum, min, max, avg, stddev, var, percentile_cont, percentile_disc).
+   * Statistical operation to perform (count, sum, min, max, avg, stddev, var, percentile_cont, percentile_disc, EnvelopeAggregate, CentroidAggregate, ConvexHullAggregate).
    */
   statisticType:
     | "count"
@@ -181,7 +181,10 @@ export interface IStatisticDefinition {
     | "stddev"
     | "var"
     | "percentile_cont"
-    | "percentile_disc";
+    | "percentile_disc"
+    | "EnvelopeAggregate"
+    | "CentroidAggregate"
+    | "ConvexHullAggregate";
   /**
    * Parameters to be used along with statisticType. Currently, only applicable for percentile_cont (continuous percentile) and percentile_disc (discrete percentile).
    */
