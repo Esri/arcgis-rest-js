@@ -127,7 +127,6 @@ export function createItemInFolder(
         params: { ...requestOptions.params }
       }
     );
-
     return request(url, options);
   });
 }

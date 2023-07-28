@@ -1,0 +1,74 @@
+{
+  "name": "@esri/arcgis-rest-developer-credentials",
+  "version": "1.0.0",
+  "description": "Developer Credentials for @esri/arcgis-rest-js",
+  "license": "Apache-2.0",
+  "keywords": [
+    "ES6",
+    "arcgis",
+    "esri",
+    "fetch",
+    "promise",
+    "typescript"
+  ],
+  "type": "module",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "unpkg": "dist/bundled/developer-credentials.umd.min.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "types": "dist/esm/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "npm-run-all --parallel build:*",
+    "postbuild": "node ../../scripts/create-dist-package-jsons.js",
+    "build:bundled": "rollup -c ../../rollup.js",
+    "build:cjs": "tsc --outDir ./dist/cjs -m commonjs",
+    "postbuild:cjs": "node ../../scripts/create-dist-package-jsons.js",
+    "build:esm": "tsc --outDir ./dist/esm --declaration",
+    "postbuild:esm": "node ../../scripts/create-dist-package-jsons.js",
+    "dev": "npm-run-all --parallel dev:*",
+    "dev:bundled": "rollup -w -c ../../rollup.js",
+    "dev:cjs": "tsc -w --outDir ./dist/cjs -m commonjs",
+    "dev:esm": "tsc -w --outDir ./dist/esm --declaration"
+  },
+  "engines": {
+    "node": ">=12.20.0"
+  },
+  "dependencies": {
+    "@esri/arcgis-rest-portal": "^4.2.0",
+    "@esri/arcgis-rest-request": "^4.0.0"
+  },
+  "devDependencies": {
+    "@esri/arcgis-rest-portal": "^4.2.0",
+    "@esri/arcgis-rest-request": "^4.0.0"
+  },
+  "contributors": [
+    "Patrick Arlt <parlt@esri.com> (http://patrickarlt.com/)",
+    "Yida Tong <ytong@esri.com> (https://y-t.netlify.app/)"
+  ],
+  "homepage": "https://github.com/Esri/arcgis-rest-js#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esri/arcgis-rest-js.git",
+    "directory": "packages/arcgis-rest-developer-credentials"
+  },
+  "bugs": {
+    "url": "https://github.com/Esri/arcgis-rest-js/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "esri": {
+    "keyExports": [
+      "apiKeyManagement"
+    ]
+  }
+}
