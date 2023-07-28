@@ -21,6 +21,10 @@
 </head>
 <body>
 <div id="content" class="container" style="display: none">
+    <button id="signOut" type="button" class="btn btn-primary mt-3">sign out</button>
+    <a href="oAuthAppManagement.html" class="btn btn-primary mt-3">
+        To OAuth2.0
+    </a>
     <form id="form" novalidate>
         <div class="card mt-4">
             <h5 class="card-header">Create/Edit Key</h5>
@@ -49,10 +53,6 @@
                 </div>
                 <button id="createKey" type="submit" class="btn btn-primary">Create</button>
                 <button id="deleteButton" type="button" class="btn btn-danger" style="display: none">Delete</button>
-                <button id="signOut" type="button" class="btn btn-primary">sign out</button>
-                <a href="oAuthAppManagement.html" class="btn btn-primary">
-                    To OAuth2.0
-                </a>
             </div>
         </div>
     </form>
@@ -64,10 +64,7 @@
                 <thead>
                 <tr>
                     <th>Item Id</th>
-                    <th>API Key</th>
-                    <th>Privileges</th>
-                    <th>Http Referrers</th>
-                    <th>Modified</th>
+                    <th>Title</th>
                 </tr>
                 </thead>
             </table>
@@ -90,6 +87,7 @@
       "@esri/arcgis-rest-developer-credentials": "/@esri/arcgis-rest-developer-credentials/dist/bundled/developer-credentials.esm.js"
     }
   }
+
 
 </script>
 <script src="app.js" type="module"></script>

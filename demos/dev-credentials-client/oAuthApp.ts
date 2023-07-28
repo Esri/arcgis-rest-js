@@ -1,6 +1,6 @@
 import {
   createOAuthApp,
-  getOAuthAppInfo,
+  getOAuthApp,
   updateOAuthApp,
   ICreateOAuthAppOption,
   IGetOAuthAppOptions,
@@ -27,7 +27,7 @@ const serializedSession = localStorage.getItem("__ARCGIS_REST_USER_SESSION__");
 const clearSession = () => {
   session.signOut();
   localStorage.removeItem("__ARCGIS_REST_USER_SESSION__");
-  location.replace(host + "/oAuthAppIndex.html");
+  location.replace(host + "/index.html");
 };
 
 if (serializedSession === null || serializedSession === "undefined") {
@@ -43,7 +43,7 @@ if (serializedSession === null || serializedSession === "undefined") {
     })
     .catch(() => {
       // Failed completeOAuth2 needs re-direct to sign in page
-      location.replace(host + "/oAuthAppIndex.html");
+      location.replace(host + "/index.html");
     });
 } else {
   session = ArcGISIdentityManager.deserialize(serializedSession);
@@ -86,7 +86,7 @@ if (serializedSession === null || serializedSession === "undefined") {
     ) as HTMLParagraphElement;
     const inputForm = document.getElementById("form") as HTMLFormElement;
 
-    pageTitleElement.innerHTML = `OAuth2.0 App Management (sign in as: ${session.username})`;
+    pageTitleElement.innerHTML = `OAuth2.0 App Management (signed in as: ${session.username})`;
 
     const select2RedirectUri = $("#redirectUri").select2({
       tags: true,
@@ -223,7 +223,7 @@ if (serializedSession === null || serializedSession === "undefined") {
           authentication: session,
           itemId: table.row(selectedRow).data().itemId
         };
-        const getOAuthAppResponse = await getOAuthAppInfo(getOAuthAppOptions);
+        const getOAuthAppResponse = await getOAuthApp(getOAuthAppOptions);
         paragraphElement.innerHTML = `<pre><code>${JSON.stringify(
           getOAuthAppResponse,
           null,

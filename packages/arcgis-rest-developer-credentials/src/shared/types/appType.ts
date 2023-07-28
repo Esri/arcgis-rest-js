@@ -3,7 +3,7 @@ import {
   ArcGISIdentityManager
 } from "@esri/arcgis-rest-request";
 import { UnixTime } from "@esri/arcgis-rest-portal";
-import { Privileges } from "../enum/PRIVILEGE.js";
+import { Privileges } from "../enum/privileges.js";
 
 /**
  * Accepted app types.

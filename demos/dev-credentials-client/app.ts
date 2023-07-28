@@ -90,7 +90,7 @@ if (serializedSession === null || serializedSession === "undefined") {
     ) as HTMLParagraphElement;
     const inputForm = document.getElementById("form") as HTMLFormElement;
 
-    pageTitleElement.innerHTML = `APIKey Management (sign in as: ${session.username})`;
+    pageTitleElement.innerHTML = `APIKey Management (signed in as: ${session.username})`;
 
     // populate user's privileges into multi-select input
     const privilegesSelectOptions: string[] = Object.keys(Privileges);
@@ -106,13 +106,7 @@ if (serializedSession === null || serializedSession === "undefined") {
     const select2Privilege = $("#privileges").select2({ width: "100%" });
 
     const table = $("#datatable").DataTable({
-      columns: [
-        { data: "itemId" },
-        { data: "apiKey" },
-        { data: "privileges" },
-        { data: "httpReferrers" },
-        { data: "modified" }
-      ],
+      columns: [{ data: "itemId" }, { data: "item.title" }],
       searching: false
     });
 

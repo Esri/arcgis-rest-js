@@ -3,7 +3,7 @@ import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { IRegisteredAppResponse } from "../src/shared/types/appType.js";
 import { IOAuthApp } from "../src/shared/types/oAuthType.js";
-import { getOAuthAppInfo } from "../src/getOAuthAppInfo.js";
+import { getOAuthApp } from "../src/getOAuthApp.js";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
 
 function setFetchMockPOSTFormUrlencoded(
@@ -109,7 +109,7 @@ const getOAuthAppResponseExpected: IOAuthApp = {
 1. get OAuth app
 2. throw err if itemId is found but appType is wrong
 */
-describe("getOAuthAppInfo()", () => {
+describe("getOAuthApp()", () => {
   // setup IdentityManager
   let authOnline: ArcGISIdentityManager;
 
@@ -142,7 +142,7 @@ describe("getOAuthAppInfo()", () => {
       1
     );
 
-    const oAuthAppResponse = await getOAuthAppInfo({
+    const oAuthAppResponse = await getOAuthApp({
       itemId: "1273346593154afca9a5f80ec9f25595",
       authentication: authOnline
     });
@@ -196,7 +196,7 @@ describe("getOAuthAppInfo()", () => {
     );
 
     try {
-      await getOAuthAppInfo({
+      await getOAuthApp({
         itemId: "cddcacee5848488bb981e6c6ff91ab79",
         authentication: authOnline
       });

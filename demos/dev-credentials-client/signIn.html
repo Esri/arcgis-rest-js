@@ -12,12 +12,13 @@
     }
   }
 
+
 </script>
 <script type="module">
     import {ArcGISIdentityManager} from "@esri/arcgis-rest-request";
 
     const clientId = "xwQy4KdPdZw3J6aN";
-    const redirectUri = window.location.origin + "/oAuthAppManagement.html";
+    const redirectUri = window.location.origin + "/apikeyManagement.html";
     ArcGISIdentityManager.beginOAuth2({
         popup: false,
         clientId: clientId,

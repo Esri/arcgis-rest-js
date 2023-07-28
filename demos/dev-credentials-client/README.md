@@ -3,17 +3,16 @@
 This page will show API key and OAuth 2.0 app CRUD demo with help of `arcgis-rest-developer-credentials` package. First
 step requires a user to log in
 via [Authenticate with an ArcGIS identity](https://developers.arcgis.com/arcgis-rest-js/authentication/tutorials/authenticate-with-an-arcgis-identity-rest-js-browser/).
-Next, you will use the form create an API key, which will be stored in RAM for simplicity purpose.
-To retrieve or update, please click a specific key in the table and continue your operation. If the named token is
-expired, page will be auto-logout.
+Then you can use the form to create an API key or switch to the OAuth 2.0 form to create an OAuth 2.0 app.
+Once you've created an API key or OAuth 2.0 app, you can click on the item in the table below the form to edit it.
 
 ## Running this demo
 
 1. Run `npm run build` in the repository's root directory.
-2. Run `npm start` to spin up the development server.
+2. Go into `demos/dev-credentials-client` and run `npm start` to spin up the development server.
 3. Visit [http://localhost:8080](http://localhost:8080).
 
-## Credits
+## Additional tools used
 
 <table>
   <tr>

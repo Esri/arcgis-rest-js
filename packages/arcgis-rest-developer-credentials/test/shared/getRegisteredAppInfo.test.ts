@@ -5,7 +5,7 @@ import {
   IRegisteredAppResponse
 } from "../../src/shared/types/appType.js";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
-import { Privileges } from "../../src/shared/enum/PRIVILEGE.js";
+import { Privileges } from "../../src/shared/enum/privileges.js";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 function setFetchMockPOSTFormUrlencoded(

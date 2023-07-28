@@ -1,5 +1,5 @@
 import { IRequestOptions } from "@esri/arcgis-rest-request";
-import { Privileges } from "./enum/PRIVILEGE.js";
+import { Privileges } from "./enum/privileges.js";
 import { IRegisteredAppResponse, IApp } from "./types/appType.js";
 import { IApiKeyInfo } from "./types/apiKeyType.js";
 import { IOAuthAppInfo } from "./types/oAuthType.js";

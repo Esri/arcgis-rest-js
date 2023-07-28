@@ -3,7 +3,7 @@ import {
   IRequestOptions
 } from "@esri/arcgis-rest-request";
 import { IRegisterAppOptions, IApp } from "./appType.js";
-import { Privileges } from "../enum/PRIVILEGE.js";
+import { Privileges } from "../enum/privileges.js";
 import { IItem, IItemAdd } from "@esri/arcgis-rest-portal";
 
 /**

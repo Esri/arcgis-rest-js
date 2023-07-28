@@ -8,7 +8,7 @@ import {
   IDeleteOAuthAppOption,
   IDeleteOAuthAppResponse
 } from "./shared/types/oAuthType.js";
-import { getOAuthAppInfo } from "./getOAuthAppInfo.js";
+import { getOAuthApp } from "./getOAuthApp.js";
 
 /**
  * Used to delete the OAuth2.0 app with given `itemId`.
@@ -43,7 +43,7 @@ export async function deleteOAuthApp(
   const baseRequestOptions = extractBaseRequestOptions(requestOptions);
 
   // validate provided itemId associates with OAuth app
-  await getOAuthAppInfo({
+  await getOAuthApp({
     ...baseRequestOptions,
     itemId: requestOptions.itemId,
     authentication: requestOptions.authentication

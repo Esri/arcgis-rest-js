@@ -13,7 +13,7 @@ import { IGetOAuthAppOptions, IOAuthApp } from "./shared/types/oAuthType.js";
  * Used to retrieve the OAuth2.0 app with given `itemId`. See the [OAuth2.0](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/oauth-2.0/) for more information.
  *
  * ```js
- * import { getOAuthAppInfo, IOAuthApp } from '@esri/arcgis-rest-developer-credentials';
+ * import { getOAuthApp, IOAuthApp } from '@esri/arcgis-rest-developer-credentials';
  * import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
  *
  * const authSession: ArcGISIdentityManager = await ArcGISIdentityManager.signIn({
@@ -21,7 +21,7 @@ import { IGetOAuthAppOptions, IOAuthApp } from "./shared/types/oAuthType.js";
  *   password: "xyz_pw"
  * });
  *
- * getOAuthAppInfo({
+ * getOAuthApp({
  *   itemId: "xyz_itemId",
  *   authentication: authSession
  * }).then((retrievedOAuthApp: IOAuthApp) => {
@@ -31,10 +31,10 @@ import { IGetOAuthAppOptions, IOAuthApp } from "./shared/types/oAuthType.js";
  * });
  * ```
  *
- * @param requestOptions - Options for {@linkcode getOAuthAppInfo | getOAuthAppInfo()}, including `itemId` of which OAuth app to retrieve and an {@linkcode ArcGISIdentityManager} authentication session.
+ * @param requestOptions - Options for {@linkcode getOAuthApp | getOAuthApp()}, including `itemId` of which OAuth app to retrieve and an {@linkcode ArcGISIdentityManager} authentication session.
  * @returns A Promise that will resolve to an {@linkcode IOAuthApp} object representing successfully retrieved OAuth app.
  */
-export async function getOAuthAppInfo(
+export async function getOAuthApp(
   requestOptions: IGetOAuthAppOptions
 ): Promise<IOAuthApp> {
   const appResponse = await getRegisteredAppInfo(requestOptions);

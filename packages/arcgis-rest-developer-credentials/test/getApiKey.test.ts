@@ -4,7 +4,7 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import { getApiKey } from "../src/getApiKey.js";
 import { IRegisteredAppResponse } from "../src/shared/types/appType.js";
 import { IApiKeyResponse } from "../src/shared/types/apiKeyType.js";
-import { Privileges } from "../src/shared/enum/PRIVILEGE.js";
+import { Privileges } from "../src/shared/enum/privileges.js";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
 
 function setFetchMockPOSTFormUrlencoded(

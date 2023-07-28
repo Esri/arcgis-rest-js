@@ -66,7 +66,7 @@ export interface IOAuthAppInfo {
 }
 
 /**
- * Return value of {@linkcode createOAuthApp}, {@linkcode getOAuthAppInfo}, {@linkcode updateOAuthApp} representing an OAuth2.0 app entity.
+ * Return value of {@linkcode createOAuthApp}, {@linkcode getOAuthApp}, {@linkcode updateOAuthApp} representing an OAuth2.0 app entity.
  */
 export interface IOAuthApp extends IOAuthAppInfo {
   /**
