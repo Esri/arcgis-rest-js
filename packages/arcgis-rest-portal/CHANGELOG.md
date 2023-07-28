@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-portal [4.3.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.2.0...@esri/arcgis-rest-portal@4.3.0) (2023-07-28)
+
+
+### Features
+
+* **arcgis-rest-developer-credentials:** Initial package release ([68e1249](https://github.com/Esri/arcgis-rest-js/commit/68e12493f730d3836357a6b32cdff7532d5a9a12))
+
 # @esri/arcgis-rest-portal [4.2.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.1.0...@esri/arcgis-rest-portal@4.2.0) (2023-03-02)
 
 
