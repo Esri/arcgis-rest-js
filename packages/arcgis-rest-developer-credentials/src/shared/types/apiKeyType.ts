@@ -1,30 +1,34 @@
 import {
   ArcGISIdentityManager,
-  IRequestOptions
+  IRequestOptions,
+  ISpatialReference
 } from "@esri/arcgis-rest-request";
 import { IRegisterAppOptions, IApp } from "./appType.js";
 import { Privileges } from "../enum/privileges.js";
-import { IItem, IItemAdd } from "@esri/arcgis-rest-portal";
-
-/**
- * @internal
- * Utility type used to omit property on an interface containing index signatures.
- * Reference: https://github.com/microsoft/TypeScript/issues/45367
- */
-export type FieldTypePreservingOmit<T, K extends keyof any> = {
-  [P in keyof T as Exclude<P, K>]: T[P];
-};
+import { IItem } from "@esri/arcgis-rest-portal";
 
 /**
  * Options to register an API Key.
  */
 export interface ICreateApiKeyOptions
   extends Omit<
-      IRegisterAppOptions,
-      "itemId" | "redirect_uris" | "appType" | "httpReferrers"
-    >,
-    FieldTypePreservingOmit<IItemAdd, "type"> {
+    IRegisterAppOptions,
+    "itemId" | "redirect_uris" | "appType" | "httpReferrers"
+  > {
   httpReferrers?: string[];
+  title: string;
+  owner?: string;
+  typeKeywords?: string[];
+  description?: string;
+  snippet?: string;
+  documentation?: string;
+  extent?: number[][];
+  categories?: string[];
+  spatialReference?: ISpatialReference;
+  culture?: string;
+  properties?: any;
+  url?: string;
+  tags?: string[];
 }
 
 /**
