@@ -353,7 +353,6 @@ describe("createApiKey()", () => {
       ],
       tags: ["tag 1", "tag 2"],
       authentication: authOnline,
-      params: { f: "json" },
       httpMethod: "GET"
     });
 

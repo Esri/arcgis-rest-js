@@ -74,7 +74,7 @@ export async function createOAuthApp(
   // step 1: add item
   const createItemOption: ICreateItemOptions = {
     item: {
-      ...filterKeys(requestOptions, itemAddProperties),
+      ...filterKeys(requestOptions as any, itemAddProperties),
       type: "Application"
     },
     ...baseRequestOptions,

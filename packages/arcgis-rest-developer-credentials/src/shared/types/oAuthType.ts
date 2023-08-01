@@ -1,16 +1,14 @@
-import { IItem, IItemAdd } from "@esri/arcgis-rest-portal";
+import { IItem } from "@esri/arcgis-rest-portal";
 import {
   ArcGISIdentityManager,
-  IRequestOptions
+  IRequestOptions,
+  ISpatialReference
 } from "@esri/arcgis-rest-request";
-import { FieldTypePreservingOmit } from "./apiKeyType.js";
 
 /**
  * Options to register an OAuth2.0 app.
  */
-export interface ICreateOAuthAppOption
-  extends FieldTypePreservingOmit<IItemAdd, "type">,
-    Omit<IRequestOptions, "params"> {
+export interface ICreateOAuthAppOption extends Omit<IRequestOptions, "params"> {
   /**
    * Redirect URIs set for this OAuth2.0 app.
    */
@@ -19,6 +17,19 @@ export interface ICreateOAuthAppOption
    * {@linkcode ArcGISIdentityManager} authentication.
    */
   authentication: ArcGISIdentityManager;
+  title: string;
+  owner?: string;
+  typeKeywords?: string[];
+  description?: string;
+  snippet?: string;
+  documentation?: string;
+  extent?: number[][];
+  categories?: string[];
+  spatialReference?: ISpatialReference;
+  culture?: string;
+  properties?: any;
+  url?: string;
+  tags?: string[];
 }
 
 /**
