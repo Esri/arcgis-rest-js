@@ -6890,7 +6890,7 @@
 					]
 				},
 				{
-					"id": 4448,
+					"id": 4445,
 					"name": "IApiKeyInfo",
 					"kind": 256,
 					"kindString": "Interface",
@@ -6900,7 +6900,7 @@
 					},
 					"children": [
 						{
-							"id": 4449,
+							"id": 4446,
 							"name": "apiKey",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6908,7 +6908,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-									"line": 52,
+									"line": 56,
 									"character": 2
 								}
 							],
@@ -6922,7 +6922,7 @@
 							}
 						},
 						{
-							"id": 4453,
+							"id": 4450,
 							"name": "httpReferrers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6947,7 +6947,7 @@
 							}
 						},
 						{
-							"id": 4452,
+							"id": 4449,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6969,7 +6969,7 @@
 							}
 						},
 						{
-							"id": 4451,
+							"id": 4448,
 							"name": "modified",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6991,7 +6991,7 @@
 							}
 						},
 						{
-							"id": 4454,
+							"id": 4451,
 							"name": "privileges",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7102,7 +7102,7 @@
 							}
 						},
 						{
-							"id": 4450,
+							"id": 4447,
 							"name": "registered",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7129,19 +7129,19 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
+								4446,
+								4450,
 								4449,
-								4453,
-								4452,
+								4448,
 								4451,
-								4454,
-								4450
+								4447
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-							"line": 47,
+							"line": 51,
 							"character": 17
 						}
 					],
@@ -7182,13 +7182,13 @@
 					"extendedBy": [
 						{
 							"type": "reference",
-							"id": 4455,
+							"id": 4452,
 							"name": "IApiKeyResponse"
 						}
 					]
 				},
 				{
-					"id": 4455,
+					"id": 4452,
 					"name": "IApiKeyResponse",
 					"kind": 256,
 					"kindString": "Interface",
@@ -7198,7 +7198,7 @@
 					},
 					"children": [
 						{
-							"id": 4457,
+							"id": 4454,
 							"name": "apiKey",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7206,7 +7206,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-									"line": 52,
+									"line": 56,
 									"character": 2
 								}
 							],
@@ -7216,12 +7216,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4449,
+								"id": 4446,
 								"name": "IApiKeyInfo.apiKey"
 							}
 						},
 						{
-							"id": 4461,
+							"id": 4458,
 							"name": "httpReferrers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7242,12 +7242,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4453,
+								"id": 4450,
 								"name": "IApiKeyInfo.httpReferrers"
 							}
 						},
 						{
-							"id": 4456,
+							"id": 4453,
 							"name": "item",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7258,7 +7258,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-									"line": 62,
+									"line": 66,
 									"character": 2
 								}
 							],
@@ -7268,7 +7268,7 @@
 							}
 						},
 						{
-							"id": 4460,
+							"id": 4457,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7286,12 +7286,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4452,
+								"id": 4449,
 								"name": "IApiKeyInfo.itemId"
 							}
 						},
 						{
-							"id": 4459,
+							"id": 4456,
 							"name": "modified",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7309,12 +7309,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4451,
+								"id": 4448,
 								"name": "IApiKeyInfo.modified"
 							}
 						},
 						{
-							"id": 4462,
+							"id": 4459,
 							"name": "privileges",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7421,12 +7421,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4454,
+								"id": 4451,
 								"name": "IApiKeyInfo.privileges"
 							}
 						},
 						{
-							"id": 4458,
+							"id": 4455,
 							"name": "registered",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7444,7 +7444,7 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4450,
+								"id": 4447,
 								"name": "IApiKeyInfo.registered"
 							}
 						}
@@ -7454,27 +7454,27 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
+								4454,
+								4458,
+								4453,
 								4457,
-								4461,
 								4456,
-								4460,
 								4459,
-								4462,
-								4458
+								4455
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-							"line": 58,
+							"line": 62,
 							"character": 17
 						}
 					],
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 4448,
+							"id": 4445,
 							"name": "IApiKeyInfo"
 						}
 					]
@@ -7872,7 +7872,7 @@
 					]
 				},
 				{
-					"id": 4404,
+					"id": 4401,
 					"name": "ICreateApiKeyOptions",
 					"kind": 256,
 					"kindString": "Interface",
@@ -7882,7 +7882,7 @@
 					},
 					"children": [
 						{
-							"id": 4408,
+							"id": 4418,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7907,7 +7907,30 @@
 							}
 						},
 						{
-							"id": 4411,
+							"id": 4410,
+							"name": "categories",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 26,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "string"
+								}
+							}
+						},
+						{
+							"id": 4421,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7934,7 +7957,93 @@
 							}
 						},
 						{
-							"id": 4413,
+							"id": 4412,
+							"name": "culture",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 28,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4406,
+							"name": "description",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 22,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4408,
+							"name": "documentation",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 24,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4409,
+							"name": "extent",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 25,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "array",
+									"elementType": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								}
+							}
+						},
+						{
+							"id": 4423,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7954,20 +8063,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4414,
+									"id": 4424,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4415,
+										"id": 4425,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4416,
+												"id": 4426,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -7990,7 +8099,7 @@
 							}
 						},
 						{
-							"id": 4409,
+							"id": 4419,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8017,7 +8126,7 @@
 							}
 						},
 						{
-							"id": 4406,
+							"id": 4416,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8044,7 +8153,7 @@
 							}
 						},
 						{
-							"id": 4405,
+							"id": 4402,
 							"name": "httpReferrers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8054,7 +8163,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-									"line": 27,
+									"line": 18,
 									"character": 2
 								}
 							],
@@ -8067,7 +8176,7 @@
 							}
 						},
 						{
-							"id": 4412,
+							"id": 4422,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8094,7 +8203,27 @@
 							}
 						},
 						{
-							"id": 4410,
+							"id": 4404,
+							"name": "owner",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 20,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4420,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8121,7 +8250,7 @@
 							}
 						},
 						{
-							"id": 4419,
+							"id": 4429,
 							"name": "privileges",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8235,7 +8364,27 @@
 							}
 						},
 						{
-							"id": 4407,
+							"id": 4413,
+							"name": "properties",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 29,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "any"
+							}
+						},
+						{
+							"id": 4417,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8262,7 +8411,7 @@
 							}
 						},
 						{
-							"id": 4417,
+							"id": 4427,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8289,7 +8438,47 @@
 							}
 						},
 						{
-							"id": 4418,
+							"id": 4407,
+							"name": "snippet",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 23,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4411,
+							"name": "spatialReference",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 27,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "ISpatialReference"
+							}
+						},
+						{
+							"id": 4428,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8316,146 +8505,87 @@
 							}
 						},
 						{
-							"id": 4427,
-							"name": "categories",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.categories"
-							}
-						},
-						{
-							"id": 4429,
-							"name": "culture",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.culture"
-							}
-						},
-						{
-							"id": 4423,
-							"name": "description",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.description"
-							}
-						},
-						{
-							"id": 4425,
-							"name": "documentation",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.documentation"
-							}
-						},
-						{
-							"id": 4426,
-							"name": "extent",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.extent"
-							}
-						},
-						{
-							"id": 4421,
-							"name": "owner",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.owner"
-							}
-						},
-						{
-							"id": 4430,
-							"name": "properties",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.properties"
-							}
-						},
-						{
-							"id": 4424,
-							"name": "snippet",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.snippet"
-							}
-						},
-						{
-							"id": 4428,
-							"name": "spatialReference",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.spatialReference"
-							}
-						},
-						{
-							"id": 4432,
+							"id": 4415,
 							"name": "tags",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.tags"
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 31,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "string"
+								}
 							}
 						},
 						{
-							"id": 4420,
+							"id": 4403,
 							"name": "title",
-							"kind": 2048,
-							"kindString": "Method",
+							"kind": 1024,
+							"kindString": "Property",
 							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.title"
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 19,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
 							}
 						},
 						{
-							"id": 4422,
+							"id": 4405,
 							"name": "typeKeywords",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.typeKeywords"
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 21,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "string"
+								}
 							}
 						},
 						{
-							"id": 4431,
+							"id": 4414,
 							"name": "url",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.url"
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 30,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
 							}
 						}
 					],
@@ -8464,44 +8594,38 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4408,
-								4411,
-								4413,
-								4409,
-								4406,
-								4405,
-								4412,
+								4418,
 								4410,
-								4419,
-								4407,
-								4417,
-								4418
-							]
-						},
-						{
-							"title": "Methods",
-							"kind": 2048,
-							"children": [
-								4427,
-								4429,
-								4423,
-								4425,
-								4426,
 								4421,
-								4430,
-								4424,
-								4428,
-								4432,
-								4420,
+								4412,
+								4406,
+								4408,
+								4409,
+								4423,
+								4419,
+								4416,
+								4402,
 								4422,
-								4431
+								4404,
+								4420,
+								4429,
+								4413,
+								4417,
+								4427,
+								4407,
+								4411,
+								4428,
+								4415,
+								4403,
+								4405,
+								4414
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-							"line": 21,
+							"line": 13,
 							"character": 17
 						}
 					],
@@ -8537,25 +8661,11 @@
 								}
 							],
 							"name": "Omit"
-						},
-						{
-							"type": "reference",
-							"typeArguments": [
-								{
-									"type": "reference",
-									"name": "IItemAdd"
-								},
-								{
-									"type": "literal",
-									"value": "type"
-								}
-							],
-							"name": "FieldTypePreservingOmit"
 						}
 					]
 				},
 				{
-					"id": 4498,
+					"id": 4495,
 					"name": "ICreateOAuthAppOption",
 					"kind": 256,
 					"kindString": "Interface",
@@ -8565,7 +8675,7 @@
 					},
 					"children": [
 						{
-							"id": 4500,
+							"id": 4497,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8576,7 +8686,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 21,
+									"line": 19,
 									"character": 2
 								}
 							],
@@ -8590,7 +8700,30 @@
 							}
 						},
 						{
-							"id": 4518,
+							"id": 4505,
+							"name": "categories",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 27,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "string"
+								}
+							}
+						},
+						{
+							"id": 4515,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8617,7 +8750,93 @@
 							}
 						},
 						{
-							"id": 4520,
+							"id": 4507,
+							"name": "culture",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 29,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4501,
+							"name": "description",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 23,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4503,
+							"name": "documentation",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 25,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4504,
+							"name": "extent",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 26,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "array",
+									"elementType": {
+										"type": "intrinsic",
+										"name": "number"
+									}
+								}
+							}
+						},
+						{
+							"id": 4517,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8637,20 +8856,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4521,
+									"id": 4518,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4522,
+										"id": 4519,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4523,
+												"id": 4520,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -8673,7 +8892,7 @@
 							}
 						},
 						{
-							"id": 4516,
+							"id": 4513,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8700,7 +8919,7 @@
 							}
 						},
 						{
-							"id": 4514,
+							"id": 4511,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8727,7 +8946,7 @@
 							}
 						},
 						{
-							"id": 4519,
+							"id": 4516,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8754,7 +8973,27 @@
 							}
 						},
 						{
-							"id": 4517,
+							"id": 4499,
+							"name": "owner",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 21,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4514,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8781,7 +9020,27 @@
 							}
 						},
 						{
-							"id": 4515,
+							"id": 4508,
+							"name": "properties",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 30,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "any"
+							}
+						},
+						{
+							"id": 4512,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8808,7 +9067,7 @@
 							}
 						},
 						{
-							"id": 4499,
+							"id": 4496,
 							"name": "redirect_uris",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8821,7 +9080,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 17,
+									"line": 15,
 									"character": 2
 								}
 							],
@@ -8834,7 +9093,7 @@
 							}
 						},
 						{
-							"id": 4524,
+							"id": 4521,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8861,7 +9120,47 @@
 							}
 						},
 						{
-							"id": 4525,
+							"id": 4502,
+							"name": "snippet",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 24,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4506,
+							"name": "spatialReference",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 28,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "ISpatialReference"
+							}
+						},
+						{
+							"id": 4522,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8888,146 +9187,87 @@
 							}
 						},
 						{
-							"id": 4508,
-							"name": "categories",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.categories"
-							}
-						},
-						{
 							"id": 4510,
-							"name": "culture",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.culture"
+							"name": "tags",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 32,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "string"
+								}
 							}
 						},
 						{
-							"id": 4504,
-							"name": "description",
-							"kind": 2048,
-							"kindString": "Method",
+							"id": 4498,
+							"name": "title",
+							"kind": 1024,
+							"kindString": "Property",
 							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.description"
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 20,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
 							}
 						},
 						{
-							"id": 4506,
-							"name": "documentation",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.documentation"
-							}
-						},
-						{
-							"id": 4507,
-							"name": "extent",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.extent"
-							}
-						},
-						{
-							"id": 4502,
-							"name": "owner",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.owner"
-							}
-						},
-						{
-							"id": 4511,
-							"name": "properties",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.properties"
-							}
-						},
-						{
-							"id": 4505,
-							"name": "snippet",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.snippet"
+							"id": 4500,
+							"name": "typeKeywords",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 22,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "string"
+								}
 							}
 						},
 						{
 							"id": 4509,
-							"name": "spatialReference",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.spatialReference"
-							}
-						},
-						{
-							"id": 4513,
-							"name": "tags",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.tags"
-							}
-						},
-						{
-							"id": 4501,
-							"name": "title",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.title"
-							}
-						},
-						{
-							"id": 4503,
-							"name": "typeKeywords",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.typeKeywords"
-							}
-						},
-						{
-							"id": 4512,
 							"name": "url",
-							"kind": 2048,
-							"kindString": "Method",
-							"flags": {},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "FieldTypePreservingOmit.url"
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 31,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
 							}
 						}
 					],
@@ -9036,36 +9276,30 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4500,
-								4518,
-								4520,
-								4516,
-								4514,
-								4519,
-								4517,
-								4515,
-								4499,
-								4524,
-								4525
-							]
-						},
-						{
-							"title": "Methods",
-							"kind": 2048,
-							"children": [
-								4508,
-								4510,
-								4504,
-								4506,
-								4507,
-								4502,
-								4511,
+								4497,
 								4505,
-								4509,
-								4513,
+								4515,
+								4507,
 								4501,
 								4503,
-								4512
+								4504,
+								4517,
+								4513,
+								4511,
+								4516,
+								4499,
+								4514,
+								4508,
+								4512,
+								4496,
+								4521,
+								4502,
+								4506,
+								4522,
+								4510,
+								4498,
+								4500,
+								4509
 							]
 						}
 					],
@@ -9082,20 +9316,6 @@
 							"typeArguments": [
 								{
 									"type": "reference",
-									"name": "IItemAdd"
-								},
-								{
-									"type": "literal",
-									"value": "type"
-								}
-							],
-							"name": "FieldTypePreservingOmit"
-						},
-						{
-							"type": "reference",
-							"typeArguments": [
-								{
-									"type": "reference",
 									"name": "IRequestOptions"
 								},
 								{
@@ -9108,7 +9328,7 @@
 					]
 				},
 				{
-					"id": 4480,
+					"id": 4477,
 					"name": "IDeleteApiKeyOption",
 					"kind": 256,
 					"kindString": "Interface",
@@ -9118,7 +9338,7 @@
 					},
 					"children": [
 						{
-							"id": 4481,
+							"id": 4478,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9129,7 +9349,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-									"line": 94,
+									"line": 98,
 									"character": 2
 								}
 							],
@@ -9143,7 +9363,7 @@
 							}
 						},
 						{
-							"id": 4487,
+							"id": 4484,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9170,7 +9390,7 @@
 							}
 						},
 						{
-							"id": 4489,
+							"id": 4486,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9190,20 +9410,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4490,
+									"id": 4487,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4491,
+										"id": 4488,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4492,
+												"id": 4489,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -9226,7 +9446,7 @@
 							}
 						},
 						{
-							"id": 4485,
+							"id": 4482,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9253,7 +9473,7 @@
 							}
 						},
 						{
-							"id": 4483,
+							"id": 4480,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9280,7 +9500,7 @@
 							}
 						},
 						{
-							"id": 4482,
+							"id": 4479,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9291,7 +9511,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-									"line": 98,
+									"line": 102,
 									"character": 2
 								}
 							],
@@ -9301,7 +9521,7 @@
 							}
 						},
 						{
-							"id": 4488,
+							"id": 4485,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9328,7 +9548,7 @@
 							}
 						},
 						{
-							"id": 4486,
+							"id": 4483,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9355,7 +9575,7 @@
 							}
 						},
 						{
-							"id": 4484,
+							"id": 4481,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9382,7 +9602,7 @@
 							}
 						},
 						{
-							"id": 4493,
+							"id": 4490,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9409,7 +9629,7 @@
 							}
 						},
 						{
-							"id": 4494,
+							"id": 4491,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9441,24 +9661,24 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4481,
-								4487,
-								4489,
+								4478,
+								4484,
+								4486,
+								4482,
+								4480,
+								4479,
 								4485,
 								4483,
-								4482,
-								4488,
-								4486,
-								4484,
-								4493,
-								4494
+								4481,
+								4490,
+								4491
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-							"line": 90,
+							"line": 94,
 							"character": 17
 						}
 					],
@@ -9480,7 +9700,7 @@
 					]
 				},
 				{
-					"id": 4495,
+					"id": 4492,
 					"name": "IDeleteApiKeyResponse",
 					"kind": 256,
 					"kindString": "Interface",
@@ -9490,7 +9710,7 @@
 					},
 					"children": [
 						{
-							"id": 4496,
+							"id": 4493,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9501,7 +9721,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-									"line": 108,
+									"line": 112,
 									"character": 2
 								}
 							],
@@ -9511,7 +9731,7 @@
 							}
 						},
 						{
-							"id": 4497,
+							"id": 4494,
 							"name": "success",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9519,7 +9739,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-									"line": 109,
+									"line": 113,
 									"character": 2
 								}
 							],
@@ -9534,21 +9754,21 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4496,
-								4497
+								4493,
+								4494
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-							"line": 104,
+							"line": 108,
 							"character": 17
 						}
 					]
 				},
 				{
-					"id": 4572,
+					"id": 4569,
 					"name": "IDeleteOAuthAppOption",
 					"kind": 256,
 					"kindString": "Interface",
@@ -9558,7 +9778,7 @@
 					},
 					"children": [
 						{
-							"id": 4573,
+							"id": 4570,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9569,7 +9789,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 85,
+									"line": 96,
 									"character": 2
 								}
 							],
@@ -9583,7 +9803,7 @@
 							}
 						},
 						{
-							"id": 4579,
+							"id": 4576,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9610,7 +9830,7 @@
 							}
 						},
 						{
-							"id": 4581,
+							"id": 4578,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9630,20 +9850,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4582,
+									"id": 4579,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4583,
+										"id": 4580,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4584,
+												"id": 4581,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -9666,7 +9886,7 @@
 							}
 						},
 						{
-							"id": 4577,
+							"id": 4574,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9693,7 +9913,7 @@
 							}
 						},
 						{
-							"id": 4575,
+							"id": 4572,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9720,7 +9940,7 @@
 							}
 						},
 						{
-							"id": 4574,
+							"id": 4571,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9731,7 +9951,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 89,
+									"line": 100,
 									"character": 2
 								}
 							],
@@ -9741,7 +9961,7 @@
 							}
 						},
 						{
-							"id": 4580,
+							"id": 4577,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9768,7 +9988,7 @@
 							}
 						},
 						{
-							"id": 4578,
+							"id": 4575,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9795,7 +10015,7 @@
 							}
 						},
 						{
-							"id": 4576,
+							"id": 4573,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9822,7 +10042,7 @@
 							}
 						},
 						{
-							"id": 4585,
+							"id": 4582,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9849,7 +10069,7 @@
 							}
 						},
 						{
-							"id": 4586,
+							"id": 4583,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9881,24 +10101,24 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4573,
-								4579,
-								4581,
+								4570,
+								4576,
+								4578,
+								4574,
+								4572,
+								4571,
 								4577,
 								4575,
-								4574,
-								4580,
-								4578,
-								4576,
-								4585,
-								4586
+								4573,
+								4582,
+								4583
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-							"line": 81,
+							"line": 92,
 							"character": 17
 						}
 					],
@@ -9920,7 +10140,7 @@
 					]
 				},
 				{
-					"id": 4587,
+					"id": 4584,
 					"name": "IDeleteOAuthAppResponse",
 					"kind": 256,
 					"kindString": "Interface",
@@ -9930,7 +10150,7 @@
 					},
 					"children": [
 						{
-							"id": 4588,
+							"id": 4585,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9941,7 +10161,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 99,
+									"line": 110,
 									"character": 2
 								}
 							],
@@ -9951,7 +10171,7 @@
 							}
 						},
 						{
-							"id": 4589,
+							"id": 4586,
 							"name": "success",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9959,7 +10179,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 100,
+									"line": 111,
 									"character": 2
 								}
 							],
@@ -9974,21 +10194,21 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4588,
-								4589
+								4585,
+								4586
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-							"line": 95,
+							"line": 106,
 							"character": 17
 						}
 					]
 				},
 				{
-					"id": 4433,
+					"id": 4430,
 					"name": "IGetApiKeyOptions",
 					"kind": 256,
 					"kindString": "Interface",
@@ -9998,7 +10218,7 @@
 					},
 					"children": [
 						{
-							"id": 4434,
+							"id": 4431,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10009,7 +10229,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-									"line": 37,
+									"line": 41,
 									"character": 2
 								}
 							],
@@ -10023,7 +10243,7 @@
 							}
 						},
 						{
-							"id": 4440,
+							"id": 4437,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10050,7 +10270,7 @@
 							}
 						},
 						{
-							"id": 4442,
+							"id": 4439,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10070,20 +10290,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4443,
+									"id": 4440,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4444,
+										"id": 4441,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4445,
+												"id": 4442,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -10106,7 +10326,7 @@
 							}
 						},
 						{
-							"id": 4438,
+							"id": 4435,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10133,7 +10353,7 @@
 							}
 						},
 						{
-							"id": 4436,
+							"id": 4433,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10160,7 +10380,7 @@
 							}
 						},
 						{
-							"id": 4435,
+							"id": 4432,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10171,7 +10391,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-									"line": 41,
+									"line": 45,
 									"character": 2
 								}
 							],
@@ -10181,7 +10401,7 @@
 							}
 						},
 						{
-							"id": 4441,
+							"id": 4438,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10208,7 +10428,7 @@
 							}
 						},
 						{
-							"id": 4439,
+							"id": 4436,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10235,7 +10455,7 @@
 							}
 						},
 						{
-							"id": 4437,
+							"id": 4434,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10262,7 +10482,7 @@
 							}
 						},
 						{
-							"id": 4446,
+							"id": 4443,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10289,7 +10509,7 @@
 							}
 						},
 						{
-							"id": 4447,
+							"id": 4444,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10321,24 +10541,24 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4434,
-								4440,
-								4442,
+								4431,
+								4437,
+								4439,
+								4435,
+								4433,
+								4432,
 								4438,
 								4436,
-								4435,
-								4441,
-								4439,
-								4437,
-								4446,
-								4447
+								4434,
+								4443,
+								4444
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-							"line": 33,
+							"line": 37,
 							"character": 17
 						}
 					],
@@ -10732,7 +10952,7 @@
 					]
 				},
 				{
-					"id": 4526,
+					"id": 4523,
 					"name": "IGetOAuthAppOptions",
 					"kind": 256,
 					"kindString": "Interface",
@@ -10742,7 +10962,7 @@
 					},
 					"children": [
 						{
-							"id": 4527,
+							"id": 4524,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10753,7 +10973,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 31,
+									"line": 42,
 									"character": 2
 								}
 							],
@@ -10767,7 +10987,7 @@
 							}
 						},
 						{
-							"id": 4533,
+							"id": 4530,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10794,7 +11014,7 @@
 							}
 						},
 						{
-							"id": 4535,
+							"id": 4532,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10814,20 +11034,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4536,
+									"id": 4533,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4537,
+										"id": 4534,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4538,
+												"id": 4535,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -10850,7 +11070,7 @@
 							}
 						},
 						{
-							"id": 4531,
+							"id": 4528,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10877,7 +11097,7 @@
 							}
 						},
 						{
-							"id": 4529,
+							"id": 4526,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10904,7 +11124,7 @@
 							}
 						},
 						{
-							"id": 4528,
+							"id": 4525,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10915,7 +11135,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 35,
+									"line": 46,
 									"character": 2
 								}
 							],
@@ -10925,7 +11145,7 @@
 							}
 						},
 						{
-							"id": 4534,
+							"id": 4531,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10952,7 +11172,7 @@
 							}
 						},
 						{
-							"id": 4532,
+							"id": 4529,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10979,7 +11199,7 @@
 							}
 						},
 						{
-							"id": 4530,
+							"id": 4527,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11006,7 +11226,7 @@
 							}
 						},
 						{
-							"id": 4539,
+							"id": 4536,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11033,7 +11253,7 @@
 							}
 						},
 						{
-							"id": 4540,
+							"id": 4537,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11065,24 +11285,24 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4527,
-								4533,
-								4535,
+								4524,
+								4530,
+								4532,
+								4528,
+								4526,
+								4525,
 								4531,
 								4529,
-								4528,
-								4534,
-								4532,
-								4530,
-								4539,
-								4540
+								4527,
+								4536,
+								4537
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-							"line": 27,
+							"line": 38,
 							"character": 17
 						}
 					],
@@ -11104,7 +11324,7 @@
 					]
 				},
 				{
-					"id": 4564,
+					"id": 4561,
 					"name": "IOAuthApp",
 					"kind": 256,
 					"kindString": "Interface",
@@ -11114,7 +11334,7 @@
 					},
 					"children": [
 						{
-							"id": 4567,
+							"id": 4564,
 							"name": "client_id",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11122,7 +11342,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 61,
+									"line": 72,
 									"character": 2
 								}
 							],
@@ -11132,12 +11352,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4559,
+								"id": 4556,
 								"name": "IOAuthAppInfo.client_id"
 							}
 						},
 						{
-							"id": 4568,
+							"id": 4565,
 							"name": "client_secret",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11145,7 +11365,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 62,
+									"line": 73,
 									"character": 2
 								}
 							],
@@ -11155,12 +11375,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4560,
+								"id": 4557,
 								"name": "IOAuthAppInfo.client_secret"
 							}
 						},
 						{
-							"id": 4565,
+							"id": 4562,
 							"name": "item",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11171,7 +11391,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 75,
+									"line": 86,
 									"character": 2
 								}
 							],
@@ -11181,7 +11401,7 @@
 							}
 						},
 						{
-							"id": 4566,
+							"id": 4563,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11189,7 +11409,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 60,
+									"line": 71,
 									"character": 2
 								}
 							],
@@ -11199,12 +11419,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4558,
+								"id": 4555,
 								"name": "IOAuthAppInfo.itemId"
 							}
 						},
 						{
-							"id": 4571,
+							"id": 4568,
 							"name": "modified",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11212,7 +11432,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 65,
+									"line": 76,
 									"character": 2
 								}
 							],
@@ -11222,12 +11442,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4563,
+								"id": 4560,
 								"name": "IOAuthAppInfo.modified"
 							}
 						},
 						{
-							"id": 4569,
+							"id": 4566,
 							"name": "redirect_uris",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11235,7 +11455,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 63,
+									"line": 74,
 									"character": 2
 								}
 							],
@@ -11248,12 +11468,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4561,
+								"id": 4558,
 								"name": "IOAuthAppInfo.redirect_uris"
 							}
 						},
 						{
-							"id": 4570,
+							"id": 4567,
 							"name": "registered",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11261,7 +11481,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 64,
+									"line": 75,
 									"character": 2
 								}
 							],
@@ -11271,7 +11491,7 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4562,
+								"id": 4559,
 								"name": "IOAuthAppInfo.registered"
 							}
 						}
@@ -11281,33 +11501,33 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4567,
-								4568,
+								4564,
 								4565,
+								4562,
+								4563,
+								4568,
 								4566,
-								4571,
-								4569,
-								4570
+								4567
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-							"line": 71,
+							"line": 82,
 							"character": 17
 						}
 					],
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 4557,
+							"id": 4554,
 							"name": "IOAuthAppInfo"
 						}
 					]
 				},
 				{
-					"id": 4557,
+					"id": 4554,
 					"name": "IOAuthAppInfo",
 					"kind": 256,
 					"kindString": "Interface",
@@ -11317,7 +11537,7 @@
 					},
 					"children": [
 						{
-							"id": 4559,
+							"id": 4556,
 							"name": "client_id",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11325,7 +11545,43 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 61,
+									"line": 72,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4557,
+							"name": "client_secret",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 73,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4555,
+							"name": "itemId",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 71,
 									"character": 2
 								}
 							],
@@ -11336,42 +11592,6 @@
 						},
 						{
 							"id": 4560,
-							"name": "client_secret",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 62,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							}
-						},
-						{
-							"id": 4558,
-							"name": "itemId",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 60,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							}
-						},
-						{
-							"id": 4563,
 							"name": "modified",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11379,7 +11599,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 65,
+									"line": 76,
 									"character": 2
 								}
 							],
@@ -11389,7 +11609,7 @@
 							}
 						},
 						{
-							"id": 4561,
+							"id": 4558,
 							"name": "redirect_uris",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11397,7 +11617,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 63,
+									"line": 74,
 									"character": 2
 								}
 							],
@@ -11410,7 +11630,7 @@
 							}
 						},
 						{
-							"id": 4562,
+							"id": 4559,
 							"name": "registered",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11418,7 +11638,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 64,
+									"line": 75,
 									"character": 2
 								}
 							],
@@ -11433,26 +11653,26 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4559,
+								4556,
+								4557,
+								4555,
 								4560,
 								4558,
-								4563,
-								4561,
-								4562
+								4559
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-							"line": 59,
+							"line": 70,
 							"character": 17
 						}
 					],
 					"extendedBy": [
 						{
 							"type": "reference",
-							"id": 4564,
+							"id": 4561,
 							"name": "IOAuthApp"
 						}
 					]
@@ -12848,7 +13068,7 @@
 					]
 				},
 				{
-					"id": 4463,
+					"id": 4460,
 					"name": "IUpdateApiKeyOptions",
 					"kind": 256,
 					"kindString": "Interface",
@@ -12858,7 +13078,7 @@
 					},
 					"children": [
 						{
-							"id": 4464,
+							"id": 4461,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12869,7 +13089,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-									"line": 72,
+									"line": 76,
 									"character": 2
 								}
 							],
@@ -12883,7 +13103,7 @@
 							}
 						},
 						{
-							"id": 4472,
+							"id": 4469,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12910,7 +13130,7 @@
 							}
 						},
 						{
-							"id": 4474,
+							"id": 4471,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12930,20 +13150,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4475,
+									"id": 4472,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4476,
+										"id": 4473,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4477,
+												"id": 4474,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -12966,7 +13186,7 @@
 							}
 						},
 						{
-							"id": 4470,
+							"id": 4467,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12993,7 +13213,7 @@
 							}
 						},
 						{
-							"id": 4468,
+							"id": 4465,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13020,7 +13240,7 @@
 							}
 						},
 						{
-							"id": 4466,
+							"id": 4463,
 							"name": "httpReferrers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13033,7 +13253,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-									"line": 80,
+									"line": 84,
 									"character": 2
 								}
 							],
@@ -13046,7 +13266,7 @@
 							}
 						},
 						{
-							"id": 4465,
+							"id": 4462,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13057,7 +13277,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-									"line": 76,
+									"line": 80,
 									"character": 2
 								}
 							],
@@ -13067,7 +13287,7 @@
 							}
 						},
 						{
-							"id": 4473,
+							"id": 4470,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13094,7 +13314,7 @@
 							}
 						},
 						{
-							"id": 4471,
+							"id": 4468,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13121,7 +13341,7 @@
 							}
 						},
 						{
-							"id": 4467,
+							"id": 4464,
 							"name": "privileges",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13134,7 +13354,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-									"line": 84,
+									"line": 88,
 									"character": 2
 								}
 							],
@@ -13233,7 +13453,7 @@
 							}
 						},
 						{
-							"id": 4469,
+							"id": 4466,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13260,7 +13480,7 @@
 							}
 						},
 						{
-							"id": 4478,
+							"id": 4475,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13287,7 +13507,7 @@
 							}
 						},
 						{
-							"id": 4479,
+							"id": 4476,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13319,26 +13539,26 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4464,
-								4472,
-								4474,
-								4470,
-								4468,
-								4466,
-								4465,
-								4473,
+								4461,
+								4469,
 								4471,
 								4467,
-								4469,
-								4478,
-								4479
+								4465,
+								4463,
+								4462,
+								4470,
+								4468,
+								4464,
+								4466,
+								4475,
+								4476
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
-							"line": 68,
+							"line": 72,
 							"character": 17
 						}
 					],
@@ -13360,7 +13580,7 @@
 					]
 				},
 				{
-					"id": 4541,
+					"id": 4538,
 					"name": "IUpdateOAuthOptions",
 					"kind": 256,
 					"kindString": "Interface",
@@ -13370,7 +13590,7 @@
 					},
 					"children": [
 						{
-							"id": 4542,
+							"id": 4539,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13381,7 +13601,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 45,
+									"line": 56,
 									"character": 2
 								}
 							],
@@ -13395,7 +13615,7 @@
 							}
 						},
 						{
-							"id": 4549,
+							"id": 4546,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13422,7 +13642,7 @@
 							}
 						},
 						{
-							"id": 4551,
+							"id": 4548,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13442,20 +13662,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4552,
+									"id": 4549,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4553,
+										"id": 4550,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4554,
+												"id": 4551,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -13478,7 +13698,7 @@
 							}
 						},
 						{
-							"id": 4547,
+							"id": 4544,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13505,7 +13725,7 @@
 							}
 						},
 						{
-							"id": 4545,
+							"id": 4542,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13532,7 +13752,7 @@
 							}
 						},
 						{
-							"id": 4543,
+							"id": 4540,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13543,7 +13763,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 49,
+									"line": 60,
 									"character": 2
 								}
 							],
@@ -13553,7 +13773,7 @@
 							}
 						},
 						{
-							"id": 4550,
+							"id": 4547,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13580,7 +13800,7 @@
 							}
 						},
 						{
-							"id": 4548,
+							"id": 4545,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13607,7 +13827,7 @@
 							}
 						},
 						{
-							"id": 4546,
+							"id": 4543,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13634,7 +13854,7 @@
 							}
 						},
 						{
-							"id": 4544,
+							"id": 4541,
 							"name": "redirect_uris",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13647,7 +13867,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 53,
+									"line": 64,
 									"character": 2
 								}
 							],
@@ -13660,7 +13880,7 @@
 							}
 						},
 						{
-							"id": 4555,
+							"id": 4552,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13687,7 +13907,7 @@
 							}
 						},
 						{
-							"id": 4556,
+							"id": 4553,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13719,25 +13939,25 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
+								4539,
+								4546,
+								4548,
+								4544,
 								4542,
-								4549,
-								4551,
+								4540,
 								4547,
 								4545,
 								4543,
-								4550,
-								4548,
-								4546,
-								4544,
-								4555,
-								4556
+								4541,
+								4552,
+								4553
 							]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-							"line": 41,
+							"line": 52,
 							"character": 17
 						}
 					],
@@ -13837,7 +14057,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4404,
+										"id": 4401,
 										"name": "ICreateApiKeyOptions"
 									}
 								}
@@ -13847,7 +14067,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4455,
+										"id": 4452,
 										"name": "IApiKeyResponse"
 									}
 								],
@@ -13893,7 +14113,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4498,
+										"id": 4495,
 										"name": "ICreateOAuthAppOption"
 									}
 								}
@@ -13903,7 +14123,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4564,
+										"id": 4561,
 										"name": "IOAuthApp"
 									}
 								],
@@ -13949,7 +14169,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4480,
+										"id": 4477,
 										"name": "IDeleteApiKeyOption"
 									}
 								}
@@ -13959,7 +14179,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4495,
+										"id": 4492,
 										"name": "IDeleteApiKeyResponse"
 									}
 								],
@@ -14005,7 +14225,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4572,
+										"id": 4569,
 										"name": "IDeleteOAuthAppOption"
 									}
 								}
@@ -14015,7 +14235,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4587,
+										"id": 4584,
 										"name": "IDeleteOAuthAppResponse"
 									}
 								],
@@ -14061,7 +14281,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4433,
+										"id": 4430,
 										"name": "IGetApiKeyOptions"
 									}
 								}
@@ -14071,7 +14291,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4455,
+										"id": 4452,
 										"name": "IApiKeyResponse"
 									}
 								],
@@ -14117,7 +14337,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4526,
+										"id": 4523,
 										"name": "IGetOAuthAppOptions"
 									}
 								}
@@ -14127,7 +14347,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4564,
+										"id": 4561,
 										"name": "IOAuthApp"
 									}
 								],
@@ -14137,7 +14357,7 @@
 					]
 				},
 				{
-					"id": 4590,
+					"id": 4587,
 					"name": "getRegisteredAppInfo",
 					"kind": 64,
 					"kindString": "Function",
@@ -14151,7 +14371,7 @@
 					],
 					"signatures": [
 						{
-							"id": 4591,
+							"id": 4588,
 							"name": "getRegisteredAppInfo",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -14163,7 +14383,7 @@
 							},
 							"parameters": [
 								{
-									"id": 4592,
+									"id": 4589,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -14193,7 +14413,7 @@
 					]
 				},
 				{
-					"id": 4593,
+					"id": 4590,
 					"name": "registerApp",
 					"kind": 64,
 					"kindString": "Function",
@@ -14207,7 +14427,7 @@
 					],
 					"signatures": [
 						{
-							"id": 4594,
+							"id": 4591,
 							"name": "registerApp",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -14219,7 +14439,7 @@
 							},
 							"parameters": [
 								{
-									"id": 4595,
+									"id": 4592,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -14249,7 +14469,7 @@
 					]
 				},
 				{
-					"id": 4596,
+					"id": 4593,
 					"name": "unregisterApp",
 					"kind": 64,
 					"kindString": "Function",
@@ -14263,7 +14483,7 @@
 					],
 					"signatures": [
 						{
-							"id": 4597,
+							"id": 4594,
 							"name": "unregisterApp",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -14275,7 +14495,7 @@
 							},
 							"parameters": [
 								{
-									"id": 4598,
+									"id": 4595,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -14341,7 +14561,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4463,
+										"id": 4460,
 										"name": "IUpdateApiKeyOptions"
 									}
 								}
@@ -14351,7 +14571,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4455,
+										"id": 4452,
 										"name": "IApiKeyResponse"
 									}
 								],
@@ -14397,7 +14617,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4541,
+										"id": 4538,
 										"name": "IUpdateOAuthOptions"
 									}
 								}
@@ -14407,7 +14627,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4564,
+										"id": 4561,
 										"name": "IOAuthApp"
 									}
 								],
@@ -14429,26 +14649,26 @@
 					"title": "Interfaces",
 					"kind": 256,
 					"children": [
-						4448,
-						4455,
+						4445,
+						4452,
 						4372,
-						4404,
-						4498,
-						4480,
+						4401,
 						4495,
-						4572,
-						4587,
-						4433,
+						4477,
+						4492,
+						4569,
+						4584,
+						4430,
 						4342,
-						4526,
-						4564,
-						4557,
+						4523,
+						4561,
+						4554,
 						4323,
 						4357,
 						4383,
 						4398,
-						4463,
-						4541
+						4460,
+						4538
 					]
 				},
 				{
@@ -14468,9 +14688,9 @@
 						4289,
 						4283,
 						4292,
+						4587,
 						4590,
 						4593,
-						4596,
 						4280,
 						4295
 					]
