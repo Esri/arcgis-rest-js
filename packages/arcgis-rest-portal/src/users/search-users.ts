@@ -34,3 +34,21 @@ export function searchUsers(
 ): Promise<ISearchResult<IUser>> {
   return genericSearch<IUser>(search, "user");
 }
+
+/**
+ * ```js
+ * import { searchCommunityUsers } from "@esri/arcgis-rest-portal";
+ * //
+ * searchCommunityUsers({ q: 'tommy', authentication })
+ *   .then(response) // response.total => 355
+ * ```
+ * Search all portals for users.
+ *
+ * @param search - A RequestOptions object to pass through to the endpoint.
+ * @returns A Promise that will resolve with the data from the response.
+ */
+export function searchCommunityUsers(
+  search: IUserSearchOptions | SearchQueryBuilder
+): Promise<ISearchResult<IUser>> {
+  return genericSearch<IUser>(search, "communityUser");
+}
