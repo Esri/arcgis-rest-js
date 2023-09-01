@@ -43,7 +43,7 @@ export function searchUsers(
  * searchCommunityUsers({ q: 'tommy', authentication })
  *   .then(response) // response.total => 355
  * ```
- * Search a all portals for users.
+ * Search all portals for users.
  *
  * @param search - A RequestOptions object to pass through to the endpoint.
  * @returns A Promise that will resolve with the data from the response.
