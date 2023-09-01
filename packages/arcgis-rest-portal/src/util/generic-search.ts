@@ -22,7 +22,7 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
     | ISearchOptions
     | ISearchGroupContentOptions
     | SearchQueryBuilder,
-  searchType: "item" | "group" | "groupContent" | "user"
+  searchType: "item" | "group" | "groupContent" | "user" | "communityUser"
 ): Promise<ISearchResult<T>> {
   let options: IRequestOptions;
   if (typeof search === "string" || search instanceof SearchQueryBuilder) {
@@ -79,8 +79,11 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
         );
       }
       break;
+    case "communityUser":
+      path = "/community/users";
+      break;
     default:
-      // "users"
+      // "user"
       path = "/portals/self/users/search";
       break;
   }
