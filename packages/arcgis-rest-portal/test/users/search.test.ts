@@ -55,7 +55,7 @@ describe("users", () => {
       })
         .then((response) => {
           expect(fetchMock.called()).toEqual(true);
-          const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+          const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/community/users?f=json&q=role%3Aorg_user%20OR%20role%3Aorg_publisher&num=100&token=fake-token"
           );
