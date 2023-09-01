@@ -20,7 +20,7 @@ export interface IUserSearchOptions extends ISearchOptions {
  * Search a portal for users.
  *
  * ```js
- * import { searchItems } from "@esri/arcgis-rest-portal";
+ * import { searchUsers } from "@esri/arcgis-rest-portal";
  * //
  * searchUsers({ q: 'tommy', authentication })
  *   .then(response) // response.total => 355
