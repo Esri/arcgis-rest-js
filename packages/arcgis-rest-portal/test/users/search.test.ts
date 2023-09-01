@@ -7,16 +7,16 @@ import { UserSearchResponse } from "../mocks/users/user-search";
 import * as fetchMock from "fetch-mock";
 
 describe("users", () => {
+  const MOCK_AUTH = {
+    getToken() {
+      return Promise.resolve("fake-token");
+    },
+    portal: "https://myorg.maps.arcgis.com/sharing/rest"
+  };
+
   afterEach(fetchMock.restore);
 
   describe("searchUsers", () => {
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("fake-token");
-      },
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
-    };
-
     it("should make a simple, authenticated user search request", done => {
       fetchMock.once("*", UserSearchResponse);
 
@@ -42,13 +42,6 @@ describe("users", () => {
   });
 
   describe("searchCommunityUsers", () => {
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("fake-token");
-      },
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
-    };
-
     it("should make a simple, authenticated user search request", done => {
       fetchMock.once("*", UserSearchResponse);
 
