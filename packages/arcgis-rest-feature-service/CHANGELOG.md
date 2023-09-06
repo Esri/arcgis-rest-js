@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-feature-service [4.0.5](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.0.4...@esri/arcgis-rest-feature-service@4.0.5) (2023-09-06)
+
+
+### Bug Fixes
+
+* **arcgis-rest-feature-service:** add additional statistic types ([#1114](https://github.com/Esri/arcgis-rest-js/issues/1114)) ([37e6e8e](https://github.com/Esri/arcgis-rest-js/commit/37e6e8e97b279397fb7da5cc0b5faadb66b7f50d))
+
 ## @esri/arcgis-rest-feature-service [4.0.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.0.3...@esri/arcgis-rest-feature-service@4.0.4) (2022-12-19)
 
 
