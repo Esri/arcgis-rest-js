@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-portal [4.4.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.3.0...@esri/arcgis-rest-portal@4.4.0) (2023-09-06)
+
+
+### Features
+
+* **arcgis-rest-portal:** add searchCommunityUsers method to allow for searching outside user's org ([2695a75](https://github.com/Esri/arcgis-rest-js/commit/2695a75d972c68fc0d240920f92367335965dc27))
+
 # @esri/arcgis-rest-portal [4.3.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.2.0...@esri/arcgis-rest-portal@4.3.0) (2023-07-28)
 
 
