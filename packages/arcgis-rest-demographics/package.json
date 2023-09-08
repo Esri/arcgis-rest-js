@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-demographics",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "description": "Demographics data helpers for @esri/arcgis-rest-js",
   "main": "dist/node/index.js",
   "unpkg": "dist/umd/geocoding.umd.js",
@@ -13,12 +13,12 @@
     "dist/**"
   ],
   "dependencies": {
-    "@esri/arcgis-rest-types": "^3.6.0",
+    "@esri/arcgis-rest-types": "^3.7.0",
     "tslib": "^1.13.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-auth": "^3.6.0",
-    "@esri/arcgis-rest-request": "^3.6.0"
+    "@esri/arcgis-rest-auth": "^3.7.0",
+    "@esri/arcgis-rest-request": "^3.7.0"
   },
   "peerDependencies": {
     "@esri/arcgis-rest-auth": "^3.0.0",
