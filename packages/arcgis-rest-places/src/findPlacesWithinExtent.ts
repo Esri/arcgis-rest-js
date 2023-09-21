@@ -56,11 +56,9 @@ export interface IFindPlaceWithinExtentOptions
  * - A partial name filter with `name` option
  *
  * As this request can return many results, pagination is supported.
- * Regardless of paging, the maximum number of places that can be returned
- * by a single query is `200`. When a query results in more than `200`
- * places, the response will contain the property
- * `"maxResultsExceeded":true` in addition to place results. If `maxResultsExceeded`
- * is true an additional method `response.nextPage()` can be used to get the next page of results.
+ * When a query results in more than [pageSize] places, the response will contain the property
+ * `pagination` in addition to place results. If `pagination` exists, an additional method
+ * `response.nextPage()` can be used to get the next page of results.
  *
  * ```
  * import { findPlacesWithinExtent } from "@esri/arcgis-rest-places";

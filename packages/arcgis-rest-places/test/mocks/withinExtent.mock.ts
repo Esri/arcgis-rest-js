@@ -110,7 +110,6 @@ export const placesWithinExtentMockMoreResults = {
       }
     }
   ],
-  maxResultsExceeded: true,
   links: {
     base: "https://places-service.esri.com/",
     next: "/rest/v1/world/places/within-extent?xmin=-118.01333400&ymin=33.78193000&xmax=-117.79575300&ymax=33.87333700&categoryIds=13002&f=json&offset=5&pageSize=5&token=AAPK7d4bf083681e434b8d7593a08954e918ro7MqS9xFOIaAk7StSGVbajdmn5IDn1upbdHw9OiZbNx5YaeP51obAVmMVcmHuZ4"
@@ -145,7 +144,6 @@ export const placesWithinExtentMockNoMoreResults = {
       }
     }
   ],
-  maxResultsExceeded: false,
   pagination: {
     previousUrl:
       "https://places-service.esri.com/rest/v1/world/places/within-extent?xmin=-118.01333400&ymin=33.78193000&xmax=-117.79575300&ymax=33.87333700&categoryIds=13002&f=json&offset=0&pageSize=5&token=AAPK7d4bf083681e434b8d7593a08954e918ro7MqS9xFOIaAk7StSGVbajdmn5IDn1upbdHw9OiZbNx5YaeP51obAVmMVcmHuZ4"
