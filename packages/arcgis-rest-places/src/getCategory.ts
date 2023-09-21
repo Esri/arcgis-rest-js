@@ -38,7 +38,7 @@ export interface IGetCategoryOptions
  *
  * const response = getCategory({
  *   categoryId: "10000",
- *   authentication: ApiKeyManager.fromKey("YOUR_API_KEY");
+ *   authentication: ApiKeyManager.fromKey("YOUR_API_KEY")
  * });
  *
  * console.log(response);
