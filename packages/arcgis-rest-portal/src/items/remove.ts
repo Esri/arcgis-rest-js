@@ -5,6 +5,7 @@ import { request, appendCustomParams } from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
 import {
+  IUserItemDeleteOptions,
   IUserItemOptions,
   IRemoveItemResourceOptions,
   IFolderIdOptions,
@@ -28,12 +29,15 @@ import {
  * @returns A Promise that deletes an item.
  */
 export function removeItem(
-  requestOptions: IUserItemOptions
+  requestOptions: IUserItemDeleteOptions
 ): Promise<{ success: boolean; itemId: string }> {
   return determineOwner(requestOptions).then((owner) => {
+    const permanentDelete = requestOptions.permanentDelete
+      ? "?permanentDelete=true"
+      : "";
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
-    }/delete`;
+    }/delete${permanentDelete}`;
     return request(url, requestOptions);
   });
 }

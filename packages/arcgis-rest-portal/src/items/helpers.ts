@@ -22,6 +22,15 @@ export interface IUserItemOptions extends IUserRequestOptions {
   owner?: string;
 }
 
+export interface IUserItemDeleteOptions extends IUserItemOptions {
+  /**
+   * Indicates if item should be permanently deleted (true) or sent to recycle bin (false).
+   * "The delete APIs now recycle by default if an item is supported by the recycle bin.
+   * Items not supported by the recycle bin are permanently deleted by default." -- JSAPI Recycle Bin design doc
+   */
+  permanentDelete?: boolean;
+}
+
 export interface IFolderIdOptions extends IUserRequestOptions {
   /**
    * Unique identifier of the folder.

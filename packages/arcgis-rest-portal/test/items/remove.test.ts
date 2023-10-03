@@ -60,6 +60,29 @@ describe("search", () => {
         });
     });
 
+    it("should remove an item permanently", (done) => {
+      fetchMock.once("*", ItemSuccessResponse);
+      removeItem({
+        id: "3ef",
+        owner: "dbouwman",
+        permanentDelete: true,
+        ...MOCK_USER_REQOPTS
+      })
+        .then((response) => {
+          const [url, options] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/delete?permanentDelete=true"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
     it("should remove an item, no owner passed", (done) => {
       fetchMock.once("*", ItemSuccessResponse);
       removeItem({
