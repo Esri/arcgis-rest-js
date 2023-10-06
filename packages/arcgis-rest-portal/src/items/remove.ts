@@ -38,6 +38,7 @@ export function removeItem(
     const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
       requestOptions.id
     }/delete${permanentDelete}`;
+    requestOptions.httpMethod = "POST";
     return request(url, requestOptions);
   });
 }
