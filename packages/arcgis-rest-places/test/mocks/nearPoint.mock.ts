@@ -151,7 +151,6 @@ export const placeNearPointMockMoreResults = {
       distance: 22.6
     }
   ],
-  maxResultsExceeded: true,
   links: {
     base: "https://placesdev-api.arcgis.com/",
     next: "/arcgis/rest/services/places-service/v1/places/near-point?x=-3.18830000&y=55.95330000&radius=100.00000000&f=json&offset=10&pageSize=10"
@@ -176,7 +175,6 @@ export const placeNearPointMockNoMoreResults = {
       distance: 6.4
     }
   ],
-  maxResultsExceeded: false,
   pagination: {
     previousUrl:
       "https://placesdev-api.arcgis.com/arcgis/rest/services/places-service/v1/places/near-point?x=-3.18830000&y=55.95330000&radius=100.00000000&f=json&offset=0&pageSize=10"
