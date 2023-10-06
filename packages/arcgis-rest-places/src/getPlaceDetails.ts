@@ -54,7 +54,7 @@ export interface IGetPlaceOptions
  *
  * const place = getPlaceDetails({
  *   placeId: "e78051acc722c55ab11ba930d8dd7772",
- *   authentication: ApiKeyManager.fromKey("YOUR_API_KEY");
+ *   authentication: ApiKeyManager.fromKey("YOUR_API_KEY")
  * });
  *
  * console.log(place);
