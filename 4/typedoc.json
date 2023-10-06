@@ -48146,7 +48146,7 @@
 							"flags": {},
 							"comment": {
 								"shortText": "Searches the world-wide set of places for those that are within an\nextent, or bounding box. You must supply the `xmin`, `ymin`, `xmax` and\n`ymax` coordinates of the extent. You could use this endpoint to search\nfor places in the visible extent of a user's screen.",
-								"text": "The returned places contain basic data such as name, category and\nlocation. You can use the {@linkcode getPlace} method to get additional\ndetails for a given place.\n\nYou can also refine the results by supplying additional search parameters,\nincluding:\n\n- A list of category Ids, see {@linkcode searchCategories} or {@linkcode getCategories}.\n- A partial name filter with `name` option\n\nAs this request can return many results, pagination is supported.\nRegardless of paging, the maximum number of places that can be returned\nby a single query is `200`. When a query results in more than `200`\nplaces, the response will contain the property\n`\"maxResultsExceeded\":true` in addition to place results. If `maxResultsExceeded`\nis true an additional method `response.nextPage()` can be used to get the next page of results.\n\n```\nimport { findPlacesWithinExtent } from \"@esri/arcgis-rest-places\";\nimport { ApiKeyManager } from \"@esri/arcgis-rest-request\";\n\nconst results = await findPlacesWithinExtent({\n  xmin: -118.013334,\n  ymin: 33.78193,\n  xmax: -117.795753,\n  ymax: 33.873337,\n  categoryIds: [\"13002\"],\n  authentication: ApiKeyManager.fromKey(\"YOUR_API_KEY\");\n});\n\nconsole.log(results)\n```\n"
+								"text": "The returned places contain basic data such as name, category and\nlocation. You can use the {@linkcode getPlace} method to get additional\ndetails for a given place.\n\nYou can also refine the results by supplying additional search parameters,\nincluding:\n\n- A list of category Ids, see {@linkcode searchCategories} or {@linkcode getCategories}.\n- A partial name filter with `name` option\n\nAs this request can return many results, pagination is supported.\nRegardless of paging, the maximum number of places that can be returned\nby a single query is `200`. When a query results in more than `200`\nplaces, the response will contain the property\n`\"maxResultsExceeded\":true` in addition to place results. If `maxResultsExceeded`\nis true an additional method `response.nextPage()` can be used to get the next page of results.\n\n```\nimport { findPlacesWithinExtent } from \"@esri/arcgis-rest-places\";\nimport { ApiKeyManager } from \"@esri/arcgis-rest-request\";\n\nconst results = await findPlacesWithinExtent({\n  xmin: -118.013334,\n  ymin: 33.78193,\n  xmax: -117.795753,\n  ymax: 33.873337,\n  categoryIds: [\"13002\"],\n  authentication: ApiKeyManager.fromKey(\"YOUR_API_KEY\")\n});\n\nconsole.log(results)\n```\n"
 							},
 							"parameters": [
 								{
@@ -48250,7 +48250,7 @@
 							"flags": {},
 							"comment": {
 								"shortText": "Returns details about a single category by Id.",
-								"text": "```js\nimport { getCategories } from \"@esri/arcgis-rest-places\";\nimport { ApiKeyManager } from \"@esri/arcgis-rest-request\";\n\nconst response = getCategory({\n  categoryId: \"10000\",\n  authentication: ApiKeyManager.fromKey(\"YOUR_API_KEY\");\n});\n\nconsole.log(response);\n```\n"
+								"text": "```js\nimport { getCategories } from \"@esri/arcgis-rest-places\";\nimport { ApiKeyManager } from \"@esri/arcgis-rest-request\";\n\nconst response = getCategory({\n  categoryId: \"10000\",\n  authentication: ApiKeyManager.fromKey(\"YOUR_API_KEY\")\n});\n\nconsole.log(response);\n```\n"
 							},
 							"parameters": [
 								{
@@ -48302,7 +48302,7 @@
 							"flags": {},
 							"comment": {
 								"shortText": "Returns a single place, including additional details, such as:",
-								"text": "- contact details\n- address\n- price information\n- user rating\n- opening hours\n\nThis endpoint can be used to fetch additional details for a specific\nplace, returned from a places search request.\n\nNote that some fields, such as opening hours, are not available for\nevery place. Where a field is not available it will be omitted from the\nresponse and you will not be charged for this data.\n\n ```js\nimport { getPlaceDetails } from \"@esri/arcgis-rest-places\";\nimport { ApiKeyManager } from \"@esri/arcgis-rest-request\";\n\nconst place = getPlaceDetails({\n  placeId: \"e78051acc722c55ab11ba930d8dd7772\",\n  authentication: ApiKeyManager.fromKey(\"YOUR_API_KEY\");\n});\n\nconsole.log(place);\n```\n"
+								"text": "- contact details\n- address\n- price information\n- user rating\n- opening hours\n\nThis endpoint can be used to fetch additional details for a specific\nplace, returned from a places search request.\n\nNote that some fields, such as opening hours, are not available for\nevery place. Where a field is not available it will be omitted from the\nresponse and you will not be charged for this data.\n\n ```js\nimport { getPlaceDetails } from \"@esri/arcgis-rest-places\";\nimport { ApiKeyManager } from \"@esri/arcgis-rest-request\";\n\nconst place = getPlaceDetails({\n  placeId: \"e78051acc722c55ab11ba930d8dd7772\",\n  authentication: ApiKeyManager.fromKey(\"YOUR_API_KEY\")\n});\n\nconsole.log(place);\n```\n"
 							},
 							"parameters": [
 								{
