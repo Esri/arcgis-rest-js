@@ -35,6 +35,7 @@ export interface IUpdateGroupUsersOptions extends IUserRequestOptions {
  * updateUserMemberships({
  *   id: groupId,
  *   admins: ["username3"],
+ *   newMemberType: "admin",
  *   authentication
  * })
  * .then(response);
