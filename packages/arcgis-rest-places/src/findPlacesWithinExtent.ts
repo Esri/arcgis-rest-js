@@ -72,7 +72,7 @@ export interface IFindPlaceWithinExtentOptions
  *   xmax: -117.795753,
  *   ymax: 33.873337,
  *   categoryIds: ["13002"],
- *   authentication: ApiKeyManager.fromKey("YOUR_API_KEY");
+ *   authentication: ApiKeyManager.fromKey("YOUR_API_KEY")
  * });
  *
  * console.log(results)
