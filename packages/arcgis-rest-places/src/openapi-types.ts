@@ -888,7 +888,7 @@ export interface components {
       /**
        * @description The census block Id of the place (US only).
        *
-       * @example 060710081003002
+       * @example 60710081003002
        */
       censusBlockId?: string | null;
     };
@@ -1401,6 +1401,10 @@ export interface operations {
   nearPointGet: {
     parameters: {
       query: {
+        /** The x coordinate, or longitude, to search from, in WGS84 decimal degrees. */
+        x: components["schemas"]["XCoord"];
+        /** The y coordinate, or latitude, to search from, in WGS84 decimal degrees. */
+        y: components["schemas"]["YCoord"];
         /**
          * The radius in meters to search for places - measured from the supplied `x` and `y` coordinate.
          *
@@ -1663,6 +1667,10 @@ export interface operations {
    */
   placeIdGet: {
     parameters: {
+      path: {
+        /** The Id of the place for which you want to fetch additional details. */
+        placeId: components["schemas"]["PlaceId"];
+      };
       query: {
         /**
          * The array of fields that define the attributes to return for a place.
