@@ -492,7 +492,7 @@
     "categoryId": "10046",
     "fullLabel": [
       "Arts and Entertainment",
-      "Psychics and Astrologers"
+      "Psychic and Astrologer"
     ],
     "parents": [
       "10000"
@@ -596,6 +596,160 @@
     ],
     "parents": [
       "10000"
+    ]
+  },
+  {
+    "categoryId": "10057",
+    "fullLabel": [
+      "Arts and Entertainment",
+      "Disc Golf"
+    ],
+    "parents": [
+      "10000"
+    ]
+  },
+  {
+    "categoryId": "10058",
+    "fullLabel": [
+      "Arts and Entertainment",
+      "Amusement Park",
+      "Attraction"
+    ],
+    "parents": [
+      "10000",
+      "10001"
+    ]
+  },
+  {
+    "categoryId": "10059",
+    "fullLabel": [
+      "Arts and Entertainment",
+      "Public Art",
+      "Street Art"
+    ],
+    "parents": [
+      "10000",
+      "10047"
+    ]
+  },
+  {
+    "categoryId": "10060",
+    "fullLabel": [
+      "Arts and Entertainment",
+      "Stadium",
+      "Baseball Stadium"
+    ],
+    "parents": [
+      "10000",
+      "10051"
+    ]
+  },
+  {
+    "categoryId": "10061",
+    "fullLabel": [
+      "Arts and Entertainment",
+      "Stadium",
+      "Basketball Stadium"
+    ],
+    "parents": [
+      "10000",
+      "10051"
+    ]
+  },
+  {
+    "categoryId": "10062",
+    "fullLabel": [
+      "Arts and Entertainment",
+      "Stadium",
+      "Football Stadium"
+    ],
+    "parents": [
+      "10000",
+      "10051"
+    ]
+  },
+  {
+    "categoryId": "10063",
+    "fullLabel": [
+      "Arts and Entertainment",
+      "Stadium",
+      "Hockey Stadium"
+    ],
+    "parents": [
+      "10000",
+      "10051"
+    ]
+  },
+  {
+    "categoryId": "10064",
+    "fullLabel": [
+      "Arts and Entertainment",
+      "Stadium",
+      "Rugby Stadium"
+    ],
+    "parents": [
+      "10000",
+      "10051"
+    ]
+  },
+  {
+    "categoryId": "10065",
+    "fullLabel": [
+      "Arts and Entertainment",
+      "Stadium",
+      "Soccer Stadium"
+    ],
+    "parents": [
+      "10000",
+      "10051"
+    ]
+  },
+  {
+    "categoryId": "10066",
+    "fullLabel": [
+      "Arts and Entertainment",
+      "Stadium",
+      "Tennis Stadium"
+    ],
+    "parents": [
+      "10000",
+      "10051"
+    ]
+  },
+  {
+    "categoryId": "10067",
+    "fullLabel": [
+      "Arts and Entertainment",
+      "Stadium",
+      "Track Stadium"
+    ],
+    "parents": [
+      "10000",
+      "10051"
+    ]
+  },
+  {
+    "categoryId": "10068",
+    "fullLabel": [
+      "Arts and Entertainment",
+      "Zoo",
+      "Zoo Exhibit"
+    ],
+    "parents": [
+      "10000",
+      "10056"
+    ]
+  },
+  {
+    "categoryId": "10069",
+    "fullLabel": [
+      "Arts and Entertainment",
+      "Public Art",
+      "Outdoor Sculpture"
+    ],
+    "parents": [
+      "10000",
+      "10047"
     ]
   },
   {
@@ -817,10 +971,12 @@
     "categoryId": "11020",
     "fullLabel": [
       "Business and Professional Services",
+      "Office",
       "Business and Strategy Consulting Office"
     ],
     "parents": [
-      "11000"
+      "11000",
+      "11124"
     ]
   },
   {
@@ -837,10 +993,12 @@
     "categoryId": "11022",
     "fullLabel": [
       "Business and Professional Services",
+      "Office",
       "Campaign Office"
     ],
     "parents": [
-      "11000"
+      "11000",
+      "11124"
     ]
   },
   {
@@ -1347,24 +1505,20 @@
     "categoryId": "11068",
     "fullLabel": [
       "Business and Professional Services",
-      "Health and Beauty Service",
       "Laundromat"
     ],
     "parents": [
-      "11000",
-      "11061"
+      "11000"
     ]
   },
   {
     "categoryId": "11069",
     "fullLabel": [
       "Business and Professional Services",
-      "Health and Beauty Service",
       "Laundry Service"
     ],
     "parents": [
-      "11000",
-      "11061"
+      "11000"
     ]
   },
   {
@@ -1858,7 +2012,7 @@
     "fullLabel": [
       "Business and Professional Services",
       "Legal Service",
-      "Attorney / Law Office"
+      "Law Office"
     ],
     "parents": [
       "11000",
@@ -2578,6 +2732,162 @@
     ]
   },
   {
+    "categoryId": "11180",
+    "fullLabel": [
+      "Business and Professional Services",
+      "Office",
+      "Tech Startup"
+    ],
+    "parents": [
+      "11000",
+      "11124"
+    ]
+  },
+  {
+    "categoryId": "11181",
+    "fullLabel": [
+      "Business and Professional Services",
+      "Appraiser"
+    ],
+    "parents": [
+      "11000"
+    ]
+  },
+  {
+    "categoryId": "11182",
+    "fullLabel": [
+      "Business and Professional Services",
+      "Business Service"
+    ],
+    "parents": [
+      "11000"
+    ]
+  },
+  {
+    "categoryId": "11183",
+    "fullLabel": [
+      "Business and Professional Services",
+      "Convention Center",
+      "Conference Room"
+    ],
+    "parents": [
+      "11000",
+      "11029"
+    ]
+  },
+  {
+    "categoryId": "11184",
+    "fullLabel": [
+      "Business and Professional Services",
+      "Creative Service"
+    ],
+    "parents": [
+      "11000"
+    ]
+  },
+  {
+    "categoryId": "11185",
+    "fullLabel": [
+      "Business and Professional Services",
+      "Direct Mail and Email Marketing Service"
+    ],
+    "parents": [
+      "11000"
+    ]
+  },
+  {
+    "categoryId": "11186",
+    "fullLabel": [
+      "Business and Professional Services",
+      "Market Research and Consulting Service"
+    ],
+    "parents": [
+      "11000"
+    ]
+  },
+  {
+    "categoryId": "11187",
+    "fullLabel": [
+      "Business and Professional Services",
+      "Office",
+      "Corporate Amenity"
+    ],
+    "parents": [
+      "11000",
+      "11124"
+    ]
+  },
+  {
+    "categoryId": "11188",
+    "fullLabel": [
+      "Business and Professional Services",
+      "Online Advertising Service"
+    ],
+    "parents": [
+      "11000"
+    ]
+  },
+  {
+    "categoryId": "11189",
+    "fullLabel": [
+      "Business and Professional Services",
+      "Print, TV, Radio and Outdoor Advertising Service"
+    ],
+    "parents": [
+      "11000"
+    ]
+  },
+  {
+    "categoryId": "11190",
+    "fullLabel": [
+      "Business and Professional Services",
+      "Promotional Item Service"
+    ],
+    "parents": [
+      "11000"
+    ]
+  },
+  {
+    "categoryId": "11191",
+    "fullLabel": [
+      "Business and Professional Services",
+      "Public Relations Firm"
+    ],
+    "parents": [
+      "11000"
+    ]
+  },
+  {
+    "categoryId": "11192",
+    "fullLabel": [
+      "Business and Professional Services",
+      "Research Laboratory"
+    ],
+    "parents": [
+      "11000"
+    ]
+  },
+  {
+    "categoryId": "11193",
+    "fullLabel": [
+      "Business and Professional Services",
+      "Search Engine Marketing and Optimization Service"
+    ],
+    "parents": [
+      "11000"
+    ]
+  },
+  {
+    "categoryId": "11194",
+    "fullLabel": [
+      "Business and Professional Services",
+      "Writing, Copywriting and Technical Writing Service"
+    ],
+    "parents": [
+      "11000"
+    ]
+  },
+  {
     "categoryId": "12000",
     "fullLabel": [
       "Community and Government"
@@ -2639,6 +2949,16 @@
     "fullLabel": [
       "Community and Government",
       "Disabled Persons Service"
+    ],
+    "parents": [
+      "12000"
+    ]
+  },
+  {
+    "categoryId": "12007",
+    "fullLabel": [
+      "Community and Government",
+      "Domestic Abuse Treatment Center"
     ],
     "parents": [
       "12000"
@@ -3439,7 +3759,7 @@
     "fullLabel": [
       "Community and Government",
       "Government Building",
-      "Embassy / Consulate"
+      "Embassy or Consulate"
     ],
     "parents": [
       "12000",
@@ -3451,7 +3771,7 @@
     "fullLabel": [
       "Community and Government",
       "Government Building",
-      "Government Department / Agency"
+      "Government Department"
     ],
     "parents": [
       "12000",
@@ -3989,6 +4309,116 @@
     ]
   },
   {
+    "categoryId": "12117",
+    "fullLabel": [
+      "Community and Government",
+      "Assisted Living"
+    ],
+    "parents": [
+      "12000"
+    ]
+  },
+  {
+    "categoryId": "12118",
+    "fullLabel": [
+      "Community and Government",
+      "Government Building",
+      "Law Enforcement and Public Safety",
+      "Probation Office"
+    ],
+    "parents": [
+      "12000",
+      "12064",
+      "12070"
+    ]
+  },
+  {
+    "categoryId": "12119",
+    "fullLabel": [
+      "Community and Government",
+      "Government Building",
+      "Law Enforcement and Public Safety",
+      "Rescue Service"
+    ],
+    "parents": [
+      "12000",
+      "12064",
+      "12070"
+    ]
+  },
+  {
+    "categoryId": "12120",
+    "fullLabel": [
+      "Community and Government",
+      "Organization",
+      "Labor Union"
+    ],
+    "parents": [
+      "12000",
+      "12082"
+    ]
+  },
+  {
+    "categoryId": "12121",
+    "fullLabel": [
+      "Community and Government",
+      "Organization",
+      "LGBTQ Organization"
+    ],
+    "parents": [
+      "12000",
+      "12082"
+    ]
+  },
+  {
+    "categoryId": "12122",
+    "fullLabel": [
+      "Community and Government",
+      "Residential Building",
+      "Apartment or Condo"
+    ],
+    "parents": [
+      "12000",
+      "12094"
+    ]
+  },
+  {
+    "categoryId": "12123",
+    "fullLabel": [
+      "Community and Government",
+      "Residential Building",
+      "Home (private)"
+    ],
+    "parents": [
+      "12000",
+      "12094"
+    ]
+  },
+  {
+    "categoryId": "12124",
+    "fullLabel": [
+      "Community and Government",
+      "Town Hall"
+    ],
+    "parents": [
+      "12000"
+    ]
+  },
+  {
+    "categoryId": "12125",
+    "fullLabel": [
+      "Community and Government",
+      "Education",
+      "College and University",
+      "University"
+    ],
+    "parents": [
+      "12000",
+      "12009",
+      "12013"
+    ]
+  },
+  {
     "categoryId": "13000",
     "fullLabel": [
       "Dining and Drinking"
@@ -4361,7 +4791,7 @@
     "categoryId": "13032",
     "fullLabel": [
       "Dining and Drinking",
-      "Cafes, Coffee, and Tea Houses"
+      "Cafe, Coffee, and Tea House"
     ],
     "parents": [
       "13000"
@@ -4371,7 +4801,7 @@
     "categoryId": "13033",
     "fullLabel": [
       "Dining and Drinking",
-      "Cafes, Coffee, and Tea Houses",
+      "Cafe, Coffee, and Tea House",
       "Bubble Tea Shop"
     ],
     "parents": [
@@ -4383,7 +4813,7 @@
     "categoryId": "13034",
     "fullLabel": [
       "Dining and Drinking",
-      "Cafes, Coffee, and Tea Houses",
+      "Cafe, Coffee, and Tea House",
       "Café"
     ],
     "parents": [
@@ -4395,7 +4825,7 @@
     "categoryId": "13035",
     "fullLabel": [
       "Dining and Drinking",
-      "Cafes, Coffee, and Tea Houses",
+      "Cafe, Coffee, and Tea House",
       "Coffee Shop"
     ],
     "parents": [
@@ -4407,7 +4837,7 @@
     "categoryId": "13036",
     "fullLabel": [
       "Dining and Drinking",
-      "Cafes, Coffee, and Tea Houses",
+      "Cafe, Coffee, and Tea House",
       "Tea Room"
     ],
     "parents": [
@@ -4461,12 +4891,10 @@
     "categoryId": "13041",
     "fullLabel": [
       "Dining and Drinking",
-      "Dessert Shop",
       "Creperie"
     ],
     "parents": [
-      "13000",
-      "13040"
+      "13000"
     ]
   },
   {
@@ -4485,12 +4913,10 @@
     "categoryId": "13043",
     "fullLabel": [
       "Dining and Drinking",
-      "Dessert Shop",
       "Donut Shop"
     ],
     "parents": [
-      "13000",
-      "13040"
+      "13000"
     ]
   },
   {
@@ -4711,7 +5137,7 @@
     "categoryId": "13063",
     "fullLabel": [
       "Dining and Drinking",
-      "Cafes, Coffee, and Tea Houses",
+      "Cafe, Coffee, and Tea House",
       "Pet Café"
     ],
     "parents": [
@@ -4782,11 +5208,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
       "Arepa Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13297"
     ]
   },
   {
@@ -4794,11 +5222,15 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Argentinian Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13297",
+      "13343"
     ]
   },
   {
@@ -4862,6 +5294,20 @@
     ]
   },
   {
+    "categoryId": "13076",
+    "fullLabel": [
+      "Dining and Drinking",
+      "Restaurant",
+      "Eastern European Restaurant",
+      "Belarusian Restaurant"
+    ],
+    "parents": [
+      "13000",
+      "13065",
+      "13139"
+    ]
+  },
+  {
     "categoryId": "13077",
     "fullLabel": [
       "Dining and Drinking",
@@ -4878,11 +5324,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Eastern European Restaurant",
       "Bosnian Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13139"
     ]
   },
   {
@@ -4890,11 +5338,15 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Brazilian Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13297",
+      "13343"
     ]
   },
   {
@@ -4902,12 +5354,16 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Brazilian Restaurant",
       "Acai House"
     ],
     "parents": [
       "13000",
       "13065",
+      "13297",
+      "13343",
       "13079"
     ]
   },
@@ -4916,12 +5372,16 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Brazilian Restaurant",
       "Baiano Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13297",
+      "13343",
       "13079"
     ]
   },
@@ -4930,12 +5390,16 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Brazilian Restaurant",
       "Central Brazilian Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13297",
+      "13343",
       "13079"
     ]
   },
@@ -4944,12 +5408,16 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Brazilian Restaurant",
       "Churrascaria"
     ],
     "parents": [
       "13000",
       "13065",
+      "13297",
+      "13343",
       "13079"
     ]
   },
@@ -4958,12 +5426,16 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Brazilian Restaurant",
       "Empada House"
     ],
     "parents": [
       "13000",
       "13065",
+      "13297",
+      "13343",
       "13079"
     ]
   },
@@ -4972,12 +5444,16 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Brazilian Restaurant",
       "Goiano Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13297",
+      "13343",
       "13079"
     ]
   },
@@ -4986,12 +5462,16 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Brazilian Restaurant",
       "Mineiro Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13297",
+      "13343",
       "13079"
     ]
   },
@@ -5000,12 +5480,16 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Brazilian Restaurant",
       "Northeastern Brazilian Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13297",
+      "13343",
       "13079"
     ]
   },
@@ -5014,12 +5498,16 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Brazilian Restaurant",
       "Northern Brazilian Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13297",
+      "13343",
       "13079"
     ]
   },
@@ -5028,12 +5516,16 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Brazilian Restaurant",
       "Pastelaria"
     ],
     "parents": [
       "13000",
       "13065",
+      "13297",
+      "13343",
       "13079"
     ]
   },
@@ -5042,12 +5534,16 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Brazilian Restaurant",
       "Southeastern Brazilian Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13297",
+      "13343",
       "13079"
     ]
   },
@@ -5056,12 +5552,16 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Brazilian Restaurant",
       "Southern Brazilian Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13297",
+      "13343",
       "13079"
     ]
   },
@@ -5070,12 +5570,16 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Brazilian Restaurant",
       "Tapiocaria"
     ],
     "parents": [
       "13000",
       "13065",
+      "13297",
+      "13343",
       "13079"
     ]
   },
@@ -5084,11 +5588,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Eastern European Restaurant",
       "Bulgarian Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13139"
     ]
   },
   {
@@ -5096,11 +5602,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Burmese Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -5108,7 +5616,7 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
-      "Cajun / Creole Restaurant"
+      "Cajun and Creole Restaurant"
     ],
     "parents": [
       "13000",
@@ -5120,11 +5628,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Cambodian Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -5156,11 +5666,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -5168,12 +5680,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Anhui Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5182,12 +5696,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Beijing Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5196,12 +5712,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Cantonese Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5210,12 +5728,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Cha Chaan Teng"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5224,12 +5744,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Chinese Aristocrat Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5238,12 +5760,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Chinese Breakfast Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5252,12 +5776,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Dim Sum Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5266,12 +5792,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Dongbei Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5280,12 +5808,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Fujian Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5294,12 +5824,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Guizhou Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5308,12 +5840,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Hainan Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5322,12 +5856,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Hakka Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5336,12 +5872,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Henan Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5350,12 +5888,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Hong Kong Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5364,12 +5904,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Huaiyang Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5378,12 +5920,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Hubei Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5392,12 +5936,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Hunan Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5406,12 +5952,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Imperial Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5420,12 +5968,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Jiangsu Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5434,12 +5984,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Jiangxi Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5448,12 +6000,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Macanese Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5462,12 +6016,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Manchu Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5476,12 +6032,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Peking Duck Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5490,12 +6048,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Shaanxi Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5504,12 +6064,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Shandong Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5518,12 +6080,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Shanghai Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5532,12 +6096,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Shanxi Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5546,12 +6112,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Szechuan Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5560,12 +6128,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Taiwanese Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5574,12 +6144,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Tianjin Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5588,12 +6160,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Xinjiang Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5602,12 +6176,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Yunnan Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5616,12 +6192,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Chinese Restaurant",
       "Zhejiang Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13099"
     ]
   },
@@ -5630,11 +6208,15 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Colombian Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13297",
+      "13343"
     ]
   },
   {
@@ -5654,11 +6236,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Caribbean Restaurant",
       "Cuban Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13097"
     ]
   },
   {
@@ -5714,11 +6298,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Middle Eastern Restaurant",
       "Egyptian Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13309"
     ]
   },
   {
@@ -5726,11 +6312,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
       "Empanada Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13297"
     ]
   },
   {
@@ -5750,11 +6338,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "African Restaurant",
       "Ethiopian Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13067"
     ]
   },
   {
@@ -5786,11 +6376,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Filipino Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -5950,6 +6542,20 @@
       "Restaurant",
       "French Restaurant",
       "Estaminet"
+    ],
+    "parents": [
+      "13000",
+      "13065",
+      "13148"
+    ]
+  },
+  {
+    "categoryId": "13159",
+    "fullLabel": [
+      "Dining and Drinking",
+      "Restaurant",
+      "French Restaurant",
+      "Labour Canteen"
     ],
     "parents": [
       "13000",
@@ -6430,11 +7036,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Himalayan Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -6442,11 +7050,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
       "Honduran Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13297"
     ]
   },
   {
@@ -6454,11 +7064,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Hotpot Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -6852,11 +7464,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Indonesian Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -6864,12 +7478,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Indonesian Restaurant",
       "Acehnese Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13225"
     ]
   },
@@ -6878,12 +7494,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Indonesian Restaurant",
       "Balinese Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13225"
     ]
   },
@@ -6892,12 +7510,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Indonesian Restaurant",
       "Betawinese Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13225"
     ]
   },
@@ -6906,12 +7526,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Indonesian Restaurant",
       "Indonesian Meatball Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13225"
     ]
   },
@@ -6920,12 +7542,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Indonesian Restaurant",
       "Javanese Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13225"
     ]
   },
@@ -6934,12 +7558,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Indonesian Restaurant",
       "Manadonese Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13225"
     ]
   },
@@ -6948,12 +7574,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Indonesian Restaurant",
       "Padangnese Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13225"
     ]
   },
@@ -6962,12 +7590,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Indonesian Restaurant",
       "Sundanese Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13225"
     ]
   },
@@ -6976,11 +7606,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Middle Eastern Restaurant",
       "Iraqi Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13309"
     ]
   },
   {
@@ -6988,11 +7620,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Middle Eastern Restaurant",
       "Israeli Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13309"
     ]
   },
   {
@@ -7176,6 +7810,20 @@
     ]
   },
   {
+    "categoryId": "13249",
+    "fullLabel": [
+      "Dining and Drinking",
+      "Restaurant",
+      "Italian Restaurant",
+      "Molise Restaurant"
+    ],
+    "parents": [
+      "13000",
+      "13065",
+      "13236"
+    ]
+  },
+  {
     "categoryId": "13250",
     "fullLabel": [
       "Dining and Drinking",
@@ -7293,7 +7941,7 @@
       "Dining and Drinking",
       "Restaurant",
       "Italian Restaurant",
-      "Trattoria/Osteria"
+      "Trattoria"
     ],
     "parents": [
       "13000",
@@ -7362,11 +8010,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -7374,12 +8024,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Donburi Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7388,12 +8040,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Japanese Curry Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7402,12 +8056,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Japanese Family Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7416,12 +8072,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Kaiseki Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7430,12 +8088,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Kushikatsu Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7444,12 +8104,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Monjayaki Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7458,12 +8120,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Nabe Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7472,12 +8136,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Okonomiyaki Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7486,12 +8152,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Ramen Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7500,12 +8168,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Shabu-Shabu Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7514,12 +8184,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Soba Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7528,12 +8200,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Sukiyaki Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7542,12 +8216,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Sushi Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7556,12 +8232,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Takoyaki Place"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7570,12 +8248,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Teishoku Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7584,12 +8264,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Tempura Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7598,12 +8280,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Tonkatsu Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7612,12 +8296,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Udon Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7626,12 +8312,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Unagi Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7640,12 +8328,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Wagashi Place"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7654,12 +8344,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Yakitori Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7668,12 +8360,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Japanese Restaurant",
       "Yoshoku Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13263"
     ]
   },
@@ -7720,11 +8414,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Korean Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -7732,12 +8428,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Korean Restaurant",
       "Bossam/Jokbal Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13289"
     ]
   },
@@ -7746,12 +8444,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Korean Restaurant",
       "Bunsik Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13289"
     ]
   },
@@ -7760,12 +8460,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Korean Restaurant",
       "Gukbap Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13289"
     ]
   },
@@ -7774,12 +8476,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Korean Restaurant",
       "Janguh Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13289"
     ]
   },
@@ -7788,12 +8492,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Korean Restaurant",
       "Korean BBQ Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13289"
     ]
   },
@@ -7802,12 +8508,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Korean Restaurant",
       "Samgyetang Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13289"
     ]
   },
@@ -7816,11 +8524,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Middle Eastern Restaurant",
       "Kurdish Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13309"
     ]
   },
   {
@@ -7840,11 +8550,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Middle Eastern Restaurant",
       "Lebanese Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13309"
     ]
   },
   {
@@ -7852,11 +8564,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Malay Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -7864,12 +8578,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Malay Restaurant",
       "Mamak Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13299"
     ]
   },
@@ -7878,11 +8594,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "African Restaurant",
       "Mauritian Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13067"
     ]
   },
   {
@@ -8020,11 +8738,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Mongolian Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -8044,11 +8764,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "American Restaurant",
       "New American Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13068"
     ]
   },
   {
@@ -8056,11 +8778,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Noodle Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -8080,11 +8804,77 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Middle Eastern Restaurant",
       "Persian Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13309"
+    ]
+  },
+  {
+    "categoryId": "13318",
+    "fullLabel": [
+      "Dining and Drinking",
+      "Restaurant",
+      "Middle Eastern Restaurant",
+      "Persian Restaurant",
+      "Ash and Haleem Place"
+    ],
+    "parents": [
+      "13000",
+      "13065",
+      "13309",
+      "13317"
+    ]
+  },
+  {
+    "categoryId": "13319",
+    "fullLabel": [
+      "Dining and Drinking",
+      "Restaurant",
+      "Middle Eastern Restaurant",
+      "Persian Restaurant",
+      "Dizi Place"
+    ],
+    "parents": [
+      "13000",
+      "13065",
+      "13309",
+      "13317"
+    ]
+  },
+  {
+    "categoryId": "13320",
+    "fullLabel": [
+      "Dining and Drinking",
+      "Restaurant",
+      "Middle Eastern Restaurant",
+      "Persian Restaurant",
+      "Gilaki Restaurant"
+    ],
+    "parents": [
+      "13000",
+      "13065",
+      "13309",
+      "13317"
+    ]
+  },
+  {
+    "categoryId": "13321",
+    "fullLabel": [
+      "Dining and Drinking",
+      "Restaurant",
+      "Middle Eastern Restaurant",
+      "Persian Restaurant",
+      "Jegaraki"
+    ],
+    "parents": [
+      "13000",
+      "13065",
+      "13309",
+      "13317"
     ]
   },
   {
@@ -8092,11 +8882,15 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Peruvian Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13297",
+      "13343"
     ]
   },
   {
@@ -8104,12 +8898,16 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Peruvian Restaurant",
       "Peruvian Roast Chicken Joint"
     ],
     "parents": [
       "13000",
       "13065",
+      "13297",
+      "13343",
       "13322"
     ]
   },
@@ -8154,11 +8952,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Caribbean Restaurant",
       "Puerto Rican Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13097"
     ]
   },
   {
@@ -8166,11 +8966,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Eastern European Restaurant",
       "Romanian Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13139"
     ]
   },
   {
@@ -8183,6 +8985,34 @@
     "parents": [
       "13000",
       "13065"
+    ]
+  },
+  {
+    "categoryId": "13330",
+    "fullLabel": [
+      "Dining and Drinking",
+      "Restaurant",
+      "Russian Restaurant",
+      "Blini House"
+    ],
+    "parents": [
+      "13000",
+      "13065",
+      "13329"
+    ]
+  },
+  {
+    "categoryId": "13331",
+    "fullLabel": [
+      "Dining and Drinking",
+      "Restaurant",
+      "Russian Restaurant",
+      "Pelmeni House"
+    ],
+    "parents": [
+      "13000",
+      "13065",
+      "13329"
     ]
   },
   {
@@ -8202,11 +9032,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
       "Salvadoran Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13297"
     ]
   },
   {
@@ -8214,7 +9046,7 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
-      "Sandwich Restaurant"
+      "Sandwich Spot"
     ],
     "parents": [
       "13000",
@@ -8226,11 +9058,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Satay Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -8274,11 +9108,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Middle Eastern Restaurant",
       "Shawarma Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13309"
     ]
   },
   {
@@ -8286,11 +9122,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Singaporean Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -8310,7 +9148,7 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
-      "Soup Restaurant"
+      "Soup Spot"
     ],
     "parents": [
       "13000",
@@ -8322,11 +9160,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
       "South American Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13297"
     ]
   },
   {
@@ -8334,7 +9174,7 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
-      "Southern / Soul Food Restaurant"
+      "Southern Food Restaurant"
     ],
     "parents": [
       "13000",
@@ -8410,11 +9250,27 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Middle Eastern Restaurant",
       "Syrian Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13309"
+    ]
+  },
+  {
+    "categoryId": "13351",
+    "fullLabel": [
+      "Dining and Drinking",
+      "Restaurant",
+      "Eastern European Restaurant",
+      "Tatar Restaurant"
+    ],
+    "parents": [
+      "13000",
+      "13065",
+      "13139"
     ]
   },
   {
@@ -8422,11 +9278,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Thai Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -8434,12 +9292,14 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Thai Restaurant",
       "Som Tum Restaurant"
     ],
     "parents": [
       "13000",
       "13065",
+      "13072",
       "13352"
     ]
   },
@@ -8460,11 +9320,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Tibetan Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -8730,6 +9592,34 @@
     ]
   },
   {
+    "categoryId": "13375",
+    "fullLabel": [
+      "Dining and Drinking",
+      "Restaurant",
+      "Ukrainian Restaurant",
+      "Varenyky Restaurant"
+    ],
+    "parents": [
+      "13000",
+      "13065",
+      "13374"
+    ]
+  },
+  {
+    "categoryId": "13376",
+    "fullLabel": [
+      "Dining and Drinking",
+      "Restaurant",
+      "Ukrainian Restaurant",
+      "West-Ukrainian Restaurant"
+    ],
+    "parents": [
+      "13000",
+      "13065",
+      "13374"
+    ]
+  },
+  {
     "categoryId": "13377",
     "fullLabel": [
       "Dining and Drinking",
@@ -8746,11 +9636,15 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Latin American Restaurant",
+      "South American Restaurant",
       "Venezuelan Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13297",
+      "13343"
     ]
   },
   {
@@ -8758,11 +9652,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Asian Restaurant",
       "Vietnamese Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13072"
     ]
   },
   {
@@ -8770,11 +9666,13 @@
     "fullLabel": [
       "Dining and Drinking",
       "Restaurant",
+      "Middle Eastern Restaurant",
       "Yemeni Restaurant"
     ],
     "parents": [
       "13000",
-      "13065"
+      "13065",
+      "13309"
     ]
   },
   {
@@ -8810,13 +9708,19 @@
     ]
   },
   {
-    "categoryId": "13385",
+    "categoryId": "13384",
     "fullLabel": [
       "Dining and Drinking",
-      "Truck Stop"
+      "Restaurant",
+      "Middle Eastern Restaurant",
+      "Persian Restaurant",
+      "Tabbakhi"
     ],
     "parents": [
-      "13000"
+      "13000",
+      "13065",
+      "13309",
+      "13317"
     ]
   },
   {
@@ -8849,6 +9753,42 @@
     "parents": [
       "13000",
       "13065"
+    ]
+  },
+  {
+    "categoryId": "13389",
+    "fullLabel": [
+      "Dining and Drinking",
+      "Bar",
+      "Irish Pub"
+    ],
+    "parents": [
+      "13000",
+      "13003"
+    ]
+  },
+  {
+    "categoryId": "13390",
+    "fullLabel": [
+      "Dining and Drinking",
+      "Restaurant",
+      "Gluten-Free Restaurant"
+    ],
+    "parents": [
+      "13000",
+      "13065"
+    ]
+  },
+  {
+    "categoryId": "13392",
+    "fullLabel": [
+      "Dining and Drinking",
+      "Dessert Shop",
+      "Waffle Shop"
+    ],
+    "parents": [
+      "13000",
+      "13040"
     ]
   },
   {
@@ -8940,7 +9880,7 @@
     "categoryId": "14008",
     "fullLabel": [
       "Event",
-      "Line / Queue"
+      "Line"
     ],
     "parents": [
       "14000"
@@ -8962,6 +9902,18 @@
       "Event",
       "Marketplace",
       "Christmas Market"
+    ],
+    "parents": [
+      "14000",
+      "14009"
+    ]
+  },
+  {
+    "categoryId": "14011",
+    "fullLabel": [
+      "Event",
+      "Marketplace",
+      "Stoop Sale"
     ],
     "parents": [
       "14000",
@@ -9012,6 +9964,20 @@
     ],
     "parents": [
       "14000"
+    ]
+  },
+  {
+    "categoryId": "14016",
+    "fullLabel": [
+      "Event",
+      "Entertainment Event",
+      "Festival",
+      "Beer Festival"
+    ],
+    "parents": [
+      "14000",
+      "14003",
+      "14004"
     ]
   },
   {
@@ -9636,6 +10602,30 @@
     ]
   },
   {
+    "categoryId": "15058",
+    "fullLabel": [
+      "Health and Medicine",
+      "Hospital",
+      "Children's Hospital"
+    ],
+    "parents": [
+      "15000",
+      "15014"
+    ]
+  },
+  {
+    "categoryId": "15059",
+    "fullLabel": [
+      "Health and Medicine",
+      "Hospital",
+      "Hospital Unit"
+    ],
+    "parents": [
+      "15000",
+      "15014"
+    ]
+  },
+  {
     "categoryId": "16000",
     "fullLabel": [
       "Landmarks and Outdoors"
@@ -9706,7 +10696,7 @@
     "categoryId": "16007",
     "fullLabel": [
       "Landmarks and Outdoors",
-      "Building / Structure"
+      "Structure"
     ],
     "parents": [
       "16000"
@@ -9816,7 +10806,7 @@
     "categoryId": "16018",
     "fullLabel": [
       "Landmarks and Outdoors",
-      "Harbor / Marina"
+      "Harbor or Marina"
     ],
     "parents": [
       "16000"
@@ -10027,7 +11017,7 @@
     "fullLabel": [
       "Landmarks and Outdoors",
       "Park",
-      "State / Provincial Park"
+      "State or Provincial Park"
     ],
     "parents": [
       "16000",
@@ -10191,6 +11181,180 @@
     "fullLabel": [
       "Landmarks and Outdoors",
       "Windmill"
+    ],
+    "parents": [
+      "16000"
+    ]
+  },
+  {
+    "categoryId": "16055",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "Boat Launch"
+    ],
+    "parents": [
+      "16000"
+    ]
+  },
+  {
+    "categoryId": "16056",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "Dam"
+    ],
+    "parents": [
+      "16000"
+    ]
+  },
+  {
+    "categoryId": "16057",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "Field"
+    ],
+    "parents": [
+      "16000"
+    ]
+  },
+  {
+    "categoryId": "16058",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "Hill"
+    ],
+    "parents": [
+      "16000"
+    ]
+  },
+  {
+    "categoryId": "16059",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "Mountain Hut"
+    ],
+    "parents": [
+      "16000"
+    ]
+  },
+  {
+    "categoryId": "16060",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "Picnic Shelter"
+    ],
+    "parents": [
+      "16000"
+    ]
+  },
+  {
+    "categoryId": "16061",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "States and Municipalities"
+    ],
+    "parents": [
+      "16000"
+    ]
+  },
+  {
+    "categoryId": "16062",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "States and Municipalities",
+      "City"
+    ],
+    "parents": [
+      "16000",
+      "16061"
+    ]
+  },
+  {
+    "categoryId": "16063",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "States and Municipalities",
+      "Country"
+    ],
+    "parents": [
+      "16000",
+      "16061"
+    ]
+  },
+  {
+    "categoryId": "16064",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "States and Municipalities",
+      "County"
+    ],
+    "parents": [
+      "16000",
+      "16061"
+    ]
+  },
+  {
+    "categoryId": "16065",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "States and Municipalities",
+      "Neighborhood"
+    ],
+    "parents": [
+      "16000",
+      "16061"
+    ]
+  },
+  {
+    "categoryId": "16066",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "States and Municipalities",
+      "State"
+    ],
+    "parents": [
+      "16000",
+      "16061"
+    ]
+  },
+  {
+    "categoryId": "16067",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "States and Municipalities",
+      "Town"
+    ],
+    "parents": [
+      "16000",
+      "16061"
+    ]
+  },
+  {
+    "categoryId": "16068",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "States and Municipalities",
+      "Village"
+    ],
+    "parents": [
+      "16000",
+      "16061"
+    ]
+  },
+  {
+    "categoryId": "16069",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "Tree"
+    ],
+    "parents": [
+      "16000"
+    ]
+  },
+  {
+    "categoryId": "16070",
+    "fullLabel": [
+      "Landmarks and Outdoors",
+      "Well"
     ],
     "parents": [
       "16000"
@@ -10611,7 +11775,7 @@
     "categoryId": "17038",
     "fullLabel": [
       "Retail",
-      "Fabric / Textiles Store"
+      "Textiles Store"
     ],
     "parents": [
       "17000"
@@ -10922,7 +12086,7 @@
     "fullLabel": [
       "Retail",
       "Food and Beverage Retail",
-      "Farmers' Market"
+      "Farmers Market"
     ],
     "parents": [
       "17000",
@@ -10970,7 +12134,7 @@
     "fullLabel": [
       "Retail",
       "Food and Beverage Retail",
-      "Grocery Store / Supermarket"
+      "Grocery Store"
     ],
     "parents": [
       "17000",
@@ -10982,7 +12146,7 @@
     "fullLabel": [
       "Retail",
       "Food and Beverage Retail",
-      "Grocery Store / Supermarket",
+      "Grocery Store",
       "Organic Grocery"
     ],
     "parents": [
@@ -11578,6 +12742,18 @@
     ]
   },
   {
+    "categoryId": "17125",
+    "fullLabel": [
+      "Retail",
+      "Sporting Goods Retail",
+      "Running Store"
+    ],
+    "parents": [
+      "17000",
+      "17117"
+    ]
+  },
+  {
     "categoryId": "17126",
     "fullLabel": [
       "Retail",
@@ -11595,6 +12771,18 @@
       "Retail",
       "Sporting Goods Retail",
       "Ski Store"
+    ],
+    "parents": [
+      "17000",
+      "17117"
+    ]
+  },
+  {
+    "categoryId": "17128",
+    "fullLabel": [
+      "Retail",
+      "Sporting Goods Retail",
+      "Soccer Store"
     ],
     "parents": [
       "17000",
@@ -11669,7 +12857,7 @@
     "categoryId": "17135",
     "fullLabel": [
       "Retail",
-      "Toy / Game Store"
+      "Toy Store"
     ],
     "parents": [
       "17000"
@@ -11679,7 +12867,7 @@
     "categoryId": "17136",
     "fullLabel": [
       "Retail",
-      "Vaporizer Store"
+      "Vape Store"
     ],
     "parents": [
       "17000"
@@ -11709,7 +12897,83 @@
     "categoryId": "17139",
     "fullLabel": [
       "Retail",
-      "Warehouse / Wholesale Store"
+      "Warehouse or Wholesale Store"
+    ],
+    "parents": [
+      "17000"
+    ]
+  },
+  {
+    "categoryId": "17140",
+    "fullLabel": [
+      "Retail",
+      "Automotive Retail",
+      "Moped Dealership"
+    ],
+    "parents": [
+      "17000",
+      "17005"
+    ]
+  },
+  {
+    "categoryId": "17141",
+    "fullLabel": [
+      "Retail",
+      "Automotive Retail",
+      "Motor Scooter Dealership"
+    ],
+    "parents": [
+      "17000",
+      "17005"
+    ]
+  },
+  {
+    "categoryId": "17142",
+    "fullLabel": [
+      "Retail",
+      "Food and Beverage Retail",
+      "Supermarket"
+    ],
+    "parents": [
+      "17000",
+      "17057"
+    ]
+  },
+  {
+    "categoryId": "17143",
+    "fullLabel": [
+      "Retail",
+      "Marijuana Dispensary"
+    ],
+    "parents": [
+      "17000"
+    ]
+  },
+  {
+    "categoryId": "17144",
+    "fullLabel": [
+      "Retail",
+      "Market"
+    ],
+    "parents": [
+      "17000"
+    ]
+  },
+  {
+    "categoryId": "17145",
+    "fullLabel": [
+      "Retail",
+      "Pharmacy"
+    ],
+    "parents": [
+      "17000"
+    ]
+  },
+  {
+    "categoryId": "17146",
+    "fullLabel": [
+      "Retail",
+      "Smoke Shop"
     ],
     "parents": [
       "17000"
@@ -11771,7 +13035,7 @@
     "fullLabel": [
       "Sports and Recreation",
       "Baseball",
-      "Batting Range"
+      "Batting Cages"
     ],
     "parents": [
       "18000",
@@ -11786,6 +13050,18 @@
     ],
     "parents": [
       "18000"
+    ]
+  },
+  {
+    "categoryId": "18007",
+    "fullLabel": [
+      "Sports and Recreation",
+      "Basketball",
+      "Basketball Club"
+    ],
+    "parents": [
+      "18000",
+      "18006"
     ]
   },
   {
@@ -12165,6 +13441,18 @@
     ]
   },
   {
+    "categoryId": "18042",
+    "fullLabel": [
+      "Sports and Recreation",
+      "Racquet Sports",
+      "Racquet Sport Club"
+    ],
+    "parents": [
+      "18000",
+      "18040"
+    ]
+  },
+  {
     "categoryId": "18043",
     "fullLabel": [
       "Sports and Recreation",
@@ -12271,6 +13559,18 @@
     ]
   },
   {
+    "categoryId": "18052",
+    "fullLabel": [
+      "Sports and Recreation",
+      "Running and Track",
+      "Running Club"
+    ],
+    "parents": [
+      "18000",
+      "18051"
+    ]
+  },
+  {
     "categoryId": "18053",
     "fullLabel": [
       "Sports and Recreation",
@@ -12365,7 +13665,7 @@
     "fullLabel": [
       "Sports and Recreation",
       "Snow Sports",
-      "Ski Resorts and Areas"
+      "Ski Resort and Area"
     ],
     "parents": [
       "18000",
@@ -12509,6 +13809,20 @@
     ]
   },
   {
+    "categoryId": "18074",
+    "fullLabel": [
+      "Sports and Recreation",
+      "Water Sports",
+      "Swimming",
+      "Swimming Club"
+    ],
+    "parents": [
+      "18000",
+      "18067",
+      "18073"
+    ]
+  },
+  {
     "categoryId": "18075",
     "fullLabel": [
       "Sports and Recreation",
@@ -12534,6 +13848,124 @@
       "18000",
       "18067",
       "18073"
+    ]
+  },
+  {
+    "categoryId": "18077",
+    "fullLabel": [
+      "Sports and Recreation",
+      "Gym and Studio",
+      "Gym"
+    ],
+    "parents": [
+      "18000",
+      "18021"
+    ]
+  },
+  {
+    "categoryId": "18078",
+    "fullLabel": [
+      "Sports and Recreation",
+      "Gym and Studio",
+      "Gym Pool"
+    ],
+    "parents": [
+      "18000",
+      "18021"
+    ]
+  },
+  {
+    "categoryId": "18079",
+    "fullLabel": [
+      "Sports and Recreation",
+      "Hunting Area"
+    ],
+    "parents": [
+      "18000"
+    ]
+  },
+  {
+    "categoryId": "18080",
+    "fullLabel": [
+      "Sports and Recreation",
+      "Race Track",
+      "Racecourse"
+    ],
+    "parents": [
+      "18000",
+      "18039"
+    ]
+  },
+  {
+    "categoryId": "18081",
+    "fullLabel": [
+      "Sports and Recreation",
+      "Sauna"
+    ],
+    "parents": [
+      "18000"
+    ]
+  },
+  {
+    "categoryId": "18082",
+    "fullLabel": [
+      "Sports and Recreation",
+      "Skydiving Center",
+      "Skydiving Drop Zone"
+    ],
+    "parents": [
+      "18000",
+      "18057"
+    ]
+  },
+  {
+    "categoryId": "18083",
+    "fullLabel": [
+      "Sports and Recreation",
+      "Snow Sports",
+      "Ski Resort and Area",
+      "Ski Chairlift"
+    ],
+    "parents": [
+      "18000",
+      "18058",
+      "18061"
+    ]
+  },
+  {
+    "categoryId": "18084",
+    "fullLabel": [
+      "Sports and Recreation",
+      "Snow Sports",
+      "Ski Resort and Area",
+      "Ski Trail"
+    ],
+    "parents": [
+      "18000",
+      "18058",
+      "18061"
+    ]
+  },
+  {
+    "categoryId": "18085",
+    "fullLabel": [
+      "Sports and Recreation",
+      "Water Sports",
+      "Rafting Spot"
+    ],
+    "parents": [
+      "18000",
+      "18067"
+    ]
+  },
+  {
+    "categoryId": "18086",
+    "fullLabel": [
+      "Sports and Recreation",
+      "Fishing Area"
+    ],
+    "parents": [
+      "18000"
     ]
   },
   {
@@ -12662,7 +14094,7 @@
     "fullLabel": [
       "Travel and Transportation",
       "Lodging",
-      "Cottage / Cabin"
+      "Cabin"
     ],
     "parents": [
       "19000",
@@ -13152,7 +14584,7 @@
     "fullLabel": [
       "Travel and Transportation",
       "Transportation Service",
-      "Limo / Chauffeur"
+      "Limo Service"
     ],
     "parents": [
       "19000",
@@ -13189,6 +14621,158 @@
     ],
     "parents": [
       "19000"
+    ]
+  },
+  {
+    "categoryId": "19057",
+    "fullLabel": [
+      "Travel and Transportation",
+      "Truck Stop"
+    ],
+    "parents": [
+      "19000"
+    ]
+  },
+  {
+    "categoryId": "19058",
+    "fullLabel": [
+      "Travel and Transportation",
+      "Lodging",
+      "Hotel",
+      "Hotel Pool"
+    ],
+    "parents": [
+      "19000",
+      "19009",
+      "19014"
+    ]
+  },
+  {
+    "categoryId": "19059",
+    "fullLabel": [
+      "Travel and Transportation",
+      "Moving Target"
+    ],
+    "parents": [
+      "19000"
+    ]
+  },
+  {
+    "categoryId": "19060",
+    "fullLabel": [
+      "Travel and Transportation",
+      "Road"
+    ],
+    "parents": [
+      "19000"
+    ]
+  },
+  {
+    "categoryId": "19061",
+    "fullLabel": [
+      "Travel and Transportation",
+      "Road",
+      "Intersection"
+    ],
+    "parents": [
+      "19000",
+      "19060"
+    ]
+  },
+  {
+    "categoryId": "19062",
+    "fullLabel": [
+      "Travel and Transportation",
+      "Transport Hub",
+      "Airport",
+      "Plane"
+    ],
+    "parents": [
+      "19000",
+      "19030",
+      "19031"
+    ]
+  },
+  {
+    "categoryId": "19063",
+    "fullLabel": [
+      "Travel and Transportation",
+      "Transport Hub",
+      "Light Rail Station"
+    ],
+    "parents": [
+      "19000",
+      "19030"
+    ]
+  },
+  {
+    "categoryId": "19064",
+    "fullLabel": [
+      "Travel and Transportation",
+      "Boat or Ferry"
+    ],
+    "parents": [
+      "19000"
+    ]
+  },
+  {
+    "categoryId": "19065",
+    "fullLabel": [
+      "Travel and Transportation",
+      "Cable Car"
+    ],
+    "parents": [
+      "19000"
+    ]
+  },
+  {
+    "categoryId": "19066",
+    "fullLabel": [
+      "Travel and Transportation",
+      "Train"
+    ],
+    "parents": [
+      "19000"
+    ]
+  },
+  {
+    "categoryId": "19067",
+    "fullLabel": [
+      "Travel and Transportation",
+      "Transportation Service",
+      "Public Transportation",
+      "Bus Line"
+    ],
+    "parents": [
+      "19000",
+      "19051",
+      "19054"
+    ]
+  },
+  {
+    "categoryId": "19068",
+    "fullLabel": [
+      "Travel and Transportation",
+      "Transportation Service",
+      "Taxi"
+    ],
+    "parents": [
+      "19000",
+      "19051"
+    ]
+  },
+  {
+    "categoryId": "19070",
+    "fullLabel": [
+      "Travel and Transportation",
+      "Transport Hub",
+      "Airport",
+      "Airport Ticket Counter"
+    ],
+    "parents": [
+      "19000",
+      "19030",
+      "19031"
     ]
   }
 ]

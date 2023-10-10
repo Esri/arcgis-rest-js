@@ -1,18 +1,22 @@
 {
   "placeDetails": {
     "placeId": "6eb039fa6c292d431b370f8ff9182955",
+    "location": {
+      "x": -118.001636,
+      "y": 33.802438
+    },
     "categories": [
-      {
-        "categoryId": "13002",
-        "label": "Bakery"
-      },
       {
         "categoryId": "13043",
         "label": "Donut Shop"
       },
       {
-        "categoryId": "13065",
-        "label": "Restaurant"
+        "categoryId": "13001",
+        "label": "Bagel Shop"
+      },
+      {
+        "categoryId": "13002",
+        "label": "Bakery"
       }
     ],
     "name": "Donut King and Water",
@@ -32,6 +36,12 @@
         "Los Alamitos Junction"
       ],
       "censusBlockId": "060590881011018"
+    },
+    "additionalLocations": {
+      "dropOff": null,
+      "frontDoor": null,
+      "road": null,
+      "roof": null
     },
     "contactInfo": {
       "telephone": "(714) 892-2314",

@@ -1,25 +1,10 @@
 {
   "results": [
     {
-      "placeId": "aae8bed68a327a4903fdf83577b87286",
+      "placeId": "8db5d5f8a92c21fea7fc34f3e7ad8725",
       "location": {
         "x": -3.188328,
         "y": 55.953245
-      },
-      "categories": [
-        {
-          "categoryId": "18021",
-          "label": "Gym and Studio"
-        }
-      ],
-      "name": "The Gym",
-      "distance": 6.4
-    },
-    {
-      "placeId": "8db5d5f8a92c21fea7fc34f3e7ad8725",
-      "location": {
-        "x": -3.188223,
-        "y": 55.95325
       },
       "categories": [
         {
@@ -28,7 +13,67 @@
         }
       ],
       "name": "Creative Scotland",
+      "distance": 6.4
+    },
+    {
+      "placeId": "829109fd486361209eb76663f73a54ca",
+      "location": {
+        "x": -3.188328,
+        "y": 55.953245
+      },
+      "categories": [
+        {
+          "categoryId": "11097",
+          "label": "Professional Cleaning Service"
+        }
+      ],
+      "name": "DAISY's HOMe",
+      "distance": 6.4
+    },
+    {
+      "placeId": "0731478b7b687e0ad9a51ab531e47596",
+      "location": {
+        "x": -3.188328,
+        "y": 55.953245
+      },
+      "categories": [
+        {
+          "categoryId": "12009",
+          "label": "Education"
+        }
+      ],
+      "name": "British Council Scotland",
+      "distance": 6.4
+    },
+    {
+      "placeId": "aae8bed68a327a4903fdf83577b87286",
+      "location": {
+        "x": -3.188223,
+        "y": 55.95325
+      },
+      "categories": [
+        {
+          "categoryId": "18021",
+          "label": "Gym and Studio"
+        }
+      ],
+      "name": "The Gym",
       "distance": 7.3
+    },
+    {
+      "placeId": "57c6520c3a2ce8ef251122f447b1f321",
+      "location": {
+        "x": -3.188432,
+        "y": 55.95324
+      },
+      "categories": [
+        {
+          "categoryId": "11124",
+          "label": "Office"
+        }
+      ],
+      "name": "Waverley Gate",
+      "distance": 10.6
     },
     {
       "placeId": "6f729ff511f2e18f4ee97615cf6d5dea",
@@ -46,6 +91,21 @@
       "distance": 10.6
     },
     {
+      "placeId": "9277795c553ebde2cf464fa440a58ed7",
+      "location": {
+        "x": -3.188467,
+        "y": 55.953186
+      },
+      "categories": [
+        {
+          "categoryId": "11124",
+          "label": "Office"
+        }
+      ],
+      "name": "Amazon Development Centre Scotland",
+      "distance": 16.4
+    },
+    {
       "placeId": "628d6995be9f7104820257cd6ca62c19",
       "location": {
         "x": -3.18812,
@@ -61,99 +121,37 @@
       "distance": 16.7
     },
     {
-      "placeId": "ef102fc711be9e5b402c0054a33dffbe",
-      "location": {
-        "x": -3.18812,
-        "y": 55.953412
-      },
-      "categories": [
-        {
-          "categoryId": "11000",
-          "label": "Business and Professional Services"
-        }
-      ],
-      "name": "Microsoft",
-      "distance": 16.7
-    },
-    {
-      "placeId": "16d4b3f3b43fd8c642c117311ed3f09e",
+      "placeId": "639510e655d1a6ded98ac41ee9f02e95",
       "location": {
         "x": -3.188083,
         "y": 55.953152
       },
       "categories": [
         {
-          "categoryId": "16000",
-          "label": "Landmarks and Outdoors"
+          "categoryId": "17043",
+          "label": "Clothing Store"
         }
       ],
-      "name": "Neist Point",
+      "name": "The Edinburgh Woollen Mill",
       "distance": 21.3
     },
     {
-      "placeId": "2e6df2ccbaec5070729cde83475eac5b",
+      "placeId": "bb4a70070ba5102e50ade6551f4a054e",
       "location": {
         "x": -3.188083,
         "y": 55.953152
       },
       "categories": [
         {
-          "categoryId": "16026",
-          "label": "Monument"
+          "categoryId": "13002",
+          "label": "Bakery"
         }
       ],
-      "name": "Statue of David Hume",
+      "name": "Greggs",
       "distance": 21.3
-    },
-    {
-      "placeId": "a39ebe2df9d84f0561946b779975ef92",
-      "location": {
-        "x": -3.188083,
-        "y": 55.953152
-      },
-      "categories": [
-        {
-          "categoryId": "11053",
-          "label": "Financial Planner"
-        }
-      ],
-      "name": "Scottish Friendly",
-      "distance": 21.3
-    },
-    {
-      "placeId": "0731478b7b687e0ad9a51ab531e47596",
-      "location": {
-        "x": -3.188016,
-        "y": 55.953417
-      },
-      "categories": [
-        {
-          "categoryId": "12009",
-          "label": "Education"
-        }
-      ],
-      "name": "British Council Scotland",
-      "distance": 21.9
-    },
-    {
-      "placeId": "57c6520c3a2ce8ef251122f447b1f321",
-      "location": {
-        "x": -3.188641,
-        "y": 55.95323
-      },
-      "categories": [
-        {
-          "categoryId": "11124",
-          "label": "Office"
-        }
-      ],
-      "name": "Waverley Gate",
-      "distance": 22.6
     }
   ],
-  "maxResultsExceeded": false,
-  "links": {
-    "base": "https://places-api.arcgis.com/",
-    "next": "/arcgis/rest/services/places-service/v1/places/near-point?x=-3.18830000&y=55.95330000&radius=100.00000000&f=json&offset=10&pageSize=10"
+  "pagination": {
+    "nextUrl": "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/near-point?x=-3.18830000&y=55.95330000&radius=100.00000000&f=json&offset=10&pageSize=10"
   }
 }
