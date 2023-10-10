@@ -83863,7 +83863,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-portal/src/groups/update-user-membership.ts",
-							"line": 46,
+							"line": 47,
 							"character": 16
 						}
 					],
@@ -83876,7 +83876,7 @@
 							"flags": {},
 							"comment": {
 								"shortText": "Change the user membership levels of existing users in a group",
-								"text": "```js\nimport { updateUserMemberships } from \"@esri/arcgis-rest-portal\";\n\nupdateUserMemberships({\n  id: groupId,\n  admins: [\"username3\"],\n  authentication\n})\n.then(response);\n```\n",
+								"text": "```js\nimport { updateUserMemberships } from \"@esri/arcgis-rest-portal\";\n\nupdateUserMemberships({\n  id: groupId,\n  admins: [\"username3\"],\n  newMemberType: \"admin\",\n  authentication\n})\n.then(response);\n```\n",
 								"returns": "A Promise\n"
 							},
 							"parameters": [
