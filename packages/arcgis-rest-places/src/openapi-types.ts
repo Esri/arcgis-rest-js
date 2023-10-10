@@ -13,9 +13,11 @@ export interface paths {
      * Events, Health and Medicine, Landmarks and Outdoors, Retail, Sports and
      * Recreation, and Travel and Transportation.
      *
-     * There are up to four levels of categories. For example: "Travel and
-     * Transportation" (Level 1), "Transport Hub" (Level 2), "Airport"
-     * (Level  3) and "Airport Terminal" (Level 4).
+     * The categories are organized into a hierarchical system where a general
+     * category contains many more detailed variations on the parent category.
+     * For example: "Travel and Transportation" (Level 1),
+     * "Transport Hub" (Level 2), "Airport" (Level  3) and "Airport Terminal"
+     * (Level 4). The hierarchy has up to 5 levels of categories.
      *
      * The table below shows the top-level of categories, along with a
      * selection of level two categories.
@@ -41,26 +43,32 @@ export interface paths {
      * |Arts and Entertainment | 10000 | Amusement Park (10001), Art Gallery (10004), Casino (10008), Exhibit (10016), Movie Theater (10024), Museum (10027), Stadium (10051), Water Park (10055), Zoo (10056), ...|
      * |Business and Professional Services | 11000 | Construction (11028), Convention Center (11029), Food and Beverage Service (11056), Health and Beauty Service (11061), Industrial Estate (11106), Office (11124), ...|
      * |Community and Government | 12000 | Education (12009), Organization (12082), Government Building (12064), Community Center (12004), Library (12080), Utility Company (12115), ...|
-     * |Dining and Drinking | 13000 | Bakery (13002), Bar (13003), Cafes, Coffee, and Tea House (13032), Restaurant (13065, ...|
+     * |Dining and Drinking | 13000 | Bakery (13002), Bar (13003), Cafe, Coffee, and Tea House (13032), Restaurant (13065, ...|
      * |Event | 14000 |  Conference (14001), Convention (14002), Entertainment Event (14003), Marketplace (14009), ...|
      * |Health and Medicine | 15000 | Dentist (15007), Emergency Service (15008), Hospital (15014), Medical Center (15016), Optometrist (15024), Physician (15027), Veterinarian (15054), ...|
-     * |Landmarks and Outdoors | 16000 | Beach (16003), Building / Structure (16007), Campground (16008), Harbor / Marina (16018), Historic and Protected Site (16020), Monument (16026), Nature Preserve (16028), Park (16032), ...|
+     * |Landmarks and Outdoors | 16000 | Beach (16003), Structure (16007), Campground (16008), Harbor or Marina (16018), Historic and Protected Site (16020), Monument (16026), Nature Preserve (16028), Park (16032), ...|
      * |Retail | 17000 | Arts and Crafts Store (17003), Bookstore (17018), Convenience Store (17029), Department Store (17033)|
      * |Sports and Recreation | 18000 | Athletic Field (18001), Baseball (18002), Basketball (18006), Football (18013), Golf (18016), Gym and Studio (18021), ...|
      * |Travel and Transportation | 19000 | Bike Rental (19002), Cruise (19005), Electric Vehicle Charging Station (19006), Fuel Station (19007), Lodging (19009), Transport Hub (19030), ...|
      *
      * **Note**: Category details are subject to change as new types of places
      * are introduced.
+     *
+     * **Note**: Query parameters are case-sensitive.
      */
     get: operations["categoriesGet"];
   };
   "/categories/{categoryId}": {
-    /** The `/categories/{categoryId}` operation returns all the groups to which the category belongs. You must supply a `category ID` to use this operation. */
+    /**
+     * The `/categories/{categoryId}` request returns all the groups to which the category belongs. You must supply a `category ID` to use this request.
+     *
+     * **Note**: Query parameters are case-sensitive.
+     */
     get: operations["categoriesCategoryIdGet"];
   };
   "/places/near-point": {
     /**
-     * The `/places/near-point` operation finds places that are within a given
+     * The `/places/near-point` request finds places that are within a given
      * radius of a specified location. The returned places contain basic data
      * such as name, category and location.
      *
@@ -71,18 +79,20 @@ export interface paths {
      * - Category IDs
      * - Search text
      *
-     * If the `maxResultsExceeded` property in the response is `true`, then you
-     * can page through the results to return more places. The maximum number
-     * of places that cane be paged to is 200.
+     * If the `pagination.nextUrl` property in the response is populated, then
+     * you can page through the results to return more places. The maximum
+     * number of places that can be paged to is 200.
      *
      * **Note**: You cannot permanently store places. Please see the [Terms of
      * use](https://developers.arcgis.com/documentation/mapping-apis-and-services/deployment/terms-of-use/).
+     *
+     * **Note**: Query parameters are case-sensitive.
      */
     get: operations["nearPointGet"];
   };
   "/places/within-extent": {
     /**
-     * The `/places/within-extent` operation searches for places within an extent (bounding box).
+     * The `/places/within-extent` request searches for places within an extent (bounding box).
      *
      * You must supply the `xmin`,
      * `ymin`, `xmax` and `ymax` coordinates to define the extent. The maximum width
@@ -92,22 +102,24 @@ export interface paths {
      *
      * The default number of places returned (`pageSize`) is 10. The maximum `pageSize` value is 20.
      *
-     * If the `maxResultsExceeded` property in the response is `true`, then you
-     * can page through the results to return more places. The maximum number
-     * of places that cane be paged to is 200.
+     * If the `pagination.nextUrl` property in the response is populated, then you can
+     * page through the results to return more places. The maximum number of
+     * places that can be paged to is 200.
      *
      * **Note**: You cannot permanently store places. Please see the [Terms of
      * use](https://developers.arcgis.com/documentation/mapping-apis-and-services/deployment/terms-of-use/).
+     *
+     * **Note**: Query parameters are case-sensitive.
      */
     get: operations["withinExtentGet"];
   };
   "/places/{placeId}": {
     /**
-     * The `/places/{placeId}` operation returns details for a place.
+     * The `/places/{placeId}` request returns details for a place.
      *
      * To request details, you use the `requestedFields` parameter to specify
      * the fields and the attributes you want from the **Place**,
-     * **Address**, and/or **Details** price groups.
+     * **Address**, **Details** and/or **Location** price groups.
      *
      * It is always recommended to specify the fields you want, however, you
      * can also use `requestedFields=all` to return all of the attributes
@@ -119,44 +131,51 @@ export interface paths {
      *
      * You will only be charged for attributes that contain valid values for
      * the requested fields. If no data is available for the requested field,
-     * `null` or an empty collection  is returned and you are not charged. You are only charged once if
-     * one or more attributes with valid values are returned from a price
-     * group. To learn more, go to
-     * [Pricing](https://places-service-preview.sites.afd.arcgis.com/rest/places/#pricing).
+     * `null` or an empty collection  is returned and you are not charged. You
+     * are only charged once if one or more attributes with valid values are
+     * returned from a price group. To learn more, go to
+     * [Pricing](https://developers.arcgis.com/pricing/).
      *
      * Field | Price group
      * --- | ---
-     * name | Place
-     * categoryId | Place
-     * address:country | Address
+     * additionalLocations:dropOff | Location
+     * additionalLocations:frontDoor | Location
+     * additionalLocations:road | Location
+     * additionalLocations:roof | Location
      * address:adminRegion | Address
-     * address:region | Address
-     * address:streetAddress | Address
+     * address:censusBlockId | Address
+     * address:country | Address
+     * address:designatedMarketArea | Address
      * address:extended | Address
+     * address:locality | Address
+     * address:neighborhood | Address
      * address:poBox | Address
      * address:postcode | Address
      * address:postTown | Address
-     * address:locality | Address
-     * address:neighborhood | Address
-     * address:censusBlockId | Address
-     * address:designatedMarketArea | Address
+     * address:region | Address
+     * address:streetAddress | Address
+     * categories | Place
+     * chains | Details
+     * contactInfo:email | Details
+     * contactInfo:fax | Details
      * contactInfo:telephone | Details
      * contactInfo:website | Details
-     * contactInfo:fax | Details
-     * contactInfo:email | Details
+     * description | Details
+     * hours:opening | Details
+     * hours:openingText | Details
+     * hours:popular | Details
+     * location | Location
+     * name | Place
+     * rating:price | Details
+     * rating:user | Details
      * socialMedia:facebookId | Details
      * socialMedia:instagram | Details
      * socialMedia:twitter | Details
-     * chains | Details
-     * description | Details
-     * rating:user | Details
-     * rating:price | Details
-     * hours:opening | Details
-     * hours:popular | Details
-     * hours:openingText | Details
      *
      * **Note**: You cannot permanently store places. Please see the [Terms of
      * use](https://developers.arcgis.com/documentation/mapping-apis-and-services/deployment/terms-of-use/).
+     *
+     * **Note**: Query parameters are case-sensitive.
      */
     get: operations["placeIdGet"];
   };
@@ -164,27 +183,14 @@ export interface paths {
 
 export interface components {
   schemas: {
-    /** @example 722d8e1ba4db8ec5ef256b09cf060782 */
-    PlaceId: string;
     /**
-     * @description Property indicating whether the query resulted in more than `200` places.
+     * @description An ID that uniquely identifies a place.
      *
-     * The maximum number of places that can be returned in total is `200`. If
-     * a request reaches this limit without returning all of the available
-     * places, this response property will be set to `true`.
+     * A place ID is a 32 character string.
      *
-     * You can refine your query to reduce the number of places returned. For
-     * example, you could:
-     *
-     * - Search a smaller geographic area.
-     *
-     * - Use category Ids to specify the type of place you are looking for.
-     *
-     * - Supply a search text string.
-     *
-     * @example true
+     * @example 722d8e1ba4db8ec5ef256b09cf060782
      */
-    MaxResultsExceeded: boolean;
+    PlaceId: string;
     /**
      * @description A result of searching for places using a `places/near-point` request.
      *
@@ -334,6 +340,17 @@ export interface components {
        */
       name?: string;
       /**
+       * @description The location of this place as a WGS84 point.
+       *
+       * This property is part of the "Location" attribute group.
+       *
+       * @example {
+       *   "x": -117.194769,
+       *   "y": 34.057289
+       * }
+       */
+      location?: components["schemas"]["Point"];
+      /**
        * @description A text description of the place.
        *
        * This property is part of the "Details" attribute group.
@@ -351,6 +368,13 @@ export interface components {
        * group.
        */
       address?: components["schemas"]["Address"];
+      /**
+       * @description A set of additional locations that represent the place, for example the location of the front door, or of a drop off point.
+       *
+       * This object and child properties are part of the "Location"
+       * attribute group.
+       */
+      additionalLocations?: components["schemas"]["AdditionalLocations"];
       /**
        * @description Contact information for the place, such as the telephone number or email address.
        *
@@ -749,6 +773,50 @@ export interface components {
        */
       user?: number | null;
     };
+    /**
+     * @description A set of additional locations for the place.
+     *
+     * This list provides alternative locations for accessing a place such as
+     * `frontDoor` or `road`.
+     */
+    AdditionalLocations: {
+      /**
+       * @description A location for drop-off/pick-up for a place.
+       *
+       * @example {
+       *   "x": -0.279541,
+       *   "y": 51.556057
+       * }
+       */
+      dropOff?: components["schemas"]["NullablePoint"];
+      /**
+       * @description A location for the front door for a place.
+       *
+       * @example {
+       *   "x": -0.279541,
+       *   "y": 51.556057
+       * }
+       */
+      frontDoor?: components["schemas"]["NullablePoint"];
+      /**
+       * @description A road-side location for a place.
+       *
+       * @example {
+       *   "x": -0.279541,
+       *   "y": 51.556057
+       * }
+       */
+      road?: components["schemas"]["NullablePoint"];
+      /**
+       * @description A location in the roof centroid for a place.
+       *
+       * @example {
+       *   "x": -0.279541,
+       *   "y": 51.556057
+       * }
+       */
+      roof?: components["schemas"]["NullablePoint"];
+    };
     /** @description The address of a place, or point of interest (POI). */
     Address: {
       /**
@@ -872,38 +940,32 @@ export interface components {
        */
       name?: string | null;
     };
-    /** @description Provides links for accessing more results for the current request. */
-    Links: {
+    /** @description Provides pagination links for accessing more results for the current request. */
+    Pagination: {
       /**
        * Format: url
-       * @description The base url for making a query to fetch more results.
+       * @description A url for fetching the previous page of results.
        *
-       * Combine this with the `previous` or `next` parameters to make a full
-       * request url.
+       * Use this property to request the previous page of results if
+       * available. If this property is omitted then there are no previous
+       * pages of results. You must also supply authentication details, such
+       * as a `token`, to make a previous page request.
        *
-       * @example https://places-api.arcgis.com/
+       * @example https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/near-point?x=-117.194769&y=34.057289&radius=50.0&offset=0&pageSize=10
        */
-      base?: string;
+      previousUrl?: string;
       /**
-       * @description A url fragment that can be appended to the `base` property to make a request url to fetch the previous page of results.
+       * Format: url
+       * @description A url for fetching the next page of results.
        *
-       * If this property is omitted there are no previous pages of results.
-       * You must also supply authentication details, such as a `token`, to
-       * make a previous request.
+       * Use this property to request the next page of results if available. If
+       * this property is omitted then there are no more pages of results
+       * available. You must also supply authentication details, such as a
+       * `token`, to make a next page request.
        *
-       * @example /arcgis/rest/services/places-service/v1/places/near-point?x=-117.194769&y=34.057289&radius=50.0&offset=0&pageSize=10
+       * @example https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/near-point?x=-117.194769&y=34.057289&radius=50.0&offset=20&pageSize=10
        */
-      previous?: string;
-      /**
-       * @description A url fragment that can be appended to the `base` property to make a request url to fetch the next page of results.
-       *
-       * If this property is omitted there are no more pages of results. You
-       * must also supply authentication details, such as a `token`, to make
-       * a next request.
-       *
-       * @example /arcgis/rest/services/places-service/v1/places/near-point?x=-117.194769&y=34.057289&radius=50.0&offset=20&pageSize=10
-       */
-      next?: string;
+      nextUrl?: string;
     };
     Error: {
       /** @description Error information */
@@ -988,8 +1050,7 @@ export interface components {
       content: {
         "application/json": {
           results: components["schemas"]["NearPointResult"][];
-          maxResultsExceeded?: components["schemas"]["MaxResultsExceeded"];
-          links?: components["schemas"]["Links"];
+          pagination?: components["schemas"]["Pagination"];
         };
       };
     };
@@ -998,8 +1059,7 @@ export interface components {
       content: {
         "application/json": {
           results: components["schemas"]["WithinExtentResult"][];
-          maxResultsExceeded?: components["schemas"]["MaxResultsExceeded"];
-          links?: components["schemas"]["Links"];
+          pagination?: components["schemas"]["Pagination"];
         };
       };
     };
@@ -1056,6 +1116,8 @@ export interface components {
      * `places/categories` endpoint. For example, to filter for places
      * where the category is "Bicycle Store", include the categoryId
      * `17117` in this property.
+     *
+     * You can search up to a maximum of `10` category Ids.
      */
     CategoryIdsParam: components["schemas"]["CategoryId"][];
     /** @description Free search text for places against names, categories etc. */
@@ -1066,14 +1128,14 @@ export interface components {
      * You can set this to any value up to `20` when you need to control the
      * size of responses that your app downloads.
      *
-     * If the query results in more than this page size, then the response object
-     * will contain a `next` url fragment. This fragment can be used to form a
-     * request url to fetch the next page of results.
+     * If the query results in more than this page size, then the response
+     * object will contain a `pagination.nextUrl`. This can be used to request
+     * the next page of results.
      *
-     * The maximum number of places that can be returned in total is `200`. If
-     * a request reaches this limit without returning all of the available
-     * places, the response will contain the property
-     * `"maxResultsExceeded":true` in addition to place results.
+     * Regardless of paging, the maximum number of places that can be returned
+     * in total is `200`.
+     *
+     * The default `pageSize` is 10.
      */
     PageSizeParam: number;
     /**
@@ -1084,18 +1146,17 @@ export interface components {
      * `offset` to `2` would return the 3rd and 4th results.
      *
      * Regardless of paging, the maximum number of places that can be returned
-     * by a single query is `200`. When a query results in more than `200`
-     * places, the response will contain the property
-     * `"maxResultsExceeded":true` in addition to place results.
+     * in total is `200`.
      */
     OffsetParam: number;
-    /**
-     * @description The requested response format - either `json` or `pjson` (pretty json).
-     *
-     * @example pjson
-     */
+    /** @description The requested response format - either `json` or `pjson` (pretty json). */
     FormatParam: "json" | "pjson";
-    /** @description The ID of the category that you want to fetch details for. */
+    /**
+     * @description The ID of the category that you want to fetch details for.
+     *
+     * For example, using a category ID of `13035` would fetch details about
+     * the "Coffee Shop" category.
+     */
     CategoryIdParam: components["schemas"]["CategoryId"];
     /**
      * @description A text filter that will be used for searching categories.
@@ -1110,17 +1171,23 @@ export interface components {
      * @description The array of fields that define the attributes to return for a place.
      *
      * Use this parameter to define the attributes you would like returned,
-     * for example `["name", "address:streetAddress"]`. However, you can also
-     * set this value to `["all"]` to return all of the attributes available
+     * for example `requestedFields=name,address:streetAddress`. However, you can also
+     * set this value to `requestedFields=all` to return all of the attributes available
      * for a place.
      *
      * The `placeId` attribute is always returned in addition to the other
      * attributes you requested. If a valid attribute value is not available,
-     * `null`, or an empty collection, is returned and you are not charged for it. To see the fields and
-     * pricing groups they belong to, go to the table above.
+     * `null`, or an empty collection, is returned and you are not charged for
+     * it. To see the fields and pricing groups they belong to, go to the table
+     * above.
      */
     RequestedFieldsParam: (
       | "all"
+      | "additionalLocations"
+      | "additionalLocations:dropOff"
+      | "additionalLocations:frontDoor"
+      | "additionalLocations:road"
+      | "additionalLocations:roof"
       | "address"
       | "address:adminRegion"
       | "address:censusBlockId"
@@ -1146,6 +1213,7 @@ export interface components {
       | "hours:opening"
       | "hours:openingText"
       | "hours:popular"
+      | "location"
       | "name"
       | "rating"
       | "rating:price"
@@ -1155,6 +1223,21 @@ export interface components {
       | "socialMedia:instagram"
       | "socialMedia:twitter"
     )[];
+    /**
+     * @description The authentication token with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
+     *
+     * The `token` parameter can be either an API Key or short-lived token. See
+     * [ArcGIS security
+     * documentation](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/)
+     * for more information on authenticating with a token or API key.
+     *
+     * Alternatively, you can supply a token in the request header with one of
+     * the following keys using the "Bearer" scheme:
+     *
+     * - `Authorization: Bearer <YOUR_TOKEN>`
+     * - `X-Esri-Authorization: Bearer <YOUR_TOKEN>`
+     */
+    TokenParam: string;
   };
 }
 
@@ -1167,9 +1250,11 @@ export interface operations {
    * Events, Health and Medicine, Landmarks and Outdoors, Retail, Sports and
    * Recreation, and Travel and Transportation.
    *
-   * There are up to four levels of categories. For example: "Travel and
-   * Transportation" (Level 1), "Transport Hub" (Level 2), "Airport"
-   * (Level  3) and "Airport Terminal" (Level 4).
+   * The categories are organized into a hierarchical system where a general
+   * category contains many more detailed variations on the parent category.
+   * For example: "Travel and Transportation" (Level 1),
+   * "Transport Hub" (Level 2), "Airport" (Level  3) and "Airport Terminal"
+   * (Level 4). The hierarchy has up to 5 levels of categories.
    *
    * The table below shows the top-level of categories, along with a
    * selection of level two categories.
@@ -1195,16 +1280,18 @@ export interface operations {
    * |Arts and Entertainment | 10000 | Amusement Park (10001), Art Gallery (10004), Casino (10008), Exhibit (10016), Movie Theater (10024), Museum (10027), Stadium (10051), Water Park (10055), Zoo (10056), ...|
    * |Business and Professional Services | 11000 | Construction (11028), Convention Center (11029), Food and Beverage Service (11056), Health and Beauty Service (11061), Industrial Estate (11106), Office (11124), ...|
    * |Community and Government | 12000 | Education (12009), Organization (12082), Government Building (12064), Community Center (12004), Library (12080), Utility Company (12115), ...|
-   * |Dining and Drinking | 13000 | Bakery (13002), Bar (13003), Cafes, Coffee, and Tea House (13032), Restaurant (13065, ...|
+   * |Dining and Drinking | 13000 | Bakery (13002), Bar (13003), Cafe, Coffee, and Tea House (13032), Restaurant (13065, ...|
    * |Event | 14000 |  Conference (14001), Convention (14002), Entertainment Event (14003), Marketplace (14009), ...|
    * |Health and Medicine | 15000 | Dentist (15007), Emergency Service (15008), Hospital (15014), Medical Center (15016), Optometrist (15024), Physician (15027), Veterinarian (15054), ...|
-   * |Landmarks and Outdoors | 16000 | Beach (16003), Building / Structure (16007), Campground (16008), Harbor / Marina (16018), Historic and Protected Site (16020), Monument (16026), Nature Preserve (16028), Park (16032), ...|
+   * |Landmarks and Outdoors | 16000 | Beach (16003), Structure (16007), Campground (16008), Harbor or Marina (16018), Historic and Protected Site (16020), Monument (16026), Nature Preserve (16028), Park (16032), ...|
    * |Retail | 17000 | Arts and Crafts Store (17003), Bookstore (17018), Convenience Store (17029), Department Store (17033)|
    * |Sports and Recreation | 18000 | Athletic Field (18001), Baseball (18002), Basketball (18006), Football (18013), Golf (18016), Gym and Studio (18021), ...|
    * |Travel and Transportation | 19000 | Bike Rental (19002), Cruise (19005), Electric Vehicle Charging Station (19006), Fuel Station (19007), Lodging (19009), Transport Hub (19030), ...|
    *
    * **Note**: Category details are subject to change as new types of places
    * are introduced.
+   *
+   * **Note**: Query parameters are case-sensitive.
    */
   categoriesGet: {
     parameters: {
@@ -1220,6 +1307,21 @@ export interface operations {
         filter?: components["parameters"]["CategoriesFilterParam"];
         /** The requested response format - either `json` or `pjson` (pretty json). */
         f?: components["parameters"]["FormatParam"];
+        /**
+         * The authentication token with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
+         *
+         * The `token` parameter can be either an API Key or short-lived token. See
+         * [ArcGIS security
+         * documentation](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/)
+         * for more information on authenticating with a token or API key.
+         *
+         * Alternatively, you can supply a token in the request header with one of
+         * the following keys using the "Bearer" scheme:
+         *
+         * - `Authorization: Bearer <YOUR_TOKEN>`
+         * - `X-Esri-Authorization: Bearer <YOUR_TOKEN>`
+         */
+        token?: components["parameters"]["TokenParam"];
       };
     };
     responses: {
@@ -1230,16 +1332,40 @@ export interface operations {
       "5XX": components["responses"]["ServerErrorResponse"];
     };
   };
-  /** The `/categories/{categoryId}` operation returns all the groups to which the category belongs. You must supply a `category ID` to use this operation. */
+  /**
+   * The `/categories/{categoryId}` request returns all the groups to which the category belongs. You must supply a `category ID` to use this request.
+   *
+   * **Note**: Query parameters are case-sensitive.
+   */
   categoriesCategoryIdGet: {
     parameters: {
       path: {
-        /** The ID of the category that you want to fetch details for. */
+        /**
+         * The ID of the category that you want to fetch details for.
+         *
+         * For example, using a category ID of `13035` would fetch details about
+         * the "Coffee Shop" category.
+         */
         categoryId: components["parameters"]["CategoryIdParam"];
       };
       query: {
         /** The requested response format - either `json` or `pjson` (pretty json). */
         f?: components["parameters"]["FormatParam"];
+        /**
+         * The authentication token with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
+         *
+         * The `token` parameter can be either an API Key or short-lived token. See
+         * [ArcGIS security
+         * documentation](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/)
+         * for more information on authenticating with a token or API key.
+         *
+         * Alternatively, you can supply a token in the request header with one of
+         * the following keys using the "Bearer" scheme:
+         *
+         * - `Authorization: Bearer <YOUR_TOKEN>`
+         * - `X-Esri-Authorization: Bearer <YOUR_TOKEN>`
+         */
+        token?: components["parameters"]["TokenParam"];
       };
     };
     responses: {
@@ -1252,7 +1378,7 @@ export interface operations {
     };
   };
   /**
-   * The `/places/near-point` operation finds places that are within a given
+   * The `/places/near-point` request finds places that are within a given
    * radius of a specified location. The returned places contain basic data
    * such as name, category and location.
    *
@@ -1263,12 +1389,14 @@ export interface operations {
    * - Category IDs
    * - Search text
    *
-   * If the `maxResultsExceeded` property in the response is `true`, then you
-   * can page through the results to return more places. The maximum number
-   * of places that cane be paged to is 200.
+   * If the `pagination.nextUrl` property in the response is populated, then
+   * you can page through the results to return more places. The maximum
+   * number of places that can be paged to is 200.
    *
    * **Note**: You cannot permanently store places. Please see the [Terms of
    * use](https://developers.arcgis.com/documentation/mapping-apis-and-services/deployment/terms-of-use/).
+   *
+   * **Note**: Query parameters are case-sensitive.
    */
   nearPointGet: {
     parameters: {
@@ -1296,6 +1424,8 @@ export interface operations {
          * `places/categories` endpoint. For example, to filter for places
          * where the category is "Bicycle Store", include the categoryId
          * `17117` in this property.
+         *
+         * You can search up to a maximum of `10` category Ids.
          */
         categoryIds?: components["parameters"]["CategoryIdsParam"];
         /** Free search text for places against names, categories etc. */
@@ -1306,14 +1436,14 @@ export interface operations {
          * You can set this to any value up to `20` when you need to control the
          * size of responses that your app downloads.
          *
-         * If the query results in more than this page size, then the response object
-         * will contain a `next` url fragment. This fragment can be used to form a
-         * request url to fetch the next page of results.
+         * If the query results in more than this page size, then the response
+         * object will contain a `pagination.nextUrl`. This can be used to request
+         * the next page of results.
          *
-         * The maximum number of places that can be returned in total is `200`. If
-         * a request reaches this limit without returning all of the available
-         * places, the response will contain the property
-         * `"maxResultsExceeded":true` in addition to place results.
+         * Regardless of paging, the maximum number of places that can be returned
+         * in total is `200`.
+         *
+         * The default `pageSize` is 10.
          */
         pageSize?: components["parameters"]["PageSizeParam"];
         /**
@@ -1324,13 +1454,26 @@ export interface operations {
          * `offset` to `2` would return the 3rd and 4th results.
          *
          * Regardless of paging, the maximum number of places that can be returned
-         * by a single query is `200`. When a query results in more than `200`
-         * places, the response will contain the property
-         * `"maxResultsExceeded":true` in addition to place results.
+         * in total is `200`.
          */
         offset?: components["parameters"]["OffsetParam"];
         /** The requested response format - either `json` or `pjson` (pretty json). */
         f?: components["parameters"]["FormatParam"];
+        /**
+         * The authentication token with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
+         *
+         * The `token` parameter can be either an API Key or short-lived token. See
+         * [ArcGIS security
+         * documentation](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/)
+         * for more information on authenticating with a token or API key.
+         *
+         * Alternatively, you can supply a token in the request header with one of
+         * the following keys using the "Bearer" scheme:
+         *
+         * - `Authorization: Bearer <YOUR_TOKEN>`
+         * - `X-Esri-Authorization: Bearer <YOUR_TOKEN>`
+         */
+        token?: components["parameters"]["TokenParam"];
       };
     };
     responses: {
@@ -1342,7 +1485,7 @@ export interface operations {
     };
   };
   /**
-   * The `/places/within-extent` operation searches for places within an extent (bounding box).
+   * The `/places/within-extent` request searches for places within an extent (bounding box).
    *
    * You must supply the `xmin`,
    * `ymin`, `xmax` and `ymax` coordinates to define the extent. The maximum width
@@ -1352,12 +1495,14 @@ export interface operations {
    *
    * The default number of places returned (`pageSize`) is 10. The maximum `pageSize` value is 20.
    *
-   * If the `maxResultsExceeded` property in the response is `true`, then you
-   * can page through the results to return more places. The maximum number
-   * of places that cane be paged to is 200.
+   * If the `pagination.nextUrl` property in the response is populated, then you can
+   * page through the results to return more places. The maximum number of
+   * places that can be paged to is 200.
    *
    * **Note**: You cannot permanently store places. Please see the [Terms of
    * use](https://developers.arcgis.com/documentation/mapping-apis-and-services/deployment/terms-of-use/).
+   *
+   * **Note**: Query parameters are case-sensitive.
    */
   withinExtentGet: {
     parameters: {
@@ -1397,6 +1542,8 @@ export interface operations {
          * `places/categories` endpoint. For example, to filter for places
          * where the category is "Bicycle Store", include the categoryId
          * `17117` in this property.
+         *
+         * You can search up to a maximum of `10` category Ids.
          */
         categoryIds?: components["parameters"]["CategoryIdsParam"];
         /** Free search text for places against names, categories etc. */
@@ -1407,14 +1554,14 @@ export interface operations {
          * You can set this to any value up to `20` when you need to control the
          * size of responses that your app downloads.
          *
-         * If the query results in more than this page size, then the response object
-         * will contain a `next` url fragment. This fragment can be used to form a
-         * request url to fetch the next page of results.
+         * If the query results in more than this page size, then the response
+         * object will contain a `pagination.nextUrl`. This can be used to request
+         * the next page of results.
          *
-         * The maximum number of places that can be returned in total is `200`. If
-         * a request reaches this limit without returning all of the available
-         * places, the response will contain the property
-         * `"maxResultsExceeded":true` in addition to place results.
+         * Regardless of paging, the maximum number of places that can be returned
+         * in total is `200`.
+         *
+         * The default `pageSize` is 10.
          */
         pageSize?: components["parameters"]["PageSizeParam"];
         /**
@@ -1425,13 +1572,26 @@ export interface operations {
          * `offset` to `2` would return the 3rd and 4th results.
          *
          * Regardless of paging, the maximum number of places that can be returned
-         * by a single query is `200`. When a query results in more than `200`
-         * places, the response will contain the property
-         * `"maxResultsExceeded":true` in addition to place results.
+         * in total is `200`.
          */
         offset?: components["parameters"]["OffsetParam"];
         /** The requested response format - either `json` or `pjson` (pretty json). */
         f?: components["parameters"]["FormatParam"];
+        /**
+         * The authentication token with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
+         *
+         * The `token` parameter can be either an API Key or short-lived token. See
+         * [ArcGIS security
+         * documentation](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/)
+         * for more information on authenticating with a token or API key.
+         *
+         * Alternatively, you can supply a token in the request header with one of
+         * the following keys using the "Bearer" scheme:
+         *
+         * - `Authorization: Bearer <YOUR_TOKEN>`
+         * - `X-Esri-Authorization: Bearer <YOUR_TOKEN>`
+         */
+        token?: components["parameters"]["TokenParam"];
       };
     };
     responses: {
@@ -1443,11 +1603,11 @@ export interface operations {
     };
   };
   /**
-   * The `/places/{placeId}` operation returns details for a place.
+   * The `/places/{placeId}` request returns details for a place.
    *
    * To request details, you use the `requestedFields` parameter to specify
    * the fields and the attributes you want from the **Place**,
-   * **Address**, and/or **Details** price groups.
+   * **Address**, **Details** and/or **Location** price groups.
    *
    * It is always recommended to specify the fields you want, however, you
    * can also use `requestedFields=all` to return all of the attributes
@@ -1459,44 +1619,51 @@ export interface operations {
    *
    * You will only be charged for attributes that contain valid values for
    * the requested fields. If no data is available for the requested field,
-   * `null` or an empty collection  is returned and you are not charged. You are only charged once if
-   * one or more attributes with valid values are returned from a price
-   * group. To learn more, go to
-   * [Pricing](https://places-service-preview.sites.afd.arcgis.com/rest/places/#pricing).
+   * `null` or an empty collection  is returned and you are not charged. You
+   * are only charged once if one or more attributes with valid values are
+   * returned from a price group. To learn more, go to
+   * [Pricing](https://developers.arcgis.com/pricing/).
    *
    * Field | Price group
    * --- | ---
-   * name | Place
-   * categoryId | Place
-   * address:country | Address
+   * additionalLocations:dropOff | Location
+   * additionalLocations:frontDoor | Location
+   * additionalLocations:road | Location
+   * additionalLocations:roof | Location
    * address:adminRegion | Address
-   * address:region | Address
-   * address:streetAddress | Address
+   * address:censusBlockId | Address
+   * address:country | Address
+   * address:designatedMarketArea | Address
    * address:extended | Address
+   * address:locality | Address
+   * address:neighborhood | Address
    * address:poBox | Address
    * address:postcode | Address
    * address:postTown | Address
-   * address:locality | Address
-   * address:neighborhood | Address
-   * address:censusBlockId | Address
-   * address:designatedMarketArea | Address
+   * address:region | Address
+   * address:streetAddress | Address
+   * categories | Place
+   * chains | Details
+   * contactInfo:email | Details
+   * contactInfo:fax | Details
    * contactInfo:telephone | Details
    * contactInfo:website | Details
-   * contactInfo:fax | Details
-   * contactInfo:email | Details
+   * description | Details
+   * hours:opening | Details
+   * hours:openingText | Details
+   * hours:popular | Details
+   * location | Location
+   * name | Place
+   * rating:price | Details
+   * rating:user | Details
    * socialMedia:facebookId | Details
    * socialMedia:instagram | Details
    * socialMedia:twitter | Details
-   * chains | Details
-   * description | Details
-   * rating:user | Details
-   * rating:price | Details
-   * hours:opening | Details
-   * hours:popular | Details
-   * hours:openingText | Details
    *
    * **Note**: You cannot permanently store places. Please see the [Terms of
    * use](https://developers.arcgis.com/documentation/mapping-apis-and-services/deployment/terms-of-use/).
+   *
+   * **Note**: Query parameters are case-sensitive.
    */
   placeIdGet: {
     parameters: {
@@ -1509,18 +1676,34 @@ export interface operations {
          * The array of fields that define the attributes to return for a place.
          *
          * Use this parameter to define the attributes you would like returned,
-         * for example `["name", "address:streetAddress"]`. However, you can also
-         * set this value to `["all"]` to return all of the attributes available
+         * for example `requestedFields=name,address:streetAddress`. However, you can also
+         * set this value to `requestedFields=all` to return all of the attributes available
          * for a place.
          *
          * The `placeId` attribute is always returned in addition to the other
          * attributes you requested. If a valid attribute value is not available,
-         * `null`, or an empty collection, is returned and you are not charged for it. To see the fields and
-         * pricing groups they belong to, go to the table above.
+         * `null`, or an empty collection, is returned and you are not charged for
+         * it. To see the fields and pricing groups they belong to, go to the table
+         * above.
          */
         requestedFields: components["parameters"]["RequestedFieldsParam"];
         /** The requested response format - either `json` or `pjson` (pretty json). */
         f?: components["parameters"]["FormatParam"];
+        /**
+         * The authentication token with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
+         *
+         * The `token` parameter can be either an API Key or short-lived token. See
+         * [ArcGIS security
+         * documentation](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/)
+         * for more information on authenticating with a token or API key.
+         *
+         * Alternatively, you can supply a token in the request header with one of
+         * the following keys using the "Bearer" scheme:
+         *
+         * - `Authorization: Bearer <YOUR_TOKEN>`
+         * - `X-Esri-Authorization: Bearer <YOUR_TOKEN>`
+         */
+        token?: components["parameters"]["TokenParam"];
       };
     };
     responses: {
