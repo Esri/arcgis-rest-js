@@ -29,8 +29,8 @@ export interface IAddressBulk {
    * The World Geocoding Service considers US states regions.
    */
   region?: string;
-  postal?: number;
-  postalExt?: number;
+  postal?: string;
+  postalExt?: string;
   countryCode?: string;
 }
 

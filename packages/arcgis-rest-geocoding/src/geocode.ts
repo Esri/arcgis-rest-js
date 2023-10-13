@@ -7,7 +7,8 @@ import {
   appendCustomParams,
   IExtent,
   ISpatialReference,
-  IPoint
+  IPoint,
+  warn
 } from "@esri/arcgis-rest-request";
 
 import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers.js";
@@ -30,8 +31,8 @@ export interface IGeocodeOptions extends IEndpointOptions {
    * The World Geocoding Service expects US states to be passed in as a 'region'.
    */
   region?: string;
-  postal?: number;
-  postalExt?: number;
+  postal?: string;
+  postalExt?: string;
   countryCode?: string;
   /**
    * You can create an autocomplete experience by making a call to suggest with partial text and then passing through the magicKey and complete address that are returned to geocode.
@@ -83,7 +84,7 @@ export interface IGeocodeResponse {
  *
  * geocode({
  *   address: "1600 Pennsylvania Ave",
- *   postal: 20500,
+ *   postal: "20500",
  *   countryCode: "USA"
  * })
  *   .then((response) => {
@@ -124,6 +125,13 @@ export function geocode(
       ],
       { params: { ...address.params } }
     );
+
+    if (options.params.postal && typeof options.params.postal === "number") {
+      warn(
+        "The postal code should be a string. " +
+          "Issues can arise when using it as a number, especially if they start with zero."
+      );
+    }
   }
 
   // add spatialReference property to individual matches

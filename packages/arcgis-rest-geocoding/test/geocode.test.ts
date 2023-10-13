@@ -253,4 +253,35 @@ describe("geocode", () => {
         fail(e);
       });
   });
+
+  it("should make a simple, single geocoding request with a postal code that start with a zero", (done) => {
+    fetchMock.once("*", FindAddressCandidates);
+
+    geocode({
+      params: {
+        address: "1205 Williston Rd",
+        postal: "05403"
+      }
+    })
+      .then((response) => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
+        );
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain(
+          `address=${encodeURIComponent("1205 Williston Rd")}`
+        );
+        expect(options.body).toContain("postal=05403");
+
+        expect(response.spatialReference.wkid).toEqual(4326);
+        expect(response.geoJson.features.length).toBeGreaterThan(0);
+        done();
+      })
+      .catch((e) => {
+        fail(e);
+      });
+  });
 });
