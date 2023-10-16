@@ -31,8 +31,8 @@ export interface IGeocodeOptions extends IEndpointOptions {
    * The World Geocoding Service expects US states to be passed in as a 'region'.
    */
   region?: string;
-  postal?: string;
-  postalExt?: string;
+  postal?: string | number;
+  postalExt?: string | number;
   countryCode?: string;
   /**
    * You can create an autocomplete experience by making a call to suggest with partial text and then passing through the magicKey and complete address that are returned to geocode.
