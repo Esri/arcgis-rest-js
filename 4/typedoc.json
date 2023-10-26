@@ -37543,8 +37543,17 @@
 								}
 							],
 							"type": {
-								"type": "intrinsic",
-								"name": "number"
+								"type": "union",
+								"types": [
+									{
+										"type": "intrinsic",
+										"name": "string"
+									},
+									{
+										"type": "intrinsic",
+										"name": "number"
+									}
+								]
 							}
 						},
 						{
@@ -37563,8 +37572,17 @@
 								}
 							],
 							"type": {
-								"type": "intrinsic",
-								"name": "number"
+								"type": "union",
+								"types": [
+									{
+										"type": "intrinsic",
+										"name": "string"
+									},
+									{
+										"type": "intrinsic",
+										"name": "number"
+									}
+								]
 							}
 						},
 						{
@@ -38837,7 +38855,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 22,
+									"line": 23,
 									"character": 2
 								}
 							],
@@ -38857,7 +38875,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 23,
+									"line": 24,
 									"character": 2
 								}
 							],
@@ -38877,7 +38895,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 24,
+									"line": 25,
 									"character": 2
 								}
 							],
@@ -38934,7 +38952,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 26,
+									"line": 27,
 									"character": 2
 								}
 							],
@@ -38954,7 +38972,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 35,
+									"line": 36,
 									"character": 2
 								}
 							],
@@ -39147,7 +39165,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 51,
+									"line": 52,
 									"character": 2
 								}
 							],
@@ -39195,7 +39213,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 25,
+									"line": 26,
 									"character": 2
 								}
 							],
@@ -39215,7 +39233,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 28,
+									"line": 29,
 									"character": 2
 								}
 							],
@@ -39303,13 +39321,22 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 33,
+									"line": 34,
 									"character": 2
 								}
 							],
 							"type": {
-								"type": "intrinsic",
-								"name": "number"
+								"type": "union",
+								"types": [
+									{
+										"type": "intrinsic",
+										"name": "string"
+									},
+									{
+										"type": "intrinsic",
+										"name": "number"
+									}
+								]
 							}
 						},
 						{
@@ -39323,13 +39350,22 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 34,
+									"line": 35,
 									"character": 2
 								}
 							],
 							"type": {
-								"type": "intrinsic",
-								"name": "number"
+								"type": "union",
+								"types": [
+									{
+										"type": "intrinsic",
+										"name": "string"
+									},
+									{
+										"type": "intrinsic",
+										"name": "number"
+									}
+								]
 							}
 						},
 						{
@@ -39374,7 +39410,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 32,
+									"line": 33,
 									"character": 2
 								}
 							],
@@ -39425,7 +39461,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 21,
+									"line": 22,
 									"character": 2
 								}
 							],
@@ -39445,7 +39481,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 27,
+									"line": 28,
 									"character": 2
 								}
 							],
@@ -39519,7 +39555,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-							"line": 17,
+							"line": 18,
 							"character": 17
 						}
 					],
@@ -39547,7 +39583,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 56,
+									"line": 57,
 									"character": 2
 								}
 							],
@@ -39571,7 +39607,7 @@
 												"sources": [
 													{
 														"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-														"line": 57,
+														"line": 58,
 														"character": 4
 													}
 												],
@@ -39589,7 +39625,7 @@
 												"sources": [
 													{
 														"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-														"line": 61,
+														"line": 62,
 														"character": 4
 													}
 												],
@@ -39609,7 +39645,7 @@
 												"sources": [
 													{
 														"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-														"line": 59,
+														"line": 60,
 														"character": 4
 													}
 												],
@@ -39628,7 +39664,7 @@
 												"sources": [
 													{
 														"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-														"line": 58,
+														"line": 59,
 														"character": 4
 													}
 												],
@@ -39647,7 +39683,7 @@
 												"sources": [
 													{
 														"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-														"line": 60,
+														"line": 61,
 														"character": 4
 													}
 												],
@@ -39685,7 +39721,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 63,
+									"line": 64,
 									"character": 2
 								}
 							],
@@ -39707,7 +39743,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-													"line": 65,
+													"line": 66,
 													"character": 4
 												}
 											],
@@ -39731,7 +39767,7 @@
 																"sources": [
 																	{
 																		"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-																		"line": 67,
+																		"line": 68,
 																		"character": 6
 																	}
 																],
@@ -39749,7 +39785,7 @@
 																"sources": [
 																	{
 																		"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-																		"line": 68,
+																		"line": 69,
 																		"character": 6
 																	}
 																],
@@ -39767,7 +39803,7 @@
 																"sources": [
 																	{
 																		"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-																		"line": 66,
+																		"line": 67,
 																		"character": 6
 																	}
 																],
@@ -39801,7 +39837,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-													"line": 64,
+													"line": 65,
 													"character": 4
 												}
 											],
@@ -39833,7 +39869,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-									"line": 55,
+									"line": 56,
 									"character": 2
 								}
 							],
@@ -39858,7 +39894,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-							"line": 54,
+							"line": 55,
 							"character": 17
 						}
 					]
@@ -40766,7 +40802,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-geocoding/src/geocode.ts",
-							"line": 97,
+							"line": 98,
 							"character": 16
 						}
 					],
@@ -40779,7 +40815,7 @@
 							"flags": {},
 							"comment": {
 								"shortText": "Used to determine the location of a single address or point of interest. See the [REST Documentation](https://developers.arcgis.com/rest/geocode/api-reference/geocoding-find-address-candidates.htm) for more information.",
-								"text": " ```js\nimport { geocode } from '@esri/arcgis-rest-geocoding';\n\ngeocode(\"LAX\")\n  .then((response) => {\n    response.candidates[0].location; // => { x: -118.409, y: 33.943, spatialReference: ...  }\n  });\n\ngeocode({\n  address: \"1600 Pennsylvania Ave\",\n  postal: 20500,\n  countryCode: \"USA\"\n})\n  .then((response) => {\n    response.candidates[1].location; // => { x: -77.036533, y: 38.898719, spatialReference: ... }\n  });\n```\n",
+								"text": " ```js\nimport { geocode } from '@esri/arcgis-rest-geocoding';\n\ngeocode(\"LAX\")\n  .then((response) => {\n    response.candidates[0].location; // => { x: -118.409, y: 33.943, spatialReference: ...  }\n  });\n\ngeocode({\n  address: \"1600 Pennsylvania Ave\",\n  postal: \"20500\",\n  countryCode: \"USA\"\n})\n  .then((response) => {\n    response.candidates[1].location; // => { x: -77.036533, y: 38.898719, spatialReference: ... }\n  });\n```\n",
 								"returns": "A Promise that will resolve with address candidates for the request. The spatial reference will be added to candidate locations and extents unless `rawResponse: true` was passed.\n"
 							},
 							"parameters": [
