@@ -159,6 +159,51 @@ describe("geocode", () => {
       });
   });
 
+  it("should send a bulk geocoding request with postal params correctly", (done) => {
+    fetchMock.once("*", GeocodeAddresses);
+    const addresses = [
+      {
+        OBJECTID: 1,
+        address: "380 New York St. Redlands",
+        postal: 92373
+      },
+      {
+        OBJECTID: 2,
+        address: "1205 Williston Rd",
+        postal: "05403"
+      }
+    ];
+
+    bulkGeocode({
+      addresses,
+      endpoint:
+        "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/",
+      params: {
+        outSR: 4326,
+        forStorage: true
+      }
+    })
+      // tslint:disable-next-line
+      .then((response) => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/geocodeAddresses"
+        );
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=json");
+        expect(options.body).toContain("outSR=4326");
+        expect(options.body).toContain("forStorage=true");
+        expect(options.body).toContain(
+          `addresses=${encodeURIComponent(
+            '{"records":[{"attributes":{"OBJECTID":1,"address":"380 New York St. Redlands","postal":92373}},{"attributes":{"OBJECTID":2,"address":"1205 Williston Rd","postal":"05403"}}]}'
+          )}`
+        );
+        expect(response.spatialReference.latestWkid).toEqual(4326);
+        done();
+      });
+  });
+
   it("should support rawResponse", (done) => {
     fetchMock.once("*", GeocodeAddresses);
 
