@@ -69,4 +69,5 @@ export interface IGroup extends IGroupAdd {
     applications?: number;
   };
   hasCategorySchema?: boolean;
+  orgId?: string;
 }
