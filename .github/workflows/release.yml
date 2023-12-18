@@ -60,9 +60,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          # This parameter is required to make sure sematic-relase exactly use the provided GitHub Token
+          # See https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions#pushing-package.json-changes-to-a-master-branch
+          persist-credentials: false
+
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+          cache: npm
 
       - name: Install
         run: npm ci
@@ -72,6 +78,7 @@ jobs:
 
       - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Use a PAT to allow bypassing the branch protection for direct push to main
+          GITHUB_TOKEN: ${{ secrets.ESRI_DCDEV_SERVICE_ACCOUNT_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm run release
