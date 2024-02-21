@@ -94,7 +94,6 @@ export interface IServerInfo {
   server: string;
   hasPortal: boolean;
   hasServer: boolean;
-  owningSystemUrl: string | null;
 }
 
 /**

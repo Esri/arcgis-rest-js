@@ -2461,8 +2461,7 @@ describe("ArcGISIdentityManager", () => {
     const MOCK_SERVER_INFO: IServerInfo = {
       hasPortal: true,
       hasServer: false,
-      server: "https://www.arcgis.com",
-      owningSystemUrl: null
+      server: "https://www.arcgis.com"
     };
 
     const MOCK_USER_SESSION = new ArcGISIdentityManager({
@@ -2503,8 +2502,7 @@ describe("ArcGISIdentityManager", () => {
       const MOCK_SERVER_INFO: IServerInfo = {
         hasPortal: true,
         hasServer: false,
-        server: "https://www.arcgis.com/sharing/rest",
-        owningSystemUrl: null
+        server: "https://www.arcgis.com/sharing/rest"
       };
 
       const MOCK_CREDENTIAL: ICredential = {
@@ -2540,9 +2538,7 @@ describe("ArcGISIdentityManager", () => {
       const MOCK_SERVER_INFO_FOR_SERVER: IServerInfo = {
         hasPortal: true,
         hasServer: true,
-        server:
-          "https://services.arcgis.com/arcgis/services/test/FeatureServer",
-        owningSystemUrl: null
+        server: "https://services.arcgis.com/arcgis/services/test/FeatureServer"
       };
 
       const session = ArcGISIdentityManager.fromCredential(
@@ -2577,8 +2573,7 @@ describe("ArcGISIdentityManager", () => {
       const MOCK_SERVER_INFO: IServerInfo = {
         hasPortal: true,
         hasServer: true,
-        server: "https://www.arcgis.com",
-        owningSystemUrl: null
+        server: "https://www.arcgis.com"
       };
 
       const session = ArcGISIdentityManager.fromCredential(
