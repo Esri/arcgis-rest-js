@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-request [4.2.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.2.0...@esri/arcgis-rest-request@4.2.1) (2024-03-26)
+
+
+### Bug Fixes
+
+* removed owningSystemUrl from IServerInfo ([#1146](https://github.com/Esri/arcgis-rest-js/issues/1146)) ([a801537](https://github.com/Esri/arcgis-rest-js/commit/a80153702358d4ca22eb3d87eb5dc23b3f6cd123))
+
 # @esri/arcgis-rest-request [4.2.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.1.4...@esri/arcgis-rest-request@4.2.0) (2023-05-04)
 
 
