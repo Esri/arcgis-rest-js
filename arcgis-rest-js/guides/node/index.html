@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Using ArcGIS REST JS in Node.js | Guide | ArcGIS REST JS</title>
+    
+    <meta name="description" content="A modular, high quality toolkit for working with the ArcGIS REST API.">
+    
+    <link rel="stylesheet" href="/arcgis-rest-js/css/calcite-web.min.css">
+    <link rel="stylesheet" href="/arcgis-rest-js/css/style.css">
+    
+  </head>
+  <body>
+  <!-- Drawer -->
+    <div class="drawer drawer-left js-drawer" data-drawer="top-nav" tabindex="0">
+      <nav class="drawer-nav" role="navigation">
+        <aside class="side-nav">
+          <h2 class="side-nav-title">ArcGIS REST JS</h2>
+          <a href="/arcgis-rest-js/guides/" class="is-active side-nav-link">Guides</a>
+          <a href="/arcgis-rest-js/api/" class="side-nav-link">API Reference</a>
+          <a href="https://github.com/Esri/arcgis-rest-js" class="side-nav-link">GitHub</a>
+        </aside>
+      </nav>
+    </div>
+
+    <div id="page" class="wrapper">
+      <!-- Sample HTML -->
+      <header class="top-nav">
+        <div class="grid-container">
+          <div class="column-24">
+            <!-- desktop sized navigation -->
+            <div class="tablet-hide">
+              <!-- logo / home -->
+              <a href="/arcgis-rest-js/" class="top-nav-title">ArcGIS REST JS</a>
+              <!-- primary navigation sections -->
+              <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+                <a href="/arcgis-rest-js/guides/" class="is-active top-nav-link">Guides</a>
+                <a href="/arcgis-rest-js/api/" class="top-nav-link">API Reference</a>
+                <a href="https://github.com/Esri/arcgis-rest-js" class="top-nav-link">GitHub</a>
+              </nav>
+            </div>
+
+            <!-- tablet and mobile sized navigation -->
+            <div class="tablet-show top-nav-flex">
+              <!-- open primary navigation drawer -->
+              <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+                <a href="/arcgis-rest-js/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="top-nav"><span class="phone-hide">Menu</span></a>
+              </nav>
+              <!-- logo / home -->
+              <header class="top-nav-flex-title">
+                <a href="/arcgis-rest-js/" class="top-nav-link">ArcGIS REST API JavaScript Client</a>
+              </header>
+            </div>
+          </div>
+
+        </div>
+      </header>
+
+
+      <main id="#skip-to-content">
+        
+  <div class="grid-container trailer-1 leader-1">
+    <div class="column-6">
+      <ul class="list-plain">
+        
+          <li>Introduction</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/arcgis-rest-js/guides/package-overview/">Package Overview</a></li>
+            
+          </ul>
+        
+          <li>Get Started</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/arcgis-rest-js/guides/from-a-cdn/">From a CDN</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/bundlers/">Bundlers</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/amd-requirejs-dojo/">AMD (Require.js or Dojo)</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/node/" class="is-active">Node.js</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/whats-new-v2-0/">What's New in v2.0.0</a></li>
+            
+          </ul>
+        
+          <li>Authentication</li>
+          <ul class="list-plain margin-left-1">
+            
+              <li><a href="/arcgis-rest-js/guides/browser-authentication/">Browser-based OAuth 2.0</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/server-authentication/">Server-based OAuth 2.0</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/client-server-authentication/">Shared client server authentication</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/cli-authentication/">Authentication for CLI Apps</a></li>
+            
+              <li><a href="/arcgis-rest-js/guides/embedded-apps/">Embedded Authentication</a></li>
+            
+          </ul>
+        
+      </ul>
+    </div>
+
+    <div class="column-18">
+      <div class="panel">
+        <h1>Get Started with Node.js</h1>
+<p>Make sure you have polyfills for <a href="https://github.com/lquixada/cross-fetch"><code>fetch</code></a> and <a href="https://github.com/form-data/isomorphic-form-data"><code>FormData</code></a> installed before using any ArcGIS REST JS library. You can find <code>npm install</code> commands for all packages in the <a href="/arcgis-rest-js/api">API reference</a>.</p>
+<pre><code class="bash">npm install @esri/arcgis-rest-request @esri/arcgis-rest-auth cross-fetch isomorphic-form-data
+</code></pre>
+<p>Require <code>cross-fetch</code> and <code>isomorphic-form-data</code> before using any of the ArcGIS REST JS methods.</p>
+<pre><code class="js"><span class="hljs-comment">// ensures fetch is available as a global</span>
+<span class="hljs-built_in">require</span>(<span class="hljs-string">"cross-fetch/polyfill"</span>);
+<span class="hljs-built_in">require</span>(<span class="hljs-string">"isomorphic-form-data"</span>);
+
+<span class="hljs-keyword">const</span> { request } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@esri/arcgis-rest-request"</span>);
+
+request(<span class="hljs-string">"https://www.arcgis.com/sharing/rest/info"</span>)
+  .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(response));
+</code></pre>
+<p>Or, if using NodeJS version v13 or higher, if you set <code>&quot;type&quot;: &quot;module&quot;</code> in the <code>package.json</code> you can use <a href="https://nodejs.org/docs/latest-v12.x/api/packages.html#packages_determining_module_system">ES Modules</a> import syntax:</p>
+<pre><code class="js"><span class="hljs-keyword">import</span> fetch <span class="hljs-keyword">from</span> <span class="hljs-string">"node-fetch"</span>;
+<span class="hljs-keyword">import</span> FormData <span class="hljs-keyword">from</span> <span class="hljs-string">"isomorphic-form-data"</span>;
+<span class="hljs-keyword">import</span> arcgisRestRequest <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-request"</span>;
+arcgisRestRequest.setDefaultRequestOptions({ fetch, FormData });
+
+arcgisRestRequest.request(<span class="hljs-string">"https://www.arcgis.com/sharing/rest/info"</span>)
+  .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(response));
+</code></pre>
+<p>You can also pass through your own named <code>fetch</code> implementation.</p>
+<pre><code class="js"><span class="hljs-keyword">const</span> fetch = <span class="hljs-built_in">require</span>(<span class="hljs-string">"node-fetch"</span>)
+<span class="hljs-keyword">const</span> {
+  request,
+  setDefaultRequestOptions
+} = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@esri/arcgis-rest-request"</span>);
+
+<span class="hljs-comment">// one by one</span>
+request(<span class="hljs-string">"https://www.arcgis.com/sharing/rest/info"</span>, { fetch })
+
+<span class="hljs-comment">// or in *every* request</span>
+setDefaultRequestOptions({ fetch })
+</code></pre>
+<h2>Demo - <a href="https://github.com/Esri/arcgis-rest-js/tree/master/demos/express">Express</a></h2>
+<h3>Authentication</h3>
+<p>To access premium content and services without asking for user credentials, using an <a href="https://developers.arcgis.com/documentation/mapping-apis-and-services/security/api-keys/">API key</a> or <a href="https://developers.arcgis.com/documentation/mapping-apis-and-services/security/application-credentials/">application credentials</a> is typically the best approach.</p>
+<h4>API Key</h4>
+<pre><code class="js"><span class="hljs-comment">// no auth required</span>
+request(<span class="hljs-string">`https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve?token={API_KEY}`</span>)
+</code></pre>
+<h4>Application credentials</h4>
+<pre><code class="js"><span class="hljs-keyword">const</span> { ApplicationSession } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@esri/arcgis-rest-auth"</span>);
+
+<span class="hljs-keyword">const</span> authentication = <span class="hljs-keyword">new</span> ApplicationSession({
+  <span class="hljs-attr">clientId</span>: <span class="hljs-string">"public"</span>,
+  <span class="hljs-attr">clientSecret</span>: <span class="hljs-string">"secret"</span>
+})
+
+<span class="hljs-comment">// url not accessible to anonymous users</span>
+<span class="hljs-keyword">const</span> url = <span class="hljs-string">`https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World`</span>
+
+<span class="hljs-comment">// token will be appended by rest-js</span>
+request(url, {
+  authentication
+})
+</code></pre>
+<h2>Demo - <a href="https://github.com/Esri/arcgis-rest-js/tree/master/demos/batch-geocoder-node">batch geocoding</a></h2>
+<p>Applications cannot <a href="https://developers.arcgis.com/documentation/core-concepts/security-and-authentication/limitations-of-application-authentication/">create, share, access or modify items</a> in ArcGIS Online or ArcGIS Enterprise. For this, a <a href="/arcgis-rest-js/api/auth/UserSession/"><code>UserSession</code></a> is more appropriate.</p>
+<pre><code class="js"><span class="hljs-keyword">const</span> { UserSession } = <span class="hljs-built_in">require</span>(<span class="hljs-string">"@esri/arcgis-rest-auth"</span>);
+
+<span class="hljs-comment">// hardcoded username / password</span>
+<span class="hljs-keyword">const</span> authentication = <span class="hljs-keyword">new</span> UserSession({
+  <span class="hljs-attr">username</span>: <span class="hljs-string">"jsmith"</span>,
+  <span class="hljs-attr">password</span>: <span class="hljs-string">"123456"</span>
+})
+</code></pre>
+<p>See the <a href="../browser-authentication/">Browser Authentication</a> for more information about implementing OAuth 2.0.</p>
+      </div>
+    </div>
+  </div>
+
+      </main>
+    </div>
+
+    <footer class="footer">
+      
+      <div class="panel panel-white">
+        <div class="grid-container">
+          <div class="column-24">
+            <a href="https://github.com/Esri/arcgis-rest-js" class="font-size--2">Fork this project</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/arcgis-rest-js/js/calcite-web.min.js"></script>
+
+    <script>
+       calcite.init()
+    </script>
+
+    
+  </body>
+</html>
