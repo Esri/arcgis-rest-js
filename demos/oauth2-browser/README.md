@@ -2,7 +2,7 @@
 
 This demo uses Vanilla JS to implement OAuth2 using the `arcgis-rest-js` libraries.
 
-See the ArcGIS Rest JS guide to [Authentication in Browser-based Apps](https://esri.github.io/arcgis-rest-js/guides/browser-authentication/) for more info.
+See the ArcGIS Rest JS guide to [Authentication in Browser-based Apps](https://developers.arcgis.com/arcgis-rest-js/authentication/tutorials/implement-user-authentication-rest-js-browser/) for more info.
 
 ## Running this demo
 

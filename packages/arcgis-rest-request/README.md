@@ -33,7 +33,7 @@ request(url).then((response) => {
 });
 ```
 
-### [API Reference](https://esri.github.io/arcgis-rest-js/api/request/)
+### [API Reference](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-request/)
 
 ### Issues
 

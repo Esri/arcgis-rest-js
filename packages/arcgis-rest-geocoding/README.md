@@ -32,15 +32,15 @@ geocode("LAX").then((response) => {
 });
 ```
 
-### [API Reference](https://esri.github.io/arcgis-rest-js/api/geocoding/)
+### [API Reference](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-geocoding/)
 
-- [`geocode("1 World Way Los Angeles 90045")`](https://esri.github.io/arcgis-rest-js/api/geocoding/geocode/)
+- [`geocode("1 World Way Los Angeles 90045")`](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-geocoding/geocode/)
 
-- [`suggest("Starb")`](https://esri.github.io/arcgis-rest-js/api/geocoding/suggest/)
+- [`suggest("Starb")`](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-geocoding/suggest/)
 
-- [`reverseGeocode([-118.409,33.943 ])`](https://esri.github.io/arcgis-rest-js/api/geocoding/reverseGeocode/)
+- [`reverseGeocode([-118.409,33.943 ])`](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-geocoding/reverseGeocode/)
 
-- [`bulkGeocode()`](https://esri.github.io/arcgis-rest-js/api/geocoding/bulkGeocode/)
+- [`bulkGeocode()`](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-geocoding/bulkGeocode/)
 
 ### Issues
 
