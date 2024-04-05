@@ -35,7 +35,7 @@ export interface IAddToServiceDefinitionResult {
  * Add layer(s) and/or table(s) to a hosted feature service. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-to-definition-feature-service-.htm) for more information.
  *
  *  ```js
- * import { addToServiceDefinition } from '@esri/arcgis-rest-service-admin';
+ * import { addToServiceDefinition } from '@esri/arcgis-rest-feature-service';
  * //
  * addToServiceDefinition(serviceurl, {
  *   authentication: ArcGISIdentityManager,
