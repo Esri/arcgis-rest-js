@@ -38,7 +38,7 @@ const { places } = await findPlacesNearPoint({
 console.log(places[0].name);
 ```
 
-### [API Reference](https://esri.github.io/arcgis-rest-js/api/places/)
+### [API Reference](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-places/)
 
 @TODO
 

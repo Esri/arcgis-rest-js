@@ -34,7 +34,7 @@ const exportCsv = (output, filePath) => {
 
 // Format objects in data to conform to request params
 // `fields` can be a `string` for address field or an `object` mapping request fields to csv fields
-// https://esri.github.io/arcgis-rest-js/api/geocoder/IAddressBulk/
+// https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-geocoding/IAddressBulk/
 const getAddresses = (data, fields) => {
   if (typeof fields === "string") {
     return data.map((row, i) => ({

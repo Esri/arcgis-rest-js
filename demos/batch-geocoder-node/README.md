@@ -7,7 +7,7 @@
    2. `"clientSecret"`: ArcGIS ClientSecret
    3. `"csv"`: csv path
    4. `"output"`: output csv path
-   5. `"fieldmap"`: `object` that maps CSV fields to [address fields](https://esri.github.io/arcgis-rest-js/api/geocoder/IAddressBulk/) **or** `string` that points to a CSV field with single-line addresses
+   5. `"fieldmap"`: `object` that maps CSV fields to [address fields](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-geocoding/IAddressBulk/) **or** `string` that points to a CSV field with single-line addresses
 4. `npm start`
 
 Sample Restaurant Inspections adapted from a DOHMH dataset available [online](https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/xx67-kt59/data)

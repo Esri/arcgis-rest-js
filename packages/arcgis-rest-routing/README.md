@@ -35,7 +35,7 @@ solveRoute({
 // {routes: {features: [{attributes: { ... }, geometry:{ ... }}]}}
 ```
 
-### [API Reference](https://esri.github.io/arcgis-rest-js/api/routing/)
+### [API Reference](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-routing/)
 
 ### Issues
 

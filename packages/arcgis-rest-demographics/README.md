@@ -32,10 +32,10 @@ getAvailableDataCollections().then((response) => {
 });
 ```
 
-### [API Reference](https://esri.github.io/arcgis-rest-js/api/demographics/)
+### [API Reference](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-demographics/)
 
-- [`getAvailableDataCollections({countryCode: 'us'})`](https://esri.github.io/arcgis-rest-js/api/demographics/getAvailableDataCollections/)
-- [`queryDemographicData({studyAreas: [{"geometry":{"x":-117.1956,"y":34.0572}}], authentication})`](https://esri.github.io/arcgis-rest-js/api/demographics/queryDemographicData/)
+- [`getAvailableDataCollections({countryCode: 'us'})`](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-demographics/getAvailableDataCollections/)
+- [`queryDemographicData({studyAreas: [{"geometry":{"x":-117.1956,"y":34.0572}}], authentication})`](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-demographics/queryDemographicData/)
 
 ### Issues
 
