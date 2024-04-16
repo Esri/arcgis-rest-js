@@ -8,7 +8,7 @@
     
     <meta name="description" content="A modular, high quality toolkit for working with the ArcGIS REST API.">
     
-    <link rel="stylesheet" href="/arcgis-rest-js/css/calcite-web.min.css">
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
     <link rel="stylesheet" href="/arcgis-rest-js/css/style.css">
     
   </head>
@@ -888,10 +888,6 @@
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
               <a href="/arcgis-rest-js/api/portal/removeNotification/" class="tsd-kind-icon padding-right-1">removeNotification</a>
-            </li>
-            
-            <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
-              <a href="/arcgis-rest-js/api/portal/searchCommunityUsers/" class="tsd-kind-icon padding-right-1">searchCommunityUsers</a>
             </li>
             
             <li class="tsd-kind-function padding-right-1 visually-hidden api-list-item">
@@ -2097,7 +2093,7 @@
 
 
 
-  <pre><code class="js"><span class="hljs-keyword">import</span> { searchUsers } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-portal"</span>;
+  <pre><code class="js"><span class="hljs-keyword">import</span> { searchItems } <span class="hljs-keyword">from</span> <span class="hljs-string">"@esri/arcgis-rest-portal"</span>;
 <span class="hljs-comment">//</span>
 searchUsers({ <span class="hljs-attr">q</span>: <span class="hljs-string">'tommy'</span>, authentication })
   .then(response) <span class="hljs-comment">// response.total =&gt; 355</span>
@@ -2620,7 +2616,7 @@ searchUsers({ <span class="hljs-attr">q</span>: <span class="hljs-string">'tommy
       </div>
     </footer>
 
-    <script src="/arcgis-rest-js/js/calcite-web.min.js"></script>
+    <script src="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/js/calcite-web.min.js"></script>
 
     <script>
        calcite.init()
