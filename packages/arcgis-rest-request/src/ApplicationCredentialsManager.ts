@@ -150,7 +150,7 @@ export function ApplicationSession(
   options: IApplicationCredentialsManagerOptions
 ) {
   console.log(
-    "DEPRECATED:, 'ApplicationSession' is deprecated. Use 'ApplicationCredentialsManager' instead."
+    "DEPRECATED: 'ApplicationSession' is deprecated. Use 'ApplicationCredentialsManager' instead."
   );
 
   return new ApplicationCredentialsManager(options);
