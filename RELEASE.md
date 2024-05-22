@@ -2,13 +2,13 @@
 
 ## v4
 
-As of v4, the ArcGIS REST JS packages are released automatically via Semantic Release. To run the release:
-
-1. Temporarily disable the [branch protection rules](https://github.com/Esri/arcgis-rest-js/settings/branches) on the `main` branch.
-2. Find the most recent failed [`Build, Test, Release` GitHub action workflow run](https://github.com/Esri/arcgis-rest-js/actions/workflows/release.yml), and re-run it.
-3. After the release is complete, re-enable the branch protection rules from step 1.
+As of v4, the ArcGIS REST JS packages are released automatically via Semantic Release.
 
 **Note:** Any new packages added are published at v1.0.0 instead of 4.0.0.
+
+### Deploy Token
+
+The current deploy token is stored as a [repository secret](https://github.com/Esri/arcgis-rest-js/settings/secrets/actions) named `gh_token`, which is a GitHub personal access token. The user who generated that token must have the `Allow specified actors to bypass required pull requests` setting (see repo settings > Branches > `main`) set so that Semantic Release can commit on their behalf.
 
 ## v3
 
