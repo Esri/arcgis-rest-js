@@ -64,9 +64,17 @@ jobs:
           # This parameter is required to make sure sematic-relase exactly use the provided GitHub Token
           # See https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions#pushing-package.json-changes-to-your-repository
           persist-credentials: false
+
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+
+      - name: Configure npm
+        run: |
+          echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
+          cat .npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Install
         run: npm ci
@@ -78,5 +86,5 @@ jobs:
         env:
           # GH_TOKEN is maintained in the repository secrets. See RELEASE.md for more information.
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm run release
