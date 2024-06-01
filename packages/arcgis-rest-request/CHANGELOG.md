@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-request [4.2.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.2.1...@esri/arcgis-rest-request@4.2.2) (2024-06-01)
+
+
+### Bug Fixes
+
+* small change to trigger a catch-up release ([#1159](https://github.com/Esri/arcgis-rest-js/issues/1159)) ([ea1ac91](https://github.com/Esri/arcgis-rest-js/commit/ea1ac9147842cb8658d164e0962449f97ecf92f0))
+
 ## @esri/arcgis-rest-request [4.2.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.2.0...@esri/arcgis-rest-request@4.2.1) (2024-03-26)
 
 
