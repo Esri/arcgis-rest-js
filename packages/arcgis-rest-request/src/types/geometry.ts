@@ -20,7 +20,6 @@ export interface IHasZM {
  *
  * ```js
  * import { ISpatialReference } from "@esri/arcgis-rest-geocoding";
- * import { ISpatialReference } from "@esri/arcgis-rest-service-admin";
  * import { ISpatialReference } from "@esri/arcgis-rest-feature-service";
  * ```
  */
