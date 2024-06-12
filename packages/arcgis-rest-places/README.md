@@ -1,13 +1,10 @@
 [![npm version][npm-img]][npm-url]
-[![build status][travis-img]][travis-url]
 [![gzip bundle size][gzip-image]][npm-url]
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/arcgis-rest-js/master/LICENSE)
 
 [npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-places.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-places
-[travis-img]: https://img.shields.io/travis/Esri/arcgis-rest-js/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/Esri/arcgis-rest-js
 [gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-places/dist/bundled/places.umd.min.js?compression=gzip
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
@@ -24,16 +21,15 @@ npm install @esri/arcgis-rest-places
 ```
 
 ```js
-import { ApiKeyManager } from "@esri/arcgis-rest-request;
-import { findPlacesNearPoint 
-} from "@esri/arcgis-rest-places"
+import { ApiKeyManager } from "@esri/arcgis-rest-request";
+import { findPlacesNearPoint } from "@esri/arcgis-rest-places";
 
 const { places } = await findPlacesNearPoint({
-    x: -3.1883,
-    y: 55.9533,
-    categoryIds: ["13002"],
-    authentication: ApiKeyManager.fromKey("YOUR_API_KEY")
-  });
+  x: -3.1883,
+  y: 55.9533,
+  categoryIds: ["13002"],
+  authentication: ApiKeyManager.fromKey("YOUR_API_KEY")
+});
 
 console.log(places[0].name);
 ```
