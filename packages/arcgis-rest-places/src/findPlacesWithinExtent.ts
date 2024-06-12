@@ -37,7 +37,9 @@ export interface IFindPlacesWithinExtentResponse extends successResponse {
  */
 export interface IFindPlaceWithinExtentOptions
   extends Omit<IRequestOptions, "httpMethod" | "f">,
-    queryParams {}
+    queryParams {
+  endpoint?: string;
+}
 
 /**
  * Searches the world-wide set of places for those that are within an
@@ -97,7 +99,7 @@ export function findPlacesWithinExtent(
   );
 
   return (
-    request(`${baseUrl}/places/within-extent`, {
+    request(requestOptions.endpoint || `${baseUrl}/places/within-extent`, {
       ...options,
       httpMethod: "GET"
     }) as Promise<successResponse>

@@ -28,7 +28,9 @@ export interface IGetCategoriesResponse extends successResponse {}
  */
 export interface IGetCategoriesOptions
   extends Omit<IRequestOptions, "httpMethod" | "f">,
-    queryParams {}
+    queryParams {
+  endpoint?: string;
+}
 
 /**
  * The ArcGIS Places service has many categories (or types) of place, from
@@ -63,7 +65,7 @@ export function getCategories(
     }
   );
 
-  return request(`${baseUrl}/categories`, {
+  return request(requestOptions.endpoint || `${baseUrl}/categories`, {
     ...options,
     httpMethod: "GET"
   });

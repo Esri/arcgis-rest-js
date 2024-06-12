@@ -14,6 +14,7 @@ process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 const authentication = ApiKeyManager.fromKey(process.env.API_KEY);
 
 const { categories } = await getCategories({
+  endpoint: "https://placesdev-api.arcgis.com/arcgis/rest/services/places-service/v1/categories",
   authentication
 });
 

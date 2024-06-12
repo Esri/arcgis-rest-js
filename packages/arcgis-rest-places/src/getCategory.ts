@@ -27,6 +27,7 @@ export interface IGetCategoryOptions
   extends Omit<IRequestOptions, "httpMethod">,
     queryParams {
   categoryId: string;
+  endpoint?: string;
 }
 
 /**
@@ -53,8 +54,11 @@ export function getCategory(
     ...requestOptions
   });
 
-  return request(`${baseUrl}/categories/${categoryId}`, {
-    ...options,
-    httpMethod: "GET"
-  });
+  return request(
+    requestOptions.endpoint || `${baseUrl}/categories/${categoryId}`,
+    {
+      ...options,
+      httpMethod: "GET"
+    }
+  );
 }

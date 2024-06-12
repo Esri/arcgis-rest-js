@@ -23,4 +23,21 @@ describe("getPlaceDetails()", () => {
     expect(url).toContain("token=MOCK_KEY");
     expect(url).toContain(`places/${placeId}`);
   });
+
+  it("verify endpoint", async () => {
+    fetchMock.mock("*", placeMock);
+    const placeId = "e78051acc722c55ab11ba930d8dd7772";
+
+    const response = await getPlaceDetails({
+      placeId,
+      requestedFields: ["all"],
+      endpoint: `https://placesdev-api.arcgis.com/arcgis/rest/services/places-service/v1/places/${placeId}`,
+      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+    });
+
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      `https://placesdev-api.arcgis.com/arcgis/rest/services/places-service/v1/places/${placeId}?f=json&requestedFields=all&token=MOCK_KEY`
+    );
+  });
 });

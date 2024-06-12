@@ -30,6 +30,7 @@ export interface IGetPlaceOptions
   extends Omit<IRequestOptions, "httpMethod">,
     queryParams {
   placeId: string;
+  endpoint?: string;
 }
 
 /**
@@ -73,7 +74,7 @@ export function getPlaceDetails(
     }
   );
 
-  return request(`${baseUrl}/places/${placeId}`, {
+  return request(requestOptions.endpoint || `${baseUrl}/places/${placeId}`, {
     ...options,
     httpMethod: "GET"
   });

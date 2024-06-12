@@ -74,4 +74,22 @@ describe("findPlacesNearPoint()", () => {
     expect(nextPage.nextPage).toBeUndefined();
     expect(url).toContain("token=MOCK_KEY");
   });
+
+  it("verify endpoint", async () => {
+    fetchMock.mock("*", placeNearPointMockNoMoreResults);
+
+    const response = await findPlacesNearPoint({
+      x: -3.1883,
+      y: 55.9533,
+      radius: 10,
+      endpoint:
+        "https://placesdev-api.arcgis.com/arcgis/rest/services/places-service/v1/places/near-point",
+      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+    });
+
+    const [url, options] = fetchMock.lastCall("*") as MockCall;
+    expect(url).toEqual(
+      "https://placesdev-api.arcgis.com/arcgis/rest/services/places-service/v1/places/near-point?f=json&x=-3.1883&y=55.9533&radius=10&token=MOCK_KEY"
+    );
+  });
 });
