@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-demographics [4.0.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-demographics@4.0.2...@esri/arcgis-rest-demographics@4.0.3) (2024-06-15)
+
+
+### Bug Fixes
+
+* small change to trigger a catch-up release ([#1163](https://github.com/Esri/arcgis-rest-js/issues/1163)) ([11adbce](https://github.com/Esri/arcgis-rest-js/commit/11adbce6f3e4e15c0876b82520f7652a68dfd881))
+
 ## @esri/arcgis-rest-demographics [4.0.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-demographics@4.0.1...@esri/arcgis-rest-demographics@4.0.2) (2022-05-11)
 
 
