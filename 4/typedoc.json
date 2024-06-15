@@ -2223,7 +2223,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "View a description for a given country. If not specified, will return a list of all countries."
+								"shortText": "View a description for a given country. If not specified, it will return a list of all countries."
 							},
 							"sources": [
 								{
