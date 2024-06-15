@@ -274,9 +274,10 @@ export function internalRequest(
 
     /* istanbul ignore else - we don't need to test NOT warning people */
     if (
-      !options.authentication.startsWith("AAPK") && // doesn't look like an API Key
+      !options.authentication.startsWith("AAPK") &&
+      !options.authentication.startsWith("AATK") && // doesn't look like an API Key
       !options.suppressWarnings && // user doesn't want to suppress warnings for this request
-      !(globalThis as any).ARCGIS_REST_JS_SUPPRESS_TOKEN_WARNING // we havn't shown the user this warning yet
+      !(globalThis as any).ARCGIS_REST_JS_SUPPRESS_TOKEN_WARNING // we haven't shown the user this warning yet
     ) {
       warn(
         `Using an oAuth 2.0 access token directly in the token option is discouraged. Consider using ArcGISIdentityManager or Application session. See https://esriurl.com/arcgis-rest-js-direct-token-warning for more information.`

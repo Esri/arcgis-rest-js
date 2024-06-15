@@ -3,41 +3,52 @@
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/arcgis-rest-js/master/LICENSE)
 
-[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-geocoding.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-geocoding
-[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-geocoding/dist/bundled/geocoding.umd.min.js?compression=gzip
+[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-developer-credentials.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-developer-credentials
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-developer-credentials/dist/bundled/developer-credentials.umd.min.js?compression=gzip
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
-# @esri/arcgis-rest-geocoding
+# @esri/arcgis-rest-developer-credentials
 
-> Geocoding helpers for [`@esri/arcgis-rest-request`](https://github.com/Esri/arcgis-rest-js).
+> Access and manage API keys and OAuth 2.0 application credentials with REST JS.
 
 ### Example
 
 ```bash
 npm install @esri/arcgis-rest-request
-npm install @esri/arcgis-rest-geocoding
+npm install @esri/arcgis-rest-developer-credentials
 ```
 
 ```js
-import { geocode } from "@esri/arcgis-rest-geocoding";
+import {
+  createApiKey,
+  Privileges
+} from "@esri/arcgis-rest-developer-credentials";
 
-geocode("LAX").then((response) => {
-  response.candidates[0].location;
-  // => { x: -118.409, y: 33.943  }
+const authSession: ArcGISIdentityManager = await ArcGISIdentityManager.signIn({
+  username: "xyz_usrName",
+  password: "xyz_pw"
 });
+
+createApiKey({
+  title: "xyz_title",
+  description: "xyz_desc",
+  tags: ["xyz_tag1", "xyz_tag2"],
+  privileges: [Privileges.Geocode, Privileges.FeatureReport],
+  authentication: authSession
+})
+  .then((registeredAPIKey) => {
+    // => {apiKey: "xyz_key", item: {tags: ["xyz_tag1", "xyz_tag2"], ...}, ...}
+  })
+  .catch((e) => {
+    // => an exception object
+  });
 ```
 
-### [API Reference](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-geocoding/)
+### [API Reference](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-developer-credentials/)
 
-- [`geocode("1 World Way Los Angeles 90045")`](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-geocoding/geocode/)
-
-- [`suggest("Starb")`](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-geocoding/suggest/)
-
-- [`reverseGeocode([-118.409,33.943 ])`](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-geocoding/reverseGeocode/)
-
-- [`bulkGeocode()`](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-geocoding/bulkGeocode/)
+Please see [all the exports](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-developer-credentials/#exports).
 
 ### Issues
 
@@ -55,23 +66,17 @@ For more information on SemVer, please visit <http://semver.org/>.
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](CONTRIBUTING.md).
 
-### In the wild
-
-| What                                                                       | Who                                      |
-| -------------------------------------------------------------------------- | ---------------------------------------- |
-| [React](https://twitter.com/oppoudel/status/1022209378378805249) component | [@oppoudel](https://github.com/oppoudel) |
-
 ### [Changelog](https://github.com/Esri/arcgis-rest-js/blob/master/CHANGELOG.md)
 
 ### License
 
-Copyright &copy; 2017-2022 Esri
+Copyright &copy; 2017-2024 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-> http://www.apache.org/licenses/LICENSE-2.0
+> <http://www.apache.org/licenses/LICENSE-2.0>
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,

@@ -15,7 +15,7 @@ import {
 
 export interface IGetAvailableCountriesOptions extends IEndpointOptions {
   /**
-   * View a description for a given country. If not specified, will return a list of all countries.
+   * View a description for a given country. If not specified, it will return a list of all countries.
    */
   countryCode?: string;
 }

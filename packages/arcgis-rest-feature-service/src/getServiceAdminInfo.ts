@@ -5,7 +5,7 @@ import { request, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IServiceInfo } from "./helpers.js";
 
 /**
- * Given a Feature Service url, fetch the service admin information.
+ * Given a Feature Service URL, fetch the service admin information.
  *
  * The response from this call includes all the detailed information
  * for each layer/table in the service as well as some admin properties
