@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-portal [4.4.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.4.0...@esri/arcgis-rest-portal@4.4.1) (2024-06-15)
+
+
+### Bug Fixes
+
+* small change to trigger a catch-up release ([#1168](https://github.com/Esri/arcgis-rest-js/issues/1168)) ([5417fa7](https://github.com/Esri/arcgis-rest-js/commit/5417fa7b466779e8987ba67da801bef7cff2fe21))
+
 # @esri/arcgis-rest-portal [4.4.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.3.0...@esri/arcgis-rest-portal@4.4.0) (2023-09-06)
 
 
