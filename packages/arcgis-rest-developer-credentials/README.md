@@ -3,40 +3,52 @@
 [![Coverage Status][coverage-img]][coverage-url]
 [![apache licensed](https://img.shields.io/badge/license-Apache-green.svg?style=flat-square)](https://raw.githubusercontent.com/Esri/arcgis-rest-js/master/LICENSE)
 
-[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-places.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-places
-[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-places/dist/bundled/places.umd.min.js?compression=gzip
+[npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-developer-credentials.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-developer-credentials
+[gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-developer-credentials/dist/bundled/developer-credentials.umd.min.js?compression=gzip
 [coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
 [coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 
-# @esri/arcgis-rest-places
+# @esri/arcgis-rest-developer-credentials
 
-> Place finding helpers for [`@esri/arcgis-rest-request`](https://github.com/Esri/arcgis-rest-js).
+> Access and manage API keys and OAuth 2.0 application credentials with REST JS.
 
 ### Example
 
 ```bash
 npm install @esri/arcgis-rest-request
-npm install @esri/arcgis-rest-places
+npm install @esri/arcgis-rest-developer-credentials
 ```
 
 ```js
-import { ApiKeyManager } from "@esri/arcgis-rest-request";
-import { findPlacesNearPoint } from "@esri/arcgis-rest-places";
+import {
+  createApiKey,
+  Privileges
+} from "@esri/arcgis-rest-developer-credentials";
 
-const { places } = await findPlacesNearPoint({
-  x: -3.1883,
-  y: 55.9533,
-  categoryIds: ["13002"],
-  authentication: ApiKeyManager.fromKey("YOUR_API_KEY")
+const authSession: ArcGISIdentityManager = await ArcGISIdentityManager.signIn({
+  username: "xyz_usrName",
+  password: "xyz_pw"
 });
 
-console.log(places[0].name);
+createApiKey({
+  title: "xyz_title",
+  description: "xyz_desc",
+  tags: ["xyz_tag1", "xyz_tag2"],
+  privileges: [Privileges.Geocode, Privileges.FeatureReport],
+  authentication: authSession
+})
+  .then((registeredAPIKey) => {
+    // => {apiKey: "xyz_key", item: {tags: ["xyz_tag1", "xyz_tag2"], ...}, ...}
+  })
+  .catch((e) => {
+    // => an exception object
+  });
 ```
 
-### [API Reference](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-places/)
+### [API Reference](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-developer-credentials/)
 
-@TODO
+Please see [all the exports](https://developers.arcgis.com/arcgis-rest-js/api-reference/arcgis-rest-developer-credentials/#exports).
 
 ### Issues
 
@@ -54,27 +66,17 @@ For more information on SemVer, please visit <http://semver.org/>.
 
 Esri welcomes contributions from anyone and everyone. Please see our [guidelines for contributing](CONTRIBUTING.md).
 
-### Generating Types from Open API
-
-The places service publishes an Open API definition. Eventually this will live at a public URL on the service itself. However for now it lives inside the Esri internal GitHub Enterprise installation. To generate the types view the raw file on GitHub Enterprise and replace the URL below.
-
-```
-npx openapi-typescript@5 URL_TO_RAW_SPEC_FILE --output packages/arcgis-rest-places/src/openapi-types.ts
-```
-
-The generated types are used in the interfaces for ArcGIS REST JS.
-
 ### [Changelog](https://github.com/Esri/arcgis-rest-js/blob/master/CHANGELOG.md)
 
 ### License
 
-Copyright &copy; 2023 Esri
+Copyright &copy; 2017-2024 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-> http://www.apache.org/licenses/LICENSE-2.0
+> <http://www.apache.org/licenses/LICENSE-2.0>
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
