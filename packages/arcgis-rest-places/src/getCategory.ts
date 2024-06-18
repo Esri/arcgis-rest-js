@@ -27,6 +27,10 @@ export interface IGetCategoryOptions
   extends Omit<IRequestOptions, "httpMethod">,
     queryParams {
   categoryId: string;
+  /**
+   * Override the URL. This should be the full URL to the API endpoint you want to call. Used internally by Esri staff for testing.
+   * @private
+   */
   endpoint?: string;
 }
 

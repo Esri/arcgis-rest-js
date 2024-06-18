@@ -24,16 +24,16 @@ describe("getCategory()", () => {
   it("verify endpoint", async () => {
     fetchMock.mock("*", categoryMock);
 
-    const response = await getCategory({
+    await getCategory({
       categoryId: "10000",
       endpoint:
-        "https://placesdev-api.arcgis.com/arcgis/rest/services/places-service/v1/categories/10000",
+        "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/categories/10000",
       authentication: ApiKeyManager.fromKey("MOCK_KEY")
     });
 
     const [url, options] = fetchMock.lastCall("*");
     expect(url).toEqual(
-      "https://placesdev-api.arcgis.com/arcgis/rest/services/places-service/v1/categories/10000?f=json&token=MOCK_KEY"
+      "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/categories/10000?f=json&token=MOCK_KEY"
     );
   });
 });

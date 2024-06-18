@@ -38,6 +38,10 @@ export interface IFindPlacesWithinExtentResponse extends successResponse {
 export interface IFindPlaceWithinExtentOptions
   extends Omit<IRequestOptions, "httpMethod" | "f">,
     queryParams {
+  /**
+   * Override the URL. This should be the full URL to the API endpoint you want to call. Used internally by Esri staff for testing.
+   * @private
+   */
   endpoint?: string;
 }
 

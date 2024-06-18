@@ -8,7 +8,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node index.ts"
+    "start": "ts-node index.js"
   },
   "dependencies": {
     "@esri/arcgis-rest-places": "^1.0.0",

@@ -23,15 +23,15 @@ describe("getCategories()", () => {
   it("verify endpoint", async () => {
     fetchMock.mock("*", categoriesMock);
 
-    const response = await getCategories({
+    await getCategories({
       endpoint:
-        "https://placesdev-api.arcgis.com/arcgis/rest/services/places-service/v1/categories",
+        "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/categories",
       authentication: ApiKeyManager.fromKey("MOCK_KEY")
     });
 
     const [url, options] = fetchMock.lastCall("*");
     expect(url).toEqual(
-      "https://placesdev-api.arcgis.com/arcgis/rest/services/places-service/v1/categories?f=json&token=MOCK_KEY"
+      "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/categories?f=json&token=MOCK_KEY"
     );
   });
 });
