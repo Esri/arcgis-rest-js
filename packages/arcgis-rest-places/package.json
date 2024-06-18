@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-places",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Wrapper for the places services for @esri/arcgis-rest-js",
   "license": "Apache-2.0",
   "keywords": [

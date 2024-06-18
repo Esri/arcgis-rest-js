@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-places [1.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-places@1.0.2...@esri/arcgis-rest-places@1.1.0) (2024-06-18)
+
+
+### Features
+
+* Allow arcgis rest places package to use dev endpoints ([#1170](https://github.com/Esri/arcgis-rest-js/issues/1170)) ([d0ca26d](https://github.com/Esri/arcgis-rest-js/commit/d0ca26d3d0cbcb18de2475974ce5b5c4261eef69))
+
 ## @esri/arcgis-rest-places [1.0.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-places@1.0.1...@esri/arcgis-rest-places@1.0.2) (2024-06-15)
 
 
