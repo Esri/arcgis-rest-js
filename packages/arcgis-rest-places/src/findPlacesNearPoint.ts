@@ -30,7 +30,13 @@ export interface IFindPlacesNearPointResponse extends successResponse {
  */
 export interface IFindPlacesNearPointOptions
   extends Omit<IRequestOptions, "httpMethod" | "f">,
-    queryParams {}
+    queryParams {
+  /**
+   * Override the URL. This should be the full URL to the API endpoint you want to call. Used internally by Esri staff for testing.
+   * @private
+   */
+  endpoint?: string;
+}
 
 /**
  * Searches places that are within a given radius of a geographic point.
@@ -80,7 +86,7 @@ export function findPlacesNearPoint(
   );
 
   return (
-    request(`${baseUrl}/places/near-point`, {
+    request(requestOptions.endpoint || `${baseUrl}/places/near-point`, {
       ...options,
       httpMethod: "GET"
     }) as Promise<successResponse>

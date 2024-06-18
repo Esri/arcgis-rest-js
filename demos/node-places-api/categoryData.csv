@@ -1,6 +1,7 @@
 id,fullLabel,depth,direct children,all children
-10000,Arts and Entertainment,1,42,57
-10001,Arts and Entertainment > Amusement Park,2,0,1
+10000,Arts and Entertainment,1,43,70
+10001,Arts and Entertainment > Amusement Park,2,1,2
+10058,Arts and Entertainment > Amusement Park > Attraction,3,0,1
 10002,Arts and Entertainment > Aquarium,2,0,1
 10003,Arts and Entertainment > Arcade,2,0,1
 10004,Arts and Entertainment > Art Gallery,2,0,1
@@ -45,18 +46,30 @@ id,fullLabel,depth,direct children,all children
 10043,Arts and Entertainment > Performing Arts Venue > Theater,3,0,1
 10044,Arts and Entertainment > Planetarium,2,0,1
 10045,Arts and Entertainment > Pool Hall,2,0,1
-10046,Arts and Entertainment > Psychics and Astrologers,2,0,1
-10047,Arts and Entertainment > Public Art,2,0,1
+10046,Arts and Entertainment > Psychic and Astrologer,2,0,1
+10047,Arts and Entertainment > Public Art,2,2,3
+10059,Arts and Entertainment > Public Art > Street Art,3,0,1
+10069,Arts and Entertainment > Public Art > Outdoor Sculpture,3,0,1
 10048,Arts and Entertainment > Roller Rink,2,0,1
 10049,Arts and Entertainment > Salsa Club,2,0,1
 10050,Arts and Entertainment > Samba School,2,0,1
-10051,Arts and Entertainment > Stadium,2,0,1
+10051,Arts and Entertainment > Stadium,2,8,9
+10060,Arts and Entertainment > Stadium > Baseball Stadium,3,0,1
+10061,Arts and Entertainment > Stadium > Basketball Stadium,3,0,1
+10062,Arts and Entertainment > Stadium > Football Stadium,3,0,1
+10063,Arts and Entertainment > Stadium > Hockey Stadium,3,0,1
+10064,Arts and Entertainment > Stadium > Rugby Stadium,3,0,1
+10065,Arts and Entertainment > Stadium > Soccer Stadium,3,0,1
+10066,Arts and Entertainment > Stadium > Tennis Stadium,3,0,1
+10067,Arts and Entertainment > Stadium > Track Stadium,3,0,1
 10052,Arts and Entertainment > Strip Club,2,0,1
 10053,Arts and Entertainment > Ticket Seller,2,0,1
 10054,Arts and Entertainment > VR Cafe,2,0,1
 10055,Arts and Entertainment > Water Park,2,0,1
-10056,Arts and Entertainment > Zoo,2,0,1
-11000,Business and Professional Services,1,91,180
+10056,Arts and Entertainment > Zoo,2,1,2
+10068,Arts and Entertainment > Zoo > Zoo Exhibit,3,0,1
+10057,Arts and Entertainment > Disc Golf,2,0,1
+11000,Business and Professional Services,1,103,195
 11001,Business and Professional Services > Advertising Agency,2,0,1
 11002,Business and Professional Services > Agriculture and Forestry Service,2,0,1
 11003,Business and Professional Services > Architecture Firm,2,0,1
@@ -76,16 +89,15 @@ id,fullLabel,depth,direct children,all children
 11017,Business and Professional Services > Automotive Service > Transmissions Shop,3,0,1
 11018,Business and Professional Services > Automotive Service > Vehicle Inspection Station,3,0,1
 11019,Business and Professional Services > Ballroom,2,0,1
-11020,Business and Professional Services > Business and Strategy Consulting Office,2,0,1
 11021,Business and Professional Services > Business Center,2,0,1
-11022,Business and Professional Services > Campaign Office,2,0,1
 11023,Business and Professional Services > Career Counselor,2,0,1
 11024,Business and Professional Services > Chemicals and Gasses Manufacturer,2,0,1
 11025,Business and Professional Services > Child Care Service,2,1,2
 11026,Business and Professional Services > Child Care Service > Daycare,3,0,1
 11027,Business and Professional Services > Computer Repair Service,2,0,1
 11028,Business and Professional Services > Construction,2,0,1
-11029,Business and Professional Services > Convention Center,2,0,1
+11029,Business and Professional Services > Convention Center,2,1,2
+11183,Business and Professional Services > Convention Center > Conference Room,3,0,1
 11030,Business and Professional Services > Design Studio,2,0,1
 11031,Business and Professional Services > Distribution Center,2,0,1
 11032,Business and Professional Services > Electrical Equipment Supplier,2,0,1
@@ -117,21 +129,21 @@ id,fullLabel,depth,direct children,all children
 11058,Business and Professional Services > Food and Beverage Service > Food Distribution Center,3,0,1
 11059,Business and Professional Services > Funeral Home,2,0,1
 11060,Business and Professional Services > Geological Service,2,0,1
-11061,Business and Professional Services > Health and Beauty Service,2,14,15
+11061,Business and Professional Services > Health and Beauty Service,2,12,13
 11062,Business and Professional Services > Health and Beauty Service > Barbershop,3,0,1
 11063,Business and Professional Services > Health and Beauty Service > Bath House,3,0,1
 11064,Business and Professional Services > Health and Beauty Service > Hair Salon,3,0,1
 11065,Business and Professional Services > Health and Beauty Service > Body Piercing Shop,3,0,1
 11066,Business and Professional Services > Health and Beauty Service > Dry Cleaner,3,0,1
 11067,Business and Professional Services > Health and Beauty Service > Hair Removal Service,3,0,1
-11068,Business and Professional Services > Health and Beauty Service > Laundromat,3,0,1
-11069,Business and Professional Services > Health and Beauty Service > Laundry Service,3,0,1
 11070,Business and Professional Services > Health and Beauty Service > Massage Clinic,3,0,1
 11071,Business and Professional Services > Health and Beauty Service > Nail Salon,3,0,1
 11072,Business and Professional Services > Health and Beauty Service > Skin Care Clinic,3,0,1
 11073,Business and Professional Services > Health and Beauty Service > Spa,3,0,1
 11074,Business and Professional Services > Health and Beauty Service > Tanning Salon,3,0,1
 11075,Business and Professional Services > Health and Beauty Service > Tattoo Parlor,3,0,1
+11068,Business and Professional Services > Laundromat,2,0,1
+11069,Business and Professional Services > Laundry Service,2,0,1
 11076,Business and Professional Services > Home Improvement Service,2,26,27
 11077,Business and Professional Services > Home Improvement Service > Bathroom Contractor,3,0,1
 11078,Business and Professional Services > Home Improvement Service > Carpenter,3,0,1
@@ -167,7 +179,7 @@ id,fullLabel,depth,direct children,all children
 11109,Business and Professional Services > Laboratory,2,0,1
 11110,Business and Professional Services > Leather Supplier,2,0,1
 11111,Business and Professional Services > Legal Service,2,3,4
-11112,Business and Professional Services > Legal Service > Attorney / Law Office,3,0,1
+11112,Business and Professional Services > Legal Service > Law Office,3,0,1
 11113,Business and Professional Services > Legal Service > Immigration Attorney,3,0,1
 11114,Business and Professional Services > Legal Service > Notary,3,0,1
 11115,Business and Professional Services > Locksmith,2,0,1
@@ -179,13 +191,17 @@ id,fullLabel,depth,direct children,all children
 11121,Business and Professional Services > Media Agency,2,0,1
 11122,Business and Professional Services > Metals Supplier,2,0,1
 11123,Business and Professional Services > Mobile Company,2,0,1
-11124,Business and Professional Services > Office,2,6,7
+11124,Business and Professional Services > Office,2,10,11
+11020,Business and Professional Services > Office > Business and Strategy Consulting Office,3,0,1
+11022,Business and Professional Services > Office > Campaign Office,3,0,1
 11125,Business and Professional Services > Office > Corporate Cafeteria,3,0,1
 11126,Business and Professional Services > Office > Corporate Coffee Shop,3,0,1
 11127,Business and Professional Services > Office > Corporate Housing Agency,3,0,1
 11128,Business and Professional Services > Office > Coworking Space,3,0,1
 11129,Business and Professional Services > Office > Meeting Room,3,0,1
 11130,Business and Professional Services > Office > Office Building,3,0,1
+11180,Business and Professional Services > Office > Tech Startup,3,0,1
+11187,Business and Professional Services > Office > Corporate Amenity,3,0,1
 11131,Business and Professional Services > Outdoor Event Space,2,0,1
 11132,Business and Professional Services > Paper Supplier,2,0,1
 11133,Business and Professional Services > Pet Service,2,2,3
@@ -236,7 +252,19 @@ id,fullLabel,depth,direct children,all children
 11177,Business and Professional Services > Wedding Hall,2,0,1
 11178,Business and Professional Services > Welding Service,2,0,1
 11179,Business and Professional Services > Wholesaler,2,0,1
-12000,Community and Government,1,30,117
+11181,Business and Professional Services > Appraiser,2,0,1
+11182,Business and Professional Services > Business Service,2,0,1
+11184,Business and Professional Services > Creative Service,2,0,1
+11185,Business and Professional Services > Direct Mail and Email Marketing Service,2,0,1
+11186,Business and Professional Services > Market Research and Consulting Service,2,0,1
+11188,Business and Professional Services > Online Advertising Service,2,0,1
+11189,"Business and Professional Services > Print, TV, Radio and Outdoor Advertising Service",2,0,1
+11190,Business and Professional Services > Promotional Item Service,2,0,1
+11191,Business and Professional Services > Public Relations Firm,2,0,1
+11192,Business and Professional Services > Research Laboratory,2,0,1
+11193,Business and Professional Services > Search Engine Marketing and Optimization Service,2,0,1
+11194,"Business and Professional Services > Writing, Copywriting and Technical Writing Service",2,0,1
+12000,Community and Government,1,32,126
 12001,Community and Government > Addiction Treatment Center,2,0,1
 12002,Community and Government > Animal Shelter,2,0,1
 12003,Community and Government > Cemetery,2,0,1
@@ -245,11 +273,11 @@ id,fullLabel,depth,direct children,all children
 12006,Community and Government > Disabled Persons Service,2,0,1
 12007,Community and Government > Domestic Abuse Treatment Center,2,0,1
 12008,Community and Government > Dump,2,0,1
-12009,Community and Government > Education,2,16,55
+12009,Community and Government > Education,2,16,56
 12010,Community and Government > Education > Adult Education,3,0,1
 12011,Community and Government > Education > Art School,3,0,1
 12012,Community and Government > Education > Circus School,3,0,1
-12013,Community and Government > Education > College and University,3,35,36
+12013,Community and Government > Education > College and University,3,36,37
 12014,Community and Government > Education > College and University > College Academic Building,4,0,1
 12015,Community and Government > Education > College and University > College Administrative Building,4,0,1
 12016,Community and Government > Education > College and University > College Arts Building,4,0,1
@@ -285,6 +313,7 @@ id,fullLabel,depth,direct children,all children
 12046,Community and Government > Education > College and University > Sorority House,4,0,1
 12047,Community and Government > Education > College and University > Student Center,4,0,1
 12048,Community and Government > Education > College and University > Community College,4,0,1
+12125,Community and Government > Education > College and University > University,4,0,1
 12049,Community and Government > Education > Computer Training School,3,0,1
 12050,Community and Government > Education > Culinary School,3,0,1
 12051,Community and Government > Education > Driving School,3,0,1
@@ -300,15 +329,17 @@ id,fullLabel,depth,direct children,all children
 12061,Community and Government > Education > Private School,3,0,1
 12062,Community and Government > Education > Religious School,3,0,1
 12063,Community and Government > Education > Trade School,3,0,1
-12064,Community and Government > Government Building,2,8,12
+12064,Community and Government > Government Building,2,8,14
 12065,Community and Government > Government Building > Capitol Building,3,0,1
 12066,Community and Government > Government Building > City Hall,3,0,1
 12067,Community and Government > Government Building > Courthouse,3,0,1
-12068,Community and Government > Government Building > Embassy / Consulate,3,0,1
-12069,Community and Government > Government Building > Government Department / Agency,3,0,1
-12070,Community and Government > Government Building > Law Enforcement and Public Safety,3,2,3
+12068,Community and Government > Government Building > Embassy or Consulate,3,0,1
+12069,Community and Government > Government Building > Government Department,3,0,1
+12070,Community and Government > Government Building > Law Enforcement and Public Safety,3,4,5
 12071,Community and Government > Government Building > Law Enforcement and Public Safety > Fire Station,4,0,1
 12072,Community and Government > Government Building > Law Enforcement and Public Safety > Police Station,4,0,1
+12118,Community and Government > Government Building > Law Enforcement and Public Safety > Probation Office,4,0,1
+12119,Community and Government > Government Building > Law Enforcement and Public Safety > Rescue Service,4,0,1
 12073,Community and Government > Government Building > Military,3,1,2
 12074,Community and Government > Government Building > Military > Military Base,4,0,1
 12075,Community and Government > Government Building > Post Office,3,0,1
@@ -318,7 +349,7 @@ id,fullLabel,depth,direct children,all children
 12079,Community and Government > Housing Development,2,0,1
 12080,Community and Government > Library,2,0,1
 12081,Community and Government > Observatory,2,0,1
-12082,Community and Government > Organization,2,7,8
+12082,Community and Government > Organization,2,9,10
 12083,Community and Government > Organization > Charity,3,0,1
 12084,Community and Government > Organization > Club House,3,0,1
 12085,Community and Government > Organization > Environmental Organization,3,0,1
@@ -326,11 +357,15 @@ id,fullLabel,depth,direct children,all children
 12087,Community and Government > Organization > Social Services Organization,3,0,1
 12088,Community and Government > Organization > Veterans' Organization,3,0,1
 12089,Community and Government > Organization > Youth Organization,3,0,1
+12120,Community and Government > Organization > Labor Union,3,0,1
+12121,Community and Government > Organization > LGBTQ Organization,3,0,1
 12090,Community and Government > Prison,2,0,1
 12091,Community and Government > Public and Social Service,2,0,1
 12092,Community and Government > Public Bathroom,2,0,1
 12093,Community and Government > Rehabilitation Center,2,0,1
-12094,Community and Government > Residential Building,2,0,1
+12094,Community and Government > Residential Building,2,2,3
+12122,Community and Government > Residential Building > Apartment or Condo,3,0,1
+12123,Community and Government > Residential Building > Home (private),3,0,1
 12095,Community and Government > Retirement Home,2,0,1
 12096,Community and Government > Senior Citizen Service,2,0,1
 12097,Community and Government > Social Club,2,0,1
@@ -353,10 +388,12 @@ id,fullLabel,depth,direct children,all children
 12114,Community and Government > Trailer Park,2,0,1
 12115,Community and Government > Utility Company,2,0,1
 12116,Community and Government > Polling Place,2,0,1
-13000,Dining and Drinking,1,22,389
+12117,Community and Government > Assisted Living,2,0,1
+12124,Community and Government > Town Hall,2,0,1
+13000,Dining and Drinking,1,23,391
 13001,Dining and Drinking > Bagel Shop,2,0,1
 13002,Dining and Drinking > Bakery,2,0,1
-13003,Dining and Drinking > Bar,2,22,23
+13003,Dining and Drinking > Bar,2,23,24
 13004,Dining and Drinking > Bar > Apres Ski Bar,3,0,1
 13005,Dining and Drinking > Bar > Beach Bar,3,0,1
 13006,Dining and Drinking > Bar > Beer Bar,3,0,1
@@ -379,25 +416,27 @@ id,fullLabel,depth,direct children,all children
 13023,Dining and Drinking > Bar > Tiki Bar,3,0,1
 13024,Dining and Drinking > Bar > Whisky Bar,3,0,1
 13025,Dining and Drinking > Bar > Wine Bar,3,0,1
+13389,Dining and Drinking > Bar > Irish Pub,3,0,1
 13028,Dining and Drinking > Breakfast Spot,2,0,1
 13029,Dining and Drinking > Brewery,2,0,1
-13032,"Dining and Drinking > Cafes, Coffee, and Tea Houses",2,5,6
-13033,"Dining and Drinking > Cafes, Coffee, and Tea Houses > Bubble Tea Shop",3,0,1
-13034,"Dining and Drinking > Cafes, Coffee, and Tea Houses > Café",3,0,1
-13035,"Dining and Drinking > Cafes, Coffee, and Tea Houses > Coffee Shop",3,0,1
-13036,"Dining and Drinking > Cafes, Coffee, and Tea Houses > Tea Room",3,0,1
-13063,"Dining and Drinking > Cafes, Coffee, and Tea Houses > Pet Café",3,0,1
+13032,"Dining and Drinking > Cafe, Coffee, and Tea House",2,5,6
+13033,"Dining and Drinking > Cafe, Coffee, and Tea House > Bubble Tea Shop",3,0,1
+13034,"Dining and Drinking > Cafe, Coffee, and Tea House > Cafe",3,0,1
+13035,"Dining and Drinking > Cafe, Coffee, and Tea House > Coffee Shop",3,0,1
+13036,"Dining and Drinking > Cafe, Coffee, and Tea House > Tea Room",3,0,1
+13063,"Dining and Drinking > Cafe, Coffee, and Tea House > Pet Cafe",3,0,1
 13037,Dining and Drinking > Cafeteria,2,0,1
 13038,Dining and Drinking > Cidery,2,0,1
-13040,Dining and Drinking > Dessert Shop,2,8,9
-13041,Dining and Drinking > Dessert Shop > Creperie,3,0,1
+13040,Dining and Drinking > Dessert Shop,2,7,8
 13042,Dining and Drinking > Dessert Shop > Cupcake Shop,3,0,1
-13043,Dining and Drinking > Dessert Shop > Donut Shop,3,0,1
 13044,Dining and Drinking > Dessert Shop > Frozen Yogurt Shop,3,0,1
 13045,Dining and Drinking > Dessert Shop > Gelato Shop,3,0,1
 13046,Dining and Drinking > Dessert Shop > Ice Cream Parlor,3,0,1
 13047,Dining and Drinking > Dessert Shop > Pastry Shop,3,0,1
 13048,Dining and Drinking > Dessert Shop > Pie Shop,3,0,1
+13392,Dining and Drinking > Dessert Shop > Waffle Shop,3,0,1
+13041,Dining and Drinking > Creperie,2,0,1
+13043,Dining and Drinking > Donut Shop,2,0,1
 13050,Dining and Drinking > Distillery,2,0,1
 13052,Dining and Drinking > Food Court,2,0,1
 13053,Dining and Drinking > Food Stand,2,0,1
@@ -405,7 +444,7 @@ id,fullLabel,depth,direct children,all children
 13059,Dining and Drinking > Juice Bar,2,0,1
 13061,Dining and Drinking > Meadery,2,0,1
 13062,Dining and Drinking > Night Market,2,0,1
-13065,Dining and Drinking > Restaurant,2,120,332
+13065,Dining and Drinking > Restaurant,2,75,333
 13026,Dining and Drinking > Restaurant > BBQ Joint,3,0,1
 13027,Dining and Drinking > Restaurant > Bistro,3,0,1
 13030,Dining and Drinking > Restaurant > Buffet,3,0,1
@@ -420,86 +459,123 @@ id,fullLabel,depth,direct children,all children
 13060,Dining and Drinking > Restaurant > Mac and Cheese Joint,3,0,1
 13064,Dining and Drinking > Restaurant > Pizzeria,3,0,1
 13066,Dining and Drinking > Restaurant > Afghan Restaurant,3,0,1
-13067,Dining and Drinking > Restaurant > African Restaurant,3,0,1
-13068,Dining and Drinking > Restaurant > American Restaurant,3,0,1
-13069,Dining and Drinking > Restaurant > Arepa Restaurant,3,0,1
-13070,Dining and Drinking > Restaurant > Argentinian Restaurant,3,0,1
+13067,Dining and Drinking > Restaurant > African Restaurant,3,2,3
+13143,Dining and Drinking > Restaurant > African Restaurant > Ethiopian Restaurant,4,0,1
+13301,Dining and Drinking > Restaurant > African Restaurant > Mauritian Restaurant,4,0,1
+13068,Dining and Drinking > Restaurant > American Restaurant,3,1,2
+13314,Dining and Drinking > Restaurant > American Restaurant > New American Restaurant,4,0,1
 13071,Dining and Drinking > Restaurant > Armenian Restaurant,3,0,1
-13072,Dining and Drinking > Restaurant > Asian Restaurant,3,0,1
+13072,Dining and Drinking > Restaurant > Asian Restaurant,3,17,89
+13094,Dining and Drinking > Restaurant > Asian Restaurant > Burmese Restaurant,4,0,1
+13096,Dining and Drinking > Restaurant > Asian Restaurant > Cambodian Restaurant,4,0,1
+13099,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant,4,33,34
+13100,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Anhui Restaurant,5,0,1
+13101,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Beijing Restaurant,5,0,1
+13102,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Cantonese Restaurant,5,0,1
+13103,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Cha Chaan Teng,5,0,1
+13104,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Chinese Aristocrat Restaurant,5,0,1
+13105,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Chinese Breakfast Restaurant,5,0,1
+13106,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Dim Sum Restaurant,5,0,1
+13107,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Dongbei Restaurant,5,0,1
+13108,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Fujian Restaurant,5,0,1
+13109,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Guizhou Restaurant,5,0,1
+13110,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Hainan Restaurant,5,0,1
+13111,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Hakka Restaurant,5,0,1
+13112,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Henan Restaurant,5,0,1
+13113,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Hong Kong Restaurant,5,0,1
+13114,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Huaiyang Restaurant,5,0,1
+13115,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Hubei Restaurant,5,0,1
+13116,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Hunan Restaurant,5,0,1
+13117,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Imperial Restaurant,5,0,1
+13118,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Jiangsu Restaurant,5,0,1
+13119,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Jiangxi Restaurant,5,0,1
+13120,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Macanese Restaurant,5,0,1
+13121,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Manchu Restaurant,5,0,1
+13122,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Peking Duck Restaurant,5,0,1
+13123,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Shaanxi Restaurant,5,0,1
+13124,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Shandong Restaurant,5,0,1
+13125,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Shanghai Restaurant,5,0,1
+13126,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Shanxi Restaurant,5,0,1
+13127,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Szechuan Restaurant,5,0,1
+13128,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Taiwanese Restaurant,5,0,1
+13129,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Tianjin Restaurant,5,0,1
+13130,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Xinjiang Restaurant,5,0,1
+13131,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Yunnan Restaurant,5,0,1
+13132,Dining and Drinking > Restaurant > Asian Restaurant > Chinese Restaurant > Zhejiang Restaurant,5,0,1
+13146,Dining and Drinking > Restaurant > Asian Restaurant > Filipino Restaurant,4,0,1
+13194,Dining and Drinking > Restaurant > Asian Restaurant > Himalayan Restaurant,4,0,1
+13196,Dining and Drinking > Restaurant > Asian Restaurant > Hotpot Restaurant,4,0,1
+13225,Dining and Drinking > Restaurant > Asian Restaurant > Indonesian Restaurant,4,8,9
+13226,Dining and Drinking > Restaurant > Asian Restaurant > Indonesian Restaurant > Acehnese Restaurant,5,0,1
+13227,Dining and Drinking > Restaurant > Asian Restaurant > Indonesian Restaurant > Balinese Restaurant,5,0,1
+13228,Dining and Drinking > Restaurant > Asian Restaurant > Indonesian Restaurant > Betawinese Restaurant,5,0,1
+13229,Dining and Drinking > Restaurant > Asian Restaurant > Indonesian Restaurant > Indonesian Meatball Restaurant,5,0,1
+13230,Dining and Drinking > Restaurant > Asian Restaurant > Indonesian Restaurant > Javanese Restaurant,5,0,1
+13231,Dining and Drinking > Restaurant > Asian Restaurant > Indonesian Restaurant > Manadonese Restaurant,5,0,1
+13232,Dining and Drinking > Restaurant > Asian Restaurant > Indonesian Restaurant > Padangnese Restaurant,5,0,1
+13233,Dining and Drinking > Restaurant > Asian Restaurant > Indonesian Restaurant > Sundanese Restaurant,5,0,1
+13263,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant,4,22,23
+13264,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Donburi Restaurant,5,0,1
+13265,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Japanese Curry Restaurant,5,0,1
+13266,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Japanese Family Restaurant,5,0,1
+13267,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Kaiseki Restaurant,5,0,1
+13268,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Kushikatsu Restaurant,5,0,1
+13269,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Monjayaki Restaurant,5,0,1
+13270,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Nabe Restaurant,5,0,1
+13271,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Okonomiyaki Restaurant,5,0,1
+13272,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Ramen Restaurant,5,0,1
+13273,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Shabu-Shabu Restaurant,5,0,1
+13274,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Soba Restaurant,5,0,1
+13275,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Sukiyaki Restaurant,5,0,1
+13276,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Sushi Restaurant,5,0,1
+13277,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Takoyaki Place,5,0,1
+13278,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Teishoku Restaurant,5,0,1
+13279,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Tempura Restaurant,5,0,1
+13280,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Tonkatsu Restaurant,5,0,1
+13281,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Udon Restaurant,5,0,1
+13282,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Unagi Restaurant,5,0,1
+13283,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Wagashi Place,5,0,1
+13284,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Yakitori Restaurant,5,0,1
+13285,Dining and Drinking > Restaurant > Asian Restaurant > Japanese Restaurant > Yoshoku Restaurant,5,0,1
+13289,Dining and Drinking > Restaurant > Asian Restaurant > Korean Restaurant,4,6,7
+13290,Dining and Drinking > Restaurant > Asian Restaurant > Korean Restaurant > Bossam/Jokbal Restaurant,5,0,1
+13291,Dining and Drinking > Restaurant > Asian Restaurant > Korean Restaurant > Bunsik Restaurant,5,0,1
+13292,Dining and Drinking > Restaurant > Asian Restaurant > Korean Restaurant > Gukbap Restaurant,5,0,1
+13293,Dining and Drinking > Restaurant > Asian Restaurant > Korean Restaurant > Janguh Restaurant,5,0,1
+13294,Dining and Drinking > Restaurant > Asian Restaurant > Korean Restaurant > Korean BBQ Restaurant,5,0,1
+13295,Dining and Drinking > Restaurant > Asian Restaurant > Korean Restaurant > Samgyetang Restaurant,5,0,1
+13299,Dining and Drinking > Restaurant > Asian Restaurant > Malay Restaurant,4,1,2
+13300,Dining and Drinking > Restaurant > Asian Restaurant > Malay Restaurant > Mamak Restaurant,5,0,1
+13312,Dining and Drinking > Restaurant > Asian Restaurant > Mongolian Restaurant,4,0,1
+13315,Dining and Drinking > Restaurant > Asian Restaurant > Noodle Restaurant,4,0,1
+13335,Dining and Drinking > Restaurant > Asian Restaurant > Satay Restaurant,4,0,1
+13340,Dining and Drinking > Restaurant > Asian Restaurant > Singaporean Restaurant,4,0,1
+13352,Dining and Drinking > Restaurant > Asian Restaurant > Thai Restaurant,4,1,2
+13353,Dining and Drinking > Restaurant > Asian Restaurant > Thai Restaurant > Som Tum Restaurant,5,0,1
+13355,Dining and Drinking > Restaurant > Asian Restaurant > Tibetan Restaurant,4,0,1
+13379,Dining and Drinking > Restaurant > Asian Restaurant > Vietnamese Restaurant,4,0,1
 13073,Dining and Drinking > Restaurant > Australian Restaurant,3,0,1
 13074,Dining and Drinking > Restaurant > Austrian Restaurant,3,0,1
 13075,Dining and Drinking > Restaurant > Bangladeshi Restaurant,3,0,1
-13076,Dining and Drinking > Restaurant > Belarusian Restaurant,3,0,1
 13077,Dining and Drinking > Restaurant > Belgian Restaurant,3,0,1
-13078,Dining and Drinking > Restaurant > Bosnian Restaurant,3,0,1
-13079,Dining and Drinking > Restaurant > Brazilian Restaurant,3,13,14
-13080,Dining and Drinking > Restaurant > Brazilian Restaurant > Acai House,4,0,1
-13081,Dining and Drinking > Restaurant > Brazilian Restaurant > Baiano Restaurant,4,0,1
-13082,Dining and Drinking > Restaurant > Brazilian Restaurant > Central Brazilian Restaurant,4,0,1
-13083,Dining and Drinking > Restaurant > Brazilian Restaurant > Churrascaria,4,0,1
-13084,Dining and Drinking > Restaurant > Brazilian Restaurant > Empada House,4,0,1
-13085,Dining and Drinking > Restaurant > Brazilian Restaurant > Goiano Restaurant,4,0,1
-13086,Dining and Drinking > Restaurant > Brazilian Restaurant > Mineiro Restaurant,4,0,1
-13087,Dining and Drinking > Restaurant > Brazilian Restaurant > Northeastern Brazilian Restaurant,4,0,1
-13088,Dining and Drinking > Restaurant > Brazilian Restaurant > Northern Brazilian Restaurant,4,0,1
-13089,Dining and Drinking > Restaurant > Brazilian Restaurant > Pastelaria,4,0,1
-13090,Dining and Drinking > Restaurant > Brazilian Restaurant > Southeastern Brazilian Restaurant,4,0,1
-13091,Dining and Drinking > Restaurant > Brazilian Restaurant > Southern Brazilian Restaurant,4,0,1
-13092,Dining and Drinking > Restaurant > Brazilian Restaurant > Tapiocaria,4,0,1
-13093,Dining and Drinking > Restaurant > Bulgarian Restaurant,3,0,1
-13094,Dining and Drinking > Restaurant > Burmese Restaurant,3,0,1
-13095,Dining and Drinking > Restaurant > Cajun / Creole Restaurant,3,0,1
-13096,Dining and Drinking > Restaurant > Cambodian Restaurant,3,0,1
-13097,Dining and Drinking > Restaurant > Caribbean Restaurant,3,0,1
+13095,Dining and Drinking > Restaurant > Cajun and Creole Restaurant,3,0,1
+13097,Dining and Drinking > Restaurant > Caribbean Restaurant,3,2,3
+13135,Dining and Drinking > Restaurant > Caribbean Restaurant > Cuban Restaurant,4,0,1
+13327,Dining and Drinking > Restaurant > Caribbean Restaurant > Puerto Rican Restaurant,4,0,1
 13098,Dining and Drinking > Restaurant > Caucasian Restaurant,3,0,1
-13099,Dining and Drinking > Restaurant > Chinese Restaurant,3,33,34
-13100,Dining and Drinking > Restaurant > Chinese Restaurant > Anhui Restaurant,4,0,1
-13101,Dining and Drinking > Restaurant > Chinese Restaurant > Beijing Restaurant,4,0,1
-13102,Dining and Drinking > Restaurant > Chinese Restaurant > Cantonese Restaurant,4,0,1
-13103,Dining and Drinking > Restaurant > Chinese Restaurant > Cha Chaan Teng,4,0,1
-13104,Dining and Drinking > Restaurant > Chinese Restaurant > Chinese Aristocrat Restaurant,4,0,1
-13105,Dining and Drinking > Restaurant > Chinese Restaurant > Chinese Breakfast Restaurant,4,0,1
-13106,Dining and Drinking > Restaurant > Chinese Restaurant > Dim Sum Restaurant,4,0,1
-13107,Dining and Drinking > Restaurant > Chinese Restaurant > Dongbei Restaurant,4,0,1
-13108,Dining and Drinking > Restaurant > Chinese Restaurant > Fujian Restaurant,4,0,1
-13109,Dining and Drinking > Restaurant > Chinese Restaurant > Guizhou Restaurant,4,0,1
-13110,Dining and Drinking > Restaurant > Chinese Restaurant > Hainan Restaurant,4,0,1
-13111,Dining and Drinking > Restaurant > Chinese Restaurant > Hakka Restaurant,4,0,1
-13112,Dining and Drinking > Restaurant > Chinese Restaurant > Henan Restaurant,4,0,1
-13113,Dining and Drinking > Restaurant > Chinese Restaurant > Hong Kong Restaurant,4,0,1
-13114,Dining and Drinking > Restaurant > Chinese Restaurant > Huaiyang Restaurant,4,0,1
-13115,Dining and Drinking > Restaurant > Chinese Restaurant > Hubei Restaurant,4,0,1
-13116,Dining and Drinking > Restaurant > Chinese Restaurant > Hunan Restaurant,4,0,1
-13117,Dining and Drinking > Restaurant > Chinese Restaurant > Imperial Restaurant,4,0,1
-13118,Dining and Drinking > Restaurant > Chinese Restaurant > Jiangsu Restaurant,4,0,1
-13119,Dining and Drinking > Restaurant > Chinese Restaurant > Jiangxi Restaurant,4,0,1
-13120,Dining and Drinking > Restaurant > Chinese Restaurant > Macanese Restaurant,4,0,1
-13121,Dining and Drinking > Restaurant > Chinese Restaurant > Manchu Restaurant,4,0,1
-13122,Dining and Drinking > Restaurant > Chinese Restaurant > Peking Duck Restaurant,4,0,1
-13123,Dining and Drinking > Restaurant > Chinese Restaurant > Shaanxi Restaurant,4,0,1
-13124,Dining and Drinking > Restaurant > Chinese Restaurant > Shandong Restaurant,4,0,1
-13125,Dining and Drinking > Restaurant > Chinese Restaurant > Shanghai Restaurant,4,0,1
-13126,Dining and Drinking > Restaurant > Chinese Restaurant > Shanxi Restaurant,4,0,1
-13127,Dining and Drinking > Restaurant > Chinese Restaurant > Szechuan Restaurant,4,0,1
-13128,Dining and Drinking > Restaurant > Chinese Restaurant > Taiwanese Restaurant,4,0,1
-13129,Dining and Drinking > Restaurant > Chinese Restaurant > Tianjin Restaurant,4,0,1
-13130,Dining and Drinking > Restaurant > Chinese Restaurant > Xinjiang Restaurant,4,0,1
-13131,Dining and Drinking > Restaurant > Chinese Restaurant > Yunnan Restaurant,4,0,1
-13132,Dining and Drinking > Restaurant > Chinese Restaurant > Zhejiang Restaurant,4,0,1
-13133,Dining and Drinking > Restaurant > Colombian Restaurant,3,0,1
 13134,Dining and Drinking > Restaurant > Comfort Food Restaurant,3,0,1
-13135,Dining and Drinking > Restaurant > Cuban Restaurant,3,0,1
 13136,Dining and Drinking > Restaurant > Czech Restaurant,3,0,1
 13137,Dining and Drinking > Restaurant > Dumpling Restaurant,3,0,1
 13138,Dining and Drinking > Restaurant > Dutch Restaurant,3,0,1
-13139,Dining and Drinking > Restaurant > Eastern European Restaurant,3,0,1
-13140,Dining and Drinking > Restaurant > Egyptian Restaurant,3,0,1
-13141,Dining and Drinking > Restaurant > Empanada Restaurant,3,0,1
+13139,Dining and Drinking > Restaurant > Eastern European Restaurant,3,5,6
+13076,Dining and Drinking > Restaurant > Eastern European Restaurant > Belarusian Restaurant,4,0,1
+13078,Dining and Drinking > Restaurant > Eastern European Restaurant > Bosnian Restaurant,4,0,1
+13093,Dining and Drinking > Restaurant > Eastern European Restaurant > Bulgarian Restaurant,4,0,1
+13328,Dining and Drinking > Restaurant > Eastern European Restaurant > Romanian Restaurant,4,0,1
+13351,Dining and Drinking > Restaurant > Eastern European Restaurant > Tatar Restaurant,4,0,1
 13142,Dining and Drinking > Restaurant > English Restaurant,3,0,1
-13143,Dining and Drinking > Restaurant > Ethiopian Restaurant,3,0,1
 13144,Dining and Drinking > Restaurant > Falafel Restaurant,3,0,1
 13145,Dining and Drinking > Restaurant > Fast Food Restaurant,3,0,1
-13146,Dining and Drinking > Restaurant > Filipino Restaurant,3,0,1
 13147,Dining and Drinking > Restaurant > Fondue Restaurant,3,0,1
 13148,Dining and Drinking > Restaurant > French Restaurant,3,16,17
 13149,Dining and Drinking > Restaurant > French Restaurant > Alsatian Restaurant,4,0,1
@@ -547,9 +623,6 @@ id,fullLabel,depth,direct children,all children
 13191,Dining and Drinking > Restaurant > Halal Restaurant,3,0,1
 13192,Dining and Drinking > Restaurant > Hawaiian Restaurant,3,1,2
 13193,Dining and Drinking > Restaurant > Hawaiian Restaurant > Poke Restaurant,4,0,1
-13194,Dining and Drinking > Restaurant > Himalayan Restaurant,3,0,1
-13195,Dining and Drinking > Restaurant > Honduran Restaurant,3,0,1
-13196,Dining and Drinking > Restaurant > Hotpot Restaurant,3,0,1
 13197,Dining and Drinking > Restaurant > Hungarian Restaurant,3,0,1
 13198,Dining and Drinking > Restaurant > Indian Chinese Restaurant,3,0,1
 13199,Dining and Drinking > Restaurant > Indian Restaurant,3,25,26
@@ -578,17 +651,6 @@ id,fullLabel,depth,direct children,all children
 13222,Dining and Drinking > Restaurant > Indian Restaurant > Rajasthani Restaurant,4,0,1
 13223,Dining and Drinking > Restaurant > Indian Restaurant > South Indian Restaurant,4,0,1
 13224,Dining and Drinking > Restaurant > Indian Restaurant > Udupi Restaurant,4,0,1
-13225,Dining and Drinking > Restaurant > Indonesian Restaurant,3,8,9
-13226,Dining and Drinking > Restaurant > Indonesian Restaurant > Acehnese Restaurant,4,0,1
-13227,Dining and Drinking > Restaurant > Indonesian Restaurant > Balinese Restaurant,4,0,1
-13228,Dining and Drinking > Restaurant > Indonesian Restaurant > Betawinese Restaurant,4,0,1
-13229,Dining and Drinking > Restaurant > Indonesian Restaurant > Indonesian Meatball Restaurant,4,0,1
-13230,Dining and Drinking > Restaurant > Indonesian Restaurant > Javanese Restaurant,4,0,1
-13231,Dining and Drinking > Restaurant > Indonesian Restaurant > Manadonese Restaurant,4,0,1
-13232,Dining and Drinking > Restaurant > Indonesian Restaurant > Padangnese Restaurant,4,0,1
-13233,Dining and Drinking > Restaurant > Indonesian Restaurant > Sundanese Restaurant,4,0,1
-13234,Dining and Drinking > Restaurant > Iraqi Restaurant,3,0,1
-13235,Dining and Drinking > Restaurant > Israeli Restaurant,3,0,1
 13236,Dining and Drinking > Restaurant > Italian Restaurant,3,26,27
 13237,Dining and Drinking > Restaurant > Italian Restaurant > Abruzzo Restaurant,4,0,1
 13238,Dining and Drinking > Restaurant > Italian Restaurant > Agriturismo,4,0,1
@@ -611,50 +673,39 @@ id,fullLabel,depth,direct children,all children
 13255,Dining and Drinking > Restaurant > Italian Restaurant > Sardinian Restaurant,4,0,1
 13256,Dining and Drinking > Restaurant > Italian Restaurant > Sicilian Restaurant,4,0,1
 13257,Dining and Drinking > Restaurant > Italian Restaurant > South Tyrolean Restaurant,4,0,1
-13258,Dining and Drinking > Restaurant > Italian Restaurant > Trattoria/Osteria,4,0,1
+13258,Dining and Drinking > Restaurant > Italian Restaurant > Trattoria,4,0,1
 13259,Dining and Drinking > Restaurant > Italian Restaurant > Trentino Restaurant,4,0,1
 13260,Dining and Drinking > Restaurant > Italian Restaurant > Tuscan Restaurant,4,0,1
 13261,Dining and Drinking > Restaurant > Italian Restaurant > Umbrian Restaurant,4,0,1
 13262,Dining and Drinking > Restaurant > Italian Restaurant > Veneto Restaurant,4,0,1
-13263,Dining and Drinking > Restaurant > Japanese Restaurant,3,22,23
-13264,Dining and Drinking > Restaurant > Japanese Restaurant > Donburi Restaurant,4,0,1
-13265,Dining and Drinking > Restaurant > Japanese Restaurant > Japanese Curry Restaurant,4,0,1
-13266,Dining and Drinking > Restaurant > Japanese Restaurant > Japanese Family Restaurant,4,0,1
-13267,Dining and Drinking > Restaurant > Japanese Restaurant > Kaiseki Restaurant,4,0,1
-13268,Dining and Drinking > Restaurant > Japanese Restaurant > Kushikatsu Restaurant,4,0,1
-13269,Dining and Drinking > Restaurant > Japanese Restaurant > Monjayaki Restaurant,4,0,1
-13270,Dining and Drinking > Restaurant > Japanese Restaurant > Nabe Restaurant,4,0,1
-13271,Dining and Drinking > Restaurant > Japanese Restaurant > Okonomiyaki Restaurant,4,0,1
-13272,Dining and Drinking > Restaurant > Japanese Restaurant > Ramen Restaurant,4,0,1
-13273,Dining and Drinking > Restaurant > Japanese Restaurant > Shabu-Shabu Restaurant,4,0,1
-13274,Dining and Drinking > Restaurant > Japanese Restaurant > Soba Restaurant,4,0,1
-13275,Dining and Drinking > Restaurant > Japanese Restaurant > Sukiyaki Restaurant,4,0,1
-13276,Dining and Drinking > Restaurant > Japanese Restaurant > Sushi Restaurant,4,0,1
-13277,Dining and Drinking > Restaurant > Japanese Restaurant > Takoyaki Place,4,0,1
-13278,Dining and Drinking > Restaurant > Japanese Restaurant > Teishoku Restaurant,4,0,1
-13279,Dining and Drinking > Restaurant > Japanese Restaurant > Tempura Restaurant,4,0,1
-13280,Dining and Drinking > Restaurant > Japanese Restaurant > Tonkatsu Restaurant,4,0,1
-13281,Dining and Drinking > Restaurant > Japanese Restaurant > Udon Restaurant,4,0,1
-13282,Dining and Drinking > Restaurant > Japanese Restaurant > Unagi Restaurant,4,0,1
-13283,Dining and Drinking > Restaurant > Japanese Restaurant > Wagashi Place,4,0,1
-13284,Dining and Drinking > Restaurant > Japanese Restaurant > Yakitori Restaurant,4,0,1
-13285,Dining and Drinking > Restaurant > Japanese Restaurant > Yoshoku Restaurant,4,0,1
 13286,Dining and Drinking > Restaurant > Jewish Restaurant,3,1,2
 13287,Dining and Drinking > Restaurant > Jewish Restaurant > Kosher Restaurant,4,0,1
 13288,Dining and Drinking > Restaurant > Kebab Restaurant,3,0,1
-13289,Dining and Drinking > Restaurant > Korean Restaurant,3,6,7
-13290,Dining and Drinking > Restaurant > Korean Restaurant > Bossam/Jokbal Restaurant,4,0,1
-13291,Dining and Drinking > Restaurant > Korean Restaurant > Bunsik Restaurant,4,0,1
-13292,Dining and Drinking > Restaurant > Korean Restaurant > Gukbap Restaurant,4,0,1
-13293,Dining and Drinking > Restaurant > Korean Restaurant > Janguh Restaurant,4,0,1
-13294,Dining and Drinking > Restaurant > Korean Restaurant > Korean BBQ Restaurant,4,0,1
-13295,Dining and Drinking > Restaurant > Korean Restaurant > Samgyetang Restaurant,4,0,1
-13296,Dining and Drinking > Restaurant > Kurdish Restaurant,3,0,1
-13297,Dining and Drinking > Restaurant > Latin American Restaurant,3,0,1
-13298,Dining and Drinking > Restaurant > Lebanese Restaurant,3,0,1
-13299,Dining and Drinking > Restaurant > Malay Restaurant,3,1,2
-13300,Dining and Drinking > Restaurant > Malay Restaurant > Mamak Restaurant,4,0,1
-13301,Dining and Drinking > Restaurant > Mauritian Restaurant,3,0,1
+13297,Dining and Drinking > Restaurant > Latin American Restaurant,3,5,25
+13069,Dining and Drinking > Restaurant > Latin American Restaurant > Arepa Restaurant,4,0,1
+13141,Dining and Drinking > Restaurant > Latin American Restaurant > Empanada Restaurant,4,0,1
+13195,Dining and Drinking > Restaurant > Latin American Restaurant > Honduran Restaurant,4,0,1
+13333,Dining and Drinking > Restaurant > Latin American Restaurant > Salvadoran Restaurant,4,0,1
+13343,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant,4,5,20
+13070,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Argentinian Restaurant,5,0,1
+13079,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Brazilian Restaurant,5,13,14
+13080,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Brazilian Restaurant > Acai House,6,0,1
+13081,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Brazilian Restaurant > Baiano Restaurant,6,0,1
+13082,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Brazilian Restaurant > Central Brazilian Restaurant,6,0,1
+13083,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Brazilian Restaurant > Churrascaria,6,0,1
+13084,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Brazilian Restaurant > Empada House,6,0,1
+13085,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Brazilian Restaurant > Goiano Restaurant,6,0,1
+13086,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Brazilian Restaurant > Mineiro Restaurant,6,0,1
+13087,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Brazilian Restaurant > Northeastern Brazilian Restaurant,6,0,1
+13088,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Brazilian Restaurant > Northern Brazilian Restaurant,6,0,1
+13089,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Brazilian Restaurant > Pastelaria,6,0,1
+13090,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Brazilian Restaurant > Southeastern Brazilian Restaurant,6,0,1
+13091,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Brazilian Restaurant > Southern Brazilian Restaurant,6,0,1
+13092,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Brazilian Restaurant > Tapiocaria,6,0,1
+13133,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Colombian Restaurant,5,0,1
+13322,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Peruvian Restaurant,5,1,2
+13323,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Peruvian Restaurant > Peruvian Roast Chicken Joint,6,0,1
+13378,Dining and Drinking > Restaurant > Latin American Restaurant > South American Restaurant > Venezuelan Restaurant,5,0,1
 13302,Dining and Drinking > Restaurant > Mediterranean Restaurant,3,0,1
 13303,Dining and Drinking > Restaurant > Mexican Restaurant,3,5,6
 13304,Dining and Drinking > Restaurant > Mexican Restaurant > Botanero,4,0,1
@@ -662,54 +713,45 @@ id,fullLabel,depth,direct children,all children
 13306,Dining and Drinking > Restaurant > Mexican Restaurant > Taco Restaurant,4,0,1
 13307,Dining and Drinking > Restaurant > Mexican Restaurant > Tex-Mex Restaurant,4,0,1
 13308,Dining and Drinking > Restaurant > Mexican Restaurant > Yucatecan Restaurant,4,0,1
-13309,Dining and Drinking > Restaurant > Middle Eastern Restaurant,3,0,1
+13309,Dining and Drinking > Restaurant > Middle Eastern Restaurant,3,9,15
+13140,Dining and Drinking > Restaurant > Middle Eastern Restaurant > Egyptian Restaurant,4,0,1
+13234,Dining and Drinking > Restaurant > Middle Eastern Restaurant > Iraqi Restaurant,4,0,1
+13235,Dining and Drinking > Restaurant > Middle Eastern Restaurant > Israeli Restaurant,4,0,1
+13296,Dining and Drinking > Restaurant > Middle Eastern Restaurant > Kurdish Restaurant,4,0,1
+13298,Dining and Drinking > Restaurant > Middle Eastern Restaurant > Lebanese Restaurant,4,0,1
+13317,Dining and Drinking > Restaurant > Middle Eastern Restaurant > Persian Restaurant,4,5,6
+13318,Dining and Drinking > Restaurant > Middle Eastern Restaurant > Persian Restaurant > Ash and Haleem Place,5,0,1
+13319,Dining and Drinking > Restaurant > Middle Eastern Restaurant > Persian Restaurant > Dizi Place,5,0,1
+13320,Dining and Drinking > Restaurant > Middle Eastern Restaurant > Persian Restaurant > Gilaki Restaurant,5,0,1
+13321,Dining and Drinking > Restaurant > Middle Eastern Restaurant > Persian Restaurant > Jegaraki,5,0,1
+13384,Dining and Drinking > Restaurant > Middle Eastern Restaurant > Persian Restaurant > Tabbakhi,5,0,1
+13339,Dining and Drinking > Restaurant > Middle Eastern Restaurant > Shawarma Restaurant,4,0,1
+13350,Dining and Drinking > Restaurant > Middle Eastern Restaurant > Syrian Restaurant,4,0,1
+13380,Dining and Drinking > Restaurant > Middle Eastern Restaurant > Yemeni Restaurant,4,0,1
 13310,Dining and Drinking > Restaurant > Modern European Restaurant,3,0,1
 13311,Dining and Drinking > Restaurant > Molecular Gastronomy Restaurant,3,0,1
-13312,Dining and Drinking > Restaurant > Mongolian Restaurant,3,0,1
 13313,Dining and Drinking > Restaurant > Moroccan Restaurant,3,0,1
-13314,Dining and Drinking > Restaurant > New American Restaurant,3,0,1
-13315,Dining and Drinking > Restaurant > Noodle Restaurant,3,0,1
 13316,Dining and Drinking > Restaurant > Pakistani Restaurant,3,0,1
-13317,Dining and Drinking > Restaurant > Persian Restaurant,3,5,6
-13318,Dining and Drinking > Restaurant > Persian Restaurant > Ash and Haleem Place,4,0,1
-13319,Dining and Drinking > Restaurant > Persian Restaurant > Dizi Place,4,0,1
-13320,Dining and Drinking > Restaurant > Persian Restaurant > Gilaki Restaurant,4,0,1
-13321,Dining and Drinking > Restaurant > Persian Restaurant > Jegaraki,4,0,1
-13384,Dining and Drinking > Restaurant > Persian Restaurant > Tabbakhi,4,0,1
-13322,Dining and Drinking > Restaurant > Peruvian Restaurant,3,1,2
-13323,Dining and Drinking > Restaurant > Peruvian Restaurant > Peruvian Roast Chicken Joint,4,0,1
 13324,Dining and Drinking > Restaurant > Polish Restaurant,3,0,1
 13325,Dining and Drinking > Restaurant > Portuguese Restaurant,3,0,1
 13326,Dining and Drinking > Restaurant > Poutine Restaurant,3,0,1
-13327,Dining and Drinking > Restaurant > Puerto Rican Restaurant,3,0,1
-13328,Dining and Drinking > Restaurant > Romanian Restaurant,3,0,1
 13329,Dining and Drinking > Restaurant > Russian Restaurant,3,2,3
 13330,Dining and Drinking > Restaurant > Russian Restaurant > Blini House,4,0,1
 13331,Dining and Drinking > Restaurant > Russian Restaurant > Pelmeni House,4,0,1
 13332,Dining and Drinking > Restaurant > Salad Restaurant,3,0,1
-13333,Dining and Drinking > Restaurant > Salvadoran Restaurant,3,0,1
-13334,Dining and Drinking > Restaurant > Sandwich Restaurant,3,0,1
-13335,Dining and Drinking > Restaurant > Satay Restaurant,3,0,1
+13334,Dining and Drinking > Restaurant > Sandwich Spot,3,0,1
 13336,Dining and Drinking > Restaurant > Scandinavian Restaurant,3,0,1
 13337,Dining and Drinking > Restaurant > Scottish Restaurant,3,0,1
 13338,Dining and Drinking > Restaurant > Seafood Restaurant,3,0,1
-13339,Dining and Drinking > Restaurant > Shawarma Restaurant,3,0,1
-13340,Dining and Drinking > Restaurant > Singaporean Restaurant,3,0,1
 13341,Dining and Drinking > Restaurant > Slovak Restaurant,3,0,1
-13342,Dining and Drinking > Restaurant > Soup Restaurant,3,0,1
-13343,Dining and Drinking > Restaurant > South American Restaurant,3,0,1
-13344,Dining and Drinking > Restaurant > Southern / Soul Food Restaurant,3,0,1
+13342,Dining and Drinking > Restaurant > Soup Spot,3,0,1
+13344,Dining and Drinking > Restaurant > Southern Food Restaurant,3,0,1
 13345,Dining and Drinking > Restaurant > Spanish Restaurant,3,2,3
 13346,Dining and Drinking > Restaurant > Spanish Restaurant > Paella Restaurant,4,0,1
 13347,Dining and Drinking > Restaurant > Spanish Restaurant > Tapas Restaurant,4,0,1
 13348,Dining and Drinking > Restaurant > Sri Lankan Restaurant,3,0,1
 13349,Dining and Drinking > Restaurant > Swiss Restaurant,3,0,1
-13350,Dining and Drinking > Restaurant > Syrian Restaurant,3,0,1
-13351,Dining and Drinking > Restaurant > Tatar Restaurant,3,0,1
-13352,Dining and Drinking > Restaurant > Thai Restaurant,3,1,2
-13353,Dining and Drinking > Restaurant > Thai Restaurant > Som Tum Restaurant,4,0,1
 13354,Dining and Drinking > Restaurant > Theme Restaurant,3,0,1
-13355,Dining and Drinking > Restaurant > Tibetan Restaurant,3,0,1
 13356,Dining and Drinking > Restaurant > Turkish Restaurant,3,17,18
 13357,Dining and Drinking > Restaurant > Turkish Restaurant > Borek Place,4,0,1
 13358,Dining and Drinking > Restaurant > Turkish Restaurant > Cigkofte Place,4,0,1
@@ -732,25 +774,23 @@ id,fullLabel,depth,direct children,all children
 13375,Dining and Drinking > Restaurant > Ukrainian Restaurant > Varenyky Restaurant,4,0,1
 13376,Dining and Drinking > Restaurant > Ukrainian Restaurant > West-Ukrainian Restaurant,4,0,1
 13377,Dining and Drinking > Restaurant > Vegan and Vegetarian Restaurant,3,0,1
-13378,Dining and Drinking > Restaurant > Venezuelan Restaurant,3,0,1
-13379,Dining and Drinking > Restaurant > Vietnamese Restaurant,3,0,1
-13380,Dining and Drinking > Restaurant > Yemeni Restaurant,3,0,1
 13383,Dining and Drinking > Restaurant > Steakhouse,3,0,1
 13388,Dining and Drinking > Restaurant > Wings Joint,3,0,1
+13390,Dining and Drinking > Restaurant > Gluten-Free Restaurant,3,0,1
 13381,Dining and Drinking > Smoothie Shop,2,0,1
 13382,Dining and Drinking > Snack Place,2,0,1
-13385,Dining and Drinking > Truck Stop,2,0,1
 13386,Dining and Drinking > Vineyard,2,0,1
 13387,Dining and Drinking > Winery,2,0,1
-14000,Event,1,6,16
+14000,Event,1,6,17
 14001,Event > Conference,2,0,1
 14002,Event > Convention,2,0,1
-14003,Event > Entertainment Event,2,4,5
-14004,Event > Entertainment Event > Festival,3,0,1
+14003,Event > Entertainment Event,2,4,6
+14004,Event > Entertainment Event > Festival,3,1,2
+14016,Event > Entertainment Event > Festival > Beer Festival,4,0,1
 14005,Event > Entertainment Event > Music Festival,3,0,1
 14006,Event > Entertainment Event > Parade,3,0,1
 14007,Event > Entertainment Event > Sporting Event,3,0,1
-14008,Event > Line / Queue,2,0,1
+14008,Event > Line,2,0,1
 14009,Event > Marketplace,2,5,6
 14010,Event > Marketplace > Christmas Market,3,0,1
 14011,Event > Marketplace > Stoop Sale,3,0,1
@@ -758,7 +798,7 @@ id,fullLabel,depth,direct children,all children
 14013,Event > Marketplace > Street Food Gathering,3,0,1
 14014,Event > Marketplace > Trade Fair,3,0,1
 14015,Event > Other Event,2,0,1
-15000,Health and Medicine,1,29,57
+15000,Health and Medicine,1,29,59
 15001,Health and Medicine > Acupuncture Clinic,2,0,1
 15002,Health and Medicine > AIDS Resource,2,0,1
 15003,Health and Medicine > Alternative Medicine Clinic,2,0,1
@@ -772,7 +812,9 @@ id,fullLabel,depth,direct children,all children
 15011,Health and Medicine > Healthcare Clinic,2,0,1
 15012,Health and Medicine > Home Health Care Service,2,0,1
 15013,Health and Medicine > Hospice,2,0,1
-15014,Health and Medicine > Hospital,2,0,1
+15014,Health and Medicine > Hospital,2,2,3
+15058,Health and Medicine > Hospital > Children's Hospital,3,0,1
+15059,Health and Medicine > Hospital > Hospital Unit,3,0,1
 15015,Health and Medicine > Maternity Clinic,2,0,1
 15016,Health and Medicine > Medical Center,2,0,1
 15017,Health and Medicine > Medical Lab,2,0,1
@@ -815,14 +857,14 @@ id,fullLabel,depth,direct children,all children
 15054,Health and Medicine > Veterinarian,2,0,1
 15055,Health and Medicine > Weight Loss Center,2,0,1
 15056,Health and Medicine > Women's Health Clinic,2,0,1
-16000,Landmarks and Outdoors,1,47,55
+16000,Landmarks and Outdoors,1,56,71
 16001,Landmarks and Outdoors > Bathing Area,2,0,1
 16002,Landmarks and Outdoors > Bay,2,0,1
 16003,Landmarks and Outdoors > Beach,2,0,1
 16004,Landmarks and Outdoors > Bike Trail,2,0,1
 16005,Landmarks and Outdoors > Botanical Garden,2,0,1
 16006,Landmarks and Outdoors > Bridge,2,0,1
-16007,Landmarks and Outdoors > Building / Structure,2,0,1
+16007,Landmarks and Outdoors > Structure,2,0,1
 16008,Landmarks and Outdoors > Campground,2,0,1
 16009,Landmarks and Outdoors > Canal,2,0,1
 16010,Landmarks and Outdoors > Canal Lock,2,0,1
@@ -833,7 +875,7 @@ id,fullLabel,depth,direct children,all children
 16015,Landmarks and Outdoors > Forest,2,0,1
 16016,Landmarks and Outdoors > Fountain,2,0,1
 16017,Landmarks and Outdoors > Garden,2,0,1
-16018,Landmarks and Outdoors > Harbor / Marina,2,0,1
+16018,Landmarks and Outdoors > Harbor or Marina,2,0,1
 16019,Landmarks and Outdoors > Hiking Trail,2,0,1
 16020,Landmarks and Outdoors > Historic and Protected Site,2,0,1
 16021,Landmarks and Outdoors > Hot Spring,2,0,1
@@ -853,7 +895,7 @@ id,fullLabel,depth,direct children,all children
 16035,Landmarks and Outdoors > Park > Natural Park,3,0,1
 16036,Landmarks and Outdoors > Park > Picnic Area,3,0,1
 16037,Landmarks and Outdoors > Park > Playground,3,0,1
-16038,Landmarks and Outdoors > Park > State / Provincial Park,3,0,1
+16038,Landmarks and Outdoors > Park > State or Provincial Park,3,0,1
 16039,Landmarks and Outdoors > Park > Urban Park,3,0,1
 16040,Landmarks and Outdoors > Pedestrian Plaza,2,0,1
 16041,Landmarks and Outdoors > Plaza,2,0,1
@@ -870,12 +912,28 @@ id,fullLabel,depth,direct children,all children
 16052,Landmarks and Outdoors > Waterfall,2,0,1
 16053,Landmarks and Outdoors > Waterfront,2,0,1
 16054,Landmarks and Outdoors > Windmill,2,0,1
-17000,Retail,1,71,140
+16055,Landmarks and Outdoors > Boat Launch,2,0,1
+16056,Landmarks and Outdoors > Dam,2,0,1
+16057,Landmarks and Outdoors > Field,2,0,1
+16058,Landmarks and Outdoors > Hill,2,0,1
+16059,Landmarks and Outdoors > Mountain Hut,2,0,1
+16060,Landmarks and Outdoors > Picnic Shelter,2,0,1
+16061,Landmarks and Outdoors > States and Municipalities,2,7,8
+16062,Landmarks and Outdoors > States and Municipalities > City,3,0,1
+16063,Landmarks and Outdoors > States and Municipalities > Country,3,0,1
+16064,Landmarks and Outdoors > States and Municipalities > County,3,0,1
+16065,Landmarks and Outdoors > States and Municipalities > Neighborhood,3,0,1
+16066,Landmarks and Outdoors > States and Municipalities > State,3,0,1
+16067,Landmarks and Outdoors > States and Municipalities > Town,3,0,1
+16068,Landmarks and Outdoors > States and Municipalities > Village,3,0,1
+16069,Landmarks and Outdoors > Tree,2,0,1
+16070,Landmarks and Outdoors > Well,2,0,1
+17000,Retail,1,75,147
 17001,Retail > Adult Store,2,0,1
 17002,Retail > Antique Store,2,0,1
 17003,Retail > Arts and Crafts Store,2,0,1
 17004,Retail > Auction House,2,0,1
-17005,Retail > Automotive Retail,2,4,9
+17005,Retail > Automotive Retail,2,6,11
 17006,Retail > Automotive Retail > Car Dealership,3,4,5
 17007,Retail > Automotive Retail > Car Dealership > Classic and Antique Car Dealership,4,0,1
 17008,Retail > Automotive Retail > Car Dealership > New Car Dealership,4,0,1
@@ -884,6 +942,8 @@ id,fullLabel,depth,direct children,all children
 17011,Retail > Automotive Retail > Car Parts and Accessories,3,0,1
 17012,Retail > Automotive Retail > Motorcycle Dealership,3,0,1
 17013,Retail > Automotive Retail > Motorsports Store,3,0,1
+17140,Retail > Automotive Retail > Moped Dealership,3,0,1
+17141,Retail > Automotive Retail > Motor Scooter Dealership,3,0,1
 17014,Retail > Baby Store,2,0,1
 17015,Retail > Betting Shop,2,0,1
 17016,Retail > Big Box Store,2,0,1
@@ -908,7 +968,7 @@ id,fullLabel,depth,direct children,all children
 17035,Retail > Drugstore,2,0,1
 17036,Retail > Duty-free Store,2,0,1
 17037,Retail > Eyecare Store,2,0,1
-17038,Retail > Fabric / Textiles Store,2,0,1
+17038,Retail > Textiles Store,2,0,1
 17039,Retail > Fashion Retail,2,13,14
 17040,Retail > Fashion Retail > Batik Store,3,0,1
 17041,Retail > Fashion Retail > Bridal Store,3,0,1
@@ -927,7 +987,7 @@ id,fullLabel,depth,direct children,all children
 17054,Retail > Flea Market,2,0,1
 17055,Retail > Floating Market,2,0,1
 17056,Retail > Flower Store,2,0,1
-17057,Retail > Food and Beverage Retail,2,22,24
+17057,Retail > Food and Beverage Retail,2,23,25
 17058,Retail > Food and Beverage Retail > Beer Store,3,0,1
 17059,Retail > Food and Beverage Retail > Butcher,3,0,1
 17060,Retail > Food and Beverage Retail > Candy Store,3,0,1
@@ -935,12 +995,12 @@ id,fullLabel,depth,direct children,all children
 17062,Retail > Food and Beverage Retail > Chocolate Store,3,0,1
 17063,Retail > Food and Beverage Retail > Coffee Roaster,3,0,1
 17064,Retail > Food and Beverage Retail > Dairy Store,3,0,1
-17065,Retail > Food and Beverage Retail > Farmers' Market,3,0,1
+17065,Retail > Food and Beverage Retail > Farmers Market,3,0,1
 17066,Retail > Food and Beverage Retail > Fish Market,3,0,1
 17067,Retail > Food and Beverage Retail > Fruit and Vegetable Store,3,0,1
 17068,Retail > Food and Beverage Retail > Gourmet Store,3,0,1
-17069,Retail > Food and Beverage Retail > Grocery Store / Supermarket,3,1,2
-17070,Retail > Food and Beverage Retail > Grocery Store / Supermarket > Organic Grocery,4,0,1
+17069,Retail > Food and Beverage Retail > Grocery Store,3,1,2
+17070,Retail > Food and Beverage Retail > Grocery Store > Organic Grocery,4,0,1
 17071,Retail > Food and Beverage Retail > Health Food Store,3,0,1
 17072,Retail > Food and Beverage Retail > Herbs and Spices Store,3,0,1
 17073,Retail > Food and Beverage Retail > Imported Food Store,3,0,1
@@ -951,6 +1011,7 @@ id,fullLabel,depth,direct children,all children
 17078,Retail > Food and Beverage Retail > Sausage Store,3,0,1
 17079,Retail > Food and Beverage Retail > Turşucu Shop,3,0,1
 17080,Retail > Food and Beverage Retail > Wine Store,3,0,1
+17142,Retail > Food and Beverage Retail > Supermarket,3,0,1
 17081,Retail > Framing Store,2,0,1
 17082,Retail > Furniture and Home Store,2,6,7
 17083,Retail > Furniture and Home Store > Carpet Store,3,0,1
@@ -1005,17 +1066,21 @@ id,fullLabel,depth,direct children,all children
 17132,Retail > Supplement Store,2,0,1
 17133,Retail > Swimming Pool Supply Store,2,0,1
 17134,Retail > Tobacco Store,2,0,1
-17135,Retail > Toy / Game Store,2,0,1
-17136,Retail > Vaporizer Store,2,0,1
+17135,Retail > Toy Store,2,0,1
+17136,Retail > Vape Store,2,0,1
 17137,Retail > Video Store,2,0,1
 17138,Retail > Vintage and Thrift Store,2,0,1
-17139,Retail > Warehouse / Wholesale Store,2,0,1
-18000,Sports and Recreation,1,29,77
+17139,Retail > Warehouse or Wholesale Store,2,0,1
+17143,Retail > Marijuana Dispensary,2,0,1
+17144,Retail > Market,2,0,1
+17145,Retail > Pharmacy,2,0,1
+17146,Retail > Smoke Shop,2,0,1
+18000,Sports and Recreation,1,32,87
 18001,Sports and Recreation > Athletic Field,2,0,1
 18002,Sports and Recreation > Baseball,2,3,4
 18003,Sports and Recreation > Baseball > Baseball Club,3,0,1
 18004,Sports and Recreation > Baseball > Baseball Field,3,0,1
-18005,Sports and Recreation > Baseball > Batting Range,3,0,1
+18005,Sports and Recreation > Baseball > Batting Cages,3,0,1
 18006,Sports and Recreation > Basketball,2,2,3
 18007,Sports and Recreation > Basketball > Basketball Club,3,0,1
 18008,Sports and Recreation > Basketball > Basketball Court,3,0,1
@@ -1031,7 +1096,7 @@ id,fullLabel,depth,direct children,all children
 18018,Sports and Recreation > Golf > Golf Course,3,0,1
 18019,Sports and Recreation > Golf > Golf Driving Range,3,0,1
 18020,Sports and Recreation > Gun Range,2,0,1
-18021,Sports and Recreation > Gym and Studio,2,7,8
+18021,Sports and Recreation > Gym and Studio,2,9,10
 18022,Sports and Recreation > Gym and Studio > Boxing Gym,3,0,1
 18023,Sports and Recreation > Gym and Studio > Climbing Gym,3,0,1
 18024,Sports and Recreation > Gym and Studio > Cycle Studio,3,0,1
@@ -1039,6 +1104,8 @@ id,fullLabel,depth,direct children,all children
 18026,Sports and Recreation > Gym and Studio > Outdoor Gym,3,0,1
 18027,Sports and Recreation > Gym and Studio > Pilates Studio,3,0,1
 18028,Sports and Recreation > Gym and Studio > Yoga Studio,3,0,1
+18077,Sports and Recreation > Gym and Studio > Gym,3,0,1
+18078,Sports and Recreation > Gym and Studio > Gym Pool,3,0,1
 18029,Sports and Recreation > Gymnastics,2,1,2
 18030,Sports and Recreation > Gymnastics > Gymnastics Center,3,0,1
 18031,Sports and Recreation > Hockey,2,3,4
@@ -1049,7 +1116,8 @@ id,fullLabel,depth,direct children,all children
 18036,Sports and Recreation > Martial Arts Dojo,2,0,1
 18037,Sports and Recreation > Paintball Field,2,0,1
 18038,Sports and Recreation > Personal Trainer,2,0,1
-18039,Sports and Recreation > Race Track,2,0,1
+18039,Sports and Recreation > Race Track,2,1,2
+18080,Sports and Recreation > Race Track > Racecourse,3,0,1
 18040,Sports and Recreation > Racquet Sports,2,5,8
 18041,Sports and Recreation > Racquet Sports > Badminton Court,3,0,1
 18042,Sports and Recreation > Racquet Sports > Racquet Sport Club,3,0,1
@@ -1067,17 +1135,20 @@ id,fullLabel,depth,direct children,all children
 18054,Sports and Recreation > Skating,2,2,3
 18055,Sports and Recreation > Skating > Skate Park,3,0,1
 18056,Sports and Recreation > Skating > Skating Rink,3,0,1
-18057,Sports and Recreation > Skydiving Center,2,0,1
-18058,Sports and Recreation > Snow Sports,2,3,4
+18057,Sports and Recreation > Skydiving Center,2,1,2
+18082,Sports and Recreation > Skydiving Center > Skydiving Drop Zone,3,0,1
+18058,Sports and Recreation > Snow Sports,2,3,6
 18059,Sports and Recreation > Snow Sports > Ski Chalet,3,0,1
 18060,Sports and Recreation > Snow Sports > Ski Lodge,3,0,1
-18061,Sports and Recreation > Snow Sports > Ski Resorts and Areas,3,0,1
+18061,Sports and Recreation > Snow Sports > Ski Resort and Area,3,2,3
+18083,Sports and Recreation > Snow Sports > Ski Resort and Area > Ski Chairlift,4,0,1
+18084,Sports and Recreation > Snow Sports > Ski Resort and Area > Ski Trail,4,0,1
 18062,Sports and Recreation > Soccer,2,2,3
 18063,Sports and Recreation > Soccer > Soccer Club,3,0,1
 18064,Sports and Recreation > Soccer > Soccer Field,3,0,1
 18065,Sports and Recreation > Sports Club,2,0,1
 18066,Sports and Recreation > Volleyball Court,2,0,1
-18067,Sports and Recreation > Water Sports,2,6,10
+18067,Sports and Recreation > Water Sports,2,7,11
 18068,Sports and Recreation > Water Sports > Canoe and Kayak Rental,3,0,1
 18069,Sports and Recreation > Water Sports > Rafting Outfitter,3,0,1
 18070,Sports and Recreation > Water Sports > Sailing Club,3,0,1
@@ -1087,7 +1158,11 @@ id,fullLabel,depth,direct children,all children
 18074,Sports and Recreation > Water Sports > Swimming > Swimming Club,4,0,1
 18075,Sports and Recreation > Water Sports > Swimming > Swimming Pool,4,0,1
 18076,Sports and Recreation > Water Sports > Swimming > Swim School,4,0,1
-19000,Travel and Transportation,1,22,57
+18085,Sports and Recreation > Water Sports > Rafting Spot,3,0,1
+18079,Sports and Recreation > Hunting Area,2,0,1
+18081,Sports and Recreation > Sauna,2,0,1
+18086,Sports and Recreation > Fishing Area,2,0,1
+19000,Travel and Transportation,1,28,70
 19001,Travel and Transportation > Baggage Locker,2,0,1
 19002,Travel and Transportation > Bike Rental,2,0,1
 19003,Travel and Transportation > Boat Rental,2,0,1
@@ -1096,12 +1171,13 @@ id,fullLabel,depth,direct children,all children
 19006,Travel and Transportation > Electric Vehicle Charging Station,2,0,1
 19007,Travel and Transportation > Fuel Station,2,0,1
 19008,Travel and Transportation > Hot Air Balloon Tour Agency,2,0,1
-19009,Travel and Transportation > Lodging,2,10,11
+19009,Travel and Transportation > Lodging,2,10,12
 19010,Travel and Transportation > Lodging > Bed and Breakfast,3,0,1
 19011,Travel and Transportation > Lodging > Boarding House,3,0,1
-19012,Travel and Transportation > Lodging > Cottage / Cabin,3,0,1
+19012,Travel and Transportation > Lodging > Cabin,3,0,1
 19013,Travel and Transportation > Lodging > Hostel,3,0,1
-19014,Travel and Transportation > Lodging > Hotel,3,0,1
+19014,Travel and Transportation > Lodging > Hotel,3,1,2
+19058,Travel and Transportation > Lodging > Hotel > Hotel Pool,4,0,1
 19015,Travel and Transportation > Lodging > Inn,3,0,1
 19016,Travel and Transportation > Lodging > Lodge,3,0,1
 19017,Travel and Transportation > Lodging > Motel,3,0,1
@@ -1117,8 +1193,8 @@ id,fullLabel,depth,direct children,all children
 19027,Travel and Transportation > Toll Plaza,2,0,1
 19028,Travel and Transportation > Tourist Information and Service,2,1,2
 19029,Travel and Transportation > Tourist Information and Service > Tour Provider,3,0,1
-19030,Travel and Transportation > Transport Hub,2,10,21
-19031,Travel and Transportation > Transport Hub > Airport,3,10,11
+19030,Travel and Transportation > Transport Hub,2,11,24
+19031,Travel and Transportation > Transport Hub > Airport,3,12,13
 19032,Travel and Transportation > Transport Hub > Airport > Airfield,4,0,1
 19033,Travel and Transportation > Transport Hub > Airport > Airport Food Court,4,0,1
 19034,Travel and Transportation > Transport Hub > Airport > Airport Gate,4,0,1
@@ -1129,6 +1205,8 @@ id,fullLabel,depth,direct children,all children
 19039,Travel and Transportation > Transport Hub > Airport > Baggage Claim,4,0,1
 19040,Travel and Transportation > Transport Hub > Airport > International Airport,4,0,1
 19041,Travel and Transportation > Transport Hub > Airport > Private Airport,4,0,1
+19062,Travel and Transportation > Transport Hub > Airport > Plane,4,0,1
+19070,Travel and Transportation > Transport Hub > Airport > Airport Ticket Counter,4,0,1
 19042,Travel and Transportation > Transport Hub > Bus Station,3,0,1
 19043,Travel and Transportation > Transport Hub > Bus Stop,3,0,1
 19044,Travel and Transportation > Transport Hub > Heliport,3,0,1
@@ -1138,9 +1216,19 @@ id,fullLabel,depth,direct children,all children
 19048,Travel and Transportation > Transport Hub > Rental Car Location,3,0,1
 19049,Travel and Transportation > Transport Hub > Taxi Stand,3,0,1
 19050,Travel and Transportation > Transport Hub > Tram Station,3,0,1
-19051,Travel and Transportation > Transportation Service,2,3,4
+19063,Travel and Transportation > Transport Hub > Light Rail Station,3,0,1
+19051,Travel and Transportation > Transportation Service,2,4,6
 19052,Travel and Transportation > Transportation Service > Charter Bus,3,0,1
-19053,Travel and Transportation > Transportation Service > Limo / Chauffeur,3,0,1
-19054,Travel and Transportation > Transportation Service > Public Transportation,3,0,1
+19053,Travel and Transportation > Transportation Service > Limo Service,3,0,1
+19054,Travel and Transportation > Transportation Service > Public Transportation,3,1,2
+19067,Travel and Transportation > Transportation Service > Public Transportation > Bus Line,4,0,1
+19068,Travel and Transportation > Transportation Service > Taxi,3,0,1
 19055,Travel and Transportation > Travel Agency,2,0,1
 19056,Travel and Transportation > Travel Lounge,2,0,1
+19057,Travel and Transportation > Truck Stop,2,0,1
+19059,Travel and Transportation > Moving Target,2,0,1
+19060,Travel and Transportation > Road,2,1,2
+19061,Travel and Transportation > Road > Intersection,3,0,1
+19064,Travel and Transportation > Boat or Ferry,2,0,1
+19065,Travel and Transportation > Cable Car,2,0,1
+19066,Travel and Transportation > Train,2,0,1
