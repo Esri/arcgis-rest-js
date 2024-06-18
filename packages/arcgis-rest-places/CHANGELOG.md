@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-places [1.0.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-places@1.0.1...@esri/arcgis-rest-places@1.0.2) (2024-06-15)
+
+
+### Bug Fixes
+
+* small change to trigger a catch-up release ([#1167](https://github.com/Esri/arcgis-rest-js/issues/1167)) ([42fb211](https://github.com/Esri/arcgis-rest-js/commit/42fb21132211e7a3ab0e615bf3cb640b147fbe20))
+
 ## @esri/arcgis-rest-places [1.0.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-places@1.0.0...@esri/arcgis-rest-places@1.0.1) (2023-06-27)
 
 

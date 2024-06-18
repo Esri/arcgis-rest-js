@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-geocoding [4.0.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-geocoding@4.0.2...@esri/arcgis-rest-geocoding@4.0.3) (2024-06-15)
+
+
+### Bug Fixes
+
+* small change to trigger a catch-up release ([#1166](https://github.com/Esri/arcgis-rest-js/issues/1166)) ([26c33b1](https://github.com/Esri/arcgis-rest-js/commit/26c33b164f7b0f1df90656dd6468ac00bdd02b1b))
+
 ## @esri/arcgis-rest-geocoding [4.0.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-geocoding@4.0.1...@esri/arcgis-rest-geocoding@4.0.2) (2022-05-11)
 
 

@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-request [4.2.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.2.2...@esri/arcgis-rest-request@4.2.3) (2024-06-15)
+
+
+### Bug Fixes
+
+* update auth warning ([#1162](https://github.com/Esri/arcgis-rest-js/issues/1162)) ([fdd411b](https://github.com/Esri/arcgis-rest-js/commit/fdd411b9367a46244de7034ad4bd5b16d5d2b24b))
+
 ## @esri/arcgis-rest-request [4.2.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.2.1...@esri/arcgis-rest-request@4.2.2) (2024-06-01)
 
 
