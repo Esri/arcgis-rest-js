@@ -133,7 +133,12 @@ export function solveRoute(
   }
 
   return request(`${cleanUrl(options.endpoint)}/solve`, options).then(
-    cleanResponse
+    (response) => {
+      if (requestOptions.rawResponse) {
+        return response;
+      }
+      return cleanResponse(response);
+    }
   );
 }
 
