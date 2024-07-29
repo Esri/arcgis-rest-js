@@ -273,7 +273,6 @@ export interface IViewServiceSources {
  * `IFeatureServiceDefinition` can also be imported from the following packages:
  *
  * ```js
- * import { IFeatureServiceDefinition } from "@esri/arcgis-rest-service-admin";
  * import { IFeatureServiceDefinition } from "@esri/arcgis-rest-feature-service";
  * ```
  */
@@ -380,12 +379,6 @@ export interface IFeatureServiceDefinition {
 
 /**
  * Root element in the web map specifying an array of table objects.
- *
- * `ITable` can also be imported from the following packages:
- *
- * ```js
- * import { ITable } from "@esri-arcgis-rest-service-admin"
- * ```
  */
 export interface ITable {
   /** Table name */
@@ -675,14 +668,6 @@ export interface ITemplate {
   prototype?: IFeature;
 }
 
-/**
- * `ILayerDefinition` can also be imported from the following packages:
- *
- * ```js
- * import { ILayerDefinition } from "@esri/arcgis-rest-service-admin";
- * import { ILayerDefinition } from "@esri/arcgis-rest-feature-service";
- * ```
- */
 export interface ILayerDefinition extends IHasZM {
   /** Boolean value indicating whether the geometry of the features in the layer can be edited. */
   allowGeometryUpdates?: boolean;
