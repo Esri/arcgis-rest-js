@@ -1292,7 +1292,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 172,
+									"line": 171,
 									"character": 4
 								}
 							],
@@ -1310,7 +1310,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 169,
+									"line": 168,
 									"character": 4
 								}
 							],
@@ -1328,7 +1328,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 166,
+									"line": 165,
 									"character": 4
 								}
 							],
@@ -1346,7 +1346,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 170,
+									"line": 169,
 									"character": 4
 								}
 							],
@@ -1364,7 +1364,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 167,
+									"line": 166,
 									"character": 4
 								}
 							],
@@ -1384,7 +1384,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 171,
+									"line": 170,
 									"character": 4
 								}
 							],
@@ -1404,7 +1404,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 168,
+									"line": 167,
 									"character": 4
 								}
 							],
@@ -1432,7 +1432,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 165,
+							"line": 164,
 							"character": 17
 						}
 					]
@@ -19849,7 +19849,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 452,
+									"line": 445,
 									"character": 2
 								}
 							],
@@ -19876,7 +19876,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 454,
+									"line": 447,
 									"character": 2
 								}
 							],
@@ -19899,7 +19899,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 450,
+							"line": 443,
 							"character": 17
 						}
 					]
@@ -19925,7 +19925,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 440,
+									"line": 433,
 									"character": 2
 								}
 							],
@@ -19948,7 +19948,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 442,
+									"line": 435,
 									"character": 2
 								}
 							],
@@ -19975,7 +19975,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 444,
+									"line": 437,
 									"character": 2
 								}
 							],
@@ -19999,7 +19999,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 438,
+							"line": 431,
 							"character": 17
 						}
 					]
@@ -20025,7 +20025,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 413,
+									"line": 406,
 									"character": 2
 								}
 							],
@@ -20057,7 +20057,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 415,
+									"line": 408,
 									"character": 2
 								}
 							],
@@ -20080,7 +20080,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 417,
+									"line": 410,
 									"character": 2
 								}
 							],
@@ -20103,7 +20103,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 419,
+									"line": 412,
 									"character": 2
 								}
 							],
@@ -20179,7 +20179,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 435,
+									"line": 428,
 									"character": 2
 								}
 							],
@@ -20205,7 +20205,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 411,
+							"line": 404,
 							"character": 17
 						}
 					]
@@ -21548,7 +21548,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 640,
+									"line": 633,
 									"character": 2
 								}
 							],
@@ -21570,7 +21570,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 638,
+							"line": 631,
 							"character": 17
 						}
 					]
@@ -21597,7 +21597,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 172,
+									"line": 171,
 									"character": 4
 								}
 							],
@@ -21616,7 +21616,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 169,
+									"line": 168,
 									"character": 4
 								}
 							],
@@ -21634,7 +21634,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 166,
+									"line": 165,
 									"character": 4
 								}
 							],
@@ -21652,7 +21652,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 170,
+									"line": 169,
 									"character": 4
 								}
 							],
@@ -21670,7 +21670,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 167,
+									"line": 166,
 									"character": 4
 								}
 							],
@@ -21690,7 +21690,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 171,
+									"line": 170,
 									"character": 4
 								}
 							],
@@ -21710,7 +21710,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 168,
+									"line": 167,
 									"character": 4
 								}
 							],
@@ -21738,7 +21738,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 165,
+							"line": 164,
 							"character": 17
 						}
 					]
@@ -21890,7 +21890,7 @@
 					"flags": {},
 					"comment": {
 						"shortText": "`IFeatureServiceDefinition` can also be imported from the following packages:",
-						"text": "```js\nimport { IFeatureServiceDefinition } from \"@esri/arcgis-rest-service-admin\";\nimport { IFeatureServiceDefinition } from \"@esri/arcgis-rest-feature-service\";\n```\n"
+						"text": "```js\nimport { IFeatureServiceDefinition } from \"@esri/arcgis-rest-feature-service\";\n```\n"
 					},
 					"children": [
 						{
@@ -21902,7 +21902,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 299,
+									"line": 298,
 									"character": 2
 								}
 							],
@@ -21952,7 +21952,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 305,
+									"line": 304,
 									"character": 2
 								}
 							],
@@ -21973,7 +21973,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 294,
+									"line": 293,
 									"character": 2
 								}
 							],
@@ -21994,7 +21994,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 298,
+									"line": 297,
 									"character": 2
 								}
 							],
@@ -22014,7 +22014,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 281,
+									"line": 280,
 									"character": 2
 								}
 							],
@@ -22035,7 +22035,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 296,
+									"line": 295,
 									"character": 2
 								}
 							],
@@ -22055,7 +22055,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 338,
+									"line": 337,
 									"character": 2
 								}
 							],
@@ -22102,7 +22102,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 332,
+									"line": 331,
 									"character": 2
 								}
 							],
@@ -22124,7 +22124,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 336,
+													"line": 335,
 													"character": 4
 												}
 											],
@@ -22142,7 +22142,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 335,
+													"line": 334,
 													"character": 4
 												}
 											],
@@ -22160,7 +22160,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 333,
+													"line": 332,
 													"character": 4
 												}
 											],
@@ -22178,7 +22178,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 334,
+													"line": 333,
 													"character": 4
 												}
 											],
@@ -22214,7 +22214,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 375,
+									"line": 374,
 									"character": 2
 								}
 							],
@@ -22232,7 +22232,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 315,
+									"line": 314,
 									"character": 2
 								}
 							],
@@ -22254,7 +22254,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 319,
+													"line": 318,
 													"character": 4
 												}
 											],
@@ -22272,7 +22272,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 318,
+													"line": 317,
 													"character": 4
 												}
 											],
@@ -22290,7 +22290,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 317,
+													"line": 316,
 													"character": 4
 												}
 											],
@@ -22308,7 +22308,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 321,
+													"line": 320,
 													"character": 4
 												}
 											],
@@ -22326,7 +22326,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 316,
+													"line": 315,
 													"character": 4
 												}
 											],
@@ -22344,7 +22344,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 320,
+													"line": 319,
 													"character": 4
 												}
 											],
@@ -22380,7 +22380,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 303,
+									"line": 302,
 									"character": 2
 								}
 							],
@@ -22404,7 +22404,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 287,
+									"line": 286,
 									"character": 2
 								}
 							],
@@ -22422,7 +22422,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 283,
+									"line": 282,
 									"character": 2
 								}
 							],
@@ -22440,7 +22440,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 302,
+									"line": 301,
 									"character": 2
 								}
 							],
@@ -22459,7 +22459,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 376,
+									"line": 375,
 									"character": 2
 								}
 							],
@@ -22477,7 +22477,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 377,
+									"line": 376,
 									"character": 2
 								}
 							],
@@ -22495,7 +22495,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 340,
+									"line": 339,
 									"character": 2
 								}
 							],
@@ -22520,7 +22520,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 289,
+									"line": 288,
 									"character": 2
 								}
 							],
@@ -22538,7 +22538,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 343,
+									"line": 342,
 									"character": 2
 								}
 							],
@@ -22563,7 +22563,7 @@
 													"sources": [
 														{
 															"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-															"line": 371,
+															"line": 370,
 															"character": 6
 														}
 													],
@@ -22581,7 +22581,7 @@
 													"sources": [
 														{
 															"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-															"line": 347,
+															"line": 346,
 															"character": 6
 														}
 													],
@@ -22599,7 +22599,7 @@
 													"sources": [
 														{
 															"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-															"line": 367,
+															"line": 366,
 															"character": 6
 														}
 													],
@@ -22630,7 +22630,7 @@
 													"sources": [
 														{
 															"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-															"line": 372,
+															"line": 371,
 															"character": 6
 														}
 													],
@@ -22648,7 +22648,7 @@
 													"sources": [
 														{
 															"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-															"line": 355,
+															"line": 354,
 															"character": 6
 														}
 													],
@@ -22666,7 +22666,7 @@
 													"sources": [
 														{
 															"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-															"line": 351,
+															"line": 350,
 															"character": 6
 														}
 													],
@@ -22684,7 +22684,7 @@
 													"sources": [
 														{
 															"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-															"line": 354,
+															"line": 353,
 															"character": 6
 														}
 													],
@@ -22702,7 +22702,7 @@
 													"sources": [
 														{
 															"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-															"line": 350,
+															"line": 349,
 															"character": 6
 														}
 													],
@@ -22720,7 +22720,7 @@
 													"sources": [
 														{
 															"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-															"line": 345,
+															"line": 344,
 															"character": 6
 														}
 													],
@@ -22738,7 +22738,7 @@
 													"sources": [
 														{
 															"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-															"line": 346,
+															"line": 345,
 															"character": 6
 														}
 													],
@@ -22756,7 +22756,7 @@
 													"sources": [
 														{
 															"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-															"line": 352,
+															"line": 351,
 															"character": 6
 														}
 													],
@@ -22774,7 +22774,7 @@
 													"sources": [
 														{
 															"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-															"line": 348,
+															"line": 347,
 															"character": 6
 														}
 													],
@@ -22792,7 +22792,7 @@
 													"sources": [
 														{
 															"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-															"line": 349,
+															"line": 348,
 															"character": 6
 														}
 													],
@@ -22810,7 +22810,7 @@
 													"sources": [
 														{
 															"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-															"line": 353,
+															"line": 352,
 															"character": 6
 														}
 													],
@@ -22828,7 +22828,7 @@
 													"sources": [
 														{
 															"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-															"line": 356,
+															"line": 355,
 															"character": 6
 														}
 													],
@@ -22853,7 +22853,7 @@
 																			"sources": [
 																				{
 																					"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-																					"line": 364,
+																					"line": 363,
 																					"character": 10
 																				}
 																			],
@@ -22871,7 +22871,7 @@
 																			"sources": [
 																				{
 																					"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-																					"line": 363,
+																					"line": 362,
 																					"character": 10
 																				}
 																			],
@@ -22889,7 +22889,7 @@
 																			"sources": [
 																				{
 																					"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-																					"line": 362,
+																					"line": 361,
 																					"character": 10
 																				}
 																			],
@@ -22907,7 +22907,7 @@
 																			"sources": [
 																				{
 																					"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-																					"line": 361,
+																					"line": 360,
 																					"character": 10
 																				}
 																			],
@@ -22925,7 +22925,7 @@
 																			"sources": [
 																				{
 																					"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-																					"line": 360,
+																					"line": 359,
 																					"character": 10
 																				}
 																			],
@@ -22943,7 +22943,7 @@
 																			"sources": [
 																				{
 																					"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-																					"line": 359,
+																					"line": 358,
 																					"character": 10
 																				}
 																			],
@@ -22961,7 +22961,7 @@
 																			"sources": [
 																				{
 																					"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-																					"line": 358,
+																					"line": 357,
 																					"character": 10
 																				}
 																			],
@@ -23031,7 +23031,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 308,
+									"line": 307,
 									"character": 2
 								}
 							],
@@ -23049,7 +23049,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 282,
+									"line": 281,
 									"character": 2
 								}
 							],
@@ -23070,7 +23070,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 301,
+									"line": 300,
 									"character": 2
 								}
 							],
@@ -23092,7 +23092,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 291,
+									"line": 290,
 									"character": 2
 								}
 							],
@@ -23110,7 +23110,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 284,
+									"line": 283,
 									"character": 2
 								}
 							],
@@ -23128,7 +23128,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 292,
+									"line": 291,
 									"character": 2
 								}
 							],
@@ -23146,7 +23146,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 285,
+									"line": 284,
 									"character": 2
 								}
 							],
@@ -23164,7 +23164,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 323,
+									"line": 322,
 									"character": 2
 								}
 							],
@@ -23186,7 +23186,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 330,
+													"line": 329,
 													"character": 4
 												}
 											],
@@ -23204,7 +23204,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 324,
+													"line": 323,
 													"character": 4
 												}
 											],
@@ -23222,7 +23222,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 327,
+													"line": 326,
 													"character": 4
 												}
 											],
@@ -23240,7 +23240,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 328,
+													"line": 327,
 													"character": 4
 												}
 											],
@@ -23258,7 +23258,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 325,
+													"line": 324,
 													"character": 4
 												}
 											],
@@ -23276,7 +23276,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 329,
+													"line": 328,
 													"character": 4
 												}
 											],
@@ -23294,7 +23294,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 326,
+													"line": 325,
 													"character": 4
 												}
 											],
@@ -23331,7 +23331,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 307,
+									"line": 306,
 									"character": 2
 								}
 							],
@@ -23349,7 +23349,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 342,
+									"line": 341,
 									"character": 2
 								}
 							],
@@ -23371,7 +23371,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 306,
+									"line": 305,
 									"character": 2
 								}
 							],
@@ -23389,7 +23389,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 309,
+									"line": 308,
 									"character": 2
 								}
 							],
@@ -23411,7 +23411,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 311,
+													"line": 310,
 													"character": 4
 												}
 											],
@@ -23429,7 +23429,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 313,
+													"line": 312,
 													"character": 4
 												}
 											],
@@ -23447,7 +23447,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 310,
+													"line": 309,
 													"character": 4
 												}
 											],
@@ -23465,7 +23465,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 312,
+													"line": 311,
 													"character": 4
 												}
 											],
@@ -23501,7 +23501,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 378,
+									"line": 377,
 									"character": 2
 								}
 							],
@@ -23554,7 +23554,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 280,
+							"line": 279,
 							"character": 17
 						}
 					]
@@ -24122,7 +24122,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 476,
+									"line": 469,
 									"character": 2
 								}
 							],
@@ -24210,7 +24210,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 498,
+									"line": 491,
 									"character": 2
 								}
 							],
@@ -24233,7 +24233,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 502,
+									"line": 495,
 									"character": 2
 								}
 							],
@@ -24257,7 +24257,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 474,
+							"line": 467,
 							"character": 17
 						}
 					]
@@ -24286,7 +24286,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 510,
+									"line": 503,
 									"character": 2
 								}
 							],
@@ -24309,7 +24309,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 512,
+									"line": 505,
 									"character": 2
 								}
 							],
@@ -24333,7 +24333,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 514,
+									"line": 507,
 									"character": 2
 								}
 							],
@@ -24356,7 +24356,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 516,
+									"line": 509,
 									"character": 2
 								}
 							],
@@ -24379,7 +24379,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 518,
+									"line": 511,
 									"character": 2
 								}
 							],
@@ -24415,7 +24415,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 521,
+									"line": 514,
 									"character": 2
 								}
 							],
@@ -24438,7 +24438,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 523,
+									"line": 516,
 									"character": 2
 								}
 							],
@@ -24466,7 +24466,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 508,
+							"line": 501,
 							"character": 17
 						}
 					]
@@ -24493,7 +24493,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 41,
+									"line": 40,
 									"character": 4
 								}
 							],
@@ -24516,7 +24516,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 40,
+							"line": 39,
 							"character": 17
 						}
 					]
@@ -26251,10 +26251,6 @@
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
-					"comment": {
-						"shortText": "`ILayerDefinition` can also be imported from the following packages:",
-						"text": "```js\nimport { ILayerDefinition } from \"@esri/arcgis-rest-service-admin\";\nimport { ILayerDefinition } from \"@esri/arcgis-rest-feature-service\";\n```\n"
-					},
 					"children": [
 						{
 							"id": 1012,
@@ -26267,7 +26263,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 795,
+									"line": 780,
 									"character": 2
 								}
 							],
@@ -26291,7 +26287,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 802,
+													"line": 787,
 													"character": 4
 												}
 											],
@@ -26311,7 +26307,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 801,
+													"line": 786,
 													"character": 4
 												}
 											],
@@ -26331,7 +26327,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 796,
+													"line": 781,
 													"character": 4
 												}
 											],
@@ -26351,7 +26347,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 804,
+													"line": 789,
 													"character": 4
 												}
 											],
@@ -26371,7 +26367,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 798,
+													"line": 783,
 													"character": 4
 												}
 											],
@@ -26391,7 +26387,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 799,
+													"line": 784,
 													"character": 4
 												}
 											],
@@ -26411,7 +26407,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 803,
+													"line": 788,
 													"character": 4
 												}
 											],
@@ -26431,7 +26427,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 800,
+													"line": 785,
 													"character": 4
 												}
 											],
@@ -26451,7 +26447,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 797,
+													"line": 782,
 													"character": 4
 												}
 											],
@@ -26495,7 +26491,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 688,
+									"line": 673,
 									"character": 2
 								}
 							],
@@ -26515,7 +26511,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 806,
+									"line": 791,
 									"character": 2
 								}
 							],
@@ -26535,7 +26531,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 790,
+									"line": 775,
 									"character": 2
 								}
 							],
@@ -26559,7 +26555,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 792,
+													"line": 777,
 													"character": 4
 												}
 											],
@@ -26579,7 +26575,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 791,
+													"line": 776,
 													"character": 4
 												}
 											],
@@ -26616,7 +26612,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 690,
+									"line": 675,
 									"character": 2
 								}
 							],
@@ -26639,7 +26635,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 692,
+									"line": 677,
 									"character": 2
 								}
 							],
@@ -26662,7 +26658,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 694,
+									"line": 679,
 									"character": 2
 								}
 							],
@@ -26682,7 +26678,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 811,
+									"line": 796,
 									"character": 2
 								}
 							],
@@ -26706,7 +26702,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 813,
+													"line": 798,
 													"character": 4
 												}
 											],
@@ -26726,7 +26722,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 812,
+													"line": 797,
 													"character": 4
 												}
 											],
@@ -26763,7 +26759,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 696,
+									"line": 681,
 									"character": 2
 								}
 							],
@@ -26786,7 +26782,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 698,
+									"line": 683,
 									"character": 2
 								}
 							],
@@ -26810,7 +26806,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 700,
+									"line": 685,
 									"character": 2
 								}
 							],
@@ -26833,7 +26829,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 702,
+									"line": 687,
 									"character": 2
 								}
 							],
@@ -26856,7 +26852,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 704,
+									"line": 689,
 									"character": 2
 								}
 							],
@@ -26879,7 +26875,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 706,
+									"line": 691,
 									"character": 2
 								}
 							],
@@ -26899,7 +26895,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 781,
+									"line": 766,
 									"character": 2
 								}
 							],
@@ -26923,7 +26919,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 782,
+													"line": 767,
 													"character": 4
 												}
 											],
@@ -26943,7 +26939,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 783,
+													"line": 768,
 													"character": 4
 												}
 											],
@@ -26963,7 +26959,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 784,
+													"line": 769,
 													"character": 4
 												}
 											],
@@ -26983,7 +26979,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 785,
+													"line": 770,
 													"character": 4
 												}
 											],
@@ -27022,7 +27018,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 710,
+									"line": 695,
 									"character": 2
 								}
 							],
@@ -27046,7 +27042,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 708,
+									"line": 693,
 									"character": 2
 								}
 							],
@@ -27070,7 +27066,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 712,
+									"line": 697,
 									"character": 2
 								}
 							],
@@ -27093,7 +27089,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 714,
+									"line": 699,
 									"character": 2
 								}
 							],
@@ -27120,7 +27116,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 716,
+									"line": 701,
 									"character": 2
 								}
 							],
@@ -27144,7 +27140,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 718,
+									"line": 703,
 									"character": 2
 								}
 							],
@@ -27167,7 +27163,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 720,
+									"line": 705,
 									"character": 2
 								}
 							],
@@ -27215,7 +27211,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 722,
+									"line": 707,
 									"character": 2
 								}
 							],
@@ -27263,7 +27259,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 724,
+									"line": 709,
 									"character": 2
 								}
 							],
@@ -27299,7 +27295,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 730,
+									"line": 715,
 									"character": 2
 								}
 							],
@@ -27319,7 +27315,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 810,
+									"line": 795,
 									"character": 2
 								}
 							],
@@ -27345,7 +27341,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 732,
+									"line": 717,
 									"character": 2
 								}
 							],
@@ -27368,7 +27364,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 734,
+									"line": 719,
 									"character": 2
 								}
 							],
@@ -27391,7 +27387,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 736,
+									"line": 721,
 									"character": 2
 								}
 							],
@@ -27414,7 +27410,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 738,
+									"line": 723,
 									"character": 2
 								}
 							],
@@ -27437,7 +27433,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 740,
+									"line": 725,
 									"character": 2
 								}
 							],
@@ -27460,7 +27456,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 742,
+									"line": 727,
 									"character": 2
 								}
 							],
@@ -27480,7 +27476,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 807,
+									"line": 792,
 									"character": 2
 								}
 							],
@@ -27503,7 +27499,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 744,
+									"line": 729,
 									"character": 2
 								}
 							],
@@ -27523,7 +27519,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 788,
+									"line": 773,
 									"character": 2
 								}
 							],
@@ -27543,7 +27539,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 787,
+									"line": 772,
 									"character": 2
 								}
 							],
@@ -27566,7 +27562,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 746,
+									"line": 731,
 									"character": 2
 								}
 							],
@@ -27586,7 +27582,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 780,
+									"line": 765,
 									"character": 2
 								}
 							],
@@ -27612,7 +27608,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 748,
+									"line": 733,
 									"character": 2
 								}
 							],
@@ -27635,7 +27631,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 750,
+									"line": 735,
 									"character": 2
 								}
 							],
@@ -27656,7 +27652,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 809,
+									"line": 794,
 									"character": 2
 								}
 							],
@@ -27679,7 +27675,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 752,
+									"line": 737,
 									"character": 2
 								}
 							],
@@ -27702,7 +27698,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 754,
+									"line": 739,
 									"character": 2
 								}
 							],
@@ -27722,7 +27718,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 808,
+									"line": 793,
 									"character": 2
 								}
 							],
@@ -27745,7 +27741,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 756,
+									"line": 741,
 									"character": 2
 								}
 							],
@@ -27768,7 +27764,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 758,
+									"line": 743,
 									"character": 2
 								}
 							],
@@ -27791,7 +27787,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 760,
+									"line": 745,
 									"character": 2
 								}
 							],
@@ -27814,7 +27810,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 762,
+									"line": 747,
 									"character": 2
 								}
 							],
@@ -27834,7 +27830,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 794,
+									"line": 779,
 									"character": 2
 								}
 							],
@@ -27857,7 +27853,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 764,
+									"line": 749,
 									"character": 2
 								}
 							],
@@ -27877,7 +27873,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 789,
+									"line": 774,
 									"character": 2
 								}
 							],
@@ -27900,7 +27896,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 766,
+									"line": 751,
 									"character": 2
 								}
 							],
@@ -27927,7 +27923,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 768,
+									"line": 753,
 									"character": 2
 								}
 							],
@@ -27950,7 +27946,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 770,
+									"line": 755,
 									"character": 2
 								}
 							],
@@ -27982,7 +27978,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 772,
+									"line": 757,
 									"character": 2
 								}
 							],
@@ -28005,7 +28001,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 774,
+									"line": 759,
 									"character": 2
 								}
 							],
@@ -28025,7 +28021,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 815,
+									"line": 800,
 									"character": 2
 								}
 							],
@@ -28048,7 +28044,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 779,
+									"line": 764,
 									"character": 2
 								}
 							],
@@ -28129,7 +28125,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 686,
+							"line": 671,
 							"character": 17
 						}
 					],
@@ -28165,7 +28161,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 594,
+									"line": 587,
 									"character": 2
 								}
 							],
@@ -28188,7 +28184,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 596,
+									"line": 589,
 									"character": 2
 								}
 							],
@@ -28211,7 +28207,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 598,
+									"line": 591,
 									"character": 2
 								}
 							],
@@ -28234,7 +28230,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 600,
+									"line": 593,
 									"character": 2
 								}
 							],
@@ -28278,7 +28274,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 603,
+									"line": 596,
 									"character": 2
 								}
 							],
@@ -28305,7 +28301,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 592,
+							"line": 585,
 							"character": 17
 						}
 					]
@@ -28334,7 +28330,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 578,
+									"line": 571,
 									"character": 2
 								}
 							],
@@ -28360,7 +28356,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 580,
+									"line": 573,
 									"character": 2
 								}
 							],
@@ -28383,7 +28379,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 582,
+									"line": 575,
 									"character": 2
 								}
 							],
@@ -28406,7 +28402,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 584,
+									"line": 577,
 									"character": 2
 								}
 							],
@@ -28429,7 +28425,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 586,
+									"line": 579,
 									"character": 2
 								}
 							],
@@ -28455,7 +28451,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 576,
+							"line": 569,
 							"character": 17
 						}
 					]
@@ -28484,7 +28480,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 568,
+									"line": 561,
 									"character": 2
 								}
 							],
@@ -28507,7 +28503,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 570,
+									"line": 563,
 									"character": 2
 								}
 							],
@@ -28539,7 +28535,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 566,
+							"line": 559,
 							"character": 17
 						}
 					]
@@ -28568,7 +28564,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 618,
+									"line": 611,
 									"character": 2
 								}
 							],
@@ -28600,7 +28596,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 623,
+									"line": 616,
 									"character": 2
 								}
 							],
@@ -28627,7 +28623,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 628,
+									"line": 621,
 									"character": 2
 								}
 							],
@@ -28654,7 +28650,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 633,
+									"line": 626,
 									"character": 2
 								}
 							],
@@ -28677,7 +28673,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 635,
+									"line": 628,
 									"character": 2
 								}
 							],
@@ -28720,7 +28716,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 613,
+							"line": 606,
 							"character": 17
 						}
 					]
@@ -28749,7 +28745,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 462,
+									"line": 455,
 									"character": 2
 								}
 							],
@@ -28772,7 +28768,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 464,
+									"line": 457,
 									"character": 2
 								}
 							],
@@ -28795,7 +28791,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 466,
+									"line": 459,
 									"character": 2
 								}
 							],
@@ -28827,7 +28823,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 468,
+									"line": 461,
 									"character": 2
 								}
 							],
@@ -28852,7 +28848,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 460,
+							"line": 453,
 							"character": 17
 						}
 					]
@@ -28881,7 +28877,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 531,
+									"line": 524,
 									"character": 2
 								}
 							],
@@ -28904,7 +28900,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 533,
+									"line": 526,
 									"character": 2
 								}
 							],
@@ -28931,7 +28927,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 535,
+									"line": 528,
 									"character": 2
 								}
 							],
@@ -28958,7 +28954,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 537,
+									"line": 530,
 									"character": 2
 								}
 							],
@@ -28983,7 +28979,7 @@
 											"sources": [
 												{
 													"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-													"line": 539,
+													"line": 532,
 													"character": 4
 												}
 											],
@@ -29019,7 +29015,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 542,
+									"line": 535,
 									"character": 2
 								}
 							],
@@ -29046,7 +29042,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 544,
+									"line": 537,
 									"character": 2
 								}
 							],
@@ -29073,7 +29069,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 546,
+									"line": 539,
 									"character": 2
 								}
 							],
@@ -29097,7 +29093,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 548,
+									"line": 541,
 									"character": 2
 								}
 							],
@@ -29120,7 +29116,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 550,
+									"line": 543,
 									"character": 2
 								}
 							],
@@ -29150,7 +29146,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 529,
+							"line": 522,
 							"character": 17
 						}
 					]
@@ -31729,7 +31725,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 558,
+									"line": 551,
 									"character": 2
 								}
 							],
@@ -31754,7 +31750,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 560,
+									"line": 553,
 									"character": 2
 								}
 							],
@@ -31777,7 +31773,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 556,
+							"line": 549,
 							"character": 17
 						}
 					]
@@ -33106,7 +33102,7 @@
 					"flags": {},
 					"comment": {
 						"shortText": "Spatial reference systems define mathematical transformations and coordinate systems for displaying spatial information in 2D and 3D.",
-						"text": "`ISpatialReference` can also be imported from the following packages:\n\n```js\nimport { ISpatialReference } from \"@esri/arcgis-rest-geocoding\";\nimport { ISpatialReference } from \"@esri/arcgis-rest-service-admin\";\nimport { ISpatialReference } from \"@esri/arcgis-rest-feature-service\";\n```\n"
+						"text": "`ISpatialReference` can also be imported from the following packages:\n\n```js\nimport { ISpatialReference } from \"@esri/arcgis-rest-geocoding\";\nimport { ISpatialReference } from \"@esri/arcgis-rest-feature-service\";\n```\n"
 					},
 					"children": [
 						{
@@ -33120,7 +33116,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 27,
+									"line": 26,
 									"character": 4
 								}
 							],
@@ -33140,7 +33136,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 25,
+									"line": 24,
 									"character": 4
 								}
 							],
@@ -33160,7 +33156,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 29,
+									"line": 28,
 									"character": 4
 								}
 							],
@@ -33180,7 +33176,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 26,
+									"line": 25,
 									"character": 4
 								}
 							],
@@ -33200,7 +33196,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 24,
+									"line": 23,
 									"character": 4
 								}
 							],
@@ -33220,7 +33216,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 28,
+									"line": 27,
 									"character": 4
 								}
 							],
@@ -33247,7 +33243,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 23,
+							"line": 22,
 							"character": 17
 						}
 					]
@@ -33489,8 +33485,7 @@
 					"kindString": "Interface",
 					"flags": {},
 					"comment": {
-						"shortText": "Root element in the web map specifying an array of table objects.",
-						"text": "`ITable` can also be imported from the following packages:\n\n```js\nimport { ITable } from \"@esri-arcgis-rest-service-admin\"\n```\n"
+						"shortText": "Root element in the web map specifying an array of table objects."
 					},
 					"children": [
 						{
@@ -33507,7 +33502,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 394,
+									"line": 387,
 									"character": 2
 								}
 							],
@@ -33530,7 +33525,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 396,
+									"line": 389,
 									"character": 2
 								}
 							],
@@ -33554,7 +33549,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 398,
+									"line": 391,
 									"character": 2
 								}
 							],
@@ -33577,7 +33572,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 400,
+									"line": 393,
 									"character": 2
 								}
 							],
@@ -33600,7 +33595,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 402,
+									"line": 395,
 									"character": 2
 								}
 							],
@@ -33624,7 +33619,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 392,
+									"line": 385,
 									"character": 2
 								}
 							],
@@ -33647,7 +33642,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 404,
+									"line": 397,
 									"character": 2
 								}
 							],
@@ -33671,7 +33666,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 406,
+									"line": 399,
 									"character": 2
 								}
 							],
@@ -33694,7 +33689,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 408,
+									"line": 401,
 									"character": 2
 								}
 							],
@@ -33724,7 +33719,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 390,
+							"line": 383,
 							"character": 17
 						}
 					]
@@ -33753,7 +33748,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 667,
+									"line": 660,
 									"character": 2
 								}
 							],
@@ -33776,7 +33771,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 671,
+									"line": 664,
 									"character": 2
 								}
 							],
@@ -33800,7 +33795,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 673,
+									"line": 666,
 									"character": 2
 								}
 							],
@@ -33823,7 +33818,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-									"line": 675,
+									"line": 668,
 									"character": 2
 								}
 							],
@@ -33849,7 +33844,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 665,
+							"line": 658,
 							"character": 17
 						}
 					]
@@ -35510,7 +35505,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-feature-service/src/helpers.ts",
-							"line": 643,
+							"line": 636,
 							"character": 12
 						}
 					],
@@ -35593,7 +35588,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 152,
+							"line": 151,
 							"character": 20
 						}
 					],
@@ -35694,7 +35689,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 202,
+							"line": 201,
 							"character": 20
 						}
 					],
@@ -35949,7 +35944,7 @@
 							"flags": {},
 							"comment": {
 								"shortText": "Add layer(s) and/or table(s) to a hosted feature service. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/add-to-definition-feature-service-.htm) for more information.",
-								"text": " ```js\nimport { addToServiceDefinition } from '@esri/arcgis-rest-service-admin';\n//\naddToServiceDefinition(serviceurl, {\n  authentication: ArcGISIdentityManager,\n  layers: [],\n  tables: []\n});\n```\n",
+								"text": " ```js\nimport { addToServiceDefinition } from '@esri/arcgis-rest-feature-service';\n//\naddToServiceDefinition(serviceurl, {\n  authentication: ArcGISIdentityManager,\n  layers: [],\n  tables: []\n});\n```\n",
 								"returns": "A Promise that resolves with service layer and/or table details once the definition\nhas been updated\n"
 							},
 							"parameters": [
@@ -36075,7 +36070,7 @@
 							"flags": {},
 							"comment": {
 								"shortText": "Create a new [hosted feature service](https://developers.arcgis.com/rest/users-groups-and-items/create-service.htm). After the service has been created, call [`addToServiceDefinition()`](../addToServiceDefinition/) if you'd like to update it's schema.",
-								"text": "```js\nimport {\n  createFeatureService,\n  addToServiceDefinition\n} from '@esri/arcgis-rest-service-admin';\n//\ncreateFeatureService({\n  authentication: ArcGISIdentityManager,\n  item: {\n    \"name\": \"NewEmptyService\",\n    \"capabilities\": \"Create,Delete,Query,Update,Editing\"\n  }\n});\n```\n",
+								"text": "```js\nimport {\n  createFeatureService,\n  addToServiceDefinition\n} from '@esri/arcgis-rest-feature-service';\n//\ncreateFeatureService({\n  authentication: ArcGISIdentityManager,\n  item: {\n    \"name\": \"NewEmptyService\",\n    \"capabilities\": \"Create,Delete,Query,Update,Editing\"\n  }\n});\n```\n",
 								"returns": "A Promise that resolves with service details once the service has been created\n"
 							},
 							"parameters": [
@@ -37207,7 +37202,7 @@
 							"flags": {},
 							"comment": {
 								"shortText": "Update a definition property in a hosted feature service. See the [REST Documentation](https://developers.arcgis.com/rest/services-reference/online/update-definition-feature-service-.htm) for more information.",
-								"text": "```js\nimport { updateServiceDefinition } from '@esri/arcgis-rest-service-admin';\n//\nupdateServiceDefinition(serviceurl, {\n  authentication: ArcGISIdentityManager,\n  updateDefinition: serviceDefinition\n});\n```\n",
+								"text": "```js\nimport { updateServiceDefinition } from '@esri/arcgis-rest-feature-service';\n//\nupdateServiceDefinition(serviceurl, {\n  authentication: ArcGISIdentityManager,\n  updateDefinition: serviceDefinition\n});\n```\n",
 								"returns": "A Promise that resolves with success or error\n"
 							},
 							"parameters": [
@@ -38691,7 +38686,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 172,
+									"line": 171,
 									"character": 4
 								}
 							],
@@ -38710,7 +38705,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 169,
+									"line": 168,
 									"character": 4
 								}
 							],
@@ -38728,7 +38723,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 166,
+									"line": 165,
 									"character": 4
 								}
 							],
@@ -38746,7 +38741,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 170,
+									"line": 169,
 									"character": 4
 								}
 							],
@@ -38764,7 +38759,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 167,
+									"line": 166,
 									"character": 4
 								}
 							],
@@ -38784,7 +38779,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 171,
+									"line": 170,
 									"character": 4
 								}
 							],
@@ -38804,7 +38799,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 168,
+									"line": 167,
 									"character": 4
 								}
 							],
@@ -38832,7 +38827,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 165,
+							"line": 164,
 							"character": 17
 						}
 					]
@@ -40046,7 +40041,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 69,
+									"line": 68,
 									"character": 4
 								}
 							],
@@ -40066,7 +40061,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 67,
+									"line": 66,
 									"character": 4
 								}
 							],
@@ -40086,7 +40081,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 70,
+									"line": 69,
 									"character": 4
 								}
 							],
@@ -40106,7 +40101,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 68,
+									"line": 67,
 									"character": 4
 								}
 							],
@@ -40126,7 +40121,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 71,
+									"line": 70,
 									"character": 4
 								}
 							],
@@ -40152,7 +40147,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 66,
+							"line": 65,
 							"character": 17
 						}
 					]
@@ -40227,7 +40222,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 41,
+									"line": 40,
 									"character": 4
 								}
 							],
@@ -40250,7 +40245,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 54,
+									"line": 53,
 									"character": 4
 								}
 							],
@@ -40268,7 +40263,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 55,
+									"line": 54,
 									"character": 4
 								}
 							],
@@ -40288,7 +40283,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 56,
+									"line": 55,
 									"character": 4
 								}
 							],
@@ -40315,7 +40310,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 53,
+							"line": 52,
 							"character": 17
 						}
 					],
@@ -40430,7 +40425,7 @@
 					"flags": {},
 					"comment": {
 						"shortText": "Spatial reference systems define mathematical transformations and coordinate systems for displaying spatial information in 2D and 3D.",
-						"text": "`ISpatialReference` can also be imported from the following packages:\n\n```js\nimport { ISpatialReference } from \"@esri/arcgis-rest-geocoding\";\nimport { ISpatialReference } from \"@esri/arcgis-rest-service-admin\";\nimport { ISpatialReference } from \"@esri/arcgis-rest-feature-service\";\n```\n"
+						"text": "`ISpatialReference` can also be imported from the following packages:\n\n```js\nimport { ISpatialReference } from \"@esri/arcgis-rest-geocoding\";\nimport { ISpatialReference } from \"@esri/arcgis-rest-feature-service\";\n```\n"
 					},
 					"children": [
 						{
@@ -40444,7 +40439,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 27,
+									"line": 26,
 									"character": 4
 								}
 							],
@@ -40464,7 +40459,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 25,
+									"line": 24,
 									"character": 4
 								}
 							],
@@ -40484,7 +40479,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 29,
+									"line": 28,
 									"character": 4
 								}
 							],
@@ -40504,7 +40499,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 26,
+									"line": 25,
 									"character": 4
 								}
 							],
@@ -40524,7 +40519,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 24,
+									"line": 23,
 									"character": 4
 								}
 							],
@@ -40544,7 +40539,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 28,
+									"line": 27,
 									"character": 4
 								}
 							],
@@ -40571,7 +40566,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 23,
+							"line": 22,
 							"character": 17
 						}
 					]
@@ -90159,7 +90154,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 136,
+									"line": 135,
 									"character": 2
 								}
 							],
@@ -90212,7 +90207,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 135,
+							"line": 134,
 							"character": 17
 						}
 					]
@@ -91247,7 +91242,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 151,
+									"line": 150,
 									"character": 2
 								}
 							],
@@ -91285,7 +91280,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 150,
+							"line": 149,
 							"character": 17
 						}
 					]
@@ -91309,7 +91304,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 158,
+									"line": 157,
 									"character": 2
 								}
 							],
@@ -91342,7 +91337,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 157,
+							"line": 156,
 							"character": 17
 						}
 					]
@@ -91491,7 +91486,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 200,
+									"line": 199,
 									"character": 2
 								}
 							],
@@ -91510,7 +91505,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 197,
+									"line": 196,
 									"character": 2
 								}
 							],
@@ -91528,7 +91523,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 194,
+									"line": 193,
 									"character": 2
 								}
 							],
@@ -91546,7 +91541,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 198,
+									"line": 197,
 									"character": 2
 								}
 							],
@@ -91564,7 +91559,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 195,
+									"line": 194,
 									"character": 2
 								}
 							],
@@ -91584,7 +91579,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 199,
+									"line": 198,
 									"character": 2
 								}
 							],
@@ -91604,7 +91599,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 196,
+									"line": 195,
 									"character": 2
 								}
 							],
@@ -91632,7 +91627,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 193,
+							"line": 192,
 							"character": 17
 						}
 					]
@@ -93040,7 +93035,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 46,
+									"line": 45,
 									"character": 2
 								}
 							],
@@ -93063,7 +93058,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 45,
+							"line": 44,
 							"character": 17
 						}
 					],
@@ -94867,7 +94862,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 76,
+									"line": 75,
 									"character": 2
 								}
 							],
@@ -94887,7 +94882,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 74,
+									"line": 73,
 									"character": 2
 								}
 							],
@@ -94907,7 +94902,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 77,
+									"line": 76,
 									"character": 2
 								}
 							],
@@ -94927,7 +94922,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 75,
+									"line": 74,
 									"character": 2
 								}
 							],
@@ -94947,7 +94942,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 78,
+									"line": 77,
 									"character": 2
 								}
 							],
@@ -94973,7 +94968,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 73,
+							"line": 72,
 							"character": 17
 						}
 					]
@@ -95047,7 +95042,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 224,
+									"line": 223,
 									"character": 2
 								}
 							],
@@ -95071,7 +95066,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 46,
+									"line": 45,
 									"character": 2
 								}
 							],
@@ -95102,7 +95097,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 223,
+							"line": 222,
 							"character": 17
 						}
 					],
@@ -95485,7 +95480,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 212,
+									"line": 211,
 									"character": 2
 								}
 							],
@@ -95526,7 +95521,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 211,
+							"line": 210,
 							"character": 17
 						}
 					]
@@ -95791,7 +95786,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 46,
+									"line": 45,
 									"character": 2
 								}
 							],
@@ -95815,7 +95810,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 60,
+									"line": 59,
 									"character": 2
 								}
 							],
@@ -95833,7 +95828,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 61,
+									"line": 60,
 									"character": 2
 								}
 							],
@@ -95853,7 +95848,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 62,
+									"line": 61,
 									"character": 2
 								}
 							],
@@ -95880,7 +95875,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 59,
+							"line": 58,
 							"character": 17
 						}
 					],
@@ -95964,7 +95959,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 105,
+									"line": 104,
 									"character": 2
 								}
 							],
@@ -95991,7 +95986,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 46,
+									"line": 45,
 									"character": 2
 								}
 							],
@@ -96022,7 +96017,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 104,
+							"line": 103,
 							"character": 17
 						}
 					],
@@ -96056,7 +96051,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 112,
+									"line": 111,
 									"character": 2
 								}
 							],
@@ -96143,7 +96138,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 46,
+									"line": 45,
 									"character": 2
 								}
 							],
@@ -96174,7 +96169,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 111,
+							"line": 110,
 							"character": 17
 						}
 					],
@@ -96261,7 +96256,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 91,
+									"line": 90,
 									"character": 2
 								}
 							],
@@ -96288,7 +96283,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 46,
+									"line": 45,
 									"character": 2
 								}
 							],
@@ -96319,7 +96314,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 90,
+							"line": 89,
 							"character": 17
 						}
 					],
@@ -96353,7 +96348,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 98,
+									"line": 97,
 									"character": 2
 								}
 							],
@@ -96440,7 +96435,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 46,
+									"line": 45,
 									"character": 2
 								}
 							],
@@ -96471,7 +96466,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 97,
+							"line": 96,
 							"character": 17
 						}
 					],
@@ -97517,7 +97512,7 @@
 					"flags": {},
 					"comment": {
 						"shortText": "Spatial reference systems define mathematical transformations and coordinate systems for displaying spatial information in 2D and 3D.",
-						"text": "`ISpatialReference` can also be imported from the following packages:\n\n```js\nimport { ISpatialReference } from \"@esri/arcgis-rest-geocoding\";\nimport { ISpatialReference } from \"@esri/arcgis-rest-service-admin\";\nimport { ISpatialReference } from \"@esri/arcgis-rest-feature-service\";\n```\n"
+						"text": "`ISpatialReference` can also be imported from the following packages:\n\n```js\nimport { ISpatialReference } from \"@esri/arcgis-rest-geocoding\";\nimport { ISpatialReference } from \"@esri/arcgis-rest-feature-service\";\n```\n"
 					},
 					"children": [
 						{
@@ -97531,7 +97526,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 31,
+									"line": 30,
 									"character": 2
 								}
 							],
@@ -97551,7 +97546,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 29,
+									"line": 28,
 									"character": 2
 								}
 							],
@@ -97571,7 +97566,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 33,
+									"line": 32,
 									"character": 2
 								}
 							],
@@ -97591,7 +97586,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 30,
+									"line": 29,
 									"character": 2
 								}
 							],
@@ -97611,7 +97606,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 28,
+									"line": 27,
 									"character": 2
 								}
 							],
@@ -97631,7 +97626,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/types/geometry.ts",
-									"line": 32,
+									"line": 31,
 									"character": 2
 								}
 							],
@@ -97658,7 +97653,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 27,
+							"line": 26,
 							"character": 17
 						}
 					]
@@ -99263,7 +99258,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 164,
+							"line": 163,
 							"character": 12
 						}
 					],
@@ -99360,7 +99355,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 173,
+							"line": 172,
 							"character": 12
 						}
 					],
@@ -99905,7 +99900,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 206,
+							"line": 205,
 							"character": 12
 						}
 					],
@@ -99945,7 +99940,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 118,
+							"line": 117,
 							"character": 12
 						}
 					],
@@ -100011,7 +100006,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 130,
+							"line": 129,
 							"character": 12
 						}
 					],
@@ -100132,7 +100127,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/types/geometry.ts",
-							"line": 234,
+							"line": 233,
 							"character": 12
 						}
 					],
@@ -104383,7 +104378,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 69,
+									"line": 68,
 									"character": 4
 								}
 							],
@@ -104403,7 +104398,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 67,
+									"line": 66,
 									"character": 4
 								}
 							],
@@ -104423,7 +104418,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 70,
+									"line": 69,
 									"character": 4
 								}
 							],
@@ -104443,7 +104438,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 68,
+									"line": 67,
 									"character": 4
 								}
 							],
@@ -104463,7 +104458,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 71,
+									"line": 70,
 									"character": 4
 								}
 							],
@@ -104489,7 +104484,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 66,
+							"line": 65,
 							"character": 17
 						}
 					]
@@ -105598,7 +105593,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 41,
+									"line": 40,
 									"character": 4
 								}
 							],
@@ -105620,7 +105615,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 54,
+									"line": 53,
 									"character": 4
 								}
 							],
@@ -105638,7 +105633,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 55,
+									"line": 54,
 									"character": 4
 								}
 							],
@@ -105658,7 +105653,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 56,
+									"line": 55,
 									"character": 4
 								}
 							],
@@ -105685,7 +105680,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 53,
+							"line": 52,
 							"character": 17
 						}
 					],
@@ -105768,7 +105763,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 83,
+									"line": 82,
 									"character": 4
 								}
 							],
@@ -105794,7 +105789,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-									"line": 41,
+									"line": 40,
 									"character": 4
 								}
 							],
@@ -105823,7 +105818,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 82,
+							"line": 81,
 							"character": 17
 						}
 					],
@@ -107798,7 +107793,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
-							"line": 114,
+							"line": 113,
 							"character": 20
 						}
 					],
