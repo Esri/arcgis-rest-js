@@ -55,7 +55,7 @@ var authBtn = document.getElementById('sign-in');
 authBtn.addEventListener('click', function (e) {
   arcgisRest.ArcGISIdentityManager.beginOAuth2({
     clientId: ClientId,
-    redirectUri: "http://localhost:8080/authenticate.html",
+    redirectUri: "https://localhost:8080/authenticate.html",
     popup: true,
     portal: "https://www.arcgis.com/sharing/rest"
   }).then((session) => {
