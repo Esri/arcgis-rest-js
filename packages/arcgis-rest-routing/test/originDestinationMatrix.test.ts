@@ -793,4 +793,35 @@ describe("originDestinationMatrix", () => {
         fail(e);
       });
   });
+
+  it("should support rawResponse", (done) => {
+    fetchMock.once("*", OriginDestinationMatrix);
+
+    const MOCK_AUTH = {
+      getToken() {
+        return Promise.resolve("token");
+      },
+      portal: "https://mapsdev.arcgis.com"
+    };
+
+    originDestinationMatrix({
+      origins,
+      destinations,
+      authentication: MOCK_AUTH,
+      rawResponse: true
+    })
+      .then((response: any) => {
+        expect(fetchMock.called()).toEqual(true);
+        const [url, options]: [string, RequestInit] = fetchMock.lastCall("*");
+        expect(options.method).toBe("POST");
+        expect(options.body).toContain("f=json");
+        expect(response.status).toBe(200);
+        expect(response.ok).toBe(true);
+        expect(response.body.Readable).not.toBe(null);
+        done();
+      })
+      .catch((e) => {
+        fail(e);
+      });
+  });
 });
