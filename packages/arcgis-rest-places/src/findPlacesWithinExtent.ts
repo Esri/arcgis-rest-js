@@ -6,6 +6,7 @@ import {
 
 import { operations } from "./openapi-types.js";
 import { baseUrl, hasNextPage, getNextPageParams } from "./utils.js";
+import { IconOptions } from "./iconOptions.js";
 
 // determine the list of allowed params we want to allow as options
 // this should match the array given to appendCustomParams below
@@ -43,6 +44,7 @@ export interface IFindPlaceWithinExtentOptions
    * @private
    */
   endpoint?: string;
+  icon?: IconOptions;
 }
 
 /**
@@ -95,7 +97,8 @@ export function findPlacesWithinExtent(
       "categoryIds",
       "pageSize",
       "offset",
-      "searchText"
+      "searchText",
+      "icon"
     ],
     {
       ...requestOptions

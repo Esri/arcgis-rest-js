@@ -1,6 +1,6 @@
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
 import fetchMock from "fetch-mock";
-import { getCategories } from "../src/index.js";
+import { getCategories, IconOptions } from "../src/index.js";
 import { categoriesMock } from "./mocks/categories.mock.js";
 
 describe("getCategories()", () => {
@@ -33,5 +33,17 @@ describe("getCategories()", () => {
     expect(url).toEqual(
       "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/categories?f=json&token=MOCK_KEY"
     );
+  });
+
+  it("verify icon param", async () => {
+    fetchMock.mock("*", categoriesMock);
+
+    await getCategories({
+      icon: IconOptions.SVG,
+      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+    });
+
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toContain("icon=svg");
   });
 });

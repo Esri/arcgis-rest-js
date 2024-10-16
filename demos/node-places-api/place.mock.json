@@ -1,41 +1,37 @@
 {
   "placeDetails": {
-    "placeId": "6eb039fa6c292d431b370f8ff9182955",
+    "placeId": "188ab43b2bec75c6e4f6d5df10afc003",
     "location": {
-      "x": -118.001636,
-      "y": 33.802438
+      "x": -118.008724,
+      "y": 33.816751
     },
     "categories": [
       {
-        "categoryId": "13043",
-        "label": "Donut Shop"
-      },
-      {
-        "categoryId": "13001",
-        "label": "Bagel Shop"
-      },
-      {
         "categoryId": "13002",
         "label": "Bakery"
+      },
+      {
+        "categoryId": "13065",
+        "label": "Restaurant"
       }
     ],
-    "name": "Donut King and Water",
+    "name": "Maxs Baked Goods",
     "description": null,
     "address": {
-      "streetAddress": "7502 Katella Ave",
-      "extended": null,
-      "locality": "Stanton",
+      "streetAddress": "3414 W Ball Rd",
+      "extended": "Ste J",
+      "locality": "Anaheim",
       "designatedMarketArea": "Los Angeles",
       "region": "CA",
-      "postcode": "90680",
+      "postcode": "92804",
       "poBox": null,
       "country": "US",
       "adminRegion": null,
       "postTown": null,
       "neighborhood": [
-        "Los Alamitos Junction"
+        "Hansen"
       ],
-      "censusBlockId": "060590881011018"
+      "censusBlockId": "060590878011002"
     },
     "additionalLocations": {
       "dropOff": null,
@@ -44,13 +40,13 @@
       "roof": null
     },
     "contactInfo": {
-      "telephone": "(714) 892-2314",
-      "website": "https://www.groupon.com/biz/stanton-ca/masters-donuts",
+      "telephone": "(714) 398-2813",
+      "website": "https://maxsbakedgoods.com",
       "fax": null,
       "email": null
     },
     "socialMedia": {
-      "facebookId": "111706432194575",
+      "facebookId": null,
       "twitter": null,
       "instagram": null
     },
@@ -58,54 +54,51 @@
       "opening": {
         "monday": [
           {
-            "from": "00:00",
-            "to": "23:59"
+            "from": "07:00",
+            "to": "18:00"
           }
         ],
         "tuesday": [
           {
-            "from": "00:00",
-            "to": "23:59"
+            "from": "07:00",
+            "to": "19:00"
           }
         ],
         "wednesday": [
           {
-            "from": "00:00",
-            "to": "23:59"
+            "from": "07:00",
+            "to": "18:00"
           }
         ],
         "thursday": [
           {
-            "from": "00:00",
-            "to": "23:59"
+            "from": "07:00",
+            "to": "19:00"
           }
         ],
         "friday": [
           {
-            "from": "00:00",
-            "to": "23:59"
+            "from": "07:00",
+            "to": "18:00"
           }
         ],
         "saturday": [
           {
-            "from": "00:00",
-            "to": "23:59"
-          }
-        ],
-        "sunday": [
-          {
-            "from": "00:00",
-            "to": "23:59"
+            "from": "07:00",
+            "to": "19:00"
           }
         ]
       },
       "popular": null,
-      "openingText": "Open Daily 12:00 AM-11:59 PM"
+      "openingText": "Mon 7:00 AM-6:00 PM; Tue 7:00 AM-7:00 PM; Wed 7:00 AM-6:00 PM; Thu 7:00 AM-7:00 PM; Fri 7:00 AM-6:00 PM; Sat 7:00 AM-7:00 PM"
     },
     "rating": {
-      "price": "cheap",
+      "price": null,
       "user": null
     },
-    "chains": []
+    "chains": [],
+    "icon": {
+      "url": "https://static.arcgis.com/icons/places/Bakery_15.svg"
+    }
   }
 }

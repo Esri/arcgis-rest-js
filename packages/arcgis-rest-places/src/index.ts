@@ -10,3 +10,4 @@ export * from "./findPlacesWithinExtent.js";
 export * from "./getPlaceDetails.js";
 export * from "./getCategories.js";
 export * from "./getCategory.js";
+export * from "./iconOptions.js";
