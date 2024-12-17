@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-feature-service [4.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.0.6...@esri/arcgis-rest-feature-service@4.1.0) (2024-12-17)
+
+
+### Features
+
+* add overwrite and isView options ([#1175](https://github.com/Esri/arcgis-rest-js/issues/1175)) ([949e341](https://github.com/Esri/arcgis-rest-js/commit/949e34102b0bedc4b0d8f4ac1741ecdc3b883bd4))
+
 ## @esri/arcgis-rest-feature-service [4.0.6](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.0.5...@esri/arcgis-rest-feature-service@4.0.6) (2024-06-15)
 
 
