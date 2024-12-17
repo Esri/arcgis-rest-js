@@ -63,6 +63,7 @@ npx openapi-typescript@5 https://places-api.arcgis.com/arcgis/rest/services/plac
 ```
 
 The generated types are used in the interfaces for ArcGIS REST JS.
+The mist recent version if the Open API spec is linked to from the places documentation https://developers.arcgis.com/rest/places/
 
 ### [Changelog](https://github.com/Esri/arcgis-rest-js/blob/master/CHANGELOG.md)
 
