@@ -96,6 +96,15 @@ export interface ICreateServiceOptions extends ICreateUpdateItemOptions {
    * root folder.
    */
   folderId?: string;
+  /**
+   * If true, the service is overwritten. The default value is false.
+   */
+  overwrite?: boolean;
+  /**
+   * Specifies if the request is generating a location tracking view. A view can only be
+   * created if there is already a Location Tracking Service that has been created.
+   */
+  isView?: boolean;
 }
 
 export interface ICreateServiceResult {
