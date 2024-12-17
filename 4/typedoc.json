@@ -2187,7 +2187,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -2738,7 +2738,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -3406,7 +3406,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -5231,7 +5231,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -5832,7 +5832,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -14751,7 +14751,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -15192,7 +15192,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -16896,7 +16896,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -19413,7 +19413,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -20277,7 +20277,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -20718,7 +20718,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -24564,7 +24564,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -25004,7 +25004,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -25444,7 +25444,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -29194,7 +29194,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -30845,7 +30845,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -32077,7 +32077,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -32586,7 +32586,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -33934,7 +33934,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -34376,7 +34376,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -37713,7 +37713,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -38292,7 +38292,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -38932,7 +38932,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -41172,7 +41172,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -41772,7 +41772,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -43380,7 +43380,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -43951,7 +43951,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -44539,7 +44539,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -49718,7 +49718,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -52393,7 +52393,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -53554,7 +53554,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -56100,7 +56100,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -56595,7 +56595,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -57066,7 +57066,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -60781,7 +60781,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -62204,7 +62204,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -63660,7 +63660,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -67305,7 +67305,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -68676,7 +68676,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -69396,7 +69396,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -70111,7 +70111,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -72291,7 +72291,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -75134,7 +75134,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -76819,7 +76819,7 @@
 							"kindString": "Property",
 							"flags": {},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -90618,7 +90618,7 @@
 							"kindString": "Property",
 							"flags": {},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -96526,7 +96526,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -96872,7 +96872,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -102187,7 +102187,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -103535,7 +103535,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -104529,7 +104529,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -105876,7 +105876,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -106209,7 +106209,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
@@ -107123,7 +107123,7 @@
 								"isOptional": true
 							},
 							"comment": {
-								"shortText": "The instance of {@linkcode ApiKey}, {@linkcode ArcGISIdentityManager} or {@linkcode ApplicationSession} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
+								"shortText": "The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged."
 							},
 							"sources": [
 								{
