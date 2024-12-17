@@ -1,6 +1,6 @@
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
 import fetchMock, { MockCall } from "fetch-mock";
-import { findPlacesNearPoint } from "../src/index.js";
+import { findPlacesNearPoint, IconOptions } from "../src/index.js";
 import {
   placeNearPointMockNoMoreResults,
   placeNearPointMockMoreResults
@@ -91,5 +91,20 @@ describe("findPlacesNearPoint()", () => {
     expect(url).toEqual(
       "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/near-point?f=json&x=-3.1883&y=55.9533&radius=10&token=MOCK_KEY"
     );
+  });
+
+  it("verify icon param", async () => {
+    fetchMock.mock("*", placeNearPointMockNoMoreResults);
+
+    await findPlacesNearPoint({
+      x: -3.1883,
+      y: 55.9533,
+      radius: 10,
+      icon: IconOptions.CIM,
+      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+    });
+
+    const [url, options] = fetchMock.lastCall("*") as MockCall;
+    expect(url).toContain("&icon=cim");
   });
 });
