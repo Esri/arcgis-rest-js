@@ -1,32 +1,56 @@
 {
   "results": [
     {
-      "placeId": "6eb039fa6c292d431b370f8ff9182955",
+      "placeId": "188ab43b2bec75c6e4f6d5df10afc003",
       "location": {
-        "x": -118.001636,
-        "y": 33.802438
+        "x": -118.008724,
+        "y": 33.816751
       },
       "categories": [
         {
-          "categoryId": "13043",
-          "label": "Donut Shop"
+          "categoryId": "13002",
+          "label": "Bakery"
         },
+        {
+          "categoryId": "13065",
+          "label": "Restaurant"
+        }
+      ],
+      "name": "Maxs Baked Goods",
+      "icon": {
+        "url": "https://static.arcgis.com/icons/places/Bakery_15.cim"
+      }
+    },
+    {
+      "placeId": "2a6ddf5433a1c9a664b268adbdcf7559",
+      "location": {
+        "x": -118.010416,
+        "y": 33.825168
+      },
+      "categories": [
         {
           "categoryId": "13001",
           "label": "Bagel Shop"
         },
         {
+          "categoryId": "13065",
+          "label": "Restaurant"
+        },
+        {
           "categoryId": "13002",
           "label": "Bakery"
         }
       ],
-      "name": "Donut King and Water"
+      "name": "Donut Storr",
+      "icon": {
+        "url": "https://static.arcgis.com/icons/places/Bakery_15.cim"
+      }
     },
     {
-      "placeId": "06dc48eba7c1c3106db6a0f498eaf1c7",
+      "placeId": "c602ca8f1010f95618c231046dbef3f6",
       "location": {
-        "x": -118.001186,
-        "y": 33.809568
+        "x": -118.001473,
+        "y": 33.831684
       },
       "categories": [
         {
@@ -34,11 +58,14 @@
           "label": "Bakery"
         },
         {
-          "categoryId": "13303",
-          "label": "Mexican Restaurant"
+          "categoryId": "13065",
+          "label": "Restaurant"
         }
       ],
-      "name": "Panaderia Cortez"
+      "name": "Tlaxcala Bakery",
+      "icon": {
+        "url": "https://static.arcgis.com/icons/places/Bakery_15.cim"
+      }
     },
     {
       "placeId": "693a02b6f4c32acf6d1060a164865da4",
@@ -48,19 +75,22 @@
       },
       "categories": [
         {
-          "categoryId": "13043",
-          "label": "Donut Shop"
-        },
-        {
           "categoryId": "13001",
           "label": "Bagel Shop"
+        },
+        {
+          "categoryId": "13065",
+          "label": "Restaurant"
         },
         {
           "categoryId": "13002",
           "label": "Bakery"
         }
       ],
-      "name": "Amy's Donuts"
+      "name": "Amy's Donuts",
+      "icon": {
+        "url": "https://static.arcgis.com/icons/places/Bakery_15.cim"
+      }
     }
   ]
 }

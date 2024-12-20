@@ -1,6 +1,6 @@
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
 import fetchMock from "fetch-mock";
-import { findPlacesWithinExtent } from "../src/index.js";
+import { findPlacesWithinExtent, IconOptions } from "../src/index.js";
 import {
   placesWithinExtentMockNoMoreResults,
   placesWithinExtentMockMoreResults
@@ -85,5 +85,23 @@ describe("findPlacesWithinExtent()", () => {
     expect(url).toEqual(
       "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/within-extent?f=json&xmin=-118.013334&ymin=33.78193&xmax=-117.795753&ymax=33.873337&categoryIds=13002&pageSize=5&token=MOCK_KEY"
     );
+  });
+
+  it("verify icon param", async () => {
+    fetchMock.mock("*", placesWithinExtentMockNoMoreResults);
+
+    await findPlacesWithinExtent({
+      xmin: -118.013334,
+      ymin: 33.78193,
+      xmax: -117.795753,
+      ymax: 33.873337,
+      categoryIds: ["13002"],
+      pageSize: 5,
+      icon: IconOptions.PNG,
+      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+    });
+
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toContain("&icon=png");
   });
 });
