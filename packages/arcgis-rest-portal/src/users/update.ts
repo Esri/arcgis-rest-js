@@ -42,12 +42,13 @@ export interface IUpdateUserResponse {
  * @param requestOptions - options to pass through in the request
  * @returns A Promise that will resolve with metadata about the user
  */
-export function updateUser(
+export async function updateUser(
   requestOptions?: IUpdateUserOptions
 ): Promise<IUpdateUserResponse> {
   // default to the authenticated username unless another username is provided manually
   const username =
-    requestOptions.user.username || requestOptions.authentication.username;
+    requestOptions.user.username ||
+    (await requestOptions.authentication.getUsername());
 
   const updateUrl = `${getPortalUrl(
     requestOptions

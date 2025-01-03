@@ -31,7 +31,7 @@ import { getUser } from "../users/get-user.js";
 export function unshareItemWithGroup(
   requestOptions: IGroupSharingOptions
 ): Promise<ISharingResponse> {
-  return isItemSharedWithGroup(requestOptions).then((isShared) => {
+  return isItemSharedWithGroup(requestOptions).then(async (isShared) => {
     // not shared
     if (!isShared) {
       // exit early with success response
@@ -42,11 +42,8 @@ export function unshareItemWithGroup(
       } as ISharingResponse);
     }
 
-    const {
-      authentication: { username },
-      owner
-    } = requestOptions;
-
+    const { owner } = requestOptions;
+    const username = await requestOptions.authentication.getUsername();
     // next check if the user is a member of the group
     return Promise.all([
       getUserMembership(requestOptions),
@@ -87,10 +84,10 @@ export function unshareItemWithGroup(
   });
 }
 
-function unshareFromGroup(
+async function unshareFromGroup(
   requestOptions: IGroupSharingOptions
 ): Promise<ISharingResponse> {
-  const username = requestOptions.authentication.username;
+  const username = await requestOptions.authentication.getUsername();
   const itemOwner = requestOptions.owner || username;
   // decide what url to use
   // default to the non-owner url...

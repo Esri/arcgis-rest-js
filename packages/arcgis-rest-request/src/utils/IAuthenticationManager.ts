@@ -1,3 +1,4 @@
+import { IUser } from "../types/user.js";
 import { ITokenRequestOptions } from "./ITokenRequestOptions.js";
 /**
  * Authentication can be supplied to `request` via {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager}. These classes implement {@linkCode IAuthenticationManager}.
@@ -25,6 +26,16 @@ export interface IAuthenticationManager {
    * @param requestOptions the requests options.
    */
   getToken(url: string, requestOptions?: ITokenRequestOptions): Promise<string>;
+
+  /**
+   * Optional. Returns a promise that resolves with the username. Used internally by some methods to consruct URLs that require a username.
+   */
+  getUsername?(): Promise<string>;
+
+  /**
+   * Optional. Returns a promise that resolves with the user. Used internally by some methods to check if the user is an admin but can be used as a generic way to get user information.
+   */
+  getUser?(): Promise<IUser>;
 
   /**
    * Optional. Returns the proper [`credentials` option for `fetch`](https://developer.mozilla.org/en-US/docs/Web/API/fetch) for a given domain.

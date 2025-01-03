@@ -8,6 +8,7 @@ import {
 } from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
+import { determineUsername } from "../util/determine-username.js";
 
 export interface IInvitation {
   id: string;
@@ -48,12 +49,11 @@ export interface IInvitationResult {
  * @param requestOptions - options to pass through in the request
  * @returns A Promise that will resolve with the user's invitations
  */
-export function getUserInvitations(
+export async function getUserInvitations(
   requestOptions: IUserRequestOptions
 ): Promise<IInvitationResult> {
   let options = { httpMethod: "GET" } as IUserRequestOptions;
-
-  const username = encodeURIComponent(requestOptions.authentication.username);
+  const username = await determineUsername(requestOptions);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/invitations`;
   options = { ...requestOptions, ...options };
@@ -82,10 +82,10 @@ export interface IGetUserInvitationOptions extends IUserRequestOptions {
  * @param requestOptions - options to pass through in the request
  * @returns A Promise that will resolve with the invitation
  */
-export function getUserInvitation(
+export async function getUserInvitation(
   requestOptions: IGetUserInvitationOptions
 ): Promise<IInvitation> {
-  const username = encodeURIComponent(requestOptions.authentication.username);
+  const username = await determineUsername(requestOptions);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/invitations/${requestOptions.invitationId}`;
 
@@ -112,7 +112,7 @@ export function getUserInvitation(
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the success/failure status of the request
  */
-export function acceptInvitation(
+export async function acceptInvitation(
   requestOptions: IGetUserInvitationOptions
 ): Promise<{
   success: boolean;
@@ -120,7 +120,7 @@ export function acceptInvitation(
   groupId: string;
   id: string;
 }> {
-  const username = encodeURIComponent(requestOptions.authentication.username);
+  const username = await determineUsername(requestOptions);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/invitations/${requestOptions.invitationId}/accept`;
 
@@ -144,7 +144,7 @@ export function acceptInvitation(
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the success/failure status of the request
  */
-export function declineInvitation(
+export async function declineInvitation(
   requestOptions: IGetUserInvitationOptions
 ): Promise<{
   success: boolean;
@@ -152,7 +152,7 @@ export function declineInvitation(
   groupId: string;
   id: string;
 }> {
-  const username = encodeURIComponent(requestOptions.authentication.username);
+  const username = await determineUsername(requestOptions);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/invitations/${requestOptions.invitationId}/decline`;
 

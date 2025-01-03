@@ -38,11 +38,11 @@ interface IEnsureMembershipResult {
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the data from the response.
  */
-export function shareItemWithGroup(
+export async function shareItemWithGroup(
   requestOptions: IGroupSharingOptions
 ): Promise<ISharingResponse> {
   return isItemSharedWithGroup(requestOptions)
-    .then((isShared) => {
+    .then(async (isShared) => {
       if (isShared) {
         // already shared, exit early with success response
         return {
@@ -52,11 +52,8 @@ export function shareItemWithGroup(
         } as ISharingResponse;
       }
 
-      const {
-        authentication: { username },
-        owner,
-        confirmItemControl
-      } = requestOptions;
+      const { owner, confirmItemControl } = requestOptions;
+      const username = await requestOptions.authentication.getUsername();
       const itemOwner = owner || username;
 
       // non-item owner
@@ -193,12 +190,12 @@ function getMembershipAdjustments(
   return membershipGuarantees;
 }
 
-function shareToGroup(
+async function shareToGroup(
   requestOptions: IGroupSharingOptions,
   isAdmin = false,
   isCrossOrgSharing = false
 ): Promise<ISharingResponse> {
-  const username = requestOptions.authentication.username;
+  const username = await requestOptions.authentication.getUsername();
   const itemOwner = requestOptions.owner || username;
   // decide what url to use
   // default to the non-owner url...

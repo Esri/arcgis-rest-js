@@ -17,7 +17,7 @@ export interface IUserItemOptions extends IUserRequestOptions {
    */
   id: string;
   /**
-   * Item owner username. If not present, `authentication.username` is utilized.
+   * Item owner username. If not present, `authentication.getUsername()` is utilized.
    */
   owner?: string;
 }
@@ -28,7 +28,7 @@ export interface IFolderIdOptions extends IUserRequestOptions {
    */
   folderId: string;
   /**
-   * Item owner username. If not present, `authentication.username` is utilized.
+   * Item owner username. If not present, `authentication.getUsername()` is utilized.
    */
   owner?: string;
 }
@@ -141,7 +141,7 @@ export interface IRemoveItemResourceOptions extends IUserItemOptions {
 
 export interface ICreateUpdateItemOptions extends IUserRequestOptions {
   /**
-   * The owner of the item. If this property is not present, `item.owner` will be passed, or lastly `authentication.username`.
+   * The owner of the item. If this property is not present, `item.owner` will be passed, or lastly `authentication.getUsername()`.
    */
   owner?: string;
   /**

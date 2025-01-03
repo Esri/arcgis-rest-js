@@ -32,7 +32,7 @@ describe("ApiKeyManager", () => {
   });
 
   describe(".fromKey()", () => {
-    it("should create a new ApiKeyManager", (done) => {
+    it("should create a new ApiKeyManager from a string", (done) => {
       const session = ApiKeyManager.fromKey("123456");
 
       Promise.all([
@@ -44,6 +44,88 @@ describe("ApiKeyManager", () => {
         .then(([token1, token2]) => {
           expect(token1).toBe("123456");
           expect(token2).toBe("123456");
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should create a new ApiKeyManager from an options object", (done) => {
+      const session = ApiKeyManager.fromKey({
+        key: "123456",
+        username: "c@sey"
+      });
+
+      expect(session.username).toBe("c@sey");
+
+      Promise.all([
+        session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
+        session.getToken(
+          "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
+        )
+      ])
+        .then(([token1, token2]) => {
+          expect(token1).toBe("123456");
+          expect(token2).toBe("123456");
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+  });
+
+  describe(".getUsername()", () => {
+    afterEach(() => {
+      fetchMock.restore();
+    });
+
+    it("should fetch the username via getUser()", (done) => {
+      // we intentionally only mock one response
+      fetchMock.once(
+        "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
+        {
+          username: "jsmith"
+        }
+      );
+
+      const session = ApiKeyManager.fromKey({
+        key: "token"
+      });
+
+      session
+        .getUsername()
+        .then((response) => {
+          expect(response).toEqual("jsmith");
+
+          // also test getting it from the cache.
+          session
+            .getUsername()
+            .then((username) => {
+              done();
+
+              expect(username).toEqual("jsmith");
+            })
+            .catch((e) => {
+              fail(e);
+            });
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should use a username if passed in the session", (done) => {
+      const session = ApiKeyManager.fromKey({
+        key: "token",
+        username: "jsmith"
+      });
+
+      session
+        .getUsername()
+        .then((response) => {
+          expect(response).toEqual("jsmith");
           done();
         })
         .catch((e) => {

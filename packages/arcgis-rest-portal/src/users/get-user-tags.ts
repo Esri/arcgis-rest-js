@@ -4,6 +4,7 @@
 import { request } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "../util/get-portal-url.js";
 import { IGetUserOptions } from "./get-user.js";
+import { determineUsername } from "../util/determine-username.js";
 
 export interface ITagCount {
   /**
@@ -39,14 +40,13 @@ export interface IGetUserTagsResponse {
  * @param IGetUserOptions - options to pass through in the request
  * @returns A Promise that will resolve with the user tag array
  */
-export function getUserTags(
+export async function getUserTags(
   requestOptions: IGetUserOptions
 ): Promise<IGetUserTagsResponse> {
-  const username =
-    requestOptions.username || requestOptions.authentication.username;
+  const username = await determineUsername(requestOptions);
   const url = `${getPortalUrl(
     requestOptions
-  )}/community/users/${encodeURIComponent(username)}/tags`;
+  )}/community/users/${username}/tags`;
 
   // send the request
   return request(url, requestOptions);

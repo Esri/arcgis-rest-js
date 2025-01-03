@@ -5,16 +5,18 @@ import {
   request,
   IRequestOptions,
   ArcGISIdentityManager,
-  IUser
+  IUser,
+  IAuthenticationManager
 } from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
+import { determineUsername } from "../util/determine-username.js";
 
 export interface IGetUserOptions extends IRequestOptions {
   /**
    * A session representing a logged in user.
    */
-  authentication?: ArcGISIdentityManager;
+  authentication?: IAuthenticationManager;
   /**
    * Supply a username if you'd like to fetch information about a different user than is being used to authenticate the request.
    */
@@ -35,7 +37,7 @@ export interface IGetUserOptions extends IRequestOptions {
  * @param requestOptions - options to pass through in the request
  * @returns A Promise that will resolve with metadata about the user
  */
-export function getUser(
+export async function getUser(
   requestOptions?: string | IGetUserOptions
 ): Promise<IUser> {
   let url;
@@ -46,11 +48,8 @@ export function getUser(
     url = `https://www.arcgis.com/sharing/rest/community/users/${requestOptions}`;
   } else {
     // if an authenticated session is passed, default to that user/portal unless another username is provided manually
-    const username =
-      requestOptions.username || requestOptions.authentication.username;
-    url = `${getPortalUrl(requestOptions)}/community/users/${encodeURIComponent(
-      username
-    )}`;
+    const username = await determineUsername(requestOptions);
+    url = `${getPortalUrl(requestOptions)}/community/users/${username}`;
     options = {
       ...requestOptions,
       ...options

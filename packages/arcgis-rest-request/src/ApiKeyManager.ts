@@ -2,12 +2,15 @@
  * Apache-2.0 */
 
 import { IAuthenticationManager } from "./utils/IAuthenticationManager.js";
+import { AuthenticationManagerBase } from "./AuthenticationManagerBase.js";
 
 /**
  * Options for the `ApiKey` constructor.
  */
 export interface IApiKeyOptions {
   key: string;
+  username?: string;
+  portal?: string;
 }
 
 /**
@@ -21,7 +24,10 @@ export interface IApiKeyOptions {
  * 
  * In most cases however the API key can be passed directly to the {@linkcode IRequestOptions.authentication}.
  */
-export class ApiKeyManager implements IAuthenticationManager {
+export class ApiKeyManager
+  extends AuthenticationManagerBase
+  implements IAuthenticationManager
+{
   /**
    * The current portal the user is authenticated with.
    */
@@ -32,11 +38,16 @@ export class ApiKeyManager implements IAuthenticationManager {
   /**
    * The preferred method for creating an instance of `ApiKeyManager`.
    */
-  public static fromKey(apiKey: string) {
-    return new ApiKeyManager({ key: apiKey });
+  public static fromKey(apiKey: string | IApiKeyOptions) {
+    if (typeof apiKey === "string") {
+      return new ApiKeyManager({ key: apiKey });
+    } else {
+      return new ApiKeyManager(apiKey);
+    }
   }
 
   constructor(options: IApiKeyOptions) {
+    super(options);
     this.key = options.key;
   }
 

@@ -2,12 +2,13 @@
  * Apache-2.0 */
 
 import fetchMock from "fetch-mock";
-import { getUserMembership } from "../../src/sharing/helpers.js";
+import { getSharingUrl, getUserMembership } from "../../src/sharing/helpers.js";
 import { MOCK_USER_SESSION } from "../mocks/sharing/sharing.js";
 import {
   GroupOwnerResponse,
   GroupNoAccessResponse
 } from "./share-item-with-group.test.js";
+import { isItemOwner } from "../../src/sharing/helpers.js";
 
 describe("sharing helpers ::", () => {
   afterEach(() => {
@@ -52,6 +53,40 @@ describe("sharing helpers ::", () => {
         .catch((e) => {
           fail(e);
         });
+    });
+
+    describe("isItemOwner ::", () => {
+      it("should use the username from the session if none is passed", () => {
+        expect(
+          isItemOwner({
+            id: "3ef",
+            owner: "casey",
+            authentication: MOCK_USER_SESSION
+          })
+        ).toBe(false);
+
+        expect(
+          isItemOwner({
+            id: "3ef",
+            owner: "jsmith",
+            authentication: MOCK_USER_SESSION
+          })
+        ).toBe(true);
+      });
+    });
+
+    describe("getSharingUrl ::", () => {
+      it("should use the username from the session if none is passed", () => {
+        expect(
+          getSharingUrl({
+            id: "3ef",
+            owner: "casey",
+            authentication: MOCK_USER_SESSION
+          })
+        ).toBe(
+          "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/share"
+        );
+      });
     });
   });
 });
