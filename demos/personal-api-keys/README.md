@@ -5,5 +5,5 @@ When an API key is created with personal scopes it returns user information in t
 To run this example:
 
 1. Create an API key with the privileges to create, read and update items.
-2. Copy `config.template.js` to `config.js` and replace the API key with the API key from step 1.
+2. Copy `config.template.ts` to `config.ts` and replace the API key with the API key from step 1.
 3. Run `npm install` and `npm start`

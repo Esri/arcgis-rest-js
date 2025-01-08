@@ -33,7 +33,7 @@ export function getSharingUrl(
   username?: string
 ): string {
   const providedUsername =
-    username || (requestOptions.authentication as any).username; // as any workaround for backward compatibilty for discovening username from provided auth method
+    username || (requestOptions.authentication as any).username; // as any workaround for backward compatibility for discovering username from provided auth method
   const owner = requestOptions.owner || providedUsername;
   return `${getPortalUrl(requestOptions)}/content/users/${encodeURIComponent(
     owner
@@ -45,7 +45,7 @@ export function isItemOwner(
   username?: string
 ): boolean {
   const providedUsername =
-    username || (requestOptions.authentication as any).username; // as any workaround for backward compatibilty for discovening username from provided auth method
+    username || (requestOptions.authentication as any).username; // as any workaround for backward compatibility for discovering username from provided auth method
   const owner = requestOptions.owner || providedUsername;
   return owner === providedUsername;
 }
