@@ -84,9 +84,6 @@ packages/*/debug/
 test.html
 test.js
 
-#
-demos/test/*
-
 # Temporary build products
 packages/**/src/**/*.d.ts
 packages/**/src/**/*.js
@@ -109,6 +106,3 @@ srihashes.json
 
 # Prevent caches from ultra runner
 **/.ultra.cache.json
-
-# Prevent package locks from npm installs in demos
-demos/*/package-lock.json
