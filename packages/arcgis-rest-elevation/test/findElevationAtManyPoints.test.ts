@@ -4,12 +4,12 @@ import { findElevationAtManyPoints } from "../src/index.js";
 import { atManyPointsDefaultResult } from "./mocks/atManyPointsDefault.mock.js";
 import { atManyPointsEllipsoidResult } from "./mocks/atManyPointsEllipsoid.mock.js";
 
-fdescribe("findElevationAtManyPoints()", () => {
+describe("findElevationAtManyPoints()", () => {
   afterEach(() => {
     fetchMock.restore();
   });
 
-  fit("should return elevation at points with mean sea level as the reference", async () => {
+  it("should return elevation at points with mean sea level as the reference", async () => {
     fetchMock.mock("*", atManyPointsDefaultResult);
 
     let response = await findElevationAtManyPoints({
@@ -25,7 +25,7 @@ fdescribe("findElevationAtManyPoints()", () => {
     expect(response.result).toEqual(atManyPointsDefaultResult.result);
   });
 
-  fit("should return elevation at points with ellipsoid as the reference", async () => {
+  it("should return elevation at points with ellipsoid as the reference", async () => {
     fetchMock.mock("*", atManyPointsEllipsoidResult);
 
     const response = await findElevationAtManyPoints({
