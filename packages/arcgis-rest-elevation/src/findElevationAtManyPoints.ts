@@ -5,7 +5,7 @@ import {
 } from "@esri/arcgis-rest-request";
 
 import { operations } from "./openapi-types.js";
-import { baseUrl, isValidLatitude, isValidLongitude } from "./utils.js";
+import { baseUrl } from "./utils.js";
 
 // determine the list of allowed params we want to allow as options
 // this should match the array given to appendCustomParams below
