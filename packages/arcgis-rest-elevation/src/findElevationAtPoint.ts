@@ -5,7 +5,7 @@ import {
 } from "@esri/arcgis-rest-request";
 
 import { operations } from "./openapi-types.js";
-import { baseUrl, isValidLatitude, isValidLongitude } from "./utils.js";
+import { baseUrl } from "./utils.js";
 
 // determine the list of allowed params we want to allow as options
 // this should match the array given to appendCustomParams below
@@ -57,18 +57,6 @@ export interface IFindElevationAtPointOptions
 export function findElevationAtPoint(
   requestOptions: IFindElevationAtPointOptions
 ): Promise<IFindElevationAtPointResponse> {
-  // check if coordinates are valid
-  if (!isValidLongitude(requestOptions.lon)) {
-    return Promise.reject(
-      new Error("Longitude must be between -179.99 and 179.99")
-    );
-  }
-  if (!isValidLatitude(requestOptions.lat)) {
-    return Promise.reject(
-      new Error("Latitude must be between -85.05 and 85.05")
-    );
-  }
-
   const options = appendCustomParams<IFindElevationAtPointOptions>(
     requestOptions,
     ["lon", "lat", "relativeTo"],
