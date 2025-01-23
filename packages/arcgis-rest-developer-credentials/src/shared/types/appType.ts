@@ -1,6 +1,6 @@
 import {
   IRequestOptions,
-  ArcGISIdentityManager
+  IAuthenticationManager
 } from "@esri/arcgis-rest-request";
 import { UnixTime } from "@esri/arcgis-rest-portal";
 import { Privileges } from "../enum/privileges.js";
@@ -35,9 +35,9 @@ export interface IRegisterAppOptions extends Omit<IRequestOptions, "params"> {
    */
   privileges: Array<Privileges | `${Privileges}`>;
   /**
-   * {@linkcode ArcGISIdentityManager} authentication.
+   * {@linkcode IAuthenticationManager} authentication.
    */
-  authentication: ArcGISIdentityManager;
+  authentication: IAuthenticationManager;
 }
 
 /**
@@ -45,9 +45,9 @@ export interface IRegisterAppOptions extends Omit<IRequestOptions, "params"> {
  */
 export interface IGetAppInfoOptions extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode ArcGISIdentityManager} authentication.
+   * {@linkcode IAuthenticationManager} authentication.
    */
-  authentication: ArcGISIdentityManager;
+  authentication: IAuthenticationManager;
   /**
    * itemId of which app to be retrieved.
    */
@@ -99,9 +99,9 @@ export interface IApp
  */
 export interface IUnregisterAppOptions extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode ArcGISIdentityManager} authentication.
+   * {@linkcode IAuthenticationManager} authentication.
    */
-  authentication: ArcGISIdentityManager;
+  authentication: IAuthenticationManager;
   /**
    * itemId of which app to be unregistered.
    */

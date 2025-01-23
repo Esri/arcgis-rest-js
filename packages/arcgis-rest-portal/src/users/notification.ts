@@ -4,6 +4,7 @@
 import { request, IUserRequestOptions } from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
+import { determineUsername } from "../util/determine-username.js";
 
 export interface INotification {
   id: string;
@@ -38,12 +39,12 @@ export interface INotificationResult {
  * @param requestOptions - options to pass through in the request
  * @returns A Promise that will resolve with the user's notifications
  */
-export function getUserNotifications(
+export async function getUserNotifications(
   requestOptions: IUserRequestOptions
 ): Promise<INotificationResult> {
   let options = { httpMethod: "GET" } as IUserRequestOptions;
 
-  const username = encodeURIComponent(requestOptions.authentication.username);
+  const username = await determineUsername(requestOptions);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/notifications`;
   options = { ...requestOptions, ...options };
@@ -58,10 +59,10 @@ export function getUserNotifications(
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the success/failure status of the request
  */
-export function removeNotification(
+export async function removeNotification(
   requestOptions: IRemoveNotificationOptions
 ): Promise<{ success: boolean; notificationId: string }> {
-  const username = encodeURIComponent(requestOptions.authentication.username);
+  const username = await determineUsername(requestOptions);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/notifications/${requestOptions.id}/delete`;
 

@@ -1,5 +1,5 @@
 import {
-  ArcGISIdentityManager,
+  IAuthenticationManager,
   IRequestOptions,
   ISpatialReference
 } from "@esri/arcgis-rest-request";
@@ -36,9 +36,9 @@ export interface ICreateApiKeyOptions
  */
 export interface IGetApiKeyOptions extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode ArcGISIdentityManager} authentication.
+   * {@linkcode IAuthenticationManager} authentication.
    */
-  authentication: ArcGISIdentityManager;
+  authentication: IAuthenticationManager;
   /**
    * itemId of which API key to be retrieved.
    */
@@ -71,9 +71,9 @@ export interface IApiKeyResponse extends IApiKeyInfo {
  */
 export interface IUpdateApiKeyOptions extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode ArcGISIdentityManager} authentication.
+   * {@linkcode IAuthenticationManager} authentication.
    */
-  authentication: ArcGISIdentityManager;
+  authentication: IAuthenticationManager;
   /**
    * itemId of which API key will be updated.
    */
@@ -93,9 +93,9 @@ export interface IUpdateApiKeyOptions extends Omit<IRequestOptions, "params"> {
  */
 export interface IDeleteApiKeyOption extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode ArcGISIdentityManager} authentication.
+   * {@linkcode IAuthenticationManager} authentication.
    */
-  authentication: ArcGISIdentityManager;
+  authentication: IAuthenticationManager;
   /**
    * itemId of which API key to be removed.
    */

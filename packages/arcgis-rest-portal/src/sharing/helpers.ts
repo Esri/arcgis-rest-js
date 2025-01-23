@@ -9,6 +9,7 @@ import {
 } from "@esri/arcgis-rest-request";
 import { getPortalUrl } from "../util/get-portal-url.js";
 import { getGroup } from "../groups/get.js";
+import { getSelf } from "../util/get-portal.js";
 
 export interface ISharingOptions extends IUserRequestOptions {
   /**
@@ -27,18 +28,26 @@ export interface ISharingResponse {
   itemId: string;
 }
 
-export function getSharingUrl(requestOptions: ISharingOptions): string {
-  const username = requestOptions.authentication.username;
-  const owner = requestOptions.owner || username;
+export function getSharingUrl(
+  requestOptions: ISharingOptions,
+  username?: string
+): string {
+  const providedUsername =
+    username || (requestOptions.authentication as any).username; // as any workaround for backward compatibility for discovering username from provided auth method
+  const owner = requestOptions.owner || providedUsername;
   return `${getPortalUrl(requestOptions)}/content/users/${encodeURIComponent(
     owner
   )}/items/${requestOptions.id}/share`;
 }
 
-export function isItemOwner(requestOptions: ISharingOptions): boolean {
-  const username = requestOptions.authentication.username;
-  const owner = requestOptions.owner || username;
-  return owner === username;
+export function isItemOwner(
+  requestOptions: ISharingOptions,
+  username?: string
+): boolean {
+  const providedUsername =
+    username || (requestOptions.authentication as any).username; // as any workaround for backward compatibility for discovering username from provided auth method
+  const owner = requestOptions.owner || providedUsername;
+  return owner === providedUsername;
 }
 
 /**
@@ -49,9 +58,7 @@ export function isItemOwner(requestOptions: ISharingOptions): boolean {
 export function isOrgAdmin(
   requestOptions: IUserRequestOptions
 ): Promise<boolean> {
-  const session = requestOptions.authentication;
-
-  return session.getUser(requestOptions).then((user: IUser) => {
+  return requestOptions.authentication.getUser().then((user: IUser) => {
     return user && user.role === "org_admin" && !user.roleId;
   });
 }

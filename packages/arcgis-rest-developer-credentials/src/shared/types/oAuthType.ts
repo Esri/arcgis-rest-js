@@ -1,6 +1,6 @@
 import { IItem } from "@esri/arcgis-rest-portal";
 import {
-  ArcGISIdentityManager,
+  IAuthenticationManager,
   IRequestOptions,
   ISpatialReference
 } from "@esri/arcgis-rest-request";
@@ -14,9 +14,9 @@ export interface ICreateOAuthAppOption extends Omit<IRequestOptions, "params"> {
    */
   redirect_uris?: string[];
   /**
-   * {@linkcode ArcGISIdentityManager} authentication.
+   * {@linkcode IAuthenticationManager} authentication.
    */
-  authentication: ArcGISIdentityManager;
+  authentication: IAuthenticationManager;
   title: string;
   owner?: string;
   typeKeywords?: string[];
@@ -37,9 +37,9 @@ export interface ICreateOAuthAppOption extends Omit<IRequestOptions, "params"> {
  */
 export interface IGetOAuthAppOptions extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode ArcGISIdentityManager} authentication.
+   * {@linkcode IAuthenticationManager} authentication.
    */
-  authentication: ArcGISIdentityManager;
+  authentication: IAuthenticationManager;
   /**
    * itemId of which OAuth2.0 app to be retrieved.
    */
@@ -51,9 +51,9 @@ export interface IGetOAuthAppOptions extends Omit<IRequestOptions, "params"> {
  */
 export interface IUpdateOAuthOptions extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode ArcGISIdentityManager} authentication.
+   * {@linkcode IAuthenticationManager} authentication.
    */
-  authentication: ArcGISIdentityManager;
+  authentication: IAuthenticationManager;
   /**
    * itemId of which OAuth2.0 app to be updated.
    */
@@ -91,9 +91,9 @@ export interface IOAuthApp extends IOAuthAppInfo {
  */
 export interface IDeleteOAuthAppOption extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode ArcGISIdentityManager} authentication.
+   * {@linkcode IAuthenticationManager} authentication.
    */
-  authentication: ArcGISIdentityManager;
+  authentication: IAuthenticationManager;
   /**
    * itemId of which OAuth2.0 app to be removed.
    */

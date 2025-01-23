@@ -9,6 +9,7 @@ import {
   ArcGISTokenRequestErrorCodes
 } from "./utils/ArcGISTokenRequestError.js";
 import { ArcGISRequestError } from "./utils/ArcGISRequestError.js";
+import { AuthenticationManagerBase } from "./AuthenticationManagerBase.js";
 
 export interface IApplicationCredentialsManagerOptions {
   /**
@@ -58,7 +59,10 @@ export interface IApplicationCredentialsManagerOptions {
  * })
  * ```
  */
-export class ApplicationCredentialsManager implements IAuthenticationManager {
+export class ApplicationCredentialsManager
+  extends AuthenticationManagerBase
+  implements IAuthenticationManager
+{
   public portal: string;
   private clientId: string;
   private clientSecret: string;
@@ -82,6 +86,7 @@ export class ApplicationCredentialsManager implements IAuthenticationManager {
   private _pendingTokenRequest: Promise<string>;
 
   constructor(options: IApplicationCredentialsManagerOptions) {
+    super(options);
     this.clientId = options.clientId;
     this.clientSecret = options.clientSecret;
     this.token = options.token;
@@ -138,6 +143,7 @@ export class ApplicationCredentialsManager implements IAuthenticationManager {
   }
 
   public refreshCredentials() {
+    this.clearCachedUserInfo();
     return this.refreshToken().then(() => this);
   }
 }

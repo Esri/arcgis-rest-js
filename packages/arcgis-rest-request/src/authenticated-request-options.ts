@@ -3,13 +3,14 @@
 
 import { ApplicationCredentialsManager } from "./ApplicationCredentialsManager.js";
 import { ArcGISIdentityManager } from "./ArcGISIdentityManager.js";
+import { IAuthenticationManager } from "./utils/IAuthenticationManager.js";
 import { IRequestOptions } from "./utils/IRequestOptions.js";
 
 /**
  * Used internally by packages for requests that require user authentication.
  */
 export interface IAuthenticatedRequestOptions extends IRequestOptions {
-  authentication: ArcGISIdentityManager | ApplicationCredentialsManager;
+  authentication: IAuthenticationManager;
 }
 
 /**
@@ -19,5 +20,5 @@ export interface IUserRequestOptions extends IRequestOptions {
   /**
    * A session representing a logged in user.
    */
-  authentication: ArcGISIdentityManager;
+  authentication: IAuthenticationManager;
 }
