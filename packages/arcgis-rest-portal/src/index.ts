@@ -49,6 +49,7 @@ export * from "./sharing/helpers.js";
 export * from "./services/get-unique-service-name.js";
 export * from "./services/is-service-name-available.js";
 
+export * from "./util/determine-username.js";
 export * from "./util/get-portal.js";
 export * from "./util/get-portal-settings.js";
 export * from "./util/get-portal-url.js";

@@ -34,12 +34,12 @@ export interface ISetAccessOptions extends ISharingOptions {
  * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the data from the response.
  */
-export function setItemAccess(
+export async function setItemAccess(
   requestOptions: ISetAccessOptions
 ): Promise<ISharingResponse> {
-  const url = getSharingUrl(requestOptions);
-
-  if (isItemOwner(requestOptions)) {
+  const username = await requestOptions.authentication.getUsername();
+  const url = getSharingUrl(requestOptions, username);
+  if (isItemOwner(requestOptions, username)) {
     // if the user owns the item, proceed
     return updateItemAccess(url, requestOptions);
   } else {
@@ -50,7 +50,7 @@ export function setItemAccess(
       } else {
         // if neither, updating the sharing isnt possible
         throw Error(
-          `This item can not be shared by ${requestOptions.authentication.username}. They are neither the item owner nor an organization admin.`
+          `This item can not be shared by ${username}. They are neither the item owner nor an organization admin.`
         );
       }
     });

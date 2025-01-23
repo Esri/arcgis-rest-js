@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-request [4.3.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.2.3...@esri/arcgis-rest-request@4.3.0) (2025-01-23)
+
+
+### Features
+
+* make API keys work with all portal methods ([#1186](https://github.com/Esri/arcgis-rest-js/issues/1186)) ([1972413](https://github.com/Esri/arcgis-rest-js/commit/1972413e1511593aff53a88b4cf2d987fd2af2a6))
+
 ## @esri/arcgis-rest-request [4.2.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.2.2...@esri/arcgis-rest-request@4.2.3) (2024-06-15)
 
 

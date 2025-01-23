@@ -22,6 +22,7 @@ import {
   ArcGISTokenRequestErrorCodes
 } from "./utils/ArcGISTokenRequestError.js";
 import { NODEJS_DEFAULT_REFERER_HEADER } from "./index.js";
+import { AuthenticationManagerBase } from "./AuthenticationManagerBase.js";
 
 /**
  * Options for {@linkcode ArcGISIdentityManager.fromToken}.
@@ -280,7 +281,10 @@ export interface IArcGISIdentityManagerOptions {
  * * {@linkcode ArcGISIdentityManager.deserialize} will create a new `ArcGISIdentityManager` from a JSON object created with {@linkcode ArcGISIdentityManager.serialize}
  * * {@linkcode ArcGISIdentityManager.destroy} or {@linkcode ArcGISIdentityManager.signOut} will invalidate any tokens in use by the  `ArcGISIdentityManager`.
  */
-export class ArcGISIdentityManager implements IAuthenticationManager {
+export class ArcGISIdentityManager
+  extends AuthenticationManagerBase
+  implements IAuthenticationManager
+{
   /**
    * The current ArcGIS Online or ArcGIS Enterprise `token`.
    */
@@ -307,19 +311,6 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
    */
   get refreshTokenExpires() {
     return this._refreshTokenExpires;
-  }
-
-  /**
-   * The currently authenticated user.
-   */
-  get username() {
-    if (this._username) {
-      return this._username;
-    }
-
-    if (this._user && this._user.username) {
-      return this._user.username;
-    }
   }
 
   /**
@@ -1015,11 +1006,6 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   public readonly referer: string;
 
   /**
-   * Hydrated by a call to [getUser()](#getUser-summary).
-   */
-  private _user: IUser;
-
-  /**
    * Hydrated by a call to [getPortal()](#getPortal-summary).
    */
   private _portalInfo: any;
@@ -1028,7 +1014,6 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   private _tokenExpires: Date;
   private _refreshToken: string;
   private _refreshTokenExpires: Date;
-  private _pendingUserRequest: Promise<IUser>;
   private _pendingPortalRequest: Promise<any>;
 
   /**
@@ -1038,8 +1023,6 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   private _pendingTokenRequests: {
     [key: string]: Promise<string>;
   };
-
-  private _username: string;
 
   /**
    * Internal list of tokens to 3rd party servers (federated servers) that have
@@ -1061,10 +1044,10 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   private _hostHandler: any;
 
   constructor(options: IArcGISIdentityManagerOptions) {
+    super(options);
     this.clientId = options.clientId;
     this._refreshToken = options.refreshToken;
     this._refreshTokenExpires = options.refreshTokenExpires;
-    this._username = options.username;
     this.password = options.password;
     this._token = options.token;
     this._tokenExpires = options.tokenExpires;
@@ -1119,44 +1102,6 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
   }
 
   /**
-   * Returns information about the currently logged in [user](https://developers.arcgis.com/rest/users-groups-and-items/user.htm). Subsequent calls will *not* result in additional web traffic.
-   *
-   * ```js
-   * manager.getUser()
-   *   .then(response => {
-   *     console.log(response.role); // "org_admin"
-   *   })
-   * ```
-   *
-   * @param requestOptions - Options for the request. NOTE: `rawResponse` is not supported by this operation.
-   * @returns A Promise that will resolve with the data from the response.
-   */
-  public getUser(requestOptions?: IRequestOptions): Promise<IUser> {
-    if (this._pendingUserRequest) {
-      return this._pendingUserRequest;
-    } else if (this._user) {
-      return Promise.resolve(this._user);
-    } else {
-      const url = `${this.portal}/community/self`;
-
-      const options = {
-        httpMethod: "GET",
-        authentication: this,
-        ...requestOptions,
-        rawResponse: false
-      } as IRequestOptions;
-
-      this._pendingUserRequest = request(url, options).then((response) => {
-        this._user = response;
-        this._pendingUserRequest = null;
-        return response;
-      });
-
-      return this._pendingUserRequest;
-    }
-  }
-
-  /**
    * Returns information about the currently logged in user's [portal](https://developers.arcgis.com/rest/users-groups-and-items/portal-self.htm). Subsequent calls will *not* result in additional web traffic.
    *
    * ```js
@@ -1191,26 +1136,6 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
       });
 
       return this._pendingPortalRequest;
-    }
-  }
-
-  /**
-   * Returns the username for the currently logged in [user](https://developers.arcgis.com/rest/users-groups-and-items/user.htm). Subsequent calls will *not* result in additional web traffic. This is also used internally when a username is required for some requests but is not present in the options.
-   *
-   * ```js
-   * manager.getUsername()
-   *   .then(response => {
-   *     console.log(response); // "casey_jones"
-   *   })
-   * ```
-   */
-  public getUsername() {
-    if (this.username) {
-      return Promise.resolve(this.username);
-    } else {
-      return this.getUser().then((user) => {
-        return user.username;
-      });
     }
   }
 
@@ -1299,7 +1224,7 @@ export class ArcGISIdentityManager implements IAuthenticationManager {
    */
   public refreshCredentials(requestOptions?: ITokenRequestOptions) {
     // make sure subsequent calls to getUser() don't returned cached metadata
-    this._user = null;
+    this.clearCachedUserInfo();
 
     if (this.username && this.password) {
       return this.refreshWithUsernameAndPassword(requestOptions);

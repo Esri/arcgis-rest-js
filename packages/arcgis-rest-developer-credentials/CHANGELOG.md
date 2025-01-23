@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-developer-credentials [1.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-developer-credentials@1.0.1...@esri/arcgis-rest-developer-credentials@1.1.0) (2025-01-23)
+
+
+### Features
+
+* make API keys work with all portal methods ([#1186](https://github.com/Esri/arcgis-rest-js/issues/1186)) ([1972413](https://github.com/Esri/arcgis-rest-js/commit/1972413e1511593aff53a88b4cf2d987fd2af2a6))
+
 ## @esri/arcgis-rest-developer-credentials [1.0.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-developer-credentials@1.0.0...@esri/arcgis-rest-developer-credentials@1.0.1) (2024-06-15)
 
 

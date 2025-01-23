@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-developer-credentials",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Developer Credentials for @esri/arcgis-rest-js",
   "license": "Apache-2.0",
   "keywords": [
