@@ -65,13 +65,19 @@ export interface IFindElevationAtManyPointsOptions
 export function findElevationAtManyPoints(
   requestOptions: IFindElevationAtManyPointsOptions
 ): Promise<IFindElevationAtManyPointsResponse> {
+  const options: any = appendCustomParams<IFindElevationAtManyPointsOptions>(
+    requestOptions,
+    ["relativeTo"],
+    {
+      ...requestOptions
+    }
+  );
+
+  options.params.coordinates = JSON.stringify(requestOptions.coordinates);
+
   return (
     request(`${baseUrl}/elevation/at-many-points`, {
-      ...requestOptions,
-      params: {
-        coordinates: JSON.stringify(requestOptions.coordinates),
-        relativeTo: requestOptions.relativeTo
-      }
+      ...options
     }) as Promise<successResponse>
   ).then((response) => {
     const r: IFindElevationAtManyPointsResponse = {
