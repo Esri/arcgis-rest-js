@@ -1,0 +1,15 @@
+{
+  "result": {
+    "point": {
+      "x": -3.1883,
+      "y": 55.9533,
+      "z": 63,
+      "spatialReference": {
+        "wkid": 4326
+      }
+    }
+  },
+  "elevationInfo": {
+    "relativeTo": "meanSeaLevel"
+  }
+}
