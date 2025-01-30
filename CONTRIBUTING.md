@@ -2,7 +2,7 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### Before filing an issue
 
-If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/arcgis-rest-js/issues) first.  Have you found a new bug?  Want to request a new feature?  We'd [love](https://github.com/Esri/arcgis-rest-js/issues/new) to hear from you.
+If something isn't working the way you expected, please take a look at [previously logged issues](https://github.com/Esri/arcgis-rest-js/issues) first. Have you found a new bug? Want to request a new feature? We'd [love](https://github.com/Esri/arcgis-rest-js/issues/new) to hear from you.
 
 If you're looking for help you can also post issues on [GIS Stackexchange](http://gis.stackexchange.com/questions/ask?tags=esri-oss).
 
@@ -51,24 +51,23 @@ If you see any issue with any page on the API Reference, you can fix that by upd
 
 #### How to add a new package
 
-- In `/packages`, create a new folder with your desired new package name. 
+- In `/packages`, create a new folder with your desired new package name.
 - Each package will have it’s own `package.json` and `tsconfig.json`. These can be copied from other packages to maintain the correct configuration. Set the version of your new package at `1.0.0`.
 - Create a folder in your new package called `src` in which your code will be defined. Create an `index.ts` file with a simple `console.log("hello world")` to serve as the entry point of your package.
 - After creating your package, go to the root `package.json`, under the property `workspaces`, add the path to your new package.
 - Run `npm install` to update the dependencies of your project and then run `npm build:esm` to build your project.
 - Check in the root `/node_modules/@esri` and `/packages/{YOUR PACKAGE}/dist` that your new package and it has been built properly.
-- Go into `/demos`, create a new folder and title what you want to call your demo. You can also copy one of the existing demos depending on what kind of demo you are building. Generally [the `node-typescript-es-modules`](./demos/node-typescript-es-modules) demo is a good places to start.
-- Add a `package.json` in your new demo folder. Add your package as a dependency and be sure to have at least these properties in your `package.json`, `dependencies`, `name`, `version`, `description`, `license`, `type`, `main`, `scripts`, and `author`. Ensure that the `private` flag is set to `true`.
-- Add a `.gitignore` in the root level of your demo folder that ignore `node_modules`. Be sure to ignore an `.env` file as well if your demo is using any personal keys or tokens with [dot-env](https://github.com/motdotla/dotenv)
-- Run `npm install` within the `./demos` directory and make sure your demo folder has it's own local node_modules.
-- In your demo import your package.
-- To run your demo be sure to have script that has a property `start` in your demo directory and your script is pointing to the correct entry point. 
-- Run `npm run start` while being in your `/demos/custom-demo` directory.
-- Add a readme describing your demo.
+- Clone the [samples repository](https://github.com/Esri/arcgis-rest-js-samples) and create a new folder and title what you want to call your demo. You can also copy one of the existing samples depending on what kind of demo you are building. Generally [the `node-typescript-es-modules`](https://github.com/Esri/arcgis-rest-js-samples/tree/main/samples/node-typescript-es-modules) sample is a good places to start.
+- Add a `package.json` in your new sample folder. Add your package as a dependency and be sure to have at least these properties in your `package.json`, `dependencies`, `name`, `version`, `description`, `license`, `type`, `main`, `scripts`, and `author`. Ensure that the `private` flag is set to `true`.
+- Add a `.gitignore` in the root level of your sample folder that ignore `node_modules`. Be sure to ignore an `.env` file as well if your demo is using any personal keys or tokens with [dot-env](https://github.com/motdotla/dotenv)
+- In your sample import your package, following the instructions on how to point to your local version of ArcGIS REST JS.
+- To run your sample be sure to have script that has a property `start` in your sample directory and your script is pointing to the correct entry point.
+- Run `npm run start` in your sample directory.
+- Add a readme describing your sample.
 
 ### Watching local source for changes
 
-you can run the command below in the root of the repo to automatically recompile a package when the raw TypeScript source changes. You can use this in conjunction with [the demos](./demos/).
+You can run the command below in the root of the repo to automatically recompile a package when the raw TypeScript source changes. You can use this in conjunction with [the samples](https://github.com/Esri/arcgis-rest-js-samples?tab=readme-ov-file#local-arcgis-rest-js).
 
 ```
 # watch 'request' and rebuild a UMD for the browser

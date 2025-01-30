@@ -60,7 +60,9 @@ You can install dependencies by cloning the repository and running:
 npm install && npm run build
 ```
 
-This will install all dependencies and do an initial build. Afterward, you can run any of the [demo apps](./demos/) by `cd`'ing by following the README for the specific demo. For a list of all available commands run `npm run`.
+This will install all dependencies and do an initial build. Afterward, you can run any of the [samples](https://github.com/Esri/arcgis-rest-js-samples). See that repository's readme for instructions on how to run the samples while using a local version of ArcGIS REST JS.
+
+NPM run commands include:
 
 For all packages:
 
@@ -78,6 +80,8 @@ For a specific package:
 - `npm run dev:cjs -w @esri/arcgis-rest-request` - run the common js dev command in a specific workspace
 - `npm run build:bundled -w @esri/arcgis-rest-request` - run the rollup build in a specific workspace
 - `npm run dev:bundled -w @esri/arcgis-rest-request` - run the rollup dev command in a specific workspace
+
+For a list of all available commands run `npm run`.
 
 ### Packages
 
