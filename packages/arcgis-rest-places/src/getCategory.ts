@@ -6,6 +6,7 @@ import {
 
 import { operations } from "./openapi-types.js";
 import { baseUrl } from "./utils.js";
+import { IconOptions } from "./iconOptions.js";
 
 // determine the list of allowed params we want to allow as options
 // this should match the array given to appendCustomParams below
@@ -27,6 +28,7 @@ export interface IGetCategoryOptions
   extends Omit<IRequestOptions, "httpMethod">,
     queryParams {
   categoryId: string;
+  icon?: IconOptions;
   /**
    * Override the URL. This should be the full URL to the API endpoint you want to call. Used internally by Esri staff for testing.
    * @private
@@ -54,9 +56,13 @@ export function getCategory(
 ): Promise<IGetCategoryResponse> {
   const { categoryId } = requestOptions;
 
-  const options = appendCustomParams<IGetCategoryOptions>(requestOptions, [], {
-    ...requestOptions
-  });
+  const options = appendCustomParams<IGetCategoryOptions>(
+    requestOptions,
+    ["icon"],
+    {
+      ...requestOptions
+    }
+  );
 
   return request(
     requestOptions.endpoint || `${baseUrl}/categories/${categoryId}`,

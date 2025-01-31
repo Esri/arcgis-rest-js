@@ -56,13 +56,14 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 
 ### Generating Types from Open API
 
-The places service publishes an Open API definition. Eventually this will live at a public URL on the service itself. However for now it lives inside the Esri internal GitHub Enterprise installation. To generate the types view the raw file on GitHub Enterprise and replace the URL below.
+The places service publishes an Open API definition you can generate the types from the OpenAPI definition below:
 
 ```
-npx openapi-typescript@5 URL_TO_RAW_SPEC_FILE --output packages/arcgis-rest-places/src/openapi-types.ts
+npx openapi-typescript@5 https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/specification/open-api-v3-0/ --output packages/arcgis-rest-places/src/openapi-types.ts
 ```
 
 The generated types are used in the interfaces for ArcGIS REST JS.
+The most recent version if the Open API spec is linked to from the places documentation https://developers.arcgis.com/rest/places/
 
 ### [Changelog](https://github.com/Esri/arcgis-rest-js/blob/master/CHANGELOG.md)
 

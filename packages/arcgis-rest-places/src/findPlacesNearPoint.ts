@@ -6,6 +6,7 @@ import {
 
 import { operations } from "./openapi-types.js";
 import { baseUrl, hasNextPage, getNextPageParams } from "./utils.js";
+import { IconOptions } from "./iconOptions.js";
 
 // determine the list of allowed params we want to allow as options
 // this should match the array given to appendCustomParams below
@@ -36,6 +37,7 @@ export interface IFindPlacesNearPointOptions
    * @private
    */
   endpoint?: string;
+  icon?: IconOptions;
 }
 
 /**
@@ -79,7 +81,16 @@ export function findPlacesNearPoint(
 ): Promise<IFindPlacesNearPointResponse> {
   const options = appendCustomParams<IFindPlacesNearPointOptions>(
     requestOptions,
-    ["x", "y", "radius", "categoryIds", "pageSize", "offset", "searchText"],
+    [
+      "x",
+      "y",
+      "radius",
+      "categoryIds",
+      "pageSize",
+      "offset",
+      "searchText",
+      "icon"
+    ],
     {
       ...requestOptions
     }

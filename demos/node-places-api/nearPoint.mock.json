@@ -1,36 +1,6 @@
 {
   "results": [
     {
-      "placeId": "8db5d5f8a92c21fea7fc34f3e7ad8725",
-      "location": {
-        "x": -3.188328,
-        "y": 55.953245
-      },
-      "categories": [
-        {
-          "categoryId": "11124",
-          "label": "Office"
-        }
-      ],
-      "name": "Creative Scotland",
-      "distance": 6.4
-    },
-    {
-      "placeId": "829109fd486361209eb76663f73a54ca",
-      "location": {
-        "x": -3.188328,
-        "y": 55.953245
-      },
-      "categories": [
-        {
-          "categoryId": "11097",
-          "label": "Professional Cleaning Service"
-        }
-      ],
-      "name": "DAISY's HOMe",
-      "distance": 6.4
-    },
-    {
       "placeId": "0731478b7b687e0ad9a51ab531e47596",
       "location": {
         "x": -3.188328,
@@ -43,7 +13,46 @@
         }
       ],
       "name": "British Council Scotland",
-      "distance": 6.4
+      "distance": 6.4,
+      "icon": {
+        "url": "https://static.arcgis.com/icons/places/Default_Education_48.png"
+      }
+    },
+    {
+      "placeId": "8db5d5f8a92c21fea7fc34f3e7ad8725",
+      "location": {
+        "x": -3.188328,
+        "y": 55.953245
+      },
+      "categories": [
+        {
+          "categoryId": "11124",
+          "label": "Office"
+        }
+      ],
+      "name": "Creative Scotland",
+      "distance": 6.4,
+      "icon": {
+        "url": "https://static.arcgis.com/icons/places/Default_Shop_or_Service_48.png"
+      }
+    },
+    {
+      "placeId": "ef102fc711be9e5b402c0054a33dffbe",
+      "location": {
+        "x": -3.188259,
+        "y": 55.953353
+      },
+      "categories": [
+        {
+          "categoryId": "11027",
+          "label": "Computer Repair Service"
+        }
+      ],
+      "name": "Microsoft",
+      "distance": 6.4,
+      "icon": {
+        "url": "https://static.arcgis.com/icons/places/Default_Shop_or_Service_48.png"
+      }
     },
     {
       "placeId": "aae8bed68a327a4903fdf83577b87286",
@@ -57,8 +66,11 @@
           "label": "Gym and Studio"
         }
       ],
-      "name": "The Gym",
-      "distance": 7.3
+      "name": "The Gym Group",
+      "distance": 7.3,
+      "icon": {
+        "url": "https://static.arcgis.com/icons/places/Default_Shop_or_Service_48.png"
+      }
     },
     {
       "placeId": "57c6520c3a2ce8ef251122f447b1f321",
@@ -73,22 +85,10 @@
         }
       ],
       "name": "Waverley Gate",
-      "distance": 10.6
-    },
-    {
-      "placeId": "6f729ff511f2e18f4ee97615cf6d5dea",
-      "location": {
-        "x": -3.188432,
-        "y": 55.95324
-      },
-      "categories": [
-        {
-          "categoryId": "10027",
-          "label": "Museum"
-        }
-      ],
-      "name": "Museums Galleries Scotland",
-      "distance": 10.6
+      "distance": 10.6,
+      "icon": {
+        "url": "https://static.arcgis.com/icons/places/Default_Shop_or_Service_48.png"
+      }
     },
     {
       "placeId": "9277795c553ebde2cf464fa440a58ed7",
@@ -103,7 +103,28 @@
         }
       ],
       "name": "Amazon Development Centre Scotland",
-      "distance": 16.4
+      "distance": 16.4,
+      "icon": {
+        "url": "https://static.arcgis.com/icons/places/Default_Shop_or_Service_48.png"
+      }
+    },
+    {
+      "placeId": "6f729ff511f2e18f4ee97615cf6d5dea",
+      "location": {
+        "x": -3.188537,
+        "y": 55.953235
+      },
+      "categories": [
+        {
+          "categoryId": "10027",
+          "label": "Museum"
+        }
+      ],
+      "name": "Museums Galleries Scotland",
+      "distance": 16.4,
+      "icon": {
+        "url": "https://static.arcgis.com/icons/places/Museum_48.png"
+      }
     },
     {
       "placeId": "628d6995be9f7104820257cd6ca62c19",
@@ -118,40 +139,57 @@
         }
       ],
       "name": "Rabbie's",
-      "distance": 16.7
+      "distance": 16.7,
+      "icon": {
+        "url": "https://static.arcgis.com/icons/places/Default_Arts_and_Entertainment_48.png"
+      }
     },
     {
-      "placeId": "639510e655d1a6ded98ac41ee9f02e95",
+      "placeId": "11f2b58f07cf6f3cb8c167a77f74f355",
+      "location": {
+        "x": -3.18812,
+        "y": 55.953412
+      },
+      "categories": [
+        {
+          "categoryId": "11042",
+          "label": "Financial Service"
+        },
+        {
+          "categoryId": "11111",
+          "label": "Legal Service"
+        }
+      ],
+      "name": "Parking & Bus Lane Tribunal for Scotland",
+      "distance": 16.7,
+      "icon": {
+        "url": "https://static.arcgis.com/icons/places/Default_Shop_or_Service_48.png"
+      }
+    },
+    {
+      "placeId": "a39ebe2df9d84f0561946b779975ef92",
       "location": {
         "x": -3.188083,
         "y": 55.953152
       },
       "categories": [
         {
-          "categoryId": "17043",
-          "label": "Clothing Store"
-        }
-      ],
-      "name": "The Edinburgh Woollen Mill",
-      "distance": 21.3
-    },
-    {
-      "placeId": "bb4a70070ba5102e50ade6551f4a054e",
-      "location": {
-        "x": -3.188083,
-        "y": 55.953152
-      },
-      "categories": [
+          "categoryId": "11042",
+          "label": "Financial Service"
+        },
         {
-          "categoryId": "13002",
-          "label": "Bakery"
+          "categoryId": "11111",
+          "label": "Legal Service"
         }
       ],
-      "name": "Greggs",
-      "distance": 21.3
+      "name": "Scottish Friendly",
+      "distance": 21.3,
+      "icon": {
+        "url": "https://static.arcgis.com/icons/places/Default_Shop_or_Service_48.png"
+      }
     }
   ],
   "pagination": {
-    "nextUrl": "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/near-point?x=-3.18830000&y=55.95330000&radius=100.00000000&f=json&offset=10&pageSize=10"
+    "nextUrl": "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/near-point?x=-3.18830000&y=55.95330000&radius=100.00000000&icon=png&f=json&offset=10&pageSize=10"
   }
 }

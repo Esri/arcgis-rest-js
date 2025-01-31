@@ -6,6 +6,7 @@ import {
 
 import { operations } from "./openapi-types.js";
 import { baseUrl } from "./utils.js";
+import { IconOptions } from "./iconOptions.js";
 
 // determine the list of allowed params we want to allow as options
 // this should match the array given to appendCustomParams below
@@ -34,6 +35,7 @@ export interface IGetCategoriesOptions
    * @private
    */
   endpoint?: string;
+  icon?: IconOptions;
 }
 
 /**
@@ -63,7 +65,7 @@ export function getCategories(
 ): Promise<IGetCategoriesResponse> {
   const options = appendCustomParams<IGetCategoriesOptions>(
     requestOptions,
-    ["filter"],
+    ["filter", "icon"],
     {
       ...requestOptions
     }

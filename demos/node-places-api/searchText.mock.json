@@ -3,8 +3,8 @@
     {
       "placeId": "4bd2219823f36d1212204cfb10f708ac",
       "location": {
-        "x": -118.013183,
-        "y": 33.804141
+        "x": -118.013113,
+        "y": 33.804177
       },
       "categories": [
         {
@@ -17,8 +17,8 @@
     {
       "placeId": "6776c5956398302b65da95758088c3ad",
       "location": {
-        "x": -118.009924,
-        "y": 33.803634
+        "x": -118.009854,
+        "y": 33.80367
       },
       "categories": [
         {
@@ -37,32 +37,10 @@
       "name": "Knottea Cafe"
     },
     {
-      "placeId": "975824a33526418f94196120a2fcad2d",
-      "location": {
-        "x": -118.001317,
-        "y": 33.79584
-      },
-      "categories": [
-        {
-          "categoryId": "13034",
-          "label": "Café"
-        },
-        {
-          "categoryId": "13049",
-          "label": "Diner"
-        },
-        {
-          "categoryId": "13303",
-          "label": "Mexican Restaurant"
-        }
-      ],
-      "name": "Terry's Cafe"
-    },
-    {
       "placeId": "36f16fadcbc887e391171c873506d915",
       "location": {
-        "x": -118.00458,
-        "y": 33.83145
+        "x": -118.004514,
+        "y": 33.831757
       },
       "categories": [
         {

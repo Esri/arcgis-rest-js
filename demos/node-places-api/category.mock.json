@@ -3,5 +3,8 @@
   "fullLabel": [
     "Arts and Entertainment"
   ],
-  "parents": []
+  "parents": [],
+  "icon": {
+    "url": "https://static.arcgis.com/icons/places/Default_Arts_and_Entertainment_15.cim"
+  }
 }

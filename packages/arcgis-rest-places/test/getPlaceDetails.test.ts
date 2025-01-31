@@ -1,6 +1,6 @@
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
 import fetchMock from "fetch-mock";
-import { getPlaceDetails } from "../src/index.js";
+import { getPlaceDetails, IconOptions } from "../src/index.js";
 import { placeMock } from "./mocks/place.mock.js";
 
 describe("getPlaceDetails()", () => {
@@ -39,5 +39,20 @@ describe("getPlaceDetails()", () => {
     expect(url).toEqual(
       `https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/${placeId}?f=json&requestedFields=all&token=MOCK_KEY`
     );
+  });
+
+  it("verify icon param", async () => {
+    fetchMock.mock("*", placeMock);
+    const placeId = "e78051acc722c55ab11ba930d8dd7772";
+
+    await getPlaceDetails({
+      placeId,
+      requestedFields: ["all"],
+      icon: IconOptions.PNG,
+      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+    });
+
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toContain("icon=png");
   });
 });

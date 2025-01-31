@@ -75,7 +75,7 @@ export interface paths {
      * To perform the request, you must supply the `x` and `y` coordinates of
      * the point from which to search. Optionally, you can also specify the:
      *
-     * - Search radius (up to 10,000 meters)
+     * - Search radius (1 to 10,000 meters)
      * - Category IDs
      * - Search text
      *
@@ -94,17 +94,20 @@ export interface paths {
     /**
      * The `/places/within-extent` request searches for places within an extent (bounding box).
      *
-     * You must supply the `xmin`,
-     * `ymin`, `xmax` and `ymax` coordinates to define the extent. The maximum width
-     * and height of an extent that can be used in a search is 20,000 meters.
+     * You must supply the `xmin`, `ymin`, `xmax` and `ymax` coordinates to
+     * define the extent. The maximum width and height of an extent that can be
+     * used in a search is 20,000 meters. The width and height of an extent
+     * must be greater than 0 meters.
      *
-     * You can also provide multiple categories or search text to find specific types of places within the extent.
+     * You can also provide multiple categories or search text to find specific
+     * types of places within the extent.
      *
-     * The default number of places returned (`pageSize`) is 10. The maximum `pageSize` value is 20.
+     * The default number of places returned (`pageSize`) is 10. The maximum
+     * `pageSize` value is 20.
      *
-     * If the `pagination.nextUrl` property in the response is populated, then you can
-     * page through the results to return more places. The maximum number of
-     * places that can be paged to is 200.
+     * If the `pagination.nextUrl` property in the response is populated, then
+     * you can page through the results to return more places. The maximum
+     * number of places that can be paged to is 200.
      *
      * **Note**: You cannot permanently store places. Please see the [Terms of
      * use](https://developers.arcgis.com/documentation/mapping-apis-and-services/deployment/terms-of-use/).
@@ -176,6 +179,9 @@ export interface paths {
      * use](https://developers.arcgis.com/documentation/mapping-apis-and-services/deployment/terms-of-use/).
      *
      * **Note**: Query parameters are case-sensitive.
+     *
+     * **Note**: Can be used in conjunction with the [Basemap Styles service](https://developers.arcgis.com/rest/basemap-styles) to request additional attributes
+     * for places retrieved using the [Places for basemaps](https://developers.arcgis.com/documentation/mapping-apis-and-services/maps/places-for-basemaps) workflow.
      */
     get: operations["placeIdGet"];
   };
@@ -188,7 +194,7 @@ export interface components {
      *
      * A place ID is a 32 character string.
      *
-     * @example 722d8e1ba4db8ec5ef256b09cf060782
+     * @example 2da082218b6f7538e52250999c8f8ef1
      */
     PlaceId: string;
     /**
@@ -204,7 +210,7 @@ export interface components {
        * This place Id can be passed to the `places/{placeId}` endpoint to
        * retrieve additional details.
        *
-       * @example 722d8e1ba4db8ec5ef256b09cf060782
+       * @example 2da082218b6f7538e52250999c8f8ef1
        */
       placeId: components["schemas"]["PlaceId"];
       /**
@@ -227,8 +233,8 @@ export interface components {
        *
        * @example [
        *   {
-       *     "categoryId": 17119,
-       *     "label": "Bicycle Store"
+       *     "categoryId": "11167",
+       *     "label": "Technology Business"
        *   }
        * ]
        */
@@ -247,6 +253,12 @@ export interface components {
        * @example 50
        */
       distance: number;
+      /**
+       * @description Details of an icon, suitable for depicting this place.
+       *
+       * To fetch icon details use the `icon` query parameter.
+       */
+      icon?: components["schemas"]["IconDetails"];
     };
     /**
      * @description A result of searching for places using a `places/within-extent` request.
@@ -260,7 +272,7 @@ export interface components {
        * This place Id can be passed to the `places/{placeId}` endpoint to
        * retrieve additional details.
        *
-       * @example 722d8e1ba4db8ec5ef256b09cf060782
+       * @example 2da082218b6f7538e52250999c8f8ef1
        */
       placeId: components["schemas"]["PlaceId"];
       /**
@@ -283,8 +295,8 @@ export interface components {
        *
        * @example [
        *   {
-       *     "categoryId": 17119,
-       *     "label": "Bicycle Store"
+       *     "categoryId": "11167",
+       *     "label": "Technology Business"
        *   }
        * ]
        */
@@ -297,6 +309,12 @@ export interface components {
        * @example Esri International
        */
       name: string;
+      /**
+       * @description Details of an icon, suitable for depicting this place.
+       *
+       * To fetch icon details use the `icon` query parameter.
+       */
+      icon?: components["schemas"]["IconDetails"];
     };
     /**
      * @description The additional details for a `Place`, including address, contact details, opening hours, and rating.
@@ -309,7 +327,7 @@ export interface components {
       /**
        * @description The unique Id of this place.
        *
-       * @example 722d8e1ba4db8ec5ef256b09cf060782
+       * @example 2da082218b6f7538e52250999c8f8ef1
        */
       placeId: components["schemas"]["PlaceId"];
       /**
@@ -325,8 +343,8 @@ export interface components {
        *
        * @example [
        *   {
-       *     "categoryId": 17119,
-       *     "label": "Bicycle Store"
+       *     "categoryId": "11167",
+       *     "label": "Technology Business"
        *   }
        * ]
        */
@@ -369,7 +387,7 @@ export interface components {
        */
       address?: components["schemas"]["Address"];
       /**
-       * @description A set of additional locations that represent the place, for example the location of the front door, or of a drop off point.
+       * @description A set of additional locations that represent the place as WGS84 points, for example the location of the front door, or of a drop off point.
        *
        * This object and child properties are part of the "Location"
        * attribute group.
@@ -416,6 +434,12 @@ export interface components {
        * ]
        */
       chains?: components["schemas"]["ChainInfo"][];
+      /**
+       * @description Details of an icon, suitable for depicting this place.
+       *
+       * To fetch icon details use the `icon` query parameter.
+       */
+      icon?: components["schemas"]["IconDetails"];
     };
     /** @example 17119 */
     CategoryId: string;
@@ -430,7 +454,7 @@ export interface components {
        * @description The category Id uniquely identifies this category or type of place.
        *
        * The name of the category can be looked up using the
-       * `places/categories` endpoint. For example, 17119 is the id for a
+       * `places/categories` endpoint. For example, "17119" is the id for a
        * "Bicycle Store".
        *
        * @example 17119
@@ -465,6 +489,12 @@ export interface components {
       fullLabel: string[];
       /** @description The list of parent category Ids for this category. */
       parents?: string[];
+      /**
+       * @description Details of an icon, suitable for depicting this place.
+       *
+       * To fetch icon details use the `icon` query parameter.
+       */
+      icon?: components["schemas"]["IconDetails"];
     };
     /**
      * Format: double
@@ -774,7 +804,7 @@ export interface components {
       user?: number | null;
     };
     /**
-     * @description A set of additional locations for the place.
+     * @description A set of additional locations for the place, as WGS84 points.
      *
      * This list provides alternative locations for accessing a place such as
      * `frontDoor` or `road`.
@@ -888,7 +918,7 @@ export interface components {
       /**
        * @description The census block Id of the place (US only).
        *
-       * @example 60710081003002
+       * @example 060710081003002
        */
       censusBlockId?: string | null;
     };
@@ -896,7 +926,7 @@ export interface components {
     SocialMedia: {
       /**
        * @description The facebook Id of the place.
-       * @example 211211155280
+       * @example 183768242996
        */
       facebookId?: string | null;
       /**
@@ -904,7 +934,10 @@ export interface components {
        * @example esri
        */
       twitter?: string | null;
-      /** @description The instagram ID of the place. */
+      /**
+       * @description The instagram ID of the place.
+       * @example esrigram
+       */
       instagram?: string | null;
     };
     /** @description The contact information for a place. */
@@ -917,7 +950,7 @@ export interface components {
       /**
        * Format: url
        * @description The website address of the place.
-       * @example https://www.esri.com/en-us/home
+       * @example https://www.esri.com
        */
       website?: string | null;
       /**
@@ -998,6 +1031,16 @@ export interface components {
          */
         restInfoUrl?: string;
       };
+    };
+    /** @description Information about an icon for depicting a place or category. */
+    IconDetails: {
+      /**
+       * Format: url
+       * @description Url for an icon for this place or category in either `svg`, `cim` or `png` format.
+       *
+       * @example https://static.arcgis.com/icons/places/Default_Shop_or_Service_15.svg
+       */
+      url?: string;
     };
   };
   responses: {
@@ -1082,25 +1125,25 @@ export interface components {
      */
     RadiusParam: components["schemas"]["SearchDistance"];
     /**
-     * @description The minimum x coordinate, or longitude, of the search extent.
+     * @description The minimum x coordinate, or longitude, of the search extent, in WGS84 decimal degrees.
      *
      * This is the furthest _west_ that will be searched.
      */
     XMinParam: components["schemas"]["XCoord"];
     /**
-     * @description The minimum y coordinate, or latitude, of the search extent.
+     * @description The minimum y coordinate, or latitude, of the search extent, in WGS84 decimal degrees.
      *
      * This is the furthest _south_ that will be searched.
      */
     YMinParam: components["schemas"]["YCoord"];
     /**
-     * @description The maximum x coordinate, or longitude, of the search extent.
+     * @description The maximum x coordinate, or longitude, of the search extent, in WGS84 decimal degrees.
      *
      * This is the furthest _east_ that will be searched.
      */
     XMaxParam: components["schemas"]["XCoord"];
     /**
-     * @description The maximum y coordinate, or latitude, of the search extent.
+     * @description The maximum y coordinate, or latitude, of the search extent, in WGS84 decimal degrees.
      *
      * This is the furthest _north_ that will be searched.
      */
@@ -1224,7 +1267,7 @@ export interface components {
       | "socialMedia:twitter"
     )[];
     /**
-     * @description The authentication token with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
+     * @description The authentication token, created from an ArcGIS Location Platform account, with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
      *
      * The `token` parameter can be either an API Key or short-lived token. See
      * [ArcGIS security
@@ -1238,6 +1281,57 @@ export interface components {
      * - `X-Esri-Authorization: Bearer <YOUR_TOKEN>`
      */
     TokenParam: string;
+    /**
+     * @description Determines whether icons are returned and the type of icon to use with a place or category.
+     *
+     * ![example icon](https://static.arcgis.com/icons/places/Zoo_48.png)
+     *
+     * Use this parameter to define the type of icon URL for a given place or
+     * category. Place icons are available in the following formats:
+     *
+     * - `svg`
+     * - `cim` ([Cartographic Information Model](https://developers.arcgis.com/documentation/glossary/cim-symbol/))
+     * - `png` 48 x 48 pixels
+     *
+     * The SVG and CIM symbols default to 15 x 15 pixels but can be scaled
+     * smoothly for display in larger UI elements or to emphasize these
+     * features on a map. The PNG icons are provided as 48 x 48 pixels but for
+     * map display the recommended size is 16 x 16 pixels.
+     *
+     * The default is `none` (no icon URL will be returned).
+     */
+    IconParam: "none" | "svg" | "png" | "cim";
+    /**
+     * @description Optional case-sensitive parameter to specify the preferred language to
+     * use for category names.
+     *
+     * This query parameter uses language codes to specify the preferred
+     * language. If not set, or if no translation is available, the default
+     * behavior is to return category names in English.
+     *
+     * The language codes use the [CLDR](https://cldr.unicode.org/) (Common
+     * Locale Data Repository) format string that uses a two letter language
+     * code (e.g. "fr" for French) optionally followed by a two letter country
+     * code (e.g. "fr-CA" for French in Canada).
+     *
+     * If an unsupported language code is used, then the service will attempt
+     * to fall-back to the closest available language. This is done by
+     * stripping regional and extension subtags to find a known language code.
+     * For example, French Canadian (`fr-CA`) is unsupported so this falls back
+     * to French `fr`.
+     *
+     * Should the fallback fail, then the service will return category names in
+     * the default language `en` for English.
+     *
+     * Language codes:
+     * - English, default US - `en`
+     * - French - `fr`
+     * - German - `de`
+     * - Japanese - `ja`
+     * - Portuguese, default Brazil - `pt`
+     * - Spanish - `es`
+     */
+    LanguageParam: "en" | "es" | "de" | "fr" | "ja" | "pt";
   };
 }
 
@@ -1305,10 +1399,61 @@ export interface operations {
          * "Coffee".
          */
         filter?: components["parameters"]["CategoriesFilterParam"];
+        /**
+         * Determines whether icons are returned and the type of icon to use with a place or category.
+         *
+         * ![example icon](https://static.arcgis.com/icons/places/Zoo_48.png)
+         *
+         * Use this parameter to define the type of icon URL for a given place or
+         * category. Place icons are available in the following formats:
+         *
+         * - `svg`
+         * - `cim` ([Cartographic Information Model](https://developers.arcgis.com/documentation/glossary/cim-symbol/))
+         * - `png` 48 x 48 pixels
+         *
+         * The SVG and CIM symbols default to 15 x 15 pixels but can be scaled
+         * smoothly for display in larger UI elements or to emphasize these
+         * features on a map. The PNG icons are provided as 48 x 48 pixels but for
+         * map display the recommended size is 16 x 16 pixels.
+         *
+         * The default is `none` (no icon URL will be returned).
+         */
+        icon?: components["parameters"]["IconParam"];
+        /**
+         * Optional case-sensitive parameter to specify the preferred language to
+         * use for category names.
+         *
+         * This query parameter uses language codes to specify the preferred
+         * language. If not set, or if no translation is available, the default
+         * behavior is to return category names in English.
+         *
+         * The language codes use the [CLDR](https://cldr.unicode.org/) (Common
+         * Locale Data Repository) format string that uses a two letter language
+         * code (e.g. "fr" for French) optionally followed by a two letter country
+         * code (e.g. "fr-CA" for French in Canada).
+         *
+         * If an unsupported language code is used, then the service will attempt
+         * to fall-back to the closest available language. This is done by
+         * stripping regional and extension subtags to find a known language code.
+         * For example, French Canadian (`fr-CA`) is unsupported so this falls back
+         * to French `fr`.
+         *
+         * Should the fallback fail, then the service will return category names in
+         * the default language `en` for English.
+         *
+         * Language codes:
+         * - English, default US - `en`
+         * - French - `fr`
+         * - German - `de`
+         * - Japanese - `ja`
+         * - Portuguese, default Brazil - `pt`
+         * - Spanish - `es`
+         */
+        language?: components["parameters"]["LanguageParam"];
         /** The requested response format - either `json` or `pjson` (pretty json). */
         f?: components["parameters"]["FormatParam"];
         /**
-         * The authentication token with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
+         * The authentication token, created from an ArcGIS Location Platform account, with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
          *
          * The `token` parameter can be either an API Key or short-lived token. See
          * [ArcGIS security
@@ -1349,10 +1494,61 @@ export interface operations {
         categoryId: components["parameters"]["CategoryIdParam"];
       };
       query: {
+        /**
+         * Determines whether icons are returned and the type of icon to use with a place or category.
+         *
+         * ![example icon](https://static.arcgis.com/icons/places/Zoo_48.png)
+         *
+         * Use this parameter to define the type of icon URL for a given place or
+         * category. Place icons are available in the following formats:
+         *
+         * - `svg`
+         * - `cim` ([Cartographic Information Model](https://developers.arcgis.com/documentation/glossary/cim-symbol/))
+         * - `png` 48 x 48 pixels
+         *
+         * The SVG and CIM symbols default to 15 x 15 pixels but can be scaled
+         * smoothly for display in larger UI elements or to emphasize these
+         * features on a map. The PNG icons are provided as 48 x 48 pixels but for
+         * map display the recommended size is 16 x 16 pixels.
+         *
+         * The default is `none` (no icon URL will be returned).
+         */
+        icon?: components["parameters"]["IconParam"];
+        /**
+         * Optional case-sensitive parameter to specify the preferred language to
+         * use for category names.
+         *
+         * This query parameter uses language codes to specify the preferred
+         * language. If not set, or if no translation is available, the default
+         * behavior is to return category names in English.
+         *
+         * The language codes use the [CLDR](https://cldr.unicode.org/) (Common
+         * Locale Data Repository) format string that uses a two letter language
+         * code (e.g. "fr" for French) optionally followed by a two letter country
+         * code (e.g. "fr-CA" for French in Canada).
+         *
+         * If an unsupported language code is used, then the service will attempt
+         * to fall-back to the closest available language. This is done by
+         * stripping regional and extension subtags to find a known language code.
+         * For example, French Canadian (`fr-CA`) is unsupported so this falls back
+         * to French `fr`.
+         *
+         * Should the fallback fail, then the service will return category names in
+         * the default language `en` for English.
+         *
+         * Language codes:
+         * - English, default US - `en`
+         * - French - `fr`
+         * - German - `de`
+         * - Japanese - `ja`
+         * - Portuguese, default Brazil - `pt`
+         * - Spanish - `es`
+         */
+        language?: components["parameters"]["LanguageParam"];
         /** The requested response format - either `json` or `pjson` (pretty json). */
         f?: components["parameters"]["FormatParam"];
         /**
-         * The authentication token with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
+         * The authentication token, created from an ArcGIS Location Platform account, with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
          *
          * The `token` parameter can be either an API Key or short-lived token. See
          * [ArcGIS security
@@ -1385,7 +1581,7 @@ export interface operations {
    * To perform the request, you must supply the `x` and `y` coordinates of
    * the point from which to search. Optionally, you can also specify the:
    *
-   * - Search radius (up to 10,000 meters)
+   * - Search radius (1 to 10,000 meters)
    * - Category IDs
    * - Search text
    *
@@ -1447,6 +1643,26 @@ export interface operations {
          */
         pageSize?: components["parameters"]["PageSizeParam"];
         /**
+         * Determines whether icons are returned and the type of icon to use with a place or category.
+         *
+         * ![example icon](https://static.arcgis.com/icons/places/Zoo_48.png)
+         *
+         * Use this parameter to define the type of icon URL for a given place or
+         * category. Place icons are available in the following formats:
+         *
+         * - `svg`
+         * - `cim` ([Cartographic Information Model](https://developers.arcgis.com/documentation/glossary/cim-symbol/))
+         * - `png` 48 x 48 pixels
+         *
+         * The SVG and CIM symbols default to 15 x 15 pixels but can be scaled
+         * smoothly for display in larger UI elements or to emphasize these
+         * features on a map. The PNG icons are provided as 48 x 48 pixels but for
+         * map display the recommended size is 16 x 16 pixels.
+         *
+         * The default is `none` (no icon URL will be returned).
+         */
+        icon?: components["parameters"]["IconParam"];
+        /**
          * Request results starting from the given offset.
          *
          * This parameter works with the `pageSize` parameter to fetch results from
@@ -1460,7 +1676,7 @@ export interface operations {
         /** The requested response format - either `json` or `pjson` (pretty json). */
         f?: components["parameters"]["FormatParam"];
         /**
-         * The authentication token with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
+         * The authentication token, created from an ArcGIS Location Platform account, with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
          *
          * The `token` parameter can be either an API Key or short-lived token. See
          * [ArcGIS security
@@ -1487,17 +1703,20 @@ export interface operations {
   /**
    * The `/places/within-extent` request searches for places within an extent (bounding box).
    *
-   * You must supply the `xmin`,
-   * `ymin`, `xmax` and `ymax` coordinates to define the extent. The maximum width
-   * and height of an extent that can be used in a search is 20,000 meters.
+   * You must supply the `xmin`, `ymin`, `xmax` and `ymax` coordinates to
+   * define the extent. The maximum width and height of an extent that can be
+   * used in a search is 20,000 meters. The width and height of an extent
+   * must be greater than 0 meters.
    *
-   * You can also provide multiple categories or search text to find specific types of places within the extent.
+   * You can also provide multiple categories or search text to find specific
+   * types of places within the extent.
    *
-   * The default number of places returned (`pageSize`) is 10. The maximum `pageSize` value is 20.
+   * The default number of places returned (`pageSize`) is 10. The maximum
+   * `pageSize` value is 20.
    *
-   * If the `pagination.nextUrl` property in the response is populated, then you can
-   * page through the results to return more places. The maximum number of
-   * places that can be paged to is 200.
+   * If the `pagination.nextUrl` property in the response is populated, then
+   * you can page through the results to return more places. The maximum
+   * number of places that can be paged to is 200.
    *
    * **Note**: You cannot permanently store places. Please see the [Terms of
    * use](https://developers.arcgis.com/documentation/mapping-apis-and-services/deployment/terms-of-use/).
@@ -1508,25 +1727,25 @@ export interface operations {
     parameters: {
       query: {
         /**
-         * The minimum x coordinate, or longitude, of the search extent.
+         * The minimum x coordinate, or longitude, of the search extent, in WGS84 decimal degrees.
          *
          * This is the furthest _west_ that will be searched.
          */
         xmin: components["parameters"]["XMinParam"];
         /**
-         * The minimum y coordinate, or latitude, of the search extent.
+         * The minimum y coordinate, or latitude, of the search extent, in WGS84 decimal degrees.
          *
          * This is the furthest _south_ that will be searched.
          */
         ymin: components["parameters"]["YMinParam"];
         /**
-         * The maximum x coordinate, or longitude, of the search extent.
+         * The maximum x coordinate, or longitude, of the search extent, in WGS84 decimal degrees.
          *
          * This is the furthest _east_ that will be searched.
          */
         xmax: components["parameters"]["XMaxParam"];
         /**
-         * The maximum y coordinate, or latitude, of the search extent.
+         * The maximum y coordinate, or latitude, of the search extent, in WGS84 decimal degrees.
          *
          * This is the furthest _north_ that will be searched.
          */
@@ -1548,6 +1767,26 @@ export interface operations {
         categoryIds?: components["parameters"]["CategoryIdsParam"];
         /** Free search text for places against names, categories etc. */
         searchText?: components["parameters"]["SearchTextParam"];
+        /**
+         * Determines whether icons are returned and the type of icon to use with a place or category.
+         *
+         * ![example icon](https://static.arcgis.com/icons/places/Zoo_48.png)
+         *
+         * Use this parameter to define the type of icon URL for a given place or
+         * category. Place icons are available in the following formats:
+         *
+         * - `svg`
+         * - `cim` ([Cartographic Information Model](https://developers.arcgis.com/documentation/glossary/cim-symbol/))
+         * - `png` 48 x 48 pixels
+         *
+         * The SVG and CIM symbols default to 15 x 15 pixels but can be scaled
+         * smoothly for display in larger UI elements or to emphasize these
+         * features on a map. The PNG icons are provided as 48 x 48 pixels but for
+         * map display the recommended size is 16 x 16 pixels.
+         *
+         * The default is `none` (no icon URL will be returned).
+         */
+        icon?: components["parameters"]["IconParam"];
         /**
          * The number of places that should be sent in the response for a single request.
          *
@@ -1578,7 +1817,7 @@ export interface operations {
         /** The requested response format - either `json` or `pjson` (pretty json). */
         f?: components["parameters"]["FormatParam"];
         /**
-         * The authentication token with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
+         * The authentication token, created from an ArcGIS Location Platform account, with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
          *
          * The `token` parameter can be either an API Key or short-lived token. See
          * [ArcGIS security
@@ -1664,6 +1903,9 @@ export interface operations {
    * use](https://developers.arcgis.com/documentation/mapping-apis-and-services/deployment/terms-of-use/).
    *
    * **Note**: Query parameters are case-sensitive.
+   *
+   * **Note**: Can be used in conjunction with the [Basemap Styles service](https://developers.arcgis.com/rest/basemap-styles) to request additional attributes
+   * for places retrieved using the [Places for basemaps](https://developers.arcgis.com/documentation/mapping-apis-and-services/maps/places-for-basemaps) workflow.
    */
   placeIdGet: {
     parameters: {
@@ -1687,10 +1929,30 @@ export interface operations {
          * above.
          */
         requestedFields: components["parameters"]["RequestedFieldsParam"];
+        /**
+         * Determines whether icons are returned and the type of icon to use with a place or category.
+         *
+         * ![example icon](https://static.arcgis.com/icons/places/Zoo_48.png)
+         *
+         * Use this parameter to define the type of icon URL for a given place or
+         * category. Place icons are available in the following formats:
+         *
+         * - `svg`
+         * - `cim` ([Cartographic Information Model](https://developers.arcgis.com/documentation/glossary/cim-symbol/))
+         * - `png` 48 x 48 pixels
+         *
+         * The SVG and CIM symbols default to 15 x 15 pixels but can be scaled
+         * smoothly for display in larger UI elements or to emphasize these
+         * features on a map. The PNG icons are provided as 48 x 48 pixels but for
+         * map display the recommended size is 16 x 16 pixels.
+         *
+         * The default is `none` (no icon URL will be returned).
+         */
+        icon?: components["parameters"]["IconParam"];
         /** The requested response format - either `json` or `pjson` (pretty json). */
         f?: components["parameters"]["FormatParam"];
         /**
-         * The authentication token with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
+         * The authentication token, created from an ArcGIS Location Platform account, with the `premium:user:places` [privilege](https://developers.arcgis.com/rest/users-groups-and-items/privileges.htm), used to access the Places service.
          *
          * The `token` parameter can be either an API Key or short-lived token. See
          * [ArcGIS security
