@@ -44,8 +44,10 @@ const mockGetAppInfoResponse: IRegisteredAppResponse = {
   httpReferrers: [],
   privileges: [],
   isBeta: false,
-  apiKey:
-    "AAPKc4ee9d9e029b4a48aeec2190567da83b_1ZIGk1MTn3XLAbs0T59nUp80rg2PZKJZdnqS1_wZA8LCIbnhIKBiWVrRHx49iWo"
+  isPersonalAPIToken: false,
+  apiToken1Active: false,
+  apiToken2Active: false,
+  customAppLoginShowTriage: false
 };
 
 const mockUnregisterResponse: IUnregisterAppResponse = {
@@ -72,7 +74,7 @@ describe("unregisterApp()", () => {
       tokenExpires: TOMORROW
     });
   });
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should unregister an app", async function () {
     // setup FM response

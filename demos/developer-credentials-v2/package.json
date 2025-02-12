@@ -1,0 +1,28 @@
+{
+  "private": true,
+  "name": "developer-credentials-v2",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "keywords": [],
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsx index.ts"
+  },
+  "dependencies": {
+    "@esri/arcgis-rest-developer-credentials": "^2.0.0",
+    "@esri/arcgis-rest-portal": "^4.0.0",
+    "@esri/arcgis-rest-request": "^4.0.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.7.0",
+    "tsx": "^4.19.2",
+    "typescript": "^4.6.2"
+  },
+  "author": "Patrick Arlt",
+  "volta": {
+    "node": "22.0.0",
+    "npm": "10.0.0"
+  }
+}

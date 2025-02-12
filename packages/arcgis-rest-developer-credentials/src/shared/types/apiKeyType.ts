@@ -29,6 +29,22 @@ export interface ICreateApiKeyOptions
   properties?: any;
   url?: string;
   tags?: string[];
+  /**
+   * Expiration date of the access token in slot 1 of this API Key.
+   */
+  apiToken1ExpirationDate?: Date;
+  /**
+   * Expiration date of the access token in slot 2 of this API Key.
+   */
+  apiToken2ExpirationDate?: Date;
+  /**
+   * Generate a new access token in slot 1 of this API. Will override and invalidate any existing token.
+   */
+  generateToken1?: boolean;
+  /**
+   * Generate a new access token in slot 2 of this API. Will override and invalidate any existing token.
+   */
+  generateToken2?: boolean;
 }
 
 /**
@@ -49,21 +65,18 @@ export interface IGetApiKeyOptions extends Omit<IRequestOptions, "params"> {
  * Represent only the API key related properties from {@linkcode IApp}.
  */
 export interface IApiKeyInfo
-  extends Omit<
-    IApp,
-    "client_id" | "client_secret" | "redirect_uris" | "appType"
-  > {
-  apiKey: string;
-}
+  extends Omit<IApp, "client_secret" | "redirect_uris" | "appType"> {}
 
 /**
- * Return value of {@linkcode createApiKey}, {@linkcode getApiKey}, {@linkcode updateApiKey} representing an API Key entity.
+ * Return value of {@linkcode createApiKey}, {@linkcode getApiKey}, {@linkcode updateApiKey} representing an API Key entity. `accessToken1`/`accessToken2` properties are only available when `generateToken1`/`generateToken2` are `true`.
  */
 export interface IApiKeyResponse extends IApiKeyInfo {
   /**
    * Represent item info attached to this API Key.
    */
   item: IItem;
+  accessToken1?: null | string;
+  accessToken2?: null | string;
 }
 
 /**
@@ -85,7 +98,23 @@ export interface IUpdateApiKeyOptions extends Omit<IRequestOptions, "params"> {
   /**
    * Override previous `privileges` if this value is provided.
    */
-  privileges?: Array<Privileges | `${Privileges}`>;
+  privileges?: string[];
+  /**
+   * Expiration date of the access token in slot 1 of this API Key.
+   */
+  apiToken1ExpirationDate?: Date;
+  /**
+   * Expiration date of the access token in slot 2 of this API Key.
+   */
+  apiToken2ExpirationDate?: Date;
+  /**
+   * Generate a new access token in slot 1 of this API. Will override and invalidate any existing token.
+   */
+  generateToken1?: boolean;
+  /**
+   * Generate a new access token in slot 2 of this API. Will override and invalidate any existing token.
+   */
+  generateToken2?: boolean;
 }
 
 /**

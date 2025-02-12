@@ -45,7 +45,11 @@ const mockNormalResponse: IRegisteredAppResponse = {
   gcmApiKey: null,
   isBeta: false,
   httpReferrers: ["https://www.esri.com/en-us/home"],
-  privileges: [Privileges.GeocodeTemporary, Privileges.NetworkAnalysisRouting]
+  privileges: ["premium:user:geocode:temporary"],
+  isPersonalAPIToken: false,
+  apiToken1Active: false,
+  apiToken2Active: false,
+  customAppLoginShowTriage: false
 };
 
 /* test plans:
@@ -83,7 +87,7 @@ describe("registerApp()", () => {
       tokenExpires: TOMORROW
     });
   });
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   // normal workflow
   it("should create app without IRequestOptions", async function () {
@@ -101,10 +105,7 @@ describe("registerApp()", () => {
       appType: "apikey",
       redirect_uris: [],
       httpReferrers: ["https://www.esri.com/en-us/home"],
-      privileges: [
-        Privileges.GeocodeTemporary,
-        Privileges.NetworkAnalysisRouting
-      ],
+      privileges: ["premium:user:geocode:temporary"],
       authentication: authEnterprise
     };
 
@@ -134,6 +135,7 @@ describe("registerApp()", () => {
       apnsSandboxCert,
       gcmApiKey,
       isBeta,
+      customAppLoginShowTriage,
       ...expectedResponse
     } = mockNormalResponse;
 
@@ -197,6 +199,7 @@ describe("registerApp()", () => {
       apnsSandboxCert,
       gcmApiKey,
       isBeta,
+      customAppLoginShowTriage,
       ...expectedResponse
     } = {
       ...mockResponseWithoutApiKey,
@@ -210,30 +213,6 @@ describe("registerApp()", () => {
       registered: new Date(1380561095000),
       modified: new Date(1380561095000)
     });
-  });
-
-  // privilege check test
-  it("should throw an error when invalid privileges are provided", async function () {
-    // setup FM response
-    fetchMock.mock("*", 400);
-
-    try {
-      await registerApp({
-        itemId: "fake-itemID",
-        appType: "apikey",
-        redirect_uris: [],
-        httpReferrers: ["https://www.esri.com/en-us/home"],
-        privileges: [Privileges.NetworkAnalysis, "invalid privilege"] as any, // second is invalid
-        authentication: authOnline
-      });
-      fail("Should have rejected.");
-    } catch (e: any) {
-      // validation should reject before reach fetch()
-      expect(fetchMock.called()).toBe(false);
-      expect(e.message).toBe(
-        "The `privileges` option contains invalid privileges."
-      );
-    }
   });
 
   it("should auto generateToken if registerApp replied with invalid token error", async function () {
@@ -284,10 +263,7 @@ describe("registerApp()", () => {
         appType: "apikey",
         redirect_uris: [],
         httpReferrers: ["https://www.esri.com/en-us/home"],
-        privileges: [
-          Privileges.GeocodeTemporary,
-          Privileges.NetworkAnalysisRouting
-        ],
+        privileges: ["premium:user:geocode:temporary"],
         authentication: authInvalidToken
       });
       fail("Should have rejected.");

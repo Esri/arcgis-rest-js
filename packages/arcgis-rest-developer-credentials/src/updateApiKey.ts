@@ -9,11 +9,13 @@ import { getRegisteredAppInfo } from "./shared/getRegisteredAppInfo.js";
 import {
   appToApiKeyProperties,
   extractBaseRequestOptions,
-  arePrivilegesValid,
   stringifyArrays,
-  registeredAppResponseToApp
+  registeredAppResponseToApp,
+  generateApiKeyTokens,
+  generateOptionsToSlots,
+  buildExpirationDateParams
 } from "./shared/helpers.js";
-import { getItem, getPortalUrl } from "@esri/arcgis-rest-portal";
+import { getItem, getPortalUrl, updateItem } from "@esri/arcgis-rest-portal";
 import { appendCustomParams, request } from "@esri/arcgis-rest-request";
 import {
   IApp,
@@ -55,31 +57,36 @@ import {
 export async function updateApiKey(
   requestOptions: IUpdateApiKeyOptions
 ): Promise<IApiKeyResponse> {
-  // privileges validation
+  requestOptions.httpMethod = "POST";
+  const baseRequestOptions = extractBaseRequestOptions(requestOptions); // get base requestOptions snapshot
+
+  /**
+   * step 1: update expiration dates if provided. Build the object up to avoid overwriting any existing properties.
+   */
   if (
-    requestOptions.privileges &&
-    !arePrivilegesValid(requestOptions.privileges)
+    requestOptions.apiToken1ExpirationDate ||
+    requestOptions.apiToken2ExpirationDate
   ) {
-    throw new Error("The `privileges` option contains invalid privileges.");
+    const updateParams = buildExpirationDateParams(requestOptions);
+    await updateItem({
+      ...baseRequestOptions,
+      item: {
+        id: requestOptions.itemId,
+        ...updateParams
+      },
+      authentication: requestOptions.authentication
+    });
   }
 
-  requestOptions.httpMethod = "POST";
-
-  // get app
-  const baseRequestOptions = extractBaseRequestOptions(requestOptions); // get base requestOptions snapshot
+  /**
+   * step 2: update privileges and httpReferrers if provided. Build the object up to avoid overwriting any existing properties.
+   */
   const getAppOption: IGetAppInfoOptions = {
     ...baseRequestOptions,
     authentication: requestOptions.authentication,
     itemId: requestOptions.itemId
   };
-
   const appResponse = await getRegisteredAppInfo(getAppOption);
-
-  // appType must be APIKey to continue
-  if (appResponse.appType !== "apikey" || !("apiKey" in appResponse)) {
-    throw new Error("Item is not an API key.");
-  }
-
   const clientId = appResponse.client_id;
   const options = appendCustomParams(
     { ...appResponse, ...requestOptions }, // object with the custom params to look in
@@ -98,19 +105,42 @@ export async function updateApiKey(
     authentication: requestOptions.authentication
   });
 
-  const app: IApp = registeredAppResponseToApp({
-    ...updateResponse,
-    apiKey: appResponse.apiKey
-  });
-
-  const itemInfo = await getItem(requestOptions.itemId, {
+  /**
+   * step 3: get the updated item info to return to the user.
+   */
+  const updatedItemInfo = await getItem(requestOptions.itemId, {
     ...baseRequestOptions,
     authentication: requestOptions.authentication,
     params: { f: "json" }
   });
 
+  /**
+   * step 4: generate tokens if requested
+   */
+  const generatedTokens = await generateApiKeyTokens(
+    requestOptions.itemId,
+    generateOptionsToSlots(
+      requestOptions.generateToken1,
+      requestOptions.generateToken2
+    ),
+    {
+      ...baseRequestOptions,
+      authentication: requestOptions.authentication
+    }
+  );
+
+  /**
+   * step 5: get updated registered app info
+   */
+  const updatedRegisteredAppResponse = await getRegisteredAppInfo({
+    ...baseRequestOptions,
+    itemId: requestOptions.itemId,
+    authentication: requestOptions.authentication
+  });
+
   return {
-    ...appToApiKeyProperties(app),
-    item: itemInfo
+    ...generatedTokens,
+    ...appToApiKeyProperties(updatedRegisteredAppResponse),
+    item: updatedItemInfo
   };
 }

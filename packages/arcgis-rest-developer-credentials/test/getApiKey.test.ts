@@ -42,10 +42,12 @@ const mockGetAppInfoResponse: IRegisteredAppResponse = {
   apnsSandboxCert: null,
   gcmApiKey: null,
   httpReferrers: [],
-  privileges: [Privileges.NetworkAnalysis],
+  privileges: ["premium:user:geocode:temporary"],
   isBeta: false,
-  apiKey:
-    "AAPKb3c949a2a9b04f5baf4acbd4b96fd2d0aagzgFeAHCXEGzVXtClRiQE2aHgEYyDOUoQmygarcwG5R5PfY04lezi9GZt98L-F"
+  isPersonalAPIToken: false,
+  apiToken1Active: false,
+  apiToken2Active: false,
+  customAppLoginShowTriage: false
 };
 
 const mockGetItemResponse: IItem = {
@@ -99,14 +101,16 @@ const mockGetItemResponse: IItem = {
 };
 
 const getApiKeyResponseExpected: IApiKeyResponse = {
+  client_id: "EiwLuFlkNwE2Ifye",
   itemId: "cddcacee5848488bb981e6c6ff91ab79",
   registered: new Date(1687824330000),
   modified: new Date(1687824330000),
   httpReferrers: [],
-  privileges: [Privileges.NetworkAnalysis],
-  apiKey:
-    "AAPKb3c949a2a9b04f5baf4acbd4b96fd2d0aagzgFeAHCXEGzVXtClRiQE2aHgEYyDOUoQmygarcwG5R5PfY04lezi9GZt98L-F",
-  item: mockGetItemResponse
+  privileges: ["premium:user:geocode:temporary"],
+  item: mockGetItemResponse,
+  isPersonalAPIToken: false,
+  apiToken1Active: false,
+  apiToken2Active: false
 };
 
 /* test plans:
@@ -145,7 +149,7 @@ describe("getApiKey()", () => {
       tokenExpires: TOMORROW
     });
   });
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should get get key without IRequestOptions (Enterprise portal)", async function () {
     // setup FM response
@@ -254,50 +258,6 @@ describe("getApiKey()", () => {
       expect(e.message).toBe(
         "CONT_0001: Item does not exist or is inaccessible."
       );
-    }
-  });
-  it("should throw err if itemId is found by getRegisteredAppInfo() but appType is not ApiKey", async function () {
-    // setup FM response
-    setFetchMockPOSTFormUrlencoded(
-      "https://www.arcgis.com/sharing/rest/content/users/745062756/items/cddcacee5848488bb981e6c6ff91ab79/registeredAppInfo",
-      {
-        itemId: "cddcacee5848488bb981e6c6ff91ab79",
-        client_id: "EiwLuFlkNwE2Ifye",
-        client_secret: "dc7526de9ece482dba4704618fd3de81",
-        appType: "multiple", // type is not apiKey and apiKey is excluded from response
-        redirect_uris: [],
-        registered: 1687824330000,
-        modified: 1687824330000,
-        apnsProdCert: null,
-        apnsSandboxCert: null,
-        gcmApiKey: null,
-        httpReferrers: [],
-        privileges: [Privileges.NetworkAnalysis],
-        isBeta: false
-      } as IRegisteredAppResponse,
-      200,
-      "getAppRoute",
-      1
-    );
-
-    setFetchMockPOSTFormUrlencoded(
-      "https://www.arcgis.com/sharing/rest/content/items/cddcacee5848488bb981e6c6ff91ab79",
-      mockGetItemResponse,
-      200,
-      "getItemRoute",
-      1
-    );
-
-    try {
-      await getApiKey({
-        itemId: "cddcacee5848488bb981e6c6ff91ab79",
-        authentication: authOnline
-      });
-      fail("should have rejected.");
-    } catch (e: any) {
-      expect(fetchMock.called("getAppRoute")).toBe(true);
-      expect(fetchMock.called("getItemRoute")).toBe(true);
-      expect(e.message).toBe("Item is not an API key.");
     }
   });
 
