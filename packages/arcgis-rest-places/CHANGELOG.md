@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-places [1.2.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-places@1.1.0...@esri/arcgis-rest-places@1.2.0) (2025-02-10)
+
+
+### Features
+
+* **arcgis-rest-places:** places api - add icon param ([203821d](https://github.com/Esri/arcgis-rest-js/commit/203821dad9ded6fff3b28b11fc352dba3c900e0c)), closes [#1175](https://github.com/Esri/arcgis-rest-js/issues/1175) [#1175](https://github.com/Esri/arcgis-rest-js/issues/1175) [#1183](https://github.com/Esri/arcgis-rest-js/issues/1183)
+
 # @esri/arcgis-rest-places [1.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-places@1.0.2...@esri/arcgis-rest-places@1.1.0) (2024-06-18)
 
 
