@@ -49,7 +49,11 @@ const mockRegisterAppResponseFirstTestCase: IRegisteredAppResponse = {
   gcmApiKey: null,
   httpReferrers: [],
   privileges: [],
-  isBeta: false
+  isBeta: false,
+  isPersonalAPIToken: false,
+  apiToken1Active: false,
+  apiToken2Active: false,
+  customAppLoginShowTriage: false
 };
 
 const mockGetItemResponseFirstTestCase: IItem = {
@@ -132,7 +136,11 @@ const mockRegisterAppResponseSecondTestCase: IRegisteredAppResponse = {
   gcmApiKey: null,
   httpReferrers: [],
   privileges: [],
-  isBeta: false
+  isBeta: false,
+  isPersonalAPIToken: false,
+  apiToken1Active: false,
+  apiToken2Active: false,
+  customAppLoginShowTriage: false
 };
 
 const mockGetItemResponseSecondTestCase: IItem = {
@@ -212,7 +220,7 @@ describe("createOAuthApp()", () => {
       tokenExpires: TOMORROW
     });
   });
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should create OAuth app (redirect_uri not provided)", async function () {
     // setup FM response

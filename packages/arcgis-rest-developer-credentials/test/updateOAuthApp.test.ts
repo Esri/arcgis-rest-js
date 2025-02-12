@@ -43,7 +43,11 @@ const mockGetAppFirstTestCase: IRegisteredAppResponse = {
   gcmApiKey: null,
   httpReferrers: [],
   privileges: [],
-  isBeta: false
+  isBeta: false,
+  isPersonalAPIToken: false,
+  apiToken1Active: false,
+  apiToken2Active: false,
+  customAppLoginShowTriage: false
 };
 const mockUpdateOAuthResponseFirstTestCase: IRegisteredAppResponse = {
   itemId: "263de277750c46fca342ef0449d325db",
@@ -58,7 +62,11 @@ const mockUpdateOAuthResponseFirstTestCase: IRegisteredAppResponse = {
   gcmApiKey: null,
   httpReferrers: [],
   privileges: [],
-  isBeta: false
+  isBeta: false,
+  isPersonalAPIToken: false,
+  apiToken1Active: false,
+  apiToken2Active: false,
+  customAppLoginShowTriage: false
 };
 const mockGetItemResponseFirstTestCase: IItem = {
   id: "263de277750c46fca342ef0449d325db",
@@ -133,7 +141,11 @@ const mockGetAppSecondTestCase: IRegisteredAppResponse = {
   gcmApiKey: null,
   httpReferrers: [],
   privileges: [],
-  isBeta: false
+  isBeta: false,
+  isPersonalAPIToken: false,
+  apiToken1Active: false,
+  apiToken2Active: false,
+  customAppLoginShowTriage: false
 };
 const mockUpdateOAuthResponseSecondTestCase: IRegisteredAppResponse = {
   itemId: "df9c4128c84d45fa8a7da95837590fc5",
@@ -148,7 +160,11 @@ const mockUpdateOAuthResponseSecondTestCase: IRegisteredAppResponse = {
   gcmApiKey: null,
   httpReferrers: [],
   privileges: [],
-  isBeta: false
+  isBeta: false,
+  isPersonalAPIToken: false,
+  apiToken1Active: false,
+  apiToken2Active: false,
+  customAppLoginShowTriage: false
 };
 const mockGetItemResponseSecondTestCase: IItem = {
   id: "df9c4128c84d45fa8a7da95837590fc5",
@@ -227,7 +243,7 @@ describe("updateOAuthApp()", () => {
       tokenExpires: TOMORROW
     });
   });
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should update OAuth app (no redirectUris)", async function () {
     // setup FM response

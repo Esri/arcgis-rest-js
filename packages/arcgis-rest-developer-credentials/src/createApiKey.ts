@@ -5,7 +5,8 @@ import {
   ICreateItemOptions,
   createItem,
   getItem,
-  IItemAdd
+  IItemAdd,
+  updateItem
 } from "@esri/arcgis-rest-portal";
 import {
   IApiKeyResponse,
@@ -18,8 +19,11 @@ import {
   appToApiKeyProperties,
   filterKeys,
   extractBaseRequestOptions,
-  arePrivilegesValid
+  generateApiKeyTokens,
+  generateOptionsToSlots,
+  buildExpirationDateParams
 } from "./shared/helpers.js";
+import { getRegisteredAppInfo } from "./shared/getRegisteredAppInfo.js";
 
 /**
  * Used to register an API key. See the [security and authentication](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/api-keys/) for more information about API key.
@@ -37,7 +41,7 @@ import {
  *   title: "xyz_title",
  *   description: "xyz_desc",
  *   tags: ["xyz_tag1", "xyz_tag2"],
- *   privileges: [Privileges.Geocode, Privileges.FeatureReport],
+ *   privileges: ["premium:user:networkanalysis:routing"],
  *   authentication: authSession
  * }).then((registeredAPIKey: IApiKeyResponse) => {
  *   // => {apiKey: "xyz_key", item: {tags: ["xyz_tag1", "xyz_tag2"], ...}, ...}
@@ -52,14 +56,9 @@ import {
 export async function createApiKey(
   requestOptions: ICreateApiKeyOptions
 ): Promise<IApiKeyResponse> {
-  if (!arePrivilegesValid(requestOptions.privileges)) {
-    throw new Error("The `privileges` option contains invalid privileges.");
-  }
-
   requestOptions.httpMethod = "POST";
 
   // filter param buckets:
-
   const baseRequestOptions = extractBaseRequestOptions(requestOptions); // snapshot of basic IRequestOptions before customized params being built into it
 
   const itemAddProperties: Array<keyof IItemAdd> = [
@@ -79,11 +78,13 @@ export async function createApiKey(
     "url"
   ];
 
-  // step 1: add item
+  /**
+   * step 1: create item
+   */
   const createItemOption: ICreateItemOptions = {
     item: {
       ...filterKeys(requestOptions as any, itemAddProperties),
-      type: "API Key"
+      type: "Application"
     },
     ...baseRequestOptions,
     authentication: requestOptions.authentication,
@@ -94,26 +95,71 @@ export async function createApiKey(
 
   const createItemResponse = await createItem(createItemOption);
 
-  // step 2: register app
-  const registerAppOption: IRegisterAppOptions = {
+  /**
+   * getRegisteredAppInfoRoute
+   */
+  const registerAppOptions: IRegisterAppOptions = {
     itemId: createItemResponse.id,
-    appType: "apikey",
-    redirect_uris: [],
+    appType: "multiple",
+    redirect_uris: ["urn:ietf:wg:oauth:2.0:oob"],
     httpReferrers: requestOptions.httpReferrers || [],
     privileges: requestOptions.privileges,
     ...baseRequestOptions,
     authentication: requestOptions.authentication
   };
 
-  const registeredAppResponse = await registerApp(registerAppOption);
+  const registeredAppResponse = await registerApp(registerAppOptions);
+
+  /**
+   * step 3: update item with desired expiration dates
+   * you cannot set the expiration date propierties until you
+   * regiester the app so this has to be a seperate step
+   */
+  await updateItem({
+    ...baseRequestOptions,
+    item: {
+      id: createItemResponse.id,
+      ...buildExpirationDateParams(requestOptions, true)
+    },
+    authentication: requestOptions.authentication
+  });
+
+  /*
+   * step 4: get item info
+   */
   const itemInfo = await getItem(registeredAppResponse.itemId, {
     ...baseRequestOptions,
     authentication: requestOptions.authentication,
     params: { f: "json" }
   });
 
+  /**
+   * step 5: generate tokens if requested
+   */
+  const generatedTokens = await generateApiKeyTokens(
+    itemInfo.id,
+    generateOptionsToSlots(
+      requestOptions.generateToken1,
+      requestOptions.generateToken2
+    ),
+    {
+      ...baseRequestOptions,
+      authentication: requestOptions.authentication
+    }
+  );
+
+  /**
+   * step 6: get registered app info to get updated active key status
+   */
+  const updatedRegisteredAppResponse = await getRegisteredAppInfo({
+    ...baseRequestOptions,
+    itemId: itemInfo.id,
+    authentication: requestOptions.authentication
+  });
+
   return {
-    ...appToApiKeyProperties(registeredAppResponse),
+    ...generatedTokens,
+    ...appToApiKeyProperties(updatedRegisteredAppResponse),
     item: itemInfo
   };
 }
