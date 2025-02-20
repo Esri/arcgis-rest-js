@@ -14005,6 +14005,49 @@
 					]
 				},
 				{
+					"id": 4888,
+					"name": "slotForKey",
+					"kind": 64,
+					"kindString": "Function",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "arcgis-rest-developer-credentials/src/shared/helpers.ts",
+							"line": 126,
+							"character": 16
+						}
+					],
+					"signatures": [
+						{
+							"id": 4889,
+							"name": "slotForKey",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Used to determine if a generated key is in slot 1 or slot 2 key."
+							},
+							"parameters": [
+								{
+									"id": 4890,
+									"name": "key",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "intrinsic",
+										"name": "string"
+									}
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						}
+					]
+				},
+				{
 					"id": 4867,
 					"name": "unregisterApp",
 					"kind": 64,
@@ -14218,6 +14261,7 @@
 						4561,
 						4861,
 						4864,
+						4888,
 						4867,
 						4555,
 						4564
