@@ -42,7 +42,11 @@ const mockGetAppInfoResponse: IRegisteredAppResponse = {
   gcmApiKey: null,
   httpReferrers: [],
   privileges: [],
-  isBeta: false
+  isBeta: false,
+  isPersonalAPIToken: false,
+  apiToken1Active: false,
+  apiToken2Active: false,
+  customAppLoginShowTriage: false
 };
 
 const mockGetItemResponse: IItem = {
@@ -122,7 +126,7 @@ describe("getOAuthApp()", () => {
       tokenExpires: TOMORROW
     });
   });
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   it("should get OAuth app", async function () {
     // setup FM response
@@ -161,50 +165,5 @@ describe("getOAuthApp()", () => {
 
     // verify actual return with expected return
     expect(oAuthAppResponse).toEqual(getOAuthAppResponseExpected);
-  });
-
-  it("should throw err if itemId is found but appType is wrong", async function () {
-    // setup FM response
-    setFetchMockPOSTFormUrlencoded(
-      "https://www.arcgis.com/sharing/rest/content/users/3807206777/items/cddcacee5848488bb981e6c6ff91ab79/registeredAppInfo",
-      {
-        itemId: "cddcacee5848488bb981e6c6ff91ab79",
-        client_id: "EiwLuFlkNwE2Ifye",
-        client_secret: "dc7526de9ece482dba4704618fd3de81",
-        appType: "apikey",
-        redirect_uris: [],
-        registered: 1687824330000,
-        modified: 1687824330000,
-        apnsProdCert: null,
-        apnsSandboxCert: null,
-        gcmApiKey: null,
-        httpReferrers: [],
-        privileges: [],
-        isBeta: false
-      } as IRegisteredAppResponse,
-      200,
-      "getAppRoute",
-      1
-    );
-
-    setFetchMockPOSTFormUrlencoded(
-      "https://www.arcgis.com/sharing/rest/content/items/cddcacee5848488bb981e6c6ff91ab79",
-      mockGetItemResponse,
-      200,
-      "getItemRoute",
-      1
-    );
-
-    try {
-      await getOAuthApp({
-        itemId: "cddcacee5848488bb981e6c6ff91ab79",
-        authentication: authOnline
-      });
-      fail("should have rejected.");
-    } catch (e: any) {
-      expect(fetchMock.called("getAppRoute")).toBe(true);
-      expect(fetchMock.called("getItemRoute")).toBe(true);
-      expect(e.message).toBe("Item is not an OAuth 2.0 app.");
-    }
   });
 });

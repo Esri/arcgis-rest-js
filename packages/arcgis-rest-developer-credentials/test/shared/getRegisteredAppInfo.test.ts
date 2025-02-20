@@ -5,7 +5,6 @@ import {
   IRegisteredAppResponse
 } from "../../src/shared/types/appType.js";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
-import { Privileges } from "../../src/shared/enum/privileges.js";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 function setFetchMockPOSTFormUrlencoded(
@@ -45,7 +44,11 @@ const mockNormalResponse: IRegisteredAppResponse = {
   gcmApiKey: null,
   isBeta: false,
   httpReferrers: ["https://www.esri.com/en-us/home"],
-  privileges: [Privileges.GeocodeTemporary, Privileges.NetworkAnalysisRouting]
+  privileges: ["premium:user:geocode:temporary"],
+  isPersonalAPIToken: false,
+  apiToken1Active: false,
+  apiToken2Active: false,
+  customAppLoginShowTriage: false
 };
 
 /* test plans:
@@ -85,7 +88,7 @@ describe("registerApp()", () => {
       tokenExpires: TOMORROW
     });
   });
-  afterEach(fetchMock.restore);
+  afterEach(() => fetchMock.restore());
 
   // normal workflow
   it("should get app without IRequestOptions", async function () {
@@ -118,6 +121,7 @@ describe("registerApp()", () => {
       apnsSandboxCert,
       gcmApiKey,
       isBeta,
+      customAppLoginShowTriage,
       ...expectedResponse
     } = mockNormalResponse;
 
@@ -164,6 +168,7 @@ describe("registerApp()", () => {
       apnsSandboxCert,
       gcmApiKey,
       isBeta,
+      customAppLoginShowTriage,
       ...expectedResponse
     } = {
       ...mockResponseWithoutApiKey,

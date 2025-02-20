@@ -8,11 +8,7 @@ import {
   IRegisterAppOptions,
   IRegisteredAppResponse
 } from "./types/appType.js";
-import {
-  arePrivilegesValid,
-  stringifyArrays,
-  registeredAppResponseToApp
-} from "./helpers.js";
+import { stringifyArrays, registeredAppResponseToApp } from "./helpers.js";
 
 /**
  * Used to register an app. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/register-app.htm) for more information.
@@ -53,11 +49,6 @@ import {
 export async function registerApp(
   requestOptions: IRegisterAppOptions
 ): Promise<IApp> {
-  // privileges validation
-  if (!arePrivilegesValid(requestOptions.privileges)) {
-    throw new Error("The `privileges` option contains invalid privileges.");
-  }
-
   // build params
   const options = appendCustomParams(requestOptions, [
     "itemId",

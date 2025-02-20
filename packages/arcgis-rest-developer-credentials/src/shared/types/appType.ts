@@ -33,7 +33,7 @@ export interface IRegisterAppOptions extends Omit<IRequestOptions, "params"> {
   /**
    * Privilege lists. For more info, refer to {@linkcode Privileges}.
    */
-  privileges: Array<Privileges | `${Privileges}`>;
+  privileges: Privileges;
   /**
    * {@linkcode IAuthenticationManager} authentication.
    */
@@ -68,13 +68,17 @@ export interface IRegisteredAppResponse {
   client_secret: string;
   httpReferrers: string[];
   redirect_uris: string[];
-  privileges: Array<Privileges | `${Privileges}`>;
+  privileges: string[];
   registered: UnixTime;
   modified: UnixTime;
   apnsProdCert: any;
   apnsSandboxCert: any;
   gcmApiKey: any;
   isBeta: boolean;
+  customAppLoginShowTriage: boolean;
+  isPersonalAPIToken: boolean;
+  apiToken1Active: boolean;
+  apiToken2Active: boolean;
 }
 
 /**
@@ -89,6 +93,7 @@ export interface IApp
     | "apnsSandboxCert"
     | "gcmApiKey"
     | "isBeta"
+    | "customAppLoginShowTriage"
   > {
   registered: Date;
   modified: Date;
