@@ -1,3 +1,13 @@
+# @esri/arcgis-rest-developer-credentials [2.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-developer-credentials@1.1.0...@esri/arcgis-rest-developer-credentials@2.0.0) (2025-02-20)
+
+
+* feat(arcgis-rest-developer-credentials)!: export slot helper ([ba33510](https://github.com/Esri/arcgis-rest-js/commit/ba335105a3e22a2666a172f801198be13f9e1c58))
+
+
+### BREAKING CHANGES
+
+* requires additional changes to API key method
+
 # @esri/arcgis-rest-developer-credentials [1.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-developer-credentials@1.0.1...@esri/arcgis-rest-developer-credentials@1.1.0) (2025-01-23)
 
 
