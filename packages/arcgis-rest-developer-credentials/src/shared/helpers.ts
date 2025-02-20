@@ -121,10 +121,9 @@ export function filterKeys<T extends object>(
 }
 
 /**
- * @internal
- * Used to determine if a generated key is a slot 1 or slot 2 key.
+ * Used to determine if a generated key is in slot 1 or slot 2 key.
  */
-function slotForKey(key: string) {
+export function slotForKey(key: string) {
   return parseInt(key.substring(key.length - 10, key.length - 9));
 }
 
