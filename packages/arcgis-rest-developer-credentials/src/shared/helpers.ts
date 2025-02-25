@@ -121,10 +121,35 @@ export function filterKeys<T extends object>(
 }
 
 /**
- * Used to determine if a generated key is in slot 1 or slot 2 key.
+ * Used to determine if a generated key is in slot 1 or slot 2 key. The full API key should be passed. `undefined` will be returned if the proper slot could not be identified.
  */
 export function slotForKey(key: string) {
-  return parseInt(key.substring(key.length - 10, key.length - 9));
+  const slot = parseInt(key.substring(key.length - 10, key.length - 9));
+
+  if (slot === 1 || slot === 2) {
+    return slot;
+  }
+
+  return undefined;
+}
+
+/**
+ * @internal
+ * Used to determine which slot to invalidate a key in given a number or a full or patial key.
+ */
+export function slotForInvalidationKey(param: string | 1 | 2) {
+  if (param === 1 || param === 2) {
+    return param;
+  }
+
+  if (typeof param !== "string") {
+    return undefined;
+  }
+
+  const fullKeySlot = slotForKey(param);
+  if (fullKeySlot) {
+    return fullKeySlot;
+  }
 }
 
 interface IGenerateApiKeyTokenOptions extends IRequestOptions {

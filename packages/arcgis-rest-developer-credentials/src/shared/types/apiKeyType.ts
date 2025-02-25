@@ -141,3 +141,23 @@ export interface IDeleteApiKeyResponse {
   itemId: string;
   success: boolean;
 }
+
+export interface IInvalidateApiKeyOptions
+  extends Omit<IRequestOptions, "params"> {
+  /**
+   * {@linkcode IAuthenticationManager} authentication.
+   */
+  authentication: IAuthenticationManager;
+  /**
+   * itemId of the item of the API key to be revoked.
+   */
+  itemId: string;
+  /**
+   * The API key to be revoked. The full or partial API key or the slot number (1 or 2) can be provided.
+   */
+  apiKey?: string | 1 | 2;
+}
+
+export interface IInvalidateApiKeyResponse {
+  success: boolean;
+}

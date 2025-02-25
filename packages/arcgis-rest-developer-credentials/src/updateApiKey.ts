@@ -81,29 +81,31 @@ export async function updateApiKey(
   /**
    * step 2: update privileges and httpReferrers if provided. Build the object up to avoid overwriting any existing properties.
    */
-  const getAppOption: IGetAppInfoOptions = {
-    ...baseRequestOptions,
-    authentication: requestOptions.authentication,
-    itemId: requestOptions.itemId
-  };
-  const appResponse = await getRegisteredAppInfo(getAppOption);
-  const clientId = appResponse.client_id;
-  const options = appendCustomParams(
-    { ...appResponse, ...requestOptions }, // object with the custom params to look in
-    ["privileges", "httpReferrers"] // keys you want copied to the params object
-  );
-  options.params.f = "json";
+  if (requestOptions.privileges || requestOptions.httpReferrers) {
+    const getAppOption: IGetAppInfoOptions = {
+      ...baseRequestOptions,
+      authentication: requestOptions.authentication,
+      itemId: requestOptions.itemId
+    };
+    const appResponse = await getRegisteredAppInfo(getAppOption);
+    const clientId = appResponse.client_id;
+    const options = appendCustomParams(
+      { ...appResponse, ...requestOptions }, // object with the custom params to look in
+      ["privileges", "httpReferrers"] // keys you want copied to the params object
+    );
+    options.params.f = "json";
 
-  // encode special params value (e.g. array type...) in advance in order to make encodeQueryString() works correctly
-  stringifyArrays(options);
+    // encode special params value (e.g. array type...) in advance in order to make encodeQueryString() works correctly
+    stringifyArrays(options);
 
-  const url = getPortalUrl(options) + `/oauth2/apps/${clientId}/update`;
+    const url = getPortalUrl(options) + `/oauth2/apps/${clientId}/update`;
 
-  // Raw response from `/oauth2/apps/${clientId}/update`, apiKey not included because key is same.
-  const updateResponse: IRegisteredAppResponse = await request(url, {
-    ...options,
-    authentication: requestOptions.authentication
-  });
+    // Raw response from `/oauth2/apps/${clientId}/update`, apiKey not included because key is same.
+    const updateResponse: IRegisteredAppResponse = await request(url, {
+      ...options,
+      authentication: requestOptions.authentication
+    });
+  }
 
   /**
    * step 3: get the updated item info to return to the user.
