@@ -39,13 +39,19 @@ import {
  *   password: "xyz_pw"
  * });
  *
+ * const threeDaysFromToday = new Date();
+ * threeDaysFromToday.setDate(threeDaysFromToday.getDate() + 3);
+ * threeDaysFromToday.setHours(23, 59, 59, 999);
+ *
  * updateApiKey({
  *   itemId: "xyz_itemId",
- *   privileges: [Privileges.Geocode],
+ *   privileges: ["premium:user:geocode:temporary"],
  *   httpReferrers: [], // httpReferrers will be set to be empty
  *   authentication: authSession
+ *   generateToken1: true, // optional,generate a new token
+ *   apiToken1ExpirationDate: threeDaysFromToday  // optional, update expiration date
  * }).then((updatedAPIKey: IApiKeyResponse) => {
- *   // => {apiKey: "xyz_key", item: {tags: ["xyz_tag1", "xyz_tag2"], ...}, ...}
+ *   // => {accessToken1: "xyz_key", item: {tags: ["xyz_tag1", "xyz_tag2"], ...}, ...}
  * }).catch(e => {
  *   // => an exception object
  * });
@@ -81,29 +87,31 @@ export async function updateApiKey(
   /**
    * step 2: update privileges and httpReferrers if provided. Build the object up to avoid overwriting any existing properties.
    */
-  const getAppOption: IGetAppInfoOptions = {
-    ...baseRequestOptions,
-    authentication: requestOptions.authentication,
-    itemId: requestOptions.itemId
-  };
-  const appResponse = await getRegisteredAppInfo(getAppOption);
-  const clientId = appResponse.client_id;
-  const options = appendCustomParams(
-    { ...appResponse, ...requestOptions }, // object with the custom params to look in
-    ["privileges", "httpReferrers"] // keys you want copied to the params object
-  );
-  options.params.f = "json";
+  if (requestOptions.privileges || requestOptions.httpReferrers) {
+    const getAppOption: IGetAppInfoOptions = {
+      ...baseRequestOptions,
+      authentication: requestOptions.authentication,
+      itemId: requestOptions.itemId
+    };
+    const appResponse = await getRegisteredAppInfo(getAppOption);
+    const clientId = appResponse.client_id;
+    const options = appendCustomParams(
+      { ...appResponse, ...requestOptions }, // object with the custom params to look in
+      ["privileges", "httpReferrers"] // keys you want copied to the params object
+    );
+    options.params.f = "json";
 
-  // encode special params value (e.g. array type...) in advance in order to make encodeQueryString() works correctly
-  stringifyArrays(options);
+    // encode special params value (e.g. array type...) in advance in order to make encodeQueryString() works correctly
+    stringifyArrays(options);
 
-  const url = getPortalUrl(options) + `/oauth2/apps/${clientId}/update`;
+    const url = getPortalUrl(options) + `/oauth2/apps/${clientId}/update`;
 
-  // Raw response from `/oauth2/apps/${clientId}/update`, apiKey not included because key is same.
-  const updateResponse: IRegisteredAppResponse = await request(url, {
-    ...options,
-    authentication: requestOptions.authentication
-  });
+    // Raw response from `/oauth2/apps/${clientId}/update`, apiKey not included because key is same.
+    const updateResponse: IRegisteredAppResponse = await request(url, {
+      ...options,
+      authentication: requestOptions.authentication
+    });
+  }
 
   /**
    * step 3: get the updated item info to return to the user.

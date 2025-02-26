@@ -37,14 +37,20 @@ import { getRegisteredAppInfo } from "./shared/getRegisteredAppInfo.js";
  *   password: "xyz_pw"
  * });
  *
+ * const threeDaysFromToday = new Date();
+ * threeDaysFromToday.setDate(threeDaysFromToday.getDate() + 3);
+ * threeDaysFromToday.setHours(23, 59, 59, 999);
+ *
  * createApiKey({
  *   title: "xyz_title",
  *   description: "xyz_desc",
  *   tags: ["xyz_tag1", "xyz_tag2"],
  *   privileges: ["premium:user:networkanalysis:routing"],
- *   authentication: authSession
+ *   authentication: authSession,
+ *   generateToken1: true, // optional,generate a new token
+ *   apiToken1ExpirationDate: threeDaysFromToday  // optional, update expiration date
  * }).then((registeredAPIKey: IApiKeyResponse) => {
- *   // => {apiKey: "xyz_key", item: {tags: ["xyz_tag1", "xyz_tag2"], ...}, ...}
+ *   // => {accessToken1: "xyz_key", item: {tags: ["xyz_tag1", "xyz_tag2"], ...}, ...}
  * }).catch(e => {
  *   // => an exception object
  * });

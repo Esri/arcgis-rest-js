@@ -34,7 +34,7 @@ import { stringifyArrays, registeredAppResponseToApp } from "./helpers.js";
  *   appType: "multiple",
  *   redirect_uris: ["http://localhost:3000/"],
  *   httpReferrers: ["http://localhost:3000/"],
- *   privileges: [Privileges.Geocode, Privileges.FeatureReport],
+ *   privileges: ["premium:user:geocode:temporary", Privileges.FeatureReport],
  *   authentication: authSession
  * }).then((registeredApp: IApp) => {
  *   // => {client_id: "xyz_id", client_secret: "xyz_secret", ...}

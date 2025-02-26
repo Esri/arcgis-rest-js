@@ -4,6 +4,7 @@
 export * from "./createApiKey.js";
 export * from "./updateApiKey.js";
 export * from "./getApiKey.js";
+export * from "./invalidateApiKey.js";
 export * from "./getOAuthApp.js";
 export * from "./updateOAuthApp.js";
 export * from "./createOAuthApp.js";

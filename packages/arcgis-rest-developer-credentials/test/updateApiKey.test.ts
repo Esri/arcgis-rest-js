@@ -5,7 +5,6 @@ import { IItem } from "@esri/arcgis-rest-portal";
 import { IRegisteredAppResponse } from "../src/shared/types/appType.js";
 import { IApiKeyResponse } from "../src/shared/types/apiKeyType.js";
 import { updateApiKey } from "../src/updateApiKey.js";
-import { Privileges } from "../src/shared/enum/privileges.js";
 
 function setFetchMockPOSTFormUrlencoded(
   url: string,
@@ -400,6 +399,94 @@ describe("updateApiKey()", () => {
         ])
       )
     );
+
+    // verify third fetch
+    expect(fetchMock.called("getItemRoute")).toBe(true);
+    const actualOptionGetItemRoute = fetchMock.lastOptions("getItemRoute");
+    expect(actualOptionGetItemRoute.body).toContain("f=json");
+    expect(actualOptionGetItemRoute.body).toContain("token=fake-token");
+
+    // verify func return
+    expect(updateApiKeyResponse).toEqual(keyResponseExpectedNoParams);
+  });
+
+  it("should update an API key without privileges or referers", async function () {
+    let callCount = 0;
+    fetchMock.mock(
+      {
+        url: "https://www.arcgis.com/sharing/rest/content/users/3807206777/items/4832e6bc5fa540129822212c12168710/registeredAppInfo", // url should match
+        method: "POST", // http method should match
+        headers: { "Content-Type": "application/x-www-form-urlencoded" }, // content type should match
+        name: "getAppRoute"
+      },
+      function () {
+        if (callCount === 0) {
+          callCount++;
+          return {
+            body: mockGetAppResponseNoParams,
+            status: 200,
+            headers: { "Content-Type": "application/json" }
+          };
+        }
+        return {
+          body: mockUpdatedGetAppResponseNoParams,
+          status: 200,
+          headers: { "Content-Type": "application/json" }
+        };
+      }
+    );
+
+    // step 1 update item with expiration dates
+    setFetchMockPOSTFormUrlencoded(
+      "https://www.arcgis.com/sharing/rest/content/users/3807206777/items/4832e6bc5fa540129822212c12168710/update",
+      updateItemResponseNoParams,
+      200,
+      "updateItemRoute",
+      1
+    );
+
+    // step 2 update registered app
+    setFetchMockPOSTFormUrlencoded(
+      "https://www.arcgis.com/sharing/rest/oauth2/apps/ShnJhKhzr2cVCujl/update",
+      mockUpdateKeyResponseNoParams,
+      200,
+      "updateKeyRoute",
+      1
+    );
+
+    // step 3 get item info
+    setFetchMockPOSTFormUrlencoded(
+      "https://www.arcgis.com/sharing/rest/content/items/4832e6bc5fa540129822212c12168710",
+      mockGetItemResponseNoParams,
+      200,
+      "getItemRoute",
+      1
+    );
+
+    // step 5 generate access token 2
+    setFetchMockPOSTFormUrlencoded(
+      "https://www.arcgis.com/sharing/rest/oauth2/token",
+      generateAccessToken2ParamsResponse,
+      200,
+      "generateToken1Route",
+      1
+    );
+
+    const updateApiKeyResponse = await updateApiKey({
+      itemId: "4832e6bc5fa540129822212c12168710",
+      authentication: authOnline,
+      generateToken2: true,
+      apiToken2ExpirationDate: TOMORROW
+    });
+
+    // verify first fetch
+    expect(fetchMock.called("getAppRoute")).toBe(true);
+    const actualOptionGetAppRoute = fetchMock.lastOptions("getAppRoute");
+    expect(actualOptionGetAppRoute.body).toContain("f=json");
+    expect(actualOptionGetAppRoute.body).toContain("token=fake-token");
+
+    // verify second fetch
+    expect(fetchMock.called("updateKeyRoute")).toBe(false);
 
     // verify third fetch
     expect(fetchMock.called("getItemRoute")).toBe(true);

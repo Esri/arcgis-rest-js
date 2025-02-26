@@ -32,8 +32,8 @@ export async function generateApiKeyToken(
     grant_type: "client_credentials"
   };
 
+  // authentication is not being passed to the request because client_secret acts as the auth
   return request(url, {
-    authentication: options.authentication,
     params
   });
 }
