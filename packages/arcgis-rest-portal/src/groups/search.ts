@@ -36,12 +36,20 @@ export function searchGroups(
  * ```js
  * import { searchGroupContent } from "@esri/arcgis-rest-portal";
  *
- * searchGroupContent('water')
- *   .then(response) // response.total => 355
+ * searchGroupContent({
+ *   q: 'water',
+ *   groupId: 'abc123'
+ * })
+ *   .then(response => {
+ *     console.log(response.total); // response.total => 355
+ *   });
  * ```
  *
- * @param options - RequestOptions object amended with search parameters.
- * @returns A Promise that will resolve with the data from the response.
+ * @param options - An object containing search parameters.
+ * @param options.q - The search query (required).
+ * @param options.groupId - The ID of the group to search within (required).
+ * @param options.params - Additional search parameters (optional).
+ * @returns A Promise that resolves to the search result containing items within the specified group.
  */
 export function searchGroupContent(
   options: ISearchGroupContentOptions
