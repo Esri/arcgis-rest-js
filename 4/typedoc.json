@@ -6543,7 +6543,7 @@
 			"flags": {},
 			"children": [
 				{
-					"id": 4705,
+					"id": 4708,
 					"name": "IApiKeyInfo",
 					"kind": 256,
 					"kindString": "Interface",
@@ -6553,7 +6553,7 @@
 					},
 					"children": [
 						{
-							"id": 4709,
+							"id": 4712,
 							"name": "apiKey",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6580,7 +6580,7 @@
 							}
 						},
 						{
-							"id": 4714,
+							"id": 4717,
 							"name": "apiToken1Active",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6602,7 +6602,7 @@
 							}
 						},
 						{
-							"id": 4715,
+							"id": 4718,
 							"name": "apiToken2Active",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6624,7 +6624,7 @@
 							}
 						},
 						{
-							"id": 4710,
+							"id": 4713,
 							"name": "client_id",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6646,7 +6646,7 @@
 							}
 						},
 						{
-							"id": 4711,
+							"id": 4714,
 							"name": "httpReferrers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6671,7 +6671,7 @@
 							}
 						},
 						{
-							"id": 4713,
+							"id": 4716,
 							"name": "isPersonalAPIToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6693,7 +6693,7 @@
 							}
 						},
 						{
-							"id": 4708,
+							"id": 4711,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6715,7 +6715,7 @@
 							}
 						},
 						{
-							"id": 4707,
+							"id": 4710,
 							"name": "modified",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6737,7 +6737,7 @@
 							}
 						},
 						{
-							"id": 4712,
+							"id": 4715,
 							"name": "privileges",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6762,7 +6762,7 @@
 							}
 						},
 						{
-							"id": 4706,
+							"id": 4709,
 							"name": "registered",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6789,16 +6789,16 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4709,
-								4714,
-								4715,
-								4710,
-								4711,
-								4713,
-								4708,
-								4707,
 								4712,
-								4706
+								4717,
+								4718,
+								4713,
+								4714,
+								4716,
+								4711,
+								4710,
+								4715,
+								4709
 							]
 						}
 					],
@@ -6815,7 +6815,7 @@
 							"typeArguments": [
 								{
 									"type": "reference",
-									"id": 4625,
+									"id": 4628,
 									"name": "IApp"
 								},
 								{
@@ -6842,13 +6842,13 @@
 					"extendedBy": [
 						{
 							"type": "reference",
-							"id": 4716,
+							"id": 4719,
 							"name": "IApiKeyResponse"
 						}
 					]
 				},
 				{
-					"id": 4716,
+					"id": 4719,
 					"name": "IApiKeyResponse",
 					"kind": 256,
 					"kindString": "Interface",
@@ -6858,7 +6858,7 @@
 					},
 					"children": [
 						{
-							"id": 4718,
+							"id": 4721,
 							"name": "accessToken1",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6878,7 +6878,7 @@
 							}
 						},
 						{
-							"id": 4719,
+							"id": 4722,
 							"name": "accessToken2",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6898,7 +6898,7 @@
 							}
 						},
 						{
-							"id": 4723,
+							"id": 4726,
 							"name": "apiKey",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6921,12 +6921,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4709,
+								"id": 4712,
 								"name": "IApiKeyInfo.apiKey"
 							}
 						},
 						{
-							"id": 4728,
+							"id": 4731,
 							"name": "apiToken1Active",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6944,12 +6944,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4714,
+								"id": 4717,
 								"name": "IApiKeyInfo.apiToken1Active"
 							}
 						},
 						{
-							"id": 4729,
+							"id": 4732,
 							"name": "apiToken2Active",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6967,12 +6967,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4715,
+								"id": 4718,
 								"name": "IApiKeyInfo.apiToken2Active"
 							}
 						},
 						{
-							"id": 4724,
+							"id": 4727,
 							"name": "client_id",
 							"kind": 1024,
 							"kindString": "Property",
@@ -6990,12 +6990,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4710,
+								"id": 4713,
 								"name": "IApiKeyInfo.client_id"
 							}
 						},
 						{
-							"id": 4725,
+							"id": 4728,
 							"name": "httpReferrers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7016,12 +7016,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4711,
+								"id": 4714,
 								"name": "IApiKeyInfo.httpReferrers"
 							}
 						},
 						{
-							"id": 4727,
+							"id": 4730,
 							"name": "isPersonalAPIToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7039,12 +7039,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4713,
+								"id": 4716,
 								"name": "IApiKeyInfo.isPersonalAPIToken"
 							}
 						},
 						{
-							"id": 4717,
+							"id": 4720,
 							"name": "item",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7065,7 +7065,7 @@
 							}
 						},
 						{
-							"id": 4722,
+							"id": 4725,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7083,12 +7083,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4708,
+								"id": 4711,
 								"name": "IApiKeyInfo.itemId"
 							}
 						},
 						{
-							"id": 4721,
+							"id": 4724,
 							"name": "modified",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7106,12 +7106,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4707,
+								"id": 4710,
 								"name": "IApiKeyInfo.modified"
 							}
 						},
 						{
-							"id": 4726,
+							"id": 4729,
 							"name": "privileges",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7132,12 +7132,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4712,
+								"id": 4715,
 								"name": "IApiKeyInfo.privileges"
 							}
 						},
 						{
-							"id": 4720,
+							"id": 4723,
 							"name": "registered",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7155,7 +7155,7 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 4706,
+								"id": 4709,
 								"name": "IApiKeyInfo.registered"
 							}
 						}
@@ -7165,19 +7165,19 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4718,
-								4719,
-								4723,
-								4728,
-								4729,
-								4724,
-								4725,
-								4727,
-								4717,
-								4722,
 								4721,
+								4722,
 								4726,
-								4720
+								4731,
+								4732,
+								4727,
+								4728,
+								4730,
+								4720,
+								4725,
+								4724,
+								4729,
+								4723
 							]
 						}
 					],
@@ -7191,13 +7191,13 @@
 					"extendedTypes": [
 						{
 							"type": "reference",
-							"id": 4705,
+							"id": 4708,
 							"name": "IApiKeyInfo"
 						}
 					]
 				},
 				{
-					"id": 4625,
+					"id": 4628,
 					"name": "IApp",
 					"kind": 256,
 					"kindString": "Interface",
@@ -7207,7 +7207,7 @@
 					},
 					"children": [
 						{
-							"id": 4629,
+							"id": 4632,
 							"name": "apiKey",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7234,7 +7234,7 @@
 							}
 						},
 						{
-							"id": 4637,
+							"id": 4640,
 							"name": "apiToken1Active",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7256,7 +7256,7 @@
 							}
 						},
 						{
-							"id": 4638,
+							"id": 4641,
 							"name": "apiToken2Active",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7278,7 +7278,7 @@
 							}
 						},
 						{
-							"id": 4630,
+							"id": 4633,
 							"name": "appType",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7292,7 +7292,7 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 4571,
+								"id": 4574,
 								"name": "AppType"
 							},
 							"inheritedFrom": {
@@ -7301,7 +7301,7 @@
 							}
 						},
 						{
-							"id": 4631,
+							"id": 4634,
 							"name": "client_id",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7323,7 +7323,7 @@
 							}
 						},
 						{
-							"id": 4632,
+							"id": 4635,
 							"name": "client_secret",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7345,7 +7345,7 @@
 							}
 						},
 						{
-							"id": 4633,
+							"id": 4636,
 							"name": "httpReferrers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7370,7 +7370,7 @@
 							}
 						},
 						{
-							"id": 4636,
+							"id": 4639,
 							"name": "isPersonalAPIToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7392,7 +7392,7 @@
 							}
 						},
 						{
-							"id": 4628,
+							"id": 4631,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7414,7 +7414,7 @@
 							}
 						},
 						{
-							"id": 4627,
+							"id": 4630,
 							"name": "modified",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7432,7 +7432,7 @@
 							}
 						},
 						{
-							"id": 4635,
+							"id": 4638,
 							"name": "privileges",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7457,7 +7457,7 @@
 							}
 						},
 						{
-							"id": 4634,
+							"id": 4637,
 							"name": "redirect_uris",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7482,7 +7482,7 @@
 							}
 						},
 						{
-							"id": 4626,
+							"id": 4629,
 							"name": "registered",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7505,19 +7505,19 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4629,
-								4637,
-								4638,
-								4630,
-								4631,
 								4632,
+								4640,
+								4641,
 								4633,
-								4636,
-								4628,
-								4627,
-								4635,
 								4634,
-								4626
+								4635,
+								4636,
+								4639,
+								4631,
+								4630,
+								4638,
+								4637,
+								4629
 							]
 						}
 					],
@@ -7534,7 +7534,7 @@
 							"typeArguments": [
 								{
 									"type": "reference",
-									"id": 4606,
+									"id": 4609,
 									"name": "IRegisteredAppResponse"
 								},
 								{
@@ -7576,7 +7576,7 @@
 					]
 				},
 				{
-					"id": 4657,
+					"id": 4660,
 					"name": "ICreateApiKeyOptions",
 					"kind": 256,
 					"kindString": "Interface",
@@ -7586,7 +7586,7 @@
 					},
 					"children": [
 						{
-							"id": 4672,
+							"id": 4675,
 							"name": "apiToken1ExpirationDate",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7609,7 +7609,7 @@
 							}
 						},
 						{
-							"id": 4673,
+							"id": 4676,
 							"name": "apiToken2ExpirationDate",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7632,7 +7632,7 @@
 							}
 						},
 						{
-							"id": 4678,
+							"id": 4681,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7657,7 +7657,7 @@
 							}
 						},
 						{
-							"id": 4666,
+							"id": 4669,
 							"name": "categories",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7680,7 +7680,7 @@
 							}
 						},
 						{
-							"id": 4681,
+							"id": 4684,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7707,7 +7707,7 @@
 							}
 						},
 						{
-							"id": 4668,
+							"id": 4671,
 							"name": "culture",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7727,7 +7727,7 @@
 							}
 						},
 						{
-							"id": 4662,
+							"id": 4665,
 							"name": "description",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7747,7 +7747,7 @@
 							}
 						},
 						{
-							"id": 4664,
+							"id": 4667,
 							"name": "documentation",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7767,7 +7767,7 @@
 							}
 						},
 						{
-							"id": 4665,
+							"id": 4668,
 							"name": "extent",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7793,7 +7793,7 @@
 							}
 						},
 						{
-							"id": 4674,
+							"id": 4677,
 							"name": "generateToken1",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7816,7 +7816,7 @@
 							}
 						},
 						{
-							"id": 4675,
+							"id": 4678,
 							"name": "generateToken2",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7839,7 +7839,7 @@
 							}
 						},
 						{
-							"id": 4683,
+							"id": 4686,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7859,20 +7859,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4684,
+									"id": 4687,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4685,
+										"id": 4688,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4686,
+												"id": 4689,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -7895,7 +7895,7 @@
 							}
 						},
 						{
-							"id": 4679,
+							"id": 4682,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7922,7 +7922,7 @@
 							}
 						},
 						{
-							"id": 4676,
+							"id": 4679,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7949,7 +7949,7 @@
 							}
 						},
 						{
-							"id": 4658,
+							"id": 4661,
 							"name": "httpReferrers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7972,7 +7972,7 @@
 							}
 						},
 						{
-							"id": 4682,
+							"id": 4685,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -7999,7 +7999,7 @@
 							}
 						},
 						{
-							"id": 4660,
+							"id": 4663,
 							"name": "owner",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8019,7 +8019,7 @@
 							}
 						},
 						{
-							"id": 4680,
+							"id": 4683,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8046,7 +8046,7 @@
 							}
 						},
 						{
-							"id": 4689,
+							"id": 4692,
 							"name": "privileges",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8063,7 +8063,7 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 4570,
+								"id": 4573,
 								"name": "Privileges"
 							},
 							"inheritedFrom": {
@@ -8072,7 +8072,7 @@
 							}
 						},
 						{
-							"id": 4669,
+							"id": 4672,
 							"name": "properties",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8092,7 +8092,7 @@
 							}
 						},
 						{
-							"id": 4677,
+							"id": 4680,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8119,7 +8119,7 @@
 							}
 						},
 						{
-							"id": 4687,
+							"id": 4690,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8146,7 +8146,7 @@
 							}
 						},
 						{
-							"id": 4663,
+							"id": 4666,
 							"name": "snippet",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8166,7 +8166,7 @@
 							}
 						},
 						{
-							"id": 4667,
+							"id": 4670,
 							"name": "spatialReference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8186,7 +8186,7 @@
 							}
 						},
 						{
-							"id": 4688,
+							"id": 4691,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8213,7 +8213,7 @@
 							}
 						},
 						{
-							"id": 4671,
+							"id": 4674,
 							"name": "tags",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8236,7 +8236,7 @@
 							}
 						},
 						{
-							"id": 4659,
+							"id": 4662,
 							"name": "title",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8254,7 +8254,7 @@
 							}
 						},
 						{
-							"id": 4661,
+							"id": 4664,
 							"name": "typeKeywords",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8277,7 +8277,7 @@
 							}
 						},
 						{
-							"id": 4670,
+							"id": 4673,
 							"name": "url",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8302,35 +8302,35 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4672,
-								4673,
-								4678,
-								4666,
+								4675,
+								4676,
 								4681,
+								4669,
+								4684,
+								4671,
+								4665,
+								4667,
 								4668,
+								4677,
+								4678,
+								4686,
+								4682,
+								4679,
+								4661,
+								4685,
+								4663,
+								4683,
+								4692,
+								4672,
+								4680,
+								4690,
+								4666,
+								4670,
+								4691,
+								4674,
 								4662,
 								4664,
-								4665,
-								4674,
-								4675,
-								4683,
-								4679,
-								4676,
-								4658,
-								4682,
-								4660,
-								4680,
-								4689,
-								4669,
-								4677,
-								4687,
-								4663,
-								4667,
-								4688,
-								4671,
-								4659,
-								4661,
-								4670
+								4673
 							]
 						}
 					],
@@ -8347,7 +8347,7 @@
 							"typeArguments": [
 								{
 									"type": "reference",
-									"id": 4572,
+									"id": 4575,
 									"name": "IRegisterAppOptions"
 								},
 								{
@@ -8377,7 +8377,7 @@
 					]
 				},
 				{
-					"id": 4769,
+					"id": 4790,
 					"name": "ICreateOAuthAppOption",
 					"kind": 256,
 					"kindString": "Interface",
@@ -8387,7 +8387,7 @@
 					},
 					"children": [
 						{
-							"id": 4771,
+							"id": 4792,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8412,7 +8412,7 @@
 							}
 						},
 						{
-							"id": 4779,
+							"id": 4800,
 							"name": "categories",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8435,7 +8435,7 @@
 							}
 						},
 						{
-							"id": 4789,
+							"id": 4810,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8462,7 +8462,7 @@
 							}
 						},
 						{
-							"id": 4781,
+							"id": 4802,
 							"name": "culture",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8482,7 +8482,7 @@
 							}
 						},
 						{
-							"id": 4775,
+							"id": 4796,
 							"name": "description",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8502,7 +8502,7 @@
 							}
 						},
 						{
-							"id": 4777,
+							"id": 4798,
 							"name": "documentation",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8522,7 +8522,7 @@
 							}
 						},
 						{
-							"id": 4778,
+							"id": 4799,
 							"name": "extent",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8548,7 +8548,7 @@
 							}
 						},
 						{
-							"id": 4791,
+							"id": 4812,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8568,20 +8568,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4792,
+									"id": 4813,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4793,
+										"id": 4814,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4794,
+												"id": 4815,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -8604,7 +8604,7 @@
 							}
 						},
 						{
-							"id": 4787,
+							"id": 4808,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8631,7 +8631,7 @@
 							}
 						},
 						{
-							"id": 4785,
+							"id": 4806,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8658,7 +8658,7 @@
 							}
 						},
 						{
-							"id": 4790,
+							"id": 4811,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8685,7 +8685,7 @@
 							}
 						},
 						{
-							"id": 4773,
+							"id": 4794,
 							"name": "owner",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8705,7 +8705,7 @@
 							}
 						},
 						{
-							"id": 4788,
+							"id": 4809,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8732,7 +8732,7 @@
 							}
 						},
 						{
-							"id": 4782,
+							"id": 4803,
 							"name": "properties",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8752,7 +8752,7 @@
 							}
 						},
 						{
-							"id": 4786,
+							"id": 4807,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8779,7 +8779,7 @@
 							}
 						},
 						{
-							"id": 4770,
+							"id": 4791,
 							"name": "redirect_uris",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8805,7 +8805,7 @@
 							}
 						},
 						{
-							"id": 4795,
+							"id": 4816,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8832,7 +8832,7 @@
 							}
 						},
 						{
-							"id": 4776,
+							"id": 4797,
 							"name": "snippet",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8852,7 +8852,7 @@
 							}
 						},
 						{
-							"id": 4780,
+							"id": 4801,
 							"name": "spatialReference",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8872,7 +8872,7 @@
 							}
 						},
 						{
-							"id": 4796,
+							"id": 4817,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8899,7 +8899,7 @@
 							}
 						},
 						{
-							"id": 4784,
+							"id": 4805,
 							"name": "tags",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8922,7 +8922,7 @@
 							}
 						},
 						{
-							"id": 4772,
+							"id": 4793,
 							"name": "title",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8940,7 +8940,7 @@
 							}
 						},
 						{
-							"id": 4774,
+							"id": 4795,
 							"name": "typeKeywords",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8963,7 +8963,7 @@
 							}
 						},
 						{
-							"id": 4783,
+							"id": 4804,
 							"name": "url",
 							"kind": 1024,
 							"kindString": "Property",
@@ -8988,30 +8988,30 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4771,
-								4779,
-								4789,
-								4781,
-								4775,
-								4777,
-								4778,
-								4791,
-								4787,
-								4785,
-								4790,
-								4773,
-								4788,
-								4782,
-								4786,
-								4770,
-								4795,
-								4776,
-								4780,
+								4792,
+								4800,
+								4810,
+								4802,
 								4796,
-								4784,
-								4772,
-								4774,
-								4783
+								4798,
+								4799,
+								4812,
+								4808,
+								4806,
+								4811,
+								4794,
+								4809,
+								4803,
+								4807,
+								4791,
+								4816,
+								4797,
+								4801,
+								4817,
+								4805,
+								4793,
+								4795,
+								4804
 							]
 						}
 					],
@@ -9040,7 +9040,7 @@
 					]
 				},
 				{
-					"id": 4751,
+					"id": 4754,
 					"name": "IDeleteApiKeyOption",
 					"kind": 256,
 					"kindString": "Interface",
@@ -9050,7 +9050,7 @@
 					},
 					"children": [
 						{
-							"id": 4752,
+							"id": 4755,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9075,7 +9075,7 @@
 							}
 						},
 						{
-							"id": 4758,
+							"id": 4761,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9102,7 +9102,7 @@
 							}
 						},
 						{
-							"id": 4760,
+							"id": 4763,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9122,20 +9122,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4761,
+									"id": 4764,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4762,
+										"id": 4765,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4763,
+												"id": 4766,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -9158,7 +9158,7 @@
 							}
 						},
 						{
-							"id": 4756,
+							"id": 4759,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9185,7 +9185,7 @@
 							}
 						},
 						{
-							"id": 4754,
+							"id": 4757,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9212,7 +9212,7 @@
 							}
 						},
 						{
-							"id": 4753,
+							"id": 4756,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9233,7 +9233,7 @@
 							}
 						},
 						{
-							"id": 4759,
+							"id": 4762,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9260,7 +9260,7 @@
 							}
 						},
 						{
-							"id": 4757,
+							"id": 4760,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9287,7 +9287,7 @@
 							}
 						},
 						{
-							"id": 4755,
+							"id": 4758,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9314,7 +9314,7 @@
 							}
 						},
 						{
-							"id": 4764,
+							"id": 4767,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9341,7 +9341,7 @@
 							}
 						},
 						{
-							"id": 4765,
+							"id": 4768,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9373,17 +9373,17 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4752,
-								4758,
-								4760,
-								4756,
-								4754,
-								4753,
+								4755,
+								4761,
+								4763,
 								4759,
 								4757,
-								4755,
-								4764,
-								4765
+								4756,
+								4762,
+								4760,
+								4758,
+								4767,
+								4768
 							]
 						}
 					],
@@ -9412,7 +9412,7 @@
 					]
 				},
 				{
-					"id": 4766,
+					"id": 4769,
 					"name": "IDeleteApiKeyResponse",
 					"kind": 256,
 					"kindString": "Interface",
@@ -9422,7 +9422,7 @@
 					},
 					"children": [
 						{
-							"id": 4767,
+							"id": 4770,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9443,7 +9443,7 @@
 							}
 						},
 						{
-							"id": 4768,
+							"id": 4771,
 							"name": "success",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9466,8 +9466,8 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4767,
-								4768
+								4770,
+								4771
 							]
 						}
 					],
@@ -9480,7 +9480,7 @@
 					]
 				},
 				{
-					"id": 4843,
+					"id": 4864,
 					"name": "IDeleteOAuthAppOption",
 					"kind": 256,
 					"kindString": "Interface",
@@ -9490,7 +9490,7 @@
 					},
 					"children": [
 						{
-							"id": 4844,
+							"id": 4865,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9515,7 +9515,7 @@
 							}
 						},
 						{
-							"id": 4850,
+							"id": 4871,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9542,7 +9542,7 @@
 							}
 						},
 						{
-							"id": 4852,
+							"id": 4873,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9562,20 +9562,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4853,
+									"id": 4874,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4854,
+										"id": 4875,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4855,
+												"id": 4876,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -9598,7 +9598,7 @@
 							}
 						},
 						{
-							"id": 4848,
+							"id": 4869,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9625,7 +9625,7 @@
 							}
 						},
 						{
-							"id": 4846,
+							"id": 4867,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9652,7 +9652,7 @@
 							}
 						},
 						{
-							"id": 4845,
+							"id": 4866,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9673,7 +9673,7 @@
 							}
 						},
 						{
-							"id": 4851,
+							"id": 4872,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9700,7 +9700,7 @@
 							}
 						},
 						{
-							"id": 4849,
+							"id": 4870,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9727,7 +9727,7 @@
 							}
 						},
 						{
-							"id": 4847,
+							"id": 4868,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9754,7 +9754,7 @@
 							}
 						},
 						{
-							"id": 4856,
+							"id": 4877,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9781,7 +9781,7 @@
 							}
 						},
 						{
-							"id": 4857,
+							"id": 4878,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9813,17 +9813,17 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4844,
-								4850,
-								4852,
-								4848,
-								4846,
-								4845,
-								4851,
-								4849,
-								4847,
-								4856,
-								4857
+								4865,
+								4871,
+								4873,
+								4869,
+								4867,
+								4866,
+								4872,
+								4870,
+								4868,
+								4877,
+								4878
 							]
 						}
 					],
@@ -9852,7 +9852,7 @@
 					]
 				},
 				{
-					"id": 4858,
+					"id": 4879,
 					"name": "IDeleteOAuthAppResponse",
 					"kind": 256,
 					"kindString": "Interface",
@@ -9862,7 +9862,7 @@
 					},
 					"children": [
 						{
-							"id": 4859,
+							"id": 4880,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9883,7 +9883,7 @@
 							}
 						},
 						{
-							"id": 4860,
+							"id": 4881,
 							"name": "success",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9906,8 +9906,8 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4859,
-								4860
+								4880,
+								4881
 							]
 						}
 					],
@@ -9920,7 +9920,7 @@
 					]
 				},
 				{
-					"id": 4690,
+					"id": 4693,
 					"name": "IGetApiKeyOptions",
 					"kind": 256,
 					"kindString": "Interface",
@@ -9930,7 +9930,7 @@
 					},
 					"children": [
 						{
-							"id": 4691,
+							"id": 4694,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9955,7 +9955,7 @@
 							}
 						},
 						{
-							"id": 4697,
+							"id": 4700,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -9982,7 +9982,7 @@
 							}
 						},
 						{
-							"id": 4699,
+							"id": 4702,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10002,20 +10002,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4700,
+									"id": 4703,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4701,
+										"id": 4704,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4702,
+												"id": 4705,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -10038,7 +10038,7 @@
 							}
 						},
 						{
-							"id": 4695,
+							"id": 4698,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10065,7 +10065,7 @@
 							}
 						},
 						{
-							"id": 4693,
+							"id": 4696,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10092,7 +10092,7 @@
 							}
 						},
 						{
-							"id": 4692,
+							"id": 4695,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10113,7 +10113,7 @@
 							}
 						},
 						{
-							"id": 4698,
+							"id": 4701,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10140,7 +10140,7 @@
 							}
 						},
 						{
-							"id": 4696,
+							"id": 4699,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10167,7 +10167,7 @@
 							}
 						},
 						{
-							"id": 4694,
+							"id": 4697,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10194,7 +10194,7 @@
 							}
 						},
 						{
-							"id": 4703,
+							"id": 4706,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10221,7 +10221,7 @@
 							}
 						},
 						{
-							"id": 4704,
+							"id": 4707,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10253,17 +10253,17 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4691,
-								4697,
-								4699,
-								4695,
-								4693,
-								4692,
+								4694,
+								4700,
+								4702,
 								4698,
 								4696,
-								4694,
-								4703,
-								4704
+								4695,
+								4701,
+								4699,
+								4697,
+								4706,
+								4707
 							]
 						}
 					],
@@ -10292,7 +10292,7 @@
 					]
 				},
 				{
-					"id": 4591,
+					"id": 4594,
 					"name": "IGetAppInfoOptions",
 					"kind": 256,
 					"kindString": "Interface",
@@ -10302,7 +10302,7 @@
 					},
 					"children": [
 						{
-							"id": 4592,
+							"id": 4595,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10327,7 +10327,7 @@
 							}
 						},
 						{
-							"id": 4598,
+							"id": 4601,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10354,7 +10354,7 @@
 							}
 						},
 						{
-							"id": 4600,
+							"id": 4603,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10374,20 +10374,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4601,
+									"id": 4604,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4602,
+										"id": 4605,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4603,
+												"id": 4606,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -10410,7 +10410,7 @@
 							}
 						},
 						{
-							"id": 4596,
+							"id": 4599,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10437,7 +10437,7 @@
 							}
 						},
 						{
-							"id": 4594,
+							"id": 4597,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10464,7 +10464,7 @@
 							}
 						},
 						{
-							"id": 4593,
+							"id": 4596,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10485,7 +10485,7 @@
 							}
 						},
 						{
-							"id": 4599,
+							"id": 4602,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10512,7 +10512,7 @@
 							}
 						},
 						{
-							"id": 4597,
+							"id": 4600,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10539,7 +10539,7 @@
 							}
 						},
 						{
-							"id": 4595,
+							"id": 4598,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10566,7 +10566,7 @@
 							}
 						},
 						{
-							"id": 4604,
+							"id": 4607,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10593,7 +10593,7 @@
 							}
 						},
 						{
-							"id": 4605,
+							"id": 4608,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10625,17 +10625,17 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4592,
-								4598,
-								4600,
-								4596,
-								4594,
-								4593,
+								4595,
+								4601,
+								4603,
 								4599,
 								4597,
-								4595,
-								4604,
-								4605
+								4596,
+								4602,
+								4600,
+								4598,
+								4607,
+								4608
 							]
 						}
 					],
@@ -10664,7 +10664,7 @@
 					]
 				},
 				{
-					"id": 4797,
+					"id": 4818,
 					"name": "IGetOAuthAppOptions",
 					"kind": 256,
 					"kindString": "Interface",
@@ -10674,7 +10674,7 @@
 					},
 					"children": [
 						{
-							"id": 4798,
+							"id": 4819,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10699,7 +10699,7 @@
 							}
 						},
 						{
-							"id": 4804,
+							"id": 4825,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10726,7 +10726,7 @@
 							}
 						},
 						{
-							"id": 4806,
+							"id": 4827,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10746,20 +10746,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4807,
+									"id": 4828,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4808,
+										"id": 4829,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4809,
+												"id": 4830,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -10782,7 +10782,7 @@
 							}
 						},
 						{
-							"id": 4802,
+							"id": 4823,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10809,7 +10809,7 @@
 							}
 						},
 						{
-							"id": 4800,
+							"id": 4821,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10836,7 +10836,7 @@
 							}
 						},
 						{
-							"id": 4799,
+							"id": 4820,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10857,7 +10857,7 @@
 							}
 						},
 						{
-							"id": 4805,
+							"id": 4826,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10884,7 +10884,7 @@
 							}
 						},
 						{
-							"id": 4803,
+							"id": 4824,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10911,7 +10911,7 @@
 							}
 						},
 						{
-							"id": 4801,
+							"id": 4822,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10938,7 +10938,7 @@
 							}
 						},
 						{
-							"id": 4810,
+							"id": 4831,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10965,7 +10965,7 @@
 							}
 						},
 						{
-							"id": 4811,
+							"id": 4832,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -10997,17 +10997,17 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4798,
-								4804,
-								4806,
-								4802,
-								4800,
-								4799,
-								4805,
-								4803,
-								4801,
-								4810,
-								4811
+								4819,
+								4825,
+								4827,
+								4823,
+								4821,
+								4820,
+								4826,
+								4824,
+								4822,
+								4831,
+								4832
 							]
 						}
 					],
@@ -11036,393 +11036,50 @@
 					]
 				},
 				{
-					"id": 4835,
-					"name": "IOAuthApp",
+					"id": 4772,
+					"name": "IInvalidateApiKeyOptions",
 					"kind": 256,
 					"kindString": "Interface",
 					"flags": {},
-					"comment": {
-						"shortText": "Return value of {@linkcode createOAuthApp}, {@linkcode getOAuthApp}, {@linkcode updateOAuthApp} representing an OAuth2.0 app entity."
-					},
 					"children": [
 						{
-							"id": 4838,
-							"name": "client_id",
+							"id": 4775,
+							"name": "apiKey",
 							"kind": 1024,
 							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 72,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
+							"flags": {
+								"isOptional": true
 							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 4830,
-								"name": "IOAuthAppInfo.client_id"
-							}
-						},
-						{
-							"id": 4839,
-							"name": "client_secret",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 73,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 4831,
-								"name": "IOAuthAppInfo.client_secret"
-							}
-						},
-						{
-							"id": 4836,
-							"name": "item",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
 							"comment": {
-								"shortText": "Represent item info attached to this OAuth2.0 app."
+								"shortText": "The API key to be revoked. The full or partial API key or the slot number (1 or 2) can be provided."
 							},
 							"sources": [
 								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 86,
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 158,
 									"character": 2
 								}
 							],
 							"type": {
-								"type": "reference",
-								"name": "IItem"
+								"type": "union",
+								"types": [
+									{
+										"type": "intrinsic",
+										"name": "string"
+									},
+									{
+										"type": "literal",
+										"value": 1
+									},
+									{
+										"type": "literal",
+										"value": 2
+									}
+								]
 							}
 						},
 						{
-							"id": 4837,
-							"name": "itemId",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 71,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 4829,
-								"name": "IOAuthAppInfo.itemId"
-							}
-						},
-						{
-							"id": 4842,
-							"name": "modified",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 76,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "Date"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 4834,
-								"name": "IOAuthAppInfo.modified"
-							}
-						},
-						{
-							"id": 4840,
-							"name": "redirect_uris",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 74,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "array",
-								"elementType": {
-									"type": "intrinsic",
-									"name": "string"
-								}
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 4832,
-								"name": "IOAuthAppInfo.redirect_uris"
-							}
-						},
-						{
-							"id": 4841,
-							"name": "registered",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 75,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "Date"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"id": 4833,
-								"name": "IOAuthAppInfo.registered"
-							}
-						}
-					],
-					"groups": [
-						{
-							"title": "Properties",
-							"kind": 1024,
-							"children": [
-								4838,
-								4839,
-								4836,
-								4837,
-								4842,
-								4840,
-								4841
-							]
-						}
-					],
-					"sources": [
-						{
-							"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-							"line": 82,
-							"character": 17
-						}
-					],
-					"extendedTypes": [
-						{
-							"type": "reference",
-							"id": 4828,
-							"name": "IOAuthAppInfo"
-						}
-					]
-				},
-				{
-					"id": 4828,
-					"name": "IOAuthAppInfo",
-					"kind": 256,
-					"kindString": "Interface",
-					"flags": {},
-					"comment": {
-						"shortText": "Represent only the OAuth2.0 app related properties from {@linkcode IApp}."
-					},
-					"children": [
-						{
-							"id": 4830,
-							"name": "client_id",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 72,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							}
-						},
-						{
-							"id": 4831,
-							"name": "client_secret",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 73,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							}
-						},
-						{
-							"id": 4829,
-							"name": "itemId",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 71,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							}
-						},
-						{
-							"id": 4834,
-							"name": "modified",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 76,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "Date"
-							}
-						},
-						{
-							"id": 4832,
-							"name": "redirect_uris",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 74,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "array",
-								"elementType": {
-									"type": "intrinsic",
-									"name": "string"
-								}
-							}
-						},
-						{
-							"id": 4833,
-							"name": "registered",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-									"line": 75,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "reference",
-								"name": "Date"
-							}
-						}
-					],
-					"groups": [
-						{
-							"title": "Properties",
-							"kind": 1024,
-							"children": [
-								4830,
-								4831,
-								4829,
-								4834,
-								4832,
-								4833
-							]
-						}
-					],
-					"sources": [
-						{
-							"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
-							"line": 70,
-							"character": 17
-						}
-					],
-					"extendedBy": [
-						{
-							"type": "reference",
-							"id": 4835,
-							"name": "IOAuthApp"
-						}
-					]
-				},
-				{
-					"id": 4572,
-					"name": "IRegisterAppOptions",
-					"kind": 256,
-					"kindString": "Interface",
-					"flags": {},
-					"comment": {
-						"shortText": "Options to register an app."
-					},
-					"children": [
-						{
-							"id": 4574,
-							"name": "appType",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"comment": {
-								"shortText": "App types. For more info, refer to {@linkcode AppType}."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/appType.ts",
-									"line": 24,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "reference",
-								"id": 4571,
-								"name": "AppType"
-							}
-						},
-						{
-							"id": 4578,
+							"id": 4773,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11432,8 +11089,8 @@
 							},
 							"sources": [
 								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/appType.ts",
-									"line": 40,
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 150,
 									"character": 2
 								}
 							],
@@ -11447,7 +11104,7 @@
 							}
 						},
 						{
-							"id": 4583,
+							"id": 4780,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11474,7 +11131,7 @@
 							}
 						},
 						{
-							"id": 4585,
+							"id": 4782,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11494,20 +11151,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4586,
+									"id": 4783,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4587,
+										"id": 4784,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4588,
+												"id": 4785,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -11530,7 +11187,7 @@
 							}
 						},
 						{
-							"id": 4581,
+							"id": 4778,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11557,7 +11214,7 @@
 							}
 						},
 						{
-							"id": 4579,
+							"id": 4776,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11584,42 +11241,18 @@
 							}
 						},
 						{
-							"id": 4576,
-							"name": "httpReferrers",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"comment": {
-								"shortText": "Http Referrers set for this app."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/appType.ts",
-									"line": 32,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "array",
-								"elementType": {
-									"type": "intrinsic",
-									"name": "string"
-								}
-							}
-						},
-						{
-							"id": 4573,
+							"id": 4774,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {},
 							"comment": {
-								"shortText": "itemId that the newly registered app will be based on."
+								"shortText": "itemId of the item of the API key to be revoked."
 							},
 							"sources": [
 								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/appType.ts",
-									"line": 20,
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 154,
 									"character": 2
 								}
 							],
@@ -11629,7 +11262,7 @@
 							}
 						},
 						{
-							"id": 4584,
+							"id": 4781,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11656,7 +11289,7 @@
 							}
 						},
 						{
-							"id": 4582,
+							"id": 4779,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11683,29 +11316,7 @@
 							}
 						},
 						{
-							"id": 4577,
-							"name": "privileges",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"comment": {
-								"shortText": "Privilege lists. For more info, refer to {@linkcode Privileges}."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/appType.ts",
-									"line": 36,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "reference",
-								"id": 4570,
-								"name": "Privileges"
-							}
-						},
-						{
-							"id": 4580,
+							"id": 4777,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11732,31 +11343,7 @@
 							}
 						},
 						{
-							"id": 4575,
-							"name": "redirect_uris",
-							"kind": 1024,
-							"kindString": "Property",
-							"flags": {},
-							"comment": {
-								"shortText": "Redirect URIs set for this app."
-							},
-							"sources": [
-								{
-									"fileName": "arcgis-rest-developer-credentials/src/shared/types/appType.ts",
-									"line": 28,
-									"character": 2
-								}
-							],
-							"type": {
-								"type": "array",
-								"elementType": {
-									"type": "intrinsic",
-									"name": "string"
-								}
-							}
-						},
-						{
-							"id": 4589,
+							"id": 4786,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11783,7 +11370,7 @@
 							}
 						},
 						{
-							"id": 4590,
+							"id": 4787,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11815,21 +11402,883 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4574,
-								4578,
-								4583,
-								4585,
+								4775,
+								4773,
+								4780,
+								4782,
+								4778,
+								4776,
+								4774,
+								4781,
+								4779,
+								4777,
+								4786,
+								4787
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+							"line": 145,
+							"character": 17
+						}
+					],
+					"extendedTypes": [
+						{
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "reference",
+									"name": "IRequestOptions"
+								},
+								{
+									"type": "literal",
+									"value": "params"
+								}
+							],
+							"name": "Omit"
+						}
+					]
+				},
+				{
+					"id": 4788,
+					"name": "IInvalidateApiKeyResponse",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {},
+					"children": [
+						{
+							"id": 4789,
+							"name": "success",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+									"line": 162,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "boolean"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								4789
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "arcgis-rest-developer-credentials/src/shared/types/apiKeyType.ts",
+							"line": 161,
+							"character": 17
+						}
+					]
+				},
+				{
+					"id": 4856,
+					"name": "IOAuthApp",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {},
+					"comment": {
+						"shortText": "Return value of {@linkcode createOAuthApp}, {@linkcode getOAuthApp}, {@linkcode updateOAuthApp} representing an OAuth2.0 app entity."
+					},
+					"children": [
+						{
+							"id": 4859,
+							"name": "client_id",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 72,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"id": 4851,
+								"name": "IOAuthAppInfo.client_id"
+							}
+						},
+						{
+							"id": 4860,
+							"name": "client_secret",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 73,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"id": 4852,
+								"name": "IOAuthAppInfo.client_secret"
+							}
+						},
+						{
+							"id": 4857,
+							"name": "item",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"comment": {
+								"shortText": "Represent item info attached to this OAuth2.0 app."
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 86,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "IItem"
+							}
+						},
+						{
+							"id": 4858,
+							"name": "itemId",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 71,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"id": 4850,
+								"name": "IOAuthAppInfo.itemId"
+							}
+						},
+						{
+							"id": 4863,
+							"name": "modified",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 76,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Date"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"id": 4855,
+								"name": "IOAuthAppInfo.modified"
+							}
+						},
+						{
+							"id": 4861,
+							"name": "redirect_uris",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 74,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "string"
+								}
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"id": 4853,
+								"name": "IOAuthAppInfo.redirect_uris"
+							}
+						},
+						{
+							"id": 4862,
+							"name": "registered",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 75,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Date"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"id": 4854,
+								"name": "IOAuthAppInfo.registered"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								4859,
+								4860,
+								4857,
+								4858,
+								4863,
+								4861,
+								4862
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+							"line": 82,
+							"character": 17
+						}
+					],
+					"extendedTypes": [
+						{
+							"type": "reference",
+							"id": 4849,
+							"name": "IOAuthAppInfo"
+						}
+					]
+				},
+				{
+					"id": 4849,
+					"name": "IOAuthAppInfo",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {},
+					"comment": {
+						"shortText": "Represent only the OAuth2.0 app related properties from {@linkcode IApp}."
+					},
+					"children": [
+						{
+							"id": 4851,
+							"name": "client_id",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 72,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4852,
+							"name": "client_secret",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 73,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4850,
+							"name": "itemId",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 71,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4855,
+							"name": "modified",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 76,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Date"
+							}
+						},
+						{
+							"id": 4853,
+							"name": "redirect_uris",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 74,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "string"
+								}
+							}
+						},
+						{
+							"id": 4854,
+							"name": "registered",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+									"line": 75,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "Date"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								4851,
+								4852,
+								4850,
+								4855,
+								4853,
+								4854
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "arcgis-rest-developer-credentials/src/shared/types/oAuthType.ts",
+							"line": 70,
+							"character": 17
+						}
+					],
+					"extendedBy": [
+						{
+							"type": "reference",
+							"id": 4856,
+							"name": "IOAuthApp"
+						}
+					]
+				},
+				{
+					"id": 4575,
+					"name": "IRegisterAppOptions",
+					"kind": 256,
+					"kindString": "Interface",
+					"flags": {},
+					"comment": {
+						"shortText": "Options to register an app."
+					},
+					"children": [
+						{
+							"id": 4577,
+							"name": "appType",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"comment": {
+								"shortText": "App types. For more info, refer to {@linkcode AppType}."
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/appType.ts",
+									"line": 24,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reference",
+								"id": 4574,
+								"name": "AppType"
+							}
+						},
+						{
+							"id": 4581,
+							"name": "authentication",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"comment": {
+								"shortText": "{@linkcode IAuthenticationManager} authentication."
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/appType.ts",
+									"line": 40,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "IAuthenticationManager"
+							},
+							"overwrites": {
+								"type": "reference",
+								"name": "Omit.authentication"
+							}
+						},
+						{
+							"id": 4586,
+							"name": "credentials",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"shortText": "A string indicating whether credentials (cookies) will be sent with the request. Used internally for authentication workflows."
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
+									"line": 41,
+									"character": 4
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "RequestCredentials"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "Omit.credentials"
+							}
+						},
+						{
+							"id": 4588,
+							"name": "headers",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"shortText": "Additional [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers) to pass into the request."
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
+									"line": 49,
+									"character": 4
+								}
+							],
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 4589,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"indexSignature": {
+										"id": 4590,
+										"name": "__index",
+										"kind": 8192,
+										"kindString": "Index signature",
+										"flags": {},
+										"parameters": [
+											{
+												"id": 4591,
+												"name": "key",
+												"kind": 32768,
+												"flags": {},
+												"type": {
+													"type": "intrinsic",
+													"name": "string"
+												}
+											}
+										],
+										"type": {
+											"type": "intrinsic",
+											"name": "any"
+										}
+									}
+								}
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "Omit.headers"
+							}
+						},
+						{
+							"id": 4584,
+							"name": "hideToken",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"shortText": "Prevents the token from being passed in a URL Query param that is saved in browser history.\nInstead, the token will be passed in POST request body or through X-Esri-Authorization header.\nNOTE: This will force POST requests in browsers since auth header is not yet supported by preflight OPTIONS check with CORS."
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
+									"line": 29,
+									"character": 4
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "boolean"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "Omit.hideToken"
+							}
+						},
+						{
+							"id": 4582,
+							"name": "httpMethod",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"shortText": "The HTTP method to send the request with."
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
+									"line": 15,
+									"character": 4
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "HTTPMethods"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "Omit.httpMethod"
+							}
+						},
+						{
+							"id": 4579,
+							"name": "httpReferrers",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"comment": {
+								"shortText": "Http Referrers set for this app."
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/appType.ts",
+									"line": 32,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "string"
+								}
+							}
+						},
+						{
+							"id": 4576,
+							"name": "itemId",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"comment": {
+								"shortText": "itemId that the newly registered app will be based on."
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/appType.ts",
+									"line": 20,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							}
+						},
+						{
+							"id": 4587,
+							"name": "maxUrlLength",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"shortText": "If the length of a GET request's URL exceeds `maxUrlLength` the request will use POST instead."
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
+									"line": 45,
+									"character": 4
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "Omit.maxUrlLength"
+							}
+						},
+						{
+							"id": 4585,
+							"name": "portal",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"shortText": "Base url for the portal you want to make the request to. Defaults to authentication.portal if authentication\nexists, otherwise to 'https://www.arcgis.com/sharing/rest'."
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
+									"line": 34,
+									"character": 4
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "string"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "Omit.portal"
+							}
+						},
+						{
+							"id": 4580,
+							"name": "privileges",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"comment": {
+								"shortText": "Privilege lists. For more info, refer to {@linkcode Privileges}."
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/appType.ts",
+									"line": 36,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "reference",
+								"id": 4573,
+								"name": "Privileges"
+							}
+						},
+						{
+							"id": 4583,
+							"name": "rawResponse",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"shortText": "Return the raw [response](https://developer.mozilla.org/en-US/docs/Web/API/Response)"
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
+									"line": 19,
+									"character": 4
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "boolean"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "Omit.rawResponse"
+							}
+						},
+						{
+							"id": 4578,
+							"name": "redirect_uris",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {},
+							"comment": {
+								"shortText": "Redirect URIs set for this app."
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-developer-credentials/src/shared/types/appType.ts",
+									"line": 28,
+									"character": 2
+								}
+							],
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "string"
+								}
+							}
+						},
+						{
+							"id": 4592,
+							"name": "signal",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"shortText": "An [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) object instance; allows you to abort a request and via an [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController)."
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
+									"line": 55,
+									"character": 4
+								}
+							],
+							"type": {
+								"type": "reference",
+								"name": "AbortSignal"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "Omit.signal"
+							}
+						},
+						{
+							"id": 4593,
+							"name": "suppressWarnings",
+							"kind": 1024,
+							"kindString": "Property",
+							"flags": {
+								"isOptional": true
+							},
+							"comment": {
+								"shortText": "Suppress any ArcGIS REST JS related warnings for this request."
+							},
+							"sources": [
+								{
+									"fileName": "arcgis-rest-request/dist/esm/utils/IRequestOptions.d.ts",
+									"line": 59,
+									"character": 4
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "boolean"
+							},
+							"inheritedFrom": {
+								"type": "reference",
+								"name": "Omit.suppressWarnings"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Properties",
+							"kind": 1024,
+							"children": [
+								4577,
 								4581,
-								4579,
-								4576,
-								4573,
+								4586,
+								4588,
 								4584,
 								4582,
-								4577,
+								4579,
+								4576,
+								4587,
+								4585,
 								4580,
-								4575,
-								4589,
-								4590
+								4583,
+								4578,
+								4592,
+								4593
 							]
 						}
 					],
@@ -11858,7 +12307,7 @@
 					]
 				},
 				{
-					"id": 4606,
+					"id": 4609,
 					"name": "IRegisteredAppResponse",
 					"kind": 256,
 					"kindString": "Interface",
@@ -11868,7 +12317,7 @@
 					},
 					"children": [
 						{
-							"id": 4608,
+							"id": 4611,
 							"name": "apiKey",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11891,7 +12340,7 @@
 							}
 						},
 						{
-							"id": 4623,
+							"id": 4626,
 							"name": "apiToken1Active",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11909,7 +12358,7 @@
 							}
 						},
 						{
-							"id": 4624,
+							"id": 4627,
 							"name": "apiToken2Active",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11927,7 +12376,7 @@
 							}
 						},
 						{
-							"id": 4617,
+							"id": 4620,
 							"name": "apnsProdCert",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11945,7 +12394,7 @@
 							}
 						},
 						{
-							"id": 4618,
+							"id": 4621,
 							"name": "apnsSandboxCert",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11963,7 +12412,7 @@
 							}
 						},
 						{
-							"id": 4609,
+							"id": 4612,
 							"name": "appType",
 							"kind": 1024,
 							"kindString": "Property",
@@ -11977,12 +12426,12 @@
 							],
 							"type": {
 								"type": "reference",
-								"id": 4571,
+								"id": 4574,
 								"name": "AppType"
 							}
 						},
 						{
-							"id": 4610,
+							"id": 4613,
 							"name": "client_id",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12000,7 +12449,7 @@
 							}
 						},
 						{
-							"id": 4611,
+							"id": 4614,
 							"name": "client_secret",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12018,7 +12467,7 @@
 							}
 						},
 						{
-							"id": 4621,
+							"id": 4624,
 							"name": "customAppLoginShowTriage",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12036,7 +12485,7 @@
 							}
 						},
 						{
-							"id": 4619,
+							"id": 4622,
 							"name": "gcmApiKey",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12054,7 +12503,7 @@
 							}
 						},
 						{
-							"id": 4612,
+							"id": 4615,
 							"name": "httpReferrers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12075,7 +12524,7 @@
 							}
 						},
 						{
-							"id": 4620,
+							"id": 4623,
 							"name": "isBeta",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12093,7 +12542,7 @@
 							}
 						},
 						{
-							"id": 4622,
+							"id": 4625,
 							"name": "isPersonalAPIToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12111,7 +12560,7 @@
 							}
 						},
 						{
-							"id": 4607,
+							"id": 4610,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12129,7 +12578,7 @@
 							}
 						},
 						{
-							"id": 4616,
+							"id": 4619,
 							"name": "modified",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12147,7 +12596,7 @@
 							}
 						},
 						{
-							"id": 4614,
+							"id": 4617,
 							"name": "privileges",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12168,7 +12617,7 @@
 							}
 						},
 						{
-							"id": 4613,
+							"id": 4616,
 							"name": "redirect_uris",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12189,7 +12638,7 @@
 							}
 						},
 						{
-							"id": 4615,
+							"id": 4618,
 							"name": "registered",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12212,24 +12661,24 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4608,
-								4623,
-								4624,
-								4617,
-								4618,
-								4609,
-								4610,
 								4611,
-								4621,
-								4619,
-								4612,
+								4626,
+								4627,
 								4620,
-								4622,
-								4607,
-								4616,
-								4614,
+								4621,
+								4612,
 								4613,
-								4615
+								4614,
+								4624,
+								4622,
+								4615,
+								4623,
+								4625,
+								4610,
+								4619,
+								4617,
+								4616,
+								4618
 							]
 						}
 					],
@@ -12242,7 +12691,7 @@
 					]
 				},
 				{
-					"id": 4639,
+					"id": 4642,
 					"name": "IUnregisterAppOptions",
 					"kind": 256,
 					"kindString": "Interface",
@@ -12252,7 +12701,7 @@
 					},
 					"children": [
 						{
-							"id": 4640,
+							"id": 4643,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12277,7 +12726,7 @@
 							}
 						},
 						{
-							"id": 4646,
+							"id": 4649,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12304,7 +12753,7 @@
 							}
 						},
 						{
-							"id": 4648,
+							"id": 4651,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12324,20 +12773,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4649,
+									"id": 4652,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4650,
+										"id": 4653,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4651,
+												"id": 4654,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -12360,7 +12809,7 @@
 							}
 						},
 						{
-							"id": 4644,
+							"id": 4647,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12387,7 +12836,7 @@
 							}
 						},
 						{
-							"id": 4642,
+							"id": 4645,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12414,7 +12863,7 @@
 							}
 						},
 						{
-							"id": 4641,
+							"id": 4644,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12435,7 +12884,7 @@
 							}
 						},
 						{
-							"id": 4647,
+							"id": 4650,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12462,7 +12911,7 @@
 							}
 						},
 						{
-							"id": 4645,
+							"id": 4648,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12489,7 +12938,7 @@
 							}
 						},
 						{
-							"id": 4643,
+							"id": 4646,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12516,7 +12965,7 @@
 							}
 						},
 						{
-							"id": 4652,
+							"id": 4655,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12543,7 +12992,7 @@
 							}
 						},
 						{
-							"id": 4653,
+							"id": 4656,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12575,17 +13024,17 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4640,
-								4646,
-								4648,
-								4644,
-								4642,
-								4641,
+								4643,
+								4649,
+								4651,
 								4647,
 								4645,
-								4643,
-								4652,
-								4653
+								4644,
+								4650,
+								4648,
+								4646,
+								4655,
+								4656
 							]
 						}
 					],
@@ -12614,7 +13063,7 @@
 					]
 				},
 				{
-					"id": 4654,
+					"id": 4657,
 					"name": "IUnregisterAppResponse",
 					"kind": 256,
 					"kindString": "Interface",
@@ -12624,7 +13073,7 @@
 					},
 					"children": [
 						{
-							"id": 4656,
+							"id": 4659,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12645,7 +13094,7 @@
 							}
 						},
 						{
-							"id": 4655,
+							"id": 4658,
 							"name": "success",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12668,8 +13117,8 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4656,
-								4655
+								4659,
+								4658
 							]
 						}
 					],
@@ -12682,7 +13131,7 @@
 					]
 				},
 				{
-					"id": 4730,
+					"id": 4733,
 					"name": "IUpdateApiKeyOptions",
 					"kind": 256,
 					"kindString": "Interface",
@@ -12692,7 +13141,7 @@
 					},
 					"children": [
 						{
-							"id": 4735,
+							"id": 4738,
 							"name": "apiToken1ExpirationDate",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12715,7 +13164,7 @@
 							}
 						},
 						{
-							"id": 4736,
+							"id": 4739,
 							"name": "apiToken2ExpirationDate",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12738,7 +13187,7 @@
 							}
 						},
 						{
-							"id": 4731,
+							"id": 4734,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12763,7 +13212,7 @@
 							}
 						},
 						{
-							"id": 4743,
+							"id": 4746,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12790,7 +13239,7 @@
 							}
 						},
 						{
-							"id": 4737,
+							"id": 4740,
 							"name": "generateToken1",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12813,7 +13262,7 @@
 							}
 						},
 						{
-							"id": 4738,
+							"id": 4741,
 							"name": "generateToken2",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12836,7 +13285,7 @@
 							}
 						},
 						{
-							"id": 4745,
+							"id": 4748,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12856,20 +13305,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4746,
+									"id": 4749,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4747,
+										"id": 4750,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4748,
+												"id": 4751,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -12892,7 +13341,7 @@
 							}
 						},
 						{
-							"id": 4741,
+							"id": 4744,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12919,7 +13368,7 @@
 							}
 						},
 						{
-							"id": 4739,
+							"id": 4742,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12946,7 +13395,7 @@
 							}
 						},
 						{
-							"id": 4733,
+							"id": 4736,
 							"name": "httpReferrers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12972,7 +13421,7 @@
 							}
 						},
 						{
-							"id": 4732,
+							"id": 4735,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -12993,7 +13442,7 @@
 							}
 						},
 						{
-							"id": 4744,
+							"id": 4747,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13020,7 +13469,7 @@
 							}
 						},
 						{
-							"id": 4742,
+							"id": 4745,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13047,7 +13496,7 @@
 							}
 						},
 						{
-							"id": 4734,
+							"id": 4737,
 							"name": "privileges",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13073,7 +13522,7 @@
 							}
 						},
 						{
-							"id": 4740,
+							"id": 4743,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13100,7 +13549,7 @@
 							}
 						},
 						{
-							"id": 4749,
+							"id": 4752,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13127,7 +13576,7 @@
 							}
 						},
 						{
-							"id": 4750,
+							"id": 4753,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13159,23 +13608,23 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4735,
-								4736,
-								4731,
-								4743,
-								4737,
 								4738,
-								4745,
-								4741,
 								4739,
-								4733,
-								4732,
+								4734,
+								4746,
+								4740,
+								4741,
+								4748,
 								4744,
 								4742,
-								4734,
-								4740,
-								4749,
-								4750
+								4736,
+								4735,
+								4747,
+								4745,
+								4737,
+								4743,
+								4752,
+								4753
 							]
 						}
 					],
@@ -13204,7 +13653,7 @@
 					]
 				},
 				{
-					"id": 4812,
+					"id": 4833,
 					"name": "IUpdateOAuthOptions",
 					"kind": 256,
 					"kindString": "Interface",
@@ -13214,7 +13663,7 @@
 					},
 					"children": [
 						{
-							"id": 4813,
+							"id": 4834,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13239,7 +13688,7 @@
 							}
 						},
 						{
-							"id": 4820,
+							"id": 4841,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13266,7 +13715,7 @@
 							}
 						},
 						{
-							"id": 4822,
+							"id": 4843,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13286,20 +13735,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 4823,
+									"id": 4844,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 4824,
+										"id": 4845,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4825,
+												"id": 4846,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -13322,7 +13771,7 @@
 							}
 						},
 						{
-							"id": 4818,
+							"id": 4839,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13349,7 +13798,7 @@
 							}
 						},
 						{
-							"id": 4816,
+							"id": 4837,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13376,7 +13825,7 @@
 							}
 						},
 						{
-							"id": 4814,
+							"id": 4835,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13397,7 +13846,7 @@
 							}
 						},
 						{
-							"id": 4821,
+							"id": 4842,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13424,7 +13873,7 @@
 							}
 						},
 						{
-							"id": 4819,
+							"id": 4840,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13451,7 +13900,7 @@
 							}
 						},
 						{
-							"id": 4817,
+							"id": 4838,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13478,7 +13927,7 @@
 							}
 						},
 						{
-							"id": 4815,
+							"id": 4836,
 							"name": "redirect_uris",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13504,7 +13953,7 @@
 							}
 						},
 						{
-							"id": 4826,
+							"id": 4847,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13531,7 +13980,7 @@
 							}
 						},
 						{
-							"id": 4827,
+							"id": 4848,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -13563,18 +14012,18 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								4813,
-								4820,
-								4822,
-								4818,
-								4816,
-								4814,
-								4821,
-								4819,
-								4817,
-								4815,
-								4826,
-								4827
+								4834,
+								4841,
+								4843,
+								4839,
+								4837,
+								4835,
+								4842,
+								4840,
+								4838,
+								4836,
+								4847,
+								4848
 							]
 						}
 					],
@@ -13603,7 +14052,7 @@
 					]
 				},
 				{
-					"id": 4571,
+					"id": 4574,
 					"name": "AppType",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -13645,7 +14094,7 @@
 					}
 				},
 				{
-					"id": 4570,
+					"id": 4573,
 					"name": "Privileges",
 					"kind": 4194304,
 					"kindString": "Type alias",
@@ -13677,7 +14126,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-developer-credentials/src/createApiKey.ts",
-							"line": 56,
+							"line": 62,
 							"character": 22
 						}
 					],
@@ -13690,7 +14139,7 @@
 							"flags": {},
 							"comment": {
 								"shortText": "Used to register an API key. See the [security and authentication](https://developers.arcgis.com/documentation/mapping-apis-and-services/security/api-keys/) for more information about API key.",
-								"text": "```js\nimport { createApiKey, IApiKeyResponse } from '@esri/arcgis-rest-developer-credentials';\nimport { ArcGISIdentityManager } from \"@esri/arcgis-rest-request\";\n\nconst authSession: ArcGISIdentityManager = await ArcGISIdentityManager.signIn({\n  username: \"xyz_usrName\",\n  password: \"xyz_pw\"\n});\n\ncreateApiKey({\n  title: \"xyz_title\",\n  description: \"xyz_desc\",\n  tags: [\"xyz_tag1\", \"xyz_tag2\"],\n  privileges: [\"premium:user:networkanalysis:routing\"],\n  authentication: authSession\n}).then((registeredAPIKey: IApiKeyResponse) => {\n  // => {apiKey: \"xyz_key\", item: {tags: [\"xyz_tag1\", \"xyz_tag2\"], ...}, ...}\n}).catch(e => {\n  // => an exception object\n});\n```\n",
+								"text": "```js\nimport { createApiKey, IApiKeyResponse } from '@esri/arcgis-rest-developer-credentials';\nimport { ArcGISIdentityManager } from \"@esri/arcgis-rest-request\";\n\nconst authSession: ArcGISIdentityManager = await ArcGISIdentityManager.signIn({\n  username: \"xyz_usrName\",\n  password: \"xyz_pw\"\n});\n\nconst threeDaysFromToday = new Date();\nthreeDaysFromToday.setDate(threeDaysFromToday.getDate() + 3);\nthreeDaysFromToday.setHours(23, 59, 59, 999);\n\ncreateApiKey({\n  title: \"xyz_title\",\n  description: \"xyz_desc\",\n  tags: [\"xyz_tag1\", \"xyz_tag2\"],\n  privileges: [\"premium:user:networkanalysis:routing\"],\n  authentication: authSession,\n  generateToken1: true, // optional,generate a new token\n  apiToken1ExpirationDate: threeDaysFromToday  // optional, update expiration date\n}).then((registeredAPIKey: IApiKeyResponse) => {\n  // => {accessToken1: \"xyz_key\", item: {tags: [\"xyz_tag1\", \"xyz_tag2\"], ...}, ...}\n}).catch(e => {\n  // => an exception object\n});\n```\n",
 								"returns": "A Promise that will resolve to an {@linkcode IApiKeyResponse} object representing the newly registered API key.\n"
 							},
 							"parameters": [
@@ -13705,7 +14154,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4657,
+										"id": 4660,
 										"name": "ICreateApiKeyOptions"
 									}
 								}
@@ -13715,7 +14164,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4716,
+										"id": 4719,
 										"name": "IApiKeyResponse"
 									}
 								],
@@ -13725,7 +14174,7 @@
 					]
 				},
 				{
-					"id": 4567,
+					"id": 4570,
 					"name": "createOAuthApp",
 					"kind": 64,
 					"kindString": "Function",
@@ -13739,7 +14188,7 @@
 					],
 					"signatures": [
 						{
-							"id": 4568,
+							"id": 4571,
 							"name": "createOAuthApp",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -13751,7 +14200,7 @@
 							},
 							"parameters": [
 								{
-									"id": 4569,
+									"id": 4572,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -13761,7 +14210,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4769,
+										"id": 4790,
 										"name": "ICreateOAuthAppOption"
 									}
 								}
@@ -13771,7 +14220,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4835,
+										"id": 4856,
 										"name": "IOAuthApp"
 									}
 								],
@@ -13817,7 +14266,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4690,
+										"id": 4693,
 										"name": "IGetApiKeyOptions"
 									}
 								}
@@ -13827,7 +14276,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4716,
+										"id": 4719,
 										"name": "IApiKeyResponse"
 									}
 								],
@@ -13837,7 +14286,7 @@
 					]
 				},
 				{
-					"id": 4561,
+					"id": 4564,
 					"name": "getOAuthApp",
 					"kind": 64,
 					"kindString": "Function",
@@ -13851,7 +14300,7 @@
 					],
 					"signatures": [
 						{
-							"id": 4562,
+							"id": 4565,
 							"name": "getOAuthApp",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -13863,7 +14312,7 @@
 							},
 							"parameters": [
 								{
-									"id": 4563,
+									"id": 4566,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -13873,7 +14322,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4797,
+										"id": 4818,
 										"name": "IGetOAuthAppOptions"
 									}
 								}
@@ -13883,7 +14332,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4835,
+										"id": 4856,
 										"name": "IOAuthApp"
 									}
 								],
@@ -13893,7 +14342,7 @@
 					]
 				},
 				{
-					"id": 4861,
+					"id": 4882,
 					"name": "getRegisteredAppInfo",
 					"kind": 64,
 					"kindString": "Function",
@@ -13907,7 +14356,7 @@
 					],
 					"signatures": [
 						{
-							"id": 4862,
+							"id": 4883,
 							"name": "getRegisteredAppInfo",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -13919,7 +14368,7 @@
 							},
 							"parameters": [
 								{
-									"id": 4863,
+									"id": 4884,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -13929,7 +14378,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4591,
+										"id": 4594,
 										"name": "IGetAppInfoOptions"
 									}
 								}
@@ -13939,7 +14388,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4625,
+										"id": 4628,
 										"name": "IApp"
 									}
 								],
@@ -13949,7 +14398,59 @@
 					]
 				},
 				{
-					"id": 4864,
+					"id": 4561,
+					"name": "invalidateApiKey",
+					"kind": 64,
+					"kindString": "Function",
+					"flags": {},
+					"sources": [
+						{
+							"fileName": "arcgis-rest-developer-credentials/src/invalidateApiKey.ts",
+							"line": 29,
+							"character": 22
+						}
+					],
+					"signatures": [
+						{
+							"id": 4562,
+							"name": "invalidateApiKey",
+							"kind": 4096,
+							"kindString": "Call signature",
+							"flags": {},
+							"comment": {
+								"shortText": "Used to invalidate an API key.",
+								"text": "```js\nimport { invalidateApiKey } from \"@esri/arcgis-rest-developer-credentials\";\n\ninvalidateApiKey({\n  itemId: ITEM_ID,\n  authentication,\n  apiKey: 1, // invalidate the key in slot 1\n}).then((response) => {\n  // => {success: true}\n}).catch(e => {\n  // => an exception object\n});\n"
+							},
+							"parameters": [
+								{
+									"id": 4563,
+									"name": "requestOptions",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {},
+									"type": {
+										"type": "reference",
+										"id": 4772,
+										"name": "IInvalidateApiKeyOptions"
+									}
+								}
+							],
+							"type": {
+								"type": "reference",
+								"typeArguments": [
+									{
+										"type": "reference",
+										"id": 4788,
+										"name": "IInvalidateApiKeyResponse"
+									}
+								],
+								"name": "Promise"
+							}
+						}
+					]
+				},
+				{
+					"id": 4885,
 					"name": "registerApp",
 					"kind": 64,
 					"kindString": "Function",
@@ -13963,19 +14464,19 @@
 					],
 					"signatures": [
 						{
-							"id": 4865,
+							"id": 4886,
 							"name": "registerApp",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"comment": {
 								"shortText": "Used to register an app. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/register-app.htm) for more information.",
-								"text": "Accepted app types:\n- apikey\n- multiple\n- browser\n- server\n- native\n\n```js\nimport { registerApp, IApp } from '@esri/arcgis-rest-developer-credentials';\nimport { ArcGISIdentityManager } from \"@esri/arcgis-rest-request\";\n\nconst authSession: ArcGISIdentityManager = await ArcGISIdentityManager.signIn({\n  username: \"xyz_usrName\",\n  password: \"xyz_pw\"\n});\n\nregisterApp({\n  itemId: \"xyz_itemId\",\n  appType: \"multiple\",\n  redirect_uris: [\"http://localhost:3000/\"],\n  httpReferrers: [\"http://localhost:3000/\"],\n  privileges: [Privileges.Geocode, Privileges.FeatureReport],\n  authentication: authSession\n}).then((registeredApp: IApp) => {\n  // => {client_id: \"xyz_id\", client_secret: \"xyz_secret\", ...}\n}).catch(e => {\n  // => an exception object\n});\n```\n",
+								"text": "Accepted app types:\n- apikey\n- multiple\n- browser\n- server\n- native\n\n```js\nimport { registerApp, IApp } from '@esri/arcgis-rest-developer-credentials';\nimport { ArcGISIdentityManager } from \"@esri/arcgis-rest-request\";\n\nconst authSession: ArcGISIdentityManager = await ArcGISIdentityManager.signIn({\n  username: \"xyz_usrName\",\n  password: \"xyz_pw\"\n});\n\nregisterApp({\n  itemId: \"xyz_itemId\",\n  appType: \"multiple\",\n  redirect_uris: [\"http://localhost:3000/\"],\n  httpReferrers: [\"http://localhost:3000/\"],\n  privileges: [\"premium:user:geocode:temporary\", Privileges.FeatureReport],\n  authentication: authSession\n}).then((registeredApp: IApp) => {\n  // => {client_id: \"xyz_id\", client_secret: \"xyz_secret\", ...}\n}).catch(e => {\n  // => an exception object\n});\n```\n",
 								"returns": "A Promise that will resolve to an {@linkcode IApp} object representing the newly registered app.\n"
 							},
 							"parameters": [
 								{
-									"id": 4866,
+									"id": 4887,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -13985,7 +14486,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4572,
+										"id": 4575,
 										"name": "IRegisterAppOptions"
 									}
 								}
@@ -13995,7 +14496,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4625,
+										"id": 4628,
 										"name": "IApp"
 									}
 								],
@@ -14005,7 +14506,7 @@
 					]
 				},
 				{
-					"id": 4888,
+					"id": 4909,
 					"name": "slotForKey",
 					"kind": 64,
 					"kindString": "Function",
@@ -14019,17 +14520,17 @@
 					],
 					"signatures": [
 						{
-							"id": 4889,
+							"id": 4910,
 							"name": "slotForKey",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"comment": {
-								"shortText": "Used to determine if a generated key is in slot 1 or slot 2 key."
+								"shortText": "Used to determine if a generated key is in slot 1 or slot 2 key. The full API key should be passed. `undefined` will be returned if the proper slot could not be identified."
 							},
 							"parameters": [
 								{
-									"id": 4890,
+									"id": 4911,
 									"name": "key",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -14041,14 +14542,23 @@
 								}
 							],
 							"type": {
-								"type": "intrinsic",
-								"name": "number"
+								"type": "union",
+								"types": [
+									{
+										"type": "literal",
+										"value": 1
+									},
+									{
+										"type": "literal",
+										"value": 2
+									}
+								]
 							}
 						}
 					]
 				},
 				{
-					"id": 4867,
+					"id": 4888,
 					"name": "unregisterApp",
 					"kind": 64,
 					"kindString": "Function",
@@ -14062,7 +14572,7 @@
 					],
 					"signatures": [
 						{
-							"id": 4868,
+							"id": 4889,
 							"name": "unregisterApp",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -14074,7 +14584,7 @@
 							},
 							"parameters": [
 								{
-									"id": 4869,
+									"id": 4890,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -14084,7 +14594,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4639,
+										"id": 4642,
 										"name": "IUnregisterAppOptions"
 									}
 								}
@@ -14094,7 +14604,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4654,
+										"id": 4657,
 										"name": "IUnregisterAppResponse"
 									}
 								],
@@ -14112,7 +14622,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-developer-credentials/src/updateApiKey.ts",
-							"line": 57,
+							"line": 63,
 							"character": 22
 						}
 					],
@@ -14125,7 +14635,7 @@
 							"flags": {},
 							"comment": {
 								"shortText": "Used to update an API key.",
-								"text": "Notes about `privileges` and `httpReferrers` options:\n1. Provided option will override corresponding old option.\n2. Unprovided option will not trigger corresponding option updates.\n\n```js\nimport { updateApiKey, IApiKeyResponse } from '@esri/arcgis-rest-developer-credentials';\nimport { ArcGISIdentityManager } from \"@esri/arcgis-rest-request\";\n\nconst authSession: ArcGISIdentityManager = await ArcGISIdentityManager.signIn({\n  username: \"xyz_usrName\",\n  password: \"xyz_pw\"\n});\n\nupdateApiKey({\n  itemId: \"xyz_itemId\",\n  privileges: [Privileges.Geocode],\n  httpReferrers: [], // httpReferrers will be set to be empty\n  authentication: authSession\n}).then((updatedAPIKey: IApiKeyResponse) => {\n  // => {apiKey: \"xyz_key\", item: {tags: [\"xyz_tag1\", \"xyz_tag2\"], ...}, ...}\n}).catch(e => {\n  // => an exception object\n});\n```\n",
+								"text": "Notes about `privileges` and `httpReferrers` options:\n1. Provided option will override corresponding old option.\n2. Unprovided option will not trigger corresponding option updates.\n\n```js\nimport { updateApiKey, IApiKeyResponse } from '@esri/arcgis-rest-developer-credentials';\nimport { ArcGISIdentityManager } from \"@esri/arcgis-rest-request\";\n\nconst authSession: ArcGISIdentityManager = await ArcGISIdentityManager.signIn({\n  username: \"xyz_usrName\",\n  password: \"xyz_pw\"\n});\n\nconst threeDaysFromToday = new Date();\nthreeDaysFromToday.setDate(threeDaysFromToday.getDate() + 3);\nthreeDaysFromToday.setHours(23, 59, 59, 999);\n\nupdateApiKey({\n  itemId: \"xyz_itemId\",\n  privileges: [\"premium:user:geocode:temporary\"],\n  httpReferrers: [], // httpReferrers will be set to be empty\n  authentication: authSession\n  generateToken1: true, // optional,generate a new token\n  apiToken1ExpirationDate: threeDaysFromToday  // optional, update expiration date\n}).then((updatedAPIKey: IApiKeyResponse) => {\n  // => {accessToken1: \"xyz_key\", item: {tags: [\"xyz_tag1\", \"xyz_tag2\"], ...}, ...}\n}).catch(e => {\n  // => an exception object\n});\n```\n",
 								"returns": "A Promise that will resolve to an {@linkcode IApiKeyResponse} object representing updated API key.\n"
 							},
 							"parameters": [
@@ -14140,7 +14650,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4730,
+										"id": 4733,
 										"name": "IUpdateApiKeyOptions"
 									}
 								}
@@ -14150,7 +14660,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4716,
+										"id": 4719,
 										"name": "IApiKeyResponse"
 									}
 								],
@@ -14160,7 +14670,7 @@
 					]
 				},
 				{
-					"id": 4564,
+					"id": 4567,
 					"name": "updateOAuthApp",
 					"kind": 64,
 					"kindString": "Function",
@@ -14174,7 +14684,7 @@
 					],
 					"signatures": [
 						{
-							"id": 4565,
+							"id": 4568,
 							"name": "updateOAuthApp",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -14186,7 +14696,7 @@
 							},
 							"parameters": [
 								{
-									"id": 4566,
+									"id": 4569,
 									"name": "requestOptions",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -14196,7 +14706,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 4812,
+										"id": 4833,
 										"name": "IUpdateOAuthOptions"
 									}
 								}
@@ -14206,7 +14716,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"id": 4835,
+										"id": 4856,
 										"name": "IOAuthApp"
 									}
 								],
@@ -14221,34 +14731,36 @@
 					"title": "Interfaces",
 					"kind": 256,
 					"children": [
-						4705,
-						4716,
-						4625,
-						4657,
+						4708,
+						4719,
+						4628,
+						4660,
+						4790,
+						4754,
 						4769,
-						4751,
-						4766,
-						4843,
-						4858,
-						4690,
-						4591,
-						4797,
-						4835,
-						4828,
-						4572,
-						4606,
-						4639,
-						4654,
-						4730,
-						4812
+						4864,
+						4879,
+						4693,
+						4594,
+						4818,
+						4772,
+						4788,
+						4856,
+						4849,
+						4575,
+						4609,
+						4642,
+						4657,
+						4733,
+						4833
 					]
 				},
 				{
 					"title": "Type aliases",
 					"kind": 4194304,
 					"children": [
-						4571,
-						4570
+						4574,
+						4573
 					]
 				},
 				{
@@ -14256,15 +14768,16 @@
 					"kind": 64,
 					"children": [
 						4552,
-						4567,
+						4570,
 						4558,
+						4564,
+						4882,
 						4561,
-						4861,
-						4864,
+						4885,
+						4909,
 						4888,
-						4867,
 						4555,
-						4564
+						4567
 					]
 				}
 			],
