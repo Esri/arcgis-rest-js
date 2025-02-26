@@ -12,6 +12,19 @@ import { slotForInvalidationKey } from "./shared/helpers.js";
 
 /**
  * Used to invalidate an API key.
+ *
+ * ```js
+ * import { invalidateApiKey } from "@esri/arcgis-rest-developer-credentials";
+ *
+ * invalidateApiKey({
+ *   itemId: ITEM_ID,
+ *   authentication,
+ *   apiKey: 1, // invalidate the key in slot 1
+ * }).then((response) => {
+ *   // => {success: true}
+ * }).catch(e => {
+ *   // => an exception object
+ * });
  */
 export async function invalidateApiKey(
   requestOptions: IInvalidateApiKeyOptions
