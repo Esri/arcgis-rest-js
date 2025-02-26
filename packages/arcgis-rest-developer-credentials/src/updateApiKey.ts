@@ -39,13 +39,19 @@ import {
  *   password: "xyz_pw"
  * });
  *
+ * const threeDaysFromToday = new Date();
+ * threeDaysFromToday.setDate(threeDaysFromToday.getDate() + 3);
+ * threeDaysFromToday.setHours(23, 59, 59, 999);
+ *
  * updateApiKey({
  *   itemId: "xyz_itemId",
- *   privileges: [Privileges.Geocode],
+ *   privileges: ["premium:user:geocode:temporary"],
  *   httpReferrers: [], // httpReferrers will be set to be empty
  *   authentication: authSession
+ *   generateToken1: true, // optional,generate a new token
+ *   apiToken1ExpirationDate: threeDaysFromToday  // optional, update expiration date
  * }).then((updatedAPIKey: IApiKeyResponse) => {
- *   // => {apiKey: "xyz_key", item: {tags: ["xyz_tag1", "xyz_tag2"], ...}, ...}
+ *   // => {accessToken1: "xyz_key", item: {tags: ["xyz_tag1", "xyz_tag2"], ...}, ...}
  * }).catch(e => {
  *   // => an exception object
  * });
