@@ -20,13 +20,26 @@ If you're looking for help you can also post issues on [GIS Stackexchange](http:
 
 Any open issues are fair game. Even just telling us what you want to see would be extremely helpful!
 
-## Getting a development environment set up
+## Development environment
 
 You don't _have to_ but we recommend installing TypeScript, Prettier and EditorConfig extensions for your editor of choice.
 
 - <https://code.visualstudio.com/>
 - <https://github.com/Microsoft/TypeScript-Sublime-Plugin>
 - etc...
+
+### Development quick start
+
+If you are using ArcGIS REST JS, follow the "Get started" section [in the documentation](https://developers.arcgis.com/arcgis-rest-js/get-started/).
+
+If you are making a change to the ArcGIS REST JS code, follow these steps to get started quickly:
+
+1. Clone this repository: `git clone git@github.com:Esri/arcgis-rest-js.git`
+2. In a terminal, run `npm run dev:bundled`.
+3. In a separate terminal, run `npm run serve`.
+4. Open <https://localhost:8080/sample.html>.
+
+See the sections below for more details on how to run the tests and other options.
 
 ## Running the tests
 
