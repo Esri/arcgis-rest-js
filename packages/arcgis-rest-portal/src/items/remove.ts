@@ -138,3 +138,31 @@ export function removeFolder(requestOptions: IFolderIdOptions): Promise<{
     return request(url, requestOptions);
   });
 }
+
+/**
+ * Delete an item's thumbnail. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/delete-item-thumbnail.htm) for more information.
+ *
+ * ```js
+ * import { removeItemThumbnail } from "@esri/arcgis-rest-portal";
+ *
+ * removeItemThumbnail({
+ *   id: "3ef",
+ *   owner: "c@sey",
+ *   authentication
+ * })
+ *   .then(response)
+ * ```
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise that deletes a thumbnail.
+ */
+export function removeItemThumbnail(
+  requestOptions: IUserItemOptions
+): Promise<{ success: boolean }> {
+  return determineOwner(requestOptions).then((owner) => {
+    const url = `${getPortalUrl(requestOptions)}/content/users/${owner}/items/${
+      requestOptions.id
+    }/deleteThumbnail`;
+    return request(url, requestOptions);
+  });
+}
