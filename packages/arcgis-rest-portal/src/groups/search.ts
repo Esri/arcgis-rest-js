@@ -41,14 +41,11 @@ export function searchGroups(
  *   groupId: 'abc123'
  * })
  *   .then(response => {
- *     console.log(response.total); // response.total => 355
+ *     console.log(response.total);
  *   });
  * ```
  *
  * @param options - An object containing search parameters.
- * @param options.q - The search query (required).
- * @param options.groupId - The ID of the group to search within (required).
- * @param options.params - Additional search parameters (optional).
  * @returns A Promise that resolves to the search result containing items within the specified group.
  */
 export function searchGroupContent(
