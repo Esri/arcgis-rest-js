@@ -1,10 +1,3 @@
-# @esri/arcgis-rest-developer-credentials [2.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-developer-credentials@2.0.0...@esri/arcgis-rest-developer-credentials@2.1.0) (2025-02-20)
-
-
-### Features
-
-* **arcgis-rest-developer-credentials:** add invalidateApiKey, fix generate API key bug ([b1458a2](https://github.com/Esri/arcgis-rest-js/commit/b1458a2b91c4c4b44254600e54d72a040b8bcf4e))
-
 # @esri/arcgis-rest-developer-credentials [2.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-developer-credentials@1.1.0...@esri/arcgis-rest-developer-credentials@2.0.0) (2025-02-20)
 
 
