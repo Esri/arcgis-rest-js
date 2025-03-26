@@ -1,4 +1,4 @@
-# @esri/arcgis-rest-developer-credentials [2.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-developer-credentials@2.0.0...@esri/arcgis-rest-developer-credentials@2.1.0) (2025-02-26)
+# @esri/arcgis-rest-developer-credentials [2.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-developer-credentials@2.0.0...@esri/arcgis-rest-developer-credentials@2.1.0) (2025-02-20)
 
 
 ### Features
