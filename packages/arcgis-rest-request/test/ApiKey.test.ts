@@ -132,5 +132,15 @@ describe("ApiKeyManager", () => {
           fail(e);
         });
     });
+
+    describe(".token", () => {
+      it("should return the token", () => {
+        const session = ApiKeyManager.fromKey({
+          key: "token"
+        });
+
+        expect(session.token).toEqual("token");
+      });
+    });
   });
 });

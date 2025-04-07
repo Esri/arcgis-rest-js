@@ -13,6 +13,7 @@ describe("portal", () => {
   describe("getPortalSettings", () => {
     // setup an authmgr to use in all these tests
     const MOCK_AUTH = {
+      token: "fake-token",
       getToken() {
         return Promise.resolve("fake-token");
       },

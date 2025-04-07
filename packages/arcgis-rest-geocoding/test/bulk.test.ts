@@ -20,19 +20,21 @@ const addresses = [
   }
 ];
 
+const MOCK_AUTH = {
+  token: "token",
+  getToken() {
+    return Promise.resolve("token");
+  },
+  portal: "https://mapsdev.arcgis.com"
+};
+
 describe("geocode", () => {
   afterEach(() => {
     fetchMock.restore();
   });
+
   it("should make a bulk geocoding request, even with an unmatchable record", (done) => {
     fetchMock.once("*", GeocodeAddresses);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     bulkGeocode({ addresses, authentication: MOCK_AUTH })
       .then((response) => {
@@ -206,13 +208,6 @@ describe("geocode", () => {
 
   it("should support rawResponse", (done) => {
     fetchMock.once("*", GeocodeAddresses);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     bulkGeocode({ addresses, authentication: MOCK_AUTH, rawResponse: true })
       .then((response: any) => {

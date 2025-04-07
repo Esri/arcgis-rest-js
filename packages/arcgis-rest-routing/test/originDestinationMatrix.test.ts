@@ -152,6 +152,14 @@ const destinationsFeatureSet: IFeatureSet = {
   ]
 };
 
+const MOCK_AUTH = {
+  token: "token",
+  getToken() {
+    return Promise.resolve("token");
+  },
+  portal: "https://mapsdev.arcgis.com"
+};
+
 describe("originDestinationMatrix", () => {
   afterEach(() => {
     fetchMock.restore();
@@ -174,13 +182,6 @@ describe("originDestinationMatrix", () => {
 
   it("should make a simple originDestinationMatrix request (Point Arrays)", (done) => {
     fetchMock.once("*", OriginDestinationMatrix);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     originDestinationMatrix({
       origins,
@@ -223,13 +224,6 @@ describe("originDestinationMatrix", () => {
   it("should pass default values", (done) => {
     fetchMock.once("*", OriginDestinationMatrix);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     originDestinationMatrix({
       origins,
       destinations,
@@ -256,13 +250,6 @@ describe("originDestinationMatrix", () => {
 
   it("should allow default values to be overridden", (done) => {
     fetchMock.once("*", OriginDestinationMatrix);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     originDestinationMatrix({
       origins,
@@ -296,13 +283,6 @@ describe("originDestinationMatrix", () => {
   it("should make a originDestinationMatrix request with a custom endpoint", (done) => {
     fetchMock.once("*", OriginDestinationMatrix);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     originDestinationMatrix({
       origins,
       destinations,
@@ -325,13 +305,6 @@ describe("originDestinationMatrix", () => {
 
   it("should make a simple originDestinationMatrix request (array of objects - lat/lon)", (done) => {
     fetchMock.once("*", OriginDestinationMatrix);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     originDestinationMatrix({
       origins: originsLatLong,
@@ -359,13 +332,6 @@ describe("originDestinationMatrix", () => {
   it("should make a simple originDestinationMatrix request (array of objects - latitude/longitude)", (done) => {
     fetchMock.once("*", OriginDestinationMatrix);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     originDestinationMatrix({
       origins: originsLatitudeLongitude,
       destinations: destinationsLatitudeLongitude,
@@ -391,13 +357,6 @@ describe("originDestinationMatrix", () => {
 
   it("should make a simple originDestinationMatrix request (array of IPoint)", (done) => {
     fetchMock.once("*", OriginDestinationMatrix);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     originDestinationMatrix({
       origins: originsPoint,
@@ -425,13 +384,6 @@ describe("originDestinationMatrix", () => {
   it("should make a simple originDestinationMatrix request (FeatureSet)", (done) => {
     fetchMock.once("*", OriginDestinationMatrix);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     originDestinationMatrix({
       origins: originsFeatureSet,
       destinations: destinationsFeatureSet,
@@ -458,13 +410,6 @@ describe("originDestinationMatrix", () => {
   it("should include proper outputType (esriNAODOutputSparseMatrix)", (done) => {
     fetchMock.once("*", OriginDestinationMatrix);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     originDestinationMatrix({
       origins,
       destinations,
@@ -485,13 +430,6 @@ describe("originDestinationMatrix", () => {
 
   it("should include proper outputType (esriNAODOutputStraightLines)", (done) => {
     fetchMock.once("*", OriginDestinationMatrix_esriNAODOutputStraightLines);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     originDestinationMatrix({
       origins,
@@ -516,13 +454,6 @@ describe("originDestinationMatrix", () => {
   it("should include proper outputType (esriNAODOutputNoLines)", (done) => {
     fetchMock.once("*", OriginDestinationMatrix_esriNAODOutputNoLines);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     originDestinationMatrix({
       origins,
       destinations,
@@ -543,13 +474,6 @@ describe("originDestinationMatrix", () => {
 
   it("should pass point barriers (array of IPoint)", (done) => {
     fetchMock.once("*", OriginDestinationMatrix);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     originDestinationMatrix({
       origins,
@@ -573,13 +497,6 @@ describe("originDestinationMatrix", () => {
   it("should pass point barriers (FeatureSet)", (done) => {
     fetchMock.once("*", OriginDestinationMatrix);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     originDestinationMatrix({
       origins,
       destinations,
@@ -601,13 +518,6 @@ describe("originDestinationMatrix", () => {
 
   it("should pass polyline barriers", (done) => {
     fetchMock.once("*", OriginDestinationMatrix);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     originDestinationMatrix({
       origins,
@@ -633,13 +543,6 @@ describe("originDestinationMatrix", () => {
   it("should pass polygon barriers", (done) => {
     fetchMock.once("*", OriginDestinationMatrix);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     originDestinationMatrix({
       origins,
       destinations,
@@ -663,13 +566,6 @@ describe("originDestinationMatrix", () => {
 
   it("should include geoJson for any geometries in the return", (done) => {
     fetchMock.once("*", OriginDestinationMatrix_AllBarrierTypes);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     originDestinationMatrix({
       origins,
@@ -749,13 +645,6 @@ describe("originDestinationMatrix", () => {
 
   it("should not include routes.geoJson in the return for non-4326", (done) => {
     fetchMock.once("*", OriginDestinationMatrix_AllBarrierTypes_WebMercator);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     originDestinationMatrix({
       origins,

@@ -124,6 +124,14 @@ const stopsFeatureSet: IFeatureSet = {
 // const customRoutingUrl =
 //   "https://foo.com/ArcGIS/rest/services/Network/USA/NAServer/";
 
+const MOCK_AUTH = {
+  token: "token",
+  getToken() {
+    return Promise.resolve("token");
+  },
+  portal: "https://mapsdev.arcgis.com"
+};
+
 describe("solveRoute", () => {
   afterEach(() => {
     fetchMock.restore();
@@ -145,13 +153,6 @@ describe("solveRoute", () => {
 
   it("should make a simple solveRoute request (array of stops)", (done) => {
     fetchMock.once("*", Solve);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     solveRoute({ stops, authentication: MOCK_AUTH })
       .then((response) => {
@@ -183,13 +184,6 @@ describe("solveRoute", () => {
   it("should make a simple solveRoute request (array of 3d stops)", (done) => {
     fetchMock.once("*", Solve);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     solveRoute({ stops: stops3, authentication: MOCK_AUTH })
       .then((response) => {
         expect(fetchMock.called()).toEqual(true);
@@ -219,13 +213,6 @@ describe("solveRoute", () => {
 
   it("should make a simple solveRoute request (array of objects - lat/lon)", (done) => {
     fetchMock.once("*", Solve);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     solveRoute({
       stops: stopsObjectsLatLong,
@@ -260,13 +247,6 @@ describe("solveRoute", () => {
   it("should make a simple solveRoute request (array of objects - 3d lat/lon)", (done) => {
     fetchMock.once("*", Solve);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     solveRoute({
       stops: stopsObjectsLatLong3,
       authentication: MOCK_AUTH
@@ -300,13 +280,6 @@ describe("solveRoute", () => {
   it("should make a simple solveRoute request (array of objects - latitude/longitude)", (done) => {
     fetchMock.once("*", Solve);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     solveRoute({
       stops: stopsObjectsLatitudeLongitude,
       authentication: MOCK_AUTH
@@ -339,13 +312,6 @@ describe("solveRoute", () => {
 
   it("should make a simple solveRoute request (array of objects - 3d latitude/longitude)", (done) => {
     fetchMock.once("*", Solve);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     solveRoute({
       stops: stopsObjectsLatitudeLongitude3,
@@ -380,13 +346,6 @@ describe("solveRoute", () => {
   it("should make a simple solveRoute request (array of objects - latitude/longitude)", (done) => {
     fetchMock.once("*", Solve);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     solveRoute({
       stops: stopsObjectsLatitudeLongitude,
       authentication: MOCK_AUTH
@@ -419,13 +378,6 @@ describe("solveRoute", () => {
 
   it("should make a simple solveRoute request (array of objects - 3d latitude/longitude)", (done) => {
     fetchMock.once("*", Solve);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     solveRoute({
       stops: stopsObjectsLatitudeLongitude3,
@@ -460,13 +412,6 @@ describe("solveRoute", () => {
   it("should make a simple solveRoute request (array of IPoint)", (done) => {
     fetchMock.once("*", Solve);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     solveRoute({
       stops: stopsObjectsPoint,
       authentication: MOCK_AUTH
@@ -499,13 +444,6 @@ describe("solveRoute", () => {
 
   it("should make a simple solveRoute request (array of 3d IPoint)", (done) => {
     fetchMock.once("*", Solve);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     solveRoute({
       stops: stopsObjectsPoint3,
@@ -540,13 +478,6 @@ describe("solveRoute", () => {
   it("should make a simple solveRoute request (FeatureSet)", (done) => {
     fetchMock.once("*", Solve);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     solveRoute({
       stops: stopsFeatureSet,
       authentication: MOCK_AUTH
@@ -577,13 +508,6 @@ describe("solveRoute", () => {
   it("should transform compressed geometry into geometry", (done) => {
     fetchMock.once("*", Solve);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     solveRoute({
       stops: stopsObjectsPoint,
       authentication: MOCK_AUTH
@@ -602,13 +526,6 @@ describe("solveRoute", () => {
 
   it("should not fail when no directions are returned", (done) => {
     fetchMock.once("*", SolveNoDirections);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     solveRoute({
       stops: stopsObjectsPoint,
@@ -630,13 +547,6 @@ describe("solveRoute", () => {
   it("should include routes.geoJson in the return", (done) => {
     fetchMock.once("*", Solve);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     solveRoute({
       stops: stopsObjectsPoint,
       authentication: MOCK_AUTH
@@ -654,13 +564,6 @@ describe("solveRoute", () => {
 
   it("should not include routes.geoJson in the return for non-4326", (done) => {
     fetchMock.once("*", SolveWebMercator);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     solveRoute({
       stops: stopsObjectsPoint,

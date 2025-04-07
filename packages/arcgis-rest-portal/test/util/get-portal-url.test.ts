@@ -11,6 +11,7 @@ describe("getPortalUrl", () => {
   it("should use the portal from authorization if passed", () => {
     const requestOptions = {
       authentication: {
+        token: "token",
         portal: "https://foo.com/arcgis/sharing/rest",
         getToken() {
           return Promise.resolve("fake");
@@ -24,6 +25,7 @@ describe("getPortalUrl", () => {
   it("should use the portal in the requestOptions if passed", () => {
     const requestOptions = {
       authentication: {
+        token: "token",
         portal: "https://foo.com/arcgis/sharing/rest",
         getToken() {
           return Promise.resolve("fake");

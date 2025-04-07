@@ -267,6 +267,7 @@ export function internalRequest(
 
     authentication = {
       portal: "https://www.arcgis.com/sharing/rest",
+      token: rawToken,
       getToken: () => {
         return Promise.resolve(rawToken);
       }

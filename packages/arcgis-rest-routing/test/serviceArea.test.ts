@@ -104,6 +104,14 @@ const facilitiesFeatureSet: IFeatureSet = {
 // const customRoutingUrl =
 //   "https://foo.com/ArcGIS/rest/services/Network/USA/NAServer/";
 
+const MOCK_AUTH = {
+  token: "token",
+  getToken() {
+    return Promise.resolve("token");
+  },
+  portal: "https://mapsdev.arcgis.com"
+};
+
 describe("serviceArea", () => {
   afterEach(() => {
     fetchMock.restore();
@@ -125,13 +133,6 @@ describe("serviceArea", () => {
 
   it("should make a simple serviceArea request (Point Arrays)", (done) => {
     fetchMock.once("*", ServiceArea);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     serviceArea({
       facilities,
@@ -166,13 +167,6 @@ describe("serviceArea", () => {
   it("should pass default values", (done) => {
     fetchMock.once("*", ServiceArea);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     serviceArea({
       facilities,
       params: {
@@ -198,13 +192,6 @@ describe("serviceArea", () => {
 
   it("should allow default values to be overridden", (done) => {
     fetchMock.once("*", ServiceArea);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     serviceArea({
       facilities,
@@ -233,13 +220,6 @@ describe("serviceArea", () => {
   it("should make a simple serviceArea request (array of objects - lat/lon)", (done) => {
     fetchMock.once("*", ServiceArea);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     serviceArea({
       facilities: facilitiesLatLong,
       authentication: MOCK_AUTH
@@ -261,13 +241,6 @@ describe("serviceArea", () => {
 
   it("should make a simple serviceArea request (array of objects - latitude/longitude)", (done) => {
     fetchMock.once("*", ServiceArea);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     serviceArea({
       facilities: facilitiesLatitudeLongitude,
@@ -291,13 +264,6 @@ describe("serviceArea", () => {
   it("should make a simple serviceArea request (array of IPoint)", (done) => {
     fetchMock.once("*", ServiceArea);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     serviceArea({
       facilities: facilitiesPoint,
       authentication: MOCK_AUTH
@@ -319,13 +285,6 @@ describe("serviceArea", () => {
 
   it("should make a simple serviceArea request (FeatureSet)", (done) => {
     fetchMock.once("*", ServiceArea);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     serviceArea({
       facilities: facilitiesFeatureSet,
@@ -349,13 +308,6 @@ describe("serviceArea", () => {
   it("should include proper travelDirection", (done) => {
     fetchMock.once("*", ServiceArea);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     serviceArea({
       facilities: facilitiesPoint,
       travelDirection: "facilitiesToIncidents",
@@ -376,13 +328,6 @@ describe("serviceArea", () => {
 
   it("should include proper travelDirection", (done) => {
     fetchMock.once("*", ServiceArea);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     serviceArea({
       facilities: facilitiesPoint,
@@ -405,13 +350,6 @@ describe("serviceArea", () => {
   it("should pass point barriers (array of IPoint)", (done) => {
     fetchMock.once("*", ServiceArea);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     serviceArea({
       facilities: facilitiesPoint,
       barriers,
@@ -433,13 +371,6 @@ describe("serviceArea", () => {
   it("should pass point barriers (FeatureSet)", (done) => {
     fetchMock.once("*", ServiceArea);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     serviceArea({
       facilities: facilitiesPoint,
       barriers: barriersFeatureSet,
@@ -460,13 +391,6 @@ describe("serviceArea", () => {
 
   it("should pass polyline barriers", (done) => {
     fetchMock.once("*", ServiceArea);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     serviceArea({
       facilities: facilitiesPoint,
@@ -491,13 +415,6 @@ describe("serviceArea", () => {
   it("should pass polygon barriers", (done) => {
     fetchMock.once("*", ServiceArea);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     serviceArea({
       facilities: facilitiesPoint,
       polygonBarriers,
@@ -521,13 +438,6 @@ describe("serviceArea", () => {
   it("should not include routes.fieldAliases in the return", (done) => {
     fetchMock.once("*", ServiceArea);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     serviceArea({
       facilities: facilitiesPoint,
       authentication: MOCK_AUTH
@@ -545,13 +455,6 @@ describe("serviceArea", () => {
 
   it("should include routes.geoJson in the return", (done) => {
     fetchMock.once("*", ServiceArea);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     serviceArea({
       facilities: facilitiesPoint,
@@ -574,13 +477,6 @@ describe("serviceArea", () => {
 
   it("should not include routes.geoJson in the return for non-4326", (done) => {
     fetchMock.once("*", ServiceAreaWebMercator);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     serviceArea({
       facilities: facilitiesPoint,

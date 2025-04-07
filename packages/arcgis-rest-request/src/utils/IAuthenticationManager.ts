@@ -21,6 +21,11 @@ export interface IAuthenticationManager {
   portal: string;
 
   /**
+   * Getter for consistency between ArcGISIdentityManager and older ArcGIS REST JS verisons. This token may be invalid, expired or `undefined`. To guarentee a valid token, use the {@linkcode IAuthenticationManager.getToken} method instead.
+   */
+  get token(): string;
+
+  /**
    * Returns the proper token for a given URL and request options.
    * @param url The requested URL.
    * @param requestOptions the requests options.

@@ -5,6 +5,7 @@ import fetchMock from "fetch-mock";
 import { queryDemographicData } from "../src/queryDemographicData.js";
 
 const MOCK_AUTH = {
+  token: "token",
   getToken() {
     return Promise.resolve("token");
   },

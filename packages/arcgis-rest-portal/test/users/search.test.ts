@@ -10,6 +10,7 @@ import { UserSearchResponse } from "../mocks/users/user-search.js";
 
 describe("users", () => {
   const MOCK_AUTH = {
+    token: "token",
     getToken() {
       return Promise.resolve("fake-token");
     },

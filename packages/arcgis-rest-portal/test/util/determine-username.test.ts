@@ -16,6 +16,7 @@ describe("determineUsername", () => {
     const requestOptions = {
       username: "c@sey",
       authentication: {
+        token: "fake",
         portal: "https://bar.com/arcgis/sharing/rest",
         username: "bob",
         getUsername: function () {
@@ -34,6 +35,7 @@ describe("determineUsername", () => {
   it("should fallback to the username in the requestOptions authentication", () => {
     const requestOptions = {
       authentication: {
+        token: "fake",
         portal: "https://bar.com/arcgis/sharing/rest",
         username: "bob",
         getUsername: function () {
@@ -52,6 +54,7 @@ describe("determineUsername", () => {
   it("should fallback to getUsername() in the requestOptions authentication", () => {
     const requestOptions = {
       authentication: {
+        token: "fake",
         portal: "https://bar.com/arcgis/sharing/rest",
         getUsername: function () {
           return Promise.resolve("jsmith");

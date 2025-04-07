@@ -46,10 +46,12 @@ describe("ArcGISRequestError", () => {
 
   describe("retry", () => {
     const MockAuth: {
+      token: string;
       portal: string;
       getToken: any;
       retryHandler: IRetryAuthError;
     } = {
+      token: "token",
       portal: "https://www.arcgis.com/sharing/rest",
       getToken() {
         return Promise.resolve("token");

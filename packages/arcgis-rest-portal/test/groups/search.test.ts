@@ -122,6 +122,7 @@ describe("groups", () => {
 
   describe("authenticted methods", () => {
     const MOCK_AUTH = {
+      token: "token",
       getToken() {
         return Promise.resolve("fake-token");
       },
