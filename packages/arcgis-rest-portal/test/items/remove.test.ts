@@ -6,7 +6,8 @@ import {
   removeFolder,
   removeItem,
   removeItemResource,
-  removeItemRelationship
+  removeItemRelationship,
+  removeItemThumbnail
 } from "../../src/items/remove.js";
 
 import { ItemSuccessResponse } from "../mocks/items/item.js";
@@ -245,6 +246,29 @@ describe("search", () => {
           const [url, options] = fetchMock.lastCall("*");
           expect(url).toEqual(
             "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/3ef/delete"
+          );
+          expect(options.method).toBe("POST");
+          expect(options.body).toContain(encodeParam("f", "json"));
+          expect(options.body).toContain(encodeParam("token", "fake-token"));
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should delete an item's thumbnail successfully", (done) => {
+      fetchMock.once("*", { success: true });
+
+      removeItemThumbnail({
+        id: "3ef",
+        owner: "dbouwman",
+        ...MOCK_USER_REQOPTS
+      })
+        .then((response) => {
+          const [url, options] = fetchMock.lastCall("*");
+          expect(url).toEqual(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/deleteThumbnail"
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain(encodeParam("f", "json"));
