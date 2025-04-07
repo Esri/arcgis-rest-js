@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-portal [4.6.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.5.0...@esri/arcgis-rest-portal@4.6.0) (2025-04-07)
+
+
+### Features
+
+* **arcgis-rest-portal:** add removeItemThumbnail() to delete item thumbnails ([#1202](https://github.com/Esri/arcgis-rest-js/issues/1202)) ([a1b51f3](https://github.com/Esri/arcgis-rest-js/commit/a1b51f33a00a5b1acc4f749a837792700594aacc))
+
 # @esri/arcgis-rest-portal [4.5.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.4.1...@esri/arcgis-rest-portal@4.5.0) (2025-01-23)
 
 
