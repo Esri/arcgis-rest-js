@@ -14,7 +14,8 @@ import {
   getRelatedItems,
   getItemInfo,
   getItemMetadata,
-  getItemResource
+  getItemResource,
+  getFolderContent
 } from "../../src/items/get.js";
 
 import {
@@ -24,7 +25,8 @@ import {
   RelatedItemsResponse,
   ItemInfoResponse,
   ItemMetadataResponse,
-  ItemFormJsonResponse
+  ItemFormJsonResponse,
+  ItemSuccessResponse
 } from "../mocks/items/item.js";
 
 import { GetItemResourcesResponse } from "../mocks/items/resources.js";
@@ -596,6 +598,85 @@ describe("get", () => {
           );
           expect(options.method).toBe("POST");
           expect(options.body).toContain("f=json");
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should return folder content for a user with default num and start", (done) => {
+      fetchMock.once("*", ItemSuccessResponse);
+
+      getFolderContent({
+        folderId: "testFolder",
+        owner: "testUser",
+        authentication: MOCK_USER_SESSION
+      })
+        .then((response) => {
+          expect(fetchMock.called()).toBe(true);
+          const [url, options] = fetchMock.lastCall("*");
+
+          expect(url).toBe(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/testUser/testFolder?f=json&num=10&start=1&token=fake-token"
+          );
+          expect(options.method).toBe("GET");
+          expect(response).toEqual(ItemSuccessResponse);
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should return folder content for a user with custom num and start", (done) => {
+      fetchMock.once("*", ItemSuccessResponse);
+
+      getFolderContent(
+        {
+          folderId: "testFolder",
+          owner: "testUser",
+          authentication: MOCK_USER_SESSION
+        },
+        14,
+        3
+      )
+        .then((response) => {
+          expect(fetchMock.called()).toBe(true);
+          const [url, options] = fetchMock.lastCall("*");
+
+          expect(url).toBe(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/testUser/testFolder?f=json&num=14&start=3&token=fake-token"
+          );
+          expect(options.method).toBe("GET");
+          expect(response).toEqual(ItemSuccessResponse);
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should return folder content for a user with custom num and default start", (done) => {
+      fetchMock.once("*", ItemSuccessResponse);
+
+      getFolderContent(
+        {
+          folderId: "testFolder",
+          owner: "testUser",
+          authentication: MOCK_USER_SESSION
+        },
+        14
+      )
+        .then((response) => {
+          expect(fetchMock.called()).toBe(true);
+          const [url, options] = fetchMock.lastCall("*");
+
+          expect(url).toBe(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/testUser/testFolder?f=json&num=14&start=1&token=fake-token"
+          );
+          expect(options.method).toBe("GET");
+          expect(response).toEqual(ItemSuccessResponse);
           done();
         })
         .catch((e) => {

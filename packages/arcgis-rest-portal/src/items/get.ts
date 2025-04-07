@@ -16,7 +16,8 @@ import {
   IItemRelationshipOptions,
   IUserItemOptions,
   determineOwner,
-  FetchReadMethodName
+  FetchReadMethodName,
+  IFolderIdOptions
 } from "./helpers.js";
 
 /**
@@ -444,4 +445,42 @@ function getItemFile(
           .text()
           .then((text: string) => JSON.parse(scrubControlChars(text)));
   });
+}
+
+/**
+ * Get the content of a folder for a user.
+ *
+ * ```ts
+ * import { getFolderContent } from "@esri/arcgis-rest-portal";
+ *
+ * getFolderContent({ owner: "john_doe", folderName: "abcd1234"}, num: 10, start: 30 )
+ *   .then(response);
+ * ```
+ *
+ * @param options - Options for the request like owner, folderId
+ * @param num - Option for the number of folders to be returned
+ * @param start - Option for start
+ * @returns A Promise that resolves with the folder's content.
+ */
+export function getFolderContent(
+  options: IFolderIdOptions,
+  num?: number,
+  start?: number
+): Promise<any> {
+  const url = `${getPortalUrl(options)}/content/users/${options.owner}/${
+    options.folderId
+  }`;
+
+  // merge pagination parameters
+  const requestOptions: IRequestOptions = {
+    httpMethod: "GET",
+    ...options,
+    params: {
+      ...options.params,
+      num: num || 10,
+      start: start || 1
+    }
+  };
+
+  return request(url, requestOptions);
 }
