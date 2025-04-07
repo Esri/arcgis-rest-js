@@ -1272,9 +1272,9 @@ export class ArcGISIdentityManager
       return "same-origin";
     }
 
-    url = url.toLocaleLowerCase();
+    url = url.toLowerCase();
     return this.trustedDomains.some((domainWithProtocol) => {
-      return url.startsWith(domainWithProtocol.toLocaleLowerCase());
+      return url.startsWith(domainWithProtocol.toLowerCase());
     })
       ? "include"
       : "same-origin";
