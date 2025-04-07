@@ -89676,7 +89676,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1614,
+									"line": 1615,
 									"character": 2
 								}
 							],
@@ -90201,7 +90201,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1285,
+									"line": 1286,
 									"character": 9
 								}
 							],
@@ -90303,7 +90303,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1603,
+									"line": 1604,
 									"character": 2
 								}
 							],
