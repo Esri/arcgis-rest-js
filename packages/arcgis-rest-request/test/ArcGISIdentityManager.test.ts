@@ -3088,6 +3088,136 @@ describe("ArcGISIdentityManager", () => {
           fail(e);
         });
     });
+
+    it("should ignore the case when comparing a server with the authorizedCrossOriginDomains list: variant 1", (done) => {
+      const session = new ArcGISIdentityManager({
+        clientId: "id",
+        token: "token",
+        refreshToken: "refresh",
+        tokenExpires: TOMORROW,
+        portal: "https://gis.city.gov/sharing/rest"
+      });
+
+      fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
+        currentVersion: 10.51,
+        fullVersion: "10.5.1.120",
+        owningSystemUrl: "https://gis.city.gov",
+        authInfo: {
+          isTokenBasedSecurity: true,
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
+        }
+      });
+
+      fetchMock.getOnce(
+        "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
+        {
+          authorizedCrossOriginDomains: ["https://gisservices.city.gov"]
+        }
+      );
+
+      fetchMock.postOnce("https://gis.city.gov/sharing/rest/info", {
+        owningSystemUrl: "http://gis.city.gov",
+        authInfo: {
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+          isTokenBasedSecurity: true
+        }
+      });
+
+      fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
+        token: "serverToken",
+        expires: TOMORROW.getTime()
+      });
+
+      fetchMock.post(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
+        {
+          count: 123
+        }
+      );
+
+      request(
+        "https://GISSERVICES.CITY.GOV/public/rest/services/trees/FeatureServer/0/query",
+        {
+          authentication: session
+        }
+      )
+        .then((response) => {
+          const { credentials } = fetchMock.lastOptions(
+            "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+          ) as RequestInit;
+          expect(credentials).toEqual("include");
+
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should ignore the case when comparing a server with the authorizedCrossOriginDomains list: variant 2", (done) => {
+      const session = new ArcGISIdentityManager({
+        clientId: "id",
+        token: "token",
+        refreshToken: "refresh",
+        tokenExpires: TOMORROW,
+        portal: "https://gis.city.gov/sharing/rest"
+      });
+
+      fetchMock.postOnce("https://gisservices.city.gov/public/rest/info", {
+        currentVersion: 10.51,
+        fullVersion: "10.5.1.120",
+        owningSystemUrl: "https://gis.city.gov",
+        authInfo: {
+          isTokenBasedSecurity: true,
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken"
+        }
+      });
+
+      fetchMock.getOnce(
+        "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
+        {
+          authorizedCrossOriginDomains: ["https://GISSERVICES.city.gov"]
+        }
+      );
+
+      fetchMock.postOnce("https://gis.city.gov/sharing/rest/info", {
+        owningSystemUrl: "http://gis.city.gov",
+        authInfo: {
+          tokenServicesUrl: "https://gis.city.gov/sharing/generateToken",
+          isTokenBasedSecurity: true
+        }
+      });
+
+      fetchMock.postOnce("https://gis.city.gov/sharing/generateToken", {
+        token: "serverToken",
+        expires: TOMORROW.getTime()
+      });
+
+      fetchMock.post(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
+        {
+          count: 123
+        }
+      );
+
+      request(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
+        {
+          authentication: session
+        }
+      )
+        .then((response) => {
+          const { credentials } = fetchMock.lastOptions(
+            "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+          ) as RequestInit;
+          expect(credentials).toEqual("include");
+
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
   });
 
   it("should still send same-origin credentials even if another domain is listed in authorizedCrossOriginDomains", (done) => {
