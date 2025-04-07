@@ -36,6 +36,13 @@ export class ApiKeyManager
   private key: string;
 
   /**
+   * The current API key as a string.
+   */
+  get token() {
+    return this.key;
+  }
+
+  /**
    * The preferred method for creating an instance of `ApiKeyManager`.
    */
   public static fromKey(apiKey: string | IApiKeyOptions) {

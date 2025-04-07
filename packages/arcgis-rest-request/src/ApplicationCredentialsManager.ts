@@ -66,9 +66,16 @@ export class ApplicationCredentialsManager
   public portal: string;
   private clientId: string;
   private clientSecret: string;
-  private token: string;
+  private _token: string;
   private expires: Date;
   private duration: number;
+
+  /**
+   * The current token. This may be invalid, expired or `undefined`. To guarantee a valid token, use the {@linkcode ApplicationCredentialsManager.getToken} method instead.
+   */
+  public get token() {
+    return this._token;
+  }
 
   /**
    * Preferred method for creating an `ApplicationCredentialsManager`
@@ -89,7 +96,7 @@ export class ApplicationCredentialsManager
     super(options);
     this.clientId = options.clientId;
     this.clientSecret = options.clientSecret;
-    this.token = options.token;
+    this._token = options.token;
     this.expires = options.expires;
     this.portal = options.portal || "https://www.arcgis.com/sharing/rest";
     this.duration = options.duration || 7200;
@@ -127,7 +134,7 @@ export class ApplicationCredentialsManager
     return fetchToken(`${this.portal}/oauth2/token/`, options)
       .then((response) => {
         this._pendingTokenRequest = null;
-        this.token = response.token;
+        this._token = response.token;
         this.expires = response.expires;
         return response.token;
       })

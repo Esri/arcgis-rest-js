@@ -168,6 +168,14 @@ const facilitiesUrl = {
 // const customRoutingUrl =
 //   "https://foo.com/ArcGIS/rest/services/Network/USA/NAServer/";
 
+const MOCK_AUTH = {
+  token: "token",
+  getToken() {
+    return Promise.resolve("token");
+  },
+  portal: "https://mapsdev.arcgis.com"
+};
+
 describe("closestFacility", () => {
   afterEach(() => {
     fetchMock.restore();
@@ -191,13 +199,6 @@ describe("closestFacility", () => {
 
   it("should make a simple closestFacility request (Point Arrays)", (done) => {
     fetchMock.once("*", ClosestFacility);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     closestFacility({
       incidents,
@@ -237,13 +238,6 @@ describe("closestFacility", () => {
   it("should pass default values", (done) => {
     fetchMock.once("*", ClosestFacility);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     closestFacility({
       incidents,
       facilities,
@@ -273,13 +267,6 @@ describe("closestFacility", () => {
 
   it("should allow default values to be overridden", (done) => {
     fetchMock.once("*", ClosestFacility);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     closestFacility({
       incidents,
@@ -314,13 +301,6 @@ describe("closestFacility", () => {
   it("should make a simple closestFacility request (array of objects - lat/lon)", (done) => {
     fetchMock.once("*", ClosestFacility);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     closestFacility({
       incidents: incidentsLatLong,
       facilities: facilitiesLatLong,
@@ -347,13 +327,6 @@ describe("closestFacility", () => {
 
   it("should make a simple closestFacility request (array of objects - latitude/longitude)", (done) => {
     fetchMock.once("*", ClosestFacility);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     closestFacility({
       incidents: incidentsLatitudeLongitude,
@@ -382,13 +355,6 @@ describe("closestFacility", () => {
   it("should make a simple closestFacility request (array of IPoint)", (done) => {
     fetchMock.once("*", ClosestFacility);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
@@ -415,13 +381,6 @@ describe("closestFacility", () => {
 
   it("should make a simple closestFacility request (FeatureSet)", (done) => {
     fetchMock.once("*", ClosestFacility);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     closestFacility({
       incidents: incidentsFeatureSet,
@@ -450,13 +409,6 @@ describe("closestFacility", () => {
   it("should make a simple closestFacility request (JSON with url)", (done) => {
     fetchMock.once("*", ClosestFacility);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     closestFacility({
       incidents: incidentsUrl,
       facilities: facilitiesUrl,
@@ -482,13 +434,6 @@ describe("closestFacility", () => {
   it("should include proper travelDirection", (done) => {
     fetchMock.once("*", ClosestFacility);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
@@ -511,13 +456,6 @@ describe("closestFacility", () => {
 
   it("should include proper travelDirection", (done) => {
     fetchMock.once("*", ClosestFacility);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     closestFacility({
       incidents: incidentsPoint,
@@ -542,13 +480,6 @@ describe("closestFacility", () => {
   it("should pass point barriers (array of IPoint)", (done) => {
     fetchMock.once("*", ClosestFacility);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
@@ -572,13 +503,6 @@ describe("closestFacility", () => {
   it("should pass point barriers (FeatureSet)", (done) => {
     fetchMock.once("*", ClosestFacility);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
@@ -601,13 +525,6 @@ describe("closestFacility", () => {
 
   it("should pass polyline barriers", (done) => {
     fetchMock.once("*", ClosestFacility);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     closestFacility({
       incidents: incidentsPoint,
@@ -634,13 +551,6 @@ describe("closestFacility", () => {
   it("should pass polygon barriers", (done) => {
     fetchMock.once("*", ClosestFacility);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
@@ -666,13 +576,6 @@ describe("closestFacility", () => {
   it("should include routes.geoJson in the return", (done) => {
     fetchMock.once("*", ClosestFacility);
 
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
     closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
@@ -697,13 +600,6 @@ describe("closestFacility", () => {
 
   it("should not include routes.geoJson in the return for non-4326", (done) => {
     fetchMock.once("*", ClosestFacilityWebMercator);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
 
     closestFacility({
       incidents: incidentsPoint,

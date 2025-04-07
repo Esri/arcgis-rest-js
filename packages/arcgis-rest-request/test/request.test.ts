@@ -25,6 +25,14 @@ import {
   isNode
 } from "../../../scripts/test-helpers.js";
 
+const MOCK_AUTH = {
+  token: "token",
+  portal: "https://www.arcgis.com/sharing/rest",
+  getToken() {
+    return Promise.resolve("token");
+  }
+};
+
 describe("request()", () => {
   afterEach(() => {
     fetchMock.restore();
@@ -159,13 +167,6 @@ describe("request()", () => {
   it("should use the `authentication` option to authenticate a request", (done) => {
     fetchMock.once("*", WebMapAsText);
 
-    const MOCK_AUTH = {
-      portal: "https://www.arcgis.com/sharing/rest",
-      getToken() {
-        return Promise.resolve("token");
-      }
-    };
-
     request(
       "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data",
       {
@@ -188,13 +189,6 @@ describe("request()", () => {
 
   it("should hide token in POST body in browser environments otherwise it should hide token in `X-ESRI_AUTHORIZATION` header in Node", (done) => {
     fetchMock.once("*", SharingRestInfo);
-
-    const MOCK_AUTH = {
-      portal: "https://www.arcgis.com/sharing/rest",
-      getToken() {
-        return Promise.resolve("token");
-      }
-    };
 
     request("https://www.arcgis.com/sharing/rest/info", {
       authentication: MOCK_AUTH,
@@ -270,13 +264,6 @@ describe("request()", () => {
   it("should switch from GET to POST when url is longer than specified and replace token in header with token in POST body", (done) => {
     fetchMock.once("*", SharingRestInfo);
     const restInfoUrl = "https://www.arcgis.com/sharing/rest/info";
-
-    const MOCK_AUTH = {
-      portal: "https://www.arcgis.com/sharing/rest",
-      getToken() {
-        return Promise.resolve("token");
-      }
-    };
 
     request(restInfoUrl, {
       authentication: MOCK_AUTH,
@@ -458,13 +445,6 @@ describe("request()", () => {
     console.warn = jasmine.createSpy().and.callFake(() => {
       return;
     });
-
-    const MOCK_AUTH = {
-      portal: "https://www.arcgis.com/sharing/rest",
-      getToken() {
-        return Promise.resolve("token");
-      }
-    };
 
     setDefaultRequestOptions({
       authentication: MOCK_AUTH

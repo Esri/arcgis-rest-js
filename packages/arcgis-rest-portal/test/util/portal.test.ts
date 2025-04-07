@@ -10,18 +10,20 @@ import {
   SubscriptionInfoResponse
 } from "./../mocks/portal/response.js";
 
+// setup an authmgr to use in all these tests
+const MOCK_AUTH = {
+  token: "fake-token",
+  getToken() {
+    return Promise.resolve("fake-token");
+  },
+  portal: "https://myorg.maps.arcgis.com/sharing/rest"
+};
+
 describe("portal", () => {
   afterEach(() => {
     fetchMock.restore();
   });
   describe("getPortal", () => {
-    // setup an authmgr to use in all these tests
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("fake-token");
-      },
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
-    };
     const MOCK_REQOPTS = {
       authentication: MOCK_AUTH
     };
@@ -60,13 +62,6 @@ describe("portal", () => {
     });
   });
   describe("getSelf", () => {
-    // setup an authmgr to use in all these tests
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("fake-token");
-      },
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
-    };
     const MOCK_REQOPTS = {
       authentication: MOCK_AUTH
     };
@@ -90,13 +85,6 @@ describe("portal", () => {
   });
 
   describe("getSubscriptionInfo", () => {
-    // setup an authmgr to use in all these tests
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("fake-token");
-      },
-      portal: "https://myorg.maps.arcgis.com/sharing/rest"
-    };
     const MOCK_REQOPTS = {
       authentication: MOCK_AUTH
     };
