@@ -85460,7 +85460,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-portal/src/groups/search.ts",
-							"line": 46,
+							"line": 51,
 							"character": 16
 						}
 					],
@@ -85473,8 +85473,8 @@
 							"flags": {},
 							"comment": {
 								"shortText": "Search a portal for items in a group. See the [REST Documentation](https://developers.arcgis.com/rest/users-groups-and-items/group-content-search.htm) for more information.",
-								"text": "```js\nimport { searchGroupContent } from \"@esri/arcgis-rest-portal\";\n\nsearchGroupContent('water')\n  .then(response) // response.total => 355\n```\n",
-								"returns": "A Promise that will resolve with the data from the response.\n"
+								"text": "```js\nimport { searchGroupContent } from \"@esri/arcgis-rest-portal\";\n\nsearchGroupContent({\n  q: 'water',\n  groupId: 'abc123'\n})\n  .then(response => {\n    console.log(response.total);\n  });\n```\n",
+								"returns": "A Promise that resolves to the search result containing items within the specified group.\n"
 							},
 							"parameters": [
 								{
@@ -85484,7 +85484,7 @@
 									"kindString": "Parameter",
 									"flags": {},
 									"comment": {
-										"text": "RequestOptions object amended with search parameters."
+										"text": "An object containing search parameters."
 									},
 									"type": {
 										"type": "reference",
