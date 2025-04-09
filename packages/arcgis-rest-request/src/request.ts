@@ -9,6 +9,13 @@ import { IRequestOptions } from "./utils/IRequestOptions";
 import { IParams } from "./utils/IParams";
 import { warn } from "./utils/warn";
 import { IRetryAuthError } from "./utils/retryAuthError";
+import {
+  isNoCorsDomain,
+  isNoCorsRequestRequired,
+  registerNoCorsDomains,
+  sendNoCorsRequest,
+} from "./utils/sendNoCorsRequest";
+import { isSameOrigin } from "./utils/isSameOrigin";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
@@ -257,6 +264,17 @@ export function request(
     credentials: options.credentials || "same-origin",
   };
 
+  // Is this a no-cors domain? if so we need to set credentials to include
+  if (isNoCorsDomain(url)) {
+    fetchOptions.credentials = "include";
+  }
+
+  // Check if a no-cors request is required. Just because it's a no-cors domain
+  // does not mean we need to make a no-cors request. Internally we track requests
+  // and only send them once an hour.
+  // Additionally we never need to send a no-cors request for same-origin requests
+  const requiresNoCors = !isSameOrigin(url) && isNoCorsRequestRequired(url);
+
   // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
   // and that request needs to send cookies cross domain
   // so we need to set the credentials to "include"
@@ -268,25 +286,40 @@ export function request(
     fetchOptions.credentials = "include";
   }
 
-  return (authentication
-    ? authentication.getToken(url, { fetch: options.fetch }).catch((err) => {
-        /**
-         * append original request url and requestOptions
-         * to the error thrown by getToken()
-         * to assist with retrying
-         */
-        err.url = url;
-        err.options = options;
-        /**
-         * if an attempt is made to talk to an unfederated server
-         * first try the request anonymously. if a 'token required'
-         * error is thrown, throw the UNFEDERATED error then.
-         */
-        originalAuthError = err;
+  // TODO: Feels like  we should start w/ the noCors request if needed, THEN do the getToken
+  let firstPromise = Promise.resolve();
+  if (requiresNoCors) {
+    // ensure we send cookies on the request after
+    fetchOptions.credentials = "include";
+    console.log(`Making no-cors request to ${url}`);
+    firstPromise = sendNoCorsRequest(url);
+  }
+
+  return firstPromise
+    .then(() => {
+      if (authentication) {
+        return authentication
+          .getToken(url, { fetch: options.fetch })
+          .catch((err) => {
+            /**
+             * append original request url and requestOptions
+             * to the error thrown by getToken()
+             * to assist with retrying
+             */
+            err.url = url;
+            err.options = options;
+            /**
+             * if an attempt is made to talk to an unfederated server
+             * first try the request anonymously. if a 'token required'
+             * error is thrown, throw the UNFEDERATED error then.
+             */
+            originalAuthError = err;
+            return Promise.resolve("");
+          });
+      } else {
         return Promise.resolve("");
-      })
-    : Promise.resolve("")
-  )
+      }
+    })
     .then((token) => {
       if (token.length) {
         params.token = token;
@@ -408,6 +441,15 @@ export function request(
           options,
           originalAuthError
         );
+
+        // If this was a portal/self call, and we got authorizedNoCorsDomains back
+        // register them
+        if (data && /\/sharing\/rest\/(accounts|portals)\/self/i.test(url)) {
+          // if we have a list of no-cors domains, register them
+          if (Array.isArray(data.authorizedCrossOriginNoCorsDomains)) {
+            registerNoCorsDomains(data.authorizedCrossOriginNoCorsDomains);
+          }
+        }
 
         if (originalAuthError) {
           /* If the request was made to an unfederated service that

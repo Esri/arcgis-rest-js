@@ -42,11 +42,15 @@ export function getPortal(
   const idOrSelf = id ? id : "self";
   const url = `${getPortalUrl(requestOptions)}/portals/${idOrSelf}`;
 
-  // default to a GET request
   const options: IRequestOptions = {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
+    httpMethod: "GET",
+    ...requestOptions,
   };
+
+  if (idOrSelf === "self") {
+    // for self, always credentials to "include""
+    options.credentials = "include";
+  }
 
   // send the request
   return request(url, options);

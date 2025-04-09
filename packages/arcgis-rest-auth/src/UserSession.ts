@@ -22,6 +22,7 @@ import {
   cleanUrl,
   encodeQueryString,
   decodeQueryString,
+  isNoCorsDomain,
 } from "@esri/arcgis-rest-request";
 import { IUser } from "@esri/arcgis-rest-types";
 import { generateToken } from "./generate-token";
@@ -935,6 +936,7 @@ export class UserSession implements IAuthenticationManager {
    * to our current `portal`.
    */
   public getToken(url: string, requestOptions?: ITokenRequestOptions) {
+    debugger;
     if (canUseOnlineToken(this.portal, url)) {
       return this.getFreshToken(requestOptions);
     } else if (new RegExp(this.portal, "i").test(url)) {
@@ -1053,6 +1055,12 @@ export class UserSession implements IAuthenticationManager {
    * @returns "include" or "same-origin"
    */
   public getDomainCredentials(url: string): RequestCredentials {
+    // if the url is in the noCorsDomains, we want to include credentials
+    const shouldInclude = isNoCorsDomain(url);
+    if (shouldInclude) {
+      return "include";
+    }
+
     if (!this.trustedDomains || !this.trustedDomains.length) {
       return "same-origin";
     }
@@ -1248,10 +1256,16 @@ export class UserSession implements IAuthenticationManager {
     if (!this._pendingTokenRequests[this.portal]) {
       this._pendingTokenRequests[this.portal] = this.refreshSession(
         requestOptions
-      ).then((session) => {
-        this._pendingTokenRequests[this.portal] = null;
-        return session.token;
-      });
+      )
+        .then((session) => {
+          // clear the pending token request
+          this._pendingTokenRequests[this.portal] = null;
+          // fetch and cache portalInfo
+          return session.getPortal(requestOptions);
+        })
+        .then(() => {
+          return this.token;
+        });
     }
 
     return this._pendingTokenRequests[this.portal];
