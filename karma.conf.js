@@ -22,7 +22,7 @@ module.exports = function (config) {
         // uncomment the next flag to disable coverage, and
         // enable debugging in the browser
         // if left true, the source maps won't actually match up
-        instrumentation: false,
+        // instrumentation: false,
 
         threshold: {
           global: {
@@ -92,7 +92,7 @@ module.exports = function (config) {
     browsers: [
       // 'Chrome',
       // 'ChromeCanary',
-      // 'Firefox',
+      // "Firefox",
       // 'Safari',
       // 'IE'
     ],
