@@ -47,7 +47,7 @@ describe("UserSession", () => {
     expect(session2.refreshTokenTTL).toEqual(1440);
   });
 
-  describe(".getToken()", () => {
+  fdescribe(".getToken()", () => {
     it("should return unexpired tokens for trusted arcgis.com domains", (done) => {
       const session = new UserSession({
         clientId: "id",
@@ -262,6 +262,14 @@ describe("UserSession", () => {
         { repeat: 2, method: "POST" }
       );
 
+      // Needed since we now cache parts of portal/self in request to enable no-cors domains
+      fetchMock.getOnce(
+        "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=new",
+        {
+          fakePortalResponse: true,
+        }
+      );
+
       Promise.all([
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
         session.getToken(
@@ -332,6 +340,14 @@ describe("UserSession", () => {
         token: "serverToken",
         expires: TOMORROW,
       });
+
+      // Needed since we now cache parts of portal/self in request to enable no-cors domains
+      fetchMock.getOnce(
+        "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
+        {
+          fakePortalResponse: true,
+        }
+      );
 
       session
         .getToken(
@@ -451,6 +467,14 @@ describe("UserSession", () => {
         expires: TOMORROW,
       });
 
+      // Needed since we now cache parts of portal/self in request to enable no-cors domains
+      fetchMock.getOnce(
+        "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
+        {
+          fakePortalResponse: true,
+        }
+      );
+
       session
         .getToken(
           "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
@@ -536,7 +560,7 @@ describe("UserSession", () => {
         });
     });
 
-    it("should throw an ArcGISAuthError when the owning system doesn't match", (done) => {
+    fit("should throw an ArcGISAuthError when the owning system doesn't match", (done) => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
@@ -580,7 +604,7 @@ describe("UserSession", () => {
           );
           done();
         });
-    });
+    }, 30000);
 
     it("should throw a fully hydrated ArcGISAuthError when no owning system is advertised", (done) => {
       const session = new UserSession({

@@ -22,4 +22,5 @@ export * from "./utils/ITokenRequestOptions";
 export * from "./utils/process-params";
 export * from "./utils/ResponseFormats";
 export * from "./utils/retryAuthError";
+export * from "./utils/sendNoCorsRequest";
 export * from "./utils/warn";

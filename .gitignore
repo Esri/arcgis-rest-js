@@ -86,6 +86,9 @@ test.js
 #
 demos/test/*
 
+# Local tooling
+support/copy-build.sh
+
 # Temporary build products
 packages/**/src/**/*.d.ts
 packages/**/src/**/*.js
