@@ -77,21 +77,26 @@ describe("sendNoCorsRequest utils:", () => {
       ).toBeDefined();
     });
 
-    it("should reject if the no-cors request fails", async () => {
-      const url = "https://example.com/resource";
-      spyOn(window, "fetch").and.returnValue(
-        Promise.reject(new Error("Network error"))
-      );
+    if (typeof window !== "undefined") {
+      // This test can't work in node because we spy on window.fetch
+      it("should reject if the no-cors request fails", async () => {
+        const url = "https://example.com/resource";
+        spyOn(window, "fetch").and.returnValue(
+          Promise.reject(new Error("Network error"))
+        );
 
-      try {
-        await sendNoCorsRequest(url);
-        fail("Expected sendNoCorsRequest to throw an error");
-      } catch (error) {
-        const e = error as Error;
-        expect(e.name).toBe("Error");
-        expect(e.message).toBe("no-cors request to https://example.com failed");
-      }
-    });
+        try {
+          await sendNoCorsRequest(url);
+          fail("Expected sendNoCorsRequest to throw an error");
+        } catch (error) {
+          const e = error as Error;
+          expect(e.name).toBe("Error");
+          expect(e.message).toBe(
+            "no-cors request to https://example.com failed"
+          );
+        }
+      });
+    }
   });
 
   describe("getRegisteredNoCorsDomains:", () => {

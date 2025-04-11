@@ -7,14 +7,13 @@
  *             (useful for testing)
  * @returns
  */
-export function isSameOrigin(
-  url: string,
-  win: Window | undefined = window
-): boolean {
+export function isSameOrigin(url: string, win?: Window | undefined): boolean {
   /* istanbul ignore next */
-  if (!win) {
+  if (!win && !window) {
     return false;
+  } else {
+    win = win || window;
+    const origin = win.location?.origin;
+    return url.startsWith(origin);
   }
-  const origin = win.location?.origin;
-  return url.startsWith(origin);
 }
