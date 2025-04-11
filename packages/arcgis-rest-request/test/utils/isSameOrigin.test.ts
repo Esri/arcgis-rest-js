@@ -43,4 +43,8 @@ describe("isSameOrigin", () => {
     const result = isSameOrigin("http://example.com/resource", mockWindow);
     expect(result).toBe(false);
   });
+  it("should work if win is undefined", () => {
+    const result = isSameOrigin("http://example.com/resource", undefined);
+    expect(result).toBe(false);
+  });
 });

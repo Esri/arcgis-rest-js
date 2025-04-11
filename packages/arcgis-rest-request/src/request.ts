@@ -273,7 +273,15 @@ export function request(
   // does not mean we need to make a no-cors request. Internally we track requests
   // and only send them once an hour.
   // Additionally we never need to send a no-cors request for same-origin requests
-  const requiresNoCors = !isSameOrigin(url) && isNoCorsRequestRequired(url);
+
+  // default to false, for nodejs
+  let sameOrigin = false;
+  // if we are in a browser, check if the url is same origin
+  /* istanbul ignore else */
+  if (window) {
+    sameOrigin = isSameOrigin(url);
+  }
+  const requiresNoCors = !sameOrigin && isNoCorsRequestRequired(url);
 
   // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
   // and that request needs to send cookies cross domain

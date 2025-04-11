@@ -1256,9 +1256,8 @@ export class UserSession implements IAuthenticationManager {
       this._pendingTokenRequests[this.portal] = this.refreshSession(
         requestOptions
       ).then((session) => {
-        // clear the pending token request
         this._pendingTokenRequests[this.portal] = null;
-        return this.token;
+        return session.token;
       });
     }
 

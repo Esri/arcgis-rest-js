@@ -263,13 +263,13 @@ describe("UserSession", () => {
         { repeat: 2, method: "POST" }
       );
 
-      // Needed since we now cache parts of portal/self in request to enable no-cors domains
-      fetchMock.getOnce(
-        "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=new",
-        {
-          fakePortalResponse: true,
-        }
-      );
+      // // Needed since we now cache parts of portal/self in request to enable no-cors domains
+      // fetchMock.getOnce(
+      //   "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=new",
+      //   {
+      //     fakePortalResponse: true,
+      //   }
+      // );
 
       Promise.all([
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
@@ -468,13 +468,13 @@ describe("UserSession", () => {
         expires: TOMORROW,
       });
 
-      // Needed since we now cache parts of portal/self in request to enable no-cors domains
-      fetchMock.getOnce(
-        "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
-        {
-          fakePortalResponse: true,
-        }
-      );
+      // // Needed since we now cache parts of portal/self in request to enable no-cors domains
+      // fetchMock.getOnce(
+      //   "https://gis.city.gov/sharing/rest/portals/self?f=json&token=token",
+      //   {
+      //     fakePortalResponse: true,
+      //   }
+      // );
 
       session
         .getToken(
