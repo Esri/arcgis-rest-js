@@ -11,6 +11,7 @@ import {
   ArcGISAuthError,
   ErrorTypes,
 } from "@esri/arcgis-rest-request";
+import * as requestModule from "@esri/arcgis-rest-request";
 import * as fetchMock from "fetch-mock";
 import { YESTERDAY, TOMORROW } from "./utils";
 
@@ -47,7 +48,7 @@ describe("UserSession", () => {
     expect(session2.refreshTokenTTL).toEqual(1440);
   });
 
-  fdescribe(".getToken()", () => {
+  describe(".getToken()", () => {
     it("should return unexpired tokens for trusted arcgis.com domains", (done) => {
       const session = new UserSession({
         clientId: "id",
@@ -560,7 +561,7 @@ describe("UserSession", () => {
         });
     });
 
-    fit("should throw an ArcGISAuthError when the owning system doesn't match", (done) => {
+    it("should throw an ArcGISAuthError when the owning system doesn't match", (done) => {
       const session = new UserSession({
         clientId: "id",
         token: "token",
@@ -2419,6 +2420,30 @@ describe("UserSession", () => {
       .catch((e: Error) => {
         fail(e);
       });
+  });
+
+  it("should set the credentials option to include when a server is listed in noCorsDomains", () => {
+    const session = new UserSession({
+      clientId: "id",
+      token: "token",
+      refreshToken: "refresh",
+      tokenExpires: TOMORROW,
+      portal: "https://gis.city.gov/sharing/rest",
+    });
+
+    const isNoCorsDomainSpy = spyOn(
+      requestModule,
+      "isNoCorsDomain"
+    ).and.returnValue(true);
+
+    const chk = session.getDomainCredentials(
+      "https://gis.city.gov/sharing/rest/portals/self"
+    );
+    expect(chk).toBe("include");
+    expect(isNoCorsDomainSpy.calls.count()).toBe(1);
+    expect(isNoCorsDomainSpy.calls.argsFor(0)).toEqual([
+      "https://gis.city.gov/sharing/rest/portals/self",
+    ]);
   });
 
   it("should not use domain credentials if portal is null", (done) => {

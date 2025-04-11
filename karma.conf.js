@@ -109,6 +109,9 @@ module.exports = function (config) {
         base: "ChromeHeadless",
         flags: ["--no-sandbox"],
       },
+      Chrome: {
+        flags: ["--auto-open-devtools-for-tabs"],
+      },
     },
   });
 };

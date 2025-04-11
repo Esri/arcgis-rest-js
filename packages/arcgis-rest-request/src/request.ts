@@ -291,7 +291,6 @@ export function request(
   if (requiresNoCors) {
     // ensure we send cookies on the request after
     fetchOptions.credentials = "include";
-    console.log(`Making no-cors request to ${url}`);
     firstPromise = sendNoCorsRequest(url);
   }
 

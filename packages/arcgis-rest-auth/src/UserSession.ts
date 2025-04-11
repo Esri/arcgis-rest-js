@@ -936,7 +936,6 @@ export class UserSession implements IAuthenticationManager {
    * to our current `portal`.
    */
   public getToken(url: string, requestOptions?: ITokenRequestOptions) {
-    debugger;
     if (canUseOnlineToken(this.portal, url)) {
       return this.getFreshToken(requestOptions);
     } else if (new RegExp(this.portal, "i").test(url)) {
@@ -1256,16 +1255,11 @@ export class UserSession implements IAuthenticationManager {
     if (!this._pendingTokenRequests[this.portal]) {
       this._pendingTokenRequests[this.portal] = this.refreshSession(
         requestOptions
-      )
-        .then((session) => {
-          // clear the pending token request
-          this._pendingTokenRequests[this.portal] = null;
-          // fetch and cache portalInfo
-          return session.getPortal(requestOptions);
-        })
-        .then(() => {
-          return this.token;
-        });
+      ).then((session) => {
+        // clear the pending token request
+        this._pendingTokenRequests[this.portal] = null;
+        return this.token;
+      });
     }
 
     return this._pendingTokenRequests[this.portal];
