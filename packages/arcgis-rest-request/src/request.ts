@@ -278,7 +278,7 @@ export function request(
   let sameOrigin = false;
   // if we are in a browser, check if the url is same origin
   /* istanbul ignore else */
-  if (window) {
+  if (typeof window !== "undefined") {
     sameOrigin = isSameOrigin(url);
   }
   const requiresNoCors = !sameOrigin && isNoCorsRequestRequired(url);
