@@ -65,7 +65,7 @@ describe("getContent", () => {
       ]
     };
 
-    it("should get the user content defaulting the start and num parameters", (done) => {
+    it("should throw an error if start or num parameters are not provided", (done) => {
       fetchMock.once("*", mockResponse);
 
       const requestOptions: IUserContentRequestOptions = {
@@ -75,15 +75,14 @@ describe("getContent", () => {
 
       getUserContent(requestOptions)
         .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${requestOptions.owner}?f=json&start=1&num=10&token=fake-token`
-          );
-          done();
+          fail("Expected function to throw an error, but it resolved");
         })
         .catch((e) => {
-          fail(e);
+          expect(e).toBeDefined();
+          expect(e.message).toBe(
+            "Both 'start' and 'num' are required for getUserContent."
+          );
+          done();
         });
     });
 

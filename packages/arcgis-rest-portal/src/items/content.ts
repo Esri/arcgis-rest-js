@@ -43,12 +43,14 @@ export interface IUserContentResponse extends IPagedResponse {
 export const getUserContent = (
   requestOptions: IUserContentRequestOptions
 ): Promise<IUserContentResponse> => {
-  const {
-    folderId: folder,
-    start = 1,
-    num = 10,
-    authentication
-  } = requestOptions;
+  const { folderId: folder, start, num, authentication } = requestOptions;
+
+  if (typeof start !== "number" || typeof num !== "number") {
+    return Promise.reject(
+      new Error("Both 'start' and 'num' are required for getUserContent.")
+    );
+  }
+
   const suffix = folder ? `/${folder}` : "";
 
   return determineOwner(requestOptions)
