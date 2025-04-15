@@ -15,7 +15,7 @@ describe("sharing helpers ::", () => {
     fetchMock.restore();
   });
   describe("getUserMembership ::", () => {
-    it("should return nonmember if group could not be fetched", (done) => {
+    it("should return none if group could not be fetched", (done) => {
       fetchMock.once(
         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/tb6?f=json&token=fake-token",
         GroupNoAccessResponse

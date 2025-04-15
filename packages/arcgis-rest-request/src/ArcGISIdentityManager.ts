@@ -1079,14 +1079,14 @@ export class ArcGISIdentityManager
 
   /**
    * Returns authentication in a format useable in the [`IdentityManager.registerToken()` method in the ArcGIS API for JavaScript](https://developers.arcgis.com/javascript/latest/api-reference/esri-identity-IdentityManager.html#registerToken).
-   * 
+   *
    * This method can be used with {@linkcode ArcGISIdentityManager.fromCredential} to interop with the ArcGIS API for JavaScript.
    *
    * ```js
    * require(["esri/id"], (esriId) => {
    *   esriId.registerToken(manager.toCredential());
    * })
-   
+
    * ```
    *
    * @returns ICredential
@@ -1272,8 +1272,9 @@ export class ArcGISIdentityManager
       return "same-origin";
     }
 
+    url = url.toLowerCase();
     return this.trustedDomains.some((domainWithProtocol) => {
-      return url.startsWith(domainWithProtocol);
+      return url.startsWith(domainWithProtocol.toLowerCase());
     })
       ? "include"
       : "same-origin";
