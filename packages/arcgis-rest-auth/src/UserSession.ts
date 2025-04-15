@@ -22,6 +22,7 @@ import {
   cleanUrl,
   encodeQueryString,
   decodeQueryString,
+  isNoCorsDomain,
 } from "@esri/arcgis-rest-request";
 import { IUser } from "@esri/arcgis-rest-types";
 import { generateToken } from "./generate-token";
@@ -1053,6 +1054,12 @@ export class UserSession implements IAuthenticationManager {
    * @returns "include" or "same-origin"
    */
   public getDomainCredentials(url: string): RequestCredentials {
+    // if the url is in the noCorsDomains, we want to include credentials
+    const shouldInclude = isNoCorsDomain(url);
+    if (shouldInclude) {
+      return "include";
+    }
+
     if (!this.trustedDomains || !this.trustedDomains.length) {
       return "same-origin";
     }

@@ -16,6 +16,7 @@ import { MockParamBuilder } from "./mocks/param-builder";
 import { ArcGISOnlineError } from "./mocks/errors";
 import { WebMapAsText, WebMapAsJSON } from "./mocks/webmap";
 import { GeoJSONFeatureCollection } from "./mocks/geojson-feature-collection";
+import { requestConfig } from "../src/requestConfig";
 
 describe("request()", () => {
   afterEach(fetchMock.restore);
@@ -244,9 +245,8 @@ describe("request()", () => {
     } as IRequestOptions;
 
     return request(PLATFORM_SELF_URL, ro).then((response) => {
-      const [url, options]: [string, RequestInit] = fetchMock.lastCall(
-        PLATFORM_SELF_URL
-      );
+      const [url, options]: [string, RequestInit] =
+        fetchMock.lastCall(PLATFORM_SELF_URL);
       expect(url).toEqual(PLATFORM_SELF_URL);
       const headers = options.headers || ({} as any);
       expect(headers["X-Esri-Auth-Redirect-Uri"]).toBe(
@@ -350,7 +350,7 @@ describe("request()", () => {
       },
     };
 
-    const MockFetch = function() {
+    const MockFetch = function () {
       return Promise.resolve(MockFetchResponse);
     };
 
@@ -529,7 +529,7 @@ describe("request()", () => {
         },
       };
 
-      const MockFetch = function() {
+      const MockFetch = function () {
         return Promise.resolve(MockFetchResponse);
       };
 
@@ -546,6 +546,117 @@ describe("request()", () => {
     });
   });
 
+  describe("no-cors: ", () => {
+    beforeEach(() => {
+      // Reset requestConfig before each test
+      requestConfig.pendingNoCorsRequests = {};
+      requestConfig.noCorsDomains = [];
+      requestConfig.crossOriginNoCorsDomains = {};
+    });
+
+    it("should send no-cors request as first promise when needed", (done) => {
+      requestConfig.noCorsDomains = ["https://example.com"];
+      const url = "https://example.com/resource?foo=bar";
+      // actual call
+      fetchMock.postOnce(url, SharingRestInfo);
+      // no-cors request
+      fetchMock.getOnce("https://example.com/resource", { status: 200 });
+
+      request(url)
+        .then(() => {
+          let calls = fetchMock.calls("https://example.com/resource");
+          expect(calls.length).toBe(1);
+
+          // expect the first call to be a no-cors request
+          const [firstUrl, firstOptions] = calls[0];
+          expect(firstUrl).toBe("https://example.com/resource");
+
+          expect(firstOptions.mode).toEqual("no-cors");
+          expect(firstOptions.credentials).toEqual("include");
+
+          // expect the second call to be a normal request
+          calls = fetchMock.calls("https://example.com/resource?foo=bar");
+          expect(calls.length).toBe(1);
+          const [secondUrl, secondOptions] = calls[0];
+          expect(secondUrl).toBe("https://example.com/resource?foo=bar");
+          expect(secondOptions.method).toEqual("POST");
+          expect(secondOptions.credentials).toEqual("include");
+
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should skip no-cors request and and include credentials if already sent", (done) => {
+      requestConfig.noCorsDomains = ["https://example.com"];
+      requestConfig.crossOriginNoCorsDomains["https://example.com"] =
+        Date.now();
+      const url = "https://example.com/resource";
+      fetchMock.once(url, SharingRestInfo);
+      // fetchMock.postOnce(url, { status: 200 });
+      request(url)
+        .then(() => {
+          const [lastUrl, lastOptions] = fetchMock.lastCall()!;
+          expect(lastUrl).toBe("https://example.com/resource");
+          expect(lastOptions.credentials).toEqual("include");
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should register no-cors domains if present on portal/self response", (done) => {
+      const url =
+        "https://ent.portal.com/portal/sharing/rest/portals/self?f=json";
+      fetchMock.postOnce(url, {
+        authorizedCrossOriginNoCorsDomains: [
+          "https://server.portal.com",
+          "https://ent.portal.com",
+        ],
+      });
+      request(url)
+        .then(() => {
+          const [lastUrl, lastOptions] = fetchMock.lastCall()!;
+          expect(lastUrl).toBe(url);
+          expect(requestConfig.noCorsDomains).toEqual([
+            "https://server.portal.com",
+            "https://ent.portal.com",
+          ]);
+          // it should not initialise the crossOriginNoCorsDomains
+          expect(requestConfig.crossOriginNoCorsDomains).toEqual({});
+
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+    it("should work without no-cors domains present on portal/self response", (done) => {
+      const url =
+        "https://ent.portal.com/portal/sharing/rest/portals/self?f=json";
+      fetchMock.postOnce(url, {
+        other: "props",
+      });
+      request(url)
+        .then(() => {
+          const [lastUrl, lastOptions] = fetchMock.lastCall()!;
+          expect(lastUrl).toBe(url);
+          expect(requestConfig.noCorsDomains).toEqual([]);
+          // it should not initialise the crossOriginNoCorsDomains
+          expect(requestConfig.crossOriginNoCorsDomains).toEqual({});
+
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+  });
+
+  // NODE ONLY TESTS
   if (typeof window === "undefined") {
     it("should tack on a generic referer header - in Node.js only", (done) => {
       fetchMock.once("*", WebMapAsJSON);

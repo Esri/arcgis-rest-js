@@ -2,7 +2,7 @@
 // Generated on Thu Jul 13 2017 11:01:30 GMT-0700 (PDT)
 const fs = require("fs");
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "",
@@ -19,24 +19,29 @@ module.exports = function(config) {
 
     karmaTypescriptConfig: {
       coverageOptions: {
+        // uncomment the next flag to disable coverage, and
+        // enable debugging in the browser
+        // if left true, the source maps won't actually match up
+        // instrumentation: false,
+
         threshold: {
           global: {
             statements: 100,
             branches: 100,
             functions: 100,
-            lines: 100
-          }
-        }
+            lines: 100,
+          },
+        },
       },
       reports: {
         json: {
           directory: "coverage",
-          filename: "coverage.json"
+          filename: "coverage.json",
         },
-        html: "coverage"
+        html: "coverage",
       },
       compilerOptions: {
-        module: "commonjs"
+        module: "commonjs",
       },
       tsconfig: "./tsconfig.json",
       bundlerOptions: {
@@ -46,20 +51,22 @@ module.exports = function(config) {
           // so we need to manually alias each package here.
           alias: fs
             .readdirSync("packages")
-            .filter(p => p[0] !== ".")
+            .filter((p) => p[0] !== ".")
             .reduce((alias, p) => {
               alias[`@esri/${p}`] = `packages/${p}/src/index.ts`;
-              alias['@types/terraformer__arcgis'] = `packages/arcgis-rest-geocoding/node_modules/@terraformer/arcgis/dist/t-arcgis.esm.js`;
+              alias[
+                "@types/terraformer__arcgis"
+              ] = `packages/arcgis-rest-geocoding/node_modules/@terraformer/arcgis/dist/t-arcgis.esm.js`;
               return alias;
             }, {}),
-        }
-      }
+        },
+      },
     },
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.ts": ["karma-typescript"] // *.tsx for React Jsx
+      "**/*.ts": ["karma-typescript"], // *.tsx for React Jsx
     },
 
     // test results reporter to use
@@ -85,7 +92,7 @@ module.exports = function(config) {
     browsers: [
       // 'Chrome',
       // 'ChromeCanary',
-      // 'Firefox',
+      // "Firefox",
       // 'Safari',
       // 'IE'
     ],
@@ -100,8 +107,11 @@ module.exports = function(config) {
     customLaunchers: {
       ChromeHeadlessCI: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox"]
-      }
-    }
+        flags: ["--no-sandbox"],
+      },
+      Chrome: {
+        flags: ["--auto-open-devtools-for-tabs"],
+      },
+    },
   });
 };

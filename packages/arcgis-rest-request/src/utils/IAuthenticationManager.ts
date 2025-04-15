@@ -19,4 +19,7 @@ export interface IAuthenticationManager {
   portal: string;
   getToken(url: string, requestOptions?: ITokenRequestOptions): Promise<string>;
   getDomainCredentials?(url: string): RequestCredentials;
+
+  requiresNoCorsRequest?(url: string): boolean;
+  sendNoCorsRequest?(url: string): Promise<void>;
 }
