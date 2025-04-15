@@ -23,7 +23,7 @@ const DEFAULT_ARCGIS_REQUEST_CONFIG: IRequestConfig = {
   pendingNoCorsRequests: {},
 };
 
-const GLOBAL_VARIABLE_NAME = "_arcgisRestNoCors";
+const GLOBAL_VARIABLE_NAME = "ARCGIS_REST_JS_NO_CORS";
 
 // Set the global variable to the default config if it is not aleady defined
 // This is done to ensure that all instances of rest-request work with a single
