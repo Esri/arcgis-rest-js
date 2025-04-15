@@ -22,5 +22,20 @@ import { genericSearch } from "../util/generic-search.js";
 export function searchItems(
   search: string | ISearchOptions | SearchQueryBuilder
 ): Promise<ISearchResult<IItem>> {
+  // For the "categories" param, we want to send each entry in the array as
+  // a distinct parameter. I.e. categories: ["a", "b,c"] should be sent as
+  // ....&categories=a&categories=b,c
+  // To get this behavior out of our lower-level request modules, we need to
+  // send category as an array of arrays.
+  if (
+    typeof search === "object" &&
+    !(search instanceof SearchQueryBuilder) &&
+    search.params?.categories
+  ) {
+    search.params.categories = search.params.categories.map((x) => {
+      return x.split(",");
+    });
+  }
+
   return genericSearch<IItem>(search, "item");
 }
