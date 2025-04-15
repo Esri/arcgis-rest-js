@@ -35,11 +35,16 @@ If you are using ArcGIS REST JS, follow the "Get started" section [in the docume
 If you are making a change to the ArcGIS REST JS code, follow these steps to get started quickly:
 
 1. Clone this repository: `git clone git@github.com:Esri/arcgis-rest-js.git`
-2. In a terminal, run `npm run dev:bundled`.
-3. In a separate terminal, run `npm run serve`.
-4. Open <https://localhost:8080/sample.html>.
+2. In a terminal, run `npm install`.
+3. To get started in a browser:
+   1. In a terminal, run `npm run dev:bundled`.
+   2. In a **separate** terminal, run `npm run serve`.
+   3. Open <https://localhost:8080/workspace/sample.html>.
+4. To get started in Node.js (with TypeScript):
+   1. In a terminal, run `npm run dev:esm`.
+   2. In a **separate** terminal, run `npx tsx watch ./workspace/sample.ts`
 
-See the sections below for more details on how to run the tests and other options.
+The [samples](https://github.com/Esri/arcgis-rest-js-samples) can also be used to get started quickly. See the sections below for more details on how to run the tests and other options.
 
 ## Running the tests
 
