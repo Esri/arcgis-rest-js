@@ -294,7 +294,7 @@ export function request(
     fetchOptions.credentials = "include";
   }
 
-  // TODO: Feels like  we should start w/ the noCors request if needed, THEN do the getToken
+  // Simple first promise that we may turn into the no-cors request
   let firstPromise = Promise.resolve();
   if (requiresNoCors) {
     // ensure we send cookies on the request after
