@@ -1,3 +1,11 @@
+# @esri/arcgis-rest-request [4.4.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.3.0...@esri/arcgis-rest-request@4.4.0) (2025-04-07)
+
+
+### Features
+
+* **arcgis-rest-request:** change getDomainCredentials to handle URLs with mismatching cases ([013e4da](https://github.com/Esri/arcgis-rest-js/commit/013e4da9d62c955c316fb6be46a169462d2a245c))
+* **arcgis-rest-request:** switched to using toLowerCase ([7ae474b](https://github.com/Esri/arcgis-rest-js/commit/7ae474b0bbb00e3c66cc4804ac89b67b330e2162))
+
 # @esri/arcgis-rest-request [4.3.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.2.3...@esri/arcgis-rest-request@4.3.0) (2025-01-23)
 
 

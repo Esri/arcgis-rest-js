@@ -68,7 +68,7 @@ export function isOrgAdmin(
  * If you have the group object, check the `userMembership.memberType` property instead of calling this method.
  *
  * @param requestOptions
- * @returns A Promise that resolves with "owner" | "admin" | "member" | "nonmember"
+ * @returns A Promise that resolves with "owner" | "admin" | "member" | "none"
  */
 export function getUserMembership(
   requestOptions: IGroupSharingOptions
