@@ -83372,7 +83372,7 @@
 							"flags": {},
 							"comment": {
 								"shortText": "Get the User Membership for a particular group. Use this if all you have is the groupId.\nIf you have the group object, check the `userMembership.memberType` property instead of calling this method.",
-								"returns": "A Promise that resolves with \"owner\" | \"admin\" | \"member\" | \"nonmember\"\n"
+								"returns": "A Promise that resolves with \"owner\" | \"admin\" | \"member\" | \"none\"\n"
 							},
 							"parameters": [
 								{
