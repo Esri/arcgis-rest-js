@@ -5,12 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [3.8.0](https://github.com/Esri/arcgis-rest-js/compare/v3.7.0...v3.8.0) - Apr 15, 2025
+
+### Added
+
+- **arcgis-rest-request** Adds support for "no cors" domains for patch to Enterprise 11.5
+
 ## [3.7.0](https://github.com/Esri/arcgis-rest-js/compare/v3.6.0...v3.7.0) - Sep 7, 2023
 
 ### Added
 
 - **arcgis-rest-portal** Adds `searchCommunityUsers` method.
-
 
 ## [3.6.0](https://github.com/Esri/arcgis-rest-js/compare/v3.5.0...v3.6.0) - Jan 13, 2023
 

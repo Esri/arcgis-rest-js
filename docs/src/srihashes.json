@@ -1,12 +1,12 @@
 {
-  "version": "3.7.0",
+  "version": "3.8.0",
   "packages": {
-    "@esri/arcgis-rest-auth": "sha384-cIoi2cYNLrnJP1cdryHt2F4Ez6TLDq0Kn0PlzMk2Ox/rFqYLkOG7Z1eOAfbaoUaF",
-    "@esri/arcgis-rest-feature-layer": "sha384-63+bwdB7DoBMzZYYYxUPzD7QSZOFnCOKAUEml6w6F28/TD/pL4lZ+83BYvbENqN9",
-    "@esri/arcgis-rest-geocoding": "sha384-vSpogrsXGyH6tpG3/TRfs6znEwDHH7bdZfMeX7pRtqjPmA2+aetj2tDvVoXSdm5S",
-    "@esri/arcgis-rest-portal": "sha384-rdVcb62hHW8WRJpia7fNWEPWrt5PHO3EoObguOuaIf+eMiqi2AG3kxgZ9b1rPOu9",
-    "@esri/arcgis-rest-request": "sha384-ufx51Dbnc0sJlI4VyqgOHSpaQ6+DlsvrMTa+Xvd7udK+g3N33LB4xM6FOXEP14sO",
-    "@esri/arcgis-rest-routing": "sha384-1AZ8iM3o51dnweqMgJQ8Ghq+i2PlAMXv/V89msfjUvvB7kkaKa2xVYlrE16781tZ",
-    "@esri/arcgis-rest-service-admin": "sha384-vWFp8itxkcUpHN1z9YhkpnMCxDa+ssyhGsOj7jucXUvHxCCRQ2KKjQAAk9tIsNwQ"
+    "@esri/arcgis-rest-auth": "sha384-d+rAQaI5IbnpmHnKcc0m+u70ebul1r4DOIBSdBovTZ6jLh8d1Vk0ih8MmqGk0nlM",
+    "@esri/arcgis-rest-feature-layer": "sha384-k1qtNfd9fNMFKjIIfTW79h/F8XwmZBPep5cjAFkwGgRBQqUhsDO5zPbfgRjLqpw5",
+    "@esri/arcgis-rest-geocoding": "sha384-Brw16bpv9EYD90Y9Hg86qemQOGXkUbZzfDS0ViIF0zFOqDOhBQajeT0NFEBi7Y9M",
+    "@esri/arcgis-rest-portal": "sha384-dG+M7FkRLU1ftajHeaOVGD4JWGnKEagLXx6Xp9MxXDUNyPOFEB6FwNKVcNwkKEji",
+    "@esri/arcgis-rest-request": "sha384-ttA9j+aR3FRiFpLf1TZFghtiBkcgucwaTIfhcosm6WBoH4zK4rdZjn6I9seqacwV",
+    "@esri/arcgis-rest-routing": "sha384-+UPHQrcdFcNBQ+TD86OkRl8OAKif7NOF/T/MYY7ZS4lQhT4KxWJorq/ebhgs2QRM",
+    "@esri/arcgis-rest-service-admin": "sha384-VKqRH1cUu5tUQfku1SZN6RXhwyPnoUaQ5JL/IkCJmNm0JoUCO+ADNE6iGT41lmn+"
   }
 }
