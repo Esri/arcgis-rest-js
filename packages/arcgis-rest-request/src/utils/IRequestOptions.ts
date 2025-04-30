@@ -2,6 +2,8 @@ import { HTTPMethods } from "./HTTPMethods.js";
 import { IParams } from "./IParams.js";
 import { IAuthenticationManager } from "./IAuthenticationManager.js";
 
+// NOTE: the `requestOptionsKeys` array in ./append-custom-params.ts
+// must be kept in sync with this interface
 /**
  * Options for the `request()` method.
  */
