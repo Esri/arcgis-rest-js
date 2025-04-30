@@ -2,7 +2,10 @@
  * Apache-2.0 */
 
 import { getPortalUrl } from "../util/get-portal-url.js";
-import { request, IUserRequestOptions } from "@esri/arcgis-rest-request";
+import {
+  request,
+  IAuthenticatedRequestOptions
+} from "@esri/arcgis-rest-request";
 
 export interface IUpdateGroupUsersResult {
   /**
@@ -11,7 +14,7 @@ export interface IUpdateGroupUsersResult {
   results: any[];
 }
 
-export interface IUpdateGroupUsersOptions extends IUserRequestOptions {
+export interface IUpdateGroupUsersOptions extends IAuthenticatedRequestOptions {
   /**
    * Group ID
    */

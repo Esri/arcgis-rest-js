@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import {
-  IUserRequestOptions,
+  IAuthenticatedRequestOptions,
   IGroup,
   IUser,
   GroupMembership
@@ -11,7 +11,7 @@ import { getPortalUrl } from "../util/get-portal-url.js";
 import { getGroup } from "../groups/get.js";
 import { getSelf } from "../util/get-portal.js";
 
-export interface ISharingOptions extends IUserRequestOptions {
+export interface ISharingOptions extends IAuthenticatedRequestOptions {
   /**
    * Unique identifier for the item.
    */
@@ -56,7 +56,7 @@ export function isItemOwner(
  * @returns Promise resolving in a boolean indicating if the user is an ArcGIS Organization administrator
  */
 export function isOrgAdmin(
-  requestOptions: IUserRequestOptions
+  requestOptions: IAuthenticatedRequestOptions
 ): Promise<boolean> {
   return requestOptions.authentication.getUser().then((user: IUser) => {
     return user && user.role === "org_admin" && !user.roleId;

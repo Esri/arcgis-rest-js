@@ -1,7 +1,10 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IUserRequestOptions } from "@esri/arcgis-rest-request";
+import {
+  request,
+  IAuthenticatedRequestOptions
+} from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
 import { determineUsername } from "../util/determine-username.js";
@@ -15,7 +18,8 @@ export interface INotification {
   data: { [key: string]: any };
 }
 
-export interface IRemoveNotificationOptions extends IUserRequestOptions {
+export interface IRemoveNotificationOptions
+  extends IAuthenticatedRequestOptions {
   /**
    * Unique identifier of the item.
    */
@@ -40,9 +44,9 @@ export interface INotificationResult {
  * @returns A Promise that will resolve with the user's notifications
  */
 export async function getUserNotifications(
-  requestOptions: IUserRequestOptions
+  requestOptions: IAuthenticatedRequestOptions
 ): Promise<INotificationResult> {
-  let options = { httpMethod: "GET" } as IUserRequestOptions;
+  let options = { httpMethod: "GET" } as IAuthenticatedRequestOptions;
 
   const username = await determineUsername(requestOptions);
   const portalUrl = getPortalUrl(requestOptions);

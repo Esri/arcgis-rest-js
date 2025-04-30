@@ -3,7 +3,7 @@
 
 import {
   request,
-  IUserRequestOptions,
+  IAuthenticatedRequestOptions,
   IGroup
 } from "@esri/arcgis-rest-request";
 
@@ -50,9 +50,9 @@ export interface IInvitationResult {
  * @returns A Promise that will resolve with the user's invitations
  */
 export async function getUserInvitations(
-  requestOptions: IUserRequestOptions
+  requestOptions: IAuthenticatedRequestOptions
 ): Promise<IInvitationResult> {
-  let options = { httpMethod: "GET" } as IUserRequestOptions;
+  let options = { httpMethod: "GET" } as IAuthenticatedRequestOptions;
   const username = await determineUsername(requestOptions);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/invitations`;
@@ -62,7 +62,8 @@ export async function getUserInvitations(
   return request(url, options);
 }
 
-export interface IGetUserInvitationOptions extends IUserRequestOptions {
+export interface IGetUserInvitationOptions
+  extends IAuthenticatedRequestOptions {
   invitationId: string;
 }
 
