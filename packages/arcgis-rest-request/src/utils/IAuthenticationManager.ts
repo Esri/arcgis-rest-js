@@ -23,7 +23,7 @@ export interface IAuthenticationManager {
   /**
    * Getter for consistency between ArcGISIdentityManager and older ArcGIS REST JS verisons. This token may be invalid, expired or `undefined`. To guarentee a valid token, use the {@linkcode IAuthenticationManager.getToken} method instead.
    */
-  get token(): string;
+  token: string;
 
   /**
    * Returns the proper token for a given URL and request options.
