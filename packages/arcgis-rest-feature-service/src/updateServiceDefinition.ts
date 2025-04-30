@@ -4,12 +4,11 @@
 import {
   request,
   cleanUrl,
-  IAuthenticatedRequestOptions
+  IUserRequestOptions
 } from "@esri/arcgis-rest-request";
 import { IFeatureServiceDefinition } from "./helpers.js";
 
-export interface IUpdateServiceDefinitionOptions
-  extends IAuthenticatedRequestOptions {
+export interface IUpdateServiceDefinitionOptions extends IUserRequestOptions {
   updateDefinition?: Partial<IFeatureServiceDefinition>;
 }
 

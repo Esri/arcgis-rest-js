@@ -4,13 +4,12 @@
 import {
   request,
   cleanUrl,
-  IAuthenticatedRequestOptions
+  IUserRequestOptions
 } from "@esri/arcgis-rest-request";
 
 import { ILayer, ITable, ILayerDefinition } from "./helpers.js";
 
-export interface IAddToServiceDefinitionOptions
-  extends IAuthenticatedRequestOptions {
+export interface IAddToServiceDefinitionOptions extends IUserRequestOptions {
   /**
    * Layers to add
    */
