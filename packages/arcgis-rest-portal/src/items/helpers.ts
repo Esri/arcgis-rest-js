@@ -3,7 +3,7 @@
 
 import {
   IRequestOptions,
-  IUserRequestOptions
+  IAuthenticatedRequestOptions
 } from "@esri/arcgis-rest-request";
 
 import type { Blob, File } from "@esri/arcgis-rest-request";
@@ -11,7 +11,7 @@ import type { Blob, File } from "@esri/arcgis-rest-request";
 /**
  * Base options interface for making authenticated requests for items.
  */
-export interface IUserItemOptions extends IUserRequestOptions {
+export interface IUserItemOptions extends IAuthenticatedRequestOptions {
   /**
    * Unique identifier of the item.
    */
@@ -22,7 +22,7 @@ export interface IUserItemOptions extends IUserRequestOptions {
   owner?: string;
 }
 
-export interface IFolderIdOptions extends IUserRequestOptions {
+export interface IFolderIdOptions extends IAuthenticatedRequestOptions {
   /**
    * Unique identifier of the folder.
    */
@@ -87,7 +87,8 @@ export interface IItemRelationshipOptions extends IRequestOptions {
   direction?: "forward" | "reverse";
 }
 
-export interface IManageItemRelationshipOptions extends IUserRequestOptions {
+export interface IManageItemRelationshipOptions
+  extends IAuthenticatedRequestOptions {
   originItemId: string;
   destinationItemId: string;
   relationshipType: ItemRelationshipType;
@@ -139,7 +140,7 @@ export interface IRemoveItemResourceOptions extends IUserItemOptions {
   deleteAll?: boolean;
 }
 
-export interface ICreateUpdateItemOptions extends IUserRequestOptions {
+export interface ICreateUpdateItemOptions extends IAuthenticatedRequestOptions {
   /**
    * The owner of the item. If this property is not present, `item.owner` will be passed, or lastly `authentication.getUsername()`.
    */
