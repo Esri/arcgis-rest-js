@@ -23,7 +23,8 @@ export function appendCustomParams<T extends IRequestOptions>(
     "maxUrlLength",
     "headers",
     "signal",
-    "suppressWarnings"
+    "suppressWarnings",
+    "request"
   ];
 
   const options: T = {

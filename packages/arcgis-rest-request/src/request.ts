@@ -5,7 +5,10 @@ import { encodeFormData } from "./utils/encode-form-data.js";
 import { encodeQueryString } from "./utils/encode-query-string.js";
 import { requiresFormData } from "./utils/process-params.js";
 import { ArcGISRequestError } from "./utils/ArcGISRequestError.js";
-import { IRequestOptions } from "./utils/IRequestOptions.js";
+import {
+  IRequestOptions,
+  InternalRequestOptions
+} from "./utils/IRequestOptions.js";
 import { IParams } from "./utils/IParams.js";
 import { warn } from "./utils/warn.js";
 import { IRetryAuthError } from "./utils/retryAuthError.js";
@@ -211,7 +214,7 @@ export function checkForErrors(
  */
 export function internalRequest(
   url: string,
-  requestOptions: IRequestOptions
+  requestOptions: InternalRequestOptions
 ): Promise<any> {
   const defaults = getDefaultRequestOptions();
   const options: IRequestOptions = {
@@ -531,19 +534,23 @@ export function request(
   url: string,
   requestOptions: IRequestOptions = { params: { f: "json" } }
 ): Promise<any> {
-  return internalRequest(url, requestOptions).catch((e) => {
-    if (
-      e instanceof ArcGISAuthError &&
-      requestOptions.authentication &&
-      typeof requestOptions.authentication !== "string" &&
-      requestOptions.authentication.canRefresh &&
-      requestOptions.authentication.refreshCredentials
-    ) {
-      return e.retry(() => {
-        return (requestOptions.authentication as any).refreshCredentials();
-      }, 1);
-    } else {
-      return Promise.reject(e);
-    }
-  });
+  const { request, ...internalOptions } = requestOptions;
+  // if the user passed in a custom request function, use that instead of the default
+  return request
+    ? request(url, internalOptions)
+    : internalRequest(url, internalOptions).catch((e) => {
+        if (
+          e instanceof ArcGISAuthError &&
+          requestOptions.authentication &&
+          typeof requestOptions.authentication !== "string" &&
+          requestOptions.authentication.canRefresh &&
+          requestOptions.authentication.refreshCredentials
+        ) {
+          return e.retry(() => {
+            return (requestOptions.authentication as any).refreshCredentials();
+          }, 1);
+        } else {
+          return Promise.reject(e);
+        }
+      });
 }

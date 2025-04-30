@@ -62,4 +62,19 @@ export interface IRequestOptions {
    * Suppress any ArcGIS REST JS related warnings for this request.
    */
   suppressWarnings?: boolean;
+
+  /**
+   * Override the default function for making the request. This is mainly useful for testing purposes (i.e. so you can pass in a spy).
+   * @param requestOptions
+   * @returns
+   */
+  request?: (
+    url: string,
+    requestOptions: InternalRequestOptions
+  ) => Promise<any>;
 }
+
+/**
+ * Options for the function that will be making the actual request.
+ */
+export type InternalRequestOptions = Omit<IRequestOptions, "request">;
