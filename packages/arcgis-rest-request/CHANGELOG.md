@@ -1,3 +1,11 @@
+## @esri/arcgis-rest-request [4.4.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.4.2...@esri/arcgis-rest-request@4.4.3) (2025-04-30)
+
+
+### Bug Fixes
+
+* restore IUserRequestOptions.authentication to a ArcGISIdentityManager ([4c528ba](https://github.com/Esri/arcgis-rest-js/commit/4c528ba15446017d1697f1371b4dd2827831b133))
+* restore IUserRequestOptions.authentication: ArcGISIdentityManager ([057edf0](https://github.com/Esri/arcgis-rest-js/commit/057edf01194d94118e0320f739f1906abdfee974))
+
 ## @esri/arcgis-rest-request [4.4.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.4.1...@esri/arcgis-rest-request@4.4.2) (2025-04-30)
 
 
