@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-request [4.4.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.4.1...@esri/arcgis-rest-request@4.4.2) (2025-04-30)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** appendCustomParams strips valid options ([#1221](https://github.com/Esri/arcgis-rest-js/issues/1221)) ([bd1aa9c](https://github.com/Esri/arcgis-rest-js/commit/bd1aa9c6da9d3b12cbcbe32c4ebdfd76c5aaddef))
+
 ## @esri/arcgis-rest-request [4.4.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.4.0...@esri/arcgis-rest-request@4.4.1) (2025-04-30)
 
 
