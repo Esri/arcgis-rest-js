@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-portal [4.6.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.6.0...@esri/arcgis-rest-portal@4.6.1) (2025-04-30)
+
+
+### Bug Fixes
+
+* restore IUserRequestOptions.authentication to a ArcGISIdentityManager ([4c528ba](https://github.com/Esri/arcgis-rest-js/commit/4c528ba15446017d1697f1371b4dd2827831b133))
+
 # @esri/arcgis-rest-portal [4.6.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.5.0...@esri/arcgis-rest-portal@4.6.0) (2025-04-07)
 
 

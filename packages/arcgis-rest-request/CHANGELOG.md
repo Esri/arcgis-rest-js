@@ -1,3 +1,37 @@
+# @esri/arcgis-rest-request [4.5.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.4.3...@esri/arcgis-rest-request@4.5.0) (2025-04-30)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** appendCustomParams strips valid options ([7fbfca6](https://github.com/Esri/arcgis-rest-js/commit/7fbfca6378e1c407ce31cc4cf32c56d3da145477))
+
+
+### Features
+
+* **arcgis-rest-request:** add option to override request function ([cd3948b](https://github.com/Esri/arcgis-rest-js/commit/cd3948b58a0ccbd5d477864f204940af9e5fb276))
+
+## @esri/arcgis-rest-request [4.4.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.4.2...@esri/arcgis-rest-request@4.4.3) (2025-04-30)
+
+
+### Bug Fixes
+
+* restore IUserRequestOptions.authentication to a ArcGISIdentityManager ([4c528ba](https://github.com/Esri/arcgis-rest-js/commit/4c528ba15446017d1697f1371b4dd2827831b133))
+* restore IUserRequestOptions.authentication: ArcGISIdentityManager ([057edf0](https://github.com/Esri/arcgis-rest-js/commit/057edf01194d94118e0320f739f1906abdfee974))
+
+## @esri/arcgis-rest-request [4.4.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.4.1...@esri/arcgis-rest-request@4.4.2) (2025-04-30)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** appendCustomParams strips valid options ([#1221](https://github.com/Esri/arcgis-rest-js/issues/1221)) ([bd1aa9c](https://github.com/Esri/arcgis-rest-js/commit/bd1aa9c6da9d3b12cbcbe32c4ebdfd76c5aaddef))
+
+## @esri/arcgis-rest-request [4.4.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.4.0...@esri/arcgis-rest-request@4.4.1) (2025-04-30)
+
+
+### Bug Fixes
+
+* postMessage must send a Credential that is usable by JSSDK ([#1223](https://github.com/Esri/arcgis-rest-js/issues/1223)) ([082b1c6](https://github.com/Esri/arcgis-rest-js/commit/082b1c67cfd6da8e90e29526d0bb0e03c1d9cf5b))
+
 # @esri/arcgis-rest-request [4.4.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.3.0...@esri/arcgis-rest-request@4.4.0) (2025-04-07)
 
 

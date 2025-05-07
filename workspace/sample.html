@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Sample</title>
+  </head>
+
+  <body>
+    <!-- Map package imports to URLS starting with @esri/... which will get served from the local build of the modules -->
+    <script type="importmap">
+      {
+        "imports": {
+          "@esri/arcgis-rest-request": "/@esri/arcgis-rest-request/dist/bundled/request.esm.js",
+          "@esri/arcgis-rest-portal": "/@esri/arcgis-rest-portal/dist/bundled/portal.esm.js"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import { searchItems } from "@esri/arcgis-rest-portal";
+
+      let element = document.createElement("pre");
+      document.body.appendChild(element);
+
+      searchItems("water").then((response) => {
+        element.textContent = JSON.stringify(response, null, 2); // false
+      });
+    </script>
+  </body>
+</html>

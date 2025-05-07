@@ -779,4 +779,25 @@ describe("request()", () => {
       });
     });
   });
+
+  it("should use a passed in request function", (done) => {
+    const url =
+      "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data";
+    const options = {
+      httpMethod: "GET",
+      params: { f: "text" }
+    } as const;
+    const requestSpy = jasmine
+      .createSpy()
+      .and.returnValue(Promise.resolve(WebMapAsText));
+    request(url, { ...options, request: requestSpy })
+      .then(() => {
+        expect(requestSpy.calls.count()).toBe(1);
+        expect(requestSpy.calls.argsFor(0)).toEqual([url, options]);
+        done();
+      })
+      .catch((e) => {
+        fail(e);
+      });
+  });
 });

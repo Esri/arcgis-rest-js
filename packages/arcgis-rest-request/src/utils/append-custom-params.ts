@@ -11,15 +11,20 @@ export function appendCustomParams<T extends IRequestOptions>(
   keys: Array<keyof T>,
   baseOptions?: Partial<T>
 ): IRequestOptions {
+  // NOTE: this must be kept in sync with the keys in IRequestOptions
   const requestOptionsKeys = [
     "params",
     "httpMethod",
     "rawResponse",
     "authentication",
+    "hideToken",
     "portal",
-    "fetch",
+    "credentials",
     "maxUrlLength",
-    "headers"
+    "headers",
+    "signal",
+    "suppressWarnings",
+    "request"
   ];
 
   const options: T = {

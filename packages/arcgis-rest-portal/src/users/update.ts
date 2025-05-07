@@ -1,11 +1,15 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, IUserRequestOptions, IUser } from "@esri/arcgis-rest-request";
+import {
+  request,
+  IAuthenticatedRequestOptions,
+  IUser
+} from "@esri/arcgis-rest-request";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
 
-export interface IUpdateUserOptions extends IUserRequestOptions {
+export interface IUpdateUserOptions extends IAuthenticatedRequestOptions {
   /**
    * The user properties to be updated.
    */
