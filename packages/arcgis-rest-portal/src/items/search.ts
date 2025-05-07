@@ -32,7 +32,7 @@ export function searchItems(
     !(search instanceof SearchQueryBuilder) &&
     search.params?.categories
   ) {
-    search.params.categories = search.params.categories.map((x) => {
+    search.params.categories = search.params.categories.map((x: string) => {
       return x.split(",");
     });
   }
