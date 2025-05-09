@@ -904,7 +904,13 @@ export class ArcGISIdentityManager
    */
   private static parentMessageHandler(event: any): ArcGISIdentityManager {
     if (event.data.type === "arcgis:auth:credential") {
-      return new ArcGISIdentityManager(event.data.credential);
+      const credential = event.data.credential as ICredential;
+      const serverInfo = {
+        hasPortal: true,
+        hasServer: false,
+        server: credential.server
+      } as IServerInfo;
+      return ArcGISIdentityManager.fromCredential(credential, serverInfo);
     }
     if (event.data.type === "arcgis:auth:error") {
       const err = new Error(event.data.error.message);
@@ -1318,10 +1324,10 @@ export class ArcGISIdentityManager
         let msg = {};
         if (isTokenValid) {
           const credential = this.toCredential();
-          msg = {
-            type: "arcgis:auth:credential",
-            credential
-          };
+          // the following line allows us to conform to our spec without changing other depended-on functionality
+          // https://github.com/Esri/arcgis-rest-js/blob/master/packages/arcgis-rest-auth/post-message-auth-spec.md#arcgisauthcredential
+          credential.server = credential.server.replace("/sharing/rest", "");
+          msg = { type: "arcgis:auth:credential", credential };
         } else {
           msg = {
             type: "arcgis:auth:error",
