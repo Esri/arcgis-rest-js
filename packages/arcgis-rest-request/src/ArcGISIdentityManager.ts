@@ -1317,7 +1317,7 @@ export class ArcGISIdentityManager
       if (isValidOrigin && isValidType) {
         let msg = {};
         if (isTokenValid) {
-          const credential = this.toCredential();
+          const credential = this.toJSON();
           msg = {
             type: "arcgis:auth:credential",
             credential

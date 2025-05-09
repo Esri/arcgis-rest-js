@@ -1880,7 +1880,7 @@ describe("ArcGISIdentityManager", () => {
         "arcgis:auth:credential",
         "should send credential type"
       );
-      expect(args[0].credential.userId).toBe(
+      expect(args[0].credential.username).toBe(
         "jsmith",
         "should send credential"
       );
