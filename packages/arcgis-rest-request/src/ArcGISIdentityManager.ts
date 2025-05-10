@@ -25,6 +25,16 @@ import { NODEJS_DEFAULT_REFERER_HEADER } from "./index.js";
 import { AuthenticationManagerBase } from "./AuthenticationManagerBase.js";
 
 /**
+ * distinguish between an ICredential and IArcGISIdentityManagerOptions
+ */
+function isCredential(credential: any): credential is ICredential {
+  return (
+    typeof credential.userId === "string" ||
+    typeof credential.expires === "number"
+  );
+}
+
+/**
  * Options for {@linkcode ArcGISIdentityManager.fromToken}.
  */
 export interface IFromTokenOptions {
@@ -905,12 +915,16 @@ export class ArcGISIdentityManager
   private static parentMessageHandler(event: any): ArcGISIdentityManager {
     if (event.data.type === "arcgis:auth:credential") {
       const credential = event.data.credential as ICredential;
-      const serverInfo = {
-        hasPortal: true,
-        hasServer: false,
-        server: credential.server
-      } as IServerInfo;
-      return ArcGISIdentityManager.fromCredential(credential, serverInfo);
+      // at 4.x - 4.5 we were passing .toJSON() instead of .toCredential()
+      // so we attempt to handle either payload for backwards compatibility
+      // but at the next breaking change we should only support an ICredential
+      return isCredential(credential)
+        ? ArcGISIdentityManager.fromCredential(credential, {
+            hasPortal: true,
+            hasServer: false,
+            server: credential.server
+          } as IServerInfo)
+        : new ArcGISIdentityManager(credential);
     }
     if (event.data.type === "arcgis:auth:error") {
       const err = new Error(event.data.error.message);
