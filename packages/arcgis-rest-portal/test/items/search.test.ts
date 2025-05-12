@@ -142,7 +142,7 @@ describe("search", () => {
         expect(fetchMock.called()).toEqual(true);
         const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
-          "https://www.arcgis.com/sharing/rest/search?f=json&q=Washington&categories=%2FCategories%2FWater%2C%2FCategories%2FForest"
+          "https://www.arcgis.com/sharing/rest/search?f=json&q=Washington&categories=%2FCategories%2FWater&categories=%2FCategories%2FForest"
         );
         expect(options.method).toBe("GET");
         done();
