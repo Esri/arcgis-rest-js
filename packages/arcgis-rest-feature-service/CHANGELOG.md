@@ -1,3 +1,14 @@
+## @esri/arcgis-rest-feature-service [4.1.1-alpha.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.1.0...@esri/arcgis-rest-feature-service@4.1.1-alpha.1) (2025-05-12)
+
+
+
+
+
+### Dependencies
+
+* **@esri/arcgis-rest-portal:** upgraded to 4.6.2-alpha.1
+* **@esri/arcgis-rest-request:** upgraded to 4.5.1-alpha.1
+
 # @esri/arcgis-rest-feature-service [4.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.0.6...@esri/arcgis-rest-feature-service@4.1.0) (2024-12-17)
 
 
