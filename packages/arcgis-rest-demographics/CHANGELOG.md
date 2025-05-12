@@ -1,3 +1,13 @@
+## @esri/arcgis-rest-demographics [4.0.4-alpha.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-demographics@4.0.3...@esri/arcgis-rest-demographics@4.0.4-alpha.1) (2025-05-12)
+
+
+
+
+
+### Dependencies
+
+* **@esri/arcgis-rest-request:** upgraded to 4.5.1-alpha.1
+
 ## @esri/arcgis-rest-demographics [4.0.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-demographics@4.0.2...@esri/arcgis-rest-demographics@4.0.3) (2024-06-15)
 
 
