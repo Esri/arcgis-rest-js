@@ -7,6 +7,7 @@ on:
     branches:
       - main
       - beta
+      - alpha
     # Dont run if it's just markdown or doc files
     paths-ignore:
       # UNCOMMENT THIS AFTER
