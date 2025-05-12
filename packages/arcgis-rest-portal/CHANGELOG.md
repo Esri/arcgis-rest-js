@@ -1,3 +1,13 @@
+## @esri/arcgis-rest-portal [4.6.2-alpha.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.6.1...@esri/arcgis-rest-portal@4.6.2-alpha.1) (2025-05-12)
+
+
+
+
+
+### Dependencies
+
+* **@esri/arcgis-rest-request:** upgraded to 4.5.1-alpha.1
+
 ## @esri/arcgis-rest-portal [4.6.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.6.0...@esri/arcgis-rest-portal@4.6.1) (2025-04-30)
 
 
