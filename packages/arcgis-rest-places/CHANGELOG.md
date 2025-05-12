@@ -1,3 +1,13 @@
+## @esri/arcgis-rest-places [1.2.1-alpha.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-places@1.2.0...@esri/arcgis-rest-places@1.2.1-alpha.1) (2025-05-12)
+
+
+
+
+
+### Dependencies
+
+* **@esri/arcgis-rest-request:** upgraded to 4.5.1-alpha.1
+
 # @esri/arcgis-rest-places [1.2.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-places@1.1.0...@esri/arcgis-rest-places@1.2.0) (2025-02-10)
 
 
