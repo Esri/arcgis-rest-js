@@ -1811,6 +1811,14 @@ describe("ArcGISIdentityManager", () => {
       username: "jsmith"
     };
 
+    const credential: ICredential = {
+      expires: TOMORROW.getTime(),
+      server: token.portal,
+      ssl: false,
+      token: token.token,
+      userId: token.username
+    };
+
     it(".disablePostMessageAuth removes event listener", () => {
       const removeSpy = spyOn(MockWindow, "removeEventListener");
       const session = new ArcGISIdentityManager(token);
@@ -1958,7 +1966,7 @@ describe("ArcGISIdentityManager", () => {
           postMessage(msg: any, origin: string) {
             Win._fn({
               origin: "https://origin.com",
-              data: { type: "arcgis:auth:credential", credential: token },
+              data: { type: "arcgis:auth:credential", credential },
               source: Win.parent
             });
           }
@@ -1994,7 +2002,7 @@ describe("ArcGISIdentityManager", () => {
             // fire a second we want to intercept
             Win._fn({
               origin: "https://origin.com",
-              data: { type: "arcgis:auth:credential", credential: token },
+              data: { type: "arcgis:auth:credential", credential },
               source: Win.parent
             });
           }
