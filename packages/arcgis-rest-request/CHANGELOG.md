@@ -1,3 +1,11 @@
+## @esri/arcgis-rest-request [4.5.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.5.0...@esri/arcgis-rest-request@4.5.1) (2025-05-20)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** parentMessageHandler handles ICredential or IArcGISIdentityManagerOptions ([ae8159b](https://github.com/Esri/arcgis-rest-js/commit/ae8159b7ad428a4fd3cf4ca665829a9e8e95ddb2))
+* **arcgis-rest-request:** postMessage auth works w/ credential ([cfa57e9](https://github.com/Esri/arcgis-rest-js/commit/cfa57e9b616ba738f2020854a16e8e9f002db45d))
+
 # @esri/arcgis-rest-request [4.5.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.4.3...@esri/arcgis-rest-request@4.5.0) (2025-04-30)
 
 
