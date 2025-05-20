@@ -95890,7 +95890,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1046,
+									"line": 1066,
 									"character": 2
 								}
 							],
@@ -95946,7 +95946,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 958,
+									"line": 978,
 									"character": 18
 								}
 							],
@@ -95970,7 +95970,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 963,
+									"line": 983,
 									"character": 18
 								}
 							],
@@ -95994,7 +95994,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 968,
+									"line": 988,
 									"character": 18
 								}
 							],
@@ -96027,7 +96027,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 978,
+									"line": 998,
 									"character": 18
 								}
 							],
@@ -96052,7 +96052,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 988,
+									"line": 1008,
 									"character": 18
 								}
 							],
@@ -96076,7 +96076,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1006,
+									"line": 1026,
 									"character": 18
 								}
 							],
@@ -96101,7 +96101,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1001,
+									"line": 1021,
 									"character": 18
 								}
 							],
@@ -96125,7 +96125,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 973,
+									"line": 993,
 									"character": 18
 								}
 							],
@@ -96149,7 +96149,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 983,
+									"line": 1003,
 									"character": 18
 								}
 							],
@@ -96170,7 +96170,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 319,
+									"line": 329,
 									"character": 6
 								}
 							],
@@ -96213,7 +96213,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 305,
+									"line": 315,
 									"character": 6
 								}
 							],
@@ -96246,7 +96246,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 312,
+									"line": 322,
 									"character": 6
 								}
 							],
@@ -96279,7 +96279,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 291,
+									"line": 301,
 									"character": 6
 								}
 							],
@@ -96312,7 +96312,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 298,
+									"line": 308,
 									"character": 6
 								}
 							],
@@ -96417,7 +96417,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1214,
+									"line": 1234,
 									"character": 9
 								}
 							],
@@ -96464,7 +96464,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1200,
+									"line": 1220,
 									"character": 9
 								}
 							],
@@ -96527,7 +96527,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1615,
+									"line": 1635,
 									"character": 2
 								}
 							],
@@ -96582,7 +96582,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1270,
+									"line": 1290,
 									"character": 9
 								}
 							],
@@ -96641,7 +96641,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1117,
+									"line": 1137,
 									"character": 9
 								}
 							],
@@ -96700,7 +96700,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1250,
+									"line": 1270,
 									"character": 9
 								}
 							],
@@ -96748,7 +96748,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1149,
+									"line": 1169,
 									"character": 9
 								}
 							],
@@ -96958,7 +96958,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1225,
+									"line": 1245,
 									"character": 9
 								}
 							],
@@ -97023,7 +97023,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1188,
+									"line": 1208,
 									"character": 9
 								}
 							],
@@ -97052,7 +97052,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1286,
+									"line": 1306,
 									"character": 9
 								}
 							],
@@ -97091,7 +97091,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1094,
+									"line": 1114,
 									"character": 9
 								}
 							],
@@ -97126,7 +97126,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1171,
+									"line": 1191,
 									"character": 9
 								}
 							],
@@ -97154,7 +97154,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1604,
+									"line": 1624,
 									"character": 2
 								}
 							],
@@ -97218,7 +97218,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 1165,
+									"line": 1185,
 									"character": 9
 								}
 							],
@@ -97274,7 +97274,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 751,
+									"line": 761,
 									"character": 16
 								}
 							],
@@ -97338,7 +97338,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 340,
+									"line": 350,
 									"character": 16
 								}
 							],
@@ -97412,7 +97412,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 515,
+									"line": 525,
 									"character": 16
 								}
 							],
@@ -97486,7 +97486,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 830,
+									"line": 840,
 									"character": 16
 								}
 							],
@@ -97530,7 +97530,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 921,
+									"line": 941,
 									"character": 16
 								}
 							],
@@ -97584,7 +97584,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 787,
+									"line": 797,
 									"character": 16
 								}
 							],
@@ -97655,7 +97655,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 870,
+									"line": 880,
 									"character": 16
 								}
 							],
@@ -97717,7 +97717,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 712,
+									"line": 722,
 									"character": 16
 								}
 							],
@@ -97792,7 +97792,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 932,
+									"line": 952,
 									"character": 16
 								}
 							],
@@ -97846,7 +97846,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 947,
+									"line": 967,
 									"character": 16
 								}
 							],
@@ -97962,7 +97962,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-							"line": 284,
+							"line": 294,
 							"character": 13
 						}
 					],
@@ -100442,7 +100442,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 187,
+									"line": 197,
 									"character": 2
 								}
 							],
@@ -100465,7 +100465,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 213,
+									"line": 223,
 									"character": 2
 								}
 							],
@@ -100488,7 +100488,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 228,
+									"line": 238,
 									"character": 2
 								}
 							],
@@ -100511,7 +100511,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 238,
+									"line": 248,
 									"character": 2
 								}
 							],
@@ -100535,7 +100535,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 193,
+									"line": 203,
 									"character": 2
 								}
 							],
@@ -100558,7 +100558,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 261,
+									"line": 271,
 									"character": 2
 								}
 							],
@@ -100581,7 +100581,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 198,
+									"line": 208,
 									"character": 2
 								}
 							],
@@ -100604,7 +100604,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 203,
+									"line": 213,
 									"character": 2
 								}
 							],
@@ -100628,7 +100628,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 256,
+									"line": 266,
 									"character": 2
 								}
 							],
@@ -100651,7 +100651,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 233,
+									"line": 243,
 									"character": 2
 								}
 							],
@@ -100674,7 +100674,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 218,
+									"line": 228,
 									"character": 2
 								}
 							],
@@ -100697,7 +100697,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 243,
+									"line": 253,
 									"character": 2
 								}
 							],
@@ -100720,7 +100720,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 223,
+									"line": 233,
 									"character": 2
 								}
 							],
@@ -100743,7 +100743,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 208,
+									"line": 218,
 									"character": 2
 								}
 							],
@@ -100778,7 +100778,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-							"line": 181,
+							"line": 191,
 							"character": 17
 						}
 					]
@@ -101704,7 +101704,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 83,
+									"line": 93,
 									"character": 2
 								}
 							],
@@ -101722,7 +101722,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 84,
+									"line": 94,
 									"character": 2
 								}
 							],
@@ -101740,7 +101740,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 85,
+									"line": 95,
 									"character": 2
 								}
 							],
@@ -101758,7 +101758,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 86,
+									"line": 96,
 									"character": 2
 								}
 							],
@@ -101776,7 +101776,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 87,
+									"line": 97,
 									"character": 2
 								}
 							],
@@ -101802,7 +101802,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-							"line": 82,
+							"line": 92,
 							"character": 17
 						}
 					]
@@ -103024,7 +103024,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 54,
+									"line": 64,
 									"character": 2
 								}
 							],
@@ -103047,7 +103047,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 42,
+									"line": 52,
 									"character": 2
 								}
 							],
@@ -103070,7 +103070,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 58,
+									"line": 68,
 									"character": 2
 								}
 							],
@@ -103093,7 +103093,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 46,
+									"line": 56,
 									"character": 2
 								}
 							],
@@ -103114,7 +103114,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 34,
+									"line": 44,
 									"character": 2
 								}
 							],
@@ -103137,7 +103137,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 38,
+									"line": 48,
 									"character": 2
 								}
 							],
@@ -103160,7 +103160,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 50,
+									"line": 60,
 									"character": 2
 								}
 							],
@@ -103188,7 +103188,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-							"line": 30,
+							"line": 40,
 							"character": 17
 						}
 					]
@@ -105479,7 +105479,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 109,
+									"line": 119,
 									"character": 2
 								}
 							],
@@ -105503,7 +105503,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 135,
+									"line": 145,
 									"character": 2
 								}
 							],
@@ -105532,7 +105532,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 163,
+									"line": 173,
 									"character": 2
 								}
 							],
@@ -105561,7 +105561,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 142,
+									"line": 152,
 									"character": 2
 								}
 							],
@@ -105590,7 +105590,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 149,
+									"line": 159,
 									"character": 2
 								}
 							],
@@ -105619,7 +105619,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 156,
+									"line": 166,
 									"character": 2
 								}
 							],
@@ -105642,7 +105642,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 120,
+									"line": 130,
 									"character": 2
 								}
 							],
@@ -105665,7 +105665,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 126,
+									"line": 136,
 									"character": 2
 								}
 							],
@@ -105687,7 +105687,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 115,
+									"line": 125,
 									"character": 2
 								}
 							],
@@ -105710,7 +105710,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 173,
+									"line": 183,
 									"character": 2
 								}
 							],
@@ -105733,7 +105733,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 168,
+									"line": 178,
 									"character": 2
 								}
 							],
@@ -105778,7 +105778,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-							"line": 103,
+							"line": 113,
 							"character": 17
 						}
 					],
@@ -107829,7 +107829,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 96,
+									"line": 106,
 									"character": 2
 								}
 							],
@@ -107847,7 +107847,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 97,
+									"line": 107,
 									"character": 2
 								}
 							],
@@ -107865,7 +107865,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 95,
+									"line": 105,
 									"character": 2
 								}
 							],
@@ -107889,7 +107889,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-							"line": 94,
+							"line": 104,
 							"character": 17
 						}
 					]
@@ -107913,7 +107913,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 66,
+									"line": 76,
 									"character": 2
 								}
 							],
@@ -107933,7 +107933,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 67,
+									"line": 77,
 									"character": 2
 								}
 							],
@@ -107953,7 +107953,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 68,
+									"line": 78,
 									"character": 2
 								}
 							],
@@ -107971,7 +107971,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-									"line": 65,
+									"line": 75,
 									"character": 2
 								}
 							],
@@ -107996,7 +107996,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-							"line": 64,
+							"line": 74,
 							"character": 17
 						}
 					]
@@ -109763,7 +109763,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/ArcGISIdentityManager.ts",
-							"line": 71,
+							"line": 81,
 							"character": 12
 						}
 					],
