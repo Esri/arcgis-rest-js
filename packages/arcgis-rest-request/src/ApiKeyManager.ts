@@ -57,6 +57,29 @@ export class ApiKeyManager
   public getToken(url: string) {
     return Promise.resolve(this.key);
   }
+
+  toJSON() {
+    return {
+      type: "ApiKeyManager",
+      key: this.key,
+      username: this.username,
+      portal: this.portal
+    };
+  }
+
+  serialize() {
+    return JSON.stringify(this);
+  }
+
+  static deserialize(serialized: string) {
+    const data = JSON.parse(serialized);
+
+    return new ApiKeyManager({
+      key: data.key,
+      username: data.username,
+      portal: data.portal
+    });
+  }
 }
 
 /**

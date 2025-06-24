@@ -146,6 +146,35 @@ export class ApplicationCredentialsManager
     this.clearCachedUserInfo();
     return this.refreshToken().then(() => this);
   }
+
+  public toJSON() {
+    return {
+      type: "ApplicationCredentialsManager",
+      clientId: this.clientId,
+      clientSecret: this.clientSecret,
+      token: this.token,
+      expires: this.expires,
+      portal: this.portal,
+      duration: this.duration
+    };
+  }
+
+  public serialize(): string {
+    return JSON.stringify(this.toJSON());
+  }
+
+  public static deserialize(serialized: string): ApplicationCredentialsManager {
+    const data: IApplicationCredentialsManagerOptions = JSON.parse(serialized);
+
+    return new ApplicationCredentialsManager({
+      clientId: data.clientId,
+      clientSecret: data.clientSecret,
+      token: data.token,
+      expires: data.expires ? new Date(data.expires) : undefined,
+      portal: data.portal,
+      duration: data.duration
+    });
+  }
 }
 
 /**

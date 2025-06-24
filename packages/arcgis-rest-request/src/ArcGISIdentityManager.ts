@@ -1188,8 +1188,9 @@ export class ArcGISIdentityManager
     });
   }
 
-  public toJSON(): IArcGISIdentityManagerOptions {
+  public toJSON(): IArcGISIdentityManagerOptions & { type: string } {
     return {
+      type: "ArcGISIdentityManager",
       clientId: this.clientId,
       refreshToken: this.refreshToken,
       refreshTokenExpires: this.refreshTokenExpires || undefined,
