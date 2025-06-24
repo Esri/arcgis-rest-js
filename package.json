@@ -156,7 +156,8 @@
     "packages/arcgis-rest-routing",
     "packages/arcgis-rest-fetch",
     "packages/arcgis-rest-form-data",
-    "packages/arcgis-rest-developer-credentials"
+    "packages/arcgis-rest-developer-credentials",
+    "packages/arcgis-rest-basemap-sessions"
   ],
   "volta": {
     "node": "18.14.0"
