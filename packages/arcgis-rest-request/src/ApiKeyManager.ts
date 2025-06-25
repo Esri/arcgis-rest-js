@@ -33,7 +33,10 @@ export class ApiKeyManager
    */
   public readonly portal: string = "https://www.arcgis.com/sharing/rest";
 
-  private key: string;
+  /**
+   * The original API Key used to create this instance.
+   */
+  private readonly key: string;
 
   /**
    * The preferred method for creating an instance of `ApiKeyManager`.
@@ -52,30 +55,73 @@ export class ApiKeyManager
   }
 
   /**
-   * Gets a token (the API Key).
+   * Gets the current access token (the API Key).
+   */
+  get token() {
+    return this.key;
+  }
+
+  /**
+   * Gets the current access token (the API Key).
    */
   public getToken(url: string) {
     return Promise.resolve(this.key);
   }
 
+  /**
+   * Converts the `ApiKeyManager` instance to a JSON object. This is called when the instance is serialized to JSON with [`JSON.stringify()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
+   *
+   * ```js
+   * import { ApiKeyManager } from '@esri/arcgis-rest-request';
+   *
+   * const apiKey = new ApiKeyManager.fromKey("...")
+   *
+   * const json = JSON.stringify(session);
+   * ```
+   *
+   * @returns A plain object representation of the instance.
+   */
   toJSON() {
     return {
       type: "ApiKeyManager",
-      key: this.key,
+      token: this.key,
       username: this.username,
       portal: this.portal
     };
   }
 
+  /**
+   * Serializes the ApiKeyManager instance to a JSON string.
+   *
+   * ```js
+   * import { ApiKeyManager } from '@esri/arcgis-rest-request';
+   *
+   * const apiKey = new ApiKeyManager.fromKey("...")
+   *
+   * localStorage.setItem("apiKey", apiKey.serialize());
+   * ```
+   * @returns {string} The serialized JSON string.
+   */
   serialize() {
     return JSON.stringify(this);
   }
 
+  /**
+   * Deserializes a JSON string previously created with {@linkcode ApiKeyManager.deserialize} to an {@linkcode ApiKeyManager} instance.
+   *
+   * ```js
+   * import { ApiKeyManager } from '@esri/arcgis-rest-request';
+   *
+   * const apiKey = ApiKeyManager.deserialize(localStorage.getItem("apiKey"));
+   * ```
+   * @param {string} serialized - The serialized JSON string.
+   * @returns {ApiKeyManager} The deserialized ApiKeyManager instance.
+   */
   static deserialize(serialized: string) {
     const data = JSON.parse(serialized);
 
     return new ApiKeyManager({
-      key: data.key,
+      key: data.token,
       username: data.username,
       portal: data.portal
     });

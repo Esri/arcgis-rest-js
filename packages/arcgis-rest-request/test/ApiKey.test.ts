@@ -8,6 +8,7 @@ describe("ApiKeyManager", () => {
   afterEach(() => {
     fetchMock.restore();
   });
+
   describe(".getToken()", () => {
     it("should return the Api Key", (done) => {
       const session = new ApiKeyManager({
@@ -131,6 +132,41 @@ describe("ApiKeyManager", () => {
         .catch((e) => {
           fail(e);
         });
+    });
+  });
+
+  describe(".serialize() and .deserialize()", () => {
+    it("should serialize to a string", () => {
+      const session = new ApiKeyManager({
+        key: "123456",
+        username: "c@sey"
+      });
+
+      const serialized = session.serialize();
+      expect(serialized).toBe(
+        JSON.stringify({
+          type: "ApiKeyManager",
+          token: "123456",
+          username: "c@sey",
+          portal: "https://www.arcgis.com/sharing/rest"
+        })
+      );
+    });
+
+    it("should deserialize to an object", () => {
+      const session = new ApiKeyManager({
+        key: "123456",
+        username: "c@sey"
+      });
+
+      const serialized = session.serialize();
+      const deserialized = ApiKeyManager.deserialize(serialized);
+      expect(deserialized.token).toEqual("123456");
+      expect(deserialized.username).toEqual("c@sey");
+      expect(deserialized.portal).toEqual(
+        "https://www.arcgis.com/sharing/rest"
+      );
+      expect(deserialized instanceof ApiKeyManager).toBeTruthy();
     });
   });
 });

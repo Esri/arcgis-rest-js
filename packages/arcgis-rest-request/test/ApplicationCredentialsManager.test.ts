@@ -175,4 +175,53 @@ describe("ApplicationCredentialsManager", () => {
       );
     });
   });
+
+  describe(".serialize() and .deserialize()", () => {
+    it("should serialize to a string", () => {
+      const session = new ApplicationCredentialsManager({
+        clientId: "id",
+        clientSecret: "secret",
+        token: "token",
+        expires: YESTERDAY
+      });
+
+      const serialized = session.serialize();
+
+      expect(serialized).toBe(
+        JSON.stringify({
+          type: "ApplicationCredentialsManager",
+          clientId: "id",
+          clientSecret: "secret",
+          token: "token",
+          expires: YESTERDAY,
+          portal: "https://www.arcgis.com/sharing/rest",
+          duration: 7200
+        })
+      );
+    });
+
+    it("should deserialize to an object", () => {
+      const session = new ApplicationCredentialsManager({
+        token: "token",
+        clientId: "id",
+        clientSecret: "secret",
+        expires: YESTERDAY,
+        portal: "https://www.arcgis.com/sharing/rest"
+      });
+
+      const serialized = session.serialize();
+      const deserialized =
+        ApplicationCredentialsManager.deserialize(serialized);
+      expect(deserialized.token).toEqual("token");
+      expect(deserialized.clientId).toEqual("id");
+      expect(deserialized.clientSecret).toEqual("secret");
+      expect(deserialized.expires).toEqual(YESTERDAY);
+      expect(deserialized.portal).toEqual(
+        "https://www.arcgis.com/sharing/rest"
+      );
+      expect(
+        deserialized instanceof ApplicationCredentialsManager
+      ).toBeTruthy();
+    });
+  });
 });
