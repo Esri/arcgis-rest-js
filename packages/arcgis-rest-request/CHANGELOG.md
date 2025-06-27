@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-request [4.6.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.5.1...@esri/arcgis-rest-request@4.6.0) (2025-06-27)
+
+
+### Features
+
+* **arcgis-rest-request:** add serialization and deserialization for all auth managers ([d85f595](https://github.com/Esri/arcgis-rest-js/commit/d85f5955ad716e4d90cf46d72eb9a6cf4bfa2563))
+
 ## @esri/arcgis-rest-request [4.5.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.5.0...@esri/arcgis-rest-request@4.5.1) (2025-05-20)
 
 
