@@ -10,6 +10,7 @@ import {
 } from "./utils/ArcGISTokenRequestError.js";
 import { ArcGISRequestError } from "./utils/ArcGISRequestError.js";
 import { AuthenticationManagerBase } from "./AuthenticationManagerBase.js";
+import { Writable } from "./utils/writable.js";
 
 export interface IApplicationCredentialsManagerOptions {
   /**
@@ -63,12 +64,12 @@ export class ApplicationCredentialsManager
   extends AuthenticationManagerBase
   implements IAuthenticationManager
 {
-  public portal: string;
-  private clientId: string;
-  private clientSecret: string;
-  private token: string;
-  private expires: Date;
-  private duration: number;
+  public readonly portal: string;
+  public readonly token: string;
+  public readonly clientId: string;
+  public readonly clientSecret: string;
+  public readonly expires: Date;
+  public readonly duration: number;
 
   /**
    * Preferred method for creating an `ApplicationCredentialsManager`
@@ -127,8 +128,8 @@ export class ApplicationCredentialsManager
     return fetchToken(`${this.portal}/oauth2/token/`, options)
       .then((response) => {
         this._pendingTokenRequest = null;
-        this.token = response.token;
-        this.expires = response.expires;
+        this.setToken(response.token);
+        this.setExpires(response.expires);
         return response.token;
       })
       .catch((e: ArcGISRequestError) => {
@@ -145,6 +146,78 @@ export class ApplicationCredentialsManager
   public refreshCredentials() {
     this.clearCachedUserInfo();
     return this.refreshToken().then(() => this);
+  }
+
+  /**
+   * Converts the `ApplicationCredentialsManager` instance to a JSON object. This is called when the instance is serialized to JSON with [`JSON.stringify()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
+   *
+   * ```js
+   * import { ApplicationCredentialsManager } from '@esri/arcgis-rest-request';
+   *
+   * const session = ApplicationCredentialsManager.fromCredentials({
+   *   clientId: "abc123",
+   *   clientSecret: "••••••"
+   * })
+   *
+   * const json = JSON.stringify(session);
+   * ```
+   *
+   * @returns A plain object representation of the instance.
+   */
+  public toJSON() {
+    return {
+      type: "ApplicationCredentialsManager",
+      clientId: this.clientId,
+      clientSecret: this.clientSecret,
+      token: this.token,
+      expires: this.expires,
+      portal: this.portal,
+      duration: this.duration
+    };
+  }
+
+  /**
+   * Serializes the `ApplicationCredentialsManager` instance to a JSON string.
+   * @returns The serialized JSON string.
+   */
+  public serialize(): string {
+    return JSON.stringify(this.toJSON());
+  }
+
+  /**
+   * Deserializes a JSON string previously created with {@linkcode ApplicationCredentialsManager.serialize} to an {@linkcode ApplicationCredentialsManager} instance.
+   * @param serialized - The serialized JSON string.
+   * @returns An instance of `ApplicationCredentialsManager`.
+   */
+  public static deserialize(serialized: string): ApplicationCredentialsManager {
+    const data: IApplicationCredentialsManagerOptions = JSON.parse(serialized);
+
+    return new ApplicationCredentialsManager({
+      clientId: data.clientId,
+      clientSecret: data.clientSecret,
+      token: data.token,
+      expires: new Date(data.expires),
+      portal: data.portal,
+      duration: data.duration
+    });
+  }
+
+  /*
+   * Used to update the token when the session is refreshed.
+   * @param newToken - Sets the token for the session.
+   * @internal
+   */
+  private setToken(newToken: string) {
+    (this as Writable<ApplicationCredentialsManager>).token = newToken;
+  }
+
+  /*
+   * Used to update the expiration date when the session is refreshed.
+   * @param newExpires - Sets the expiration date for the session.
+   * @internal
+   */
+  private setExpires(newExpires: Date) {
+    (this as Writable<ApplicationCredentialsManager>).expires = newExpires;
   }
 }
 
