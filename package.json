@@ -73,7 +73,7 @@
     "@semantic-release/npm": "^8.0.0",
     "@types/fetch-mock": "^7.3.5",
     "@types/jasmine": "^2.8.2",
-    "@types/node": "^12.20.4",
+    "@types/node": "^17.0.29",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.31.0",
     "babel-preset-env": "^1.7.0",
