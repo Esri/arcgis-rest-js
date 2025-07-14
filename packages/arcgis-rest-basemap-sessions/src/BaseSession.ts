@@ -5,15 +5,11 @@ import { StyleFamily } from "./types/StyleFamily.js";
 import { deserializeAuthentication } from "./utils/deserializeAuthentication.js";
 import { startNewSession } from "./utils/startNewSession.js";
 import { Writable } from "./utils/writable.js";
-
-export const DEFAULT_START_BASEMAP_SESSION_URL =
-  "https://basemapstylesdev-api.arcgis.com/arcgis/rest/services/styles/v2/sessions/start";
-
-export const DEFAULT_START_STATIC_BASEMAP_SESSION_URL =
-  "https://static-map-tiles-api.arcgis.com/arcgis/rest/services/static-basemap-tiles-service/v1/sessions/start";
-
-const DEFAULT_SAFETY_MARGIN = 1000 * 60 * 5; // Default to 5 minutes
-const DEFAULT_CHECK_EXPIRATION_INTERVAL = 1000 * 10; // Default to 1 minute
+import {
+  DEFAULT_DURATION,
+  DEFAULT_SAFETY_MARGIN,
+  DEFAULT_CHECK_EXPIRATION_INTERVAL
+} from "./utils/defaults.js";
 
 export interface IBasemapSessionParams {
   token: string;
@@ -24,7 +20,7 @@ export interface IBasemapSessionParams {
   startTime: Date | string;
   endTime: Date | string;
   safetyMargin?: number;
-  testSession?: boolean;
+  duration?: number;
 }
 
 export interface IStartSessionParams {
@@ -137,9 +133,9 @@ export abstract class BaseSession implements IAuthenticationManager {
   readonly saftyMargin: number;
 
   /**
-   * Indicates if the session is a test session.
+   * The duration of the session in seconds. This is used to determine how long the session will last when the session is refreshed.
    */
-  readonly testSession: boolean;
+  readonly duration: number;
 
   /**
    * The ID of the timer used to check the expiration time of the session.
@@ -165,14 +161,14 @@ export abstract class BaseSession implements IAuthenticationManager {
    * @param params.startTime - The start time of the session.
    * @param params.endTime - The end time of the session.
    * @param params.safetyMargin - The safety margin in milliseconds.
-   * @param params.testSession - Indicates if this is a test session.
+   * @param params.duration - Indicates if this is a test session.
    */
   constructor(params: IBasemapSessionParams) {
     this.startSessionUrl = params.startSessionUrl;
     this.token = params.token;
     this.styleFamily = params.styleFamily || "arcgis";
     this.authentication = params.authentication;
-    this.testSession = params.testSession || false;
+    this.duration = params.duration || DEFAULT_DURATION;
     this.startTime =
       typeof params.startTime === "string"
         ? new Date(params.startTime)
@@ -254,13 +250,13 @@ export abstract class BaseSession implements IAuthenticationManager {
       styleFamily = "arcgis",
       authentication,
       safetyMargin = DEFAULT_SAFETY_MARGIN,
-      testSession = false
+      duration = DEFAULT_DURATION
     }: {
       startSessionUrl?: string;
       styleFamily?: StyleFamily;
       authentication: IAuthenticationManager | string;
       safetyMargin?: number;
-      testSession?: boolean;
+      duration?: number;
     },
     SessionClass: new (params: IBasemapSessionParams) => T
   ): Promise<T> {
@@ -268,12 +264,10 @@ export abstract class BaseSession implements IAuthenticationManager {
       startSessionUrl,
       styleFamily,
       authentication,
-      testSession
+      duration
     });
 
-    const timeToSubtract = testSession
-      ? 1
-      : safetyMargin || DEFAULT_SAFETY_MARGIN;
+    const timeToSubtract = safetyMargin || DEFAULT_SAFETY_MARGIN;
 
     const session = new SessionClass({
       startSessionUrl: startSessionUrl,
@@ -284,7 +278,7 @@ export abstract class BaseSession implements IAuthenticationManager {
       expires: new Date(sessionResponse.endTime - timeToSubtract),
       startTime: new Date(sessionResponse.startTime),
       endTime: new Date(sessionResponse.endTime),
-      testSession
+      duration
     });
 
     return session as T;
@@ -305,7 +299,7 @@ export abstract class BaseSession implements IAuthenticationManager {
       safetyMargin: this.saftyMargin,
       startTime: this.startTime,
       endTime: this.endTime,
-      testSession: this.testSession
+      duration: this.duration
     };
   }
 
@@ -332,9 +326,7 @@ export abstract class BaseSession implements IAuthenticationManager {
     const params: IBasemapSessionParams = JSON.parse(serializedBasemapSession);
     const authentication = deserializeAuthentication(params.authentication);
 
-    const timeToSubtract = params.testSession
-      ? 1
-      : params.safetyMargin || DEFAULT_SAFETY_MARGIN;
+    const timeToSubtract = params.safetyMargin || DEFAULT_SAFETY_MARGIN;
 
     const session = new SessionClass({
       startSessionUrl: params.startSessionUrl,
@@ -345,7 +337,7 @@ export abstract class BaseSession implements IAuthenticationManager {
       safetyMargin: timeToSubtract,
       startTime: new Date(params.startTime),
       endTime: new Date(params.endTime),
-      testSession: params.testSession || false
+      duration: params.duration || DEFAULT_DURATION
     });
 
     return session;
@@ -402,7 +394,7 @@ export abstract class BaseSession implements IAuthenticationManager {
       startSessionUrl: this.startSessionUrl,
       styleFamily: this.styleFamily,
       authentication: this.authentication,
-      testSession: this.testSession
+      duration: this.duration
     });
 
     this.setToken(newSession.sessionToken);

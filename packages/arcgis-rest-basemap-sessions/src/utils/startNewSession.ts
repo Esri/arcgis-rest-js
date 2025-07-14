@@ -1,11 +1,12 @@
 import { IAuthenticationManager, request } from "@esri/arcgis-rest-request";
 import { StyleFamily } from "../types/StyleFamily.js";
+import { DEFAULT_DURATION } from "./defaults.js";
 
 export interface IRequestNewSessionParams {
-  startSessionUrl?: string;
+  startSessionUrl: string;
   authentication: IAuthenticationManager | string;
   styleFamily?: StyleFamily;
-  testSession?: boolean;
+  duration?: number;
 }
 
 export interface IStartSessionResponse {
@@ -16,14 +17,14 @@ export interface IStartSessionResponse {
 }
 
 export function startNewSession({
-  startSessionUrl = "https://basemapstylesdev-api.arcgis.com/arcgis/rest/services/styles/v2/sessions/start",
-  styleFamily = "arcgis",
+  startSessionUrl,
   authentication,
-  testSession = false
+  styleFamily = "arcgis",
+  duration = DEFAULT_DURATION
 }: IRequestNewSessionParams): Promise<IStartSessionResponse> {
   return request(startSessionUrl, {
     httpMethod: "GET",
     authentication: authentication,
-    params: { styleFamily, testSession }
+    params: { styleFamily, durationSeconds: duration }
   });
 }

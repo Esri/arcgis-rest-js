@@ -1,9 +1,9 @@
 import {
   BaseSession,
   IBasemapSessionParams,
-  IStartSessionParams,
-  DEFAULT_START_BASEMAP_SESSION_URL
+  IStartSessionParams
 } from "./BaseSession.js";
+import { DEFAULT_START_BASEMAP_SESSION_URL } from "./utils/defaults.js";
 
 /**
  * `BasemapStyleSession` is a class that extends {@linkcode BaseSession} to manage sessions
