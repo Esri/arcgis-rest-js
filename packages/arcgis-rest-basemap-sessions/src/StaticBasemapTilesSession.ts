@@ -37,17 +37,4 @@ export class StaticBasemapTilesSession extends BaseSession {
       ) => StaticBasemapTilesSession
     );
   }
-
-  /**
-   * Deserializes a static basemap tiles session from a serialized string.
-   * You can serialize a session using the {@linkcode StaticBasemapTilesSession.serialize}.
-   */
-  static deserialize(
-    serializedBasemapSession: string
-  ): StaticBasemapTilesSession {
-    return BaseSession.deserializeSession<StaticBasemapTilesSession>(
-      serializedBasemapSession,
-      StaticBasemapTilesSession
-    );
-  }
 }

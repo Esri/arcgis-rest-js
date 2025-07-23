@@ -13,14 +13,22 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            "packages/!(arcgis-rest-auth)/{src,test}/**/!(*.test.live).ts",
+            "packages/arcgis-rest-demographics/{src,test}/**/!(*.test.live).ts",
+            "packages/arcgis-rest-developer-credentials/{src,test}/**/!(*.test.live).ts",
+            "packages/arcgis-rest-elevation/{src,test}/**/!(*.test.live).ts",
+            "packages/arcgis-rest-feature-service/{src,test}/**/!(*.test.live).ts",
+            "packages/arcgis-rest-geocoding/{src,test}/**/!(*.test.live).ts",
+            "packages/arcgis-rest-places/{src,test}/**/!(*.test.live).ts",
+            "packages/arcgis-rest-portal/{src,test}/**/!(*.test.live).ts",
+            "packages/arcgis-rest-request/{src,test}/**/!(*.test.live).ts",
+            "packages/arcgis-rest-routing/{src,test}/**/!(*.test.live).ts",
             "scripts/test-helpers.ts"
         ],
 
         // list of files to exclude
         exclude: [
             "packages/*/{src,test}/**/*.test.live.ts",
-            "packages/*/dist/**/*"
+            "packages/*/dist/**/*",
         ],
 
         karmaTypescriptConfig: {

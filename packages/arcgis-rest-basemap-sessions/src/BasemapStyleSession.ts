@@ -31,17 +31,4 @@ export class BasemapStyleSession extends BaseSession {
       ) => BasemapStyleSession
     );
   }
-
-  /**
-   * Deserializes a basemap style session from a serialized string.
-   * You can serialize a session using the {@linkcode BasemapStyleSession.serialize}.
-   */
-  static deserialize(serializedBasemapSession: string) {
-    return BaseSession.deserializeSession<BasemapStyleSession>(
-      serializedBasemapSession,
-      BasemapStyleSession as new (
-        params: IBasemapSessionParams
-      ) => BasemapStyleSession
-    );
-  }
 }

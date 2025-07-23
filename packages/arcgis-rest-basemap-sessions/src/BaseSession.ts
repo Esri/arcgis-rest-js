@@ -2,7 +2,6 @@ import mitt from "mitt";
 
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 import { StyleFamily } from "./types/StyleFamily.js";
-import { deserializeAuthentication } from "./utils/deserializeAuthentication.js";
 import { startNewSession } from "./utils/startNewSession.js";
 import { Writable } from "./utils/writable.js";
 import {
@@ -285,65 +284,6 @@ export abstract class BaseSession implements IAuthenticationManager {
   }
 
   /**
-   * Converts the session parameters to a JSON object.
-   *
-   * @returns An object containing the session parameters.
-   */
-  toJSON(): IBasemapSessionParams {
-    return {
-      startSessionUrl: this.startSessionUrl,
-      token: this.token,
-      styleFamily: this.styleFamily,
-      authentication: this.authentication,
-      expires: this.expires,
-      safetyMargin: this.saftyMargin,
-      startTime: this.startTime,
-      endTime: this.endTime,
-      duration: this.duration
-    };
-  }
-
-  /**
-   * Serializes the session parameters to a JSON string.
-   *
-   * @returns A JSON string representation of the session parameters.
-   */
-  serialize(): string {
-    return JSON.stringify(this.toJSON());
-  }
-
-  /**
-   * Deserializes a session from a JSON string and returns an instance of the session class.
-   *
-   * @param serializedBasemapSession - The JSON string to deserialize.
-   * @param SessionClass - The class to use for the session.
-   * @returns An instance of the session class.
-   */
-  protected static deserializeSession<T extends BaseSession>(
-    serializedBasemapSession: string,
-    SessionClass: new (params: IBasemapSessionParams) => T
-  ) {
-    const params: IBasemapSessionParams = JSON.parse(serializedBasemapSession);
-    const authentication = deserializeAuthentication(params.authentication);
-
-    const timeToSubtract = params.safetyMargin || DEFAULT_SAFETY_MARGIN;
-
-    const session = new SessionClass({
-      startSessionUrl: params.startSessionUrl,
-      token: params.token,
-      styleFamily: params.styleFamily,
-      authentication,
-      expires: params.expires,
-      safetyMargin: timeToSubtract,
-      startTime: new Date(params.startTime),
-      endTime: new Date(params.endTime),
-      duration: params.duration || DEFAULT_DURATION
-    });
-
-    return session;
-  }
-
-  /**
    * Checks if the session is expired.
    *
    */
@@ -383,12 +323,14 @@ export abstract class BaseSession implements IAuthenticationManager {
    * @returns A promise that resolves to the current instance of the session.
    */
   async refreshCredentials(): Promise<this> {
-    const previous = structuredClone({
-      token: this.token,
-      startTime: this.startTime,
-      endTime: this.endTime,
-      expires: this.expires
-    });
+    const previous = JSON.parse(
+      JSON.stringify({
+        token: this.token,
+        startTime: this.startTime,
+        endTime: this.endTime,
+        expires: this.expires
+      })
+    );
 
     const newSession = await startNewSession({
       startSessionUrl: this.startSessionUrl,
