@@ -8,7 +8,10 @@ export default defineConfig({
       include: ['packages/arcgis-rest-basemap-sessions/src/**/*.{ts,js}'],
       provider: 'istanbul',
       reporter: ['text', 'json', 'html'],
-      reportsDirectory: './coverage-vitest'
+      reportsDirectory: './coverage/vitest',
+      thresholds: {
+        100: true,
+      }
     },
   },
 })

@@ -37,9 +37,8 @@ jobs:
       - name: Test in Node
         run: npm run test:node
 
-      - uses: codecov/codecov-action@v1
-        with:
-          directory: ./coverage
+      - name: Test with Vitest
+        run: npm run test:vitest
 
   # If the build and test works, run a release
   release:
