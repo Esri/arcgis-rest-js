@@ -349,9 +349,10 @@ export function internalRequest(
           queryParams === "" ? url : url + "?" + encodeQueryString(params);
 
         if (
-          // This would exceed the maximum length for URLs specified by the consumer and requires POST
+          // This would exceed the maximum length for URLs by 2000 as default or as specified by the consumer and requires POST
           (options.maxUrlLength &&
             urlWithQueryString.length > options.maxUrlLength) ||
+          (!options.maxUrlLength && urlWithQueryString.length > 2000) ||
           // Or if the customer requires the token to be hidden and it has not already been hidden in the header (for browsers)
           (params.token && options.hideToken)
         ) {

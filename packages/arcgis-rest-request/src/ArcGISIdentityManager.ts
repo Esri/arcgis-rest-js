@@ -837,6 +837,21 @@ export class ArcGISIdentityManager
       });
   }
 
+  /**
+   * Deserializes a JSON string previously created with {@linkcode ArcGISIdentityManager.serialize} to an {@linkcode ArcGISIdentityManager} instance.
+   *
+   * ```js
+   * // create an ArcGISIdentityManager instance
+   * const serializedString = manager.serialize();
+   * localStorage.setItem("arcgis-identity-manager", serializedString);
+   *
+   * // later, you can retrieve the manager from localStorage
+   * const serializedString = localStorage.getItem("arcgis-identity-manager");
+   * const manager = ArcGISIdentityManager.deserialize(serializedString);
+   * ```
+   *
+   * @param str A JSON string representing an instance of `ArcGISIdentityManager`. This can be created with {@linkcode ArcGISIdentityManager.serialize}.
+   */
   public static deserialize(str: string) {
     const options = JSON.parse(str);
     return new ArcGISIdentityManager({
@@ -1188,8 +1203,25 @@ export class ArcGISIdentityManager
     });
   }
 
-  public toJSON(): IArcGISIdentityManagerOptions {
+  /**
+   * Converts the `ArcGISIdentityManager` instance to a JSON object. This is called when the instance is serialized to JSON with [`JSON.stringify()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
+   *
+   * ```js
+   * import { ArcGISIdentityManager } from '@esri/arcgis-rest-request';
+   *
+   * const session = ArcGISIdentityManager.fromCredentials({
+   *   clientId: "abc123",
+   *   clientSecret: "••••••"
+   * })
+   *
+   * const json = JSON.stringify(session);
+   * ```
+   *
+   * @returns A plain object representation of the instance.
+   */
+  public toJSON(): IArcGISIdentityManagerOptions & { type: string } {
     return {
+      type: "ArcGISIdentityManager",
       clientId: this.clientId,
       refreshToken: this.refreshToken,
       refreshTokenExpires: this.refreshTokenExpires || undefined,
@@ -1205,9 +1237,25 @@ export class ArcGISIdentityManager
     };
   }
 
+  /**
+   * Serializes the `ArcGISIdentityManager` instance to a JSON string.
+   *
+   * ```js
+   * // create an ArcGISIdentityManager instance
+   * const serializedString = manager.serialize();
+   * localStorage.setItem("arcgis-identity-manager", serializedString);
+   *
+   * // later, you can retrieve the manager from localStorage
+   * const serializedString = localStorage.getItem("arcgis-identity-manager");
+   * const manager = ArcGISIdentityManager.deserialize(serializedString);
+   * ```
+   *
+   * @returns The serialized JSON string.
+   */
   public serialize() {
     return JSON.stringify(this);
   }
+
   /**
    * For a "Host" app that embeds other platform apps via iframes, after authenticating the user
    * and creating a ArcGISIdentityManager, the app can then enable "post message" style authentication by calling
