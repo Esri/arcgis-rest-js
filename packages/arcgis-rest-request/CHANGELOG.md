@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-request [4.7.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.7.0...@esri/arcgis-rest-request@4.7.1) (2025-07-25)
+
+
+### Bug Fixes
+
+* actually export no-cors utils ([746429e](https://github.com/Esri/arcgis-rest-js/commit/746429e352013c971c54086ffea15863fecbdb7f))
+
 # @esri/arcgis-rest-request [4.7.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.6.0...@esri/arcgis-rest-request@4.7.0) (2025-07-25)
 
 
