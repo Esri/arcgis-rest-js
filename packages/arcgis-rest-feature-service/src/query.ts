@@ -204,3 +204,106 @@ export function queryFeatures(
 
   return request(`${cleanUrl(requestOptions.url)}/query`, queryOptions);
 }
+
+/**
+ * Query a feature service to retrieve all features. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
+ *
+ * ```js
+ * import { queryAllFeatures } from '@esri/arcgis-rest-feature-service';
+ *
+ * queryAllFeatures({
+ *   url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3",
+ *   where: "STATE_NAME = 'Alaska'"
+ * })
+ *   .then(result)
+ * ```
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise that will resolve with the query response.
+ */
+export async function queryAllFeatures(
+  requestOptions: IQueryFeaturesOptions
+): Promise<IQueryFeaturesResponse> {
+  const pageSize = 2000;
+  let allFeatures: any[] = [];
+  let offset = 0;
+  let hasMore = true;
+
+  while (hasMore) {
+    const pagedOptions = {
+      ...requestOptions,
+      params: {
+        ...(requestOptions.params || {}),
+        resultOffset: offset,
+        resultRecordCount: pageSize
+      }
+    };
+
+    const queryOptions = appendCustomParams<IQueryFeaturesOptions>(
+      pagedOptions,
+      [
+        "where",
+        "objectIds",
+        "relationParam",
+        "time",
+        "distance",
+        "units",
+        "outFields",
+        "geometry",
+        "geometryType",
+        "spatialRel",
+        "returnGeometry",
+        "maxAllowableOffset",
+        "geometryPrecision",
+        "inSR",
+        "outSR",
+        "gdbVersion",
+        "returnDistinctValues",
+        "returnIdsOnly",
+        "returnCountOnly",
+        "returnExtentOnly",
+        "orderByFields",
+        "groupByFieldsForStatistics",
+        "outStatistics",
+        "returnZ",
+        "returnM",
+        "multipatchOption",
+        "resultOffset",
+        "resultRecordCount",
+        "quantizationParameters",
+        "returnCentroid",
+        "resultType",
+        "historicMoment",
+        "returnTrueCurves",
+        "sqlFormat",
+        "returnExceededLimitFeatures",
+        "f"
+      ],
+      {
+        httpMethod: "GET",
+        params: {
+          where: "1=1",
+          outFields: "*",
+          ...pagedOptions.params
+        }
+      }
+    );
+    const response: IQueryFeaturesResponse = await request(
+      `${cleanUrl(requestOptions.url)}/query`,
+      queryOptions
+    );
+
+    allFeatures = allFeatures.concat(response.features);
+
+    if (response.features.length < pageSize) {
+      hasMore = false;
+    } else {
+      offset += pageSize;
+    }
+  }
+
+  return {
+    ...requestOptions,
+    features: allFeatures
+  };
+}

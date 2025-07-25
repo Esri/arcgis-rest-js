@@ -5,6 +5,7 @@ import fetchMock from "fetch-mock";
 import {
   getFeature,
   queryFeatures,
+  queryAllFeatures,
   queryRelated,
   IQueryFeaturesOptions,
   IQueryRelatedOptions
@@ -163,5 +164,50 @@ describe("getFeature() and queryFeatures()", () => {
       .catch((e) => {
         fail(e);
       });
+  });
+});
+
+describe("queryAllFeatures", () => {
+  const pageSize = 2000;
+  // first page with 2000 features
+  const page1Features = Array.from({ length: pageSize }, (_, i) => ({
+    attributes: { OBJECTID: i + 1, name: `Feature ${i + 1}` }
+  }));
+
+  // second page with 1 feature to simulate end of pagination
+  const page2Features = [
+    { attributes: { OBJECTID: 2001, name: "Feature 2001" } }
+  ];
+
+  afterEach(() => {
+    fetchMock.restore();
+  });
+
+  it("fetches multiple pages based on feature count", async () => {
+    fetchMock.getOnce(
+      `${serviceUrl}/query?f=json&resultOffset=0&resultRecordCount=2000&where=1%3D1&outFields=*`,
+      {
+        features: page1Features
+      }
+    );
+
+    fetchMock.getOnce(
+      `${serviceUrl}/query?f=json&resultOffset=2000&resultRecordCount=2000&where=1%3D1&outFields=*`,
+      {
+        features: page2Features
+      }
+    );
+
+    const result = await queryAllFeatures({
+      url: serviceUrl,
+      where: "1=1",
+      outFields: "*"
+    });
+
+    expect(fetchMock.calls().length).toBe(2);
+    expect(result.features.length).toBe(pageSize + 1);
+
+    expect(result.features[0].attributes.OBJECTID).toBe(1);
+    expect(result.features[pageSize].attributes.OBJECTID).toBe(2001);
   });
 });
