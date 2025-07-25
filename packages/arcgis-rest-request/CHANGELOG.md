@@ -1,3 +1,11 @@
+# @esri/arcgis-rest-request [4.7.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.6.0...@esri/arcgis-rest-request@4.7.0) (2025-07-25)
+
+
+### Features
+
+* integrate no-cors into request fn ([f828bab](https://github.com/Esri/arcgis-rest-js/commit/f828babcff77633229af8933258c84103b87f563))
+* no-cors utils and global cache ([29db594](https://github.com/Esri/arcgis-rest-js/commit/29db594cf644ea72e10ed6813e91bad4c9eb4b62))
+
 # @esri/arcgis-rest-request [4.6.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.5.1...@esri/arcgis-rest-request@4.6.0) (2025-06-27)
 
 
