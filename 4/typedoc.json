@@ -95995,7 +95995,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/request.ts",
-									"line": 91,
+									"line": 98,
 									"character": 2
 								}
 							],
@@ -96334,7 +96334,7 @@
 							"sources": [
 								{
 									"fileName": "arcgis-rest-request/src/request.ts",
-									"line": 111,
+									"line": 118,
 									"character": 9
 								}
 							],
@@ -96417,7 +96417,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/request.ts",
-							"line": 81,
+							"line": 88,
 							"character": 13
 						}
 					],
@@ -111472,7 +111472,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/request.ts",
-							"line": 18,
+							"line": 25,
 							"character": 13
 						}
 					],
@@ -111637,7 +111637,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/request.ts",
-							"line": 159,
+							"line": 166,
 							"character": 16
 						}
 					],
@@ -112290,7 +112290,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/request.ts",
-							"line": 48,
+							"line": 55,
 							"character": 16
 						}
 					],
@@ -112679,7 +112679,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/request.ts",
-							"line": 533,
+							"line": 584,
 							"character": 16
 						}
 					],
@@ -112848,7 +112848,7 @@
 					"sources": [
 						{
 							"fileName": "arcgis-rest-request/src/request.ts",
-							"line": 36,
+							"line": 43,
 							"character": 16
 						}
 					],
