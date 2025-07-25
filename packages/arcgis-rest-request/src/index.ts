@@ -25,6 +25,7 @@ export * from "./utils/ITokenRequestOptions.js";
 export * from "./utils/process-params.js";
 export * from "./utils/ResponseFormats.js";
 export * from "./utils/retryAuthError.js";
+export * from "./utils/sendNoCorsRequest.js";
 export * from "./utils/warn.js";
 export * from "./ApplicationCredentialsManager.js";
 export * from "./ApiKeyManager.js";
