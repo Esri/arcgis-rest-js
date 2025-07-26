@@ -9,11 +9,18 @@ import {
   IRequestOptions,
   InternalRequestOptions
 } from "./utils/IRequestOptions.js";
+import {
+  isNoCorsDomain,
+  isNoCorsRequestRequired,
+  registerNoCorsDomains,
+  sendNoCorsRequest
+} from "./utils/sendNoCorsRequest.js";
 import { IParams } from "./utils/IParams.js";
 import { warn } from "./utils/warn.js";
 import { IRetryAuthError } from "./utils/retryAuthError.js";
 import { getFetch } from "@esri/arcgis-rest-fetch";
 import { IAuthenticationManager } from "./index.js";
+import { isSameOrigin } from "./utils/isSameOrigin.js";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
@@ -250,6 +257,11 @@ export function internalRequest(
     credentials: options.credentials || "same-origin"
   };
 
+  // Is this a no-cors domain? if so we need to set credentials to include
+  if (isNoCorsDomain(url)) {
+    fetchOptions.credentials = "include";
+  }
+
   // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
   // and that request needs to send cookies cross domain
   // so we need to set the credentials to "include"
@@ -296,26 +308,55 @@ export function internalRequest(
   // query params are applied.
   const originalUrl = url;
 
-  return (
-    authentication
-      ? authentication.getToken(url).catch((err) => {
-          /**
-           * append original request url and requestOptions
-           * to the error thrown by getToken()
-           * to assist with retrying
-           */
-          err.url = url;
-          err.options = options;
-          /**
-           * if an attempt is made to talk to an unfederated server
-           * first try the request anonymously. if a 'token required'
-           * error is thrown, throw the UNFEDERATED error then.
-           */
-          originalAuthError = err;
-          return Promise.resolve("");
-        })
-      : Promise.resolve("")
-  )
+  // default to false, for nodejs
+  let sameOrigin = false;
+  // if we are in a browser, check if the url is same origin
+  /* istanbul ignore else */
+  if (typeof window !== "undefined") {
+    sameOrigin = isSameOrigin(url);
+  }
+  const requiresNoCors = !sameOrigin && isNoCorsRequestRequired(url);
+
+  // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
+  // and that request needs to send cookies cross domain
+  // so we need to set the credentials to "include"
+  if (
+    options.headers &&
+    options.headers["X-Esri-Auth-Client-Id"] &&
+    url.indexOf("/oauth2/platformSelf") > -1
+  ) {
+    fetchOptions.credentials = "include";
+  }
+
+  // Simple first promise that we may turn into the no-cors request
+  let firstPromise = Promise.resolve();
+  if (requiresNoCors) {
+    // ensure we send cookies on the request after
+    fetchOptions.credentials = "include";
+    firstPromise = sendNoCorsRequest(url);
+  }
+
+  return firstPromise
+    .then(() =>
+      authentication
+        ? authentication.getToken(url).catch((err) => {
+            /**
+             * append original request url and requestOptions
+             * to the error thrown by getToken()
+             * to assist with retrying
+             */
+            err.url = url;
+            err.options = options;
+            /**
+             * if an attempt is made to talk to an unfederated server
+             * first try the request anonymously. if a 'token required'
+             * error is thrown, throw the UNFEDERATED error then.
+             */
+            originalAuthError = err;
+            return Promise.resolve("");
+          })
+        : Promise.resolve("")
+    )
     .then((token) => {
       if (token.length) {
         params.token = token;
@@ -350,7 +391,8 @@ export function internalRequest(
 
         if (
           // This would exceed the maximum length for URLs by 2000 as default or as specified by the consumer and requires POST
-          (options.maxUrlLength && urlWithQueryString.length > options.maxUrlLength) ||
+          (options.maxUrlLength &&
+            urlWithQueryString.length > options.maxUrlLength) ||
           (!options.maxUrlLength && urlWithQueryString.length > 2000) ||
           // Or if the customer requires the token to be hidden and it has not already been hidden in the header (for browsers)
           (params.token && options.hideToken)
@@ -483,6 +525,15 @@ export function internalRequest(
           options,
           originalAuthError
         );
+
+        // If this was a portal/self call, and we got authorizedNoCorsDomains back
+        // register them
+        if (data && /\/sharing\/rest\/(accounts|portals)\/self/i.test(url)) {
+          // if we have a list of no-cors domains, register them
+          if (Array.isArray(data.authorizedCrossOriginNoCorsDomains)) {
+            registerNoCorsDomains(data.authorizedCrossOriginNoCorsDomains);
+          }
+        }
 
         if (originalAuthError) {
           /* If the request was made to an unfederated service that

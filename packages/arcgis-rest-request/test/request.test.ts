@@ -24,6 +24,7 @@ import {
   FIVE_DAYS_FROM_NOW,
   isNode
 } from "../../../scripts/test-helpers.js";
+import { requestConfig } from "../src/requestConfig.js";
 
 describe("request()", () => {
   afterEach(() => {
@@ -829,5 +830,115 @@ describe("request()", () => {
       .catch((e) => {
         fail(e);
       });
+  });
+
+  describe("no-cors:", () => {
+    beforeEach(() => {
+      // Reset requestConfig before each test
+      requestConfig.pendingNoCorsRequests = {};
+      requestConfig.noCorsDomains = [];
+      requestConfig.crossOriginNoCorsDomains = {};
+    });
+
+    it("should send no-cors request as first promise when needed", (done) => {
+      requestConfig.noCorsDomains = ["https://example.com"];
+      const url = "https://example.com/resource?foo=bar";
+      // actual call
+      fetchMock.post(url, SharingRestInfo);
+      // no-cors request
+      fetchMock.get("https://example.com/resource", { status: 200 });
+
+      request(url)
+        .then(() => {
+          let calls = fetchMock.calls("https://example.com/resource");
+          expect(calls.length).toBe(1);
+
+          // expect the first call to be a no-cors request
+          const [firstUrl, firstOptions] = calls[0];
+          expect(firstUrl).toBe("https://example.com/resource");
+
+          expect(firstOptions.mode).toEqual("no-cors");
+          expect(firstOptions.credentials).toEqual("include");
+
+          // expect the second call to be a normal request
+          calls = fetchMock.calls("https://example.com/resource?foo=bar");
+          expect(calls.length).toBe(1);
+          const [secondUrl, secondOptions] = calls[0];
+          expect(secondUrl).toBe("https://example.com/resource?foo=bar");
+          expect(secondOptions.method).toEqual("POST");
+          expect(secondOptions.credentials).toEqual("include");
+
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should skip no-cors request and and include credentials if already sent", (done) => {
+      requestConfig.noCorsDomains = ["https://example.com"];
+      requestConfig.crossOriginNoCorsDomains["https://example.com"] =
+        Date.now();
+      const url = "https://example.com/resource";
+      fetchMock.once(url, SharingRestInfo);
+      // fetchMock.postOnce(url, { status: 200 });
+      request(url)
+        .then(() => {
+          const [lastUrl, lastOptions] = fetchMock.lastCall()!;
+          expect(lastUrl).toBe("https://example.com/resource");
+          expect(lastOptions.credentials).toEqual("include");
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should register no-cors domains if present on portal/self response", (done) => {
+      const url =
+        "https://ent.portal.com/portal/sharing/rest/portals/self?f=json";
+      fetchMock.post(url, {
+        authorizedCrossOriginNoCorsDomains: [
+          "https://server.portal.com",
+          "https://ent.portal.com"
+        ]
+      });
+      request(url)
+        .then(() => {
+          const [lastUrl, lastOptions] = fetchMock.lastCall()!;
+          expect(lastUrl).toBe(url);
+          expect(requestConfig.noCorsDomains).toEqual([
+            "https://server.portal.com",
+            "https://ent.portal.com"
+          ]);
+          // it should not initialise the crossOriginNoCorsDomains
+          expect(requestConfig.crossOriginNoCorsDomains).toEqual({});
+
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+    it("should work without no-cors domains present on portal/self response", (done) => {
+      const url =
+        "https://ent.portal.com/portal/sharing/rest/portals/self?f=json";
+      fetchMock.post(url, {
+        other: "props"
+      });
+      request(url)
+        .then(() => {
+          const [lastUrl, lastOptions] = fetchMock.lastCall()!;
+          expect(lastUrl).toBe(url);
+          expect(requestConfig.noCorsDomains).toEqual([]);
+          // it should not initialise the crossOriginNoCorsDomains
+          expect(requestConfig.crossOriginNoCorsDomains).toEqual({});
+
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
   });
 });
