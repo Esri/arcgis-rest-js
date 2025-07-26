@@ -7,15 +7,16 @@ import { DEFAULT_START_STATIC_BASEMAP_SESSION_URL } from "./utils/defaults.js";
 
 /**
  * `StaticBasemapTilesSession` is a class that extends {@linkcode BaseSession} to manage sessions
- * for static basemap tiles. It provides methods to {@linkcode StaticBasemapTilesSession.start} a new session and {@linkcode StaticBasemapTilesSession.deserialize} an existing session.
+ * for static basemap tiles. It provides methods to {@linkcode StaticBasemapTilesSession.start} a new session
+ * which should be used instead of constructing a new instance directly.
  *
  * @class StaticBasemapTilesSession
  * @extends BaseSession
  */
 export class StaticBasemapTilesSession extends BaseSession {
   /**
-   * Creates an instance of `StaticBasemapTilesSession`. You typically should not call this constructor directly; instead, use the static methods to create or deserialize a session.
-   * You may need to call this if you are implmenting custom logic for storing or managing sessions.
+   * Creates an instance of `StaticBasemapTilesSession`. Constructing `StaticBasemapTilesSession` directly is discouraged.
+   * Instead, use the static method {@linkcode StaticBasemapTilesSession.start} to start a new session.`
    */
   constructor(params: IBasemapSessionParams) {
     super(params);
@@ -30,7 +31,8 @@ export class StaticBasemapTilesSession extends BaseSession {
     return BaseSession.startSession(
       {
         ...params,
-        startSessionUrl: DEFAULT_START_STATIC_BASEMAP_SESSION_URL
+        startSessionUrl:
+          params?.startSessionUrl || DEFAULT_START_STATIC_BASEMAP_SESSION_URL
       },
       StaticBasemapTilesSession as new (
         params: IBasemapSessionParams

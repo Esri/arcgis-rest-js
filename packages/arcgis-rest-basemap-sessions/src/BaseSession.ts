@@ -15,9 +15,9 @@ export interface IBasemapSessionParams {
   startSessionUrl: string;
   styleFamily: StyleFamily;
   authentication: IAuthenticationManager | string;
-  expires: Date | string;
-  startTime: Date | string;
-  endTime: Date | string;
+  expires: Date;
+  startTime: Date;
+  endTime: Date;
   safetyMargin?: number;
   duration?: number;
 }
@@ -26,7 +26,14 @@ export interface IStartSessionParams {
   styleFamily?: StyleFamily;
   authentication: IAuthenticationManager | string;
   saftyMargin?: number;
-  testSession?: boolean;
+  duration?: number;
+  autoRefresh?: boolean;
+
+  /**
+   * The URL to start the session. If not provided, it will use the default URL.
+   * @private
+   */
+  startSessionUrl?: string;
 }
 
 /**
@@ -37,6 +44,15 @@ export interface IStartSessionParams {
  * @implements {IAuthenticationManager}
  */
 export abstract class BaseSession implements IAuthenticationManager {
+  // the static methods for event handlers are used to provide doc via typedoc and do not need to be tested.
+  /* istanbul ignore next -- @preserve */
+  /**
+   * Event handler for when an error occurs during session management.
+   */
+  static readonly error = function error(e: Error): void {}; // eslint-disable-line @typescript-eslint/no-empty-function
+
+  // the static methods for event handlers are used to provide doc via typedoc and do not need to be tested.
+  /* istanbul ignore next -- @preserve */
   /**
    * Event handler for when a session expires and the `token` it no longer valid.
    *
@@ -54,6 +70,8 @@ export abstract class BaseSession implements IAuthenticationManager {
     expires: Date;
   }): void {}; // eslint-disable-line @typescript-eslint/no-empty-function
 
+  // the static methods for event handlers are used to provide doc via typedoc and do not need to be tested.
+  /* istanbul ignore next -- @preserve */
   /**
    * Event handler for when a session refreshes and a new `token` is available.
    *
@@ -147,6 +165,11 @@ export abstract class BaseSession implements IAuthenticationManager {
   private emitter: any;
 
   /**
+   * A handler that is used to automatically refresh the session when it expires.
+   */
+  private autoRefreshHandler: (() => void) | null = null;
+
+  /**
    * Creates a new instance of the BaseSession class. Generally you should not create an instance of this class directly, but instead use the static methods to start a session or deserialize a session.
    *
    * You may need to create an instance of this class directly if you are  not using the built in deserialize method.
@@ -168,21 +191,11 @@ export abstract class BaseSession implements IAuthenticationManager {
     this.styleFamily = params.styleFamily || "arcgis";
     this.authentication = params.authentication;
     this.duration = params.duration || DEFAULT_DURATION;
-    this.startTime =
-      typeof params.startTime === "string"
-        ? new Date(params.startTime)
-        : params.startTime;
-    this.endTime =
-      typeof params.endTime === "string"
-        ? new Date(params.endTime)
-        : params.endTime;
-    this.expires =
-      typeof params.expires === "string"
-        ? new Date(params.expires)
-        : params.expires;
+    this.startTime = params.startTime;
+    this.endTime = params.endTime;
+    this.expires = params.expires;
     this.saftyMargin = params.safetyMargin || DEFAULT_SAFETY_MARGIN;
     this.emitter = mitt();
-    this.startCheckingExpirationTime();
   }
 
   /**
@@ -208,9 +221,6 @@ export abstract class BaseSession implements IAuthenticationManager {
    */
   startCheckingExpirationTime() {
     const check = () => {
-      console.log(
-        "BaremapStyleSession.startCheckingExpirationTime(): Checking session expiration time..."
-      );
       this.isSessionExpired();
     };
 
@@ -224,6 +234,8 @@ export abstract class BaseSession implements IAuthenticationManager {
     setTimeout(() => {
       check(); // check immediately after starting the interval
     }, 10);
+
+    return this.expirationTimerId; // return the timer ID so it can be stopped later
   }
 
   /**
@@ -234,6 +246,15 @@ export abstract class BaseSession implements IAuthenticationManager {
       clearInterval(this.expirationTimerId);
       this.expirationTimerId = null;
     }
+  }
+
+  /**
+   * Indicates if the session is currently checking for expiration time.
+   *
+   * @returns {boolean} - Returns true if the session is checking for expiration time, otherwise false.
+   */
+  get checkingExpirationTime(): boolean {
+    return !!this.expirationTimerId;
   }
 
   /**
@@ -249,13 +270,15 @@ export abstract class BaseSession implements IAuthenticationManager {
       styleFamily = "arcgis",
       authentication,
       safetyMargin = DEFAULT_SAFETY_MARGIN,
-      duration = DEFAULT_DURATION
+      duration = DEFAULT_DURATION,
+      autoRefresh = true
     }: {
       startSessionUrl?: string;
       styleFamily?: StyleFamily;
       authentication: IAuthenticationManager | string;
       safetyMargin?: number;
       duration?: number;
+      autoRefresh?: boolean;
     },
     SessionClass: new (params: IBasemapSessionParams) => T
   ): Promise<T> {
@@ -266,19 +289,23 @@ export abstract class BaseSession implements IAuthenticationManager {
       duration
     });
 
-    const timeToSubtract = safetyMargin || DEFAULT_SAFETY_MARGIN;
-
     const session = new SessionClass({
       startSessionUrl: startSessionUrl,
       token: sessionResponse.sessionToken,
       styleFamily,
       authentication,
-      safetyMargin: timeToSubtract,
-      expires: new Date(sessionResponse.endTime - timeToSubtract),
+      safetyMargin,
+      expires: new Date(sessionResponse.endTime - safetyMargin),
       startTime: new Date(sessionResponse.startTime),
       endTime: new Date(sessionResponse.endTime),
       duration
     });
+
+    session.startCheckingExpirationTime();
+
+    if (autoRefresh) {
+      session.startAutoRefresh();
+    }
 
     return session as T;
   }
@@ -298,9 +325,6 @@ export abstract class BaseSession implements IAuthenticationManager {
    */
   getToken(): Promise<string> {
     if (this.isExpired) {
-      console.log(
-        "BasmapStyleSession.getToken(): Session expired, refreshing credentials..."
-      );
       return this.refreshCredentials().then(() => this.token);
     }
 
@@ -317,12 +341,22 @@ export abstract class BaseSession implements IAuthenticationManager {
   }
 
   /**
+   * Indicates if the session is set to automatically refresh when it expires.
+   *
+   * @returns {boolean} - Returns true if auto-refresh is enabled, otherwise false.
+   */
+  get autoRefresh(): boolean {
+    return !!this.autoRefreshHandler && !!this.expirationTimerId;
+  }
+
+  /**
    * Refreshes the session credentials by starting a new session.
    * This will emit a "refreshed" event with the previous and current session details.
    *
    * @returns A promise that resolves to the current instance of the session.
    */
   async refreshCredentials(): Promise<this> {
+    // @TODO switch this to structured clone when we upgrade to Node 20+ types so we don't have to parse the dates later
     const previous = JSON.parse(
       JSON.stringify({
         token: this.token,
@@ -332,29 +366,68 @@ export abstract class BaseSession implements IAuthenticationManager {
       })
     );
 
-    const newSession = await startNewSession({
-      startSessionUrl: this.startSessionUrl,
-      styleFamily: this.styleFamily,
-      authentication: this.authentication,
-      duration: this.duration
-    });
+    try {
+      const newSession = await startNewSession({
+        startSessionUrl: this.startSessionUrl,
+        styleFamily: this.styleFamily,
+        authentication: this.authentication,
+        duration: this.duration
+      });
 
-    this.setToken(newSession.sessionToken);
-    this.setStartTime(new Date(newSession.startTime));
-    this.setEndTime(new Date(newSession.endTime));
-    this.setExpires(new Date(newSession.endTime - this.saftyMargin));
+      this.setToken(newSession.sessionToken);
+      this.setStartTime(new Date(newSession.startTime));
+      this.setEndTime(new Date(newSession.endTime));
+      this.setExpires(new Date(newSession.endTime - this.saftyMargin));
 
-    this.emitter.emit("refreshed", {
-      previous,
-      current: {
-        token: this.token,
-        startTime: this.startTime,
-        endTime: this.endTime,
-        expires: this.expires
-      }
-    });
+      this.emitter.emit("refreshed", {
+        previous: {
+          token: previous.token,
+          startTime: new Date(previous.startTime),
+          endTime: new Date(previous.endTime),
+          expires: new Date(previous.expires)
+        },
+        current: {
+          token: this.token,
+          startTime: this.startTime,
+          endTime: this.endTime,
+          expires: this.expires
+        }
+      });
+    } catch (error) {
+      this.emitter.emit("error", error);
+      throw error;
+    }
 
     return this;
+  }
+  /**
+   * Enables auto-refresh for the session. This will automatically refresh the session when it expires.
+   * It will also start checking the expiration time of the session if it is not already started via {@linkcode BaseSession.startCheckingExpirationTime}.
+   */
+  startAutoRefresh() {
+    if (!this.expirationTimerId) {
+      this.startCheckingExpirationTime();
+    }
+
+    this.autoRefreshHandler = () => {
+      this.refreshCredentials().catch((error: Error) => {
+        this.emitter.emit("error", error);
+      });
+    };
+
+    this.on("expired", this.autoRefreshHandler);
+  }
+
+  /**
+   * Disables auto-refresh for the session. This will stop automatically refreshing the session when it expires.
+   * This will  **not** stop checking the expiration time of the session. If you want to stop automated expiration
+   * checking, call {@linkcode BaseSession.stopCheckingExpirationTime} after calling this method.
+   */
+  stopAutoRefresh() {
+    if (this.autoRefreshHandler) {
+      this.off("expired", this.autoRefreshHandler);
+      this.autoRefreshHandler = null;
+    }
   }
 
   /**
@@ -365,9 +438,13 @@ export abstract class BaseSession implements IAuthenticationManager {
    */
   on(event: "refreshed", handler: typeof BaseSession.refreshed): void;
   on(event: "expired", handler: typeof BaseSession.expired): void;
+  on(event: "error", handler: typeof BaseSession.error): void;
   on(
     eventName: string,
-    handler: typeof BaseSession.refreshed | typeof BaseSession.expired
+    handler:
+      | typeof BaseSession.refreshed
+      | typeof BaseSession.expired
+      | typeof BaseSession.error
   ) {
     this.emitter.on(eventName, handler);
     this.isSessionExpired(); // check if the session is expired immediately after adding the handler
@@ -381,9 +458,14 @@ export abstract class BaseSession implements IAuthenticationManager {
    */
   once(event: "refreshed", handler: typeof BaseSession.refreshed): void;
   once(event: "expired", handler: typeof BaseSession.expired): void;
+  once(event: "error", handler: typeof BaseSession.error): void;
+
   once(
     eventName: string,
-    handler: typeof BaseSession.refreshed | typeof BaseSession.expired
+    handler:
+      | typeof BaseSession.refreshed
+      | typeof BaseSession.expired
+      | typeof BaseSession.error
   ) {
     const fn = (e: any) => {
       this.emitter.off(eventName, fn);
@@ -401,9 +483,13 @@ export abstract class BaseSession implements IAuthenticationManager {
    */
   off(event: "refreshed", handler: typeof BaseSession.refreshed): void;
   off(event: "expired", handler: typeof BaseSession.expired): void;
+  off(event: "error", handler: typeof BaseSession.error): void;
   off(
     eventName: string,
-    handler: typeof BaseSession.refreshed | typeof BaseSession.expired
+    handler:
+      | typeof BaseSession.refreshed
+      | typeof BaseSession.expired
+      | typeof BaseSession.error
   ) {
     this.emitter.off(eventName, handler);
   }
