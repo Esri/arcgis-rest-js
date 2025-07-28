@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-request [4.7.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.7.1...@esri/arcgis-rest-request@4.7.2) (2025-07-28)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** isSameOrigin returns false when url arg is null ([#1240](https://github.com/Esri/arcgis-rest-js/issues/1240)) ([6e3c94b](https://github.com/Esri/arcgis-rest-js/commit/6e3c94bd503ad7884096fb2d8def935bb1b16de4))
+
 ## @esri/arcgis-rest-request [4.7.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.7.0...@esri/arcgis-rest-request@4.7.1) (2025-07-25)
 
 
