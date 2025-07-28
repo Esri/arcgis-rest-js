@@ -49,7 +49,7 @@ module.exports = function (config) {
           filename: "coverage.json"
         },
         html: "coverage",
-        Cobertura: "coverage/cobertura.xml"
+        cobertura: "coverage/cobertura.xml"
       },
       compilerOptions: {
         module: "commonjs"
