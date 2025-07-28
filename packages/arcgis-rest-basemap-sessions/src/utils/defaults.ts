@@ -1,5 +1,5 @@
 export const DEFAULT_START_BASEMAP_STYLE_SESSION_URL =
-  "https://basemapstylesdev-api.arcgis.com/arcgis/rest/services/styles/v2/sessions/start";
+  "https://basemapstyles-api.arcgis.com/arcgis/rest/services/styles/v2/sessions/start";
 
 export const DEFAULT_START_STATIC_BASEMAP_SESSION_URL =
   "https://static-map-tiles-api.arcgis.com/arcgis/rest/services/static-basemap-tiles-service/v1/sessions/start";

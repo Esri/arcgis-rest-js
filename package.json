@@ -20,7 +20,7 @@
     "srihash": "node scripts/generate-sri-hashes.js",
     "test": "npm run lint && npm run test:compile && npm run test:node && npm run test:chrome && npm run test:vitest",
     "test:compile": "npm run build:esm",
-    "test:all": "npm run test:node && npm run test:firefox && npm run test:chrome",
+    "test:all": "npm run test:node && npm run test:firefox && npm run test:chrome && npm run test:vitest",
     "test:chrome": "karma start karma.conf.cjs --single-run --browsers=Chrome",
     "test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.cjs",
     "test:chrome:debug": "karma start karma.conf.cjs --auto-watch --no-single-run --browsers=ChromeDebugging",

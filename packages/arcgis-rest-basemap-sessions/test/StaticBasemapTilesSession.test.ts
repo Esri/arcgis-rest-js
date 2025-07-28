@@ -286,8 +286,7 @@ describe("StaticBasemapTilesSession", () => {
             details: [
               "The required authentication information is invalid. The token is either invalid or has expired."
             ],
-            restInfoUrl:
-              "https://basemapstylesdev-api.arcgis.com/arcgis/rest/info"
+            restInfoUrl: "https://basemapstyles-api.arcgis.com/arcgis/rest/info"
           }
         },
         {
