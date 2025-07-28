@@ -9,7 +9,7 @@
  */
 export function isSameOrigin(url: string, win?: Window | undefined): boolean {
   /* istanbul ignore next */
-  if (!win && !window) {
+  if ((!win && !window) || !url) {
     return false;
   } else {
     win = win || window;
