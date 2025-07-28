@@ -459,7 +459,6 @@ export abstract class BaseSession implements IAuthenticationManager {
   once(event: "refreshed", handler: typeof BaseSession.refreshed): void;
   once(event: "expired", handler: typeof BaseSession.expired): void;
   once(event: "error", handler: typeof BaseSession.error): void;
-
   once(
     eventName: string,
     handler:
