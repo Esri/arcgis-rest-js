@@ -4,6 +4,7 @@ import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 import { StyleFamily } from "./types/StyleFamily.js";
 import { startNewSession } from "./utils/startNewSession.js";
 import { Writable } from "./utils/writable.js";
+import { determineSafetyMargin } from "./utils/detemineSafetyMargin.js";
 import {
   DEFAULT_DURATION,
   DEFAULT_SAFETY_MARGIN,
@@ -20,12 +21,13 @@ export interface IBasemapSessionParams {
   endTime: Date;
   safetyMargin?: number;
   duration?: number;
+  autoRefresh?: boolean;
 }
 
 export interface IStartSessionParams {
   styleFamily?: StyleFamily;
   authentication: IAuthenticationManager | string;
-  saftyMargin?: number;
+  safetyMargin?: number;
   duration?: number;
   autoRefresh?: boolean;
 
@@ -120,7 +122,7 @@ export abstract class BaseSession implements IAuthenticationManager {
   readonly authentication: IAuthenticationManager | string;
 
   /**
-   * The expiration date of the session. This is the {@linkcode BaseSession.endTime} minus the {@linkcode BaseSession.saftyMargin}. This is used internally to determine if the session is expired.
+   * The expiration date of the session. This is the {@linkcode BaseSession.endTime} minus the {@linkcode BaseSession.safetyMargin}. This is used internally to determine if the session is expired.
    */
   readonly expires: Date;
 
@@ -147,12 +149,17 @@ export abstract class BaseSession implements IAuthenticationManager {
   /**
    * The safety margin in milliseconds. This subtracted from the {@linkcode BaseSession.endTime} to get the {@linkcode BaseSession.expiration}.
    */
-  readonly saftyMargin: number;
+  readonly safetyMargin: number;
 
   /**
    * The duration of the session in seconds. This is used to determine how long the session will last when the session is refreshed.
    */
   readonly duration: number;
+
+  /**
+   * The interval at which to check the expiration time of the session. This is always 10 seconds or 1/100th of the duration, whichever is smaller.
+   */
+  readonly expirationCheckInterval: number;
 
   /**
    * The ID of the timer used to check the expiration time of the session.
@@ -194,7 +201,9 @@ export abstract class BaseSession implements IAuthenticationManager {
     this.startTime = params.startTime;
     this.endTime = params.endTime;
     this.expires = params.expires;
-    this.saftyMargin = params.safetyMargin || DEFAULT_SAFETY_MARGIN;
+    this.safetyMargin = params.safetyMargin;
+    this.expirationCheckInterval =
+      Math.min(this.duration / 100, DEFAULT_CHECK_EXPIRATION_INTERVAL) * 1000;
     this.emitter = mitt();
   }
 
@@ -227,7 +236,8 @@ export abstract class BaseSession implements IAuthenticationManager {
     if (!this.expirationTimerId) {
       this.expirationTimerId = setInterval(
         check,
-        DEFAULT_CHECK_EXPIRATION_INTERVAL
+        // check every 10 seconds or 1/100th of the duration, whichever is smaller
+        this.expirationCheckInterval
       ); // check immediatly then on an interval
     }
 
@@ -269,7 +279,7 @@ export abstract class BaseSession implements IAuthenticationManager {
       startSessionUrl,
       styleFamily = "arcgis",
       authentication,
-      safetyMargin = DEFAULT_SAFETY_MARGIN,
+      safetyMargin,
       duration = DEFAULT_DURATION,
       autoRefresh = true
     }: {
@@ -288,14 +298,15 @@ export abstract class BaseSession implements IAuthenticationManager {
       authentication,
       duration
     });
+    const actualSafetyMargin = determineSafetyMargin(duration, safetyMargin);
 
     const session = new SessionClass({
       startSessionUrl: startSessionUrl,
       token: sessionResponse.sessionToken,
       styleFamily,
       authentication,
-      safetyMargin,
-      expires: new Date(sessionResponse.endTime - safetyMargin),
+      safetyMargin: actualSafetyMargin,
+      expires: new Date(sessionResponse.endTime - actualSafetyMargin * 1000),
       startTime: new Date(sessionResponse.startTime),
       endTime: new Date(sessionResponse.endTime),
       duration
@@ -377,7 +388,7 @@ export abstract class BaseSession implements IAuthenticationManager {
       this.setToken(newSession.sessionToken);
       this.setStartTime(new Date(newSession.startTime));
       this.setEndTime(new Date(newSession.endTime));
-      this.setExpires(new Date(newSession.endTime - this.saftyMargin));
+      this.setExpires(new Date(newSession.endTime - this.safetyMargin * 1000));
 
       this.emitter.emit("refreshed", {
         previous: {

@@ -2,14 +2,10 @@ import { expect, test, describe, afterEach } from "vitest";
 import {
   BasemapStyleSession,
   DEFAULT_SAFETY_MARGIN,
-  DEFAULT_START_BASEMAP_STYLE_SESSION_URL
+  DEFAULT_START_BASEMAP_STYLE_SESSION_URL,
+  IStartSessionParams
 } from "../src/index.js";
-import {
-  MOCK_START_TIME,
-  MOCK_END_TIME,
-  MOCK_EXPIRES,
-  TWELVE_HOURS
-} from "./test-utils.js";
+import { MOCK_START_TIME, MOCK_END_TIME, TWELVE_HOURS } from "./test-utils.js";
 import fetchMock from "fetch-mock";
 
 function createMockSession() {
@@ -19,17 +15,22 @@ function createMockSession() {
     styleFamily: "arcgis",
     startTime: MOCK_START_TIME,
     endTime: MOCK_END_TIME,
-    expires: MOCK_EXPIRES,
+    expires: new Date(MOCK_END_TIME.getTime() - DEFAULT_SAFETY_MARGIN * 1000),
     authentication: "token"
   });
 }
 
-async function startMockSession(sessionParams = {}, fetchOptions = {}) {
+async function startMockSession(
+  sessionParams: Partial<IStartSessionParams> = {},
+  fetchOptions = {}
+) {
   fetchMock.getOnce("*", {
     ...{
       sessionToken: "fake-token",
       startTime: MOCK_START_TIME.getTime(),
-      endTime: MOCK_END_TIME.getTime(),
+      endTime: sessionParams.duration
+        ? MOCK_START_TIME.getTime() + sessionParams.duration * 1000
+        : MOCK_END_TIME.getTime(),
       styleFamily: "arcgis"
     },
     ...fetchOptions
@@ -65,7 +66,7 @@ describe("BasemapStyleSession", () => {
       startSessionUrl: DEFAULT_START_BASEMAP_STYLE_SESSION_URL,
       startTime: MOCK_START_TIME,
       endTime: MOCK_END_TIME,
-      expires: MOCK_EXPIRES,
+      expires: new Date(MOCK_END_TIME.getTime() - DEFAULT_SAFETY_MARGIN * 1000),
       authentication: "token"
     });
 
@@ -73,18 +74,22 @@ describe("BasemapStyleSession", () => {
     expect(session.token).toBe("fake-token");
   });
 
-  test("should start a new BasemapStyleSession", async () => {
+  test("should start a new BasemapStyleSession with the default duration", async () => {
     const session = await startMockSession();
 
     // Validate the session object
     expect(session).toBeDefined();
     expect(session.token).toBe("fake-token");
-    expect(session.startTime).toEqual(MOCK_START_TIME);
-    expect(session.endTime).toEqual(MOCK_END_TIME);
-    expect(session.expires).toEqual(MOCK_EXPIRES);
+    expect(session.startTime, "startTime").toEqual(MOCK_START_TIME);
+    expect(session.endTime, "endTime").toEqual(MOCK_END_TIME);
+    expect(session.expires.getTime(), "expires").toEqual(
+      MOCK_END_TIME.getTime() - session.safetyMargin * 1000
+    );
     expect(session.startSessionUrl).toBe(
       DEFAULT_START_BASEMAP_STYLE_SESSION_URL
     );
+    expect(session.safetyMargin).toBe(DEFAULT_SAFETY_MARGIN);
+    expect(session.expirationCheckInterval).toBe(10000); // 10 seconds
     expect(session.styleFamily).toBe("arcgis");
     expect(session.authentication).toBe("token");
     expect(session.canRefresh).toBe(true);
@@ -104,6 +109,87 @@ describe("BasemapStyleSession", () => {
     expect(url).toContain("f=json");
   });
 
+  test("should start a new BasemapStyleSession with a custom duration", async () => {
+    const session = await startMockSession({
+      duration: 60,
+      authentication: "token"
+    });
+
+    // Validate the session object
+    expect(session).toBeDefined();
+    expect(session.token).toBe("fake-token");
+    expect(session.startTime).toEqual(MOCK_START_TIME);
+    expect(session.safetyMargin).toBe(1);
+
+    expect(session.endTime.getTime(), "endTime").toEqual(
+      MOCK_START_TIME.getTime() + 60 * 1000
+    );
+    expect(session.expires.getTime(), "expires").toEqual(
+      MOCK_START_TIME.getTime() + 60 * 1000 - session.safetyMargin * 1000
+    );
+    expect(session.startSessionUrl).toBe(
+      DEFAULT_START_BASEMAP_STYLE_SESSION_URL
+    );
+    expect(session.expirationCheckInterval).toBe(600);
+    expect(session.styleFamily).toBe("arcgis");
+    expect(session.authentication).toBe("token");
+    expect(session.canRefresh).toBe(true);
+    expect(await session.getToken()).toBe("fake-token");
+    expect(session.autoRefresh).toBe(true);
+
+    // Validate the fetch call
+    expect(fetchMock.calls().length).toBe(1);
+
+    const lastCall = fetchMock.lastCall();
+    const url = lastCall?.[0];
+
+    expect(url).toStartWith(DEFAULT_START_BASEMAP_STYLE_SESSION_URL);
+    expect(url).toContain("styleFamily=arcgis");
+    expect(url).toContain("token=token");
+    expect(url).toContain("durationSeconds=60");
+    expect(url).toContain("f=json");
+  });
+
+  test("should start a new BasemapStyleSession with a custom safetyMargin", async () => {
+    const session = await startMockSession({
+      authentication: "token",
+      safetyMargin: 600
+    });
+
+    // Validate the session object
+    expect(session).toBeDefined();
+    expect(session.token).toBe("fake-token");
+    expect(session.startTime).toEqual(MOCK_START_TIME);
+    expect(session.safetyMargin).toBe(600);
+
+    expect(session.endTime.getTime(), "endTime").toEqual(
+      MOCK_END_TIME.getTime()
+    );
+    expect(session.expires.getTime(), "expires").toEqual(
+      MOCK_END_TIME.getTime() - session.safetyMargin * 1000
+    );
+    expect(session.startSessionUrl).toBe(
+      DEFAULT_START_BASEMAP_STYLE_SESSION_URL
+    );
+    expect(session.expirationCheckInterval).toBe(10000);
+    expect(session.styleFamily).toBe("arcgis");
+    expect(session.authentication).toBe("token");
+    expect(session.canRefresh).toBe(true);
+    expect(await session.getToken()).toBe("fake-token");
+    expect(session.autoRefresh).toBe(true);
+
+    // Validate the fetch call
+    expect(fetchMock.calls().length).toBe(1);
+
+    const lastCall = fetchMock.lastCall();
+    const url = lastCall?.[0];
+
+    expect(url).toStartWith(DEFAULT_START_BASEMAP_STYLE_SESSION_URL);
+    expect(url).toContain("styleFamily=arcgis");
+    expect(url).toContain("token=token");
+    expect(url).toContain("durationSeconds=43200");
+    expect(url).toContain("f=json");
+  });
   test("should start a new BasemapStyleSession with a default style family", async () => {
     fetchMock.getOnce("*", {
       sessionToken: "fake-token",
@@ -121,7 +207,9 @@ describe("BasemapStyleSession", () => {
     expect(session.token).toBe("fake-token");
     expect(session.startTime).toEqual(MOCK_START_TIME);
     expect(session.endTime).toEqual(MOCK_END_TIME);
-    expect(session.expires).toEqual(MOCK_EXPIRES);
+    expect(session.expires).toEqual(
+      new Date(MOCK_END_TIME.getTime() - session.safetyMargin * 1000)
+    );
     expect(session.startSessionUrl).toBe(
       DEFAULT_START_BASEMAP_STYLE_SESSION_URL
     );
@@ -154,7 +242,9 @@ describe("BasemapStyleSession", () => {
     });
 
     test("should start and stop auto-refresh", async () => {
-      const session = await startMockSession({ autoRefresh: false });
+      const session = await startMockSession({
+        autoRefresh: false
+      });
 
       expect(session.autoRefresh).toBe(false);
       expect(session.checkingExpirationTime).toBe(true);
@@ -239,7 +329,7 @@ describe("BasemapStyleSession", () => {
 
       // simulating the session expiration
       session["setEndTime"](new Date(Date.now() - 1000));
-      session["setExpires"](new Date(Date.now() - DEFAULT_SAFETY_MARGIN));
+      session["setExpires"](new Date(Date.now() - session.safetyMargin * 1000));
       session.isSessionExpired();
 
       // wait for the refresh and expiration events
@@ -250,7 +340,7 @@ describe("BasemapStyleSession", () => {
       expect(refreshed.current.startTime).toEqual(newStartTime);
       expect(refreshed.current.endTime).toEqual(newEndTime);
       expect(refreshed.current.expires).toEqual(
-        new Date(newEndTime.getTime() - DEFAULT_SAFETY_MARGIN)
+        new Date(newEndTime.getTime() - session.safetyMargin * 1000)
       );
 
       // compare to the current session
@@ -338,6 +428,7 @@ describe("BasemapStyleSession", () => {
     const token = await session.getToken();
     expect(token).toEqual("fake-token-2");
   });
+
   describe("startCheckingExpirationTime", () => {
     test("should emit an event as soon as we start checking expiration time", async () => {
       const session = createMockSession();
