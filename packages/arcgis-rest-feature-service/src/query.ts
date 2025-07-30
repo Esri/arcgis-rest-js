@@ -88,6 +88,61 @@ export interface IQueryFeaturesResponse extends IFeatureSet {
   exceededTransferLimit?: boolean;
 }
 
+/**
+ * query all features request options. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
+ */
+export interface IQueryAllFeaturesOptions extends ISharedQueryOptions {
+  objectIds?: number[];
+  relationParam?: string;
+  // NOTE: either time=1199145600000 or time=1199145600000, 1230768000000
+  time?: number | number[];
+  distance?: number;
+  units?: Units;
+  /**
+   * Attribute fields to include in the response. Defaults to "*"
+   */
+  outFields?: "*" | string[];
+  returnGeometry?: boolean;
+  maxAllowableOffset?: number;
+  geometryPrecision?: number;
+  // NOTE: either WKID or ISpatialReference
+  inSR?: string | ISpatialReference;
+  outSR?: string | ISpatialReference;
+  gdbVersion?: string;
+  orderByFields?: string;
+  groupByFieldsForStatistics?: string;
+  outStatistics?: IStatisticDefinition[];
+  returnZ?: boolean;
+  returnM?: boolean;
+  multipatchOption?: "xyFootprint";
+  resultOffset?: number;
+  resultRecordCount?: number;
+  // TODO: IQuantizationParameters?
+  quantizationParameters?: any;
+  resultType?: "none" | "standard" | "tile";
+  // to do: convert from Date() to epoch time internally
+  historicMoment?: number;
+  returnTrueCurves?: false;
+  sqlFormat?: "none" | "standard" | "native";
+  returnExceededLimitFeatures?: true;
+  /**
+   * Response format. Defaults to "json"
+   * NOTE: for "pbf" you must also supply `rawResponse: true`
+   * and parse the response yourself using `response.arrayBuffer()`
+   */
+  f?: "json" | "geojson" | "pbf";
+  /**
+   * someday...
+   *
+   * If 'true' the query will be preceded by a metadata check to gather info about coded value domains and result values will be decoded. If a fieldset is provided it will be used to decode values and no internal metadata request will be issued.
+   */
+  // decodeValues?: boolean | IField[];
+}
+
+export interface IQueryAllFeaturesResponse extends IFeatureSet {
+  exceededTransferLimit?: true;
+}
+
 export interface IQueryResponse {
   count?: number;
   extent?: IExtent;
@@ -222,12 +277,22 @@ export function queryFeatures(
  * @returns A Promise that will resolve with the query response.
  */
 export async function queryAllFeatures(
-  requestOptions: IQueryFeaturesOptions
-): Promise<IQueryFeaturesResponse> {
-  const pageSize = 2000;
-  let allFeatures: any[] = [];
+  requestOptions: IQueryAllFeaturesOptions
+): Promise<IQueryAllFeaturesResponse> {
   let offset = 0;
   let hasMore = true;
+  let allFeaturesResponse: IQueryAllFeaturesResponse | null = null;
+
+  // retrieve the maxRecordCount for the service
+  const pageSizeResponse = await request(requestOptions.url, {
+    httpMethod: "GET"
+  });
+  // default the pageSize to 2000 if it is not provided
+  const pageSize = pageSizeResponse.maxRecordCount || 2000;
+  const userRecordCount = requestOptions.params?.resultRecordCount;
+  // use the user defined count only if it's less than or equal to the page size, otherwise use pageSize
+  const recordCountToUse =
+    userRecordCount && userRecordCount <= pageSize ? userRecordCount : pageSize;
 
   while (hasMore) {
     const pagedOptions = {
@@ -235,11 +300,11 @@ export async function queryAllFeatures(
       params: {
         ...(requestOptions.params || {}),
         resultOffset: offset,
-        resultRecordCount: pageSize
+        resultRecordCount: recordCountToUse
       }
     };
 
-    const queryOptions = appendCustomParams<IQueryFeaturesOptions>(
+    const queryOptions = appendCustomParams<IQueryAllFeaturesOptions>(
       pagedOptions,
       [
         "where",
@@ -258,10 +323,6 @@ export async function queryAllFeatures(
         "inSR",
         "outSR",
         "gdbVersion",
-        "returnDistinctValues",
-        "returnIdsOnly",
-        "returnCountOnly",
-        "returnExtentOnly",
         "orderByFields",
         "groupByFieldsForStatistics",
         "outStatistics",
@@ -271,7 +332,6 @@ export async function queryAllFeatures(
         "resultOffset",
         "resultRecordCount",
         "quantizationParameters",
-        "returnCentroid",
         "resultType",
         "historicMoment",
         "returnTrueCurves",
@@ -288,22 +348,30 @@ export async function queryAllFeatures(
         }
       }
     );
-    const response: IQueryFeaturesResponse = await request(
+    const response: IQueryAllFeaturesResponse = await request(
       `${cleanUrl(requestOptions.url)}/query`,
       queryOptions
     );
 
-    allFeatures = allFeatures.concat(response.features);
+    // save the first response structure
+    if (!allFeaturesResponse) {
+      allFeaturesResponse = { ...response };
+    } else {
+      // append features of subsequent requests
+      allFeaturesResponse.features = allFeaturesResponse.features.concat(
+        response.features
+      );
+    }
 
-    if (response.features.length < pageSize) {
+    const returnedCount = response.features.length;
+
+    // check if there are more features
+    if (returnedCount < pageSize || !response.exceededTransferLimit) {
       hasMore = false;
     } else {
       offset += pageSize;
     }
   }
 
-  return {
-    ...requestOptions,
-    features: allFeatures
-  };
+  return allFeaturesResponse;
 }
