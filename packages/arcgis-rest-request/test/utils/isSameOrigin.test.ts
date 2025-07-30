@@ -33,6 +33,17 @@ describe("isSameOrigin", () => {
     expect(result).toBe(false);
   });
 
+  it("should return false when the url is falsey", () => {
+    const mockWindow = {
+      location: {
+        origin: "https://example.com"
+      }
+    } as unknown as Window & typeof globalThis;
+
+    const result = isSameOrigin(null, mockWindow);
+    expect(result).toBe(false);
+  });
+
   it("should handle URLs that do not start with the origin", () => {
     const mockWindow = {
       location: {
