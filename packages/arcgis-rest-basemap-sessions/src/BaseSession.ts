@@ -238,7 +238,7 @@ export abstract class BaseSession implements IAuthenticationManager {
         check,
         // check every 10 seconds or 1/100th of the duration, whichever is smaller
         this.expirationCheckInterval
-      ); // check immediatly then on an interval
+      ); // check immediately then on an interval
     }
 
     setTimeout(() => {
