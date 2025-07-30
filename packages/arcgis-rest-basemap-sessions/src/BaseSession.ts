@@ -40,7 +40,7 @@ export interface IStartSessionParams {
 
 /**
  * The base class for all basemap sessions. This class implements the {@linkcode IAuthenticationManager} interface and provides methods to start, refresh, and check the expiration of a session.
- * This is not intendet to be used directly, but instead is extended by other classes such as {@linkcode BasemapStyleSession} and {@linkcode StaticBasemapTilesSession}.
+ * This is not intended to be used directly, but instead is extended by other classes such as {@linkcode BasemapStyleSession} and {@linkcode StaticBasemapTilesSession}.
  *
  * @abstract
  * @implements {IAuthenticationManager}
