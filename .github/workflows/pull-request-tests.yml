@@ -27,7 +27,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci --legacy-peer-deps
 
       - name: Build
         run: npm run build
@@ -41,6 +41,22 @@ jobs:
       - name: Test in Chrome
         run: npm run test:chrome:ci
 
-      - uses: codecov/codecov-action@v1
+      - name: Test with Vitest
+        run: npm run test:vitest
+
+      - name: Code Coverage Summary Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
         with:
-          directory: ./coverage
+          filename: coverage/**/cobertura-coverage.xml
+          badge: true
+          fail_below_min: true
+          format: markdown
+          output: both
+          thresholds: "100 100"
+
+      - name: Add Coverage PR Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: github.event_name == 'pull_request' && matrix.node == 22
+        with:
+          recreate: true
+          path: code-coverage-results.md

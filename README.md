@@ -6,8 +6,6 @@
 [npm-img]: https://img.shields.io/npm/v/@esri/arcgis-rest-request.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/@esri/arcgis-rest-request
 [gzip-image]: https://img.badgesize.io/https://unpkg.com/@esri/arcgis-rest-request/dist/bundled/request.umd.min.js?compression=gzip
-[coverage-img]: https://codecov.io/gh/Esri/arcgis-rest-js/branch/master/graph/badge.svg
-[coverage-url]: https://codecov.io/gh/Esri/arcgis-rest-js
 [license-img]: https://img.shields.io/badge/license-Apache%202.0-orange.svg?style=flat-square
 [license-url]: #license
 
@@ -17,17 +15,17 @@
 
 ## Table of Contents
 
-- [Example](#example)
-- [API Reference](#api-reference)
-- [Instructions](#instructions)
-- [Packages](#packages)
-- [FAQ](https://developers.arcgis.com/arcgis-rest-js/faq/)
-- [Issues](#issues)
-- [Versioning](#versioning)
-- [Contributing](#contributing)
-- [Code of Conduct](/CODE_OF_CONDUCT.md)
-- [CHANGELOG](/CHANGELOG.md)
-- [License](#license)
+- [@esri/arcgis-rest-js](#esriarcgis-rest-js)
+  - [Table of Contents](#table-of-contents)
+    - [Example](#example)
+    - [Get Started](#get-started)
+    - [Documentation](#documentation)
+    - [Instructions](#instructions)
+    - [Packages](#packages)
+    - [Issues](#issues)
+    - [Versioning](#versioning)
+    - [Contributing](#contributing)
+    - [License](#license)
 
 ### Example
 
