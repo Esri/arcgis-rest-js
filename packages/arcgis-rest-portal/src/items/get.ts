@@ -157,6 +157,19 @@ export function getRelatedItems(
   return request(url, options);
 }
 
+export interface IGetItemResourcesResponse {
+  total: number;
+  start: number;
+  nextStart: number;
+  num: number;
+  resources?: [{
+      resource: string;
+      access: string;
+      created: number;
+      size: number;
+  }];
+}
+
 /**
  * Get the resources associated with an item
  *
@@ -166,7 +179,7 @@ export function getRelatedItems(
 export function getItemResources(
   id: string,
   requestOptions?: IRequestOptions
-): Promise<any> {
+): Promise<IGetItemResourcesResponse> {
   const url = `${getItemBaseUrl(id, requestOptions)}/resources`;
 
   // Mix in num:1000 with any user supplied params
