@@ -49,10 +49,6 @@ jobs:
       - name: Test in Node
         run: npm run test:node
 
-      - uses: codecov/codecov-action@v1
-        with:
-          directory: ./coverage
-
   # If the build and test works, run a release
   release:
     name: Release
