@@ -7,6 +7,7 @@ export function determineSafetyMargin(
   if (safetyMargin) {
     return safetyMargin;
   }
+
   // common cases are
   // duration is 60 seconds, this will return a 1 second safety margin
   // duration is 43200 seconds, this will return a 300 second (5 minutes) safety margin
