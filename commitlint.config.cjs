@@ -5,7 +5,7 @@ const Configuration = {
    * Resolve and load @commitlint/config-conventional from node_modules.
    * Referenced packages must be installed
    */
-  extends: ['@commitlint/config-lerna-scopes', '@commitlint/config-conventional'],
+  extends: ['@commitlint/config-workspace-scopes', '@commitlint/config-conventional'],
   /*
    * Resolve and load conventional-changelog-atom from node_modules.
    * Referenced packages must be installed

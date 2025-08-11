@@ -38,7 +38,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Install
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Build
         run: npm run build
@@ -48,10 +48,6 @@ jobs:
 
       - name: Test in Node
         run: npm run test:node
-
-      - uses: codecov/codecov-action@v1
-        with:
-          directory: ./coverage
 
   # If the build and test works, run a release
   release:
@@ -78,7 +74,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Install
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Build
         run: npm run build

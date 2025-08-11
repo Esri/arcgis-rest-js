@@ -27,7 +27,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci --legacy-peer-deps
 
       - name: Build
         run: npm run build
@@ -41,6 +41,5 @@ jobs:
       - name: Test in Chrome
         run: npm run test:chrome:ci
 
-      - uses: codecov/codecov-action@v1
-        with:
-          directory: ./coverage
+      - name: Test with Vitest
+        run: npm run test:vitest

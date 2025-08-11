@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-node@v4
 
       - name: NPM Install
-        run: npm install
+        run: npm ci --legacy-peer-deps
 
       - name: Build Packages
         run: npm run build

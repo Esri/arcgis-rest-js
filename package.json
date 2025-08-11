@@ -18,9 +18,9 @@
     "docs:build": "rimraf docs/build && unzip -d docs/build docs/v3-archive.zip && npm run typedoc",
     "lint": "eslint ./packages --ext .ts",
     "srihash": "node scripts/generate-sri-hashes.js",
-    "test": "npm run lint && npm run test:compile && npm run test:node && npm run test:chrome",
+    "test": "npm run lint && npm run test:compile && npm run test:node && npm run test:chrome && npm run test:vitest",
     "test:compile": "npm run build:esm",
-    "test:all": "npm run test:node && npm run test:firefox && npm run test:chrome",
+    "test:all": "npm run test:node && npm run test:firefox && npm run test:chrome && npm run test:vitest",
     "test:chrome": "karma start karma.conf.cjs --single-run --browsers=Chrome",
     "test:chrome:ci": "karma start --single-run --browsers ChromeHeadlessCI karma.conf.cjs",
     "test:chrome:debug": "karma start karma.conf.cjs --auto-watch --no-single-run --browsers=ChromeDebugging",
@@ -30,6 +30,7 @@
     "test:node:debug": "node --inspect --inspect-brk --loader  ts-node/esm node_modules/.bin/jasmine --config=jasmine.json",
     "test:node:live": "node --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.live.json",
     "test:node:live:debug": "node  --inspect --inspect-brk --loader ts-node/esm node_modules/.bin/jasmine --config=jasmine.live.json",
+    "test:vitest": "vitest --config=vitest.config.js --run",
     "prettify": "prettier --write --parser typescript --tab-width 2 --use-tabs false \"packages/**/+(src|test)/**/*.ts\"",
     "typedoc": "typedoc --options ./typedoc.json",
     "prettify:packages-jsons": "prettier-package-json --write ./**/*/package.json",
@@ -66,6 +67,7 @@
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@commitlint/config-lerna-scopes": "^11.0.0",
+    "@commitlint/config-workspace-scopes": "^19.8.1",
     "@commitlint/prompt": "^11.0.0",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@semantic-release/changelog": "^6.0.1",
@@ -76,6 +78,8 @@
     "@types/node": "^12.20.4",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.31.0",
+    "@vitest/coverage-istanbul": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
     "babel-preset-env": "^1.7.0",
     "browser-sync": "^2.27.9",
     "eslint": "^7.11.0",
@@ -112,7 +116,12 @@
     "tsx": "^4.19.3",
     "typedoc": "^0.21.0",
     "typescript": "^4.0.0",
-    "ultra-runner": "^3.10.5"
+    "ultra-runner": "^3.10.5",
+    "vite": "^7.0.5",
+    "vitest": "^3.2.4"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.9.5"
   },
   "contributors": [
     "Anthony Lukach",
@@ -156,10 +165,11 @@
     "packages/arcgis-rest-routing",
     "packages/arcgis-rest-fetch",
     "packages/arcgis-rest-form-data",
-    "packages/arcgis-rest-developer-credentials"
+    "packages/arcgis-rest-developer-credentials",
+    "packages/arcgis-rest-basemap-sessions"
   ],
   "volta": {
-    "node": "18.14.0"
+    "node": "22.17.1"
   },
   "release": {
     "branches": [
