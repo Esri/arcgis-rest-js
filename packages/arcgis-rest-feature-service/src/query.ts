@@ -130,7 +130,7 @@ export interface IQueryAllFeaturesOptions extends ISharedQueryOptions {
    * NOTE: for "pbf" you must also supply `rawResponse: true`
    * and parse the response yourself using `response.arrayBuffer()`
    */
-  f?: "json" | "geojson" | "pbf";
+  f?: "json" | "geojson";
   /**
    * someday...
    *
@@ -336,7 +336,6 @@ export async function queryAllFeatures(
         "historicMoment",
         "returnTrueCurves",
         "sqlFormat",
-        "returnExceededLimitFeatures",
         "f"
       ],
       {
@@ -344,6 +343,7 @@ export async function queryAllFeatures(
         params: {
           where: "1=1",
           outFields: "*",
+          returnExceededLimitFeatures: true,
           ...pagedOptions.params
         }
       }

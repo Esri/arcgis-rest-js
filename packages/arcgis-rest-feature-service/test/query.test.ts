@@ -8,7 +8,6 @@ import {
   queryAllFeatures,
   queryRelated,
   IQueryFeaturesOptions,
-  IQueryAllFeaturesOptions,
   IQueryRelatedOptions
 } from "../src/index.js";
 
