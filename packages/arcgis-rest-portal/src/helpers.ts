@@ -10,6 +10,7 @@ export interface IItemAdd {
   title: string;
   type: string;
   owner?: string;
+  orgId?: string;
   typeKeywords?: string[];
   description?: string;
   snippet?: string;
@@ -21,6 +22,9 @@ export interface IItemAdd {
   properties?: any;
   url?: string;
   tags?: string[];
+  access?: string;
+  accessInformation?: string;
+  licenseInfo?: string;
   [key: string]: any;
 }
 
