@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-feature-service [4.1.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.1.0...@esri/arcgis-rest-feature-service@4.1.1) (2025-08-13)
+
+
+### Bug Fixes
+
+* Add typings for IAddItem, GetItemResources, and ILayerDefinition ([#1241](https://github.com/Esri/arcgis-rest-js/issues/1241)) ([604c2d9](https://github.com/Esri/arcgis-rest-js/commit/604c2d97a50ff6512112bdfbc01007b821225b19))
+
 # @esri/arcgis-rest-feature-service [4.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.0.6...@esri/arcgis-rest-feature-service@4.1.0) (2024-12-17)
 
 
