@@ -743,7 +743,7 @@ export interface ILayerDefinition extends IHasZM {
   /** Boolean value indicating whether the layer supports the Calculate REST operation when updating features. */
   supportsCalculate?: boolean;
   /** Boolean value indicating whether the layer supports exceedsLimit in a query operation. */
-  supportsExceedsLimitStatistics: boolean;
+  supportsExceedsLimitStatistics?: boolean;
   /** Boolean value indicating whether the layer supports rolling back edits made on a feature layer if some of the edits fail. */
   supportsRollbackOnFailureParameter?: boolean;
   /** Boolean value indicating whether feature layer query operations support statistical functions. */
