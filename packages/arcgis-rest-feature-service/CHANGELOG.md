@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-feature-service [4.2.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.1.1...@esri/arcgis-rest-feature-service@4.2.0) (2025-08-14)
+
+
+### Features
+
+* **arcgis-rest-feature-service:** initial implementation for querying all features ([effd58f](https://github.com/Esri/arcgis-rest-js/commit/effd58fa19d9116aee165ddca0384359f22809f2))
+
 ## @esri/arcgis-rest-feature-service [4.1.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.1.0...@esri/arcgis-rest-feature-service@4.1.1) (2025-08-13)
 
 
