@@ -88,6 +88,61 @@ export interface IQueryFeaturesResponse extends IFeatureSet {
   exceededTransferLimit?: boolean;
 }
 
+/**
+ * query all features request options. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
+ */
+export interface IQueryAllFeaturesOptions extends ISharedQueryOptions {
+  objectIds?: number[];
+  relationParam?: string;
+  // NOTE: either time=1199145600000 or time=1199145600000, 1230768000000
+  time?: number | number[];
+  distance?: number;
+  units?: Units;
+  /**
+   * Attribute fields to include in the response. Defaults to "*"
+   */
+  outFields?: "*" | string[];
+  returnGeometry?: boolean;
+  maxAllowableOffset?: number;
+  geometryPrecision?: number;
+  // NOTE: either WKID or ISpatialReference
+  inSR?: string | ISpatialReference;
+  outSR?: string | ISpatialReference;
+  gdbVersion?: string;
+  orderByFields?: string;
+  groupByFieldsForStatistics?: string;
+  outStatistics?: IStatisticDefinition[];
+  returnZ?: boolean;
+  returnM?: boolean;
+  multipatchOption?: "xyFootprint";
+  resultOffset?: number;
+  resultRecordCount?: number;
+  // TODO: IQuantizationParameters?
+  quantizationParameters?: any;
+  resultType?: "none" | "standard" | "tile";
+  // to do: convert from Date() to epoch time internally
+  historicMoment?: number;
+  returnTrueCurves?: false;
+  sqlFormat?: "none" | "standard" | "native";
+  returnExceededLimitFeatures?: true;
+  /**
+   * Response format. Defaults to "json"
+   * NOTE: for "pbf" you must also supply `rawResponse: true`
+   * and parse the response yourself using `response.arrayBuffer()`
+   */
+  f?: "json" | "geojson";
+  /**
+   * someday...
+   *
+   * If 'true' the query will be preceded by a metadata check to gather info about coded value domains and result values will be decoded. If a fieldset is provided it will be used to decode values and no internal metadata request will be issued.
+   */
+  // decodeValues?: boolean | IField[];
+}
+
+export interface IQueryAllFeaturesResponse extends IFeatureSet {
+  exceededTransferLimit?: true;
+}
+
 export interface IQueryResponse {
   count?: number;
   extent?: IExtent;
@@ -203,4 +258,120 @@ export function queryFeatures(
   );
 
   return request(`${cleanUrl(requestOptions.url)}/query`, queryOptions);
+}
+
+/**
+ * Query a feature service to retrieve all features. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
+ *
+ * ```js
+ * import { queryAllFeatures } from '@esri/arcgis-rest-feature-service';
+ *
+ * queryAllFeatures({
+ *   url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/Census/MapServer/3",
+ *   where: "STATE_NAME = 'Alaska'"
+ * })
+ *   .then(result)
+ * ```
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise that will resolve with the query response.
+ */
+export async function queryAllFeatures(
+  requestOptions: IQueryAllFeaturesOptions
+): Promise<IQueryAllFeaturesResponse> {
+  let offset = 0;
+  let hasMore = true;
+  let allFeaturesResponse: IQueryAllFeaturesResponse | null = null;
+
+  // retrieve the maxRecordCount for the service
+  const pageSizeResponse = await request(requestOptions.url, {
+    httpMethod: "GET"
+  });
+  // default the pageSize to 2000 if it is not provided
+  const pageSize = pageSizeResponse.maxRecordCount || 2000;
+  const userRecordCount = requestOptions.params?.resultRecordCount;
+  // use the user defined count only if it's less than or equal to the page size, otherwise use pageSize
+  const recordCountToUse =
+    userRecordCount && userRecordCount <= pageSize ? userRecordCount : pageSize;
+
+  while (hasMore) {
+    const pagedOptions = {
+      ...requestOptions,
+      params: {
+        ...(requestOptions.params || {}),
+        resultOffset: offset,
+        resultRecordCount: recordCountToUse
+      }
+    };
+
+    const queryOptions = appendCustomParams<IQueryAllFeaturesOptions>(
+      pagedOptions,
+      [
+        "where",
+        "objectIds",
+        "relationParam",
+        "time",
+        "distance",
+        "units",
+        "outFields",
+        "geometry",
+        "geometryType",
+        "spatialRel",
+        "returnGeometry",
+        "maxAllowableOffset",
+        "geometryPrecision",
+        "inSR",
+        "outSR",
+        "gdbVersion",
+        "orderByFields",
+        "groupByFieldsForStatistics",
+        "outStatistics",
+        "returnZ",
+        "returnM",
+        "multipatchOption",
+        "resultOffset",
+        "resultRecordCount",
+        "quantizationParameters",
+        "resultType",
+        "historicMoment",
+        "returnTrueCurves",
+        "sqlFormat",
+        "f"
+      ],
+      {
+        httpMethod: "GET",
+        params: {
+          where: "1=1",
+          outFields: "*",
+          returnExceededLimitFeatures: true,
+          ...pagedOptions.params
+        }
+      }
+    );
+    const response: IQueryAllFeaturesResponse = await request(
+      `${cleanUrl(requestOptions.url)}/query`,
+      queryOptions
+    );
+
+    // save the first response structure
+    if (!allFeaturesResponse) {
+      allFeaturesResponse = { ...response };
+    } else {
+      // append features of subsequent requests
+      allFeaturesResponse.features = allFeaturesResponse.features.concat(
+        response.features
+      );
+    }
+
+    const returnedCount = response.features.length;
+
+    // check if there are more features
+    if (returnedCount < pageSize || !response.exceededTransferLimit) {
+      hasMore = false;
+    } else {
+      offset += pageSize;
+    }
+  }
+
+  return allFeaturesResponse;
 }
