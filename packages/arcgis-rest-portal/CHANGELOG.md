@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-portal [4.6.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.6.1...@esri/arcgis-rest-portal@4.6.2) (2025-08-13)
+
+
+### Bug Fixes
+
+* Add typings for IAddItem, GetItemResources, and ILayerDefinition ([#1241](https://github.com/Esri/arcgis-rest-js/issues/1241)) ([604c2d9](https://github.com/Esri/arcgis-rest-js/commit/604c2d97a50ff6512112bdfbc01007b821225b19))
+
 ## @esri/arcgis-rest-portal [4.6.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.6.0...@esri/arcgis-rest-portal@4.6.1) (2025-04-30)
 
 
