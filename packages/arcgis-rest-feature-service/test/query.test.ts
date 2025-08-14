@@ -5,6 +5,7 @@ import fetchMock from "fetch-mock";
 import {
   getFeature,
   queryFeatures,
+  queryAllFeatures,
   queryRelated,
   IQueryFeaturesOptions,
   IQueryRelatedOptions
@@ -163,5 +164,141 @@ describe("getFeature() and queryFeatures()", () => {
       .catch((e) => {
         fail(e);
       });
+  });
+});
+
+describe("queryAllFeatures", () => {
+  const pageSize = 2000;
+  // first page with 2000 features
+  const page1Features = Array.from({ length: pageSize }, (_, i) => ({
+    attributes: { OBJECTID: i + 1, name: `Feature ${i + 1}` }
+  }));
+
+  // second page with 1 feature to simulate end of pagination
+  const page2Features = [
+    { attributes: { OBJECTID: 2001, name: "Feature 2001" } }
+  ];
+
+  afterEach(() => {
+    fetchMock.restore();
+  });
+
+  it("fetches multiple pages based on feature count", async () => {
+    fetchMock.mock(`${serviceUrl}?f=json`, {
+      maxRecordCount: 2000
+    });
+
+    fetchMock.mock(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=2000`,
+      {
+        features: page1Features,
+        exceededTransferLimit: true
+      }
+    );
+
+    fetchMock.mock(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultOffset=2000&resultRecordCount=2000`,
+      {
+        features: page2Features,
+        exceededTransferLimit: false
+      }
+    );
+
+    const result = await queryAllFeatures({
+      url: serviceUrl
+    });
+
+    expect(result.features.length).toBe(pageSize + 1);
+    expect(result.features[0].attributes.OBJECTID).toBe(1);
+    expect(result.features[pageSize].attributes.OBJECTID).toBe(2001);
+  });
+
+  it("fetches only one page if total features are under page size", async () => {
+    fetchMock.getOnce(`${serviceUrl}?f=json`, {
+      maxRecordCount: 2000
+    });
+
+    fetchMock.getOnce(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=2000`,
+      {
+        features: page2Features // only one feature
+      }
+    );
+
+    const result = await queryAllFeatures({
+      url: serviceUrl,
+      where: "1=1",
+      outFields: "*"
+    });
+
+    expect(result.features.length).toBe(1);
+    expect(result.features[0].attributes.OBJECTID).toBe(2001);
+  });
+
+  it("uses user defined resultRecordCount if less than page size", async () => {
+    const customCount = 1000;
+
+    fetchMock.getOnce(`${serviceUrl}?f=json`, {
+      maxRecordCount: 2000
+    });
+
+    fetchMock.getOnce(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultRecordCount=${customCount}&resultOffset=0`,
+      {
+        features: page1Features.slice(0, customCount)
+      }
+    );
+
+    const result = await queryAllFeatures({
+      url: serviceUrl,
+      where: "1=1",
+      outFields: "*",
+      params: {
+        resultRecordCount: customCount
+      }
+    });
+
+    expect(result.features.length).toBe(customCount);
+  });
+
+  it("fall back to service pageSize if user resultRecordCount exceeds it", async () => {
+    fetchMock.getOnce(`${serviceUrl}?f=json`, {
+      maxRecordCount: 2000
+    });
+
+    fetchMock.getOnce(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultRecordCount=2000&resultOffset=0`,
+      {
+        features: page1Features
+      }
+    );
+
+    const result = await queryAllFeatures({
+      url: serviceUrl,
+      where: "1=1",
+      outFields: "*",
+      params: {
+        resultRecordCount: 3000 // greater than maxRecordCount
+      }
+    });
+
+    expect(result.features.length).toBe(pageSize);
+  });
+
+  it("fall back to a default size of 2000 if thes service does not return a page size", async () => {
+    fetchMock.getOnce(`${serviceUrl}?f=json`, {});
+
+    fetchMock.getOnce(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=2000`,
+      {
+        features: page1Features
+      }
+    );
+
+    const result = await queryAllFeatures({
+      url: serviceUrl
+    });
+
+    expect(result.features.length).toBe(pageSize);
   });
 });
