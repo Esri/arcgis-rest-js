@@ -298,6 +298,8 @@ export async function queryAllFeatures(
     const pagedOptions = {
       ...requestOptions,
       params: {
+        where: "1=1",
+        outFields: "*",
         ...(requestOptions.params || {}),
         resultOffset: offset,
         resultRecordCount: recordCountToUse
@@ -348,6 +350,7 @@ export async function queryAllFeatures(
         }
       }
     );
+
     const response: IQueryAllFeaturesResponse = await request(
       `${cleanUrl(requestOptions.url)}/query`,
       queryOptions

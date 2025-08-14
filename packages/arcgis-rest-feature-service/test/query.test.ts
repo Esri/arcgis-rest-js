@@ -189,7 +189,7 @@ describe("queryAllFeatures", () => {
     });
 
     fetchMock.mock(
-      `${serviceUrl}/query?f=json&resultOffset=0&resultRecordCount=2000&where=1%3D1&outFields=*`,
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=2000`,
       {
         features: page1Features,
         exceededTransferLimit: true
@@ -197,7 +197,7 @@ describe("queryAllFeatures", () => {
     );
 
     fetchMock.mock(
-      `${serviceUrl}/query?f=json&resultOffset=2000&resultRecordCount=2000&where=1%3D1&outFields=*`,
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultOffset=2000&resultRecordCount=2000`,
       {
         features: page2Features,
         exceededTransferLimit: false
@@ -205,14 +205,13 @@ describe("queryAllFeatures", () => {
     );
 
     const result = await queryAllFeatures({
-      url: serviceUrl,
-      where: "1=1",
-      outFields: "*"
+      url: serviceUrl
     });
 
     expect(result.features.length).toBe(pageSize + 1);
     expect(result.features[0].attributes.OBJECTID).toBe(1);
     expect(result.features[pageSize].attributes.OBJECTID).toBe(2001);
+    expect(fetchMock.calls().length).toBe(3); // 1 for service info, 2 for query calls
   });
 
   it("fetches only one page if total features are under page size", async () => {
@@ -221,7 +220,7 @@ describe("queryAllFeatures", () => {
     });
 
     fetchMock.getOnce(
-      `${serviceUrl}/query?f=json&resultOffset=0&resultRecordCount=2000&where=1%3D1&outFields=*`,
+      `${serviceUrl}/query?f=json&where=2%3D2&outFields=Name&resultOffset=0&resultRecordCount=2000`,
       {
         features: page2Features // only one feature
       }
@@ -229,8 +228,8 @@ describe("queryAllFeatures", () => {
 
     const result = await queryAllFeatures({
       url: serviceUrl,
-      where: "1=1",
-      outFields: "*"
+      where: "2=2",
+      outFields: ["Name"]
     });
 
     expect(result.features.length).toBe(1);
@@ -245,7 +244,7 @@ describe("queryAllFeatures", () => {
     });
 
     fetchMock.getOnce(
-      `${serviceUrl}/query?f=json&resultRecordCount=${customCount}&resultOffset=0&where=1%3D1&outFields=*`,
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultRecordCount=${customCount}&resultOffset=0`,
       {
         features: page1Features.slice(0, customCount)
       }
@@ -269,7 +268,7 @@ describe("queryAllFeatures", () => {
     });
 
     fetchMock.getOnce(
-      `${serviceUrl}/query?f=json&resultRecordCount=2000&resultOffset=0&where=1%3D1&outFields=*`,
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultRecordCount=2000&resultOffset=0`,
       {
         features: page1Features
       }
