@@ -17,6 +17,7 @@ import {
   ISharedQueryOptions,
   IStatisticDefinition
 } from "./helpers.js";
+import { inspect } from "util";
 
 /**
  * Request options to fetch a feature by id.
@@ -367,8 +368,13 @@ export async function queryAllFeatures(
 
     const returnedCount = response.features.length;
 
+    // check if the response has exceededTransferLimit handles both thes stantard json and geojson responses
+    const exceededTransferLimit =
+      response.exceededTransferLimit ||
+      (response as any).properties?.exceededTransferLimit;
+
     // check if there are more features
-    if (returnedCount < pageSize || !response.exceededTransferLimit) {
+    if (returnedCount < pageSize || !exceededTransferLimit) {
       hasMore = false;
     } else {
       offset += pageSize;

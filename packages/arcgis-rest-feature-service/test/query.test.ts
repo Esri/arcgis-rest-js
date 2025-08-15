@@ -301,4 +301,51 @@ describe("queryAllFeatures", () => {
 
     expect(result.features.length).toBe(pageSize);
   });
+
+  it("paginates over services using f=geojson", async () => {
+    // first page with 2000 features
+    const page1Features = Array.from({ length: pageSize }, (_, i) => ({
+      id: i + 1,
+      type: "Feature",
+      properties: { name: `Feature ${i + 1}` }
+    }));
+
+    // second page with 1 feature to simulate end of pagination
+    const page2Features = [
+      { id: 2001, type: "Feature", properties: { name: "Feature 2001" } }
+    ];
+
+    fetchMock.mock(`${serviceUrl}?f=json`, {
+      maxRecordCount: 2000
+    });
+
+    fetchMock.mock(
+      `${serviceUrl}/query?f=geojson&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=2000`,
+      {
+        features: page1Features,
+        properties: {
+          exceededTransferLimit: true
+        }
+      }
+    );
+
+    fetchMock.mock(
+      `${serviceUrl}/query?f=geojson&where=1%3D1&outFields=*&resultOffset=2000&resultRecordCount=2000`,
+      {
+        features: page2Features,
+        properties: {
+          exceededTransferLimit: false
+        }
+      }
+    );
+
+    const result = await queryAllFeatures({
+      url: serviceUrl,
+      f: "geojson"
+    });
+
+    expect((result as any).features.length).toBe(pageSize + 1);
+    expect((result as any).features[0].id).toBe(1);
+    expect((result as any).features[pageSize].id).toBe(2001);
+  });
 });
