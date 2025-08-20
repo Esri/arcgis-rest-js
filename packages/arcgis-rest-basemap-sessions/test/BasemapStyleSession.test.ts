@@ -90,15 +90,15 @@ describe("BasemapStyleSession", () => {
     expect(session.token).toBe("fake-token");
   });
 
-  test("should throw an error if duration is under 30", async () => {
+  test("should throw an error if duration is under 10", async () => {
     try {
       await BasemapStyleSession.start({
-        duration: 29,
+        duration: 9,
         authentication: "token"
       });
     } catch (error) {
       expect(error).toEqual(
-        new Error("Session duration must be at least 30 seconds.")
+        new Error("Session duration must be at least 10 seconds.")
       );
     }
   });
@@ -155,7 +155,7 @@ describe("BasemapStyleSession", () => {
       DEFAULT_START_BASEMAP_STYLE_SESSION_URL
     );
     expect(session.safetyMargin).toBe(DEFAULT_SAFETY_MARGIN);
-    expect(session.expirationCheckInterval).toBe(10000); // 10 seconds
+    expect((session as any).expirationCheckInterval).toBe(10000); // 10 seconds
     expect(session.styleFamily).toBe("arcgis");
     expect(session.authentication).toBe("token");
     expect(session.canRefresh).toBe(true);
@@ -196,7 +196,7 @@ describe("BasemapStyleSession", () => {
     expect(session.startSessionUrl).toBe(
       DEFAULT_START_BASEMAP_STYLE_SESSION_URL
     );
-    expect(session.expirationCheckInterval).toBe(600);
+    expect((session as any).expirationCheckInterval).toBe(600);
     expect(session.styleFamily).toBe("arcgis");
     expect(session.authentication).toBe("token");
     expect(session.canRefresh).toBe(true);
@@ -237,7 +237,7 @@ describe("BasemapStyleSession", () => {
     expect(session.startSessionUrl).toBe(
       DEFAULT_START_BASEMAP_STYLE_SESSION_URL
     );
-    expect(session.expirationCheckInterval).toBe(10000);
+    expect((session as any).expirationCheckInterval).toBe(10000);
     expect(session.styleFamily).toBe("arcgis");
     expect(session.authentication).toBe("token");
     expect(session.canRefresh).toBe(true);

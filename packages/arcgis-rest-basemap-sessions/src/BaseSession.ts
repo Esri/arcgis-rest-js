@@ -163,7 +163,7 @@ export abstract class BaseSession implements IAuthenticationManager {
   /**
    * The interval at which to check the expiration time of the session. This is always 10 seconds or 1/100th of the duration, whichever is smaller.
    */
-  readonly expirationCheckInterval: number;
+  private readonly expirationCheckInterval: number;
 
   /**
    * The ID of the timer used to check the expiration time of the session.
@@ -295,8 +295,8 @@ export abstract class BaseSession implements IAuthenticationManager {
     },
     SessionClass: new (params: IBasemapSessionParams) => T
   ): Promise<T> {
-    if (duration < 30) {
-      throw new Error("Session duration must be at least 30 seconds.");
+    if (duration < 10) {
+      throw new Error("Session duration must be at least 10 seconds.");
     }
 
     if (duration > 43200) {
