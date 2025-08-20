@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-feature-service [4.4.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.3.0...@esri/arcgis-rest-feature-service@4.4.0) (2025-08-20)
+
+
+### Features
+
+* **arcgis-rest-basemap-styles:** improve method names, edge cases and error handling ([d866803](https://github.com/Esri/arcgis-rest-js/commit/d8668032510f76d16d034f6e93d5347465d57e44))
+
 # @esri/arcgis-rest-feature-service [4.3.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.2.0...@esri/arcgis-rest-feature-service@4.3.0) (2025-08-20)
 
 
