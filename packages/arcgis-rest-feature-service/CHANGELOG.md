@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-feature-service [4.3.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.2.0...@esri/arcgis-rest-feature-service@4.3.0) (2025-08-20)
+
+
+### Features
+
+* **arcgis-rest-feature-service:** add support for f=geojson to queryAllFeatures() ([#1247](https://github.com/Esri/arcgis-rest-js/issues/1247)) ([5b4f4e1](https://github.com/Esri/arcgis-rest-js/commit/5b4f4e127dd91a2911c348bb29a691c484659ff4))
+
 # @esri/arcgis-rest-feature-service [4.2.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.1.1...@esri/arcgis-rest-feature-service@4.2.0) (2025-08-14)
 
 
