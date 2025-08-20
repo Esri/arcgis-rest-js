@@ -17,7 +17,6 @@ import {
   ISharedQueryOptions,
   IStatisticDefinition
 } from "./helpers.js";
-import { inspect } from "util";
 
 /**
  * Request options to fetch a feature by id.
