@@ -360,14 +360,6 @@ export abstract class BaseSession implements IAuthenticationManager {
 
     const now = new Date();
     const millisecondsLeft = this.endTime.getTime() - now.getTime();
-    console.log(
-      "now",
-      now,
-      "endTime",
-      this.endTime,
-      "millisecondsLeft",
-      millisecondsLeft
-    );
 
     return millisecondsLeft;
   }
