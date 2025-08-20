@@ -368,7 +368,8 @@ export async function queryAllFeatures(
 
     const returnedCount = response.features.length;
 
-    // check if the response has exceededTransferLimit handles both thes stantard json and geojson responses
+
+    // check if the response has exceededTransferLimit handles both the standard json and geojson responses
     const exceededTransferLimit =
       response.exceededTransferLimit ||
       (response as any).properties?.exceededTransferLimit;
