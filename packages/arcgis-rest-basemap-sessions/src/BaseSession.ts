@@ -2,12 +2,14 @@ import mitt from "mitt";
 
 import { IAuthenticationManager } from "@esri/arcgis-rest-request";
 import { StyleFamily } from "./types/StyleFamily.js";
-import { startNewSession } from "./utils/startNewSession.js";
+import {
+  IStartSessionResponse,
+  startNewSession
+} from "./utils/startNewSession.js";
 import { Writable } from "./utils/writable.js";
 import { determineSafetyMargin } from "./utils/detemineSafetyMargin.js";
 import {
   DEFAULT_DURATION,
-  DEFAULT_SAFETY_MARGIN,
   DEFAULT_CHECK_EXPIRATION_INTERVAL
 } from "./utils/defaults.js";
 
@@ -56,7 +58,9 @@ export abstract class BaseSession implements IAuthenticationManager {
   // the static methods for event handlers are used to provide doc via typedoc and do not need to be tested.
   /* istanbul ignore next -- @preserve */
   /**
-   * Event handler for when a session expires and the `token` it no longer valid.
+   * Event handler for when the current session expires and the session token it no longer valid. This event will only fire if {@linkcode BaseSession.checkingExpirationTime}
+   * is `true` which is the default. Once this event fires, {@linkcode BaseSession.checkingExpirationTime} will be set to `false` until the session is refreshed with
+   * {@linkcode BaseSession.refreshCredentials}.
    *
    * @event expired
    * @param e - The parameters for the expired event.
@@ -167,6 +171,11 @@ export abstract class BaseSession implements IAuthenticationManager {
   private expirationTimerId: any = null;
 
   /**
+   * A pending session that is being refreshed. This is used to prevent multiple refreshes from happening at the same time.
+   */
+  private pendingSession: Promise<IStartSessionResponse> | null = null;
+
+  /**
    * Internal instance of [`mitt`](https://github.com/developit/mitt) used for event handlers. It is recommended to use {@linkcode BasemapSession.on}, {@linkcode BasemapSession.off} or {@linkcode BasemapSession.once} instead of `emitter.`
    */
   private emitter: any;
@@ -208,12 +217,14 @@ export abstract class BaseSession implements IAuthenticationManager {
   }
 
   /**
-   * Checks if the session is expired. If it is expired, it emits an "expired" event. The event will fire **before** the method returns true.
+   * Checks if the session is expired. If it is expired, it emits an "expired" event and disables expiration time checking. The event will fire **before** the method returns true.
    *
    * @returns {boolean} - Returns true if the session is expired, otherwise false.
    */
   isSessionExpired() {
     if (this.isExpired) {
+      this.disableCheckingExpirationTime();
+
       this.emitter.emit("expired", {
         token: this.token,
         startTime: this.startTime,
@@ -221,6 +232,7 @@ export abstract class BaseSession implements IAuthenticationManager {
         expires: this.expires
       });
     }
+
     return this.isExpired;
   }
 
@@ -228,7 +240,7 @@ export abstract class BaseSession implements IAuthenticationManager {
    * Starts checking the expiration time of the session. This will check the expiration time immediately and then on an interval.
    * If the session is expired, it will emit an "expired" event.
    */
-  startCheckingExpirationTime() {
+  enableCheckingExpirationTime() {
     const check = () => {
       this.isSessionExpired();
     };
@@ -251,20 +263,11 @@ export abstract class BaseSession implements IAuthenticationManager {
   /**
    * Stops checking the expiration time of the session. This will clear the interval that was set by {@linkcode BaseSession.startCheckingExpirationTime}.
    */
-  stopCheckingExpirationTime() {
+  disableCheckingExpirationTime() {
     if (this.expirationTimerId) {
       clearInterval(this.expirationTimerId);
       this.expirationTimerId = null;
     }
-  }
-
-  /**
-   * Indicates if the session is currently checking for expiration time.
-   *
-   * @returns {boolean} - Returns true if the session is checking for expiration time, otherwise false.
-   */
-  get checkingExpirationTime(): boolean {
-    return !!this.expirationTimerId;
   }
 
   /**
@@ -281,7 +284,7 @@ export abstract class BaseSession implements IAuthenticationManager {
       authentication,
       safetyMargin,
       duration = DEFAULT_DURATION,
-      autoRefresh = true
+      autoRefresh = false
     }: {
       startSessionUrl?: string;
       styleFamily?: StyleFamily;
@@ -292,6 +295,16 @@ export abstract class BaseSession implements IAuthenticationManager {
     },
     SessionClass: new (params: IBasemapSessionParams) => T
   ): Promise<T> {
+    if (duration < 30) {
+      throw new Error("Session duration must be at least 30 seconds.");
+    }
+
+    if (duration > 43200) {
+      throw new Error(
+        "Session duration cannot exceed 12 hours (43200 seconds)."
+      );
+    }
+
     const sessionResponse = await startNewSession({
       startSessionUrl,
       styleFamily,
@@ -312,13 +325,51 @@ export abstract class BaseSession implements IAuthenticationManager {
       duration
     });
 
-    session.startCheckingExpirationTime();
+    session.enableCheckingExpirationTime();
 
     if (autoRefresh) {
-      session.startAutoRefresh();
+      session.enableAutoRefresh();
     }
 
     return session as T;
+  }
+
+  /**
+   * Indicates if the session is currently checking for expiration time.
+   *
+   * @returns {boolean} - Returns true if the session is checking for expiration time, otherwise false.
+   */
+  get checkingExpirationTime(): boolean {
+    return !!this.expirationTimerId;
+  }
+
+  /**
+   * Returns the number of seconds until the session is no longer valid rounded down. If the session is expired, it will return 0.
+   */
+  get secondsUntilExpiration(): number {
+    return Math.floor(this.millisecondsUntilExpiration / 1000);
+  }
+
+  /**
+   * Returns the number of milliseconds until the session token is no longer valid. If the session is expired, it will return 0.
+   */
+  get millisecondsUntilExpiration(): number {
+    if (this.isExpired) {
+      return 0;
+    }
+
+    const now = new Date();
+    const millisecondsLeft = this.endTime.getTime() - now.getTime();
+    console.log(
+      "now",
+      now,
+      "endTime",
+      this.endTime,
+      "millisecondsLeft",
+      millisecondsLeft
+    );
+
+    return millisecondsLeft;
   }
 
   /**
@@ -343,7 +394,7 @@ export abstract class BaseSession implements IAuthenticationManager {
   }
 
   /**
-   * Indicates if the session can be refreshed. This is always true for this class.
+   * Indicates if the session can be refreshed. This is always true for this basemap sessions.
    *
    * @returns {boolean} - Always returns true.
    */
@@ -367,6 +418,12 @@ export abstract class BaseSession implements IAuthenticationManager {
    * @returns A promise that resolves to the current instance of the session.
    */
   async refreshCredentials(): Promise<this> {
+    if (this.pendingSession) {
+      // if there is a pending session, wait for it to resolve
+      await this.pendingSession;
+      return this;
+    }
+
     // @TODO switch this to structured clone when we upgrade to Node 20+ types so we don't have to parse the dates later
     const previous = JSON.parse(
       JSON.stringify({
@@ -378,17 +435,23 @@ export abstract class BaseSession implements IAuthenticationManager {
     );
 
     try {
-      const newSession = await startNewSession({
+      this.pendingSession = startNewSession({
         startSessionUrl: this.startSessionUrl,
         styleFamily: this.styleFamily,
         authentication: this.authentication,
         duration: this.duration
       });
 
+      const newSession = await this.pendingSession;
+
+      this.pendingSession = null; // reset the pending session
+
       this.setToken(newSession.sessionToken);
       this.setStartTime(new Date(newSession.startTime));
       this.setEndTime(new Date(newSession.endTime));
       this.setExpires(new Date(newSession.endTime - this.safetyMargin * 1000));
+
+      this.enableCheckingExpirationTime(); // restart checking expiration time after refreshing credentials
 
       this.emitter.emit("refreshed", {
         previous: {
@@ -413,11 +476,11 @@ export abstract class BaseSession implements IAuthenticationManager {
   }
   /**
    * Enables auto-refresh for the session. This will automatically refresh the session when it expires.
-   * It will also start checking the expiration time of the session if it is not already started via {@linkcode BaseSession.startCheckingExpirationTime}.
+   * It will also start checking the expiration time of the session if it is not already started via {@linkcode BaseSession.enableCheckingExpirationTime}.
    */
-  startAutoRefresh() {
+  enableAutoRefresh() {
     if (!this.expirationTimerId) {
-      this.startCheckingExpirationTime();
+      this.enableCheckingExpirationTime();
     }
 
     this.autoRefreshHandler = () => {
@@ -432,13 +495,25 @@ export abstract class BaseSession implements IAuthenticationManager {
   /**
    * Disables auto-refresh for the session. This will stop automatically refreshing the session when it expires.
    * This will  **not** stop checking the expiration time of the session. If you want to stop automated expiration
-   * checking, call {@linkcode BaseSession.stopCheckingExpirationTime} after calling this method.
+   * checking, call {@linkcode BaseSession.disableCheckingExpirationTime} after calling this method.
    */
-  stopAutoRefresh() {
+  disableAutoRefresh() {
     if (this.autoRefreshHandler) {
       this.off("expired", this.autoRefreshHandler);
       this.autoRefreshHandler = null;
     }
+  }
+
+  /**
+   * Removes all event listeners and disables auto-refresh and expiration time checking. This is useful for cleaning up the session when it is no longer needed or replaced with a new session.
+   */
+  destroy() {
+    this.disableAutoRefresh();
+    this.disableCheckingExpirationTime();
+    this.emitter.off("expired");
+    this.emitter.off("refreshed");
+    this.emitter.off("error");
+    this.emitter.off("*");
   }
 
   /**
