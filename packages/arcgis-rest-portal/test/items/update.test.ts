@@ -215,6 +215,53 @@ describe("search", () => {
         });
     });
 
+    it("should update an item with a Blob thumbnail", (done) => {
+      const itemId = "5bc";
+      const owner = "dbouwman";
+
+      const fakeItem = {
+        id: "5bc",
+        owner: "dbouwman",
+        title: "my fake item",
+        description: "yep its fake",
+        snipped: "so very fake",
+        type: "Web Mapping Application",
+        typeKeywords: ["fake", "kwds"],
+        tags: ["fakey", "mcfakepants"],
+        properties: {
+          key: "somevalue"
+        },
+        text: JSON.stringify({
+          values: {
+            key: "value"
+          }
+        }),
+        thumbnail: new Blob(["fake-image-content"], { type: "image/png" })
+      };
+
+      const itemUrl = `https://myorg.maps.arcgis.com/sharing/rest/content/users/${owner}/items/${itemId}/update`;
+
+      fetchMock.once(itemUrl, ItemSuccessResponse);
+
+      updateItem({
+        item: fakeItem,
+        authentication: MOCK_USER_SESSION
+      })
+        .then((response) => {
+          expect(fetchMock.called(itemUrl)).toBe(true);
+          const [, options] = fetchMock.lastCall(itemUrl)!;
+          const body = options.body as FormData;
+          const entries = Array.from((body as any).entries()) as [
+            string,
+            any
+          ][];
+          const thumbnailEntry = entries.find(([key]) => key === "thumbnail");
+          expect(thumbnailEntry).toBeDefined();
+          done();
+        })
+        .catch((e) => fail(e));
+    });
+
     it("update an item info file", (done) => {
       fetchMock.once("*", UpdateItemInfoResponse);
 
