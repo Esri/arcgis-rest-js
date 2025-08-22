@@ -16,7 +16,8 @@ import {
   IItemRelationshipOptions,
   IUserItemOptions,
   determineOwner,
-  FetchReadMethodName
+  FetchReadMethodName,
+  decorateThumbnail
 } from "./helpers.js";
 
 /**
@@ -46,7 +47,22 @@ export function getItem(
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
-  return request(url, options);
+
+  return request(url, options).then(async (item: IItem) => {
+    const portal = requestOptions?.portal || getPortalUrl(requestOptions);
+    let token: string | undefined;
+
+    // if authentication is provided and it’s an authentication manager and the item is not public then request a token for secure access
+    if (
+      requestOptions?.authentication &&
+      typeof requestOptions.authentication !== "string" &&
+      item.access !== "public"
+    ) {
+      token = await requestOptions.authentication.getToken(url);
+    }
+
+    return decorateThumbnail(item, portal, token);
+  });
 }
 
 /**
@@ -162,12 +178,14 @@ export interface IGetItemResourcesResponse {
   start: number;
   nextStart: number;
   num: number;
-  resources?: [{
+  resources?: [
+    {
       resource: string;
       access: string;
       created: number;
       size: number;
-  }];
+    }
+  ];
 }
 
 /**
