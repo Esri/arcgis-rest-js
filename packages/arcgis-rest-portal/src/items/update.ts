@@ -79,27 +79,27 @@ export function updateItem(
       requestOptions.params.extent = bboxToString(requestOptions.params.extent);
     }
 
-    // handle thumbnail separately if it's a Blob or File
-    const thumbnail = requestOptions.params?.thumbnail;
-    if (thumbnail instanceof Blob || thumbnail instanceof File) {
-      const formData = new FormData();
+    // // handle thumbnail separately if it's a Blob or File
+    // const thumbnail = requestOptions.params?.thumbnail;
+    // if (typeof Blob !== "undefined" && thumbnail instanceof Blob) {
+    //   const formData = new FormData();
 
-      Object.entries(requestOptions.params).forEach(([key, value]) => {
-        if (key === "thumbnail") return;
-        if (value !== undefined && value !== null) {
-          formData.append(
-            key,
-            typeof value === "object" ? JSON.stringify(value) : String(value)
-          );
-        }
-      });
+    //   Object.entries(requestOptions.params).forEach(([key, value]) => {
+    //     if (key === "thumbnail") return;
+    //     if (value !== undefined && value !== null) {
+    //       formData.append(
+    //         key,
+    //         typeof value === "object" ? JSON.stringify(value) : String(value)
+    //       );
+    //     }
+    //   });
 
-      // add thumbnail with filename
-      const filename =
-        thumbnail instanceof File ? thumbnail.name : "thumbnail.png";
-      formData.append("thumbnail", thumbnail, filename);
-      (requestOptions as any).body = formData;
-    }
+    //   // add thumbnail with filename
+    //   const filename =
+    //     thumbnail instanceof File ? thumbnail.name : "thumbnail.png";
+    //   formData.append("thumbnail", thumbnail, filename);
+    //   (requestOptions as any).body = formData;
+    // }
 
     return request(url, requestOptions);
   });
