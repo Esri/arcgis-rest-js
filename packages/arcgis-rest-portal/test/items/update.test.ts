@@ -224,7 +224,7 @@ describe("search", () => {
         owner: "dbouwman",
         title: "my fake item",
         description: "yep its fake",
-        snipped: "so very fake",
+        snippet: "so very fake",
         type: "Web Mapping Application",
         typeKeywords: ["fake", "kwds"],
         tags: ["fakey", "mcfakepants"],
