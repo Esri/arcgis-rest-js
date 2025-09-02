@@ -8,7 +8,9 @@ import {
 } from "../src/index.js";
 import { MOCK_START_TIME, MOCK_END_TIME, TWELVE_HOURS } from "./test-utils.js";
 import fetchMock from "fetch-mock";
-import { Emitter } from "mitt";
+import { ApiKeyManager } from "@esri/arcgis-rest-request";
+
+const MOCK_AUTH = ApiKeyManager.fromKey("fake-token");
 
 function createMockSession() {
   return new BasemapStyleSession({
@@ -18,7 +20,7 @@ function createMockSession() {
     startTime: MOCK_START_TIME,
     endTime: MOCK_END_TIME,
     expires: new Date(MOCK_END_TIME.getTime() - DEFAULT_SAFETY_MARGIN * 1000),
-    authentication: "token"
+    authentication: MOCK_AUTH
   });
 }
 
@@ -41,7 +43,7 @@ async function startMockSession(
   const session = await BasemapStyleSession.start({
     ...{
       styleFamily: "arcgis",
-      authentication: "token"
+      authentication: MOCK_AUTH
     },
     ...sessionParams
   });
@@ -83,7 +85,7 @@ describe("BasemapStyleSession", () => {
       startTime: MOCK_START_TIME,
       endTime: MOCK_END_TIME,
       expires: new Date(MOCK_END_TIME.getTime() - DEFAULT_SAFETY_MARGIN * 1000),
-      authentication: "token"
+      authentication: MOCK_AUTH
     });
 
     expect(session).toBeDefined();
@@ -94,7 +96,7 @@ describe("BasemapStyleSession", () => {
     try {
       await BasemapStyleSession.start({
         duration: 9,
-        authentication: "token"
+        authentication: MOCK_AUTH
       });
     } catch (error) {
       expect(error).toEqual(
@@ -107,7 +109,7 @@ describe("BasemapStyleSession", () => {
     try {
       await BasemapStyleSession.start({
         duration: 43201,
-        authentication: "token"
+        authentication: MOCK_AUTH
       });
     } catch (error) {
       expect(error).toEqual(
@@ -157,7 +159,7 @@ describe("BasemapStyleSession", () => {
     expect(session.safetyMargin).toBe(DEFAULT_SAFETY_MARGIN);
     expect((session as any).expirationCheckInterval).toBe(10000); // 10 seconds
     expect(session.styleFamily).toBe("arcgis");
-    expect(session.authentication).toBe("token");
+    expect(session.authentication).toBe(MOCK_AUTH);
     expect(session.canRefresh).toBe(true);
     expect(await session.getToken()).toBe("fake-token");
     expect(session.autoRefresh).toBe(false);
@@ -170,7 +172,7 @@ describe("BasemapStyleSession", () => {
 
     expect(url.startsWith(DEFAULT_START_BASEMAP_STYLE_SESSION_URL)).toBe(true);
     expect(url).toContain("styleFamily=arcgis");
-    expect(url).toContain("token=token");
+    expect(url).toContain("token=fake-token");
     expect(url).toContain("durationSeconds=43200");
     expect(url).toContain("f=json");
   });
@@ -178,7 +180,7 @@ describe("BasemapStyleSession", () => {
   test("should start a new BasemapStyleSession with a custom duration", async () => {
     const session = await startMockSession({
       duration: 60,
-      authentication: "token"
+      authentication: MOCK_AUTH
     });
 
     // Validate the session object
@@ -198,7 +200,7 @@ describe("BasemapStyleSession", () => {
     );
     expect((session as any).expirationCheckInterval).toBe(600);
     expect(session.styleFamily).toBe("arcgis");
-    expect(session.authentication).toBe("token");
+    expect(session.authentication).toBe(MOCK_AUTH);
     expect(session.canRefresh).toBe(true);
     expect(await session.getToken()).toBe("fake-token");
     expect(session.autoRefresh).toBe(false);
@@ -211,14 +213,14 @@ describe("BasemapStyleSession", () => {
 
     expect(url.startsWith(DEFAULT_START_BASEMAP_STYLE_SESSION_URL)).toBe(true);
     expect(url).toContain("styleFamily=arcgis");
-    expect(url).toContain("token=token");
+    expect(url).toContain("token=fake-token");
     expect(url).toContain("durationSeconds=60");
     expect(url).toContain("f=json");
   });
 
   test("should start a new BasemapStyleSession with a custom safetyMargin", async () => {
     const session = await startMockSession({
-      authentication: "token",
+      authentication: MOCK_AUTH,
       safetyMargin: 600
     });
 
@@ -239,7 +241,7 @@ describe("BasemapStyleSession", () => {
     );
     expect((session as any).expirationCheckInterval).toBe(10000);
     expect(session.styleFamily).toBe("arcgis");
-    expect(session.authentication).toBe("token");
+    expect(session.authentication).toBe(MOCK_AUTH);
     expect(session.canRefresh).toBe(true);
     expect(await session.getToken()).toBe("fake-token");
     expect(session.autoRefresh).toBe(false);
@@ -252,7 +254,7 @@ describe("BasemapStyleSession", () => {
 
     expect(url.startsWith(DEFAULT_START_BASEMAP_STYLE_SESSION_URL)).toBe(true);
     expect(url).toContain("styleFamily=arcgis");
-    expect(url).toContain("token=token");
+    expect(url).toContain("token=fake-token");
     expect(url).toContain("durationSeconds=43200");
     expect(url).toContain("f=json");
   });
@@ -266,7 +268,7 @@ describe("BasemapStyleSession", () => {
     });
 
     const session = await BasemapStyleSession.start({
-      authentication: "token"
+      authentication: MOCK_AUTH
     });
 
     // Validate the session object
@@ -281,7 +283,7 @@ describe("BasemapStyleSession", () => {
       DEFAULT_START_BASEMAP_STYLE_SESSION_URL
     );
     expect(session.styleFamily).toBe("arcgis");
-    expect(session.authentication).toBe("token");
+    expect(session.authentication).toBe(MOCK_AUTH);
     expect(session.canRefresh).toBe(true);
     expect(await session.getToken()).toBe("fake-token");
     expect(session.autoRefresh).toBe(false);
@@ -294,7 +296,7 @@ describe("BasemapStyleSession", () => {
 
     expect(url.startsWith(DEFAULT_START_BASEMAP_STYLE_SESSION_URL)).toBe(true);
     expect(url).toContain("styleFamily=arcgis");
-    expect(url).toContain("token=token");
+    expect(url).toContain("token=fake-token");
     expect(url).toContain("durationSeconds=43200");
     expect(url).toContain("f=json");
   });

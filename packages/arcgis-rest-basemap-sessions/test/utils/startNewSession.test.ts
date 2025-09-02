@@ -5,9 +5,10 @@ import {
   IStartSessionResponse
 } from "../../src/utils/startNewSession.js";
 import { MOCK_START_TIME, MOCK_END_TIME } from "../test-utils.js";
+import { ApiKeyManager } from "@esri/arcgis-rest-request";
 
 const MOCK_URL = "https://example.com/startSession";
-const MOCK_AUTH = "fake-token";
+const MOCK_AUTH = ApiKeyManager.fromKey("fake-token");
 
 describe("startNewSession", () => {
   afterEach(() => {
@@ -24,7 +25,7 @@ describe("startNewSession", () => {
 
     fetchMock.getOnce(
       {
-        url: `${MOCK_URL}?f=json&styleFamily=arcgis&durationSeconds=43200&token=${MOCK_AUTH}`
+        url: `${MOCK_URL}?f=json&styleFamily=arcgis&durationSeconds=43200&token=fake-token`
       },
       {
         status: 200,
@@ -50,7 +51,7 @@ describe("startNewSession", () => {
 
     fetchMock.getOnce(
       {
-        url: `${MOCK_URL}?f=json&styleFamily=open&durationSeconds=3600&token=${MOCK_AUTH}`
+        url: `${MOCK_URL}?f=json&styleFamily=open&durationSeconds=3600&token=fake-token`
       },
       {
         status: 200,
