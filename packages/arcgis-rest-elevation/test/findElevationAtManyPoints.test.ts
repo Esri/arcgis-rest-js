@@ -1,3 +1,4 @@
+import { expect, test, describe, afterEach } from "vitest";
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
 import fetchMock from "fetch-mock";
 import { findElevationAtManyPoints } from "../src/index.js";
@@ -9,7 +10,7 @@ describe("findElevationAtManyPoints()", () => {
     fetchMock.restore();
   });
 
-  it("should return elevation at points with mean sea level as the reference", async () => {
+  test("should return elevation at points with mean sea level as the reference", async () => {
     fetchMock.mock("*", atManyPointsDefaultResult);
 
     let response = await findElevationAtManyPoints({
@@ -25,7 +26,7 @@ describe("findElevationAtManyPoints()", () => {
     expect(response.result).toEqual(atManyPointsDefaultResult.result);
   });
 
-  it("should return elevation at points with ellipsoid as the reference", async () => {
+  test("should return elevation at points with ellipsoid as the reference", async () => {
     fetchMock.mock("*", atManyPointsEllipsoidResult);
 
     const response = await findElevationAtManyPoints({
