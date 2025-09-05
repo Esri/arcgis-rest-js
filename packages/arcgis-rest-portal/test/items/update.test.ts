@@ -262,6 +262,107 @@ describe("search", () => {
         .catch((e) => fail(e));
     });
 
+    it("should delete params.thumbnail if it matches decoratedThumbnail", (done) => {
+      const fakeItem = {
+        id: "5bc",
+        owner: "dbouwman",
+        access: "private",
+        title: "my fake item",
+        description: "yep its fake",
+        thumbnail: "thumbnail.png",
+        tags: ["fakey", "mcfakepants"],
+        type: "Web Map",
+        typeKeywords: ["fake", "kwds", "test1"]
+      };
+
+      const itemUrl = `https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/5bc/update`;
+
+      fetchMock.once(itemUrl, { success: true });
+
+      updateItem({
+        item: fakeItem,
+        params: { thumbnail: "thumbnail-new.png" },
+        authentication: MOCK_USER_SESSION
+      })
+        .then(() => {
+          expect(fetchMock.called(itemUrl)).toBe(true);
+          const [, options] = fetchMock.lastCall(itemUrl)!;
+          const body = options.body as any;
+          let thumbnailValue: any;
+          if (body instanceof FormData) {
+            const entries = Array.from((body as any).entries()) as [
+              string,
+              any
+            ][];
+            const thumb = entries.find(([key]) => key === "thumbnailUrl");
+            thumbnailValue = thumb ? thumb[1] : undefined;
+          } else if (typeof body === "string") {
+            const params = new URLSearchParams(body);
+            thumbnailValue = params.get("thumbnailUrl");
+          } else if (body instanceof URLSearchParams) {
+            thumbnailValue = body.get("thumbnailUrl");
+          }
+          expect(thumbnailValue).toBeNull();
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
+    it("should keep params.thumbnail if it does not match decoratedThumbnail", (done) => {
+      const fakeItem = {
+        id: "5bc",
+        owner: "dbouwman",
+        access: "private",
+        title: "my fake item",
+        description: "yep its fake",
+        thumbnail: "thumbnail.png",
+        tags: ["fakey", "mcfakepants"],
+        type: "Web Map",
+        typeKeywords: ["fake", "kwds", "test2"]
+      };
+
+      const itemUrl = `https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/5bc/update`;
+
+      fetchMock.postOnce(itemUrl, { success: true });
+
+      updateItem({
+        item: fakeItem,
+        params: {
+          thumbnailUrl:
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/thumbnail.png"
+        },
+        authentication: MOCK_USER_SESSION
+      })
+        .then(() => {
+          expect(fetchMock.called(itemUrl)).toBe(true);
+          const [, options] = fetchMock.lastCall(itemUrl)!;
+          const body = options.body as any;
+          let thumbnailValue: any;
+          if (body instanceof FormData) {
+            const entries = Array.from((body as any).entries()) as [
+              string,
+              any
+            ][];
+            const thumb = entries.find(([key]) => key === "thumbnailUrl");
+            thumbnailValue = thumb ? thumb[1] : undefined;
+          } else if (typeof body === "string") {
+            const params = new URLSearchParams(body);
+            thumbnailValue = params.get("thumbnailUrl");
+          } else if (body instanceof URLSearchParams) {
+            thumbnailValue = body.get("thumbnailUrl");
+          }
+          expect(thumbnailValue).toBe(
+            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/thumbnail.png"
+          );
+          done();
+        })
+        .catch((e) => {
+          fail(e);
+        });
+    });
+
     it("update an item info file", (done) => {
       fetchMock.once("*", UpdateItemInfoResponse);
 

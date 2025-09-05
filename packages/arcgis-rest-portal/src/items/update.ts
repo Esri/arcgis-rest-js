@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
-import { IItemUpdate } from "../helpers.js";
+import { IItemUpdate, IItem } from "../helpers.js";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
 import {
@@ -15,7 +15,8 @@ import {
   IUpdateItemResponse,
   determineOwner,
   isBBox,
-  bboxToString
+  bboxToString,
+  decorateThumbnail
 } from "./helpers.js";
 
 export interface IUpdateItemOptions extends ICreateUpdateItemOptions {
@@ -79,27 +80,28 @@ export function updateItem(
       requestOptions.params.extent = bboxToString(requestOptions.params.extent);
     }
 
-    // // handle thumbnail separately if it's a Blob or File
-    // const thumbnail = requestOptions.params?.thumbnail;
-    // if (typeof Blob !== "undefined" && thumbnail instanceof Blob) {
-    //   const formData = new FormData();
+    const portal = getPortalUrl(requestOptions);
+    const decoratedThumbnail = decorateThumbnail(
+      {
+        ...requestOptions.item,
+        access: requestOptions.item.access
+      } as IItem,
+      portal
+    );
 
-    //   Object.entries(requestOptions.params).forEach(([key, value]) => {
-    //     if (key === "thumbnail") return;
-    //     if (value !== undefined && value !== null) {
-    //       formData.append(
-    //         key,
-    //         typeof value === "object" ? JSON.stringify(value) : String(value)
-    //       );
-    //     }
-    //   });
+    const paramsThumbnail = requestOptions.params.thumbnail;
 
-    //   // add thumbnail with filename
-    //   const filename =
-    //     thumbnail instanceof File ? thumbnail.name : "thumbnail.png";
-    //   formData.append("thumbnail", thumbnail, filename);
-    //   (requestOptions as any).body = formData;
-    // }
+    if (
+      typeof decoratedThumbnail.thumbnail === "string" &&
+      typeof paramsThumbnail === "string"
+    ) {
+      if (
+        decoratedThumbnail.thumbnail.split("?")[0] ===
+        paramsThumbnail.split("?")[0]
+      ) {
+        delete requestOptions.params.thumbnailUrl;
+      }
+    }
 
     return request(url, requestOptions);
   });

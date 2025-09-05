@@ -59,7 +59,7 @@ describe("determineOwner()", () => {
   });
 });
 
-describe("determineOwner()", () => {
+describe("decorateThumbnail()", () => {
   it("should return null/undefined if item is null", () => {
     expect(decorateThumbnail(null as any, "https://portal.com")).toBeNull();
     expect(
