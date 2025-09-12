@@ -8,7 +8,6 @@ import { IAuthenticationManager } from "./utils/IAuthenticationManager.js";
 import { ITokenRequestOptions } from "./utils/ITokenRequestOptions.js";
 import { decodeQueryString } from "./utils/decode-query-string.js";
 import { encodeQueryString } from "./utils/encode-query-string.js";
-import { IUser } from "./types/user.js";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token.js";
 import { canUseOnlineToken, isFederated } from "./federation-utils.js";
 import { IAppAccess, validateAppAccess } from "./validate-app-access.js";
@@ -641,7 +640,7 @@ export class ArcGISIdentityManager
         "no-auth-state"
       );
     }
-
+    console.log({ stateId, state, options });
     if (state.id !== stateId) {
       return reportError(
         "Saved client state did not match server sent state.",
