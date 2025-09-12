@@ -12,11 +12,8 @@ import {
   ErrorTypes,
   ArcGISTokenRequestError,
   ArcGISTokenRequestErrorCodes,
-  IServerInfo,
-  ITokenRequestOptions,
-  IOAuth2Options
+  IServerInfo
 } from "../src/index.js";
-import { FormData } from "@esri/arcgis-rest-form-data";
 import {
   YESTERDAY,
   TOMORROW,
@@ -1483,6 +1480,11 @@ describe("ArcGISIdentityManager", () => {
               expect(session.tokenExpires.getUTCMinutes()).toBe(
                 expectedDate.getUTCMinutes()
               );
+              expect(session.state).toEqual({
+                id: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+                originalUrl: "https://test.com"
+              });
+              expect(PopupMockWindow.close).toHaveBeenCalled();
             })
             .catch((e) => {
               fail(e);
@@ -1630,6 +1632,66 @@ describe("ArcGISIdentityManager", () => {
             .then(() => {
               expect(MockWindow.location.href).toBe(
                 "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId12345&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&code_challenge_method=plain&code_challenge=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&foo=bar"
+              );
+            })
+            .catch((e) => {
+              fail(e);
+            });
+        });
+
+        it("should pass a custom state object", () => {
+          let PopupMockWindow = createMock();
+          PopupMockWindow.location.search =
+            "?code=auth_code&state=%7B%22id%22%3A%22myCustomId%22%2C%22customStateProperty%22%3A%22test%22%7D";
+          PopupMockWindow.opener = MockWindow;
+
+          fetchMock.post("*", {
+            access_token: "token",
+            expires_in: 1800,
+            username: "c@sey",
+            ssl: true,
+            refresh_token: "refresh_token",
+            refresh_token_expires_in: 1209600
+          });
+
+          window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
+            setTimeout(() => {
+              ArcGISIdentityManager.completeOAuth2(
+                {
+                  clientId: "customStateTestClientId",
+                  redirectUri: "http://example-app.com/redirect"
+                },
+                PopupMockWindow
+              );
+            }, 100);
+          });
+
+          return ArcGISIdentityManager.beginOAuth2(
+            {
+              clientId: "customStateTestClientId",
+              redirectUri: "http://example-app.com/redirect",
+              state: {
+                id: "myCustomId",
+                customStateProperty: "test"
+              }
+            },
+            MockWindow
+          )
+            .then((session) => {
+              expect(MockWindow.open).toHaveBeenCalledWith(
+                "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=customStateTestClientId&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22myCustomId%22%2C%22customStateProperty%22%3A%22test%22%7D&locale=&style=&code_challenge_method=S256&code_challenge=DwBzhbb51LfusnSGBa_hqYSgo7-j8BTQnip4TOnlzRo",
+                "oauth-window",
+                "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
+              );
+
+              expect(session.state).toEqual({
+                id: "myCustomId",
+                customStateProperty: "test"
+              });
+
+              // now - 5 minutes (offset) + the above expiration (1800 seconds)
+              const expectedDate = new Date(
+                Date.now() - 5 * 60 * 1000 + 1800 * 1000
               );
             })
             .catch((e) => {
