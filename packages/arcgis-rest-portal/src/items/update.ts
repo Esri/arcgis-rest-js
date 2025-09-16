@@ -89,15 +89,15 @@ export function updateItem(
       portal
     );
 
-    const paramsThumbnail = requestOptions.params.thumbnail;
+    const paramsThumbnailUrl = requestOptions.params.thumbnailUrl;
 
     if (
-      typeof decoratedThumbnail.thumbnail === "string" &&
-      typeof paramsThumbnail === "string"
+      typeof decoratedThumbnail.thumbnailUrl === "string" &&
+      typeof paramsThumbnailUrl === "string"
     ) {
       if (
-        decoratedThumbnail.thumbnail.split("?")[0] ===
-        paramsThumbnail.split("?")[0]
+        decoratedThumbnail.thumbnailUrl.split("?")[0] ===
+        paramsThumbnailUrl.split("?")[0]
       ) {
         delete requestOptions.params.thumbnailUrl;
       }

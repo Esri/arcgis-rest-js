@@ -310,16 +310,17 @@ export function decorateThumbnail(
 ): IItem {
   if (!item) return item;
 
-  let thumbnailURL = item.thumbnail
-    ? `${portal}/content/items/${item.id}/info/${item.thumbnail}`
-    : null;
+  let thumbnailUrl: string | null = null;
 
-  if (thumbnailURL && item.access !== "public" && token) {
-    thumbnailURL += `?${token}`;
+  if (typeof item.thumbnail === "string") {
+    thumbnailUrl = `${portal}/content/items/${item.id}/info/${item.thumbnail}`;
+    if (thumbnailUrl && item.access !== "public" && token) {
+      thumbnailUrl += `?${token}`;
+    }
   }
 
   return {
     ...item,
-    thumbnail: thumbnailURL
+    ...(thumbnailUrl ? { thumbnailUrl } : {})
   };
 }

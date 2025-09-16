@@ -282,7 +282,7 @@ describe("get", () => {
 
       getItem("3ef")
         .then((item) => {
-          expect(item.thumbnail).toBe(
+          expect(item.thumbnailUrl).toBe(
             "https://www.arcgis.com/sharing/rest/content/items/3ef/info/thumb.png"
           );
           done();
@@ -300,7 +300,7 @@ describe("get", () => {
 
       const item = await getItem("3ef", { authentication: fakeAuthManager });
 
-      expect(item.thumbnail).toBe(
+      expect(item.thumbnailUrl).toBe(
         "https://www.arcgis.com/sharing/rest/content/items/3ef/info/thumb.png?fake-token"
       );
     });
@@ -313,7 +313,7 @@ describe("get", () => {
       } as IAuthenticationManager;
 
       const item = await getItem("3ef", { authentication: fakeAuthManager });
-      expect(item.thumbnail).toBe(
+      expect(item.thumbnailUrl).toBe(
         "https://www.arcgis.com/sharing/rest/content/items/3ef/info/thumb.png"
       );
     });
