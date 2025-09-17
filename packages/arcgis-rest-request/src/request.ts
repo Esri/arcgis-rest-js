@@ -290,7 +290,9 @@ export function internalRequest(
     /* istanbul ignore else - we don't need to test NOT warning people */
     if (
       !options.authentication.startsWith("AAPK") &&
+      !options.authentication.startsWith("AAPT") &&
       !options.authentication.startsWith("AATK") && // doesn't look like an API Key
+      !options.authentication.startsWith("AAST") && // doesn't look like a session token
       !options.suppressWarnings && // user doesn't want to suppress warnings for this request
       !(globalThis as any).ARCGIS_REST_JS_SUPPRESS_TOKEN_WARNING // we haven't shown the user this warning yet
     ) {
