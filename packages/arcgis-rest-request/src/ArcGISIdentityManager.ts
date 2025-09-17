@@ -640,7 +640,7 @@ export class ArcGISIdentityManager
         "no-auth-state"
       );
     }
-    console.log({ stateId, state, options });
+
     if (state.id !== stateId) {
       return reportError(
         "Saved client state did not match server sent state.",
