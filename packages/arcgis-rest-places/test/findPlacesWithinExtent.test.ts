@@ -32,7 +32,7 @@ describe("findPlacesWithinExtent()", () => {
       placesWithinExtentMockNoMoreResults.results as any
     );
     expect(response.nextPage).toBeUndefined();
-    expect(url).toContain("token=MOCK_KEY");
+    expect(url).toContain("token=fake-token");
   });
 
   test("should return places within an extent and a next page when there are more results", async () => {
@@ -53,7 +53,7 @@ describe("findPlacesWithinExtent()", () => {
       placesWithinExtentMockMoreResults.results as any
     );
     expect(firstPageResponse.nextPage).toBeDefined();
-    expect(firstPageUrl).toContain("token=MOCK_KEY");
+    expect(firstPageUrl).toContain("token=fake-token");
 
     fetchMock.restore();
     fetchMock.mock("*", placesWithinExtentMockNoMoreResults);
@@ -66,7 +66,7 @@ describe("findPlacesWithinExtent()", () => {
       placesWithinExtentMockNoMoreResults.results as any
     );
     expect(nextPage.nextPage).toBeUndefined();
-    expect(url).toContain("token=MOCK_KEY");
+    expect(url).toContain("token=fake-token");
   });
 
   test("verify endpoint", async () => {
@@ -86,7 +86,7 @@ describe("findPlacesWithinExtent()", () => {
 
     const [url, options] = fetchMock.lastCall("*");
     expect(url).toEqual(
-      "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/within-extent?f=json&xmin=-118.013334&ymin=33.78193&xmax=-117.795753&ymax=33.873337&categoryIds=13002&pageSize=5&token=MOCK_KEY"
+      "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/within-extent?f=json&xmin=-118.013334&ymin=33.78193&xmax=-117.795753&ymax=33.873337&categoryIds=13002&pageSize=5&token=fake-token"
     );
   });
 
