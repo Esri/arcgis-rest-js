@@ -1,8 +1,5 @@
 import { hasNextPage } from "../src/utils.js";
 import { describe, test, expect } from "vitest";
-// unused imports?
-import { ApiKeyManager } from "@esri/arcgis-rest-request";
-import fetchMock from "fetch-mock";
 
 describe("hasNextPage()", () => {
   test("should return if a response has a next page of results", async () => {
