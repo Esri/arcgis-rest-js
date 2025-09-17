@@ -244,20 +244,8 @@ describe("search", () => {
           expect(fetchMock.called(itemUrl)).toBe(true);
           const [, options] = fetchMock.lastCall(itemUrl)!;
           const body = options.body as any;
-          let thumbnailValue: any;
-          if (body instanceof FormData) {
-            const entries = Array.from((body as any).entries()) as [
-              string,
-              any
-            ][];
-            const thumb = entries.find(([key]) => key === "thumbnailUrl");
-            thumbnailValue = thumb ? thumb[1] : undefined;
-          } else if (typeof body === "string") {
-            const params = new URLSearchParams(body);
-            thumbnailValue = params.get("thumbnailUrl");
-          } else if (body instanceof URLSearchParams) {
-            thumbnailValue = body.get("thumbnailUrl");
-          }
+          const params = new URLSearchParams(body);
+          const thumbnailValue = params.get("thumbnailUrl");
           expect(thumbnailValue).toBeNull();
           done();
         })
@@ -292,16 +280,9 @@ describe("search", () => {
           expect(fetchMock.called(itemUrl)).toBe(true);
           const [, options] = fetchMock.lastCall(itemUrl)!;
           const body = options.body as any;
-          let thumbnailIsBlob = false;
-          if (body instanceof FormData) {
-            const entries = Array.from((body as any).entries()) as [
-              string,
-              any
-            ][];
-            const thumbEntry = entries.find(([key]) => key === "thumbnail");
-            thumbnailIsBlob = !!thumbEntry && typeof thumbEntry[1] === "object";
-          }
-          expect(thumbnailIsBlob).toBe(true);
+          const thumbnailValue = body.get("thumbnail");
+          expect(typeof thumbnailValue).toBe("object");
+          expect((thumbnailValue as Blob).type).toBe("image/png");
           done();
         })
         .catch((e) => {
@@ -337,20 +318,8 @@ describe("search", () => {
           expect(fetchMock.called(itemUrl)).toBe(true);
           const [, options] = fetchMock.lastCall(itemUrl)!;
           const body = options.body as any;
-          let thumbnailValue: any;
-          if (body instanceof FormData) {
-            const entries = Array.from((body as any).entries()) as [
-              string,
-              any
-            ][];
-            const thumb = entries.find(([key]) => key === "thumbnailUrl");
-            thumbnailValue = thumb ? thumb[1] : undefined;
-          } else if (typeof body === "string") {
-            const params = new URLSearchParams(body);
-            thumbnailValue = params.get("thumbnailUrl");
-          } else if (body instanceof URLSearchParams) {
-            thumbnailValue = body.get("thumbnailUrl");
-          }
+          const params = new URLSearchParams(body);
+          const thumbnailValue = params.get("thumbnailUrl");
           expect(thumbnailValue).toBe(newThumbnailUrl);
           done();
         })
