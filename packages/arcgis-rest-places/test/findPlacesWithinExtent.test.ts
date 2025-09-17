@@ -7,6 +7,8 @@ import {
   placesWithinExtentMockMoreResults
 } from "./mocks/withinExtent.mock.js";
 
+const MOCK_AUTH = ApiKeyManager.fromKey("fake-token");
+
 describe("findPlacesWithinExtent()", () => {
   afterEach(() => {
     fetchMock.restore();
@@ -22,7 +24,7 @@ describe("findPlacesWithinExtent()", () => {
       ymax: 33.873337,
       categoryIds: ["13002"],
       pageSize: 5,
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+      authentication: MOCK_AUTH
     });
 
     const [url, options] = fetchMock.lastCall("*");
@@ -42,7 +44,7 @@ describe("findPlacesWithinExtent()", () => {
       xmax: -117.795753,
       ymax: 33.873337,
       categoryIds: ["13002"],
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+      authentication: MOCK_AUTH
     });
 
     const [firstPageUrl, firstPageOptions] = fetchMock.lastCall("*");
@@ -79,7 +81,7 @@ describe("findPlacesWithinExtent()", () => {
       pageSize: 5,
       endpoint:
         "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/within-extent",
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+      authentication: MOCK_AUTH
     });
 
     const [url, options] = fetchMock.lastCall("*");
@@ -99,7 +101,7 @@ describe("findPlacesWithinExtent()", () => {
       categoryIds: ["13002"],
       pageSize: 5,
       icon: IconOptions.PNG,
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+      authentication: MOCK_AUTH
     });
 
     const [url, options] = fetchMock.lastCall("*");

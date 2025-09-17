@@ -4,6 +4,8 @@ import { describe, test, expect, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
 import { categoriesMock } from "./mocks/categories.mock.js";
 
+const MOCK_AUTH = ApiKeyManager.fromKey("fake-token");
+
 describe("getCategories()", () => {
   afterEach(() => {
     fetchMock.restore();
@@ -13,12 +15,12 @@ describe("getCategories()", () => {
     fetchMock.mock("*", categoriesMock);
 
     const response = await getCategories({
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+      authentication: MOCK_AUTH
     });
 
     const [url, options] = fetchMock.lastCall("*");
     expect(response).toEqual(categoriesMock as any);
-    expect(url).toContain("token=MOCK_KEY");
+    expect(url).toContain("token=fake-token");
   });
 
   test("verify endpoint", async () => {
@@ -27,12 +29,12 @@ describe("getCategories()", () => {
     await getCategories({
       endpoint:
         "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/categories",
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+      authentication: MOCK_AUTH
     });
 
     const [url, options] = fetchMock.lastCall("*");
     expect(url).toEqual(
-      "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/categories?f=json&token=MOCK_KEY"
+      "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/categories?f=json&token=fake-token"
     );
   });
 
@@ -41,7 +43,7 @@ describe("getCategories()", () => {
 
     await getCategories({
       icon: IconOptions.SVG,
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+      authentication: MOCK_AUTH
     });
 
     const [url, options] = fetchMock.lastCall("*");

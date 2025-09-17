@@ -7,6 +7,8 @@ import {
   placeNearPointMockMoreResults
 } from "./mocks/nearPoint.mock.js";
 
+const MOCK_AUTH = ApiKeyManager.fromKey("fake-token");
+
 describe("findPlacesNearPoint()", () => {
   afterEach(() => {
     fetchMock.restore();
@@ -19,7 +21,7 @@ describe("findPlacesNearPoint()", () => {
       x: -3.1883,
       y: 55.9533,
       radius: 10,
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+      authentication: MOCK_AUTH
     });
 
     const [url, options] = fetchMock.lastCall("*") as MockCall;
@@ -31,7 +33,7 @@ describe("findPlacesNearPoint()", () => {
       placeNearPointMockNoMoreResults.results as any
     );
     expect(response.nextPage).toBeUndefined();
-    expect(url).toContain("token=MOCK_KEY");
+    expect(url).toContain("token=fake-token");
   });
 
   test("should return places near a point and a next page when there are more results", async () => {
@@ -40,7 +42,7 @@ describe("findPlacesNearPoint()", () => {
     const firstPageResponse = await findPlacesNearPoint({
       x: -3.1883,
       y: 55.9533,
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+      authentication: MOCK_AUTH
     });
 
     const [firstPageUrl, firstPageOptions] = fetchMock.lastCall("*");
@@ -52,7 +54,7 @@ describe("findPlacesNearPoint()", () => {
       placeNearPointMockMoreResults.results as any
     );
     expect(firstPageResponse.nextPage).toBeDefined();
-    expect(firstPageUrl).toContain("token=MOCK_KEY");
+    expect(firstPageUrl).toContain("token=fake-token");
 
     fetchMock.restore();
     fetchMock.mock("*", placeNearPointMockNoMoreResults);
@@ -73,7 +75,7 @@ describe("findPlacesNearPoint()", () => {
       placeNearPointMockNoMoreResults.results as any
     );
     expect(nextPage.nextPage).toBeUndefined();
-    expect(url).toContain("token=MOCK_KEY");
+    expect(url).toContain("token=fake-token");
   });
 
   test("verify endpoint", async () => {
@@ -85,12 +87,12 @@ describe("findPlacesNearPoint()", () => {
       radius: 10,
       endpoint:
         "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/near-point",
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+      authentication: MOCK_AUTH
     });
 
     const [url, options] = fetchMock.lastCall("*") as MockCall;
     expect(url).toEqual(
-      "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/near-point?f=json&x=-3.1883&y=55.9533&radius=10&token=MOCK_KEY"
+      "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/near-point?f=json&x=-3.1883&y=55.9533&radius=10&token=fake-token"
     );
   });
 
@@ -102,7 +104,7 @@ describe("findPlacesNearPoint()", () => {
       y: 55.9533,
       radius: 10,
       icon: IconOptions.CIM,
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+      authentication: MOCK_AUTH
     });
 
     const [url, options] = fetchMock.lastCall("*") as MockCall;
