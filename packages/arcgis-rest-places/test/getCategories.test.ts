@@ -1,6 +1,7 @@
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
-import fetchMock from "fetch-mock";
 import { getCategories, IconOptions } from "../src/index.js";
+import { describe, test, expect, afterEach } from "vitest";
+import fetchMock from "fetch-mock";
 import { categoriesMock } from "./mocks/categories.mock.js";
 
 describe("getCategories()", () => {
@@ -8,7 +9,7 @@ describe("getCategories()", () => {
     fetchMock.restore();
   });
 
-  it("should return categories", async () => {
+  test("should return categories", async () => {
     fetchMock.mock("*", categoriesMock);
 
     const response = await getCategories({
@@ -20,7 +21,7 @@ describe("getCategories()", () => {
     expect(url).toContain("token=MOCK_KEY");
   });
 
-  it("verify endpoint", async () => {
+  test("verify endpoint", async () => {
     fetchMock.mock("*", categoriesMock);
 
     await getCategories({
@@ -35,7 +36,7 @@ describe("getCategories()", () => {
     );
   });
 
-  it("verify icon param", async () => {
+  test("verify icon param", async () => {
     fetchMock.mock("*", categoriesMock);
 
     await getCategories({

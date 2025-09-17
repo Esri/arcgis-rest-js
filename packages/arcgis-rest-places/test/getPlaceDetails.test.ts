@@ -1,6 +1,7 @@
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
-import fetchMock from "fetch-mock";
 import { getPlaceDetails, IconOptions } from "../src/index.js";
+import { describe, test, expect, afterEach } from "vitest";
+import fetchMock from "fetch-mock";
 import { placeMock } from "./mocks/place.mock.js";
 
 describe("getPlaceDetails()", () => {
@@ -8,7 +9,7 @@ describe("getPlaceDetails()", () => {
     fetchMock.restore();
   });
 
-  it("should return a specific place", async () => {
+  test("should return a specific place", async () => {
     fetchMock.mock("*", placeMock);
     const placeId = "e78051acc722c55ab11ba930d8dd7772";
 
@@ -24,7 +25,7 @@ describe("getPlaceDetails()", () => {
     expect(url).toContain(`places/${placeId}`);
   });
 
-  it("verify endpoint", async () => {
+  test("verify endpoint", async () => {
     fetchMock.mock("*", placeMock);
     const placeId = "e78051acc722c55ab11ba930d8dd7772";
 
@@ -41,7 +42,7 @@ describe("getPlaceDetails()", () => {
     );
   });
 
-  it("verify icon param", async () => {
+  test("verify icon param", async () => {
     fetchMock.mock("*", placeMock);
     const placeId = "e78051acc722c55ab11ba930d8dd7772";
 

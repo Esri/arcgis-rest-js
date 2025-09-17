@@ -1,6 +1,7 @@
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
-import fetchMock from "fetch-mock";
 import { findPlacesWithinExtent, IconOptions } from "../src/index.js";
+import { describe, test, expect, afterEach } from "vitest";
+import fetchMock from "fetch-mock";
 import {
   placesWithinExtentMockNoMoreResults,
   placesWithinExtentMockMoreResults
@@ -11,7 +12,7 @@ describe("findPlacesWithinExtent()", () => {
     fetchMock.restore();
   });
 
-  it("should return places within an extent and not return a next page when there are more results", async () => {
+  test("should return places within an extent and not return a next page when there are more results", async () => {
     fetchMock.mock("*", placesWithinExtentMockNoMoreResults);
 
     const response = await findPlacesWithinExtent({
@@ -32,7 +33,7 @@ describe("findPlacesWithinExtent()", () => {
     expect(url).toContain("token=MOCK_KEY");
   });
 
-  it("should return places within an extent and a next page when there are more results", async () => {
+  test("should return places within an extent and a next page when there are more results", async () => {
     fetchMock.mock("*", placesWithinExtentMockMoreResults);
 
     const firstPageResponse = await findPlacesWithinExtent({
@@ -66,7 +67,7 @@ describe("findPlacesWithinExtent()", () => {
     expect(url).toContain("token=MOCK_KEY");
   });
 
-  it("verify endpoint", async () => {
+  test("verify endpoint", async () => {
     fetchMock.mock("*", placesWithinExtentMockNoMoreResults);
 
     await findPlacesWithinExtent({
@@ -87,7 +88,7 @@ describe("findPlacesWithinExtent()", () => {
     );
   });
 
-  it("verify icon param", async () => {
+  test("verify icon param", async () => {
     fetchMock.mock("*", placesWithinExtentMockNoMoreResults);
 
     await findPlacesWithinExtent({

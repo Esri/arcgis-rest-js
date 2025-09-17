@@ -1,6 +1,7 @@
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
-import fetchMock, { MockCall } from "fetch-mock";
 import { findPlacesNearPoint, IconOptions } from "../src/index.js";
+import { describe, test, expect, afterEach } from "vitest";
+import fetchMock, { MockCall } from "fetch-mock";
 import {
   placeNearPointMockNoMoreResults,
   placeNearPointMockMoreResults
@@ -11,7 +12,7 @@ describe("findPlacesNearPoint()", () => {
     fetchMock.restore();
   });
 
-  it("should return places near a point and not return a next page when there are no more results", async () => {
+  test("should return places near a point and not return a next page when there are no more results", async () => {
     fetchMock.mock("*", placeNearPointMockNoMoreResults);
 
     const response = await findPlacesNearPoint({
@@ -33,7 +34,7 @@ describe("findPlacesNearPoint()", () => {
     expect(url).toContain("token=MOCK_KEY");
   });
 
-  it("should return places near a point and a next page when there are more results", async () => {
+  test("should return places near a point and a next page when there are more results", async () => {
     fetchMock.mock("*", placeNearPointMockMoreResults);
 
     const firstPageResponse = await findPlacesNearPoint({
@@ -75,7 +76,7 @@ describe("findPlacesNearPoint()", () => {
     expect(url).toContain("token=MOCK_KEY");
   });
 
-  it("verify endpoint", async () => {
+  test("verify endpoint", async () => {
     fetchMock.mock("*", placeNearPointMockNoMoreResults);
 
     await findPlacesNearPoint({
@@ -93,7 +94,7 @@ describe("findPlacesNearPoint()", () => {
     );
   });
 
-  it("verify icon param", async () => {
+  test("verify icon param", async () => {
     fetchMock.mock("*", placeNearPointMockNoMoreResults);
 
     await findPlacesNearPoint({
