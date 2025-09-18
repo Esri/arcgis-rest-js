@@ -135,6 +135,8 @@ describe("invite-users", () => {
     fetchMock.post("*", () => 200);
     inviteGroupUsers(params)
       .then((result) => {
+        console.log("result", result);
+        console.log("fetchMock", fetchMock.lastCall());
         expect(fetchMock.called()).toEqual(false);
         expect(result.success).toEqual(true);
         expect(result.errors).toBeUndefined();

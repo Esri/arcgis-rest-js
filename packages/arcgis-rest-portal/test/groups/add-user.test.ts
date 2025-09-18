@@ -227,6 +227,8 @@ describe("add-users", () => {
     fetchMock.post("*", () => 200);
     addGroupUsers(params)
       .then((result) => {
+        console.log("result", result);
+        console.log("fetchMock", fetchMock.lastCall());
         expect(fetchMock.called()).toEqual(false);
         expect(result.notAdded).toEqual([]);
         expect(result.errors).toBeUndefined();

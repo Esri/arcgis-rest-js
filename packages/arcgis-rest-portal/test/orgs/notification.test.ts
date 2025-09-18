@@ -131,6 +131,8 @@ describe("create-org-notification", () => {
     fetchMock.post("*", () => 200);
     createOrgNotification(params)
       .then((result) => {
+        console.log("result", result);
+        console.log("fetchMock", fetchMock.lastCall());
         expect(fetchMock.called()).toEqual(false);
         expect(result.success).toEqual(true);
         expect(result.errors).toBeUndefined();

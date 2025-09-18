@@ -127,8 +127,11 @@ describe("remove-users", () => {
       authentication: MOCK_AUTH
     };
     fetchMock.post("*", () => 200);
+
     removeGroupUsers(params)
       .then((result) => {
+        console.log("result", result);
+        console.log("fetchMock", fetchMock.lastCall());
         expect(fetchMock.called()).toEqual(false);
         expect(result.notRemoved).toEqual([]);
         expect(result.errors).toBeUndefined();
