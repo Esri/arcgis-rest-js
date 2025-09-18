@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { request, IRequestOptions } from "@esri/arcgis-rest-request";
-import { IItemUpdate } from "../helpers.js";
+import { IItemUpdate, IItem } from "../helpers.js";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
 import {
@@ -15,7 +15,8 @@ import {
   IUpdateItemResponse,
   determineOwner,
   isBBox,
-  bboxToString
+  bboxToString,
+  decorateThumbnail
 } from "./helpers.js";
 
 export interface IUpdateItemOptions extends ICreateUpdateItemOptions {
@@ -77,6 +78,29 @@ export function updateItem(
     // Thus for extents we need to move this logic here
     if (requestOptions.params.extent && isBBox(requestOptions.params.extent)) {
       requestOptions.params.extent = bboxToString(requestOptions.params.extent);
+    }
+
+    const portal = getPortalUrl(requestOptions);
+    const decoratedThumbnail = decorateThumbnail(
+      {
+        ...requestOptions.item,
+        access: requestOptions.item.access
+      } as IItem,
+      portal
+    );
+
+    const paramsThumbnailUrl = requestOptions.params.thumbnailUrl;
+
+    if (
+      typeof decoratedThumbnail.thumbnailUrl === "string" &&
+      typeof paramsThumbnailUrl === "string"
+    ) {
+      if (
+        decoratedThumbnail.thumbnailUrl.split("?")[0] ===
+        paramsThumbnailUrl.split("?")[0]
+      ) {
+        delete requestOptions.params.thumbnailUrl;
+      }
     }
 
     return request(url, requestOptions);
