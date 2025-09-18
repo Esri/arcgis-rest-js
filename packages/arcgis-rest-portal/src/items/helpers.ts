@@ -5,7 +5,7 @@ import {
   IRequestOptions,
   IAuthenticatedRequestOptions
 } from "@esri/arcgis-rest-request";
-
+import { IItem } from "../helpers.js";
 import type { Blob, File } from "@esri/arcgis-rest-request";
 
 /**
@@ -293,4 +293,34 @@ export function isBBox(extent: unknown): boolean {
  */
 export function bboxToString(extent: number[][]): string {
   return extent.join(",");
+}
+
+/**
+ * Returns the full thumbnail URL for an item.
+ *
+ * @param item - The item to decorate
+ * @param portal - The portal URL
+ * @param token - Optional token to append if the item is private
+ * @returns The item with decorated thumbnail
+ */
+export function decorateThumbnail(
+  item: IItem,
+  portal: string,
+  token?: string
+): IItem {
+  if (!item) return item;
+
+  let thumbnailUrl: string | null = null;
+
+  if (typeof item.thumbnail === "string") {
+    thumbnailUrl = `${portal}/content/items/${item.id}/info/${item.thumbnail}`;
+    if (thumbnailUrl && item.access !== "public" && token) {
+      thumbnailUrl += `?${token}`;
+    }
+  }
+
+  return {
+    ...item,
+    ...(thumbnailUrl ? { thumbnailUrl } : {})
+  };
 }

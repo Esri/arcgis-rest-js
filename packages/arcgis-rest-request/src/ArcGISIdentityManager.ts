@@ -8,7 +8,6 @@ import { IAuthenticationManager } from "./utils/IAuthenticationManager.js";
 import { ITokenRequestOptions } from "./utils/ITokenRequestOptions.js";
 import { decodeQueryString } from "./utils/decode-query-string.js";
 import { encodeQueryString } from "./utils/encode-query-string.js";
-import { IUser } from "./types/user.js";
 import { fetchToken, IFetchTokenResponse } from "./fetch-token.js";
 import { canUseOnlineToken, isFederated } from "./federation-utils.js";
 import { IAppAccess, validateAppAccess } from "./validate-app-access.js";
@@ -23,7 +22,9 @@ import {
 } from "./utils/ArcGISTokenRequestError.js";
 import { NODEJS_DEFAULT_REFERER_HEADER } from "./index.js";
 import { AuthenticationManagerBase } from "./AuthenticationManagerBase.js";
-
+import { getOauthStateId } from "./utils/getOauthStateId.js";
+import { encodeOauthState } from "./utils/encodeOauthState.js";
+import { IOAuthState } from "./types/oauthState.js";
 /**
  * distinguish between an ICredential and IArcGISIdentityManagerOptions
  */
@@ -178,9 +179,9 @@ export interface IOAuth2Options {
   style?: "" | "light" | "dark";
 
   /**
-   * Custom value for oAuth 2.0 state. A random identifier will be generated if this is not passed.
+   * Custom value for oAuth 2.0 state. A random identifier will be generated if this is not passed. You may also pass a plain object and the `id` property will be used as the state value. If an object is passed, all properties will be serialized and made available when the {@linkcode ArcGISIdentityManager.completeOAuth2} method is called. If a string is passed, it will be available as the `id` property and an additional `originalUrl` property will be added containing the URL of the page that initiated the oAuth 2.0 process.
    */
-  state?: string;
+  state?: string | IOAuthState;
 
   [key: string]: any;
 }
@@ -269,6 +270,11 @@ export interface IArcGISIdentityManagerOptions {
    * The referer to use when getting the token with `.signIn()`
    */
   referer?: string;
+
+  /**
+   * The OAuth 2.0 state object that was provided when the oAuth 2.0 process was initiated.
+   */
+  state?: IOAuthState;
 }
 
 /**
@@ -388,7 +394,7 @@ export class ArcGISIdentityManager
      * Generate a  random string for the `state` param and store it in local storage. This is used
      * to validate that all parts of the oAuth process were performed on the same client.
      */
-    const stateId = state || generateRandomString(win);
+    const stateId = getOauthStateId(state, win);
     const stateStorageKey = `ARCGIS_REST_JS_AUTH_STATE_${clientId}`;
 
     win.localStorage.setItem(stateStorageKey, stateId);
@@ -400,10 +406,7 @@ export class ArcGISIdentityManager
       response_type: pkce ? "code" : "token",
       expiration: expiration,
       redirect_uri: redirectUri,
-      state: JSON.stringify({
-        id: stateId,
-        originalUrl: win.location.href // this is used to reset the URL back the original URL upon return
-      }),
+      state: encodeOauthState(stateId, state, win.location.href),
       locale: locale,
       style: style
     };
@@ -493,7 +496,8 @@ export class ArcGISIdentityManager
                   username: e.detail.username,
                   refreshToken: e.detail.refreshToken,
                   refreshTokenExpires: e.detail.refreshTokenExpires,
-                  redirectUri
+                  redirectUri,
+                  state: e.detail.state
                 })
               );
             },
@@ -573,6 +577,7 @@ export class ArcGISIdentityManager
         return;
       }
 
+      // istanbul ignore else: We don't need to test that we do nothing here. This will be removed in a future release.
       if (originalUrl) {
         win.history.replaceState(win.history.state, "", originalUrl);
       }
@@ -585,17 +590,15 @@ export class ArcGISIdentityManager
     }
 
     // create a function to create the final ArcGISIdentityManager from the token info.
-    function createManager(
-      oauthInfo: IFetchTokenResponse,
-      originalUrl: string
-    ) {
+    function createManager(oauthInfo: IFetchTokenResponse, state: IOAuthState) {
       win.localStorage.removeItem(stateStorageKey);
 
       if (popup && win.opener) {
         win.opener.dispatchEvent(
           new CustomEvent(`arcgis-rest-js-popup-auth-${clientId}`, {
             detail: {
-              ...oauthInfo
+              ...oauthInfo,
+              state
             }
           })
         );
@@ -605,7 +608,10 @@ export class ArcGISIdentityManager
         return;
       }
 
-      win.history.replaceState(win.history.state, "", originalUrl);
+      // istanbul ignore else: We don't need to test that we do nothing here. This will be removed in a future release.
+      if (state.originalUrl) {
+        win.history.replaceState(win.history.state, "", state.originalUrl);
+      }
 
       return new ArcGISIdentityManager({
         clientId,
@@ -623,7 +629,8 @@ export class ArcGISIdentityManager
           /* istanbul ignore next: TypeScript wont compile if we omit redirectUri */ location.href.replace(
             location.search,
             ""
-          )
+          ),
+        state
       });
     }
 
@@ -647,6 +654,7 @@ export class ArcGISIdentityManager
 
       return reportError(errorMessage, error, state.originalUrl);
     }
+
     /**
      * If we are using PKCE the authorization code will be in the query params.
      * For implicit grants the token will be in the hash.
@@ -672,10 +680,7 @@ export class ArcGISIdentityManager
         }
       })
         .then((tokenResponse) => {
-          return createManager(
-            { ...tokenResponse, ...state },
-            state.originalUrl
-          );
+          return createManager({ ...tokenResponse, ...state }, state);
         })
         .catch((e) => {
           return reportError(e.originalMessage, e.code, state.originalUrl);
@@ -694,7 +699,7 @@ export class ArcGISIdentityManager
             username: params.username,
             ...state
           },
-          state.originalUrl
+          state
         )
       );
     }
@@ -1041,6 +1046,11 @@ export class ArcGISIdentityManager
   public readonly referer: string;
 
   /**
+   * The state object that was provided to the OAuth 2.0 process.
+   */
+  public readonly state: IOAuthState;
+
+  /**
    * Hydrated by a call to [getPortal()](#getPortal-summary).
    */
   private _portalInfo: any;
@@ -1095,6 +1105,7 @@ export class ArcGISIdentityManager
     this.redirectUri = options.redirectUri;
     this.server = options.server;
     this.referer = options.referer;
+    this.state = options.state;
 
     this.federatedServers = {};
     this.trustedDomains = [];

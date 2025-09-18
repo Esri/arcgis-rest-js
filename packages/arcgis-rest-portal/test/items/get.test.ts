@@ -29,7 +29,11 @@ import {
 
 import { GetItemResourcesResponse } from "../mocks/items/resources.js";
 
-import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
+import {
+  ArcGISIdentityManager,
+  IAuthenticationManager
+} from "@esri/arcgis-rest-request";
+
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("get base url", () => {
@@ -260,6 +264,59 @@ describe("get", () => {
       .catch((e) => {
         fail(e);
       });
+  });
+
+  describe("getItem thumbnail decoration", () => {
+    afterEach(() => {
+      fetchMock.restore();
+    });
+
+    const MOCK_ITEM = {
+      id: "3ef",
+      title: "Item",
+      thumbnail: "thumb.png"
+    };
+
+    it("should decorate public item thumbnail without token", (done) => {
+      fetchMock.once("*", MOCK_ITEM);
+
+      getItem("3ef")
+        .then((item) => {
+          expect(item.thumbnailUrl).toBe(
+            "https://www.arcgis.com/sharing/rest/content/items/3ef/info/thumb.png"
+          );
+          done();
+        })
+        .catch((e) => fail(e));
+    });
+
+    it("should decorate private item thumbnail with token", async () => {
+      fetchMock.once("*", MOCK_ITEM);
+
+      const fakeAuthManager = {
+        getToken: (_url: string) => Promise.resolve("fake-token"),
+        portal: "https://www.arcgis.com/sharing/rest"
+      } as IAuthenticationManager;
+
+      const item = await getItem("3ef", { authentication: fakeAuthManager });
+
+      expect(item.thumbnailUrl).toBe(
+        "https://www.arcgis.com/sharing/rest/content/items/3ef/info/thumb.png?fake-token"
+      );
+    });
+
+    it("should not append token if item is public even with auth manager", async () => {
+      fetchMock.once("*", { ...MOCK_ITEM, access: "public" });
+      const fakeAuthManager = {
+        getToken: () => Promise.resolve("fake-token"),
+        portal: "https://www.arcgis.com/sharing/rest"
+      } as IAuthenticationManager;
+
+      const item = await getItem("3ef", { authentication: fakeAuthManager });
+      expect(item.thumbnailUrl).toBe(
+        "https://www.arcgis.com/sharing/rest/content/items/3ef/info/thumb.png"
+      );
+    });
   });
 
   describe("Authenticated methods", () => {
