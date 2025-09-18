@@ -1,3 +1,11 @@
+## @esri/arcgis-rest-request [4.7.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.7.2...@esri/arcgis-rest-request@4.7.3) (2025-09-18)
+
+
+### Bug Fixes
+
+* **arcgis-rest-request:** add token prefixes to oauth conditional ([#1254](https://github.com/Esri/arcgis-rest-js/issues/1254)) ([abf6442](https://github.com/Esri/arcgis-rest-js/commit/abf644266ac08756f530b2cb92f12b24699297cf))
+* **arcgis-rest-request:** Fix [#1231](https://github.com/Esri/arcgis-rest-js/issues/1231) by allowing a custom state object to opt out of originalUrl behavior ([#1256](https://github.com/Esri/arcgis-rest-js/issues/1256)) ([9fe9e63](https://github.com/Esri/arcgis-rest-js/commit/9fe9e6308f239511bd10d3ccbb59aad070ff4866))
+
 ## @esri/arcgis-rest-request [4.7.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.7.1...@esri/arcgis-rest-request@4.7.2) (2025-07-28)
 
 

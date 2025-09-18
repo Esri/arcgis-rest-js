@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { determineOwner } from "../../src/items/helpers.js";
+import { determineOwner, decorateThumbnail } from "../../src/items/helpers.js";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 describe("determineOwner()", () => {
@@ -56,5 +56,14 @@ describe("determineOwner()", () => {
       );
       done();
     });
+  });
+});
+
+describe("decorateThumbnail()", () => {
+  it("should return null/undefined if item is null", () => {
+    expect(decorateThumbnail(null as any, "https://portal.com")).toBeNull();
+    expect(
+      decorateThumbnail(undefined as any, "https://portal.com")
+    ).toBeUndefined();
   });
 });
