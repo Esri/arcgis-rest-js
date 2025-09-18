@@ -4,6 +4,7 @@
 import { queryDemographicData } from "../src/queryDemographicData.js";
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
 import "dotenv/config";
+import { describe, expect, test } from "vitest";
 
 const addEnv = (params: any) => {
   if (
@@ -27,24 +28,18 @@ const addEnv = (params: any) => {
 };
 
 describe("queryDemographicData", () => {
-  it("should make a simple, single queryDemographicData request", (done) => {
+  test("should make a simple, single queryDemographicData request", async () => {
     const params = addEnv({
       studyAreas: [{ geometry: { x: -117.1956, y: 34.0572 } }]
     });
 
-    queryDemographicData(params)
-      .then((response) => {
-        expect(Object.keys(response)).toContain("results");
-        expect(Object.keys(response)).toContain("messages");
-        expect(response.results.length).toBeGreaterThan(0);
-        expect(response.results[0].value.FeatureSet.length).toBeGreaterThan(0);
-        expect(
-          response.results[0].value.FeatureSet[0].features.length
-        ).toBeGreaterThan(0);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const response = await queryDemographicData(params);
+    expect(Object.keys(response)).toContain("results");
+    expect(Object.keys(response)).toContain("messages");
+    expect(response.results.length).toBeGreaterThan(0);
+    expect(response.results[0].value.FeatureSet.length).toBeGreaterThan(0);
+    expect(
+      response.results[0].value.FeatureSet[0].features.length
+    ).toBeGreaterThan(0);
   });
 });
