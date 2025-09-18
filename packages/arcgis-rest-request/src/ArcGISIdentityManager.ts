@@ -179,7 +179,7 @@ export interface IOAuth2Options {
   style?: "" | "light" | "dark";
 
   /**
-   * Custom value for oAuth 2.0 state. A random identifier will be generated if this is not passed. You may also pass a plain object and the `id` property will be used as the state value. Of an object is passed all properties will be serialized and made available when the {@linkcode ArcGISIdentityManager.completeOAuth2} method is called. If a string is passed it will be available as the `id` property and an additional `originalUrl` property will be added containing the URL of the page that initiated the oAuth 2.0 process.
+   * Custom value for oAuth 2.0 state. A random identifier will be generated if this is not passed. You may also pass a plain object and the `id` property will be used as the state value. If an object is passed, all properties will be serialized and made available when the {@linkcode ArcGISIdentityManager.completeOAuth2} method is called. If a string is passed, it will be available as the `id` property and an additional `originalUrl` property will be added containing the URL of the page that initiated the oAuth 2.0 process.
    */
   state?: string | IOAuthState;
 
