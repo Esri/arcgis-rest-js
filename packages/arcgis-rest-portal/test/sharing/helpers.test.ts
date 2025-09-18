@@ -26,6 +26,8 @@ describe("sharing helpers ::", () => {
         authentication: MOCK_USER_SESSION
       })
         .then((result) => {
+          console.log("result", result);
+          console.log("fetchMock", fetchMock.lastCall());
           expect(fetchMock.done()).toBeTruthy();
           expect(result).toBe("none", "should return none");
           done();
