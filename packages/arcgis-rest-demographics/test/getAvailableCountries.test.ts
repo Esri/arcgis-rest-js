@@ -10,7 +10,7 @@ describe("getAvailableCountries", () => {
     fetchMock.reset();
   });
 
-  test("makes a single simple getAvailableCountries request", async () => {
+  test("should make a single simple getAvailableCountries request", async () => {
     fetchMock.once("*", { prop: "val" });
 
     await getAvailableCountries();

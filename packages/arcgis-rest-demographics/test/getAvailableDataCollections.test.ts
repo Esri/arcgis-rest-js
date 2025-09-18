@@ -73,7 +73,7 @@ describe("getAvailableDataCollections", () => {
     );
   });
 
-  test("makes a dataCollections request with a custom endpoint", async () => {
+  test("should make a dataCollections request with a custom endpoint", async () => {
     fetchMock.once("*", dataCollectionsResponse);
 
     await getAvailableDataCollections({
