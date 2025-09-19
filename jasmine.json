@@ -2,7 +2,6 @@
   "spec_dir": "packages",
   "spec_files": [
     "arcgis-rest-developer-credentials/{src,test}/**/*.test.ts",
-    "arcgis-rest-elevation/{src,test}/**/*.test.ts",
     "arcgis-rest-feature-service/{src,test}/**/*.test.ts",
     "arcgis-rest-geocoding/{src,test}/**/*.test.ts",
     "arcgis-rest-portal/{src,test}/**/*.test.ts",
