@@ -11,46 +11,94 @@ import {
   mockAllResultsRequest,
   mockAllResults
 } from "./mocks/job-mock-fetches.js";
+import { RemoveItemResourceResponse } from "@esri/arcgis-rest-portal/test/mocks/items/resources.js";
+
+function createJobMocks(
+  jobId: string = "MOCK_JOB_ID",
+  serviceName: string = "MOCK_SERVICE"
+) {
+  const baseUrl = `https://www.arcgis.com/arcgis/rest/services/${serviceName}/GPServer/Task/`;
+  const jobInfoUrl = `${baseUrl}jobs/${jobId}`;
+  const jobSubmitUrl = `${baseUrl}submitJob`;
+
+  return {
+    submitOptions: {
+      ...JSON.parse(JSON.stringify({ ...GPEndpointCall, url: jobSubmitUrl }))
+    },
+    jobSubmittedResponse: JSON.parse(
+      JSON.stringify({ ...GPJobIdResponse, jobId })
+    ),
+    jobInfoFailure: JSON.parse(JSON.stringify({ ...failedState, jobId })),
+    jobInfoWithResults: JSON.parse(
+      JSON.stringify({ ...GPJobInfoWithResults, jobId })
+    ),
+    jobInfoWithAllResults: JSON.parse(
+      JSON.stringify({ ...mockAllResults, jobId })
+    ),
+    jobInfoWithFailedState: JSON.parse(
+      JSON.stringify({ ...failedState, jobId })
+    ),
+    jobInfoUrl,
+    jobSubmitUrl,
+    jobId,
+    baseUrl
+  };
+}
 
 describe("Job", () => {
   beforeEach(() => {
-    fetchMock.restore();
+    return fetchMock.restore();
+  });
+
+  afterEach(() => {
+    return fetchMock.restore();
   });
 
   it("should return a jobId", () => {
-    fetchMock.mock("*", GPJobIdResponse);
-    return Job.submitJob(GPEndpointCall).then((job) => {
-      expect(job.id).toEqual(GPJobIdResponse.jobId);
+    const { submitOptions, jobSubmittedResponse } = createJobMocks(
+      "basicJobId",
+      "basicServiceName"
+    );
+
+    fetchMock.mock("*", jobSubmittedResponse);
+
+    return Job.submitJob(submitOptions).then((job) => {
+      expect(job.id).toEqual(jobSubmittedResponse.jobId);
     });
   });
 
   it("should trigger events when polling", (done: any) => {
+    const {
+      submitOptions,
+      jobSubmittedResponse,
+      jobInfoUrl,
+      jobSubmitUrl,
+      jobId
+    } = createJobMocks("triggerEventsJobId", "triggerEventsServiceName");
+
     // 1. when /submitJob gets called respond with the job id.
-    fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
+    fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
 
     // 2. the first time we check the job status AFTER submitting the job respond with this
-    fetchMock.once(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-      {
-        jobStatus: "esriJobExecuting",
-        jobId: "j4fa1db2338f042a19eb68856afabc27e"
-      }
-    );
+    fetchMock.once(jobInfoUrl, {
+      jobStatus: "esriJobExecuting",
+      jobId
+    });
 
     // 3. submit the job, this will get the response from #1.
-    Job.submitJob(GPEndpointCall).then((job) => {
+    Job.submitJob(submitOptions).then((job) => {
       // 4. listen for the executing event, this will fire when we fake polling
       job.on(JOB_STATUSES.Executing, (jobInfo) => {
         // 7. this executes once the event from the fake poll in step 6 happens.
         expect(jobInfo.status).toEqual(JOB_STATUSES.Executing);
-        expect(jobInfo.id).toEqual("j4fa1db2338f042a19eb68856afabc27e");
+        expect(jobInfo.id).toEqual(jobId);
 
         //8. Now we want to tell fetch mock how to respond to the next fake polling request
         fetchMock.once(
-          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
+          jobInfoUrl,
           {
             jobStatus: "esriJobSucceeded",
-            jobId: "j4fa1db2338f042a19eb68856afabc27e"
+            jobId
           },
           { overwriteRoutes: true }
         );
@@ -63,7 +111,7 @@ describe("Job", () => {
       job.on(JOB_STATUSES.Success, (jobInfo) => {
         // 10. this happens after the fake polling request in step 9.
         expect(jobInfo.status).toEqual(JOB_STATUSES.Success);
-        expect(jobInfo.id).toEqual("j4fa1db2338f042a19eb68856afabc27e");
+        expect(jobInfo.id).toEqual(jobId);
 
         // 11. tell Karma we are done with this test.
         done();
@@ -75,20 +123,26 @@ describe("Job", () => {
   });
 
   it("should return results once status is succeeded", (done) => {
-    fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
+    const {
+      submitOptions,
+      jobSubmittedResponse,
+      jobInfoUrl,
+      jobSubmitUrl,
+      jobId,
+      jobInfoWithResults
+    } = createJobMocks("returnsResults", "returnsResultsServiceName");
 
-    fetchMock.once(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-      GPJobInfoWithResults
-    );
+    fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
+
+    fetchMock.once(jobInfoUrl, jobInfoWithResults);
 
     // 1. submit the job, this will get the response from #1.
-    Job.submitJob(GPEndpointCall).then((job) => {
+    Job.submitJob(submitOptions).then((job) => {
       job.on(JOB_STATUSES.Success, (jobInfo) => {
         // 3. this happens after the fake polling request in step 2.
-        expect(jobInfo.id).toEqual("j4fa1db2338f042a19eb68856afabc27e");
+        expect(jobInfo.id).toEqual(jobId);
         expect(jobInfo.status).toEqual(JOB_STATUSES.Success);
-        expect(jobInfo.results).toEqual(GPJobInfoWithResults.results);
+        expect(jobInfo.results).toEqual(jobInfoWithResults.results);
 
         // 4. tell Karma we are done with this test.
         done();
@@ -100,62 +154,54 @@ describe("Job", () => {
   });
 
   it("should get specific result property from results and get all results", () => {
-    fetchMock.once(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob",
-      GPJobIdResponse
-    );
+    const {
+      submitOptions,
+      jobSubmittedResponse,
+      jobInfoUrl,
+      jobSubmitUrl,
+      jobInfoWithAllResults
+    } = createJobMocks("getResults", "getResultsServiceName");
 
-    fetchMock.once(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-      mockAllResults
-    );
+    fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
 
-    fetchMock.once(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e/results/out_unassigned_stops",
-      {
-        paramName: "out_unassigned_stops",
-        dataType: "GPRecordSet",
-        value: {
-          displayFieldName: "",
-          fields: [] as any,
-          features: [] as any,
-          exceededTransferLimit: false
-        }
+    fetchMock.once(jobInfoUrl, jobInfoWithAllResults);
+
+    fetchMock.once(`${jobInfoUrl}/results/out_unassigned_stops`, {
+      paramName: "out_unassigned_stops",
+      dataType: "GPRecordSet",
+      value: {
+        displayFieldName: "",
+        fields: [] as any,
+        features: [] as any,
+        exceededTransferLimit: false
       }
-    );
+    });
 
-    fetchMock.once(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e/results/out_stops",
-
-      {
-        paramName: "out_stops",
-        dataType: "GPRecordSet",
-        value: {
-          displayFieldName: "",
-          fields: [] as any,
-          features: [] as any,
-          exceededTransferLimit: false
-        }
+    fetchMock.once(`${jobInfoUrl}/results/out_stops`, {
+      paramName: "out_stops",
+      dataType: "GPRecordSet",
+      value: {
+        displayFieldName: "",
+        fields: [] as any,
+        features: [] as any,
+        exceededTransferLimit: false
       }
-    );
+    });
 
-    fetchMock.once(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e/results/out_routes",
-      {
-        paramName: "out_routes",
-        dataType: "GPFeatureRecordSetLayer",
-        value: {
-          displayFieldName: "",
-          geometryType: "esriGeometryPolyline",
-          spatialReference: [] as any,
-          fields: [] as any,
-          features: [] as any,
-          exceededTransferLimit: false
-        }
+    fetchMock.once(`${jobInfoUrl}/results/out_routes`, {
+      paramName: "out_routes",
+      dataType: "GPFeatureRecordSetLayer",
+      value: {
+        displayFieldName: "",
+        geometryType: "esriGeometryPolyline",
+        spatialReference: [] as any,
+        fields: [] as any,
+        features: [] as any,
+        exceededTransferLimit: false
       }
-    );
+    });
 
-    return Job.submitJob({ ...GPEndpointCall, startMonitoring: false })
+    return Job.submitJob({ ...submitOptions, startMonitoring: false })
       .then((job) => job.getAllResults())
       .then((results) => {
         expect(results).toEqual(mockAllResultsRequest);
@@ -163,28 +209,30 @@ describe("Job", () => {
   });
 
   it("should just do a getResult for one paramName", () => {
-    fetchMock.mock(GPEndpointCall.url, GPJobIdResponse);
+    const {
+      submitOptions,
+      jobSubmittedResponse,
+      jobInfoUrl,
+      jobSubmitUrl,
+      jobInfoWithAllResults
+    } = createJobMocks("getResultsSingle", "getResultsSingleServiceName");
 
-    fetchMock.mock(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-      mockAllResults
-    );
+    fetchMock.mock(jobSubmitUrl, jobSubmittedResponse);
 
-    fetchMock.mock(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e/results/out_unassigned_stops",
-      {
-        paramName: "out_unassigned_stops",
-        dataType: "GPRecordSet",
-        value: {
-          displayFieldName: "",
-          fields: [] as any,
-          features: [] as any,
-          exceededTransferLimit: false
-        }
+    fetchMock.mock(jobInfoUrl, jobInfoWithAllResults);
+
+    fetchMock.mock(`${jobInfoUrl}/results/out_unassigned_stops`, {
+      paramName: "out_unassigned_stops",
+      dataType: "GPRecordSet",
+      value: {
+        displayFieldName: "",
+        fields: [] as any,
+        features: [] as any,
+        exceededTransferLimit: false
       }
-    );
+    });
 
-    return Job.submitJob({ ...GPEndpointCall })
+    return Job.submitJob(submitOptions)
       .then((job) => job.getResult("out_unassigned_stops"))
       .then((results) => {
         expect(results).toEqual({
@@ -201,17 +249,24 @@ describe("Job", () => {
   });
 
   it("should call waitForCompletion get a timeout status and reject the job results promise", (done) => {
-    fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
-
-    fetchMock.once(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-      {
-        jobId: "j4fa1db2338f042a19eb68856afabc27e",
-        jobStatus: "esriJobTimedOut"
-      }
+    const {
+      submitOptions,
+      jobSubmittedResponse,
+      jobInfoUrl,
+      jobSubmitUrl,
+      jobId
+    } = createJobMocks(
+      "waitForCompletionTimedOut",
+      "waitForCompletionTimedOutServiceName"
     );
+    fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
 
-    Job.submitJob({ ...GPEndpointCall, startMonitoring: false })
+    fetchMock.once(jobInfoUrl, {
+      jobId,
+      jobStatus: "esriJobTimedOut"
+    });
+
+    Job.submitJob({ ...submitOptions, startMonitoring: false })
       .then((job) => {
         return job.waitForCompletion();
       })
@@ -221,38 +276,42 @@ describe("Job", () => {
       .catch((error) => {
         expect(error.name).toEqual("ArcGISJobError");
         expect(error.status).toEqual(JOB_STATUSES.TimedOut);
-        expect(error.jobInfo.id).toEqual("j4fa1db2338f042a19eb68856afabc27e");
+        expect(error.jobInfo.id).toEqual(jobId);
         done();
       });
   });
 
   it("call method fromExistingJob", () => {
-    fetchMock.once(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-      mockAllResults
-    );
+    const { jobInfoWithAllResults, jobId, jobSubmitUrl, jobInfoUrl } =
+      createJobMocks("fromExistingJobId", "fromExistingJobServiceName");
+    fetchMock.once(jobInfoUrl, jobInfoWithAllResults);
 
     return Job.fromExistingJob({
-      id: "j4fa1db2338f042a19eb68856afabc27e",
-      url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob"
+      id: jobId,
+      url: jobSubmitUrl
     }).then((job) => {
       expect(job instanceof Job).toBe(true);
-      expect(job.id).toEqual(mockAllResults.jobId);
+      expect(job.id).toEqual(jobInfoWithAllResults.jobId);
     });
   });
 
   it("should get a failed state after submitting jobId for the results", (done) => {
-    fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
+    const {
+      submitOptions,
+      jobSubmittedResponse,
+      jobInfoUrl,
+      jobSubmitUrl,
+      jobId,
+      jobInfoWithFailedState
+    } = createJobMocks("failedStateJobId", "failedStateServiceName");
+    fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
 
-    fetchMock.once(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-      failedState
-    );
+    fetchMock.once(jobInfoUrl, jobInfoWithFailedState);
 
-    Job.submitJob(GPEndpointCall).then((job) => {
+    Job.submitJob(submitOptions).then((job) => {
       job.on(JOB_STATUSES.Failed, (result) => {
         expect(result.status).toEqual(JOB_STATUSES.Failed);
-        expect(result.id).toEqual(failedState.jobId);
+        expect(result.id).toEqual(jobId);
         done();
       });
 
@@ -262,20 +321,24 @@ describe("Job", () => {
     });
   });
 
-  it("create a new job with the new, submitted, waiting, time-out", (done) => {
-    fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
+  it("create a new job and fire the new, submitted, waiting and time-out states", (done) => {
+    const {
+      submitOptions,
+      jobSubmittedResponse,
+      jobInfoUrl,
+      jobSubmitUrl,
+      jobId
+    } = createJobMocks("allEventsJobId", "allEventsServiceName");
+    fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
 
-    fetchMock.once(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-      { jobStatus: "esriJobNew" }
-    );
+    fetchMock.once(jobInfoUrl, { jobStatus: "esriJobNew" });
 
-    Job.submitJob(GPEndpointCall).then((job) => {
+    Job.submitJob(submitOptions).then((job) => {
       job.on(JOB_STATUSES.New, (result) => {
         expect(result.status).toEqual(JOB_STATUSES.New);
 
         fetchMock.once(
-          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
+          jobInfoUrl,
           { jobStatus: "esriJobWaiting" },
           { overwriteRoutes: true }
         );
@@ -287,7 +350,7 @@ describe("Job", () => {
         expect(result.status).toEqual(JOB_STATUSES.Waiting);
 
         fetchMock.once(
-          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
+          jobInfoUrl,
           { jobStatus: "esriJobSubmitted" },
           { overwriteRoutes: true }
         );
@@ -299,7 +362,7 @@ describe("Job", () => {
         expect(result.status).toEqual(JOB_STATUSES.Submitted);
 
         fetchMock.once(
-          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
+          jobInfoUrl,
           { jobStatus: "esriJobTimedOut" },
           { overwriteRoutes: true }
         );
@@ -310,7 +373,7 @@ describe("Job", () => {
         expect(result.status).toEqual(JOB_STATUSES.TimedOut);
 
         fetchMock.once(
-          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
+          jobInfoUrl,
           { jobStatus: "expectedFailure" },
           { overwriteRoutes: true }
         );
@@ -322,7 +385,7 @@ describe("Job", () => {
         expect(result.status).toEqual(JOB_STATUSES.Failure);
 
         fetchMock.once(
-          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
+          jobInfoUrl,
           { jobStatus: "esriJobFailed" },
           { overwriteRoutes: true }
         );
@@ -341,9 +404,12 @@ describe("Job", () => {
   });
 
   it("should test if the polling rate has changed", () => {
-    fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
+    const { submitOptions, jobSubmittedResponse, jobSubmitUrl } =
+      createJobMocks("pollingRateJobId", "pollingRateServiceName");
 
-    return Job.submitJob(GPEndpointCall).then((job) => {
+    fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
+
+    return Job.submitJob(submitOptions).then((job) => {
       job.pollingRate = 5000;
       expect(job.pollingRate).toBe(5000);
       job.pollingRate = 1000;
@@ -355,17 +421,21 @@ describe("Job", () => {
   });
 
   it("should call off method", (done) => {
-    fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
+    const {
+      submitOptions,
+      jobSubmittedResponse,
+      jobSubmitUrl,
+      jobInfoUrl,
+      jobId
+    } = createJobMocks("offMethodJobId", "offMethodServiceName");
+    fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
 
-    fetchMock.once(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-      {
-        jobId: "j4fa1db2338f042a19eb68856afabc27e",
-        jobStatus: "esriJobSucceeded"
-      }
-    );
+    fetchMock.once(jobInfoUrl, {
+      jobId,
+      jobStatus: "esriJobSucceeded"
+    });
 
-    Job.submitJob(GPEndpointCall).then((job) => {
+    Job.submitJob(submitOptions).then((job) => {
       const handler = (results: any) => results;
 
       job.on(JOB_STATUSES.Success, handler);
@@ -387,19 +457,24 @@ describe("Job", () => {
   });
 
   it("create a new job with a cancelled and cancelling state", (done) => {
-    fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
+    const {
+      submitOptions,
+      jobSubmittedResponse,
+      jobSubmitUrl,
+      jobInfoUrl,
+      jobId
+    } = createJobMocks("cancelJobId", "cancelServiceName");
 
-    fetchMock.once(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-      { jobStatus: "esriJobSubmitted" }
-    );
+    fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
 
-    Job.submitJob(GPEndpointCall).then((job) => {
+    fetchMock.once(jobInfoUrl, { jobStatus: "esriJobSubmitted" });
+
+    Job.submitJob(submitOptions).then((job) => {
       job.on(JOB_STATUSES.Submitted, (result) => {
         expect(result.status).toEqual(JOB_STATUSES.Submitted);
 
         fetchMock.once(
-          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
+          jobInfoUrl,
           { jobStatus: "esriJobCancelling" },
           { overwriteRoutes: true }
         );
@@ -411,7 +486,7 @@ describe("Job", () => {
         expect(result.status).toEqual(JOB_STATUSES.Cancelling);
 
         fetchMock.once(
-          "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
+          jobInfoUrl,
           { jobStatus: "esriJobCancelled" },
           { overwriteRoutes: true }
         );
@@ -429,20 +504,22 @@ describe("Job", () => {
   });
 
   it("submits a job and response returns an error from the results", (done) => {
-    fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
+    const { submitOptions, jobSubmittedResponse, jobInfoUrl, jobSubmitUrl } =
+      createJobMocks(
+        "errorGettingResultsJobId",
+        "errorGettingResultsServiceName"
+      );
+    fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
 
-    fetchMock.once(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-      {
-        error: {
-          code: 400,
-          message: "unable to get results",
-          details: []
-        }
+    fetchMock.once(jobInfoUrl, {
+      error: {
+        code: 400,
+        message: "unable to get results",
+        details: []
       }
-    );
+    });
 
-    Job.submitJob(GPEndpointCall).then((job) => {
+    Job.submitJob(submitOptions).then((job) => {
       job.on(JOB_STATUSES.Error, (result: any) => {
         expect(new ArcGISRequestError(result) instanceof Error).toBe(true);
         done();
@@ -453,34 +530,46 @@ describe("Job", () => {
   });
 
   it("it gets the results however we wait for the job to succeeded them show the results", () => {
-    fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
-
-    fetchMock.mock(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-      {
-        jobId: "j4fa1db2338f042a19eb68856afabc27e",
-        jobStatus: "esriJobWaiting"
-      }
+    const {
+      submitOptions,
+      jobSubmittedResponse,
+      jobSubmitUrl,
+      jobInfoUrl,
+      jobId,
+      jobInfoWithResults
+    } = createJobMocks(
+      "getResultsWaitingJobId",
+      "getResultsWaitingServiceName"
     );
+    fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
+    let callCount = 0;
+
+    fetchMock.mock("*", (url, options) => {
+      if (url === `${jobInfoUrl}/results/hotspot_raster`) {
+        return Promise.resolve(mockHotspot_Raster);
+      }
+
+      if (url === jobSubmitUrl) {
+        return Promise.resolve(jobSubmittedResponse);
+      }
+
+      if (url === jobInfoUrl) {
+        if (callCount > 0) {
+          return Promise.resolve(jobInfoWithResults);
+        }
+        callCount++;
+        return Promise.resolve({
+          jobId,
+          jobStatus: "esriJobWaiting"
+        });
+      }
+    });
 
     return Job.submitJob({
-      ...GPEndpointCall,
-      pollingRate: 100
+      ...submitOptions
     })
       .then((job) => {
-        job.on(JOB_STATUSES.Waiting, () => {
-          fetchMock.restore();
-
-          fetchMock.mock(
-            "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e",
-            GPJobInfoWithResults
-          );
-
-          fetchMock.mock(
-            "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/j4fa1db2338f042a19eb68856afabc27e/results/hotspot_raster",
-            mockHotspot_Raster
-          );
-        });
+        expect(job.id).toEqual(jobId);
         return job.getResult("Hotspot_Raster");
       })
       .then((result) => {
@@ -489,21 +578,25 @@ describe("Job", () => {
   });
 
   it("it gets the results however we wait for the job to succeeded but the results return an error ", (done) => {
-    fetchMock.mock(GPEndpointCall.url, {
+    const {
+      submitOptions,
+      jobSubmittedResponse,
+      jobSubmitUrl,
+      jobInfoUrl,
+      jobInfoWithResults
+    } = createJobMocks(
+      "WAIT_FOR_JOB_RESULTS_ERROR",
+      "WAIT_FOR_JOB_RESULTS_ERROR"
+    );
+    fetchMock.mock(jobSubmitUrl, jobSubmittedResponse);
+
+    fetchMock.mock(jobInfoUrl, {
       jobId: "WAIT_FOR_JOB_RESULTS_ERROR",
-      jobStatus: "esriJobSubmitted"
+      jobStatus: "esriJobWaiting"
     });
 
-    fetchMock.mock(
-      "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/WAIT_FOR_JOB_RESULTS_ERROR",
-      {
-        jobId: "WAIT_FOR_JOB_RESULTS_ERROR",
-        jobStatus: "esriJobWaiting"
-      }
-    );
-
     Job.submitJob({
-      ...GPEndpointCall,
+      ...submitOptions,
       startMonitoring: false,
       pollingRate: 100
     })
@@ -511,21 +604,15 @@ describe("Job", () => {
         job.on(JOB_STATUSES.Waiting, () => {
           fetchMock.restore();
 
-          fetchMock.mock(
-            "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/WAIT_FOR_JOB_RESULTS_ERROR",
-            GPJobInfoWithResults
-          );
+          fetchMock.mock(jobInfoUrl, jobInfoWithResults);
 
-          fetchMock.mock(
-            "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/jobs/WAIT_FOR_JOB_RESULTS_ERROR/results/hotspot_raster",
-            {
-              error: {
-                code: 400,
-                message: "unable to retrieve results for hotspot_raster",
-                details: []
-              }
+          fetchMock.mock(`${jobInfoUrl}/results/hotspot_raster`, {
+            error: {
+              code: 400,
+              message: "unable to retrieve results for hotspot_raster",
+              details: []
             }
-          );
+          });
         });
 
         return job.getResult("Hotspot_Raster");
@@ -679,15 +766,6 @@ describe("Job", () => {
         expect(error.status).toEqual(JOB_STATUSES.Failed);
         done();
       });
-  });
-
-  it("makes sure to get isMonitoring function", (done) => {
-    fetchMock.once(GPEndpointCall.url, GPJobIdResponse);
-
-    Job.submitJob(GPEndpointCall).then((job) => {
-      expect(job.isMonitoring).toEqual(true);
-      done();
-    });
   });
 
   it("parses params if there is multi-value input", () => {

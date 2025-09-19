@@ -6,7 +6,7 @@ import { getAvailableDataCollections } from "../src/getAvailableDataCollections.
 import { dataCollectionsResponse } from "./mocks/responses.js";
 
 describe("getAvailableDataCollections", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should make a simple, single dataCollections request", (done) => {

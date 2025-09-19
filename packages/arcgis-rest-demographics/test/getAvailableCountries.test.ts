@@ -6,7 +6,7 @@ import { getAvailableCountries } from "../src/getAvailableCountries.js";
 
 describe("getAvailableCountries", () => {
   beforeEach(() => {
-    fetchMock.reset();
+    fetchMock.restore();
   });
 
   it("should make a simple, single getAvailableCountries request", (done) => {

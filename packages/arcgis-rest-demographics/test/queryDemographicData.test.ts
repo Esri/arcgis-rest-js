@@ -12,7 +12,7 @@ const MOCK_AUTH = {
 };
 
 describe("queryDemographicData", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should throw an error when a queryDemographicData request is made without a token", (done) => {

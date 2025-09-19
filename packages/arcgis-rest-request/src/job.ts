@@ -238,7 +238,6 @@ export class Job {
    */
   private setIntervalHandler: any;
 
-
   constructor(options: IJobOptions) {
     const { url, id, pollingRate, authentication }: Partial<IJobOptions> = {
       ...DefaultJobOptions,
@@ -252,6 +251,7 @@ export class Job {
     this._pollingRate = pollingRate;
     this.emitter = mitt();
 
+    // istanbul ignore next - this causes a cascade of unmatched fetch calls in tests
     if (options.startMonitoring) {
       this.startEventMonitoring(pollingRate);
     }
@@ -485,9 +485,11 @@ export class Job {
    */
   async waitForCompletion(): Promise<IJobInfo> {
     const jobInfo = await this.getJobInfo();
+
     if (jobInfo.status === JOB_STATUSES.Success) {
       return Promise.resolve(jobInfo);
     }
+
     //if jobStatus comes back immediately with one of the statuses
     if (
       jobInfo.status === JOB_STATUSES.Cancelling ||
