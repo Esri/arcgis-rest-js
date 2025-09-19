@@ -1,8 +1,9 @@
 /* Copyright (c) 2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import fetchMock from "fetch-mock";
 import { queryDemographicData } from "../src/queryDemographicData.js";
+import { describe, expect, test, afterEach } from "vitest";
+import fetchMock from "fetch-mock";
 
 const MOCK_AUTH = {
   getToken() {
@@ -15,65 +16,51 @@ describe("queryDemographicData", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  it("should throw an error when a queryDemographicData request is made without a token", (done) => {
+
+  test("should throw an error when a queryDemographicData request is made without a token", async () => {
     fetchMock.once("*", {});
 
-    queryDemographicData({
-      studyAreas: [{ geometry: { x: -117.1956, y: 34.0572 } }]
-    })
-      // tslint:disable-next-line
-      .catch((e) => {
-        expect(e).toEqual(
-          "Geoenrichment using the ArcGIS service requires authentication"
-        );
-        done();
-      });
+    await expect(
+      queryDemographicData({
+        studyAreas: [{ geometry: { x: -117.1956, y: 34.0572 } }]
+      })
+    ).rejects.toEqual(
+      "Geoenrichment using the ArcGIS service requires authentication"
+    );
   });
 
-  it("should make a simple, single queryDemographicData request", (done) => {
+  test("should make a simple, single queryDemographicData request", async () => {
     fetchMock.once("*", {});
 
-    queryDemographicData({
+    await queryDemographicData({
       authentication: MOCK_AUTH,
       studyAreas: [{ geometry: { x: -117.1956, y: 34.0572 } }]
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/enrich"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/enrich"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
   });
 
-  it("should make a queryDemographicData request with a custom endpoint", (done) => {
+  test("should make a queryDemographicData request with a custom endpoint", async () => {
     fetchMock.once("*", {});
 
-    queryDemographicData({
+    await queryDemographicData({
       authentication: MOCK_AUTH,
       studyAreas: [{ geometry: { x: -117.1956, y: 34.0572 } }],
       endpoint: "https://esri.com/test"
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual("https://esri.com/test/enrich");
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual("https://esri.com/test/enrich");
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
   });
 
-  it("should make a queryDemographicData request with additional parameters", (done) => {
+  test("should make a queryDemographicData request with additional parameters", async () => {
     fetchMock.once("*", {});
 
     const studyAreas = [
@@ -86,7 +73,7 @@ describe("queryDemographicData", () => {
     ];
     const dataCollections = ["KeyGlobalFacts"];
     const analysisVariables = ["KeyGlobalFacts.TOTPOP"];
-    queryDemographicData({
+    await queryDemographicData({
       authentication: MOCK_AUTH,
       studyAreas,
       dataCollections,
@@ -95,34 +82,26 @@ describe("queryDemographicData", () => {
       returnGeometry: true,
       inSR: 4326,
       outSR: 4326
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/enrich"
-        );
-        expect(options.body).toContain(
-          `studyAreas=${encodeURIComponent(JSON.stringify(studyAreas))}`
-        );
-        expect(options.body).toContain(
-          `dataCollections=${encodeURIComponent(
-            JSON.stringify(dataCollections)
-          )}`
-        );
-        expect(options.body).toContain(
-          `analysisVariables=${encodeURIComponent(
-            JSON.stringify(analysisVariables)
-          )}`
-        );
-        expect(options.body).toContain(`addDerivativeVariables=false`);
-        expect(options.body).toContain(`returnGeometry=true`);
-        expect(options.body).toContain(`inSR=4326`);
-        expect(options.body).toContain(`outSR=4326`);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/enrich"
+    );
+    expect(options.body).toContain(
+      `studyAreas=${encodeURIComponent(JSON.stringify(studyAreas))}`
+    );
+    expect(options.body).toContain(
+      `dataCollections=${encodeURIComponent(JSON.stringify(dataCollections))}`
+    );
+    expect(options.body).toContain(
+      `analysisVariables=${encodeURIComponent(
+        JSON.stringify(analysisVariables)
+      )}`
+    );
+    expect(options.body).toContain(`addDerivativeVariables=false`);
+    expect(options.body).toContain(`returnGeometry=true`);
+    expect(options.body).toContain(`inSR=4326`);
+    expect(options.body).toContain(`outSR=4326`);
   });
 });

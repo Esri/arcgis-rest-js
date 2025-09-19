@@ -1,91 +1,69 @@
 /* Copyright (c) 2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import fetchMock from "fetch-mock";
 import { getAvailableCountries } from "../src/getAvailableCountries.js";
+import { describe, test, expect, beforeEach } from "vitest";
+import fetchMock from "fetch-mock";
 
 describe("getAvailableCountries", () => {
   beforeEach(() => {
     fetchMock.reset();
   });
 
-  it("should make a simple, single getAvailableCountries request", (done) => {
+  test("should make a single simple getAvailableCountries request", async () => {
     fetchMock.once("*", { prop: "val" });
 
-    getAvailableCountries()
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
+    await getAvailableCountries();
 
-        expect(url).toEqual(
-          "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/countries"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+
+    expect(url).toEqual(
+      "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/countries"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
   });
 
-  it("should make a getAvailableCountries request with a countryCode", (done) => {
+  test("should make a getAvailableCountries request with a countryCode", async () => {
     fetchMock.once("*", {});
 
-    getAvailableCountries({
+    await getAvailableCountries({
       countryCode: "us"
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/countries/us"
-        );
-        expect(options.body).not.toContain("countryCode=us");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/countries/us"
+    );
+    expect(options.body).not.toContain("countryCode=us");
   });
 
-  it("should make a getAvailableCountries request with a param", (done) => {
+  test("should make a getAvailableCountries request with a param", async () => {
     fetchMock.once("*", {});
 
-    getAvailableCountries({
+    await getAvailableCountries({
       params: {
         foo: "bar"
       }
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/countries"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain("foo=bar");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://geoenrich.arcgis.com/arcgis/rest/services/World/geoenrichmentserver/Geoenrichment/countries"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain("foo=bar");
   });
 
-  it("should make a getAvailableCountries request with a custom endpoint", (done) => {
+  test("should make a getAvailableCountries request with a custom endpoint", async () => {
     fetchMock.once("*", {});
 
-    getAvailableCountries({
+    await getAvailableCountries({
       endpoint: "https://esri.com/test"
-    })
-      .then((response) => {
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual("https://esri.com/test/countries");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual("https://esri.com/test/countries");
   });
 });
