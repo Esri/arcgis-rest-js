@@ -316,7 +316,7 @@ describe("Job", () => {
     });
   });
 
-  it("create a new job and fire the new, submitted, waiting and time-out states", (done) => {
+  it("create a new job and fire the new, submitted, waiting, and time-out states", (done) => {
     const {
       submitOptions,
       jobSubmittedResponse,
