@@ -11,7 +11,6 @@ import {
   mockAllResultsRequest,
   mockAllResults
 } from "./mocks/job-mock-fetches.js";
-import { RemoveItemResourceResponse } from "@esri/arcgis-rest-portal/test/mocks/items/resources.js";
 
 function createJobMocks(
   jobId: string = "MOCK_JOB_ID",
