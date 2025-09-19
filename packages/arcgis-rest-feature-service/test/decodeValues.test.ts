@@ -16,7 +16,7 @@ const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
 
 describe("formatCodedValues()", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should format the cvd codes in a raw response", (done) => {

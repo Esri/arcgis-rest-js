@@ -243,7 +243,9 @@ describe("updateOAuthApp()", () => {
       tokenExpires: TOMORROW
     });
   });
-  afterEach(() => fetchMock.restore());
+  beforeEach(() => {
+    fetchMock.restore();
+  });
 
   it("should update OAuth app (no redirectUris)", async function () {
     // setup FM response

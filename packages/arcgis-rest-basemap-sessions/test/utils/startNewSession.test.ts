@@ -1,4 +1,4 @@
-import { expect, test, describe, afterEach } from "vitest";
+import { expect, test, describe, beforeEach } from "vitest";
 import fetchMock from "fetch-mock";
 import {
   startNewSession,
@@ -10,7 +10,7 @@ const MOCK_URL = "https://example.com/startSession";
 const MOCK_AUTH = "fake-token";
 
 describe("startNewSession", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
 

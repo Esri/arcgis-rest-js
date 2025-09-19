@@ -9,7 +9,7 @@ import { SearchQueryBuilder } from "../../src/util/SearchQueryBuilder.js";
 import { genericSearch } from "../../src/util/generic-search.js";
 
 describe("groups", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("searchGroups", () => {

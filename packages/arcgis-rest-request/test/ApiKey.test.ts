@@ -5,7 +5,7 @@ import { ApiKeyManager } from "../src/index.js";
 import fetchMock from "fetch-mock";
 
 describe("ApiKeyManager", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
 
@@ -78,7 +78,7 @@ describe("ApiKeyManager", () => {
   });
 
   describe(".getUsername()", () => {
-    afterEach(() => {
+    beforeEach(() => {
       fetchMock.restore();
     });
 

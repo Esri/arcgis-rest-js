@@ -6,7 +6,7 @@ import { suggest } from "../src/suggest.js";
 import { Suggest } from "./mocks/responses.js";
 
 describe("geocode", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should make a request for suggestions", (done) => {

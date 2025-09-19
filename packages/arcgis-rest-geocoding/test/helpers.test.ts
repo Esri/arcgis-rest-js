@@ -9,7 +9,7 @@ const customGeocoderUrl =
   "https://foo.com/arcgis/rest/services/Custom/GeocodeServer/";
 
 describe("geocode", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should retrieve metadata from the World Geocoding Service", (done) => {

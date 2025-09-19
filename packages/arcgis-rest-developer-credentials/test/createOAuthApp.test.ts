@@ -220,7 +220,9 @@ describe("createOAuthApp()", () => {
       tokenExpires: TOMORROW
     });
   });
-  afterEach(() => fetchMock.restore());
+  beforeEach(() => {
+    fetchMock.restore();
+  });
 
   it("should create OAuth app (redirect_uri not provided)", async function () {
     // setup FM response

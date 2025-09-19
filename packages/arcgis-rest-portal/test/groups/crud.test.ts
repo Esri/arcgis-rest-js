@@ -18,7 +18,7 @@ import {
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("groups", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("authenticted methods", () => {

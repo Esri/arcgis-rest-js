@@ -19,7 +19,7 @@ import {
 import { layerDefinitionSid } from "./mocks/layerDefinition.js";
 
 describe("add to feature service", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("Authenticated methods", () => {

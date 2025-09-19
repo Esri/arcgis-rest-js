@@ -7,7 +7,7 @@ import { TOMORROW } from "../../../scripts/test-helpers.js";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 describe("getServiceAdminInfo: ", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   const MOCK_USER_SESSION = new ArcGISIdentityManager({

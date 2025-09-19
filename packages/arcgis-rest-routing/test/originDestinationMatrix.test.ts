@@ -153,7 +153,7 @@ const destinationsFeatureSet: IFeatureSet = {
 };
 
 describe("originDestinationMatrix", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should throw an error when a originDestinationMatrix request is made without a token", (done) => {

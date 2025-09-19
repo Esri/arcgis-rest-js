@@ -171,7 +171,9 @@ describe("createApiKey()", () => {
     });
   });
 
-  afterEach(() => fetchMock.restore());
+  beforeEach(() => {
+    fetchMock.restore();
+  });
 
   it("should create an API key and generate the access token", async function () {
     // step 1 create item

@@ -28,7 +28,7 @@ describe("setItemAccess()", () => {
       .catch();
   });
 
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should share an item with everyone", (done) => {

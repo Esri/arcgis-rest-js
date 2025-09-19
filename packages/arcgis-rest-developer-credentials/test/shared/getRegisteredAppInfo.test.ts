@@ -88,7 +88,9 @@ describe("registerApp()", () => {
       tokenExpires: TOMORROW
     });
   });
-  afterEach(() => fetchMock.restore());
+  beforeEach(() => {
+    fetchMock.restore();
+  });
 
   // normal workflow
   it("should get app without IRequestOptions", async function () {

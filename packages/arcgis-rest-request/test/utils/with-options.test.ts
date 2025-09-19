@@ -16,7 +16,7 @@ const SharingRestInfo = {
 };
 
 describe("withOptions()", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
 

@@ -23,7 +23,7 @@ const TOMORROW = (function () {
 })();
 
 describe("invitations", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   const session = new ArcGISIdentityManager({

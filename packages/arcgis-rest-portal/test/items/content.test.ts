@@ -9,7 +9,7 @@ import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("getContent", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("Authenticated methods", () => {

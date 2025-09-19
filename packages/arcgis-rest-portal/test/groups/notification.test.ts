@@ -8,7 +8,7 @@ import { createGroupNotification } from "../../src/groups/notification.js";
 import { GroupNotificationResponse } from "../mocks/groups/responses.js";
 
 describe("groups", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("createGroupNotification", () => {

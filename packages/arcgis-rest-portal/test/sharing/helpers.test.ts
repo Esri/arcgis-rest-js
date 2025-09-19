@@ -11,7 +11,7 @@ import {
 import { isItemOwner } from "../../src/sharing/helpers.js";
 
 describe("sharing helpers ::", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("getUserMembership ::", () => {

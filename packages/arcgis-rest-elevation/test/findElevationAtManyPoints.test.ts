@@ -5,7 +5,7 @@ import { atManyPointsDefaultResult } from "./mocks/atManyPointsDefault.mock.js";
 import { atManyPointsEllipsoidResult } from "./mocks/atManyPointsEllipsoid.mock.js";
 
 describe("findElevationAtManyPoints()", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
 

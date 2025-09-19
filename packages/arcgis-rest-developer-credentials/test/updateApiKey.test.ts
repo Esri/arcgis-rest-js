@@ -192,7 +192,9 @@ describe("updateApiKey()", () => {
     });
   });
 
-  afterEach(() => fetchMock.restore());
+  beforeEach(() => {
+    fetchMock.restore();
+  });
 
   it("should update an API key with expiration dates", async function () {
     let callCount = 0;

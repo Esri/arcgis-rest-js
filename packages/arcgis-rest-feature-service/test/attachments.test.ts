@@ -26,7 +26,7 @@ const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
 
 describe("attachment methods", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should return an array of attachmentInfos for a feature by id", (done) => {

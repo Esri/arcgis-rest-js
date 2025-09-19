@@ -8,6 +8,10 @@ const VERIFYAPPACCESS_URL =
   "https://www.arcgis.com/sharing/rest/oauth2/validateAppAccess";
 
 describe("validateAppAccess: ", () => {
+  beforeEach(() => {
+    fetchMock.restore();
+  });
+
   it("makes a request to /oauth2/validateAppAccess passing params", () => {
     fetchMock.postOnce(VERIFYAPPACCESS_URL, {
       valid: true,

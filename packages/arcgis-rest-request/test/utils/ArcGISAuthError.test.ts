@@ -15,7 +15,7 @@ import { request } from "../../src/request.js";
 import fetchMock from "fetch-mock";
 
 describe("ArcGISRequestError", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should be an instanceof Error", () => {

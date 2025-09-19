@@ -58,7 +58,7 @@ describe("unshareItemWithGroup() ::", () => {
       .catch();
   });
 
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should unshare an item with a group by owner", (done) => {

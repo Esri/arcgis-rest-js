@@ -8,7 +8,7 @@ import { updateServiceDefinition } from "../src/updateServiceDefinition.js";
 import { UpdateServiceDefinitionSuccess } from "./mocks/service.js";
 
 describe("update service definition", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("Authenticated methods", () => {

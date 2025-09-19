@@ -8,7 +8,7 @@ import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("get-unique-service-name:", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   const MOCK_USER_SESSION = new ArcGISIdentityManager({

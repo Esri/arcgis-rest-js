@@ -21,7 +21,7 @@ const TOMORROW = (function () {
 })();
 
 describe("users", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("getUserNotifications", () => {

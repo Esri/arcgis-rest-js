@@ -21,7 +21,7 @@ describe("udpate-user-membership", () => {
       .catch();
   });
 
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("converts member to admin", (done) => {

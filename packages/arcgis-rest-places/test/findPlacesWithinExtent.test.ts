@@ -7,7 +7,7 @@ import {
 } from "./mocks/withinExtent.mock.js";
 
 describe("findPlacesWithinExtent()", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
 

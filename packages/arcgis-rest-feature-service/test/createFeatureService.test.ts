@@ -8,7 +8,7 @@ import { TOMORROW } from "../../../scripts/test-helpers.js";
 import { encodeParam, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 describe("create feature service", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("Authenticated methods", () => {

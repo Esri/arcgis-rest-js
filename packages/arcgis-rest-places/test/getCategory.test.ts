@@ -4,7 +4,7 @@ import { getCategory, IconOptions } from "../src/index.js";
 import { categoryMock } from "./mocks/category.mock.js";
 
 describe("getCategory()", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
 

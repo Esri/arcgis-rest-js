@@ -125,7 +125,7 @@ const stopsFeatureSet: IFeatureSet = {
 //   "https://foo.com/ArcGIS/rest/services/Network/USA/NAServer/";
 
 describe("solveRoute", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should throw an error when a solveRoute request is made without a token", (done) => {

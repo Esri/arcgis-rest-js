@@ -102,7 +102,7 @@ describe("shareItemWithGroup() ::", () => {
       .catch();
   });
 
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("share item as owner::", () => {

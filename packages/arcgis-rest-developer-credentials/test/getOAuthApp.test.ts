@@ -126,7 +126,9 @@ describe("getOAuthApp()", () => {
       tokenExpires: TOMORROW
     });
   });
-  afterEach(() => fetchMock.restore());
+  beforeEach(() => {
+    fetchMock.restore();
+  });
 
   it("should get OAuth app", async function () {
     // setup FM response

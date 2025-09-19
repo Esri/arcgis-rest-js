@@ -20,7 +20,7 @@ import {
 } from "../mocks/groups/responses.js";
 
 describe("groups", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("getGroup", () => {

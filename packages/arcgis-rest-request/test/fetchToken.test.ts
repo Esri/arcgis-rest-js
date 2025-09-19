@@ -7,7 +7,7 @@ import { fetchToken } from "../src/index.js";
 const TOKEN_URL = "https://www.arcgis.com/sharing/rest/oauth2/token";
 
 describe("fetchToken()", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should request a token with `client_credentials`, `client_id` and `client_secret`", (done) => {

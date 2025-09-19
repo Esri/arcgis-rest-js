@@ -18,7 +18,7 @@ describe("get-view-sources: ", () => {
     password: "123456",
     portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("makes request to the admin url", () => {

@@ -10,7 +10,7 @@ import { TOMORROW } from "../../../../scripts/test-helpers.js";
 import { SearchQueryBuilder } from "../../src/util/SearchQueryBuilder.js";
 
 describe("search", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should make a simple, single search request", (done) => {

@@ -22,7 +22,7 @@ import {
   isNode
 } from "../../../scripts/test-helpers.js";
 describe("ArcGISIdentityManager", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe(".serialize() and ArcGISIdentityManager.deserialize", () => {
@@ -2464,7 +2464,7 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe(".getUser()", () => {
-    afterEach(() => {
+    beforeEach(() => {
       fetchMock.restore();
     });
     it("should cache metadata about the user", (done) => {
@@ -2541,7 +2541,7 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe(".getUsername()", () => {
-    afterEach(() => {
+    beforeEach(() => {
       fetchMock.restore();
     });
     it("should fetch the username via getUser()", (done) => {
@@ -3029,7 +3029,7 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe(".getPortal()", () => {
-    afterEach(() => {
+    beforeEach(() => {
       fetchMock.restore();
     });
     it("should cache metadata about the portal", (done) => {
@@ -3543,7 +3543,7 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe(".fromToken", () => {
-    afterEach(() => {
+    beforeEach(() => {
       fetchMock.restore();
     });
     it("should initialize a session from a token", () => {
@@ -3569,7 +3569,7 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe(".signIn", () => {
-    afterEach(() => {
+    beforeEach(() => {
       fetchMock.restore();
     });
     it("should initialize a session from a username and password", () => {

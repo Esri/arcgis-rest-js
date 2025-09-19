@@ -10,7 +10,7 @@ const layerUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer";
 
 describe("getServer()", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should fetch feature service metadata", (done) => {

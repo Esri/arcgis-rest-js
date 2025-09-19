@@ -13,7 +13,7 @@ import { TOMORROW, attachmentFile } from "../../../../scripts/test-helpers.js";
 import { FormData } from "@esri/arcgis-rest-form-data";
 
 describe("search", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("Authenticated methods", () => {

@@ -66,7 +66,9 @@ describe("invalidateApiKey", () => {
     });
   });
 
-  afterEach(() => fetchMock.restore());
+  beforeEach(() => {
+    fetchMock.restore();
+  });
 
   it("should invalidate an API key", async () => {
     setFetchMockPOSTFormUrlencoded(

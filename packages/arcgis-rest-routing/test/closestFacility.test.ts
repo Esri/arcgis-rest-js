@@ -169,7 +169,7 @@ const facilitiesUrl = {
 //   "https://foo.com/ArcGIS/rest/services/Network/USA/NAServer/";
 
 describe("closestFacility", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should throw an error when a closestFacility request is made without a token", (done) => {

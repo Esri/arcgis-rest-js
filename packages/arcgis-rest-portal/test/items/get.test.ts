@@ -46,7 +46,7 @@ describe("get base url", () => {
 });
 
 describe("get", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should return an item by id", (done) => {
@@ -267,7 +267,7 @@ describe("get", () => {
   });
 
   describe("getItem thumbnail decoration", () => {
-    afterEach(() => {
+    beforeEach(() => {
       fetchMock.restore();
     });
 

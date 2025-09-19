@@ -105,7 +105,7 @@ const facilitiesFeatureSet: IFeatureSet = {
 //   "https://foo.com/ArcGIS/rest/services/Network/USA/NAServer/";
 
 describe("serviceArea", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should throw an error when a serviceArea request is made without a token", (done) => {

@@ -11,7 +11,7 @@ import {
 } from "./../mocks/portal/response.js";
 
 describe("portal", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("getPortal", () => {

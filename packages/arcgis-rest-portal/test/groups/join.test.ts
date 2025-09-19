@@ -11,7 +11,7 @@ import { encodeParam, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 describe("groups", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("authenticted methods", () => {

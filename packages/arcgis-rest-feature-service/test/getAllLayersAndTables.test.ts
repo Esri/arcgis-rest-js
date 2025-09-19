@@ -7,7 +7,7 @@ const layerUrlBase =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer";
 
 describe("getAllLayersAndTables()", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should fetch all layers and table associated with the service", (done) => {

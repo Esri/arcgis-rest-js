@@ -4,7 +4,7 @@ import { getPlaceDetails, IconOptions } from "../src/index.js";
 import { placeMock } from "./mocks/place.mock.js";
 
 describe("getPlaceDetails()", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
 

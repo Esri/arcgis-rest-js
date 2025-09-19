@@ -1,4 +1,4 @@
-import { expect, test, describe, afterEach, vi } from "vitest";
+import { expect, test, describe, beforeEach, vi } from "vitest";
 import {
   BasemapStyleSession,
   DEFAULT_DURATION,
@@ -49,11 +49,11 @@ async function startMockSession(
   return session;
 }
 
-afterEach(() => {
-  fetchMock.restore();
-});
-
 describe("BasemapStyleSession", () => {
+  beforeEach(() => {
+    fetchMock.restore();
+  });
+
   test("should create a BasemapStyleSession object from valid parameters", () => {
     const session = createMockSession();
 

@@ -21,7 +21,7 @@ const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
 
 describe("getFeature() and queryFeatures()", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should return a feature by id", (done) => {
@@ -179,7 +179,7 @@ describe("queryAllFeatures", () => {
     { attributes: { OBJECTID: 2001, name: "Feature 2001" } }
   ];
 
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
 

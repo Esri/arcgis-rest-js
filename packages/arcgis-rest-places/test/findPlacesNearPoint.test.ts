@@ -7,7 +7,7 @@ import {
 } from "./mocks/nearPoint.mock.js";
 
 describe("findPlacesNearPoint()", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
 

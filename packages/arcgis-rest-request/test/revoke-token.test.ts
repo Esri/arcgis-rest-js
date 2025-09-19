@@ -2,7 +2,7 @@ import { revokeToken, appendCustomParams } from "../src/index.js";
 import fetchMock from "fetch-mock";
 
 describe("revokeToken", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
 

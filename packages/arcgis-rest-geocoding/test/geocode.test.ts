@@ -13,7 +13,7 @@ const customGeocoderUrl =
   "https://foo.com/arcgis/rest/services/Custom/GeocodeServer/";
 
 describe("geocode", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
 

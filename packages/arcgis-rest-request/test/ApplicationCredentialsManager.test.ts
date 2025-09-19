@@ -7,7 +7,7 @@ import { YESTERDAY, TOMORROW } from "../../../scripts/test-helpers.js";
 import { ArcGISTokenRequestError } from "../src/utils/ArcGISTokenRequestError.js";
 
 describe("ApplicationCredentialsManager", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe(".fromCredentials", () => {

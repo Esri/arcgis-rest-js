@@ -22,7 +22,7 @@ const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
 
 describe("feature", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should return objectId of the added feature and a truthy success", (done) => {

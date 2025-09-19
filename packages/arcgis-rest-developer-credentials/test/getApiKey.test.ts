@@ -149,7 +149,9 @@ describe("getApiKey()", () => {
       tokenExpires: TOMORROW
     });
   });
-  afterEach(() => fetchMock.restore());
+  beforeEach(() => {
+    fetchMock.restore();
+  });
 
   it("should get get key without IRequestOptions (Enterprise portal)", async function () {
     // setup FM response

@@ -6,7 +6,7 @@ import { reverseGeocode } from "../src/reverse.js";
 import { ReverseGeocode } from "./mocks/responses.js";
 
 describe("geocode", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should make a reverse geocoding request", (done) => {

@@ -21,7 +21,7 @@ const addresses = [
 ];
 
 describe("geocode", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should make a bulk geocoding request, even with an unmatchable record", (done) => {

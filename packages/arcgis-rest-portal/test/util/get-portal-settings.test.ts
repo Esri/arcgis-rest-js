@@ -7,7 +7,7 @@ import { getPortalSettings } from "../../src/util/get-portal-settings.js";
 import { PortalResponse } from "./../mocks/portal/response.js";
 
 describe("portal", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("getPortalSettings", () => {

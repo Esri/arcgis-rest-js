@@ -32,7 +32,7 @@ describe("add-users", () => {
     portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
 
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("should send multiple requests for a long user array", (done) => {

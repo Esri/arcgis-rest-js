@@ -12,7 +12,7 @@ import {
 } from "../mocks/users/user.js";
 
 describe("reassignItem", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   it("shoulds throw if not authd as org_admin", (done) => {

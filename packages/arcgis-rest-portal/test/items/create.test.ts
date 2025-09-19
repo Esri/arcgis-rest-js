@@ -18,7 +18,7 @@ import {
 } from "@esri/arcgis-rest-request";
 
 describe("search", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("Authenticated methods", () => {

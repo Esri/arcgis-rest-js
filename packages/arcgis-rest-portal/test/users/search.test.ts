@@ -16,7 +16,7 @@ describe("users", () => {
     portal: "https://myorg.maps.arcgis.com/sharing/rest"
   };
 
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("searchUsers", () => {

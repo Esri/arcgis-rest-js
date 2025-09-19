@@ -27,7 +27,7 @@ import {
 import { requestConfig } from "../src/requestConfig.js";
 
 describe("request()", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
 

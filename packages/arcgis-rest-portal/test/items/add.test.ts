@@ -16,7 +16,7 @@ import { encodeParam, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { FormData } from "@esri/arcgis-rest-form-data";
 
 describe("search", () => {
-  afterEach(() => {
+  beforeEach(() => {
     fetchMock.restore();
   });
   describe("Authenticated methods", () => {

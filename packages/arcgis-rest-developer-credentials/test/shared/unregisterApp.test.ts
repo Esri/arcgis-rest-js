@@ -74,7 +74,9 @@ describe("unregisterApp()", () => {
       tokenExpires: TOMORROW
     });
   });
-  afterEach(() => fetchMock.restore());
+  beforeEach(() => {
+    fetchMock.restore();
+  });
 
   it("should unregister an app", async function () {
     // setup FM response
