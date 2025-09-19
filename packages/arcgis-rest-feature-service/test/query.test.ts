@@ -16,6 +16,7 @@ import {
   queryResponse,
   queryRelatedResponse
 } from "./mocks/feature.js";
+import { ApiKeyManager } from "@esri/arcgis-rest-request";
 
 const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
@@ -206,6 +207,37 @@ describe("queryAllFeatures", () => {
 
     const result = await queryAllFeatures({
       url: serviceUrl
+    });
+
+    expect(result.features.length).toBe(pageSize + 1);
+    expect(result.features[0].attributes.OBJECTID).toBe(1);
+    expect(result.features[pageSize].attributes.OBJECTID).toBe(2001);
+  });
+
+  it("fetches multiple pages based on feature count with authentication", async () => {
+    fetchMock.mock(`${serviceUrl}?f=json&token=MOCK_TOKEN`, {
+      maxRecordCount: 2000
+    });
+
+    fetchMock.mock(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=2000&token=MOCK_TOKEN`,
+      {
+        features: page1Features,
+        exceededTransferLimit: true
+      }
+    );
+
+    fetchMock.mock(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultOffset=2000&resultRecordCount=2000&token=MOCK_TOKEN`,
+      {
+        features: page2Features,
+        exceededTransferLimit: false
+      }
+    );
+
+    const result = await queryAllFeatures({
+      url: serviceUrl,
+      authentication: ApiKeyManager.fromKey("MOCK_TOKEN")
     });
 
     expect(result.features.length).toBe(pageSize + 1);
