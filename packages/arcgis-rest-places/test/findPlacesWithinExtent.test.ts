@@ -1,17 +1,20 @@
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
-import fetchMock from "fetch-mock";
 import { findPlacesWithinExtent, IconOptions } from "../src/index.js";
+import { describe, test, expect, afterEach } from "vitest";
+import fetchMock from "fetch-mock";
 import {
   placesWithinExtentMockNoMoreResults,
   placesWithinExtentMockMoreResults
 } from "./mocks/withinExtent.mock.js";
+
+const MOCK_AUTH = ApiKeyManager.fromKey("fake-token");
 
 describe("findPlacesWithinExtent()", () => {
   afterEach(() => {
     fetchMock.restore();
   });
 
-  it("should return places within an extent and not return a next page when there are more results", async () => {
+  test("should return places within an extent and not return a next page when there are more results", async () => {
     fetchMock.mock("*", placesWithinExtentMockNoMoreResults);
 
     const response = await findPlacesWithinExtent({
@@ -21,7 +24,7 @@ describe("findPlacesWithinExtent()", () => {
       ymax: 33.873337,
       categoryIds: ["13002"],
       pageSize: 5,
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+      authentication: MOCK_AUTH
     });
 
     const [url, options] = fetchMock.lastCall("*");
@@ -29,10 +32,10 @@ describe("findPlacesWithinExtent()", () => {
       placesWithinExtentMockNoMoreResults.results as any
     );
     expect(response.nextPage).toBeUndefined();
-    expect(url).toContain("token=MOCK_KEY");
+    expect(url).toContain("token=fake-token");
   });
 
-  it("should return places within an extent and a next page when there are more results", async () => {
+  test("should return places within an extent and a next page when there are more results", async () => {
     fetchMock.mock("*", placesWithinExtentMockMoreResults);
 
     const firstPageResponse = await findPlacesWithinExtent({
@@ -41,7 +44,7 @@ describe("findPlacesWithinExtent()", () => {
       xmax: -117.795753,
       ymax: 33.873337,
       categoryIds: ["13002"],
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+      authentication: MOCK_AUTH
     });
 
     const [firstPageUrl, firstPageOptions] = fetchMock.lastCall("*");
@@ -50,7 +53,7 @@ describe("findPlacesWithinExtent()", () => {
       placesWithinExtentMockMoreResults.results as any
     );
     expect(firstPageResponse.nextPage).toBeDefined();
-    expect(firstPageUrl).toContain("token=MOCK_KEY");
+    expect(firstPageUrl).toContain("token=fake-token");
 
     fetchMock.restore();
     fetchMock.mock("*", placesWithinExtentMockNoMoreResults);
@@ -63,10 +66,10 @@ describe("findPlacesWithinExtent()", () => {
       placesWithinExtentMockNoMoreResults.results as any
     );
     expect(nextPage.nextPage).toBeUndefined();
-    expect(url).toContain("token=MOCK_KEY");
+    expect(url).toContain("token=fake-token");
   });
 
-  it("verify endpoint", async () => {
+  test("verify endpoint", async () => {
     fetchMock.mock("*", placesWithinExtentMockNoMoreResults);
 
     await findPlacesWithinExtent({
@@ -78,16 +81,16 @@ describe("findPlacesWithinExtent()", () => {
       pageSize: 5,
       endpoint:
         "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/within-extent",
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+      authentication: MOCK_AUTH
     });
 
     const [url, options] = fetchMock.lastCall("*");
     expect(url).toEqual(
-      "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/within-extent?f=json&xmin=-118.013334&ymin=33.78193&xmax=-117.795753&ymax=33.873337&categoryIds=13002&pageSize=5&token=MOCK_KEY"
+      "https://places-api.arcgis.com/arcgis/rest/services/places-service/v1/places/within-extent?f=json&xmin=-118.013334&ymin=33.78193&xmax=-117.795753&ymax=33.873337&categoryIds=13002&pageSize=5&token=fake-token"
     );
   });
 
-  it("verify icon param", async () => {
+  test("verify icon param", async () => {
     fetchMock.mock("*", placesWithinExtentMockNoMoreResults);
 
     await findPlacesWithinExtent({
@@ -98,7 +101,7 @@ describe("findPlacesWithinExtent()", () => {
       categoryIds: ["13002"],
       pageSize: 5,
       icon: IconOptions.PNG,
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+      authentication: MOCK_AUTH
     });
 
     const [url, options] = fetchMock.lastCall("*");

@@ -6,7 +6,6 @@
     "arcgis-rest-feature-service/{src,test}/**/*.test.ts",
     "arcgis-rest-geocoding/{src,test}/**/*.test.ts",
     "arcgis-rest-portal/{src,test}/**/*.test.ts",
-    "arcgis-rest-places/{src,test}/**/*.test.ts",
     "arcgis-rest-routing/{src,test}/**/*.test.ts",
     "arcgis-rest-request/{src,test}/**/*.test.ts"
   ],
