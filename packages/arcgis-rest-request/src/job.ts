@@ -238,7 +238,6 @@ export class Job {
    */
   private setIntervalHandler: any;
 
-
   constructor(options: IJobOptions) {
     const { url, id, pollingRate, authentication }: Partial<IJobOptions> = {
       ...DefaultJobOptions,
@@ -252,6 +251,7 @@ export class Job {
     this._pollingRate = pollingRate;
     this.emitter = mitt();
 
+    // istanbul ignore next - trying to test this results in multiple unhandled requests which fetch-mock doesn't like.
     if (options.startMonitoring) {
       this.startEventMonitoring(pollingRate);
     }

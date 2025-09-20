@@ -4,7 +4,7 @@ export const GPEndpointCall = {
     Query: `"DATE" > date '1998-01-01 00:00:00' AND "DATE" < date '1998-01-31 00:00:00') AND ("Day" = 'SUN' OR "Day"= 'SAT'),
   `
   },
-  startMonitoring: true,
+  startMonitoring: false,
   pollingRate: 5000
 };
 
