@@ -4,6 +4,7 @@
 import { closestFacility } from "../src/closestFacility.js";
 
 import fetchMock from "fetch-mock";
+import { describe, afterEach, test, expect } from "vitest";
 
 import {
   barriers,
@@ -172,24 +173,22 @@ describe("closestFacility", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  it("should throw an error when a closestFacility request is made without a token", (done) => {
+
+  test("should throw an error when a closestFacility request is made without a token", async () => {
     fetchMock.once("*", ClosestFacility);
 
-    closestFacility({
-      incidents,
-      facilities,
-      returnCFRoutes: true
-    })
-      // tslint:disable-next-line
-      .catch((e) => {
-        expect(e).toEqual(
-          "Finding the closest facility using the ArcGIS service requires authentication"
-        );
-        done();
-      });
+    await expect(
+      closestFacility({
+        incidents,
+        facilities,
+        returnCFRoutes: true
+      })
+    ).rejects.toEqual(
+      "Finding the closest facility using the ArcGIS service requires authentication"
+    );
   });
 
-  it("should make a simple closestFacility request (Point Arrays)", (done) => {
+  test("should make a simple closestFacility request (Point Arrays)", async () => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -199,42 +198,37 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents,
       facilities,
       returnCFRoutes: true,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World/solveClosestFacility"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain(
-          `incidents=${encodeURIComponent("-118.257363,34.076763")}`
-        );
-        expect(options.body).toContain(
-          `facilities=${encodeURIComponent(
-            "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
-          )}`
-        );
-        expect(options.body).toContain("token=token");
+    });
 
-        expect(response.routes.spatialReference.latestWkid).toEqual(4326);
-        expect(response.routes.features[0].attributes.Name).toEqual(
-          "Echo Park Ave & W Sunset Blvd, Los Angeles, California, 90026 - Flint Wash Trail"
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://route.arcgis.com/arcgis/rest/services/World/ClosestFacility/NAServer/ClosestFacility_World/solveClosestFacility"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain(
+      `incidents=${encodeURIComponent("-118.257363,34.076763")}`
+    );
+    expect(options.body).toContain(
+      `facilities=${encodeURIComponent(
+        "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
+      )}`
+    );
+    expect(options.body).toContain("token=token");
+
+    expect(response.routes.spatialReference.latestWkid).toEqual(4326);
+    expect(response.routes.features[0].attributes.Name).toEqual(
+      "Echo Park Ave & W Sunset Blvd, Los Angeles, California, 90026 - Flint Wash Trail"
+    );
   });
 
-  it("should pass default values", (done) => {
+  test("should pass default values", async () => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -244,7 +238,7 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents,
       facilities,
       params: {
@@ -252,26 +246,21 @@ describe("closestFacility", () => {
       },
       returnCFRoutes: true,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain("returnDirections=true");
-        expect(options.body).toContain("returnFacilities=true");
-        expect(options.body).toContain("returnIncidents=true");
-        expect(options.body).toContain("returnBarriers=true");
-        expect(options.body).toContain("returnPolylineBarriers=true");
-        expect(options.body).toContain("returnPolygonBarriers=true");
-        expect(options.body).toContain("preserveObjectID=true");
-        expect(options.body).toContain("outSR=102100");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain("returnDirections=true");
+    expect(options.body).toContain("returnFacilities=true");
+    expect(options.body).toContain("returnIncidents=true");
+    expect(options.body).toContain("returnBarriers=true");
+    expect(options.body).toContain("returnPolylineBarriers=true");
+    expect(options.body).toContain("returnPolygonBarriers=true");
+    expect(options.body).toContain("preserveObjectID=true");
+    expect(options.body).toContain("outSR=102100");
   });
 
-  it("should allow default values to be overridden", (done) => {
+  test("should allow default values to be overridden", async () => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -281,7 +270,7 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents,
       facilities,
       returnCFRoutes: true,
@@ -293,25 +282,20 @@ describe("closestFacility", () => {
       returnPolygonBarriers: false,
       preserveObjectID: false,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain("returnDirections=false");
-        expect(options.body).toContain("returnFacilities=false");
-        expect(options.body).toContain("returnIncidents=false");
-        expect(options.body).toContain("returnBarriers=false");
-        expect(options.body).toContain("returnPolylineBarriers=false");
-        expect(options.body).toContain("returnPolygonBarriers=false");
-        expect(options.body).toContain("preserveObjectID=false");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain("returnDirections=false");
+    expect(options.body).toContain("returnFacilities=false");
+    expect(options.body).toContain("returnIncidents=false");
+    expect(options.body).toContain("returnBarriers=false");
+    expect(options.body).toContain("returnPolylineBarriers=false");
+    expect(options.body).toContain("returnPolygonBarriers=false");
+    expect(options.body).toContain("preserveObjectID=false");
   });
 
-  it("should make a simple closestFacility request (array of objects - lat/lon)", (done) => {
+  test("should make a simple closestFacility request (array of objects - lat/lon)", async () => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -321,31 +305,26 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents: incidentsLatLong,
       facilities: facilitiesLatLong,
       returnCFRoutes: true,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `incidents=${encodeURIComponent("-118.257363,34.076763")}`
-        );
-        expect(options.body).toContain(
-          `facilities=${encodeURIComponent(
-            "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
-          )}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `incidents=${encodeURIComponent("-118.257363,34.076763")}`
+    );
+    expect(options.body).toContain(
+      `facilities=${encodeURIComponent(
+        "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
+      )}`
+    );
   });
 
-  it("should make a simple closestFacility request (array of objects - latitude/longitude)", (done) => {
+  test("should make a simple closestFacility request (array of objects - latitude/longitude)", async () => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -355,31 +334,26 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents: incidentsLatitudeLongitude,
       facilities: facilitiesLatitudeLongitude,
       returnCFRoutes: true,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `incidents=${encodeURIComponent("-118.257363,34.076763")}`
-        );
-        expect(options.body).toContain(
-          `facilities=${encodeURIComponent(
-            "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
-          )}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `incidents=${encodeURIComponent("-118.257363,34.076763")}`
+    );
+    expect(options.body).toContain(
+      `facilities=${encodeURIComponent(
+        "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
+      )}`
+    );
   });
 
-  it("should make a simple closestFacility request (array of IPoint)", (done) => {
+  test("should make a simple closestFacility request (array of IPoint)", async () => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -389,31 +363,26 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
       returnCFRoutes: true,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `incidents=${encodeURIComponent("-118.257363,34.076763")}`
-        );
-        expect(options.body).toContain(
-          `facilities=${encodeURIComponent(
-            "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
-          )}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `incidents=${encodeURIComponent("-118.257363,34.076763")}`
+    );
+    expect(options.body).toContain(
+      `facilities=${encodeURIComponent(
+        "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
+      )}`
+    );
   });
 
-  it("should make a simple closestFacility request (FeatureSet)", (done) => {
+  test("should make a simple closestFacility request (FeatureSet)", async () => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -423,31 +392,24 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents: incidentsFeatureSet,
       facilities: facilitiesFeatureSet,
       returnCFRoutes: true,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `incidents=${encodeURIComponent(JSON.stringify(incidentsFeatureSet))}`
-        );
-        expect(options.body).toContain(
-          `facilities=${encodeURIComponent(
-            JSON.stringify(facilitiesFeatureSet)
-          )}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `incidents=${encodeURIComponent(JSON.stringify(incidentsFeatureSet))}`
+    );
+    expect(options.body).toContain(
+      `facilities=${encodeURIComponent(JSON.stringify(facilitiesFeatureSet))}`
+    );
   });
 
-  it("should make a simple closestFacility request (JSON with url)", (done) => {
+  test("should make a simple closestFacility request (JSON with url)", async () => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -457,29 +419,24 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents: incidentsUrl,
       facilities: facilitiesUrl,
       returnCFRoutes: true,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `incidents=${encodeURIComponent(JSON.stringify(incidentsUrl))}`
-        );
-        expect(options.body).toContain(
-          `facilities=${encodeURIComponent(JSON.stringify(facilitiesUrl))}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `incidents=${encodeURIComponent(JSON.stringify(incidentsUrl))}`
+    );
+    expect(options.body).toContain(
+      `facilities=${encodeURIComponent(JSON.stringify(facilitiesUrl))}`
+    );
   });
 
-  it("should include proper travelDirection", (done) => {
+  test("should include proper travelDirection (facilitiesToIncidents)", async () => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -489,27 +446,22 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
       returnCFRoutes: true,
       travelDirection: "facilitiesToIncidents",
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `travelDirection=esriNATravelDirectionToFacility`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `travelDirection=esriNATravelDirectionToFacility`
+    );
   });
 
-  it("should include proper travelDirection", (done) => {
+  test("should include proper travelDirection (incidentsToFacilities)", async () => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -519,27 +471,22 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
       returnCFRoutes: true,
       travelDirection: "incidentsToFacilities",
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `travelDirection=esriNATravelDirectionFromFacility`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `travelDirection=esriNATravelDirectionFromFacility`
+    );
   });
 
-  it("should pass point barriers (array of IPoint)", (done) => {
+  test("should pass point barriers (array of IPoint)", async () => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -549,27 +496,22 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
       returnCFRoutes: true,
       barriers,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `barriers=${encodeURIComponent("-117.1957,34.0564;-117.184,34.0546")}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `barriers=${encodeURIComponent("-117.1957,34.0564;-117.184,34.0546")}`
+    );
   });
 
-  it("should pass point barriers (FeatureSet)", (done) => {
+  test("should pass point barriers (FeatureSet)", async () => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -579,27 +521,22 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
       returnCFRoutes: true,
       barriers: barriersFeatureSet,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `barriers=${encodeURIComponent(JSON.stringify(barriersFeatureSet))}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `barriers=${encodeURIComponent(JSON.stringify(barriersFeatureSet))}`
+    );
   });
 
-  it("should pass polyline barriers", (done) => {
+  test("should pass polyline barriers", async () => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -609,29 +546,22 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
       returnCFRoutes: true,
       polylineBarriers,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `polylineBarriers=${encodeURIComponent(
-            JSON.stringify(polylineBarriers)
-          )}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `polylineBarriers=${encodeURIComponent(JSON.stringify(polylineBarriers))}`
+    );
   });
 
-  it("should pass polygon barriers", (done) => {
+  test("should pass polygon barriers", async () => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -641,29 +571,22 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
       returnCFRoutes: true,
       polygonBarriers,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `polygonBarriers=${encodeURIComponent(
-            JSON.stringify(polygonBarriers)
-          )}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `polygonBarriers=${encodeURIComponent(JSON.stringify(polygonBarriers))}`
+    );
   });
 
-  it("should include routes.geoJson in the return", (done) => {
+  test("should include routes.geoJson in the return", async () => {
     fetchMock.once("*", ClosestFacility);
 
     const MOCK_AUTH = {
@@ -673,29 +596,23 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
       returnCFRoutes: true,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(Object.keys(response.routes)).toContain("geoJson");
-        expect(Object.keys(response.routes.geoJson)).toContain("type");
-        expect(response.routes.geoJson.type).toEqual("FeatureCollection");
-        expect(Object.keys(response.routes.geoJson)).toContain("features");
-        expect(response.routes.geoJson.features.length).toBeGreaterThan(0);
+    });
 
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(Object.keys(response.routes)).toContain("geoJson");
+    expect(Object.keys(response.routes.geoJson)).toContain("type");
+    expect(response.routes.geoJson.type).toEqual("FeatureCollection");
+    expect(Object.keys(response.routes.geoJson)).toContain("features");
+    expect(response.routes.geoJson.features.length).toBeGreaterThan(0);
   });
 
-  it("should not include routes.geoJson in the return for non-4326", (done) => {
+  test("should not include routes.geoJson in the return for non-4326", async () => {
     fetchMock.once("*", ClosestFacilityWebMercator);
 
     const MOCK_AUTH = {
@@ -705,7 +622,7 @@ describe("closestFacility", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    closestFacility({
+    const response = await closestFacility({
       incidents: incidentsPoint,
       facilities: facilitiesPoint,
       returnCFRoutes: true,
@@ -713,15 +630,10 @@ describe("closestFacility", () => {
       params: {
         outSR: 102100
       }
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(Object.keys(response.routes)).not.toContain("geoJson");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(Object.keys(response.routes)).not.toContain("geoJson");
   });
 });
