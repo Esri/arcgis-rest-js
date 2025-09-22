@@ -1,6 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
 import { bulkGeocode } from "../src/bulk.js";
 import { GeocodeAddresses } from "./mocks/responses.js";
@@ -24,7 +25,8 @@ describe("geocode", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  it("should make a bulk geocoding request, even with an unmatchable record", (done) => {
+
+  test("should make a bulk geocoding request, even with an unmatchable record", async () => {
     fetchMock.once("*", GeocodeAddresses);
 
     const MOCK_AUTH = {
@@ -34,92 +36,76 @@ describe("geocode", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    bulkGeocode({ addresses, authentication: MOCK_AUTH })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/geocodeAddresses"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain(
-          `addresses=${encodeURIComponent(
-            '{"records":[{"attributes":{"OBJECTID":1,"SingleLine":"380 New York St. Redlands 92373"}},{"attributes":{"OBJECTID":2,"SingleLine":"1 World Way Los Angeles 90045"}},{"attributes":{"OBJECTID":3,"SingleLine":"foo bar baz"}}]}'
-          )}`
-        );
-        expect(options.body).toContain("token=token");
-        expect(response.spatialReference.latestWkid).toEqual(4326);
-        expect(response.locations[0].address).toEqual(
-          "380 New York St, Redlands, California, 92373"
-        );
-        expect(response.locations[0].location.x).toEqual(-117.19567031799994);
-        // the only property this lib tacks on
-        expect(response.locations[0].location.spatialReference.wkid).toEqual(
-          4326
-        );
-        expect(response.locations[2].score).toEqual(0);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const response = await bulkGeocode({
+      addresses,
+      authentication: MOCK_AUTH
+    });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/geocodeAddresses"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain(
+      `addresses=${encodeURIComponent(
+        '{"records":[{"attributes":{"OBJECTID":1,"SingleLine":"380 New York St. Redlands 92373"}},{"attributes":{"OBJECTID":2,"SingleLine":"1 World Way Los Angeles 90045"}},{"attributes":{"OBJECTID":3,"SingleLine":"foo bar baz"}}]}'
+      )}`
+    );
+    expect(options.body).toContain("token=token");
+    expect(response.spatialReference.latestWkid).toEqual(4326);
+    expect(response.locations[0].address).toEqual(
+      "380 New York St, Redlands, California, 92373"
+    );
+    expect(response.locations[0].location.x).toEqual(-117.19567031799994);
+    // the only property this lib tacks on
+    expect(response.locations[0].location.spatialReference.wkid).toEqual(4326);
+    expect(response.locations[2].score).toEqual(0);
   });
 
-  it("should throw an error when a bulk geocoding request is made without a token", (done) => {
+  test("should throw an error when a bulk geocoding request is made without a token", async () => {
     fetchMock.once("*", GeocodeAddresses);
 
-    bulkGeocode({ addresses })
-      // tslint:disable-next-line
-      .catch((e) => {
-        expect(e).toEqual(
-          "bulk geocoding using the ArcGIS service requires authentication"
-        );
-        done();
-      });
+    await expect(bulkGeocode({ addresses })).rejects.toEqual(
+      "bulk geocoding using the ArcGIS service requires authentication"
+    );
   });
 
-  it("should send a bulk geocoding request to a custom url without a token", (done) => {
+  test("should send a bulk geocoding request to a custom url without a token", async () => {
     fetchMock.once("*", GeocodeAddresses);
 
-    bulkGeocode({
+    const response = await bulkGeocode({
       addresses,
       endpoint:
         "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/"
-    })
-      // tslint:disable-next-line
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/geocodeAddresses"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain(
-          `addresses=${encodeURIComponent(
-            '{"records":[{"attributes":{"OBJECTID":1,"SingleLine":"380 New York St. Redlands 92373"}},{"attributes":{"OBJECTID":2,"SingleLine":"1 World Way Los Angeles 90045"}},{"attributes":{"OBJECTID":3,"SingleLine":"foo bar baz"}}]}'
-          )}`
-        );
-        // expect(options.body).toContain("token=token");
-        expect(response.spatialReference.latestWkid).toEqual(4326);
-        expect(response.locations[0].address).toEqual(
-          "380 New York St, Redlands, California, 92373"
-        );
-        expect(response.locations[0].location.x).toEqual(-117.19567031799994);
-        // the only property this lib tacks on
-        expect(response.locations[0].location.spatialReference.wkid).toEqual(
-          4326
-        );
-        expect(response.locations[2].address).toEqual("foo bar baz");
-        done();
-      });
+    });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/geocodeAddresses"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain(
+      `addresses=${encodeURIComponent(
+        '{"records":[{"attributes":{"OBJECTID":1,"SingleLine":"380 New York St. Redlands 92373"}},{"attributes":{"OBJECTID":2,"SingleLine":"1 World Way Los Angeles 90045"}},{"attributes":{"OBJECTID":3,"SingleLine":"foo bar baz"}}]}'
+      )}`
+    );
+    // expect(options.body).toContain("token=token");
+    expect(response.spatialReference.latestWkid).toEqual(4326);
+    expect(response.locations[0].address).toEqual(
+      "380 New York St, Redlands, California, 92373"
+    );
+    expect(response.locations[0].location.x).toEqual(-117.19567031799994);
+    // the only property this lib tacks on
+    expect(response.locations[0].location.spatialReference.wkid).toEqual(4326);
+    expect(response.locations[2].address).toEqual("foo bar baz");
   });
 
-  it("should send a bulk geocoding request with params correctly", (done) => {
+  test("should send a bulk geocoding request with params correctly", async () => {
     fetchMock.once("*", GeocodeAddresses);
 
-    bulkGeocode({
+    const response = await bulkGeocode({
       addresses,
       endpoint:
         "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/",
@@ -127,39 +113,33 @@ describe("geocode", () => {
         outSR: 4326,
         forStorage: true
       }
-    })
-      // tslint:disable-next-line
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/geocodeAddresses"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain("outSR=4326");
-        expect(options.body).toContain("forStorage=true");
-        expect(options.body).toContain(
-          `addresses=${encodeURIComponent(
-            '{"records":[{"attributes":{"OBJECTID":1,"SingleLine":"380 New York St. Redlands 92373"}},{"attributes":{"OBJECTID":2,"SingleLine":"1 World Way Los Angeles 90045"}},{"attributes":{"OBJECTID":3,"SingleLine":"foo bar baz"}}]}'
-          )}`
-        );
-        // expect(options.body).toContain("token=token");
-        expect(response.spatialReference.latestWkid).toEqual(4326);
-        expect(response.locations[0].address).toEqual(
-          "380 New York St, Redlands, California, 92373"
-        );
-        expect(response.locations[0].location.x).toEqual(-117.19567031799994);
-        // the only property this lib tacks on
-        expect(response.locations[0].location.spatialReference.wkid).toEqual(
-          4326
-        );
-        expect(response.locations[2].address).toEqual("foo bar baz");
-        done();
-      });
+    });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/geocodeAddresses"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain("outSR=4326");
+    expect(options.body).toContain("forStorage=true");
+    expect(options.body).toContain(
+      `addresses=${encodeURIComponent(
+        '{"records":[{"attributes":{"OBJECTID":1,"SingleLine":"380 New York St. Redlands 92373"}},{"attributes":{"OBJECTID":2,"SingleLine":"1 World Way Los Angeles 90045"}},{"attributes":{"OBJECTID":3,"SingleLine":"foo bar baz"}}]}'
+      )}`
+    );
+    // expect(options.body).toContain("token=token");
+    expect(response.spatialReference.latestWkid).toEqual(4326);
+    expect(response.locations[0].address).toEqual(
+      "380 New York St, Redlands, California, 92373"
+    );
+    expect(response.locations[0].location.x).toEqual(-117.19567031799994);
+    // the only property this lib tacks on
+    expect(response.locations[0].location.spatialReference.wkid).toEqual(4326);
+    expect(response.locations[2].address).toEqual("foo bar baz");
   });
 
-  it("should send a bulk geocoding request with postal params correctly", (done) => {
+  test("should send a bulk geocoding request with postal params correctly", async () => {
     fetchMock.once("*", GeocodeAddresses);
     const addresses = [
       {
@@ -174,7 +154,7 @@ describe("geocode", () => {
       }
     ];
 
-    bulkGeocode({
+    const response = await bulkGeocode({
       addresses,
       endpoint:
         "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/",
@@ -182,29 +162,25 @@ describe("geocode", () => {
         outSR: 4326,
         forStorage: true
       }
-    })
-      // tslint:disable-next-line
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/geocodeAddresses"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain("outSR=4326");
-        expect(options.body).toContain("forStorage=true");
-        expect(options.body).toContain(
-          `addresses=${encodeURIComponent(
-            '{"records":[{"attributes":{"OBJECTID":1,"address":"380 New York St. Redlands","postal":92373}},{"attributes":{"OBJECTID":2,"address":"1205 Williston Rd","postal":"05403"}}]}'
-          )}`
-        );
-        expect(response.spatialReference.latestWkid).toEqual(4326);
-        done();
-      });
+    });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://customer.gov/arcgis/rest/services/CompositeGeocoder/GeocodeServer/geocodeAddresses"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain("outSR=4326");
+    expect(options.body).toContain("forStorage=true");
+    expect(options.body).toContain(
+      `addresses=${encodeURIComponent(
+        '{"records":[{"attributes":{"OBJECTID":1,"address":"380 New York St. Redlands","postal":92373}},{"attributes":{"OBJECTID":2,"address":"1205 Williston Rd","postal":"05403"}}]}'
+      )}`
+    );
+    expect(response.spatialReference.latestWkid).toEqual(4326);
   });
 
-  it("should support rawResponse", (done) => {
+  test("should support rawResponse", async () => {
     fetchMock.once("*", GeocodeAddresses);
 
     const MOCK_AUTH = {
@@ -214,26 +190,23 @@ describe("geocode", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    bulkGeocode({ addresses, authentication: MOCK_AUTH, rawResponse: true })
-      .then((response: any) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/geocodeAddresses"
-        );
-        expect(options.method).toBe("POST");
-        expect(response.status).toBe(200);
-        expect(response.ok).toBe(true);
-        expect(response.body.Readable).not.toBe(null);
-        response.json().then((raw: any) => {
-          expect(raw).toEqual(GeocodeAddresses);
-          done();
-        });
-        // this used to work with isomorphic-fetch
-        // expect(response instanceof Response).toBe(true);
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const response: any = await bulkGeocode({
+      addresses,
+      authentication: MOCK_AUTH,
+      rawResponse: true
+    });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/geocodeAddresses"
+    );
+    expect(options.method).toBe("POST");
+    expect(response.status).toBe(200);
+    expect(response.ok).toBe(true);
+    expect(response.body.Readable).not.toBe(null);
+    const raw = await response.json();
+    expect(raw).toEqual(GeocodeAddresses);
+    // this used to work with isomorphic-fetch
+    // expect(response instanceof Response).toBe(true);
   });
 });

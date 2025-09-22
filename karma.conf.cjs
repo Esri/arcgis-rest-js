@@ -15,7 +15,6 @@ module.exports = function (config) {
     files: [
       "packages/arcgis-rest-developer-credentials/{src,test}/**/!(*.test.live).ts",
       "packages/arcgis-rest-feature-service/{src,test}/**/!(*.test.live).ts",
-      "packages/arcgis-rest-geocoding/{src,test}/**/!(*.test.live).ts",
       "packages/arcgis-rest-portal/{src,test}/**/!(*.test.live).ts",
       "packages/arcgis-rest-request/{src,test}/**/!(*.test.live).ts",
       "packages/arcgis-rest-routing/{src,test}/**/!(*.test.live).ts",
