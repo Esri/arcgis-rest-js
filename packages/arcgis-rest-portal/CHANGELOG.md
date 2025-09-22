@@ -1,3 +1,10 @@
+# @esri/arcgis-rest-portal [4.7.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.6.2...@esri/arcgis-rest-portal@4.7.0) (2025-09-22)
+
+
+### Features
+
+* **arcgis-rest-portal:** add support for uploading thumbnail and decorate items will full thumbnail url ([#1250](https://github.com/Esri/arcgis-rest-js/issues/1250)) ([6bf9885](https://github.com/Esri/arcgis-rest-js/commit/6bf988525a2e1333a071ae9888b90d7087696bfc))
+
 ## @esri/arcgis-rest-portal [4.6.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.6.1...@esri/arcgis-rest-portal@4.6.2) (2025-08-13)
 
 
