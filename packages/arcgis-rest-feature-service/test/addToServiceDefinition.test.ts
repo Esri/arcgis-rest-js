@@ -263,7 +263,7 @@ describe("add to feature service", () => {
       });
     });
 
-    test("should fail to add a bad layer and a bad table", async () => {
+    test("should throw an error when attempting to add an invalid layer and an invalid table", async () => {
       fetchMock.once("*", AddToFeatureServiceError);
 
       await expect(
