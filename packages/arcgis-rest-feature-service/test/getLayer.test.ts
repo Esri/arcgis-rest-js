@@ -9,7 +9,7 @@ import { getFeatureServiceResponse } from "./mocks/service.js";
 const layerUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
 
-describe("feature", () => {
+describe("feature service layer", () => {
   afterEach(() => {
     fetchMock.restore();
   });
