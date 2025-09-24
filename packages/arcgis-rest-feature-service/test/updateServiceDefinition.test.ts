@@ -1,6 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, afterEach, test, expect } from "vitest";
 import fetchMock from "fetch-mock";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
 import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
@@ -33,71 +34,61 @@ describe("update service definition", () => {
       capabilities: "Create,Update"
     };
 
-    it("should update feature service defintion", (done) => {
+    test("should update feature service defintion", async () => {
       fetchMock.once("*", UpdateServiceDefinitionSuccess);
 
-      updateServiceDefinition(
+      const response = await updateServiceDefinition(
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
         {
           updateDefinition,
           ...MOCK_USER_REQOPTS
         }
-      )
-        .then((response) => {
-          // Check service call
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
+      );
 
-          expect(url).toEqual(
-            "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/updateDefinition"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain(
-            encodeParam("updateDefinition", JSON.stringify(updateDefinition))
-          );
+      // Check service call
+      expect(fetchMock.called()).toBe(true);
+      const [url, options] = fetchMock.lastCall("*");
 
-          // Check response
-          expect(response).toEqual(UpdateServiceDefinitionSuccess);
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      expect(url).toBe(
+        "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/updateDefinition"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain(
+        encodeParam("updateDefinition", JSON.stringify(updateDefinition))
+      );
+
+      // Check response
+      expect(response).toEqual(UpdateServiceDefinitionSuccess);
     });
-    it("should update feature service defintion (params.updateDefinition)", (done) => {
+    test("should update feature service defintion (params.updateDefinition)", async () => {
       fetchMock.once("*", UpdateServiceDefinitionSuccess);
 
-      updateServiceDefinition(
+      const response = await updateServiceDefinition(
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer",
         {
           params: { updateDefinition },
           ...MOCK_USER_REQOPTS
         }
-      )
-        .then((response) => {
-          // Check service call
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
+      );
 
-          expect(url).toEqual(
-            "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/updateDefinition"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain(
-            encodeParam("updateDefinition", JSON.stringify(updateDefinition))
-          );
+      // Check service call
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
 
-          // Check response
-          expect(response).toEqual(UpdateServiceDefinitionSuccess);
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      expect(url).toEqual(
+        "https://services1.arcgis.com/ORG/arcgis/rest/admin/services/FEATURE_SERVICE/FeatureServer/updateDefinition"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain(
+        encodeParam("updateDefinition", JSON.stringify(updateDefinition))
+      );
+
+      // Check response
+      expect(response).toEqual(UpdateServiceDefinitionSuccess);
     });
   }); // auth requests
 });
