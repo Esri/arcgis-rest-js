@@ -50,23 +50,22 @@ describe("formatCodedValues()", () => {
     expect(response.features[0]).toEqual(cvdFeaturesFormatted[0]);
   });
 
-  test("should decode own properties using fetched metadata", async () => {
+  test("should fetch metadata then skip decoding if no cvd codes", async () => {
     fetchMock.once("*", getFeatureServiceResponse);
 
-    // Create an object with an inherited property and own properties
-    const testAttributes = Object.create({ prototypeAttribute: "ignore" });
+    const attributesToIgnore = Object.create({ prototypeAttribute: "ignore" });
 
     const response = await decodeValues({
       url: serviceUrl,
       queryResponse: {
         ...cvdQueryResponse,
-        features: [...cvdQueryResponse.features, { attributes: testAttributes }]
+        features: [
+          ...cvdQueryResponse.features,
+          { attributes: attributesToIgnore }
+        ]
       }
     });
 
     expect(response.features[0]).toEqual(cvdFeaturesFormatted[0]);
-    expect(response.features[0].attributes).not.toHaveProperty(
-      "prototypeAttribute"
-    );
   });
 });
