@@ -49,4 +49,24 @@ describe("formatCodedValues()", () => {
 
     expect(response.features[0]).toEqual(cvdFeaturesFormatted[0]);
   });
+
+  test("should decode own properties using fetched metadata", async () => {
+    fetchMock.once("*", getFeatureServiceResponse);
+
+    // Create an object with an inherited property and own properties
+    const testAttributes = Object.create({ prototypeAttribute: "ignore" });
+
+    const response = await decodeValues({
+      url: serviceUrl,
+      queryResponse: {
+        ...cvdQueryResponse,
+        features: [...cvdQueryResponse.features, { attributes: testAttributes }]
+      }
+    });
+
+    expect(response.features[0]).toEqual(cvdFeaturesFormatted[0]);
+    expect(response.features[0].attributes).not.toHaveProperty(
+      "prototypeAttribute"
+    );
+  });
 });
