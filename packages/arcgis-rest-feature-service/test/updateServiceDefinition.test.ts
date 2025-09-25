@@ -34,7 +34,7 @@ describe("update service definition", () => {
       capabilities: "Create,Update"
     };
 
-    test("should update feature service defintion", async () => {
+    test("should update feature service definition (direct option)", async () => {
       fetchMock.once("*", UpdateServiceDefinitionSuccess);
 
       const response = await updateServiceDefinition(
@@ -45,7 +45,7 @@ describe("update service definition", () => {
         }
       );
 
-      // Check service call
+      // Check service call for direct updateDefinition option
       expect(fetchMock.called()).toBe(true);
       const [url, options] = fetchMock.lastCall("*");
 
@@ -62,7 +62,8 @@ describe("update service definition", () => {
       // Check response
       expect(response).toEqual(UpdateServiceDefinitionSuccess);
     });
-    test("should update feature service defintion (params.updateDefinition)", async () => {
+
+    test("should update feature service definition (params object)", async () => {
       fetchMock.once("*", UpdateServiceDefinitionSuccess);
 
       const response = await updateServiceDefinition(
@@ -73,7 +74,7 @@ describe("update service definition", () => {
         }
       );
 
-      // Check service call
+      // Check service call for updateDefinition inside params object
       expect(fetchMock.called()).toEqual(true);
       const [url, options] = fetchMock.lastCall("*");
 
