@@ -1,3 +1,10 @@
+## @esri/arcgis-rest-feature-service [4.4.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.4.0...@esri/arcgis-rest-feature-service@4.4.1) (2025-09-25)
+
+
+### Bug Fixes
+
+* **arcgis-rest-feature-service:** add support for authenticated layers to queryAllFeatures() ([#1263](https://github.com/Esri/arcgis-rest-js/issues/1263)) ([cfdb644](https://github.com/Esri/arcgis-rest-js/commit/cfdb644520c780fec1e89cd6e94a531de3b1b22c))
+
 # @esri/arcgis-rest-feature-service [4.4.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.3.0...@esri/arcgis-rest-feature-service@4.4.0) (2025-08-20)
 
 
