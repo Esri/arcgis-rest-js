@@ -1,6 +1,7 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, afterEach, test, expect } from "vitest";
 import fetchMock from "fetch-mock";
 import { getServiceAdminInfo } from "../src/getServiceAdminInfo.js";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
@@ -22,20 +23,19 @@ describe("getServiceAdminInfo: ", () => {
     portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
 
-  it("makes request to the admin url", () => {
+  test("should return the api response when making a request to the admin url", async () => {
     fetchMock.once("*", { foo: "bar" }, { method: "POST" });
 
-    return getServiceAdminInfo(
+    const response = await getServiceAdminInfo(
       "https://servicesqa.arcgis.com/orgid/arcgis/rest/services/mysevice/FeatureServer",
       MOCK_USER_SESSION
-    ).then((result) => {
-      const [url] = fetchMock.lastCall("*");
+    );
 
-      expect(result.foo).toBe("bar", "should return the api response");
+    const [url] = fetchMock.lastCall("*");
 
-      expect(url).toBe(
-        "https://servicesqa.arcgis.com/orgid/arcgis/rest/admin/services/mysevice/FeatureServer"
-      );
-    });
+    expect(response.foo).toBe("bar");
+    expect(url).toBe(
+      "https://servicesqa.arcgis.com/orgid/arcgis/rest/admin/services/mysevice/FeatureServer"
+    );
   });
 });

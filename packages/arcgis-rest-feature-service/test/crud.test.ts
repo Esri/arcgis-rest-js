@@ -1,6 +1,7 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, afterEach, test, expect } from "vitest";
 import fetchMock from "fetch-mock";
 import {
   addFeatures,
@@ -25,7 +26,8 @@ describe("feature", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  it("should return objectId of the added feature and a truthy success", (done) => {
+
+  test("should return objectId of the added feature and a truthy success", async () => {
     const requestOptions = {
       url: serviceUrl,
       features: [
@@ -46,29 +48,26 @@ describe("feature", () => {
         }
       ]
     };
+
     fetchMock.once("*", addFeaturesResponse);
-    addFeatures(requestOptions)
-      .then((response) => {
-        expect(fetchMock.called()).toBeTruthy();
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(`${requestOptions.url}/addFeatures`);
-        expect(options.body).toContain(
-          "features=" +
-            encodeURIComponent(
-              '[{"geometry":{"x":-9177311.62541634,"y":4247151.205222242,"spatialReference":{"wkid":102100,"latestWkid":3857}},"attributes":{"Tree_ID":102,"Collected":1349395200000,"Crew":"Linden+ Forrest+ Johnny"}}]'
-            )
-        );
-        expect(options.method).toBe("POST");
-        expect(response.addResults[0].objectId).toEqual(1001);
-        expect(response.addResults[0].success).toEqual(true);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+
+    const response = await addFeatures(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toBe(`${requestOptions.url}/addFeatures`);
+    expect(options.body).toContain(
+      "features=" +
+        encodeURIComponent(
+          '[{"geometry":{"x":-9177311.62541634,"y":4247151.205222242,"spatialReference":{"wkid":102100,"latestWkid":3857}},"attributes":{"Tree_ID":102,"Collected":1349395200000,"Crew":"Linden+ Forrest+ Johnny"}}]'
+        )
+    );
+    expect(options.method).toBe("POST");
+    expect(response.addResults[0].objectId).toBe(1001);
+    expect(response.addResults[0].success).toBe(true);
   });
 
-  it("should return objectId of the updated feature and a truthy success", (done) => {
+  test("should return objectId of the updated feature and a truthy success", async () => {
     const requestOptions = {
       url: serviceUrl,
       features: [
@@ -84,55 +83,43 @@ describe("feature", () => {
       trueCurveClient: false
     } as IUpdateFeaturesOptions;
     fetchMock.once("*", updateFeaturesResponse);
-    updateFeatures(requestOptions)
-      .then((response) => {
-        expect(fetchMock.called()).toBeTruthy();
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(`${requestOptions.url}/updateFeatures`);
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain(
-          "features=" +
-            encodeURIComponent(
-              '[{"attributes":{"OBJECTID":1001,"Street":"NO","Native":"YES"}}]'
-            )
-        );
-        expect(options.body).toContain("rollbackOnFailure=false");
-        expect(options.body).toContain("trueCurveClient=false");
-        expect(response.updateResults[0].success).toEqual(true);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const response = await updateFeatures(requestOptions);
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toBe(`${requestOptions.url}/updateFeatures`);
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain(
+      "features=" +
+        encodeURIComponent(
+          '[{"attributes":{"OBJECTID":1001,"Street":"NO","Native":"YES"}}]'
+        )
+    );
+    expect(options.body).toContain("rollbackOnFailure=false");
+    expect(options.body).toContain("trueCurveClient=false");
+    expect(response.updateResults[0].success).toBe(true);
   });
 
-  it("should return objectId of the deleted feature and a truthy success", (done) => {
+  test("should return objectId of the deleted feature and a truthy success", async () => {
     const requestOptions = {
       url: serviceUrl,
       objectIds: [1001],
       where: "1=1"
     } as IDeleteFeaturesOptions;
     fetchMock.once("*", deleteFeaturesResponse);
-    deleteFeatures(requestOptions)
-      .then((response) => {
-        expect(fetchMock.called()).toBeTruthy();
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(`${requestOptions.url}/deleteFeatures`);
-        expect(options.body).toContain("objectIds=1001");
-        expect(options.body).toContain("where=1%3D1");
-        expect(options.method).toBe("POST");
-        expect(response.deleteResults[0].objectId).toEqual(
-          requestOptions.objectIds[0]
-        );
-        expect(response.deleteResults[0].success).toEqual(true);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const response = await deleteFeatures(requestOptions);
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toBe(`${requestOptions.url}/deleteFeatures`);
+    expect(options.body).toContain("objectIds=1001");
+    expect(options.body).toContain("where=1%3D1");
+    expect(options.method).toBe("POST");
+    expect(response.deleteResults[0].objectId).toBe(
+      requestOptions.objectIds[0]
+    );
+    expect(response.deleteResults[0].success).toBe(true);
   });
 
-  it("should return objectId of the added, updated or deleted feature(s) and a truthy success", (done) => {
+  test("should return objectId of the added, updated or deleted feature(s) and a truthy success", async () => {
     const requestOptions = {
       url: serviceUrl,
       adds: [
@@ -163,35 +150,29 @@ describe("feature", () => {
       deletes: [455]
     };
     fetchMock.once("*", applyEditsResponse);
-    applyEdits(requestOptions)
-      .then((response) => {
-        expect(fetchMock.called()).toBeTruthy();
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(`${requestOptions.url}/applyEdits`);
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain(
-          "adds=" +
-            encodeURIComponent(
-              '[{"geometry":{"x":-9177311.62541634,"y":4247151.205222242,"spatialReference":{"wkid":102100,"latestWkid":3857}},"attributes":{"Tree_ID":102,"Collected":1349395200000,"Crew":"Linden+ Forrest+ Johnny"}}]'
-            )
-        );
-        expect(options.body).toContain(
-          "updates=" +
-            encodeURIComponent(
-              '[{"attributes":{"OBJECTID":1001,"Crew":"Tom+ Patrick+ Dave"}}]'
-            )
-        );
-        expect(options.body).toContain("deletes=455");
-        expect(response.addResults[0].objectId).toEqual(2156);
-        expect(response.addResults[0].success).toEqual(true);
-        expect(response.updateResults[0].objectId).toEqual(1001);
-        expect(response.updateResults[0].success).toEqual(true);
-        expect(response.deleteResults[0].objectId).toEqual(455);
-        expect(response.deleteResults[0].success).toEqual(true);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const response = await applyEdits(requestOptions);
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toBe(`${requestOptions.url}/applyEdits`);
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain(
+      "adds=" +
+        encodeURIComponent(
+          '[{"geometry":{"x":-9177311.62541634,"y":4247151.205222242,"spatialReference":{"wkid":102100,"latestWkid":3857}},"attributes":{"Tree_ID":102,"Collected":1349395200000,"Crew":"Linden+ Forrest+ Johnny"}}]'
+        )
+    );
+    expect(options.body).toContain(
+      "updates=" +
+        encodeURIComponent(
+          '[{"attributes":{"OBJECTID":1001,"Crew":"Tom+ Patrick+ Dave"}}]'
+        )
+    );
+    expect(options.body).toContain("deletes=455");
+    expect(response.addResults[0].objectId).toBe(2156);
+    expect(response.addResults[0].success).toBe(true);
+    expect(response.updateResults[0].objectId).toBe(1001);
+    expect(response.updateResults[0].success).toBe(true);
+    expect(response.deleteResults[0].objectId).toBe(455);
+    expect(response.deleteResults[0].success).toBe(true);
   });
 });

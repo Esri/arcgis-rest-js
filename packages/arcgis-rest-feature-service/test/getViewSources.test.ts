@@ -1,6 +1,7 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, expect, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
 import { getViewSources } from "../src/getViewSources.js";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
@@ -21,25 +22,22 @@ describe("get-view-sources: ", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  it("makes request to the admin url", () => {
+  test("makes request to the admin url", async () => {
     fetchMock.once("*", { currentVersion: 1234 }, { method: "POST" });
 
-    return getViewSources(
+    const response = await getViewSources(
       "https://servicesqa.arcgis.com/orgid/arcgis/rest/services/mysevice/FeatureServer",
       MOCK_USER_SESSION
-    ).then((result) => {
-      expect(result.currentVersion).toBe(
-        1234,
-        "should return the api response"
-      );
+    );
 
-      const [url] = fetchMock.lastCall("*");
+    expect(response.currentVersion).toBe(1234);
 
-      expect(fetchMock.called()).toEqual(true);
+    const [url] = fetchMock.lastCall("*");
 
-      expect(url).toContain(
-        "https://servicesqa.arcgis.com/orgid/arcgis/rest/services/mysevice/FeatureServer/sources"
-      );
-    });
+    expect(fetchMock.called()).toBe(true);
+
+    expect(url).toContain(
+      "https://servicesqa.arcgis.com/orgid/arcgis/rest/services/mysevice/FeatureServer/sources"
+    );
   });
 });
