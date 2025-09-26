@@ -2,8 +2,8 @@
  * Apache-2.0 */
 
 import { solveRoute } from "../src/solveRoute.js";
-
 import fetchMock from "fetch-mock";
+import { describe, afterEach, test, expect } from "vitest";
 
 import {
   Solve,
@@ -128,22 +128,16 @@ describe("solveRoute", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  it("should throw an error when a solveRoute request is made without a token", (done) => {
+
+  test("should throw an error when a solveRoute request is made without a token", async () => {
     fetchMock.once("*", Solve);
 
-    solveRoute({
-      stops
-    })
-      // tslint:disable-next-line
-      .catch((e) => {
-        expect(e).toEqual(
-          "Routing using the ArcGIS service requires authentication"
-        );
-        done();
-      });
+    await expect(solveRoute({ stops })).rejects.toEqual(
+      "Routing using the ArcGIS service requires authentication"
+    );
   });
 
-  it("should make a simple solveRoute request (array of stops)", (done) => {
+  test("should make a simple solveRoute request (array of stops)", async () => {
     fetchMock.once("*", Solve);
 
     const MOCK_AUTH = {
@@ -153,34 +147,28 @@ describe("solveRoute", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    solveRoute({ stops, authentication: MOCK_AUTH })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        // "stops=-117.195677,34.056383;-117.918976,33.812092"
-        expect(options.body).toContain(
-          `stops=${encodeURIComponent(
-            "-117.195677,34.056383;-117.918976,33.812092"
-          )}`
-        );
-        expect(options.body).toContain("token=token");
-        expect(response.routes.spatialReference.latestWkid).toEqual(4326);
-        expect(response.routes.features[0].attributes.Name).toEqual(
-          "Location 1 - Location 2"
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const response = await solveRoute({ stops, authentication: MOCK_AUTH });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    // "stops=-117.195677,34.056383;-117.918976,33.812092"
+    expect(options.body).toContain(
+      `stops=${encodeURIComponent(
+        "-117.195677,34.056383;-117.918976,33.812092"
+      )}`
+    );
+    expect(options.body).toContain("token=token");
+    expect(response.routes.spatialReference.latestWkid).toEqual(4326);
+    expect(response.routes.features[0].attributes.Name).toEqual(
+      "Location 1 - Location 2"
+    );
   });
 
-  it("should make a simple solveRoute request (array of 3d stops)", (done) => {
+  test("should make a simple solveRoute request (array of 3d stops)", async () => {
     fetchMock.once("*", Solve);
 
     const MOCK_AUTH = {
@@ -190,34 +178,31 @@ describe("solveRoute", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    solveRoute({ stops: stops3, authentication: MOCK_AUTH })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        // "stops=-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
-        expect(options.body).toContain(
-          `stops=${encodeURIComponent(
-            "-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
-          )}`
-        );
-        expect(options.body).toContain("token=token");
-        expect(response.routes.spatialReference.latestWkid).toEqual(4326);
-        expect(response.routes.features[0].attributes.Name).toEqual(
-          "Location 1 - Location 2"
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const response = await solveRoute({
+      stops: stops3,
+      authentication: MOCK_AUTH
+    });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    // "stops=-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
+    expect(options.body).toContain(
+      `stops=${encodeURIComponent(
+        "-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
+      )}`
+    );
+    expect(options.body).toContain("token=token");
+    expect(response.routes.spatialReference.latestWkid).toEqual(4326);
+    expect(response.routes.features[0].attributes.Name).toEqual(
+      "Location 1 - Location 2"
+    );
   });
 
-  it("should make a simple solveRoute request (array of objects - lat/lon)", (done) => {
+  test("should make a simple solveRoute request (array of objects - lat/lon)", async () => {
     fetchMock.once("*", Solve);
 
     const MOCK_AUTH = {
@@ -227,37 +212,32 @@ describe("solveRoute", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    solveRoute({
+    const response = await solveRoute({
       stops: stopsObjectsLatLong,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        // "stops=-117.195677,34.056383;-117.918976,33.812092"
-        expect(options.body).toContain(
-          `stops=${encodeURIComponent(
-            "-117.195677,34.056383;-117.918976,33.812092"
-          )}`
-        );
-        expect(options.body).toContain("token=token");
-        expect(response.routes.spatialReference.latestWkid).toEqual(4326);
-        expect(response.routes.features[0].attributes.Name).toEqual(
-          "Location 1 - Location 2"
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    // "stops=-117.195677,34.056383;-117.918976,33.812092"
+    expect(options.body).toContain(
+      `stops=${encodeURIComponent(
+        "-117.195677,34.056383;-117.918976,33.812092"
+      )}`
+    );
+    expect(options.body).toContain("token=token");
+    expect(response.routes.spatialReference.latestWkid).toEqual(4326);
+    expect(response.routes.features[0].attributes.Name).toEqual(
+      "Location 1 - Location 2"
+    );
   });
 
-  it("should make a simple solveRoute request (array of objects - 3d lat/lon)", (done) => {
+  test("should make a simple solveRoute request (array of objects - 3d lat/lon)", async () => {
     fetchMock.once("*", Solve);
 
     const MOCK_AUTH = {
@@ -267,37 +247,32 @@ describe("solveRoute", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    solveRoute({
+    const response = await solveRoute({
       stops: stopsObjectsLatLong3,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        // "stops=-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
-        expect(options.body).toContain(
-          `stops=${encodeURIComponent(
-            "-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
-          )}`
-        );
-        expect(options.body).toContain("token=token");
-        expect(response.routes.spatialReference.latestWkid).toEqual(4326);
-        expect(response.routes.features[0].attributes.Name).toEqual(
-          "Location 1 - Location 2"
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    // "stops=-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
+    expect(options.body).toContain(
+      `stops=${encodeURIComponent(
+        "-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
+      )}`
+    );
+    expect(options.body).toContain("token=token");
+    expect(response.routes.spatialReference.latestWkid).toEqual(4326);
+    expect(response.routes.features[0].attributes.Name).toEqual(
+      "Location 1 - Location 2"
+    );
   });
 
-  it("should make a simple solveRoute request (array of objects - latitude/longitude)", (done) => {
+  test("should make a simple solveRoute request (array of objects - latitude/longitude)", async () => {
     fetchMock.once("*", Solve);
 
     const MOCK_AUTH = {
@@ -307,37 +282,32 @@ describe("solveRoute", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    solveRoute({
+    const response = await solveRoute({
       stops: stopsObjectsLatitudeLongitude,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        // "stops=-117.195677,34.056383;-117.918976,33.812092"
-        expect(options.body).toContain(
-          `stops=${encodeURIComponent(
-            "-117.195677,34.056383;-117.918976,33.812092"
-          )}`
-        );
-        expect(options.body).toContain("token=token");
-        expect(response.routes.spatialReference.latestWkid).toEqual(4326);
-        expect(response.routes.features[0].attributes.Name).toEqual(
-          "Location 1 - Location 2"
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    // "stops=-117.195677,34.056383;-117.918976,33.812092"
+    expect(options.body).toContain(
+      `stops=${encodeURIComponent(
+        "-117.195677,34.056383;-117.918976,33.812092"
+      )}`
+    );
+    expect(options.body).toContain("token=token");
+    expect(response.routes.spatialReference.latestWkid).toEqual(4326);
+    expect(response.routes.features[0].attributes.Name).toEqual(
+      "Location 1 - Location 2"
+    );
   });
 
-  it("should make a simple solveRoute request (array of objects - 3d latitude/longitude)", (done) => {
+  test("should make a simple solveRoute request (array of objects - 3d latitude/longitude)", async () => {
     fetchMock.once("*", Solve);
 
     const MOCK_AUTH = {
@@ -347,37 +317,32 @@ describe("solveRoute", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    solveRoute({
+    const response = await solveRoute({
       stops: stopsObjectsLatitudeLongitude3,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        // "stops=-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
-        expect(options.body).toContain(
-          `stops=${encodeURIComponent(
-            "-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
-          )}`
-        );
-        expect(options.body).toContain("token=token");
-        expect(response.routes.spatialReference.latestWkid).toEqual(4326);
-        expect(response.routes.features[0].attributes.Name).toEqual(
-          "Location 1 - Location 2"
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    // "stops=-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
+    expect(options.body).toContain(
+      `stops=${encodeURIComponent(
+        "-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
+      )}`
+    );
+    expect(options.body).toContain("token=token");
+    expect(response.routes.spatialReference.latestWkid).toEqual(4326);
+    expect(response.routes.features[0].attributes.Name).toEqual(
+      "Location 1 - Location 2"
+    );
   });
 
-  it("should make a simple solveRoute request (array of objects - latitude/longitude)", (done) => {
+  test("should make a simple solveRoute request (array of objects - latitude/longitude)", async () => {
     fetchMock.once("*", Solve);
 
     const MOCK_AUTH = {
@@ -387,37 +352,32 @@ describe("solveRoute", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    solveRoute({
+    const response = await solveRoute({
       stops: stopsObjectsLatitudeLongitude,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        // "stops=-117.195677,34.056383;-117.918976,33.812092"
-        expect(options.body).toContain(
-          `stops=${encodeURIComponent(
-            "-117.195677,34.056383;-117.918976,33.812092"
-          )}`
-        );
-        expect(options.body).toContain("token=token");
-        expect(response.routes.spatialReference.latestWkid).toEqual(4326);
-        expect(response.routes.features[0].attributes.Name).toEqual(
-          "Location 1 - Location 2"
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    // "stops=-117.195677,34.056383;-117.918976,33.812092"
+    expect(options.body).toContain(
+      `stops=${encodeURIComponent(
+        "-117.195677,34.056383;-117.918976,33.812092"
+      )}`
+    );
+    expect(options.body).toContain("token=token");
+    expect(response.routes.spatialReference.latestWkid).toEqual(4326);
+    expect(response.routes.features[0].attributes.Name).toEqual(
+      "Location 1 - Location 2"
+    );
   });
 
-  it("should make a simple solveRoute request (array of objects - 3d latitude/longitude)", (done) => {
+  test("should make a simple solveRoute request (array of objects - 3d latitude/longitude)", async () => {
     fetchMock.once("*", Solve);
 
     const MOCK_AUTH = {
@@ -427,37 +387,32 @@ describe("solveRoute", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    solveRoute({
+    const response = await solveRoute({
       stops: stopsObjectsLatitudeLongitude3,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        // "stops=-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
-        expect(options.body).toContain(
-          `stops=${encodeURIComponent(
-            "-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
-          )}`
-        );
-        expect(options.body).toContain("token=token");
-        expect(response.routes.spatialReference.latestWkid).toEqual(4326);
-        expect(response.routes.features[0].attributes.Name).toEqual(
-          "Location 1 - Location 2"
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    // "stops=-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
+    expect(options.body).toContain(
+      `stops=${encodeURIComponent(
+        "-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
+      )}`
+    );
+    expect(options.body).toContain("token=token");
+    expect(response.routes.spatialReference.latestWkid).toEqual(4326);
+    expect(response.routes.features[0].attributes.Name).toEqual(
+      "Location 1 - Location 2"
+    );
   });
 
-  it("should make a simple solveRoute request (array of IPoint)", (done) => {
+  test("should make a simple solveRoute request (array of IPoint)", async () => {
     fetchMock.once("*", Solve);
 
     const MOCK_AUTH = {
@@ -467,37 +422,32 @@ describe("solveRoute", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    solveRoute({
+    const response = await solveRoute({
       stops: stopsObjectsPoint,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        // "stops=-117.195677,34.056383;-117.918976,33.812092"
-        expect(options.body).toContain(
-          `stops=${encodeURIComponent(
-            "-117.195677,34.056383;-117.918976,33.812092"
-          )}`
-        );
-        expect(options.body).toContain("token=token");
-        expect(response.routes.spatialReference.latestWkid).toEqual(4326);
-        expect(response.routes.features[0].attributes.Name).toEqual(
-          "Location 1 - Location 2"
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    // "stops=-117.195677,34.056383;-117.918976,33.812092"
+    expect(options.body).toContain(
+      `stops=${encodeURIComponent(
+        "-117.195677,34.056383;-117.918976,33.812092"
+      )}`
+    );
+    expect(options.body).toContain("token=token");
+    expect(response.routes.spatialReference.latestWkid).toEqual(4326);
+    expect(response.routes.features[0].attributes.Name).toEqual(
+      "Location 1 - Location 2"
+    );
   });
 
-  it("should make a simple solveRoute request (array of 3d IPoint)", (done) => {
+  test("should make a simple solveRoute request (array of 3d IPoint)", async () => {
     fetchMock.once("*", Solve);
 
     const MOCK_AUTH = {
@@ -507,37 +457,32 @@ describe("solveRoute", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    solveRoute({
+    const response = await solveRoute({
       stops: stopsObjectsPoint3,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        // "stops=-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
-        expect(options.body).toContain(
-          `stops=${encodeURIComponent(
-            "-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
-          )}`
-        );
-        expect(options.body).toContain("token=token");
-        expect(response.routes.spatialReference.latestWkid).toEqual(4326);
-        expect(response.routes.features[0].attributes.Name).toEqual(
-          "Location 1 - Location 2"
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    // "stops=-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
+    expect(options.body).toContain(
+      `stops=${encodeURIComponent(
+        "-117.195677,34.056383,10.11;-117.918976,33.812092,8.43"
+      )}`
+    );
+    expect(options.body).toContain("token=token");
+    expect(response.routes.spatialReference.latestWkid).toEqual(4326);
+    expect(response.routes.features[0].attributes.Name).toEqual(
+      "Location 1 - Location 2"
+    );
   });
 
-  it("should make a simple solveRoute request (FeatureSet)", (done) => {
+  test("should make a simple solveRoute request (FeatureSet)", async () => {
     fetchMock.once("*", Solve);
 
     const MOCK_AUTH = {
@@ -547,34 +492,29 @@ describe("solveRoute", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    solveRoute({
+    const response = await solveRoute({
       stops: stopsFeatureSet,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain(
-          `stops=${encodeURIComponent(JSON.stringify(stopsFeatureSet))}`
-        );
-        expect(options.body).toContain("token=token");
-        expect(response.routes.spatialReference.latestWkid).toEqual(4326);
-        expect(response.routes.features[0].attributes.Name).toEqual(
-          "Location 1 - Location 2"
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World/solve"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain(
+      `stops=${encodeURIComponent(JSON.stringify(stopsFeatureSet))}`
+    );
+    expect(options.body).toContain("token=token");
+    expect(response.routes.spatialReference.latestWkid).toEqual(4326);
+    expect(response.routes.features[0].attributes.Name).toEqual(
+      "Location 1 - Location 2"
+    );
   });
 
-  it("should transform compressed geometry into geometry", (done) => {
+  test("should transform compressed geometry into geometry", async () => {
     fetchMock.once("*", Solve);
 
     const MOCK_AUTH = {
@@ -584,23 +524,18 @@ describe("solveRoute", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    solveRoute({
+    const response = await solveRoute({
       stops: stopsObjectsPoint,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        expect(response.directions[0].features[0].geometry).toEqual(
-          jasmine.any(Object)
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    expect(response.directions[0].features[0].geometry).toEqual(
+      expect.any(Object)
+    );
   });
 
-  it("should not fail when no directions are returned", (done) => {
+  test("should not fail when no directions are returned", async () => {
     fetchMock.once("*", SolveNoDirections);
 
     const MOCK_AUTH = {
@@ -610,24 +545,19 @@ describe("solveRoute", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    solveRoute({
+    const response = await solveRoute({
       stops: stopsObjectsPoint,
       authentication: MOCK_AUTH,
       params: {
         returnDirections: false
       }
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        expect(response.directions).toEqual(undefined);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    expect(response.directions).toEqual(undefined);
   });
 
-  it("should include routes.geoJson in the return", (done) => {
+  test("should include routes.geoJson in the return", async () => {
     fetchMock.once("*", Solve);
 
     const MOCK_AUTH = {
@@ -637,22 +567,17 @@ describe("solveRoute", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    solveRoute({
+    const response = await solveRoute({
       stops: stopsObjectsPoint,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(Object.keys(response.routes)).toContain("geoJson");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(Object.keys(response.routes)).toContain("geoJson");
   });
 
-  it("should not include routes.geoJson in the return for non-4326", (done) => {
+  test("should not include routes.geoJson in the return for non-4326", async () => {
     fetchMock.once("*", SolveWebMercator);
 
     const MOCK_AUTH = {
@@ -662,21 +587,16 @@ describe("solveRoute", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    solveRoute({
+    const response = await solveRoute({
       stops: stopsObjectsPoint,
       authentication: MOCK_AUTH,
       params: {
         outSR: 102100
       }
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(Object.keys(response.routes)).not.toContain("geoJson");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(Object.keys(response.routes)).not.toContain("geoJson");
   });
 });

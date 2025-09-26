@@ -4,6 +4,7 @@
 import { originDestinationMatrix } from "../src/originDestinationMatrix.js";
 
 import fetchMock from "fetch-mock";
+import { describe, afterEach, test, expect } from "vitest";
 
 import {
   barriers,
@@ -156,23 +157,21 @@ describe("originDestinationMatrix", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  it("should throw an error when a originDestinationMatrix request is made without a token", (done) => {
+
+  test("should throw an error when a originDestinationMatrix request is made without a token", async () => {
     fetchMock.once("*", {});
 
-    originDestinationMatrix({
-      origins,
-      destinations
-    })
-      // tslint:disable-next-line
-      .catch((e) => {
-        expect(e).toEqual(
-          "Calculating the origin-destination cost matrix using the ArcGIS service requires authentication"
-        );
-        done();
-      });
+    await expect(
+      originDestinationMatrix({
+        origins,
+        destinations
+      })
+    ).rejects.toEqual(
+      "Calculating the origin-destination cost matrix using the ArcGIS service requires authentication"
+    );
   });
 
-  it("should make a simple originDestinationMatrix request (Point Arrays)", (done) => {
+  test("should make a simple originDestinationMatrix request (Point Arrays)", async () => {
     fetchMock.once("*", OriginDestinationMatrix);
 
     const MOCK_AUTH = {
@@ -182,45 +181,37 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins,
       destinations,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://route.arcgis.com/arcgis/rest/services/World/OriginDestinationCostMatrix/NAServer/OriginDestinationCostMatrix_World/solveODCostMatrix"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain(
-          `origins=${encodeURIComponent("-118.257363,34.076763")}`
-        );
-        expect(options.body).toContain(
-          `destinations=${encodeURIComponent(
-            "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
-          )}`
-        );
-        expect(options.body).toContain("token=token");
+    });
 
-        expect(response.origins.spatialReference.latestWkid).toEqual(4326);
-        expect(response.origins.features.length).toEqual(origins.length);
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://route.arcgis.com/arcgis/rest/services/World/OriginDestinationCostMatrix/NAServer/OriginDestinationCostMatrix_World/solveODCostMatrix"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain(
+      `origins=${encodeURIComponent("-118.257363,34.076763")}`
+    );
+    expect(options.body).toContain(
+      `destinations=${encodeURIComponent(
+        "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
+      )}`
+    );
+    expect(options.body).toContain("token=token");
 
-        expect(response.destinations.spatialReference.latestWkid).toEqual(4326);
-        expect(response.destinations.features.length).toEqual(
-          destinations.length
-        );
+    expect(response.origins.spatialReference.latestWkid).toEqual(4326);
+    expect(response.origins.features.length).toEqual(origins.length);
 
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    expect(response.destinations.spatialReference.latestWkid).toEqual(4326);
+    expect(response.destinations.features.length).toEqual(destinations.length);
   });
 
-  it("should pass default values", (done) => {
+  test("should pass default values", async () => {
     fetchMock.once("*", OriginDestinationMatrix);
 
     const MOCK_AUTH = {
@@ -230,31 +221,26 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins,
       destinations,
       params: {
         outSR: 102100
       },
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain("outputType=esriNAODOutputSparseMatrix");
-        expect(options.body).toContain("returnOrigins=true");
-        expect(options.body).toContain("returnDestinations=true");
-        expect(options.body).toContain("returnBarriers=true");
-        expect(options.body).toContain("returnPolylineBarriers=true");
-        expect(options.body).toContain("returnPolygonBarriers=true");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain("outputType=esriNAODOutputSparseMatrix");
+    expect(options.body).toContain("returnOrigins=true");
+    expect(options.body).toContain("returnDestinations=true");
+    expect(options.body).toContain("returnBarriers=true");
+    expect(options.body).toContain("returnPolylineBarriers=true");
+    expect(options.body).toContain("returnPolygonBarriers=true");
   });
 
-  it("should allow default values to be overridden", (done) => {
+  test("should allow default values to be overridden", async () => {
     fetchMock.once("*", OriginDestinationMatrix);
 
     const MOCK_AUTH = {
@@ -264,7 +250,7 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins,
       destinations,
       outputType: "esriNAODOutputStraightLines",
@@ -274,26 +260,19 @@ describe("originDestinationMatrix", () => {
       returnPolylineBarriers: false,
       returnPolygonBarriers: false,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          "outputType=esriNAODOutputStraightLines"
-        );
-        expect(options.body).toContain("returnOrigins=false");
-        expect(options.body).toContain("returnDestinations=false");
-        expect(options.body).toContain("returnBarriers=false");
-        expect(options.body).toContain("returnPolylineBarriers=false");
-        expect(options.body).toContain("returnPolygonBarriers=false");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain("outputType=esriNAODOutputStraightLines");
+    expect(options.body).toContain("returnOrigins=false");
+    expect(options.body).toContain("returnDestinations=false");
+    expect(options.body).toContain("returnBarriers=false");
+    expect(options.body).toContain("returnPolylineBarriers=false");
+    expect(options.body).toContain("returnPolygonBarriers=false");
   });
 
-  it("should make a originDestinationMatrix request with a custom endpoint", (done) => {
+  test("should make a originDestinationMatrix request with a custom endpoint", async () => {
     fetchMock.once("*", OriginDestinationMatrix);
 
     const MOCK_AUTH = {
@@ -303,7 +282,7 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins,
       destinations,
       params: {
@@ -311,19 +290,14 @@ describe("originDestinationMatrix", () => {
       },
       authentication: MOCK_AUTH,
       endpoint: "https://esri.com/test"
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual("https://esri.com/test/solveODCostMatrix");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual("https://esri.com/test/solveODCostMatrix");
   });
 
-  it("should make a simple originDestinationMatrix request (array of objects - lat/lon)", (done) => {
+  test("should make a simple originDestinationMatrix request (array of objects - lat/lon)", async () => {
     fetchMock.once("*", OriginDestinationMatrix);
 
     const MOCK_AUTH = {
@@ -333,30 +307,25 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins: originsLatLong,
       destinations: destinationsLatLong,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `origins=${encodeURIComponent("-118.257363,34.076763")}`
-        );
-        expect(options.body).toContain(
-          `destinations=${encodeURIComponent(
-            "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
-          )}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `origins=${encodeURIComponent("-118.257363,34.076763")}`
+    );
+    expect(options.body).toContain(
+      `destinations=${encodeURIComponent(
+        "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
+      )}`
+    );
   });
 
-  it("should make a simple originDestinationMatrix request (array of objects - latitude/longitude)", (done) => {
+  test("should make a simple originDestinationMatrix request (array of objects - latitude/longitude)", async () => {
     fetchMock.once("*", OriginDestinationMatrix);
 
     const MOCK_AUTH = {
@@ -366,30 +335,25 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins: originsLatitudeLongitude,
       destinations: destinationsLatitudeLongitude,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `origins=${encodeURIComponent("-118.257363,34.076763")}`
-        );
-        expect(options.body).toContain(
-          `destinations=${encodeURIComponent(
-            "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
-          )}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `origins=${encodeURIComponent("-118.257363,34.076763")}`
+    );
+    expect(options.body).toContain(
+      `destinations=${encodeURIComponent(
+        "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
+      )}`
+    );
   });
 
-  it("should make a simple originDestinationMatrix request (array of IPoint)", (done) => {
+  test("should make a simple originDestinationMatrix request (array of IPoint)", async () => {
     fetchMock.once("*", OriginDestinationMatrix);
 
     const MOCK_AUTH = {
@@ -399,30 +363,25 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins: originsPoint,
       destinations: destinationsPoint,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `origins=${encodeURIComponent("-118.257363,34.076763")}`
-        );
-        expect(options.body).toContain(
-          `destinations=${encodeURIComponent(
-            "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
-          )}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `origins=${encodeURIComponent("-118.257363,34.076763")}`
+    );
+    expect(options.body).toContain(
+      `destinations=${encodeURIComponent(
+        "-118.3417932,34.00451385;-118.08788,34.01752;-118.20327,34.19382"
+      )}`
+    );
   });
 
-  it("should make a simple originDestinationMatrix request (FeatureSet)", (done) => {
+  test("should make a simple originDestinationMatrix request (FeatureSet)", async () => {
     fetchMock.once("*", OriginDestinationMatrix);
 
     const MOCK_AUTH = {
@@ -432,30 +391,25 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins: originsFeatureSet,
       destinations: destinationsFeatureSet,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `origins=${encodeURIComponent(JSON.stringify(originsFeatureSet))}`
-        );
-        expect(options.body).toContain(
-          `destinations=${encodeURIComponent(
-            JSON.stringify(destinationsFeatureSet)
-          )}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `origins=${encodeURIComponent(JSON.stringify(originsFeatureSet))}`
+    );
+    expect(options.body).toContain(
+      `destinations=${encodeURIComponent(
+        JSON.stringify(destinationsFeatureSet)
+      )}`
+    );
   });
 
-  it("should include proper outputType (esriNAODOutputSparseMatrix)", (done) => {
+  test("should include proper outputType (esriNAODOutputSparseMatrix)", async () => {
     fetchMock.once("*", OriginDestinationMatrix);
 
     const MOCK_AUTH = {
@@ -465,25 +419,20 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins,
       destinations,
       outputType: "esriNAODOutputSparseMatrix",
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(`outputType=esriNAODOutputSparseMatrix`);
-        expect(Object.keys(response)).toContain("odCostMatrix");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(`outputType=esriNAODOutputSparseMatrix`);
+    expect(Object.keys(response)).toContain("odCostMatrix");
   });
 
-  it("should include proper outputType (esriNAODOutputStraightLines)", (done) => {
+  test("should include proper outputType (esriNAODOutputStraightLines)", async () => {
     fetchMock.once("*", OriginDestinationMatrix_esriNAODOutputStraightLines);
 
     const MOCK_AUTH = {
@@ -493,27 +442,20 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins,
       destinations,
       outputType: "esriNAODOutputStraightLines",
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `outputType=esriNAODOutputStraightLines`
-        );
-        expect(Object.keys(response)).toContain("odLines");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(`outputType=esriNAODOutputStraightLines`);
+    expect(Object.keys(response)).toContain("odLines");
   });
 
-  it("should include proper outputType (esriNAODOutputNoLines)", (done) => {
+  test("should include proper outputType (esriNAODOutputNoLines)", async () => {
     fetchMock.once("*", OriginDestinationMatrix_esriNAODOutputNoLines);
 
     const MOCK_AUTH = {
@@ -523,25 +465,20 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins,
       destinations,
       outputType: "esriNAODOutputNoLines",
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(`outputType=esriNAODOutputNoLines`);
-        expect(Object.keys(response)).toContain("odLines");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(`outputType=esriNAODOutputNoLines`);
+    expect(Object.keys(response)).toContain("odLines");
   });
 
-  it("should pass point barriers (array of IPoint)", (done) => {
+  test("should pass point barriers (array of IPoint)", async () => {
     fetchMock.once("*", OriginDestinationMatrix);
 
     const MOCK_AUTH = {
@@ -551,26 +488,21 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins,
       destinations,
       barriers,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `barriers=${encodeURIComponent("-117.1957,34.0564;-117.184,34.0546")}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `barriers=${encodeURIComponent("-117.1957,34.0564;-117.184,34.0546")}`
+    );
   });
 
-  it("should pass point barriers (FeatureSet)", (done) => {
+  test("should pass point barriers (FeatureSet)", async () => {
     fetchMock.once("*", OriginDestinationMatrix);
 
     const MOCK_AUTH = {
@@ -580,26 +512,21 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins,
       destinations,
       barriers: barriersFeatureSet,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `barriers=${encodeURIComponent(JSON.stringify(barriersFeatureSet))}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `barriers=${encodeURIComponent(JSON.stringify(barriersFeatureSet))}`
+    );
   });
 
-  it("should pass polyline barriers", (done) => {
+  test("should pass polyline barriers", async () => {
     fetchMock.once("*", OriginDestinationMatrix);
 
     const MOCK_AUTH = {
@@ -609,28 +536,21 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins,
       destinations,
       polylineBarriers,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `polylineBarriers=${encodeURIComponent(
-            JSON.stringify(polylineBarriers)
-          )}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `polylineBarriers=${encodeURIComponent(JSON.stringify(polylineBarriers))}`
+    );
   });
 
-  it("should pass polygon barriers", (done) => {
+  test("should pass polygon barriers", async () => {
     fetchMock.once("*", OriginDestinationMatrix);
 
     const MOCK_AUTH = {
@@ -640,28 +560,21 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins,
       destinations,
       polygonBarriers,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(options.body).toContain(
-          `polygonBarriers=${encodeURIComponent(
-            JSON.stringify(polygonBarriers)
-          )}`
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.body).toContain(
+      `polygonBarriers=${encodeURIComponent(JSON.stringify(polygonBarriers))}`
+    );
   });
 
-  it("should include geoJson for any geometries in the return", (done) => {
+  test("should include geoJson for any geometries in the return", async () => {
     fetchMock.once("*", OriginDestinationMatrix_AllBarrierTypes);
 
     const MOCK_AUTH = {
@@ -671,83 +584,63 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins,
       destinations,
       barriers,
       polylineBarriers,
       polygonBarriers,
       authentication: MOCK_AUTH
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
+    });
 
-        // origins
-        expect(Object.keys(response.origins)).toContain("geoJson");
-        expect(Object.keys(response.origins.geoJson)).toContain("type");
-        expect(response.origins.geoJson.type).toEqual("FeatureCollection");
-        expect(Object.keys(response.origins.geoJson)).toContain("features");
-        expect(response.origins.geoJson.features.length).toEqual(
-          origins.length
-        );
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
 
-        // destinations
-        expect(Object.keys(response.destinations)).toContain("geoJson");
-        expect(Object.keys(response.destinations.geoJson)).toContain("type");
-        expect(response.destinations.geoJson.type).toEqual("FeatureCollection");
-        expect(Object.keys(response.destinations.geoJson)).toContain(
-          "features"
-        );
-        expect(response.destinations.geoJson.features.length).toEqual(
-          destinations.length
-        );
+    // origins
+    expect(Object.keys(response.origins)).toContain("geoJson");
+    expect(Object.keys(response.origins.geoJson)).toContain("type");
+    expect(response.origins.geoJson.type).toEqual("FeatureCollection");
+    expect(Object.keys(response.origins.geoJson)).toContain("features");
+    expect(response.origins.geoJson.features.length).toEqual(origins.length);
 
-        // barriers
-        expect(Object.keys(response.barriers)).toContain("geoJson");
-        expect(Object.keys(response.barriers.geoJson)).toContain("type");
-        expect(response.barriers.geoJson.type).toEqual("FeatureCollection");
-        expect(Object.keys(response.barriers.geoJson)).toContain("features");
-        expect(response.barriers.geoJson.features.length).toEqual(
-          barriers.length
-        );
+    // destinations
+    expect(Object.keys(response.destinations)).toContain("geoJson");
+    expect(Object.keys(response.destinations.geoJson)).toContain("type");
+    expect(response.destinations.geoJson.type).toEqual("FeatureCollection");
+    expect(Object.keys(response.destinations.geoJson)).toContain("features");
+    expect(response.destinations.geoJson.features.length).toEqual(
+      destinations.length
+    );
 
-        // polylineBarriers
-        expect(Object.keys(response.polylineBarriers)).toContain("geoJson");
-        expect(Object.keys(response.polylineBarriers.geoJson)).toContain(
-          "type"
-        );
-        expect(response.polylineBarriers.geoJson.type).toEqual(
-          "FeatureCollection"
-        );
-        expect(Object.keys(response.polylineBarriers.geoJson)).toContain(
-          "features"
-        );
-        expect(response.polylineBarriers.geoJson.features.length).toEqual(
-          polylineBarriers.features.length
-        );
+    // barriers
+    expect(Object.keys(response.barriers)).toContain("geoJson");
+    expect(Object.keys(response.barriers.geoJson)).toContain("type");
+    expect(response.barriers.geoJson.type).toEqual("FeatureCollection");
+    expect(Object.keys(response.barriers.geoJson)).toContain("features");
+    expect(response.barriers.geoJson.features.length).toEqual(barriers.length);
 
-        // polygonBarriers
-        expect(Object.keys(response.polygonBarriers)).toContain("geoJson");
-        expect(Object.keys(response.polygonBarriers.geoJson)).toContain("type");
-        expect(response.polygonBarriers.geoJson.type).toEqual(
-          "FeatureCollection"
-        );
-        expect(Object.keys(response.polygonBarriers.geoJson)).toContain(
-          "features"
-        );
-        expect(response.polygonBarriers.geoJson.features.length).toEqual(
-          polygonBarriers.features.length
-        );
+    // polylineBarriers
+    expect(Object.keys(response.polylineBarriers)).toContain("geoJson");
+    expect(Object.keys(response.polylineBarriers.geoJson)).toContain("type");
+    expect(response.polylineBarriers.geoJson.type).toEqual("FeatureCollection");
+    expect(Object.keys(response.polylineBarriers.geoJson)).toContain(
+      "features"
+    );
+    expect(response.polylineBarriers.geoJson.features.length).toEqual(
+      polylineBarriers.features.length
+    );
 
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    // polygonBarriers
+    expect(Object.keys(response.polygonBarriers)).toContain("geoJson");
+    expect(Object.keys(response.polygonBarriers.geoJson)).toContain("type");
+    expect(response.polygonBarriers.geoJson.type).toEqual("FeatureCollection");
+    expect(Object.keys(response.polygonBarriers.geoJson)).toContain("features");
+    expect(response.polygonBarriers.geoJson.features.length).toEqual(
+      polygonBarriers.features.length
+    );
   });
 
-  it("should not include routes.geoJson in the return for non-4326", (done) => {
+  test("should not include routes.geoJson in the return for non-4326", async () => {
     fetchMock.once("*", OriginDestinationMatrix_AllBarrierTypes_WebMercator);
 
     const MOCK_AUTH = {
@@ -757,7 +650,7 @@ describe("originDestinationMatrix", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    originDestinationMatrix({
+    const response = await originDestinationMatrix({
       origins,
       destinations,
       barriers,
@@ -767,30 +660,24 @@ describe("originDestinationMatrix", () => {
       params: {
         outSR: 102100
       }
-    })
-      .then((response) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
+    });
 
-        // origins
-        expect(Object.keys(response.origins)).not.toContain("geoJson");
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
 
-        // destinations
-        expect(Object.keys(response.destinations)).not.toContain("geoJson");
+    // origins
+    expect(Object.keys(response.origins)).not.toContain("geoJson");
 
-        // barriers
-        expect(Object.keys(response.barriers)).not.toContain("geoJson");
+    // destinations
+    expect(Object.keys(response.destinations)).not.toContain("geoJson");
 
-        // polylineBarriers
-        expect(Object.keys(response.polylineBarriers)).not.toContain("geoJson");
+    // barriers
+    expect(Object.keys(response.barriers)).not.toContain("geoJson");
 
-        // polygonBarriers
-        expect(Object.keys(response.polygonBarriers)).not.toContain("geoJson");
+    // polylineBarriers
+    expect(Object.keys(response.polylineBarriers)).not.toContain("geoJson");
 
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    // polygonBarriers
+    expect(Object.keys(response.polygonBarriers)).not.toContain("geoJson");
   });
 });
