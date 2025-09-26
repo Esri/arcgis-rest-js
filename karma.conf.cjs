@@ -17,7 +17,6 @@ module.exports = function (config) {
       "packages/arcgis-rest-feature-service/{src,test}/**/!(*.test.live).ts",
       "packages/arcgis-rest-portal/{src,test}/**/!(*.test.live).ts",
       "packages/arcgis-rest-request/{src,test}/**/!(*.test.live).ts",
-      "packages/arcgis-rest-routing/{src,test}/**/!(*.test.live).ts",
       "scripts/test-helpers.ts"
     ],
 
