@@ -1,6 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, expect, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
 import { createFeatureService } from "../src/createFeatureService.js";
 import { FeatureServiceResponse } from "./mocks/service.js";
@@ -60,220 +61,151 @@ describe("create feature service", () => {
       }
     };
 
-    it("should create a feature service defaulting to the root folder", (done) => {
+    test("should create a feature service defaulting to the root folder", async () => {
       fetchMock.mock("end:createService", FeatureServiceResponse, {});
 
-      createFeatureService({
+      const response = await createFeatureService({
         item: serviceDescription,
         ...MOCK_USER_REQOPTS
-      })
-        .then(
-          (response) => {
-            expect(fetchMock.called("end:createService")).toEqual(true);
+      });
 
-            // Check create service call
-            const [urlCreate, optionsCreate] =
-              fetchMock.lastCall("end:createService");
-            expect(urlCreate).toEqual(
-              "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createService"
-            );
-            expect(optionsCreate.method).toBe("POST");
-            expect(optionsCreate.body).toContain("f=json");
-            expect(optionsCreate.body).toContain(
-              encodeParam(
-                "createParameters",
-                JSON.stringify(serviceDescription)
-              )
-            );
-            expect(optionsCreate.body).toContain("outputType=featureService");
-            expect(optionsCreate.body).toContain(
-              encodeParam("token", "fake-token")
-            );
+      expect(fetchMock.called("end:createService")).toBe(true);
 
-            // Check response
-            expect(response).toEqual(FeatureServiceResponse);
+      // Check create service call
+      const [urlCreate, optionsCreate] =
+        fetchMock.lastCall("end:createService");
+      expect(urlCreate).toBe(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createService"
+      );
+      expect(optionsCreate.method).toBe("POST");
+      expect(optionsCreate.body).toContain("f=json");
+      expect(optionsCreate.body).toContain(
+        encodeParam("createParameters", JSON.stringify(serviceDescription))
+      );
+      expect(optionsCreate.body).toContain("outputType=featureService");
+      expect(optionsCreate.body).toContain(encodeParam("token", "fake-token"));
 
-            done();
-          },
-          () => {
-            fail(); // call is supposed to succeed
-          }
-        )
-        .catch((e) => {
-          fail(e);
-        });
+      // Check response
+      expect(response).toEqual(FeatureServiceResponse);
     });
 
-    it("should create a feature service specified for the root folder 1", (done) => {
+    test("should create a feature service specified for the root folder 1", async () => {
       fetchMock.mock("end:createService", FeatureServiceResponse, {});
       const folderId = "";
 
-      createFeatureService({
+      const response = await createFeatureService({
         item: serviceDescription,
         folderId,
         ...MOCK_USER_REQOPTS
-      })
-        .then(
-          (response) => {
-            expect(fetchMock.called("end:createService")).toEqual(true);
+      });
 
-            // Check create service call
-            const [urlCreate, optionsCreate] =
-              fetchMock.lastCall("end:createService");
-            expect(urlCreate).toEqual(
-              "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createService"
-            );
-            expect(optionsCreate.method).toBe("POST");
-            expect(optionsCreate.body).toContain("f=json");
-            expect(optionsCreate.body).toContain(
-              encodeParam(
-                "createParameters",
-                JSON.stringify(serviceDescription)
-              )
-            );
-            expect(optionsCreate.body).toContain("outputType=featureService");
-            expect(optionsCreate.body).toContain(
-              encodeParam("token", "fake-token")
-            );
+      expect(fetchMock.called("end:createService")).toBe(true);
 
-            // Check response
-            expect(response).toEqual(FeatureServiceResponse);
+      // Check create service call
+      const [urlCreate, optionsCreate] =
+        fetchMock.lastCall("end:createService");
+      expect(urlCreate).toBe(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createService"
+      );
+      expect(optionsCreate.method).toBe("POST");
+      expect(optionsCreate.body).toContain("f=json");
+      expect(optionsCreate.body).toContain(
+        encodeParam("createParameters", JSON.stringify(serviceDescription))
+      );
+      expect(optionsCreate.body).toContain("outputType=featureService");
+      expect(optionsCreate.body).toContain(encodeParam("token", "fake-token"));
 
-            done();
-          },
-          () => {
-            fail(); // call is supposed to succeed
-          }
-        )
-        .catch((e) => {
-          fail(e);
-        });
+      // Check response
+      expect(response).toEqual(FeatureServiceResponse);
     });
 
-    it("should create a feature service specified for the root folder 2", (done) => {
+    test("should create a feature service specified for the root folder 2", async () => {
       fetchMock.mock("end:createService", FeatureServiceResponse, {});
       const folderId = "/";
 
-      createFeatureService({
+      const response = await createFeatureService({
         item: serviceDescription,
         folderId,
         ...MOCK_USER_REQOPTS
-      })
-        .then(
-          (response) => {
-            expect(fetchMock.called("end:createService")).toEqual(true);
+      });
 
-            // Check create service call
-            const [urlCreate, optionsCreate] =
-              fetchMock.lastCall("end:createService");
-            expect(urlCreate).toEqual(
-              "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createService"
-            );
-            expect(optionsCreate.method).toBe("POST");
-            expect(optionsCreate.body).toContain("f=json");
-            expect(optionsCreate.body).toContain(
-              encodeParam(
-                "createParameters",
-                JSON.stringify(serviceDescription)
-              )
-            );
-            expect(optionsCreate.body).toContain("outputType=featureService");
-            expect(optionsCreate.body).toContain(
-              encodeParam("token", "fake-token")
-            );
+      expect(fetchMock.called("end:createService")).toBe(true);
 
-            // Check response
-            expect(response).toEqual(FeatureServiceResponse);
+      // Check create service call
+      const [urlCreate, optionsCreate] =
+        fetchMock.lastCall("end:createService");
+      expect(urlCreate).toBe(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createService"
+      );
+      expect(optionsCreate.method).toBe("POST");
+      expect(optionsCreate.body).toContain("f=json");
+      expect(optionsCreate.body).toContain(
+        encodeParam("createParameters", JSON.stringify(serviceDescription))
+      );
+      expect(optionsCreate.body).toContain("outputType=featureService");
+      expect(optionsCreate.body).toContain(encodeParam("token", "fake-token"));
 
-            done();
-          },
-          () => {
-            fail(); // call is supposed to succeed
-          }
-        )
-        .catch((e) => {
-          fail(e);
-        });
+      // Check response
+      expect(response).toEqual(FeatureServiceResponse);
     });
 
-    it("should create a feature service in a particular folder", (done) => {
+    test("should create a feature service in a particular folder", async () => {
       fetchMock.mock("end:createService", FeatureServiceResponse, {});
       const folderId = "83216cba44bf4357bf06687ec88a847b";
 
-      createFeatureService({
+      const response = await createFeatureService({
         item: serviceDescription,
         folderId,
         ...MOCK_USER_REQOPTS
-      })
-        .then(
-          (response) => {
-            expect(fetchMock.called("end:createService")).toEqual(true);
+      });
 
-            // Check create service call
-            const [urlCreate, optionsCreate] =
-              fetchMock.lastCall("end:createService");
-            expect(urlCreate).toEqual(
-              "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/83216cba44bf4357bf06687ec88a847b/createService"
-            );
-            expect(optionsCreate.method).toBe("POST");
-            expect(optionsCreate.body).toContain("f=json");
-            expect(optionsCreate.body).toContain(
-              encodeParam(
-                "createParameters",
-                JSON.stringify(serviceDescription)
-              )
-            );
-            expect(optionsCreate.body).toContain("outputType=featureService");
-            expect(optionsCreate.body).toContain(
-              encodeParam("token", "fake-token")
-            );
+      expect(fetchMock.called("end:createService")).toBe(true);
 
-            // Check response
-            expect(response).toEqual(FeatureServiceResponse);
+      // Check create service call
+      const [urlCreate, optionsCreate] =
+        fetchMock.lastCall("end:createService");
+      expect(urlCreate).toBe(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/83216cba44bf4357bf06687ec88a847b/createService"
+      );
+      expect(optionsCreate.method).toBe("POST");
+      expect(optionsCreate.body).toContain("f=json");
+      expect(optionsCreate.body).toContain(
+        encodeParam("createParameters", JSON.stringify(serviceDescription))
+      );
+      expect(optionsCreate.body).toContain("outputType=featureService");
+      expect(optionsCreate.body).toContain(encodeParam("token", "fake-token"));
 
-            done();
-          },
-          () => {
-            fail(); // call is supposed to succeed
-          }
-        )
-        .catch((e) => {
-          fail(e);
-        });
+      // Check response
+      expect(response).toEqual(FeatureServiceResponse);
     });
 
-    it("should fail to create a feature service destined for a particular folder with success=false", (done) => {
+    test("should fail to create a feature service destined for a particular folder with success=false", async () => {
       fetchMock.mock("end:createService", { success: false });
 
       const folderId = "83216cba44bf4357bf06687ec88a847b";
 
-      createFeatureService({
+      const response = await createFeatureService({
         item: serviceDescription,
         folderId,
         ...MOCK_USER_REQOPTS
-      })
-        .then((e) => {
-          expect(fetchMock.called("end:createService")).toEqual(true);
+      });
 
-          // Check create service call
-          const [urlCreate, optionsCreate] =
-            fetchMock.lastCall("end:createService");
-          expect(urlCreate).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/83216cba44bf4357bf06687ec88a847b/createService"
-          );
-          expect(optionsCreate.method).toBe("POST");
-          expect(optionsCreate.body).toContain("f=json");
-          expect(optionsCreate.body).toContain(
-            encodeParam("createParameters", JSON.stringify(serviceDescription))
-          );
-          expect(optionsCreate.body).toContain("outputType=featureService");
-          expect(optionsCreate.body).toContain(
-            encodeParam("token", "fake-token")
-          );
-          expect(e.success).toBeFalsy();
-          done();
-        })
-        .catch(() => fail());
+      expect(fetchMock.called("end:createService")).toBe(true);
+
+      // Check create service call
+      const [urlCreate, optionsCreate] =
+        fetchMock.lastCall("end:createService");
+      expect(urlCreate).toBe(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/83216cba44bf4357bf06687ec88a847b/createService"
+      );
+      expect(optionsCreate.method).toBe("POST");
+      expect(optionsCreate.body).toContain("f=json");
+      expect(optionsCreate.body).toContain(
+        encodeParam("createParameters", JSON.stringify(serviceDescription))
+      );
+      expect(optionsCreate.body).toContain("outputType=featureService");
+      expect(optionsCreate.body).toContain(encodeParam("token", "fake-token"));
+      expect(response.success).toBeFalsy();
     });
   });
 });
