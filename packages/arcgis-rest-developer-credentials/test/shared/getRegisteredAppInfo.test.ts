@@ -1,11 +1,12 @@
+import { describe, test, expect, beforeAll, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
 import { getRegisteredAppInfo } from "../../src/shared/getRegisteredAppInfo.js";
+import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
 import {
   IGetAppInfoOptions,
   IRegisteredAppResponse
 } from "../../src/shared/types/appType.js";
-import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
-import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 function setFetchMockPOSTFormUrlencoded(
   url: string,
@@ -65,7 +66,7 @@ describe("registerApp()", () => {
   let authEnterprise: ArcGISIdentityManager;
   let authInvalidToken: ArcGISIdentityManager;
 
-  beforeAll(function () {
+  beforeAll(() => {
     authOnline = new ArcGISIdentityManager({
       username: "fake-username",
       password: "fake-password",
@@ -91,7 +92,7 @@ describe("registerApp()", () => {
   afterEach(() => fetchMock.restore());
 
   // normal workflow
-  it("should get app without IRequestOptions", async function () {
+  test("should get app without IRequestOptions", async () => {
     // setup FM response
     setFetchMockPOSTFormUrlencoded(
       "https://machine.domain.com/webadaptor/sharing/rest/content/users/fake-username/items/fake-itemID/registeredAppInfo",
@@ -133,7 +134,7 @@ describe("registerApp()", () => {
     });
   });
 
-  it("should get app with IRequestOptions", async function () {
+  test("should get app with IRequestOptions", async () => {
     // setup FM response
     const { apiKey, ...mockResponseWithoutApiKey } = mockNormalResponse;
     setFetchMockPOSTFormUrlencoded(
@@ -184,7 +185,7 @@ describe("registerApp()", () => {
   });
 
   // error
-  it("should throw error if itemId is not found", async function () {
+  test("should throw error if itemId is not found", async () => {
     // setup FM response
     setFetchMockPOSTFormUrlencoded(
       "https://www.arcgis.com/sharing/rest/content/users/fake-username/items/unknown-itemID/registeredAppInfo",
@@ -201,21 +202,16 @@ describe("registerApp()", () => {
       1
     );
 
-    try {
-      await getRegisteredAppInfo({
+    await expect(
+      getRegisteredAppInfo({
         itemId: "unknown-itemID",
         authentication: authOnline
-      });
-      fail("Should have rejected.");
-    } catch (e: any) {
-      expect(fetchMock.called("getAppRoute")).toBe(true);
-      expect(e.message).toBe(
-        "CONT_0001: Item does not exist or is inaccessible."
-      );
-    }
+      })
+    ).rejects.toThrow("CONT_0001: Item does not exist or is inaccessible.");
+    expect(fetchMock.called("getAppRoute")).toBe(true);
   });
 
-  it("should auto generateToken if getAppInfo replied with invalid token error", async function () {
+  test("should auto generateToken if getAppInfo replied with invalid token error", async () => {
     // setup FM response
     fetchMock
       .mock(
@@ -257,24 +253,19 @@ describe("registerApp()", () => {
         }
       );
 
-    try {
-      await getRegisteredAppInfo({
+    await expect(
+      getRegisteredAppInfo({
         itemId: "fake-itemId",
         authentication: authInvalidToken
-      });
-      fail("Should have rejected.");
-    } catch (e: any) {
-      // generateToken() is called
-      expect(fetchMock.called("getAppRoute")).toBe(true);
-      expect(fetchMock.called("generateToken")).toBe(true);
-      expect(e.message).toBe(
-        "TOKEN_REFRESH_FAILED: 400: Unable to generate token."
-      );
-    }
+      })
+    ).rejects.toThrow("TOKEN_REFRESH_FAILED: 400: Unable to generate token.");
+    // generateToken() is called
+    expect(fetchMock.called("getAppRoute")).toBe(true);
+    expect(fetchMock.called("generateToken")).toBe(true);
   });
 
   // server status code: 400/500
-  it("should throw error if server status code >= 400", async function () {
+  test("should throw error if server status code >= 400", async () => {
     // setup FM response
     fetchMock.mock(
       {
@@ -290,15 +281,12 @@ describe("registerApp()", () => {
       }
     );
 
-    try {
-      await getRegisteredAppInfo({
+    await expect(
+      getRegisteredAppInfo({
         itemId: "unknown-itemID",
         authentication: authOnline
-      });
-      fail("Should have rejected.");
-    } catch (e: any) {
-      expect(fetchMock.called("getAppInfoRoute")).toBe(true);
-      expect(e.message).toBe("HTTP 500: Internal Server Error");
-    }
+      })
+    ).rejects.toThrow("HTTP 500: Internal Server Error");
+    expect(fetchMock.called("getAppInfoRoute")).toBe(true);
   });
 });

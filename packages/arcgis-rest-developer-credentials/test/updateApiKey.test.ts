@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeAll, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
 import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
@@ -182,7 +183,7 @@ describe("updateApiKey()", () => {
   // setup IdentityManager
   let authOnline: ArcGISIdentityManager;
 
-  beforeAll(function () {
+  beforeAll(() => {
     authOnline = new ArcGISIdentityManager({
       username: "3807206777",
       password: "fake-password",
@@ -194,7 +195,7 @@ describe("updateApiKey()", () => {
 
   afterEach(() => fetchMock.restore());
 
-  it("should update an API key with expiration dates", async function () {
+  test("should update an API key with expiration dates", async () => {
     let callCount = 0;
     fetchMock.mock(
       {
@@ -307,7 +308,7 @@ describe("updateApiKey()", () => {
     expect(updateApiKeyResponse).toEqual(keyResponseExpectedNoParams);
   });
 
-  it("should update an API key without expiration dates", async function () {
+  test("should update an API key without expiration dates", async () => {
     let callCount = 0;
     fetchMock.mock(
       {
@@ -410,7 +411,7 @@ describe("updateApiKey()", () => {
     expect(updateApiKeyResponse).toEqual(keyResponseExpectedNoParams);
   });
 
-  it("should update an API key without privileges or referers", async function () {
+  test("should update an API key without privileges or referers", async () => {
     let callCount = 0;
     fetchMock.mock(
       {
