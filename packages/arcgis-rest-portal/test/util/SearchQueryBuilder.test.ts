@@ -1,52 +1,49 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, expect, beforeAll, afterAll, vi } from "vitest";
 import { SearchQueryBuilder } from "../../src/util/SearchQueryBuilder.js";
 
 describe("SearchQueryBuilder", () => {
-  const originalWarn = console.warn;
-
-  beforeAll(function () {
-    console.warn = jasmine.createSpy().and.callFake(() => {
-      return;
-    });
+  beforeAll(() => {
+    vi.spyOn(console, "warn").mockImplementation(() => {});
   });
 
-  afterAll(function () {
-    console.warn = originalWarn;
+  afterAll(() => {
+    vi.restoreAllMocks();
   });
 
-  it("should return an empty string when called with no other functions", () => {
+  test("should return an empty string when called with no other functions", () => {
     const query = new SearchQueryBuilder().toParam();
     expect(query).toEqual("");
   });
 
-  it("should format a simple search query", () => {
+  test("should format a simple search query", () => {
     const query = new SearchQueryBuilder().match("test").toParam();
     expect(query).toEqual("test");
   });
 
-  it("should format a simple search query in a field", () => {
+  test("should format a simple search query in a field", () => {
     const query = new SearchQueryBuilder().match("test").in("tags").toParam();
     expect(query).toEqual("tags:test");
   });
 
-  it("should warp multi word search terms in quotes", () => {
+  test("should warp multi word search terms in quotes", () => {
     const query = new SearchQueryBuilder().match("foo bar").toParam();
     expect(query).toEqual(`"foo bar"`);
   });
 
-  it("should accept .in() without a parameter", () => {
+  test("should accept .in() without a parameter", () => {
     const query = new SearchQueryBuilder().match("test").in().toParam();
     expect(query).toEqual(`test`);
   });
 
-  it("should accept `*` as a value for .in()", () => {
+  test("should accept `*` as a value for .in()", () => {
     const query = new SearchQueryBuilder().match("test").in("*").toParam();
     expect(query).toEqual(`test`);
   });
 
-  it("should chain calls with .and()", () => {
+  test("should chain calls with .and()", () => {
     const query = new SearchQueryBuilder()
       .match("bar")
       .and()
@@ -57,7 +54,7 @@ describe("SearchQueryBuilder", () => {
     expect(query).toEqual("bar AND tags:foo");
   });
 
-  it("should format a simple range", () => {
+  test("should format a simple range", () => {
     const query = new SearchQueryBuilder()
       .from("a")
       .to("z")
@@ -66,7 +63,7 @@ describe("SearchQueryBuilder", () => {
     expect(query).toEqual("title:[a TO z]");
   });
 
-  it("should format a simple group", () => {
+  test("should format a simple group", () => {
     const query = new SearchQueryBuilder()
       .startGroup()
       .from("a")
@@ -77,7 +74,7 @@ describe("SearchQueryBuilder", () => {
     expect(query).toEqual("(title:[a TO z])");
   });
 
-  it("should format a more complex group", () => {
+  test("should format a more complex group", () => {
     const query = new SearchQueryBuilder()
       .startGroup()
       .match("California")
@@ -90,12 +87,12 @@ describe("SearchQueryBuilder", () => {
     expect(query).toEqual("(California OR recent) AND fires");
   });
 
-  it("should boost the previous search", () => {
+  test("should boost the previous search", () => {
     const query = new SearchQueryBuilder().match("test").boost(5).toParam();
     expect(query).toEqual("test^5");
   });
 
-  it("should convert dates into timestamps", () => {
+  test("should convert dates into timestamps", () => {
     const date1 = new Date("January 1 2019");
     const date2 = new Date("January 7 2019");
     const expectedDate1 = date1.getTime();
@@ -115,7 +112,7 @@ describe("SearchQueryBuilder", () => {
     );
   });
 
-  it("should format a complex group properly", () => {
+  test("should format a complex group properly", () => {
     const query = new SearchQueryBuilder()
       .match("fred")
       .in("owner")
@@ -140,7 +137,7 @@ describe("SearchQueryBuilder", () => {
     );
   });
 
-  it("should allow .not to be called without a preceding search value", () => {
+  test("should allow .not to be called without a preceding search value", () => {
     const query = new SearchQueryBuilder()
       .not()
       .match("public")
@@ -153,7 +150,7 @@ describe("SearchQueryBuilder", () => {
     expect(query).toEqual(`NOT access:public NOT type:"code attachment"`);
   });
 
-  it("should clone searches for modification", () => {
+  test("should clone searches for modification", () => {
     const myAppsQuery = new SearchQueryBuilder()
       .match("fred")
       .in("owner")
@@ -180,35 +177,35 @@ describe("SearchQueryBuilder", () => {
     );
   });
 
-  it("should not allow trailing modifiers, and warn user", () => {
+  test("should not allow trailing modifiers, and warn user", () => {
     const query = new SearchQueryBuilder().match("test").not().toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("test");
   });
 
-  it("should not allow chains of logic modifiers, and warn user", () => {
+  test("should not allow chains of logic modifiers, and warn user", () => {
     const query = new SearchQueryBuilder().and().or().or().toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("");
   });
 
-  it("should not allow chains of logic modifiers after a .match, and warn user", () => {
+  test("should not allow chains of logic modifiers after a .match, and warn user", () => {
     const query = new SearchQueryBuilder().match("test").not().and().toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("test");
   });
 
-  it("should close groups on toParam(), and warn user", () => {
+  test("should close groups on toParam(), and warn user", () => {
     const query = new SearchQueryBuilder().startGroup().match("test").toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("(test)");
   });
 
-  it("should close groups automatically on clone(), and warn user", () => {
+  test("should close groups automatically on clone(), and warn user", () => {
     const query = new SearchQueryBuilder()
       .startGroup()
       .match("test")
@@ -219,7 +216,7 @@ describe("SearchQueryBuilder", () => {
     expect(query).toEqual("(test)");
   });
 
-  it("should close more then 1 group, and warn user", () => {
+  test("should close more then 1 group, and warn user", () => {
     const query = new SearchQueryBuilder()
       .startGroup()
       .match("foo")
@@ -231,42 +228,42 @@ describe("SearchQueryBuilder", () => {
     expect(query).toEqual("(foo (bar))");
   });
 
-  it("should not allow .in() without valid term or range and warn user", () => {
+  test("should not allow .in() without valid term or range and warn user", () => {
     const query = new SearchQueryBuilder().in("tags").in("title").toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("");
   });
 
-  it("should not allow .in() with only .from() and warn user", () => {
+  test("should not allow .in() with only .from() and warn user", () => {
     const query = new SearchQueryBuilder().from("a").in("title").toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("");
   });
 
-  it("should not allow .in() with only .to() and warn user", () => {
+  test("should not allow .in() with only .to() and warn user", () => {
     const query = new SearchQueryBuilder().to("a").in("title").toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("");
   });
 
-  it("should not allow .to() after a .match() and warn user", () => {
+  test("should not allow .to() after a .match() and warn user", () => {
     const query = new SearchQueryBuilder().match("test").to("a").toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("test");
   });
 
-  it("should not allow .to() after a .match() and warn user", () => {
+  test("should not allow .to() after a .match() and warn user", () => {
     const query = new SearchQueryBuilder().match("test").from("a").toParam();
 
     expect(console.warn).toHaveBeenCalled();
     expect(query).toEqual("test");
   });
 
-  it("should not allow .endGroup() without .startGroup()", () => {
+  test("should not allow .endGroup() without .startGroup()", () => {
     const query = new SearchQueryBuilder()
       .match("a")
       .in("title")
@@ -277,7 +274,7 @@ describe("SearchQueryBuilder", () => {
     expect(query).toEqual("title:a");
   });
 
-  it("should not allow .match().from().in(), and warn user", () => {
+  test("should not allow .match().from().in(), and warn user", () => {
     const query = new SearchQueryBuilder()
       .match("test")
       .from("a")
@@ -288,7 +285,7 @@ describe("SearchQueryBuilder", () => {
     expect(query).toEqual("title:test");
   });
 
-  it("should produce an empty string when no methods are called", () => {
+  test("should produce an empty string when no methods are called", () => {
     const query = new SearchQueryBuilder().toParam();
     expect(query).toEqual("");
   });

@@ -1,7 +1,8 @@
+import { describe, test, expect } from "vitest";
 import { scrubControlChars } from "../../src/util/scrub-control-chars.js";
 
-describe("scrubControlChars", function () {
-  it("removes control characters", function () {
+describe("scrubControlChars", () => {
+  test("should remove all control characters", () => {
     let hasAllControlChars = "foo";
     // C0
     for (let i = 0; i < 32; i++) {
@@ -17,9 +18,6 @@ describe("scrubControlChars", function () {
     // ISO 8859 special char
     hasAllControlChars += String.fromCharCode(160);
 
-    expect(scrubControlChars(hasAllControlChars)).toBe(
-      "foobarbaz",
-      "removes all control chars"
-    );
+    expect(scrubControlChars(hasAllControlChars)).toBe("foobarbaz");
   });
 });
