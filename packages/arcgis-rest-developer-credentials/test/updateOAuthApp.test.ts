@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeAll, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
 import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
@@ -234,7 +235,7 @@ describe("updateOAuthApp()", () => {
   // setup IdentityManager
   let authOnline: ArcGISIdentityManager;
 
-  beforeAll(function () {
+  beforeAll(() => {
     authOnline = new ArcGISIdentityManager({
       username: "3807206777",
       password: "fake-password",
@@ -245,7 +246,7 @@ describe("updateOAuthApp()", () => {
   });
   afterEach(() => fetchMock.restore());
 
-  it("should update OAuth app (no redirectUris)", async function () {
+  test("should update OAuth app (no redirectUris)", async () => {
     // setup FM response
     setFetchMockPOSTFormUrlencoded(
       "https://www.arcgis.com/sharing/rest/content/users/3807206777/items/263de277750c46fca342ef0449d325db/registeredAppInfo",
@@ -301,7 +302,7 @@ describe("updateOAuthApp()", () => {
     expect(updateOAuthAppResponse).toEqual(oAuthResponseExpectedFirstTestCase);
   });
 
-  it("should update OAuth app (with redirectUris)", async function () {
+  test("should update OAuth app (with redirectUris)", async () => {
     // setup FM response
     setFetchMockPOSTFormUrlencoded(
       "https://www.arcgis.com/sharing/rest/content/users/3807206777/items/df9c4128c84d45fa8a7da95837590fc5/registeredAppInfo",
@@ -361,7 +362,7 @@ describe("updateOAuthApp()", () => {
     expect(updateOAuthAppResponse).toEqual(oAuthResponseExpectedSecondTestCase);
   });
 
-  it("should throw err if itemId is found but appType is wrong", async function () {
+  test("should throw err if itemId is found but appType is wrong", async () => {
     // setup FM response
     setFetchMockPOSTFormUrlencoded(
       "https://www.arcgis.com/sharing/rest/content/users/3807206777/items/cddcacee5848488bb981e6c6ff91ab79/registeredAppInfo",
@@ -384,15 +385,12 @@ describe("updateOAuthApp()", () => {
       "getAppRoute",
       1
     );
-    try {
-      await updateOAuthApp({
+    await expect(
+      updateOAuthApp({
         itemId: "cddcacee5848488bb981e6c6ff91ab79",
         authentication: authOnline
-      });
-      fail("should have rejected.");
-    } catch (e: any) {
-      expect(fetchMock.called("getAppRoute")).toBe(true);
-      expect(e.message).toBe("Item is not an OAuth 2.0 app.");
-    }
+      })
+    ).rejects.toThrow("Item is not an OAuth 2.0 app.");
+    expect(fetchMock.called("getAppRoute")).toBe(true);
   });
 });

@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeAll, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
 import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
@@ -211,7 +212,7 @@ describe("createOAuthApp()", () => {
   // setup IdentityManager
   let authOnline: ArcGISIdentityManager;
 
-  beforeAll(function () {
+  beforeAll(() => {
     authOnline = new ArcGISIdentityManager({
       username: "3807206777",
       password: "fake-password",
@@ -222,7 +223,7 @@ describe("createOAuthApp()", () => {
   });
   afterEach(() => fetchMock.restore());
 
-  it("should create OAuth app (redirect_uri not provided)", async function () {
+  test("should create OAuth app (redirect_uri not provided)", async () => {
     // setup FM response
     setFetchMockPOSTFormUrlencoded(
       "https://www.arcgis.com/sharing/rest/content/users/3807206777/addItem",
@@ -300,7 +301,7 @@ describe("createOAuthApp()", () => {
     );
   });
 
-  it("should create OAuth app (redirect_uri provided, with IItemAdd-tags)", async function () {
+  test("should create OAuth app (redirect_uri provided, with IItemAdd-tags)", async () => {
     // setup FM response
     setFetchMockPOSTFormUrlencoded(
       "https://www.arcgis.com/sharing/rest/content/users/3807206777/addItem",

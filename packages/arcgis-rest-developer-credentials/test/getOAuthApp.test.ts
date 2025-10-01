@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeAll, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-portal";
@@ -117,7 +118,7 @@ describe("getOAuthApp()", () => {
   // setup IdentityManager
   let authOnline: ArcGISIdentityManager;
 
-  beforeAll(function () {
+  beforeAll(() => {
     authOnline = new ArcGISIdentityManager({
       username: "3807206777",
       password: "fake-password",
@@ -128,7 +129,7 @@ describe("getOAuthApp()", () => {
   });
   afterEach(() => fetchMock.restore());
 
-  it("should get OAuth app", async function () {
+  test("should get OAuth app", async () => {
     // setup FM response
     setFetchMockPOSTFormUrlencoded(
       "https://www.arcgis.com/sharing/rest/content/users/3807206777/items/1273346593154afca9a5f80ec9f25595/registeredAppInfo",

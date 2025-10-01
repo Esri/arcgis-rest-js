@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeAll, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
 import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
@@ -161,7 +162,7 @@ describe("createApiKey()", () => {
   // setup IdentityManager
   let authOnline: ArcGISIdentityManager;
 
-  beforeAll(function () {
+  beforeAll(() => {
     authOnline = new ArcGISIdentityManager({
       username: "745062756",
       password: "fake-password",
@@ -173,7 +174,7 @@ describe("createApiKey()", () => {
 
   afterEach(() => fetchMock.restore());
 
-  it("should create an API key and generate the access token", async function () {
+  test("should create an API key and generate the access token", async () => {
     // step 1 create item
     setFetchMockPOSTFormUrlencoded(
       "https://www.arcgis.com/sharing/rest/content/users/745062756/addItem",

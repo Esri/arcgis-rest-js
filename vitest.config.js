@@ -9,7 +9,8 @@ export default defineConfig({
       "packages/arcgis-rest-demographics/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-geocoding/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-routing/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-      "packages/arcgis-rest-feature-service/**/*.{test,spec}.?(c|m)[jt]s?(x)"
+      "packages/arcgis-rest-feature-service/**/*.{test,spec}.?(c|m)[jt]s?(x)",
+      "packages/arcgis-rest-developer-credentials/**/*.{test,spec}.?(c|m)[jt]s?(x)"
     ],
     coverage: {
       enabled: true,
@@ -20,7 +21,8 @@ export default defineConfig({
         "packages/arcgis-rest-demographics/src/**/*.{ts,js}",
         "packages/arcgis-rest-geocoding/src/**/*.{ts,js}",
         "packages/arcgis-rest-routing/src/**/*.{ts,js}",
-        "packages/arcgis-rest-feature-service/src/**/*.{ts,js}"
+        "packages/arcgis-rest-feature-service/src/**/*.{ts,js}",
+        "packages/arcgis-rest-developer-credentials/src/**/*.{ts,js}"
       ],
       provider: "istanbul",
       reporter: ["json", "html", "cobertura"],
