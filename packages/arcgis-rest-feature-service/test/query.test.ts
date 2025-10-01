@@ -1,6 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, afterEach, test, expect } from "vitest";
 import fetchMock from "fetch-mock";
 import {
   getFeature,
@@ -10,7 +11,6 @@ import {
   IQueryFeaturesOptions,
   IQueryRelatedOptions
 } from "../src/index.js";
-
 import {
   featureResponse,
   queryResponse,
@@ -25,75 +25,60 @@ describe("getFeature() and queryFeatures()", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  it("should return a feature by id", (done) => {
+  test("should return a feature by id", async () => {
     const requestOptions = {
       url: serviceUrl,
       id: 42
     };
     fetchMock.once("*", featureResponse);
-    getFeature(requestOptions)
-      .then((response) => {
-        expect(fetchMock.called()).toBeTruthy();
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(`${requestOptions.url}/42?f=json`);
-        expect(options.method).toBe("GET");
-        expect(response.attributes.FID).toEqual(42);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+
+    const response = await getFeature(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toBe(`${requestOptions.url}/42?f=json`);
+    expect(options.method).toBe("GET");
+    expect(response.attributes.FID).toBe(42);
   });
 
-  it("return rawResponse when getting a feature", (done) => {
+  test("return rawResponse when getting a feature", async () => {
     const requestOptions = {
       url: serviceUrl,
       id: 42,
       rawResponse: true
     };
     fetchMock.once("*", featureResponse);
-    getFeature(requestOptions)
-      .then((response: any) => {
-        expect(fetchMock.called()).toBeTruthy();
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(`${requestOptions.url}/42?f=json`);
-        expect(options.method).toBe("GET");
-        expect(response.status).toBe(200);
-        expect(response.ok).toBe(true);
-        expect(response.body.Readable).not.toBe(null);
-        response.json().then((raw: any) => {
-          expect(raw).toEqual(featureResponse);
-          done();
-        });
-        // this used to work with isomorphic-fetch
-        // expect(response instanceof Response).toBe(true);
-      })
-      .catch((e) => {
-        fail(e);
-      });
+
+    const response: any = await getFeature(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toBe(`${requestOptions.url}/42?f=json`);
+    expect(options.method).toBe("GET");
+    expect(response.status).toBe(200);
+    expect(response.ok).toBe(true);
+    expect(response.body.Readable).not.toBe(null);
+
+    const raw = await response.json();
+    expect(raw).toEqual(featureResponse);
   });
 
-  it("should supply default query parameters", (done) => {
+  test("should supply default query parameters", async () => {
     const requestOptions: IQueryFeaturesOptions = {
       url: serviceUrl
     };
     fetchMock.once("*", queryResponse);
-    queryFeatures(requestOptions)
-      .then(() => {
-        expect(fetchMock.called()).toBeTruthy();
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          `${requestOptions.url}/query?f=json&where=1%3D1&outFields=*`
-        );
-        expect(options.method).toBe("GET");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const response = await queryFeatures(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      `${requestOptions.url}/query?f=json&where=1%3D1&outFields=*`
+    );
+    expect(options.method).toBe("GET");
   });
 
-  it("should use passed in query parameters", (done) => {
+  test("should use passed in query parameters", async () => {
     const requestOptions: IQueryFeaturesOptions = {
       url: serviceUrl,
       where: "Condition='Poor'",
@@ -103,43 +88,33 @@ describe("getFeature() and queryFeatures()", () => {
       geometryType: "esriGeometryPolygon"
     };
     fetchMock.once("*", queryResponse);
-    queryFeatures(requestOptions)
-      .then(() => {
-        expect(fetchMock.called()).toBeTruthy();
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          `${requestOptions.url}/query?f=json&where=Condition%3D%27Poor%27&outFields=FID%2CTree_ID%2CCmn_Name%2CCondition&geometry=%7B%7D&geometryType=esriGeometryPolygon&orderByFields=test`
-        );
-        expect(options.method).toBe("GET");
-        // expect(response.attributes.FID).toEqual(42);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const response = await queryFeatures(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      `${requestOptions.url}/query?f=json&where=Condition%3D%27Poor%27&outFields=FID%2CTree_ID%2CCmn_Name%2CCondition&geometry=%7B%7D&geometryType=esriGeometryPolygon&orderByFields=test`
+    );
+    expect(options.method).toBe("GET");
+    // expect(response.attributes.FID).toEqual(42);
   });
 
-  it("should supply default query related parameters", (done) => {
+  test("should supply default query related parameters", async () => {
     const requestOptions: IQueryRelatedOptions = {
       url: serviceUrl
     };
     fetchMock.once("*", queryRelatedResponse);
-    queryRelated(requestOptions)
-      .then(() => {
-        expect(fetchMock.called()).toBeTruthy();
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          `${requestOptions.url}/queryRelatedRecords?f=json&definitionExpression=1%3D1&outFields=*&relationshipId=0`
-        );
-        expect(options.method).toBe("GET");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const response = await queryRelated(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      `${requestOptions.url}/queryRelatedRecords?f=json&definitionExpression=1%3D1&outFields=*&relationshipId=0`
+    );
+    expect(options.method).toBe("GET");
   });
 
-  it("should use passed in query related parameters", (done) => {
+  test("should use passed in query related parameters", async () => {
     const requestOptions: IQueryRelatedOptions = {
       url: serviceUrl,
       relationshipId: 1,
@@ -148,23 +123,16 @@ describe("getFeature() and queryFeatures()", () => {
       httpMethod: "POST"
     };
     fetchMock.once("*", queryRelatedResponse);
-    queryRelated(requestOptions)
-      .then(() => {
-        expect(fetchMock.called()).toBeTruthy();
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(`${requestOptions.url}/queryRelatedRecords`);
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain("relationshipId=1");
-        expect(options.body).toContain(
-          "definitionExpression=APPROXACRE%3C10000"
-        );
-        expect(options.body).toContain("outFields=APPROXACRE%2CFIELD_NAME");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const response = await queryRelated(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(`${requestOptions.url}/queryRelatedRecords`);
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain("relationshipId=1");
+    expect(options.body).toContain("definitionExpression=APPROXACRE%3C10000");
+    expect(options.body).toContain("outFields=APPROXACRE%2CFIELD_NAME");
   });
 });
 
@@ -184,7 +152,7 @@ describe("queryAllFeatures", () => {
     fetchMock.restore();
   });
 
-  it("fetches multiple pages based on feature count", async () => {
+  test("fetches multiple pages based on feature count", async () => {
     fetchMock.mock(`${serviceUrl}?f=json`, {
       maxRecordCount: 2000
     });
@@ -214,7 +182,7 @@ describe("queryAllFeatures", () => {
     expect(result.features[pageSize].attributes.OBJECTID).toBe(2001);
   });
 
-  it("fetches multiple pages based on feature count with authentication", async () => {
+  test("fetches multiple pages based on feature count with authentication", async () => {
     fetchMock.mock(`${serviceUrl}?f=json&token=MOCK_TOKEN`, {
       maxRecordCount: 2000
     });
@@ -245,7 +213,7 @@ describe("queryAllFeatures", () => {
     expect(result.features[pageSize].attributes.OBJECTID).toBe(2001);
   });
 
-  it("fetches only one page if total features are under page size", async () => {
+  test("fetches only one page if total features are under page size", async () => {
     fetchMock.getOnce(`${serviceUrl}?f=json`, {
       maxRecordCount: 2000
     });
@@ -267,7 +235,7 @@ describe("queryAllFeatures", () => {
     expect(result.features[0].attributes.OBJECTID).toBe(2001);
   });
 
-  it("uses user defined resultRecordCount if less than page size", async () => {
+  test("uses user defined resultRecordCount if less than page size", async () => {
     const customCount = 1000;
 
     fetchMock.getOnce(`${serviceUrl}?f=json`, {
@@ -293,7 +261,7 @@ describe("queryAllFeatures", () => {
     expect(result.features.length).toBe(customCount);
   });
 
-  it("fall back to service pageSize if user resultRecordCount exceeds it", async () => {
+  test("fall back to service pageSize if user resultRecordCount exceeds it", async () => {
     fetchMock.getOnce(`${serviceUrl}?f=json`, {
       maxRecordCount: 2000
     });
@@ -317,7 +285,7 @@ describe("queryAllFeatures", () => {
     expect(result.features.length).toBe(pageSize);
   });
 
-  it("fall back to a default size of 2000 if thes service does not return a page size", async () => {
+  test("fall back to a default size of 2000 if thes service does not return a page size", async () => {
     fetchMock.getOnce(`${serviceUrl}?f=json`, {});
 
     fetchMock.getOnce(
@@ -334,7 +302,7 @@ describe("queryAllFeatures", () => {
     expect(result.features.length).toBe(pageSize);
   });
 
-  it("paginates over services using f=geojson", async () => {
+  test("paginates over services using f=geojson", async () => {
     // first page with 2000 features
     const page1Features = Array.from({ length: pageSize }, (_, i) => ({
       id: i + 1,

@@ -1,6 +1,6 @@
+import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
 import { getAllLayersAndTables } from "../src/getAllLayersAndTables.js";
-
 import { allLayersAndTablesResponse } from "./mocks/allLayersAndTablesResponse.js";
 
 const layerUrlBase =
@@ -10,19 +10,15 @@ describe("getAllLayersAndTables()", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  it("should fetch all layers and table associated with the service", (done) => {
+  test("should fetch all layers and table associated with the service", async () => {
     fetchMock.once("*", allLayersAndTablesResponse);
-    getAllLayersAndTables({ url: layerUrlBase + "/0" })
-      .then((response) => {
-        expect(fetchMock.called()).toBeTruthy();
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(layerUrlBase + "/layers");
-        expect(options.method).toBe("POST");
-        expect(response).toEqual(allLayersAndTablesResponse);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+
+    const response = await getAllLayersAndTables({ url: layerUrlBase + "/0" });
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toBe(layerUrlBase + "/layers");
+    expect(options.method).toBe("POST");
+    expect(response).toEqual(allLayersAndTablesResponse);
   });
 });
