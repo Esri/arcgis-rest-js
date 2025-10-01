@@ -1,6 +1,7 @@
 /* Copyright (c) 2018-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, expect, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
 import { updateUser, IUpdateUserResponse } from "../../src/users/update.js";
 import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
@@ -23,96 +24,78 @@ describe("updateUser", () => {
     portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
 
-  it("should make an authenticated request to update the same user profile.", (done) => {
+  test("should make an authenticated request to update the same user profile.", async () => {
     fetchMock.once("*", {
       success: true,
       username: "c@sey"
     } as IUpdateUserResponse);
 
-    updateUser({
+    await updateUser({
       authentication: session,
       user: { description: "destroyer of worlds" }
-    })
-      .then(() => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/update"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain("token=fake-token");
-        expect(options.body).toContain(
-          encodeParam("description", "destroyer of worlds")
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/update"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain("token=fake-token");
+    expect(options.body).toContain(
+      encodeParam("description", "destroyer of worlds")
+    );
   });
 
-  it("should make an authenticated request to update the same user profile and mixin custom params.", (done) => {
+  test("should make an authenticated request to update the same user profile and mixin custom params.", async () => {
     fetchMock.once("*", {
       success: true,
       username: "c@sey"
     } as IUpdateUserResponse);
 
-    updateUser({
+    await updateUser({
       authentication: session,
       user: { description: "destroyer of worlds" },
       params: { foo: "bar" }
-    })
-      .then(() => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/update"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain("token=fake-token");
-        expect(options.body).toContain("foo=bar");
-        expect(options.body).toContain(
-          encodeParam("description", "destroyer of worlds")
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/update"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain("token=fake-token");
+    expect(options.body).toContain("foo=bar");
+    expect(options.body).toContain(
+      encodeParam("description", "destroyer of worlds")
+    );
   });
 
-  it("should make an org administrator authenticated request to update a different user.", (done) => {
+  test("should make an org administrator authenticated request to update a different user.", async () => {
     fetchMock.once("*", {
       success: true,
       username: "jsmith"
     } as IUpdateUserResponse);
 
-    updateUser({
+    await updateUser({
       authentication: session,
       user: { username: "jsmith", description: "something different" }
-    })
-      .then(() => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith/update"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain("token=fake-token");
-        expect(options.body).toContain(
-          encodeParam("description", "something different")
-        );
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith/update"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain("token=fake-token");
+    expect(options.body).toContain(
+      encodeParam("description", "something different")
+    );
   });
 
-  it("should throw an error when the authenticated user doesnt have permission to update the user profile in question.", (done) => {
+  test("should throw an error when the authenticated user doesnt have permission to update the user profile in question.", async () => {
     fetchMock.once("*", {
       error: {
         code: 403,
@@ -123,29 +106,25 @@ describe("updateUser", () => {
       }
     });
 
-    updateUser({
-      authentication: session,
-      user: { username: "fake", description: "real" }
-    })
-      .then(() => {
-        fail();
+    await expect(
+      updateUser({
+        authentication: session,
+        user: { username: "fake", description: "real" }
       })
-      .catch((e) => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://myorg.maps.arcgis.com/sharing/rest/community/users/fake/update"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain("token=fake-token");
-        expect(options.body).toContain(encodeParam("description", "real"));
-        expect(e.name).toBe("ArcGISRequestError");
-        expect(e.code).toBe("GWM_0003");
-        expect(e.originalMessage).toBe(
-          "You do not have permissions to access this resource or perform this operation."
-        );
-        done();
-      });
+    ).rejects.toMatchObject({
+      name: "ArcGISRequestError",
+      code: "GWM_0003",
+      originalMessage:
+        "You do not have permissions to access this resource or perform this operation."
+    });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://myorg.maps.arcgis.com/sharing/rest/community/users/fake/update"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain("token=fake-token");
+    expect(options.body).toContain(encodeParam("description", "real"));
   });
 });
