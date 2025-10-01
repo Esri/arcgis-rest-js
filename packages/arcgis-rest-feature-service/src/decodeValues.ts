@@ -83,7 +83,6 @@ export function decodeValues(
       (feature: IFeature) => {
         const decodedAttributes: { [index: string]: any } = {};
         for (const key in feature.attributes) {
-          /* istanbul ignore next */
           if (!Object.prototype.hasOwnProperty.call(feature.attributes, key))
             continue;
           const value = feature.attributes[key];
