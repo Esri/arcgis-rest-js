@@ -1,6 +1,8 @@
 /* Copyright (c) 2023 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, expect, afterEach } from "vitest";
+import fetchMock from "fetch-mock";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IUserProperties } from "../../src/users/get-user-properties.js";
 import { setUserProperties } from "../../src/users/set-user-properties.js";
@@ -8,7 +10,6 @@ import {
   userSetPropertiesResponseFailure,
   userSetPropertiesResponseSuccess
 } from "../mocks/users/user-properties.js";
-import fetchMock from "fetch-mock";
 
 const TOMORROW = (function () {
   const now = new Date();
@@ -29,7 +30,7 @@ describe("users", () => {
   });
 
   describe("setUserProperties", () => {
-    it("should make a request to set user properties", (done) => {
+    test("should make a request to set user properties", async () => {
       fetchMock.postOnce(
         "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/setProperties",
         userSetPropertiesResponseSuccess
@@ -41,24 +42,19 @@ describe("users", () => {
         mapViewer: "modern"
       };
 
-      setUserProperties(session.username, properties, {
+      await setUserProperties(session.username, properties, {
         authentication: session
-      })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall();
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/setProperties"
-          );
-          expect(options.method).toBe("POST");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall();
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/setProperties"
+      );
+      expect(options.method).toBe("POST");
     });
 
-    it("should handle set user property errors", (done) => {
+    test("should handle set user property errors", async () => {
       fetchMock.postOnce(
         "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/setProperties",
         userSetPropertiesResponseFailure
@@ -70,21 +66,18 @@ describe("users", () => {
         mapViewer: "modern"
       };
 
-      setUserProperties(session.username, properties, {
-        authentication: session
-      })
-        .then(() => {
-          fail(new Error("API did not serve error response"));
+      await expect(
+        setUserProperties(session.username, properties, {
+          authentication: session
         })
-        .catch(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall();
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/setProperties"
-          );
-          expect(options.method).toBe("POST");
-          done();
-        });
+      ).rejects.toThrow();
+
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall();
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/setProperties"
+      );
+      expect(options.method).toBe("POST");
     });
   });
 });
