@@ -3,6 +3,7 @@
 
 import fetchMock from "fetch-mock";
 import { getUser } from "../../src/users/get-user.js";
+import { describe, test, expect, afterEach } from "vitest";
 
 import {
   AnonUserResponse,
@@ -31,61 +32,43 @@ describe("users", () => {
       portal: "https://myorg.maps.arcgis.com/sharing/rest"
     });
 
-    it("should make a simple, unauthenticated request for information about a user", (done) => {
+    test("should make a simple, unauthenticated request for information about a user", async () => {
       fetchMock.once("*", AnonUserResponse);
 
-      getUser("jsmith")
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://www.arcgis.com/sharing/rest/community/users/jsmith?f=json"
-          );
-          expect(options.method).toBe("GET");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await getUser("jsmith");
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://www.arcgis.com/sharing/rest/community/users/jsmith?f=json"
+      );
+      expect(options.method).toBe("GET");
     });
 
-    it("should make an authenticated request for information about a user", (done) => {
+    test("should make an authenticated request for information about a user", async () => {
       fetchMock.once("*", GroupMemberUserResponse);
 
-      getUser({ authentication: session })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey?f=json&token=fake-token"
-          );
-          expect(options.method).toBe("GET");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await getUser({ authentication: session });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey?f=json&token=fake-token"
+      );
+      expect(options.method).toBe("GET");
     });
 
-    it("should make an authenticated request for information about a different user", (done) => {
+    test("should make an authenticated request for information about a different user", async () => {
       fetchMock.once("*", GroupAdminUserResponse);
 
-      getUser({
+      await getUser({
         username: "jsmith",
         authentication: session
-      })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token"
-          );
-          expect(options.method).toBe("GET");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith?f=json&token=fake-token"
+      );
+      expect(options.method).toBe("GET");
     });
   });
 });
