@@ -1,62 +1,51 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, expect, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
 import { getSharingUrl, getUserMembership } from "../../src/sharing/helpers.js";
 import { MOCK_USER_SESSION } from "../mocks/sharing/sharing.js";
+import { isItemOwner } from "../../src/sharing/helpers.js";
 import {
   GroupOwnerResponse,
   GroupNoAccessResponse
 } from "./share-item-with-group.test.js";
-import { isItemOwner } from "../../src/sharing/helpers.js";
 
 describe("sharing helpers ::", () => {
   afterEach(() => {
     fetchMock.restore();
   });
   describe("getUserMembership ::", () => {
-    it("should return none if group could not be fetched", (done) => {
+    test("should return none if group could not be fetched", async () => {
       fetchMock.once(
         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/tb6?f=json&token=fake-token",
         GroupNoAccessResponse
       );
-      getUserMembership({
+      const result = await getUserMembership({
         id: "ignoreme",
         groupId: "tb6",
         authentication: MOCK_USER_SESSION
-      })
-        .then((result) => {
-          expect(fetchMock.done()).toBeTruthy();
-          expect(result).toBe("none", "should return none");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.done()).toBe(true);
+      expect(result).toBe("none");
     });
 
-    it("should request the group and return the member type", (done) => {
+    test("should request the group and return the member type", async () => {
       fetchMock.once(
         "https://myorg.maps.arcgis.com/sharing/rest/community/groups/tb6?f=json&token=fake-token",
         GroupOwnerResponse
       );
-      getUserMembership({
+      const result = await getUserMembership({
         id: "ignoreme",
         groupId: "tb6",
         authentication: MOCK_USER_SESSION
-      })
-        .then((result) => {
-          expect(fetchMock.done()).toBeTruthy();
-          expect(result).toBe("owner", "should return owner");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.done()).toBe(true);
+      expect(result).toBe("owner");
     });
 
     describe("isItemOwner ::", () => {
-      it("should use the username from the session if none is passed", () => {
+      test("should use the username from the session if none is passed", () => {
         expect(
           isItemOwner({
             id: "3ef",
@@ -76,7 +65,7 @@ describe("sharing helpers ::", () => {
     });
 
     describe("getSharingUrl ::", () => {
-      it("should use the username from the session if none is passed", () => {
+      test("should use the username from the session if none is passed", () => {
         expect(
           getSharingUrl({
             id: "3ef",
