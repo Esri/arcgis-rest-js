@@ -1,12 +1,12 @@
+import { describe, test, expect, beforeAll, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
+import { registerApp } from "../../src/shared/registerApp.js";
+import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
+import { TOMORROW } from "../../../../scripts/test-helpers.js";
 import {
   IRegisterAppOptions,
   IRegisteredAppResponse
 } from "../../src/shared/types/appType.js";
-import { registerApp } from "../../src/shared/registerApp.js";
-import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
-import { Privileges } from "../../src/shared/enum/privileges.js";
-import { TOMORROW } from "../../../../scripts/test-helpers.js";
 
 function setFetchMockPOSTFormUrlencoded(
   url: string,
@@ -64,7 +64,7 @@ describe("registerApp()", () => {
   let authEnterprise: ArcGISIdentityManager;
   let authInvalidToken: ArcGISIdentityManager;
 
-  beforeAll(function () {
+  beforeAll(() => {
     authOnline = new ArcGISIdentityManager({
       username: "fake-username",
       password: "fake-password",
@@ -90,7 +90,7 @@ describe("registerApp()", () => {
   afterEach(() => fetchMock.restore());
 
   // normal workflow
-  it("should create app without IRequestOptions", async function () {
+  test("should create app without IRequestOptions", async () => {
     // setup FM response
     setFetchMockPOSTFormUrlencoded(
       "https://machine.domain.com/webadaptor/sharing/rest/oauth2/registerApp",
@@ -147,7 +147,7 @@ describe("registerApp()", () => {
     });
   });
 
-  it("should create key with IRequestOptions", async function () {
+  test("should create key with IRequestOptions", async () => {
     // setup FM response
     const { apiKey, ...mockResponseWithoutApiKey } = mockNormalResponse;
 
@@ -215,7 +215,7 @@ describe("registerApp()", () => {
     });
   });
 
-  it("should auto generateToken if registerApp replied with invalid token error", async function () {
+  test("should auto generateToken if registerApp replied with invalid token error", async () => {
     // setup FM response
     fetchMock
       .mock(
@@ -257,23 +257,19 @@ describe("registerApp()", () => {
         }
       );
 
-    try {
-      await registerApp({
+    await expect(
+      registerApp({
         itemId: "fake-itemID",
         appType: "apikey",
         redirect_uris: [],
         httpReferrers: ["https://www.esri.com/en-us/home"],
         privileges: ["premium:user:geocode:temporary"],
         authentication: authInvalidToken
-      });
-      fail("Should have rejected.");
-    } catch (e: any) {
-      // generateToken() is called
-      expect(fetchMock.called("registerAppRoute")).toBe(true);
-      expect(fetchMock.called("generateToken")).toBe(true);
-      expect(e.message).toBe(
-        "TOKEN_REFRESH_FAILED: 400: Unable to generate token."
-      );
-    }
+      })
+    ).rejects.toThrow("TOKEN_REFRESH_FAILED: 400: Unable to generate token.");
+
+    // generateToken() is called
+    expect(fetchMock.called("registerAppRoute")).toBe(true);
+    expect(fetchMock.called("generateToken")).toBe(true);
   });
 });

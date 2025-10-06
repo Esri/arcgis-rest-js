@@ -1,10 +1,10 @@
+import { describe, test, expect, beforeAll, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { IItem } from "@esri/arcgis-rest-portal";
 import { getApiKey } from "../src/getApiKey.js";
 import { IRegisteredAppResponse } from "../src/shared/types/appType.js";
 import { IApiKeyResponse } from "../src/shared/types/apiKeyType.js";
-import { Privileges } from "../src/shared/enum/privileges.js";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
 
 function setFetchMockPOSTFormUrlencoded(
@@ -126,7 +126,7 @@ describe("getApiKey()", () => {
   let authEnterprise: ArcGISIdentityManager;
   let authInvalidToken: ArcGISIdentityManager;
 
-  beforeAll(function () {
+  beforeAll(() => {
     authOnline = new ArcGISIdentityManager({
       username: "745062756",
       password: "fake-password",
@@ -151,7 +151,7 @@ describe("getApiKey()", () => {
   });
   afterEach(() => fetchMock.restore());
 
-  it("should get get key without IRequestOptions (Enterprise portal)", async function () {
+  test("should get get key without IRequestOptions (Enterprise portal)", async () => {
     // setup FM response
     setFetchMockPOSTFormUrlencoded(
       "https://machine.domain.com/webadaptor/sharing/rest/content/users/745062756/items/cddcacee5848488bb981e6c6ff91ab79/registeredAppInfo",
@@ -189,7 +189,8 @@ describe("getApiKey()", () => {
     // verify actual return with expected return
     expect(apiKeyResponse).toEqual(getApiKeyResponseExpected);
   });
-  it("should get key with IRequestOptions (Online portal)", async function () {
+
+  test("should get key with IRequestOptions (Online portal)", async () => {
     // setup FM response
     setFetchMockPOSTFormUrlencoded(
       "https://www.arcgis.com/sharing/rest/content/users/745062756/items/cddcacee5848488bb981e6c6ff91ab79/registeredAppInfo",
@@ -228,9 +229,9 @@ describe("getApiKey()", () => {
     // verify actual return with expected return
     expect(apiKeyResponse).toEqual(getApiKeyResponseExpected);
   });
-  it("should throw err if itemId is not found by getRegisteredAppInfo()", async function () {
-    // setup FM response
 
+  test("should throw err if itemId is not found by getRegisteredAppInfo()", async () => {
+    // setup FM response
     setFetchMockPOSTFormUrlencoded(
       "https://www.arcgis.com/sharing/rest/content/users/745062756/items/unknown-itemId/registeredAppInfo",
       {
@@ -246,22 +247,16 @@ describe("getApiKey()", () => {
       1
     );
 
-    try {
-      await getApiKey({
+    await expect(
+      getApiKey({
         itemId: "unknown-itemId",
         authentication: authOnline
-      });
-      fail("should have rejected");
-    } catch (e: any) {
-      // any additional fetch() will be unhandled calls that throw an error
-      expect(fetchMock.called("getAppRoute")).toBe(true);
-      expect(e.message).toBe(
-        "CONT_0001: Item does not exist or is inaccessible."
-      );
-    }
+      })
+    ).rejects.toThrow("CONT_0001: Item does not exist or is inaccessible.");
+    expect(fetchMock.called("getAppRoute")).toBe(true);
   });
 
-  it("should auto generateToken if auth token is invalid", async function () {
+  test("should auto generateToken if auth token is invalid", async () => {
     // setup FM response
     fetchMock
       .mock(
@@ -303,19 +298,13 @@ describe("getApiKey()", () => {
         }
       );
 
-    try {
-      await getApiKey({
+    await expect(
+      getApiKey({
         itemId: "fake-itemId",
         authentication: authInvalidToken
-      });
-      fail("Should have rejected.");
-    } catch (e: any) {
-      // generateToken() is called
-      expect(fetchMock.called("getAppRoute")).toBe(true);
-      expect(fetchMock.called("generateToken")).toBe(true);
-      expect(e.message).toBe(
-        "TOKEN_REFRESH_FAILED: 400: Unable to generate token."
-      );
-    }
+      })
+    ).rejects.toThrow("TOKEN_REFRESH_FAILED: 400: Unable to generate token.");
+    expect(fetchMock.called("getAppRoute")).toBe(true);
+    expect(fetchMock.called("generateToken")).toBe(true);
   });
 });

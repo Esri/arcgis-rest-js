@@ -2,6 +2,7 @@ import fetchMock from "fetch-mock";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
 import { unregisterApp } from "../../src/shared/unregisterApp.js";
+import { describe, beforeAll, afterEach, test, expect } from "vitest";
 import {
   IUnregisterAppResponse,
   IRegisteredAppResponse
@@ -65,7 +66,7 @@ describe("unregisterApp()", () => {
   // setup IdentityManager
   let authOnline: ArcGISIdentityManager;
 
-  beforeAll(function () {
+  beforeAll(() => {
     authOnline = new ArcGISIdentityManager({
       username: "3807206777",
       password: "fake-password",
@@ -74,9 +75,10 @@ describe("unregisterApp()", () => {
       tokenExpires: TOMORROW
     });
   });
+
   afterEach(() => fetchMock.restore());
 
-  it("should unregister an app", async function () {
+  test("should unregister an app", async () => {
     // setup FM response
     setFetchMockPOSTFormUrlencoded(
       "https://www.arcgis.com/sharing/rest/content/users/3807206777/items/b3d7ab46200b455aa83ac85969101b7e/registeredAppInfo",

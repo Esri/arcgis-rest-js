@@ -1,6 +1,6 @@
+import { describe, test, expect, beforeAll, afterEach } from "vitest";
 import { invalidateApiKey } from "../src/invalidateApiKey.js";
 import fetchMock from "fetch-mock";
-import { IItem } from "@esri/arcgis-rest-portal";
 import { IRegisteredAppResponse } from "../src/shared/types/appType.js";
 import { TOMORROW } from "../../../scripts/test-helpers.js";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
@@ -56,7 +56,7 @@ describe("invalidateApiKey", () => {
   // setup IdentityManager
   let MOCK_USER_SESSION: ArcGISIdentityManager;
 
-  beforeAll(function () {
+  beforeAll(() => {
     MOCK_USER_SESSION = new ArcGISIdentityManager({
       username: "745062756",
       password: "fake-password",
@@ -68,7 +68,7 @@ describe("invalidateApiKey", () => {
 
   afterEach(() => fetchMock.restore());
 
-  it("should invalidate an API key", async () => {
+  test("should invalidate an API key", async () => {
     setFetchMockPOSTFormUrlencoded(
       "https://www.arcgis.com/sharing/rest/content/users/745062756/items/cddcacee5848488bb981e6c6ff91ab79/registeredAppInfo",
       mockGetAppInfoResponse,
