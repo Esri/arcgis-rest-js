@@ -20,7 +20,7 @@ describe("is-service-name-available", () => {
     portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
 
-  test("returns server response", async () => {
+  test("should return server response", async () => {
     fetchMock.once("*", { available: true }, { method: "GET" });
 
     const result = await isServiceNameAvailable(

@@ -35,7 +35,7 @@ describe("get-unique-service-name:", () => {
     expect(result).toBe("myService");
   });
 
-  test("makes multiple calls if already taken", async () => {
+  test("makes multiple calls if already taken and should return unique name", async () => {
     fetchMock.get(
       `${MOCK_USER_SESSION.portal}/portals/self/isServiceNameAvailable?f=json&name=myService&type=Feature%20Service&token=fake-token`,
       {
