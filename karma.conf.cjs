@@ -13,7 +13,6 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     files: [
-      "packages/arcgis-rest-portal/{src,test}/**/!(*.test.live).ts",
       "packages/arcgis-rest-request/{src,test}/**/!(*.test.live).ts",
       "scripts/test-helpers.ts"
     ],

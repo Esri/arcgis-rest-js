@@ -1,7 +1,10 @@
 {
   "spec_dir": "packages",
   "spec_files": [
-    "arcgis-rest-portal/{src,test}/**/*.test.ts",
+    "arcgis-rest-portal/{src,test}/**/groups/*.test.ts",
+    "arcgis-rest-portal/{src,test}/**/items/*.test.ts",
+    "arcgis-rest-portal/{src,test}/**/orgs/*.test.ts",
+    "arcgis-rest-portal/{src,test}/**/utils/*.test.ts",
     "arcgis-rest-request/{src,test}/**/*.test.ts"
   ],
   "stopSpecOnExpectationFailure": false,
