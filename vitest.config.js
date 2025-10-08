@@ -14,6 +14,7 @@ export default defineConfig({
       "packages/arcgis-rest-portal/test/services/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-portal/test/sharing/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-portal/test/users/**/*.{test,spec}.?(c|m)[jt]s?(x)",
+      "packages/arcgis-rest-portal/test/utils/**/*.{test,spec}.?(c|m)[jt]s?(x)"
     ],
     coverage: {
       enabled: true,
@@ -29,6 +30,7 @@ export default defineConfig({
         "packages/arcgis-rest-portal/src/services/**/*.{ts,js}",
         "packages/arcgis-rest-portal/src/sharing/**/*.{ts,js}",
         "packages/arcgis-rest-portal/src/users/**/*.{ts,js}",
+        "packages/arcgis-rest-portal/src/utils/**/*.{ts,js}"
       ],
       provider: "istanbul",
       reporter: ["json", "html", "cobertura"],
