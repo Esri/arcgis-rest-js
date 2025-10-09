@@ -11,10 +11,11 @@ export default defineConfig({
       "packages/arcgis-rest-routing/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-feature-service/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-developer-credentials/**/*.{test,spec}.?(c|m)[jt]s?(x)",
+      "packages/arcgis-rest-portal/test/orgs/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-portal/test/services/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-portal/test/sharing/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-portal/test/users/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-      "packages/arcgis-rest-portal/test/utils/**/*.{test,spec}.?(c|m)[jt]s?(x)"
+      "packages/arcgis-rest-portal/test/utils/**/*.{test,spec}.?(c|m)[jt]s?(x)",
     ],
     coverage: {
       enabled: true,
@@ -27,6 +28,7 @@ export default defineConfig({
         "packages/arcgis-rest-routing/src/**/*.{ts,js}",
         "packages/arcgis-rest-feature-service/src/**/*.{ts,js}",
         "packages/arcgis-rest-developer-credentials/src/**/*.{ts,js}",
+        "packages/arcgis-rest-portal/src/orgs/**/*.{ts,js}",
         "packages/arcgis-rest-portal/src/services/**/*.{ts,js}",
         "packages/arcgis-rest-portal/src/sharing/**/*.{ts,js}",
         "packages/arcgis-rest-portal/src/users/**/*.{ts,js}",
