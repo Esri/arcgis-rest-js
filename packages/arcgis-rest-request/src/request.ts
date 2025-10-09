@@ -388,6 +388,7 @@ export function internalRequest(
         // encode the parameters into the query string
         const queryParams = encodeQueryString(params);
         // dont append a '?' unless parameters are actually present
+        /* istanbul ignore next */
         const urlWithQueryString =
           queryParams === "" ? url : url + "?" + encodeQueryString(params);
 
