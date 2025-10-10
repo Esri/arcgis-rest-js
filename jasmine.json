@@ -1,7 +1,6 @@
 {
   "spec_dir": "packages",
   "spec_files": [
-    "arcgis-rest-portal/{src,test}/**/groups/*.test.ts",
     "arcgis-rest-portal/{src,test}/**/items/*.test.ts",
     "arcgis-rest-request/{src,test}/**/*.test.ts"
   ],

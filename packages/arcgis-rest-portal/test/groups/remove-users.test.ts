@@ -1,6 +1,7 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
 
 import {
@@ -36,9 +37,8 @@ describe("remove-users", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  it("should send multiple requests for a long user array", (done) => {
+  test("should send multiple requests for a long user array", async () => {
     const requests = [createUsernames(0, 25), createUsernames(25, 35)];
-
     const responses = [
       { notRemoved: ["username1"] },
       { notRemoved: ["username30"] }
@@ -54,7 +54,6 @@ describe("remove-users", () => {
       expect(options.body).toContain(
         encodeParam("users", requests.shift().join(","))
       );
-
       return responses.shift();
     });
 
@@ -64,18 +63,14 @@ describe("remove-users", () => {
       authentication: MOCK_AUTH
     };
 
-    removeGroupUsers(params)
-      .then((result) => {
-        expect(requests.length).toEqual(0);
-        expect(responses.length).toEqual(0);
-        expect(result.notRemoved).toEqual(["username1", "username30"]);
-        expect(result.errors).toBeUndefined();
-        done();
-      })
-      .catch((error) => fail(error));
+    const result = await removeGroupUsers(params);
+    expect(requests.length).toEqual(0);
+    expect(responses.length).toEqual(0);
+    expect(result.notRemoved).toEqual(["username1", "username30"]);
+    expect(result.errors).toBeUndefined();
   });
 
-  it("should return request failure", (done) => {
+  test("should return request failure", async () => {
     const responses = [
       { notRemoved: ["username2"] },
       {
@@ -95,46 +90,33 @@ describe("remove-users", () => {
       authentication: MOCK_AUTH
     };
 
-    removeGroupUsers(params)
-      .then((result) => {
-        expect(responses.length).toEqual(0);
-
-        const expectedNotAdded = ["username2"];
-        expect(result.notRemoved).toEqual(expectedNotAdded);
-
-        expect(result.errors.length).toEqual(1);
-        const errorA = result.errors[0];
-        expect(errorA.url).toEqual(
-          "https://myorg.maps.arcgis.com/sharing/rest/community/groups/group-id/removeUsers"
-        );
-        expect(errorA.code).toEqual("ORG_3100");
-        expect(errorA.originalMessage).toEqual(
-          "error message for remove-user request"
-        );
-
-        const errorAOptions: any = errorA.options;
-        expect(errorAOptions.users).toEqual(createUsernames(25, 30));
-
-        done();
-      })
-      .catch((error) => fail(error));
+    const result = await removeGroupUsers(params);
+    expect(responses.length).toEqual(0);
+    const expectedNotAdded = ["username2"];
+    expect(result.notRemoved).toEqual(expectedNotAdded);
+    expect(result.errors.length).toEqual(1);
+    const errorA = result.errors[0];
+    expect(errorA.url).toEqual(
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/group-id/removeUsers"
+    );
+    expect(errorA.code).toEqual("ORG_3100");
+    expect(errorA.originalMessage).toEqual(
+      "error message for remove-user request"
+    );
+    const errorAOptions: any = errorA.options;
+    expect(errorAOptions.users).toEqual(createUsernames(25, 30));
   });
 
-  it("should not send any request for zero-length username array", (done) => {
+  test("should not send any request for zero-length username array", async () => {
     const params: IRemoveGroupUsersOptions = {
       id: "group-id",
       users: [],
       authentication: MOCK_AUTH
     };
     fetchMock.post("*", () => 200);
-    removeGroupUsers(params)
-      .then((result) => {
-        expect(fetchMock.called()).toEqual(false);
-        expect(result.notRemoved).toEqual([]);
-        expect(result.errors).toBeUndefined();
-
-        done();
-      })
-      .catch((error) => fail(error));
+    const result = await removeGroupUsers(params);
+    expect(fetchMock.called()).toEqual(false);
+    expect(result.notRemoved).toEqual([]);
+    expect(result.errors).toBeUndefined();
   });
 });

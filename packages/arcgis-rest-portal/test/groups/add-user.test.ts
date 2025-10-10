@@ -1,6 +1,7 @@
 /* Copyright (c) 2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
 import {
   addGroupUsers,
@@ -35,7 +36,7 @@ describe("add-users", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  it("should send multiple requests for a long user array", (done) => {
+  test("should send multiple requests for a long user array", async () => {
     const requests = [createUsernames(0, 25), createUsernames(25, 35)];
 
     const responses = [
@@ -63,18 +64,14 @@ describe("add-users", () => {
       authentication: MOCK_AUTH
     };
 
-    addGroupUsers(params)
-      .then((result) => {
-        expect(requests.length).toEqual(0);
-        expect(responses.length).toEqual(0);
-        expect(result.notAdded).toEqual(["username1", "username30"]);
-        expect(result.errors).toBeUndefined();
-        done();
-      })
-      .catch((error) => fail(error));
+    const result = await addGroupUsers(params);
+    expect(requests.length).toEqual(0);
+    expect(responses.length).toEqual(0);
+    expect(result.notAdded).toEqual(["username1", "username30"]);
+    expect(result.errors).toBeUndefined();
   });
 
-  it("should send multiple requests for a long admin array", (done) => {
+  test("should send multiple requests for a long admin array", async () => {
     const requests = [createUsernames(0, 25), createUsernames(25, 35)];
 
     const responses = [
@@ -102,18 +99,14 @@ describe("add-users", () => {
       authentication: MOCK_AUTH
     };
 
-    addGroupUsers(params)
-      .then((result) => {
-        expect(requests.length).toEqual(0);
-        expect(responses.length).toEqual(0);
-        expect(result.notAdded).toEqual(["username1", "username30"]);
-        expect(result.errors).toBeUndefined();
-        done();
-      })
-      .catch((error) => fail(error));
+    const result = await addGroupUsers(params);
+    expect(requests.length).toEqual(0);
+    expect(responses.length).toEqual(0);
+    expect(result.notAdded).toEqual(["username1", "username30"]);
+    expect(result.errors).toBeUndefined();
   });
 
-  it("should send separate requests for users and admins", (done) => {
+  test("should send separate requests for users and admins", async () => {
     const requests = [
       encodeParam("users", ["username1", "username2"]),
       encodeParam("admins", ["username3"])
@@ -138,17 +131,13 @@ describe("add-users", () => {
       authentication: MOCK_AUTH
     };
 
-    addGroupUsers(params)
-      .then((result) => {
-        expect(requests.length).toEqual(0);
-        expect(result.notAdded).toEqual([]);
-        expect(result.errors).toBeUndefined();
-        done();
-      })
-      .catch((error) => fail(error));
+    const result = await addGroupUsers(params);
+    expect(requests.length).toEqual(0);
+    expect(result.notAdded).toEqual([]);
+    expect(result.errors).toBeUndefined();
   });
 
-  it("should return request failure", (done) => {
+  test("should return request failure", async () => {
     const responses = [
       { notAdded: ["username2"] },
       {
@@ -177,47 +166,42 @@ describe("add-users", () => {
       authentication: MOCK_AUTH
     };
 
-    addGroupUsers(params)
-      .then((result) => {
-        expect(responses.length).toEqual(0);
+    const result = await addGroupUsers(params);
+    expect(responses.length).toEqual(0);
 
-        const expectedNotAdded = ["username2", "username30"];
-        expect(result.notAdded).toEqual(expectedNotAdded);
+    const expectedNotAdded = ["username2", "username30"];
+    expect(result.notAdded).toEqual(expectedNotAdded);
 
-        expect(result.errors.length).toEqual(2);
+    expect(result.errors.length).toEqual(2);
 
-        const errorA = result.errors[0];
-        expect(errorA.url).toEqual(
-          "https://myorg.maps.arcgis.com/sharing/rest/community/groups/group-id/addUsers"
-        );
-        expect(errorA.code).toEqual("ORG_3100");
-        expect(errorA.originalMessage).toEqual(
-          "error message for add-user request"
-        );
+    const errorA = result.errors[0];
+    expect(errorA.url).toEqual(
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/group-id/addUsers"
+    );
+    expect(errorA.code).toEqual("ORG_3100");
+    expect(errorA.originalMessage).toEqual(
+      "error message for add-user request"
+    );
 
-        const errorAOptions: any = errorA.options;
-        expect(errorAOptions.users).toEqual(createUsernames(25, 30));
-        expect(errorAOptions.admins).toBeUndefined();
+    const errorAOptions: any = errorA.options;
+    expect(errorAOptions.users).toEqual(createUsernames(25, 30));
+    expect(errorAOptions.admins).toBeUndefined();
 
-        const errorB = result.errors[1];
-        expect(errorB.url).toEqual(
-          "https://myorg.maps.arcgis.com/sharing/rest/community/groups/group-id/addUsers"
-        );
-        expect(errorB.code).toEqual("ORG_3200");
-        expect(errorB.originalMessage).toEqual(
-          "error message for add-admin request"
-        );
+    const errorB = result.errors[1];
+    expect(errorB.url).toEqual(
+      "https://myorg.maps.arcgis.com/sharing/rest/community/groups/group-id/addUsers"
+    );
+    expect(errorB.code).toEqual("ORG_3200");
+    expect(errorB.originalMessage).toEqual(
+      "error message for add-admin request"
+    );
 
-        const errorBOptions: any = errorB.options;
-        expect(errorBOptions.users).toBeUndefined();
-        expect(errorBOptions.admins).toEqual(createUsernames(55, 60));
-
-        done();
-      })
-      .catch((error) => fail(error));
+    const errorBOptions: any = errorB.options;
+    expect(errorBOptions.users).toBeUndefined();
+    expect(errorBOptions.admins).toEqual(createUsernames(55, 60));
   });
 
-  it("should not send any request for zero-length username array", (done) => {
+  test("should not send any request for zero-length username array", async () => {
     const params: IAddGroupUsersOptions = {
       id: "group-id",
       users: [],
@@ -225,14 +209,9 @@ describe("add-users", () => {
       authentication: MOCK_AUTH
     };
     fetchMock.post("*", () => 200);
-    addGroupUsers(params)
-      .then((result) => {
-        expect(fetchMock.called()).toEqual(false);
-        expect(result.notAdded).toEqual([]);
-        expect(result.errors).toBeUndefined();
-
-        done();
-      })
-      .catch((error) => fail(error));
+    const result = await addGroupUsers(params);
+    expect(fetchMock.called()).toEqual(false);
+    expect(result.notAdded).toEqual([]);
+    expect(result.errors).toBeUndefined();
   });
 });
