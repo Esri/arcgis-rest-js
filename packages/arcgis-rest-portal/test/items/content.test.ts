@@ -1,3 +1,4 @@
+import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
 import {
   getUserContent,
@@ -65,7 +66,7 @@ describe("getContent", () => {
       ]
     };
 
-    it("should get the user content defaulting the start and num parameters", (done) => {
+    test("should get the user content defaulting the start and num parameters", async () => {
       fetchMock.once("*", mockResponse);
 
       const requestOptions: IUserContentRequestOptions = {
@@ -73,21 +74,15 @@ describe("getContent", () => {
         authentication
       };
 
-      getUserContent(requestOptions)
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${requestOptions.owner}?f=json&start=1&num=10&token=fake-token`
-          );
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await getUserContent(requestOptions);
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        `https://myorg.maps.arcgis.com/sharing/rest/content/users/${requestOptions.owner}?f=json&start=1&num=10&token=fake-token`
+      );
     });
 
-    it("should get the user content using the supplied start and num parameters", (done) => {
+    test("should get the user content using the supplied start and num parameters", async () => {
       fetchMock.once("*", mockResponse);
 
       const requestOptions: IUserContentRequestOptions = {
@@ -97,21 +92,15 @@ describe("getContent", () => {
         authentication
       };
 
-      getUserContent(requestOptions)
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${requestOptions.owner}?f=json&start=2&num=1&token=fake-token`
-          );
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await getUserContent(requestOptions);
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        `https://myorg.maps.arcgis.com/sharing/rest/content/users/${requestOptions.owner}?f=json&start=2&num=1&token=fake-token`
+      );
     });
 
-    it("should get the user content using the authenticated username", (done) => {
+    test("should get the user content using the authenticated username", async () => {
       fetchMock.once("*", mockResponse);
 
       const requestOptions: IUserContentRequestOptions = {
@@ -120,21 +109,15 @@ describe("getContent", () => {
         authentication
       };
 
-      getUserContent(requestOptions)
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${authentication.username}?f=json&start=2&num=1&token=fake-token`
-          );
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await getUserContent(requestOptions);
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        `https://myorg.maps.arcgis.com/sharing/rest/content/users/${authentication.username}?f=json&start=2&num=1&token=fake-token`
+      );
     });
 
-    it("should get the user content using the supplied folderId", (done) => {
+    test("should get the user content using the supplied folderId", async () => {
       fetchMock.once("*", mockResponse);
 
       const requestOptions: IUserContentRequestOptions = {
@@ -144,18 +127,12 @@ describe("getContent", () => {
         authentication
       };
 
-      getUserContent(requestOptions)
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${authentication.username}/${requestOptions.folderId}?f=json&start=2&num=1&token=fake-token`
-          );
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await getUserContent(requestOptions);
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        `https://myorg.maps.arcgis.com/sharing/rest/content/users/${authentication.username}/${requestOptions.folderId}?f=json&start=2&num=1&token=fake-token`
+      );
     });
   });
 });

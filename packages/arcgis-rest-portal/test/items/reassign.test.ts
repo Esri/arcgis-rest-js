@@ -1,6 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
 import { reassignItem } from "../../src/items/reassign.js";
 
@@ -15,7 +16,8 @@ describe("reassignItem", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  it("shoulds throw if not authd as org_admin", (done) => {
+
+  test("should throw if not authd as org_admin", async () => {
     const MOCK_USER_SESSION = new ArcGISIdentityManager({
       token: "fake-token",
       tokenExpires: TOMORROW,
@@ -27,20 +29,19 @@ describe("reassignItem", () => {
       GroupMemberUserResponse
     );
 
-    reassignItem({
-      id: "3ef",
-      currentOwner: "alex",
-      targetUsername: "blake",
-      authentication: MOCK_USER_SESSION
-    }).catch((e) => {
-      expect(e.message).toBe(
-        "Item 3ef can not be reassigned because current user is not an organization administrator."
-      );
-      done();
-    });
+    await expect(
+      reassignItem({
+        id: "3ef",
+        currentOwner: "alex",
+        targetUsername: "blake",
+        authentication: MOCK_USER_SESSION
+      })
+    ).rejects.toThrow(
+      "Item 3ef can not be reassigned because current user is not an organization administrator."
+    );
   });
 
-  it("should send the folder if passed", (done) => {
+  test("should send the folder if passed", async () => {
     const MOCK_USER_SESSION = new ArcGISIdentityManager({
       token: "fake-token",
       tokenExpires: TOMORROW,
@@ -57,35 +58,26 @@ describe("reassignItem", () => {
         { success: true, itemId: "3ef" }
       );
 
-    reassignItem({
+    const response = await reassignItem({
       id: "3ef",
       currentOwner: "alex",
       targetUsername: "blake",
       targetFolderName: "folder1",
       authentication: MOCK_USER_SESSION
-    })
-      .then((resp) => {
-        // expect(fetchMock.done()).toBeTruthy(
-        //   "All fetchMocks should have been called"
-        // );
-        expect(resp.success).toBe(true);
-        const [url, options] = fetchMock.lastCall(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/users/alex/items/3ef/reassign"
-        );
-        expect(url).toBe(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/users/alex/items/3ef/reassign"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("targetUsername=blake");
-        expect(options.body).toContain("targetFolderName=folder1");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    expect(response.success).toBe(true);
+    const [url, options] = fetchMock.lastCall(
+      "https://myorg.maps.arcgis.com/sharing/rest/content/users/alex/items/3ef/reassign"
+    );
+    expect(url).toBe(
+      "https://myorg.maps.arcgis.com/sharing/rest/content/users/alex/items/3ef/reassign"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("targetUsername=blake");
+    expect(options.body).toContain("targetFolderName=folder1");
   });
 
-  it("should not send the folder if not passed", (done) => {
+  test("should not send the folder if not passed", async () => {
     const MOCK_USER_SESSION = new ArcGISIdentityManager({
       token: "fake-token",
       tokenExpires: TOMORROW,
@@ -102,30 +94,21 @@ describe("reassignItem", () => {
         { success: true, itemId: "3ef" }
       );
 
-    reassignItem({
+    const response = await reassignItem({
       id: "3ef",
       currentOwner: "alex",
       targetUsername: "blake",
       authentication: MOCK_USER_SESSION
-    })
-      .then((resp) => {
-        // expect(fetchMock.done()).toBeTruthy(
-        //   "All fetchMocks should have been called"
-        // );
-        expect(resp.success).toBe(true);
-        const [url, options] = fetchMock.lastCall(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/users/alex/items/3ef/reassign"
-        );
-        expect(url).toBe(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/users/alex/items/3ef/reassign"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("targetUsername=blake");
-        expect(options.body).not.toContain("targetFolderName");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    expect(response.success).toBe(true);
+    const [url, options] = fetchMock.lastCall(
+      "https://myorg.maps.arcgis.com/sharing/rest/content/users/alex/items/3ef/reassign"
+    );
+    expect(url).toBe(
+      "https://myorg.maps.arcgis.com/sharing/rest/content/users/alex/items/3ef/reassign"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("targetUsername=blake");
+    expect(options.body).not.toContain("targetFolderName");
   });
 });
