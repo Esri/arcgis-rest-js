@@ -13,7 +13,7 @@ import {
 } from "../mocks/users/notification.js";
 
 import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
-import { describe, test, expect, vi, afterEach } from "vitest";
+import { describe, test, expect, afterEach } from "vitest";
 
 const TOMORROW = (function () {
   const now = new Date();
