@@ -22,7 +22,6 @@ export const YESTERDAY = (function () {
   return now;
 })();
 
-/* istanbul ignore next */
 export function attachmentFile(): any {
   return new File(["foo"], "foo.txt", { type: "text/plain" });
 }
