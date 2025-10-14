@@ -2,6 +2,7 @@
  * Apache-2.0 */
 
 import { describe, test, afterEach, expect } from "vitest";
+import { Blob } from "@esri/arcgis-rest-form-data";
 import fetchMock from "fetch-mock";
 import {
   IGetItemInfoOptions,
@@ -74,22 +75,20 @@ describe("get", () => {
   });
 
   test("should return binary item data by id", async () => {
-    // Blob() is only available in the browser
-    if (typeof window !== "undefined") {
-      fetchMock.once("*", {
-        sendAsJson: false,
-        headers: { "Content-Type": "application/zip" },
-        body: new Blob()
-      });
-      const response = await getItemData("3ef", { file: true });
-      expect(fetchMock.called()).toEqual(true);
-      const [url, options] = fetchMock.lastCall("*");
-      expect(url).toEqual(
-        "https://www.arcgis.com/sharing/rest/content/items/3ef/data"
-      );
-      expect(options.method).toBe("GET");
-      expect(response instanceof Blob).toBeTruthy();
-    }
+    // using Blob from ponyfill to test in node and be consistent with other instances of testing file attachments
+    fetchMock.once("*", {
+      sendAsJson: false,
+      headers: { "Content-Type": "application/zip" },
+      body: new Blob()
+    });
+    const response = await getItemData("3ef", { file: true });
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://www.arcgis.com/sharing/rest/content/items/3ef/data"
+    );
+    expect(options.method).toBe("GET");
+    expect(response instanceof Blob).toBeTruthy();
   });
 
   test("should return a valid response even when no data is retrieved", async () => {

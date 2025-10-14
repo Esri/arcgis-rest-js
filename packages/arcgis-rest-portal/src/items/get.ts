@@ -108,7 +108,6 @@ export function getItemData(
     ...requestOptions
   };
 
-  /* istanbul ignore next -- @preserve */
   if (options.file) {
     options.params.f = null;
   }
