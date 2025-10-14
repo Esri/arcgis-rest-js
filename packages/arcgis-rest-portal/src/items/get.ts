@@ -118,7 +118,6 @@ export function getItemData(
     const emptyResponseErr = RegExp(
       /The string did not match the expected pattern|(Unexpected end of (JSON input|data at line 1 column 1))/i
     );
-    /* istanbul ignore else -- @preserve */
     if (emptyResponseErr.test(err.message)) {
       return;
     } else throw err;
