@@ -11,7 +11,7 @@ export default defineConfig({
       "packages/arcgis-rest-routing/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-feature-service/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-developer-credentials/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-      "packages/arcgis-rest-portal/test/**/*.{test,spec}.?(c|m)[jt]s?(x)",
+      "packages/arcgis-rest-portal/**/*.{test,spec}.?(c|m)[jt]s?(x)",
     ],
     coverage: {
       enabled: true,
