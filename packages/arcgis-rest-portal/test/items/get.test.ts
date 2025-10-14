@@ -112,6 +112,14 @@ describe("get", () => {
     expect(response).toBe(undefined);
   });
 
+  test("should pass through error when request fails with a non-empty-response error", async () => {
+    fetchMock.once("*", {
+      throws: new Error("Pass-through error")
+    });
+
+    await expect(getItemData("3ef")).rejects.toThrow("Pass-through error");
+  });
+
   test("should return related items", async () => {
     fetchMock.once("*", RelatedItemsResponse);
     await getRelatedItems({
