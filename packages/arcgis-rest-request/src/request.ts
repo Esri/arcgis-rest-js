@@ -390,7 +390,7 @@ export function internalRequest(
         // dont append a '?' unless parameters are actually present
         /* istanbul ignore next */
         const urlWithQueryString =
-          queryParams === "" ? url : url + "?" + encodeQueryString(params);
+          queryParams === "" ? url : `${url}?${queryParams}`;
 
         if (
           // This would exceed the maximum length for URLs by 2000 as default or as specified by the consumer and requires POST
