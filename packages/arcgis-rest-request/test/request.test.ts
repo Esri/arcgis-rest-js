@@ -23,7 +23,7 @@ import {
   TOMORROW,
   FIVE_DAYS_FROM_NOW,
   isNode
-} from "../../../scripts/test-helpers.karma.js";
+} from "../../../scripts/test-helpers.js";
 import { requestConfig } from "../src/requestConfig.js";
 
 describe("request()", () => {

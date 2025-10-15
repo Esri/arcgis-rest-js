@@ -20,7 +20,7 @@ import {
   FIVE_DAYS_FROM_NOW,
   isBrowser,
   isNode
-} from "../../../scripts/test-helpers.karma.js";
+} from "../../../scripts/test-helpers.js";
 describe("ArcGISIdentityManager", () => {
   afterEach(() => {
     fetchMock.restore();
