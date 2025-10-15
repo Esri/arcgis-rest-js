@@ -3,7 +3,7 @@
 
 import fetchMock from "fetch-mock";
 import { ApplicationCredentialsManager } from "../src/index.js";
-import { YESTERDAY, TOMORROW } from "../../../scripts/test-helpers.js";
+import { YESTERDAY, TOMORROW } from "../../../scripts/test-helpers.karma.js";
 import { ArcGISTokenRequestError } from "../src/utils/ArcGISTokenRequestError.js";
 
 describe("ApplicationCredentialsManager", () => {
