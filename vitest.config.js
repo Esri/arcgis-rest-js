@@ -13,7 +13,6 @@ export default defineConfig({
       "packages/arcgis-rest-developer-credentials/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-portal/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-request/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-      "scripts/test-helpers.ts"
     ],
     coverage: {
       enabled: true,
