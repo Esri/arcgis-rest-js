@@ -2,12 +2,13 @@
  * Apache-2.0 */
 
 import { cleanUrl } from "../../src/utils/clean-url.js";
+import { describe, test, expect } from "vitest";
 
 const validUrl =
   "https://server.com/arcgis/rest/services/Custom Space/MapServer";
 
 describe("cleanUrl", () => {
-  it("should not mangle a valid url", () => {
+  test("should not mangle a valid url", () => {
     expect(
       cleanUrl(
         "https://server.com/arcgis/rest/services/Custom Space/MapServer/"
@@ -15,13 +16,13 @@ describe("cleanUrl", () => {
     ).toEqual(validUrl);
   });
 
-  it("should add a trailing slash", () => {
+  test("should add a trailing slash", () => {
     expect(
       cleanUrl("https://server.com/arcgis/rest/services/Custom Space/MapServer")
     ).toEqual(validUrl);
   });
 
-  it("should remove leading whitespace", () => {
+  test("should remove leading whitespace", () => {
     expect(
       cleanUrl(
         "  https://server.com/arcgis/rest/services/Custom Space/MapServer/"
@@ -29,7 +30,7 @@ describe("cleanUrl", () => {
     ).toEqual(validUrl);
   });
 
-  it("should remove trailing whitespace", () => {
+  test("should remove trailing whitespace", () => {
     expect(
       cleanUrl(
         "https://server.com/arcgis/rest/services/Custom Space/MapServer/   "
@@ -37,14 +38,14 @@ describe("cleanUrl", () => {
     ).toEqual(validUrl);
   });
 
-  it("should do it all at once", () => {
+  test("should do it all at once", () => {
     expect(
       cleanUrl(
         "  https://server.com/arcgis/rest/services/Custom Space/MapServer       "
       )
     ).toEqual(validUrl);
   });
-  it("should not throw on a null string", () => {
+  test("should not throw on a null string", () => {
     expect(cleanUrl(null)).toEqual(null);
   });
 });
