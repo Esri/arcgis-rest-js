@@ -13,16 +13,18 @@ import {
 } from "./../mocks/errors.js";
 import { request } from "../../src/request.js";
 import fetchMock from "fetch-mock";
+import { describe, test, expect, vi, afterEach } from "vitest";
 
 describe("ArcGISRequestError", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  it("should be an instanceof Error", () => {
-    expect(new ArcGISAuthError() instanceof Error).toBe(true);
+
+  test("should be an instanceof Error", () => {
+    expect(new ArcGISAuthError()).toBeInstanceOf(Error);
   });
 
-  it("should expose basic error properties", () => {
+  test("should expose basic error properties", () => {
     const error = new ArcGISAuthError(
       ArcGISOnlineAuthError.error.message,
       ArcGISOnlineAuthError.error.code,
@@ -36,7 +38,7 @@ describe("ArcGISRequestError", () => {
     expect(error.response).toEqual(ArcGISOnlineAuthError);
   });
 
-  it("should still format without a message, code or response", () => {
+  test("should still format without a message, code or response", () => {
     const error = new ArcGISAuthError();
     expect(error.message).toBe("AUTHENTICATION_ERROR");
     expect(error.code).toEqual("AUTHENTICATION_ERROR_CODE");
@@ -59,7 +61,7 @@ describe("ArcGISRequestError", () => {
       }
     };
 
-    it("should allow retrying a request with a new or updated session", (done) => {
+    test("should allow retrying a request with a new or updated session", async () => {
       const error = new ArcGISAuthError(
         "Invalid token.",
         498,
@@ -82,31 +84,28 @@ describe("ArcGISRequestError", () => {
         folder: null
       });
 
-      const retryHandlerSpy = spyOn(MockAuth, "retryHandler").and.callThrough();
+      const retryHandlerSpy = vi.spyOn(MockAuth, "retryHandler");
 
-      error
-        .retry(MockAuth.retryHandler, 3)
-        .then((response: any) => {
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem"
-          );
-          expect(options.method).toEqual("POST");
-          expect(retryHandlerSpy).toHaveBeenCalledTimes(1);
-          expect(options.body).toContain("token=token");
-          expect(options.body).toContain("tags=foo");
-          expect(options.body).toContain("f=json");
-          expect(response.success).toBe(true);
-          expect(response.id).toBe("abc");
-          expect(response.folder).toBe(null);
-          done();
-        })
-        .catch((e: any) => {
-          fail(e);
-        });
+      try {
+        const response: any = await error.retry(MockAuth.retryHandler, 3);
+        const [url, options] = fetchMock.lastCall("*");
+        expect(url).toEqual(
+          "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem"
+        );
+        expect(options.method).toEqual("POST");
+        expect(retryHandlerSpy).toHaveBeenCalledTimes(1);
+        expect(options.body).toContain("token=token");
+        expect(options.body).toContain("tags=foo");
+        expect(options.body).toContain("f=json");
+        expect(response.success).toBe(true);
+        expect(response.id).toBe("abc");
+        expect(response.folder).toBe(null);
+      } catch (e) {
+        throw e;
+      }
     });
 
-    it("should retry a request with a new or updated session up to the limit", (done) => {
+    test("should retry a request with a new or updated session up to the limit", async () => {
       const error = new ArcGISAuthError(
         "Invalid token.",
         498,
@@ -125,9 +124,11 @@ describe("ArcGISRequestError", () => {
 
       fetchMock.post("*", ArcGISOnlineAuthError);
 
-      const retryHandlerSpy = spyOn(MockAuth, "retryHandler").and.callThrough();
+      const retryHandlerSpy = vi.spyOn(MockAuth, "retryHandler");
 
-      error.retry(MockAuth.retryHandler, 3).catch((e: any) => {
+      try {
+        await error.retry(MockAuth.retryHandler, 3);
+      } catch (e: any) {
         const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(
           "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem"
@@ -139,11 +140,10 @@ describe("ArcGISRequestError", () => {
         expect(options.body).toContain("f=json");
         expect(e.name).toBe(ErrorTypes.ArcGISAuthError);
         expect(e.message).toBe("498: Invalid token.");
-        done();
-      });
+      }
     });
 
-    it("should throw an error if retrying throws a non-auth error", (done) => {
+    test("should throw an error if retrying throws a non-auth error", async () => {
       const requestUrl =
         "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem";
       const error = new ArcGISAuthError(
@@ -162,9 +162,11 @@ describe("ArcGISRequestError", () => {
 
       fetchMock.post("*", ArcGISOnlineError);
 
-      const retryHandlerSpy = spyOn(MockAuth, "retryHandler").and.callThrough();
+      const retryHandlerSpy = vi.spyOn(MockAuth, "retryHandler");
 
-      error.retry(MockAuth.retryHandler).catch((e: any) => {
+      try {
+        await error.retry(MockAuth.retryHandler);
+      } catch (e: any) {
         const [url, options] = fetchMock.lastCall("*");
         expect(url).toEqual(requestUrl);
         expect(options.method).toEqual("POST");
@@ -173,24 +175,24 @@ describe("ArcGISRequestError", () => {
         expect(options.body).toContain("f=json");
         expect(e.name).toBe(ErrorTypes.ArcGISRequestError);
         expect(e.message).toBe("400: 'type' and 'title' property required.");
-        done();
-      });
+      }
     });
 
-    it("should throw an authentication error for invalid credentials", (done) => {
+    test("should throw an authentication error for invalid credentials", async () => {
       fetchMock.post("*", GenerateTokenError);
 
-      request("https://www.arcgis.com/sharing/rest/generateToken", {
-        params: {
-          username: "correct",
-          password: "incorrect",
-          expiration: 10260,
-          referer: "localhost"
-        }
-      }).catch((err) => {
+      try {
+        await request("https://www.arcgis.com/sharing/rest/generateToken", {
+          params: {
+            username: "correct",
+            password: "incorrect",
+            expiration: 10260,
+            referer: "localhost"
+          }
+        });
+      } catch (err: any) {
         expect(err.name).toBe(ErrorTypes.ArcGISRequestError);
-        done();
-      });
+      }
     });
   });
 });
