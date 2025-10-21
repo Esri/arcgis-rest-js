@@ -6,13 +6,14 @@ import {
   ArcGISTokenRequestErrorCodes
 } from "../../src/index.js";
 import { RefreshTokenError } from "./../mocks/errors.js";
+import { describe, test, expect } from "vitest";
 
 describe("ArcGISTokenRequestError", () => {
-  it("should be an instanceof Error", () => {
+  test("should be an instanceof Error", () => {
     expect(new ArcGISTokenRequestError() instanceof Error).toBe(true);
   });
 
-  it("should expose basic error properties", () => {
+  test("should expose basic error properties", () => {
     const error = new ArcGISTokenRequestError(
       RefreshTokenError.error.message,
       ArcGISTokenRequestErrorCodes.REFRESH_TOKEN_EXCHANGE_FAILED,
@@ -40,7 +41,7 @@ describe("ArcGISTokenRequestError", () => {
     expect(error.options.httpMethod).toEqual("POST");
   });
 
-  it("should still format without a message, code or response", () => {
+  test("should still format without a message, code or response", () => {
     const error = new ArcGISTokenRequestError();
     expect(error.message).toBe("UNKNOWN_ERROR_CODE: UNKNOWN_ERROR");
     expect(error.code).toEqual("UNKNOWN_ERROR_CODE");
