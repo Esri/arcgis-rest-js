@@ -5,6 +5,7 @@ import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { getUserProperties } from "../../src/users/get-user-properties.js";
 import { userPropertiesResponse } from "../mocks/users/user-properties.js";
 import fetchMock from "fetch-mock";
+import { describe, test, expect, afterEach } from "vitest";
 
 const TOMORROW = (function () {
   const now = new Date();
@@ -25,47 +26,37 @@ describe("users", () => {
   });
 
   describe("getUserProperties", () => {
-    it("should make a request for user properties", (done) => {
+    test("should make a request for user properties", async () => {
       fetchMock.getOnce(
         "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties?f=json&token=fake-token",
         userPropertiesResponse
       );
 
-      getUserProperties(session.username, { authentication: session })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall();
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties?f=json&token=fake-token"
-          );
-          expect(options.method).toBe("GET");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await getUserProperties(session.username, { authentication: session });
+      expect(fetchMock.called()).toBe(true);
+      const [url, options] = fetchMock.lastCall();
+      expect(url).toBe(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties?f=json&token=fake-token"
+      );
+      expect(options.method).toBe("GET");
     });
 
-    it("should set mapViewer by default", (done) => {
+    test("should set mapViewer by default", async () => {
       fetchMock.getOnce(
         "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties?f=json&token=fake-token",
         { properties: {} }
       );
 
-      getUserProperties(session.username, { authentication: session })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall();
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties?f=json&token=fake-token"
-          );
-          expect(options.method).toBe("GET");
-          expect(response.mapViewer).toBe("modern");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const response = await getUserProperties(session.username, {
+        authentication: session
+      });
+      expect(fetchMock.called()).toBe(true);
+      const [url, options] = fetchMock.lastCall();
+      expect(url).toBe(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/properties?f=json&token=fake-token"
+      );
+      expect(options.method).toBe("GET");
+      expect(response.mapViewer).toBe("modern");
     });
   });
 });

@@ -1,6 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
 
 import { joinGroup, leaveGroup } from "../../src/groups/join.js";
@@ -29,43 +30,29 @@ describe("groups", () => {
       })
     };
 
-    it("should help a user join a group", (done) => {
+    test("should help a user join a group", async () => {
       fetchMock.once("*", GroupEditResponse);
-
-      joinGroup({ id: "5bc", ...MOCK_REQOPTS })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/join"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodeParam("f", "json"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await joinGroup({ id: "5bc", ...MOCK_REQOPTS });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/join"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain(encodeParam("f", "json"));
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
     });
-    it("should help a user leave a group", (done) => {
+    test("should help a user leave a group", async () => {
       fetchMock.once("*", GroupEditResponse);
-
-      leaveGroup({ id: "5bc", ...MOCK_REQOPTS })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/leave"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodeParam("f", "json"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await leaveGroup({ id: "5bc", ...MOCK_REQOPTS });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/leave"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain(encodeParam("f", "json"));
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
     });
   });
 });

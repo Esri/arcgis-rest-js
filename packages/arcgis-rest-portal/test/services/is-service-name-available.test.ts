@@ -1,6 +1,7 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, expect } from "vitest";
 import fetchMock from "fetch-mock";
 import { isServiceNameAvailable } from "../../src/services/is-service-name-available.js";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
@@ -19,22 +20,21 @@ describe("is-service-name-available", () => {
     portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
 
-  it("returns server response", () => {
+  test("should return server response", async () => {
     fetchMock.once("*", { available: true }, { method: "GET" });
 
-    return isServiceNameAvailable(
+    const result = await isServiceNameAvailable(
       "someService",
       "Feature Service",
       MOCK_USER_SESSION
-    ).then((result) => {
-      const [url] = fetchMock.lastCall("*");
+    );
+    const [url] = fetchMock.lastCall("*");
 
-      expect(result.available).toBe(true, "should return the api response");
-      expect(url).toContain(
-        `${MOCK_USER_SESSION.portal}/portals/self/isServiceNameAvailable`
-      );
-      expect(url).toContain("name=someService");
-      expect(url).toContain("type=Feature");
-    });
+    expect(result.available).toBe(true);
+    expect(url).toContain(
+      `${MOCK_USER_SESSION.portal}/portals/self/isServiceNameAvailable`
+    );
+    expect(url).toContain("name=someService");
+    expect(url).toContain("type=Feature");
   });
 });

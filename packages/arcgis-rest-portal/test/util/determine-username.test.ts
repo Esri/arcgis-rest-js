@@ -1,18 +1,17 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { getUser } from "../../src/index.js";
+import { describe, test, expect } from "vitest";
 import { determineUsername } from "../../src/util/determine-username.js";
 
 describe("determineUsername", () => {
-  it("should return undefined if no username is available", () => {
+  test("should return undefined if no username is available", async () => {
     const requestOptions = {};
-    return determineUsername(requestOptions).then((username) => {
-      expect(username).toEqual(undefined);
-    });
+    const username = await determineUsername(requestOptions);
+    expect(username).toEqual(undefined);
   });
 
-  it("should use the username in the requestOptions if passed", () => {
+  test("should use the username in the requestOptions if passed", async () => {
     const requestOptions = {
       username: "c@sey",
       authentication: {
@@ -26,12 +25,11 @@ describe("determineUsername", () => {
         }
       }
     };
-    return determineUsername(requestOptions).then((username) => {
-      expect(username).toEqual(encodeURIComponent("c@sey"));
-    });
+    const username = await determineUsername(requestOptions);
+    expect(username).toEqual(encodeURIComponent("c@sey"));
   });
 
-  it("should fallback to the username in the requestOptions authentication", () => {
+  test("should fallback to the username in the requestOptions authentication", async () => {
     const requestOptions = {
       authentication: {
         portal: "https://bar.com/arcgis/sharing/rest",
@@ -44,12 +42,11 @@ describe("determineUsername", () => {
         }
       }
     };
-    return determineUsername(requestOptions).then((username) => {
-      expect(username).toEqual(encodeURIComponent("bob"));
-    });
+    const username = await determineUsername(requestOptions);
+    expect(username).toEqual(encodeURIComponent("bob"));
   });
 
-  it("should fallback to getUsername() in the requestOptions authentication", () => {
+  test("should fallback to getUsername() in the requestOptions authentication", async () => {
     const requestOptions = {
       authentication: {
         portal: "https://bar.com/arcgis/sharing/rest",
@@ -61,8 +58,7 @@ describe("determineUsername", () => {
         }
       }
     };
-    return determineUsername(requestOptions).then((username) => {
-      expect(username).toEqual(encodeURIComponent("jsmith"));
-    });
+    const username = await determineUsername(requestOptions);
+    expect(username).toEqual(encodeURIComponent("jsmith"));
   });
 });

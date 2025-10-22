@@ -1,6 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
 
 import { searchGroups, searchGroupContent } from "../../src/groups/search.js";
@@ -13,89 +14,58 @@ describe("groups", () => {
     fetchMock.restore();
   });
   describe("searchGroups", () => {
-    it("should make a simple, unauthenticated group search request", (done) => {
+    test("should make a simple, unauthenticated group search request", async () => {
       fetchMock.once("*", GroupSearchResponse);
-
-      searchGroups("water")
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://www.arcgis.com/sharing/rest/community/groups?f=json&q=water"
-          );
-          expect(options.method).toBe("GET");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await searchGroups("water");
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://www.arcgis.com/sharing/rest/community/groups?f=json&q=water"
+      );
+      expect(options.method).toBe("GET");
     });
 
-    it("should take num, start, sortField, sortOrder and construct the request", (done) => {
+    test("should take num, start, sortField, sortOrder and construct the request", async () => {
       fetchMock.once("*", GroupSearchResponse);
-      searchGroups({
+      await searchGroups({
         q: "water",
         start: 4,
         num: 7,
         sortField: "owner",
         sortOrder: "desc"
-      })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://www.arcgis.com/sharing/rest/community/groups?f=json&q=water&num=7&start=4&sortField=owner&sortOrder=desc"
-          );
-          expect(options.method).toBe("GET");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://www.arcgis.com/sharing/rest/community/groups?f=json&q=water&num=7&start=4&sortField=owner&sortOrder=desc"
+      );
+      expect(options.method).toBe("GET");
     });
 
-    it("should search for group contents", (done) => {
+    test("should search for group contents", async () => {
       fetchMock.once("*", GroupSearchResponse);
-
-      searchGroupContent({
+      await searchGroupContent({
         groupId: "grp1234567890",
         q: "water"
-      })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://www.arcgis.com/sharing/rest/content/groups/grp1234567890/search?f=json&q=water"
-          );
-          expect(options.method).toBe("GET");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://www.arcgis.com/sharing/rest/content/groups/grp1234567890/search?f=json&q=water"
+      );
+      expect(options.method).toBe("GET");
     });
 
-    it("should catch search for group contents without group id", (done) => {
-      genericSearch(
-        {
-          q: "water"
-        },
-        "groupContent"
-      ).then(
-        () => fail(),
-        (err) => {
-          expect(err).toEqual(
-            new Error(
-              "you must pass a `groupId` option to `searchGroupContent`"
-            )
-          );
-          done();
-        }
+    test("should catch search for group contents without group id", async () => {
+      await expect(
+        genericSearch({ q: "water" }, "groupContent")
+      ).rejects.toEqual(
+        new Error("you must pass a `groupId` option to `searchGroupContent`")
       );
     });
   });
 
-  it("should make a simple, single search request with a builder", (done) => {
+  test("should make a simple, single search request with a builder", async () => {
     fetchMock.once("*", GroupSearchResponse);
     const expectedParam = "Trees AND owner:USFS";
     const q = new SearchQueryBuilder()
@@ -103,21 +73,15 @@ describe("groups", () => {
       .and()
       .match("USFS")
       .in("owner");
-    searchGroups(q)
-      .then(() => {
-        expect(fetchMock.called()).toEqual(true);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          `https://www.arcgis.com/sharing/rest/community/groups?f=json&q=${encodeURIComponent(
-            expectedParam
-          )}`
-        );
-        expect(options.method).toBe("GET");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    await searchGroups(q);
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      `https://www.arcgis.com/sharing/rest/community/groups?f=json&q=${encodeURIComponent(
+        expectedParam
+      )}`
+    );
+    expect(options.method).toBe("GET");
   });
 
   describe("authenticted methods", () => {
@@ -131,22 +95,15 @@ describe("groups", () => {
       authentication: MOCK_AUTH
     };
 
-    it("should make a simple, authenticated group search request", (done) => {
+    test("should make a simple, authenticated group search request", async () => {
       fetchMock.once("*", GroupSearchResponse);
-
-      searchGroups({ q: "water", authentication: MOCK_AUTH })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/groups?f=json&q=water&token=fake-token"
-          );
-          expect(options.method).toBe("GET");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await searchGroups({ q: "water", authentication: MOCK_AUTH });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/groups?f=json&q=water&token=fake-token"
+      );
+      expect(options.method).toBe("GET");
     });
   });
 });

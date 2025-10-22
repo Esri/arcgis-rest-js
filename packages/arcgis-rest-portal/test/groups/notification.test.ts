@@ -1,3 +1,4 @@
+import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
 
 import { encodeParam, ArcGISIdentityManager } from "@esri/arcgis-rest-request";
@@ -28,7 +29,7 @@ describe("groups", () => {
       authentication: MOCK_AUTH
     };
 
-    it("should create an email notification", (done) => {
+    test("should create an email notification", async () => {
       fetchMock.once("*", GroupNotificationResponse);
 
       const opts = {
@@ -38,35 +39,29 @@ describe("groups", () => {
         ...MOCK_REQOPTS
       };
 
-      createGroupNotification(opts)
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/createNotification"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodeParam("f", "json"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain(
-            encodeParam("subject", "this is the subject")
-          );
-          expect(options.body).toContain(
-            encodeParam("message", "this is the message")
-          );
-          expect(options.body).toContain(
-            encodeParam("notificationChannelType", "email")
-          );
-          expect(options.body).toContain(encodeParam("notifyAll", true));
-          expect(response.success).toEqual(true);
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const response = await createGroupNotification(opts);
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/createNotification"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain(encodeParam("f", "json"));
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain(
+        encodeParam("subject", "this is the subject")
+      );
+      expect(options.body).toContain(
+        encodeParam("message", "this is the message")
+      );
+      expect(options.body).toContain(
+        encodeParam("notificationChannelType", "email")
+      );
+      expect(options.body).toContain(encodeParam("notifyAll", true));
+      expect(response.success).toEqual(true);
     });
 
-    it("should create an email notification for specific users", (done) => {
+    test("should create an email notification for specific users", async () => {
       fetchMock.once("*", GroupNotificationResponse);
 
       const opts = {
@@ -77,35 +72,27 @@ describe("groups", () => {
         ...MOCK_REQOPTS
       };
 
-      createGroupNotification(opts)
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/createNotification"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodeParam("f", "json"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain(
-            encodeParam("subject", "this is the subject")
-          );
-          expect(options.body).toContain(
-            encodeParam("message", "this is the message")
-          );
-          expect(options.body).toContain(
-            encodeParam("notificationChannelType", "email")
-          );
-          expect(options.body).toContain(encodeParam("notifyAll", false));
-          expect(options.body).toContain(
-            encodeParam("users", "casey,atthebat")
-          );
-          expect(response.success).toEqual(true);
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const response = await createGroupNotification(opts);
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/groups/3ef/createNotification"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain(encodeParam("f", "json"));
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain(
+        encodeParam("subject", "this is the subject")
+      );
+      expect(options.body).toContain(
+        encodeParam("message", "this is the message")
+      );
+      expect(options.body).toContain(
+        encodeParam("notificationChannelType", "email")
+      );
+      expect(options.body).toContain(encodeParam("notifyAll", false));
+      expect(options.body).toContain(encodeParam("users", "casey,atthebat"));
+      expect(response.success).toEqual(true);
     });
   });
 });

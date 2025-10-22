@@ -1,3 +1,4 @@
+import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
 import {
   exportItem,
@@ -25,7 +26,7 @@ describe("exportItem", () => {
       portal: "https://myorg.maps.arcgis.com/sharing/rest"
     });
 
-    it("should export an item using the supplied owner", (done) => {
+    test("should export an item using the supplied owner", async () => {
       const mockResponse: IExportItemResponse = {
         type: "CSV",
         size: 100,
@@ -50,33 +51,27 @@ describe("exportItem", () => {
         },
         authentication
       };
-      exportItem(exportOptions)
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${exportOptions.owner}/export`
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain("itemId=3af");
-          expect(options.body).toContain(encodeParam("exportFormat", "CSV"));
-          expect(options.body).toContain(encodeParam("title", "test title"));
-          expect(options.body).toContain(
-            encodeParam(
-              "exportParameters",
-              JSON.stringify(exportOptions.exportParameters)
-            )
-          );
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await exportItem(exportOptions);
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        `https://myorg.maps.arcgis.com/sharing/rest/content/users/${exportOptions.owner}/export`
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain("itemId=3af");
+      expect(options.body).toContain(encodeParam("exportFormat", "CSV"));
+      expect(options.body).toContain(encodeParam("title", "test title"));
+      expect(options.body).toContain(
+        encodeParam(
+          "exportParameters",
+          JSON.stringify(exportOptions.exportParameters)
+        )
+      );
     });
 
-    it("should export an item falling back to the authenticated owner", (done) => {
+    test("should export an item falling back to the authenticated owner", async () => {
       const mockResponse: IExportItemResponse = {
         type: "CSV",
         size: 100,
@@ -88,28 +83,22 @@ describe("exportItem", () => {
 
       fetchMock.once("*", mockResponse);
 
-      exportItem({
+      await exportItem({
         id: "g33M1k3",
         exportFormat: "CSV",
         exportParameters: {
           layers: [{ id: 0 }, { id: 1, where: "POP1999 > 100000" }]
         },
         authentication
-      })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            `https://myorg.maps.arcgis.com/sharing/rest/content/users/${authentication.username}/export`
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        `https://myorg.maps.arcgis.com/sharing/rest/content/users/${authentication.username}/export`
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
     });
   });
 });

@@ -1,66 +1,40 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, expect } from "vitest";
 import { determineOwner, decorateThumbnail } from "../../src/items/helpers.js";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 
 describe("determineOwner()", () => {
-  it("should use owner if passed", (done) => {
-    determineOwner({
-      owner: "Casey"
-    })
-      .then((owner) => {
-        expect(owner).toEqual("Casey");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+  test("should use owner if passed", async () => {
+    const owner = await determineOwner({ owner: "Casey" });
+    expect(owner).toEqual("Casey");
   });
 
-  it("should use item owner if owner is not passed", (done) => {
-    determineOwner({
-      item: {
-        owner: "Casey"
-      }
-    })
-      .then((owner) => {
-        expect(owner).toEqual("Casey");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+  test("should use item owner if owner is not passed", async () => {
+    const owner = await determineOwner({ item: { owner: "Casey" } });
+    expect(owner).toEqual("Casey");
   });
 
-  it("should lookup owner from authentication if no owner or item owner", (done) => {
-    determineOwner({
+  test("should lookup owner from authentication if no owner or item owner", async () => {
+    const owner = await determineOwner({
       authentication: new ArcGISIdentityManager({
         token: "ABC",
         username: "Casey"
       })
-    })
-      .then((owner) => {
-        expect(owner).toEqual("Casey");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    expect(owner).toEqual("Casey");
   });
 
-  it("should throw an error is the user cannot be determined", (done) => {
-    determineOwner({}).catch((e) => {
-      expect(e.message).toEqual(
-        "Could not determine the owner of this item. Pass the `owner`, `item.owner`, or `authentication` option."
-      );
-      done();
-    });
+  test("should throw an error is the user cannot be determined", async () => {
+    await expect(determineOwner({})).rejects.toThrow(
+      "Could not determine the owner of this item. Pass the `owner`, `item.owner`, or `authentication` option."
+    );
   });
 });
 
 describe("decorateThumbnail()", () => {
-  it("should return null/undefined if item is null", () => {
+  test("should return null/undefined if item is null", () => {
     expect(decorateThumbnail(null as any, "https://portal.com")).toBeNull();
     expect(
       decorateThumbnail(undefined as any, "https://portal.com")

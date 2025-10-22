@@ -1,7 +1,7 @@
 /* Copyright (c) 2018-2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as isServiceNameAvailableModule from "../../src/services/is-service-name-available.js";
+import { describe, test, expect, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
 import { getUniqueServiceName } from "../../src/services/get-unique-service-name.js";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
@@ -23,21 +23,19 @@ describe("get-unique-service-name:", () => {
     portal: "https://myorg.maps.arcgis.com/sharing/rest"
   });
 
-  it("does single check if unique", () => {
+  test("does single check if unique", async () => {
     fetchMock.mock("*", { available: true }, { method: "GET" });
 
-    return getUniqueServiceName(
+    const result = await getUniqueServiceName(
       "myService",
       "Feature Service",
       MOCK_USER_SESSION,
       0
-    ).then((result) => {
-      const call = fetchMock.lastCall();
-      expect(result).toBe("myService", "should return name");
-    });
+    );
+    expect(result).toBe("myService");
   });
 
-  it("makes multiple calls if already taken", () => {
+  test("makes multiple calls if already taken and should return unique name", async () => {
     fetchMock.get(
       `${MOCK_USER_SESSION.portal}/portals/self/isServiceNameAvailable?f=json&name=myService&type=Feature%20Service&token=fake-token`,
       {
@@ -52,13 +50,12 @@ describe("get-unique-service-name:", () => {
       }
     );
 
-    return getUniqueServiceName(
+    const result = await getUniqueServiceName(
       "myService",
       "Feature Service",
       MOCK_USER_SESSION,
       0
-    ).then((result) => {
-      expect(result).toBe("myService_1", "should return name");
-    });
+    );
+    expect(result).toBe("myService_1");
   });
 });

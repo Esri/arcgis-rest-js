@@ -1,6 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
 
 import { createGroup } from "../../src/groups/create.js";
@@ -21,7 +22,7 @@ describe("groups", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  describe("authenticted methods", () => {
+  describe("authenticated methods", () => {
     const MOCK_AUTH = new ArcGISIdentityManager({
       clientId: "clientId",
       redirectUri: "https://example-app.com/redirect-uri",
@@ -38,7 +39,7 @@ describe("groups", () => {
       authentication: MOCK_AUTH
     };
 
-    it("should create a group", (done) => {
+    test("should create a group", async () => {
       fetchMock.once("*", GroupEditResponse);
       const fakeGroup = {
         title: "fake group",
@@ -47,55 +48,43 @@ describe("groups", () => {
         description: "my fake group",
         access: "public"
       } as IGroupAdd;
-      createGroup({ group: fakeGroup, ...MOCK_REQOPTS })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/createGroup"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodeParam("f", "json"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain(encodeParam("owner", "fakeUser"));
-          // ensure the array props are serialized into strings
-          expect(options.body).toContain(encodeParam("tags", "foo,bar"));
-          expect(options.body).toContain(encodeParam("access", "public"));
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await createGroup({ group: fakeGroup, ...MOCK_REQOPTS });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/createGroup"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain(encodeParam("f", "json"));
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain(encodeParam("owner", "fakeUser"));
+      // ensure the array props are serialized into strings
+      expect(options.body).toContain(encodeParam("tags", "foo,bar"));
+      expect(options.body).toContain(encodeParam("access", "public"));
     });
 
-    it("should create a group without an owner or tags", (done) => {
+    test("should create a group without an owner or tags", async () => {
       fetchMock.once("*", GroupEditResponse);
       const fakeGroup = {
         title: "bone stock fake group",
         access: "org"
       } as IGroupAdd;
-      createGroup({ group: fakeGroup, ...MOCK_REQOPTS })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/createGroup"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodeParam("f", "json"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain(
-            encodeParam("title", "bone stock fake group")
-          );
-          expect(options.body).toContain(encodeParam("access", "org"));
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await createGroup({ group: fakeGroup, ...MOCK_REQOPTS });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/createGroup"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain(encodeParam("f", "json"));
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain(
+        encodeParam("title", "bone stock fake group")
+      );
+      expect(options.body).toContain(encodeParam("access", "org"));
     });
 
-    it("should update a group", (done) => {
+    test("should update a group", async () => {
       fetchMock.once("*", GroupEditResponse);
       const fakeGroup = {
         id: "5bc",
@@ -104,27 +93,21 @@ describe("groups", () => {
         tags: ["foo", "bar"],
         description: "my fake group"
       };
-      updateGroup({ group: fakeGroup, ...MOCK_REQOPTS })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/update"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodeParam("f", "json"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain(encodeParam("owner", "fakeUser"));
-          // ensure the array props are serialized into strings
-          expect(options.body).toContain(encodeParam("tags", "foo,bar"));
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await updateGroup({ group: fakeGroup, ...MOCK_REQOPTS });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/update"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain(encodeParam("f", "json"));
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain(encodeParam("owner", "fakeUser"));
+      // ensure the array props are serialized into strings
+      expect(options.body).toContain(encodeParam("tags", "foo,bar"));
     });
 
-    it("should update a group with a custom param", (done) => {
+    test("should update a group with a custom param", async () => {
       fetchMock.once("*", GroupEditResponse);
       const fakeGroup = {
         id: "5bc",
@@ -133,51 +116,38 @@ describe("groups", () => {
         tags: ["foo", "bar"],
         description: "my fake group"
       };
-      updateGroup({
+      await updateGroup({
         group: fakeGroup,
         authentication: MOCK_AUTH,
         params: {
           clearEmptyFields: true
         }
-      })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/update"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodeParam("f", "json"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain(encodeParam("owner", "fakeUser"));
-          // ensure the array props are serialized into strings
-          expect(options.body).toContain(encodeParam("tags", "foo,bar"));
-          expect(options.body).toContain(encodeParam("clearEmptyFields", true));
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/update"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain(encodeParam("f", "json"));
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain(encodeParam("owner", "fakeUser"));
+      // ensure the array props are serialized into strings
+      expect(options.body).toContain(encodeParam("tags", "foo,bar"));
+      expect(options.body).toContain(encodeParam("clearEmptyFields", true));
     });
 
-    it("should remove a group", (done) => {
+    test("should remove a group", async () => {
       fetchMock.once("*", GroupEditResponse);
-
-      removeGroup({ id: "5bc", ...MOCK_REQOPTS })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/delete"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodeParam("f", "json"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await removeGroup({ id: "5bc", ...MOCK_REQOPTS });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/groups/5bc/delete"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain(encodeParam("f", "json"));
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
     });
   });
 });

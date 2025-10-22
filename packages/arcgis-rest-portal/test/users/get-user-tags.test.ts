@@ -4,8 +4,8 @@
 import fetchMock from "fetch-mock";
 import { getUserTags } from "../../src/users/get-user-tags.js";
 import { UserTagsResponse } from "../mocks/users/user-tags.js";
-
 import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
+import { describe, test, expect, afterEach } from "vitest";
 
 const TOMORROW = (function () {
   const now = new Date();
@@ -26,47 +26,35 @@ describe("users", () => {
       portal: "https://myorg.maps.arcgis.com/sharing/rest"
     });
 
-    it("should make an authenticated request for tags used by a user", (done) => {
+    test("should make an authenticated request for tags used by a user", async () => {
       fetchMock.once("*", UserTagsResponse);
 
-      getUserTags({ authentication: session })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/tags"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await getUserTags({ authentication: session });
+      expect(fetchMock.called()).toBe(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toBe(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/users/c%40sey/tags"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
     });
 
-    it("should make an authenticated request for tags used by a different user", (done) => {
+    test("should make an authenticated request for tags used by a different user", async () => {
       fetchMock.once("*", UserTagsResponse);
 
-      getUserTags({
+      await getUserTags({
         username: "jsmith",
         authentication: session
-      })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith/tags"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toBe(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toBe(
+        "https://myorg.maps.arcgis.com/sharing/rest/community/users/jsmith/tags"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
     });
   });
 });

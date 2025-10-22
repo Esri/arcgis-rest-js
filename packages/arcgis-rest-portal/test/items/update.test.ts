@@ -1,6 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
 
 import {
@@ -43,7 +44,7 @@ describe("search", () => {
       authentication: MOCK_USER_SESSION
     };
 
-    it("should update an item, including data", (done) => {
+    test("should update an item, including data", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         id: "5bc",
@@ -67,34 +68,24 @@ describe("search", () => {
           }
         })
       };
-      updateItem({ item: fakeItem, ...MOCK_USER_REQOPTS })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/5bc/update"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodeParam("f", "json"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain(encodeParam("owner", "dbouwman"));
-          // ensure the array props are serialized into strings
-          expect(options.body).toContain(encodeParam("extent", "1,2,3,4"));
-          expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake,kwds")
-          );
-          expect(options.body).toContain(
-            encodeParam("tags", "fakey,mcfakepants")
-          );
-          expect(options.body).toContain(encodeParam("text", fakeItem.text));
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await updateItem({ item: fakeItem, ...MOCK_USER_REQOPTS });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/5bc/update"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain(encodeParam("f", "json"));
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain(encodeParam("owner", "dbouwman"));
+      // ensure the array props are serialized into strings
+      expect(options.body).toContain(encodeParam("extent", "1,2,3,4"));
+      expect(options.body).toContain(encodeParam("typeKeywords", "fake,kwds"));
+      expect(options.body).toContain(encodeParam("tags", "fakey,mcfakepants"));
+      expect(options.body).toContain(encodeParam("text", fakeItem.text));
     });
 
-    it("should update an item with custom params", (done) => {
+    test("should update an item with custom params", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         id: "5bc",
@@ -114,42 +105,32 @@ describe("search", () => {
           }
         }
       };
-      updateItem({
+      await updateItem({
         item: fakeItem,
         authentication: MOCK_USER_SESSION,
         params: {
           clearEmptyFields: true
         }
-      })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/5bc/update"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodeParam("f", "json"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain(encodeParam("owner", "dbouwman"));
-          // ensure the array props are serialized into strings
-          expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake,kwds")
-          );
-          expect(options.body).toContain(
-            encodeParam("tags", "fakey,mcfakepants")
-          );
-          expect(options.body).toContain(
-            encodeParam("text", JSON.stringify(fakeItem.text))
-          );
-          expect(options.body).toContain(encodeParam("clearEmptyFields", true));
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/5bc/update"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain(encodeParam("f", "json"));
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain(encodeParam("owner", "dbouwman"));
+      // ensure the array props are serialized into strings
+      expect(options.body).toContain(encodeParam("typeKeywords", "fake,kwds"));
+      expect(options.body).toContain(encodeParam("tags", "fakey,mcfakepants"));
+      expect(options.body).toContain(
+        encodeParam("text", JSON.stringify(fakeItem.text))
+      );
+      expect(options.body).toContain(encodeParam("clearEmptyFields", true));
     });
 
-    it("should update an item, including data and service proxy params", (done) => {
+    test("should update an item, including data and service proxy params", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         id: "5bc",
@@ -175,47 +156,37 @@ describe("search", () => {
         }
       };
 
-      updateItem({
+      await updateItem({
         item: fakeItem,
         folderId: "aFolder",
         params: { foo: "bar" },
         ...MOCK_USER_REQOPTS
-      })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/aFolder/items/5bc/update"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain(encodeParam("f", "json"));
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain(encodeParam("owner", "dbouwman"));
-          expect(options.body).toContain(encodeParam("foo", "bar"));
-          expect(options.body).toContain(
-            encodeParam(
-              "serviceProxyParams",
-              '{"hitsPerInterval":2,"intervalSeconds":60,"referrers":["http://<servername>"]}'
-            )
-          );
-          // ensure the array props are serialized into strings
-          expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake,kwds")
-          );
-          expect(options.body).toContain(
-            encodeParam("tags", "fakey,mcfakepants")
-          );
-          expect(options.body).toContain(
-            encodeParam("text", JSON.stringify(fakeItem.text))
-          );
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/aFolder/items/5bc/update"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain(encodeParam("f", "json"));
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain(encodeParam("owner", "dbouwman"));
+      expect(options.body).toContain(encodeParam("foo", "bar"));
+      expect(options.body).toContain(
+        encodeParam(
+          "serviceProxyParams",
+          '{"hitsPerInterval":2,"intervalSeconds":60,"referrers":["http://<servername>"]}'
+        )
+      );
+      // ensure the array props are serialized into strings
+      expect(options.body).toContain(encodeParam("typeKeywords", "fake,kwds"));
+      expect(options.body).toContain(encodeParam("tags", "fakey,mcfakepants"));
+      expect(options.body).toContain(
+        encodeParam("text", JSON.stringify(fakeItem.text))
+      );
     });
 
-    it("should delete thumbnailUrl if it matches decoratedThumbnail", (done) => {
+    test("should delete thumbnailUrl if it matches decoratedThumbnail", async () => {
       const fakeItem = {
         id: "5bc",
         owner: "dbouwman",
@@ -232,29 +203,23 @@ describe("search", () => {
 
       fetchMock.once(itemUrl, { success: true });
 
-      updateItem({
+      await updateItem({
         item: fakeItem,
         params: {
           thumbnailUrl:
             "https://myorg.maps.arcgis.com/sharing/rest/content/items/5bc/info/thumbnail.png"
         },
         authentication: MOCK_USER_SESSION
-      })
-        .then(() => {
-          expect(fetchMock.called(itemUrl)).toBe(true);
-          const [, options] = fetchMock.lastCall(itemUrl)!;
-          const body = options.body as any;
-          const params = new URLSearchParams(body);
-          const thumbnailValue = params.get("thumbnailUrl");
-          expect(thumbnailValue).toBeNull();
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called(itemUrl)).toBe(true);
+      const [, options] = fetchMock.lastCall(itemUrl)!;
+      const body = options.body as any;
+      const params = new URLSearchParams(body);
+      const thumbnailValue = params.get("thumbnailUrl");
+      expect(thumbnailValue).toBeNull();
     });
 
-    it("should update thumbnail when thumbnail is a Blob", (done) => {
+    test("should update thumbnail when thumbnail is a Blob", async () => {
       const fakeItem = {
         id: "5bc",
         owner: "dbouwman",
@@ -271,26 +236,20 @@ describe("search", () => {
 
       fetchMock.postOnce(itemUrl, { success: true });
 
-      updateItem({
+      await updateItem({
         item: fakeItem,
         params: { thumbnail: blobThumbnail },
         authentication: MOCK_USER_SESSION
-      })
-        .then(() => {
-          expect(fetchMock.called(itemUrl)).toBe(true);
-          const [, options] = fetchMock.lastCall(itemUrl)!;
-          const body = options.body as any;
-          const thumbnailValue = body.get("thumbnail");
-          expect(typeof thumbnailValue).toBe("object");
-          expect((thumbnailValue as Blob).type).toBe("image/png");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called(itemUrl)).toBe(true);
+      const [, options] = fetchMock.lastCall(itemUrl)!;
+      const body = options.body as any;
+      const thumbnailValue = body.get("thumbnail");
+      expect(typeof thumbnailValue).toBe("object");
+      expect((thumbnailValue as Blob).type).toBe("image/png");
     });
 
-    it("should update thumbnailUrl when it differs from decoratedThumbnail", (done) => {
+    test("should update thumbnailUrl when it differs from decoratedThumbnail", async () => {
       const fakeItem = {
         id: "5bc",
         owner: "dbouwman",
@@ -309,156 +268,124 @@ describe("search", () => {
 
       fetchMock.postOnce(itemUrl, { success: true });
 
-      updateItem({
+      await updateItem({
         item: fakeItem,
         params: { thumbnailUrl: newThumbnailUrl },
         authentication: MOCK_USER_SESSION
-      })
-        .then(() => {
-          expect(fetchMock.called(itemUrl)).toBe(true);
-          const [, options] = fetchMock.lastCall(itemUrl)!;
-          const body = options.body as any;
-          const params = new URLSearchParams(body);
-          const thumbnailValue = params.get("thumbnailUrl");
-          expect(thumbnailValue).toBe(newThumbnailUrl);
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called(itemUrl)).toBe(true);
+      const [, options] = fetchMock.lastCall(itemUrl)!;
+      const body = options.body as any;
+      const params = new URLSearchParams(body);
+      const thumbnailValue = params.get("thumbnailUrl");
+      expect(thumbnailValue).toBe(newThumbnailUrl);
     });
 
-    it("update an item info file", (done) => {
+    test("update an item info file", async () => {
       fetchMock.once("*", UpdateItemInfoResponse);
 
       const file = attachmentFile();
-      updateItemInfo({
+      await updateItemInfo({
         id: "3ef",
         folderName: "subfolder",
         file,
         ...MOCK_USER_REQOPTS
-      })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateinfo"
-          );
-          expect(options.method).toBe("POST");
-          const params = options.body as FormData;
-          if (params.get) {
-            expect(params.get("token")).toEqual("fake-token");
-            expect(params.get("f")).toEqual("json");
-            expect(params.get("file")).toEqual(file);
-          }
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateinfo"
+      );
+      expect(options.method).toBe("POST");
+      const params = options.body as FormData;
+      if (params.get) {
+        expect(params.get("token")).toEqual("fake-token");
+        expect(params.get("f")).toEqual("json");
+        expect(params.get("file")).toEqual(file);
+      }
     });
 
-    it("update an item resource", (done) => {
+    test("update an item resource", async () => {
       fetchMock.once("*", UpdateItemResourceResponse);
-      updateItemResource({
+      await updateItemResource({
         id: "3ef",
         owner: "dbouwman",
         name: "banner.png",
         prefix: "image",
         content: "jumbotron",
         ...MOCK_USER_REQOPTS
-      })
-        .then(() => {
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/updateResources"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body instanceof FormData).toBeTruthy();
-          const params = options.body as FormData;
-          if (params.get) {
-            expect(params.get("f")).toEqual("json");
-            expect(params.get("fileName")).toEqual("banner.png");
-            expect(params.get("resourcesPrefix")).toEqual("image");
-            expect(params.get("text")).toEqual("jumbotron");
-            expect(params.get("access")).toEqual(null);
-            expect(params.get("token")).toEqual("fake-token");
-          }
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/items/3ef/updateResources"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body instanceof FormData).toBeTruthy();
+      const params = options.body as FormData;
+      if (params.get) {
+        expect(params.get("f")).toEqual("json");
+        expect(params.get("fileName")).toEqual("banner.png");
+        expect(params.get("resourcesPrefix")).toEqual("image");
+        expect(params.get("text")).toEqual("jumbotron");
+        expect(params.get("access")).toEqual(null);
+        expect(params.get("token")).toEqual("fake-token");
+      }
     });
 
-    it("should update a binary resource to an item", (done) => {
+    test("should update a binary resource to an item", async () => {
       fetchMock.once("*", { success: true });
       const file = attachmentFile();
 
-      updateItemResource({
+      await updateItemResource({
         id: "3ef",
         // File() is only available in the browser
         resource: file,
         name: "thebigkahuna",
         ...MOCK_USER_REQOPTS
-      })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body instanceof FormData).toBeTruthy();
-          const params = options.body as FormData;
-          if (params.get) {
-            expect(params.get("token")).toEqual("fake-token");
-            expect(params.get("f")).toEqual("json");
-            expect(params.get("file")).toEqual(file);
-            expect(params.get("fileName")).toEqual("thebigkahuna");
-          }
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body instanceof FormData).toBeTruthy();
+      const params = options.body as FormData;
+      if (params.get) {
+        expect(params.get("token")).toEqual("fake-token");
+        expect(params.get("f")).toEqual("json");
+        expect(params.get("file")).toEqual(file);
+        expect(params.get("fileName")).toEqual("thebigkahuna");
+      }
     });
 
-    it("update an item resource, no owner passed", (done) => {
+    test("update an item resource, no owner passed", async () => {
       fetchMock.once("*", UpdateItemResourceResponse);
-      updateItemResource({
+      await updateItemResource({
         id: "3ef",
         name: "image/banner.png",
         content: "jumbotron",
         ...MOCK_USER_REQOPTS
-      })
-        .then(() => {
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body instanceof FormData).toBeTruthy();
-          const params = options.body as FormData;
-          if (params.get) {
-            expect(params.get("f")).toEqual("json");
-            expect(params.get("fileName")).toEqual("image/banner.png");
-            expect(params.get("text")).toEqual("jumbotron");
-            expect(params.get("access")).toEqual(null);
-            expect(params.get("token")).toEqual("fake-token");
-          }
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body instanceof FormData).toBeTruthy();
+      const params = options.body as FormData;
+      if (params.get) {
+        expect(params.get("f")).toEqual("json");
+        expect(params.get("fileName")).toEqual("image/banner.png");
+        expect(params.get("text")).toEqual("jumbotron");
+        expect(params.get("access")).toEqual(null);
+        expect(params.get("token")).toEqual("fake-token");
+      }
     });
 
-    it("update an item resource with extra params", (done) => {
+    test("update an item resource with extra params", async () => {
       fetchMock.once("*", UpdateItemResourceResponse);
-      updateItemResource({
+      await updateItemResource({
         id: "3ef",
         name: "image/banner.png",
         content: "jumbotron",
@@ -466,202 +393,156 @@ describe("search", () => {
         params: {
           resourcesPrefix: "foolder"
         }
-      })
-        .then(() => {
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body instanceof FormData).toBeTruthy();
-          const params = options.body as FormData;
-          if (params.get) {
-            expect(params.get("f")).toEqual("json");
-            expect(params.get("fileName")).toEqual("image/banner.png");
-            expect(params.get("resourcesPrefix")).toEqual("foolder");
-            expect(params.get("text")).toEqual("jumbotron");
-            expect(params.get("access")).toEqual(null);
-            expect(params.get("token")).toEqual("fake-token");
-          }
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body instanceof FormData).toBeTruthy();
+      const params = options.body as FormData;
+      if (params.get) {
+        expect(params.get("f")).toEqual("json");
+        expect(params.get("fileName")).toEqual("image/banner.png");
+        expect(params.get("resourcesPrefix")).toEqual("foolder");
+        expect(params.get("text")).toEqual("jumbotron");
+        expect(params.get("access")).toEqual(null);
+        expect(params.get("token")).toEqual("fake-token");
+      }
     });
 
-    it("update an item resource to make it secret", (done) => {
+    test("update an item resource to make it secret", async () => {
       fetchMock.once("*", UpdateItemResourceResponse);
-      updateItemResource({
+      await updateItemResource({
         id: "3ef",
         name: "image/banner.png",
         private: true,
         ...MOCK_USER_REQOPTS
-      })
-        .then(() => {
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body instanceof FormData).toBeTruthy();
-          const params = options.body as FormData;
-          if (params.get) {
-            expect(params.get("f")).toEqual("json");
-            expect(params.get("fileName")).toEqual("image/banner.png");
-            expect(params.get("access")).toEqual("private");
-            expect(params.get("token")).toEqual("fake-token");
-          }
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body instanceof FormData).toBeTruthy();
+      const params = options.body as FormData;
+      if (params.get) {
+        expect(params.get("f")).toEqual("json");
+        expect(params.get("fileName")).toEqual("image/banner.png");
+        expect(params.get("access")).toEqual("private");
+        expect(params.get("token")).toEqual("fake-token");
+      }
     });
 
-    it("update an item resource to spill the beans", (done) => {
+    test("update an item resource to spill the beans", async () => {
       fetchMock.once("*", UpdateItemResourceResponse);
-      updateItemResource({
+      await updateItemResource({
         id: "3ef",
         name: "image/banner.png",
         content: "jumbotron",
         private: false,
         ...MOCK_USER_REQOPTS
-      })
-        .then(() => {
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body instanceof FormData).toBeTruthy();
-          const params = options.body as FormData;
-          if (params.get) {
-            expect(params.get("f")).toEqual("json");
-            expect(params.get("fileName")).toEqual("image/banner.png");
-            expect(params.get("text")).toEqual("jumbotron");
-            expect(params.get("access")).toEqual("inherit");
-            expect(params.get("token")).toEqual("fake-token");
-          }
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/3ef/updateResources"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body instanceof FormData).toBeTruthy();
+      const params = options.body as FormData;
+      if (params.get) {
+        expect(params.get("f")).toEqual("json");
+        expect(params.get("fileName")).toEqual("image/banner.png");
+        expect(params.get("text")).toEqual("jumbotron");
+        expect(params.get("access")).toEqual("inherit");
+        expect(params.get("token")).toEqual("fake-token");
+      }
     });
 
-    it("should move an item to a folder", (done) => {
+    test("should move an item to a folder", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const itemId = "3ef";
       const folderId = "7c5";
-      moveItem({
+      await moveItem({
         itemId,
         folderId,
         ...MOCK_USER_REQOPTS
-      })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/" +
-              itemId +
-              "/move"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain("folder=" + folderId);
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/" +
+          itemId +
+          "/move"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain("folder=" + folderId);
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
     });
 
-    it("should move an item to the root folder 1", (done) => {
+    test("should move an item to the root folder 1", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const itemId = "3ef";
-      moveItem({
+      await moveItem({
         itemId,
         ...MOCK_USER_REQOPTS
-      })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/" +
-              itemId +
-              "/move"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain("folder=%2F&");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/" +
+          itemId +
+          "/move"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain("folder=%2F&");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
     });
 
-    it("should move an item to the root folder 2", (done) => {
+    test("should move an item to the root folder 2", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const itemId = "3ef";
       const folderId = "";
-      moveItem({
+      await moveItem({
         itemId,
         folderId,
         ...MOCK_USER_REQOPTS
-      })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/" +
-              itemId +
-              "/move"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain("folder=%2F&");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/" +
+          itemId +
+          "/move"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain("folder=%2F&");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
     });
 
-    it("should move an item to the root folder 3", (done) => {
+    test("should move an item to the root folder 3", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const itemId = "3ef";
       const folderId = "/";
-      moveItem({
+      await moveItem({
         itemId,
         folderId,
         ...MOCK_USER_REQOPTS
-      })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/" +
-              itemId +
-              "/move"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain("folder=%2F&");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/items/" +
+          itemId +
+          "/move"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain("folder=%2F&");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
     });
   }); // auth requests
 });

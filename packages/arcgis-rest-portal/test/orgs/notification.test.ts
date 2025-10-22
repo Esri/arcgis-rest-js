@@ -1,3 +1,4 @@
+import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
 import { ArcGISIdentityManager, encodeParam } from "@esri/arcgis-rest-request";
 import { TOMORROW } from "../../../../scripts/test-helpers.js";
@@ -33,9 +34,9 @@ describe("create-org-notification", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  it("should send multiple requests for a long user array", (done) => {
-    const requests = [createUsernames(0, 25), createUsernames(25, 35)];
 
+  test("should send multiple requests for a long user array", async () => {
+    const requests = [createUsernames(0, 25), createUsernames(25, 35)];
     const responses = [{ success: true }, { success: true }];
 
     fetchMock.post("*", (url, options) => {
@@ -52,7 +53,6 @@ describe("create-org-notification", () => {
       expect(options.body).toContain(
         encodeParam("users", requests.shift().join(","))
       );
-
       return responses.shift();
     });
 
@@ -64,18 +64,14 @@ describe("create-org-notification", () => {
       authentication: MOCK_AUTH
     };
 
-    createOrgNotification(params)
-      .then((result) => {
-        expect(requests.length).toEqual(0);
-        expect(responses.length).toEqual(0);
-        expect(result.success).toEqual(true);
-        expect(result.errors).toBeUndefined();
-        done();
-      })
-      .catch((error) => fail(error));
+    const result = await createOrgNotification(params);
+    expect(requests.length).toEqual(0);
+    expect(responses.length).toEqual(0);
+    expect(result.success).toEqual(true);
+    expect(result.errors).toBeUndefined();
   });
 
-  it("should return request failure", (done) => {
+  test("should return request failure", async () => {
     const responses = [
       { success: true },
       {
@@ -97,30 +93,23 @@ describe("create-org-notification", () => {
       authentication: MOCK_AUTH
     };
 
-    createOrgNotification(params)
-      .then((result) => {
-        expect(responses.length).toEqual(0);
-        expect(result.success).toEqual(false);
-
-        expect(result.errors.length).toEqual(1);
-
-        const errorA = result.errors[0];
-        expect(errorA.url).toEqual(
-          "https://myorg.maps.arcgis.com/sharing/rest/portals/self/createNotification"
-        );
-        expect(errorA.code).toEqual("ORG_9001");
-        expect(errorA.originalMessage).toEqual(
-          "error message for creating org notification"
-        );
-
-        const errorAOptions: any = errorA.options;
-        expect(errorAOptions.params.users).toEqual(createUsernames(25, 30));
-        done();
-      })
-      .catch((error) => fail(error));
+    const result = await createOrgNotification(params);
+    expect(responses.length).toEqual(0);
+    expect(result.success).toEqual(false);
+    expect(result.errors.length).toEqual(1);
+    const errorA = result.errors[0];
+    expect(errorA.url).toEqual(
+      "https://myorg.maps.arcgis.com/sharing/rest/portals/self/createNotification"
+    );
+    expect(errorA.code).toEqual("ORG_9001");
+    expect(errorA.originalMessage).toEqual(
+      "error message for creating org notification"
+    );
+    const errorAOptions: any = errorA.options;
+    expect(errorAOptions.params.users).toEqual(createUsernames(25, 30));
   });
 
-  it("should not send any request for zero-length username array", (done) => {
+  test("should not send any request for zero-length username array", async () => {
     const params: ICreateOrgNotificationOptions = {
       message: "This won't get sent",
       subject: "Attention",
@@ -129,14 +118,9 @@ describe("create-org-notification", () => {
       authentication: MOCK_AUTH
     };
     fetchMock.post("*", () => 200);
-    createOrgNotification(params)
-      .then((result) => {
-        expect(fetchMock.called()).toEqual(false);
-        expect(result.success).toEqual(true);
-        expect(result.errors).toBeUndefined();
-
-        done();
-      })
-      .catch((error) => fail(error));
+    const result = await createOrgNotification(params);
+    expect(fetchMock.called()).toEqual(false);
+    expect(result.success).toEqual(true);
+    expect(result.errors).toBeUndefined();
   });
 });

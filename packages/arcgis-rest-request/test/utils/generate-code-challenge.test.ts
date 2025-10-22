@@ -1,5 +1,5 @@
 import { generateCodeChallenge } from "../../src/utils/generate-code-challenge.js";
-import { isBrowser } from "../../../../scripts/test-helpers.js";
+import { isBrowser } from "../../../../scripts/test-helpers.karma.js";
 
 describe("generateCodeChallenge()", () => {
   if (isBrowser) {

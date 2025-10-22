@@ -1,6 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
 import {
   createFolder,
@@ -39,7 +40,7 @@ describe("search", () => {
       authentication: MOCK_USER_SESSION
     };
 
-    it("should create an item with data", (done) => {
+    test("should create an item with data", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         owner: "dbouwman",
@@ -62,41 +63,30 @@ describe("search", () => {
           }
         }
       };
-      createItem({
+      await createItem({
         item: fakeItem,
         owner: "dbouwman",
         ...MOCK_USER_REQOPTS
-      })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/addItem"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain("owner=dbouwman");
-          // ensure the array props are serialized into strings
-          expect(options.body).toContain(encodeParam("extent", "1,2,3,4"));
-          expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake,kwds")
-          );
-          expect(options.body).toContain(
-            encodeParam("tags", "fakey,mcfakepants")
-          );
-          expect(options.body).toContain(
-            encodeParam("properties", JSON.stringify(fakeItem.properties))
-          );
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/addItem"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain("owner=dbouwman");
+      // ensure the array props are serialized into strings
+      expect(options.body).toContain(encodeParam("extent", "1,2,3,4"));
+      expect(options.body).toContain(encodeParam("typeKeywords", "fake,kwds"));
+      expect(options.body).toContain(encodeParam("tags", "fakey,mcfakepants"));
+      expect(options.body).toContain(
+        encodeParam("properties", JSON.stringify(fakeItem.properties))
+      );
     });
 
-    it("should create an item without an explicit owner", (done) => {
+    test("should create an item without an explicit owner", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         title: "my fake item",
@@ -110,39 +100,28 @@ describe("search", () => {
           key: "somevalue"
         }
       };
-      createItem({
+      await createItem({
         item: fakeItem,
         ...MOCK_USER_REQOPTS
-      })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/addItem"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain("owner=dbouwman");
-          // ensure the array props are serialized into strings
-          expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake,kwds")
-          );
-          expect(options.body).toContain(
-            encodeParam("tags", "fakey,mcfakepants")
-          );
-          expect(options.body).toContain(
-            encodeParam("properties", JSON.stringify(fakeItem.properties))
-          );
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/addItem"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain("owner=dbouwman");
+      // ensure the array props are serialized into strings
+      expect(options.body).toContain(encodeParam("typeKeywords", "fake,kwds"));
+      expect(options.body).toContain(encodeParam("tags", "fakey,mcfakepants"));
+      expect(options.body).toContain(
+        encodeParam("properties", JSON.stringify(fakeItem.properties))
+      );
     });
 
-    it("should create an item with only a username from auth", (done) => {
+    test("should create an item with only a username from auth", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         title: "my fake item",
@@ -156,39 +135,28 @@ describe("search", () => {
         }
       };
       // why not just use item.owner??
-      createItem({
+      await createItem({
         item: fakeItem,
         ...MOCK_USER_REQOPTS
-      })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/addItem"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          // expect(options.body).toContain("owner=casey");
-          // ensure the array props are serialized into strings
-          expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake,kwds")
-          );
-          expect(options.body).toContain(
-            encodeParam("tags", "fakey,mcfakepants")
-          );
-          expect(options.body).toContain(
-            encodeParam("properties", JSON.stringify(fakeItem.properties))
-          );
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/addItem"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      // expect(options.body).toContain("owner=casey");
+      // ensure the array props are serialized into strings
+      expect(options.body).toContain(encodeParam("typeKeywords", "fake,kwds"));
+      expect(options.body).toContain(encodeParam("tags", "fakey,mcfakepants"));
+      expect(options.body).toContain(
+        encodeParam("properties", JSON.stringify(fakeItem.properties))
+      );
     });
 
-    it("should create an item with no tags or typeKeywords", (done) => {
+    test("should create an item with no tags or typeKeywords", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         title: "my fake item",
@@ -199,35 +167,28 @@ describe("search", () => {
           key: "somevalue"
         }
       };
-      createItem({
+      await createItem({
         item: fakeItem,
         ...MOCK_USER_REQOPTS
-      })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/addItem"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain(
-            encodeParam("type", "Web Mapping Application")
-          );
-          // ensure the array props are serialized into strings
-          expect(options.body).toContain(
-            encodeParam("properties", JSON.stringify(fakeItem.properties))
-          );
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/addItem"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain(
+        encodeParam("type", "Web Mapping Application")
+      );
+      // ensure the array props are serialized into strings
+      expect(options.body).toContain(
+        encodeParam("properties", JSON.stringify(fakeItem.properties))
+      );
     });
 
-    it("should create an item in a folder", (done) => {
+    test("should create an item in a folder", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         owner: "dbouwman",
@@ -238,37 +199,27 @@ describe("search", () => {
         typeKeywords: ["fake", "kwds"],
         tags: ["fakey", "mcfakepants"]
       };
-      createItemInFolder({
+      await createItemInFolder({
         owner: "dbouwman",
         item: fakeItem,
         folderId: "fe8",
         ...MOCK_USER_REQOPTS
-      })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/fe8/addItem"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain("owner=dbouwman");
-          // ensure the array props are serialized into strings
-          expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake,kwds")
-          );
-          expect(options.body).toContain(
-            encodeParam("tags", "fakey,mcfakepants")
-          );
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/fe8/addItem"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain("owner=dbouwman");
+      // ensure the array props are serialized into strings
+      expect(options.body).toContain(encodeParam("typeKeywords", "fake,kwds"));
+      expect(options.body).toContain(encodeParam("tags", "fakey,mcfakepants"));
     });
 
-    it("should create an item in a folder and pass through arbitrary params", (done) => {
+    test("should create an item in a folder and pass through arbitrary params", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         owner: "dbouwman",
@@ -279,7 +230,7 @@ describe("search", () => {
         typeKeywords: ["fake", "kwds"],
         tags: ["fakey", "mcfakepants"]
       };
-      createItemInFolder({
+      await createItemInFolder({
         owner: "dbouwman",
         item: fakeItem,
         folderId: "fe8",
@@ -287,33 +238,23 @@ describe("search", () => {
           foo: "bar"
         },
         ...MOCK_USER_REQOPTS
-      })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/fe8/addItem"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain("owner=dbouwman");
-          expect(options.body).toContain("foo=bar");
-          // ensure the array props are serialized into strings
-          expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake,kwds")
-          );
-          expect(options.body).toContain(
-            encodeParam("tags", "fakey,mcfakepants")
-          );
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/dbouwman/fe8/addItem"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain("owner=dbouwman");
+      expect(options.body).toContain("foo=bar");
+      // ensure the array props are serialized into strings
+      expect(options.body).toContain(encodeParam("typeKeywords", "fake,kwds"));
+      expect(options.body).toContain(encodeParam("tags", "fakey,mcfakepants"));
     });
 
-    it("should create an item in a folder when no owner is passed", (done) => {
+    test("should create an item in a folder when no owner is passed", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         owner: "casey",
@@ -324,62 +265,43 @@ describe("search", () => {
         typeKeywords: ["fake", "kwds"],
         tags: ["fakey", "mcfakepants"]
       };
-      createItemInFolder({
+      await createItemInFolder({
         item: fakeItem,
         ...MOCK_USER_REQOPTS
-      })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/addItem"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-          expect(options.body).toContain("owner=casey");
-          // ensure the array props are serialized into strings
-          expect(options.body).toContain(
-            encodeParam("typeKeywords", "fake,kwds")
-          );
-          expect(options.body).toContain(
-            encodeParam("tags", "fakey,mcfakepants")
-          );
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/addItem"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
+      expect(options.body).toContain("owner=casey");
+      // ensure the array props are serialized into strings
+      expect(options.body).toContain(encodeParam("typeKeywords", "fake,kwds"));
+      expect(options.body).toContain(encodeParam("tags", "fakey,mcfakepants"));
     });
 
-    it("should create a folder", (done) => {
+    test("should create a folder", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const title = "an amazing folder";
-      createFolder({
+      await createFolder({
         title,
         ...MOCK_USER_REQOPTS
-      })
-        .then((response) => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createFolder"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain(
-            "title=" + title.replace(/\s/g, "%20")
-          );
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain(encodeParam("token", "fake-token"));
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      });
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://myorg.maps.arcgis.com/sharing/rest/content/users/casey/createFolder"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("title=" + title.replace(/\s/g, "%20"));
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain(encodeParam("token", "fake-token"));
     });
 
-    it("should throw an error for a multipart request with no file name", (done) => {
+    test("should throw an error for a multipart request with no file name", async () => {
       fetchMock.once("*", ItemSuccessResponse);
       const fakeItem = {
         owner: "casey",
@@ -387,23 +309,19 @@ describe("search", () => {
         type: "Web Mapping Application"
       };
       fetchMock.post("*", () => 200);
-      createItemInFolder({
-        item: fakeItem,
-        file: new File(["some text"], undefined as unknown as string, {
-          type: "text/html"
-        }),
-        multipart: true,
-        // multipart is required for a multipart request
-        filename: "",
-        ...MOCK_USER_REQOPTS
-      })
-        .then(() => {
-          fail();
+      await expect(
+        createItemInFolder({
+          item: fakeItem,
+          file: new File(["some text"], undefined as unknown as string, {
+            type: "text/html"
+          }),
+          multipart: true,
+          // multipart is required for a multipart request
+          filename: "",
+          ...MOCK_USER_REQOPTS
         })
-        .catch(() => {
-          expect(fetchMock.called()).toEqual(false);
-          done();
-        });
+      ).rejects.toThrow("The filename is required for a multipart request.");
+      expect(fetchMock.called()).toEqual(false);
     });
   }); // auth requests
 });
