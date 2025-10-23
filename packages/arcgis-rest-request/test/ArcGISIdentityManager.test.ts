@@ -1138,7 +1138,7 @@ describe("ArcGISIdentityManager", () => {
 
       await expect(
         ArcGISIdentityManager.fromParent("https://origin.com", Win)
-      ).rejects.toBeDefined();
+      ).rejects.toBeTruthy();
     });
 
     test(".fromParent rejects if auth error recieved", async () => {
@@ -1193,10 +1193,8 @@ describe("ArcGISIdentityManager", () => {
     });
   });
 
-  // -------------------------------------- left off here ---------------------------------------
-
   describe("validateAppAccess: ", () => {
-    test("makes a request to /oauth2/validateAppAccess passing params", () => {
+    test("makes a request to /oauth2/validateAppAccess passing params", async () => {
       const VERIFYAPPACCESS_URL =
         "https://www.arcgis.com/sharing/rest/oauth2/validateAppAccess";
       fetchMock.postOnce(VERIFYAPPACCESS_URL, {
@@ -1213,33 +1211,25 @@ describe("ArcGISIdentityManager", () => {
         username: "jsmith",
         password: "123456"
       });
-      return session
-        .validateAppAccess("abc123")
-        .then((response) => {
-          const [url, options] = fetchMock.lastCall(VERIFYAPPACCESS_URL);
-          expect(url).toEqual(VERIFYAPPACCESS_URL);
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain("token=FAKE-TOKEN");
-          expect(options.body).toContain("client_id=abc123");
-          expect(response.valid).toEqual(true);
-          expect(response.viewOnlyUserTypeApp).toBe(false);
-        })
-        .catch((e) => fail(e));
+
+      const response = await session.validateAppAccess("abc123");
+      const [url, options] = fetchMock.lastCall(VERIFYAPPACCESS_URL);
+      expect(url).toEqual(VERIFYAPPACCESS_URL);
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain("token=FAKE-TOKEN");
+      expect(options.body).toContain("client_id=abc123");
+      expect(response.valid).toEqual(true);
+      expect(response.viewOnlyUserTypeApp).toBe(false);
     });
   });
 
   describe(".authorize()", () => {
-    test("should redirect the request to the authorization page", (done) => {
-      const spy = jasmine.createSpy("spy");
+    test("should redirect the request to the authorization page", () => {
+      const spy = vi.fn();
+      const endSpy = vi.fn();
       const MockResponse: any = {
         writeHead: spy,
-        end() {
-          expect(spy.calls.mostRecent().args[0]).toBe(301);
-          expect(spy.calls.mostRecent().args[1].Location).toBe(
-            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=20160&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
-          );
-          done();
-        }
+        end: endSpy
       };
 
       ArcGISIdentityManager.authorize(
@@ -1249,19 +1239,20 @@ describe("ArcGISIdentityManager", () => {
         },
         MockResponse
       );
+
+      expect(spy).toHaveBeenCalledWith(301, {
+        Location:
+          "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=20160&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
+      });
+      expect(endSpy).toHaveBeenCalled();
     });
 
-    test("should redirect the request to the authorization page with custom expiration", (done) => {
-      const spy = jasmine.createSpy("spy");
+    test("should redirect the request to the authorization page with custom expiration", () => {
+      const spy = vi.fn();
+      const endSpy = vi.fn();
       const MockResponse: any = {
         writeHead: spy,
-        end() {
-          expect(spy.calls.mostRecent().args[0]).toBe(301);
-          expect(spy.calls.mostRecent().args[1].Location).toBe(
-            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=10000&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
-          );
-          done();
-        }
+        end: endSpy
       };
 
       ArcGISIdentityManager.authorize(
@@ -1272,19 +1263,20 @@ describe("ArcGISIdentityManager", () => {
         },
         MockResponse
       );
+
+      expect(spy).toHaveBeenCalledWith(301, {
+        Location:
+          "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=10000&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
+      });
+      expect(endSpy).toHaveBeenCalled();
     });
 
-    test("should redirect the request to the authorization page with custom state", (done) => {
-      const spy = jasmine.createSpy("spy");
+    test("should redirect the request to the authorization page with custom state", () => {
+      const spy = vi.fn();
+      const endSpy = vi.fn();
       const MockResponse: any = {
         writeHead: spy,
-        end() {
-          expect(spy.calls.mostRecent().args[0]).toBe(301);
-          expect(spy.calls.mostRecent().args[1].Location).toBe(
-            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=10000&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri&state=foo"
-          );
-          done();
-        }
+        end: endSpy
       };
 
       ArcGISIdentityManager.authorize(
@@ -1296,19 +1288,20 @@ describe("ArcGISIdentityManager", () => {
         },
         MockResponse
       );
+
+      expect(spy).toHaveBeenCalledWith(301, {
+        Location:
+          "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=10000&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri&state=foo"
+      });
+      expect(endSpy).toHaveBeenCalled();
     });
 
-    test("should redirect the request to the authorization page with custom duration (DEPRECATED)", (done) => {
-      const spy = jasmine.createSpy("spy");
+    test("should redirect the request to the authorization page with custom duration (DEPRECATED)", () => {
+      const spy = vi.fn();
+      const endSpy = vi.fn();
       const MockResponse: any = {
         writeHead: spy,
-        end() {
-          expect(spy.calls.mostRecent().args[0]).toBe(301);
-          expect(spy.calls.mostRecent().args[1].Location).toBe(
-            "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=10001&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
-          );
-          done();
-        }
+        end: endSpy
       };
 
       ArcGISIdentityManager.authorize(
@@ -1319,11 +1312,17 @@ describe("ArcGISIdentityManager", () => {
         },
         MockResponse
       );
+
+      expect(spy).toHaveBeenCalledWith(301, {
+        Location:
+          "https://arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId&expiration=10001&response_type=code&redirect_uri=https%3A%2F%2Fexample-app.com%2Fredirect-uri"
+      });
+      expect(endSpy).toHaveBeenCalled();
     });
   });
 
   describe(".exchangeAuthorizationCode()", () => {
-    test("should exchange an authorization code for a new ArcGISIdentityManager", (done) => {
+    test("should exchange an authorization code for a new ArcGISIdentityManager", async () => {
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "token",
         expires_in: 1800,
@@ -1332,27 +1331,21 @@ describe("ArcGISIdentityManager", () => {
         ssl: true
       });
 
-      ArcGISIdentityManager.exchangeAuthorizationCode(
+      const session = await ArcGISIdentityManager.exchangeAuthorizationCode(
         {
           clientId: "clientId",
           redirectUri: "https://example-app.com/redirect-uri"
         },
         "code"
-      )
-        .then((session) => {
-          expect(session.token).toBe("token");
-          expect(session.tokenExpires.getTime()).toBeGreaterThan(Date.now());
-          expect(session.username).toBe("Casey");
-          expect(session.refreshToken).toBe("refreshToken");
-          expect(session.ssl).toBe(true);
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      );
+      expect(session.token).toBe("token");
+      expect(session.tokenExpires.getTime()).toBeGreaterThan(Date.now());
+      expect(session.username).toBe("Casey");
+      expect(session.refreshToken).toBe("refreshToken");
+      expect(session.ssl).toBe(true);
     });
 
-    test("should return a ArcGISIdentityManager where refreshTokenExpires is 2 weeks from now (within 5 minutes)", (done) => {
+    test("should return a ArcGISIdentityManager where refreshTokenExpires is 2 weeks from now (within 5 minutes)", async () => {
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "token",
         refresh_token: "refreshToken",
@@ -1361,31 +1354,25 @@ describe("ArcGISIdentityManager", () => {
         ssl: true
       });
 
-      ArcGISIdentityManager.exchangeAuthorizationCode(
+      const session = await ArcGISIdentityManager.exchangeAuthorizationCode(
         {
           clientId: "clientId",
           redirectUri: "https://example-app.com/redirect-uri"
         },
         "code"
-      )
-        .then((session) => {
-          const twoWeeksFromNow = new Date(
-            Date.now() + (20160 - 1) * 60 * 1000 - 1000 * 60 * 5
-          );
-          expect(session.refreshTokenExpires.getTime()).toBeGreaterThan(
-            twoWeeksFromNow.getTime() - 1000 * 60 * 10
-          );
-          expect(session.refreshTokenExpires.getTime()).toBeLessThan(
-            twoWeeksFromNow.getTime() + 1000 * 60 * 10
-          );
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      );
+      const twoWeeksFromNow = new Date(
+        Date.now() + (20160 - 1) * 60 * 1000 - 1000 * 60 * 5
+      );
+      expect(session.refreshTokenExpires.getTime()).toBeGreaterThan(
+        twoWeeksFromNow.getTime() - 1000 * 60 * 10
+      );
+      expect(session.refreshTokenExpires.getTime()).toBeLessThan(
+        twoWeeksFromNow.getTime() + 1000 * 60 * 10
+      );
     });
 
-    test("should throw an ArcGISTokenRequestError when there is an error exchanging the code", () => {
+    test("should throw an ArcGISTokenRequestError when there is an error exchanging the code", async () => {
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         error: {
           code: 498,
@@ -1396,21 +1383,18 @@ describe("ArcGISIdentityManager", () => {
         }
       });
 
-      return ArcGISIdentityManager.exchangeAuthorizationCode(
-        {
-          clientId: "clientId",
-          redirectUri: "https://example-app.com/redirect-uri"
-        },
-        "code"
-      ).catch((e) => {
-        expect(e.name).toBe("ArcGISTokenRequestError");
-        expect(e instanceof ArcGISTokenRequestError).toBe(true);
-        expect(e.code).toBe(
-          ArcGISTokenRequestErrorCodes.REFRESH_TOKEN_EXCHANGE_FAILED
-        );
-        expect(e.message).toBe(
-          "REFRESH_TOKEN_EXCHANGE_FAILED: 498: refresh_token expired"
-        );
+      await expect(
+        ArcGISIdentityManager.exchangeAuthorizationCode(
+          {
+            clientId: "clientId",
+            redirectUri: "https://example-app.com/redirect-uri"
+          },
+          "code"
+        )
+      ).rejects.toMatchObject({
+        name: "ArcGISTokenRequestError",
+        code: ArcGISTokenRequestErrorCodes.REFRESH_TOKEN_EXCHANGE_FAILED,
+        message: "REFRESH_TOKEN_EXCHANGE_FAILED: 498: refresh_token expired"
       });
     });
   });
@@ -1419,7 +1403,7 @@ describe("ArcGISIdentityManager", () => {
     afterEach(() => {
       fetchMock.restore();
     });
-    test("should cache metadata about the user", (done) => {
+    test("should cache metadata about the user", async () => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
@@ -1441,26 +1425,13 @@ describe("ArcGISIdentityManager", () => {
         password: "123456"
       });
 
-      session
-        .getUser()
-        .then((response) => {
-          expect(response.role).toEqual("org_publisher");
-          session
-            .getUser()
-            .then((cachedResponse) => {
-              expect(cachedResponse.fullName).toEqual("John Smith");
-              done();
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const response = await session.getUser();
+      expect(response.role).toEqual("org_publisher");
+      const cachedResponse = await session.getUser();
+      expect(cachedResponse.fullName).toEqual("John Smith");
     });
 
-    test("should never make more then 1 request", (done) => {
+    test("should never make more then 1 request", async () => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
@@ -1482,13 +1453,9 @@ describe("ArcGISIdentityManager", () => {
         password: "123456"
       });
 
-      Promise.all([session.getUser(), session.getUser()])
-        .then(() => {
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await Promise.all([session.getUser(), session.getUser()]);
+      // expect only one call to fetch
+      expect(fetchMock.calls().length).toBe(1);
     });
   });
 
@@ -1496,7 +1463,7 @@ describe("ArcGISIdentityManager", () => {
     afterEach(() => {
       fetchMock.restore();
     });
-    test("should fetch the username via getUser()", (done) => {
+    test("should fetch the username via getUser() and cache it", async () => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
@@ -1509,42 +1476,21 @@ describe("ArcGISIdentityManager", () => {
         token: "token"
       });
 
-      session
-        .getUsername()
-        .then((response) => {
-          expect(response).toEqual("jsmith");
+      const response = await session.getUsername();
+      expect(response).toEqual("jsmith");
 
-          // also test getting it from the cache.
-          session
-            .getUsername()
-            .then((username) => {
-              done();
-
-              expect(username).toEqual("jsmith");
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      // also test getting it from the cache.
+      const username = await session.getUsername();
+      expect(username).toEqual("jsmith");
     });
 
-    test("should use a username if passed in the session", (done) => {
+    test("should use a username if passed in the session", async () => {
       const session = new ArcGISIdentityManager({
         username: "jsmith"
       });
 
-      session
-        .getUsername()
-        .then((response) => {
-          expect(response).toEqual("jsmith");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const response = await session.getUsername();
+      expect(response).toEqual("jsmith");
     });
   });
 
@@ -1666,8 +1612,9 @@ describe("ArcGISIdentityManager", () => {
     };
 
     test("should create a ArcGISIdentityManager from a credential", () => {
-      jasmine.clock().install();
-      jasmine.clock().mockDate();
+      // lock Date.now() to test that token expires after 2 hours
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date());
 
       const MOCK_SERVER_INFO: IServerInfo = {
         hasPortal: true,
@@ -1687,7 +1634,7 @@ describe("ArcGISIdentityManager", () => {
         new Date(Date.now() + 7200000 /* 2 hours */)
       );
 
-      jasmine.clock().uninstall();
+      vi.useRealTimers();
     });
   });
 
@@ -1737,7 +1684,7 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe("non-federated server", () => {
-    test("shouldnt fetch a fresh token if the current one isn't expired.", (done) => {
+    test("shouldnt fetch a fresh token if the current one isn't expired.", async () => {
       const MOCK_USER_SESSION = new ArcGISIdentityManager({
         username: "c@sey",
         password: "123456",
@@ -1746,19 +1693,13 @@ describe("ArcGISIdentityManager", () => {
         server: "https://fakeserver.com/arcgis"
       });
 
-      MOCK_USER_SESSION.getToken(
+      const token = await MOCK_USER_SESSION.getToken(
         "https://fakeserver.com/arcgis/rest/services/Fake/MapServer/"
-      )
-        .then((token) => {
-          expect(token).toBe("token");
-          done();
-        })
-        .catch((err) => {
-          fail(err);
-        });
+      );
+      expect(token).toBe("token");
     });
 
-    test("should fetch a fresh token if the current one is expired.", (done) => {
+    test("should fetch a fresh token if the current one is expired.", async () => {
       const MOCK_USER_SESSION = new ArcGISIdentityManager({
         username: "jsmith",
         password: "123456",
@@ -1782,41 +1723,32 @@ describe("ArcGISIdentityManager", () => {
         username: " jsmith"
       });
 
-      MOCK_USER_SESSION.getToken(
+      const token = await MOCK_USER_SESSION.getToken(
         "https://fakeserver.com/arcgis/rest/services/Fake/MapServer/"
-      )
-        .then((token) => {
-          expect(token).toBe("fresh-token");
-          const [url, options] = fetchMock.lastCall(
-            "https://fakeserver.com/arcgis/tokens/generateToken"
-          );
-          expect(url).toBe(
-            "https://fakeserver.com/arcgis/tokens/generateToken"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain("username=jsmith");
-          expect(options.body).toContain("password=123456");
-          expect(options.body).toContain("client=referer");
+      );
+      expect(token).toBe("fresh-token");
+      const [url, options] = fetchMock.lastCall(
+        "https://fakeserver.com/arcgis/tokens/generateToken"
+      );
+      expect(url).toBe("https://fakeserver.com/arcgis/tokens/generateToken");
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain("username=jsmith");
+      expect(options.body).toContain("password=123456");
+      expect(options.body).toContain("client=referer");
 
-          if (isNode) {
-            expect(options.body).toContain("referer=%40esri%2Farcgis-rest-js");
-          }
-
-          if (isBrowser) {
-            expect(options.body).toContain(
-              `referer=${encodeURIComponent(window.location.origin)}`
-            );
-          }
-
-          done();
-        })
-        .catch((err) => {
-          fail(err);
-        });
+      if (isNode) {
+        expect(options.body).toContain("referer=%40esri%2Farcgis-rest-js");
+      }
+      // TODO_: check if need to move out to browser-specific test file
+      if (isBrowser) {
+        expect(options.body).toContain(
+          `referer=${encodeURIComponent(window.location.origin)}`
+        );
+      }
     });
 
-    test("should use provided referer.", (done) => {
+    test("should use provided referer.", async () => {
       const MOCK_USER_SESSION = new ArcGISIdentityManager({
         username: "jsmith",
         password: "123456",
@@ -1841,39 +1773,30 @@ describe("ArcGISIdentityManager", () => {
         username: " jsmith"
       });
 
-      MOCK_USER_SESSION.getToken(
+      const token = await MOCK_USER_SESSION.getToken(
         "https://fakeserver.com/arcgis/rest/services/Fake/MapServer/"
-      )
-        .then((token) => {
-          expect(token).toBe("fresh-token");
-          const [url, options] = fetchMock.lastCall(
-            "https://fakeserver.com/arcgis/tokens/generateToken"
-          );
-          expect(url).toBe(
-            "https://fakeserver.com/arcgis/tokens/generateToken"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain("username=jsmith");
-          expect(options.body).toContain("password=123456");
-          expect(options.body).toContain("client=referer");
+      );
+      expect(token).toBe("fresh-token");
+      const [url, options] = fetchMock.lastCall(
+        "https://fakeserver.com/arcgis/tokens/generateToken"
+      );
+      expect(url).toBe("https://fakeserver.com/arcgis/tokens/generateToken");
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain("username=jsmith");
+      expect(options.body).toContain("password=123456");
+      expect(options.body).toContain("client=referer");
 
-          if (isNode) {
-            expect(options.body).toContain("referer=testreferer");
-          }
+      if (isNode) {
+        expect(options.body).toContain("referer=testreferer");
+      }
 
-          if (isBrowser) {
-            expect(options.body).toContain(`referer=testreferer`);
-          }
-
-          done();
-        })
-        .catch((err) => {
-          fail(err);
-        });
+      if (isBrowser) {
+        expect(options.body).toContain(`referer=testreferer`);
+      }
     });
 
-    test("should throw an error if there is an error generating the server token with a username and password.", () => {
+    test("should throw an error if there is an error generating the server token with a username and password.", async () => {
       const MOCK_USER_SESSION = new ArcGISIdentityManager({
         username: "jsmith",
         password: "123456",
@@ -1897,21 +1820,18 @@ describe("ArcGISIdentityManager", () => {
         }
       });
 
-      return MOCK_USER_SESSION.getToken(
-        "https://fakeserver.com/arcgis/rest/services/Fake/MapServer/"
-      ).catch((e) => {
-        expect(e instanceof ArcGISTokenRequestError);
-        expect(e.name).toBe("ArcGISTokenRequestError");
-        expect(e.message).toBe(
-          "GENERATE_TOKEN_FOR_SERVER_FAILED: 498: Invalid token."
-        );
-        expect(e.code).toBe(
-          ArcGISTokenRequestErrorCodes.GENERATE_TOKEN_FOR_SERVER_FAILED
-        );
+      await expect(
+        MOCK_USER_SESSION.getToken(
+          "https://fakeserver.com/arcgis/rest/services/Fake/MapServer/"
+        )
+      ).rejects.toMatchObject({
+        name: "ArcGISTokenRequestError",
+        message: "GENERATE_TOKEN_FOR_SERVER_FAILED: 498: Invalid token.",
+        code: ArcGISTokenRequestErrorCodes.GENERATE_TOKEN_FOR_SERVER_FAILED
       });
     });
 
-    test("should trim down the server url if necessary.", (done) => {
+    test("should trim down the server url if necessary.", async () => {
       const MOCK_USER_SESSION = new ArcGISIdentityManager({
         username: "jsmith",
         password: "123456",
@@ -1935,19 +1855,14 @@ describe("ArcGISIdentityManager", () => {
         username: " jsmith"
       });
 
-      MOCK_USER_SESSION.getToken(
+      const token = await MOCK_USER_SESSION.getToken(
         "https://fakeserver.com/arcgis/rest/services/Fake/MapServer/"
-      )
-        .then((token) => {
-          expect(token).toBe("fresh-token");
-          done();
-        })
-        .catch((err) => {
-          fail(err);
-        });
+      );
+
+      expect(token).toBe("fresh-token");
     });
 
-    test("should throw an error if the server isnt trusted.", (done) => {
+    test("should throw an error if the server isnt trusted.", async () => {
       fetchMock.postOnce("https://fakeserver2.com/arcgis/rest/info", {
         currentVersion: 10.61,
         fullVersion: "10.6.1",
@@ -1964,19 +1879,15 @@ describe("ArcGISIdentityManager", () => {
         server: "https://fakeserver.com/arcgis"
       });
 
-      MOCK_USER_SESSION.getToken(
-        "https://fakeserver2.com/arcgis/rest/services/Fake/MapServer/"
-      )
-        .then((token) => {
-          fail(token);
-        })
-        .catch((err) => {
-          expect(err.code).toBe("NOT_FEDERATED");
-          expect(err.originalMessage).toEqual(
-            "https://fakeserver2.com/arcgis/rest/services/Fake/MapServer/ is not federated with any portal and is not explicitly trusted."
-          );
-          done();
-        });
+      await expect(
+        MOCK_USER_SESSION.getToken(
+          "https://fakeserver2.com/arcgis/rest/services/Fake/MapServer/"
+        )
+      ).rejects.toMatchObject({
+        code: "NOT_FEDERATED",
+        originalMessage:
+          "https://fakeserver2.com/arcgis/rest/services/Fake/MapServer/ is not federated with any portal and is not explicitly trusted."
+      });
     });
   });
 
@@ -1984,7 +1895,7 @@ describe("ArcGISIdentityManager", () => {
     afterEach(() => {
       fetchMock.restore();
     });
-    test("should cache metadata about the portal", (done) => {
+    test("should cache metadata about the portal", async () => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=token",
@@ -2004,30 +1915,15 @@ describe("ArcGISIdentityManager", () => {
         password: "123456"
       });
 
-      session
-        .getPortal()
-        .then((response) => {
-          expect(response.authorizedCrossOriginDomains).toEqual([
-            "gis.city.com"
-          ]);
-          session
-            .getPortal()
-            .then((cachedResponse) => {
-              expect(cachedResponse.authorizedCrossOriginDomains).toEqual([
-                "gis.city.com"
-              ]);
-              done();
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const response = await session.getPortal();
+      expect(response.authorizedCrossOriginDomains).toEqual(["gis.city.com"]);
+      const cachedResponse = await session.getPortal();
+      expect(cachedResponse.authorizedCrossOriginDomains).toEqual([
+        "gis.city.com"
+      ]);
     });
 
-    test("should never make more then 1 request", (done) => {
+    test("should never make more then 1 request", async () => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=token",
@@ -2047,18 +1943,14 @@ describe("ArcGISIdentityManager", () => {
         password: "123456"
       });
 
-      Promise.all([session.getPortal(), session.getPortal()])
-        .then(() => {
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await Promise.all([session.getPortal(), session.getPortal()]);
+      // expect only one call to fetch
+      expect(fetchMock.calls().length).toBe(1);
     });
   });
 
   describe("fetchAuthorizedDomains/getDomainCredentials", () => {
-    test("should default to same-origin credentials when no domains are listed in authorizedCrossOriginDomains", (done) => {
+    test("should default to same-origin credentials when no domains are listed in authorizedCrossOriginDomains", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -2104,26 +1996,20 @@ describe("ArcGISIdentityManager", () => {
         }
       );
 
-      request(
+      await request(
         "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
         {
           authentication: session
         }
-      )
-        .then((response) => {
-          const { credentials } = fetchMock.lastOptions(
-            "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-          ) as RequestInit;
-          expect(credentials).toEqual("same-origin");
+      );
 
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const { credentials } = fetchMock.lastOptions(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+      ) as RequestInit;
+      expect(credentials).toEqual("same-origin");
     });
 
-    test("should set the credentials option to include when a server is listed in authorizedCrossOriginDomains", (done) => {
+    test("should set the credentials option to include when a server is listed in authorizedCrossOriginDomains", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -2169,26 +2055,19 @@ describe("ArcGISIdentityManager", () => {
         }
       );
 
-      request(
+      await request(
         "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
         {
           authentication: session
         }
-      )
-        .then((response) => {
-          const { credentials } = fetchMock.lastOptions(
-            "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-          ) as RequestInit;
-          expect(credentials).toEqual("include");
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      );
+      const { credentials } = fetchMock.lastOptions(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+      ) as RequestInit;
+      expect(credentials).toEqual("include");
     });
 
-    test("should ignore the case when comparing a server with the authorizedCrossOriginDomains list: variant 1", (done) => {
+    test("should ignore the case when comparing a server with the authorizedCrossOriginDomains list: variant 1", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -2234,26 +2113,19 @@ describe("ArcGISIdentityManager", () => {
         }
       );
 
-      request(
+      await request(
         "https://GISSERVICES.CITY.GOV/public/rest/services/trees/FeatureServer/0/query",
         {
           authentication: session
         }
-      )
-        .then((response) => {
-          const { credentials } = fetchMock.lastOptions(
-            "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-          ) as RequestInit;
-          expect(credentials).toEqual("include");
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      );
+      const { credentials } = fetchMock.lastOptions(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+      ) as RequestInit;
+      expect(credentials).toEqual("include");
     });
 
-    test("should ignore the case when comparing a server with the authorizedCrossOriginDomains list: variant 2", (done) => {
+    test("should ignore the case when comparing a server with the authorizedCrossOriginDomains list: variant 2", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -2299,27 +2171,20 @@ describe("ArcGISIdentityManager", () => {
         }
       );
 
-      request(
+      await request(
         "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
         {
           authentication: session
         }
-      )
-        .then((response) => {
-          const { credentials } = fetchMock.lastOptions(
-            "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-          ) as RequestInit;
-          expect(credentials).toEqual("include");
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      );
+      const { credentials } = fetchMock.lastOptions(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+      ) as RequestInit;
+      expect(credentials).toEqual("include");
     });
   });
 
-  test("should still send same-origin credentials even if another domain is listed in authorizedCrossOriginDomains", (done) => {
+  test("should still send same-origin credentials even if another domain is listed in authorizedCrossOriginDomains", async () => {
     const session = new ArcGISIdentityManager({
       clientId: "id",
       token: "token",
@@ -2365,26 +2230,19 @@ describe("ArcGISIdentityManager", () => {
       }
     );
 
-    request(
+    await request(
       "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
       {
         authentication: session
       }
-    )
-      .then((response) => {
-        const { credentials } = fetchMock.lastOptions(
-          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-        ) as RequestInit;
-        expect(credentials).toEqual("same-origin");
-
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    );
+    const { credentials } = fetchMock.lastOptions(
+      "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+    ) as RequestInit;
+    expect(credentials).toEqual("same-origin");
   });
 
-  test("should normalize optional protocols in authorizedCrossOriginDomains", (done) => {
+  test("should normalize optional protocols in authorizedCrossOriginDomains", async () => {
     const session = new ArcGISIdentityManager({
       clientId: "id",
       token: "token",
@@ -2400,21 +2258,14 @@ describe("ArcGISIdentityManager", () => {
       }
     );
 
-    (session as any)
-      .fetchAuthorizedDomains()
-      .then(() => {
-        expect((session as any).trustedDomains).toEqual([
-          "https://one.city.gov",
-          "https://two.city.gov"
-        ]);
-        done();
-      })
-      .catch((e: Error) => {
-        fail(e);
-      });
+    await (session as any).fetchAuthorizedDomains();
+    expect((session as any).trustedDomains).toEqual([
+      "https://one.city.gov",
+      "https://two.city.gov"
+    ]);
   });
 
-  test("should not use domain credentials if portal is null", (done) => {
+  test("should not use domain credentials if portal is null", async () => {
     const session = new ArcGISIdentityManager({
       clientId: "id",
       token: "token",
@@ -2424,18 +2275,12 @@ describe("ArcGISIdentityManager", () => {
       server: "https://fakeserver.com/arcgis"
     });
 
-    (session as any)
-      .fetchAuthorizedDomains()
-      .then(() => {
-        done();
-      })
-      .catch((e: Error) => {
-        fail(e);
-      });
+    await (session as any).fetchAuthorizedDomains();
+    expect((session as any).trustedDomains).toEqual([]);
   });
 
   describe(".destroy()", () => {
-    test("should revoke a refresh token with ArcGISIdentityManager", () => {
+    test("should revoke a refresh token with ArcGISIdentityManager", async () => {
       fetchMock.once("*", { success: true });
 
       const session = new ArcGISIdentityManager({
@@ -2445,36 +2290,34 @@ describe("ArcGISIdentityManager", () => {
         refreshToken: "refreshToken",
         refreshTokenExpires: TOMORROW
       });
-      return ArcGISIdentityManager.destroy(session).then((response) => {
-        const [url, options] = fetchMock.lastCall("*");
-        expect(response).toEqual({ success: true });
-        expect(url).toBe(
-          "https://www.arcgis.com/sharing/rest/oauth2/revokeToken/"
-        );
-        expect(options.body).toContain("auth_token=refreshToken");
-        expect(options.body).toContain("client_id=clientId");
-      });
+      const response = await ArcGISIdentityManager.destroy(session);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(response).toEqual({ success: true });
+      expect(url).toBe(
+        "https://www.arcgis.com/sharing/rest/oauth2/revokeToken/"
+      );
+      expect(options.body).toContain("auth_token=refreshToken");
+      expect(options.body).toContain("client_id=clientId");
     });
 
-    test("should revoke a token with ArcGISIdentityManager", () => {
+    test("should revoke a token with ArcGISIdentityManager", async () => {
       fetchMock.once("*", { success: true });
 
       const session = new ArcGISIdentityManager({
         clientId: "clientId",
         token: "token"
       });
-      return ArcGISIdentityManager.destroy(session).then((response) => {
-        const [url, options] = fetchMock.lastCall("*");
-        expect(response).toEqual({ success: true });
-        expect(url).toBe(
-          "https://www.arcgis.com/sharing/rest/oauth2/revokeToken/"
-        );
-        expect(options.body).toContain("auth_token=token");
-        expect(options.body).toContain("client_id=clientId");
-      });
+      const response = await ArcGISIdentityManager.destroy(session);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(response).toEqual({ success: true });
+      expect(url).toBe(
+        "https://www.arcgis.com/sharing/rest/oauth2/revokeToken/"
+      );
+      expect(options.body).toContain("auth_token=token");
+      expect(options.body).toContain("client_id=clientId");
     });
 
-    test("should revoke a token with the signOut() instance method", () => {
+    test("should revoke a token with the signOut() instance method", async () => {
       fetchMock.once("*", { success: true });
 
       const session = new ArcGISIdentityManager({
@@ -2482,15 +2325,14 @@ describe("ArcGISIdentityManager", () => {
         token: "token"
       });
 
-      return session.signOut().then((response) => {
-        const [url, options] = fetchMock.lastCall("*");
-        expect(response).toEqual({ success: true });
-        expect(url).toBe(
-          "https://www.arcgis.com/sharing/rest/oauth2/revokeToken/"
-        );
-        expect(options.body).toContain("auth_token=token");
-        expect(options.body).toContain("client_id=clientId");
-      });
+      const response = await session.signOut();
+      const [url, options] = fetchMock.lastCall("*");
+      expect(response).toEqual({ success: true });
+      expect(url).toBe(
+        "https://www.arcgis.com/sharing/rest/oauth2/revokeToken/"
+      );
+      expect(options.body).toContain("auth_token=token");
+      expect(options.body).toContain("client_id=clientId");
     });
   });
 
@@ -2498,7 +2340,7 @@ describe("ArcGISIdentityManager", () => {
     afterEach(() => {
       fetchMock.restore();
     });
-    test("should initialize a session from a token", () => {
+    test("should initialize a session from a token", async () => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
@@ -2509,14 +2351,13 @@ describe("ArcGISIdentityManager", () => {
         }
       );
 
-      return ArcGISIdentityManager.fromToken({
+      const session = await ArcGISIdentityManager.fromToken({
         token: "token",
         tokenExpires: TOMORROW
-      }).then((session) => {
-        expect(session.username).toEqual("jsmith");
-        expect(session.token).toEqual("token");
-        expect(session.tokenExpires).toEqual(TOMORROW);
       });
+      expect(session.username).toEqual("jsmith");
+      expect(session.token).toEqual("token");
+      expect(session.tokenExpires).toEqual(TOMORROW);
     });
   });
 
@@ -2524,7 +2365,7 @@ describe("ArcGISIdentityManager", () => {
     afterEach(() => {
       fetchMock.restore();
     });
-    test("should initialize a session from a username and password", () => {
+    test("should initialize a session from a username and password", async () => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
@@ -2541,17 +2382,16 @@ describe("ArcGISIdentityManager", () => {
         username: " c@sey"
       });
 
-      return ArcGISIdentityManager.signIn({
+      const session = await ArcGISIdentityManager.signIn({
         username: "c@sey",
         password: "123456"
-      }).then((session) => {
-        expect(session.username).toEqual("c@sey");
-        expect(session.token).toEqual("token");
-        expect(session.tokenExpires).toEqual(TOMORROW);
       });
+      expect(session.username).toEqual("c@sey");
+      expect(session.token).toEqual("token");
+      expect(session.tokenExpires).toEqual(TOMORROW);
     });
 
-    test("should initialize a session from a username and password and pass a referer", () => {
+    test("should initialize a session from a username and password and pass a referer", async () => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
@@ -2568,23 +2408,22 @@ describe("ArcGISIdentityManager", () => {
         username: " c@sey"
       });
 
-      return ArcGISIdentityManager.signIn({
+      await ArcGISIdentityManager.signIn({
         username: "c@sey",
         password: "123456",
         referer: "testreferer"
-      }).then(() => {
-        const [url, options] = fetchMock.lastCall(
-          "https://www.arcgis.com/sharing/rest/generateToken"
-        );
-
-        if (isNode) {
-          expect(options.body).toContain("referer=testreferer");
-        }
-
-        if (isBrowser) {
-          expect(options.body).toContain(`referer=testreferer`);
-        }
       });
+      const [url, options] = fetchMock.lastCall(
+        "https://www.arcgis.com/sharing/rest/generateToken"
+      );
+
+      if (isNode) {
+        expect(options.body).toContain("referer=testreferer");
+      }
+      // TODO_: check if need to move out to browser-specific test file
+      if (isBrowser) {
+        expect(options.body).toContain(`referer=testreferer`);
+      }
     });
   });
 });
