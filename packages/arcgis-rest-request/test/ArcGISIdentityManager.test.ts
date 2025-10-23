@@ -2,7 +2,8 @@
  * Apache-2.0 */
 
 /* tslint:disable:no-empty */
-import fetchMock, { done } from "fetch-mock";
+import { describe, test, expect, afterEach, vi } from "vitest";
+import fetchMock from "fetch-mock";
 import {
   ArcGISIdentityManager,
   ICredential,
@@ -26,7 +27,7 @@ describe("ArcGISIdentityManager", () => {
     fetchMock.restore();
   });
   describe(".serialize() and ArcGISIdentityManager.deserialize", () => {
-    it("should serialize to and from JSON", () => {
+    test("should serialize to and from JSON", () => {
       const session = new ArcGISIdentityManager({
         clientId: "clientId",
         redirectUri: "https://example-app.com/redirect-uri",
@@ -54,7 +55,7 @@ describe("ArcGISIdentityManager", () => {
       expect(session2.tokenDuration).toEqual(20160);
     });
 
-    it("should serialize to and from JSON with a server", () => {
+    test("should serialize to and from JSON with a server", () => {
       const session = new ArcGISIdentityManager({
         portal: undefined,
         server: "https://myserver.com/",
@@ -69,7 +70,7 @@ describe("ArcGISIdentityManager", () => {
       expect(session2.tokenExpires).toEqual(TOMORROW);
     });
 
-    it("should serialize undefined dates as undefined, not invalid date objects", () => {
+    test("should serialize undefined dates as undefined, not invalid date objects", () => {
       const session = new ArcGISIdentityManager({
         clientId: "clientId",
         redirectUri: "https://example-app.com/redirect-uri",
@@ -86,30 +87,24 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe(".getToken()", () => {
-    it("should return unexpired tokens for trusted arcgis.com domains", (done) => {
+    test("should return unexpired tokens for trusted arcgis.com domains", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
         tokenExpires: TOMORROW
       });
 
-      Promise.all([
+      const [token1, token2] = await Promise.all([
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
         session.getToken(
           "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
         )
-      ])
-        .then(([token1, token2]) => {
-          expect(token1).toBe("token");
-          expect(token2).toBe("token");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      ]);
+      expect(token1).toBe("token");
+      expect(token2).toBe("token");
     });
 
-    it("should return unexpired tokens when an org url is passed", (done) => {
+    test("should return unexpired tokens when an org url is passed", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -117,20 +112,13 @@ describe("ArcGISIdentityManager", () => {
         portal: "https://custom.maps.arcgis.com/sharing/rest"
       });
 
-      session
-        .getToken(
-          "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
-        )
-        .then((token) => {
-          expect(token).toBe("token");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const token = await session.getToken(
+        "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
+      );
+      expect(token).toBe("token");
     });
 
-    it("should return unexpired tokens when an org url is passed on other ArcGIS Online environments", (done) => {
+    test("should return unexpired tokens when an org url is passed on other ArcGIS Online environments", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -138,20 +126,13 @@ describe("ArcGISIdentityManager", () => {
         portal: "https://custom.mapsdev.arcgis.com/sharing/rest"
       });
 
-      session
-        .getToken(
-          "https://services1dev.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
-        )
-        .then((token) => {
-          expect(token).toBe("token");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const token = await session.getToken(
+        "https://services1dev.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
+      );
+      expect(token).toBe("token");
     });
 
-    it("should return unexpired tokens when there is an http/https mismatch", (done) => {
+    test("should return unexpired tokens when there is an http/https mismatch", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -159,20 +140,13 @@ describe("ArcGISIdentityManager", () => {
         portal: "http://custom.mapsdev.arcgis.com/sharing/rest"
       });
 
-      session
-        .getToken(
-          "https://services1dev.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
-        )
-        .then((token) => {
-          expect(token).toBe("token");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const token = await session.getToken(
+        "https://services1dev.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
+      );
+      expect(token).toBe("token");
     });
 
-    it("should return unexpired tokens for the configured portal domain", (done) => {
+    test("should return unexpired tokens for the configured portal domain", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -180,18 +154,13 @@ describe("ArcGISIdentityManager", () => {
         portal: "https://gis.city.gov/sharing/rest"
       });
 
-      session
-        .getToken("https://gis.city.gov/sharing/rest/portals/self")
-        .then((token) => {
-          expect(token).toBe("token");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const token = await session.getToken(
+        "https://gis.city.gov/sharing/rest/portals/self"
+      );
+      expect(token).toBe("token");
     });
 
-    it("should return unexpired tokens for the configured portal domain, regardless of CASING", (done) => {
+    test("should return unexpired tokens for the configured portal domain, regardless of CASING", async () => {
       // This was a real configuration discovered on a portal instance
       const session = new ArcGISIdentityManager({
         clientId: "id",
@@ -200,21 +169,16 @@ describe("ArcGISIdentityManager", () => {
         portal: "https://pnp00035.esri.com/sharing/rest"
       });
 
-      session
-        .getToken("https://PNP00035.esri.com/sharing/rest/portals/self")
-        .then((token) => {
-          expect(token).toBe("token");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const token = await session.getToken(
+        "https://PNP00035.esri.com/sharing/rest/portals/self"
+      );
+      expect(token).toBe("token");
     });
 
-    it("should fetch token when contacting a server that is federated, even if on same domain, regardless of domain casing", (done) => {
+    test("should fetch token when contacting a server that is federated, even if on same domain, regardless of domain casing", async () => {
       // This was a real configuration discovered on a portal instance
       // apparently when federating servers, the UI does not force the
-      // server url to lowercase, and this any feature service items generated
+      // server url to lowercase, and thus any feature service items generated
       // will have the server name using the casing the admin entered.
       // this is just a test to ensure that the mis-matched casing does not
       // break the federation flow.
@@ -263,26 +227,19 @@ describe("ArcGISIdentityManager", () => {
 
       // request the token twice, for the same domain, but with different casing
       // and we expect a single POST to generate a token once
-      session
-        .getToken(
+      const [token1, token2] = await Promise.all([
+        session.getToken(
           "https://PNP00035.esri.com/server/rest/services/Hosted/perimeters_dd83/FeatureServer"
+        ),
+        session.getToken(
+          "https://pnp00035.esri.com/server/rest/services/Hosted/otherService/FeatureServer"
         )
-        .then((token) => {
-          expect(token).toBe("new-server-token");
-          return session.getToken(
-            "https://pnp00035.esri.com/server/rest/services/Hosted/otherService/FeatureServer"
-          );
-        })
-        .then((token) => {
-          expect(token).toBe("new-server-token");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      ]);
+      expect(token1).toBe("new-server-token");
+      expect(token2).toBe("new-server-token");
     });
 
-    it("should fetch new tokens when tokens for trusted arcgis.com domains are expired", (done) => {
+    test("should fetch new tokens when tokens for trusted arcgis.com domains are expired", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -300,39 +257,28 @@ describe("ArcGISIdentityManager", () => {
         { repeat: 2, method: "POST" }
       );
 
-      Promise.all([
+      const [token1, token2] = await Promise.all([
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
         session.getToken(
           "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
         )
-      ])
-        .then(([token1, token2]) => {
-          expect(token1).toBe("new");
-          expect(token2).toBe("new");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      ]);
+      expect(token1).toBe("new");
+      expect(token2).toBe("new");
     });
 
-    it("should pass through a token when no token expiration is present", (done) => {
+    test("should pass through a token when no token expiration is present", async () => {
       const session = new ArcGISIdentityManager({
         token: "token"
       });
 
-      session
-        .getToken("https://www.arcgis.com/sharing/rest/portals/self")
-        .then((token1) => {
-          expect(token1).toBe("token");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const token1 = await session.getToken(
+        "https://www.arcgis.com/sharing/rest/portals/self"
+      );
+      expect(token1).toBe("token");
     });
 
-    it("should generate a token for an untrusted, federated server", (done) => {
+    test("should generate a token for an untrusted, federated server", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -371,26 +317,19 @@ describe("ArcGISIdentityManager", () => {
         expires: TOMORROW.getTime()
       });
 
-      session
-        .getToken(
+      const [token1, token2] = await Promise.all([
+        session.getToken(
+          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+        ),
+        session.getToken(
           "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
         )
-        .then((token) => {
-          expect(token).toBe("serverToken");
-          return session.getToken(
-            "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-          );
-        })
-        .then((token) => {
-          expect(token).toBe("serverToken");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      ]);
+      expect(token1).toBe("serverToken");
+      expect(token2).toBe("serverToken");
     });
 
-    it("should generate a fresh portal token and a new server token for an untrusted, federated server", (done) => {
+    test("should generate a fresh portal token and a new server token for an untrusted, federated server", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -436,27 +375,19 @@ describe("ArcGISIdentityManager", () => {
         expires: TOMORROW.getTime()
       });
 
-      session
-        .getToken(
+      const [token1, token2] = await Promise.all([
+        session.getToken(
+          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+        ),
+        session.getToken(
           "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
         )
-        .then((token) => {
-          expect(token).toBe("serverToken");
-          return session.getToken(
-            "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-          );
-        })
-        .then((token) => {
-          expect(token).toBe("serverToken");
-          expect(session.token).toBe("newToken");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      ]);
+      expect(token1).toBe("serverToken");
+      expect(token2).toBe("serverToken");
     });
 
-    it("should generate a token for an untrusted, federated server admin call", (done) => {
+    test("should generate a token for an untrusted, federated server admin call", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -495,26 +426,17 @@ describe("ArcGISIdentityManager", () => {
         expires: TOMORROW.getTime()
       });
 
-      session
-        .getToken(
-          "https://gisservices.city.gov/public/rest/admin/services/trees/FeatureServer/addToDefinition"
-        )
-        .then((token) => {
-          expect(token).toBe("serverToken");
-          return session.getToken(
-            "https://gisservices.city.gov/public/rest/admin/services/trees/FeatureServer/addToDefinition"
-          );
-        })
-        .then((token) => {
-          expect(token).toBe("serverToken");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const token1 = await session.getToken(
+        "https://gisservices.city.gov/public/rest/admin/services/trees/FeatureServer/addToDefinition"
+      );
+      expect(token1).toBe("serverToken");
+      const token2 = await session.getToken(
+        "https://gisservices.city.gov/public/rest/admin/services/trees/FeatureServer/addToDefinition"
+      );
+      expect(token2).toBe("serverToken");
     });
 
-    it("should generate a token for an untrusted, federated server with user credentials", (done) => {
+    test("should generate a token for an untrusted, federated server with user credentials", async () => {
       const session = new ArcGISIdentityManager({
         username: "c@sey",
         password: "jones",
@@ -555,20 +477,13 @@ describe("ArcGISIdentityManager", () => {
         expires: TOMORROW.getTime()
       });
 
-      session
-        .getToken(
-          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-        )
-        .then((token) => {
-          expect(token).toBe("serverToken");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const token = await session.getToken(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+      );
+      expect(token).toBe("serverToken");
     });
 
-    it("should only make 1 token request to an untrusted portal for similar URLs", (done) => {
+    test("should only make 1 token request to an untrusted portal for similar URLs", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -619,28 +534,22 @@ describe("ArcGISIdentityManager", () => {
         { repeat: 1, method: "POST" }
       );
 
-      Promise.all([
+      const [token1, token2] = await Promise.all([
         session.getToken(
           "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
         ),
         session.getToken(
           "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
         )
-      ])
-        .then(([token1, token2]) => {
-          expect(token1).toBe("serverToken");
-          expect(token2).toBe("serverToken");
-          expect(
-            fetchMock.calls("https://gis.city.gov/sharing/generateToken").length
-          ).toBe(1);
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      ]);
+      expect(token1).toBe("serverToken");
+      expect(token2).toBe("serverToken");
+      expect(
+        fetchMock.calls("https://gis.city.gov/sharing/generateToken").length
+      ).toBe(1);
     });
 
-    it("should throw an ArcGISAuthError when the owning system doesn't match", (done) => {
+    test("should throw an ArcGISAuthError when the owning system doesn't match", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -672,21 +581,19 @@ describe("ArcGISIdentityManager", () => {
         }
       });
 
-      session
-        .getToken(
+      await expect(
+        session.getToken(
           "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
         )
-        .catch((e) => {
-          expect(e.name).toEqual(ErrorTypes.ArcGISTokenRequestError);
-          expect(e.code).toEqual("NOT_FEDERATED");
-          expect(e.message).toEqual(
-            "NOT_FEDERATED: https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query is not federated with https://www.arcgis.com/sharing/rest."
-          );
-          done();
-        });
+      ).rejects.toMatchObject({
+        name: ErrorTypes.ArcGISTokenRequestError,
+        code: "NOT_FEDERATED",
+        message:
+          "NOT_FEDERATED: https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query is not federated with https://www.arcgis.com/sharing/rest."
+      });
     });
 
-    it("should throw a fully hydrated ArcGISAuthError when no owning system is advertised", (done) => {
+    test("should throw a fully hydrated ArcGISAuthError when no owning system is advertised", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -723,29 +630,31 @@ describe("ArcGISIdentityManager", () => {
         }
       );
 
-      request(
-        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
-        {
-          authentication: session,
+      await expect(
+        request(
+          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
+          {
+            authentication: session,
+            params: {
+              foo: "bar"
+            }
+          }
+        )
+      ).rejects.toMatchObject({
+        name: ErrorTypes.ArcGISTokenRequestError,
+        code: "NOT_FEDERATED",
+        message:
+          "NOT_FEDERATED: https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query is not federated with any portal and is not explicitly trusted.",
+        url: "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
+        options: {
           params: {
             foo: "bar"
           }
         }
-      ).catch((e) => {
-        expect(e.name).toEqual(ErrorTypes.ArcGISTokenRequestError);
-        expect(e.code).toEqual("NOT_FEDERATED");
-        expect(e.message).toEqual(
-          "NOT_FEDERATED: https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query is not federated with any portal and is not explicitly trusted."
-        );
-        expect(e.url).toEqual(
-          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-        );
-        expect(e.options.params.foo).toEqual("bar");
-        done();
       });
     });
 
-    it("should not throw an ArcGISAuthError when the unfederated service is public", (done) => {
+    test("should not throw an ArcGISAuthError when the unfederated service is public", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -778,7 +687,7 @@ describe("ArcGISIdentityManager", () => {
         }
       );
 
-      request(
+      const res = await request(
         "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query",
         {
           authentication: session,
@@ -786,19 +695,13 @@ describe("ArcGISIdentityManager", () => {
             returnCount: true
           }
         }
-      )
-        .then((res) => {
-          expect(res.count).toEqual(123);
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      );
+      expect(res.count).toEqual(123);
     });
   });
 
   describe(".refreshCredentials()", () => {
-    it("should refresh with a username and password if expired", (done) => {
+    test("should refresh with a username and password if expired", async () => {
       const session = new ArcGISIdentityManager({
         username: "c@sey",
         password: "123456"
@@ -812,19 +715,12 @@ describe("ArcGISIdentityManager", () => {
         username: " c@sey"
       });
 
-      session
-        .refreshCredentials()
-        .then((s) => {
-          expect(s.token).toBe("token");
-          expect(s.tokenExpires).toEqual(TOMORROW);
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const refreshedSession = await session.refreshCredentials();
+      expect(refreshedSession.token).toBe("token");
+      expect(refreshedSession.tokenExpires).toEqual(TOMORROW);
     });
 
-    it("should refresh with an unexpired refresh token", (done) => {
+    test("should refresh with an unexpired refresh token", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "clientId",
         token: "token",
@@ -842,21 +738,14 @@ describe("ArcGISIdentityManager", () => {
         username: " c@sey"
       });
 
-      session
-        .refreshCredentials()
-        .then((s) => {
-          expect(s.token).toBe("newToken");
-          expect(s.tokenExpires.getTime()).toBeGreaterThan(
-            Date.now() - 5 * 60 * 1000
-          );
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const refreshedSession = await session.refreshCredentials();
+      expect(refreshedSession.token).toBe("newToken");
+      expect(refreshedSession.tokenExpires.getTime()).toBeGreaterThan(
+        Date.now() - 5 * 60 * 1000
+      );
     });
 
-    it("should refresh with  a refresh token that it is about to expire", (done) => {
+    test("should refresh with a refresh token that it is about to expire", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "clientId",
         token: "token",
@@ -874,25 +763,18 @@ describe("ArcGISIdentityManager", () => {
         refresh_token_expires_in: 1209600
       });
 
-      session
-        .refreshCredentials()
-        .then((s) => {
-          expect(s.token).toBe("newToken");
-          expect(s.tokenExpires.getTime()).toBeGreaterThan(
-            Date.now() - 5 * 60 * 1000
-          );
-          expect(s.refreshToken).toBe("newRefreshToken");
-          expect(s.refreshTokenExpires.getTime()).toBeGreaterThan(
-            Date.now() - 5 * 60 * 1000
-          );
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const refreshedSession = await session.refreshCredentials();
+      expect(refreshedSession.token).toBe("newToken");
+      expect(refreshedSession.tokenExpires.getTime()).toBeGreaterThan(
+        Date.now() - 5 * 60 * 1000
+      );
+      expect(refreshedSession.refreshToken).toBe("newRefreshToken");
+      expect(refreshedSession.refreshTokenExpires.getTime()).toBeGreaterThan(
+        Date.now() - 5 * 60 * 1000
+      );
     });
 
-    it("should reject with an ArcGISTokenRequestError if the token cannot be refreshed", () => {
+    test("should reject with an ArcGISTokenRequestError if the token cannot be refreshed", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "clientId",
         token: "token",
@@ -912,16 +794,14 @@ describe("ArcGISIdentityManager", () => {
         }
       });
 
-      return session.refreshCredentials().catch((e) => {
-        expect(e instanceof ArcGISTokenRequestError).toBe(true);
-        expect(e.name).toBe("ArcGISTokenRequestError");
-        expect(e.code).toBe(ArcGISTokenRequestErrorCodes.TOKEN_REFRESH_FAILED);
-        expect(e.message).toBe("TOKEN_REFRESH_FAILED: 400: Invalid client_id");
-        return;
+      await expect(session.refreshCredentials()).rejects.toMatchObject({
+        name: "ArcGISTokenRequestError",
+        code: ArcGISTokenRequestErrorCodes.TOKEN_REFRESH_FAILED,
+        message: "TOKEN_REFRESH_FAILED: 400: Invalid client_id"
       });
     });
 
-    it("should reject with an ArcGISTokenRequestError if the token cannot be refreshed with a username and password", () => {
+    test("should reject with an ArcGISTokenRequestError if the token cannot be refreshed with a username and password", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "clientId",
         token: "token",
@@ -938,18 +818,14 @@ describe("ArcGISIdentityManager", () => {
         }
       });
 
-      return session.refreshCredentials().catch((e) => {
-        expect(e instanceof ArcGISTokenRequestError).toBe(true);
-        expect(e.name).toBe("ArcGISTokenRequestError");
-        expect(e.code).toBe(ArcGISTokenRequestErrorCodes.TOKEN_REFRESH_FAILED);
-        expect(e.message).toBe(
-          "TOKEN_REFRESH_FAILED: 400: Unable to generate token."
-        );
-        return;
+      await expect(session.refreshCredentials()).rejects.toMatchObject({
+        name: "ArcGISTokenRequestError",
+        code: ArcGISTokenRequestErrorCodes.TOKEN_REFRESH_FAILED,
+        message: "TOKEN_REFRESH_FAILED: 400: Unable to generate token."
       });
     });
 
-    it("should reject with an ArcGISTokenRequestError if the refresh token cannot be refreshed", () => {
+    test("should reject with an ArcGISTokenRequestError if the refresh token cannot be refreshed", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "clientId",
         token: "token",
@@ -969,20 +845,14 @@ describe("ArcGISIdentityManager", () => {
         }
       });
 
-      return session.refreshCredentials().catch((e) => {
-        expect(e instanceof ArcGISTokenRequestError).toBe(true);
-        expect(e.name).toBe("ArcGISTokenRequestError");
-        expect(e.code).toBe(
-          ArcGISTokenRequestErrorCodes.REFRESH_TOKEN_EXCHANGE_FAILED
-        );
-        expect(e.message).toBe(
-          "REFRESH_TOKEN_EXCHANGE_FAILED: 400: Invalid client_id"
-        );
-        return;
+      await expect(session.refreshCredentials()).rejects.toMatchObject({
+        name: "ArcGISTokenRequestError",
+        code: ArcGISTokenRequestErrorCodes.REFRESH_TOKEN_EXCHANGE_FAILED,
+        message: "REFRESH_TOKEN_EXCHANGE_FAILED: 400: Invalid client_id"
       });
     });
 
-    it("should reject if we cannot refresh the token", (done) => {
+    test("should reject if we cannot refresh the token", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "clientId",
         token: "token",
@@ -991,17 +861,15 @@ describe("ArcGISIdentityManager", () => {
 
       expect(session.canRefresh).toBe(false);
 
-      session.refreshCredentials().catch((e) => {
-        expect(e instanceof ArcGISTokenRequestError).toBeTruthy();
-        expect(e.name).toBe("ArcGISTokenRequestError");
-        expect(e.message).toBe(
+      await expect(session.refreshCredentials()).rejects.toMatchObject({
+        name: "ArcGISTokenRequestError",
+        code: ArcGISTokenRequestErrorCodes.TOKEN_REFRESH_FAILED,
+        message:
           "TOKEN_REFRESH_FAILED: Unable to refresh token. No refresh token or password present."
-        );
-        done();
       });
     });
 
-    it("should only make 1 token request to the portal for similar URLs", (done) => {
+    test("should only make 1 token request to the portal for similar URLs", async () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -1019,25 +887,19 @@ describe("ArcGISIdentityManager", () => {
         { repeat: 1, method: "POST" }
       );
 
-      Promise.all([
+      const [token1, token2] = await Promise.all([
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self")
-      ])
-        .then(([token1, token2]) => {
-          expect(token1).toBe("new");
-          expect(token2).toBe("new");
-          expect(
-            fetchMock.calls("https://www.arcgis.com/sharing/rest/oauth2/token")
-              .length
-          ).toBe(1);
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      ]);
+      expect(token1).toBe("new");
+      expect(token2).toBe("new");
+      expect(
+        fetchMock.calls("https://www.arcgis.com/sharing/rest/oauth2/token")
+          .length
+      ).toBe(1);
     });
 
-    it("should update the token and expiration from an external source", () => {
+    test("should update the token and expiration from an external source", () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -1051,888 +913,7 @@ describe("ArcGISIdentityManager", () => {
     });
   });
 
-  /**
-   * `beginOAuth2()` and `completeOAuth2()` only work on browsers due to their use of `dispatchEvent()` and `addEventListener()`.
-   *
-   * We COULD make these tests work in Node if we wanted to mock these calls but you actually have to trigger the events.
-   */
-  if (isBrowser) {
-    describe("Client side oAuth 2.0", () => {
-      let MockWindow: any;
-
-      function createMock() {
-        return {
-          open: jasmine.createSpy(),
-          close: jasmine.createSpy(),
-          crypto: {
-            getRandomValues: function () {
-              return new Uint8Array(32);
-            },
-            subtle: {
-              digest: function (...args: any) {
-                return window.crypto.subtle.digest.apply(
-                  window.crypto.subtle,
-                  args
-                );
-              }
-            }
-          },
-          isSecureContext: true,
-          TextEncoder,
-          localStorage: {
-            getItem: function (key: string) {
-              return window.localStorage.getItem(key);
-            },
-            setItem: function (key: string, value: any) {
-              return window.localStorage.setItem(key, value);
-            },
-            removeItem: function (key: string) {
-              return window.localStorage.removeItem(key);
-            }
-          },
-          history: {
-            replaceState: jasmine.createSpy()
-          },
-          // for most tests we actually need the event to fire to make sure the callback works as expected so we restore the browsers original behavior.
-          addEventListener: function (...args: any) {
-            return window.addEventListener.apply(window, args);
-          },
-          dispatchEvent: function (...args: any) {
-            return window.dispatchEvent.apply(window, args);
-          },
-          opener: {
-            dispatchEvent: jasmine.createSpy()
-          },
-          btoa: function (...args: any) {
-            return window.btoa.apply(window, args);
-          },
-          location: {
-            href: "https://test.com",
-            search: "",
-            hash: ""
-          }
-        };
-      }
-
-      beforeEach(() => {
-        MockWindow = createMock();
-      });
-
-      afterEach(() => {
-        MockWindow = null;
-      });
-
-      describe(".beginOAuth2() without PKCE", () => {
-        it("should authorize via implicit grant in a popup", () => {
-          let PopupMockWindow: any;
-
-          window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
-            PopupMockWindow = createMock();
-            PopupMockWindow.location.hash =
-              "#access_token=token&expires_in=86400&username=c%40sey&ssl=true&persist=true&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-            PopupMockWindow.opener = MockWindow;
-
-            ArcGISIdentityManager.completeOAuth2(
-              {
-                clientId: "clientId123",
-                redirectUri: "http://example-app.com/redirect",
-                pkce: false
-              },
-              PopupMockWindow
-            );
-          });
-
-          return ArcGISIdentityManager.beginOAuth2(
-            {
-              clientId: "clientId123",
-              redirectUri: "http://example-app.com/redirect",
-              style: "light",
-              pkce: false
-            },
-            MockWindow
-          )
-            .then((session) => {
-              expect(MockWindow.open).toHaveBeenCalledWith(
-                "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId123&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=light",
-                "oauth-window",
-                "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
-              );
-              expect(PopupMockWindow.close).toHaveBeenCalled();
-              expect(session.token).toBe("token");
-              expect(session.username).toBe("c@sey");
-              expect(session.ssl).toBe(true);
-
-              // The times will be off a few milliseconds because we have to wait for some async work to we just compare date, hour and minute values.
-              expect(session.tokenExpires.toDateString()).toBe(
-                TOMORROW.toDateString()
-              );
-              expect(session.tokenExpires.getUTCHours()).toBe(
-                TOMORROW.getUTCHours()
-              );
-              const tomorrowMinutes = TOMORROW.getUTCMinutes();
-              expect(
-                session.tokenExpires.getUTCMinutes()
-              ).toBeGreaterThanOrEqual(tomorrowMinutes - 1);
-              expect(session.tokenExpires.getUTCMinutes()).toBeLessThanOrEqual(
-                tomorrowMinutes + 1
-              );
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        });
-
-        it("should reject if there is an error in the popup", () => {
-          let PopupMockWindow: any;
-
-          window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
-            PopupMockWindow = createMock();
-            PopupMockWindow.location.hash =
-              "#error=sign_in_failed&error_description=Request%20failed&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-            PopupMockWindow.opener = MockWindow;
-
-            ArcGISIdentityManager.completeOAuth2(
-              {
-                clientId: "clientId234",
-                redirectUri: "http://example-app.com/redirect",
-                pkce: false
-              },
-              PopupMockWindow
-            );
-          });
-
-          return ArcGISIdentityManager.beginOAuth2(
-            {
-              clientId: "clientId234",
-              redirectUri: "http://example-app.com/redirect",
-              locale: "fr",
-              pkce: false
-            },
-            MockWindow
-          ).catch((e) => {
-            expect(e.name).toBe("ArcGISAuthError");
-            expect(e.code).toBe("sign_in_failed");
-            expect(e instanceof ArcGISAuthError).toBe(true);
-            expect(e.message).toBe("sign_in_failed: Request failed");
-            expect(MockWindow.open).toHaveBeenCalledWith(
-              "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId234&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=fr&style=",
-              "oauth-window",
-              "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
-            );
-            return Promise.resolve();
-          });
-        });
-
-        it("should authorize in the same window/tab", () => {
-          return ArcGISIdentityManager.beginOAuth2(
-            {
-              clientId: "clientId345",
-              redirectUri: "http://example-app.com/redirect",
-              popup: false,
-              pkce: false
-            },
-            MockWindow
-          )
-            .then(() => {
-              expect(MockWindow.location.href).toBe(
-                "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId345&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style="
-              );
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        });
-
-        it("should authorize using a social media provider", () => {
-          return ArcGISIdentityManager.beginOAuth2(
-            {
-              clientId: "clientId456",
-              redirectUri: "http://example-app.com/redirect",
-              popup: false,
-              provider: "facebook",
-              pkce: false
-            },
-            MockWindow
-          )
-            .then(() => {
-              expect(MockWindow.location.href).toBe(
-                "https://www.arcgis.com/sharing/rest/oauth2/social/authorize?client_id=clientId456&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&socialLoginProviderName=facebook&autoAccountCreateForSocial=true"
-              );
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        });
-
-        it("should authorize using the other social media provider", () => {
-          return ArcGISIdentityManager.beginOAuth2(
-            {
-              clientId: "clientId567",
-              redirectUri: "http://example-app.com/redirect",
-              popup: false,
-              provider: "google",
-              pkce: false
-            },
-            MockWindow
-          )
-            .then(() => {
-              expect(MockWindow.location.href).toBe(
-                "https://www.arcgis.com/sharing/rest/oauth2/social/authorize?client_id=clientId567&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&socialLoginProviderName=google&autoAccountCreateForSocial=true"
-              );
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        });
-
-        it("should pass custom expiration", () => {
-          return ArcGISIdentityManager.beginOAuth2(
-            {
-              clientId: "clientId678",
-              redirectUri: "http://example-app.com/redirect",
-              popup: false,
-              expiration: 9000,
-              pkce: false
-            },
-            MockWindow
-          )
-            .then(() => {
-              expect(MockWindow.location.href).toBe(
-                "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId678&response_type=token&expiration=9000&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style="
-              );
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        });
-      });
-
-      describe(".completeOAuth2() without PKCE", () => {
-        it("should authorize via an implicit grant with an inline redirect", () => {
-          MockWindow.location.hash =
-            "#access_token=token&expires_in=86400&username=c%40sey&ssl=true&persist=true&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-
-          window.localStorage.setItem(
-            `ARCGIS_REST_JS_AUTH_STATE_clientId789`,
-            "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          );
-
-          return ArcGISIdentityManager.completeOAuth2(
-            {
-              clientId: "clientId789",
-              redirectUri: "https://example-app.com/redirect-uri",
-              popup: false,
-              pkce: false
-            },
-            MockWindow
-          )
-            .then((session) => {
-              expect(session.token).toBe("token");
-              expect(session.tokenExpires.getTime()).toBeGreaterThan(
-                Date.now()
-              );
-              expect(session.username).toBe("c@sey");
-              expect(session.ssl).toBe(true);
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        });
-
-        it("should return a new user session with ssl as false when callback hash does not have ssl parameter", () => {
-          MockWindow.location.hash =
-            "#access_token=token&expires_in=86400&username=c%40sey&&persist=true&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-
-          window.localStorage.setItem(
-            `ARCGIS_REST_JS_AUTH_STATE_clientId789`,
-            "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          );
-
-          return ArcGISIdentityManager.completeOAuth2(
-            {
-              clientId: "clientId789",
-              redirectUri: "https://example-app.com/redirect-uri",
-              popup: false,
-              pkce: false
-            },
-            MockWindow
-          )
-            .then((session) => {
-              expect(session.ssl).toBe(false);
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        });
-
-        it("should throw an error from the authorization window", () => {
-          MockWindow.location.hash =
-            "#error=Invalid_Signin&error_description=Invalid_Signin&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-
-          window.localStorage.setItem(
-            `ARCGIS_REST_JS_AUTH_STATE_clientId890`,
-            "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          );
-
-          return ArcGISIdentityManager.completeOAuth2(
-            {
-              clientId: "clientId890",
-              redirectUri: "https://example-app.com/redirect-uri",
-              popup: false,
-              pkce: false
-            },
-            MockWindow
-          ).catch((e) => {
-            expect(e.name).toBe("ArcGISAuthError");
-            expect(e.code).toBe("Invalid_Signin");
-            expect(e instanceof ArcGISAuthError).toBe(true);
-            expect(e.message).toBe("Invalid_Signin: Invalid_Signin");
-
-            return;
-          });
-        });
-
-        it("should throw an unknown error if the url has no error or access_token", () => {
-          MockWindow.location.hash =
-            "#state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-
-          window.localStorage.setItem(
-            `ARCGIS_REST_JS_AUTH_STATE_clientId901`,
-            "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          );
-
-          return ArcGISIdentityManager.completeOAuth2(
-            {
-              clientId: "clientId901",
-              redirectUri: "https://example-app.com/redirect-uri",
-              popup: false,
-              pkce: false
-            },
-            MockWindow
-          ).catch((e) => {
-            expect(e.name).toBe("ArcGISAuthError");
-            expect(e.code).toBe("oauth-error");
-            expect(e instanceof ArcGISAuthError).toBe(true);
-            expect(e.message).toBe("oauth-error: Unknown error");
-
-            return;
-          });
-        });
-      });
-
-      describe(".completeOAuth2() with PKCE", () => {
-        it("should authorize with a popup", () => {
-          let PopupMockWindow = createMock();
-          PopupMockWindow.location.search =
-            "?code=auth_code&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-          PopupMockWindow.opener = MockWindow;
-
-          fetchMock.post("*", {
-            access_token: "token",
-            expires_in: 1800,
-            username: "c@sey",
-            ssl: true,
-            refresh_token: "refresh_token",
-            refresh_token_expires_in: 1209600
-          });
-
-          window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
-            setTimeout(() => {
-              ArcGISIdentityManager.completeOAuth2(
-                {
-                  clientId: "clientIdBasicPKCE",
-                  redirectUri: "http://example-app.com/redirect"
-                },
-                PopupMockWindow
-              );
-            }, 100);
-          });
-
-          return ArcGISIdentityManager.beginOAuth2(
-            {
-              clientId: "clientIdBasicPKCE",
-              redirectUri: "http://example-app.com/redirect"
-            },
-            MockWindow
-          )
-            .then((session) => {
-              expect(MockWindow.open).toHaveBeenCalledWith(
-                "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientIdBasicPKCE&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&code_challenge_method=S256&code_challenge=DwBzhbb51LfusnSGBa_hqYSgo7-j8BTQnip4TOnlzRo",
-                "oauth-window",
-                "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
-              );
-
-              expect(session.token).toBe("token");
-              expect(session.username).toBe("c@sey");
-              expect(session.ssl).toBe(true);
-              expect(session.redirectUri).toBe(
-                "http://example-app.com/redirect"
-              );
-              // now - 5 minutes (offset) + the above expiration (1800 seconds)
-              const expectedDate = new Date(
-                Date.now() - 5 * 60 * 1000 + 1800 * 1000
-              );
-
-              // // The times will be off a few milliseconds because we have to wait for some async work to we just compare date, hour and minute values.
-              expect(session.tokenExpires.toDateString()).toBe(
-                expectedDate.toDateString()
-              );
-              expect(session.tokenExpires.getUTCHours()).toBe(
-                expectedDate.getUTCHours()
-              );
-              expect(session.tokenExpires.getUTCMinutes()).toBe(
-                expectedDate.getUTCMinutes()
-              );
-              expect(session.state).toEqual({
-                id: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-                originalUrl: "https://test.com"
-              });
-              expect(PopupMockWindow.close).toHaveBeenCalled();
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        });
-
-        it("should reject with an access denied error when a user cancels auth in a popup", () => {
-          let PopupMockWindow: any;
-
-          window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
-            PopupMockWindow = createMock();
-            PopupMockWindow.location.search =
-              "?error=access_denied&error_description=The%20user%20has%20denied%20your%20request&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-            PopupMockWindow.opener = MockWindow;
-
-            ArcGISIdentityManager.completeOAuth2(
-              {
-                clientId: "testUserRejection",
-                redirectUri: "http://example-app.com/redirect"
-              },
-              PopupMockWindow
-            );
-          });
-
-          return ArcGISIdentityManager.beginOAuth2(
-            {
-              clientId: "testUserRejection",
-              redirectUri: "http://example-app.com/redirect"
-            },
-            MockWindow
-          ).catch((e) => {
-            expect(e.name).toBe("ArcGISAccessDeniedError");
-            expect(e instanceof ArcGISAccessDeniedError).toBe(true);
-            expect(e.message).toBe(
-              "The user has denied your authorization request."
-            );
-          });
-        });
-
-        it("should authorize with an inline redirect", () => {
-          return ArcGISIdentityManager.beginOAuth2(
-            {
-              clientId: "clientId12345",
-              redirectUri: "http://example-app.com/redirect",
-              popup: false
-            },
-            MockWindow
-          )
-            .then(() => {
-              expect(MockWindow.location.href).toBe(
-                "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId12345&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&code_challenge_method=S256&code_challenge=DwBzhbb51LfusnSGBa_hqYSgo7-j8BTQnip4TOnlzRo"
-              );
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        });
-
-        it("should fallback to window.location.href if redirect URI is omitted in a popup workflow", () => {
-          let PopupMockWindow: any;
-
-          fetchMock.once("*", {
-            access_token: "token",
-            expires_in: 1800,
-            username: "c@sey",
-            ssl: true,
-            refresh_token: "refresh_token",
-            refresh_token_expires_in: 1209600
-          });
-
-          window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
-            PopupMockWindow = createMock();
-            PopupMockWindow.location.href = "http://example-app.com/redirect";
-            PopupMockWindow.location.search =
-              "?code=auth_code&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-            PopupMockWindow.opener = MockWindow;
-
-            ArcGISIdentityManager.completeOAuth2(
-              {
-                clientId: "clientId1234"
-              } as any,
-              PopupMockWindow
-            );
-          });
-
-          return ArcGISIdentityManager.beginOAuth2(
-            {
-              clientId: "clientId1234",
-              redirectUri: "http://example-app.com/redirect"
-            },
-            MockWindow
-          )
-            .then((session) => {
-              expect(MockWindow.open).toHaveBeenCalledWith(
-                "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId1234&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&code_challenge_method=S256&code_challenge=DwBzhbb51LfusnSGBa_hqYSgo7-j8BTQnip4TOnlzRo",
-                "oauth-window",
-                "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
-              );
-
-              expect(PopupMockWindow.close).toHaveBeenCalled();
-              expect(session.redirectUri).toBe(
-                "http://example-app.com/redirect"
-              );
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        });
-
-        it("should authorize with an inline redirect with a plain challange", () => {
-          MockWindow.isSecureContext = false;
-
-          return ArcGISIdentityManager.beginOAuth2(
-            {
-              clientId: "clientId12345",
-              redirectUri: "http://example-app.com/redirect",
-              popup: false
-            },
-            MockWindow
-          )
-            .then(() => {
-              expect(MockWindow.location.href).toBe(
-                "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId12345&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&code_challenge_method=plain&code_challenge=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-              );
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        });
-
-        it("should encode additional params", () => {
-          MockWindow.isSecureContext = false;
-
-          return ArcGISIdentityManager.beginOAuth2(
-            {
-              clientId: "clientId12345",
-              redirectUri: "http://example-app.com/redirect",
-              popup: false,
-              params: {
-                foo: "bar"
-              }
-            },
-            MockWindow
-          )
-            .then(() => {
-              expect(MockWindow.location.href).toBe(
-                "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId12345&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&code_challenge_method=plain&code_challenge=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&foo=bar"
-              );
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        });
-
-        it("should pass a custom state object", () => {
-          let PopupMockWindow = createMock();
-          PopupMockWindow.location.search =
-            "?code=auth_code&state=%7B%22id%22%3A%22myCustomId%22%2C%22customStateProperty%22%3A%22test%22%7D";
-          PopupMockWindow.opener = MockWindow;
-
-          fetchMock.post("*", {
-            access_token: "token",
-            expires_in: 1800,
-            username: "c@sey",
-            ssl: true,
-            refresh_token: "refresh_token",
-            refresh_token_expires_in: 1209600
-          });
-
-          window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
-            setTimeout(() => {
-              ArcGISIdentityManager.completeOAuth2(
-                {
-                  clientId: "customStateTestClientId",
-                  redirectUri: "http://example-app.com/redirect"
-                },
-                PopupMockWindow
-              );
-            }, 100);
-          });
-
-          return ArcGISIdentityManager.beginOAuth2(
-            {
-              clientId: "customStateTestClientId",
-              redirectUri: "http://example-app.com/redirect",
-              state: {
-                id: "myCustomId",
-                customStateProperty: "test"
-              }
-            },
-            MockWindow
-          )
-            .then((session) => {
-              expect(MockWindow.open).toHaveBeenCalledWith(
-                "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=customStateTestClientId&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22myCustomId%22%2C%22customStateProperty%22%3A%22test%22%7D&locale=&style=&code_challenge_method=S256&code_challenge=DwBzhbb51LfusnSGBa_hqYSgo7-j8BTQnip4TOnlzRo",
-                "oauth-window",
-                "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
-              );
-
-              expect(session.state).toEqual({
-                id: "myCustomId",
-                customStateProperty: "test"
-              });
-
-              // now - 5 minutes (offset) + the above expiration (1800 seconds)
-              const expectedDate = new Date(
-                Date.now() - 5 * 60 * 1000 + 1800 * 1000
-              );
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        });
-
-        it("should pass a custom state string", () => {
-          let PopupMockWindow = createMock();
-          PopupMockWindow.location.search =
-            "?code=auth_code&state=%7B%22id%22%3A%22customStateString%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-          PopupMockWindow.opener = MockWindow;
-
-          fetchMock.post("*", {
-            access_token: "token",
-            expires_in: 1800,
-            username: "c@sey",
-            ssl: true,
-            refresh_token: "refresh_token",
-            refresh_token_expires_in: 1209600
-          });
-
-          window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
-            setTimeout(() => {
-              ArcGISIdentityManager.completeOAuth2(
-                {
-                  clientId: "clientIdCustomStateString",
-                  redirectUri: "http://example-app.com/redirect"
-                },
-                PopupMockWindow
-              );
-            }, 100);
-          });
-
-          return ArcGISIdentityManager.beginOAuth2(
-            {
-              clientId: "clientIdCustomStateString",
-              redirectUri: "http://example-app.com/redirect",
-              state: "customStateString"
-            },
-            MockWindow
-          )
-            .then((session) => {
-              expect(MockWindow.open).toHaveBeenCalledWith(
-                "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientIdCustomStateString&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22customStateString%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&code_challenge_method=S256&code_challenge=DwBzhbb51LfusnSGBa_hqYSgo7-j8BTQnip4TOnlzRo",
-                "oauth-window",
-                "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
-              );
-
-              expect(session.token).toBe("token");
-              expect(session.username).toBe("c@sey");
-              expect(session.ssl).toBe(true);
-              expect(session.redirectUri).toBe(
-                "http://example-app.com/redirect"
-              );
-              // now - 5 minutes (offset) + the above expiration (1800 seconds)
-              const expectedDate = new Date(
-                Date.now() - 5 * 60 * 1000 + 1800 * 1000
-              );
-
-              // // The times will be off a few milliseconds because we have to wait for some async work to we just compare date, hour and minute values.
-              expect(session.tokenExpires.toDateString()).toBe(
-                expectedDate.toDateString()
-              );
-              expect(session.tokenExpires.getUTCHours()).toBe(
-                expectedDate.getUTCHours()
-              );
-              expect(session.tokenExpires.getUTCMinutes()).toBe(
-                expectedDate.getUTCMinutes()
-              );
-              expect(session.state).toEqual({
-                id: "customStateString",
-                originalUrl: "https://test.com"
-              });
-              expect(PopupMockWindow.close).toHaveBeenCalled();
-            })
-            .catch((e) => {
-              fail(e);
-            });
-        });
-
-        it("should reject .completeOAuth2() when the user denys the request during an inline redirect", () => {
-          MockWindow.location.search =
-            "?error=access_denied&error_description=The%20user%20has%20denied%20your%20request&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-
-          window.localStorage.setItem(
-            `ARCGIS_REST_JS_AUTH_STATE_clientIdInlineAccessDenied`,
-            "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          );
-
-          return ArcGISIdentityManager.completeOAuth2(
-            {
-              clientId: "clientIdInlineAccessDenied",
-              redirectUri: "https://example-app.com/redirect-uri",
-              popup: false
-            },
-            MockWindow
-          ).catch((e) => {
-            expect(e.name).toBe("ArcGISAccessDeniedError");
-            expect(e instanceof ArcGISAccessDeniedError).toBe(true);
-            expect(e.message).toBe(
-              "The user has denied your authorization request."
-            );
-
-            return;
-          });
-        });
-
-        it("should reject .completeOAuth2() if the state ID does not match", () => {
-          MockWindow.location.search =
-            "?code=auth_code&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-
-          window.localStorage.setItem(
-            `ARCGIS_REST_JS_AUTH_STATE_clientIdInlineStateMismatch`,
-            "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
-          );
-
-          return ArcGISIdentityManager.completeOAuth2(
-            {
-              clientId: "clientIdInlineStateMismatch",
-              redirectUri: "https://example-app.com/redirect-uri",
-              popup: false
-            },
-            MockWindow
-          ).catch((e) => {
-            expect(e.name).toBe("ArcGISAuthError");
-            expect(e instanceof ArcGISAuthError).toBe(true);
-            expect(e.message).toBe(
-              "mismatched-auth-state: Saved client state did not match server sent state."
-            );
-
-            return;
-          });
-        });
-
-        it("should reject .completeOAuth2() with a default error message", () => {
-          MockWindow.location.search =
-            "?error=weird_error&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-
-          window.localStorage.setItem(
-            `ARCGIS_REST_JS_AUTH_STATE_clientIdInlineWeirdError`,
-            "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          );
-
-          return ArcGISIdentityManager.completeOAuth2(
-            {
-              clientId: "clientIdInlineWeirdError",
-              redirectUri: "https://example-app.com/redirect-uri",
-              popup: false
-            },
-            MockWindow
-          ).catch((e) => {
-            expect(e.name).toBe("ArcGISAuthError");
-            expect(e instanceof ArcGISAuthError).toBe(true);
-            expect(e.message).toBe("weird_error: Unknown error");
-
-            return;
-          });
-        });
-
-        it("should reject .completeOAuth2() if a state can not be found locally", () => {
-          MockWindow.location.search =
-            "?code=auth_code&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-
-          return ArcGISIdentityManager.completeOAuth2(
-            {
-              clientId: "clientIdInlineStateMismatch",
-              redirectUri: "https://example-app.com/redirect-uri",
-              popup: false
-            },
-            MockWindow
-          ).catch((e) => {
-            expect(e.name).toBe("ArcGISAuthError");
-            expect(e instanceof ArcGISAuthError).toBe(true);
-            expect(e.message).toBe(
-              "no-auth-state: No authentication state was found, call `ArcGISIdentityManager.beginOAuth2(...)` to start the authentication process."
-            );
-
-            return;
-          });
-        });
-
-        it("should reject .completeOAuth2() if a state can not be found in the URL", () => {
-          return ArcGISIdentityManager.completeOAuth2(
-            {
-              clientId: "clientIdInlineStateMismatch",
-              redirectUri: "https://example-app.com/redirect-uri",
-              popup: false
-            },
-            MockWindow
-          ).catch((e) => {
-            expect(e.name).toBe("ArcGISAuthError");
-            expect(e instanceof ArcGISAuthError).toBe(true);
-            expect(e.message).toBe(
-              "no-auth-state: No authentication state was found, call `ArcGISIdentityManager.beginOAuth2(...)` to start the authentication process."
-            );
-
-            return;
-          });
-        });
-
-        it("should reject .completeOAuth2() if the code exchange fails with an error", () => {
-          fetchMock.once("*", {
-            error: {
-              code: 400,
-              error: "invalid_client_id",
-              error_description: "Invalid client_id",
-              message: "Invalid client_id",
-              details: []
-            }
-          });
-
-          MockWindow.location.search =
-            "?code=auth_code&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
-
-          window.localStorage.setItem(
-            `ARCGIS_REST_JS_AUTH_STATE_clientIdCodeExchangeError`,
-            "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-          );
-
-          return ArcGISIdentityManager.completeOAuth2(
-            {
-              clientId: "clientIdCodeExchangeError",
-              redirectUri: "https://example-app.com/redirect-uri",
-              popup: false
-            },
-            MockWindow
-          ).catch((e) => {
-            expect(e.name).toBe("ArcGISAuthError");
-            expect(e instanceof ArcGISAuthError).toBe(true);
-            expect(e.message).toBe("400: Invalid client_id");
-
-            return;
-          });
-        });
-      });
-    });
-  }
+  // -------------------------------------- removed browser mocks and tests here ---------------------------------------
 
   describe("postmessage auth :: ", () => {
     const MockWindow = {
@@ -1958,20 +939,17 @@ describe("ArcGISIdentityManager", () => {
       userId: token.username
     };
 
-    it(".disablePostMessageAuth removes event listener", () => {
-      const removeSpy = spyOn(MockWindow, "removeEventListener");
+    test(".disablePostMessageAuth removes event listener", () => {
+      const removeSpy = vi.spyOn(MockWindow, "removeEventListener");
       const session = new ArcGISIdentityManager(token);
 
       session.disablePostMessageAuth(MockWindow);
-
-      expect(removeSpy.calls.count()).toBe(
-        1,
-        "should call removeEventListener"
-      );
+      // should call removeEventListener
+      expect(removeSpy).toHaveBeenCalledTimes(1);
     });
 
-    it(".enablePostMessageAuth adds event listener", () => {
-      const addSpy = spyOn(MockWindow, "addEventListener");
+    test(".enablePostMessageAuth adds event listener", () => {
+      const addSpy = vi.spyOn(MockWindow, "addEventListener");
 
       const session = new ArcGISIdentityManager(token);
 
@@ -1979,11 +957,11 @@ describe("ArcGISIdentityManager", () => {
         ["https://storymaps.arcgis.com"],
         MockWindow
       );
-
-      expect(addSpy.calls.count()).toBe(1, "should call addEventListener");
+      // should call addEventListener
+      expect(addSpy).toHaveBeenCalledTimes(1);
     });
 
-    it(".enablePostMessage handler returns credential to origin in list", () => {
+    test(".enablePostMessage handler returns credential to origin in list", () => {
       // ok, this gets kinda gnarly...
 
       // create a mock window object
@@ -1999,10 +977,10 @@ describe("ArcGISIdentityManager", () => {
       // Create the session
       const session = new ArcGISIdentityManager(token);
 
-      // enable postMessageAuth allowing storymaps.arcgis.com to recieve creds
+      // enable postMessageAuth allowing storymaps.arcgis.com to receive creds
       session.enablePostMessageAuth(["https://storymaps.arcgis.com"], Win);
       // create an event object, with a matching origin
-      // an a source.postMessage fn that we can spy on
+      // and a source.postMessage fn that we can spy on
       const event = {
         origin: "https://storymaps.arcgis.com",
         source: {
@@ -2013,35 +991,23 @@ describe("ArcGISIdentityManager", () => {
         }
       };
       // create the spy
-      const sourceSpy = spyOn(event.source, "postMessage");
-      // Now, fire the handler, simulating what happens when a postMessage event comes
-      // from an embedded iframe
+      const sourceSpy = vi.spyOn(event.source, "postMessage");
+      // Now, fire the handler, simulating a postMessage event from an embedded iframe
       Win._fn(event);
       // Expectations...
-      expect(sourceSpy.calls.count()).toBe(
-        1,
-        "souce.postMessage should be called in handler"
-      );
-      const args = sourceSpy.calls.argsFor(0);
-      expect(args[0].type).toBe(
-        "arcgis:auth:credential",
-        "should send credential type"
-      );
-      expect(args[0].credential.userId).toBe(
-        "jsmith",
-        "should send credential"
-      );
+      // source.postMessage should be called in handler
+      expect(sourceSpy).toHaveBeenCalledTimes(1);
+      const args = sourceSpy.mock.calls[0];
+      // should send credential type
+      expect(args[0].type).toBe("arcgis:auth:credential");
+      expect(args[0].credential.userId).toBe("jsmith");
       // now the case where it's not a valid origin
       event.origin = "https://evil.com";
       Win._fn(event);
-      expect(sourceSpy.calls.count()).toBe(
-        1,
-        "souce.postMessage should not be called in handler for invalid origin"
-      );
+      expect(sourceSpy).toHaveBeenCalledTimes(1);
     });
 
-    it(".enablePostMessage handler returns error if session is expired", () => {
-      // ok, this gets kinda gnarly...
+    test(".enablePostMessage handler returns error if session is expired", () => {
       const expiredCred = {
         tokenExpires: YESTERDAY,
         portal: "https://www.arcgis.com/sharing/rest",
@@ -2053,7 +1019,6 @@ describe("ArcGISIdentityManager", () => {
       const Win = {
         _fn: (evt: any) => {},
         addEventListener(evt: any, fn: any) {
-          // enablePostMessageAuth passes in the handler, which is what we're actually testing
           Win._fn = fn;
         },
         removeEventListener() {}
@@ -2061,10 +1026,10 @@ describe("ArcGISIdentityManager", () => {
 
       // Create the session
       const session = new ArcGISIdentityManager(expiredCred);
-      // enable postMessageAuth allowing storymaps.arcgis.com to recieve creds
+      // enable postMessageAuth allowing storymaps.arcgis.com to receive creds
       session.enablePostMessageAuth(["https://storymaps.arcgis.com"], Win);
       // create an event object, with a matching origin
-      // an a source.postMessage fn that we can spy on
+      // and a source.postMessage fn that we can spy on
       const event = {
         origin: "https://storymaps.arcgis.com",
         source: {
@@ -2075,25 +1040,20 @@ describe("ArcGISIdentityManager", () => {
         }
       };
       // create the spy
-      const sourceSpy = spyOn(event.source, "postMessage");
-      // Now, fire the handler, simulating what happens when a postMessage event comes
-      // from an embedded iframe
+      const sourceSpy = vi.spyOn(event.source, "postMessage");
+      // Fire the handler, simulating a postMessage event from an embedded iframe
       Win._fn(event);
       // Expectations...
-      expect(sourceSpy.calls.count()).toBe(
-        1,
-        "souce.postMessage should be called in handler"
-      );
-      const args = sourceSpy.calls.argsFor(0);
-      expect(args[0].type).toBe("arcgis:auth:error", "should send error type");
+      expect(sourceSpy).toHaveBeenCalledTimes(1);
+      const args = sourceSpy.mock.calls[0];
+      // should send error type
+      expect(args[0].type).toBe("arcgis:auth:error");
       expect(args[0].credential).not.toBeDefined();
-      expect(args[0].error.name).toBe(
-        "tokenExpiredError",
-        "should recieve tokenExpiredError"
-      );
+      // should receive tokenExpiredError
+      expect(args[0].error.name).toBe("tokenExpiredError");
     });
 
-    it(".fromParent happy path", () => {
+    test(".fromParent happy path", async () => {
       // create a mock window that will fire the handler
       const Win = {
         _fn: (evt: any) => {},
@@ -2112,17 +1072,15 @@ describe("ArcGISIdentityManager", () => {
         }
       };
 
-      return ArcGISIdentityManager.fromParent("https://origin.com", Win).then(
-        (session) => {
-          expect(session.username).toBe(
-            "jsmith",
-            "should use the cred wired throu the mock window"
-          );
-        }
+      // Should use the cred wired through the mock window
+      const session = await ArcGISIdentityManager.fromParent(
+        "https://origin.com",
+        Win
       );
+      expect(session.username).toBe("jsmith");
     });
 
-    it(".fromParent ignores other messages, then intercepts the correct one", async () => {
+    test(".fromParent ignores other messages, then intercepts the correct one", async () => {
       // create a mock window that will fire the handler
       const Win = {
         _fn: (evt: any) => {},
@@ -2148,17 +1106,15 @@ describe("ArcGISIdentityManager", () => {
         }
       };
 
-      return ArcGISIdentityManager.fromParent("https://origin.com", Win).then(
-        (resp) => {
-          expect(resp.username).toBe(
-            "jsmith",
-            "should use the cred wired throu the mock window"
-          );
-        }
+      // should use the cred wired throu the mock window
+      const resp = await ArcGISIdentityManager.fromParent(
+        "https://origin.com",
+        Win
       );
+      expect(resp.username).toBe("jsmith");
     });
 
-    it(".fromParent rejects if invlid cred", () => {
+    test(".fromParent rejects if invalid cred", async () => {
       // create a mock window that will fire the handler
       const Win = {
         _fn: (evt: any) => {},
@@ -2180,14 +1136,12 @@ describe("ArcGISIdentityManager", () => {
         }
       };
 
-      return ArcGISIdentityManager.fromParent("https://origin.com", Win).catch(
-        (err) => {
-          expect(err).toBeDefined("Should reject");
-        }
-      );
+      await expect(
+        ArcGISIdentityManager.fromParent("https://origin.com", Win)
+      ).rejects.toBeDefined();
     });
 
-    it(".fromParent rejects if auth error recieved", () => {
+    test(".fromParent rejects if auth error recieved", async () => {
       // create a mock window that will fire the handler
       const Win = {
         _fn: (evt: any) => {},
@@ -2209,14 +1163,12 @@ describe("ArcGISIdentityManager", () => {
         }
       };
 
-      return ArcGISIdentityManager.fromParent("https://origin.com", Win).catch(
-        (err) => {
-          expect(err).toBeDefined("Should reject");
-        }
-      );
+      await expect(
+        ArcGISIdentityManager.fromParent("https://origin.com", Win)
+      ).rejects.toBeDefined();
     });
 
-    it(".fromParent rejects if auth unknown message", () => {
+    test(".fromParent rejects if auth unknown message", async () => {
       // create a mock window that will fire the handler
       const Win = {
         _fn: (evt: any) => {},
@@ -2235,16 +1187,16 @@ describe("ArcGISIdentityManager", () => {
         }
       };
 
-      return ArcGISIdentityManager.fromParent("https://origin.com", Win).catch(
-        (err) => {
-          expect(err.message).toBe("Unknown message type.", "Should reject");
-        }
-      );
+      await expect(
+        ArcGISIdentityManager.fromParent("https://origin.com", Win)
+      ).rejects.toHaveProperty("message", "Unknown message type.");
     });
   });
 
+  // -------------------------------------- left off here ---------------------------------------
+
   describe("validateAppAccess: ", () => {
-    it("makes a request to /oauth2/validateAppAccess passing params", () => {
+    test("makes a request to /oauth2/validateAppAccess passing params", () => {
       const VERIFYAPPACCESS_URL =
         "https://www.arcgis.com/sharing/rest/oauth2/validateAppAccess";
       fetchMock.postOnce(VERIFYAPPACCESS_URL, {
@@ -2277,7 +1229,7 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe(".authorize()", () => {
-    it("should redirect the request to the authorization page", (done) => {
+    test("should redirect the request to the authorization page", (done) => {
       const spy = jasmine.createSpy("spy");
       const MockResponse: any = {
         writeHead: spy,
@@ -2299,7 +1251,7 @@ describe("ArcGISIdentityManager", () => {
       );
     });
 
-    it("should redirect the request to the authorization page with custom expiration", (done) => {
+    test("should redirect the request to the authorization page with custom expiration", (done) => {
       const spy = jasmine.createSpy("spy");
       const MockResponse: any = {
         writeHead: spy,
@@ -2322,7 +1274,7 @@ describe("ArcGISIdentityManager", () => {
       );
     });
 
-    it("should redirect the request to the authorization page with custom state", (done) => {
+    test("should redirect the request to the authorization page with custom state", (done) => {
       const spy = jasmine.createSpy("spy");
       const MockResponse: any = {
         writeHead: spy,
@@ -2346,7 +1298,7 @@ describe("ArcGISIdentityManager", () => {
       );
     });
 
-    it("should redirect the request to the authorization page with custom duration (DEPRECATED)", (done) => {
+    test("should redirect the request to the authorization page with custom duration (DEPRECATED)", (done) => {
       const spy = jasmine.createSpy("spy");
       const MockResponse: any = {
         writeHead: spy,
@@ -2371,7 +1323,7 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe(".exchangeAuthorizationCode()", () => {
-    it("should exchange an authorization code for a new ArcGISIdentityManager", (done) => {
+    test("should exchange an authorization code for a new ArcGISIdentityManager", (done) => {
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "token",
         expires_in: 1800,
@@ -2400,7 +1352,7 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
-    it("should return a ArcGISIdentityManager where refreshTokenExpires is 2 weeks from now (within 5 minutes)", (done) => {
+    test("should return a ArcGISIdentityManager where refreshTokenExpires is 2 weeks from now (within 5 minutes)", (done) => {
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         access_token: "token",
         refresh_token: "refreshToken",
@@ -2433,7 +1385,7 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
-    it("should throw an ArcGISTokenRequestError when there is an error exchanging the code", () => {
+    test("should throw an ArcGISTokenRequestError when there is an error exchanging the code", () => {
       fetchMock.postOnce("https://www.arcgis.com/sharing/rest/oauth2/token", {
         error: {
           code: 498,
@@ -2467,7 +1419,7 @@ describe("ArcGISIdentityManager", () => {
     afterEach(() => {
       fetchMock.restore();
     });
-    it("should cache metadata about the user", (done) => {
+    test("should cache metadata about the user", (done) => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
@@ -2508,7 +1460,7 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
-    it("should never make more then 1 request", (done) => {
+    test("should never make more then 1 request", (done) => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
@@ -2544,7 +1496,7 @@ describe("ArcGISIdentityManager", () => {
     afterEach(() => {
       fetchMock.restore();
     });
-    it("should fetch the username via getUser()", (done) => {
+    test("should fetch the username via getUser()", (done) => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
@@ -2579,7 +1531,7 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
-    it("should use a username if passed in the session", (done) => {
+    test("should use a username if passed in the session", (done) => {
       const session = new ArcGISIdentityManager({
         username: "jsmith"
       });
@@ -2623,7 +1575,7 @@ describe("ArcGISIdentityManager", () => {
       password: "123456"
     });
 
-    it("should create a credential object from a session", () => {
+    test("should create a credential object from a session", () => {
       const creds = MOCK_USER_SESSION.toCredential();
       expect(creds.userId).toEqual("jsmith");
       expect(creds.server).toEqual("https://www.arcgis.com/sharing/rest");
@@ -2632,7 +1584,7 @@ describe("ArcGISIdentityManager", () => {
       expect(creds.expires).toEqual(TOMORROW.getTime());
     });
 
-    it("should create a ArcGISIdentityManager from a credential", () => {
+    test("should create a ArcGISIdentityManager from a credential", () => {
       const session = ArcGISIdentityManager.fromCredential(
         MOCK_CREDENTIAL,
         MOCK_SERVER_INFO
@@ -2645,7 +1597,7 @@ describe("ArcGISIdentityManager", () => {
       expect(session.tokenExpires).toEqual(new Date(TOMORROW));
     });
 
-    it("should create a ArcGISIdentityManager from a credential without adding /sharing/rest", () => {
+    test("should create a ArcGISIdentityManager from a credential without adding /sharing/rest", () => {
       const MOCK_SERVER_INFO: IServerInfo = {
         hasPortal: true,
         hasServer: false,
@@ -2672,7 +1624,7 @@ describe("ArcGISIdentityManager", () => {
       expect(session.tokenExpires).toEqual(new Date(TOMORROW));
     });
 
-    it("should create a manager for a specific server", () => {
+    test("should create a manager for a specific server", () => {
       const MOCK_SERVER_CREDENTIAL: ICredential = {
         expires: TOMORROW.getTime(),
         server:
@@ -2713,7 +1665,7 @@ describe("ArcGISIdentityManager", () => {
       userId: "jsmith"
     };
 
-    it("should create a ArcGISIdentityManager from a credential", () => {
+    test("should create a ArcGISIdentityManager from a credential", () => {
       jasmine.clock().install();
       jasmine.clock().mockDate();
 
@@ -2740,7 +1692,7 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe("getServerRootUrl()", () => {
-    it("should lowercase domain names", () => {
+    test("should lowercase domain names", () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -2753,7 +1705,7 @@ describe("ArcGISIdentityManager", () => {
       expect(root).toEqual("https://pnp00035.esri.com/server");
     });
 
-    it("should not lowercase path names", () => {
+    test("should not lowercase path names", () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -2768,7 +1720,7 @@ describe("ArcGISIdentityManager", () => {
       );
     });
 
-    it("should respect the original https/http protocol", () => {
+    test("should respect the original https/http protocol", () => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -2785,7 +1737,7 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe("non-federated server", () => {
-    it("shouldnt fetch a fresh token if the current one isn't expired.", (done) => {
+    test("shouldnt fetch a fresh token if the current one isn't expired.", (done) => {
       const MOCK_USER_SESSION = new ArcGISIdentityManager({
         username: "c@sey",
         password: "123456",
@@ -2806,7 +1758,7 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
-    it("should fetch a fresh token if the current one is expired.", (done) => {
+    test("should fetch a fresh token if the current one is expired.", (done) => {
       const MOCK_USER_SESSION = new ArcGISIdentityManager({
         username: "jsmith",
         password: "123456",
@@ -2864,7 +1816,7 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
-    it("should use provided referer.", (done) => {
+    test("should use provided referer.", (done) => {
       const MOCK_USER_SESSION = new ArcGISIdentityManager({
         username: "jsmith",
         password: "123456",
@@ -2921,7 +1873,7 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
-    it("should throw an error if there is an error generating the server token with a username and password.", () => {
+    test("should throw an error if there is an error generating the server token with a username and password.", () => {
       const MOCK_USER_SESSION = new ArcGISIdentityManager({
         username: "jsmith",
         password: "123456",
@@ -2959,7 +1911,7 @@ describe("ArcGISIdentityManager", () => {
       });
     });
 
-    it("should trim down the server url if necessary.", (done) => {
+    test("should trim down the server url if necessary.", (done) => {
       const MOCK_USER_SESSION = new ArcGISIdentityManager({
         username: "jsmith",
         password: "123456",
@@ -2995,7 +1947,7 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
-    it("should throw an error if the server isnt trusted.", (done) => {
+    test("should throw an error if the server isnt trusted.", (done) => {
       fetchMock.postOnce("https://fakeserver2.com/arcgis/rest/info", {
         currentVersion: 10.61,
         fullVersion: "10.6.1",
@@ -3032,7 +1984,7 @@ describe("ArcGISIdentityManager", () => {
     afterEach(() => {
       fetchMock.restore();
     });
-    it("should cache metadata about the portal", (done) => {
+    test("should cache metadata about the portal", (done) => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=token",
@@ -3075,7 +2027,7 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
-    it("should never make more then 1 request", (done) => {
+    test("should never make more then 1 request", (done) => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=token",
@@ -3106,7 +2058,7 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe("fetchAuthorizedDomains/getDomainCredentials", () => {
-    it("should default to same-origin credentials when no domains are listed in authorizedCrossOriginDomains", (done) => {
+    test("should default to same-origin credentials when no domains are listed in authorizedCrossOriginDomains", (done) => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -3171,7 +2123,7 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
-    it("should set the credentials option to include when a server is listed in authorizedCrossOriginDomains", (done) => {
+    test("should set the credentials option to include when a server is listed in authorizedCrossOriginDomains", (done) => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -3236,7 +2188,7 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
-    it("should ignore the case when comparing a server with the authorizedCrossOriginDomains list: variant 1", (done) => {
+    test("should ignore the case when comparing a server with the authorizedCrossOriginDomains list: variant 1", (done) => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -3301,7 +2253,7 @@ describe("ArcGISIdentityManager", () => {
         });
     });
 
-    it("should ignore the case when comparing a server with the authorizedCrossOriginDomains list: variant 2", (done) => {
+    test("should ignore the case when comparing a server with the authorizedCrossOriginDomains list: variant 2", (done) => {
       const session = new ArcGISIdentityManager({
         clientId: "id",
         token: "token",
@@ -3367,7 +2319,7 @@ describe("ArcGISIdentityManager", () => {
     });
   });
 
-  it("should still send same-origin credentials even if another domain is listed in authorizedCrossOriginDomains", (done) => {
+  test("should still send same-origin credentials even if another domain is listed in authorizedCrossOriginDomains", (done) => {
     const session = new ArcGISIdentityManager({
       clientId: "id",
       token: "token",
@@ -3432,7 +2384,7 @@ describe("ArcGISIdentityManager", () => {
       });
   });
 
-  it("should normalize optional protocols in authorizedCrossOriginDomains", (done) => {
+  test("should normalize optional protocols in authorizedCrossOriginDomains", (done) => {
     const session = new ArcGISIdentityManager({
       clientId: "id",
       token: "token",
@@ -3462,7 +2414,7 @@ describe("ArcGISIdentityManager", () => {
       });
   });
 
-  it("should not use domain credentials if portal is null", (done) => {
+  test("should not use domain credentials if portal is null", (done) => {
     const session = new ArcGISIdentityManager({
       clientId: "id",
       token: "token",
@@ -3483,7 +2435,7 @@ describe("ArcGISIdentityManager", () => {
   });
 
   describe(".destroy()", () => {
-    it("should revoke a refresh token with ArcGISIdentityManager", () => {
+    test("should revoke a refresh token with ArcGISIdentityManager", () => {
       fetchMock.once("*", { success: true });
 
       const session = new ArcGISIdentityManager({
@@ -3504,7 +2456,7 @@ describe("ArcGISIdentityManager", () => {
       });
     });
 
-    it("should revoke a token with ArcGISIdentityManager", () => {
+    test("should revoke a token with ArcGISIdentityManager", () => {
       fetchMock.once("*", { success: true });
 
       const session = new ArcGISIdentityManager({
@@ -3522,7 +2474,7 @@ describe("ArcGISIdentityManager", () => {
       });
     });
 
-    it("should revoke a token with the signOut() instance method", () => {
+    test("should revoke a token with the signOut() instance method", () => {
       fetchMock.once("*", { success: true });
 
       const session = new ArcGISIdentityManager({
@@ -3546,7 +2498,7 @@ describe("ArcGISIdentityManager", () => {
     afterEach(() => {
       fetchMock.restore();
     });
-    it("should initialize a session from a token", () => {
+    test("should initialize a session from a token", () => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
@@ -3572,7 +2524,7 @@ describe("ArcGISIdentityManager", () => {
     afterEach(() => {
       fetchMock.restore();
     });
-    it("should initialize a session from a username and password", () => {
+    test("should initialize a session from a username and password", () => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
@@ -3599,7 +2551,7 @@ describe("ArcGISIdentityManager", () => {
       });
     });
 
-    it("should initialize a session from a username and password and pass a referer", () => {
+    test("should initialize a session from a username and password and pass a referer", () => {
       // we intentionally only mock one response
       fetchMock.once(
         "https://www.arcgis.com/sharing/rest/community/self?f=json&token=token",
