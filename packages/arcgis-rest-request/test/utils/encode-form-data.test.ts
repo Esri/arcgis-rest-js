@@ -1,6 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, expect } from "vitest";
 import { encodeFormData } from "../../src/utils/encode-form-data.js";
 import {
   requiresFormData,
@@ -8,6 +9,7 @@ import {
 } from "../../src/utils/process-params.js";
 import { createReadStream } from "fs";
 import { FormData } from "formdata-node";
+
 export function attachmentFile(): any {
   if (typeof File !== "undefined" && File) {
     return new File(["foo"], "foo.txt", { type: "text/plain" });
@@ -19,7 +21,7 @@ export function attachmentFile(): any {
 }
 
 describe("encodeFormData", () => {
-  it("should encode in form data for multipart file requests", () => {
+  test("should encode in form data for multipart file requests", () => {
     const binaryObj = attachmentFile();
 
     const formData = encodeFormData({ binary: binaryObj });
@@ -34,7 +36,7 @@ describe("encodeFormData", () => {
     // }
   });
 
-  it("should encode in form data for multipart blob requests", () => {
+  test("should encode in form data for multipart blob requests", () => {
     const binaryObj =
       typeof Blob !== "undefined"
         ? new Blob([], {
@@ -53,7 +55,7 @@ describe("encodeFormData", () => {
     // }
   });
 
-  it("should encode as query string for basic types", () => {
+  test("should encode as query string for basic types", () => {
     const dateValue = 1471417200000;
 
     // null, undefined, function are excluded. If you want to send an empty key you need to send an empty string "".
@@ -99,7 +101,7 @@ describe("encodeFormData", () => {
     );
   });
 
-  it("should switch to form data if any item is not a basic type", () => {
+  test("should switch to form data if any item is not a basic type", () => {
     const dateValue = 1471417200000;
     const file = attachmentFile();
     if (!file.name) {
