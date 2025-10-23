@@ -26,8 +26,7 @@ export default defineConfig({
         "packages/arcgis-rest-feature-service/src/**/*.{ts,js}",
         "packages/arcgis-rest-developer-credentials/src/**/*.{ts,js}",
         "packages/arcgis-rest-portal/src/**/*.{ts,js}",
-        "packages/arcgis-rest-request/src/**/*.{ts,js}",
-        "scripts/test-helpers.ts"
+        "packages/arcgis-rest-request/src/**/*.{ts,js}"
       ],
       provider: "istanbul",
       reporter: ["json", "html", "cobertura"],
