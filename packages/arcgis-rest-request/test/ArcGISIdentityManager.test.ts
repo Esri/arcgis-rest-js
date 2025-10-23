@@ -1106,7 +1106,7 @@ describe("ArcGISIdentityManager", () => {
         }
       };
 
-      // should use the cred wired throu the mock window
+      // should use the cred wired through the mock window
       const resp = await ArcGISIdentityManager.fromParent(
         "https://origin.com",
         Win
@@ -1128,7 +1128,7 @@ describe("ArcGISIdentityManager", () => {
               origin: "https://origin.com",
               data: {
                 type: "arcgis:auth:credential",
-                credential: { foo: "bar" }
+                credential: undefined
               },
               source: Win.parent
             });
@@ -1138,10 +1138,10 @@ describe("ArcGISIdentityManager", () => {
 
       await expect(
         ArcGISIdentityManager.fromParent("https://origin.com", Win)
-      ).rejects.toBeTruthy();
+      ).rejects.toBeDefined();
     });
 
-    test(".fromParent rejects if auth error recieved", async () => {
+    test(".fromParent rejects if auth error received", async () => {
       // create a mock window that will fire the handler
       const Win = {
         _fn: (evt: any) => {},
