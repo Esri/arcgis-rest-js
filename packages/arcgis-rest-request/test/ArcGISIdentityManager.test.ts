@@ -919,6 +919,10 @@ describe("ArcGISIdentityManager", () => {
      *
      * We COULD make these tests work in Node if we wanted to mock these calls but you actually have to trigger the events.
      */
+    test("should be a test", () => {
+      expect(true).toBe(true);
+    });
+
     if (isBrowser) {
       describe("Client side oAuth 2.0", () => {
         let MockWindow: any;

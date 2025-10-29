@@ -3,6 +3,10 @@ import { generateCodeChallenge } from "../../src/utils/generate-code-challenge.j
 import { isBrowser } from "../../../../scripts/test-helpers.js";
 
 describe("generateCodeChallenge()", () => {
+  test("should be a test", () => {
+    expect(true).toBe(true);
+  });
+
   if (isBrowser) {
     test("should give the SHA256 of a string", async () => {
       const challenge = await generateCodeChallenge(

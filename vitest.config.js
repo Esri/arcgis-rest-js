@@ -7,10 +7,6 @@ import {
 
 export default defineConfig({
   test: {
-    projects: [
-      // nodeConfig,
-      // browserHeadedConfig,
-      browserHeadlessConfig
-    ]
+    projects: [nodeConfig, browserHeadedConfig, browserHeadlessConfig]
   }
 });

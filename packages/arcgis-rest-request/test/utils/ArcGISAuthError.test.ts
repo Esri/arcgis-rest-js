@@ -13,11 +13,12 @@ import {
 } from "./../mocks/errors.js";
 import { request } from "../../src/request.js";
 import fetchMock from "fetch-mock";
-import { describe, test, expect, vi, afterEach } from "vitest";
+import { describe, test, expect, vi, afterEach, beforeEach } from "vitest";
 
 describe("ArcGISRequestError", () => {
   afterEach(() => {
     fetchMock.restore();
+    vi.restoreAllMocks();
   });
 
   test("should be an instanceof Error", () => {
@@ -47,7 +48,7 @@ describe("ArcGISRequestError", () => {
   });
 
   describe("retry", () => {
-    const MockAuth: {
+    let MockAuth: {
       portal: string;
       getToken: any;
       retryHandler: IRetryAuthError;
