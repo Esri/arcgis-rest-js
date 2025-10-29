@@ -14,28 +14,35 @@ export const nodeConfig = {
       "packages/arcgis-rest-developer-credentials/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-portal/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-request/**/*.{test,spec}.?(c|m)[jt]s?(x)"
-    ],
-    coverage: {
+    ]
+  }
+};
+
+export const browserHeadlessConfig = {
+  test: {
+    name: { label: "headless", color: "magenta" },
+    browser: {
       enabled: true,
-      include: [
-        "packages/arcgis-rest-basemap-sessions/src/**/*.{ts,js}",
-        "packages/arcgis-rest-elevation/src/**/*.{ts,js}",
-        "packages/arcgis-rest-places/src/**/*.{ts,js}",
-        "packages/arcgis-rest-demographics/src/**/*.{ts,js}",
-        "packages/arcgis-rest-geocoding/src/**/*.{ts,js}",
-        "packages/arcgis-rest-routing/src/**/*.{ts,js}",
-        "packages/arcgis-rest-feature-service/src/**/*.{ts,js}",
-        "packages/arcgis-rest-developer-credentials/src/**/*.{ts,js}",
-        "packages/arcgis-rest-portal/src/**/*.{ts,js}",
-        "packages/arcgis-rest-request/src/**/*.{ts,js}"
-      ],
-      provider: "istanbul",
-      reporter: ["json", "html", "cobertura"],
-      reportsDirectory: "./coverage/vitest",
-      thresholds: {
-        100: true
-      }
-    }
+      provider: playwright(),
+      headless: true,
+      instances: [
+        { browser: "chromium" }
+        //{ browser: "firefox" },
+        //{ browser: "webkit" }
+      ]
+    },
+    include: [
+      "packages/arcgis-rest-basemap-sessions/**/*.{test,spec}.?(c|m)[jt]s?(x)",
+      "packages/arcgis-rest-elevation/**/*.{test,spec}.?(c|m)[jt]s?(x)",
+      "packages/arcgis-rest-places/**/*.{test,spec}.?(c|m)[jt]s?(x)",
+      "packages/arcgis-rest-demographics/**/*.{test,spec}.?(c|m)[jt]s?(x)",
+      "packages/arcgis-rest-geocoding/**/*.{test,spec}.?(c|m)[jt]s?(x)",
+      "packages/arcgis-rest-routing/**/*.{test,spec}.?(c|m)[jt]s?(x)",
+      "packages/arcgis-rest-feature-service/**/*.{test,spec}.?(c|m)[jt]s?(x)",
+      "packages/arcgis-rest-developer-credentials/**/*.{test,spec}.?(c|m)[jt]s?(x)",
+      "packages/arcgis-rest-portal/**/*.{test,spec}.?(c|m)[jt]s?(x)",
+      "packages/arcgis-rest-request/**/*.{test,spec}.?(c|m)[jt]s?(x)"
+    ]
   }
 };
 
@@ -58,72 +65,6 @@ export const browserHeadedConfig = {
       "packages/arcgis-rest-developer-credentials/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-portal/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-request/**/*.{test,spec}.?(c|m)[jt]s?(x)"
-    ],
-    coverage: {
-      enabled: true,
-      include: [
-        "packages/arcgis-rest-basemap-sessions/src/**/*.{ts,js}",
-        "packages/arcgis-rest-elevation/src/**/*.{ts,js}",
-        "packages/arcgis-rest-places/src/**/*.{ts,js}",
-        "packages/arcgis-rest-demographics/src/**/*.{ts,js}",
-        "packages/arcgis-rest-geocoding/src/**/*.{ts,js}",
-        "packages/arcgis-rest-routing/src/**/*.{ts,js}",
-        "packages/arcgis-rest-feature-service/src/**/*.{ts,js}",
-        "packages/arcgis-rest-developer-credentials/src/**/*.{ts,js}",
-        "packages/arcgis-rest-portal/src/**/*.{ts,js}",
-        "packages/arcgis-rest-request/src/**/*.{ts,js}"
-      ],
-      provider: "istanbul",
-      reporter: ["json", "html", "cobertura"],
-      reportsDirectory: "./coverage/vitest",
-      thresholds: {
-        100: true
-      }
-    }
-  }
-};
-
-export const browserHeadlessConfig = {
-  test: {
-    name: { label: "headless", color: "magenta" },
-    browser: {
-      enabled: true,
-      provider: playwright(),
-      instances: [{ browser: "chromium" }],
-      headless: true
-    },
-    include: [
-      "packages/arcgis-rest-basemap-sessions/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-      "packages/arcgis-rest-elevation/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-      "packages/arcgis-rest-places/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-      "packages/arcgis-rest-demographics/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-      "packages/arcgis-rest-geocoding/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-      "packages/arcgis-rest-routing/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-      "packages/arcgis-rest-feature-service/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-      "packages/arcgis-rest-developer-credentials/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-      "packages/arcgis-rest-portal/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-      "packages/arcgis-rest-request/**/*.{test,spec}.?(c|m)[jt]s?(x)"
-    ],
-    coverage: {
-      enabled: true,
-      include: [
-        "packages/arcgis-rest-basemap-sessions/src/**/*.{ts,js}",
-        "packages/arcgis-rest-elevation/src/**/*.{ts,js}",
-        "packages/arcgis-rest-places/src/**/*.{ts,js}",
-        "packages/arcgis-rest-demographics/src/**/*.{ts,js}",
-        "packages/arcgis-rest-geocoding/src/**/*.{ts,js}",
-        "packages/arcgis-rest-routing/src/**/*.{ts,js}",
-        "packages/arcgis-rest-feature-service/src/**/*.{ts,js}",
-        "packages/arcgis-rest-developer-credentials/src/**/*.{ts,js}",
-        "packages/arcgis-rest-portal/src/**/*.{ts,js}",
-        "packages/arcgis-rest-request/src/**/*.{ts,js}"
-      ],
-      provider: "istanbul",
-      reporter: ["json", "html", "cobertura"],
-      reportsDirectory: "./coverage/vitest",
-      thresholds: {
-        100: true
-      }
-    }
+    ]
   }
 };
