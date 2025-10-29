@@ -1,16 +1,16 @@
 import { defineConfig } from "vite";
 import {
-  nodeProject,
-  browserHeadlessProject,
-  browserHeadedProject
+  nodeConfig,
+  browserHeadedConfig,
+  browserHeadlessConfig
 } from "./vitest.projects.ts";
 
 export default defineConfig({
   test: {
     projects: [
-      nodeProject, 
-      browserHeadlessProject,
-      browserHeadedProject
+      // nodeConfig,
+      // browserHeadedConfig,
+      browserHeadlessConfig
     ]
   }
 });

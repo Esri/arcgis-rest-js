@@ -1,8 +1,8 @@
 import { playwright } from "@vitest/browser-playwright";
 
-export const nodeProject = {
+export const nodeConfig = {
   test: {
-    name: "node",
+    name: { label: "node", color: "cyan" },
     include: [
       "packages/arcgis-rest-basemap-sessions/**/*.{test,spec}.?(c|m)[jt]s?(x)",
       "packages/arcgis-rest-elevation/**/*.{test,spec}.?(c|m)[jt]s?(x)",
@@ -39,13 +39,13 @@ export const nodeProject = {
   }
 };
 
-export const browserHeadlessProject = {
+export const browserHeadedConfig = {
   test: {
-    name: "browser (headless)",
+    name: { label: "browser", color: "blue" },
     browser: {
       enabled: true,
       provider: playwright(),
-      headless: true
+      instances: [{ browser: "chromium" }]
     },
     include: [
       "packages/arcgis-rest-basemap-sessions/**/*.{test,spec}.?(c|m)[jt]s?(x)",
@@ -83,13 +83,14 @@ export const browserHeadlessProject = {
   }
 };
 
-export const browserHeadedProject = {
+export const browserHeadlessConfig = {
   test: {
-    name: "browser (headed)",
+    name: { label: "headless", color: "magenta" },
     browser: {
       enabled: true,
       provider: playwright(),
-      instances: [{ browser: "chromium" }]
+      instances: [{ browser: "chromium" }],
+      headless: true
     },
     include: [
       "packages/arcgis-rest-basemap-sessions/**/*.{test,spec}.?(c|m)[jt]s?(x)",

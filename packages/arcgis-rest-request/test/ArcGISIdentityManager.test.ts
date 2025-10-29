@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 /* tslint:disable:no-empty */
-import { describe, test, expect, afterEach, vi } from "vitest";
+import { describe, test, expect, afterEach, beforeEach, vi } from "vitest";
 import fetchMock from "fetch-mock";
 import {
   ArcGISIdentityManager,
@@ -913,7 +913,797 @@ describe("ArcGISIdentityManager", () => {
     });
   });
 
-  // -------------------------------------- removed browser mocks and tests here ---------------------------------------
+  describe(".refreshCredentials() browser tests", () => {
+    /**
+     * `beginOAuth2()` and `completeOAuth2()` only work on browsers due to their use of `dispatchEvent()` and `addEventListener()`.
+     *
+     * We COULD make these tests work in Node if we wanted to mock these calls but you actually have to trigger the events.
+     */
+    if (isBrowser) {
+      describe("Client side oAuth 2.0", () => {
+        let MockWindow: any;
+
+        function createMock() {
+          return {
+            open: vi.fn(),
+            close: vi.fn(),
+            crypto: {
+              getRandomValues: function () {
+                return new Uint8Array(32);
+              },
+              subtle: {
+                digest: function (...args: any) {
+                  return window.crypto.subtle.digest.apply(
+                    window.crypto.subtle,
+                    args
+                  );
+                }
+              }
+            },
+            isSecureContext: true,
+            TextEncoder,
+            localStorage: {
+              getItem: function (key: string) {
+                return window.localStorage.getItem(key);
+              },
+              setItem: function (key: string, value: any) {
+                return window.localStorage.setItem(key, value);
+              },
+              removeItem: function (key: string) {
+                return window.localStorage.removeItem(key);
+              }
+            },
+            history: {
+              replaceState: vi.fn()
+            },
+            addEventListener: function (...args: any) {
+              return window.addEventListener.apply(window, args);
+            },
+            dispatchEvent: function (...args: any) {
+              return window.dispatchEvent.apply(window, args);
+            },
+            opener: {
+              dispatchEvent: vi.fn()
+            },
+            btoa: function (...args: any) {
+              return window.btoa.apply(window, args);
+            },
+            location: {
+              href: "https://test.com",
+              search: "",
+              hash: ""
+            }
+          };
+        }
+
+        beforeEach(() => {
+          MockWindow = createMock();
+        });
+
+        afterEach(() => {
+          MockWindow = null;
+        });
+
+        describe(".beginOAuth2() without PKCE", () => {
+          test("should authorize via implicit grant in a popup", async () => {
+            let PopupMockWindow: any;
+
+            window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
+              PopupMockWindow = createMock();
+              PopupMockWindow.location.hash =
+                "#access_token=token&expires_in=86400&username=c%40sey&ssl=true&persist=true&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+              PopupMockWindow.opener = MockWindow;
+
+              ArcGISIdentityManager.completeOAuth2(
+                {
+                  clientId: "clientId123",
+                  redirectUri: "http://example-app.com/redirect",
+                  pkce: false
+                },
+                PopupMockWindow
+              );
+            });
+
+            const session = await ArcGISIdentityManager.beginOAuth2(
+              {
+                clientId: "clientId123",
+                redirectUri: "http://example-app.com/redirect",
+                style: "light",
+                pkce: false
+              },
+              MockWindow
+            );
+            expect(MockWindow.open).toHaveBeenCalledWith(
+              "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId123&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=light",
+              "oauth-window",
+              "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
+            );
+            expect(PopupMockWindow.close).toHaveBeenCalled();
+            expect(session.token).toBe("token");
+            expect(session.username).toBe("c@sey");
+            expect(session.ssl).toBe(true);
+
+            // The times will be off a few milliseconds because we have to wait for some async work to we just compare date, hour and minute values.
+            expect(session.tokenExpires.toDateString()).toBe(
+              TOMORROW.toDateString()
+            );
+            expect(session.tokenExpires.getUTCHours()).toBe(
+              TOMORROW.getUTCHours()
+            );
+            const tomorrowMinutes = TOMORROW.getUTCMinutes();
+            expect(session.tokenExpires.getUTCMinutes()).toBeGreaterThanOrEqual(
+              tomorrowMinutes - 1
+            );
+            expect(session.tokenExpires.getUTCMinutes()).toBeLessThanOrEqual(
+              tomorrowMinutes + 1
+            );
+          });
+
+          test("should reject if there is an error in the popup", async () => {
+            let PopupMockWindow: any;
+
+            window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
+              PopupMockWindow = createMock();
+              PopupMockWindow.location.hash =
+                "#error=sign_in_failed&error_description=Request%20failed&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+              PopupMockWindow.opener = MockWindow;
+
+              ArcGISIdentityManager.completeOAuth2(
+                {
+                  clientId: "clientId234",
+                  redirectUri: "http://example-app.com/redirect",
+                  pkce: false
+                },
+                PopupMockWindow
+              );
+            });
+
+            await expect(
+              ArcGISIdentityManager.beginOAuth2(
+                {
+                  clientId: "clientId234",
+                  redirectUri: "http://example-app.com/redirect",
+                  locale: "fr",
+                  pkce: false
+                },
+                MockWindow
+              )
+            ).rejects.toMatchObject({
+              name: "ArcGISAuthError",
+              code: "sign_in_failed",
+              message: "sign_in_failed: Request failed"
+            });
+            expect(MockWindow.open).toHaveBeenCalledWith(
+              "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId234&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=fr&style=",
+              "oauth-window",
+              "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
+            );
+          });
+
+          test("should authorize in the same window/tab", async () => {
+            await ArcGISIdentityManager.beginOAuth2(
+              {
+                clientId: "clientId345",
+                redirectUri: "http://example-app.com/redirect",
+                popup: false,
+                pkce: false
+              },
+              MockWindow
+            );
+            expect(MockWindow.location.href).toBe(
+              "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId345&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style="
+            );
+          });
+
+          test("should authorize using a social media provider", async () => {
+            await ArcGISIdentityManager.beginOAuth2(
+              {
+                clientId: "clientId456",
+                redirectUri: "http://example-app.com/redirect",
+                popup: false,
+                provider: "facebook",
+                pkce: false
+              },
+              MockWindow
+            );
+            expect(MockWindow.location.href).toBe(
+              "https://www.arcgis.com/sharing/rest/oauth2/social/authorize?client_id=clientId456&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&socialLoginProviderName=facebook&autoAccountCreateForSocial=true"
+            );
+          });
+
+          test("should authorize using the other social media provider", async () => {
+            await ArcGISIdentityManager.beginOAuth2(
+              {
+                clientId: "clientId567",
+                redirectUri: "http://example-app.com/redirect",
+                popup: false,
+                provider: "google",
+                pkce: false
+              },
+              MockWindow
+            );
+            expect(MockWindow.location.href).toBe(
+              "https://www.arcgis.com/sharing/rest/oauth2/social/authorize?client_id=clientId567&response_type=token&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&socialLoginProviderName=google&autoAccountCreateForSocial=true"
+            );
+          });
+
+          test("should pass custom expiration", async () => {
+            await ArcGISIdentityManager.beginOAuth2(
+              {
+                clientId: "clientId678",
+                redirectUri: "http://example-app.com/redirect",
+                popup: false,
+                expiration: 9000,
+                pkce: false
+              },
+              MockWindow
+            );
+            expect(MockWindow.location.href).toBe(
+              "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId678&response_type=token&expiration=9000&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style="
+            );
+          });
+        });
+
+        describe(".completeOAuth2() without PKCE", () => {
+          test("should authorize via an implicit grant with an inline redirect", async () => {
+            MockWindow.location.hash =
+              "#access_token=token&expires_in=86400&username=c%40sey&ssl=true&persist=true&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+
+            window.localStorage.setItem(
+              `ARCGIS_REST_JS_AUTH_STATE_clientId789`,
+              "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            );
+
+            const session = await ArcGISIdentityManager.completeOAuth2(
+              {
+                clientId: "clientId789",
+                redirectUri: "https://example-app.com/redirect-uri",
+                popup: false,
+                pkce: false
+              },
+              MockWindow
+            );
+            expect(session.token).toBe("token");
+            expect(session.tokenExpires.getTime()).toBeGreaterThan(Date.now());
+            expect(session.username).toBe("c@sey");
+            expect(session.ssl).toBe(true);
+          });
+
+          test("should return a new user session with ssl as false when callback hash does not have ssl parameter", async () => {
+            MockWindow.location.hash =
+              "#access_token=token&expires_in=86400&username=c%40sey&&persist=true&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+
+            window.localStorage.setItem(
+              `ARCGIS_REST_JS_AUTH_STATE_clientId789`,
+              "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            );
+
+            const session = await ArcGISIdentityManager.completeOAuth2(
+              {
+                clientId: "clientId789",
+                redirectUri: "https://example-app.com/redirect-uri",
+                popup: false,
+                pkce: false
+              },
+              MockWindow
+            );
+            expect(session.ssl).toBe(false);
+          });
+
+          test("should throw an error from the authorization window", async () => {
+            MockWindow.location.hash =
+              "#error=Invalid_Signin&error_description=Invalid_Signin&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+
+            window.localStorage.setItem(
+              `ARCGIS_REST_JS_AUTH_STATE_clientId890`,
+              "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            );
+
+            await expect(
+              ArcGISIdentityManager.completeOAuth2(
+                {
+                  clientId: "clientId890",
+                  redirectUri: "https://example-app.com/redirect-uri",
+                  popup: false,
+                  pkce: false
+                },
+                MockWindow
+              )
+            ).rejects.toMatchObject({
+              name: "ArcGISAuthError",
+              code: "Invalid_Signin",
+              message: "Invalid_Signin: Invalid_Signin"
+            });
+          });
+
+          test("should throw an unknown error if the url has no error or access_token", async () => {
+            MockWindow.location.hash =
+              "#state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+
+            window.localStorage.setItem(
+              `ARCGIS_REST_JS_AUTH_STATE_clientId901`,
+              "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            );
+
+            await expect(
+              ArcGISIdentityManager.completeOAuth2(
+                {
+                  clientId: "clientId901",
+                  redirectUri: "https://example-app.com/redirect-uri",
+                  popup: false,
+                  pkce: false
+                },
+                MockWindow
+              )
+            ).rejects.toMatchObject({
+              name: "ArcGISAuthError",
+              code: "oauth-error",
+              message: "oauth-error: Unknown error"
+            });
+          });
+        });
+
+        describe(".completeOAuth2() with PKCE", () => {
+          test("should authorize with a popup", async () => {
+            let PopupMockWindow = createMock();
+            PopupMockWindow.location.search =
+              "?code=auth_code&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+            PopupMockWindow.opener = MockWindow;
+
+            fetchMock.post("*", {
+              access_token: "token",
+              expires_in: 1800,
+              username: "c@sey",
+              ssl: true,
+              refresh_token: "refresh_token",
+              refresh_token_expires_in: 1209600
+            });
+
+            window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
+              setTimeout(() => {
+                ArcGISIdentityManager.completeOAuth2(
+                  {
+                    clientId: "clientIdBasicPKCE",
+                    redirectUri: "http://example-app.com/redirect"
+                  },
+                  PopupMockWindow
+                );
+              }, 100);
+            });
+
+            const session = await ArcGISIdentityManager.beginOAuth2(
+              {
+                clientId: "clientIdBasicPKCE",
+                redirectUri: "http://example-app.com/redirect"
+              },
+              MockWindow
+            );
+            expect(MockWindow.open).toHaveBeenCalledWith(
+              "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientIdBasicPKCE&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&code_challenge_method=S256&code_challenge=DwBzhbb51LfusnSGBa_hqYSgo7-j8BTQnip4TOnlzRo",
+              "oauth-window",
+              "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
+            );
+
+            expect(session.token).toBe("token");
+            expect(session.username).toBe("c@sey");
+            expect(session.ssl).toBe(true);
+            expect(session.redirectUri).toBe("http://example-app.com/redirect");
+            // now - 5 minutes (offset) + the above expiration (1800 seconds)
+            const expectedDate = new Date(
+              Date.now() - 5 * 60 * 1000 + 1800 * 1000
+            );
+
+            // The times will be off a few milliseconds because we have to wait for some async work so we just compare date, hour and minute values.
+            expect(session.tokenExpires.toDateString()).toBe(
+              expectedDate.toDateString()
+            );
+            expect(session.tokenExpires.getUTCHours()).toBe(
+              expectedDate.getUTCHours()
+            );
+            expect(session.tokenExpires.getUTCMinutes()).toBe(
+              expectedDate.getUTCMinutes()
+            );
+            expect(session.state).toEqual({
+              id: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              originalUrl: "https://test.com"
+            });
+            expect(PopupMockWindow.close).toHaveBeenCalled();
+          });
+
+          test("should reject with an access denied error when a user cancels auth in a popup", async () => {
+            let PopupMockWindow: any;
+
+            window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
+              PopupMockWindow = createMock();
+              PopupMockWindow.location.search =
+                "?error=access_denied&error_description=The%20user%20has%20denied%20your%20request&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+              PopupMockWindow.opener = MockWindow;
+
+              ArcGISIdentityManager.completeOAuth2(
+                {
+                  clientId: "testUserRejection",
+                  redirectUri: "http://example-app.com/redirect"
+                },
+                PopupMockWindow
+              );
+            });
+
+            await expect(
+              ArcGISIdentityManager.beginOAuth2(
+                {
+                  clientId: "testUserRejection",
+                  redirectUri: "http://example-app.com/redirect"
+                },
+                MockWindow
+              )
+            ).rejects.toMatchObject({
+              name: "ArcGISAccessDeniedError",
+              message: "The user has denied your authorization request."
+            });
+          });
+
+          test("should authorize with an inline redirect", async () => {
+            await ArcGISIdentityManager.beginOAuth2(
+              {
+                clientId: "clientId12345",
+                redirectUri: "http://example-app.com/redirect",
+                popup: false
+              },
+              MockWindow
+            );
+            expect(MockWindow.location.href).toBe(
+              "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId12345&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&code_challenge_method=S256&code_challenge=DwBzhbb51LfusnSGBa_hqYSgo7-j8BTQnip4TOnlzRo"
+            );
+          });
+
+          test("should fallback to window.location.href if redirect URI is omitted in a popup workflow", async () => {
+            let PopupMockWindow: any;
+
+            fetchMock.once("*", {
+              access_token: "token",
+              expires_in: 1800,
+              username: "c@sey",
+              ssl: true,
+              refresh_token: "refresh_token",
+              refresh_token_expires_in: 1209600
+            });
+
+            window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
+              PopupMockWindow = createMock();
+              PopupMockWindow.location.href = "http://example-app.com/redirect";
+              PopupMockWindow.location.search =
+                "?code=auth_code&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+              PopupMockWindow.opener = MockWindow;
+
+              ArcGISIdentityManager.completeOAuth2(
+                {
+                  clientId: "clientId1234"
+                } as any,
+                PopupMockWindow
+              );
+            });
+
+            const session = await ArcGISIdentityManager.beginOAuth2(
+              {
+                clientId: "clientId1234",
+                redirectUri: "http://example-app.com/redirect"
+              },
+              MockWindow
+            );
+            expect(MockWindow.open).toHaveBeenCalledWith(
+              "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId1234&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&code_challenge_method=S256&code_challenge=DwBzhbb51LfusnSGBa_hqYSgo7-j8BTQnip4TOnlzRo",
+              "oauth-window",
+              "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
+            );
+
+            expect(PopupMockWindow.close).toHaveBeenCalled();
+            expect(session.redirectUri).toBe("http://example-app.com/redirect");
+          });
+
+          test("should authorize with an inline redirect with a plain challange", async () => {
+            MockWindow.isSecureContext = false;
+            await ArcGISIdentityManager.beginOAuth2(
+              {
+                clientId: "clientId12345",
+                redirectUri: "http://example-app.com/redirect",
+                popup: false
+              },
+              MockWindow
+            );
+            expect(MockWindow.location.href).toBe(
+              "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId12345&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&code_challenge_method=plain&code_challenge=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            );
+          });
+
+          test("should encode additional params", async () => {
+            MockWindow.isSecureContext = false;
+            await ArcGISIdentityManager.beginOAuth2(
+              {
+                clientId: "clientId12345",
+                redirectUri: "http://example-app.com/redirect",
+                popup: false,
+                params: {
+                  foo: "bar"
+                }
+              },
+              MockWindow
+            );
+            expect(MockWindow.location.href).toBe(
+              "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientId12345&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&code_challenge_method=plain&code_challenge=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&foo=bar"
+            );
+          });
+
+          test("should pass a custom state object", async () => {
+            let PopupMockWindow = createMock();
+            PopupMockWindow.location.search =
+              "?code=auth_code&state=%7B%22id%22%3A%22myCustomId%22%2C%22customStateProperty%22%3A%22test%22%7D";
+            PopupMockWindow.opener = MockWindow;
+
+            fetchMock.post("*", {
+              access_token: "token",
+              expires_in: 1800,
+              username: "c@sey",
+              ssl: true,
+              refresh_token: "refresh_token",
+              refresh_token_expires_in: 1209600
+            });
+
+            window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
+              setTimeout(() => {
+                ArcGISIdentityManager.completeOAuth2(
+                  {
+                    clientId: "customStateTestClientId",
+                    redirectUri: "http://example-app.com/redirect"
+                  },
+                  PopupMockWindow
+                );
+              }, 100);
+            });
+
+            const session = await ArcGISIdentityManager.beginOAuth2(
+              {
+                clientId: "customStateTestClientId",
+                redirectUri: "http://example-app.com/redirect",
+                state: {
+                  id: "myCustomId",
+                  customStateProperty: "test"
+                }
+              },
+              MockWindow
+            );
+
+            expect(MockWindow.open).toHaveBeenCalledWith(
+              "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=customStateTestClientId&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22myCustomId%22%2C%22customStateProperty%22%3A%22test%22%7D&locale=&style=&code_challenge_method=S256&code_challenge=DwBzhbb51LfusnSGBa_hqYSgo7-j8BTQnip4TOnlzRo",
+              "oauth-window",
+              "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
+            );
+
+            expect(session.state).toEqual({
+              id: "myCustomId",
+              customStateProperty: "test"
+            });
+
+            // now - 5 minutes (offset) + the above expiration (1800 seconds)
+            const expectedDate = new Date(
+              Date.now() - 5 * 60 * 1000 + 1800 * 1000
+            );
+          });
+
+          test("should pass a custom state string", async () => {
+            let PopupMockWindow = createMock();
+            PopupMockWindow.location.search =
+              "?code=auth_code&state=%7B%22id%22%3A%22customStateString%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+            PopupMockWindow.opener = MockWindow;
+
+            fetchMock.post("*", {
+              access_token: "token",
+              expires_in: 1800,
+              username: "c@sey",
+              ssl: true,
+              refresh_token: "refresh_token",
+              refresh_token_expires_in: 1209600
+            });
+
+            window.addEventListener("arcgis-rest-js-popup-auth-start", () => {
+              setTimeout(() => {
+                ArcGISIdentityManager.completeOAuth2(
+                  {
+                    clientId: "clientIdCustomStateString",
+                    redirectUri: "http://example-app.com/redirect"
+                  },
+                  PopupMockWindow
+                );
+              }, 100);
+            });
+
+            const session = await ArcGISIdentityManager.beginOAuth2(
+              {
+                clientId: "clientIdCustomStateString",
+                redirectUri: "http://example-app.com/redirect",
+                state: "customStateString"
+              },
+              MockWindow
+            );
+
+            expect(MockWindow.open).toHaveBeenCalledWith(
+              "https://www.arcgis.com/sharing/rest/oauth2/authorize?client_id=clientIdCustomStateString&response_type=code&expiration=20160&redirect_uri=http%3A%2F%2Fexample-app.com%2Fredirect&state=%7B%22id%22%3A%22customStateString%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D&locale=&style=&code_challenge_method=S256&code_challenge=DwBzhbb51LfusnSGBa_hqYSgo7-j8BTQnip4TOnlzRo",
+              "oauth-window",
+              "height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes"
+            );
+
+            expect(session.token).toBe("token");
+            expect(session.username).toBe("c@sey");
+            expect(session.ssl).toBe(true);
+            expect(session.redirectUri).toBe("http://example-app.com/redirect");
+            // now - 5 minutes (offset) + the above expiration (1800 seconds)
+            const expectedDate = new Date(
+              Date.now() - 5 * 60 * 1000 + 1800 * 1000
+            );
+
+            // The times will be off a few milliseconds because we have to wait for some async work to we just compare date, hour and minute values.
+            expect(session.tokenExpires.toDateString()).toBe(
+              expectedDate.toDateString()
+            );
+            expect(session.tokenExpires.getUTCHours()).toBe(
+              expectedDate.getUTCHours()
+            );
+            expect(session.tokenExpires.getUTCMinutes()).toBe(
+              expectedDate.getUTCMinutes()
+            );
+            expect(session.state).toEqual({
+              id: "customStateString",
+              originalUrl: "https://test.com"
+            });
+            expect(PopupMockWindow.close).toHaveBeenCalled();
+          });
+
+          test("should reject .completeOAuth2() when the user denys the request during an inline redirect", async () => {
+            MockWindow.location.search =
+              "?error=access_denied&error_description=The%20user%20has%20denied%20your%20request&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+
+            window.localStorage.setItem(
+              `ARCGIS_REST_JS_AUTH_STATE_clientIdInlineAccessDenied`,
+              "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            );
+
+            await expect(
+              ArcGISIdentityManager.completeOAuth2(
+                {
+                  clientId: "clientIdInlineAccessDenied",
+                  redirectUri: "https://example-app.com/redirect-uri",
+                  popup: false
+                },
+                MockWindow
+              )
+            ).rejects.toMatchObject({
+              name: "ArcGISAccessDeniedError",
+              message: "The user has denied your authorization request."
+            });
+          });
+
+          test("should reject .completeOAuth2() if the state ID does not match", async () => {
+            MockWindow.location.search =
+              "?code=auth_code&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+
+            window.localStorage.setItem(
+              `ARCGIS_REST_JS_AUTH_STATE_clientIdInlineStateMismatch`,
+              "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+            );
+
+            await expect(
+              ArcGISIdentityManager.completeOAuth2(
+                {
+                  clientId: "clientIdInlineStateMismatch",
+                  redirectUri: "https://example-app.com/redirect-uri",
+                  popup: false
+                },
+                MockWindow
+              )
+            ).rejects.toMatchObject({
+              name: "ArcGISAuthError",
+              message:
+                "mismatched-auth-state: Saved client state did not match server sent state."
+            });
+          });
+
+          test("should reject .completeOAuth2() with a default error message", async () => {
+            MockWindow.location.search =
+              "?error=weird_error&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+
+            window.localStorage.setItem(
+              `ARCGIS_REST_JS_AUTH_STATE_clientIdInlineWeirdError`,
+              "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            );
+
+            await expect(
+              ArcGISIdentityManager.completeOAuth2(
+                {
+                  clientId: "clientIdInlineWeirdError",
+                  redirectUri: "https://example-app.com/redirect-uri",
+                  popup: false
+                },
+                MockWindow
+              )
+            ).rejects.toMatchObject({
+              name: "ArcGISAuthError",
+              message: "weird_error: Unknown error"
+            });
+          });
+
+          test("should reject .completeOAuth2() if a state can not be found locally", async () => {
+            MockWindow.location.search =
+              "?code=auth_code&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+
+            await expect(
+              ArcGISIdentityManager.completeOAuth2(
+                {
+                  clientId: "clientIdInlineStateMismatch",
+                  redirectUri: "https://example-app.com/redirect-uri",
+                  popup: false
+                },
+                MockWindow
+              )
+            ).rejects.toMatchObject({
+              name: "ArcGISAuthError",
+              message:
+                "no-auth-state: No authentication state was found, call `ArcGISIdentityManager.beginOAuth2(...)` to start the authentication process."
+            });
+          });
+
+          test("should reject .completeOAuth2() if a state can not be found in the URL", async () => {
+            await expect(
+              ArcGISIdentityManager.completeOAuth2(
+                {
+                  clientId: "clientIdInlineStateMismatch",
+                  redirectUri: "https://example-app.com/redirect-uri",
+                  popup: false
+                },
+                MockWindow
+              )
+            ).rejects.toMatchObject({
+              name: "ArcGISAuthError",
+              message:
+                "no-auth-state: No authentication state was found, call `ArcGISIdentityManager.beginOAuth2(...)` to start the authentication process."
+            });
+          });
+
+          test("should reject .completeOAuth2() if the code exchange fails with an error", async () => {
+            fetchMock.once("*", {
+              error: {
+                code: 400,
+                error: "invalid_client_id",
+                error_description: "Invalid client_id",
+                message: "Invalid client_id",
+                details: []
+              }
+            });
+
+            MockWindow.location.search =
+              "?code=auth_code&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
+
+            window.localStorage.setItem(
+              `ARCGIS_REST_JS_AUTH_STATE_clientIdCodeExchangeError`,
+              "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+            );
+
+            await expect(
+              ArcGISIdentityManager.completeOAuth2(
+                {
+                  clientId: "clientIdCodeExchangeError",
+                  redirectUri: "https://example-app.com/redirect-uri",
+                  popup: false
+                },
+                MockWindow
+              )
+            ).rejects.toMatchObject({
+              name: "ArcGISAuthError",
+              message: "400: Invalid client_id"
+            });
+          });
+        });
+      });
+    }
+  });
 
   describe("postmessage auth :: ", () => {
     const MockWindow = {

@@ -7,9 +7,7 @@ import {
   ErrorTypes,
   setDefaultRequestOptions,
   IRequestOptions,
-  ArcGISIdentityManager,
-  ArcGISTokenRequestError,
-  ArcGISRequestError
+  ArcGISIdentityManager
 } from "../src/index.js";
 import fetchMock from "fetch-mock";
 import {
@@ -235,7 +233,8 @@ describe("request()", () => {
     expect(headers["X-Esri-Auth-Redirect-Uri"]).toBe(
       "https://hub.arcgis.com/torii-provider-arcgis/redirect.html"
     );
-    expect(options.credentials).toBe("include", "fetch should send cookie");
+    // fetch should send cookie
+    expect(options.credentials).toBe("include");
     expect(headers["X-Esri-Auth-Client-Id"]).toBe("CLIENT-ID-ABC123");
     expect(response.token).toEqual("APP-TOKEN");
     expect(response.username).toEqual("jsmith");

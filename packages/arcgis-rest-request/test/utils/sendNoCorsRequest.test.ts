@@ -5,7 +5,7 @@ import {
   isNoCorsDomain,
   isNoCorsRequestRequired
 } from "../../src/utils/sendNoCorsRequest.js";
-import { describe, test, expect, beforeEach } from "vitest";
+import { describe, test, expect, beforeEach, vi } from "vitest";
 import fetchMock from "fetch-mock";
 import { requestConfig } from "../../src/requestConfig.js";
 
@@ -84,20 +84,12 @@ describe("sendNoCorsRequest utils:", () => {
       // This test can't work in node because we spy on window.fetch
       test("should reject if the no-cors request fails", async () => {
         const url = "https://example.com/resource";
-        spyOn(window, "fetch").and.returnValue(
-          Promise.reject(new Error("Network error"))
-        );
 
-        try {
-          await sendNoCorsRequest(url);
-          fail("Expected sendNoCorsRequest to throw an error");
-        } catch (error) {
-          const e = error as Error;
-          expect(e.name).toBe("Error");
-          expect(e.message).toBe(
-            "no-cors request to https://example.com failed"
-          );
-        }
+        vi.spyOn(window, "fetch").mockRejectedValue(new Error("Network error"));
+
+        await expect(sendNoCorsRequest(url)).rejects.toThrowError(
+          "no-cors request to https://example.com failed"
+        );
       });
     }
   });
@@ -123,6 +115,7 @@ describe("sendNoCorsRequest utils:", () => {
       expect(requestConfig.noCorsDomains).toContain("http://another.com");
       expect(requestConfig.noCorsDomains).toContain("https://another.com");
     });
+
     test("should not allow duplicates", () => {
       const domains = ["https://example.com"];
       registerNoCorsDomains(domains);
@@ -146,6 +139,7 @@ describe("sendNoCorsRequest utils:", () => {
 
       expect(result).toBeFalsy();
     });
+
     test("should return false if no-cors domains list is empty", () => {
       requestConfig.noCorsDomains = [];
       const result = isNoCorsDomain("https://another.com/resource");
@@ -169,6 +163,7 @@ describe("sendNoCorsRequest utils:", () => {
 
       expect(result).toBeTruthy();
     });
+
     test("should return true if a no-cors request has not been sent", () => {
       requestConfig.noCorsDomains = ["https://example.com"];
       requestConfig.crossOriginNoCorsDomains = {};
