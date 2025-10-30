@@ -26,9 +26,9 @@ export const browserHeadlessConfig = {
       provider: playwright(),
       headless: true,
       instances: [
-        { browser: "chromium" }
-        //{ browser: "firefox" },
-        //{ browser: "webkit" }
+        { browser: "chromium" },
+        { browser: "firefox" },
+        { browser: "webkit" }
       ]
     },
     include: [
@@ -52,7 +52,11 @@ export const browserHeadedConfig = {
     browser: {
       enabled: true,
       provider: playwright(),
-      instances: [{ browser: "chromium" }]
+      instances: [
+        { browser: "chromium" },
+        { browser: "firefox" },
+        { browser: "webkit" }
+      ]
     },
     include: [
       "packages/arcgis-rest-basemap-sessions/**/*.{test,spec}.?(c|m)[jt]s?(x)",

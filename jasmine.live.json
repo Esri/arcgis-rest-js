@@ -1,7 +1,0 @@
-{
-  "spec_dir": "packages",
-  "spec_files": ["*/{src,test}/**/*.test.live.ts"],
-  "stopSpecOnExpectationFailure": false,
-  "random": false,
-  "jsLoader": "import"
-}
