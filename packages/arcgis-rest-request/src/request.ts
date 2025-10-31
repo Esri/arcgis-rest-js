@@ -388,7 +388,7 @@ export function internalRequest(
         // encode the parameters into the query string
         const queryParams = encodeQueryString(params);
         // dont append a '?' unless parameters are actually present
-        /* istanbul ignore next */
+        /* istanbul ignore next -- @preserve */
         const urlWithQueryString =
           queryParams === "" ? url : `${url}?${queryParams}`;
 
@@ -453,7 +453,7 @@ export function internalRequest(
        * configuration of fetch-mock in tests.
        */
 
-      /* istanbul ignore next coverage is based on browser code and we don't test for the absence of global fetch so we can skip the else here. */
+      /* istanbul ignore next -- @preserve : coverage is based on browser code and we don't test for the absence of global fetch so we can skip the else here. */
       return globalThis.fetch
         ? globalThis.fetch(url, fetchOptions)
         : getFetch().then(({ fetch }) => {

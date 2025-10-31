@@ -357,7 +357,8 @@ export class ArcGISIdentityManager
     options: IOAuth2Options,
     win?: any
   ): Promise<ArcGISIdentityManager> | undefined {
-    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    // must pass in a mockwindow for tests so we can't cover the other branch
+    /* istanbul ignore next -- @preserve */
     if (!win && window) {
       win = window;
     }
@@ -527,7 +528,7 @@ export class ArcGISIdentityManager
    * @browserOnly
    */
   public static completeOAuth2(options: IOAuth2Options, win?: any) {
-    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    /* istanbul ignore next -- @preserve : must pass in a mockwindow for tests so we can't cover the other branch */
     if (!win && window) {
       win = window;
     }
@@ -725,7 +726,7 @@ export class ArcGISIdentityManager
    * @browserOnly
    */
   public static fromParent(parentOrigin: string, win?: any): Promise<any> {
-    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    /* istanbul ignore next --@preserve : must pass in a mockwindow for tests so we can't cover the other branch */
     if (!win && window) {
       win = window;
     }
@@ -1277,7 +1278,7 @@ export class ArcGISIdentityManager
    * @param validChildOrigins Array of origins that are allowed to request authentication from the host app
    */
   public enablePostMessageAuth(validChildOrigins: string[], win?: any): any {
-    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    /* istanbul ignore next --@preserve : must pass in a mockwindow for tests so we can't cover the other branch */
     if (!win && window) {
       win = window;
     }
@@ -1291,7 +1292,7 @@ export class ArcGISIdentityManager
    * the event listener and prevent memory leaks
    */
   public disablePostMessageAuth(win?: any) {
-    /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+    /* istanbul ignore next --@preserve : must pass in a mockwindow for tests so we can't cover the other branch */
     if (!win && window) {
       win = window;
     }
@@ -1762,7 +1763,7 @@ export class ArcGISIdentityManager
  * @deprecated - Use {@linkcode ArcGISIdentityManager}.
  * @internal
  *
- */ /* istanbul ignore next */
+ */ /* istanbul ignore next -- @preserve */
 function UserSession(options: IArcGISIdentityManagerOptions) {
   console.log(
     "DEPRECATED:, 'UserSession' is deprecated. Use 'ArcGISIdentityManager' instead."
@@ -1775,7 +1776,7 @@ function UserSession(options: IArcGISIdentityManagerOptions) {
  * @deprecated - Use {@linkcode ArcGISIdentityManager.beginOAuth2}.
  * @internal
  *
- */ /* istanbul ignore next */
+ */ /* istanbul ignore next -- @preserve */
 UserSession.beginOAuth2 = function (
   ...args: Parameters<typeof ArcGISIdentityManager.beginOAuth2>
 ) {
@@ -1790,7 +1791,7 @@ UserSession.beginOAuth2 = function (
  * @deprecated - Use {@linkcode ArcGISIdentityManager.completeOAuth2}.
  * @internal
  *
- */ /* istanbul ignore next */
+ */ /* istanbul ignore next -- @preserve */
 UserSession.completeOAuth2 = function (
   ...args: Parameters<typeof ArcGISIdentityManager.completeOAuth2>
 ) {
@@ -1810,7 +1811,7 @@ UserSession.completeOAuth2 = function (
  * @deprecated - Use {@linkcode ArcGISIdentityManager.fromParent}.
  * @internal
  *
- */ /* istanbul ignore next */
+ */ /* istanbul ignore next -- @preserve */
 UserSession.fromParent = function (
   ...args: Parameters<typeof ArcGISIdentityManager.fromParent>
 ) {
@@ -1825,7 +1826,7 @@ UserSession.fromParent = function (
  * @deprecated - Use {@linkcode ArcGISIdentityManager.authorize}.
  * @internal
  *
- */ /* istanbul ignore next */
+ */ /* istanbul ignore next -- @preserve */
 UserSession.authorize = function (
   ...args: Parameters<typeof ArcGISIdentityManager.authorize>
 ) {
@@ -1840,7 +1841,7 @@ UserSession.authorize = function (
  * @deprecated - Use {@linkcode ArcGISIdentityManager.exchangeAuthorizationCode}.
  * @internal
  *
- */ /* istanbul ignore next */
+ */ /* istanbul ignore next -- @preserve */
 UserSession.exchangeAuthorizationCode = function (
   ...args: Parameters<typeof ArcGISIdentityManager.exchangeAuthorizationCode>
 ) {
@@ -1855,7 +1856,7 @@ UserSession.exchangeAuthorizationCode = function (
  * @deprecated - Use {@linkcode ArcGISIdentityManager.fromCredential}.
  * @internal
  *
- */ /* istanbul ignore next */
+ */ /* istanbul ignore next -- @preserve */
 UserSession.fromCredential = function (
   ...args: Parameters<typeof ArcGISIdentityManager.fromCredential>
 ) {
@@ -1874,7 +1875,7 @@ UserSession.fromCredential = function (
  * @deprecated - Use {@linkcode ArcGISIdentityManager.deserialize}.
  * @internal
  *
- */ /* istanbul ignore next */
+ */ /* istanbul ignore next -- @preserve */
 UserSession.deserialize = function (
   ...args: Parameters<typeof ArcGISIdentityManager.deserialize>
 ) {

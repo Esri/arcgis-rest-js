@@ -7,7 +7,11 @@ import {
 
 export default defineConfig({
   test: {
-    projects: [nodeConfig, browserHeadlessConfig, browserHeadedConfig],
+    projects: [
+      nodeConfig,
+      browserHeadlessConfig,
+      browserHeadedConfig
+    ],
     coverage: {
       enabled: true,
       provider: "istanbul",

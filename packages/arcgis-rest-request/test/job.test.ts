@@ -773,8 +773,6 @@ describe("Job", () => {
     expect(deserializedJob.id).toEqual(json.id);
   });
 
-  // this test passes but I'm not sure it's actually asserting anything before instantly resolving.
-  // TODO_: I refactored this test in form only preserving the previous testing function but it need to probably be revisited.
   test("cancels a job", async () => {
     const {
       submitOptions,
@@ -794,13 +792,13 @@ describe("Job", () => {
     const job = await Job.submitJob(submitOptions);
     await job.cancelJob();
 
-    await new Promise<void>((resolve) => {
+    new Promise<void>((resolve) => {
       job.on(JOB_STATUSES.Cancelled, (result) => {
         expect(result.id).toEqual(jobId);
         expect(result.status).toEqual(JOB_STATUSES.Cancelled);
+        resolve();
       });
-      resolve();
+      (job as any).executePoll();
     });
-    (job as any).executePoll();
   });
 });
