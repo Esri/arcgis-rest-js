@@ -287,7 +287,7 @@ export function internalRequest(
       }
     };
 
-    /* istanbul ignore else - we don't need to test NOT warning people */
+    /* istanbul ignore else -- @preserve : we don't need to test NOT warning people */
     if (
       !options.authentication.startsWith("AAPK") &&
       !options.authentication.startsWith("AAPT") &&
@@ -313,7 +313,7 @@ export function internalRequest(
   // default to false, for nodejs
   let sameOrigin = false;
   // if we are in a browser, check if the url is same origin
-  /* istanbul ignore else */
+  /* istanbul ignore else -- @preserve */
   if (typeof window !== "undefined") {
     sameOrigin = isSameOrigin(url);
   }
@@ -442,7 +442,7 @@ export function internalRequest(
         fetchOptions.headers.referer = NODEJS_DEFAULT_REFERER_HEADER;
       }
 
-      /* istanbul ignore else blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
+      /* istanbul ignore next -- @preserve : blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
       if (!requiresFormData(params) && !forceFormData) {
         fetchOptions.headers["Content-Type"] =
           "application/x-www-form-urlencoded";
