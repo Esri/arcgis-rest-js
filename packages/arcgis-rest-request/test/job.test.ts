@@ -275,6 +275,120 @@ describe("Job", () => {
     });
   });
 
+  describe("should cover waitForCompletion errors when non-terminal state transiently fails, such as when job status transitions from Waiting to TimedOut, Failed, or Cancelled", () => {
+    test("waitForCompletion: should reject with Error when Cancelled event listener is triggered", async () => {
+      const {
+        submitOptions,
+        jobSubmittedResponse,
+        jobInfoUrl,
+        jobSubmitUrl,
+        jobId
+      } = createJobMocks(
+        "waitForCompletionCancelled",
+        "waitForCompletionCancelledServiceName"
+      );
+
+      fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
+      // Start with a non-terminal (waiting) status
+      fetchMock.once(jobInfoUrl, { jobId, jobStatus: "esriJobWaiting" });
+
+      const job = await Job.submitJob({
+        ...submitOptions,
+        startMonitoring: false
+      });
+
+      const promise = job.waitForCompletion();
+      setTimeout(() => {
+        fetchMock.once(
+          jobInfoUrl,
+          { jobId, jobStatus: "esriJobCancelled" },
+          { overwriteRoutes: true }
+        );
+        (job as any).executePoll();
+      }, 10);
+
+      await expect(promise).rejects.toMatchObject({
+        name: "ArcGISJobError",
+        status: JOB_STATUSES.Cancelled,
+        jobInfo: expect.objectContaining({ id: jobId })
+      });
+    });
+
+    test("waitForCompletion: should reject with Error when TimedOut event listener is triggered", async () => {
+      const {
+        submitOptions,
+        jobSubmittedResponse,
+        jobInfoUrl,
+        jobSubmitUrl,
+        jobId
+      } = createJobMocks(
+        "waitForCompletionTimedOut",
+        "waitForCompletionTimedOutServiceName"
+      );
+
+      fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
+      fetchMock.once(jobInfoUrl, { jobId, jobStatus: "esriJobWaiting" });
+
+      const job = await Job.submitJob({
+        ...submitOptions,
+        startMonitoring: false
+      });
+
+      const promise = job.waitForCompletion();
+      setTimeout(() => {
+        fetchMock.once(
+          jobInfoUrl,
+          { jobId, jobStatus: "esriJobTimedOut" },
+          { overwriteRoutes: true }
+        );
+        (job as any).executePoll();
+      }, 10);
+
+      await expect(promise).rejects.toMatchObject({
+        name: "ArcGISJobError",
+        status: JOB_STATUSES.TimedOut,
+        jobInfo: expect.objectContaining({ id: jobId })
+      });
+    });
+
+    test("waitForCompletion: should reject with Error when Failed event listener is triggered", async () => {
+      const {
+        submitOptions,
+        jobSubmittedResponse,
+        jobInfoUrl,
+        jobSubmitUrl,
+        jobId
+      } = createJobMocks(
+        "waitForCompletionFailed",
+        "waitForCompletionFailedServiceName"
+      );
+
+      fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
+      fetchMock.once(jobInfoUrl, { jobId, jobStatus: "esriJobWaiting" });
+
+      const job = await Job.submitJob({
+        ...submitOptions,
+        startMonitoring: false
+      });
+
+      const promise = job.waitForCompletion();
+      setTimeout(() => {
+        fetchMock.once(
+          jobInfoUrl,
+          { jobId, jobStatus: "esriJobFailed" },
+          { overwriteRoutes: true }
+        );
+        (job as any).executePoll();
+      }, 10);
+
+      await expect(promise).rejects.toMatchObject({
+        name: "ArcGISJobError",
+        status: JOB_STATUSES.Failed,
+        jobInfo: expect.objectContaining({ id: jobId })
+      });
+    });
+  });
+
   test("call method fromExistingJob", async () => {
     const { jobInfoWithAllResults, jobId, jobSubmitUrl, jobInfoUrl } =
       createJobMocks("fromExistingJobId", "fromExistingJobServiceName");
@@ -791,14 +905,14 @@ describe("Job", () => {
 
     const job = await Job.submitJob(submitOptions);
     await job.cancelJob();
+    (job as any).executePoll();
 
-    new Promise<void>((resolve) => {
+    await new Promise<void>((resolve) => {
       job.on(JOB_STATUSES.Cancelled, (result) => {
         expect(result.id).toEqual(jobId);
         expect(result.status).toEqual(JOB_STATUSES.Cancelled);
-        resolve();
       });
-      (job as any).executePoll();
+      resolve();
     });
   });
 });
