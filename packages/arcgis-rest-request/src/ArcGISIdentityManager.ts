@@ -31,6 +31,7 @@ import { IOAuthState } from "./types/oauthState.js";
 function isCredential(credential: any): credential is ICredential {
   return (
     typeof credential.userId === "string" ||
+    /* istanbul ignore next -- @preserve */
     typeof credential.expires === "number"
   );
 }
@@ -357,8 +358,7 @@ export class ArcGISIdentityManager
     options: IOAuth2Options,
     win?: any
   ): Promise<ArcGISIdentityManager> | undefined {
-    // must pass in a mockwindow for tests so we can't cover the other branch
-    /* istanbul ignore next -- @preserve */
+    /* istanbul ignore next -- @preserve : must pass in a mockwindow for tests so we can't cover the other branch */
     if (!win && window) {
       win = window;
     }
@@ -578,7 +578,7 @@ export class ArcGISIdentityManager
         return;
       }
 
-      // istanbul ignore else: We don't need to test that we do nothing here. This will be removed in a future release.
+      // istanbul ignore next -- @preserve: We don't need to test that we do nothing here. This will be removed in a future release.
       if (originalUrl) {
         win.history.replaceState(win.history.state, "", originalUrl);
       }
@@ -609,7 +609,7 @@ export class ArcGISIdentityManager
         return;
       }
 
-      // istanbul ignore else: We don't need to test that we do nothing here. This will be removed in a future release.
+      // istanbul ignore else -- @preserve : We don't need to test that we do nothing here. This will be removed in a future release.
       if (state.originalUrl) {
         win.history.replaceState(win.history.state, "", state.originalUrl);
       }
@@ -945,7 +945,8 @@ export class ArcGISIdentityManager
             hasServer: false,
             server: credential.server
           } as IServerInfo)
-        : new ArcGISIdentityManager(credential);
+        : /* istanbul ignore next -- @preserve */
+          new ArcGISIdentityManager(credential);
     }
     if (event.data.type === "arcgis:auth:error") {
       const err = new Error(event.data.error.message);
