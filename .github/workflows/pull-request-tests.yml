@@ -35,14 +35,8 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Test in Node
-        run: npm run test:node
-
-      - name: Test in Chrome
-        run: npm run test:chrome:ci
-
-      - name: Test with Vitest
-        run: npm run test:vitest
+      - name: Test in CI
+        run: npm run test:ci
 
       - name: Code Coverage Summary Report
         uses: irongut/CodeCoverageSummary@v1.3.0

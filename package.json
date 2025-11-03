@@ -22,6 +22,7 @@
     "test:compile": "npm run build:esm",
     "test:all": "vitest --config=vitest.config.js --run",
     "test:browsers": "vitest --config=vitest.config.js --run --project=browser",
+    "test:ci": "vitest --config=vitest.config.js --run --project=node --project=headless",
     "test:headless": "vitest --config=vitest.config.js --run --project=headless",
     "test:chrome": "vitest --config=vitest.config.js --run --project=browser --browser=chromium",
     "test:chrome:ci": "vitest --config=vitest.config.js --run --project=headless --browser=chromium",
