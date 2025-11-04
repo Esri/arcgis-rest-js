@@ -73,6 +73,7 @@
     "@commitlint/config-lerna-scopes": "^11.0.0",
     "@commitlint/config-workspace-scopes": "^19.8.1",
     "@commitlint/prompt": "^11.0.0",
+    "@playwright/test": "^1.56.1",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
@@ -188,8 +189,5 @@
       "@semantic-release/npm",
       "@semantic-release/git"
     ]
-  },
-  "dependencies": {
-    "@playwright/test": "^1.56.1"
   }
 }

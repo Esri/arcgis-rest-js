@@ -1,11 +1,13 @@
 import { describe, test, expect } from "vitest";
 import { generateCodeChallenge } from "../../src/utils/generate-code-challenge.js";
-import { isBrowser } from "../../../../scripts/test-helpers.js";
+import { isBrowser, isNode } from "../../../../scripts/test-helpers.js";
 
 describe("generateCodeChallenge()", () => {
-  test("should be a test", () => {
-    expect(true).toBe(true);
-  });
+  if (isNode) {
+    test("should be a test", () => {
+      expect(isNode).toBe(true);
+    });
+  }
 
   if (isBrowser) {
     test("should give the SHA256 of a string", async () => {

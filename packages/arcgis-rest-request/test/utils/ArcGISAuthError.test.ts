@@ -48,7 +48,7 @@ describe("ArcGISRequestError", () => {
   });
 
   describe("retry", () => {
-    let MockAuth: {
+    const MockAuth: {
       portal: string;
       getToken: any;
       retryHandler: IRetryAuthError;

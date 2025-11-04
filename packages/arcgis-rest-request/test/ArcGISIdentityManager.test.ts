@@ -919,9 +919,11 @@ describe("ArcGISIdentityManager", () => {
      *
      * We COULD make these tests work in Node if we wanted to mock these calls but you actually have to trigger the events.
      */
-    test("should be a test", () => {
-      expect(true).toBe(true);
-    });
+    if (isNode) {
+      test("should be a test", () => {
+        expect(isNode).toBe(true);
+      });
+    }
 
     if (isBrowser) {
       describe("Client side oAuth 2.0", () => {
@@ -2534,7 +2536,7 @@ describe("ArcGISIdentityManager", () => {
       if (isNode) {
         expect(options.body).toContain("referer=%40esri%2Farcgis-rest-js");
       }
-      // TODO_: check if need to move out to browser-specific test file
+
       if (isBrowser) {
         expect(options.body).toContain(
           `referer=${encodeURIComponent(window.location.origin)}`
@@ -3214,7 +3216,7 @@ describe("ArcGISIdentityManager", () => {
       if (isNode) {
         expect(options.body).toContain("referer=testreferer");
       }
-      // TODO_: check if need to move out to browser-specific test file
+
       if (isBrowser) {
         expect(options.body).toContain(`referer=testreferer`);
       }

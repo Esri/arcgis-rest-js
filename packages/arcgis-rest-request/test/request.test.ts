@@ -183,7 +183,7 @@ describe("request()", () => {
       httpMethod: "GET",
       hideToken: true
     });
-    // Test Node path with Vitest in Node
+    // Test node path
     if (typeof window === "undefined") {
       const [url, options] = fetchMock.lastCall("*");
       expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json");
@@ -193,8 +193,7 @@ describe("request()", () => {
         "Bearer token"
       );
     } else {
-      // TODO_: figure out how to test browser path in Node with JSDOM, vitest browser env, or other option
-      // note that url doesnt append f=json when called in a browser which is why karma was passing the true url case and we lost that coverage when testing in node only
+      // Test browser path
       const [url, options] = fetchMock.lastCall("*");
       expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
       expect(options.method).toBe("POST");
