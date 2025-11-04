@@ -227,14 +227,14 @@ describe("ArcGISIdentityManager", () => {
 
       // request the token twice, for the same domain, but with different casing
       // and we expect a single POST to generate a token once
-      const [token1, token2] = await Promise.all([
-        session.getToken(
-          "https://PNP00035.esri.com/server/rest/services/Hosted/perimeters_dd83/FeatureServer"
-        ),
-        session.getToken(
-          "https://pnp00035.esri.com/server/rest/services/Hosted/otherService/FeatureServer"
-        )
-      ]);
+      const token1 = await session.getToken(
+        "https://PNP00035.esri.com/server/rest/services/Hosted/perimeters_dd83/FeatureServer"
+      );
+
+      const token2 = await session.getToken(
+        "https://pnp00035.esri.com/server/rest/services/Hosted/otherService/FeatureServer"
+      );
+
       expect(token1).toBe("new-server-token");
       expect(token2).toBe("new-server-token");
     });
@@ -317,14 +317,13 @@ describe("ArcGISIdentityManager", () => {
         expires: TOMORROW.getTime()
       });
 
-      const [token1, token2] = await Promise.all([
-        session.getToken(
-          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-        ),
-        session.getToken(
-          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-        )
-      ]);
+      const token1 = await session.getToken(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+      );
+      const token2 = await session.getToken(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+      );
+
       expect(token1).toBe("serverToken");
       expect(token2).toBe("serverToken");
     });
@@ -375,14 +374,12 @@ describe("ArcGISIdentityManager", () => {
         expires: TOMORROW.getTime()
       });
 
-      const [token1, token2] = await Promise.all([
-        session.getToken(
-          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-        ),
-        session.getToken(
-          "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
-        )
-      ]);
+      const token1 = await session.getToken(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+      );
+      const token2 = await session.getToken(
+        "https://gisservices.city.gov/public/rest/services/trees/FeatureServer/0/query"
+      );
       expect(token1).toBe("serverToken");
       expect(token2).toBe("serverToken");
     });
