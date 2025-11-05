@@ -434,7 +434,7 @@ export function internalRequest(
 
       // This should have the same conditional for Node JS as ArcGISIdentityManager.refreshWithUsernameAndPassword()
       // to ensure that generated tokens have the same referer when used in Node with a username and password.
-      /* istanbul ignore next - karma reports coverage on browser tests only */
+      /* istanbul ignore next */
       if (
         (typeof window === "undefined" ||
           (window && typeof window.document === "undefined")) &&
