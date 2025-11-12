@@ -2,7 +2,7 @@ import { playwright } from "@vitest/browser-playwright";
 
 export const allTestPackages = [
   "packages/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-  "!packages/arcgis-rest-auth/"
+  "!packages/arcgis-rest-auth/**"
 ];
 
 export const nodeConfig = {
