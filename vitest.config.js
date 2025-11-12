@@ -18,9 +18,6 @@ export default defineConfig({
       include: [
         "packages/**/src/**/*.{ts,js}"
       ],
-      exclude: [
-        "packages/arcgis-rest-auth/**",
-      ],
       clean: true,
       cleanOnRerun: true,
       reporter: ["json", "html", "cobertura"],
