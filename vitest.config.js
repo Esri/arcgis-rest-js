@@ -16,16 +16,8 @@ export default defineConfig({
       enabled: true,
       provider: "istanbul",
       include: [
-        "packages/arcgis-rest-basemap-sessions/src/**/*.{ts,js}",
-        "packages/arcgis-rest-elevation/src/**/*.{ts,js}",
-        "packages/arcgis-rest-places/src/**/*.{ts,js}",
-        "packages/arcgis-rest-demographics/src/**/*.{ts,js}",
-        "packages/arcgis-rest-geocoding/src/**/*.{ts,js}",
-        "packages/arcgis-rest-routing/src/**/*.{ts,js}",
-        "packages/arcgis-rest-feature-service/src/**/*.{ts,js}",
-        "packages/arcgis-rest-developer-credentials/src/**/*.{ts,js}",
-        "packages/arcgis-rest-portal/src/**/*.{ts,js}",
-        "packages/arcgis-rest-request/src/**/*.{ts,js}"
+        "packages/**/src/**/*.{ts,js}",
+        "!packages/arcgis-rest-auth/**"
       ],
       clean: true,
       cleanOnRerun: true,
