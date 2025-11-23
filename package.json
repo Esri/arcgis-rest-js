@@ -70,6 +70,8 @@
     "@commitlint/config-workspace-scopes": "^19.8.1",
     "@commitlint/prompt": "^11.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.3.0",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^8.0.0",
@@ -178,9 +180,5 @@
       "@semantic-release/npm",
       "@semantic-release/git"
     ]
-  },
-  "dependencies": {
-    "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^12.3.0"
   }
 }
