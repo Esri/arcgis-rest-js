@@ -1,25 +1,26 @@
 import { decodeQueryString } from "../../src/index.js";
+import { describe, test, expect } from "vitest";
 
 describe("decodeQueryString()", () => {
-  it("should decode a query string to an object", () => {
+  test("should decode a query string to an object", () => {
     const { foo, bar } = decodeQueryString("foo=one&bar=two");
     expect(foo).toBe("one");
     expect(bar).toBe("two");
   });
 
-  it("should handle a leading hash (#)", () => {
+  test("should handle a leading hash (#)", () => {
     const { foo, bar } = decodeQueryString("#foo=one&bar=two");
     expect(foo).toBe("one");
     expect(bar).toBe("two");
   });
 
-  it("should handle a leading question mark (?)", () => {
+  test("should handle a leading question mark (?)", () => {
     const { foo, bar } = decodeQueryString("?foo=one&bar=two");
     expect(foo).toBe("one");
     expect(bar).toBe("two");
   });
 
-  it("should return an empty query string for no input", () => {
+  test("should return an empty query string for no input", () => {
     expect(decodeQueryString("")).toEqual({});
     expect(decodeQueryString()).toEqual({});
   });

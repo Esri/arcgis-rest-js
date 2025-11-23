@@ -287,7 +287,7 @@ export function internalRequest(
       }
     };
 
-    /* istanbul ignore else - we don't need to test NOT warning people */
+    /* istanbul ignore else -- @preserve : we don't need to test NOT warning people */
     if (
       !options.authentication.startsWith("AAPK") &&
       !options.authentication.startsWith("AAPT") &&
@@ -313,7 +313,7 @@ export function internalRequest(
   // default to false, for nodejs
   let sameOrigin = false;
   // if we are in a browser, check if the url is same origin
-  /* istanbul ignore else */
+  /* istanbul ignore else -- @preserve */
   if (typeof window !== "undefined") {
     sameOrigin = isSameOrigin(url);
   }
@@ -388,9 +388,10 @@ export function internalRequest(
         // encode the parameters into the query string
         const queryParams = encodeQueryString(params);
         // dont append a '?' unless parameters are actually present
-        /* istanbul ignore next */
         const urlWithQueryString =
-          queryParams === "" ? url : `${url}?${queryParams}`;
+          queryParams === ""
+            ? /* istanbul ignore next -- @preserve */ url
+            : `${url}?${queryParams}`;
 
         if (
           // This would exceed the maximum length for URLs by 2000 as default or as specified by the consumer and requires POST
@@ -433,7 +434,7 @@ export function internalRequest(
 
       // This should have the same conditional for Node JS as ArcGISIdentityManager.refreshWithUsernameAndPassword()
       // to ensure that generated tokens have the same referer when used in Node with a username and password.
-      /* istanbul ignore next - karma reports coverage on browser tests only */
+      /* istanbul ignore next */
       if (
         (typeof window === "undefined" ||
           (window && typeof window.document === "undefined")) &&
@@ -442,7 +443,7 @@ export function internalRequest(
         fetchOptions.headers.referer = NODEJS_DEFAULT_REFERER_HEADER;
       }
 
-      /* istanbul ignore else blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
+      /* istanbul ignore next -- @preserve : blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
       if (!requiresFormData(params) && !forceFormData) {
         fetchOptions.headers["Content-Type"] =
           "application/x-www-form-urlencoded";
@@ -453,7 +454,7 @@ export function internalRequest(
        * configuration of fetch-mock in tests.
        */
 
-      /* istanbul ignore next coverage is based on browser code and we don't test for the absence of global fetch so we can skip the else here. */
+      /* istanbul ignore next -- @preserve : coverage is based on browser code and we don't test for the absence of global fetch so we can skip the else here. */
       return globalThis.fetch
         ? globalThis.fetch(url, fetchOptions)
         : getFetch().then(({ fetch }) => {

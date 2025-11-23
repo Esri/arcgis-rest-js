@@ -1,17 +1,19 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
 import { ApplicationCredentialsManager } from "../src/index.js";
-import { YESTERDAY, TOMORROW } from "../../../scripts/test-helpers.karma.js";
+import { YESTERDAY, TOMORROW } from "../../../scripts/test-helpers.js";
 import { ArcGISTokenRequestError } from "../src/utils/ArcGISTokenRequestError.js";
 
 describe("ApplicationCredentialsManager", () => {
   afterEach(() => {
     fetchMock.restore();
   });
+
   describe(".fromCredentials", () => {
-    it("should construct a new ApplicationCredentialsManager", (done) => {
+    test("should construct a new ApplicationCredentialsManager", async () => {
       fetchMock.post("https://www.arcgis.com/sharing/rest/oauth2/token/", {
         access_token: "token",
         expires_in: 1800
@@ -22,20 +24,15 @@ describe("ApplicationCredentialsManager", () => {
         clientSecret: "secret"
       });
 
-      session
-        .getToken("https://www.arcgis.com/sharing/rest/portals/self")
-        .then((token) => {
-          expect(token).toBe("token");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const token = await session.getToken(
+        "https://www.arcgis.com/sharing/rest/portals/self"
+      );
+      expect(token).toBe("token");
     });
   });
 
   describe(".getToken()", () => {
-    it("should return the cached token if it is not expired", (done) => {
+    test("should return the cached token if it is not expired", async () => {
       const session = new ApplicationCredentialsManager({
         clientId: "id",
         clientSecret: "secret",
@@ -43,23 +40,17 @@ describe("ApplicationCredentialsManager", () => {
         expires: TOMORROW
       });
 
-      Promise.all([
+      const [token1, token2] = await Promise.all([
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
         session.getToken(
           "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
         )
-      ])
-        .then(([token1, token2]) => {
-          expect(token1).toBe("token");
-          expect(token2).toBe("token");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      ]);
+      expect(token1).toBe("token");
+      expect(token2).toBe("token");
     });
 
-    it("should fetch a new token if the cached one is expired", (done) => {
+    test("should fetch a new token if the cached one is expired", async () => {
       const session = new ApplicationCredentialsManager({
         clientId: "id",
         clientSecret: "secret",
@@ -72,23 +63,17 @@ describe("ApplicationCredentialsManager", () => {
         expires_in: 1800
       });
 
-      Promise.all([
+      const [token1, token2] = await Promise.all([
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
         session.getToken(
           "https://services1.arcgis.com/MOCK_ORG/arcgis/rest/services/Private_Service/FeatureServer"
         )
-      ])
-        .then(([token1, token2]) => {
-          expect(token1).toBe("new");
-          expect(token2).toBe("new");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      ]);
+      expect(token1).toBe("new");
+      expect(token2).toBe("new");
     });
 
-    it("should not make multiple refresh requests while a refresh is pending", (done) => {
+    test("should not make multiple refresh requests while a refresh is pending", async () => {
       const session = new ApplicationCredentialsManager({
         clientId: "id",
         clientSecret: "secret",
@@ -105,26 +90,20 @@ describe("ApplicationCredentialsManager", () => {
         { method: "POST", repeat: 1 }
       );
 
-      Promise.all([
+      const [token1, token2] = await Promise.all([
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self"),
         session.getToken("https://www.arcgis.com/sharing/rest/portals/self")
-      ])
-        .then(([token1, token2]) => {
-          expect(token1).toBe("new");
-          expect(token2).toBe("new");
-          expect(
-            fetchMock.calls("https://www.arcgis.com/sharing/rest/oauth2/token/")
-              .length
-          ).toBe(1);
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      ]);
+      expect(token1).toBe("new");
+      expect(token2).toBe("new");
+      expect(
+        fetchMock.calls("https://www.arcgis.com/sharing/rest/oauth2/token/")
+          .length
+      ).toBe(1);
     });
   });
 
-  it("should provide a method to refresh a session", (done) => {
+  test("should provide a method to refresh a session", async () => {
     const session = new ApplicationCredentialsManager({
       clientId: "id",
       clientSecret: "secret",
@@ -137,18 +116,11 @@ describe("ApplicationCredentialsManager", () => {
       expires_in: 1800
     });
 
-    session
-      .refreshCredentials()
-      .then((s) => {
-        expect(s).toBe(session);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const refreshedSession = await session.refreshCredentials();
+    expect(refreshedSession).toBe(session);
   });
 
-  it("should throw a ArcGISTokenRequestError if refreshing the token fails", () => {
+  test("should throw a ArcGISTokenRequestError if refreshing the token fails", async () => {
     const session = new ApplicationCredentialsManager({
       clientId: "id",
       clientSecret: "secret",
@@ -166,18 +138,15 @@ describe("ApplicationCredentialsManager", () => {
       }
     });
 
-    return session.refreshCredentials().catch((e) => {
-      expect(e instanceof ArcGISTokenRequestError).toBe(true);
-      expect(e.name).toBe("ArcGISTokenRequestError");
-      expect(e.code).toBe("TOKEN_REFRESH_FAILED");
-      expect(e.message).toBe(
-        "TOKEN_REFRESH_FAILED: 400: Invalid client_secret"
-      );
+    await expect(session.refreshCredentials()).rejects.toMatchObject({
+      name: "ArcGISTokenRequestError",
+      code: "TOKEN_REFRESH_FAILED",
+      message: "TOKEN_REFRESH_FAILED: 400: Invalid client_secret"
     });
   });
 
   describe(".serialize() and .deserialize()", () => {
-    it("should serialize to a string", () => {
+    test("should serialize to a string", () => {
       const session = new ApplicationCredentialsManager({
         clientId: "id",
         clientSecret: "secret",
@@ -200,7 +169,7 @@ describe("ApplicationCredentialsManager", () => {
       );
     });
 
-    it("should deserialize to an object", () => {
+    test("should deserialize to an object", () => {
       const session = new ApplicationCredentialsManager({
         token: "token",
         clientId: "id",

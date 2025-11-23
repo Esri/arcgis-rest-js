@@ -131,7 +131,7 @@ export class ApiKeyManager
 /**
  * @deprecated - Use {@linkcode ApiKeyManager}.
  * @internal
- */ /* istanbul ignore next */
+ */ /* istanbul ignore next -- @preserve */
 export function ApiKey(options: IApiKeyOptions) {
   console.log(
     "DEPRECATED:, 'ApiKey' is deprecated. Use 'ApiKeyManager' instead."

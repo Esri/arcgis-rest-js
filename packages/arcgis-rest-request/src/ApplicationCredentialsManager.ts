@@ -224,7 +224,7 @@ export class ApplicationCredentialsManager
 /**
  * @deprecated - Use {@linkcode ApplicationCredentialsManager}.
  * @internal
- */ /* istanbul ignore next */
+ */ /* istanbul ignore next -- @preserve */
 export function ApplicationSession(
   options: IApplicationCredentialsManagerOptions
 ) {

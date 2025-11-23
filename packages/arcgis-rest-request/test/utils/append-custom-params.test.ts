@@ -5,9 +5,10 @@
  */
 
 import { appendCustomParams } from "../../src/index.js";
+import { describe, test, expect } from "vitest";
 
 describe("appendCustomParams", () => {
-  it("merges custom options and base options, handles all value types, and omits invalid keys", () => {
+  test("merges custom options and base options, handles all value types, and omits invalid keys", () => {
     // this test should cover:
     // - omit keys not in keys
     // - deconstruct and merge customOptions into params

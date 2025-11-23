@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        node: [18, 20, 22]
+        node: [20, 22]
 
     steps:
       - uses: actions/checkout@v4
@@ -29,17 +29,14 @@ jobs:
       - name: Install Dependencies
         run: npm ci --legacy-peer-deps
 
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
       - name: Build
         run: npm run build
 
       - name: Lint
         run: npm run lint
 
-      - name: Test in Node
-        run: npm run test:node
-
-      - name: Test in Chrome
-        run: npm run test:chrome:ci
-
-      - name: Test with Vitest
-        run: npm run test:vitest
+      - name: Test in CI
+        run: npm run test:ci

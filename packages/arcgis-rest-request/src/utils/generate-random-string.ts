@@ -6,7 +6,7 @@ import { base64UrlEncode } from "./base-64-url.js";
  * @param win the global `window` object for accepting a mock while testing.
  */
 export function generateRandomString(win?: any) {
-  /* istanbul ignore next: must pass in a mockwindow for tests so we can't cover the other branch */
+  /* istanbul ignore next -- @preserve : must pass in a mockwindow for tests so we can't cover the other branch */
   if (!win && window) {
     win = window;
   }
