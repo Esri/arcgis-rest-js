@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeEach, vi } from "vitest";
 import fetchMock from "fetch-mock";
 import { Job, JOB_STATUSES, ArcGISRequestError } from "../src/index.js";
 import { processJobParams } from "../src/utils/process-job-params.js";
@@ -49,7 +50,7 @@ describe("Job", () => {
     fetchMock.restore();
   });
 
-  it("should return a jobId", () => {
+  test("should return a jobId", async () => {
     const { submitOptions, jobSubmittedResponse } = createJobMocks(
       "basicJobId",
       "basicServiceName"
@@ -57,12 +58,11 @@ describe("Job", () => {
 
     fetchMock.mock("*", jobSubmittedResponse);
 
-    return Job.submitJob(submitOptions).then((job) => {
-      expect(job.id).toEqual(jobSubmittedResponse.jobId);
-    });
+    const job = await Job.submitJob(submitOptions);
+    expect(job.id).toEqual(jobSubmittedResponse.jobId);
   });
 
-  it("should trigger events when polling", (done: any) => {
+  test("should trigger events when polling", async () => {
     const {
       submitOptions,
       jobSubmittedResponse,
@@ -81,14 +81,16 @@ describe("Job", () => {
     });
 
     // 3. submit the job, this will get the response from #1.
-    Job.submitJob(submitOptions).then((job) => {
+    const job = await Job.submitJob(submitOptions);
+
+    await new Promise<void>((resolve) => {
       // 4. listen for the executing event, this will fire when we fake polling
       job.on(JOB_STATUSES.Executing, (jobInfo) => {
         // 7. this executes once the event from the fake poll in step 6 happens.
         expect(jobInfo.status).toEqual(JOB_STATUSES.Executing);
         expect(jobInfo.id).toEqual(jobId);
 
-        //8. Now we want to tell fetch mock how to respond to the next fake polling request
+        // 8. Now we want to tell fetch mock how to respond to the next fake polling request
         fetchMock.once(
           jobInfoUrl,
           {
@@ -102,14 +104,14 @@ describe("Job", () => {
         (job as any).executePoll(); // fake a polling request
       });
 
-      // 5. listen for the succeeded event, this will happen AFTER we setup the request in the execuritng listener
+      // 5. listen for the succeeded event, this will happen AFTER we setup the request in the executing listener
       job.on(JOB_STATUSES.Success, (jobInfo) => {
         // 10. this happens after the fake polling request in step 9.
         expect(jobInfo.status).toEqual(JOB_STATUSES.Success);
         expect(jobInfo.id).toEqual(jobId);
 
-        // 11. tell Karma we are done with this test.
-        done();
+        // 11. resolve the promise to finish the test
+        resolve();
       });
 
       // 6. fake a loop of the poll this will trigger a single response as opposed to MANY from setInterval
@@ -117,7 +119,7 @@ describe("Job", () => {
     });
   });
 
-  it("should return results once status is succeeded", (done) => {
+  test("should return results once status is succeeded", async () => {
     const {
       submitOptions,
       jobSubmittedResponse,
@@ -132,15 +134,17 @@ describe("Job", () => {
     fetchMock.once(jobInfoUrl, jobInfoWithResults);
 
     // 1. submit the job, this will get the response from #1.
-    Job.submitJob(submitOptions).then((job) => {
+    const job = await Job.submitJob(submitOptions);
+
+    await new Promise<void>((resolve) => {
       job.on(JOB_STATUSES.Success, (jobInfo) => {
         // 3. this happens after the fake polling request in step 2.
         expect(jobInfo.id).toEqual(jobId);
         expect(jobInfo.status).toEqual(JOB_STATUSES.Success);
         expect(jobInfo.results).toEqual(jobInfoWithResults.results);
 
-        // 4. tell Karma we are done with this test.
-        done();
+        // 4. resolve the promise to finish the test
+        resolve();
       });
 
       // 2. fake a loop of the poll this will trigger a single response as opposed to MANY from setInterval
@@ -148,7 +152,7 @@ describe("Job", () => {
     });
   });
 
-  it("should get specific result property from results and get all results", () => {
+  test("should get specific result property from results and get all results", async () => {
     const {
       submitOptions,
       jobSubmittedResponse,
@@ -196,14 +200,15 @@ describe("Job", () => {
       }
     });
 
-    return Job.submitJob({ ...submitOptions, startMonitoring: false })
-      .then((job) => job.getAllResults())
-      .then((results) => {
-        expect(results).toEqual(mockAllResultsRequest);
-      });
+    const job = await Job.submitJob({
+      ...submitOptions,
+      startMonitoring: false
+    });
+    const results = await job.getAllResults();
+    expect(results).toEqual(mockAllResultsRequest);
   });
 
-  it("should just do a getResult for one paramName", () => {
+  test("should just do a getResult for one paramName", async () => {
     const {
       submitOptions,
       jobSubmittedResponse,
@@ -227,23 +232,21 @@ describe("Job", () => {
       }
     });
 
-    return Job.submitJob(submitOptions)
-      .then((job) => job.getResult("out_unassigned_stops"))
-      .then((results) => {
-        expect(results).toEqual({
-          paramName: "out_unassigned_stops",
-          dataType: "GPRecordSet",
-          value: {
-            displayFieldName: "",
-            fields: [] as any,
-            features: [] as any,
-            exceededTransferLimit: false
-          }
-        });
-      });
+    const job = await Job.submitJob(submitOptions);
+    const results = await job.getResult("out_unassigned_stops");
+    expect(results).toEqual({
+      paramName: "out_unassigned_stops",
+      dataType: "GPRecordSet",
+      value: {
+        displayFieldName: "",
+        fields: [] as any,
+        features: [] as any,
+        exceededTransferLimit: false
+      }
+    });
   });
 
-  it("should call waitForCompletion get a timeout status and reject the job results promise", (done) => {
+  test("should call waitForCompletion get a timeout status and reject the job results promise", async () => {
     const {
       submitOptions,
       jobSubmittedResponse,
@@ -261,36 +264,145 @@ describe("Job", () => {
       jobStatus: "esriJobTimedOut"
     });
 
-    Job.submitJob({ ...submitOptions, startMonitoring: false })
-      .then((job) => {
-        return job.waitForCompletion();
-      })
-      .then(() => {
-        fail("Should throw an error");
-      })
-      .catch((error) => {
-        expect(error.name).toEqual("ArcGISJobError");
-        expect(error.status).toEqual(JOB_STATUSES.TimedOut);
-        expect(error.jobInfo.id).toEqual(jobId);
-        done();
-      });
+    const job = await Job.submitJob({
+      ...submitOptions,
+      startMonitoring: false
+    });
+    await expect(job.waitForCompletion()).rejects.toMatchObject({
+      name: "ArcGISJobError",
+      status: JOB_STATUSES.TimedOut,
+      jobInfo: expect.objectContaining({ id: jobId })
+    });
   });
 
-  it("call method fromExistingJob", () => {
+  describe("should cover waitForCompletion errors when non-terminal state transiently fails, such as when job status transitions from Waiting to TimedOut, Failed, or Cancelled", () => {
+    test("waitForCompletion: should reject with Error when Cancelled event listener is triggered", async () => {
+      const {
+        submitOptions,
+        jobSubmittedResponse,
+        jobInfoUrl,
+        jobSubmitUrl,
+        jobId
+      } = createJobMocks(
+        "waitForCompletionCancelled",
+        "waitForCompletionCancelledServiceName"
+      );
+
+      fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
+      // Start with a non-terminal (waiting) status
+      fetchMock.once(jobInfoUrl, { jobId, jobStatus: "esriJobWaiting" });
+
+      const job = await Job.submitJob({
+        ...submitOptions,
+        startMonitoring: false
+      });
+
+      const promise = job.waitForCompletion();
+      setTimeout(() => {
+        fetchMock.once(
+          jobInfoUrl,
+          { jobId, jobStatus: "esriJobCancelled" },
+          { overwriteRoutes: true }
+        );
+        (job as any).executePoll();
+      }, 10);
+
+      await expect(promise).rejects.toMatchObject({
+        name: "ArcGISJobError",
+        status: JOB_STATUSES.Cancelled,
+        jobInfo: expect.objectContaining({ id: jobId })
+      });
+    });
+
+    test("waitForCompletion: should reject with Error when TimedOut event listener is triggered", async () => {
+      const {
+        submitOptions,
+        jobSubmittedResponse,
+        jobInfoUrl,
+        jobSubmitUrl,
+        jobId
+      } = createJobMocks(
+        "waitForCompletionTimedOut",
+        "waitForCompletionTimedOutServiceName"
+      );
+
+      fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
+      fetchMock.once(jobInfoUrl, { jobId, jobStatus: "esriJobWaiting" });
+
+      const job = await Job.submitJob({
+        ...submitOptions,
+        startMonitoring: false
+      });
+
+      const promise = job.waitForCompletion();
+      setTimeout(() => {
+        fetchMock.once(
+          jobInfoUrl,
+          { jobId, jobStatus: "esriJobTimedOut" },
+          { overwriteRoutes: true }
+        );
+        (job as any).executePoll();
+      }, 10);
+
+      await expect(promise).rejects.toMatchObject({
+        name: "ArcGISJobError",
+        status: JOB_STATUSES.TimedOut,
+        jobInfo: expect.objectContaining({ id: jobId })
+      });
+    });
+
+    test("waitForCompletion: should reject with Error when Failed event listener is triggered", async () => {
+      const {
+        submitOptions,
+        jobSubmittedResponse,
+        jobInfoUrl,
+        jobSubmitUrl,
+        jobId
+      } = createJobMocks(
+        "waitForCompletionFailed",
+        "waitForCompletionFailedServiceName"
+      );
+
+      fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
+      fetchMock.once(jobInfoUrl, { jobId, jobStatus: "esriJobWaiting" });
+
+      const job = await Job.submitJob({
+        ...submitOptions,
+        startMonitoring: false
+      });
+
+      const promise = job.waitForCompletion();
+      setTimeout(() => {
+        fetchMock.once(
+          jobInfoUrl,
+          { jobId, jobStatus: "esriJobFailed" },
+          { overwriteRoutes: true }
+        );
+        (job as any).executePoll();
+      }, 10);
+
+      await expect(promise).rejects.toMatchObject({
+        name: "ArcGISJobError",
+        status: JOB_STATUSES.Failed,
+        jobInfo: expect.objectContaining({ id: jobId })
+      });
+    });
+  });
+
+  test("call method fromExistingJob", async () => {
     const { jobInfoWithAllResults, jobId, jobSubmitUrl, jobInfoUrl } =
       createJobMocks("fromExistingJobId", "fromExistingJobServiceName");
     fetchMock.once(jobInfoUrl, jobInfoWithAllResults);
 
-    return Job.fromExistingJob({
+    const job = await Job.fromExistingJob({
       id: jobId,
       url: jobSubmitUrl
-    }).then((job) => {
-      expect(job instanceof Job).toBe(true);
-      expect(job.id).toEqual(jobInfoWithAllResults.jobId);
     });
+    expect(job instanceof Job).toBe(true);
+    expect(job.id).toEqual(jobInfoWithAllResults.jobId);
   });
 
-  it("should get a failed state after submitting jobId for the results", (done) => {
+  test("should get a failed state after submitting jobId for the results", async () => {
     const {
       submitOptions,
       jobSubmittedResponse,
@@ -303,20 +415,20 @@ describe("Job", () => {
 
     fetchMock.once(jobInfoUrl, jobInfoWithFailedState);
 
-    Job.submitJob(submitOptions).then((job) => {
+    const job = await Job.submitJob(submitOptions);
+    await new Promise<void>((resolve) => {
       job.on(JOB_STATUSES.Failed, (result) => {
         expect(result.status).toEqual(JOB_STATUSES.Failed);
         expect(result.id).toEqual(jobId);
-        done();
+        resolve();
       });
 
       job.stopEventMonitoring();
-
       (job as any).executePoll();
     });
   });
 
-  it("create a new job and fire the new, submitted, waiting, and time-out states", (done) => {
+  test("create a new job and fire the new, submitted, waiting, and time-out states", async () => {
     const {
       submitOptions,
       jobSubmittedResponse,
@@ -328,94 +440,84 @@ describe("Job", () => {
 
     fetchMock.once(jobInfoUrl, { jobStatus: "esriJobNew" });
 
-    Job.submitJob(submitOptions).then((job) => {
+    const job = await Job.submitJob(submitOptions);
+    await new Promise<void>((resolve) => {
       job.on(JOB_STATUSES.New, (result) => {
         expect(result.status).toEqual(JOB_STATUSES.New);
-
         fetchMock.once(
           jobInfoUrl,
           { jobStatus: "esriJobWaiting" },
           { overwriteRoutes: true }
         );
-
         (job as any).executePoll();
       });
 
       job.on(JOB_STATUSES.Waiting, (result) => {
         expect(result.status).toEqual(JOB_STATUSES.Waiting);
-
         fetchMock.once(
           jobInfoUrl,
           { jobStatus: "esriJobSubmitted" },
           { overwriteRoutes: true }
         );
-
         (job as any).executePoll();
       });
 
       job.on(JOB_STATUSES.Submitted, (result) => {
         expect(result.status).toEqual(JOB_STATUSES.Submitted);
-
         fetchMock.once(
           jobInfoUrl,
           { jobStatus: "esriJobTimedOut" },
           { overwriteRoutes: true }
         );
-
         (job as any).executePoll();
       });
+
       job.on(JOB_STATUSES.TimedOut, (result) => {
         expect(result.status).toEqual(JOB_STATUSES.TimedOut);
-
         fetchMock.once(
           jobInfoUrl,
           { jobStatus: "expectedFailure" },
           { overwriteRoutes: true }
         );
-
         (job as any).executePoll();
       });
 
       job.on(JOB_STATUSES.Failure, (result) => {
         expect(result.status).toEqual(JOB_STATUSES.Failure);
-
         fetchMock.once(
           jobInfoUrl,
           { jobStatus: "esriJobFailed" },
           { overwriteRoutes: true }
         );
-
         (job as any).executePoll();
       });
 
       job.on(JOB_STATUSES.Failed, (result) => {
         expect(result.status).toEqual(JOB_STATUSES.Failed);
-
-        done();
+        resolve();
       });
 
       (job as any).executePoll(); // fake a polling request
     });
   });
 
-  it("should test if the polling rate has changed", () => {
+  test("should test if the polling rate has changed", async () => {
     const { submitOptions, jobSubmittedResponse, jobSubmitUrl } =
       createJobMocks("pollingRateJobId", "pollingRateServiceName");
 
     fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
 
-    return Job.submitJob(submitOptions).then((job) => {
-      job.pollingRate = 5000;
-      expect(job.pollingRate).toBe(5000);
-      job.pollingRate = 1000;
-      expect(job.pollingRate).toBe(1000);
-      job.stopEventMonitoring();
-      job.startEventMonitoring();
-      expect(job.pollingRate).toBe(2000);
-    });
+    const job = await Job.submitJob(submitOptions);
+    job.pollingRate = 5000;
+    expect(job.pollingRate).toBe(5000);
+    job.pollingRate = 1000;
+    expect(job.pollingRate).toBe(1000);
+    job.stopEventMonitoring();
+    job.startEventMonitoring();
+    expect(job.pollingRate).toBe(2000);
   });
 
-  it("should call off method", (done) => {
+  test("should call off method", async () => {
     const {
       submitOptions,
       jobSubmittedResponse,
@@ -430,28 +532,21 @@ describe("Job", () => {
       jobStatus: "esriJobSucceeded"
     });
 
-    Job.submitJob(submitOptions).then((job) => {
-      const handler = (results: any) => results;
+    const job = await Job.submitJob(submitOptions);
+    const handler = (results: any) => results;
 
-      job.on(JOB_STATUSES.Success, handler);
+    job.on(JOB_STATUSES.Success, handler);
+    job.off(JOB_STATUSES.Success, handler);
+    expect((job as any).emitter.all.get(JOB_STATUSES.Success).length).toBe(0);
 
-      job.off(JOB_STATUSES.Success, handler);
+    job.once(JOB_STATUSES.Success, handler);
+    job.off(JOB_STATUSES.Success, handler);
+    expect((job as any).emitter.all.get(JOB_STATUSES.Success).length).toBe(0);
 
-      expect((job as any).emitter.all.get(JOB_STATUSES.Success).length).toBe(0);
-
-      job.once(JOB_STATUSES.Success, handler);
-
-      job.off(JOB_STATUSES.Success, handler);
-
-      expect((job as any).emitter.all.get(JOB_STATUSES.Success).length).toBe(0);
-
-      job.stopEventMonitoring();
-
-      done();
-    });
+    job.stopEventMonitoring();
   });
 
-  it("create a new job with a cancelled and cancelling state", (done) => {
+  test("create a new job with a cancelled and cancelling state", async () => {
     const {
       submitOptions,
       jobSubmittedResponse,
@@ -461,44 +556,41 @@ describe("Job", () => {
     } = createJobMocks("cancelJobId", "cancelServiceName");
 
     fetchMock.once(jobSubmitUrl, jobSubmittedResponse);
-
     fetchMock.once(jobInfoUrl, { jobStatus: "esriJobSubmitted" });
 
-    Job.submitJob(submitOptions).then((job) => {
+    const job = await Job.submitJob(submitOptions);
+
+    await new Promise<void>((resolve) => {
       job.on(JOB_STATUSES.Submitted, (result) => {
         expect(result.status).toEqual(JOB_STATUSES.Submitted);
-
         fetchMock.once(
           jobInfoUrl,
           { jobStatus: "esriJobCancelling" },
           { overwriteRoutes: true }
         );
-
         (job as any).executePoll();
       });
 
       job.on(JOB_STATUSES.Cancelling, (result) => {
         expect(result.status).toEqual(JOB_STATUSES.Cancelling);
-
         fetchMock.once(
           jobInfoUrl,
           { jobStatus: "esriJobCancelled" },
           { overwriteRoutes: true }
         );
-
         (job as any).executePoll();
       });
 
       job.on(JOB_STATUSES.Cancelled, (result) => {
         expect(result.status).toEqual(JOB_STATUSES.Cancelled);
-
-        done();
+        resolve();
       });
+
       (job as any).executePoll();
     });
   });
 
-  it("submits a job and response returns an error from the results", (done) => {
+  test("submits a job and response returns an error from the results", async () => {
     const { submitOptions, jobSubmittedResponse, jobInfoUrl, jobSubmitUrl } =
       createJobMocks(
         "errorGettingResultsJobId",
@@ -514,17 +606,17 @@ describe("Job", () => {
       }
     });
 
-    Job.submitJob(submitOptions).then((job) => {
+    const job = await Job.submitJob(submitOptions);
+    await new Promise<void>((resolve) => {
       job.on(JOB_STATUSES.Error, (result: any) => {
         expect(new ArcGISRequestError(result) instanceof Error).toBe(true);
-        done();
+        resolve();
       });
-
       (job as any).executePoll();
     });
   });
 
-  it("it gets the results however we wait for the job to succeeded them show the results", () => {
+  test("it gets the results however we wait for the job to succeeded then show the results", async () => {
     const {
       submitOptions,
       jobSubmittedResponse,
@@ -543,11 +635,9 @@ describe("Job", () => {
       if (url === `${jobInfoUrl}/results/hotspot_raster`) {
         return Promise.resolve(mockHotspot_Raster);
       }
-
       if (url === jobSubmitUrl) {
         return Promise.resolve(jobSubmittedResponse);
       }
-
       if (url === jobInfoUrl) {
         if (callCount > 0) {
           return Promise.resolve(jobInfoWithResults);
@@ -560,19 +650,13 @@ describe("Job", () => {
       }
     });
 
-    return Job.submitJob({
-      ...submitOptions
-    })
-      .then((job) => {
-        expect(job.id).toEqual(jobId);
-        return job.getResult("Hotspot_Raster");
-      })
-      .then((result) => {
-        expect(result).toEqual(mockHotspot_Raster);
-      });
+    const job = await Job.submitJob({ ...submitOptions });
+    expect(job.id).toEqual(jobId);
+    const result = await job.getResult("Hotspot_Raster");
+    expect(result).toEqual(mockHotspot_Raster);
   });
 
-  it("it gets the results however we wait for the job to succeeded but the results return an error ", (done) => {
+  test("it gets the results however we wait for the job to succeeded but the results return an error", async () => {
     const {
       submitOptions,
       jobSubmittedResponse,
@@ -590,39 +674,32 @@ describe("Job", () => {
       jobStatus: "esriJobWaiting"
     });
 
-    Job.submitJob({
+    const job = await Job.submitJob({
       ...submitOptions,
       startMonitoring: false,
       pollingRate: 100
-    })
-      .then((job) => {
-        job.on(JOB_STATUSES.Waiting, () => {
-          fetchMock.restore();
+    });
 
-          fetchMock.mock(jobInfoUrl, jobInfoWithResults);
-
-          fetchMock.mock(`${jobInfoUrl}/results/hotspot_raster`, {
-            error: {
-              code: 400,
-              message: "unable to retrieve results for hotspot_raster",
-              details: []
-            }
-          });
+    await new Promise<void>((resolve) => {
+      job.on(JOB_STATUSES.Waiting, () => {
+        fetchMock.restore();
+        fetchMock.mock(jobInfoUrl, jobInfoWithResults);
+        fetchMock.mock(`${jobInfoUrl}/results/hotspot_raster`, {
+          error: {
+            code: 400,
+            message: "unable to retrieve results for hotspot_raster",
+            details: []
+          }
         });
-
-        return job.getResult("Hotspot_Raster");
-      })
-      .then(() => {
-        fail("Should throw and error");
-        done();
-      })
-      .catch((result: any) => {
-        expect(new ArcGISRequestError(result) instanceof Error).toBe(true);
-        done();
+        resolve();
       });
+      (job as any).executePoll();
+    });
+
+    await expect(job.getResult("Hotspot_Raster")).rejects.toBeInstanceOf(Error);
   });
 
-  it("it gets the results however it returns a timed out status", (done) => {
+  test("it gets the results however it returns a timed out status", async () => {
     const { submitOptions, jobInfoUrl, jobSubmitUrl, jobId } = createJobMocks(
       "GET_RESULTS_WAITING_FOR_COMPLETION_TIMED_OUT_ID",
       "GET_RESULTS_WAITING_FOR_COMPLETION_TIMED_OUT_SERVICE"
@@ -638,33 +715,28 @@ describe("Job", () => {
       jobStatus: "esriJobWaiting"
     });
 
-    Job.submitJob({
-      ...submitOptions
-    })
-      .then((job) => {
-        job.on(JOB_STATUSES.Waiting, () => {
-          fetchMock.restore();
-          fetchMock.mock(jobInfoUrl, {
-            jobId,
-            jobStatus: "esriJobTimedOut"
-          });
-        });
+    const job = await Job.submitJob({ ...submitOptions });
 
-        return job.getResult("Hotspot_Raster");
-      })
-      .then(() => {
-        fail("Should throw an error");
-        done();
-      })
-      .catch((error) => {
-        expect(error.name).toEqual("ArcGISJobError");
-        expect(error.jobInfo.id).toEqual(jobId);
-        expect(error.status).toEqual(JOB_STATUSES.TimedOut);
-        done();
+    await new Promise<void>((resolve) => {
+      job.on(JOB_STATUSES.Waiting, () => {
+        fetchMock.restore();
+        fetchMock.mock(jobInfoUrl, {
+          jobId,
+          jobStatus: "esriJobTimedOut"
+        });
+        resolve();
       });
+      (job as any).executePoll();
+    });
+
+    await expect(job.getResult("Hotspot_Raster")).rejects.toMatchObject({
+      name: "ArcGISJobError",
+      jobInfo: expect.objectContaining({ id: jobId }),
+      status: JOB_STATUSES.TimedOut
+    });
   });
 
-  it("it gets the results however it returns a cancelled status", (done) => {
+  test("it gets the results however it returns a cancelled status", async () => {
     const { submitOptions, jobInfoUrl, jobSubmitUrl, jobId } = createJobMocks(
       "CANCELATION_TEST_JOB_ID",
       "CANCELATION_TEST_SERVICE"
@@ -680,35 +752,28 @@ describe("Job", () => {
       jobStatus: "esriJobWaiting"
     });
 
-    Job.submitJob({
-      ...submitOptions
-    })
-      .then((job) => {
-        job.once(JOB_STATUSES.Waiting, () => {
-          fetchMock.restore();
+    const job = await Job.submitJob({ ...submitOptions });
 
-          fetchMock.mock(jobInfoUrl, {
-            jobId: "CANCELATION_TEST_JOB_ID",
-            jobStatus: "esriJobCancelled"
-          });
+    await new Promise<void>((resolve) => {
+      job.once(JOB_STATUSES.Waiting, () => {
+        fetchMock.restore();
+        fetchMock.mock(jobInfoUrl, {
+          jobId: "CANCELATION_TEST_JOB_ID",
+          jobStatus: "esriJobCancelled"
         });
-
-        return job.getResult("Hotspot_Raster");
-      })
-      .then((result) => {
-        console.log(result);
-        fail("should throw an error");
-        done();
-      })
-      .catch((error) => {
-        expect(error.name).toEqual("ArcGISJobError");
-        expect(error.jobInfo.id).toEqual(jobId);
-        expect(error.status).toEqual(JOB_STATUSES.Cancelled);
-        done();
+        resolve();
       });
+      (job as any).executePoll();
+    });
+
+    await expect(job.getResult("Hotspot_Raster")).rejects.toMatchObject({
+      name: "ArcGISJobError",
+      jobInfo: expect.objectContaining({ id: jobId }),
+      status: JOB_STATUSES.Cancelled
+    });
   });
 
-  it("it gets the results however it returns a failed status", (done) => {
+  test("it gets the results however it returns a failed status", async () => {
     const { submitOptions, jobInfoUrl, jobSubmitUrl, jobId } = createJobMocks(
       "GET_RESULTS_WAITING_FOR_COMPLETION_FAILED_TEST",
       "GET_RESULTS_WAITING_FOR_COMPLETION_FAILED_SERVICE"
@@ -724,33 +789,28 @@ describe("Job", () => {
       jobStatus: "esriJobWaiting"
     });
 
-    Job.submitJob({
-      ...submitOptions
-    })
-      .then((job) => {
-        job.on(JOB_STATUSES.Waiting, () => {
-          fetchMock.restore();
+    const job = await Job.submitJob({ ...submitOptions });
 
-          fetchMock.mock(jobInfoUrl, {
-            jobId,
-            jobStatus: "esriJobFailed"
-          });
+    await new Promise<void>((resolve) => {
+      job.on(JOB_STATUSES.Waiting, () => {
+        fetchMock.restore();
+        fetchMock.mock(jobInfoUrl, {
+          jobId,
+          jobStatus: "esriJobFailed"
         });
-        return job.getResult("Hotspot_Raster");
-      })
-      .then(() => {
-        fail("Should throw an error.");
-        done();
-      })
-      .catch((error) => {
-        expect(error.name).toEqual("ArcGISJobError");
-        expect(error.jobInfo.id).toEqual(jobId);
-        expect(error.status).toEqual(JOB_STATUSES.Failed);
-        done();
+        resolve();
       });
+      (job as any).executePoll();
+    });
+
+    await expect(job.getResult("Hotspot_Raster")).rejects.toMatchObject({
+      name: "ArcGISJobError",
+      jobInfo: expect.objectContaining({ id: jobId }),
+      status: JOB_STATUSES.Failed
+    });
   });
 
-  it("parses params if there is multi-value input", () => {
+  test("parses params if there is multi-value input", () => {
     processJobParams({
       url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/911CallsHotspot/GPServer/911%20Calls%20Hotspot/submitJob",
       params: {
@@ -806,7 +866,7 @@ describe("Job", () => {
     });
   });
 
-  it("calls toJSON, serialize and deserialize methods", (done) => {
+  test("calls toJSON, serialize and deserialize methods", async () => {
     const { submitOptions, jobInfoUrl, jobSubmitUrl, jobSubmittedResponse } =
       createJobMocks(
         "SERIALIZE_DESERIALIZE_TEST",
@@ -816,21 +876,18 @@ describe("Job", () => {
 
     fetchMock.mock(jobInfoUrl, mockAllResults);
 
-    Job.submitJob(submitOptions).then((job) => {
-      const json = job.toJSON();
-      expect(json).toEqual(json);
+    const job = await Job.submitJob(submitOptions);
+    const json = job.toJSON();
+    expect(json).toEqual(json);
 
-      const serialized = job.serialize();
-      expect(serialized).toEqual(serialized);
+    const serialized = job.serialize();
+    expect(serialized).toEqual(serialized);
 
-      Job.deserialize(serialized).then((job) => {
-        expect(job.id).toEqual(json.id);
-        done();
-      });
-    });
+    const deserializedJob = await Job.deserialize(serialized);
+    expect(deserializedJob.id).toEqual(json.id);
   });
 
-  it("cancels a job", (done) => {
+  test("cancels a job", async () => {
     const {
       submitOptions,
       jobInfoUrl,
@@ -846,15 +903,16 @@ describe("Job", () => {
 
     fetchMock.once(`${jobInfoUrl}/cancel`, mockCancelledState);
 
-    Job.submitJob(submitOptions).then((job) => {
-      job.cancelJob().then(() => {
-        job.on(JOB_STATUSES.Cancelled, (result) => {
-          expect(result.id).toEqual(jobId);
-          expect(result.status).toEqual(JOB_STATUSES.Cancelled);
-        });
-        done();
+    const job = await Job.submitJob(submitOptions);
+    await job.cancelJob();
+    (job as any).executePoll();
+
+    await new Promise<void>((resolve) => {
+      job.on(JOB_STATUSES.Cancelled, (result) => {
+        expect(result.id).toEqual(jobId);
+        expect(result.status).toEqual(JOB_STATUSES.Cancelled);
       });
-      (job as any).executePoll();
+      resolve();
     });
   });
 });

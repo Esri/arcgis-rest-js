@@ -1,26 +1,30 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, expect } from "vitest";
 import { encodeFormData } from "../../src/utils/encode-form-data.js";
 import {
   requiresFormData,
   processParams
 } from "../../src/utils/process-params.js";
-import { createReadStream } from "fs";
 import { FormData } from "formdata-node";
-export function attachmentFile(): any {
+
+export async function attachmentFile(): Promise<any> {
+  // if in browser environment use File API
   if (typeof File !== "undefined" && File) {
     return new File(["foo"], "foo.txt", { type: "text/plain" });
   } else {
-    return createReadStream(
+    // if in Node.js environment use fs to create a read stream
+    const fs = await import("fs");
+    return fs.createReadStream(
       "./packages/arcgis-rest-feature-service/test/mocks/foo.txt"
     );
   }
 }
 
 describe("encodeFormData", () => {
-  it("should encode in form data for multipart file requests", () => {
-    const binaryObj = attachmentFile();
+  test("should encode in form data for multipart file requests", async () => {
+    const binaryObj = await attachmentFile();
 
     const formData = encodeFormData({ binary: binaryObj });
     expect(formData instanceof FormData).toBeTruthy();
@@ -34,7 +38,7 @@ describe("encodeFormData", () => {
     // }
   });
 
-  it("should encode in form data for multipart blob requests", () => {
+  test("should encode in form data for multipart blob requests", () => {
     const binaryObj =
       typeof Blob !== "undefined"
         ? new Blob([], {
@@ -53,7 +57,7 @@ describe("encodeFormData", () => {
     // }
   });
 
-  it("should encode as query string for basic types", () => {
+  test("should encode as query string for basic types", () => {
     const dateValue = 1471417200000;
 
     // null, undefined, function are excluded. If you want to send an empty key you need to send an empty string "".
@@ -99,9 +103,9 @@ describe("encodeFormData", () => {
     );
   });
 
-  it("should switch to form data if any item is not a basic type", () => {
+  test("should switch to form data if any item is not a basic type", async () => {
     const dateValue = 1471417200000;
-    const file = attachmentFile();
+    const file = await attachmentFile();
     if (!file.name) {
       // The file's name is used for adding files to a form, so supply a name when we're in a testing
       // environment that doesn't support File (attachmentFile creates a File with the name "foo.txt"

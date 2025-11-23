@@ -8,10 +8,11 @@ import {
   normalizeOnlinePortalUrl,
   canUseOnlineToken
 } from "../src/federation-utils.js";
+import { describe, test, expect } from "vitest";
 
 describe("federation utils", () => {
   describe("isOnline()", () => {
-    it("should detect if a url is part of ArcGIS Online or not", () => {
+    test("should detect if a url is part of ArcGIS Online or not", () => {
       // https standard portal URLs
       expect(isOnline("https://devext.arcgis.com/sharing/rest")).toBe(true);
       expect(isOnline("https://qaext.arcgis.com/sharing/rest")).toBe(true);
@@ -66,7 +67,7 @@ describe("federation utils", () => {
   });
 
   describe("getOnlineEnvironment()", () => {
-    it("should fetch the proper ArcGIS Online Environment for a variety of URLs", () => {
+    test("should fetch the proper ArcGIS Online Environment for a variety of URLs", () => {
       // https standard portal URLs
       expect(
         getOnlineEnvironment("https://devext.arcgis.com/sharing/rest")
@@ -146,7 +147,7 @@ describe("federation utils", () => {
   });
 
   describe("normalizeOnlinePortalUrl()", () => {
-    it("should normalize portal URLs for ArcGIS Online organzation portals", () => {
+    test("should normalize portal URLs for ArcGIS Online organzation portals", () => {
       expect(
         normalizeOnlinePortalUrl("https://devext.arcgis.com/sharing/rest")
       ).toBe("https://devext.arcgis.com/sharing/rest");
@@ -180,7 +181,7 @@ describe("federation utils", () => {
   });
 
   describe("canUseOnlineToken()", () => {
-    it("should allow using the portal token for requests between online where the domains match", () => {
+    test("should allow using the portal token for requests between online where the domains match", () => {
       expect(
         canUseOnlineToken(
           "https://devext.arcgis.com/sharing/rest",
@@ -203,7 +204,7 @@ describe("federation utils", () => {
       ).toBe(true);
     });
 
-    it("should normalize org portals for checking", () => {
+    test("should normalize org portals for checking", () => {
       expect(
         canUseOnlineToken(
           "https://myorg.mapsdev.arcgis.com/sharing/rest",
@@ -226,7 +227,7 @@ describe("federation utils", () => {
       ).toBe(true);
     });
 
-    it("should not allow cross environment token use", () => {
+    test("should not allow cross environment token use", () => {
       expect(
         canUseOnlineToken(
           "https://myorg.mapsdev.arcgis.com/sharing/rest",
@@ -242,7 +243,7 @@ describe("federation utils", () => {
       ).toBe(false);
     });
 
-    it("should not allow the online portal token to be sent outside online", () => {
+    test("should not allow the online portal token to be sent outside online", () => {
       expect(
         canUseOnlineToken(
           "https://devext.arcgis.com/sharing/rest",
@@ -260,7 +261,7 @@ describe("federation utils", () => {
   });
 
   describe("isFederated", () => {
-    it("should allow Online ORG URLs to match Online owning systems URL", () => {
+    test("should allow Online ORG URLs to match Online owning systems URL", () => {
       expect(
         isFederated(
           "https://devext.arcgis.com",
@@ -290,7 +291,7 @@ describe("federation utils", () => {
       ).toBe(false);
     });
 
-    it("should allow https/http mismatches", () => {
+    test("should allow https/http mismatches", () => {
       expect(
         isFederated(
           "http://devext.arcgis.com",

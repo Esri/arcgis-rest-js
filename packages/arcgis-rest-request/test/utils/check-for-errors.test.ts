@@ -19,89 +19,125 @@ import {
   ArcGISOnlineAuthError,
   BillingErrorWithCode200
 } from "./../mocks/errors.js";
+import { describe, test, expect, vi } from "vitest";
 
 describe("checkForErrors", () => {
-  it("should pass if an error is not found", () => {
+  test("should pass if an error is not found", () => {
     expect(checkForErrors(SharingRestInfo)).toBe(SharingRestInfo);
   });
 
-  it("should throw an ArcGISRequestError for an error from the ArcGIS REST API", () => {
-    expect(() => {
+  test("should throw an ArcGISRequestError for an error from the ArcGIS REST API", () => {
+    try {
       checkForErrors(ArcGISOnlineError);
-    }).toThrowError(
-      ArcGISRequestError,
-      "400: 'type' and 'title' property required."
-    );
+      throw new Error("Did not throw");
+    } catch (err) {
+      expect(err).toBeInstanceOf(ArcGISRequestError);
+      expect((err as ArcGISRequestError).message).toBe(
+        "400: 'type' and 'title' property required."
+      );
+    }
   });
 
-  it("should throw an ArcGISOnlineAuthError for an error from the ArcGIS REST API", () => {
-    expect(() => {
+  test("should throw an ArcGISOnlineAuthError for an error from the ArcGIS REST API", () => {
+    try {
       checkForErrors(ArcGISOnlineAuthError);
-    }).toThrowError(ArcGISAuthError, "498: Invalid token.");
+      throw new Error("Did not throw");
+    } catch (err) {
+      expect(err).toBeInstanceOf(ArcGISAuthError);
+      expect((err as ArcGISAuthError).message).toBe("498: Invalid token.");
+    }
   });
 
-  it("should throw an ArcGISRequestError for an error from the ArcGIS REST API that has no messageCode", () => {
-    expect(() => {
+  test("should throw an ArcGISRequestError for an error from the ArcGIS REST API that has no messageCode", () => {
+    try {
       checkForErrors(ArcGISOnlineErrorNoMessageCode);
-    }).toThrowError(
-      ArcGISRequestError,
-      "403: You do not have permissions to access this resource or perform this operation."
-    );
+      throw new Error("Did not throw");
+    } catch (err) {
+      expect(err).toBeInstanceOf(ArcGISRequestError);
+      expect((err as ArcGISRequestError).message).toBe(
+        "403: You do not have permissions to access this resource or perform this operation."
+      );
+    }
   });
 
-  it("should throw an ArcGISRequestError for an error from the ArcGIS REST API that has no code", () => {
-    expect(() => {
+  test("should throw an ArcGISRequestError for an error from the ArcGIS REST API that has no code", () => {
+    try {
       checkForErrors(ArcGISOnlineErrorNoCode);
-    }).toThrowError(
-      ArcGISRequestError,
-      "You do not have permissions to access this resource or perform this operation."
-    );
+      throw new Error("Did not throw");
+    } catch (err) {
+      expect(err).toBeInstanceOf(ArcGISRequestError);
+      expect((err as ArcGISRequestError).message).toBe(
+        "You do not have permissions to access this resource or perform this operation."
+      );
+    }
   });
 
-  it("should throw an ArcGISRequestError for an error from the ArcGIS Online Billing Backend", () => {
-    expect(() => {
+  test("should throw an ArcGISRequestError for an error from the ArcGIS Online Billing Backend", () => {
+    try {
       checkForErrors(BillingError);
-    }).toThrowError(ArcGISRequestError, "500: Error getting subscription info");
+      throw new Error("Did not throw");
+    } catch (err) {
+      expect(err).toBeInstanceOf(ArcGISRequestError);
+      expect((err as ArcGISRequestError).message).toBe(
+        "500: Error getting subscription info"
+      );
+    }
   });
 
-  it("should throw an ArcGISRequestError for an error from the ArcGIS Online Billing Backend with a failure status", () => {
-    expect(() => {
+  test("should throw an ArcGISRequestError for an error from the ArcGIS Online Billing Backend with a failure status", () => {
+    try {
       checkForErrors(BillingErrorWithCode200);
-    }).toThrowError(ArcGISRequestError, "UNKNOWN_ERROR");
+      throw new Error("Did not throw");
+    } catch (err) {
+      expect(err).toBeInstanceOf(ArcGISRequestError);
+      expect((err as ArcGISRequestError).message).toBe("UNKNOWN_ERROR");
+    }
   });
 
-  it("should throw an ArcGISRequestError for an error when checking long running tasks in ArcGIS REST API", () => {
-    expect(() => {
+  test("should throw an ArcGISRequestError for an error when checking long running tasks in ArcGIS REST API", () => {
+    try {
       checkForErrors(TaskErrorWithJSON);
-    }).toThrowError(
-      ArcGISRequestError,
-      "400: Index was outside the bounds of the array."
-    );
+      throw new Error("Did not throw");
+    } catch (err) {
+      expect(err).toBeInstanceOf(ArcGISRequestError);
+      expect((err as ArcGISRequestError).message).toBe(
+        "400: Index was outside the bounds of the array."
+      );
+    }
   });
 
-  it("should throw an ArcGISRequestError for an error when checking long running tasks in ArcGIS REST API without a JSON statusMessage", () => {
-    expect(() => {
+  test("should throw an ArcGISRequestError for an error when checking long running tasks in ArcGIS REST API without a JSON statusMessage", () => {
+    try {
       checkForErrors(TaskError);
-    }).toThrowError(ArcGISRequestError, "failed");
+      throw new Error("Did not throw");
+    } catch (err) {
+      expect(err).toBeInstanceOf(ArcGISRequestError);
+      expect((err as ArcGISRequestError).message).toBe("failed");
+    }
   });
 
-  it("should throw an ArcGISAuthError instead of ArcGISRequestError for messageCode=GWM_0003", () => {
-    expect(() => {
+  test("should throw an ArcGISAuthError instead of ArcGISRequestError for messageCode=GWM_0003", () => {
+    try {
       checkForErrors(ArcGISServerTokenRequired);
-    }).toThrowError(ArcGISAuthError, "GWM_0003: Token Required");
+      throw new Error("Did not throw");
+    } catch (err) {
+      expect(err).toBeInstanceOf(ArcGISAuthError);
+      expect((err as ArcGISAuthError).message).toBe("GWM_0003: Token Required");
+    }
   });
 });
 
 describe("warn", () => {
-  it("should bubble up deprecation warnings", () => {
-    console.warn = jasmine.createSpy("warning");
+  test("should bubble up deprecation warnings", () => {
+    const warnSpy = vi.spyOn(console, "warn");
     warn("Danger Will Robinson!");
-    expect(console.warn).toHaveBeenCalledWith("Danger Will Robinson!");
+    expect(warnSpy).toHaveBeenCalledWith("Danger Will Robinson!");
+    warnSpy.mockRestore();
   });
 });
 
 describe("warn", () => {
-  it("should carry on gracefully when no console is available", () => {
+  test("should carry on gracefully when no console is available", () => {
     const realConsoleWarn = console.warn;
     console.warn = undefined;
     warn("Danger Will Robinson!");

@@ -251,7 +251,7 @@ export class Job {
     this._pollingRate = pollingRate;
     this.emitter = mitt();
 
-    // istanbul ignore next - trying to test this results in multiple unhandled requests which fetch-mock doesn't like.
+    // istanbul ignore next -- @preserve - trying to test this results in multiple unhandled requests which fetch-mock doesn't like.
     if (options.startMonitoring) {
       this.startEventMonitoring(pollingRate);
     }
@@ -595,7 +595,7 @@ export class Job {
   ) {
     this._pollingRate = pollingRate;
 
-    /* istanbul ignore else - if monitoring is already running do nothing */
+    /* istanbul ignore else -- @preserve - if monitoring is already running do nothing */
     if (!this.isMonitoring) {
       this.setIntervalHandler = setInterval(this.executePoll, this.pollingRate);
     }
@@ -619,7 +619,7 @@ export class Job {
     this._pollingRate = pollingRate;
     this.didUserEnableMonitoring = true;
 
-    /* istanbul ignore else - if not monitoring do nothing */
+    /* istanbul ignore else -- @preserve - if not monitoring do nothing */
     if (!this.isMonitoring) {
       this.setIntervalHandler = setInterval(this.executePoll, this.pollingRate);
     }
@@ -629,7 +629,7 @@ export class Job {
    * Stops the event polling rate. This is can only be enabled if the user calls this method directly.
    */
   stopEventMonitoring() {
-    /* istanbul ignore else - if not monitoring do nothing */
+    /* istanbul ignore else -- @preserve - if not monitoring do nothing */
     if (this.isMonitoring && this.didUserEnableMonitoring) {
       clearTimeout(this.setIntervalHandler);
     }

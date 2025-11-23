@@ -1,14 +1,13 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+import { describe, test, afterEach, beforeEach, expect, vi } from "vitest";
 import {
   request,
   ErrorTypes,
   setDefaultRequestOptions,
   IRequestOptions,
-  ArcGISIdentityManager,
-  ArcGISTokenRequestError,
-  ArcGISRequestError
+  ArcGISIdentityManager
 } from "../src/index.js";
 import fetchMock from "fetch-mock";
 import {
@@ -23,7 +22,7 @@ import {
   TOMORROW,
   FIVE_DAYS_FROM_NOW,
   isNode
-} from "../../../scripts/test-helpers.karma.js";
+} from "../../../scripts/test-helpers.js";
 import { requestConfig } from "../src/requestConfig.js";
 
 describe("request()", () => {
@@ -31,112 +30,82 @@ describe("request()", () => {
     fetchMock.restore();
   });
 
-  it("should make a basic POST request", (done) => {
+  test("should make a basic POST request", async () => {
     fetchMock.once("*", SharingRestInfo);
 
-    request("https://www.arcgis.com/sharing/rest/info")
-      .then((response) => {
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
-        expect(options.method).toBe("POST");
-        expect(response).toEqual(SharingRestInfo);
-        expect(options.body).toContain("f=json");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const response = await request("https://www.arcgis.com/sharing/rest/info");
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
+    expect(options.method).toBe("POST");
+    expect(response).toEqual(SharingRestInfo);
+    expect(options.body).toContain("f=json");
   });
 
-  it("should make a basic GET request", (done) => {
+  test("should make a basic GET request", async () => {
     fetchMock.once("*", SharingRestInfo);
 
-    request("https://www.arcgis.com/sharing/rest/info", {
+    const response = await request("https://www.arcgis.com/sharing/rest/info", {
       httpMethod: "GET"
-    })
-      .then((response) => {
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json");
-        expect(options.method).toBe("GET");
-        expect(response).toEqual(SharingRestInfo);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json");
+    expect(options.method).toBe("GET");
+    expect(response).toEqual(SharingRestInfo);
   });
 
-  it("should make a basic GET request for text", (done) => {
+  test("should make a basic GET request for text", async () => {
     fetchMock.once("*", WebMapAsText);
 
-    request(
+    const response = await request(
       "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data",
       {
         httpMethod: "GET",
         params: { f: "text" }
       }
-    )
-      .then((response) => {
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data?f=text"
-        );
-        expect(options.method).toBe("GET");
-        expect(response).toEqual(WebMapAsText);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    );
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data?f=text"
+    );
+    expect(options.method).toBe("GET");
+    expect(response).toEqual(WebMapAsText);
   });
 
-  it("should make a basic GET request for html", (done) => {
+  test("should make a basic GET request for html", async () => {
     fetchMock.once("*", SharingRestInfoHTML);
 
-    request("https://www.arcgis.com/sharing/rest/info", {
+    const response = await request("https://www.arcgis.com/sharing/rest/info", {
       httpMethod: "GET",
       params: { f: "html" }
-    })
-      .then((response) => {
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=html");
-        expect(options.method).toBe("GET");
-        expect(response).toEqual(SharingRestInfoHTML);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=html");
+    expect(options.method).toBe("GET");
+    expect(response).toEqual(SharingRestInfoHTML);
   });
 
-  it("should make a basic GET request for geojson", (done) => {
+  test("should make a basic GET request for geojson", async () => {
     fetchMock.once("*", GeoJSONFeatureCollection);
 
-    request(
+    const response = await request(
       "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
       {
         httpMethod: "GET",
         params: { where: "1=1", f: "geojson" }
       }
-    )
-      .then((response) => {
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query?f=geojson&where=1%3D1"
-        );
-        expect(options.method).toBe("GET");
-        expect(response).toEqual(GeoJSONFeatureCollection);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    );
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query?f=geojson&where=1%3D1"
+    );
+    expect(options.method).toBe("GET");
+    expect(response).toEqual(GeoJSONFeatureCollection);
   });
 
-  it("should switch from GET to POST when url is longer than 2000 by default", (done) => {
+  test("should switch from GET to POST when url is longer than 2000 by default", async () => {
     fetchMock.once("*", { features: [] });
 
-    request(
+    const response = await request(
       "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
       {
         httpMethod: "GET",
@@ -145,49 +114,37 @@ describe("request()", () => {
             "1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1 AND 1 = 1"
         }
       }
-    )
-      .then((response) => {
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query"
-        );
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain(
-          "where=1%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201"
-        );
-        expect(response).toEqual({ features: [] });
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    );
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query"
+    );
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain(
+      "where=1%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201%20AND%201%20%3D%201"
+    );
+    expect(response).toEqual({ features: [] });
   });
 
-  it("should switch from GET to POST when url is longer than specified", (done) => {
+  test("should switch from GET to POST when url is longer than specified", async () => {
     fetchMock.once("*", SharingRestInfo);
     const restInfoUrl = "https://www.arcgis.com/sharing/rest/info";
 
-    request(restInfoUrl, {
+    const response = await request(restInfoUrl, {
       httpMethod: "GET",
       // typically consumers would base maxUrlLength on browser/server limits
       // but for testing, we use an artificially low limit
       // like this one that assumes no parameters will be added
       maxUrlLength: restInfoUrl.length
-    })
-      .then((response) => {
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(response).toEqual(SharingRestInfo);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(response).toEqual(SharingRestInfo);
   });
 
-  it("should use the `authentication` option to authenticate a request", (done) => {
+  test("should use the `authentication` option to authenticate a request", async () => {
     fetchMock.once("*", WebMapAsText);
 
     const MOCK_AUTH = {
@@ -197,27 +154,21 @@ describe("request()", () => {
       }
     };
 
-    request(
+    const response = await request(
       "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data",
       {
         authentication: MOCK_AUTH
       }
-    )
-      .then((response) => {
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
-        );
-        expect(options.body).toContain("token=token");
-        expect(response).toEqual(WebMapAsJSON);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    );
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
+    );
+    expect(options.body).toContain("token=token");
+    expect(response).toEqual(WebMapAsJSON);
   });
 
-  it("should hide token in POST body in browser environments otherwise it should hide token in `X-ESRI_AUTHORIZATION` header in Node", (done) => {
+  test("should hide token in POST body in browser environments otherwise it should hide token in `X-ESRI_AUTHORIZATION` header in Node", async () => {
     fetchMock.once("*", SharingRestInfo);
 
     const MOCK_AUTH = {
@@ -227,43 +178,33 @@ describe("request()", () => {
       }
     };
 
-    request("https://www.arcgis.com/sharing/rest/info", {
+    const response = await request("https://www.arcgis.com/sharing/rest/info", {
       authentication: MOCK_AUTH,
       httpMethod: "GET",
       hideToken: true
-    })
-      .then((response) => {
-        // Test Node path with Jasmine in Node
-        if (typeof window === "undefined") {
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://www.arcgis.com/sharing/rest/info?f=json"
-          );
-          expect(options.method).toBe("GET");
-          expect(response).toEqual(SharingRestInfo);
-          expect((options.headers as any)["X-Esri-Authorization"]).toBe(
-            "Bearer token"
-          );
-        } else {
-          // Test browser path when run in browser with Karma
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
-          expect(options.method).toBe("POST");
-          expect(options.body).toContain("f=json");
-          expect(options.body).toContain("token=token");
-          expect((options.headers as any)["X-Esri-Authorization"]).toBe(
-            undefined
-          );
-          expect(response).toEqual(SharingRestInfo);
-        }
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    // Test node path
+    if (typeof window === "undefined") {
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json");
+      expect(options.method).toBe("GET");
+      expect(response).toEqual(SharingRestInfo);
+      expect((options.headers as any)["X-Esri-Authorization"]).toBe(
+        "Bearer token"
+      );
+    } else {
+      // Test browser path
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain("token=token");
+      expect((options.headers as any)["X-Esri-Authorization"]).toBe(undefined);
+      expect(response).toEqual(SharingRestInfo);
+    }
   });
 
-  it("it should set credential to include for platformSelf call w header", () => {
+  test("it should set credential to include for platformSelf call w header", async () => {
     const PLATFORM_SELF_URL =
       "https://www.arcgis.com/sharing/rest/oauth2/platformSelf?f=json";
     fetchMock.postOnce(PLATFORM_SELF_URL, {
@@ -284,21 +225,21 @@ describe("request()", () => {
       }
     } as IRequestOptions;
 
-    return request(PLATFORM_SELF_URL, ro).then((response) => {
-      const [url, options] = fetchMock.lastCall(PLATFORM_SELF_URL);
-      expect(url).toEqual(PLATFORM_SELF_URL);
-      const headers = options.headers || ({} as any);
-      expect(headers["X-Esri-Auth-Redirect-Uri"]).toBe(
-        "https://hub.arcgis.com/torii-provider-arcgis/redirect.html"
-      );
-      expect(options.credentials).toBe("include", "fetch should send cookie");
-      expect(headers["X-Esri-Auth-Client-Id"]).toBe("CLIENT-ID-ABC123");
-      expect(response.token).toEqual("APP-TOKEN");
-      expect(response.username).toEqual("jsmith");
-    });
+    const response = await request(PLATFORM_SELF_URL, ro);
+    const [url, options] = fetchMock.lastCall(PLATFORM_SELF_URL);
+    expect(url).toEqual(PLATFORM_SELF_URL);
+    const headers = options.headers || ({} as any);
+    expect(headers["X-Esri-Auth-Redirect-Uri"]).toBe(
+      "https://hub.arcgis.com/torii-provider-arcgis/redirect.html"
+    );
+    // fetch should send cookie
+    expect(options.credentials).toBe("include");
+    expect(headers["X-Esri-Auth-Client-Id"]).toBe("CLIENT-ID-ABC123");
+    expect(response.token).toEqual("APP-TOKEN");
+    expect(response.username).toEqual("jsmith");
   });
 
-  it("should switch from GET to POST when url is longer than specified and replace token in header with token in POST body", (done) => {
+  test("should switch from GET to POST when url is longer than specified and replace token in header with token in POST body", async () => {
     fetchMock.once("*", SharingRestInfo);
     const restInfoUrl = "https://www.arcgis.com/sharing/rest/info";
 
@@ -309,7 +250,7 @@ describe("request()", () => {
       }
     };
 
-    request(restInfoUrl, {
+    const response = await request(restInfoUrl, {
       authentication: MOCK_AUTH,
       httpMethod: "GET",
       hideToken: true,
@@ -317,42 +258,35 @@ describe("request()", () => {
       // but for testing, we use an artificially low limit
       // like this one that assumes no parameters will be added
       maxUrlLength: restInfoUrl.length
-    })
-      .then((response) => {
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
-        expect(options.method).toBe("POST");
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain("token=token");
-        expect((options.headers as any)["X-Esri-Authorization"]).toBe(
-          undefined
-        );
-        expect(response).toEqual(SharingRestInfo);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    });
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain("token=token");
+    expect((options.headers as any)["X-Esri-Authorization"]).toBe(undefined);
+    expect(response).toEqual(SharingRestInfo);
   });
 
-  it("should re-throw HTTP errors (404, 500, etc) without a JSON formatted body", () => {
+  test("should re-throw HTTP errors (404, 500, etc) without a JSON formatted body", async () => {
     fetchMock.once("*", 404);
 
-    return request(
-      "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
-    ).catch((error) => {
-      expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
-      expect(error.message).toBe("HTTP 404: Not Found");
-      expect(error instanceof Error).toBeTruthy();
-      expect(error.url).toBe(
+    await expect(
+      request(
         "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
-      );
-      expect(error.options.params).toEqual({ f: "json" });
-      expect(error.options.httpMethod).toEqual("POST");
+      )
+    ).rejects.toMatchObject({
+      name: ErrorTypes.ArcGISRequestError,
+      message: "HTTP 404: Not Found",
+      url: "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data",
+      options: {
+        params: { f: "json" },
+        httpMethod: "POST"
+      }
     });
   });
 
-  it("should try to parse a JSON error out of an HTTP error  (404, 500, etc)", () => {
+  test("should try to parse a JSON error out of an HTTP error  (404, 500, etc)", async () => {
     fetchMock.once("*", {
       status: 400,
       body: {
@@ -366,21 +300,17 @@ describe("request()", () => {
       }
     });
 
-    return request(
-      "https://places-service.esri.com/rest/v1/world/places/near-point"
-    ).catch((error) => {
-      expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
-      expect(error.message).toBe(
-        "HTTP 400 Bad Request: Parameter invalid. Invalid parameter: 'offset' value: '300'. The value must be a number between 0 and 200."
-      );
-      expect(error instanceof ArcGISRequestError).toBeTruthy();
-      expect(error.url).toBe(
-        "https://places-service.esri.com/rest/v1/world/places/near-point"
-      );
+    await expect(
+      request("https://places-service.esri.com/rest/v1/world/places/near-point")
+    ).rejects.toMatchObject({
+      name: ErrorTypes.ArcGISRequestError,
+      message:
+        "HTTP 400 Bad Request: Parameter invalid. Invalid parameter: 'offset' value: '300'. The value must be a number between 0 and 200.",
+      url: "https://places-service.esri.com/rest/v1/world/places/near-point"
     });
   });
 
-  it("should handle a missing details array in a JSON body in a HTTP error  (404, 500, etc)", () => {
+  test("should handle a missing details array in a JSON body in a HTTP error  (404, 500, etc)", async () => {
     fetchMock.once("*", {
       status: 400,
       body: {
@@ -391,66 +321,52 @@ describe("request()", () => {
       }
     });
 
-    return request(
-      "https://places-service.esri.com/rest/v1/world/places/near-point"
-    ).catch((error) => {
-      expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
-      expect(error.message).toBe("HTTP 400 Bad Request: Parameter invalid.");
-      expect(error instanceof ArcGISRequestError).toBeTruthy();
-      expect(error.url).toBe(
-        "https://places-service.esri.com/rest/v1/world/places/near-point"
-      );
+    await expect(
+      request("https://places-service.esri.com/rest/v1/world/places/near-point")
+    ).rejects.toMatchObject({
+      name: ErrorTypes.ArcGISRequestError,
+      message: "HTTP 400 Bad Request: Parameter invalid.",
+      url: "https://places-service.esri.com/rest/v1/world/places/near-point"
     });
   });
 
-  it("should throw errors with information about the request", (done) => {
+  test("should throw errors with information about the request", async () => {
     fetchMock.once("*", ArcGISOnlineError);
 
-    request(
-      "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
-    ).catch((error) => {
-      expect(error.name).toBe(ErrorTypes.ArcGISRequestError);
-      expect(error.message).toBe("400: 'type' and 'title' property required.");
-      expect(error instanceof Error).toBeTruthy();
-      expect(error.url).toBe(
+    await expect(
+      request(
         "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data"
-      );
-      expect(error.options.params).toEqual({ f: "json" });
-      expect(error.options.httpMethod).toEqual("POST");
-      // expect(typeof error.options.fetch).toEqual("function");
-      // expect(error.options.fetch.length).toEqual(2);
-      done();
+      )
+    ).rejects.toMatchObject({
+      name: ErrorTypes.ArcGISRequestError,
+      message: "400: 'type' and 'title' property required.",
+      url: "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data",
+      options: {
+        params: { f: "json" },
+        httpMethod: "POST"
+      }
     });
   });
 
-  it("should return a raw response if requested", (done) => {
+  test("should return a raw response if requested", async () => {
     fetchMock.once("*", GeoJSONFeatureCollection);
 
-    request(
+    const response = await request(
       "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
       {
         httpMethod: "GET",
         params: { where: "1=1", f: "geojson" },
         rawResponse: true
       }
-    )
-      .then((response) => {
-        expect(response.status).toBe(200);
-        expect(response.ok).toBe(true);
-        expect(response.body.Readable).not.toBe(null);
-        response.json().then((raw: any) => {
-          expect(raw).toEqual(GeoJSONFeatureCollection);
-          done();
-        });
-        // this used to work with isomorphic-fetch
-        // expect(response instanceof Response).toBe(true);
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    );
+    expect(response.status).toBe(200);
+    expect(response.ok).toBe(true);
+    expect(response.body.Readable).not.toBe(null);
+    const raw = await response.json();
+    expect(raw).toEqual(GeoJSONFeatureCollection);
   });
 
-  it("should allow setting defaults for all requests", (done) => {
+  test("should allow setting defaults for all requests", async () => {
     fetchMock.once("*", SharingRestInfo);
 
     setDefaultRequestOptions({
@@ -459,19 +375,13 @@ describe("request()", () => {
       }
     });
 
-    request("https://www.arcgis.com/sharing/rest/info")
-      .then((response) => {
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
-        expect(options.method).toBe("POST");
-        expect(response).toEqual(SharingRestInfo);
-        expect(options.body).toContain("f=json");
-        expect((options.headers as any)["Test-Header"]).toBe("Test");
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const response = await request("https://www.arcgis.com/sharing/rest/info");
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
+    expect(options.method).toBe("POST");
+    expect(response).toEqual(SharingRestInfo);
+    expect(options.body).toContain("f=json");
+    expect((options.headers as any)["Test-Header"]).toBe("Test");
 
     // since calling request is sync we can delete this right away
     setDefaultRequestOptions({
@@ -483,12 +393,10 @@ describe("request()", () => {
     });
   });
 
-  it("should warn users when attempting to set default auth", () => {
+  test("should warn users when attempting to set default auth", () => {
     const oldWarn = console.warn;
-
-    console.warn = jasmine.createSpy().and.callFake(() => {
-      return;
-    });
+    const warnSpy = vi.fn();
+    console.warn = warnSpy;
 
     const MOCK_AUTH = {
       portal: "https://www.arcgis.com/sharing/rest",
@@ -508,7 +416,7 @@ describe("request()", () => {
       true
     );
 
-    expect(console.warn).toHaveBeenCalledTimes(1);
+    expect(warnSpy).toHaveBeenCalledTimes(1);
 
     // since calling request is  sync we can delete this right away
     setDefaultRequestOptions({
@@ -522,133 +430,109 @@ describe("request()", () => {
   });
 
   describe("should impliment the IParamBuilder and IParamsBuilder interfaces builder", () => {
-    it("should encode a param that impliments IParamBuilder", (done) => {
+    test("should encode a param that impliments IParamBuilder", async () => {
       fetchMock.once("*", GeoJSONFeatureCollection);
 
       const builder = new MockParamBuilder();
 
-      request(
+      const response = await request(
         "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
         {
           params: { where: builder, f: "geojson" }
         }
-      )
-        .then((response) => {
-          const options = fetchMock.lastCall("*")[1];
-          expect(options.body).toContain(`where=${encodeURIComponent("1=1")}`);
-          expect(response).toEqual(GeoJSONFeatureCollection);
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      );
+      const options = fetchMock.lastCall("*")[1];
+      expect(options.body).toContain(`where=${encodeURIComponent("1=1")}`);
+      expect(response).toEqual(GeoJSONFeatureCollection);
     });
   });
 
   if (isNode) {
-    it("should tack on a generic referer header - in Node.js only", (done) => {
+    test("should tack on a generic referer header - in Node.js only", async () => {
       fetchMock.once("*", WebMapAsJSON);
 
-      request("https://www.arcgis.com/sharing/rest/content/items/43a/data")
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://www.arcgis.com/sharing/rest/content/items/43a/data"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.headers).toEqual({
-            referer: "@esri/arcgis-rest-js",
-            "Content-Type": "application/x-www-form-urlencoded"
-          });
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await request(
+        "https://www.arcgis.com/sharing/rest/content/items/43a/data"
+      );
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://www.arcgis.com/sharing/rest/content/items/43a/data"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.headers).toEqual({
+        referer: "@esri/arcgis-rest-js",
+        "Content-Type": "application/x-www-form-urlencoded"
+      });
     });
 
-    it("should use referer header from request options - in Node.js only", (done) => {
+    test("should use referer header from request options - in Node.js only", async () => {
       fetchMock.once("*", WebMapAsJSON);
 
-      request("https://www.arcgis.com/sharing/rest/content/items/43a/data", {
-        headers: { referer: "test/referer" }
-      })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://www.arcgis.com/sharing/rest/content/items/43a/data"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.headers).toEqual({
-            referer: "test/referer",
-            "Content-Type": "application/x-www-form-urlencoded"
-          });
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await request(
+        "https://www.arcgis.com/sharing/rest/content/items/43a/data",
+        {
+          headers: { referer: "test/referer" }
+        }
+      );
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://www.arcgis.com/sharing/rest/content/items/43a/data"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.headers).toEqual({
+        referer: "test/referer",
+        "Content-Type": "application/x-www-form-urlencoded"
+      });
     });
 
-    it("if no referer header is provided, but other headers are passed, a default should still be set - in Node.js only", (done) => {
+    test("if no referer header is provided, but other headers are passed, a default should still be set - in Node.js only", async () => {
       fetchMock.once("*", WebMapAsJSON);
 
-      request("https://www.arcgis.com/sharing/rest/content/items/43a/data", {
-        headers: { foo: "bar" }
-      })
-        .then(() => {
-          expect(fetchMock.called()).toEqual(true);
-          const [url, options] = fetchMock.lastCall("*");
-          expect(url).toEqual(
-            "https://www.arcgis.com/sharing/rest/content/items/43a/data"
-          );
-          expect(options.method).toBe("POST");
-          expect(options.headers).toEqual({
-            "Content-Type": "application/x-www-form-urlencoded",
-            referer: "@esri/arcgis-rest-js",
-            foo: "bar"
-          });
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await request(
+        "https://www.arcgis.com/sharing/rest/content/items/43a/data",
+        {
+          headers: { foo: "bar" }
+        }
+      );
+      expect(fetchMock.called()).toEqual(true);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "https://www.arcgis.com/sharing/rest/content/items/43a/data"
+      );
+      expect(options.method).toBe("POST");
+      expect(options.headers).toEqual({
+        "Content-Type": "application/x-www-form-urlencoded",
+        referer: "@esri/arcgis-rest-js",
+        foo: "bar"
+      });
     });
   }
 
-  it("should use a string passed to authentication option as the token", () => {
+  test("should use a string passed to authentication option as the token", async () => {
     const oldWarn = console.warn;
-
-    console.warn = jasmine.createSpy().and.callFake(() => {
-      return;
-    });
+    const warnSpy = vi.fn();
+    console.warn = warnSpy;
 
     fetchMock.post("*", {
       username: "jsmith"
     });
 
-    return request("https://www.arcgis.com/sharing/rest/portals/self", {
+    await request("https://www.arcgis.com/sharing/rest/portals/self", {
       authentication: "token"
-    })
-      .then(() => {
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual("https://www.arcgis.com/sharing/rest/portals/self");
-        expect(console.warn).toHaveBeenCalledTimes(1);
-        expect(options.body).toContain("f=json");
-        expect(options.body).toContain("token=token");
-      })
-      .catch((e) => {
-        fail(e);
-      })
-      .finally(() => {
-        console.warn = oldWarn;
-      });
+    });
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual("https://www.arcgis.com/sharing/rest/portals/self");
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain("token=token");
+
+    console.warn = oldWarn;
   });
 
   describe("automatic retry", () => {
-    it("should retry requests that fail with an invalid token error, by refreshing the token", () => {
+    test("should retry requests that fail with an invalid token error, by refreshing the token", async () => {
       fetchMock.getOnce(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=INVALID_TOKEN",
         { error: { code: 498, message: "Invalid token.", details: [] } }
@@ -680,19 +564,17 @@ describe("request()", () => {
         username: " c@sey"
       });
 
-      return request("https://www.arcgis.com/sharing/rest/portals/self", {
-        httpMethod: "GET",
-        authentication: session
-      })
-        .then((response) => {
-          expect(response.user.username).toBe("c@sey");
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const response = await request(
+        "https://www.arcgis.com/sharing/rest/portals/self",
+        {
+          httpMethod: "GET",
+          authentication: session
+        }
+      );
+      expect(response.user.username).toBe("c@sey");
     });
 
-    it("should retry requests that fail with an invalid token error, by refreshing the token and refresh token", () => {
+    test("should retry requests that fail with an invalid token error, by refreshing the token and refresh token", async () => {
       fetchMock.getOnce(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=INVALID_TOKEN",
         { error: { code: 498, message: "Invalid token.", details: [] } }
@@ -726,21 +608,19 @@ describe("request()", () => {
         refresh_token_expires_in: 1209600
       });
 
-      return request("https://www.arcgis.com/sharing/rest/portals/self", {
-        httpMethod: "GET",
-        authentication: session
-      })
-        .then((response) => {
-          expect(response.user.username).toBe("c@sey");
-          expect(session.token).toBe("VALID_TOKEN");
-          expect(session.refreshToken).toBe("NEW_REFRESH_TOKEN");
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      const response = await request(
+        "https://www.arcgis.com/sharing/rest/portals/self",
+        {
+          httpMethod: "GET",
+          authentication: session
+        }
+      );
+      expect(response.user.username).toBe("c@sey");
+      expect(session.token).toBe("VALID_TOKEN");
+      expect(session.refreshToken).toBe("NEW_REFRESH_TOKEN");
     });
 
-    it("should throw the error from the refresh call if refreshing fails", () => {
+    test("should throw the error from the refresh call if refreshing fails", async () => {
       fetchMock.get(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=INVALID_TOKEN",
         { error: { code: 498, message: "Invalid token.", details: [] } }
@@ -765,21 +645,19 @@ describe("request()", () => {
         }
       });
 
-      return request("https://www.arcgis.com/sharing/rest/portals/self", {
-        httpMethod: "GET",
-        authentication: session
-      }).catch((e) => {
-        expect(e instanceof ArcGISTokenRequestError).toBe(true);
-        expect(e.name).toBe("ArcGISTokenRequestError");
-        expect(e.code).toBe("REFRESH_TOKEN_EXCHANGE_FAILED");
-        expect(e.message).toBe(
-          "REFRESH_TOKEN_EXCHANGE_FAILED: 498: Invalid refresh_token"
-        );
-        return;
+      await expect(
+        request("https://www.arcgis.com/sharing/rest/portals/self", {
+          httpMethod: "GET",
+          authentication: session
+        })
+      ).rejects.toMatchObject({
+        name: "ArcGISTokenRequestError",
+        code: "REFRESH_TOKEN_EXCHANGE_FAILED",
+        message: "REFRESH_TOKEN_EXCHANGE_FAILED: 498: Invalid refresh_token"
       });
     });
 
-    it("should throw an error if it also fails with the new token", () => {
+    test("should throw an error if it also fails with the new token", async () => {
       fetchMock.get(
         "https://www.arcgis.com/sharing/rest/portals/self?f=json&token=TOKEN",
         { error: { code: 498, message: "Invalid token.", details: [] } }
@@ -800,36 +678,29 @@ describe("request()", () => {
         username: " c@sey"
       });
 
-      return request("https://www.arcgis.com/sharing/rest/portals/self", {
-        httpMethod: "GET",
-        authentication: session
-      }).catch((e) => {
-        expect(e.code).toBe(498);
-        expect(e.message).toBe("498: Invalid token.");
-        return;
+      await expect(
+        request("https://www.arcgis.com/sharing/rest/portals/self", {
+          httpMethod: "GET",
+          authentication: session
+        })
+      ).rejects.toMatchObject({
+        code: 498,
+        message: "498: Invalid token."
       });
     });
   });
 
-  it("should use a passed in request function", (done) => {
+  test("should use a passed in request function", async () => {
     const url =
       "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data";
     const options = {
       httpMethod: "GET",
       params: { f: "text" }
     } as const;
-    const requestSpy = jasmine
-      .createSpy()
-      .and.returnValue(Promise.resolve(WebMapAsText));
-    request(url, { ...options, request: requestSpy })
-      .then(() => {
-        expect(requestSpy.calls.count()).toBe(1);
-        expect(requestSpy.calls.argsFor(0)).toEqual([url, options]);
-        done();
-      })
-      .catch((e) => {
-        fail(e);
-      });
+    const requestSpy = vi.fn().mockResolvedValue(WebMapAsText);
+    await request(url, { ...options, request: requestSpy });
+    expect(requestSpy).toHaveBeenCalledTimes(1);
+    expect(requestSpy).toHaveBeenCalledWith(url, options);
   });
 
   describe("no-cors:", () => {
@@ -840,7 +711,7 @@ describe("request()", () => {
       requestConfig.crossOriginNoCorsDomains = {};
     });
 
-    it("should send no-cors request as first promise when needed", (done) => {
+    test("should send no-cors request as first promise when needed", async () => {
       requestConfig.noCorsDomains = ["https://example.com"];
       const url = "https://example.com/resource?foo=bar";
       // actual call
@@ -848,53 +719,40 @@ describe("request()", () => {
       // no-cors request
       fetchMock.get("https://example.com/resource", { status: 200 });
 
-      request(url)
-        .then(() => {
-          let calls = fetchMock.calls("https://example.com/resource");
-          expect(calls.length).toBe(1);
+      await request(url);
+      let calls = fetchMock.calls("https://example.com/resource");
+      expect(calls.length).toBe(1);
 
-          // expect the first call to be a no-cors request
-          const [firstUrl, firstOptions] = calls[0];
-          expect(firstUrl).toBe("https://example.com/resource");
+      // expect the first call to be a no-cors request
+      const [firstUrl, firstOptions] = calls[0];
+      expect(firstUrl).toBe("https://example.com/resource");
 
-          expect(firstOptions.mode).toEqual("no-cors");
-          expect(firstOptions.credentials).toEqual("include");
+      expect(firstOptions.mode).toEqual("no-cors");
+      expect(firstOptions.credentials).toEqual("include");
 
-          // expect the second call to be a normal request
-          calls = fetchMock.calls("https://example.com/resource?foo=bar");
-          expect(calls.length).toBe(1);
-          const [secondUrl, secondOptions] = calls[0];
-          expect(secondUrl).toBe("https://example.com/resource?foo=bar");
-          expect(secondOptions.method).toEqual("POST");
-          expect(secondOptions.credentials).toEqual("include");
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      // expect the second call to be a normal request
+      calls = fetchMock.calls("https://example.com/resource?foo=bar");
+      expect(calls.length).toBe(1);
+      const [secondUrl, secondOptions] = calls[0];
+      expect(secondUrl).toBe("https://example.com/resource?foo=bar");
+      expect(secondOptions.method).toEqual("POST");
+      expect(secondOptions.credentials).toEqual("include");
     });
 
-    it("should skip no-cors request and and include credentials if already sent", (done) => {
+    test("should skip no-cors request and and include credentials if already sent", async () => {
       requestConfig.noCorsDomains = ["https://example.com"];
       requestConfig.crossOriginNoCorsDomains["https://example.com"] =
         Date.now();
       const url = "https://example.com/resource";
       fetchMock.once(url, SharingRestInfo);
       // fetchMock.postOnce(url, { status: 200 });
-      request(url)
-        .then(() => {
-          const [lastUrl, lastOptions] = fetchMock.lastCall()!;
-          expect(lastUrl).toBe("https://example.com/resource");
-          expect(lastOptions.credentials).toEqual("include");
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await request(url);
+      const [lastUrl, lastOptions] = fetchMock.lastCall()!;
+      expect(lastUrl).toBe("https://example.com/resource");
+      expect(lastOptions.credentials).toEqual("include");
     });
 
-    it("should register no-cors domains if present on portal/self response", (done) => {
+    test("should register no-cors domains if present on portal/self response", async () => {
       const url =
         "https://ent.portal.com/portal/sharing/rest/portals/self?f=json";
       fetchMock.post(url, {
@@ -903,42 +761,29 @@ describe("request()", () => {
           "https://ent.portal.com"
         ]
       });
-      request(url)
-        .then(() => {
-          const [lastUrl, lastOptions] = fetchMock.lastCall()!;
-          expect(lastUrl).toBe(url);
-          expect(requestConfig.noCorsDomains).toEqual([
-            "https://server.portal.com",
-            "https://ent.portal.com"
-          ]);
-          // it should not initialise the crossOriginNoCorsDomains
-          expect(requestConfig.crossOriginNoCorsDomains).toEqual({});
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await request(url);
+      const [lastUrl, lastOptions] = fetchMock.lastCall()!;
+      expect(lastUrl).toBe(url);
+      expect(requestConfig.noCorsDomains).toEqual([
+        "https://server.portal.com",
+        "https://ent.portal.com"
+      ]);
+      // it should not initialise the crossOriginNoCorsDomains
+      expect(requestConfig.crossOriginNoCorsDomains).toEqual({});
     });
-    it("should work without no-cors domains present on portal/self response", (done) => {
+
+    test("should work without no-cors domains present on portal/self response", async () => {
       const url =
         "https://ent.portal.com/portal/sharing/rest/portals/self?f=json";
       fetchMock.post(url, {
         other: "props"
       });
-      request(url)
-        .then(() => {
-          const [lastUrl, lastOptions] = fetchMock.lastCall()!;
-          expect(lastUrl).toBe(url);
-          expect(requestConfig.noCorsDomains).toEqual([]);
-          // it should not initialise the crossOriginNoCorsDomains
-          expect(requestConfig.crossOriginNoCorsDomains).toEqual({});
-
-          done();
-        })
-        .catch((e) => {
-          fail(e);
-        });
+      await request(url);
+      const [lastUrl, lastOptions] = fetchMock.lastCall()!;
+      expect(lastUrl).toBe(url);
+      expect(requestConfig.noCorsDomains).toEqual([]);
+      // it should not initialise the crossOriginNoCorsDomains
+      expect(requestConfig.crossOriginNoCorsDomains).toEqual({});
     });
   });
 });

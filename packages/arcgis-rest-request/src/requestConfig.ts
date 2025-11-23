@@ -1,4 +1,4 @@
-/* istanbul ignore file */
+/* istanbul ignore file -- @preserve */
 // Note: currently this is all internal to the package, and we are not exposing
 // anything that a user can set... but we need all this to be able to ensure
 // that multiple instances of the package can share the same config.

@@ -3,13 +3,14 @@
 
 import { ArcGISRequestError } from "../../src/index.js";
 import { ArcGISOnlineError } from "../mocks/errors.js";
+import { describe, test, expect } from "vitest";
 
 describe("ArcGISRequestError", () => {
-  it("should be an instanceof Error", () => {
+  test("should be an instanceof Error", () => {
     expect(new ArcGISRequestError() instanceof Error).toBe(true);
   });
 
-  it("should expose basic error properties", () => {
+  test("should expose basic error properties", () => {
     const error = new ArcGISRequestError(
       ArcGISOnlineError.error.message,
       ArcGISOnlineError.error.code,
@@ -33,7 +34,7 @@ describe("ArcGISRequestError", () => {
     expect(error.options.httpMethod).toEqual("POST");
   });
 
-  it("should still format without a message, code or response", () => {
+  test("should still format without a message, code or response", () => {
     const error = new ArcGISRequestError();
     expect(error.message).toBe("UNKNOWN_ERROR");
     expect(error.code).toEqual("UNKNOWN_ERROR_CODE");
@@ -41,7 +42,7 @@ describe("ArcGISRequestError", () => {
     expect(error.response).toEqual(undefined);
   });
 
-  it("should still format with a null or empty string message or code", () => {
+  test("should still format with a null or empty string message or code", () => {
     const error = new ArcGISRequestError(null, "");
     expect(error.message).toBe("UNKNOWN_ERROR");
     expect(error.code).toEqual("UNKNOWN_ERROR_CODE");

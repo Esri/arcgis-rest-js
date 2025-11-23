@@ -48,13 +48,13 @@ The [samples](https://github.com/Esri/arcgis-rest-js-samples) can also be used t
 
 ## Running the tests
 
-`@esri/arcgis-rest-js` has a comprehensive test suite built with [Karma](http://karma-runner.github.io/0.12/index.html) and [Jasmine](https://jasmine.github.io/) The tests can be found in `/packages/*/test/`.
+`@esri/arcgis-rest-js` has a comprehensive test suite built that runs with [Vitest](https://vitest.dev/) The tests can be found in `/packages/*/test/`.
 
 The tests also make heavy use of [`fetch-mock`](http://www.wheresrhys.co.uk/fetch-mock/) to mock the underlying `fetch()` implementation for testing.
 
 You can run _all_ the tests with `npm test`.
 
-- `npm run test:chrome:debug` runs the Karma tests in Chrome and watches for changes. In the opened Chrome window you can click "Debug" and refresh the page to enter the debugger for tests.
+- `npm run test:chrome:debug` runs the tests in Chrome and watches for changes. In the opened Chrome window you can browse extra information on the tests and enter the debugger.
 - `npm run test:node:debug` run the node tests, automatically opening the Chrome (60+) debugger. This is great for debugging the tests while you are working.
 
 ## Formatting commit messages

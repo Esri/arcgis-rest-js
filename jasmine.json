@@ -1,9 +1,0 @@
-{
-  "spec_dir": "packages",
-  "spec_files": [
-    "arcgis-rest-request/{src,test}/**/*.test.ts"
-  ],
-  "stopSpecOnExpectationFailure": false,
-  "random": false,
-  "jsLoader": "import"
-}
