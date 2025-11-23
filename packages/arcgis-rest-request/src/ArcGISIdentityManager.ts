@@ -1,8 +1,12 @@
 /* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import * as http from "http";
-import { ArcGISAuthError, request } from "./request.js";
+import type { ServerResponse } from "http";
+import {
+  ArcGISAuthError,
+  request,
+  NODEJS_DEFAULT_REFERER_HEADER
+} from "./request.js";
 import { IRequestOptions } from "./utils/IRequestOptions.js";
 import { IAuthenticationManager } from "./utils/IAuthenticationManager.js";
 import { ITokenRequestOptions } from "./utils/ITokenRequestOptions.js";
@@ -20,7 +24,6 @@ import {
   ArcGISTokenRequestError,
   ArcGISTokenRequestErrorCodes
 } from "./utils/ArcGISTokenRequestError.js";
-import { NODEJS_DEFAULT_REFERER_HEADER } from "./index.js";
 import { AuthenticationManagerBase } from "./AuthenticationManagerBase.js";
 import { getOauthStateId } from "./utils/getOauthStateId.js";
 import { encodeOauthState } from "./utils/encodeOauthState.js";
@@ -763,10 +766,7 @@ export class ArcGISIdentityManager
    *
    * @nodeOnly
    */
-  public static authorize(
-    options: IOAuth2Options,
-    response: http.ServerResponse
-  ) {
+  public static authorize(options: IOAuth2Options, response: ServerResponse) {
     const { portal, clientId, expiration, redirectUri, state }: IOAuth2Options =
       {
         ...{ portal: "https://arcgis.com/sharing/rest", expiration: 20160 },

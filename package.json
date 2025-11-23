@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-js",
-  "version": "3.3.0",
+  "version": "4.0.0",
   "description": "Compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.",
   "license": "Apache-2.0",
   "type": "module",
@@ -39,8 +39,8 @@
     "serve": "node scripts/run-demo-server.js"
   },
   "engines": {
-    "npm": ">=7.0.0",
-    "node": ">=12.20.0"
+    "npm": ">=10.0.0",
+    "node": ">=22.0.0"
   },
   "eslintIgnore": [
     "packages/**/test",
@@ -69,13 +69,12 @@
     "@commitlint/config-lerna-scopes": "^11.0.0",
     "@commitlint/config-workspace-scopes": "^19.8.1",
     "@commitlint/prompt": "^11.0.0",
-    "@rollup/plugin-node-resolve": "^13.0.4",
+    "@rollup/plugin-node-resolve": "^16.0.3",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^8.0.0",
     "@types/fetch-mock": "^7.3.5",
-    "@types/jasmine": "^2.8.2",
-    "@types/node": "^12.20.4",
+    "@types/node": "^22.0.0",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.31.0",
     "@vitest/coverage-istanbul": "^3.2.4",
@@ -90,32 +89,20 @@
     "gh-pages": "^1.1.0",
     "globby": "^12.0.2",
     "husky": "^4.3.0",
-    "jasmine": "^3.9.0",
-    "jasmine-core": "^3.9.0",
-    "karma": "^5.2.2",
-    "karma-chrome-launcher": "^3.1.0",
-    "karma-firefox-launcher": "^2.1.1",
-    "karma-jasmine": "^4.0.1",
-    "karma-jasmine-diff-reporter": "^2.0.0",
-    "karma-safari-launcher": "^1.0.0",
-    "karma-typescript": "^5.5.0",
-    "karma-typescript-es6-transform": "^5.5.0",
     "lint-staged": "^4.3.0",
     "multi-semantic-release": "^2.11.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.3.1",
     "prettier-package-json": "^2.6.0",
     "rimraf": "^2.6.2",
-    "rollup": "^2.56.3",
+    "rollup": "^4.5.3",
     "rollup-plugin-filesize": "^9.0.2",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript": "^1.0.1",
     "sri-toolbox": "0.2.0",
     "trash-cli": "^4.0.0",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
-    "typedoc": "^0.21.0",
-    "typescript": "^4.0.0",
+    "typedoc": "^0.28.14",
+    "typescript": "^5.9.3",
     "ultra-runner": "^3.10.5",
     "vite": "^7.0.5",
     "vitest": "^3.2.4"
@@ -191,5 +178,9 @@
       "@semantic-release/npm",
       "@semantic-release/git"
     ]
+  },
+  "dependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.3.0"
   }
 }
