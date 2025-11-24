@@ -108,8 +108,6 @@
     "rollup-plugin-filesize": "^9.0.2",
     "sri-toolbox": "0.2.0",
     "trash-cli": "^4.0.0",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.19.3",
     "typedoc": "^0.28.14",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.47.0",
