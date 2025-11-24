@@ -74,6 +74,7 @@
     "@commitlint/config-workspace-scopes": "^19.8.1",
     "@commitlint/prompt": "^11.0.0",
     "@eslint/js": "^9.39.1",
+    "@eslint/compat": "^2.0.0",
     "@playwright/test": "^1.56.1",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
@@ -91,6 +92,8 @@
     "babel-preset-env": "^1.7.0",
     "browser-sync": "^2.27.9",
     "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
     "fetch-mock": "^9.0.0",
     "gh-pages": "^1.1.0",
     "globby": "^12.0.2",
@@ -185,10 +188,5 @@
       "@semantic-release/npm",
       "@semantic-release/git"
     ]
-  },
-  "dependencies": {
-    "@eslint/compat": "^2.0.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-import": "^2.32.0"
   }
 }
