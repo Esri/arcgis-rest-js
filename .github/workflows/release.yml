@@ -79,6 +79,5 @@ jobs:
 
       - name: Release
         env:
-          # GH_TOKEN is maintained in the repository secrets. See RELEASE.md for more information.
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run release
