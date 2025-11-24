@@ -1,20 +1,20 @@
 name: Build, Test, Release
 
-# On pushes to master (i.e. merging a PR)
-# run all tests, on win, macos, linux, on node 12 & 14
+# On pushes to main (i.e. merging a PR)
+# run all tests, on Ubuntu Node 24 and release if tests pass
 on:
   push:
     branches:
       - main
-      - beta
       - alpha
-    # Dont run if it's just markdown or doc files
+      - beta
     paths-ignore:
-      # UNCOMMENT THIS AFTER
-      # - "**.md"
       - "docs/**"
       - "demos/**"
       - "scripts/**"
+
+permissions:
+  contents: read
 
 jobs:
   # First, build and test on multiple os's
@@ -24,12 +24,10 @@ jobs:
 
     runs-on: ${{ matrix.os }}
 
-    # PRs will run tests on node 14,16 on ubuntu, macos and windows
-    # so for the release, we're just running node 16@ubuntu
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [18]
+        node: [20, 22, 24]
 
     steps:
       - uses: actions/checkout@v4
@@ -54,7 +52,11 @@ jobs:
     name: Release
     needs: [build_and_test]
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for trusted publishing and npm provenance
     steps:
       - uses: actions/checkout@v4
         with:
@@ -64,14 +66,10 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 24
 
-      - name: Configure npm
-        run: |
-          echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
-          cat .npmrc
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Update NPM
+        run: npm install -g npm@latest
 
       - name: Install
         run: npm ci
@@ -81,7 +79,5 @@ jobs:
 
       - name: Release
         env:
-          # GH_TOKEN is maintained in the repository secrets. See RELEASE.md for more information.
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run release
