@@ -1,4 +1,4 @@
-import { IParamBuilder } from "../../src/index";
+import { IParamBuilder } from "../../src/index.js";
 
 export class MockParamBuilder implements IParamBuilder {
   public toParam() {

@@ -7,7 +7,7 @@ import {
   IGetItemGroupsResponse,
   IGetItemStatusResponse,
   IGetItemPartsResponse
-} from "../../../src/items/get";
+} from "../../../src/items/get.js";
 
 export const ItemSuccessResponse: any = {
   success: true,

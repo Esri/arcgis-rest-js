@@ -13,7 +13,7 @@ describe("findElevationAtManyPoints()", () => {
   test("should return elevation at points with mean sea level as the reference", async () => {
     fetchMock.mock("*", atManyPointsDefaultResult);
 
-    let response = await findElevationAtManyPoints({
+    const response = await findElevationAtManyPoints({
       coordinates: [
         [1.2, 3.4],
         [1.23, 3.45]

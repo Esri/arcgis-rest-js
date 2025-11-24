@@ -1,10 +1,7 @@
-import {
-  IRequestOptions,
-  request,
-  cleanUrl,
-  ArcGISRequestError,
-  appendCustomParams
-} from "./index.js";
+import { IRequestOptions } from "./utils/IRequestOptions.js";
+import { request } from "./request.js";
+import { cleanUrl } from "./utils/clean-url.js";
+import { ArcGISRequestError } from "./utils/ArcGISRequestError.js";
 
 export interface IRevokeTokenOptions extends IRequestOptions {
   /**

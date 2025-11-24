@@ -1,4 +1,4 @@
-import { ISearchResult } from "../../../src/util/search";
+import { ISearchResult } from "../../../src/util/search.js";
 import { IUser } from "@esri/arcgis-rest-request";
 
 export const UserSearchResponse: ISearchResult<IUser> = {

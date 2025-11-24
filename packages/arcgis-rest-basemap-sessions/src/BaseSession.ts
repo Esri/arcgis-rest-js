@@ -53,7 +53,7 @@ export abstract class BaseSession implements IAuthenticationManager {
   /**
    * Event handler for when an error occurs during session management.
    */
-  static readonly error = function error(e: Error): void {}; // eslint-disable-line @typescript-eslint/no-empty-function
+  static readonly error = function error(e: Error): void {};
 
   // the static methods for event handlers are used to provide doc via typedoc and do not need to be tested.
   /* istanbul ignore next -- @preserve */
@@ -74,7 +74,7 @@ export abstract class BaseSession implements IAuthenticationManager {
     startTime: Date;
     endTime: Date;
     expires: Date;
-  }): void {}; // eslint-disable-line @typescript-eslint/no-empty-function
+  }): void {};
 
   // the static methods for event handlers are used to provide doc via typedoc and do not need to be tested.
   /* istanbul ignore next -- @preserve */
@@ -107,7 +107,7 @@ export abstract class BaseSession implements IAuthenticationManager {
       endTime: Date;
       expires: Date;
     };
-  }): void {}; // eslint-disable-line @typescript-eslint/no-empty-function
+  }): void {};
 
   /**
    * The portal URL that the session is associated with. This generally is not used but exists to implement the `IAuthenticationManager` interface.

@@ -28,7 +28,12 @@ export function encodeFormData(
          2. see if 'name' has been tacked onto the Blob manually
          3. if all else fails, use the request parameter
         */
-        const filename = newParams["fileName"] || newParams[key].name || key;
+
+        // we should really only be allowing the File type here but we can't restrict to that
+        // because of backwards compatibility issues. So we do a runtime check below.
+        // we shoudl update this in the next major version.
+        const filename =
+          newParams["fileName"] || (newParams[key] as File).name || key;
         formData.append(key, newParams[key], filename);
       } else {
         formData.append(key, newParams[key]);

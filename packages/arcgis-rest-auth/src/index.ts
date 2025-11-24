@@ -28,5 +28,4 @@ export {
 
 import { IArcGISIdentityManagerOptions } from "@esri/arcgis-rest-request";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IUserSessionOptions extends IArcGISIdentityManagerOptions {}

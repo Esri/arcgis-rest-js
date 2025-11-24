@@ -106,6 +106,6 @@ export function isFeatureSet(arg: any): arg is IFeatureSet {
 /**
  * User Defined Type Guard that verifies this is a JSON with `url` property
  */
-export function isJsonWithURL(arg: any): arg is Object {
+export function isJsonWithURL(arg: any): arg is object {
   return "url" in arg;
 }
