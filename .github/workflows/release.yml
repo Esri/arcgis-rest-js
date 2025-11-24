@@ -69,7 +69,7 @@ jobs:
           node-version: 24
 
       - name: Update NPM
-        run: npm install -g npm@11.5.1
+        run: npm install -g npm@latest
 
       - name: Install
         run: npm ci --legacy-peer-deps
