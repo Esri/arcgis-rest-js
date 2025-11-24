@@ -1,4 +1,7 @@
-import { IInvitation, IInvitationResult } from "../../../src/users/invitation";
+import {
+  IInvitation,
+  IInvitationResult
+} from "../../../src/users/invitation.js";
 
 export const UserInvitationsResponse: IInvitationResult = {
   userInvitations: [

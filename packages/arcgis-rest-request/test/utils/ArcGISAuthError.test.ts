@@ -86,24 +86,19 @@ describe("ArcGISRequestError", () => {
       });
 
       const retryHandlerSpy = vi.spyOn(MockAuth, "retryHandler");
-
-      try {
-        const response: any = await error.retry(MockAuth.retryHandler, 3);
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem"
-        );
-        expect(options.method).toEqual("POST");
-        expect(retryHandlerSpy).toHaveBeenCalledTimes(1);
-        expect(options.body).toContain("token=token");
-        expect(options.body).toContain("tags=foo");
-        expect(options.body).toContain("f=json");
-        expect(response.success).toBe(true);
-        expect(response.id).toBe("abc");
-        expect(response.folder).toBe(null);
-      } catch (e) {
-        throw e;
-      }
+      const response: any = await error.retry(MockAuth.retryHandler, 3);
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual(
+        "http://www.arcgis.com/sharing/rest/content/users/caseyjones/addItem"
+      );
+      expect(options.method).toEqual("POST");
+      expect(retryHandlerSpy).toHaveBeenCalledTimes(1);
+      expect(options.body).toContain("token=token");
+      expect(options.body).toContain("tags=foo");
+      expect(options.body).toContain("f=json");
+      expect(response.success).toBe(true);
+      expect(response.id).toBe("abc");
+      expect(response.folder).toBe(null);
     });
 
     test("should retry a request with a new or updated session up to the limit", async () => {

@@ -1,4 +1,4 @@
-import { INotificationResult } from "../../../src/users/notification";
+import { INotificationResult } from "../../../src/users/notification.js";
 
 export const UserNotificationsResponse: INotificationResult = {
   notifications: [
