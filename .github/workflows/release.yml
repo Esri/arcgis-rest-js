@@ -44,11 +44,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Test in Chrome
-        run: npm run test:chrome:ci
-
-      - name: Test in Node
-        run: npm run test:node
+      - name: Run Tests
+        run: npm run test:ci
 
   # If the build and test works, run a release
   release:
