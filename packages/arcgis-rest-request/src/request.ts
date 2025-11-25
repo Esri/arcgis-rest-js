@@ -375,7 +375,7 @@ export function internalRequest(
 
       if (fetchOptions.method === "GET") {
         // Prevents token from being passed in query params when hideToken option is used.
-        /* istanbul ignore if - window is always defined in a browser. Test case is covered by Jasmine in node test */
+        /* istanbul ignore if --@preserve - window is always defined in a browser. Test case is covered by Jasmine in node test */
         if (
           params.token &&
           options.hideToken &&
@@ -434,7 +434,7 @@ export function internalRequest(
 
       // This should have the same conditional for Node JS as ArcGISIdentityManager.refreshWithUsernameAndPassword()
       // to ensure that generated tokens have the same referer when used in Node with a username and password.
-      /* istanbul ignore next */
+      /* istanbul ignore next --@preserve */
       if (
         (typeof window === "undefined" ||
           (window && typeof window.document === "undefined")) &&
