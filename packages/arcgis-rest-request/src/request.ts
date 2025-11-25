@@ -390,7 +390,8 @@ export function internalRequest(
         // dont append a '?' unless parameters are actually present
         const urlWithQueryString =
           queryParams === ""
-            ? /* istanbul ignore next -- @preserve */ url
+            ? /* istanbul ignore next -- @preserve */
+              url
             : `${url}?${queryParams}`;
 
         if (
