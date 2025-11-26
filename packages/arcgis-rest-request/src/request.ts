@@ -503,7 +503,19 @@ export function internalRequest(
           });
       }
       if (rawResponse) {
-        return response;
+        // this is where we can check if we need to convert to arcgis or geojson format
+        switch (params.f) {
+          case "pbf-as-geojson":
+            // return pbfToGeoJSON(response?) // this is the same behavior as arcgis-pbf-parser https://github.com/rowanwins/arcgis-pbf-parser/
+            return response; //temporarily skip processing
+          case "pbf-as-arcgis":
+            // return pbfToArcGIS(response?) // should return decompressed pbf as ArcGIS geometry objects which can be done via terraformer/arcgis https://github.com/terraformer-js/terraformer/tree/main/packages/arcgis
+            return response; //temporarily skip processing
+          case "pbf":
+            return response; // leave as is...should remove this case after testing and fall through to default case?
+          default:
+            return response;
+        }
       }
       switch (params.f) {
         case "json":
