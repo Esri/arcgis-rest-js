@@ -1,8 +1,7 @@
-import typescript from "rollup-plugin-typescript";
-import nodeResolve from "@rollup/plugin-node-resolve";
+import typescript from "@rollup/plugin-typescript";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
 import filesize from "rollup-plugin-filesize";
-import { terser } from "rollup-plugin-terser";
-
+import terser from "@rollup/plugin-terser";
 import * as path from "path";
 import * as fs from "fs";
 
@@ -10,7 +9,11 @@ import * as fs from "fs";
  * Since Rollup runs inside each package we can just get the current
  * package we are bundling.
  */
-const pkg = require(path.join(process.cwd(), "package.json"));
+console.log("process.cwd", process.cwd());
+const pkg = JSON.parse(
+  fs.readFileSync(path.join(process.cwd(), "package.json")),
+  "utf8"
+);
 
 /**
  * and dig out its name.
@@ -37,15 +40,18 @@ const moduleName = "arcgisRest";
  * Now we need to discover all the `@esri/arcgis-rest-*` package names so we can create
  * the `globals` and `externals` to pass to Rollup. @esri/arcgis-rest-fetch is excluded
  * from this because we WANT to bundle it since it only contains references to global
- * fetch
+ * fetch. process.cwd() will be the directory of each package
  */
 const packageNames = fs
-  .readdirSync(path.join(__dirname, "packages"))
+  .readdirSync(path.join(process.cwd(), "../"))
   .filter((p) => p[0] !== ".")
   .filter((p) => p !== "arcgis-rest-fetch")
   .filter((p) => p !== "arcgis-rest-form-data")
   .map((p) => {
-    return require(path.join(__dirname, "packages", p, "package.json")).name;
+    return JSON.parse(
+      fs.readFileSync(path.join(process.cwd(), "../", p, "package.json")),
+      "utf8"
+    ).name;
   }, {});
 
 /**
@@ -61,8 +67,7 @@ const globals = packageNames.reduce((globals, p) => {
 
 const baseConfig = {
   input: "./src/index.ts",
-  context: "window",
-  inlineDynamicImports: true
+  context: "window"
 };
 
 const baseOutput = {
