@@ -24,6 +24,8 @@ import {
   isNode
 } from "../../../scripts/test-helpers.js";
 import { requestConfig } from "../src/requestConfig.js";
+import { base64PbfString } from "./mocks/base-64-pbf-string.js";
+import { base64UrlEncode } from "../src/utils/base-64-url.js";
 
 describe("request()", () => {
   afterEach(() => {
@@ -359,6 +361,25 @@ describe("request()", () => {
         rawResponse: true
       }
     );
+    expect(response.status).toBe(200);
+    expect(response.ok).toBe(true);
+    expect(response.body.Readable).not.toBe(null);
+    const raw = await response.json();
+    expect(raw).toEqual(GeoJSONFeatureCollection);
+  });
+
+  test("should return a raw response pbf", async () => {
+    fetchMock.once("*", atob(base64PbfString)); // mock binary data
+
+    const response = await request(
+      "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
+      {
+        httpMethod: "GET",
+        params: { f: "pbf-as-geojson" },
+        rawResponse: true
+      }
+    );
+    console.log(response);
     expect(response.status).toBe(200);
     expect(response.ok).toBe(true);
     expect(response.body.Readable).not.toBe(null);

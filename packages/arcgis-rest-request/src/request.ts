@@ -1,7 +1,7 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import tileDecode from "arcgis-pbf-parser";
+//const tileDecode = require("arcgis-pbf-parser");
 import { encodeFormData } from "./utils/encode-form-data.js";
 import { encodeQueryString } from "./utils/encode-query-string.js";
 import { requiresFormData } from "./utils/process-params.js";
@@ -508,12 +508,14 @@ export function internalRequest(
         switch (params.f) {
           case "pbf-as-geojson":
             // return pbfToGeoJSON(response?) // this is the same behavior as arcgis-pbf-parser https://github.com/rowanwins/arcgis-pbf-parser/
-            return tileDecode(response.arrayBuffer());
+            console.log("Decoding PBF to GeoJSON using arcgis-pbf-parser");
+            //return tileDecode(response.arrayBuffer());
             return response; //temporarily skip processing
           case "pbf-as-arcgis":
             // return pbfToArcGIS(response?) // should return decompressed pbf as ArcGIS geometry objects which can be done via terraformer/arcgis https://github.com/terraformer-js/terraformer/tree/main/packages/arcgis
-            return response; //temporarily skip processing
+            return response.arrayBuffer(); //temporarily skip processing
           case "pbf":
+            console.log("returning raw PBF response");
             return response; // leave as is...should remove this case after testing and fall through to default case?
           default:
             return response;
