@@ -190,5 +190,8 @@
       "@semantic-release/npm",
       "@semantic-release/git"
     ]
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
   }
 }
