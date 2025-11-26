@@ -14872,7 +14872,7 @@
 					},
 					"children": [
 						{
-							"id": 5226,
+							"id": 5229,
 							"name": "apiKey",
 							"kind": 1024,
 							"kindString": "Property",
@@ -14943,7 +14943,7 @@
 							}
 						},
 						{
-							"id": 5227,
+							"id": 5224,
 							"name": "client_id",
 							"kind": 1024,
 							"kindString": "Property",
@@ -14965,7 +14965,7 @@
 							}
 						},
 						{
-							"id": 5228,
+							"id": 5226,
 							"name": "httpReferrers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15034,7 +15034,7 @@
 							}
 						},
 						{
-							"id": 5224,
+							"id": 5223,
 							"name": "modified",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15056,7 +15056,7 @@
 							}
 						},
 						{
-							"id": 5229,
+							"id": 5227,
 							"name": "privileges",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15081,7 +15081,7 @@
 							}
 						},
 						{
-							"id": 5223,
+							"id": 5228,
 							"name": "registered",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15108,16 +15108,16 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								5226,
+								5229,
 								5231,
 								5232,
-								5227,
-								5228,
+								5224,
+								5226,
 								5230,
 								5225,
-								5224,
-								5229,
-								5223
+								5223,
+								5227,
+								5228
 							]
 						}
 					],
@@ -15217,7 +15217,7 @@
 							}
 						},
 						{
-							"id": 5240,
+							"id": 5243,
 							"name": "apiKey",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15240,7 +15240,7 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 5226,
+								"id": 5229,
 								"name": "IApiKeyInfo.apiKey"
 							}
 						},
@@ -15291,7 +15291,7 @@
 							}
 						},
 						{
-							"id": 5241,
+							"id": 5238,
 							"name": "client_id",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15309,12 +15309,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 5227,
+								"id": 5224,
 								"name": "IApiKeyInfo.client_id"
 							}
 						},
 						{
-							"id": 5242,
+							"id": 5240,
 							"name": "httpReferrers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15335,7 +15335,7 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 5228,
+								"id": 5226,
 								"name": "IApiKeyInfo.httpReferrers"
 							}
 						},
@@ -15407,7 +15407,7 @@
 							}
 						},
 						{
-							"id": 5238,
+							"id": 5237,
 							"name": "modified",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15425,12 +15425,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 5224,
+								"id": 5223,
 								"name": "IApiKeyInfo.modified"
 							}
 						},
 						{
-							"id": 5243,
+							"id": 5241,
 							"name": "privileges",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15451,12 +15451,12 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 5229,
+								"id": 5227,
 								"name": "IApiKeyInfo.privileges"
 							}
 						},
 						{
-							"id": 5237,
+							"id": 5242,
 							"name": "registered",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15474,7 +15474,7 @@
 							},
 							"inheritedFrom": {
 								"type": "reference",
-								"id": 5223,
+								"id": 5228,
 								"name": "IApiKeyInfo.registered"
 							}
 						}
@@ -15486,17 +15486,17 @@
 							"children": [
 								5235,
 								5236,
-								5240,
+								5243,
 								5245,
 								5246,
-								5241,
-								5242,
+								5238,
+								5240,
 								5244,
 								5234,
 								5239,
-								5238,
-								5243,
-								5237
+								5237,
+								5241,
+								5242
 							]
 						}
 					],
@@ -15526,7 +15526,7 @@
 					},
 					"children": [
 						{
-							"id": 5134,
+							"id": 5140,
 							"name": "apiKey",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15597,7 +15597,7 @@
 							}
 						},
 						{
-							"id": 5135,
+							"id": 5136,
 							"name": "appType",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15620,7 +15620,7 @@
 							}
 						},
 						{
-							"id": 5136,
+							"id": 5133,
 							"name": "client_id",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15642,7 +15642,7 @@
 							}
 						},
 						{
-							"id": 5137,
+							"id": 5134,
 							"name": "client_secret",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15711,7 +15711,7 @@
 							}
 						},
 						{
-							"id": 5133,
+							"id": 5135,
 							"name": "itemId",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15751,7 +15751,7 @@
 							}
 						},
 						{
-							"id": 5140,
+							"id": 5139,
 							"name": "privileges",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15776,7 +15776,7 @@
 							}
 						},
 						{
-							"id": 5139,
+							"id": 5137,
 							"name": "redirect_uris",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15824,18 +15824,18 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								5134,
+								5140,
 								5142,
 								5143,
-								5135,
 								5136,
-								5137,
+								5133,
+								5134,
 								5138,
 								5141,
-								5133,
+								5135,
 								5132,
-								5140,
 								5139,
+								5137,
 								5131
 							]
 						}
@@ -15951,7 +15951,7 @@
 							}
 						},
 						{
-							"id": 5187,
+							"id": 5192,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -15999,7 +15999,7 @@
 							}
 						},
 						{
-							"id": 5190,
+							"id": 5195,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -16158,7 +16158,7 @@
 							}
 						},
 						{
-							"id": 5192,
+							"id": 5197,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -16178,20 +16178,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 5193,
+									"id": 5198,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 5194,
+										"id": 5199,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 5195,
+												"id": 5200,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -16214,7 +16214,7 @@
 							}
 						},
 						{
-							"id": 5188,
+							"id": 5193,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -16241,7 +16241,7 @@
 							}
 						},
 						{
-							"id": 5185,
+							"id": 5190,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -16291,7 +16291,7 @@
 							}
 						},
 						{
-							"id": 5191,
+							"id": 5196,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -16338,7 +16338,7 @@
 							}
 						},
 						{
-							"id": 5189,
+							"id": 5194,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -16411,7 +16411,7 @@
 							}
 						},
 						{
-							"id": 5186,
+							"id": 5191,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -16438,7 +16438,7 @@
 							}
 						},
 						{
-							"id": 5196,
+							"id": 5185,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -16505,7 +16505,7 @@
 							}
 						},
 						{
-							"id": 5197,
+							"id": 5201,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -16616,7 +16616,7 @@
 							}
 						},
 						{
-							"id": 5198,
+							"id": 5186,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -16632,7 +16632,7 @@
 							],
 							"signatures": [
 								{
-									"id": 5199,
+									"id": 5187,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -16643,7 +16643,7 @@
 									},
 									"parameters": [
 										{
-											"id": 5200,
+											"id": 5188,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -16654,7 +16654,7 @@
 											}
 										},
 										{
-											"id": 5201,
+											"id": 5189,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -16695,29 +16695,29 @@
 							"children": [
 								5181,
 								5182,
-								5187,
+								5192,
 								5175,
-								5190,
+								5195,
 								5177,
 								5171,
 								5173,
 								5174,
 								5183,
 								5184,
-								5192,
-								5188,
-								5185,
+								5197,
+								5193,
+								5190,
 								5167,
-								5191,
+								5196,
 								5169,
-								5189,
+								5194,
 								5202,
 								5178,
-								5186,
-								5196,
+								5191,
+								5185,
 								5172,
 								5176,
-								5197,
+								5201,
 								5180,
 								5168,
 								5170,
@@ -16728,7 +16728,7 @@
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								5198
+								5186
 							]
 						}
 					],
@@ -16833,7 +16833,7 @@
 							}
 						},
 						{
-							"id": 5336,
+							"id": 5341,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -16946,7 +16946,7 @@
 							}
 						},
 						{
-							"id": 5338,
+							"id": 5343,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -16966,20 +16966,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 5339,
+									"id": 5344,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 5340,
+										"id": 5345,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 5341,
+												"id": 5346,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -17002,7 +17002,7 @@
 							}
 						},
 						{
-							"id": 5334,
+							"id": 5339,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17029,7 +17029,7 @@
 							}
 						},
 						{
-							"id": 5332,
+							"id": 5337,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17056,7 +17056,7 @@
 							}
 						},
 						{
-							"id": 5337,
+							"id": 5342,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17103,7 +17103,7 @@
 							}
 						},
 						{
-							"id": 5335,
+							"id": 5340,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17150,7 +17150,7 @@
 							}
 						},
 						{
-							"id": 5333,
+							"id": 5338,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17203,7 +17203,7 @@
 							}
 						},
 						{
-							"id": 5342,
+							"id": 5332,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17270,7 +17270,7 @@
 							}
 						},
 						{
-							"id": 5343,
+							"id": 5347,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17381,7 +17381,7 @@
 							}
 						},
 						{
-							"id": 5344,
+							"id": 5333,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -17397,7 +17397,7 @@
 							],
 							"signatures": [
 								{
-									"id": 5345,
+									"id": 5334,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -17408,7 +17408,7 @@
 									},
 									"parameters": [
 										{
-											"id": 5346,
+											"id": 5335,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -17419,7 +17419,7 @@
 											}
 										},
 										{
-											"id": 5347,
+											"id": 5336,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -17460,24 +17460,24 @@
 							"children": [
 								5318,
 								5326,
-								5336,
+								5341,
 								5328,
 								5322,
 								5324,
 								5325,
-								5338,
-								5334,
-								5332,
+								5343,
+								5339,
 								5337,
-								5320,
-								5335,
-								5329,
-								5333,
-								5317,
 								5342,
+								5320,
+								5340,
+								5329,
+								5338,
+								5317,
+								5332,
 								5323,
 								5327,
-								5343,
+								5347,
 								5331,
 								5319,
 								5321,
@@ -17488,7 +17488,7 @@
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								5344
+								5333
 							]
 						}
 					],
@@ -17552,7 +17552,7 @@
 							}
 						},
 						{
-							"id": 5279,
+							"id": 5284,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17579,7 +17579,7 @@
 							}
 						},
 						{
-							"id": 5281,
+							"id": 5286,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17599,20 +17599,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 5282,
+									"id": 5287,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 5283,
+										"id": 5288,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 5284,
+												"id": 5289,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -17635,7 +17635,7 @@
 							}
 						},
 						{
-							"id": 5277,
+							"id": 5282,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17662,7 +17662,7 @@
 							}
 						},
 						{
-							"id": 5275,
+							"id": 5280,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17710,7 +17710,7 @@
 							}
 						},
 						{
-							"id": 5280,
+							"id": 5285,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17737,7 +17737,7 @@
 							}
 						},
 						{
-							"id": 5278,
+							"id": 5283,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17764,7 +17764,7 @@
 							}
 						},
 						{
-							"id": 5276,
+							"id": 5281,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17791,7 +17791,7 @@
 							}
 						},
 						{
-							"id": 5285,
+							"id": 5275,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17818,7 +17818,7 @@
 							}
 						},
 						{
-							"id": 5286,
+							"id": 5290,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -17845,7 +17845,7 @@
 							}
 						},
 						{
-							"id": 5287,
+							"id": 5276,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -17861,7 +17861,7 @@
 							],
 							"signatures": [
 								{
-									"id": 5288,
+									"id": 5277,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -17872,7 +17872,7 @@
 									},
 									"parameters": [
 										{
-											"id": 5289,
+											"id": 5278,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -17883,7 +17883,7 @@
 											}
 										},
 										{
-											"id": 5290,
+											"id": 5279,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -17923,23 +17923,23 @@
 							"kind": 1024,
 							"children": [
 								5273,
-								5279,
-								5281,
-								5277,
-								5275,
-								5274,
+								5284,
+								5286,
+								5282,
 								5280,
-								5278,
-								5276,
+								5274,
 								5285,
-								5286
+								5283,
+								5281,
+								5275,
+								5290
 							]
 						},
 						{
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								5287
+								5276
 							]
 						}
 					],
@@ -18071,7 +18071,7 @@
 							}
 						},
 						{
-							"id": 5409,
+							"id": 5414,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18098,7 +18098,7 @@
 							}
 						},
 						{
-							"id": 5411,
+							"id": 5416,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18118,20 +18118,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 5412,
+									"id": 5417,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 5413,
+										"id": 5418,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 5414,
+												"id": 5419,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -18154,7 +18154,7 @@
 							}
 						},
 						{
-							"id": 5407,
+							"id": 5412,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18181,7 +18181,7 @@
 							}
 						},
 						{
-							"id": 5405,
+							"id": 5410,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18229,7 +18229,7 @@
 							}
 						},
 						{
-							"id": 5410,
+							"id": 5415,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18256,7 +18256,7 @@
 							}
 						},
 						{
-							"id": 5408,
+							"id": 5413,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18283,7 +18283,7 @@
 							}
 						},
 						{
-							"id": 5406,
+							"id": 5411,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18310,7 +18310,7 @@
 							}
 						},
 						{
-							"id": 5415,
+							"id": 5405,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18337,7 +18337,7 @@
 							}
 						},
 						{
-							"id": 5416,
+							"id": 5420,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18364,7 +18364,7 @@
 							}
 						},
 						{
-							"id": 5417,
+							"id": 5406,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -18380,7 +18380,7 @@
 							],
 							"signatures": [
 								{
-									"id": 5418,
+									"id": 5407,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -18391,7 +18391,7 @@
 									},
 									"parameters": [
 										{
-											"id": 5419,
+											"id": 5408,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -18402,7 +18402,7 @@
 											}
 										},
 										{
-											"id": 5420,
+											"id": 5409,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -18442,23 +18442,23 @@
 							"kind": 1024,
 							"children": [
 								5403,
-								5409,
-								5411,
-								5407,
-								5405,
-								5404,
+								5414,
+								5416,
+								5412,
 								5410,
-								5408,
-								5406,
+								5404,
 								5415,
-								5416
+								5413,
+								5411,
+								5405,
+								5420
 							]
 						},
 						{
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								5417
+								5406
 							]
 						}
 					],
@@ -18590,7 +18590,7 @@
 							}
 						},
 						{
-							"id": 5210,
+							"id": 5215,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18617,7 +18617,7 @@
 							}
 						},
 						{
-							"id": 5212,
+							"id": 5217,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18637,20 +18637,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 5213,
+									"id": 5218,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 5214,
+										"id": 5219,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 5215,
+												"id": 5220,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -18673,7 +18673,7 @@
 							}
 						},
 						{
-							"id": 5208,
+							"id": 5213,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18700,7 +18700,7 @@
 							}
 						},
 						{
-							"id": 5206,
+							"id": 5211,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18748,7 +18748,7 @@
 							}
 						},
 						{
-							"id": 5211,
+							"id": 5216,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18775,7 +18775,7 @@
 							}
 						},
 						{
-							"id": 5209,
+							"id": 5214,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18802,7 +18802,7 @@
 							}
 						},
 						{
-							"id": 5207,
+							"id": 5212,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18829,7 +18829,7 @@
 							}
 						},
 						{
-							"id": 5216,
+							"id": 5206,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18856,7 +18856,7 @@
 							}
 						},
 						{
-							"id": 5217,
+							"id": 5221,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -18883,7 +18883,7 @@
 							}
 						},
 						{
-							"id": 5218,
+							"id": 5207,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -18899,7 +18899,7 @@
 							],
 							"signatures": [
 								{
-									"id": 5219,
+									"id": 5208,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -18910,7 +18910,7 @@
 									},
 									"parameters": [
 										{
-											"id": 5220,
+											"id": 5209,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -18921,7 +18921,7 @@
 											}
 										},
 										{
-											"id": 5221,
+											"id": 5210,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -18961,23 +18961,23 @@
 							"kind": 1024,
 							"children": [
 								5204,
-								5210,
-								5212,
-								5208,
-								5206,
-								5205,
+								5215,
+								5217,
+								5213,
 								5211,
-								5209,
-								5207,
+								5205,
 								5216,
-								5217
+								5214,
+								5212,
+								5206,
+								5221
 							]
 						},
 						{
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								5218
+								5207
 							]
 						}
 					],
@@ -19041,7 +19041,7 @@
 							}
 						},
 						{
-							"id": 5099,
+							"id": 5104,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19068,7 +19068,7 @@
 							}
 						},
 						{
-							"id": 5101,
+							"id": 5106,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19088,20 +19088,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 5102,
+									"id": 5107,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 5103,
+										"id": 5108,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 5104,
+												"id": 5109,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -19124,7 +19124,7 @@
 							}
 						},
 						{
-							"id": 5097,
+							"id": 5102,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19151,7 +19151,7 @@
 							}
 						},
 						{
-							"id": 5095,
+							"id": 5100,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19199,7 +19199,7 @@
 							}
 						},
 						{
-							"id": 5100,
+							"id": 5105,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19226,7 +19226,7 @@
 							}
 						},
 						{
-							"id": 5098,
+							"id": 5103,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19253,7 +19253,7 @@
 							}
 						},
 						{
-							"id": 5096,
+							"id": 5101,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19280,7 +19280,7 @@
 							}
 						},
 						{
-							"id": 5105,
+							"id": 5095,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19307,7 +19307,7 @@
 							}
 						},
 						{
-							"id": 5106,
+							"id": 5110,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19334,7 +19334,7 @@
 							}
 						},
 						{
-							"id": 5107,
+							"id": 5096,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -19350,7 +19350,7 @@
 							],
 							"signatures": [
 								{
-									"id": 5108,
+									"id": 5097,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -19361,7 +19361,7 @@
 									},
 									"parameters": [
 										{
-											"id": 5109,
+											"id": 5098,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -19372,7 +19372,7 @@
 											}
 										},
 										{
-											"id": 5110,
+											"id": 5099,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -19412,23 +19412,23 @@
 							"kind": 1024,
 							"children": [
 								5093,
-								5099,
-								5101,
-								5097,
-								5095,
-								5094,
+								5104,
+								5106,
+								5102,
 								5100,
-								5098,
-								5096,
+								5094,
 								5105,
-								5106
+								5103,
+								5101,
+								5095,
+								5110
 							]
 						},
 						{
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								5107
+								5096
 							]
 						}
 					],
@@ -19492,7 +19492,7 @@
 							}
 						},
 						{
-							"id": 5355,
+							"id": 5360,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19519,7 +19519,7 @@
 							}
 						},
 						{
-							"id": 5357,
+							"id": 5362,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19539,20 +19539,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 5358,
+									"id": 5363,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 5359,
+										"id": 5364,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 5360,
+												"id": 5365,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -19575,7 +19575,7 @@
 							}
 						},
 						{
-							"id": 5353,
+							"id": 5358,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19602,7 +19602,7 @@
 							}
 						},
 						{
-							"id": 5351,
+							"id": 5356,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19650,7 +19650,7 @@
 							}
 						},
 						{
-							"id": 5356,
+							"id": 5361,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19677,7 +19677,7 @@
 							}
 						},
 						{
-							"id": 5354,
+							"id": 5359,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19704,7 +19704,7 @@
 							}
 						},
 						{
-							"id": 5352,
+							"id": 5357,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19731,7 +19731,7 @@
 							}
 						},
 						{
-							"id": 5361,
+							"id": 5351,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19758,7 +19758,7 @@
 							}
 						},
 						{
-							"id": 5362,
+							"id": 5366,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -19785,7 +19785,7 @@
 							}
 						},
 						{
-							"id": 5363,
+							"id": 5352,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -19801,7 +19801,7 @@
 							],
 							"signatures": [
 								{
-									"id": 5364,
+									"id": 5353,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -19812,7 +19812,7 @@
 									},
 									"parameters": [
 										{
-											"id": 5365,
+											"id": 5354,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -19823,7 +19823,7 @@
 											}
 										},
 										{
-											"id": 5366,
+											"id": 5355,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -19863,23 +19863,23 @@
 							"kind": 1024,
 							"children": [
 								5349,
-								5355,
-								5357,
-								5353,
-								5351,
-								5350,
+								5360,
+								5362,
+								5358,
 								5356,
-								5354,
-								5352,
+								5350,
 								5361,
-								5362
+								5359,
+								5357,
+								5351,
+								5366
 							]
 						},
 						{
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								5363
+								5352
 							]
 						}
 					],
@@ -19941,11 +19941,11 @@
 									},
 									{
 										"type": "literal",
-										"value": 1
+										"value": 2
 									},
 									{
 										"type": "literal",
-										"value": 2
+										"value": 1
 									}
 								]
 							}
@@ -19976,7 +19976,7 @@
 							}
 						},
 						{
-							"id": 5302,
+							"id": 5307,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -20003,7 +20003,7 @@
 							}
 						},
 						{
-							"id": 5304,
+							"id": 5309,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -20023,20 +20023,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 5305,
+									"id": 5310,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 5306,
+										"id": 5311,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 5307,
+												"id": 5312,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -20059,7 +20059,7 @@
 							}
 						},
 						{
-							"id": 5300,
+							"id": 5305,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -20086,7 +20086,7 @@
 							}
 						},
 						{
-							"id": 5298,
+							"id": 5303,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -20134,7 +20134,7 @@
 							}
 						},
 						{
-							"id": 5303,
+							"id": 5308,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -20161,7 +20161,7 @@
 							}
 						},
 						{
-							"id": 5301,
+							"id": 5306,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -20188,7 +20188,7 @@
 							}
 						},
 						{
-							"id": 5299,
+							"id": 5304,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -20215,7 +20215,7 @@
 							}
 						},
 						{
-							"id": 5308,
+							"id": 5298,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -20242,7 +20242,7 @@
 							}
 						},
 						{
-							"id": 5309,
+							"id": 5313,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -20269,7 +20269,7 @@
 							}
 						},
 						{
-							"id": 5310,
+							"id": 5299,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -20285,7 +20285,7 @@
 							],
 							"signatures": [
 								{
-									"id": 5311,
+									"id": 5300,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -20296,7 +20296,7 @@
 									},
 									"parameters": [
 										{
-											"id": 5312,
+											"id": 5301,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -20307,7 +20307,7 @@
 											}
 										},
 										{
-											"id": 5313,
+											"id": 5302,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -20348,23 +20348,23 @@
 							"children": [
 								5297,
 								5295,
-								5302,
-								5304,
-								5300,
-								5298,
-								5296,
+								5307,
+								5309,
+								5305,
 								5303,
-								5301,
-								5299,
+								5296,
 								5308,
-								5309
+								5306,
+								5304,
+								5298,
+								5313
 							]
 						},
 						{
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								5310
+								5299
 							]
 						}
 					],
@@ -20847,7 +20847,7 @@
 							}
 						},
 						{
-							"id": 5080,
+							"id": 5085,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -20874,7 +20874,7 @@
 							}
 						},
 						{
-							"id": 5082,
+							"id": 5087,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -20894,20 +20894,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 5083,
+									"id": 5088,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 5084,
+										"id": 5089,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 5085,
+												"id": 5090,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -20930,7 +20930,7 @@
 							}
 						},
 						{
-							"id": 5078,
+							"id": 5083,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -20957,7 +20957,7 @@
 							}
 						},
 						{
-							"id": 5076,
+							"id": 5081,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -21029,7 +21029,7 @@
 							}
 						},
 						{
-							"id": 5081,
+							"id": 5086,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -21056,7 +21056,7 @@
 							}
 						},
 						{
-							"id": 5079,
+							"id": 5084,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -21105,7 +21105,7 @@
 							}
 						},
 						{
-							"id": 5077,
+							"id": 5082,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -21156,7 +21156,7 @@
 							}
 						},
 						{
-							"id": 5086,
+							"id": 5076,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -21183,7 +21183,7 @@
 							}
 						},
 						{
-							"id": 5087,
+							"id": 5091,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -21210,7 +21210,7 @@
 							}
 						},
 						{
-							"id": 5088,
+							"id": 5077,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -21226,7 +21226,7 @@
 							],
 							"signatures": [
 								{
-									"id": 5089,
+									"id": 5078,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -21237,7 +21237,7 @@
 									},
 									"parameters": [
 										{
-											"id": 5090,
+											"id": 5079,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -21248,7 +21248,7 @@
 											}
 										},
 										{
-											"id": 5091,
+											"id": 5080,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -21289,26 +21289,26 @@
 							"children": [
 								5071,
 								5075,
-								5080,
-								5082,
-								5078,
-								5076,
+								5085,
+								5087,
+								5083,
+								5081,
 								5073,
 								5070,
-								5081,
-								5079,
-								5074,
-								5077,
-								5072,
 								5086,
-								5087
+								5084,
+								5074,
+								5082,
+								5072,
+								5076,
+								5091
 							]
 						},
 						{
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								5088
+								5077
 							]
 						}
 					],
@@ -21756,7 +21756,7 @@
 							}
 						},
 						{
-							"id": 5151,
+							"id": 5156,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -21783,7 +21783,7 @@
 							}
 						},
 						{
-							"id": 5153,
+							"id": 5158,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -21803,20 +21803,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 5154,
+									"id": 5159,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 5155,
+										"id": 5160,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 5156,
+												"id": 5161,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -21839,7 +21839,7 @@
 							}
 						},
 						{
-							"id": 5149,
+							"id": 5154,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -21866,7 +21866,7 @@
 							}
 						},
 						{
-							"id": 5147,
+							"id": 5152,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -21914,7 +21914,7 @@
 							}
 						},
 						{
-							"id": 5152,
+							"id": 5157,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -21941,7 +21941,7 @@
 							}
 						},
 						{
-							"id": 5150,
+							"id": 5155,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -21968,7 +21968,7 @@
 							}
 						},
 						{
-							"id": 5148,
+							"id": 5153,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -21995,7 +21995,7 @@
 							}
 						},
 						{
-							"id": 5157,
+							"id": 5147,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -22022,7 +22022,7 @@
 							}
 						},
 						{
-							"id": 5158,
+							"id": 5162,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -22049,7 +22049,7 @@
 							}
 						},
 						{
-							"id": 5159,
+							"id": 5148,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -22065,7 +22065,7 @@
 							],
 							"signatures": [
 								{
-									"id": 5160,
+									"id": 5149,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -22076,7 +22076,7 @@
 									},
 									"parameters": [
 										{
-											"id": 5161,
+											"id": 5150,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -22087,7 +22087,7 @@
 											}
 										},
 										{
-											"id": 5162,
+											"id": 5151,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -22127,23 +22127,23 @@
 							"kind": 1024,
 							"children": [
 								5145,
-								5151,
-								5153,
-								5149,
-								5147,
-								5146,
+								5156,
+								5158,
+								5154,
 								5152,
-								5150,
-								5148,
+								5146,
 								5157,
-								5158
+								5155,
+								5153,
+								5147,
+								5162
 							]
 						},
 						{
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								5159
+								5148
 							]
 						}
 					],
@@ -22321,7 +22321,7 @@
 							}
 						},
 						{
-							"id": 5260,
+							"id": 5265,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -22394,7 +22394,7 @@
 							}
 						},
 						{
-							"id": 5262,
+							"id": 5267,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -22414,20 +22414,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 5263,
+									"id": 5268,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 5264,
+										"id": 5269,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 5265,
+												"id": 5270,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -22450,7 +22450,7 @@
 							}
 						},
 						{
-							"id": 5258,
+							"id": 5263,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -22477,7 +22477,7 @@
 							}
 						},
 						{
-							"id": 5256,
+							"id": 5261,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -22551,7 +22551,7 @@
 							}
 						},
 						{
-							"id": 5261,
+							"id": 5266,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -22578,7 +22578,7 @@
 							}
 						},
 						{
-							"id": 5259,
+							"id": 5264,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -22631,7 +22631,7 @@
 							}
 						},
 						{
-							"id": 5257,
+							"id": 5262,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -22658,7 +22658,7 @@
 							}
 						},
 						{
-							"id": 5266,
+							"id": 5256,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -22685,7 +22685,7 @@
 							}
 						},
 						{
-							"id": 5267,
+							"id": 5271,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -22712,7 +22712,7 @@
 							}
 						},
 						{
-							"id": 5268,
+							"id": 5257,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -22728,7 +22728,7 @@
 							],
 							"signatures": [
 								{
-									"id": 5269,
+									"id": 5258,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -22739,7 +22739,7 @@
 									},
 									"parameters": [
 										{
-											"id": 5270,
+											"id": 5259,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -22750,7 +22750,7 @@
 											}
 										},
 										{
-											"id": 5271,
+											"id": 5260,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -22792,27 +22792,27 @@
 								5252,
 								5253,
 								5248,
-								5260,
+								5265,
 								5254,
 								5255,
-								5262,
-								5258,
-								5256,
+								5267,
+								5263,
+								5261,
 								5250,
 								5249,
-								5261,
-								5259,
-								5251,
-								5257,
 								5266,
-								5267
+								5264,
+								5251,
+								5262,
+								5256,
+								5271
 							]
 						},
 						{
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								5268
+								5257
 							]
 						}
 					],
@@ -22876,7 +22876,7 @@
 							}
 						},
 						{
-							"id": 5375,
+							"id": 5380,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -22903,7 +22903,7 @@
 							}
 						},
 						{
-							"id": 5377,
+							"id": 5382,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -22923,20 +22923,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 5378,
+									"id": 5383,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 5379,
+										"id": 5384,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 5380,
+												"id": 5385,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -22959,7 +22959,7 @@
 							}
 						},
 						{
-							"id": 5373,
+							"id": 5378,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -22986,7 +22986,7 @@
 							}
 						},
 						{
-							"id": 5371,
+							"id": 5376,
 							"name": "httpMethod",
 							"kind": 1024,
 							"kindString": "Property",
@@ -23034,7 +23034,7 @@
 							}
 						},
 						{
-							"id": 5376,
+							"id": 5381,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -23061,7 +23061,7 @@
 							}
 						},
 						{
-							"id": 5374,
+							"id": 5379,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -23088,7 +23088,7 @@
 							}
 						},
 						{
-							"id": 5372,
+							"id": 5377,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -23141,7 +23141,7 @@
 							}
 						},
 						{
-							"id": 5381,
+							"id": 5371,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -23168,7 +23168,7 @@
 							}
 						},
 						{
-							"id": 5382,
+							"id": 5386,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -23195,7 +23195,7 @@
 							}
 						},
 						{
-							"id": 5383,
+							"id": 5372,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -23211,7 +23211,7 @@
 							],
 							"signatures": [
 								{
-									"id": 5384,
+									"id": 5373,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -23222,7 +23222,7 @@
 									},
 									"parameters": [
 										{
-											"id": 5385,
+											"id": 5374,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -23233,7 +23233,7 @@
 											}
 										},
 										{
-											"id": 5386,
+											"id": 5375,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -23273,24 +23273,24 @@
 							"kind": 1024,
 							"children": [
 								5368,
-								5375,
-								5377,
-								5373,
-								5371,
-								5369,
+								5380,
+								5382,
+								5378,
 								5376,
-								5374,
-								5372,
-								5370,
+								5369,
 								5381,
-								5382
+								5379,
+								5377,
+								5370,
+								5371,
+								5386
 							]
 						},
 						{
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								5383
+								5372
 							]
 						}
 					],
@@ -24074,7 +24074,7 @@
 					},
 					"children": [
 						{
-							"id": 379,
+							"id": 384,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -24110,7 +24110,7 @@
 							}
 						},
 						{
-							"id": 395,
+							"id": 394,
 							"name": "coordinates",
 							"kind": 1024,
 							"kindString": "Property",
@@ -24150,7 +24150,7 @@
 							}
 						},
 						{
-							"id": 382,
+							"id": 387,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -24177,7 +24177,7 @@
 							}
 						},
 						{
-							"id": 384,
+							"id": 389,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -24197,20 +24197,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 385,
+									"id": 390,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 386,
+										"id": 391,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 387,
+												"id": 392,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -24233,7 +24233,7 @@
 							}
 						},
 						{
-							"id": 380,
+							"id": 385,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -24260,7 +24260,7 @@
 							}
 						},
 						{
-							"id": 383,
+							"id": 388,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -24287,7 +24287,7 @@
 							}
 						},
 						{
-							"id": 377,
+							"id": 382,
 							"name": "params",
 							"kind": 1024,
 							"kindString": "Property",
@@ -24314,7 +24314,7 @@
 							}
 						},
 						{
-							"id": 381,
+							"id": 386,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -24341,7 +24341,7 @@
 							}
 						},
 						{
-							"id": 378,
+							"id": 383,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -24368,7 +24368,7 @@
 							}
 						},
 						{
-							"id": 394,
+							"id": 395,
 							"name": "relativeTo",
 							"kind": 1024,
 							"kindString": "Property",
@@ -24417,7 +24417,7 @@
 							}
 						},
 						{
-							"id": 388,
+							"id": 377,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -24444,7 +24444,7 @@
 							}
 						},
 						{
-							"id": 389,
+							"id": 393,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -24471,7 +24471,7 @@
 							}
 						},
 						{
-							"id": 390,
+							"id": 378,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -24487,7 +24487,7 @@
 							],
 							"signatures": [
 								{
-									"id": 391,
+									"id": 379,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -24498,7 +24498,7 @@
 									},
 									"parameters": [
 										{
-											"id": 392,
+											"id": 380,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -24509,7 +24509,7 @@
 											}
 										},
 										{
-											"id": 393,
+											"id": 381,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -24548,25 +24548,25 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								379,
-								395,
-								382,
 								384,
-								380,
-								383,
-								377,
-								381,
-								378,
 								394,
+								387,
+								389,
+								385,
 								388,
-								389
+								382,
+								386,
+								383,
+								395,
+								377,
+								393
 							]
 						},
 						{
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								390
+								378
 							]
 						}
 					],
@@ -24978,7 +24978,7 @@
 					},
 					"children": [
 						{
-							"id": 341,
+							"id": 346,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -25014,7 +25014,7 @@
 							}
 						},
 						{
-							"id": 344,
+							"id": 349,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -25041,7 +25041,7 @@
 							}
 						},
 						{
-							"id": 346,
+							"id": 351,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -25061,20 +25061,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 347,
+									"id": 352,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 348,
+										"id": 353,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 349,
+												"id": 354,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -25097,7 +25097,7 @@
 							}
 						},
 						{
-							"id": 342,
+							"id": 347,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -25124,7 +25124,7 @@
 							}
 						},
 						{
-							"id": 357,
+							"id": 358,
 							"name": "lat",
 							"kind": 1024,
 							"kindString": "Property",
@@ -25149,7 +25149,7 @@
 							}
 						},
 						{
-							"id": 356,
+							"id": 357,
 							"name": "lon",
 							"kind": 1024,
 							"kindString": "Property",
@@ -25174,7 +25174,7 @@
 							}
 						},
 						{
-							"id": 345,
+							"id": 350,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -25201,7 +25201,7 @@
 							}
 						},
 						{
-							"id": 339,
+							"id": 344,
 							"name": "params",
 							"kind": 1024,
 							"kindString": "Property",
@@ -25228,7 +25228,7 @@
 							}
 						},
 						{
-							"id": 343,
+							"id": 348,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -25255,7 +25255,7 @@
 							}
 						},
 						{
-							"id": 340,
+							"id": 345,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -25282,7 +25282,7 @@
 							}
 						},
 						{
-							"id": 358,
+							"id": 356,
 							"name": "relativeTo",
 							"kind": 1024,
 							"kindString": "Property",
@@ -25318,7 +25318,7 @@
 							}
 						},
 						{
-							"id": 350,
+							"id": 339,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -25345,7 +25345,7 @@
 							}
 						},
 						{
-							"id": 351,
+							"id": 355,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -25372,7 +25372,7 @@
 							}
 						},
 						{
-							"id": 352,
+							"id": 340,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -25388,7 +25388,7 @@
 							],
 							"signatures": [
 								{
-									"id": 353,
+									"id": 341,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -25399,7 +25399,7 @@
 									},
 									"parameters": [
 										{
-											"id": 354,
+											"id": 342,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -25410,7 +25410,7 @@
 											}
 										},
 										{
-											"id": 355,
+											"id": 343,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -25449,26 +25449,26 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								341,
-								344,
 								346,
-								342,
-								357,
-								356,
-								345,
-								339,
-								343,
-								340,
+								349,
+								351,
+								347,
 								358,
+								357,
 								350,
-								351
+								344,
+								348,
+								345,
+								356,
+								339,
+								355
 							]
 						},
 						{
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								352
+								340
 							]
 						}
 					],
@@ -27425,16 +27425,16 @@
 										"type": "array",
 										"elementType": {
 											"type": "reference",
-											"id": 894,
-											"name": "ILayer"
+											"id": 1099,
+											"name": "ILayerDefinition"
 										}
 									},
 									{
 										"type": "array",
 										"elementType": {
 											"type": "reference",
-											"id": 1099,
-											"name": "ILayerDefinition"
+											"id": 894,
+											"name": "ILayer"
 										}
 									}
 								]
@@ -28521,14 +28521,14 @@
 										"type": "array",
 										"elementType": {
 											"type": "intrinsic",
-											"name": "number"
+											"name": "string"
 										}
 									},
 									{
 										"type": "array",
 										"elementType": {
 											"type": "intrinsic",
-											"name": "string"
+											"name": "number"
 										}
 									}
 								]
@@ -29731,11 +29731,11 @@
 								"types": [
 									{
 										"type": "reference",
-										"name": "File"
+										"name": "Blob"
 									},
 									{
 										"type": "reference",
-										"name": "Blob"
+										"name": "File"
 									}
 								]
 							},
@@ -36102,6 +36102,10 @@
 								"types": [
 									{
 										"type": "literal",
+										"value": "year"
+									},
+									{
+										"type": "literal",
 										"value": "shortDate"
 									},
 									{
@@ -36159,10 +36163,6 @@
 									{
 										"type": "literal",
 										"value": "shortMonthYear"
-									},
-									{
-										"type": "literal",
-										"value": "year"
 									}
 								]
 							}
@@ -36359,11 +36359,11 @@
 								"types": [
 									{
 										"type": "literal",
-										"value": "textbox"
+										"value": "textarea"
 									},
 									{
 										"type": "literal",
-										"value": "textarea"
+										"value": "textbox"
 									},
 									{
 										"type": "literal",
@@ -40748,11 +40748,11 @@
 								"types": [
 									{
 										"type": "literal",
-										"value": "asc"
+										"value": "desc"
 									},
 									{
 										"type": "literal",
-										"value": "desc"
+										"value": "asc"
 									}
 								]
 							}
@@ -40918,15 +40918,15 @@
 								"types": [
 									{
 										"type": "literal",
+										"value": "media"
+									},
+									{
+										"type": "literal",
 										"value": "text"
 									},
 									{
 										"type": "literal",
 										"value": "fields"
-									},
-									{
-										"type": "literal",
-										"value": "media"
 									},
 									{
 										"type": "literal",
@@ -42365,15 +42365,15 @@
 								"types": [
 									{
 										"type": "literal",
+										"value": "native"
+									},
+									{
+										"type": "literal",
 										"value": "none"
 									},
 									{
 										"type": "literal",
 										"value": "standard"
-									},
-									{
-										"type": "literal",
-										"value": "native"
 									}
 								]
 							}
@@ -44092,15 +44092,15 @@
 								"types": [
 									{
 										"type": "literal",
+										"value": "native"
+									},
+									{
+										"type": "literal",
 										"value": "none"
 									},
 									{
 										"type": "literal",
 										"value": "standard"
-									},
-									{
-										"type": "literal",
-										"value": "native"
 									}
 								]
 							}
@@ -47534,11 +47534,11 @@
 												"types": [
 													{
 														"type": "literal",
-														"value": "asc"
+														"value": "desc"
 													},
 													{
 														"type": "literal",
-														"value": "desc"
+														"value": "asc"
 													}
 												]
 											}
@@ -47596,6 +47596,14 @@
 								"types": [
 									{
 										"type": "literal",
+										"value": "max"
+									},
+									{
+										"type": "literal",
+										"value": "var"
+									},
+									{
+										"type": "literal",
 										"value": "count"
 									},
 									{
@@ -47608,19 +47616,11 @@
 									},
 									{
 										"type": "literal",
-										"value": "max"
-									},
-									{
-										"type": "literal",
 										"value": "avg"
 									},
 									{
 										"type": "literal",
 										"value": "stddev"
-									},
-									{
-										"type": "literal",
-										"value": "var"
 									},
 									{
 										"type": "literal",
@@ -50022,7 +50022,7 @@
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
 							"line": 151,
-							"character": 20
+							"character": 12
 						}
 					],
 					"type": {
@@ -50123,7 +50123,7 @@
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
 							"line": 201,
-							"character": 20
+							"character": 12
 						}
 					],
 					"type": {
@@ -53888,15 +53888,15 @@
 								"type": "union",
 								"types": [
 									{
-										"type": "literal",
-										"value": "*"
-									},
-									{
 										"type": "array",
 										"elementType": {
 											"type": "intrinsic",
 											"name": "string"
 										}
+									},
+									{
+										"type": "literal",
+										"value": "*"
 									}
 								]
 							}
@@ -55945,7 +55945,7 @@
 					},
 					"children": [
 						{
-							"id": 3482,
+							"id": 3487,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -55981,7 +55981,7 @@
 							}
 						},
 						{
-							"id": 3497,
+							"id": 3498,
 							"name": "categoryIds",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56012,7 +56012,7 @@
 							}
 						},
 						{
-							"id": 3485,
+							"id": 3490,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56039,7 +56039,7 @@
 							}
 						},
 						{
-							"id": 3487,
+							"id": 3492,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56059,20 +56059,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3488,
+									"id": 3493,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 3489,
+										"id": 3494,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3490,
+												"id": 3495,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -56095,7 +56095,7 @@
 							}
 						},
 						{
-							"id": 3483,
+							"id": 3488,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56143,7 +56143,7 @@
 							}
 						},
 						{
-							"id": 3486,
+							"id": 3491,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56170,7 +56170,7 @@
 							}
 						},
 						{
-							"id": 3499,
+							"id": 3497,
 							"name": "offset",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56198,7 +56198,7 @@
 							}
 						},
 						{
-							"id": 3498,
+							"id": 3499,
 							"name": "pageSize",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56226,7 +56226,7 @@
 							}
 						},
 						{
-							"id": 3480,
+							"id": 3485,
 							"name": "params",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56253,7 +56253,7 @@
 							}
 						},
 						{
-							"id": 3484,
+							"id": 3489,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56280,7 +56280,7 @@
 							}
 						},
 						{
-							"id": 3481,
+							"id": 3486,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56334,7 +56334,7 @@
 							}
 						},
 						{
-							"id": 3491,
+							"id": 3480,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56361,7 +56361,7 @@
 							}
 						},
 						{
-							"id": 3492,
+							"id": 3496,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56492,7 +56492,7 @@
 							}
 						},
 						{
-							"id": 3493,
+							"id": 3481,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -56508,7 +56508,7 @@
 							],
 							"signatures": [
 								{
-									"id": 3494,
+									"id": 3482,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -56519,7 +56519,7 @@
 									},
 									"parameters": [
 										{
-											"id": 3495,
+											"id": 3483,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -56530,7 +56530,7 @@
 											}
 										},
 										{
-											"id": 3496,
+											"id": 3484,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -56569,21 +56569,21 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3482,
-								3497,
-								3485,
 								3487,
-								3483,
-								3479,
-								3486,
-								3499,
 								3498,
-								3480,
-								3484,
-								3481,
-								3500,
-								3491,
+								3490,
 								3492,
+								3488,
+								3479,
+								3491,
+								3497,
+								3499,
+								3485,
+								3489,
+								3486,
+								3500,
+								3480,
+								3496,
 								3503,
 								3501,
 								3504,
@@ -56594,7 +56594,7 @@
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								3493
+								3481
 							]
 						}
 					],
@@ -56646,7 +56646,7 @@
 					},
 					"children": [
 						{
-							"id": 3430,
+							"id": 3435,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56682,7 +56682,7 @@
 							}
 						},
 						{
-							"id": 3448,
+							"id": 3449,
 							"name": "categoryIds",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56713,7 +56713,7 @@
 							}
 						},
 						{
-							"id": 3433,
+							"id": 3438,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56740,7 +56740,7 @@
 							}
 						},
 						{
-							"id": 3435,
+							"id": 3440,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56760,20 +56760,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3436,
+									"id": 3441,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 3437,
+										"id": 3442,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3438,
+												"id": 3443,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -56796,7 +56796,7 @@
 							}
 						},
 						{
-							"id": 3431,
+							"id": 3436,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56844,7 +56844,7 @@
 							}
 						},
 						{
-							"id": 3434,
+							"id": 3439,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56871,7 +56871,7 @@
 							}
 						},
 						{
-							"id": 3450,
+							"id": 3445,
 							"name": "offset",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56899,7 +56899,7 @@
 							}
 						},
 						{
-							"id": 3449,
+							"id": 3450,
 							"name": "pageSize",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56927,7 +56927,7 @@
 							}
 						},
 						{
-							"id": 3428,
+							"id": 3433,
 							"name": "params",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56954,7 +56954,7 @@
 							}
 						},
 						{
-							"id": 3432,
+							"id": 3437,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -56981,7 +56981,7 @@
 							}
 						},
 						{
-							"id": 3447,
+							"id": 3448,
 							"name": "radius",
 							"kind": 1024,
 							"kindString": "Property",
@@ -57009,7 +57009,7 @@
 							}
 						},
 						{
-							"id": 3429,
+							"id": 3434,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -57063,7 +57063,7 @@
 							}
 						},
 						{
-							"id": 3439,
+							"id": 3428,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -57090,7 +57090,7 @@
 							}
 						},
 						{
-							"id": 3440,
+							"id": 3444,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -57117,7 +57117,7 @@
 							}
 						},
 						{
-							"id": 3445,
+							"id": 3446,
 							"name": "x",
 							"kind": 1024,
 							"kindString": "Property",
@@ -57142,7 +57142,7 @@
 							}
 						},
 						{
-							"id": 3446,
+							"id": 3447,
 							"name": "y",
 							"kind": 1024,
 							"kindString": "Property",
@@ -57167,7 +57167,7 @@
 							}
 						},
 						{
-							"id": 3441,
+							"id": 3429,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -57183,7 +57183,7 @@
 							],
 							"signatures": [
 								{
-									"id": 3442,
+									"id": 3430,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -57194,7 +57194,7 @@
 									},
 									"parameters": [
 										{
-											"id": 3443,
+											"id": 3431,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -57205,7 +57205,7 @@
 											}
 										},
 										{
-											"id": 3444,
+											"id": 3432,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -57244,31 +57244,31 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3430,
-								3448,
-								3433,
 								3435,
-								3431,
-								3427,
-								3434,
-								3450,
 								3449,
-								3428,
-								3432,
-								3447,
-								3429,
-								3451,
-								3439,
+								3438,
 								3440,
+								3436,
+								3427,
+								3439,
 								3445,
-								3446
+								3450,
+								3433,
+								3437,
+								3448,
+								3434,
+								3451,
+								3428,
+								3444,
+								3446,
+								3447
 							]
 						},
 						{
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								3441
+								3429
 							]
 						}
 					],
@@ -58513,7 +58513,7 @@
 					},
 					"children": [
 						{
-							"id": 3677,
+							"id": 3682,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -58549,7 +58549,7 @@
 							}
 						},
 						{
-							"id": 3680,
+							"id": 3685,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -58604,7 +58604,7 @@
 							}
 						},
 						{
-							"id": 3682,
+							"id": 3687,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -58624,20 +58624,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3683,
+									"id": 3688,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 3684,
+										"id": 3689,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3685,
+												"id": 3690,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -58660,7 +58660,7 @@
 							}
 						},
 						{
-							"id": 3678,
+							"id": 3683,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -58708,7 +58708,7 @@
 							}
 						},
 						{
-							"id": 3681,
+							"id": 3686,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -58735,7 +58735,7 @@
 							}
 						},
 						{
-							"id": 3675,
+							"id": 3680,
 							"name": "params",
 							"kind": 1024,
 							"kindString": "Property",
@@ -58762,7 +58762,7 @@
 							}
 						},
 						{
-							"id": 3679,
+							"id": 3684,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -58789,7 +58789,7 @@
 							}
 						},
 						{
-							"id": 3676,
+							"id": 3681,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -58816,7 +58816,7 @@
 							}
 						},
 						{
-							"id": 3686,
+							"id": 3675,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -58843,7 +58843,7 @@
 							}
 						},
 						{
-							"id": 3687,
+							"id": 3691,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -58870,7 +58870,7 @@
 							}
 						},
 						{
-							"id": 3688,
+							"id": 3676,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -58886,7 +58886,7 @@
 							],
 							"signatures": [
 								{
-									"id": 3689,
+									"id": 3677,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -58897,7 +58897,7 @@
 									},
 									"parameters": [
 										{
-											"id": 3690,
+											"id": 3678,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -58908,7 +58908,7 @@
 											}
 										},
 										{
-											"id": 3691,
+											"id": 3679,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -58947,25 +58947,25 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3677,
-								3680,
-								3692,
 								3682,
-								3678,
+								3685,
+								3692,
+								3687,
+								3683,
 								3674,
+								3686,
+								3680,
+								3684,
 								3681,
 								3675,
-								3679,
-								3676,
-								3686,
-								3687
+								3691
 							]
 						},
 						{
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								3688
+								3676
 							]
 						}
 					],
@@ -59264,7 +59264,7 @@
 					},
 					"children": [
 						{
-							"id": 3709,
+							"id": 3714,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -59318,7 +59318,7 @@
 							}
 						},
 						{
-							"id": 3712,
+							"id": 3717,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -59381,7 +59381,7 @@
 							}
 						},
 						{
-							"id": 3714,
+							"id": 3719,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -59401,20 +59401,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3715,
+									"id": 3720,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 3716,
+										"id": 3721,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3717,
+												"id": 3722,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -59437,7 +59437,7 @@
 							}
 						},
 						{
-							"id": 3710,
+							"id": 3715,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -59542,7 +59542,7 @@
 							}
 						},
 						{
-							"id": 3713,
+							"id": 3718,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -59569,7 +59569,7 @@
 							}
 						},
 						{
-							"id": 3707,
+							"id": 3712,
 							"name": "params",
 							"kind": 1024,
 							"kindString": "Property",
@@ -59596,7 +59596,7 @@
 							}
 						},
 						{
-							"id": 3711,
+							"id": 3716,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -59623,7 +59623,7 @@
 							}
 						},
 						{
-							"id": 3708,
+							"id": 3713,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -59650,7 +59650,7 @@
 							}
 						},
 						{
-							"id": 3718,
+							"id": 3707,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -59677,7 +59677,7 @@
 							}
 						},
 						{
-							"id": 3719,
+							"id": 3723,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -59732,7 +59732,7 @@
 							}
 						},
 						{
-							"id": 3720,
+							"id": 3708,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -59748,7 +59748,7 @@
 							],
 							"signatures": [
 								{
-									"id": 3721,
+									"id": 3709,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -59759,7 +59759,7 @@
 									},
 									"parameters": [
 										{
-											"id": 3722,
+											"id": 3710,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -59770,7 +59770,7 @@
 											}
 										},
 										{
-											"id": 3723,
+											"id": 3711,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -59809,20 +59809,20 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3709,
-								3704,
-								3712,
-								3725,
 								3714,
-								3710,
+								3704,
+								3717,
+								3725,
+								3719,
+								3715,
 								3705,
 								3724,
+								3718,
+								3712,
+								3716,
 								3713,
 								3707,
-								3711,
-								3708,
-								3718,
-								3719,
+								3723,
 								3726
 							]
 						},
@@ -59830,7 +59830,7 @@
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								3720
+								3708
 							]
 						}
 					],
@@ -60094,7 +60094,7 @@
 					},
 					"children": [
 						{
-							"id": 3644,
+							"id": 3649,
 							"name": "authentication",
 							"kind": 1024,
 							"kindString": "Property",
@@ -60130,7 +60130,7 @@
 							}
 						},
 						{
-							"id": 3647,
+							"id": 3652,
 							"name": "credentials",
 							"kind": 1024,
 							"kindString": "Property",
@@ -60157,7 +60157,7 @@
 							}
 						},
 						{
-							"id": 3649,
+							"id": 3654,
 							"name": "headers",
 							"kind": 1024,
 							"kindString": "Property",
@@ -60177,20 +60177,20 @@
 							"type": {
 								"type": "reflection",
 								"declaration": {
-									"id": 3650,
+									"id": 3655,
 									"name": "__type",
 									"kind": 65536,
 									"kindString": "Type literal",
 									"flags": {},
 									"indexSignature": {
-										"id": 3651,
+										"id": 3656,
 										"name": "__index",
 										"kind": 8192,
 										"kindString": "Index signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3652,
+												"id": 3657,
 												"name": "key",
 												"kind": 32768,
 												"flags": {},
@@ -60213,7 +60213,7 @@
 							}
 						},
 						{
-							"id": 3645,
+							"id": 3650,
 							"name": "hideToken",
 							"kind": 1024,
 							"kindString": "Property",
@@ -60261,7 +60261,7 @@
 							}
 						},
 						{
-							"id": 3648,
+							"id": 3653,
 							"name": "maxUrlLength",
 							"kind": 1024,
 							"kindString": "Property",
@@ -60288,7 +60288,7 @@
 							}
 						},
 						{
-							"id": 3642,
+							"id": 3647,
 							"name": "params",
 							"kind": 1024,
 							"kindString": "Property",
@@ -60333,7 +60333,7 @@
 							}
 						},
 						{
-							"id": 3646,
+							"id": 3651,
 							"name": "portal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -60360,7 +60360,7 @@
 							}
 						},
 						{
-							"id": 3643,
+							"id": 3648,
 							"name": "rawResponse",
 							"kind": 1024,
 							"kindString": "Property",
@@ -60414,6 +60414,26 @@
 										},
 										{
 											"type": "literal",
+											"value": "location"
+										},
+										{
+											"type": "literal",
+											"value": "address"
+										},
+										{
+											"type": "literal",
+											"value": "name"
+										},
+										{
+											"type": "literal",
+											"value": "description"
+										},
+										{
+											"type": "literal",
+											"value": "hours"
+										},
+										{
+											"type": "literal",
 											"value": "additionalLocations"
 										},
 										{
@@ -60431,10 +60451,6 @@
 										{
 											"type": "literal",
 											"value": "additionalLocations:roof"
-										},
-										{
-											"type": "literal",
-											"value": "address"
 										},
 										{
 											"type": "literal",
@@ -60514,14 +60530,6 @@
 										},
 										{
 											"type": "literal",
-											"value": "description"
-										},
-										{
-											"type": "literal",
-											"value": "hours"
-										},
-										{
-											"type": "literal",
 											"value": "hours:opening"
 										},
 										{
@@ -60531,14 +60539,6 @@
 										{
 											"type": "literal",
 											"value": "hours:popular"
-										},
-										{
-											"type": "literal",
-											"value": "location"
-										},
-										{
-											"type": "literal",
-											"value": "name"
 										},
 										{
 											"type": "literal",
@@ -60577,7 +60577,7 @@
 							}
 						},
 						{
-							"id": 3653,
+							"id": 3642,
 							"name": "signal",
 							"kind": 1024,
 							"kindString": "Property",
@@ -60604,7 +60604,7 @@
 							}
 						},
 						{
-							"id": 3654,
+							"id": 3658,
 							"name": "suppressWarnings",
 							"kind": 1024,
 							"kindString": "Property",
@@ -60631,7 +60631,7 @@
 							}
 						},
 						{
-							"id": 3655,
+							"id": 3643,
 							"name": "request",
 							"kind": 2048,
 							"kindString": "Method",
@@ -60647,7 +60647,7 @@
 							],
 							"signatures": [
 								{
-									"id": 3656,
+									"id": 3644,
 									"name": "request",
 									"kind": 4096,
 									"kindString": "Call signature",
@@ -60658,7 +60658,7 @@
 									},
 									"parameters": [
 										{
-											"id": 3657,
+											"id": 3645,
 											"name": "url",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -60669,7 +60669,7 @@
 											}
 										},
 										{
-											"id": 3658,
+											"id": 3646,
 											"name": "requestOptions",
 											"kind": 32768,
 											"kindString": "Parameter",
@@ -60708,26 +60708,26 @@
 							"title": "Properties",
 							"kind": 1024,
 							"children": [
-								3644,
-								3647,
 								3649,
-								3645,
+								3652,
+								3654,
+								3650,
 								3641,
-								3648,
-								3642,
-								3639,
-								3646,
-								3643,
-								3659,
 								3653,
-								3654
+								3647,
+								3639,
+								3651,
+								3648,
+								3659,
+								3642,
+								3658
 							]
 						},
 						{
 							"title": "Methods",
 							"kind": 2048,
 							"children": [
-								3655
+								3643
 							]
 						}
 					],
@@ -74582,19 +74582,19 @@
 								"types": [
 									{
 										"type": "literal",
-										"value": "partial"
-									},
-									{
-										"type": "literal",
-										"value": "processing"
-									},
-									{
-										"type": "literal",
 										"value": "failed"
 									},
 									{
 										"type": "literal",
 										"value": "completed"
+									},
+									{
+										"type": "literal",
+										"value": "partial"
+									},
+									{
+										"type": "literal",
+										"value": "processing"
 									}
 								]
 							}
@@ -75716,11 +75716,11 @@
 									},
 									{
 										"type": "literal",
-										"value": "org"
+										"value": "public"
 									},
 									{
 										"type": "literal",
-										"value": "public"
+										"value": "org"
 									}
 								]
 							},
@@ -76067,11 +76067,11 @@
 								"types": [
 									{
 										"type": "literal",
-										"value": "owner"
+										"value": "title"
 									},
 									{
 										"type": "literal",
-										"value": "title"
+										"value": "owner"
 									},
 									{
 										"type": "literal",
@@ -76117,11 +76117,11 @@
 								"types": [
 									{
 										"type": "literal",
-										"value": "asc"
+										"value": "desc"
 									},
 									{
 										"type": "literal",
-										"value": "desc"
+										"value": "asc"
 									}
 								]
 							},
@@ -76384,11 +76384,11 @@
 									},
 									{
 										"type": "literal",
-										"value": "org"
+										"value": "public"
 									},
 									{
 										"type": "literal",
-										"value": "public"
+										"value": "org"
 									}
 								]
 							}
@@ -76553,11 +76553,11 @@
 								"types": [
 									{
 										"type": "literal",
-										"value": "owner"
+										"value": "title"
 									},
 									{
 										"type": "literal",
-										"value": "title"
+										"value": "owner"
 									},
 									{
 										"type": "literal",
@@ -76598,11 +76598,11 @@
 								"types": [
 									{
 										"type": "literal",
-										"value": "asc"
+										"value": "desc"
 									},
 									{
 										"type": "literal",
-										"value": "desc"
+										"value": "asc"
 									}
 								]
 							}
@@ -81538,11 +81538,11 @@
 								"types": [
 									{
 										"type": "literal",
-										"value": "forward"
+										"value": "reverse"
 									},
 									{
 										"type": "literal",
-										"value": "reverse"
+										"value": "forward"
 									}
 								]
 							}
@@ -87690,11 +87690,11 @@
 								"types": [
 									{
 										"type": "literal",
-										"value": "asc"
+										"value": "desc"
 									},
 									{
 										"type": "literal",
-										"value": "desc"
+										"value": "asc"
 									}
 								]
 							},
@@ -89222,11 +89222,11 @@
 								"types": [
 									{
 										"type": "literal",
-										"value": "asc"
+										"value": "desc"
 									},
 									{
 										"type": "literal",
-										"value": "desc"
+										"value": "asc"
 									}
 								]
 							}
@@ -89919,11 +89919,11 @@
 									},
 									{
 										"type": "literal",
-										"value": "org"
+										"value": "public"
 									},
 									{
 										"type": "literal",
-										"value": "public"
+										"value": "org"
 									}
 								]
 							}
@@ -93972,11 +93972,11 @@
 								"types": [
 									{
 										"type": "literal",
-										"value": "arcgis"
+										"value": "enterprise"
 									},
 									{
 										"type": "literal",
-										"value": "enterprise"
+										"value": "arcgis"
 									},
 									{
 										"type": "literal",
@@ -96739,11 +96739,11 @@
 								"types": [
 									{
 										"type": "literal",
-										"value": "asc"
+										"value": "desc"
 									},
 									{
 										"type": "literal",
-										"value": "desc"
+										"value": "asc"
 									}
 								]
 							},
@@ -96988,7 +96988,7 @@
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/group.d.ts",
 							"line": 8,
-							"character": 20
+							"character": 12
 						}
 					],
 					"type": {
@@ -114280,11 +114280,11 @@
 									},
 									{
 										"type": "literal",
-										"value": "org"
+										"value": "public"
 									},
 									{
 										"type": "literal",
-										"value": "public"
+										"value": "org"
 									}
 								]
 							},
@@ -114681,11 +114681,11 @@
 								"types": [
 									{
 										"type": "literal",
-										"value": "asc"
+										"value": "desc"
 									},
 									{
 										"type": "literal",
-										"value": "desc"
+										"value": "asc"
 									}
 								]
 							},
@@ -114948,11 +114948,11 @@
 									},
 									{
 										"type": "literal",
-										"value": "org"
+										"value": "public"
 									},
 									{
 										"type": "literal",
-										"value": "public"
+										"value": "org"
 									}
 								]
 							}
@@ -115162,11 +115162,11 @@
 								"types": [
 									{
 										"type": "literal",
-										"value": "asc"
+										"value": "desc"
 									},
 									{
 										"type": "literal",
-										"value": "desc"
+										"value": "asc"
 									}
 								]
 							}
@@ -119240,13 +119240,13 @@
 								"types": [
 									{
 										"type": "reference",
-										"id": 3879,
-										"name": "IFetchTokenParams"
+										"id": 3888,
+										"name": "IGenerateTokenParams"
 									},
 									{
 										"type": "reference",
-										"id": 3888,
-										"name": "IGenerateTokenParams"
+										"id": 3879,
+										"name": "IFetchTokenParams"
 									}
 								]
 							}
@@ -119836,6 +119836,10 @@
 								"types": [
 									{
 										"type": "literal",
+										"value": "enterprise"
+									},
+									{
+										"type": "literal",
 										"value": "arcgis"
 									},
 									{
@@ -119848,15 +119852,11 @@
 									},
 									{
 										"type": "literal",
-										"value": "github"
-									},
-									{
-										"type": "literal",
 										"value": "apple"
 									},
 									{
 										"type": "literal",
-										"value": "enterprise"
+										"value": "github"
 									}
 								]
 							}
@@ -123879,16 +123879,6 @@
 											"type": "union",
 											"types": [
 												{
-													"type": "reference",
-													"id": 4790,
-													"name": "ILocation"
-												},
-												{
-													"type": "reference",
-													"id": 4796,
-													"name": "IPoint"
-												},
-												{
 													"type": "tuple",
 													"elements": [
 														{
@@ -123900,6 +123890,16 @@
 															"name": "number"
 														}
 													]
+												},
+												{
+													"type": "reference",
+													"id": 4796,
+													"name": "IPoint"
+												},
+												{
+													"type": "reference",
+													"id": 4790,
+													"name": "ILocation"
 												}
 											]
 										}
@@ -124107,16 +124107,6 @@
 											"type": "union",
 											"types": [
 												{
-													"type": "reference",
-													"id": 4790,
-													"name": "ILocation"
-												},
-												{
-													"type": "reference",
-													"id": 4796,
-													"name": "IPoint"
-												},
-												{
 													"type": "tuple",
 													"elements": [
 														{
@@ -124128,6 +124118,16 @@
 															"name": "number"
 														}
 													]
+												},
+												{
+													"type": "reference",
+													"id": 4796,
+													"name": "IPoint"
+												},
+												{
+													"type": "reference",
+													"id": 4790,
+													"name": "ILocation"
 												}
 											]
 										}
@@ -124317,16 +124317,6 @@
 											"type": "union",
 											"types": [
 												{
-													"type": "reference",
-													"id": 4790,
-													"name": "ILocation"
-												},
-												{
-													"type": "reference",
-													"id": 4796,
-													"name": "IPoint"
-												},
-												{
 													"type": "tuple",
 													"elements": [
 														{
@@ -124338,6 +124328,16 @@
 															"name": "number"
 														}
 													]
+												},
+												{
+													"type": "reference",
+													"id": 4796,
+													"name": "IPoint"
+												},
+												{
+													"type": "reference",
+													"id": 4790,
+													"name": "ILocation"
 												}
 											]
 										}
@@ -126383,16 +126383,6 @@
 											"type": "union",
 											"types": [
 												{
-													"type": "reference",
-													"id": 4790,
-													"name": "ILocation"
-												},
-												{
-													"type": "reference",
-													"id": 4796,
-													"name": "IPoint"
-												},
-												{
 													"type": "tuple",
 													"elements": [
 														{
@@ -126404,6 +126394,16 @@
 															"name": "number"
 														}
 													]
+												},
+												{
+													"type": "reference",
+													"id": 4796,
+													"name": "IPoint"
+												},
+												{
+													"type": "reference",
+													"id": 4790,
+													"name": "ILocation"
 												}
 											]
 										}
@@ -126469,16 +126469,6 @@
 											"type": "union",
 											"types": [
 												{
-													"type": "reference",
-													"id": 4790,
-													"name": "ILocation"
-												},
-												{
-													"type": "reference",
-													"id": 4796,
-													"name": "IPoint"
-												},
-												{
 													"type": "tuple",
 													"elements": [
 														{
@@ -126490,6 +126480,16 @@
 															"name": "number"
 														}
 													]
+												},
+												{
+													"type": "reference",
+													"id": 4796,
+													"name": "IPoint"
+												},
+												{
+													"type": "reference",
+													"id": 4790,
+													"name": "ILocation"
 												}
 											]
 										}
@@ -126696,16 +126696,6 @@
 											"type": "union",
 											"types": [
 												{
-													"type": "reference",
-													"id": 4790,
-													"name": "ILocation"
-												},
-												{
-													"type": "reference",
-													"id": 4796,
-													"name": "IPoint"
-												},
-												{
 													"type": "tuple",
 													"elements": [
 														{
@@ -126717,6 +126707,16 @@
 															"name": "number"
 														}
 													]
+												},
+												{
+													"type": "reference",
+													"id": 4796,
+													"name": "IPoint"
+												},
+												{
+													"type": "reference",
+													"id": 4790,
+													"name": "ILocation"
 												}
 											]
 										}
@@ -128215,16 +128215,6 @@
 											"type": "union",
 											"types": [
 												{
-													"type": "reference",
-													"id": 4790,
-													"name": "ILocation"
-												},
-												{
-													"type": "reference",
-													"id": 4796,
-													"name": "IPoint"
-												},
-												{
 													"type": "tuple",
 													"elements": [
 														{
@@ -128236,6 +128226,16 @@
 															"name": "number"
 														}
 													]
+												},
+												{
+													"type": "reference",
+													"id": 4796,
+													"name": "IPoint"
+												},
+												{
+													"type": "reference",
+													"id": 4790,
+													"name": "ILocation"
 												}
 											]
 										}
@@ -128329,16 +128329,6 @@
 											"type": "union",
 											"types": [
 												{
-													"type": "reference",
-													"id": 4790,
-													"name": "ILocation"
-												},
-												{
-													"type": "reference",
-													"id": 4796,
-													"name": "IPoint"
-												},
-												{
 													"type": "tuple",
 													"elements": [
 														{
@@ -128350,6 +128340,16 @@
 															"name": "number"
 														}
 													]
+												},
+												{
+													"type": "reference",
+													"id": 4796,
+													"name": "IPoint"
+												},
+												{
+													"type": "reference",
+													"id": 4790,
+													"name": "ILocation"
 												}
 											]
 										}
@@ -129520,22 +129520,8 @@
 											"type": "union",
 											"types": [
 												{
-													"type": "reference",
-													"id": 4790,
-													"name": "ILocation"
-												},
-												{
-													"type": "reference",
-													"id": 4796,
-													"name": "IPoint"
-												},
-												{
 													"type": "tuple",
 													"elements": [
-														{
-															"type": "intrinsic",
-															"name": "number"
-														},
 														{
 															"type": "intrinsic",
 															"name": "number"
@@ -129547,8 +129533,22 @@
 													]
 												},
 												{
+													"type": "reference",
+													"id": 4796,
+													"name": "IPoint"
+												},
+												{
+													"type": "reference",
+													"id": 4790,
+													"name": "ILocation"
+												},
+												{
 													"type": "tuple",
 													"elements": [
+														{
+															"type": "intrinsic",
+															"name": "number"
+														},
 														{
 															"type": "intrinsic",
 															"name": "number"
@@ -129929,7 +129929,7 @@
 						{
 							"fileName": "arcgis-rest-request/dist/esm/types/geometry.d.ts",
 							"line": 113,
-							"character": 20
+							"character": 12
 						}
 					],
 					"type": {
