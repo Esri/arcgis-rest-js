@@ -1,4 +1,6 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  // exclude icebox foler
+  "exclude": ["src/icebox/**"]
 }

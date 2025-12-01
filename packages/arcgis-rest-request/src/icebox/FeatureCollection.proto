@@ -1,0 +1,210 @@
+/*
+  Copyright 2021 Esri
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+*/
+
+syntax = "proto3";
+package esriPBuffer;
+option java_package = "com.esri.arcgis.protobuf";
+option optimize_for = LITE_RUNTIME;
+
+message FeatureCollectionPBuffer {
+  // GeometryType
+  enum GeometryType {
+    esriGeometryTypePoint = 0;
+    esriGeometryTypeMultipoint = 1;
+    esriGeometryTypePolyline = 2;
+    esriGeometryTypePolygon = 3;
+    esriGeometryTypeMultipatch = 4;
+    esriGeometryTypeNone = 127;
+  }
+
+  // FieldType
+  enum FieldType {
+    esriFieldTypeSmallInteger = 0;
+    esriFieldTypeInteger = 1;
+    esriFieldTypeSingle = 2;
+    esriFieldTypeDouble = 3;
+    esriFieldTypeString = 4;
+    esriFieldTypeDate = 5;
+    esriFieldTypeOID = 6;
+    esriFieldTypeGeometry = 7;
+    esriFieldTypeBlob = 8;
+    esriFieldTypeRaster = 9;
+    esriFieldTypeGUID = 10;
+    esriFieldTypeGlobalID = 11;
+    esriFieldTypeXML = 12;
+  }
+
+  // FieldType
+  enum SQLType {
+    sqlTypeBigInt = 0;
+    sqlTypeBinary = 1;
+    sqlTypeBit = 2;
+    sqlTypeChar = 3;
+    sqlTypeDate = 4;
+    sqlTypeDecimal = 5;
+    sqlTypeDouble = 6;
+    sqlTypeFloat = 7;
+    sqlTypeGeometry = 8;
+    sqlTypeGUID = 9;
+    sqlTypeInteger = 10;
+    sqlTypeLongNVarchar = 11;
+    sqlTypeLongVarbinary = 12;
+    sqlTypeLongVarchar = 13;
+    sqlTypeNChar = 14;
+    sqlTypeNVarchar = 15;
+    sqlTypeOther = 16;
+    sqlTypeReal = 17;
+    sqlTypeSmallInt = 18;
+    sqlTypeSqlXml = 19;
+    sqlTypeTime = 20;
+    sqlTypeTimestamp = 21;
+    sqlTypeTimestamp2 = 22;
+    sqlTypeTinyInt = 23;
+    sqlTypeVarbinary = 24;
+    sqlTypeVarchar = 25;
+  }
+
+  enum QuantizeOriginPostion {
+    upperLeft = 0;
+    lowerLeft = 1;
+  }
+
+  message SpatialReference {
+    uint32 wkid = 1;
+    uint32 lastestWkid = 2;
+    uint32 vcsWkid = 3;
+    uint32 latestVcsWkid = 4;
+    string wkt = 5;
+  }
+
+  message Field {
+    string name = 1;
+    FieldType fieldType = 2;
+    string alias = 3;
+    SQLType sqlType = 4;
+    string domain = 5;
+    string defaultValue = 6;
+  }
+
+  message Value {
+    oneof value_type {
+      // Exactly one of these values must be present in a valid message
+      string string_value = 1;
+      float  float_value = 2;
+      double double_value = 3;
+      sint32 sint_value = 4;
+      uint32 uint_value = 5;
+      int64  int64_value = 6;
+      uint64 uint64_value = 7;
+      sint64 sint64_value = 8;
+      bool bool_value = 9;
+    }
+  }
+
+  message Geometry {
+    repeated uint32 lengths = 2 [packed = true]; // coordinate structure in lengths
+    repeated sint64 coords = 3 [packed = true]; // delta-encoded integer values
+  }
+
+  message esriShapeBuffer {
+    bytes bytes = 1;
+  }
+
+  message Feature {
+    repeated Value attributes = 1;
+    oneof compressed_geometry {
+      Geometry geometry = 2;
+      esriShapeBuffer shapeBuffer = 3;
+    }
+    Geometry centroid = 4;
+  }
+
+  message UniqueIdField {
+    string name = 1;
+    bool isSystemMaintained = 2;
+  }
+
+  message GeometryProperties {
+    string shapeAreaFieldName = 1;
+    string shapeLengthFieldName = 2;
+    string units = 3;
+  }
+
+  message ServerGens {
+    uint64 minServerGen = 1;
+    uint64 serverGen = 2;
+  }
+
+  message Scale {
+    double xScale = 1;
+    double yScale = 2;
+    double mScale = 3;
+    double zScale = 4;
+  }
+
+  message Translate {
+    double xTranslate = 1;
+    double yTranslate = 2;
+    double mTranslate = 3;
+    double zTranslate = 4;
+  }
+
+  message Transform {
+    QuantizeOriginPostion quantizeOriginPostion= 1;
+    Scale scale = 2;
+    Translate translate = 3;
+  }
+
+  message FeatureResult {
+    string objectIdFieldName = 1;
+    UniqueIdField uniqueIdField = 2;
+    string globalIdFieldName = 3;
+    string geohashFieldName = 4;
+    GeometryProperties geometryProperties = 5;
+    ServerGens serverGens = 6;
+    GeometryType geometryType = 7;
+    SpatialReference spatialReference = 8;
+    bool exceededTransferLimit = 9;
+    bool hasZ = 10;
+    bool hasM = 11;
+    Transform transform = 12;
+    repeated Field fields = 13;
+    repeated Value values = 14;
+    repeated Feature features = 15;
+  }
+
+  message CountResult{
+    uint64 count = 1;
+  }
+
+  message ObjectIdsResult {
+    string objectIdFieldName = 1;
+    ServerGens serverGens = 2;
+    repeated uint64 objectIds = 3 [packed = true];
+  }
+
+  message QueryResult {
+    oneof Results {
+      FeatureResult featureResult = 1;
+      CountResult countResult = 2;
+      ObjectIdsResult idsResult = 3;
+    }
+  }
+
+  // Any compliant implementation must first read the version
+  // number encoded in this message and choose the correct
+  // implementation for this version number before proceeding to
+  // decode other parts of this message.
+  string version = 1;
+  QueryResult queryResult = 2;
+}
