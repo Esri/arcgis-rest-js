@@ -2,16 +2,16 @@
 
 // FeatureCollectionPBuffer ========================================
 
-export const FeatureCollectionPBuffer = {};
+export const FeatureCollectionPBuffer = {} as any;
 
-FeatureCollectionPBuffer.read = function (pbf, end) {
+FeatureCollectionPBuffer.read = function (pbf: any, end?: any) {
   return pbf.readFields(
     FeatureCollectionPBuffer._readField,
     { version: "", queryResult: null },
     end
   );
 };
-FeatureCollectionPBuffer._readField = function (tag, obj, pbf) {
+FeatureCollectionPBuffer._readField = function (tag: any, obj: any, pbf: any) {
   if (tag === 1) obj.version = pbf.readString();
   else if (tag === 2)
     obj.queryResult = FeatureCollectionPBuffer.QueryResult.read(
@@ -19,7 +19,7 @@ FeatureCollectionPBuffer._readField = function (tag, obj, pbf) {
       pbf.readVarint() + pbf.pos
     );
 };
-FeatureCollectionPBuffer.write = function (obj, pbf) {
+FeatureCollectionPBuffer.write = function (obj: any, pbf: any) {
   if (obj.version) pbf.writeStringField(1, obj.version);
   if (obj.queryResult)
     pbf.writeMessage(
@@ -233,7 +233,10 @@ FeatureCollectionPBuffer.QuantizeOriginPostion = {
 
 FeatureCollectionPBuffer.SpatialReference = {};
 
-FeatureCollectionPBuffer.SpatialReference.read = function (pbf, end) {
+FeatureCollectionPBuffer.SpatialReference.read = function (
+  pbf: any,
+  end?: any
+) {
   return pbf.readFields(
     FeatureCollectionPBuffer.SpatialReference._readField,
     { wkid: 0, lastestWkid: 0, vcsWkid: 0, latestVcsWkid: 0, wkt: "" },
@@ -241,9 +244,9 @@ FeatureCollectionPBuffer.SpatialReference.read = function (pbf, end) {
   );
 };
 FeatureCollectionPBuffer.SpatialReference._readField = function (
-  tag,
-  obj,
-  pbf
+  tag: any,
+  obj: any,
+  pbf: any
 ) {
   if (tag === 1) obj.wkid = pbf.readVarint();
   else if (tag === 2) obj.lastestWkid = pbf.readVarint();
@@ -251,7 +254,10 @@ FeatureCollectionPBuffer.SpatialReference._readField = function (
   else if (tag === 4) obj.latestVcsWkid = pbf.readVarint();
   else if (tag === 5) obj.wkt = pbf.readString();
 };
-FeatureCollectionPBuffer.SpatialReference.write = function (obj, pbf) {
+FeatureCollectionPBuffer.SpatialReference.write = function (
+  obj: any,
+  pbf: any
+) {
   if (obj.wkid) pbf.writeVarintField(1, obj.wkid);
   if (obj.lastestWkid) pbf.writeVarintField(2, obj.lastestWkid);
   if (obj.vcsWkid) pbf.writeVarintField(3, obj.vcsWkid);
@@ -263,7 +269,7 @@ FeatureCollectionPBuffer.SpatialReference.write = function (obj, pbf) {
 
 FeatureCollectionPBuffer.Field = {};
 
-FeatureCollectionPBuffer.Field.read = function (pbf, end) {
+FeatureCollectionPBuffer.Field.read = function (pbf: any, end?: any) {
   return pbf.readFields(
     FeatureCollectionPBuffer.Field._readField,
     {
@@ -277,7 +283,11 @@ FeatureCollectionPBuffer.Field.read = function (pbf, end) {
     end
   );
 };
-FeatureCollectionPBuffer.Field._readField = function (tag, obj, pbf) {
+FeatureCollectionPBuffer.Field._readField = function (
+  tag: any,
+  obj: any,
+  pbf: any
+) {
   if (tag === 1) obj.name = pbf.readString();
   else if (tag === 2) obj.fieldType = pbf.readVarint();
   else if (tag === 3) obj.alias = pbf.readString();
@@ -285,7 +295,7 @@ FeatureCollectionPBuffer.Field._readField = function (tag, obj, pbf) {
   else if (tag === 5) obj.domain = pbf.readString();
   else if (tag === 6) obj.defaultValue = pbf.readString();
 };
-FeatureCollectionPBuffer.Field.write = function (obj, pbf) {
+FeatureCollectionPBuffer.Field.write = function (obj: any, pbf: any) {
   if (obj.name) pbf.writeStringField(1, obj.name);
   if (obj.fieldType) pbf.writeVarintField(2, obj.fieldType);
   if (obj.alias) pbf.writeStringField(3, obj.alias);
@@ -298,7 +308,7 @@ FeatureCollectionPBuffer.Field.write = function (obj, pbf) {
 
 FeatureCollectionPBuffer.Value = {};
 
-FeatureCollectionPBuffer.Value.read = function (pbf, end) {
+FeatureCollectionPBuffer.Value.read = function (pbf: any, end?: any) {
   return pbf.readFields(
     FeatureCollectionPBuffer.Value._readField,
     {
@@ -316,7 +326,11 @@ FeatureCollectionPBuffer.Value.read = function (pbf, end) {
     end
   );
 };
-FeatureCollectionPBuffer.Value._readField = function (tag, obj, pbf) {
+FeatureCollectionPBuffer.Value._readField = function (
+  tag: any,
+  obj: any,
+  pbf: any
+) {
   if (tag === 1)
     (obj.string_value = pbf.readString()), (obj.value_type = "string_value");
   else if (tag === 2)
@@ -336,7 +350,7 @@ FeatureCollectionPBuffer.Value._readField = function (tag, obj, pbf) {
   else if (tag === 9)
     (obj.bool_value = pbf.readBoolean()), (obj.value_type = "bool_value");
 };
-FeatureCollectionPBuffer.Value.write = function (obj, pbf) {
+FeatureCollectionPBuffer.Value.write = function (obj: any, pbf: any) {
   if (obj.string_value) pbf.writeStringField(1, obj.string_value);
   if (obj.float_value) pbf.writeFloatField(2, obj.float_value);
   if (obj.double_value) pbf.writeDoubleField(3, obj.double_value);
@@ -352,18 +366,22 @@ FeatureCollectionPBuffer.Value.write = function (obj, pbf) {
 
 FeatureCollectionPBuffer.Geometry = {};
 
-FeatureCollectionPBuffer.Geometry.read = function (pbf, end) {
+FeatureCollectionPBuffer.Geometry.read = function (pbf: any, end?: any) {
   return pbf.readFields(
     FeatureCollectionPBuffer.Geometry._readField,
     { lengths: [], coords: [] },
     end
   );
 };
-FeatureCollectionPBuffer.Geometry._readField = function (tag, obj, pbf) {
+FeatureCollectionPBuffer.Geometry._readField = function (
+  tag: any,
+  obj: any,
+  pbf: any
+) {
   if (tag === 2) pbf.readPackedVarint(obj.lengths);
   else if (tag === 3) pbf.readPackedSVarint(obj.coords);
 };
-FeatureCollectionPBuffer.Geometry.write = function (obj, pbf) {
+FeatureCollectionPBuffer.Geometry.write = function (obj: any, pbf: any) {
   if (obj.lengths) pbf.writePackedVarint(2, obj.lengths);
   if (obj.coords) pbf.writePackedSVarint(3, obj.coords);
 };
@@ -372,17 +390,21 @@ FeatureCollectionPBuffer.Geometry.write = function (obj, pbf) {
 
 FeatureCollectionPBuffer.esriShapeBuffer = {};
 
-FeatureCollectionPBuffer.esriShapeBuffer.read = function (pbf, end) {
+FeatureCollectionPBuffer.esriShapeBuffer.read = function (pbf: any, end?: any) {
   return pbf.readFields(
     FeatureCollectionPBuffer.esriShapeBuffer._readField,
     { bytes: null },
     end
   );
 };
-FeatureCollectionPBuffer.esriShapeBuffer._readField = function (tag, obj, pbf) {
+FeatureCollectionPBuffer.esriShapeBuffer._readField = function (
+  tag: any,
+  obj: any,
+  pbf: any
+) {
   if (tag === 1) obj.bytes = pbf.readBytes();
 };
-FeatureCollectionPBuffer.esriShapeBuffer.write = function (obj, pbf) {
+FeatureCollectionPBuffer.esriShapeBuffer.write = function (obj: any, pbf: any) {
   if (obj.bytes) pbf.writeBytesField(1, obj.bytes);
 };
 
@@ -390,7 +412,7 @@ FeatureCollectionPBuffer.esriShapeBuffer.write = function (obj, pbf) {
 
 FeatureCollectionPBuffer.Feature = {};
 
-FeatureCollectionPBuffer.Feature.read = function (pbf, end) {
+FeatureCollectionPBuffer.Feature.read = function (pbf: any, end?: any) {
   return pbf.readFields(
     FeatureCollectionPBuffer.Feature._readField,
     {
@@ -403,7 +425,11 @@ FeatureCollectionPBuffer.Feature.read = function (pbf, end) {
     end
   );
 };
-FeatureCollectionPBuffer.Feature._readField = function (tag, obj, pbf) {
+FeatureCollectionPBuffer.Feature._readField = function (
+  tag: any,
+  obj: any,
+  pbf: any
+) {
   if (tag === 1)
     obj.attributes.push(
       FeatureCollectionPBuffer.Value.read(pbf, pbf.readVarint() + pbf.pos)
@@ -426,7 +452,7 @@ FeatureCollectionPBuffer.Feature._readField = function (tag, obj, pbf) {
       pbf.readVarint() + pbf.pos
     );
 };
-FeatureCollectionPBuffer.Feature.write = function (obj, pbf) {
+FeatureCollectionPBuffer.Feature.write = function (obj: any, pbf: any) {
   if (obj.attributes)
     for (let i = 0; i < obj.attributes.length; i++)
       pbf.writeMessage(
@@ -450,18 +476,22 @@ FeatureCollectionPBuffer.Feature.write = function (obj, pbf) {
 
 FeatureCollectionPBuffer.UniqueIdField = {};
 
-FeatureCollectionPBuffer.UniqueIdField.read = function (pbf, end) {
+FeatureCollectionPBuffer.UniqueIdField.read = function (pbf: any, end?: any) {
   return pbf.readFields(
     FeatureCollectionPBuffer.UniqueIdField._readField,
     { name: "", isSystemMaintained: false },
     end
   );
 };
-FeatureCollectionPBuffer.UniqueIdField._readField = function (tag, obj, pbf) {
+FeatureCollectionPBuffer.UniqueIdField._readField = function (
+  tag: any,
+  obj: any,
+  pbf: any
+) {
   if (tag === 1) obj.name = pbf.readString();
   else if (tag === 2) obj.isSystemMaintained = pbf.readBoolean();
 };
-FeatureCollectionPBuffer.UniqueIdField.write = function (obj, pbf) {
+FeatureCollectionPBuffer.UniqueIdField.write = function (obj: any, pbf: any) {
   if (obj.name) pbf.writeStringField(1, obj.name);
   if (obj.isSystemMaintained) pbf.writeBooleanField(2, obj.isSystemMaintained);
 };
@@ -470,7 +500,10 @@ FeatureCollectionPBuffer.UniqueIdField.write = function (obj, pbf) {
 
 FeatureCollectionPBuffer.GeometryProperties = {};
 
-FeatureCollectionPBuffer.GeometryProperties.read = function (pbf, end) {
+FeatureCollectionPBuffer.GeometryProperties.read = function (
+  pbf: any,
+  end?: any
+) {
   return pbf.readFields(
     FeatureCollectionPBuffer.GeometryProperties._readField,
     { shapeAreaFieldName: "", shapeLengthFieldName: "", units: "" },
@@ -478,15 +511,18 @@ FeatureCollectionPBuffer.GeometryProperties.read = function (pbf, end) {
   );
 };
 FeatureCollectionPBuffer.GeometryProperties._readField = function (
-  tag,
-  obj,
-  pbf
+  tag: any,
+  obj: any,
+  pbf: any
 ) {
   if (tag === 1) obj.shapeAreaFieldName = pbf.readString();
   else if (tag === 2) obj.shapeLengthFieldName = pbf.readString();
   else if (tag === 3) obj.units = pbf.readString();
 };
-FeatureCollectionPBuffer.GeometryProperties.write = function (obj, pbf) {
+FeatureCollectionPBuffer.GeometryProperties.write = function (
+  obj: any,
+  pbf: any
+) {
   if (obj.shapeAreaFieldName) pbf.writeStringField(1, obj.shapeAreaFieldName);
   if (obj.shapeLengthFieldName)
     pbf.writeStringField(2, obj.shapeLengthFieldName);
@@ -497,18 +533,22 @@ FeatureCollectionPBuffer.GeometryProperties.write = function (obj, pbf) {
 
 FeatureCollectionPBuffer.ServerGens = {};
 
-FeatureCollectionPBuffer.ServerGens.read = function (pbf, end) {
+FeatureCollectionPBuffer.ServerGens.read = function (pbf: any, end?: any) {
   return pbf.readFields(
     FeatureCollectionPBuffer.ServerGens._readField,
     { minServerGen: 0, serverGen: 0 },
     end
   );
 };
-FeatureCollectionPBuffer.ServerGens._readField = function (tag, obj, pbf) {
+FeatureCollectionPBuffer.ServerGens._readField = function (
+  tag: any,
+  obj: any,
+  pbf: any
+) {
   if (tag === 1) obj.minServerGen = pbf.readVarint();
   else if (tag === 2) obj.serverGen = pbf.readVarint();
 };
-FeatureCollectionPBuffer.ServerGens.write = function (obj, pbf) {
+FeatureCollectionPBuffer.ServerGens.write = function (obj: any, pbf: any) {
   if (obj.minServerGen) pbf.writeVarintField(1, obj.minServerGen);
   if (obj.serverGen) pbf.writeVarintField(2, obj.serverGen);
 };
@@ -517,20 +557,24 @@ FeatureCollectionPBuffer.ServerGens.write = function (obj, pbf) {
 
 FeatureCollectionPBuffer.Scale = {};
 
-FeatureCollectionPBuffer.Scale.read = function (pbf, end) {
+FeatureCollectionPBuffer.Scale.read = function (pbf: any, end?: any) {
   return pbf.readFields(
     FeatureCollectionPBuffer.Scale._readField,
     { xScale: 0, yScale: 0, mScale: 0, zScale: 0 },
     end
   );
 };
-FeatureCollectionPBuffer.Scale._readField = function (tag, obj, pbf) {
+FeatureCollectionPBuffer.Scale._readField = function (
+  tag: any,
+  obj: any,
+  pbf: any
+) {
   if (tag === 1) obj.xScale = pbf.readDouble();
   else if (tag === 2) obj.yScale = pbf.readDouble();
   else if (tag === 3) obj.mScale = pbf.readDouble();
   else if (tag === 4) obj.zScale = pbf.readDouble();
 };
-FeatureCollectionPBuffer.Scale.write = function (obj, pbf) {
+FeatureCollectionPBuffer.Scale.write = function (obj: any, pbf: any) {
   if (obj.xScale) pbf.writeDoubleField(1, obj.xScale);
   if (obj.yScale) pbf.writeDoubleField(2, obj.yScale);
   if (obj.mScale) pbf.writeDoubleField(3, obj.mScale);
@@ -541,20 +585,24 @@ FeatureCollectionPBuffer.Scale.write = function (obj, pbf) {
 
 FeatureCollectionPBuffer.Translate = {};
 
-FeatureCollectionPBuffer.Translate.read = function (pbf, end) {
+FeatureCollectionPBuffer.Translate.read = function (pbf: any, end?: any) {
   return pbf.readFields(
     FeatureCollectionPBuffer.Translate._readField,
     { xTranslate: 0, yTranslate: 0, mTranslate: 0, zTranslate: 0 },
     end
   );
 };
-FeatureCollectionPBuffer.Translate._readField = function (tag, obj, pbf) {
+FeatureCollectionPBuffer.Translate._readField = function (
+  tag: any,
+  obj: any,
+  pbf: any
+) {
   if (tag === 1) obj.xTranslate = pbf.readDouble();
   else if (tag === 2) obj.yTranslate = pbf.readDouble();
   else if (tag === 3) obj.mTranslate = pbf.readDouble();
   else if (tag === 4) obj.zTranslate = pbf.readDouble();
 };
-FeatureCollectionPBuffer.Translate.write = function (obj, pbf) {
+FeatureCollectionPBuffer.Translate.write = function (obj: any, pbf: any) {
   if (obj.xTranslate) pbf.writeDoubleField(1, obj.xTranslate);
   if (obj.yTranslate) pbf.writeDoubleField(2, obj.yTranslate);
   if (obj.mTranslate) pbf.writeDoubleField(3, obj.mTranslate);
@@ -565,14 +613,18 @@ FeatureCollectionPBuffer.Translate.write = function (obj, pbf) {
 
 FeatureCollectionPBuffer.Transform = {};
 
-FeatureCollectionPBuffer.Transform.read = function (pbf, end) {
+FeatureCollectionPBuffer.Transform.read = function (pbf: any, end?: any) {
   return pbf.readFields(
     FeatureCollectionPBuffer.Transform._readField,
     { quantizeOriginPostion: 0, scale: null, translate: null },
     end
   );
 };
-FeatureCollectionPBuffer.Transform._readField = function (tag, obj, pbf) {
+FeatureCollectionPBuffer.Transform._readField = function (
+  tag: any,
+  obj: any,
+  pbf: any
+) {
   if (tag === 1) obj.quantizeOriginPostion = pbf.readVarint();
   else if (tag === 2)
     obj.scale = FeatureCollectionPBuffer.Scale.read(
@@ -585,7 +637,7 @@ FeatureCollectionPBuffer.Transform._readField = function (tag, obj, pbf) {
       pbf.readVarint() + pbf.pos
     );
 };
-FeatureCollectionPBuffer.Transform.write = function (obj, pbf) {
+FeatureCollectionPBuffer.Transform.write = function (obj: any, pbf: any) {
   if (obj.quantizeOriginPostion)
     pbf.writeVarintField(1, obj.quantizeOriginPostion);
   if (obj.scale)
@@ -602,7 +654,7 @@ FeatureCollectionPBuffer.Transform.write = function (obj, pbf) {
 
 FeatureCollectionPBuffer.FeatureResult = {};
 
-FeatureCollectionPBuffer.FeatureResult.read = function (pbf, end) {
+FeatureCollectionPBuffer.FeatureResult.read = function (pbf: any, end?: any) {
   return pbf.readFields(
     FeatureCollectionPBuffer.FeatureResult._readField,
     {
@@ -625,7 +677,11 @@ FeatureCollectionPBuffer.FeatureResult.read = function (pbf, end) {
     end
   );
 };
-FeatureCollectionPBuffer.FeatureResult._readField = function (tag, obj, pbf) {
+FeatureCollectionPBuffer.FeatureResult._readField = function (
+  tag: any,
+  obj: any,
+  pbf: any
+) {
   if (tag === 1) obj.objectIdFieldName = pbf.readString();
   else if (tag === 2)
     obj.uniqueIdField = FeatureCollectionPBuffer.UniqueIdField.read(
@@ -671,7 +727,7 @@ FeatureCollectionPBuffer.FeatureResult._readField = function (tag, obj, pbf) {
       FeatureCollectionPBuffer.Feature.read(pbf, pbf.readVarint() + pbf.pos)
     );
 };
-FeatureCollectionPBuffer.FeatureResult.write = function (obj, pbf) {
+FeatureCollectionPBuffer.FeatureResult.write = function (obj: any, pbf: any) {
   if (obj.objectIdFieldName) pbf.writeStringField(1, obj.objectIdFieldName);
   if (obj.uniqueIdField)
     pbf.writeMessage(
@@ -714,10 +770,10 @@ FeatureCollectionPBuffer.FeatureResult.write = function (obj, pbf) {
     for (let i = 0; i < obj.fields.length; i++)
       pbf.writeMessage(13, FeatureCollectionPBuffer.Field.write, obj.fields[i]);
   if (obj.values)
-    for (i = 0; i < obj.values.length; i++)
+    for (let i = 0; i < obj.values.length; i++)
       pbf.writeMessage(14, FeatureCollectionPBuffer.Value.write, obj.values[i]);
   if (obj.features)
-    for (i = 0; i < obj.features.length; i++)
+    for (let i = 0; i < obj.features.length; i++)
       pbf.writeMessage(
         15,
         FeatureCollectionPBuffer.Feature.write,
@@ -729,17 +785,21 @@ FeatureCollectionPBuffer.FeatureResult.write = function (obj, pbf) {
 
 FeatureCollectionPBuffer.CountResult = {};
 
-FeatureCollectionPBuffer.CountResult.read = function (pbf, end) {
+FeatureCollectionPBuffer.CountResult.read = function (pbf: any, end?: any) {
   return pbf.readFields(
     FeatureCollectionPBuffer.CountResult._readField,
     { count: 0 },
     end
   );
 };
-FeatureCollectionPBuffer.CountResult._readField = function (tag, obj, pbf) {
+FeatureCollectionPBuffer.CountResult._readField = function (
+  tag: any,
+  obj: any,
+  pbf: any
+) {
   if (tag === 1) obj.count = pbf.readVarint();
 };
-FeatureCollectionPBuffer.CountResult.write = function (obj, pbf) {
+FeatureCollectionPBuffer.CountResult.write = function (obj: any, pbf: any) {
   if (obj.count) pbf.writeVarintField(1, obj.count);
 };
 
@@ -747,14 +807,18 @@ FeatureCollectionPBuffer.CountResult.write = function (obj, pbf) {
 
 FeatureCollectionPBuffer.ObjectIdsResult = {};
 
-FeatureCollectionPBuffer.ObjectIdsResult.read = function (pbf, end) {
+FeatureCollectionPBuffer.ObjectIdsResult.read = function (pbf: any, end?: any) {
   return pbf.readFields(
     FeatureCollectionPBuffer.ObjectIdsResult._readField,
     { objectIdFieldName: "", serverGens: null, objectIds: [] },
     end
   );
 };
-FeatureCollectionPBuffer.ObjectIdsResult._readField = function (tag, obj, pbf) {
+FeatureCollectionPBuffer.ObjectIdsResult._readField = function (
+  tag: any,
+  obj: any,
+  pbf: any
+) {
   if (tag === 1) obj.objectIdFieldName = pbf.readString();
   else if (tag === 2)
     obj.serverGens = FeatureCollectionPBuffer.ServerGens.read(
@@ -763,7 +827,7 @@ FeatureCollectionPBuffer.ObjectIdsResult._readField = function (tag, obj, pbf) {
     );
   else if (tag === 3) pbf.readPackedVarint(obj.objectIds);
 };
-FeatureCollectionPBuffer.ObjectIdsResult.write = function (obj, pbf) {
+FeatureCollectionPBuffer.ObjectIdsResult.write = function (obj: any, pbf: any) {
   if (obj.objectIdFieldName) pbf.writeStringField(1, obj.objectIdFieldName);
   if (obj.serverGens)
     pbf.writeMessage(
@@ -778,14 +842,18 @@ FeatureCollectionPBuffer.ObjectIdsResult.write = function (obj, pbf) {
 
 FeatureCollectionPBuffer.QueryResult = {};
 
-FeatureCollectionPBuffer.QueryResult.read = function (pbf, end) {
+FeatureCollectionPBuffer.QueryResult.read = function (pbf: any, end?: any) {
   return pbf.readFields(
     FeatureCollectionPBuffer.QueryResult._readField,
     { featureResult: null, Results: null, countResult: null, idsResult: null },
     end
   );
 };
-FeatureCollectionPBuffer.QueryResult._readField = function (tag, obj, pbf) {
+FeatureCollectionPBuffer.QueryResult._readField = function (
+  tag: any,
+  obj: any,
+  pbf: any
+) {
   if (tag === 1)
     (obj.featureResult = FeatureCollectionPBuffer.FeatureResult.read(
       pbf,
@@ -805,7 +873,7 @@ FeatureCollectionPBuffer.QueryResult._readField = function (tag, obj, pbf) {
     )),
       (obj.Results = "idsResult");
 };
-FeatureCollectionPBuffer.QueryResult.write = function (obj, pbf) {
+FeatureCollectionPBuffer.QueryResult.write = function (obj: any, pbf: any) {
   if (obj.featureResult)
     pbf.writeMessage(
       1,
