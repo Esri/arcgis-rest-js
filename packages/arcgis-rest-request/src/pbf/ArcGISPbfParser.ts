@@ -1,7 +1,7 @@
-import { FeatureCollectionPBuffer as EsriPbfBuffer } from "./parser/PbfFeatureCollection.js";
+import { FeatureCollectionPBuffer as EsriPbfBuffer } from "./PbfFeatureCollection.js";
 import Pbf from "pbf";
 
-export default function decode(featureCollectionBuffer) {
+export default function decode(featureCollectionBuffer: any) {
   let decodedObject;
   try {
     decodedObject = EsriPbfBuffer.read(new Pbf(featureCollectionBuffer));
@@ -22,7 +22,7 @@ export default function decode(featureCollectionBuffer) {
 
   const out = {
     type: "FeatureCollection",
-    features: []
+    features: [] as any[]
   };
 
   const geometryParser = getGeometryParser(geometryType);
@@ -50,7 +50,7 @@ export default function decode(featureCollectionBuffer) {
 // * @property {number} esriGeometryTypePolygon=3 esriGeometryTypePolygon value
 // * @property {number} esriGeometryTypeMultipatch=4 esriGeometryTypeMultipatch value
 // * @property {number} esriGeometryTypeNone=127 esriGeometryTypeNone value
-function getGeometryParser(featureType) {
+function getGeometryParser(featureType: any) {
   switch (featureType) {
     case 3:
       return createPolygon;
@@ -63,7 +63,7 @@ function getGeometryParser(featureType) {
   }
 }
 
-function createPoint(f, transform) {
+function createPoint(f: any, transform: any) {
   const p = {
     type: "Point",
     coordinates: transformTuple(f.geometry.coords, transform)
@@ -71,7 +71,7 @@ function createPoint(f, transform) {
   return p;
 }
 
-function createLine(f, transform) {
+function createLine(f: any, transform: any) {
   let l = null;
   const lengths = f.geometry.lengths.length;
 
@@ -106,12 +106,12 @@ function createLine(f, transform) {
   return l;
 }
 
-function createPolygon(f, transform) {
+function createPolygon(f: any, transform: any) {
   const lengths = f.geometry.lengths.length;
 
   const p = {
     type: "Polygon",
-    coordinates: []
+    coordinates: [] as any[]
   };
 
   if (lengths === 1) {
@@ -152,7 +152,7 @@ function createPolygon(f, transform) {
   return p;
 }
 
-function ringIsClockwise(ringToTest) {
+function ringIsClockwise(ringToTest: any) {
   let total = 0;
   let i = 0;
   const rLength = ringToTest.length;
@@ -166,8 +166,13 @@ function ringIsClockwise(ringToTest) {
   return total >= 0;
 }
 
-function createLinearRing(arr, transform, startPoint, stopPoint) {
-  const out = [];
+function createLinearRing(
+  arr: any,
+  transform: any,
+  startPoint: any,
+  stopPoint: any
+) {
+  const out = [] as any[];
   if (arr.length === 0) return out;
 
   const initialX = arr[startPoint];
@@ -186,8 +191,8 @@ function createLinearRing(arr, transform, startPoint, stopPoint) {
   return out;
 }
 
-function collectAttributes(fields, featureAttributes) {
-  const out = {};
+function collectAttributes(fields: any, featureAttributes: any) {
+  const out = {} as { [key: string]: any };
   for (let i = 0; i < fields.length; i++) {
     const f = fields[i];
     if (featureAttributes[i][featureAttributes[i].value_type] !== undefined)
@@ -197,7 +202,11 @@ function collectAttributes(fields, featureAttributes) {
   return out;
 }
 
-function getFeatureId(fields, featureAttributes, featureIdField) {
+function getFeatureId(
+  fields: any,
+  featureAttributes: any,
+  featureIdField: any
+) {
   for (let index = 0; index < fields.length; index++) {
     const field = fields[index];
     if (field.name === featureIdField) {
@@ -207,7 +216,7 @@ function getFeatureId(fields, featureAttributes, featureIdField) {
   return null;
 }
 
-function getKeyName(fields) {
+function getKeyName(fields: any) {
   switch (fields.fieldType) {
     case 1:
       return "sintValue";
@@ -226,7 +235,7 @@ function getKeyName(fields) {
   }
 }
 
-function transformTuple(coords, transform) {
+function transformTuple(coords: any, transform: any) {
   let x = coords[0];
   let y = coords[1];
 
@@ -252,6 +261,6 @@ function transformTuple(coords, transform) {
   return ret;
 }
 
-function difference(a, b) {
+function difference(a: any, b: any) {
   return a + b;
 }
