@@ -22,6 +22,7 @@ import { IRetryAuthError } from "./utils/retryAuthError.js";
 import { getFetch } from "@esri/arcgis-rest-fetch";
 import { IAuthenticationManager } from "./index.js";
 import { isSameOrigin } from "./utils/isSameOrigin.js";
+import decode from "./pbf/ArcGISPbfParser.js";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
@@ -508,12 +509,13 @@ export function internalRequest(
         switch (params.f) {
           case "pbf-as-geojson":
             // return pbfToGeoJSON(response?) // this is the same behavior as arcgis-pbf-parser https://github.com/rowanwins/arcgis-pbf-parser/
-            console.log("Decoding PBF to GeoJSON using arcgis-pbf-parser");
+
             //return tileDecode(response.arrayBuffer());
+            return decode(response.arrayBuffer());
             return response; //temporarily skip processing
           case "pbf-as-arcgis":
             // return pbfToArcGIS(response?) // should return decompressed pbf as ArcGIS geometry objects which can be done via terraformer/arcgis https://github.com/terraformer-js/terraformer/tree/main/packages/arcgis
-            return response.arrayBuffer(); //temporarily skip processing
+            return response; //temporarily skip processing
           case "pbf":
             console.log("returning raw PBF response");
             return response; // leave as is...should remove this case after testing and fall through to default case?
