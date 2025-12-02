@@ -510,10 +510,10 @@ export function internalRequest(
           case "pbf-as-geojson":
             // return pbfToGeoJSON(response?) // this is the same behavior as arcgis-pbf-parser https://github.com/rowanwins/arcgis-pbf-parser/
 
-            //return tileDecode(response.arrayBuffer());
-            //console.log(response);
-            return decode(response.arrayBuffer());
-            return response; //temporarily skip processing
+            //return decode(response.arrayBuffer());
+            console.log(response);
+            console.log(response.body);
+            return decode(response.body);
           case "pbf-as-arcgis":
             // return pbfToArcGIS(response?) // should return decompressed pbf as ArcGIS geometry objects which can be done via terraformer/arcgis https://github.com/terraformer-js/terraformer/tree/main/packages/arcgis
             return response; //temporarily skip processing

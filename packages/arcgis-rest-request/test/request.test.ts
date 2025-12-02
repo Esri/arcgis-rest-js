@@ -24,10 +24,6 @@ import {
   isNode
 } from "../../../scripts/test-helpers.js";
 import { requestConfig } from "../src/requestConfig.js";
-import { base64PbfString } from "./mocks/base-64-pbf-string.js";
-import { base64UrlEncode } from "../src/utils/base-64-url.js";
-import decode from "../src/pbf/ArcGISPbfParser.js";
-import { Readable } from "stream";
 
 describe("request()", () => {
   afterEach(() => {
@@ -384,22 +380,38 @@ describe("request()", () => {
 
     const res = await fetch(url);
     const data = await res.arrayBuffer();
-    console.log(decode(data));
+    console.log(data);
+    // console.log(decode(data));
     // console.log(buffer);
-    // fetchMock.once("*", mockResponse); // mock binary data
+    fetchMock.once(
+      "*",
+      {
+        status: 200,
+        body: data,
+        headers: { "Content-Type": "application/x-protobuf" }
+      },
+      {
+        sendAsJson: false
+      }
+    ); // mock binary data
 
     // console.log(decode(buffer));
     // //expect(decode(buffer)).toBeTruthy();
 
-    // const response = await request(
-    //   "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
-    //   {
-    //     httpMethod: "GET",
-    //     params: { f: "pbf-as-geojson" },
-    //     rawResponse: true
-    //   }
-    // );
-    // console.log(response);
+    const response = await request(
+      "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
+      {
+        httpMethod: "GET",
+        params: { f: "pbf-as-geojson" },
+        rawResponse: true
+      }
+    );
+    console.log(response);
+    // want to convert array buffer back to string
+    //const string = Buffer.from(response).toString();
+    //console.log(string);
+
+    //expect(string).toBe("Hello World");
     // expect(response.status).toBe(200);
     // expect(response.ok).toBe(true);
     // expect(response.body.Readable).not.toBe(null);
