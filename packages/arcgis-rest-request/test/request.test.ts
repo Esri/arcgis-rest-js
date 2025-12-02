@@ -378,7 +378,8 @@ describe("request()", () => {
     console.log(buffer);
     //fetchMock.once("*", buffer); // mock binary data
 
-    decode(buffer);
+    console.log(decode(buffer));
+    expect(decode(buffer)).toBeTruthy();
 
     // const response = await request(
     //   "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
