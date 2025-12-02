@@ -511,6 +511,7 @@ export function internalRequest(
             // return pbfToGeoJSON(response?) // this is the same behavior as arcgis-pbf-parser https://github.com/rowanwins/arcgis-pbf-parser/
 
             //return tileDecode(response.arrayBuffer());
+            //console.log(response);
             return decode(response.arrayBuffer());
             return response; //temporarily skip processing
           case "pbf-as-arcgis":
