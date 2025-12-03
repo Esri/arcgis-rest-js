@@ -17,6 +17,7 @@ import {
   queryRelatedResponse
 } from "./mocks/feature.js";
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
+import decode from "../src/pbf/ArcGISPbfParser.js";
 
 const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
@@ -97,6 +98,45 @@ describe("getFeature() and queryFeatures()", () => {
     );
     expect(options.method).toBe("GET");
     // expect(response.attributes.FID).toEqual(42);
+  });
+
+  test("test for PBF as geojson feature support", async () => {
+    const requestOptions: IQueryFeaturesOptions = {
+      url: serviceUrl,
+      where: "Condition='Poor'",
+      outFields: ["FID", "Tree_ID", "Cmn_Name", "Condition"],
+      orderByFields: "test",
+      geometry: {},
+      geometryType: "esriGeometryPolygon",
+      f: "pbf",
+      rawResponse: true
+    };
+
+    let liveUrl =
+      "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2/query?f=pbf&objectIds=49481&outFields=B12001_calc_numDivorcedE%2CB12001_calc_numMarriedE%2CB12001_calc_numNeverE%2CB12001_calc_pctMarriedE%2CCounty%2CNAME%2COBJECTID&outSR=102100&returnGeometry=false&spatialRel=esriSpatialRelIntersects&where=1%3D1";
+    const res = await fetch(liveUrl);
+    const data = await res.arrayBuffer();
+
+    fetchMock.once(
+      "*",
+      {
+        status: 200,
+        body: data,
+        headers: { "Content-Type": "application/x-protobuf" }
+      },
+      {
+        sendAsJson: false
+      }
+    );
+    const response = await queryFeatures(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    console.log(response);
+    expect(url).toEqual(
+      `${requestOptions.url}/query?f=pbf&where=Condition%3D%27Poor%27&outFields=FID%2CTree_ID%2CCmn_Name%2CCondition&geometry=%7B%7D&geometryType=esriGeometryPolygon&orderByFields=test`
+    );
+    expect(options.method).toBe("GET");
   });
 
   test("should supply default query related parameters", async () => {

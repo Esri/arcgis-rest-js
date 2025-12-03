@@ -366,59 +366,6 @@ describe("request()", () => {
     expect(raw).toEqual(GeoJSONFeatureCollection);
   });
 
-  test("should return a raw response pbf", async () => {
-    const fs = await import("fs");
-    const buffer = await fs.readFileSync(
-      "./packages/arcgis-rest-request/test/mocks/results.pbf"
-    );
-    const mockResponse = new Response(buffer, {
-      status: 200,
-      headers: { "Content-Type": "text/plain" }
-    });
-    let url =
-      "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2/query?f=pbf&objectIds=49481&outFields=B12001_calc_numDivorcedE%2CB12001_calc_numMarriedE%2CB12001_calc_numNeverE%2CB12001_calc_pctMarriedE%2CCounty%2CNAME%2COBJECTID&outSR=102100&returnGeometry=false&spatialRel=esriSpatialRelIntersects&where=1%3D1";
-
-    const res = await fetch(url);
-    const data = await res.arrayBuffer();
-    console.log(data);
-    // console.log(decode(data));
-    // console.log(buffer);
-    fetchMock.once(
-      "*",
-      {
-        status: 200,
-        body: data,
-        headers: { "Content-Type": "application/x-protobuf" }
-      },
-      {
-        sendAsJson: false
-      }
-    ); // mock binary data
-
-    // console.log(decode(buffer));
-    // //expect(decode(buffer)).toBeTruthy();
-
-    const response = await request(
-      "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
-      {
-        httpMethod: "GET",
-        params: { f: "pbf-as-geojson" },
-        rawResponse: true
-      }
-    );
-    console.log(response);
-    // want to convert array buffer back to string
-    //const string = Buffer.from(response).toString();
-    //console.log(string);
-
-    //expect(string).toBe("Hello World");
-    // expect(response.status).toBe(200);
-    // expect(response.ok).toBe(true);
-    // expect(response.body.Readable).not.toBe(null);
-    // const raw = await response.json();
-    // expect(raw).toBeTruthy();
-  });
-
   test("should allow setting defaults for all requests", async () => {
     fetchMock.once("*", SharingRestInfo);
 

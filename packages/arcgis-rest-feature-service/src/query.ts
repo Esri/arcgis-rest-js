@@ -17,6 +17,7 @@ import {
   ISharedQueryOptions,
   IStatisticDefinition
 } from "./helpers.js";
+import decode from "./pbf/ArcGISPbfParser.js";
 
 /**
  * Request options to fetch a feature by id.
@@ -256,6 +257,24 @@ export function queryFeatures(
       }
     }
   );
+
+  console.log("Query Options:", queryOptions);
+  console.log("Request Options:", requestOptions);
+
+  // three cases:
+  // 1. f=pbf: return undecoded pbf straight back to user
+  // 2. f=pbf-as-geojson: decode pbf and return geojson
+  // 3. f=pbf-as-arcgis: decode pbf and return arcgis objects
+
+  if (queryOptions.params?.f === "pbf" && requestOptions.rawResponse) {
+    return request(`${cleanUrl(requestOptions.url)}/query`, queryOptions).then(
+      async (response: Response) => {
+        const arrayBuffer = await response.arrayBuffer();
+        const decoded = decode(arrayBuffer).featureCollection;
+        return decoded;
+      }
+    );
+  }
 
   return request(`${cleanUrl(requestOptions.url)}/query`, queryOptions);
 }

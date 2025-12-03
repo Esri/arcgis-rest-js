@@ -22,7 +22,6 @@ import { IRetryAuthError } from "./utils/retryAuthError.js";
 import { getFetch } from "@esri/arcgis-rest-fetch";
 import { IAuthenticationManager } from "./index.js";
 import { isSameOrigin } from "./utils/isSameOrigin.js";
-import decode from "./pbf/ArcGISPbfParser.js";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
@@ -505,24 +504,7 @@ export function internalRequest(
           });
       }
       if (rawResponse) {
-        // this is where we can check if we need to convert to arcgis or geojson format
-        switch (params.f) {
-          case "pbf-as-geojson":
-            // return pbfToGeoJSON(response?) // this is the same behavior as arcgis-pbf-parser https://github.com/rowanwins/arcgis-pbf-parser/
-
-            //return decode(response.arrayBuffer());
-            console.log(response);
-            console.log(response.body);
-            return decode(response.body);
-          case "pbf-as-arcgis":
-            // return pbfToArcGIS(response?) // should return decompressed pbf as ArcGIS geometry objects which can be done via terraformer/arcgis https://github.com/terraformer-js/terraformer/tree/main/packages/arcgis
-            return response; //temporarily skip processing
-          case "pbf":
-            console.log("returning raw PBF response");
-            return response; // leave as is...should remove this case after testing and fall through to default case?
-          default:
-            return response;
-        }
+        return response;
       }
       switch (params.f) {
         case "json":
