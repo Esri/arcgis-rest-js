@@ -97,7 +97,6 @@ describe("getFeature() and queryFeatures()", () => {
       `${requestOptions.url}/query?f=json&where=Condition%3D%27Poor%27&outFields=FID%2CTree_ID%2CCmn_Name%2CCondition&geometry=%7B%7D&geometryType=esriGeometryPolygon&orderByFields=test`
     );
     expect(options.method).toBe("GET");
-    // expect(response.attributes.FID).toEqual(42);
   });
 
   test("test for PBF as geojson feature support", async () => {

@@ -265,6 +265,7 @@ export function queryFeatures(
   // 1. f=pbf: return undecoded pbf straight back to user
   // 2. f=pbf-as-geojson: decode pbf and return geojson
   // 3. f=pbf-as-arcgis: decode pbf and return arcgis objects
+  // if any of these happen, we just need to send rawResponse: true on behalf of the user to fetch the pbf response
 
   if (queryOptions.params?.f === "pbf" && requestOptions.rawResponse) {
     return request(`${cleanUrl(requestOptions.url)}/query`, queryOptions).then(
