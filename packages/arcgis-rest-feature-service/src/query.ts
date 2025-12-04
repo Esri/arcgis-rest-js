@@ -17,7 +17,7 @@ import {
   ISharedQueryOptions,
   IStatisticDefinition
 } from "./helpers.js";
-import decode from "./pbf/ArcGISPbfParser.js";
+import { pbfToGeoJSON } from "./pbf/pbfToGeoJson.js";
 
 /**
  * Request options to fetch a feature by id.
@@ -76,7 +76,7 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
    * NOTE: for "pbf" you must also supply `rawResponse: true`
    * and parse the response yourself using `response.arrayBuffer()`
    */
-  f?: "json" | "geojson" | "pbf";
+  f?: "json" | "geojson" | "pbf" | "pbf-as-geojson" | "pbf-as-arcgis";
   /**
    * someday...
    *
@@ -131,7 +131,7 @@ export interface IQueryAllFeaturesOptions extends ISharedQueryOptions {
    * NOTE: for "pbf" you must also supply `rawResponse: true`
    * and parse the response yourself using `response.arrayBuffer()`
    */
-  f?: "json" | "geojson";
+  f?: "json" | "geojson" | "pbf" | "pbf-as-geojson" | "pbf-as-arcgis";
   /**
    * someday...
    *
@@ -258,21 +258,23 @@ export function queryFeatures(
     }
   );
 
-  console.log("Query Options:", queryOptions);
-  console.log("Request Options:", requestOptions);
-
   // three cases:
   // 1. f=pbf: return undecoded pbf straight back to user
   // 2. f=pbf-as-geojson: decode pbf and return geojson
   // 3. f=pbf-as-arcgis: decode pbf and return arcgis objects
   // if any of these happen, we just need to send rawResponse: true on behalf of the user to fetch the pbf response
 
-  if (queryOptions.params?.f === "pbf" && requestOptions.rawResponse) {
+  if (
+    queryOptions.params?.f === "pbf-as-geojson" &&
+    requestOptions.rawResponse
+  ) {
     return request(`${cleanUrl(requestOptions.url)}/query`, queryOptions).then(
       async (response: Response) => {
         const arrayBuffer = await response.arrayBuffer();
-        const decoded = decode(arrayBuffer).featureCollection;
-        return decoded;
+        const decoded = pbfToGeoJSON(arrayBuffer);
+        // return simple decoded geojson feature collection https://geojson.org/
+        // TODO: check this is slightly different than the arcgis geojson object that comes from a geojson request.
+        return decoded.featureCollection;
       }
     );
   }
@@ -371,10 +373,22 @@ export async function queryAllFeatures(
         }
       }
     );
-    const response: IQueryAllFeaturesResponse = await request(
-      `${cleanUrl(requestOptions.url)}/query`,
-      queryOptions
-    );
+
+    let response: IQueryAllFeaturesResponse;
+    if (queryOptions.params?.f === "pbf" && requestOptions.rawResponse) {
+      const rawResponse = await request(
+        `${cleanUrl(requestOptions.url)}/query`,
+        queryOptions
+      );
+      const arrayBuffer = await rawResponse.arrayBuffer();
+      const decodedResponse = decode(arrayBuffer);
+      response = decodedResponse;
+    } else {
+      const response: IQueryAllFeaturesResponse = await request(
+        `${cleanUrl(requestOptions.url)}/query`,
+        queryOptions
+      );
+    }
 
     // save the first response structure
     if (!allFeaturesResponse) {

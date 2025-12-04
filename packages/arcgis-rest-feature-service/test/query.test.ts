@@ -17,7 +17,6 @@ import {
   queryRelatedResponse
 } from "./mocks/feature.js";
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
-import decode from "../src/pbf/ArcGISPbfParser.js";
 
 const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
@@ -107,7 +106,7 @@ describe("getFeature() and queryFeatures()", () => {
       orderByFields: "test",
       geometry: {},
       geometryType: "esriGeometryPolygon",
-      f: "pbf",
+      f: "pbf-as-geojson",
       rawResponse: true
     };
 
@@ -133,7 +132,7 @@ describe("getFeature() and queryFeatures()", () => {
     const [url, options] = fetchMock.lastCall("*");
     console.log(response);
     expect(url).toEqual(
-      `${requestOptions.url}/query?f=pbf&where=Condition%3D%27Poor%27&outFields=FID%2CTree_ID%2CCmn_Name%2CCondition&geometry=%7B%7D&geometryType=esriGeometryPolygon&orderByFields=test`
+      `${requestOptions.url}/query?f=pbf-as-geojson&where=Condition%3D%27Poor%27&outFields=FID%2CTree_ID%2CCmn_Name%2CCondition&geometry=%7B%7D&geometryType=esriGeometryPolygon&orderByFields=test`
     );
     expect(options.method).toBe("GET");
   });
