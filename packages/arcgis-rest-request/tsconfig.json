@@ -1,6 +1,4 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src/**/*.ts"],
-  // exclude icebox foler
-  "exclude": ["../arcgis-rest-feature-service/src/icebox/**"]
+  "include": ["src/**/*.ts"]
 }
