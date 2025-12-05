@@ -259,16 +259,16 @@ export function queryFeatures(
   );
 
   // three cases:
-  // 1. f=pbf: return undecoded pbf straight back to user
-  // 2. f=pbf-as-geojson: decode pbf and return geojson
-  // 3. f=pbf-as-arcgis: decode pbf and return arcgis objects
+  // 1. f=pbf: return undecoded pbf straight back to user -- pass over to return
+  // 2. f=pbf-as-geojson: decode pbf and return geojson -- enter and return promise
+  // 3. f=pbf-as-arcgis: decode pbf and return arcgis objects -- not implemented yet
   // if any of these happen, we just need to send rawResponse: true on behalf of the user to fetch the pbf response
 
-  if (
-    queryOptions.params?.f === "pbf-as-geojson" &&
-    requestOptions.rawResponse
-  ) {
-    return request(`${cleanUrl(requestOptions.url)}/query`, queryOptions).then(
+  if (queryOptions.params?.f === "pbf-as-geojson") {
+    // no need to pass f=pbf as rawResponse will get us a pbf response by default the way request is written
+    // manually setting rawResponse here as user shouldn't need to pass a secondary param to get data unless they want a rawResponse themselves.
+    const customOptions = { ...queryOptions, rawResponse: true };
+    return request(`${cleanUrl(requestOptions.url)}/query`, customOptions).then(
       async (response: Response) => {
         const arrayBuffer = await response.arrayBuffer();
         const decoded = pbfToGeoJSON(arrayBuffer);
@@ -375,16 +375,18 @@ export async function queryAllFeatures(
     );
 
     let response: IQueryAllFeaturesResponse;
-    if (queryOptions.params?.f === "pbf" && requestOptions.rawResponse) {
+    if (queryOptions.params?.f === "pbf-as-geojson") {
+      const customOptions = { ...queryOptions, rawResponse: true };
       const rawResponse = await request(
         `${cleanUrl(requestOptions.url)}/query`,
-        queryOptions
+        customOptions
       );
       const arrayBuffer = await rawResponse.arrayBuffer();
-      const decodedResponse = decode(arrayBuffer);
-      response = decodedResponse;
+      const decodedResponse = pbfToGeoJSON(arrayBuffer);
+      console.log(decodedResponse.featureCollection.features[0].properties);
+      response = decodedResponse.featureCollection;
     } else {
-      const response: IQueryAllFeaturesResponse = await request(
+      response = await request(
         `${cleanUrl(requestOptions.url)}/query`,
         queryOptions
       );

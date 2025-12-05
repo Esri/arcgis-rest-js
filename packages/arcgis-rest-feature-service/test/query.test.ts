@@ -110,7 +110,7 @@ describe("getFeature() and queryFeatures()", () => {
       rawResponse: true
     };
 
-    let liveUrl =
+    const liveUrl =
       "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2/query?f=pbf&objectIds=49481&outFields=B12001_calc_numDivorcedE%2CB12001_calc_numMarriedE%2CB12001_calc_numNeverE%2CB12001_calc_pctMarriedE%2CCounty%2CNAME%2COBJECTID&outSR=102100&returnGeometry=false&spatialRel=esriSpatialRelIntersects&where=1%3D1";
     const res = await fetch(liveUrl);
     const data = await res.arrayBuffer();
@@ -271,6 +271,45 @@ describe("queryAllFeatures", () => {
 
     expect(result.features.length).toBe(1);
     expect(result.features[0].attributes.OBJECTID).toBe(2001);
+  });
+
+  test("should fetch PBF features as geoJSON if total features are under page size", async () => {
+    // is this f=json needed to get the maxRecordCount from server? does maxRecordCount apply to all requests or just json?
+
+    const liveUrl =
+      "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2/query?f=pbf&objectIds=49481&outFields=B12001_calc_numDivorcedE%2CB12001_calc_numMarriedE%2CB12001_calc_numNeverE%2CB12001_calc_pctMarriedE%2CCounty%2CNAME%2COBJECTID&outSR=102100&returnGeometry=false&spatialRel=esriSpatialRelIntersects&where=1%3D1";
+    const res = await fetch(liveUrl);
+    const data = await res.arrayBuffer();
+
+    fetchMock.getOnce(`${serviceUrl}?f=json`, {
+      maxRecordCount: 2000
+    });
+
+    fetchMock.getOnce(
+      `${serviceUrl}/query?f=pbf-as-geojson&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=2000`,
+      {
+        status: 200,
+        body: data,
+        headers: { "Content-Type": "application/x-protobuf" }
+      },
+      {
+        sendAsJson: false
+      }
+    );
+
+    // queryAllFeatures makes at least two requests, one to get maxRecordCount and one to get features
+    // the second request should return a decoded geojson feature collection
+
+    // TODO: try querying serviceurl as live url for a pbf response as well if it works.
+    const result = await queryAllFeatures({
+      url: serviceUrl,
+      where: "1=1",
+      outFields: "*",
+      f: "pbf-as-geojson"
+    });
+
+    expect(result.features.length).toBe(1);
+    expect(result.features[0].properties.OBJECTID).toBe(49481);
   });
 
   test("uses user defined resultRecordCount if less than page size", async () => {
