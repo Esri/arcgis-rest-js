@@ -309,6 +309,7 @@ describe("queryAllFeatures", () => {
     });
 
     expect(result.features.length).toBe(1);
+    // TODO: fit response return values to fulfil IFeature interface contract
     expect(result.features[0].properties.OBJECTID).toBe(49481);
   });
 
