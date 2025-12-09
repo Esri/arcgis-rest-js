@@ -1,0 +1,74 @@
+name: Manual, Build, Test, Release
+
+# On pushes to main (i.e. merging a PR)
+# run all tests, on Ubuntu Node 24 and release if tests pass
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  # First, build and test on multiple os's
+  # and multuple versions of node
+  build_and_test:
+    name: Build and Test
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [20, 22, 24]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install
+        run: npm ci --legacy-peer-deps
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Build
+        run: npm run build
+
+      - name: Run Tests
+        run: npm run test:ci
+
+  # If the build and test works, run a release
+  release:
+    name: Release
+    needs: [build_and_test]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for trusted publishing and npm provenance
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # This parameter is required to make sure sematic-relase exactly use the provided GitHub Token
+          # See https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions#pushing-package.json-changes-to-your-repository
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Update NPM
+        run: npm install -g npm@latest
+
+      - name: Install
+        run: npm ci --legacy-peer-deps
+
+      - name: Build
+        run: npm run build
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run release
