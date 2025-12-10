@@ -267,13 +267,13 @@ export function queryFeatures(
   if (queryOptions.params?.f === "pbf-as-geojson") {
     // no need to pass f=pbf as rawResponse will get us a pbf response by default the way request is written
     // manually setting rawResponse here as user shouldn't need to pass a secondary param to get data unless they want a rawResponse themselves.
-    const customOptions = { ...queryOptions, rawResponse: true };
+    const customOptions = { ...queryOptions, f: "pbf", rawResponse: true };
     return request(`${cleanUrl(requestOptions.url)}/query`, customOptions).then(
       async (response: Response) => {
         const arrayBuffer = await response.arrayBuffer();
         const decoded = pbfToGeoJSON(arrayBuffer);
         // return simple decoded geojson feature collection https://geojson.org/
-        // TODO: check this is slightly different than the arcgis geojson object that comes from a geojson request.
+        // TODO: check if this is slightly different than the arcgis geojson object that comes from a geojson request.
         return decoded.featureCollection;
       }
     );
@@ -383,7 +383,6 @@ export async function queryAllFeatures(
       );
       const arrayBuffer = await rawResponse.arrayBuffer();
       const decodedResponse = pbfToGeoJSON(arrayBuffer);
-      console.log(decodedResponse.featureCollection.features[0].properties);
       response = decodedResponse.featureCollection;
     } else {
       response = await request(
@@ -416,6 +415,5 @@ export async function queryAllFeatures(
       offset += pageSize;
     }
   }
-
   return allFeaturesResponse;
 }

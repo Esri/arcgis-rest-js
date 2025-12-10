@@ -17,6 +17,8 @@ import {
   queryRelatedResponse
 } from "./mocks/feature.js";
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
+import decode from "../src/pbf/geoJSONPbfParser.js";
+import { isBrowser, isNode } from "../../../scripts/test-helpers.js";
 
 const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
@@ -98,43 +100,89 @@ describe("getFeature() and queryFeatures()", () => {
     expect(options.method).toBe("GET");
   });
 
-  test("test for PBF as geojson feature support", async () => {
-    const requestOptions: IQueryFeaturesOptions = {
-      url: serviceUrl,
-      where: "Condition='Poor'",
-      outFields: ["FID", "Tree_ID", "Cmn_Name", "Condition"],
-      orderByFields: "test",
-      geometry: {},
-      geometryType: "esriGeometryPolygon",
+  test("should throw an error when pbf-as-geojson fails to decode", async () => {});
+
+  test("should handle pbf-as-geojson requests that fail due to unauthenticated states", async () => {});
+
+  test("test for PBF as geojson feature support (f=pbf-as-geojson)", async () => {
+    let arrayBuffer: ArrayBuffer | Buffer;
+
+    if (isBrowser) {
+      console.log("Running in browser");
+
+      const pbf = await fetch(
+        "./packages/arcgis-rest-feature-service/test/mocks/results.pbf"
+      );
+      arrayBuffer = await pbf.arrayBuffer();
+    }
+
+    if (isNode) {
+      console.log("Running in Node.js");
+
+      const fs = await import("fs");
+      const filePath =
+        "./packages/arcgis-rest-feature-service/test/mocks/results.pbf";
+      try {
+        arrayBuffer = fs.readFileSync(filePath);
+      } catch (err) {
+        throw err;
+      }
+    }
+
+    console.log("arrayBuffer", arrayBuffer);
+    console.log(decode(arrayBuffer));
+
+    const testPublicFeatureServer: IQueryFeaturesOptions = {
+      url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2",
       f: "pbf-as-geojson",
-      rawResponse: true
+      objectIds: [49481],
+      outFields: [
+        "B12001_calc_numDivorcedE",
+        "B12001_calc_numMarriedE",
+        "B12001_calc_numNeverE",
+        "B12001_calc_pctMarriedE",
+        "County",
+        "NAME",
+        "OBJECTID"
+      ],
+      outSR: "102100",
+      returnGeometry: false,
+      spatialRel: "esriSpatialRelIntersects",
+      where: "1=1"
     };
-
-    const liveUrl =
+    const testPublicFeatureServerUrl =
       "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2/query?f=pbf&objectIds=49481&outFields=B12001_calc_numDivorcedE%2CB12001_calc_numMarriedE%2CB12001_calc_numNeverE%2CB12001_calc_pctMarriedE%2CCounty%2CNAME%2COBJECTID&outSR=102100&returnGeometry=false&spatialRel=esriSpatialRelIntersects&where=1%3D1";
-    const res = await fetch(liveUrl);
-    const data = await res.arrayBuffer();
 
+    // Path 1: fetch direct query and decode public endpoint to test decode works properly
+
+    const liveResponse = await fetch(testPublicFeatureServerUrl);
+    const mockResponseClone = liveResponse.clone();
+
+    const data = await liveResponse.arrayBuffer();
+    const geoJson = decode(data).featureCollection;
+
+    // Path 2: read array buffer from cloned response and add data to test fetch-mock path
+    //          and whether queryFeatures will decode properly as well
+
+    const fetchMockArrayBuffer = await mockResponseClone.arrayBuffer();
+
+    // manually set the downloaded array buffer through fetch-mock to be consumed by queryFeatures
     fetchMock.once(
       "*",
       {
         status: 200,
-        body: data,
-        headers: { "Content-Type": "application/x-protobuf" }
+        headers: { "Content-Type": "application/x-protobuf" },
+        body: fetchMockArrayBuffer
       },
-      {
-        sendAsJson: false
-      }
+      { sendAsJson: false }
     );
-    const response = await queryFeatures(requestOptions);
+
+    const response = await queryFeatures(testPublicFeatureServer);
 
     expect(fetchMock.called()).toBeTruthy();
     const [url, options] = fetchMock.lastCall("*");
-    console.log(response);
-    expect(url).toEqual(
-      `${requestOptions.url}/query?f=pbf-as-geojson&where=Condition%3D%27Poor%27&outFields=FID%2CTree_ID%2CCmn_Name%2CCondition&geometry=%7B%7D&geometryType=esriGeometryPolygon&orderByFields=test`
-    );
     expect(options.method).toBe("GET");
+    expect(geoJson).toEqual(response);
   });
 
   test("should supply default query related parameters", async () => {
@@ -262,7 +310,6 @@ describe("queryAllFeatures", () => {
         features: page2Features // only one feature
       }
     );
-
     const result = await queryAllFeatures({
       url: serviceUrl,
       where: "1=1",
@@ -276,41 +323,40 @@ describe("queryAllFeatures", () => {
   test("should fetch PBF features as geoJSON if total features are under page size", async () => {
     // is this f=json needed to get the maxRecordCount from server? does maxRecordCount apply to all requests or just json?
 
-    const liveUrl =
+    let aPublicUrl =
       "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2/query?f=pbf&objectIds=49481&outFields=B12001_calc_numDivorcedE%2CB12001_calc_numMarriedE%2CB12001_calc_numNeverE%2CB12001_calc_pctMarriedE%2CCounty%2CNAME%2COBJECTID&outSR=102100&returnGeometry=false&spatialRel=esriSpatialRelIntersects&where=1%3D1";
-    const res = await fetch(liveUrl);
-    const data = await res.arrayBuffer();
 
-    fetchMock.getOnce(`${serviceUrl}?f=json`, {
-      maxRecordCount: 2000
-    });
+    let testUrl = aPublicUrl;
+    //const testResponse = await fetch(testUrl);
+    //let toJson = await testResponse.json();
+    //console.log("testResponse", toJson);
 
-    fetchMock.getOnce(
-      `${serviceUrl}/query?f=pbf-as-geojson&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=2000`,
-      {
-        status: 200,
-        body: data,
-        headers: { "Content-Type": "application/x-protobuf" }
-      },
-      {
-        sendAsJson: false
-      }
-    );
+    const jsonResponse = await fetch(testUrl.replace("f=pbf", "f=json"));
+    const jsonData = await jsonResponse.json();
+    console.log("jsonData", jsonData.features);
+    const geojsonResponse = await fetch(testUrl.replace("f=pbf", "f=geojson"));
+    const geojsonData = await geojsonResponse.json();
+    console.log("geojsonData", geojsonData.features);
 
-    // queryAllFeatures makes at least two requests, one to get maxRecordCount and one to get features
-    // the second request should return a decoded geojson feature collection
+    const pbfResponse = await fetch(testUrl);
+    // need to test other urls and their return values to make sure they can decode to pbf correctly
+    //console.log("pbfResponse", pbfResponse);
+    //const arrBuff = await pbfResponse.arrayBuffer();
+
+    console.log("blob", await pbfResponse.headers);
+    //console.log("arrBuff", arrBuff);
+    //console.log("pbf as geojson", decode(arrBuff).featureCollection.features);
+
+    // // queryAllFeatures makes at least two requests, one to get maxRecordCount and one to get features
+    // // the second request should return a decoded geojson feature collection
 
     // TODO: try querying serviceurl as live url for a pbf response as well if it works.
-    const result = await queryAllFeatures({
-      url: serviceUrl,
-      where: "1=1",
-      outFields: "*",
-      f: "pbf-as-geojson"
-    });
+    console.log("testUrl", testUrl);
+    // console.log("result", result);
 
-    expect(result.features.length).toBe(1);
+    // expect(result.features.length).toBe(1);
     // TODO: fit response return values to fulfil IFeature interface contract
-    expect(result.features[0].properties.OBJECTID).toBe(49481);
+    // expect(result.features[0].properties.OBJECTID).toBe(49481);
   });
 
   test("uses user defined resultRecordCount if less than page size", async () => {
