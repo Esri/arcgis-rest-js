@@ -6,7 +6,10 @@ export default function decode(featureCollectionBuffer: any) {
   try {
     decodedObject = EsriPbfBuffer.read(new Pbf(featureCollectionBuffer));
   } catch (error) {
-    throw new Error("Could not parse arcgis-pbf buffer");
+    throw new Error("Could not parse arcgis-pbf buffer: ");
+  }
+  if (!decodedObject.queryResult) {
+    throw new Error("Could not parse arcgis-pbf buffer: ");
   }
   const featureResult = decodedObject.queryResult.featureResult;
   const transform = featureResult.transform;

@@ -163,19 +163,8 @@ describe("getFeature() and queryFeatures()", () => {
 
     // Path 2: read array buffer from cloned response and add data to test fetch-mock path
     //          and whether queryFeatures will decode properly as well
-
-    const fetchMockArrayBuffer = await mockResponseClone.arrayBuffer();
-
     // manually set the downloaded array buffer through fetch-mock to be consumed by queryFeatures
-    fetchMock.once(
-      "*",
-      {
-        status: 200,
-        headers: { "Content-Type": "application/x-protobuf" },
-        body: fetchMockArrayBuffer
-      },
-      { sendAsJson: false }
-    );
+    fetchMock.once("*", mockResponseClone.arrayBuffer(), { sendAsJson: false });
 
     const response = await queryFeatures(testPublicFeatureServer);
 
