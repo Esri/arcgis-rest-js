@@ -267,9 +267,16 @@ export function queryFeatures(
   if (queryOptions.params?.f === "pbf-as-geojson") {
     // no need to pass f=pbf as rawResponse will get us a pbf response by default the way request is written
     // manually setting rawResponse here as user shouldn't need to pass a secondary param to get data unless they want a rawResponse themselves.
+    // need to get raw response to access headers to determing if error is sent in json or if we have a pbf body
     const customOptions = { ...queryOptions, f: "pbf", rawResponse: true };
     return request(`${cleanUrl(requestOptions.url)}/query`, customOptions).then(
-      async (response: Response) => {
+      async (response: any) => {
+        if (
+          response.headers.get("content-type")?.includes("application/json")
+        ) {
+          const arcgisServerError = await response.json();
+          throw arcgisServerError;
+        }
         const arrayBuffer = await response.arrayBuffer();
         const decoded = pbfToGeoJSON(arrayBuffer);
         // return simple decoded geojson feature collection https://geojson.org/
