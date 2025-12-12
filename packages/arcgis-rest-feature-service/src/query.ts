@@ -9,7 +9,9 @@ import {
   IFeatureSet,
   IFeature,
   Units,
-  IExtent
+  IExtent,
+  ArcGISRequestError,
+  ArcGISAuthError
 } from "@esri/arcgis-rest-request";
 
 import {
@@ -274,8 +276,23 @@ export function queryFeatures(
         if (
           response.headers.get("content-type")?.includes("application/json")
         ) {
-          const arcgisServerError = await response.json();
-          throw arcgisServerError;
+          const err = (await response.json()).error;
+          if (err?.code === 498 || err?.code === 499) {
+            throw new ArcGISAuthError(
+              err.message,
+              err.code,
+              err,
+              requestOptions.url,
+              customOptions
+            );
+          }
+          throw new ArcGISRequestError(
+            err.message,
+            err.code,
+            err,
+            requestOptions.url,
+            customOptions
+          );
         }
         const arrayBuffer = await response.arrayBuffer();
         const decoded = pbfToGeoJSON(arrayBuffer);

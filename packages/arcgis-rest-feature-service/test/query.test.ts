@@ -119,51 +119,11 @@ describe("getFeature() and queryFeatures()", () => {
       "f=json"
     );
 
-    const docsEndpointQueryOptions: IQueryFeaturesOptions = {
-      url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-      f: "pbf-as-geojson",
-      where: "1=1",
-      outFields: ["*"],
-      resultOffset: 0,
-      resultRecordCount: 3,
-      geometry: {
-        xmin: -13193261,
-        ymin: 4028181.6,
-        xmax: -13185072.9,
-        ymax: 4035576.6,
-        spatialReference: { wkid: 101200 }
-      },
-      geometryType: "esriGeometryEnvelope",
-      spatialRel: "esriSpatialRelIntersects",
-      authentication: ApiKeyManager.fromKey(badApiKey)
-    };
-
     const goodRealPbfResponse = await fetch(docsUrlPbfWithGoodKey);
     const badRealPbfResponse = await fetch(docsUrlPbfWithBadKey);
 
     const goodRealJsonResponse = await fetch(docsUrlJsonWithGoodKey);
     const badRealJsonResponse = await fetch(docsUrlJsonWithBadKey);
-
-    console.log(
-      "content-type good pbf",
-      goodRealPbfResponse.headers.get("content-type")
-    );
-    console.log("GOOD_PBF_RESPONSE", goodRealPbfResponse);
-    console.log(
-      "content-type bad pbf",
-      badRealPbfResponse.headers.get("content-type")
-    );
-    console.log("BAD_PBF_RESPONSE", badRealPbfResponse);
-    console.log(
-      "content-type good json",
-      goodRealJsonResponse.headers.get("content-type")
-    );
-    console.log("GOOD_JSON_RESPONSE", goodRealJsonResponse);
-    console.log(
-      "content-type bad json",
-      badRealJsonResponse.headers.get("content-type")
-    );
-    console.log("BAD_JSON_RESPONSE", badRealJsonResponse);
 
     const docsPbfWithBadKeyOptions: IQueryFeaturesOptions = {
       url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
@@ -254,7 +214,11 @@ describe("getFeature() and queryFeatures()", () => {
         docsPbfWithGoodKeyOptions
       );
       console.log("goodPbfRequestResponse", goodPbfRequestResponse);
+    } catch (error) {
+      console.log("error caught", error);
+    }
 
+    try {
       fetchMock.once("*", badRealPbfResponse.blob(), {
         sendAsJson: false
       });
@@ -262,7 +226,10 @@ describe("getFeature() and queryFeatures()", () => {
         docsPbfWithBadKeyOptions
       );
       console.log("badPbfRequestResponse", badPbfRequestResponse);
-
+    } catch (error) {
+      console.log("error caught", error);
+    }
+    try {
       fetchMock.once("*", goodRealJsonResponse.blob(), {
         sendAsJson: false
       });
@@ -270,7 +237,10 @@ describe("getFeature() and queryFeatures()", () => {
         docsJsonWithGoodKeyOptions
       );
       console.log("goodJsonRequestResponse", goodJsonRequestResponse);
-
+    } catch (error) {
+      console.log("error caught", error);
+    }
+    try {
       fetchMock.once("*", badRealJsonResponse.blob(), {
         sendAsJson: false
       });
