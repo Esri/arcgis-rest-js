@@ -202,8 +202,8 @@ describe("getFeature() and queryFeatures()", () => {
       expect((response as any).features[0].id).toBe(49481);
     });
 
-    // test case: should decode a valid pbf-as-geojson response from public server without api key without fetchmock
-    test("should decode valid pbf as geojson from arrayBuffer without fetchmock", async () => {
+    // LIVE TEST: should decode a valid pbf-as-geojson response from public server without api key without fetchmock
+    test("LIVE TEST: should decode valid pbf as geojson from arrayBuffer without fetchmock", async () => {
       const testPublicFeatureServer: IQueryFeaturesOptions = {
         url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2",
         f: "pbf-as-geojson",
@@ -223,14 +223,6 @@ describe("getFeature() and queryFeatures()", () => {
         where: "1=1"
       };
 
-      // const liveResponse = await fetch(restJsParsedUrl);
-      // const mockResponseClone = liveResponse.clone();
-
-      // const data = await liveResponse.arrayBuffer();
-      // console.log(data);
-      // const geoJson = decode(data).featureCollection;
-      // console.log("decoded geojson", geoJson);
-
       const response = await queryFeatures(testPublicFeatureServer);
       console.log("queryFeatures response", response);
 
@@ -239,13 +231,162 @@ describe("getFeature() and queryFeatures()", () => {
       expect((response as any).features[0].properties.County).toBe(
         "Nassau County"
       );
-      console.log("feature id", (response as any).features[0].geometry);
       expect((response as any).features[0].id).toBe(49481);
+    });
 
-      //expect(fetchMock.called()).toBeTruthy();
-      //const [url, options] = fetchMock.lastCall("*");
-      //expect(options.method).toBe("GET");
-      //expect(geoJson).toEqual(response);
+    // LIVE TEST W/Fetchmock: should decode a live pbf-as-geojson response when parsed and run through fetchmock for feature parity
+    test("LIVE TEST w/fetch-mock: should decode a live url pbf response through fetchmock", async () => {
+      // make live request for raw pbf data
+      const testPublicFeatureServerUrl =
+        "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2/query?f=pbf&objectIds=49481&outFields=B12001_calc_numDivorcedE%2CB12001_calc_numMarriedE%2CB12001_calc_numNeverE%2CB12001_calc_pctMarriedE%2CCounty%2CNAME%2COBJECTID&outSR=102100&returnGeometry=false&spatialRel=esriSpatialRelIntersects&where=1%3D1";
+
+      const livePbfResponse = await fetch(testPublicFeatureServerUrl);
+
+      fetchMock.once(
+        "*",
+        {
+          status: 200,
+          headers: { "content-type": "application/x-protobuf" },
+          body: await livePbfResponse.arrayBuffer()
+        },
+        {
+          sendAsJson: false
+        }
+      );
+
+      const testPublicFeatureServer: IQueryFeaturesOptions = {
+        url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2",
+        f: "pbf-as-geojson",
+        objectIds: [49481],
+        outFields: [
+          "B12001_calc_numDivorcedE",
+          "B12001_calc_numMarriedE",
+          "B12001_calc_numNeverE",
+          "B12001_calc_pctMarriedE",
+          "County",
+          "NAME",
+          "OBJECTID"
+        ],
+        outSR: "102100",
+        returnGeometry: false,
+        spatialRel: "esriSpatialRelIntersects",
+        where: "1=1"
+      };
+
+      const response = await queryFeatures(testPublicFeatureServer);
+      console.log("queryFeatures response", response);
+
+      expect(fetchMock.called()).toBeTruthy();
+      const [url, options] = fetchMock.lastCall("*");
+      expect(options.method).toBe("GET");
+      expect((response as any).features.length).toBe(1);
+      expect((response as any).features[0].properties.OBJECTID).toBe(49481);
+      expect((response as any).features[0].properties.County).toBe(
+        "Nassau County"
+      );
+      expect((response as any).features[0].id).toBe(49481);
+    });
+
+    // LIVE TEST: should handle live pbf-as-geojson response with geometries
+    test("LIVE TEST (equivalentish to authenticated response?): should handle live pbf-as-geojson response with geometries", async () => {
+      const docsPbfOptions: IQueryFeaturesOptions = {
+        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+        f: "pbf-as-geojson",
+        where: "1=1",
+        outFields: ["*"],
+        resultOffset: 0,
+        resultRecordCount: 3,
+        geometry: {
+          xmin: -13193261,
+          ymin: 4028181.6,
+          xmax: -13185072.9,
+          ymax: 4035576.6,
+          spatialReference: { wkid: 101200 }
+        },
+        geometryType: "esriGeometryEnvelope",
+        spatialRel: "esriSpatialRelIntersects"
+      };
+
+      const response = await queryFeatures(docsPbfOptions);
+      console.log("queryFeatures response", response);
+    });
+
+    test("LIVE TEST w/fetch-mock: should handle live pbf-as-geojson response with geometries through fetchmock", async () => {
+      const docsPbfUrl =
+        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=3&geometry=%7B%22xmin%22%3A-13193261%2C%22ymin%22%3A4028181.6%2C%22xmax%22%3A-13185072.9%2C%22ymax%22%3A4035576.6%2C%22spatialReference%22%3A%7B%22wkid%22%3A101200%7D%7D&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects";
+      const livePbfResponse = await fetch(docsPbfUrl);
+      fetchMock.once(
+        "*",
+        {
+          status: 200,
+          headers: { "content-type": "application/x-protobuf" },
+          body: await livePbfResponse.arrayBuffer()
+        },
+        {
+          sendAsJson: false
+        }
+      );
+
+      const docsPbfOptions: IQueryFeaturesOptions = {
+        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+        f: "pbf-as-geojson",
+        where: "1=1",
+        outFields: ["*"],
+        resultOffset: 0,
+        resultRecordCount: 3,
+        geometry: {
+          xmin: -13193261,
+          ymin: 4028181.6,
+          xmax: -13185072.9,
+          ymax: 4035576.6,
+          spatialReference: { wkid: 101200 }
+        },
+        geometryType: "esriGeometryEnvelope",
+        spatialRel: "esriSpatialRelIntersects"
+      };
+      const response = await queryFeatures(docsPbfOptions);
+
+      expect(fetchMock.called()).toBeTruthy();
+      const [url, options] = fetchMock.lastCall("*");
+      expect(options.method).toBe("GET");
+      expect((response as any).features.length).toBe(3);
+      expect((response as any).features[0].geometry).toHaveProperty("type");
+      expect((response as any).features[0].geometry).toHaveProperty(
+        "coordinates"
+      );
+    });
+
+    // LIVE TEST: should handle live pbf response for unauthenticated pbf-as-geojson requests
+    test("LIVE TEST (UNAUTHENTICATED): should handle json response for unauthenticated pbf-as-geojson requests", async () => {
+      const docsPbfUrl =
+        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=3&geometry=%7B%22xmin%22%3A-13193261%2C%22ymin%22%3A4028181.6%2C%22xmax%22%3A-13185072.9%2C%22ymax%22%3A4035576.6%2C%22spatialReference%22%3A%7B%22wkid%22%3A101200%7D%7D&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects";
+
+      const livePbfResponse = await fetch(docsPbfUrl);
+      console.log(livePbfResponse);
+
+      console.log(decode(await livePbfResponse.arrayBuffer()));
+
+      // deconstruct docsPBFurl to query features options object
+      const docsPbfOptions: IQueryFeaturesOptions = {
+        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+        f: "pbf-as-geojson",
+        where: "1=1",
+        outFields: ["*"],
+        resultOffset: 0,
+        resultRecordCount: 3,
+        geometry: {
+          xmin: -13193261,
+          ymin: 4028181.6,
+          xmax: -13185072.9,
+          ymax: 4035576.6,
+          spatialReference: { wkid: 101200 }
+        },
+        geometryType: "esriGeometryEnvelope",
+        spatialRel: "esriSpatialRelIntersects"
+      };
+
+      const response = await queryFeatures(docsPbfOptions);
+      console.log("queryFeatures response", response);
     });
 
     test("should throw an error when pbf-as-geojson fails to decode", async () => {
@@ -267,11 +408,11 @@ describe("getFeature() and queryFeatures()", () => {
         "f=json"
       );
 
-      const goodRealPbfResponse = await fetch(docsUrlPbfWithGoodKey);
-      const badRealPbfResponse = await fetch(docsUrlPbfWithBadKey);
+      const goodRealPbfResponse = await fetch(docsUrlPbfWithGoodKey); // seems to be covered in live test but can try temporary test with good token
+      const badRealPbfResponse = await fetch(docsUrlPbfWithBadKey); // need to test this case both live and with a mock return object locally through fetch mock
 
-      const goodRealJsonResponse = await fetch(docsUrlJsonWithGoodKey);
-      const badRealJsonResponse = await fetch(docsUrlJsonWithBadKey);
+      const goodRealJsonResponse = await fetch(docsUrlJsonWithGoodKey); // might want to test this response object with the response object from the pbf decoding.
+      const badRealJsonResponse = await fetch(docsUrlJsonWithBadKey); // may need to test that this response object is the exact same as the pbf unauthenticated return object
 
       const docsPbfWithBadKeyOptions: IQueryFeaturesOptions = {
         url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
@@ -403,6 +544,9 @@ describe("getFeature() and queryFeatures()", () => {
       return;
     });
 
+    // test case: should handle converting geometries and also for queryAllFeatures over multiple pages
+
+    // test case: should handle pbf-as-geojson requests that fail due to unauthenticated states
     test("should handle pbf-as-geojson requests that fail due to unauthenticated states", async () => {});
   });
 
