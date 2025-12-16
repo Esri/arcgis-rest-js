@@ -16,7 +16,7 @@ import {
   queryResponse,
   queryRelatedResponse
 } from "./mocks/feature.js";
-import { ApiKeyManager } from "@esri/arcgis-rest-request";
+import { ApiKeyManager, ArcGISAuthError } from "@esri/arcgis-rest-request";
 import decode from "../src/pbf/geoJSONPbfParser.js";
 import { isBrowser, isNode } from "../../../scripts/test-helpers.js";
 
@@ -235,7 +235,7 @@ describe("getFeature() and queryFeatures()", () => {
     });
 
     // LIVE TEST W/Fetchmock: should decode a live pbf-as-geojson response when parsed and run through fetchmock for feature parity
-    test("LIVE TEST w/fetch-mock: should decode a live url pbf response through fetchmock", async () => {
+    test("LIVE TEST w/fetch-mock: should decode a live url pbf response when passed through fetchmock", async () => {
       // make live request for raw pbf data
       const testPublicFeatureServerUrl =
         "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2/query?f=pbf&objectIds=49481&outFields=B12001_calc_numDivorcedE%2CB12001_calc_numMarriedE%2CB12001_calc_numNeverE%2CB12001_calc_pctMarriedE%2CCounty%2CNAME%2COBJECTID&outSR=102100&returnGeometry=false&spatialRel=esriSpatialRelIntersects&where=1%3D1";
@@ -287,8 +287,8 @@ describe("getFeature() and queryFeatures()", () => {
       expect((response as any).features[0].id).toBe(49481);
     });
 
-    // LIVE TEST: should handle live pbf-as-geojson response with geometries
-    test("LIVE TEST (equivalentish to authenticated response?): should handle live pbf-as-geojson response with geometries", async () => {
+    // LIVE TEST: should handle live pbf-as-geojson response with geometries (testing authenticated response requires api key for live testing)
+    test("LIVE TEST (successful authenticated response or public server response?): should handle live pbf-as-geojson response with geometries", async () => {
       const docsPbfOptions: IQueryFeaturesOptions = {
         url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
         f: "pbf-as-geojson",
@@ -311,7 +311,7 @@ describe("getFeature() and queryFeatures()", () => {
       console.log("queryFeatures response", response);
     });
 
-    test("LIVE TEST w/fetch-mock: should handle live pbf-as-geojson response with geometries through fetchmock", async () => {
+    test("LIVE TEST w/fetch-mock: should handle live pbf-as-geojson response with geometries when passed through fetchmock", async () => {
       const docsPbfUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=3&geometry=%7B%22xmin%22%3A-13193261%2C%22ymin%22%3A4028181.6%2C%22xmax%22%3A-13185072.9%2C%22ymax%22%3A4035576.6%2C%22spatialReference%22%3A%7B%22wkid%22%3A101200%7D%7D&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects";
       const livePbfResponse = await fetch(docsPbfUrl);
@@ -319,7 +319,7 @@ describe("getFeature() and queryFeatures()", () => {
         "*",
         {
           status: 200,
-          headers: { "content-type": "application/x-protobuf" },
+          headers: livePbfResponse.headers,
           body: await livePbfResponse.arrayBuffer()
         },
         {
@@ -357,14 +357,67 @@ describe("getFeature() and queryFeatures()", () => {
     });
 
     // LIVE TEST: should handle live pbf response for unauthenticated pbf-as-geojson requests
-    test("LIVE TEST (UNAUTHENTICATED): should handle json response for unauthenticated pbf-as-geojson requests", async () => {
+    test("LIVE TEST (UNAUTHENTICATED): should handle json response for unauthenticated pbf-as-geojson requests without fetchmock", async () => {
       const docsPbfUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=3&geometry=%7B%22xmin%22%3A-13193261%2C%22ymin%22%3A4028181.6%2C%22xmax%22%3A-13185072.9%2C%22ymax%22%3A4035576.6%2C%22spatialReference%22%3A%7B%22wkid%22%3A101200%7D%7D&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects";
 
-      const livePbfResponse = await fetch(docsPbfUrl);
-      console.log(livePbfResponse);
+      const badApiKey = "BAD_API_KEY";
+      const docsUrlPbfWithBadKey = `${docsPbfUrl}&token=${badApiKey}`;
+      const liveJsonErrorResponse = await fetch(docsUrlPbfWithBadKey);
+      expect(liveJsonErrorResponse.status).toBe(200);
+      expect(liveJsonErrorResponse.headers.get("content-type")).toBe(
+        "application/json; charset=utf-8"
+      );
+      const errorJson = await liveJsonErrorResponse.json();
+      expect(errorJson.error.code).toBe(498);
+      expect(errorJson.error.message).toBe("Invalid token.");
 
-      console.log(decode(await livePbfResponse.arrayBuffer()));
+      // set up options for live request through query features
+      const docsPbfOptions: IQueryFeaturesOptions = {
+        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+        f: "pbf-as-geojson",
+        where: "1=1",
+        outFields: ["*"],
+        resultOffset: 0,
+        resultRecordCount: 3,
+        geometry: {
+          xmin: -13193261,
+          ymin: 4028181.6,
+          xmax: -13185072.9,
+          ymax: 4035576.6,
+          spatialReference: { wkid: 101200 }
+        },
+        geometryType: "esriGeometryEnvelope",
+        spatialRel: "esriSpatialRelIntersects",
+        authentication: ApiKeyManager.fromKey(badApiKey)
+      };
+
+      try {
+        await queryFeatures(docsPbfOptions);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ArcGISAuthError);
+        expect((error as any).message).toBe("498: Invalid token.");
+      }
+      // await expect(queryFeatures(docsPbfOptions)).rejects.toThrowError(ArcGISAuthError);
+    });
+
+    test("LIVE TEST (UNAUTHENTICATED) w/fetchmock: should handle json response through fetchmock for unauthenticated pbf-as-geojson requests", async () => {
+      const docsPbfUrl =
+        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=3&geometry=%7B%22xmin%22%3A-13193261%2C%22ymin%22%3A4028181.6%2C%22xmax%22%3A-13185072.9%2C%22ymax%22%3A4035576.6%2C%22spatialReference%22%3A%7B%22wkid%22%3A101200%7D%7D&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects";
+
+      const badApiKey = "BAD_API_KEY";
+      const docsUrlPbfWithBadKey = `${docsPbfUrl}&token=${badApiKey}`;
+      const livePbfResponse = await fetch(docsUrlPbfWithBadKey);
+
+      expect(livePbfResponse.headers.get("content-type")).toBe(
+        "application/json; charset=utf-8"
+      );
+
+      fetchMock.once("*", {
+        status: 200,
+        headers: livePbfResponse.headers,
+        body: await livePbfResponse.json()
+      });
 
       // deconstruct docsPBFurl to query features options object
       const docsPbfOptions: IQueryFeaturesOptions = {
@@ -382,11 +435,16 @@ describe("getFeature() and queryFeatures()", () => {
           spatialReference: { wkid: 101200 }
         },
         geometryType: "esriGeometryEnvelope",
-        spatialRel: "esriSpatialRelIntersects"
+        spatialRel: "esriSpatialRelIntersects",
+        authentication: ApiKeyManager.fromKey(badApiKey)
       };
 
-      const response = await queryFeatures(docsPbfOptions);
-      console.log("queryFeatures response", response);
+      try {
+        await queryFeatures(docsPbfOptions);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ArcGISAuthError);
+        expect((error as any).message).toBe("498: Invalid token.");
+      }
     });
 
     test("should throw an error when pbf-as-geojson fails to decode", async () => {

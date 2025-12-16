@@ -285,6 +285,7 @@ export function queryFeatures(
           response.headers.get("content-type")?.includes("application/json")
         ) {
           const err = (await response.json()).error;
+          // throw auth error, else throw request error?
           if (err?.code === 498 || err?.code === 499) {
             throw new ArcGISAuthError(
               err.message,
@@ -302,6 +303,7 @@ export function queryFeatures(
             customOptions
           );
         }
+        // should probably wrap this in a try catch and throw an appropriate request error if decoding fails.
         const arrayBuffer = await response.arrayBuffer();
         const decoded = pbfToGeoJSON(arrayBuffer);
         // return simple decoded geojson feature collection https://geojson.org/
