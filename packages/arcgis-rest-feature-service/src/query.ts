@@ -19,7 +19,8 @@ import {
   ISharedQueryOptions,
   IStatisticDefinition
 } from "./helpers.js";
-import { pbfToGeoJSON } from "./pbf/pbfToGeoJson.js";
+import { pbfToGeoJSON } from "./pbf/pbfToGeoJSON.js";
+import { geojsonToArcGIS } from "@terraformer/arcgis";
 
 /**
  * Request options to fetch a feature by id.
@@ -266,11 +267,18 @@ export function queryFeatures(
   // 3. f=pbf-as-arcgis: decode pbf and return arcgis objects -- not implemented yet
   // if any of these happen, we just need to send rawResponse: true on behalf of the user to fetch the pbf response
 
-  if (queryOptions.params?.f === "pbf-as-geojson") {
+  if (
+    queryOptions.params?.f === "pbf-as-geojson" ||
+    queryOptions.params?.f === "pbf-as-arcgis"
+  ) {
     // no need to pass f=pbf as rawResponse will get us a pbf response by default the way request is written
     // manually setting rawResponse here as user shouldn't need to pass a secondary param to get data unless they want a rawResponse themselves.
     // need to get raw response to access headers to determing if error is sent in json or if we have a pbf body
-    const customOptions = { ...queryOptions, f: "pbf", rawResponse: true };
+    const customOptions = {
+      ...queryOptions,
+      params: { ...queryOptions.params, f: "pbf" } as any,
+      rawResponse: true
+    };
     return request(`${cleanUrl(requestOptions.url)}/query`, customOptions).then(
       async (response: any) => {
         if (
@@ -298,7 +306,9 @@ export function queryFeatures(
         const decoded = pbfToGeoJSON(arrayBuffer);
         // return simple decoded geojson feature collection https://geojson.org/
         // TODO: check if this is slightly different than the arcgis geojson object that comes from a geojson request.
-        return decoded.featureCollection;
+        return queryOptions.params.f === "pbf-as-geojson"
+          ? decoded.featureCollection
+          : geojsonToArcGIS(decoded.featureCollection);
       }
     );
   }
@@ -398,22 +408,27 @@ export async function queryAllFeatures(
       }
     );
 
-    let response: IQueryAllFeaturesResponse;
-    if (queryOptions.params?.f === "pbf-as-geojson") {
-      const customOptions = { ...queryOptions, rawResponse: true };
-      const rawResponse = await request(
-        `${cleanUrl(requestOptions.url)}/query`,
-        customOptions
-      );
-      const arrayBuffer = await rawResponse.arrayBuffer();
-      const decodedResponse = pbfToGeoJSON(arrayBuffer);
-      response = decodedResponse.featureCollection;
-    } else {
-      response = await request(
-        `${cleanUrl(requestOptions.url)}/query`,
-        queryOptions
-      );
-    }
+    // const response: IQueryAllFeaturesResponse;
+    // if (queryOptions.params?.f === "pbf-as-geojson") {
+    //   const customOptions = { ...queryOptions, rawResponse: true };
+    //   const rawResponse = await request(
+    //     `${cleanUrl(requestOptions.url)}/query`,
+    //     customOptions
+    //   );
+    //   const arrayBuffer = await rawResponse.arrayBuffer();
+    //   const decodedResponse = pbfToGeoJSON(arrayBuffer);
+    //   response = decodedResponse.featureCollection;
+    // } else {
+    //   response = await request(
+    //     `${cleanUrl(requestOptions.url)}/query`,
+    //     queryOptions
+    //   );
+    // }
+
+    const response = await request(
+      `${cleanUrl(requestOptions.url)}/query`,
+      queryOptions
+    );
 
     // save the first response structure
     if (!allFeaturesResponse) {
