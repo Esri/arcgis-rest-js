@@ -1,7 +1,7 @@
 import { IUser } from "../types/user.js";
 import { ITokenRequestOptions } from "./ITokenRequestOptions.js";
 /**
- * Authentication can be supplied to `request` via {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager}. These classes implement {@linkCode IAuthenticationManager}.
+ * Authentication can be supplied to `request` via {@linkcode @esri/arcgis-rest-request!ArcGISIdentityManager}, {@linkcode @esri/arcgis-rest-request!ApplicationCredentialsManager} or {@linkcode @esri/arcgis-rest-request!ApiKeyManager}. These classes implement {@linkcode IAuthenticationManager}.
  *
  * ```js
  * const session = new ArcGISIdentityManager({

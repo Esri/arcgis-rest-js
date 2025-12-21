@@ -152,28 +152,28 @@ export interface IOAuth2Options {
   /**
    * If `true` will use the PKCE oAuth 2.0 extension spec in to authorize the user and obtain a token. A value of `false` will use the deprecated oAuth 2.0 implicit grant type.
    *
-   * @browserOnly
+   * This option is only for when building browser-based applications.
    */
   pkce?: boolean;
 
   /**
    * Determines whether to open the authorization window in a new tab/window or in the current window.
    *
-   * @browserOnly
+   * This option is only for when building browser-based applications.
    */
   popup?: boolean;
 
   /**
    * The window features passed to [window.open()](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) when `popup` is true. Defaults to `height=400,width=600,menubar=no,location=yes,resizable=yes,scrollbars=yes,status=yes`
    *
-   * @browserOnly
+   * This option is only for when building browser-based applications.
    */
   popupWindowFeatures?: string;
 
   /**
    * The locale assumed to render the login page.
    *
-   * @browserOnly
+   * This option is only for when building browser-based applications.
    */
   locale?: string;
 
@@ -355,7 +355,7 @@ export class ArcGISIdentityManager
    *
    * A {@linkcode ArcGISAccessDeniedError} error will be thrown if the user denies the request on the authorization screen.
    *
-   * @browserOnly
+   * This option is only for when building browser-based applications.
    */
   public static beginOAuth2(
     options: IOAuth2Options,
@@ -528,7 +528,7 @@ export class ArcGISIdentityManager
    * will be returned to the previous window and the popup will close. Otherwise a new `ArcGISIdentityManager` will be returned. You must pass the same values for `clientId`, `popup`, `portal`, and `pkce` as you used in `beginOAuth2()`.
    *
    * A {@linkcode ArcGISAccessDeniedError} error will be thrown if the user denies the request on the authorization screen.
-   * @browserOnly
+   * This option is only for when building browser-based applications.
    */
   public static completeOAuth2(options: IOAuth2Options, win?: any) {
     /* istanbul ignore next -- @preserve : must pass in a mockwindow for tests so we can't cover the other branch */
@@ -726,7 +726,7 @@ export class ArcGISIdentityManager
    *
    *
    * @param parentOrigin origin of the parent frame. Passed into the embedded application as `parentOrigin` query param
-   * @browserOnly
+   * This option is only for when building browser-based applications.
    */
   public static fromParent(parentOrigin: string, win?: any): Promise<any> {
     /* istanbul ignore next --@preserve : must pass in a mockwindow for tests so we can't cover the other branch */
@@ -765,7 +765,7 @@ export class ArcGISIdentityManager
    * Begins a new server-based OAuth 2.0 sign in. This will redirect the user to
    * the ArcGIS Online or ArcGIS Enterprise authorization page.
    *
-   * @nodeOnly
+   * This method is only for when using Node.js and is not available in browser-based applications.
    */
   public static authorize(options: IOAuth2Options, response: ServerResponse) {
     const { portal, clientId, expiration, redirectUri, state }: IOAuth2Options =
@@ -798,7 +798,7 @@ export class ArcGISIdentityManager
    * Completes the server-based OAuth 2.0 sign in process by exchanging the `authorizationCode`
    * for a `access_token`.
    *
-   * @nodeOnly
+   * This method is only for when using Node.js and is not available in browser-based applications.
    */
   public static exchangeAuthorizationCode(
     options: IOAuth2Options,

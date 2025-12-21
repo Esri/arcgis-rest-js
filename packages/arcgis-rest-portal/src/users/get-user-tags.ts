@@ -37,7 +37,7 @@ export interface IGetUserTagsResponse {
  *   .then(response)
  * ```
  *
- * @param IGetUserOptions - options to pass through in the request
+ * @param requestOptions - options to pass through in the request
  * @returns A Promise that will resolve with the user tag array
  */
 export async function getUserTags(

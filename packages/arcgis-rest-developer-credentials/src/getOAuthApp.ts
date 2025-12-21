@@ -31,7 +31,7 @@ import { IGetOAuthAppOptions, IOAuthApp } from "./shared/types/oAuthType.js";
  * });
  * ```
  *
- * @param requestOptions - Options for {@linkcode getOAuthApp | getOAuthApp()}, including `itemId` of which OAuth app to retrieve and an {@linkcode ArcGISIdentityManager} authentication session.
+ * @param requestOptions - Options for {@linkcode getOAuthApp | getOAuthApp()}, including `itemId` of which OAuth app to retrieve and an {@linkcode @esri/arcgis-rest-request!ArcGISIdentityManager} authentication session.
  * @returns A Promise that will resolve to an {@linkcode IOAuthApp} object representing successfully retrieved OAuth app.
  */
 export async function getOAuthApp(

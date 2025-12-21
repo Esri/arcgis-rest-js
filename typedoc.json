@@ -1,7 +1,7 @@
 {
   "out": "typedoc",
   "json": "docs/build/4/typedoc.json",
-  // "logLevel": "Verbose",
+  "logLevel": "Verbose",
   "entryPointStrategy": "packages",
   "entryPoints": [
     "./packages/arcgis-rest-request/",
@@ -15,6 +15,7 @@
     "./packages/arcgis-rest-developer-credentials/",
     "./packages/arcgis-rest-basemap-sessions/"
   ],
+  "readme": "none",
   "packageOptions": {
     "entryPoints": ["./src/index.ts"],
     "readme": "none",

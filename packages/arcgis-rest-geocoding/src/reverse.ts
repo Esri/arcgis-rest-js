@@ -52,7 +52,7 @@ function isLocation(
  * reverseGeocode({ x: -13181226, y: 4021085, spatialReference: { wkid: 3857 })
  * ```
  *
- * @param coordinates - the location you'd like to associate an address with.
+ * @param coords - the location you'd like to associate an address with.
  * @param requestOptions - Additional options for the request including authentication.
  * @returns A Promise that will resolve with the data from the response.
  */

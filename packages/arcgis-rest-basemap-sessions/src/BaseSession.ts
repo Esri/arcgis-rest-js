@@ -41,11 +41,10 @@ export interface IStartSessionParams {
 }
 
 /**
- * The base class for all basemap sessions. This class implements the {@linkcode IAuthenticationManager} interface and provides methods to start, refresh, and check the expiration of a session.
- * This is not intended to be used directly, but instead is extended by other classes such as {@linkcode BasemapStyleSession} and {@linkcode StaticBasemapTilesSession}.
+ * The base class for all basemap sessions. This class implements the {@linkcode @esri/arcgis-rest-request!IAuthenticationManager} interface and provides methods to start, refresh, and check the expiration of a session.
+ * This is not intended to be used directly, but instead is extended by other classes such as {@linkcode BasemapStyleSession} .
  *
  * @abstract
- * @implements {IAuthenticationManager}
  */
 export abstract class BaseSession implements IAuthenticationManager {
   // the static methods for event handlers are used to provide doc via typedoc and do not need to be tested.
@@ -63,7 +62,6 @@ export abstract class BaseSession implements IAuthenticationManager {
    * {@linkcode BaseSession.refreshCredentials}.
    *
    * @event expired
-   * @param e - The parameters for the expired event.
    * @param e.token - The session token that expired.
    * @param e.startTime - The start time of the session.
    * @param e.endTime - The end time of the session.
@@ -82,7 +80,6 @@ export abstract class BaseSession implements IAuthenticationManager {
    * Event handler for when a session refreshes and a new `token` is available.
    *
    * @event refreshed
-   * @param e. - The parameters for the refreshed event.
    * @param e.previous - The previous session details.
    * @param e.previous.token - The previous session token.
    * @param e.previous.startTime - The start time of the previous session.
@@ -121,7 +118,7 @@ export abstract class BaseSession implements IAuthenticationManager {
 
   /**
    * The authentication manager or token used for the session.
-   * This can be an instance of {@linkcode ApiKeyManager}, {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or a string token.
+   * This can be an instance of {@linkcode @esri/arcgis-rest-request!ApiKeyManager}, {@linkcode @esri/arcgis-rest-request!ArcGISIdentityManager}, {@linkcode @esri/arcgis-rest-request!ApplicationCredentialsManager} or a string token.
    */
   readonly authentication: IAuthenticationManager | string;
 
@@ -151,7 +148,7 @@ export abstract class BaseSession implements IAuthenticationManager {
   readonly startSessionUrl: string;
 
   /**
-   * The safety margin in milliseconds. This subtracted from the {@linkcode BaseSession.endTime} to get the {@linkcode BaseSession.expiration}.
+   * The safety margin in milliseconds. This subtracted from the {@linkcode BaseSession.endTime} to get the expiration time of the session.
    */
   readonly safetyMargin: number;
 
@@ -261,7 +258,7 @@ export abstract class BaseSession implements IAuthenticationManager {
   }
 
   /**
-   * Stops checking the expiration time of the session. This will clear the interval that was set by {@linkcode BaseSession.startCheckingExpirationTime}.
+   * Stops checking the expiration time of the session. This will clear the `setInterval()` that was started by {@linkcode BaseSession.enableCheckingExpirationTime}.
    */
   disableCheckingExpirationTime() {
     if (this.expirationTimerId) {
@@ -511,64 +508,64 @@ export abstract class BaseSession implements IAuthenticationManager {
   /**
    * A handler that listens for an eventName and returns custom handler.
    *
-   * @param eventName A string of what event to listen for.
+   * @param event A string of what event to listen for.
    * @param handler A function of what to do when eventName was called.
    */
   on(event: "refreshed", handler: typeof BaseSession.refreshed): void;
   on(event: "expired", handler: typeof BaseSession.expired): void;
   on(event: "error", handler: typeof BaseSession.error): void;
   on(
-    eventName: string,
+    event: string,
     handler:
       | typeof BaseSession.refreshed
       | typeof BaseSession.expired
       | typeof BaseSession.error
   ) {
-    this.emitter.on(eventName, handler);
+    this.emitter.on(event, handler);
     this.isSessionExpired(); // check if the session is expired immediately after adding the handler
   }
 
   /**
-   * A handler that listens for an event once and returns a custom handler. Events listened to with this method cannot be removed with {@linkcode BasemapSession.off}.
+   * A handler that listens for an event once and returns a custom handler. Events listened to with this method cannot be removed with {@linkcode BaseSession.off}.
    *
-   * @param eventName A string of what event to listen for.
-   * @param handler A function of what to do when eventName was called.
+   * @param event A string of what event to listen for.
+   * @param handler A function of what to do when event was called.
    */
   once(event: "refreshed", handler: typeof BaseSession.refreshed): void;
   once(event: "expired", handler: typeof BaseSession.expired): void;
   once(event: "error", handler: typeof BaseSession.error): void;
   once(
-    eventName: string,
+    event: string,
     handler:
       | typeof BaseSession.refreshed
       | typeof BaseSession.expired
       | typeof BaseSession.error
   ) {
     const fn = (e: any) => {
-      this.emitter.off(eventName, fn);
+      this.emitter.off(event, fn);
       handler(e);
     };
 
-    this.emitter.on(eventName, fn);
+    this.emitter.on(event, fn);
   }
 
   /**
    * A handler that will remove a listener from a given event.
    *
-   * @param eventName A string of what event to listen for.
-   * @param handler A function of what to do when eventName was called.
+   * @param event A string of what event to listen for.
+   * @param handler A function of what to do when event was called.
    */
   off(event: "refreshed", handler: typeof BaseSession.refreshed): void;
   off(event: "expired", handler: typeof BaseSession.expired): void;
   off(event: "error", handler: typeof BaseSession.error): void;
   off(
-    eventName: string,
+    event: string,
     handler:
       | typeof BaseSession.refreshed
       | typeof BaseSession.expired
       | typeof BaseSession.error
   ) {
-    this.emitter.off(eventName, handler);
+    this.emitter.off(event, handler);
   }
 
   /**

@@ -6,7 +6,6 @@ import {
   cleanUrl,
   appendCustomParams
 } from "@esri/arcgis-rest-request";
-
 import {
   ARCGIS_ONLINE_GEOENRICHMENT_URL,
   IGeoenrichmentResult,

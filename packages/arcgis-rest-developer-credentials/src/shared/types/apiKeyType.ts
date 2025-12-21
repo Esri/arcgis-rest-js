@@ -52,7 +52,7 @@ export interface ICreateApiKeyOptions
  */
 export interface IGetApiKeyOptions extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode IAuthenticationManager} authentication.
+   * {@linkcode @esri/arcgis-rest-request!IAuthenticationManager} authentication.
    */
   authentication: IAuthenticationManager;
   /**
@@ -84,7 +84,7 @@ export interface IApiKeyResponse extends IApiKeyInfo {
  */
 export interface IUpdateApiKeyOptions extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode IAuthenticationManager} authentication.
+   * {@linkcode @esri/arcgis-rest-request!IAuthenticationManager} authentication.
    */
   authentication: IAuthenticationManager;
   /**
@@ -122,7 +122,7 @@ export interface IUpdateApiKeyOptions extends Omit<IRequestOptions, "params"> {
  */
 export interface IDeleteApiKeyOption extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode IAuthenticationManager} authentication.
+   * {@linkcode @esri/arcgis-rest-request!IAuthenticationManager} authentication.
    */
   authentication: IAuthenticationManager;
   /**
@@ -145,7 +145,7 @@ export interface IDeleteApiKeyResponse {
 export interface IInvalidateApiKeyOptions
   extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode IAuthenticationManager} authentication.
+   * {@linkcode @esri/arcgis-rest-request!IAuthenticationManager} authentication.
    */
   authentication: IAuthenticationManager;
   /**

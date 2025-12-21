@@ -14,7 +14,7 @@ export interface ICreateOAuthAppOption extends Omit<IRequestOptions, "params"> {
    */
   redirect_uris?: string[];
   /**
-   * {@linkcode IAuthenticationManager} authentication.
+   * {@linkcode @esri/arcgis-rest-request!IAuthenticationManager} authentication.
    */
   authentication: IAuthenticationManager;
   title: string;
@@ -37,7 +37,7 @@ export interface ICreateOAuthAppOption extends Omit<IRequestOptions, "params"> {
  */
 export interface IGetOAuthAppOptions extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode IAuthenticationManager} authentication.
+   * {@linkcode @esri/arcgis-rest-request!IAuthenticationManager} authentication.
    */
   authentication: IAuthenticationManager;
   /**
@@ -51,7 +51,7 @@ export interface IGetOAuthAppOptions extends Omit<IRequestOptions, "params"> {
  */
 export interface IUpdateOAuthOptions extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode IAuthenticationManager} authentication.
+   * {@linkcode @esri/arcgis-rest-request!IAuthenticationManager} authentication.
    */
   authentication: IAuthenticationManager;
   /**
@@ -91,7 +91,7 @@ export interface IOAuthApp extends IOAuthAppInfo {
  */
 export interface IDeleteOAuthAppOption extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode IAuthenticationManager} authentication.
+   * {@linkcode @esri/arcgis-rest-request!IAuthenticationManager} authentication.
    */
   authentication: IAuthenticationManager;
   /**
