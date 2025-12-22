@@ -508,7 +508,7 @@ describe("queryAllFeatures", () => {
   });
 
   test("fetches multiple pages based on feature count with authentication", async () => {
-    fetchMock.mock(`${serviceUrl}?f=json&token=MOCK_TOKEN`, {
+    fetchMock.mock(`${serviceUrl}?f=json`, {
       maxRecordCount: 2000
     });
 

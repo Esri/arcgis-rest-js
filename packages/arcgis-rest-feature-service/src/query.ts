@@ -363,8 +363,7 @@ export async function queryAllFeatures(
   // retrieve the maxRecordCount for the service
 
   const pageSizeResponse = await request(requestOptions.url, {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
+    httpMethod: "GET"
   });
   // default the pageSize to 2000 if it is not provided
   const pageSize = pageSizeResponse.maxRecordCount || 2000;
