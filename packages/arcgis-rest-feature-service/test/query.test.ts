@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { describe, afterEach, test, expect } from "vitest";
+import { describe, afterEach, test, expect, vi } from "vitest";
 import fetchMock from "fetch-mock";
 import {
   getFeature,
@@ -9,7 +9,8 @@ import {
   queryAllFeatures,
   queryRelated,
   IQueryFeaturesOptions,
-  IQueryRelatedOptions
+  IQueryRelatedOptions,
+  IQueryAllFeaturesOptions
 } from "../src/index.js";
 import {
   featureResponse,
@@ -17,7 +18,6 @@ import {
   queryRelatedResponse
 } from "./mocks/feature.js";
 import { ApiKeyManager, ArcGISAuthError } from "@esri/arcgis-rest-request";
-import decode from "../src/pbf/geoJSONPbfParser.js";
 import { isBrowser, isNode } from "../../../scripts/test-helpers.js";
 
 const serviceUrl =
@@ -190,6 +190,7 @@ describe("getFeature() and queryFeatures()", () => {
       };
 
       const response = await queryFeatures(testPublicFeatureServer);
+      console.log(response);
 
       expect(fetchMock.called()).toBeTruthy();
       const [url, options] = fetchMock.lastCall("*");
@@ -245,10 +246,10 @@ describe("getFeature() and queryFeatures()", () => {
       try {
         await queryFeatures(docsPbfOptions);
       } catch (error) {
-        // right now this gets a fall through error from the decoder library, but should probably be a request error.
+        // right now this gets a fall through error from the decoder library, but should probably be a request error. (change types)
         expect(error).toBeInstanceOf(Error);
         expect((error as any).message).toContain(
-          "Could not parse arcgis-pbf buffer:"
+          "500: Error decoding PBF response"
         );
       }
     });
@@ -285,294 +286,6 @@ describe("getFeature() and queryFeatures()", () => {
         geometryType: "esriGeometryEnvelope",
         spatialRel: "esriSpatialRelIntersects"
       };
-      try {
-        await queryFeatures(docsPbfOptions);
-      } catch (error) {
-        expect(error).toBeInstanceOf(ArcGISAuthError);
-        expect((error as any).message).toBe("498: Invalid token.");
-      }
-    });
-
-    // LIVE TEST: should decode a valid pbf-as-geojson response from public server without api key without fetchmock
-    test("LIVE TEST (valid): should decode valid pbf as geojson from arrayBuffer without fetchmock", async () => {
-      const testPublicFeatureServer: IQueryFeaturesOptions = {
-        url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2",
-        f: "pbf-as-geojson",
-        objectIds: [49481],
-        outFields: [
-          "B12001_calc_numDivorcedE",
-          "B12001_calc_numMarriedE",
-          "B12001_calc_numNeverE",
-          "B12001_calc_pctMarriedE",
-          "County",
-          "NAME",
-          "OBJECTID"
-        ],
-        outSR: "102100",
-        returnGeometry: false,
-        spatialRel: "esriSpatialRelIntersects",
-        where: "1=1"
-      };
-
-      const response = await queryFeatures(testPublicFeatureServer);
-
-      expect((response as any).features.length).toBe(1);
-      expect((response as any).features[0].properties.OBJECTID).toBe(49481);
-      expect((response as any).features[0].properties.County).toBe(
-        "Nassau County"
-      );
-      expect((response as any).features[0].id).toBe(49481);
-    });
-
-    // LIVE TEST W/Fetchmock: should decode a live pbf-as-geojson response when parsed and run through fetchmock for feature parity
-    test("LIVE TEST w/fetch-mock (valid): should decode a live url pbf response when passed through fetchmock", async () => {
-      // make live request for raw pbf data
-      const testPublicFeatureServerUrl =
-        "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2/query?f=pbf&objectIds=49481&outFields=B12001_calc_numDivorcedE%2CB12001_calc_numMarriedE%2CB12001_calc_numNeverE%2CB12001_calc_pctMarriedE%2CCounty%2CNAME%2COBJECTID&outSR=102100&returnGeometry=false&spatialRel=esriSpatialRelIntersects&where=1%3D1";
-
-      const livePbfResponse = await fetch(testPublicFeatureServerUrl);
-
-      fetchMock.once(
-        "*",
-        {
-          status: 200,
-          headers: { "content-type": "application/x-protobuf" },
-          body: await livePbfResponse.arrayBuffer()
-        },
-        {
-          sendAsJson: false
-        }
-      );
-
-      const testPublicFeatureServer: IQueryFeaturesOptions = {
-        url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2",
-        f: "pbf-as-geojson",
-        objectIds: [49481],
-        outFields: [
-          "B12001_calc_numDivorcedE",
-          "B12001_calc_numMarriedE",
-          "B12001_calc_numNeverE",
-          "B12001_calc_pctMarriedE",
-          "County",
-          "NAME",
-          "OBJECTID"
-        ],
-        outSR: "102100",
-        returnGeometry: false,
-        spatialRel: "esriSpatialRelIntersects",
-        where: "1=1"
-      };
-
-      const response = await queryFeatures(testPublicFeatureServer);
-
-      expect(fetchMock.called()).toBeTruthy();
-      const [url, options] = fetchMock.lastCall("*");
-      expect(options.method).toBe("GET");
-      expect((response as any).features.length).toBe(1);
-      expect((response as any).features[0].properties.OBJECTID).toBe(49481);
-      expect((response as any).features[0].properties.County).toBe(
-        "Nassau County"
-      );
-      expect((response as any).features[0].id).toBe(49481);
-    });
-
-    // LIVE TEST: should handle live pbf-as-geojson response with geometries (testing authenticated response requires api key for live testing)
-    test("LIVE TEST (valid): should return live pbf-as-geojson response with geometries", async () => {
-      const docsPbfOptions: IQueryFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-        f: "pbf-as-geojson",
-        where: "1=1",
-        outFields: ["*"],
-        resultOffset: 0,
-        resultRecordCount: 3,
-        geometry: {
-          xmin: -13193261,
-          ymin: 4028181.6,
-          xmax: -13185072.9,
-          ymax: 4035576.6,
-          spatialReference: { wkid: 101200 }
-        },
-        geometryType: "esriGeometryEnvelope",
-        spatialRel: "esriSpatialRelIntersects"
-      };
-
-      const response = await queryFeatures(docsPbfOptions);
-    });
-
-    test("LIVE TEST w/fetch-mock (valid): should return live pbf-as-geojson response with geometries when passed through fetchmock", async () => {
-      const docsPbfUrl =
-        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=3&geometry=%7B%22xmin%22%3A-13193261%2C%22ymin%22%3A4028181.6%2C%22xmax%22%3A-13185072.9%2C%22ymax%22%3A4035576.6%2C%22spatialReference%22%3A%7B%22wkid%22%3A101200%7D%7D&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects";
-      const livePbfResponse = await fetch(docsPbfUrl);
-      fetchMock.once(
-        "*",
-        {
-          status: 200,
-          headers: livePbfResponse.headers,
-          body: await livePbfResponse.arrayBuffer()
-        },
-        {
-          sendAsJson: false
-        }
-      );
-
-      const docsPbfOptions: IQueryFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-        f: "pbf-as-geojson",
-        where: "1=1",
-        outFields: ["*"],
-        resultOffset: 0,
-        resultRecordCount: 3,
-        geometry: {
-          xmin: -13193261,
-          ymin: 4028181.6,
-          xmax: -13185072.9,
-          ymax: 4035576.6,
-          spatialReference: { wkid: 101200 }
-        },
-        geometryType: "esriGeometryEnvelope",
-        spatialRel: "esriSpatialRelIntersects"
-      };
-      const response = await queryFeatures(docsPbfOptions);
-
-      expect(fetchMock.called()).toBeTruthy();
-      const [url, options] = fetchMock.lastCall("*");
-      expect(options.method).toBe("GET");
-      expect((response as any).features.length).toBe(3);
-      expect((response as any).features[0].geometry).toHaveProperty("type");
-      expect((response as any).features[0].geometry).toHaveProperty(
-        "coordinates"
-      );
-    });
-
-    // TODO: will want to return an ArcGIS Request Error from the request instead of letting the error fall through from the decoder
-    test("LIVE TEST (invalid): should throw an error when pbf-as-geojson fails to decode", async () => {
-      const docsPbfUrl =
-        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=3&geometry=%7B%22xmin%22%3A-13193261%2C%22ymin%22%3A4028181.6%2C%22xmax%22%3A-13185072.9%2C%22ymax%22%3A4035576.6%2C%22spatialReference%22%3A%7B%22wkid%22%3A101200%7D%7D&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects";
-      const livePbfResponse = await fetch(docsPbfUrl);
-      fetchMock.once(
-        "*",
-        {
-          status: 200,
-          headers: livePbfResponse.headers,
-          body: await livePbfResponse.blob()
-        },
-        {
-          sendAsJson: false
-        }
-      );
-
-      const docsPbfOptions: IQueryFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-        f: "pbf-as-geojson",
-        where: "1=1",
-        outFields: ["*"],
-        resultOffset: 0,
-        resultRecordCount: 3,
-        geometry: {
-          xmin: -13193261,
-          ymin: 4028181.6,
-          xmax: -13185072.9,
-          ymax: 4035576.6,
-          spatialReference: { wkid: 101200 }
-        },
-        geometryType: "esriGeometryEnvelope",
-        spatialRel: "esriSpatialRelIntersects"
-      };
-
-      try {
-        await queryFeatures(docsPbfOptions);
-      } catch (error) {
-        // right now this gets a fall-through error from the decoder library, but should probably be a request error.
-        expect(error).toBeInstanceOf(Error);
-        expect((error as any).message).toContain(
-          "Could not parse arcgis-pbf buffer:"
-        );
-      }
-    });
-
-    // LIVE TEST: should handle live pbf response for unauthenticated pbf-as-geojson requests
-    test("LIVE TEST (UNAUTHENTICATED): should return json response for unauthenticated pbf-as-geojson requests without fetchmock", async () => {
-      const docsPbfUrl =
-        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=3&geometry=%7B%22xmin%22%3A-13193261%2C%22ymin%22%3A4028181.6%2C%22xmax%22%3A-13185072.9%2C%22ymax%22%3A4035576.6%2C%22spatialReference%22%3A%7B%22wkid%22%3A101200%7D%7D&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects";
-
-      const badApiKey = "BAD_API_KEY";
-      const docsUrlPbfWithBadKey = `${docsPbfUrl}&token=${badApiKey}`;
-      const liveJsonErrorResponse = await fetch(docsUrlPbfWithBadKey);
-      expect(liveJsonErrorResponse.status).toBe(200);
-      expect(liveJsonErrorResponse.headers.get("content-type")).toBe(
-        "application/json; charset=utf-8"
-      );
-      const errorJson = await liveJsonErrorResponse.json();
-      expect(errorJson.error.code).toBe(498);
-      expect(errorJson.error.message).toBe("Invalid token.");
-
-      // set up options for live request through query features
-      const docsPbfOptions: IQueryFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-        f: "pbf-as-geojson",
-        where: "1=1",
-        outFields: ["*"],
-        resultOffset: 0,
-        resultRecordCount: 3,
-        geometry: {
-          xmin: -13193261,
-          ymin: 4028181.6,
-          xmax: -13185072.9,
-          ymax: 4035576.6,
-          spatialReference: { wkid: 101200 }
-        },
-        geometryType: "esriGeometryEnvelope",
-        spatialRel: "esriSpatialRelIntersects",
-        authentication: ApiKeyManager.fromKey(badApiKey)
-      };
-
-      try {
-        await queryFeatures(docsPbfOptions);
-      } catch (error) {
-        expect(error).toBeInstanceOf(ArcGISAuthError);
-        expect((error as any).message).toBe("498: Invalid token.");
-      }
-      // await expect(queryFeatures(docsPbfOptions)).rejects.toThrowError(ArcGISAuthError);
-    });
-
-    test("LIVE TEST (UNAUTHENTICATED) w/fetchmock: should return json response through fetchmock for unauthenticated pbf-as-geojson requests", async () => {
-      const docsPbfUrl =
-        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=3&geometry=%7B%22xmin%22%3A-13193261%2C%22ymin%22%3A4028181.6%2C%22xmax%22%3A-13185072.9%2C%22ymax%22%3A4035576.6%2C%22spatialReference%22%3A%7B%22wkid%22%3A101200%7D%7D&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects";
-
-      const badApiKey = "BAD_API_KEY";
-      const docsUrlPbfWithBadKey = `${docsPbfUrl}&token=${badApiKey}`;
-      const livePbfResponse = await fetch(docsUrlPbfWithBadKey);
-
-      expect(livePbfResponse.headers.get("content-type")).toBe(
-        "application/json; charset=utf-8"
-      );
-
-      fetchMock.once("*", {
-        status: 200,
-        headers: livePbfResponse.headers,
-        body: await livePbfResponse.json()
-      });
-
-      // deconstruct docsPBFurl to query features options object
-      const docsPbfOptions: IQueryFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-        f: "pbf-as-geojson",
-        where: "1=1",
-        outFields: ["*"],
-        resultOffset: 0,
-        resultRecordCount: 3,
-        geometry: {
-          xmin: -13193261,
-          ymin: 4028181.6,
-          xmax: -13185072.9,
-          ymax: 4035576.6,
-          spatialReference: { wkid: 101200 }
-        },
-        geometryType: "esriGeometryEnvelope",
-        spatialRel: "esriSpatialRelIntersects",
-        authentication: ApiKeyManager.fromKey(badApiKey)
-      };
-
       try {
         await queryFeatures(docsPbfOptions);
       } catch (error) {
@@ -643,10 +356,101 @@ describe("getFeature() and queryFeatures()", () => {
       expect(fetchMock.called()).toBeTruthy();
       const [url, options] = fetchMock.lastCall("*");
       expect(options.method).toBe("GET");
-      expect((response as any).length).toBe(1);
-      expect((response as any)[0].attributes.OBJECTID).toBe(49481);
-      expect((response as any)[0].attributes.County).toBe("Nassau County");
+      expect((response as any).features.length).toBe(1);
+      expect((response as any).features[0].attributes.OBJECTID).toBe(49481);
+      expect((response as any).features[0].attributes.County).toBe(
+        "Nassau County"
+      );
       // could assert match on the full object
+    });
+
+    test("(invalid) should throw an error when pbf-as-arcgis fails to decode", async () => {
+      let arrayBuffer: ArrayBuffer | Buffer;
+
+      // create buffer type according to test environment
+      if (isBrowser) {
+        arrayBuffer = new ArrayBuffer(8);
+      }
+      if (isNode) {
+        arrayBuffer = Buffer.from([]);
+      }
+
+      fetchMock.once(
+        "*",
+        {
+          status: 200,
+          headers: { "content-type": "application/x-protobuf" },
+          body: arrayBuffer
+        },
+        { sendAsJson: false }
+      );
+
+      const docsPbfOptions: IQueryFeaturesOptions = {
+        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+        f: "pbf-as-arcgis",
+        where: "1=1",
+        outFields: ["*"],
+        resultOffset: 0,
+        resultRecordCount: 3,
+        geometry: {
+          xmin: -13193261,
+          ymin: 4028181.6,
+          xmax: -13185072.9,
+          ymax: 4035576.6,
+          spatialReference: { wkid: 101200 }
+        },
+        geometryType: "esriGeometryEnvelope",
+        spatialRel: "esriSpatialRelIntersects"
+      };
+
+      try {
+        await queryFeatures(docsPbfOptions);
+      } catch (error) {
+        // right now this gets a fall through error from the decoder library, but should probably be a request error.
+        expect(error).toBeInstanceOf(Error);
+        expect((error as any).message).toContain(
+          "500: Error decoding PBF response"
+        );
+      }
+    });
+
+    test("(unauth) should handle pbf-as-arcgis requests that fail due to unauthenticated states", async () => {
+      const featureServiceInvalidTokenErrorResponse = {
+        error: {
+          code: 498,
+          message: "Invalid token.",
+          details: ["Invalid token."]
+        }
+      };
+      fetchMock.once("*", {
+        status: 200,
+        headers: { "content-type": "application/json; charset=utf-8" },
+        body: featureServiceInvalidTokenErrorResponse
+      });
+
+      const docsPbfOptions: IQueryFeaturesOptions = {
+        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+        f: "pbf-as-arcgis",
+        where: "1=1",
+        outFields: ["*"],
+        resultOffset: 0,
+        resultRecordCount: 3,
+        geometry: {
+          xmin: -13193261,
+          ymin: 4028181.6,
+          xmax: -13185072.9,
+          ymax: 4035576.6,
+          spatialReference: { wkid: 101200 }
+        },
+        geometryType: "esriGeometryEnvelope",
+        spatialRel: "esriSpatialRelIntersects"
+      };
+      try {
+        await queryFeatures(docsPbfOptions);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ArcGISAuthError);
+        expect((error as any).message).toBe("498: Invalid token.");
+      }
     });
 
     // test case: should convert to arcgis on live request
@@ -755,47 +559,6 @@ describe("queryAllFeatures", () => {
     expect(result.features[0].attributes.OBJECTID).toBe(2001);
   });
 
-  // test case: should handle converting geometries and also for queryAllFeatures over multiple pages (in queryallfeatures describe)
-
-  test("should fetch PBF features as geoJSON if total features are under page size", async () => {
-    // is this f=json needed to get the maxRecordCount from server? does maxRecordCount apply to all requests or just json?
-
-    let aPublicUrl =
-      "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2/query?f=pbf&objectIds=49481&outFields=B12001_calc_numDivorcedE%2CB12001_calc_numMarriedE%2CB12001_calc_numNeverE%2CB12001_calc_pctMarriedE%2CCounty%2CNAME%2COBJECTID&outSR=102100&returnGeometry=false&spatialRel=esriSpatialRelIntersects&where=1%3D1";
-
-    let testUrl = aPublicUrl;
-    //const testResponse = await fetch(testUrl);
-    //let toJson = await testResponse.json();
-    //console.log("testResponse", toJson);
-
-    const jsonResponse = await fetch(testUrl.replace("f=pbf", "f=json"));
-    const jsonData = await jsonResponse.json();
-    console.log("jsonData", jsonData.features);
-    const geojsonResponse = await fetch(testUrl.replace("f=pbf", "f=geojson"));
-    const geojsonData = await geojsonResponse.json();
-    console.log("geojsonData", geojsonData.features);
-
-    const pbfResponse = await fetch(testUrl);
-    // need to test other urls and their return values to make sure they can decode to pbf correctly
-    //console.log("pbfResponse", pbfResponse);
-    //const arrBuff = await pbfResponse.arrayBuffer();
-
-    console.log("blob", await pbfResponse.headers);
-    //console.log("arrBuff", arrBuff);
-    //console.log("pbf as geojson", decode(arrBuff).featureCollection.features);
-
-    // // queryAllFeatures makes at least two requests, one to get maxRecordCount and one to get features
-    // // the second request should return a decoded geojson feature collection
-
-    // TODO: try querying serviceurl as live url for a pbf response as well if it works.
-    console.log("testUrl", testUrl);
-    // console.log("result", result);
-
-    // expect(result.features.length).toBe(1);
-    // TODO: fit response return values to fulfil IFeature interface contract
-    // expect(result.features[0].properties.OBJECTID).toBe(49481);
-  });
-
   test("uses user defined resultRecordCount if less than page size", async () => {
     const customCount = 1000;
 
@@ -846,7 +609,7 @@ describe("queryAllFeatures", () => {
     expect(result.features.length).toBe(pageSize);
   });
 
-  test("fall back to a default size of 2000 if thes service does not return a page size", async () => {
+  test("fall back to a default size of 2000 if the service does not return a page size", async () => {
     fetchMock.getOnce(`${serviceUrl}?f=json`, {});
 
     fetchMock.getOnce(
@@ -908,5 +671,417 @@ describe("queryAllFeatures", () => {
     expect((result as any).features.length).toBe(pageSize + 1);
     expect((result as any).features[0].id).toBe(1);
     expect((result as any).features[pageSize].id).toBe(2001);
+  });
+
+  describe("queryAllFeatures (pbf-as-geojson)", () => {
+    test("(valid) should fetch only one page of pbf-as-geojson if total features are under page size", async () => {
+      const thisServiceUrl =
+        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
+      let arrayBufferSet1: ArrayBuffer | Buffer;
+
+      if (isBrowser) {
+        const pbf = await fetch(
+          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf"
+        );
+        arrayBufferSet1 = await pbf.arrayBuffer();
+      }
+
+      if (isNode) {
+        const fs = await import("fs");
+        const filePath =
+          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf";
+        try {
+          arrayBufferSet1 = fs.readFileSync(filePath);
+        } catch (err) {
+          throw err;
+        }
+      }
+
+      fetchMock.once(`${thisServiceUrl}?f=json`, {
+        maxRecordCount: 2000
+      });
+
+      fetchMock.once(
+        `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=2000`,
+        {
+          status: 200,
+          headers: { "content-type": "application/x-protobuf" },
+          body: arrayBufferSet1
+        },
+        { sendAsJson: false }
+      );
+
+      const docsPbfOptions: IQueryAllFeaturesOptions = {
+        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+        f: "pbf-as-geojson"
+      };
+
+      try {
+        const response = await queryAllFeatures(docsPbfOptions);
+        expect((response as any).features.length).toBe(500);
+      } catch (error) {
+        throw error;
+      }
+    });
+
+    test("(valid) should fetch and iterate over multiple pages of pbf-as-geojson", async () => {
+      // use fetchmock to return maxRecordCount that is less than the number of total features in the medium pbf results.
+      // you might need to live query 4 groups of 500 or so with different offsets n*500 to mimic pages then synthetically reduce max record count to emulate service returning a low maxRecordCount to test if queryAllfeatures can iterate through that.
+      // the "server" would then return 500 new pbf features per response until 2500 or whatever results requested are achieved
+
+      const thisServiceUrl =
+        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
+      const pbfSetPaths = [
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet2.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet3.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet4.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet5.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+      ];
+      let pbfPages: (ArrayBuffer | Buffer)[] = [];
+
+      if (isBrowser) {
+        for (let path of pbfSetPaths) {
+          const resp = await fetch(path);
+          pbfPages.push(await resp.arrayBuffer());
+        }
+      }
+
+      if (isNode) {
+        const fs = await import("fs");
+        try {
+          for (let path of pbfSetPaths) {
+            pbfPages.push(fs.readFileSync(path));
+          }
+        } catch (err) {
+          throw err;
+        }
+      }
+
+      fetchMock.once(`${thisServiceUrl}?f=json`, {
+        maxRecordCount: 500
+      });
+
+      // Set up fetchMock for each page (offset = n*500)
+      for (let i = 0; i < pbfPages.length; i++) {
+        const offset = i * 500;
+        fetchMock.once(
+          `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=${offset}&resultRecordCount=500`,
+          {
+            status: 200,
+            headers: { "content-type": "application/x-protobuf" },
+            body: pbfPages[i]
+          },
+          { sendAsJson: false }
+        );
+      }
+
+      const docsPbfOptions: IQueryAllFeaturesOptions = {
+        url: thisServiceUrl,
+        f: "pbf-as-geojson"
+      };
+
+      const start = Date.now();
+      try {
+        const response = await queryAllFeatures(docsPbfOptions);
+        const duration = Date.now() - start;
+        // eslint-disable-next-line no-console
+        console.log(`Test duration: ${duration} ms`);
+        expect((response as any).features.length).toBe(2631);
+      } catch (error) {
+        throw error;
+      }
+    });
+
+    test("(valid) should fetch multiple pages of pbf-as-geojson ", async () => {
+      // use fetchmock to return maxRecordCount that is less than the number of total features in the medium pbf results.
+      // you might need to live query 4 groups of 500 or so with different offsets n*500 to mimic pages then synthetically reduce max record count to emulate service returning a low maxRecordCount to test if queryAllfeatures can iterate through that.
+      // the "server" would then return 500 new pbf features per response until 2500 or whatever results requested are achieved
+
+      const thisServiceUrl =
+        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
+      let arrayBufferSet1: ArrayBuffer | Buffer;
+      let arrayBufferSet2: ArrayBuffer | Buffer;
+
+      if (isBrowser) {
+        const pbfFull = await fetch(
+          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf"
+        );
+        const pbfPartial = await fetch(
+          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+        );
+        arrayBufferSet1 = await pbfFull.arrayBuffer();
+        arrayBufferSet2 = await pbfPartial.arrayBuffer();
+      }
+
+      if (isNode) {
+        const fs = await import("fs");
+        const filePath =
+          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf";
+        const filePathPartial =
+          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf";
+        try {
+          arrayBufferSet1 = fs.readFileSync(filePath);
+          arrayBufferSet2 = fs.readFileSync(filePathPartial);
+        } catch (err) {
+          throw err;
+        }
+      }
+
+      fetchMock.once(`${thisServiceUrl}?f=json`, {
+        maxRecordCount: 500
+      });
+
+      fetchMock.once(
+        `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=500`,
+        {
+          status: 200,
+          headers: { "content-type": "application/x-protobuf" },
+          body: arrayBufferSet1
+        },
+        { sendAsJson: false }
+      );
+
+      fetchMock.once(
+        `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=500&resultRecordCount=500`,
+        {
+          status: 200,
+          headers: { "content-type": "application/x-protobuf" },
+          body: arrayBufferSet2
+        },
+        { sendAsJson: false }
+      );
+
+      const docsPbfOptions: IQueryAllFeaturesOptions = {
+        url: thisServiceUrl,
+        f: "pbf-as-geojson"
+      };
+
+      const start = Date.now();
+      try {
+        const response = await queryAllFeatures(docsPbfOptions);
+        expect((response as any).features.length).toBe(631);
+      } catch (error) {
+        throw error;
+      }
+    });
+
+    test("should fetch PBF features as geoJSON if total features are under page size", async () => {
+      // is this f=json needed to get the maxRecordCount from server? does maxRecordCount apply to all requests or just json?
+
+      let aPublicUrl =
+        "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2/query?f=pbf&objectIds=49481&outFields=B12001_calc_numDivorcedE%2CB12001_calc_numMarriedE%2CB12001_calc_numNeverE%2CB12001_calc_pctMarriedE%2CCounty%2CNAME%2COBJECTID&outSR=102100&returnGeometry=false&spatialRel=esriSpatialRelIntersects&where=1%3D1";
+
+      let testUrl = aPublicUrl;
+      //const testResponse = await fetch(testUrl);
+      //let toJson = await testResponse.json();
+      //console.log("testResponse", toJson);
+
+      const jsonResponse = await fetch(testUrl.replace("f=pbf", "f=json"));
+      const jsonData = await jsonResponse.json();
+      console.log("jsonData", jsonData.features);
+      const geojsonResponse = await fetch(
+        testUrl.replace("f=pbf", "f=geojson")
+      );
+      const geojsonData = await geojsonResponse.json();
+      console.log("geojsonData", geojsonData.features);
+
+      const pbfResponse = await fetch(testUrl);
+      // need to test other urls and their return values to make sure they can decode to pbf correctly
+      //console.log("pbfResponse", pbfResponse);
+      //const arrBuff = await pbfResponse.arrayBuffer();
+
+      console.log("blob", await pbfResponse.headers);
+      //console.log("arrBuff", arrBuff);
+      //console.log("pbf as geojson", decode(arrBuff).featureCollection.features);
+
+      // // queryAllFeatures makes at least two requests, one to get maxRecordCount and one to get features
+      // // the second request should return a decoded geojson feature collection
+
+      // TODO: try querying serviceurl as live url for a pbf response as well if it works.
+      console.log("testUrl", testUrl);
+      // console.log("result", result);
+
+      // expect(result.features.length).toBe(1);
+      // TODO: fit response return values to fulfil IFeature interface contract
+      // expect(result.features[0].properties.OBJECTID).toBe(49481);
+    });
+
+    // test case: should handle converting geometries and also for queryAllFeatures over multiple pages (in queryallfeatures describe)
+  });
+
+  describe("queryAllFeatures (pbf-as-arcgis)", () => {
+    test("should fetch one page of pbf-as-arcgis if total features are under page size", async () => {
+      const thisServiceUrl =
+        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
+      let arrayBufferSet1: ArrayBuffer | Buffer;
+
+      if (isBrowser) {
+        const pbf = await fetch(
+          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+        );
+        arrayBufferSet1 = await pbf.arrayBuffer();
+      }
+
+      if (isNode) {
+        const fs = await import("fs");
+        const filePath =
+          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf";
+        try {
+          arrayBufferSet1 = fs.readFileSync(filePath);
+        } catch (err) {
+          throw err;
+        }
+      }
+
+      fetchMock.once(`${thisServiceUrl}?f=json`, {
+        maxRecordCount: 2000
+      });
+
+      fetchMock.once(
+        // backend request to feature server will be f=pbf, since we are converting the server response to arcgis json in rest-js
+        `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=2000`,
+        {
+          status: 200,
+          headers: { "content-type": "application/x-protobuf" },
+          body: arrayBufferSet1
+        },
+        { sendAsJson: false }
+      );
+
+      const docsPbfOptions: IQueryAllFeaturesOptions = {
+        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+        // request pbf-as-arcgis to rest-js to get all features as pbf then convert to arcgis json in rest-js
+        f: "pbf-as-arcgis"
+      };
+
+      try {
+        const response = await queryAllFeatures(docsPbfOptions);
+        expect((response as any).features.length).toBe(131);
+      } catch (error) {
+        throw error;
+      }
+    });
+
+    test("should fetch one page of pbf-as-arcgis if total features are equal to one page", async () => {
+      const thisServiceUrl =
+        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
+      let arrayBufferSet1: ArrayBuffer | Buffer;
+
+      if (isBrowser) {
+        const pbf = await fetch(
+          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf"
+        );
+        arrayBufferSet1 = await pbf.arrayBuffer();
+      }
+
+      if (isNode) {
+        const fs = await import("fs");
+        const filePath =
+          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf";
+        try {
+          arrayBufferSet1 = fs.readFileSync(filePath);
+        } catch (err) {
+          throw err;
+        }
+      }
+
+      fetchMock.once(`${thisServiceUrl}?f=json`, {
+        maxRecordCount: 2000
+      });
+
+      fetchMock.once(
+        `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=2000`,
+        {
+          status: 200,
+          headers: { "content-type": "application/x-protobuf" },
+          body: arrayBufferSet1
+        },
+        { sendAsJson: false }
+      );
+
+      const docsPbfOptions: IQueryAllFeaturesOptions = {
+        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+        f: "pbf-as-arcgis"
+      };
+
+      try {
+        const response = await queryAllFeatures(docsPbfOptions);
+        expect((response as any).features.length).toBe(500);
+      } catch (error) {
+        throw error;
+      }
+    });
+
+    test("should fetch all pages of pbf-as-arcgis and return as arcgis json objects", async () => {
+      const thisServiceUrl =
+        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
+      const pbfSetPaths = [
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet2.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet3.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet4.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet5.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+      ];
+      let pbfPages: (ArrayBuffer | Buffer)[] = [];
+
+      if (isBrowser) {
+        for (let path of pbfSetPaths) {
+          const resp = await fetch(path);
+          pbfPages.push(await resp.arrayBuffer());
+        }
+      }
+
+      if (isNode) {
+        const fs = await import("fs");
+        try {
+          for (let path of pbfSetPaths) {
+            pbfPages.push(fs.readFileSync(path));
+          }
+        } catch (err) {
+          throw err;
+        }
+      }
+
+      fetchMock.once(`${thisServiceUrl}?f=json`, {
+        maxRecordCount: 500
+      });
+
+      // Set up fetchMock for each page (offset = n*500)
+      for (let i = 0; i < pbfPages.length; i++) {
+        const offset = i * 500;
+        fetchMock.once(
+          // request to server will be f=pbf since we are converting to arcgis json from the server response
+          `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=${offset}&resultRecordCount=500`,
+          {
+            status: 200,
+            headers: { "content-type": "application/x-protobuf" },
+            body: pbfPages[i]
+          },
+          { sendAsJson: false }
+        );
+      }
+
+      const docsPbfOptions: IQueryAllFeaturesOptions = {
+        url: thisServiceUrl,
+        f: "pbf-as-arcgis"
+      };
+
+      const start = Date.now();
+      try {
+        const response = await queryAllFeatures(docsPbfOptions);
+
+        const duration = Date.now() - start;
+        // eslint-disable-next-line no-console
+        console.log(`Test duration: ${duration} ms`);
+        expect((response as any).features.length).toBe(2631);
+        console.log("response features", (response as any).features[0]);
+        expect((response as any).features[0].attributes.OBJECTID).toBe(1);
+      } catch (error) {
+        throw error;
+      }
+    });
   });
 });

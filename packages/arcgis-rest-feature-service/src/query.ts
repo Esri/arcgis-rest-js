@@ -11,7 +11,8 @@ import {
   Units,
   IExtent,
   ArcGISRequestError,
-  ArcGISAuthError
+  ArcGISAuthError,
+  IRequestOptions
 } from "@esri/arcgis-rest-request";
 
 import {
@@ -154,6 +155,69 @@ export interface IQueryResponse {
   objectIds?: number[];
 }
 
+export function queryPbfAsGeoJSONOrArcGIS(
+  url: string,
+  queryOptions: IRequestOptions
+): Promise<IQueryFeaturesResponse | IQueryAllFeaturesResponse> {
+  // need to send rawResponse: true and f=pbf on behalf of the user to fetch the pbf response with metadata
+  const customOptions = {
+    ...queryOptions,
+    params: { ...queryOptions.params, f: "pbf" } as any,
+    rawResponse: true
+  };
+  return request(`${cleanUrl(url)}/query`, customOptions).then(
+    async (response: any) => {
+      if (response.headers.get("content-type")?.includes("application/json")) {
+        const err = (await response.json()).error;
+        // throw auth error, else throw request error?
+        if (err?.code === 498 || err?.code === 499) {
+          throw new ArcGISAuthError(
+            err.message,
+            err.code,
+            err,
+            url,
+            customOptions
+          );
+        }
+        throw new ArcGISRequestError(
+          err.message,
+          err.code,
+          err,
+          url,
+          customOptions
+        );
+      }
+      try {
+        const arrayBuffer = await response.arrayBuffer();
+        const decoded = pbfToGeoJSON(arrayBuffer);
+        // return simple decoded geojson feature collection https://geojson.org/
+        // TODO: check if this is slightly different than the arcgis geojson object that comes from a geojson request.
+
+        const data =
+          queryOptions.params.f === "pbf-as-geojson"
+            ? decoded.featureCollection
+            : { features: geojsonToArcGIS(decoded.featureCollection) };
+        console.log(decoded);
+        const responseObject:
+          | IQueryFeaturesResponse
+          | IQueryAllFeaturesResponse = {
+          ...data,
+          exceededTransferLimit: decoded.exceededTransferLimit
+        };
+        return responseObject;
+      } catch (error) {
+        throw new ArcGISRequestError(
+          "Error decoding PBF response",
+          500,
+          error as Error,
+          url,
+          customOptions
+        );
+      }
+    }
+  );
+}
+
 /**
  * Get a feature by id.
  *
@@ -263,56 +327,13 @@ export function queryFeatures(
 
   // three cases:
   // 1. f=pbf: return undecoded pbf straight back to user -- pass over to return
-  // 2. f=pbf-as-geojson: decode pbf and return geojson -- enter and return promise
-  // 3. f=pbf-as-arcgis: decode pbf and return arcgis objects -- not implemented yet
-  // if any of these happen, we just need to send rawResponse: true on behalf of the user to fetch the pbf response
-
+  // 2. f=pbf-as-geojson: decode pbf and return geojson
+  // 3. f=pbf-as-arcgis: decode pbf and return arcgis objects
   if (
     queryOptions.params?.f === "pbf-as-geojson" ||
     queryOptions.params?.f === "pbf-as-arcgis"
   ) {
-    // no need to pass f=pbf as rawResponse will get us a pbf response by default the way request is written
-    // manually setting rawResponse here as user shouldn't need to pass a secondary param to get data unless they want a rawResponse themselves.
-    // need to get raw response to access headers to determing if error is sent in json or if we have a pbf body
-    const customOptions = {
-      ...queryOptions,
-      params: { ...queryOptions.params, f: "pbf" } as any,
-      rawResponse: true
-    };
-    return request(`${cleanUrl(requestOptions.url)}/query`, customOptions).then(
-      async (response: any) => {
-        if (
-          response.headers.get("content-type")?.includes("application/json")
-        ) {
-          const err = (await response.json()).error;
-          // throw auth error, else throw request error?
-          if (err?.code === 498 || err?.code === 499) {
-            throw new ArcGISAuthError(
-              err.message,
-              err.code,
-              err,
-              requestOptions.url,
-              customOptions
-            );
-          }
-          throw new ArcGISRequestError(
-            err.message,
-            err.code,
-            err,
-            requestOptions.url,
-            customOptions
-          );
-        }
-        // should probably wrap this in a try catch and throw an appropriate request error if decoding fails.
-        const arrayBuffer = await response.arrayBuffer();
-        const decoded = pbfToGeoJSON(arrayBuffer);
-        // return simple decoded geojson feature collection https://geojson.org/
-        // TODO: check if this is slightly different than the arcgis geojson object that comes from a geojson request.
-        return queryOptions.params.f === "pbf-as-geojson"
-          ? decoded.featureCollection
-          : geojsonToArcGIS(decoded.featureCollection);
-      }
-    );
+    return queryPbfAsGeoJSONOrArcGIS(requestOptions.url, queryOptions);
   }
 
   return request(`${cleanUrl(requestOptions.url)}/query`, queryOptions);
@@ -340,18 +361,22 @@ export async function queryAllFeatures(
   let offset = 0;
   let hasMore = true;
   let allFeaturesResponse: IQueryAllFeaturesResponse | null = null;
-
+  console.log(requestOptions.url);
   // retrieve the maxRecordCount for the service
   const pageSizeResponse = await request(requestOptions.url, {
     httpMethod: "GET",
+    // conditionally pass authentication
     authentication: requestOptions.authentication
   });
+  0;
   // default the pageSize to 2000 if it is not provided
   const pageSize = pageSizeResponse.maxRecordCount || 2000;
   const userRecordCount = requestOptions.params?.resultRecordCount;
   // use the user defined count only if it's less than or equal to the page size, otherwise use pageSize
   const recordCountToUse =
     userRecordCount && userRecordCount <= pageSize ? userRecordCount : pageSize;
+
+  console.log(recordCountToUse);
 
   while (hasMore) {
     const pagedOptions = {
@@ -409,28 +434,26 @@ export async function queryAllFeatures(
         }
       }
     );
+    0;
 
-    // const response: IQueryAllFeaturesResponse;
-    // if (queryOptions.params?.f === "pbf-as-geojson") {
-    //   const customOptions = { ...queryOptions, rawResponse: true };
-    //   const rawResponse = await request(
-    //     `${cleanUrl(requestOptions.url)}/query`,
-    //     customOptions
-    //   );
-    //   const arrayBuffer = await rawResponse.arrayBuffer();
-    //   const decodedResponse = pbfToGeoJSON(arrayBuffer);
-    //   response = decodedResponse.featureCollection;
-    // } else {
-    //   response = await request(
-    //     `${cleanUrl(requestOptions.url)}/query`,
-    //     queryOptions
-    //   );
-    // }
+    let response: IQueryAllFeaturesResponse;
+    // for queryAllFeatures we only need to supportpbf-as-geojson and pbf-as-arcgis since we need to decode to know if we need to get all the features
+    if (
+      queryOptions.params?.f === "pbf-as-geojson" ||
+      queryOptions.params?.f === "pbf-as-arcgis"
+    ) {
+      response = (await queryPbfAsGeoJSONOrArcGIS(
+        requestOptions.url,
+        queryOptions
+      )) as IQueryAllFeaturesResponse;
+    } else {
+      response = await request(
+        `${cleanUrl(requestOptions.url)}/query`,
+        queryOptions
+      );
+    }
 
-    const response = await request(
-      `${cleanUrl(requestOptions.url)}/query`,
-      queryOptions
-    );
+    console.log(offset);
 
     // save the first response structure
     if (!allFeaturesResponse) {
@@ -449,6 +472,12 @@ export async function queryAllFeatures(
       response.exceededTransferLimit ||
       (response as any).properties?.exceededTransferLimit;
 
+    console.log({
+      exceededTransferLimit,
+      returnedCount,
+      recordCountToUse,
+      pageSize
+    });
     // check if there are more features
     if (returnedCount < pageSize || !exceededTransferLimit) {
       hasMore = false;
