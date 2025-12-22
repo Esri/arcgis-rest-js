@@ -674,7 +674,58 @@ describe("queryAllFeatures", () => {
   });
 
   describe("queryAllFeatures (pbf-as-geojson)", () => {
-    test("(valid) should fetch only one page of pbf-as-geojson if total features are under page size", async () => {
+    test("(valid) should fetch only one page of pbf-as-geojson if total features are less than page size", async () => {
+      const thisServiceUrl =
+        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
+      let arrayBufferSet1: ArrayBuffer | Buffer;
+
+      if (isBrowser) {
+        const pbf = await fetch(
+          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+        );
+        arrayBufferSet1 = await pbf.arrayBuffer();
+      }
+
+      if (isNode) {
+        const fs = await import("fs");
+        const filePath =
+          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf";
+        try {
+          arrayBufferSet1 = fs.readFileSync(filePath);
+        } catch (err) {
+          throw err;
+        }
+      }
+
+      fetchMock.once(`${thisServiceUrl}?f=json`, {
+        maxRecordCount: 2000
+      });
+
+      fetchMock.once(
+        // request feature service will be pbf since we are converting to geojson in rest-js
+        `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=2000`,
+        {
+          status: 200,
+          headers: { "content-type": "application/x-protobuf" },
+          body: arrayBufferSet1
+        },
+        { sendAsJson: false }
+      );
+
+      const docsPbfOptions: IQueryAllFeaturesOptions = {
+        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+        f: "pbf-as-geojson"
+      };
+
+      try {
+        const response = await queryAllFeatures(docsPbfOptions);
+        expect((response as any).features.length).toBe(131);
+      } catch (error) {
+        throw error;
+      }
+    });
+
+    test("(valid) should fetch only one page of pbf-as-geojson if total features equal page size", async () => {
       const thisServiceUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
       let arrayBufferSet1: ArrayBuffer | Buffer;
@@ -724,77 +775,7 @@ describe("queryAllFeatures", () => {
       }
     });
 
-    test("(valid) should fetch and iterate over multiple pages of pbf-as-geojson", async () => {
-      // use fetchmock to return maxRecordCount that is less than the number of total features in the medium pbf results.
-      // you might need to live query 4 groups of 500 or so with different offsets n*500 to mimic pages then synthetically reduce max record count to emulate service returning a low maxRecordCount to test if queryAllfeatures can iterate through that.
-      // the "server" would then return 500 new pbf features per response until 2500 or whatever results requested are achieved
-
-      const thisServiceUrl =
-        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
-      const pbfSetPaths = [
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet2.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet3.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet4.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet5.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
-      ];
-      let pbfPages: (ArrayBuffer | Buffer)[] = [];
-
-      if (isBrowser) {
-        for (let path of pbfSetPaths) {
-          const resp = await fetch(path);
-          pbfPages.push(await resp.arrayBuffer());
-        }
-      }
-
-      if (isNode) {
-        const fs = await import("fs");
-        try {
-          for (let path of pbfSetPaths) {
-            pbfPages.push(fs.readFileSync(path));
-          }
-        } catch (err) {
-          throw err;
-        }
-      }
-
-      fetchMock.once(`${thisServiceUrl}?f=json`, {
-        maxRecordCount: 500
-      });
-
-      // Set up fetchMock for each page (offset = n*500)
-      for (let i = 0; i < pbfPages.length; i++) {
-        const offset = i * 500;
-        fetchMock.once(
-          `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=${offset}&resultRecordCount=500`,
-          {
-            status: 200,
-            headers: { "content-type": "application/x-protobuf" },
-            body: pbfPages[i]
-          },
-          { sendAsJson: false }
-        );
-      }
-
-      const docsPbfOptions: IQueryAllFeaturesOptions = {
-        url: thisServiceUrl,
-        f: "pbf-as-geojson"
-      };
-
-      const start = Date.now();
-      try {
-        const response = await queryAllFeatures(docsPbfOptions);
-        const duration = Date.now() - start;
-        // eslint-disable-next-line no-console
-        console.log(`Test duration: ${duration} ms`);
-        expect((response as any).features.length).toBe(2631);
-      } catch (error) {
-        throw error;
-      }
-    });
-
-    test("(valid) should fetch multiple pages of pbf-as-geojson ", async () => {
+    test("(valid) should fetch multiple pages of pbf-as-geojson if total features exceed page size", async () => {
       // use fetchmock to return maxRecordCount that is less than the number of total features in the medium pbf results.
       // you might need to live query 4 groups of 500 or so with different offsets n*500 to mimic pages then synthetically reduce max record count to emulate service returning a low maxRecordCount to test if queryAllfeatures can iterate through that.
       // the "server" would then return 500 new pbf features per response until 2500 or whatever results requested are achieved
@@ -867,48 +848,70 @@ describe("queryAllFeatures", () => {
       }
     });
 
-    test("should fetch PBF features as geoJSON if total features are under page size", async () => {
-      // is this f=json needed to get the maxRecordCount from server? does maxRecordCount apply to all requests or just json?
+    test("(valid) should query all features as arcgis json objects", async () => {
+      const thisServiceUrl =
+        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
+      const rawPbfPaths = [
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet2.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet3.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet4.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet5.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+      ];
+      let pbfPages: (ArrayBuffer | Buffer)[] = [];
 
-      let aPublicUrl =
-        "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2/query?f=pbf&objectIds=49481&outFields=B12001_calc_numDivorcedE%2CB12001_calc_numMarriedE%2CB12001_calc_numNeverE%2CB12001_calc_pctMarriedE%2CCounty%2CNAME%2COBJECTID&outSR=102100&returnGeometry=false&spatialRel=esriSpatialRelIntersects&where=1%3D1";
+      if (isBrowser) {
+        for (let path of rawPbfPaths) {
+          const resp = await fetch(path);
+          pbfPages.push(await resp.arrayBuffer());
+        }
+      }
 
-      let testUrl = aPublicUrl;
-      //const testResponse = await fetch(testUrl);
-      //let toJson = await testResponse.json();
-      //console.log("testResponse", toJson);
+      if (isNode) {
+        const fs = await import("fs");
+        try {
+          for (let path of rawPbfPaths) {
+            pbfPages.push(fs.readFileSync(path));
+          }
+        } catch (err) {
+          throw err;
+        }
+      }
 
-      const jsonResponse = await fetch(testUrl.replace("f=pbf", "f=json"));
-      const jsonData = await jsonResponse.json();
-      console.log("jsonData", jsonData.features);
-      const geojsonResponse = await fetch(
-        testUrl.replace("f=pbf", "f=geojson")
-      );
-      const geojsonData = await geojsonResponse.json();
-      console.log("geojsonData", geojsonData.features);
+      fetchMock.once(`${thisServiceUrl}?f=json`, {
+        maxRecordCount: 500
+      });
 
-      const pbfResponse = await fetch(testUrl);
-      // need to test other urls and their return values to make sure they can decode to pbf correctly
-      //console.log("pbfResponse", pbfResponse);
-      //const arrBuff = await pbfResponse.arrayBuffer();
+      // Set up fetchMock for each page (offset = n*500)
+      for (let i = 0; i < pbfPages.length; i++) {
+        const offset = i * 500;
+        fetchMock.once(
+          `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=${offset}&resultRecordCount=500`,
+          {
+            status: 200,
+            headers: { "content-type": "application/x-protobuf" },
+            body: pbfPages[i]
+          },
+          { sendAsJson: false }
+        );
+      }
 
-      console.log("blob", await pbfResponse.headers);
-      //console.log("arrBuff", arrBuff);
-      //console.log("pbf as geojson", decode(arrBuff).featureCollection.features);
+      const docsPbfOptions: IQueryAllFeaturesOptions = {
+        url: thisServiceUrl,
+        f: "pbf-as-geojson"
+      };
 
-      // // queryAllFeatures makes at least two requests, one to get maxRecordCount and one to get features
-      // // the second request should return a decoded geojson feature collection
-
-      // TODO: try querying serviceurl as live url for a pbf response as well if it works.
-      console.log("testUrl", testUrl);
-      // console.log("result", result);
-
-      // expect(result.features.length).toBe(1);
-      // TODO: fit response return values to fulfil IFeature interface contract
-      // expect(result.features[0].properties.OBJECTID).toBe(49481);
+      //const start = Date.now();
+      try {
+        const response = await queryAllFeatures(docsPbfOptions);
+        //const duration = Date.now() - start;
+        //console.log(`Test duration: ${duration} ms`);
+        expect((response as any).features.length).toBe(2631);
+      } catch (error) {
+        throw error;
+      }
     });
-
-    // test case: should handle converting geometries and also for queryAllFeatures over multiple pages (in queryallfeatures describe)
   });
 
   describe("queryAllFeatures (pbf-as-arcgis)", () => {
@@ -1017,7 +1020,7 @@ describe("queryAllFeatures", () => {
     test("should fetch all pages of pbf-as-arcgis and return as arcgis json objects", async () => {
       const thisServiceUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
-      const pbfSetPaths = [
+      const pbfPaths = [
         "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf",
         "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet2.pbf",
         "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet3.pbf",
@@ -1028,7 +1031,7 @@ describe("queryAllFeatures", () => {
       let pbfPages: (ArrayBuffer | Buffer)[] = [];
 
       if (isBrowser) {
-        for (let path of pbfSetPaths) {
+        for (let path of pbfPaths) {
           const resp = await fetch(path);
           pbfPages.push(await resp.arrayBuffer());
         }
@@ -1037,7 +1040,7 @@ describe("queryAllFeatures", () => {
       if (isNode) {
         const fs = await import("fs");
         try {
-          for (let path of pbfSetPaths) {
+          for (let path of pbfPaths) {
             pbfPages.push(fs.readFileSync(path));
           }
         } catch (err) {

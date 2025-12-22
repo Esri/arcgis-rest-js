@@ -197,7 +197,6 @@ export function queryPbfAsGeoJSONOrArcGIS(
           queryOptions.params.f === "pbf-as-geojson"
             ? decoded.featureCollection
             : { features: geojsonToArcGIS(decoded.featureCollection) };
-        console.log(decoded);
         const responseObject:
           | IQueryFeaturesResponse
           | IQueryAllFeaturesResponse = {
@@ -361,22 +360,18 @@ export async function queryAllFeatures(
   let offset = 0;
   let hasMore = true;
   let allFeaturesResponse: IQueryAllFeaturesResponse | null = null;
-  console.log(requestOptions.url);
   // retrieve the maxRecordCount for the service
+
   const pageSizeResponse = await request(requestOptions.url, {
-    httpMethod: "GET",
-    // conditionally pass authentication
-    authentication: requestOptions.authentication
+    ...{ httpMethod: "GET" },
+    ...requestOptions
   });
-  0;
   // default the pageSize to 2000 if it is not provided
   const pageSize = pageSizeResponse.maxRecordCount || 2000;
   const userRecordCount = requestOptions.params?.resultRecordCount;
   // use the user defined count only if it's less than or equal to the page size, otherwise use pageSize
   const recordCountToUse =
     userRecordCount && userRecordCount <= pageSize ? userRecordCount : pageSize;
-
-  console.log(recordCountToUse);
 
   while (hasMore) {
     const pagedOptions = {
@@ -434,7 +429,6 @@ export async function queryAllFeatures(
         }
       }
     );
-    0;
 
     let response: IQueryAllFeaturesResponse;
     // for queryAllFeatures we only need to supportpbf-as-geojson and pbf-as-arcgis since we need to decode to know if we need to get all the features
@@ -453,8 +447,6 @@ export async function queryAllFeatures(
       );
     }
 
-    console.log(offset);
-
     // save the first response structure
     if (!allFeaturesResponse) {
       allFeaturesResponse = { ...response };
@@ -472,12 +464,6 @@ export async function queryAllFeatures(
       response.exceededTransferLimit ||
       (response as any).properties?.exceededTransferLimit;
 
-    console.log({
-      exceededTransferLimit,
-      returnedCount,
-      recordCountToUse,
-      pageSize
-    });
     // check if there are more features
     if (returnedCount < pageSize || !exceededTransferLimit) {
       hasMore = false;
