@@ -6,11 +6,7 @@ import {
   queryAllFeatures,
   queryFeatures
 } from "../src/index.js";
-import {
-  ApiKeyManager,
-  ArcGISAuthError,
-  ArcGISJobError
-} from "@esri/arcgis-rest-request";
+import { ApiKeyManager, ArcGISAuthError } from "@esri/arcgis-rest-request";
 
 describe("queryFeatures() and queryAllFeatures() live tests", () => {
   afterEach(() => {
@@ -303,7 +299,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         try {
           await queryFeatures(docsPbfOptions);
         } catch (error) {
-          expect(error).toBeInstanceOf(ArcGISJobError);
+          expect(error).toBeInstanceOf(ArcGISAuthError);
           expect((error as any).message).toBe("498: Invalid token.");
         }
       });
@@ -339,76 +335,84 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
   });
 
   describe("queryAllFeatures()", () => {
-    describe("with pbf-as-geojson", () => {
+    describe("with geojson", () => {
       test(
-        "LIVE TEST LONG QUERY: should query all features as geojson objects under the maxRecordCount limit",
-        { timeout: 10000 },
+        "LIVE TEST LONG QUERY: should query all geojson objects",
+        // timeout may be longer on slower networks or when data is not cached
+        { timeout: 15000 },
         async () => {
-          // api key not necessary if we remove authentication from queryAllFeatures to mack queryFeatures functionality
-          const apikey = `USE_API_KEY`;
           const docsPbfOptions: IQueryAllFeaturesOptions = {
             url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-            f: "json",
-            authentication: ApiKeyManager.fromKey(apikey)
+            f: "geojson"
           };
-
-          try {
-            const response = await queryAllFeatures(docsPbfOptions);
-          } catch (error) {
-            console.error("Error querying docsPbfOptions:", error);
-          }
+          const response = await queryAllFeatures(docsPbfOptions);
+          console.log(response);
+          expect((response as any).type).toBe("FeatureCollection");
+          expect((response as any).features.length).toBeGreaterThan(20000);
+          expect((response as any).properties.exceededTransferLimit).toBe(true);
         }
       );
-
-      test("LIVE TEST: should query all features as geojson objects under the maxRecordCount limit", async () => {
-        const apikey = `GOOD_API_KEY`;
-
-        const docsPbfOptions: IQueryAllFeaturesOptions = {
-          url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-          f: "pbf-as-geojson"
-        };
-
-        const docsPbfUrl =
-          "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0/query?f=pbf&where=1%3D1&outFields=*&resultOffset=23400&resultRecordCount=2000&geometry=%7B%22xmin%22%3A-13193261%2C%22ymin%22%3A4028181.6%2C%22xmax%22%3A-13185072.9%2C%22ymax%22%3A4035576.6%2C%22spatialReference%22%3A%7B%22wkid%22%3A101200%7D%7D&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects";
-        const docsJsonUrl =
-          "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0/query?f=json&where=1%3D1&outFields=*&resultOffset=23400&resultRecordCount=2000&geometry=%7B%22xmin%22%3A-13193261%2C%22ymin%22%3A4028181.6%2C%22xmax%22%3A-13185072.9%2C%22ymax%22%3A4035576.6%2C%22spatialReference%22%3A%7B%22wkid%22%3A101200%7D%7D&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects";
-
-        let response = await fetch(docsPbfUrl);
-        let json = await fetch(docsJsonUrl);
-        let jsonData = await json.json();
-        //console.log("jsonData", jsonData);
-        let buff = await response.arrayBuffer();
-        console.log("buff", buff);
-
-        // const fs = await import("fs");
-        // fs.writeFileSync(
-        //   "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet7Partial.pbf",
-        //   Buffer.from(buff)
-        // );
-
-        const decode = (await import("../src/pbf/geoJSONPbfParser.js")).default;
-
-        try {
-          const geojson = decode(buff);
-          console.log("geojson", geojson);
-          console.log("exceededTransferLimit", geojson.exceededTransferLimit);
-          console.log(
-            "features length",
-            geojson.featureCollection.features.length
-          );
-        } catch (error) {
-          console.error("converting:", error);
-        }
-
-        // try {
-        //   const response = await queryAllFeatures(docsPbfOptions);
-        //   console.log("response", response);
-        // } catch (error) {
-        //   console.error("Error querying docsPbfOptions:", error);
-        // }
-      });
     });
 
-    describe("with pbf-as-arcgis", () => {});
+    describe("with arcgis json", () => {
+      test(
+        "LIVE TEST LONG QUERY: should query all arcgis json objects",
+        // timeout may be longer on slower networks or when data is not cached
+        { timeout: 15000 },
+        async () => {
+          const docsPbfOptions: IQueryAllFeaturesOptions = {
+            url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+            f: "json"
+          };
+
+          const response = await queryAllFeatures(docsPbfOptions);
+
+          expect((response as any).features[0]).toHaveProperty("attributes");
+          expect((response as any).features[0]).toHaveProperty("geometry");
+
+          // assert feature count and exceeded limit
+          expect((response as any).features.length).toBeGreaterThan(20000);
+          expect((response as any).exceededTransferLimit).toBe(true);
+        }
+      );
+    });
+
+    describe("with pbf-as-geojson", () => {
+      test(
+        "LIVE TEST LONG QUERY: should query all pbf-as-geojson objects",
+        // timeout may be longer on slower networks or when data is not cached
+        { timeout: 15000 },
+        async () => {
+          const docsPbfOptions: IQueryAllFeaturesOptions = {
+            url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+            f: "pbf-as-geojson"
+          };
+
+          const response = await queryAllFeatures(docsPbfOptions);
+          expect((response as any).type).toBe("FeatureCollection");
+          expect((response as any).features.length).toBeGreaterThan(20000);
+          expect((response as any).exceededTransferLimit).toBe(true);
+        }
+      );
+    });
+
+    describe("with pbf-as-arcgis", () => {
+      test(
+        "LIVE TEST LONG QUERY: should query all pbf-as-arcgis objects",
+        // timeout may be longer on slower networks or when data is not cached
+        { timeout: 15000 },
+        async () => {
+          const docsPbfOptions: IQueryAllFeaturesOptions = {
+            url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+            f: "pbf-as-arcgis"
+          };
+          const response = await queryAllFeatures(docsPbfOptions);
+          expect((response as any).features.length).toBeGreaterThan(20000);
+          expect((response as any).exceededTransferLimit).toBe(true);
+          expect((response as any).features[0]).toHaveProperty("attributes");
+          expect((response as any).features[0]).toHaveProperty("geometry");
+        }
+      );
+    });
   });
 });

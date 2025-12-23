@@ -458,16 +458,17 @@ export async function queryAllFeatures(
 
     const returnedCount = response.features.length;
 
-    // check if the response has exceededTransferLimit handles both the standard json and geojson responses
     const exceededTransferLimit =
+      // ArcGIS JSON/PBF: exceededTransferLimit is on the response object
       response.exceededTransferLimit ||
+      // GeoJson: exceededTransferLimit is under properties
       (response as any).properties?.exceededTransferLimit;
 
     // check if there are more features
-    if (returnedCount < pageSize || !exceededTransferLimit) {
+    if (returnedCount < recordCountToUse || !exceededTransferLimit) {
       hasMore = false;
     } else {
-      offset += pageSize;
+      offset += recordCountToUse;
     }
   }
   return allFeaturesResponse;

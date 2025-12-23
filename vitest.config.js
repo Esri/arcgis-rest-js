@@ -1,8 +1,10 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vitest/config";
 import {
   nodeConfig,
   browserHeadedConfig,
-  browserHeadlessConfig
+  browserHeadlessConfig,
+  nodeLiveConfig,
+  browserLiveHeadlessConfig
 } from "./vitest.projects.ts";
 
 export default defineConfig({
@@ -10,14 +12,14 @@ export default defineConfig({
     projects: [
       nodeConfig,
       browserHeadlessConfig,
-      browserHeadedConfig
+      browserHeadedConfig,
+      nodeLiveConfig,
+      //browserLiveHeadlessConfig
     ],
     coverage: {
       enabled: true,
       provider: "istanbul",
-      include: [
-        "packages/**/src/**/*.{ts,js}"
-      ],
+      include: ["packages/**/src/**/*.{ts,js}"],
       clean: true,
       cleanOnRerun: true,
       reporter: ["json", "html", "cobertura"],

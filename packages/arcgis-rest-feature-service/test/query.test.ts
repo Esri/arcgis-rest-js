@@ -962,6 +962,9 @@ describe("queryAllFeatures", () => {
       try {
         const response = await queryAllFeatures(docsPbfOptions);
         expect((response as any).features.length).toBe(131);
+        expect((response as any).features[0].geometry).toBeDefined();
+        // exceededTransferLimit should be false since all features were returned in one page
+        expect((response as any).exceededTransferLimit).toBe(false);
       } catch (error) {
         throw error;
       }
@@ -1012,6 +1015,7 @@ describe("queryAllFeatures", () => {
       try {
         const response = await queryAllFeatures(docsPbfOptions);
         expect((response as any).features.length).toBe(500);
+        expect((response as any).exceededTransferLimit).toBe(true);
       } catch (error) {
         throw error;
       }
@@ -1080,8 +1084,10 @@ describe("queryAllFeatures", () => {
         // eslint-disable-next-line no-console
         console.log(`Test duration: ${duration} ms`);
         expect((response as any).features.length).toBe(2631);
+        console.log(response);
         console.log("response features", (response as any).features[0]);
         expect((response as any).features[0].attributes.OBJECTID).toBe(1);
+        expect((response as any).exceededTransferLimit).toBe(true);
       } catch (error) {
         throw error;
       }

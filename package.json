@@ -33,7 +33,7 @@
     "test:webkit:ci": "vitest --config=vitest.config.js --run --project=headless --browser=webkit",
     "test:node": "vitest --config=vitest.config.js --run --project=node",
     "test:node:debug": "vitest --config=vitest.config.js --inspect --ui --no-file-parallelism --project=node",
-    "test:node:live": "",
+    "test:node:live": "vitest --config=vitest.config.js --project=nodeLive",
     "test:node:live:debug": "",
     "prettify": "prettier --write --parser typescript --tab-width 2 --use-tabs false \"packages/**/+(src|test)/**/*.ts\"",
     "typedoc": "typedoc --options ./typedoc.json",
