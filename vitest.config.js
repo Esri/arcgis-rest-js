@@ -4,17 +4,18 @@ import {
   browserHeadedConfig,
   browserHeadlessConfig,
   nodeLiveConfig,
-  browserLiveHeadlessConfig
+  browserHeadlessLiveConfig
 } from "./vitest.projects.ts";
 
 export default defineConfig({
   test: {
+    // for dev purposes, comment out a project to remove it from the extension view
     projects: [
-      nodeConfig,
-      browserHeadlessConfig,
-      browserHeadedConfig,
+      //nodeConfig,
+      // browserHeadlessConfig,
+      // browserHeadedConfig,
       nodeLiveConfig,
-      //browserLiveHeadlessConfig
+      // browserHeadlessLiveConfig
     ],
     coverage: {
       enabled: true,

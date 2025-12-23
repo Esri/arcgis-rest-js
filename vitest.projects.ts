@@ -1,14 +1,18 @@
 import { playwright } from "@vitest/browser-playwright";
 
-export const allTestPackages = ["packages/**/*.{test,spec}.?(c|m)[jt]s?(x)"];
+export const testPackages = [
+  "packages/**/*.{test,spec}.?(c|m)[jt]s?(x)",
+  "!packages/**/*.{test,spec}.live.?(c|m)[jt]s?(x)"
+];
+
 export const liveTestPackages = [
-  "packages/**/*.@(test|spec).live.?(c|m)[jt]s?(x)"
+  "packages/**/*.{test,spec}.live.?(c|m)[jt]s?(x)"
 ];
 
 export const nodeConfig = {
   test: {
     name: { label: "node", color: "cyan" },
-    include: allTestPackages
+    include: testPackages
   }
 };
 
@@ -25,7 +29,7 @@ export const browserHeadlessConfig = {
         { browser: "webkit" }
       ]
     },
-    include: allTestPackages
+    include: testPackages
   }
 };
 
@@ -41,20 +45,20 @@ export const browserHeadedConfig = {
         { browser: "webkit" }
       ]
     },
-    include: allTestPackages
+    include: testPackages
   }
 };
 
 export const nodeLiveConfig = {
   test: {
-    name: "nodeLive",
+    name: "node (LIVE)",
     include: liveTestPackages
   }
 };
 
-export const browserLiveHeadlessConfig = {
+export const browserHeadlessLiveConfig = {
   test: {
-    name: "browserLiveHeadless",
+    name: "headless (LIVE)",
     browser: {
       enabled: true,
       provider: playwright(),
