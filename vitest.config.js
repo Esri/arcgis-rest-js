@@ -11,10 +11,10 @@ export default defineConfig({
   test: {
     // for dev purposes, comment out a project to remove it from the extension view
     projects: [
-      //nodeConfig,
+      nodeConfig,
       // browserHeadlessConfig,
       // browserHeadedConfig,
-      nodeLiveConfig,
+      // nodeLiveConfig,
       // browserHeadlessLiveConfig
     ],
     coverage: {

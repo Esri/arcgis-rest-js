@@ -156,7 +156,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         );
       });
 
-      test("LIVE TEST (error): should throw an error when pbf-as-geojson fails to decode", async () => {
+      test("LIVE TEST (error): should throw an arcgis request error when pbf-as-geojson fails to decode", async () => {
         const docsPbfUrl =
           "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=3&geometry=%7B%22xmin%22%3A-13193261%2C%22ymin%22%3A4028181.6%2C%22xmax%22%3A-13185072.9%2C%22ymax%22%3A4035576.6%2C%22spatialReference%22%3A%7B%22wkid%22%3A101200%7D%7D&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects";
         const livePbfResponse = await fetch(docsPbfUrl);
@@ -192,7 +192,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
       });
 
       // should handle the case where live service returns a json response with auth error instead of pbf arraybuffer
-      test("LIVE TEST (invalid auth): should throw arcgisAuthError when live service returns json error object for invalid auth pbf-as-geojson requests", async () => {
+      test("LIVE TEST (invalid auth): should throw arcgis auth error for live pbf-as-geojson queries when live service returns json object with error", async () => {
         const docsPbfUrl =
           "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=3&geometry=%7B%22xmin%22%3A-13193261%2C%22ymin%22%3A4028181.6%2C%22xmax%22%3A-13185072.9%2C%22ymax%22%3A4035576.6%2C%22spatialReference%22%3A%7B%22wkid%22%3A101200%7D%7D&geometryType=esriGeometryEnvelope&spatialRel=esriSpatialRelIntersects";
 
@@ -282,11 +282,11 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
     });
   });
 
-  describe("queryAllFeatures()", () => {
+  describe("queryAllFeatures() (LONG QUERIES)", () => {
     describe("with geojson", () => {
       test(
         "LIVE TEST LONG QUERY: should query all geojson objects",
-        // timeout may be longer on slower networks or when data is not cached
+        // run time may be longer on slower networks or when data is not cached
         { timeout: 15000 },
         async () => {
           const docsPbfOptions: IQueryAllFeaturesOptions = {
@@ -304,7 +304,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
     describe("with json (arcgis)", () => {
       test(
         "LIVE TEST LONG QUERY: should query all arcgis json objects",
-        // timeout may be longer on slower networks or when data is not cached
+        // run time may be longer on slower networks or when data is not cached
         { timeout: 15000 },
         async () => {
           const docsPbfOptions: IQueryAllFeaturesOptions = {
@@ -327,7 +327,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
     describe("with pbf-as-geojson", () => {
       test(
         "LIVE TEST LONG QUERY: should query all pbf-as-geojson objects",
-        // timeout may be longer on slower networks or when data is not cached
+        // run time may be longer on slower networks or when data is not cached
         { timeout: 15000 },
         async () => {
           const docsPbfOptions: IQueryAllFeaturesOptions = {
@@ -346,7 +346,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
     describe("with pbf-as-arcgis", () => {
       test(
         "LIVE TEST LONG QUERY: should query all pbf-as-arcgis objects",
-        // timeout may be longer on slower networks or when data is not cached
+        // run time may be longer on slower networks or when data is not cached
         { timeout: 15000 },
         async () => {
           const docsPbfOptions: IQueryAllFeaturesOptions = {
