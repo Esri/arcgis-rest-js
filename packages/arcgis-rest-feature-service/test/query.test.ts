@@ -284,10 +284,6 @@ describe("getFeature() and queryFeatures()", () => {
         expect((error as any).message).toBe("498: Invalid token.");
       }
     });
-
-    test("TODO: should compare decoder pbf-as-geojson-output to direct geojson output from server for output regression test", () => {
-      console.log("TODO: implement output regression test");
-    });
   });
 
   describe("queryFeatures(): pbf-as-arcgis", () => {
