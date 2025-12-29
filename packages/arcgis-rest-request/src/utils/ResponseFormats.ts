@@ -5,6 +5,8 @@ export type ResponseFormats =
   | "json"
   | "geojson"
   | "pbf"
+  | "pbf-as-geojson"
+  | "pbf-as-arcgis"
   | "text"
   | "html"
   | "image"
