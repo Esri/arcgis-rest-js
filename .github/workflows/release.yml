@@ -1,20 +1,22 @@
 name: Build, Test, Release
 
-# On pushes to master (i.e. merging a PR)
-# run all tests, on win, macos, linux, on node 12 & 14
+# On pushes to main (i.e. merging a PR)
+# run all tests, on Ubuntu Node 24 and release if tests pass
 on:
   push:
     branches:
       - main
-      - beta
       - alpha
-    # Dont run if it's just markdown or doc files
+      - beta
     paths-ignore:
-      # UNCOMMENT THIS AFTER
-      # - "**.md"
       - "docs/**"
       - "demos/**"
       - "scripts/**"
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: read
 
 jobs:
   # First, build and test on multiple os's
@@ -22,14 +24,12 @@ jobs:
   build_and_test:
     name: Build and Test
 
-    runs-on: ${{ matrix.os }}
-
-    # PRs will run tests on node 14,16 on ubuntu, macos and windows
-    # so for the release, we're just running node 16@ubuntu
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [18]
+        node: [20, 22, 24]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
@@ -40,48 +40,49 @@ jobs:
       - name: Install
         run: npm ci
 
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
       - name: Build
         run: npm run build
 
-      - name: Test in Chrome
-        run: npm run test:chrome:ci
-
-      - name: Test in Node
-        run: npm run test:node
+      - name: Run Tests
+        run: npm run test:ci
 
   # If the build and test works, run a release
   release:
     name: Release
     needs: [build_and_test]
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for trusted publishing and npm provenance
     steps:
       - uses: actions/checkout@v4
-        with:
-          # This parameter is required to make sure sematic-relase exactly use the provided GitHub Token
-          # See https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions#pushing-package.json-changes-to-your-repository
-          persist-credentials: false
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
 
-      - name: Configure npm
-        run: |
-          echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
-          cat .npmrc
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Update NPM
+        run: npm install -g npm@latest
 
       - name: Install
         run: npm ci
 
-      - name: Build
-        run: npm run build
-
-      - name: Release
+      - name: Create Release Pull Request or Publish to NPM
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          # build all packages and call changeset publish
+          publish: npm run build && npx changesets publish
+          # call changeset version and then update the lock file via yarn install
+          version: npx changesets version
         env:
-          # GH_TOKEN is maintained in the repository secrets. See RELEASE.md for more information.
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm run release
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Use OIDC for npm authentication instead of NPM_TOKEN
+          # see https://github.com/changesets/changesets/issues/1152#issuecomment-3190884868
+          NPM_TOKEN: ""

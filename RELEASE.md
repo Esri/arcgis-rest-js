@@ -1,14 +1,12 @@
 # Release system
 
-## v4
+## December 2025/January 2026 Updates
+
+## v4.0.0
 
 As of v4, the ArcGIS REST JS packages are released automatically via Semantic Release.
 
 **Note:** Any new packages added are published at v1.0.0 instead of 4.0.0.
-
-### Deploy Token
-
-The current deploy token is stored as a [repository secret](https://github.com/Esri/arcgis-rest-js/settings/secrets/actions) named `gh_token`, which is a GitHub personal access token. The user who generated that token must have the `Allow specified actors to bypass required pull requests` setting (see repo settings > Branches > `main`) set so that Semantic Release can commit on their behalf.
 
 ## v3
 
