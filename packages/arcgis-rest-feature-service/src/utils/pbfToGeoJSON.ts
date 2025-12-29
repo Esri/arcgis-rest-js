@@ -1,7 +1,14 @@
 import decode from "../pbf-parser/geoJSONPbfParser.js";
-import { IDecodedPbf } from "./IDecodedPbf.js";
 
-// may need to specify this return type, may want to convert to a promise as well
-export const pbfToGeoJSON = (arrayBuffer: ArrayBuffer): IDecodedPbf => {
-  return decode(arrayBuffer) as IDecodedPbf;
+export interface IPbfToGeoJSON {
+  featureCollection: {
+    type: "FeatureCollection";
+    features: GeoJSON.Feature[];
+  };
+  exceededTransferLimit?: boolean;
+}
+
+export const pbfToGeoJSON = (arrayBuffer: ArrayBuffer): IPbfToGeoJSON => {
+  // return decoded pbf as geojson structure
+  return decode(arrayBuffer) as IPbfToGeoJSON;
 };

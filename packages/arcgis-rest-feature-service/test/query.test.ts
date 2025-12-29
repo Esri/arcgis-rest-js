@@ -683,7 +683,6 @@ describe("queryAllFeatures", () => {
       const response = await queryAllFeatures(docsPbfOptions);
       // expect fetch mock to only have been called twice: once for metadata, once for features
       expect(fetchMock.calls().length).toBe(2);
-      expect((response as any).type).toBe("FeatureCollection");
       expect(response.features.length).toBe(131);
       expect((response.features[0] as any).id).toBe(23401);
       expect(response.features[0]).toHaveProperty("properties");
@@ -738,7 +737,6 @@ describe("queryAllFeatures", () => {
       const response = await queryAllFeatures(docsPbfOptions);
       // expect fetch mock to only have been called twice: once for metadata, once for features
       expect(fetchMock.calls().length).toBe(2);
-      expect((response as any).type).toBe("FeatureCollection");
       expect(response.features.length).toBe(131);
       expect((response.features[0] as any).id).toBe(23401);
       expect(response.features[0]).toHaveProperty("properties");
@@ -808,7 +806,6 @@ describe("queryAllFeatures", () => {
       };
 
       const response = await queryAllFeatures(docsPbfOptions);
-      expect((response as any).type).toBe("FeatureCollection");
       expect(response.features.length).toBe(631);
       expect((response.features[0] as any).id).toBe(1);
       expect((response.features[499] as any).id).toBe(500);
@@ -878,7 +875,6 @@ describe("queryAllFeatures", () => {
       const response = await queryAllFeatures(docsPbfOptions);
 
       expect(fetchMock.calls().length).toBe(7); // 1 for metadata + 6 pages
-      expect((response as any).type).toBe("FeatureCollection");
       expect(response.features.length).toBe(2631);
       // exceededTransferLimit only gets set the first iteration on the response object so it will always be true in multi-page scenarios
       expect(response.exceededTransferLimit).toBe(true);

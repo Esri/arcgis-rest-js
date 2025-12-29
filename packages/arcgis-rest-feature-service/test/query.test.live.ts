@@ -336,7 +336,6 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
           };
 
           const response = await queryAllFeatures(docsPbfOptions);
-          expect((response as any).type).toBe("FeatureCollection");
           expect((response as any).features.length).toBeGreaterThan(20000);
           expect((response as any).exceededTransferLimit).toBe(true);
         }

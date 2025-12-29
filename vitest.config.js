@@ -12,8 +12,8 @@ export default defineConfig({
     // for dev purposes, comment out a project to remove it from the extension view
     projects: [
       nodeConfig,
-      // browserHeadlessConfig,
-      // browserHeadedConfig,
+      browserHeadlessConfig,
+      browserHeadedConfig,
       // nodeLiveConfig,
       // browserHeadlessLiveConfig
     ],

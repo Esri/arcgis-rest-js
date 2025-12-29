@@ -160,7 +160,7 @@ export function queryPbfAsGeoJSONOrArcGIS(
   url: string,
   queryOptions: IRequestOptions
 ): Promise<IQueryFeaturesResponse | IQueryAllFeaturesResponse> {
-  // need to send rawResponse: true and f=pbf on behalf of the user to fetch metadata with the pbf response
+  // need to query with f=pbf and rawResponse:true on behalf of the user to fetch metadata with the pbf response
   const customOptions = {
     ...queryOptions,
     params: { ...queryOptions.params, f: "pbf" } as any,
@@ -192,22 +192,14 @@ export function queryPbfAsGeoJSONOrArcGIS(
         const arrayBuffer = await response.arrayBuffer();
         if (queryOptions.params.f === "pbf-as-geojson") {
           const decoded = pbfToGeoJSON(arrayBuffer);
-          const responseObject:
-            | IQueryFeaturesResponse
-            | IQueryAllFeaturesResponse = {
-            features: decoded.featureCollection.features as any,
+          const geoJsonFeaturesResponse = {
+            features: decoded.featureCollection.features,
             exceededTransferLimit: decoded.exceededTransferLimit
           };
-          return responseObject;
+          return geoJsonFeaturesResponse;
         } else if (queryOptions.params.f === "pbf-as-arcgis") {
-          const arcgis = pbfToArcGIS(arrayBuffer);
-          const responseObject:
-            | IQueryFeaturesResponse
-            | IQueryAllFeaturesResponse = {
-            features: arcgis.features,
-            exceededTransferLimit: arcgis.exceededTransferLimit
-          };
-          return responseObject;
+          const arcGISFeaturesResponse = pbfToArcGIS(arrayBuffer);
+          return arcGISFeaturesResponse;
         }
       } catch (error) {
         throw new ArcGISRequestError(
