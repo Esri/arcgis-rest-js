@@ -38,8 +38,6 @@
     "prettify": "prettier --write --parser typescript --tab-width 2 --use-tabs false \"packages/**/+(src|test)/**/*.ts\"",
     "typedoc": "typedoc --options ./typedoc.json",
     "prettify:packages-jsons": "prettier-package-json --write ./**/*/package.json",
-    "release:dry": "multi-semantic-release --dry-run --deps.bump=inherit --deps.release=inherit --ignore-private-packages --debug ",
-    "release": "multi-semantic-release --deps.bump=inherit --deps.release=inherit --ignore-private-packages",
     "serve": "node scripts/run-demo-server.js"
   },
   "engines": {
@@ -63,25 +61,17 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "npm run precommit"
     }
   },
   "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
-    "@commitlint/config-lerna-scopes": "^11.0.0",
-    "@commitlint/config-workspace-scopes": "^19.8.1",
-    "@commitlint/prompt": "^11.0.0",
-    "@eslint/js": "^9.39.1",
+    "@changesets/cli": "^2.29.8",
     "@eslint/compat": "^2.0.0",
+    "@eslint/js": "^9.39.1",
     "@playwright/test": "^1.56.1",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.3.0",
-    "@semantic-release/changelog": "^6.0.1",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/npm": "^8.0.0",
     "@types/fetch-mock": "^7.3.5",
     "@types/node": "^22.0.0",
     "@vitest/browser": "^4.0.5",
@@ -99,7 +89,6 @@
     "globby": "^12.0.2",
     "husky": "^4.3.0",
     "lint-staged": "^4.3.0",
-    "multi-semantic-release": "^2.11.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.3.1",
     "prettier-package-json": "^2.6.0",
@@ -165,26 +154,5 @@
   ],
   "volta": {
     "node": "22.17.1"
-  },
-  "release": {
-    "branches": [
-      "main",
-      {
-        "name": "beta",
-        "prerelease": true
-      },
-      {
-        "name": "alpha",
-        "prerelease": true
-      }
-    ],
-    "tagFormat": "${name}@${version}",
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      "@semantic-release/changelog",
-      "@semantic-release/npm",
-      "@semantic-release/git"
-    ]
   }
 }
