@@ -1,9 +1,6 @@
 import { HTTPMethods } from "./HTTPMethods.js";
 import { IParams } from "./IParams.js";
 import { IAuthenticationManager } from "./IAuthenticationManager.js";
-import type { ApiKeyManager } from "../ApiKeyManager.js";
-import type { ArcGISIdentityManager } from "../ArcGISIdentityManager.js";
-import type { ApplicationCredentialsManager } from "../ApplicationCredentialsManager.js";
 
 // NOTE: the `requestOptionsKeys` array in ./append-custom-params.ts
 // must be kept in sync with this interface
