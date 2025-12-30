@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IItem } from "../../../src/helpers.js";
-import { ISearchResult } from "../../../src/util/search";
+import { ISearchResult } from "../../../src/util/search.js";
 
 export const SearchResponse: ISearchResult<IItem> = {
   query: "",

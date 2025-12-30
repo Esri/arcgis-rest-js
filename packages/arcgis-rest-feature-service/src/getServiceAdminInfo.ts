@@ -10,7 +10,6 @@ import { IServiceInfo } from "./helpers.js";
  * The response from this call includes all the detailed information
  * for each layer/table in the service as well as some admin properties
  *
- * @export
  * @param {string} serviceUrl
  * @param {ArcGISIdentityManager} session
  * @return {*}  {Promise<IServiceInfo>}

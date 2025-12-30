@@ -1,10 +1,14 @@
 # Release system
 
-## v4
+## December 2025/January 2026 Updates
+
+In Late 2025 ArcGIS REST JS now uses [changesets](https://github.com/changesets/changesets) to manage releases. This happens automatically using the default [changeset action](https://github.com/changesets/action) in the [release workflow](./.github/workflows/release.yml). When changes are merge to `main` changesets will automatically creates a PR that when merged will trigges a new release of all packages.
+
+As a part of these changes all versions of ArcGIS REST JS packages are how synced to the highest minor version accross all packages. All packages will now maintain the same version number for ease of reference.
+
+## v4.0.0
 
 As of v4, the ArcGIS REST JS packages are released automatically via Semantic Release.
-
-As of November 2025 ArcGIS REST JS uses trusted publishing for all packages configured through the `release.yml` file.
 
 **Note:** Any new packages added are published at v1.0.0 instead of 4.0.0.
 

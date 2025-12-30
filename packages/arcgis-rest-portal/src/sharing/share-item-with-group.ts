@@ -14,7 +14,7 @@ import {
 } from "../groups/update-user-membership.js";
 import { isItemSharedWithGroup } from "../sharing/is-item-shared-with-group.js";
 
-interface IEnsureMembershipResult {
+export interface IEnsureMembershipResult {
   promise: Promise<IAddGroupUsersResult>;
   revert: (sharingResults: ISharingResponse) => Promise<ISharingResponse>;
 }

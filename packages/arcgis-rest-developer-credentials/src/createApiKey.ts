@@ -56,7 +56,7 @@ import { getRegisteredAppInfo } from "./shared/getRegisteredAppInfo.js";
  * });
  * ```
  *
- * @param requestOptions - Options for {@linkcode createApiKey | createApiKey()}, including necessary params to register an API key and an {@linkcode ArcGISIdentityManager} authentication session.
+ * @param requestOptions - Options for {@linkcode createApiKey | createApiKey()}, including necessary params to register an API key and an {@linkcode @esri/arcgis-rest-request!ArcGISIdentityManager} authentication session.
  * @returns A Promise that will resolve to an {@linkcode IApiKeyResponse} object representing the newly registered API key.
  */
 export async function createApiKey(

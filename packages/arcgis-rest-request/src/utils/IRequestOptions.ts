@@ -21,7 +21,7 @@ export interface IRequestOptions {
    */
   rawResponse?: boolean;
   /**
-   * The instance of {@linkcode ArcGISIdentityManager}, {@linkcode ApplicationCredentialsManager} or {@linkcode APIKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged.
+   * The instance of {@linkcode @esri/arcgis-rest-request!ArcGISIdentityManager}, {@linkcode @esri/arcgis-rest-request!ApplicationCredentialsManager} or {@linkcode @esri/arcgis-rest-request!ApiKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged.
    */
   authentication?: IAuthenticationManager | string;
   /**

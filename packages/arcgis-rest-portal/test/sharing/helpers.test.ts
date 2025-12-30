@@ -3,9 +3,12 @@
 
 import { describe, test, expect, afterEach } from "vitest";
 import fetchMock from "fetch-mock";
-import { getSharingUrl, getUserMembership } from "../../src/sharing/helpers.js";
+import {
+  getSharingUrl,
+  getUserMembership,
+  isItemOwner
+} from "../../src/sharing/helpers.js";
 import { MOCK_USER_SESSION } from "../mocks/sharing/sharing.js";
-import { isItemOwner } from "../../src/sharing/helpers.js";
 import {
   GroupOwnerResponse,
   GroupNoAccessResponse

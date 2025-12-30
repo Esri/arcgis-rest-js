@@ -20,12 +20,12 @@ type successResponse =
   operations["placeIdGet"]["responses"]["200"]["content"]["application/json"];
 
 /**
- * The response format for {@linkcode getPlace};
+ * The response format for {@linkcode getPlaceDetails}.
  */
 export interface IGetPlaceResponse extends successResponse {}
 
 /**
- * Options for {@linkcode getPlace}.
+ * Options for {@linkcode getPlaceDetails}.
  */
 export interface IGetPlaceOptions
   extends Omit<IRequestOptions, "httpMethod">,

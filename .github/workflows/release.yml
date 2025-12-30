@@ -13,6 +13,8 @@ on:
       - "demos/**"
       - "scripts/**"
 
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
 permissions:
   contents: read
 
@@ -36,7 +38,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Install
-        run: npm ci --legacy-peer-deps
+        run: npm ci
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
@@ -59,25 +61,28 @@ jobs:
       id-token: write # to enable use of OIDC for trusted publishing and npm provenance
     steps:
       - uses: actions/checkout@v4
-        with:
-          # This parameter is required to make sure sematic-relase exactly use the provided GitHub Token
-          # See https://semantic-release.gitbook.io/semantic-release/recipes/ci-configurations/github-actions#pushing-package.json-changes-to-your-repository
-          persist-credentials: false
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: "24"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Update NPM
         run: npm install -g npm@latest
 
       - name: Install
-        run: npm ci --legacy-peer-deps
+        run: npm ci
 
-      - name: Build
-        run: npm run build
-
-      - name: Release
+      - name: Create Release Pull Request or Publish to NPM
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          # build all packages and call changeset publish
+          publish: npm run build && npx changesets publish
+          # call changeset version and then update the lock file via yarn install
+          version: npx changesets version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run release
+          # Use OIDC for npm authentication instead of NPM_TOKEN
+          # see https://github.com/changesets/changesets/issues/1152#issuecomment-3190884868
+          NPM_TOKEN: ""

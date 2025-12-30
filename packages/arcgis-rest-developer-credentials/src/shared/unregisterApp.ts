@@ -30,7 +30,7 @@ import { request } from "@esri/arcgis-rest-request";
  * });
  * ```
  *
- * @param requestOptions - Options for {@linkcode unregisterApp | unregisterApp()}, including `itemId` of which app to be un-registered and an {@linkcode ArcGISIdentityManager} authentication session.
+ * @param requestOptions - Options for {@linkcode unregisterApp | unregisterApp()}, including `itemId` of which app to be un-registered and an {@linkcode @esri/arcgis-rest-request!ArcGISIdentityManager} authentication session.
  * @returns A Promise that will resolve to an {@linkcode IUnregisterAppResponse} object representing un-registration status.
  */
 export async function unregisterApp(

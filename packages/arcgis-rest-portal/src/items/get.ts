@@ -323,7 +323,6 @@ export interface IGetItemStatusResponse {
  *   .then(response)
  * ```
  *
- * @param id - The Id of the item to get status for.
  * @param requestOptions - Options for the request
  * @returns A Promise to get the item status.
  */
@@ -362,7 +361,6 @@ export interface IGetItemPartsResponse {
  *   .then(response)
  * ```
  *
- * @param id - The Id of the item to get part list.
  * @param requestOptions - Options for the request
  * @returns A Promise to get the item part list.
  */

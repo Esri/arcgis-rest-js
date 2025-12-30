@@ -32,7 +32,7 @@ import { registeredAppResponseToApp } from "./helpers.js";
  * });
  * ```
  *
- * @param requestOptions - Options for {@linkcode getRegisteredAppInfo | getRegisteredAppInfo()}, including an itemId of which app to retrieve and an {@linkcode ArcGISIdentityManager} authentication session.
+ * @param requestOptions - Options for {@linkcode getRegisteredAppInfo | getRegisteredAppInfo()}, including an itemId of which app to retrieve and an {@linkcode @esri/arcgis-rest-request!ArcGISIdentityManager} authentication session.
  * @returns A Promise that will resolve to an {@linkcode IApp} object representing successfully retrieved app.
  */
 export async function getRegisteredAppInfo(

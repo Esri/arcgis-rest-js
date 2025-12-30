@@ -1248,7 +1248,7 @@ describe("ArcGISIdentityManager", () => {
 
         describe(".completeOAuth2() with PKCE", () => {
           test("should authorize with a popup", async () => {
-            let PopupMockWindow = createMock();
+            const PopupMockWindow = createMock();
             PopupMockWindow.location.search =
               "?code=auth_code&state=%7B%22id%22%3A%22AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
             PopupMockWindow.opener = MockWindow;
@@ -1437,7 +1437,7 @@ describe("ArcGISIdentityManager", () => {
           });
 
           test("should pass a custom state object", async () => {
-            let PopupMockWindow = createMock();
+            const PopupMockWindow = createMock();
             PopupMockWindow.location.search =
               "?code=auth_code&state=%7B%22id%22%3A%22myCustomId%22%2C%22customStateProperty%22%3A%22test%22%7D";
             PopupMockWindow.opener = MockWindow;
@@ -1493,7 +1493,7 @@ describe("ArcGISIdentityManager", () => {
           });
 
           test("should pass a custom state string", async () => {
-            let PopupMockWindow = createMock();
+            const PopupMockWindow = createMock();
             PopupMockWindow.location.search =
               "?code=auth_code&state=%7B%22id%22%3A%22customStateString%22%2C%22originalUrl%22%3A%22https%3A%2F%2Ftest.com%22%7D";
             PopupMockWindow.opener = MockWindow;

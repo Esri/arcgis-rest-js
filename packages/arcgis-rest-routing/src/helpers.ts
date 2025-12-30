@@ -10,6 +10,10 @@ import {
   IFeatureSet
 } from "@esri/arcgis-rest-request";
 
+export interface IFeatureSetWithGeoJson extends IFeatureSet {
+  geoJson?: any;
+}
+
 // https always
 export const ARCGIS_ONLINE_ROUTING_URL =
   "https://route.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World";
@@ -106,6 +110,6 @@ export function isFeatureSet(arg: any): arg is IFeatureSet {
 /**
  * User Defined Type Guard that verifies this is a JSON with `url` property
  */
-export function isJsonWithURL(arg: any): arg is Object {
+export function isJsonWithURL(arg: any): arg is object {
   return "url" in arg;
 }

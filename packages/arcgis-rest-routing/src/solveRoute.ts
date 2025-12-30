@@ -14,17 +14,14 @@ import {
   ARCGIS_ONLINE_ROUTING_URL,
   IEndpointOptions,
   decompressGeometry,
-  isFeatureSet
+  isFeatureSet,
+  IFeatureSetWithGeoJson
 } from "./helpers.js";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
 
 interface IFeatureWithCompressedGeometry extends IFeature {
   compressedGeometry?: string;
-}
-
-interface IFeatureSetWithGeoJson extends IFeatureSet {
-  geoJson?: {};
 }
 
 export interface ISolveRouteOptions extends IEndpointOptions {
@@ -82,9 +79,10 @@ function isLocation(
  *   .then(response) // => {routes: {features: [{attributes: { ... }, geometry:{ ... }}]}
  * ```
  *
+ * See the [REST API documentation](https://developers.arcgis.com/rest/network/api-reference/route-synchronous-service.htm) for more information.
+ *
  * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with routes and directions for the request.
- * @restlink https://developers.arcgis.com/rest/network/api-reference/route-synchronous-service.htm
  */
 export function solveRoute(
   requestOptions: ISolveRouteOptions

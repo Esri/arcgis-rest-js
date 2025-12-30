@@ -35,7 +35,7 @@ export interface IRegisterAppOptions extends Omit<IRequestOptions, "params"> {
    */
   privileges: Privileges;
   /**
-   * {@linkcode IAuthenticationManager} authentication.
+   * {@linkcode @esri/arcgis-rest-request!IAuthenticationManager} authentication.
    */
   authentication: IAuthenticationManager;
 }
@@ -45,7 +45,7 @@ export interface IRegisterAppOptions extends Omit<IRequestOptions, "params"> {
  */
 export interface IGetAppInfoOptions extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode IAuthenticationManager} authentication.
+   * {@linkcode @esri/arcgis-rest-request!IAuthenticationManager} authentication.
    */
   authentication: IAuthenticationManager;
   /**
@@ -104,7 +104,7 @@ export interface IApp
  */
 export interface IUnregisterAppOptions extends Omit<IRequestOptions, "params"> {
   /**
-   * {@linkcode IAuthenticationManager} authentication.
+   * {@linkcode @esri/arcgis-rest-request!IAuthenticationManager} authentication.
    */
   authentication: IAuthenticationManager;
   /**

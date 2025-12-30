@@ -8,7 +8,6 @@ import { isServiceNameAvailable } from "./is-service-name-available.js";
  * Given a starting name, return a service name that is unique within
  * the current users organization
  *
- * @export
  * @param {string} name
  * @param {ArcGISIdentityManager} session
  * @param {number} step

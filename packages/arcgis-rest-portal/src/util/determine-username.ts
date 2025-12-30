@@ -6,7 +6,7 @@ import {
   IRequestOptions
 } from "@esri/arcgis-rest-request";
 
-interface RequestOptionsWithUsername extends Partial<IRequestOptions> {
+export interface RequestOptionsWithUsername extends Partial<IRequestOptions> {
   username?: string;
   authentication?: IAuthenticationManager;
 }

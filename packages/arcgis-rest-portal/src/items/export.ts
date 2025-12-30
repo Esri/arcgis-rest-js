@@ -2,7 +2,7 @@ import { request, ISpatialReference } from "@esri/arcgis-rest-request";
 import { determineOwner, IUserItemOptions } from "./helpers.js";
 import { getPortalUrl } from "../util/get-portal-url.js";
 
-type ExportFormat =
+export type ExportFormat =
   | "Shapefile"
   | "CSV"
   | "File Geodatabase"

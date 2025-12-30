@@ -38,7 +38,7 @@ export interface IDeleteFeaturesOptions
  * });
  * ```
  *
- * @param deleteFeaturesRequestOptions - Options for the request.
+ * @param requestOptions - Options for the request.
  * @returns A Promise that will resolve with the deleteFeatures response.
  */
 export function deleteFeatures(
