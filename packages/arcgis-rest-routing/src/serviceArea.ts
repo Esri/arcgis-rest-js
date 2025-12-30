@@ -77,7 +77,7 @@ function getTravelDirection(
  *   .then(response) // => {routes: {features: [{attributes: { ... }, geometry:{ ... }}]}
  * ```
  *
- *  See the [REST API documnetation](https://developers.arcgis.com/rest/network/api-reference/service-area-synchronous-service.htm) for more information.
+ *  See the [REST API documentation](https://developers.arcgis.com/rest/network/api-reference/service-area-synchronous-service.htm) for more information.
  *
  * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with service area polygons for the request.
