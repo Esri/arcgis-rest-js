@@ -2,7 +2,7 @@
 
 ## December 2025/January 2026 Updates
 
-In Late 2025 ArcGIS REST JS now uses [changesets](https://github.com/changesets/changesets) to manage releases. This happens automatically using the default [changeset action](https://github.com/changesets/action) in the [release workflow](./.github/workflows/release.yml). When changes are merge to `main` changesets will automatically creates a PR that when merged will trigges a new release of all packages.
+In late 2025 ArcGIS REST JS now uses [changesets](https://github.com/changesets/changesets) to manage releases. This happens automatically using the default [changeset action](https://github.com/changesets/action) in the [release workflow](./.github/workflows/release.yml). When changes are merged to `main`, changesets will automatically creates a PR that, when merged, will trigger a new release of all packages.
 
 As a part of these changes all versions of ArcGIS REST JS packages are how synced to the highest minor version accross all packages. All packages will now maintain the same version number for ease of reference.
 
