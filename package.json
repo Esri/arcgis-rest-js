@@ -79,6 +79,7 @@
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^13.1.2",
+    "@terraformer/arcgis": "2.1.2",
     "@types/fetch-mock": "^7.3.5",
     "@types/jasmine": "^2.8.2",
     "@types/node": "^12.20.4",
