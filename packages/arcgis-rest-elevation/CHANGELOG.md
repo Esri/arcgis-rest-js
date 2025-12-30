@@ -1,6 +1,13 @@
-# @esri/arcgis-rest-elevation 1.0.0 (2025-01-30)
+# @esri/arcgis-rest-elevation Changelog
 
+## 4.8.0
+
+### Minor Changes
+
+- 93db38b: Initial bump to migrate to changesets.
+
+## @esri/arcgis-rest-elevation 1.0.0 (2025-01-30)
 
 ### Features
 
-* **arcgis-rest-elevation:** initial release of elevation package ([#1191](https://github.com/Esri/arcgis-rest-js/issues/1191)) ([0d2064c](https://github.com/Esri/arcgis-rest-js/commit/0d2064cea4760a9f280672893b4c2255c8d2ec1e))
+- **arcgis-rest-elevation:** initial release of elevation package ([#1191](https://github.com/Esri/arcgis-rest-js/issues/1191)) ([0d2064c](https://github.com/Esri/arcgis-rest-js/commit/0d2064cea4760a9f280672893b4c2255c8d2ec1e))
