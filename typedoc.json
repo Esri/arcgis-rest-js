@@ -1,7 +1,6 @@
 {
   "out": "typedoc",
   "json": "docs/build/4/typedoc.json",
-  "logLevel": "Verbose",
   "entryPointStrategy": "packages",
   "entryPoints": [
     "./packages/arcgis-rest-request/",
