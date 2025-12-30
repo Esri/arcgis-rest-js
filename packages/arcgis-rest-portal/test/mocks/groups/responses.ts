@@ -1,13 +1,13 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { ISearchResult } from "../../../src/util/search";
+import { ISearchResult } from "../../../src/util/search.js";
 import {
   IGroupCategorySchema,
   IGroupContentResult,
   IGroupUsersResult,
   ISearchGroupUsersResult
-} from "../../../src/groups/get";
+} from "../../../src/groups/get.js";
 
 import { IGroup } from "@esri/arcgis-rest-request";
 

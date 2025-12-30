@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-js",
-  "version": "3.3.0",
+  "version": "4.0.0",
   "description": "Compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.",
   "license": "Apache-2.0",
   "type": "module",
@@ -16,7 +16,7 @@
     "clean": "trash packages/*/dist/",
     "precommit": "lint-staged",
     "docs:build": "rimraf docs/build && unzip -d docs/build docs/v3-archive.zip && npm run typedoc",
-    "lint": "eslint ./packages --ext .ts",
+    "lint": "eslint",
     "srihash": "node scripts/generate-sri-hashes.js",
     "test": "npm run lint && npm run test:compile && vitest --config=vitest.config.js --run --project=node --project=headless",
     "test:compile": "npm run build:esm",
@@ -35,8 +35,6 @@
     "prettify": "prettier --write --parser typescript --tab-width 2 --use-tabs false \"packages/**/+(src|test)/**/*.ts\"",
     "typedoc": "typedoc --options ./typedoc.json",
     "prettify:packages-jsons": "prettier-package-json --write ./**/*/package.json",
-    "release:dry": "multi-semantic-release --dry-run --deps.bump=inherit --deps.release=inherit --ignore-private-packages --debug ",
-    "release": "multi-semantic-release --deps.bump=inherit --deps.release=inherit --ignore-private-packages",
     "serve": "node scripts/run-demo-server.js"
   },
   "engines": {
@@ -60,27 +58,19 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "npm run precommit"
     }
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.1.0",
-    "@commitlint/config-conventional": "^20.0.0",
-    "@commitlint/config-workspace-scopes": "^20.0.0",
-    "@commitlint/prompt": "^20.1.0",
+    "@changesets/cli": "^2.29.8",
+    "@eslint/compat": "^2.0.0",
+    "@eslint/js": "^9.39.1",
     "@playwright/test": "^1.56.1",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.3.0",
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/npm": "^13.1.2",
     "@types/fetch-mock": "^7.3.5",
-    "@types/jasmine": "^2.8.2",
-    "@types/node": "^12.20.4",
-    "@typescript-eslint/eslint-plugin": "^4.4.0",
-    "@typescript-eslint/parser": "^4.31.0",
+    "@types/node": "^22.0.0",
     "@vitest/browser": "^4.0.5",
     "@vitest/browser-playwright": "^4.0.5",
     "@vitest/browser-preview": "^4.0.5",
@@ -88,30 +78,26 @@
     "@vitest/ui": "^4.0.5",
     "babel-preset-env": "^1.7.0",
     "browser-sync": "^2.27.9",
-    "eslint": "^7.11.0",
-    "eslint-config-prettier": "^6.12.0",
-    "eslint-import-resolver-typescript": "^2.4.0",
-    "eslint-plugin-import": "^2.24.2",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
     "fetch-mock": "^9.0.0",
     "gh-pages": "^1.1.0",
     "globby": "^12.0.2",
     "husky": "^4.3.0",
     "lint-staged": "^4.3.0",
-    "multi-semantic-release": "^3.1.0",
     "npm-run-all": "^4.1.5",
+    "node-fetch": "^3.3.2",
     "prettier": "^2.3.1",
     "prettier-package-json": "^2.6.0",
     "rimraf": "^2.6.2",
-    "rollup": "^2.56.3",
+    "rollup": "^4.5.3",
     "rollup-plugin-filesize": "^9.0.2",
-    "rollup-plugin-terser": "^7.0.2",
-    "rollup-plugin-typescript": "^1.0.1",
     "sri-toolbox": "0.2.0",
     "trash-cli": "^4.0.0",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.19.3",
-    "typedoc": "^0.21.0",
-    "typescript": "^4.0.0",
+    "typedoc": "^0.28.14",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.47.0",
     "ultra-runner": "^3.10.5",
     "vite": "^7.0.5",
     "vitest": "^4.0.5"
@@ -166,29 +152,5 @@
   ],
   "volta": {
     "node": "22.17.1"
-  },
-  "release": {
-    "branches": [
-      "main",
-      {
-        "name": "beta",
-        "prerelease": true
-      },
-      {
-        "name": "alpha",
-        "prerelease": true
-      }
-    ],
-    "tagFormat": "${name}@${version}",
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      "@semantic-release/changelog",
-      "@semantic-release/npm",
-      "@semantic-release/git"
-    ]
-  },
-  "dependencies": {
-    "node-fetch": "^3.3.2"
   }
 }

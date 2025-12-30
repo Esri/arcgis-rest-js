@@ -7,14 +7,14 @@ import {
 import { getPortalUrl } from "../util/get-portal-url.js";
 import { isOrgAdmin } from "../sharing/helpers.js";
 
-interface IReassignItemOptions extends IAuthenticatedRequestOptions {
+export interface IReassignItemOptions extends IAuthenticatedRequestOptions {
   id: string;
   currentOwner: string;
   targetUsername: string;
   targetFolderName?: string;
 }
 
-interface IReassignItemResponse {
+export interface IReassignItemResponse {
   success: boolean;
   itemId: string;
 }

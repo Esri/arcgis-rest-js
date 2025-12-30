@@ -57,7 +57,7 @@ import {
  * });
  * ```
  *
- * @param requestOptions - Options for {@linkcode updateApiKey | updateApiKey()}, including `itemId` of which API key to be operated on, optional new `privileges`, optional new `httpReferrers` and an {@linkcode ArcGISIdentityManager} authentication session.
+ * @param requestOptions - Options for {@linkcode updateApiKey | updateApiKey()}, including `itemId` of which API key to be operated on, optional new `privileges`, optional new `httpReferrers` and an {@linkcode @esri/arcgis-rest-request!ArcGISIdentityManager} authentication session.
  * @returns A Promise that will resolve to an {@linkcode IApiKeyResponse} object representing updated API key.
  */
 export async function updateApiKey(

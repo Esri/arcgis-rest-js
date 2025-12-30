@@ -157,7 +157,7 @@ export class ArcGISAuthError extends ArcGISRequestError {
 /**
  * Checks for errors in a JSON response from the ArcGIS REST API. If there are no errors, it will return the `data` passed in. If there is an error, it will throw an `ArcGISRequestError` or `ArcGISAuthError`.
  *
- * @param data The response JSON to check for errors.
+ * @param response The response JSON to check for errors.
  * @param url The url of the original request
  * @param params The parameters of the original request
  * @param options The options of the original request

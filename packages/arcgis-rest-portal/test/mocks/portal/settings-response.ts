@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { IPortalSettings } from "../../../src/util/get-portal-settings";
+import { IPortalSettings } from "../../../src/util/get-portal-settings.js";
 
 export const PortalSettingsResponse: IPortalSettings = {
   allowedRedirectUris: [],

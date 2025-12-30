@@ -43,7 +43,7 @@ import { stringifyArrays, registeredAppResponseToApp } from "./helpers.js";
  * });
  * ```
  *
- * @param requestOptions - Options for {@linkcode registerApp | registerApp()}, including necessary params to register an app and an {@linkcode ArcGISIdentityManager} authentication session.
+ * @param requestOptions - Options for {@linkcode registerApp | registerApp()}, including necessary params to register an app and an {@linkcode @esri/arcgis-rest-request!ArcGISIdentityManager} authentication session.
  * @returns A Promise that will resolve to an {@linkcode IApp} object representing the newly registered app.
  */
 export async function registerApp(

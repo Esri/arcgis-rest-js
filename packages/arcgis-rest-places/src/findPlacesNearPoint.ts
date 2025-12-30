@@ -48,13 +48,13 @@ export interface IFindPlacesNearPointOptions
  * around a user's GPS position, or a location clicked on a map.
  *
  * The returned places contain basic data such as name, category and
- * location. You can use the {@linkcode getPlace} method to get additional
+ * location. You can use the {@linkcode getPlaceDetails} method to get additional
  * details for a given place.
  *
  * You can refine the results by supplying additional search parameters,
  * including:
  *
- * - A list of category Ids, see {@linkcode searchCategories} or {@linkcode getCategories}.
+ * - A list of category Ids, see {@linkcode getCategory} or {@linkcode getCategories}.
  * - A partial name filter with `name` option
  *
  * As this request can return many results, pagination is supported.

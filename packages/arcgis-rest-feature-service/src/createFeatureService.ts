@@ -155,7 +155,7 @@ export interface ICreateServiceResult {
 }
 
 /**
- * Create a new [hosted feature service](https://developers.arcgis.com/rest/users-groups-and-items/create-service.htm). After the service has been created, call [`addToServiceDefinition()`](../addToServiceDefinition/) if you'd like to update it's schema.
+ * Create a new [hosted feature service](https://developers.arcgis.com/rest/users-groups-and-items/create-service.htm). After the service has been created, call {@linkcode addToServiceDefinition} if you'd like to update it's schema.
  *
  * ```js
  * import {

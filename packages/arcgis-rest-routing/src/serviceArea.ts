@@ -14,7 +14,8 @@ import {
   ARCGIS_ONLINE_SERVICE_AREA_URL,
   IEndpointOptions,
   normalizeLocationsList,
-  isFeatureSet
+  isFeatureSet,
+  IFeatureSetWithGeoJson
 } from "./helpers.js";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
@@ -37,10 +38,6 @@ export interface IServiceAreaOptions extends IEndpointOptions {
   returnPolylineBarriers?: boolean;
   returnPolygonBarriers?: boolean;
   preserveObjectID?: boolean;
-}
-
-interface IFeatureSetWithGeoJson extends IFeatureSet {
-  geoJson?: any;
 }
 
 export interface IServiceAreaResponse {
@@ -80,9 +77,10 @@ function getTravelDirection(
  *   .then(response) // => {routes: {features: [{attributes: { ... }, geometry:{ ... }}]}
  * ```
  *
+ *  See the [REST API documentation](https://developers.arcgis.com/rest/network/api-reference/service-area-synchronous-service.htm) for more information.
+ *
  * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with service area polygons for the request.
- * @restlink https://developers.arcgis.com/rest/network/api-reference/service-area-synchronous-service.htm
  */
 export function serviceArea(
   requestOptions: IServiceAreaOptions

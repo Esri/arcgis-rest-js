@@ -15,7 +15,8 @@ import {
   ARCGIS_ONLINE_ORIGIN_DESTINATION_MATRIX_URL,
   IEndpointOptions,
   normalizeLocationsList,
-  isFeatureSet
+  isFeatureSet,
+  IFeatureSetWithGeoJson
 } from "./helpers.js";
 
 import { arcgisToGeoJSON } from "@terraformer/arcgis";
@@ -44,10 +45,6 @@ export interface IOriginDestinationMatrixOptions extends IEndpointOptions {
   returnBarriers?: boolean;
   returnPolylineBarriers?: boolean;
   returnPolygonBarriers?: boolean;
-}
-
-interface IFeatureSetWithGeoJson extends IFeatureSet {
-  geoJson?: any;
 }
 
 export interface IOriginDestinationMatrixResponse {
@@ -88,9 +85,10 @@ export interface IOriginDestinationMatrixResponse {
  *   .then(response) // => { ... }
  * ```
  *
+ * See the [REST API documentation](https://developers.arcgis.com/rest/network/api-reference/origin-destination-cost-matrix-synchronous-service.htm) for more information.
+ *
  * @param requestOptions Options to pass through to the routing service.
  * @returns A Promise that will resolve with travel time and/or distance for each origin-destination pair. It returns either odLines or odCostMatrix for this information depending on the outputType you specify.
- * @restlink https://developers.arcgis.com/rest/network/api-reference/origin-destination-cost-matrix-synchronous-service.htm
  */
 export function originDestinationMatrix(
   requestOptions: IOriginDestinationMatrixOptions

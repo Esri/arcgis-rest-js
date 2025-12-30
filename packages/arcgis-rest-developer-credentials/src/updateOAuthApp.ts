@@ -44,7 +44,7 @@ import { getRegisteredAppInfo } from "./shared/getRegisteredAppInfo.js";
  * });
  * ```
  *
- * @param requestOptions - Options for {@linkcode updateOAuthApp | updateOAuthApp()}, including `itemId` of which OAuth app to be operated on, optional new `redirect_uris` and an {@linkcode ArcGISIdentityManager} authentication session.
+ * @param requestOptions - Options for {@linkcode updateOAuthApp | updateOAuthApp()}, including `itemId` of which OAuth app to be operated on, optional new `redirect_uris` and an {@linkcode @esri/arcgis-rest-request!ArcGISIdentityManager} authentication session.
  * @returns A Promise that will resolve to an {@linkcode IOAuthApp} object representing updated OAuth app.
  */
 export async function updateOAuthApp(
