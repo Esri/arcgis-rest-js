@@ -1,4 +1,4 @@
-## @esri/arcgis-rest-request [4.7.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.7.2...@esri/arcgis-rest-request@4.7.3) (2025-09-18)
+# @esri/arcgis-rest-request Changelog
 
 ## 4.8.0
 
@@ -11,6 +11,8 @@
 - Updated dependencies [93db38b]
   - @esri/arcgis-rest-fetch@4.8.0
   - @esri/arcgis-rest-form-data@4.8.0
+
+## @esri/arcgis-rest-request [4.7.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.7.2...@esri/arcgis-rest-request@4.7.3) (2025-09-18)
 
 ### Bug Fixes
 
@@ -29,14 +31,14 @@
 
 - actually export no-cors utils ([746429e](https://github.com/Esri/arcgis-rest-js/commit/746429e352013c971c54086ffea15863fecbdb7f))
 
-# @esri/arcgis-rest-request [4.7.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.6.0...@esri/arcgis-rest-request@4.7.0) (2025-07-25)
+## @esri/arcgis-rest-request [4.7.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.6.0...@esri/arcgis-rest-request@4.7.0) (2025-07-25)
 
 ### Features
 
 - integrate no-cors into request fn ([f828bab](https://github.com/Esri/arcgis-rest-js/commit/f828babcff77633229af8933258c84103b87f563))
 - no-cors utils and global cache ([29db594](https://github.com/Esri/arcgis-rest-js/commit/29db594cf644ea72e10ed6813e91bad4c9eb4b62))
 
-# @esri/arcgis-rest-request [4.6.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.5.1...@esri/arcgis-rest-request@4.6.0) (2025-06-27)
+## @esri/arcgis-rest-request [4.6.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.5.1...@esri/arcgis-rest-request@4.6.0) (2025-06-27)
 
 ### Features
 
@@ -49,7 +51,7 @@
 - **arcgis-rest-request:** parentMessageHandler handles ICredential or IArcGISIdentityManagerOptions ([ae8159b](https://github.com/Esri/arcgis-rest-js/commit/ae8159b7ad428a4fd3cf4ca665829a9e8e95ddb2))
 - **arcgis-rest-request:** postMessage auth works w/ credential ([cfa57e9](https://github.com/Esri/arcgis-rest-js/commit/cfa57e9b616ba738f2020854a16e8e9f002db45d))
 
-# @esri/arcgis-rest-request [4.5.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.4.3...@esri/arcgis-rest-request@4.5.0) (2025-04-30)
+## @esri/arcgis-rest-request [4.5.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.4.3...@esri/arcgis-rest-request@4.5.0) (2025-04-30)
 
 ### Bug Fixes
 
@@ -78,14 +80,14 @@
 
 - postMessage must send a Credential that is usable by JSSDK ([#1223](https://github.com/Esri/arcgis-rest-js/issues/1223)) ([082b1c6](https://github.com/Esri/arcgis-rest-js/commit/082b1c67cfd6da8e90e29526d0bb0e03c1d9cf5b))
 
-# @esri/arcgis-rest-request [4.4.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.3.0...@esri/arcgis-rest-request@4.4.0) (2025-04-07)
+## @esri/arcgis-rest-request [4.4.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.3.0...@esri/arcgis-rest-request@4.4.0) (2025-04-07)
 
 ### Features
 
 - **arcgis-rest-request:** change getDomainCredentials to handle URLs with mismatching cases ([013e4da](https://github.com/Esri/arcgis-rest-js/commit/013e4da9d62c955c316fb6be46a169462d2a245c))
 - **arcgis-rest-request:** switched to using toLowerCase ([7ae474b](https://github.com/Esri/arcgis-rest-js/commit/7ae474b0bbb00e3c66cc4804ac89b67b330e2162))
 
-# @esri/arcgis-rest-request [4.3.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.2.3...@esri/arcgis-rest-request@4.3.0) (2025-01-23)
+## @esri/arcgis-rest-request [4.3.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.2.3...@esri/arcgis-rest-request@4.3.0) (2025-01-23)
 
 ### Features
 
@@ -109,7 +111,7 @@
 
 - removed owningSystemUrl from IServerInfo ([#1146](https://github.com/Esri/arcgis-rest-js/issues/1146)) ([a801537](https://github.com/Esri/arcgis-rest-js/commit/a80153702358d4ca22eb3d87eb5dc23b3f6cd123))
 
-# @esri/arcgis-rest-request [4.2.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.1.4...@esri/arcgis-rest-request@4.2.0) (2023-05-04)
+## @esri/arcgis-rest-request [4.2.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.1.4...@esri/arcgis-rest-request@4.2.0) (2023-05-04)
 
 ### Features
 
@@ -145,7 +147,7 @@
 
 - **arcgis-rest-request:** Added Params Preprocessor for GP Mutilvalue Inputs ([#1027](https://github.com/Esri/arcgis-rest-js/issues/1027)) ([cf75cd6](https://github.com/Esri/arcgis-rest-js/commit/cf75cd609ba3a795ef37590392cada5eab061b79))
 
-# @esri/arcgis-rest-request [4.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.4...@esri/arcgis-rest-request@4.1.0) (2022-09-28)
+## @esri/arcgis-rest-request [4.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.4...@esri/arcgis-rest-request@4.1.0) (2022-09-28)
 
 ### Features
 
@@ -175,7 +177,7 @@
 
 - update package versions post v4 launch ([2560c34](https://github.com/Esri/arcgis-rest-js/commit/2560c34b77e718ed2dd95411d1aabcf2a9d9cb57))
 
-# @esri/arcgis-rest-request [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@3.4.3...@esri/arcgis-rest-request@4.0.0) (2022-04-18)
+## @esri/arcgis-rest-request [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@3.4.3...@esri/arcgis-rest-request@4.0.0) (2022-04-18)
 
 ### Bug Fixes
 
@@ -203,31 +205,31 @@
 - **@esri/arcgis-rest-fetch:** upgraded to 4.0.0
 - **@esri/arcgis-rest-form-data:** upgraded to 4.0.0
 
-# @esri/arcgis-rest-request [4.0.0-beta.7](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.6...@esri/arcgis-rest-request@4.0.0-beta.7) (2022-03-29)
+## @esri/arcgis-rest-request [4.0.0-beta.7](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.6...@esri/arcgis-rest-request@4.0.0-beta.7) (2022-03-29)
 
 ### Features
 
 - **arcgis-rest-request:** add support for AbortSignal ([#970](https://github.com/Esri/arcgis-rest-js/issues/970)) ([0f314f6](https://github.com/Esri/arcgis-rest-js/commit/0f314f689dbb7802431ef52223a53b121c346739))
 
-# @esri/arcgis-rest-request [4.0.0-beta.6](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.5...@esri/arcgis-rest-request@4.0.0-beta.6) (2022-03-22)
+## @esri/arcgis-rest-request [4.0.0-beta.6](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.5...@esri/arcgis-rest-request@4.0.0-beta.6) (2022-03-22)
 
 ### Bug Fixes
 
 - **arcgis-rest-request:** add support for server credentials ([#965](https://github.com/Esri/arcgis-rest-js/issues/965)) ([b063bcc](https://github.com/Esri/arcgis-rest-js/commit/b063bcca1780cd671e6b4f25532e4122903dc8b2))
 
-# @esri/arcgis-rest-request [4.0.0-beta.5](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.4...@esri/arcgis-rest-request@4.0.0-beta.5) (2022-03-16)
+## @esri/arcgis-rest-request [4.0.0-beta.5](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.4...@esri/arcgis-rest-request@4.0.0-beta.5) (2022-03-16)
 
 ### Features
 
 - **arcgis-rest-request:** allow state variable to be passed through on server side oauth ([fdbe612](https://github.com/Esri/arcgis-rest-js/commit/fdbe612e103250b33f85d61aa5e30daa496f74e8))
 
-# @esri/arcgis-rest-request [4.0.0-beta.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.3...@esri/arcgis-rest-request@4.0.0-beta.4) (2022-03-14)
+## @esri/arcgis-rest-request [4.0.0-beta.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.3...@esri/arcgis-rest-request@4.0.0-beta.4) (2022-03-14)
 
 ### Features
 
 - **arcgis-rest-request:** add demo and code for ability to share session between client and server ([ee9ac4c](https://github.com/Esri/arcgis-rest-js/commit/ee9ac4c5a0de48d8820c15d661b544ed38a7abf7))
 
-# @esri/arcgis-rest-request [4.0.0-beta.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.2...@esri/arcgis-rest-request@4.0.0-beta.3) (2022-03-10)
+## @esri/arcgis-rest-request [4.0.0-beta.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.2...@esri/arcgis-rest-request@4.0.0-beta.3) (2022-03-10)
 
 ### Bug Fixes
 
@@ -237,7 +239,7 @@
 
 - **arcgis-rest-request:** refresh session and retry with new token for invalid token errors ([54df4ca](https://github.com/Esri/arcgis-rest-js/commit/54df4caef91c8a07f7080badefead4131628e1b5))
 
-# @esri/arcgis-rest-request [4.0.0-beta.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.1...@esri/arcgis-rest-request@4.0.0-beta.2) (2022-03-02)
+## @esri/arcgis-rest-request [4.0.0-beta.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-request@4.0.0-beta.1...@esri/arcgis-rest-request@4.0.0-beta.2) (2022-03-02)
 
 ### Features
 

@@ -1,4 +1,4 @@
-# @esri/arcgis-rest-basemap-sessions [1.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-basemap-sessions@1.0.0...@esri/arcgis-rest-basemap-sessions@1.1.0) (2025-08-20)
+# @esri/arcgis-rest-basemap-sessions Changelog
 
 ## 4.8.0
 
@@ -6,11 +6,13 @@
 
 - 93db38b: Initial bump to migrate to changesets.
 
+## @esri/arcgis-rest-basemap-sessions [1.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-basemap-sessions@1.0.0...@esri/arcgis-rest-basemap-sessions@1.1.0) (2025-08-20)
+
 ### Features
 
 - **arcgis-rest-basemap-styles:** improve method names, edge cases and error handling ([d866803](https://github.com/Esri/arcgis-rest-js/commit/d8668032510f76d16d034f6e93d5347465d57e44))
 
-# @esri/arcgis-rest-basemap-sessions 1.0.0 (2025-08-11)
+## @esri/arcgis-rest-basemap-sessions 1.0.0 (2025-08-11)
 
 ### Bug Fixes
 

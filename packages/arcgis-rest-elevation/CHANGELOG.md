@@ -1,10 +1,12 @@
-# @esri/arcgis-rest-elevation 1.0.0 (2025-01-30)
+# @esri/arcgis-rest-elevation Changelog
 
 ## 4.8.0
 
 ### Minor Changes
 
 - 93db38b: Initial bump to migrate to changesets.
+
+## @esri/arcgis-rest-elevation 1.0.0 (2025-01-30)
 
 ### Features
 

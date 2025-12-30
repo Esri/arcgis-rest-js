@@ -1,10 +1,12 @@
-# @esri/arcgis-rest-fetch [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-fetch@3.4.3...@esri/arcgis-rest-fetch@4.0.0) (2022-04-18)
+# @esri/arcgis-rest-fetch Changelog
 
 ## 4.8.0
 
 ### Minor Changes
 
 - 93db38b: Initial bump to migrate to changesets.
+
+## @esri/arcgis-rest-fetch [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-fetch@3.4.3...@esri/arcgis-rest-fetch@4.0.0) (2022-04-18)
 
 ### Features
 

@@ -1,4 +1,4 @@
-## @esri/arcgis-rest-feature-service [4.4.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.4.0...@esri/arcgis-rest-feature-service@4.4.1) (2025-09-25)
+# @esri/arcgis-rest-feature-service Changelog
 
 ## 4.8.0
 
@@ -6,23 +6,25 @@
 
 - 93db38b: Initial bump to migrate to changesets.
 
+## @esri/arcgis-rest-feature-service [4.4.1](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.4.0...@esri/arcgis-rest-feature-service@4.4.1) (2025-09-25)
+
 ### Bug Fixes
 
 - **arcgis-rest-feature-service:** add support for authenticated layers to queryAllFeatures() ([#1263](https://github.com/Esri/arcgis-rest-js/issues/1263)) ([cfdb644](https://github.com/Esri/arcgis-rest-js/commit/cfdb644520c780fec1e89cd6e94a531de3b1b22c))
 
-# @esri/arcgis-rest-feature-service [4.4.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.3.0...@esri/arcgis-rest-feature-service@4.4.0) (2025-08-20)
+## @esri/arcgis-rest-feature-service [4.4.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.3.0...@esri/arcgis-rest-feature-service@4.4.0) (2025-08-20)
 
 ### Features
 
 - **arcgis-rest-basemap-styles:** improve method names, edge cases and error handling ([d866803](https://github.com/Esri/arcgis-rest-js/commit/d8668032510f76d16d034f6e93d5347465d57e44))
 
-# @esri/arcgis-rest-feature-service [4.3.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.2.0...@esri/arcgis-rest-feature-service@4.3.0) (2025-08-20)
+## @esri/arcgis-rest-feature-service [4.3.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.2.0...@esri/arcgis-rest-feature-service@4.3.0) (2025-08-20)
 
 ### Features
 
 - **arcgis-rest-feature-service:** add support for f=geojson to queryAllFeatures() ([#1247](https://github.com/Esri/arcgis-rest-js/issues/1247)) ([5b4f4e1](https://github.com/Esri/arcgis-rest-js/commit/5b4f4e127dd91a2911c348bb29a691c484659ff4))
 
-# @esri/arcgis-rest-feature-service [4.2.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.1.1...@esri/arcgis-rest-feature-service@4.2.0) (2025-08-14)
+## @esri/arcgis-rest-feature-service [4.2.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.1.1...@esri/arcgis-rest-feature-service@4.2.0) (2025-08-14)
 
 ### Features
 
@@ -34,7 +36,7 @@
 
 - Add typings for IAddItem, GetItemResources, and ILayerDefinition ([#1241](https://github.com/Esri/arcgis-rest-js/issues/1241)) ([604c2d9](https://github.com/Esri/arcgis-rest-js/commit/604c2d97a50ff6512112bdfbc01007b821225b19))
 
-# @esri/arcgis-rest-feature-service [4.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.0.6...@esri/arcgis-rest-feature-service@4.1.0) (2024-12-17)
+## @esri/arcgis-rest-feature-service [4.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.0.6...@esri/arcgis-rest-feature-service@4.1.0) (2024-12-17)
 
 ### Features
 
@@ -85,7 +87,7 @@
 
 - **@esri/arcgis-rest-portal:** upgraded to 4.0.1
 
-# @esri/arcgis-rest-feature-service [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@3.4.3...@esri/arcgis-rest-feature-service@4.0.0) (2022-04-18)
+## @esri/arcgis-rest-feature-service [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@3.4.3...@esri/arcgis-rest-feature-service@4.0.0) (2022-04-18)
 
 ### Bug Fixes
 
@@ -105,7 +107,7 @@
 - **@esri/arcgis-rest-portal:** upgraded to 4.0.0
 - **@esri/arcgis-rest-request:** upgraded to 4.0.0
 
-# @esri/arcgis-rest-feature-service [4.0.0-beta.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.0.0-beta.2...@esri/arcgis-rest-feature-service@4.0.0-beta.3) (2022-03-10)
+## @esri/arcgis-rest-feature-service [4.0.0-beta.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.0.0-beta.2...@esri/arcgis-rest-feature-service@4.0.0-beta.3) (2022-03-10)
 
 ### Bug Fixes
 
@@ -116,7 +118,7 @@
 - **@esri/arcgis-rest-portal:** upgraded to 4.0.0-beta.3
 - **@esri/arcgis-rest-request:** upgraded to 4.0.0-beta.3
 
-# @esri/arcgis-rest-feature-service [4.0.0-beta.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.0.0-beta.1...@esri/arcgis-rest-feature-service@4.0.0-beta.2) (2022-03-02)
+## @esri/arcgis-rest-feature-service [4.0.0-beta.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-feature-service@4.0.0-beta.1...@esri/arcgis-rest-feature-service@4.0.0-beta.2) (2022-03-02)
 
 ### Features
 
@@ -127,7 +129,7 @@
 - **@esri/arcgis-rest-portal:** upgraded to 4.0.0-beta.2
 - **@esri/arcgis-rest-request:** upgraded to 4.0.0-beta.2
 
-# @esri/arcgis-rest-feature-service 1.0.0-beta.1 (2022-02-17)
+## @esri/arcgis-rest-feature-service 1.0.0-beta.1 (2022-02-17)
 
 ### Bug Fixes
 

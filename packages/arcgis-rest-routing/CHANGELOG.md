@@ -1,10 +1,12 @@
-## @esri/arcgis-rest-routing [4.0.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-routing@4.0.2...@esri/arcgis-rest-routing@4.0.3) (2022-10-19)
+# @esri/arcgis-rest-routing Changelog
 
 ## 4.8.0
 
 ### Minor Changes
 
 - 93db38b: Initial bump to migrate to changesets.
+
+## @esri/arcgis-rest-routing [4.0.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-routing@4.0.2...@esri/arcgis-rest-routing@4.0.3) (2022-10-19)
 
 ### Bug Fixes
 
@@ -26,7 +28,7 @@
 
 - **@esri/arcgis-rest-request:** upgraded to 4.0.1
 
-# @esri/arcgis-rest-routing [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-routing@3.4.3...@esri/arcgis-rest-routing@4.0.0) (2022-04-18)
+## @esri/arcgis-rest-routing [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-routing@3.4.3...@esri/arcgis-rest-routing@4.0.0) (2022-04-18)
 
 ### Bug Fixes
 
@@ -45,7 +47,7 @@
 
 - **@esri/arcgis-rest-request:** upgraded to 4.0.0
 
-# @esri/arcgis-rest-routing [4.0.0-beta.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-routing@4.0.0-beta.2...@esri/arcgis-rest-routing@4.0.0-beta.3) (2022-03-10)
+## @esri/arcgis-rest-routing [4.0.0-beta.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-routing@4.0.0-beta.2...@esri/arcgis-rest-routing@4.0.0-beta.3) (2022-03-10)
 
 ### Bug Fixes
 
@@ -55,7 +57,7 @@
 
 - **@esri/arcgis-rest-request:** upgraded to 4.0.0-beta.3
 
-# @esri/arcgis-rest-routing [4.0.0-beta.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-routing@4.0.0-beta.1...@esri/arcgis-rest-routing@4.0.0-beta.2) (2022-03-02)
+## @esri/arcgis-rest-routing [4.0.0-beta.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-routing@4.0.0-beta.1...@esri/arcgis-rest-routing@4.0.0-beta.2) (2022-03-02)
 
 ### Bug Fixes
 

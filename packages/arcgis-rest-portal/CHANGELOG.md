@@ -1,10 +1,12 @@
-# @esri/arcgis-rest-portal [4.7.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.6.2...@esri/arcgis-rest-portal@4.7.0) (2025-09-22)
+# @esri/arcgis-rest-portal Changelog
 
 ## 4.8.0
 
 ### Minor Changes
 
 - 93db38b: Initial bump to migrate to changesets.
+
+## @esri/arcgis-rest-portal [4.7.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.6.2...@esri/arcgis-rest-portal@4.7.0) (2025-09-22)
 
 ### Features
 
@@ -22,13 +24,13 @@
 
 - restore IUserRequestOptions.authentication to a ArcGISIdentityManager ([4c528ba](https://github.com/Esri/arcgis-rest-js/commit/4c528ba15446017d1697f1371b4dd2827831b133))
 
-# @esri/arcgis-rest-portal [4.6.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.5.0...@esri/arcgis-rest-portal@4.6.0) (2025-04-07)
+## @esri/arcgis-rest-portal [4.6.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.5.0...@esri/arcgis-rest-portal@4.6.0) (2025-04-07)
 
 ### Features
 
 - **arcgis-rest-portal:** add removeItemThumbnail() to delete item thumbnails ([#1202](https://github.com/Esri/arcgis-rest-js/issues/1202)) ([a1b51f3](https://github.com/Esri/arcgis-rest-js/commit/a1b51f33a00a5b1acc4f749a837792700594aacc))
 
-# @esri/arcgis-rest-portal [4.5.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.4.1...@esri/arcgis-rest-portal@4.5.0) (2025-01-23)
+## @esri/arcgis-rest-portal [4.5.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.4.1...@esri/arcgis-rest-portal@4.5.0) (2025-01-23)
 
 ### Features
 
@@ -40,19 +42,19 @@
 
 - small change to trigger a catch-up release ([#1168](https://github.com/Esri/arcgis-rest-js/issues/1168)) ([5417fa7](https://github.com/Esri/arcgis-rest-js/commit/5417fa7b466779e8987ba67da801bef7cff2fe21))
 
-# @esri/arcgis-rest-portal [4.4.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.3.0...@esri/arcgis-rest-portal@4.4.0) (2023-09-06)
+## @esri/arcgis-rest-portal [4.4.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.3.0...@esri/arcgis-rest-portal@4.4.0) (2023-09-06)
 
 ### Features
 
 - **arcgis-rest-portal:** add searchCommunityUsers method to allow for searching outside user's org ([2695a75](https://github.com/Esri/arcgis-rest-js/commit/2695a75d972c68fc0d240920f92367335965dc27))
 
-# @esri/arcgis-rest-portal [4.3.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.2.0...@esri/arcgis-rest-portal@4.3.0) (2023-07-28)
+## @esri/arcgis-rest-portal [4.3.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.2.0...@esri/arcgis-rest-portal@4.3.0) (2023-07-28)
 
 ### Features
 
 - **arcgis-rest-developer-credentials:** Initial package release ([68e1249](https://github.com/Esri/arcgis-rest-js/commit/68e12493f730d3836357a6b32cdff7532d5a9a12))
 
-# @esri/arcgis-rest-portal [4.2.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.1.0...@esri/arcgis-rest-portal@4.2.0) (2023-03-02)
+## @esri/arcgis-rest-portal [4.2.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.1.0...@esri/arcgis-rest-portal@4.2.0) (2023-03-02)
 
 ### Features
 
@@ -67,7 +69,7 @@
 - **arcgis-rest-portal:** update comment ([96be4bd](https://github.com/Esri/arcgis-rest-js/commit/96be4bd1727f5c90a2809ee5ea63a38f6ad6a15c))
 - **arcgis-rest-portal:** v4 updates ([6332675](https://github.com/Esri/arcgis-rest-js/commit/6332675f3140c7e31dd5a0950412c493b96fe12f))
 
-# @esri/arcgis-rest-portal [4.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.6...@esri/arcgis-rest-portal@4.1.0) (2022-09-28)
+## @esri/arcgis-rest-portal [4.1.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.6...@esri/arcgis-rest-portal@4.1.0) (2022-09-28)
 
 ### Features
 
@@ -113,7 +115,7 @@
 
 - **arcgis-rest-portal:** use correct path for unpkg ([6e24c1d](https://github.com/Esri/arcgis-rest-js/commit/6e24c1dde15856fa8f7507cbc0bf78e371a12a7a))
 
-# @esri/arcgis-rest-portal [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@3.4.3...@esri/arcgis-rest-portal@4.0.0) (2022-04-18)
+## @esri/arcgis-rest-portal [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@3.4.3...@esri/arcgis-rest-portal@4.0.0) (2022-04-18)
 
 ### Bug Fixes
 
@@ -136,7 +138,7 @@
 
 - **@esri/arcgis-rest-request:** upgraded to 4.0.0
 
-# @esri/arcgis-rest-portal [4.0.0-beta.5](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.0-beta.4...@esri/arcgis-rest-portal@4.0.0-beta.5) (2022-03-22)
+## @esri/arcgis-rest-portal [4.0.0-beta.5](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.0-beta.4...@esri/arcgis-rest-portal@4.0.0-beta.5) (2022-03-22)
 
 ### Bug Fixes
 
@@ -146,7 +148,7 @@
 
 - **@esri/arcgis-rest-request:** upgraded to 4.0.0-beta.6
 
-# @esri/arcgis-rest-portal [4.0.0-beta.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.0-beta.3...@esri/arcgis-rest-portal@4.0.0-beta.4) (2022-03-14)
+## @esri/arcgis-rest-portal [4.0.0-beta.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.0-beta.3...@esri/arcgis-rest-portal@4.0.0-beta.4) (2022-03-14)
 
 ### Features
 
@@ -156,7 +158,7 @@
 
 - **@esri/arcgis-rest-request:** upgraded to 4.0.0-beta.4
 
-# @esri/arcgis-rest-portal [4.0.0-beta.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.0-beta.2...@esri/arcgis-rest-portal@4.0.0-beta.3) (2022-03-10)
+## @esri/arcgis-rest-portal [4.0.0-beta.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.0-beta.2...@esri/arcgis-rest-portal@4.0.0-beta.3) (2022-03-10)
 
 ### Bug Fixes
 
@@ -170,7 +172,7 @@
 
 - **@esri/arcgis-rest-request:** upgraded to 4.0.0-beta.3
 
-# @esri/arcgis-rest-portal [4.0.0-beta.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.0-beta.1...@esri/arcgis-rest-portal@4.0.0-beta.2) (2022-03-02)
+## @esri/arcgis-rest-portal [4.0.0-beta.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-portal@4.0.0-beta.1...@esri/arcgis-rest-portal@4.0.0-beta.2) (2022-03-02)
 
 ### Features
 
@@ -180,7 +182,7 @@
 
 - **@esri/arcgis-rest-request:** upgraded to 4.0.0-beta.2
 
-# @esri/arcgis-rest-portal 1.0.0-beta.1 (2022-02-17)
+## @esri/arcgis-rest-portal 1.0.0-beta.1 (2022-02-17)
 
 ### Bug Fixes
 

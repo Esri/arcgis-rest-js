@@ -1,4 +1,4 @@
-## @esri/arcgis-rest-auth [4.0.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-auth@4.0.1...@esri/arcgis-rest-auth@4.0.2) (2022-05-11)
+# @esri/arcgis-rest-auth Changelog
 
 ## 4.8.0
 
@@ -10,6 +10,8 @@
 
 - Updated dependencies [93db38b]
   - @esri/arcgis-rest-request@4.8.0
+
+## @esri/arcgis-rest-auth [4.0.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-auth@4.0.1...@esri/arcgis-rest-auth@4.0.2) (2022-05-11)
 
 ### Bug Fixes
 
@@ -25,7 +27,7 @@
 
 - **@esri/arcgis-rest-request:** upgraded to 4.0.1
 
-# @esri/arcgis-rest-auth [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-auth@3.4.3...@esri/arcgis-rest-auth@4.0.0) (2022-04-18)
+## @esri/arcgis-rest-auth [4.0.0](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-auth@3.4.3...@esri/arcgis-rest-auth@4.0.0) (2022-04-18)
 
 ### Bug Fixes
 
@@ -45,7 +47,7 @@
 
 - **@esri/arcgis-rest-request:** upgraded to 4.0.0
 
-# @esri/arcgis-rest-auth [4.0.0-beta.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-auth@4.0.0-beta.3...@esri/arcgis-rest-auth@4.0.0-beta.4) (2022-03-22)
+## @esri/arcgis-rest-auth [4.0.0-beta.4](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-auth@4.0.0-beta.3...@esri/arcgis-rest-auth@4.0.0-beta.4) (2022-03-22)
 
 ### Bug Fixes
 
@@ -55,7 +57,7 @@
 
 - **@esri/arcgis-rest-request:** upgraded to 4.0.0-beta.6
 
-# @esri/arcgis-rest-auth [4.0.0-beta.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-auth@4.0.0-beta.2...@esri/arcgis-rest-auth@4.0.0-beta.3) (2022-03-10)
+## @esri/arcgis-rest-auth [4.0.0-beta.3](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-auth@4.0.0-beta.2...@esri/arcgis-rest-auth@4.0.0-beta.3) (2022-03-10)
 
 ### Bug Fixes
 
@@ -65,7 +67,7 @@
 
 - **@esri/arcgis-rest-request:** upgraded to 4.0.0-beta.3
 
-# @esri/arcgis-rest-auth [4.0.0-beta.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-auth@4.0.0-beta.1...@esri/arcgis-rest-auth@4.0.0-beta.2) (2022-03-02)
+## @esri/arcgis-rest-auth [4.0.0-beta.2](https://github.com/Esri/arcgis-rest-js/compare/@esri/arcgis-rest-auth@4.0.0-beta.1...@esri/arcgis-rest-auth@4.0.0-beta.2) (2022-03-02)
 
 ### Features
 
@@ -75,7 +77,7 @@
 
 - **@esri/arcgis-rest-request:** upgraded to 4.0.0-beta.2
 
-# @esri/arcgis-rest-auth 1.0.0-beta.1 (2022-02-17)
+## @esri/arcgis-rest-auth 1.0.0-beta.1 (2022-02-17)
 
 ### Bug Fixes
 
