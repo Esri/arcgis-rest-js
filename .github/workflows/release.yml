@@ -78,9 +78,9 @@ jobs:
         uses: changesets/action@v1
         with:
           # build all packages and call changeset publish
-          publish: npm run build && npx changesets publish
+          publish: npm run build && npx changeset publish
           # call changeset version and then update the lock file via yarn install
-          version: npx changesets version
+          version: npx changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Use OIDC for npm authentication instead of NPM_TOKEN
