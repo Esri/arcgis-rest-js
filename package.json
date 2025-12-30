@@ -68,17 +68,17 @@
     }
   },
   "devDependencies": {
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
-    "@commitlint/config-lerna-scopes": "^11.0.0",
-    "@commitlint/config-workspace-scopes": "^19.8.1",
-    "@commitlint/prompt": "^11.0.0",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@commitlint/config-workspace-scopes": "^20.0.0",
+    "@commitlint/prompt": "^20.1.0",
     "@playwright/test": "^1.56.1",
-    "@rollup/plugin-node-resolve": "^13.0.4",
-    "@semantic-release/changelog": "^6.0.1",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/npm": "^8.0.0",
-    "@terraformer/arcgis": "^2.1.2",
+    "@semantic-release/npm": "^13.1.2",
     "@types/fetch-mock": "^7.3.5",
     "@types/jasmine": "^2.8.2",
     "@types/node": "^12.20.4",
@@ -101,7 +101,7 @@
     "globby": "^12.0.2",
     "husky": "^4.3.0",
     "lint-staged": "^4.3.0",
-    "multi-semantic-release": "^2.11.0",
+    "multi-semantic-release": "^3.1.0",
     "npm-run-all": "^4.1.5",
     "pbf": "^4.0.1",
     "prettier": "^2.3.1",
@@ -192,5 +192,8 @@
       "@semantic-release/npm",
       "@semantic-release/git"
     ]
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
   }
 }
