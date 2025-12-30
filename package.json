@@ -61,7 +61,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run precommit && npm run typedoc"
+      "pre-commit": "npm run precommit"
     }
   },
   "devDependencies": {
