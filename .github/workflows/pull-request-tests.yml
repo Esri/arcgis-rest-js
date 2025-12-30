@@ -35,6 +35,10 @@ jobs:
       - name: Build
         run: npm run build
 
+      # Generate doc to ensure that there are no warnings/errors
+      - name: Generate TypeDoc
+        run: npm run typedoc
+
       - name: Lint
         run: npm run lint
 
