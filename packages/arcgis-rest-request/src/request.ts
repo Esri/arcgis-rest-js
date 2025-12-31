@@ -1,7 +1,6 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-//const tileDecode = require("arcgis-pbf-parser");
 import { encodeFormData } from "./utils/encode-form-data.js";
 import { encodeQueryString } from "./utils/encode-query-string.js";
 import { requiresFormData } from "./utils/process-params.js";

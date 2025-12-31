@@ -156,11 +156,20 @@ export interface IQueryResponse {
   objectIds?: number[];
 }
 
+/**
+ * Helper function to query and decode pbf features on the client. Improved performance on slow networks and large queries.
+ * Handles both pbf-as-geojson and pbf-as-arcgis format query params and handles errors.
+ *
+ * @param url - A feature service url
+ * @param requestOptions - Options for the request that has been passed through appendCustomParams
+ * @returns A Promise that will resolve with the query response.
+ */
+
 export function queryPbfAsGeoJSONOrArcGIS(
   url: string,
   queryOptions: IRequestOptions
 ): Promise<IQueryFeaturesResponse | IQueryAllFeaturesResponse> {
-  // need to query with f=pbf and rawResponse:true on behalf of the user to fetch metadata with the pbf response
+  // query with f=pbf and rawResponse:true on behalf of the user to fetch metadata with the pbf response
   const customOptions = {
     ...queryOptions,
     params: { ...queryOptions.params, f: "pbf" } as any,
@@ -168,9 +177,10 @@ export function queryPbfAsGeoJSONOrArcGIS(
   };
   return request(`${cleanUrl(url)}/query`, customOptions).then(
     async (response: any) => {
+      // if pbf request to service returns a json format, there is an error
       if (response.headers.get("content-type")?.includes("application/json")) {
         const err = (await response.json()).error;
-        // throw auth error, else throw request error
+        // throw auth error, else throw generic request error
         if (err?.code === 498 || err?.code === 499) {
           throw new ArcGISAuthError(
             err.message,
@@ -321,10 +331,6 @@ export function queryFeatures(
     }
   );
 
-  // three cases:
-  // 1. f=pbf: return undecoded pbf straight back to user -- pass over to return
-  // 2. f=pbf-as-geojson: decode pbf and return geojson
-  // 3. f=pbf-as-arcgis: decode pbf and return arcgis objects
   if (
     queryOptions.params?.f === "pbf-as-geojson" ||
     queryOptions.params?.f === "pbf-as-arcgis"
