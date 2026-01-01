@@ -158,11 +158,7 @@ describe("getFeature() and queryFeatures()", () => {
         const fs = await import("fs");
         const filePath =
           "./packages/arcgis-rest-feature-service/test/mocks/results.pbf";
-        try {
-          arrayBuffer = fs.readFileSync(filePath);
-        } catch (err) {
-          throw err;
-        }
+        arrayBuffer = fs.readFileSync(filePath);
       }
 
       // manually create fetch response object so fetchmock doesn't convert to json
@@ -302,11 +298,7 @@ describe("getFeature() and queryFeatures()", () => {
         const fs = await import("fs");
         const filePath =
           "./packages/arcgis-rest-feature-service/test/mocks/results.pbf";
-        try {
-          arrayBuffer = fs.readFileSync(filePath);
-        } catch (err) {
-          throw err;
-        }
+        arrayBuffer = fs.readFileSync(filePath);
       }
 
       fetchMock.once(
@@ -649,11 +641,7 @@ describe("queryAllFeatures", () => {
         const fs = await import("fs");
         const filePath =
           "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf";
-        try {
-          arrayBufferSet1 = fs.readFileSync(filePath);
-        } catch (err) {
-          throw err;
-        }
+        arrayBufferSet1 = fs.readFileSync(filePath);
       }
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -703,11 +691,7 @@ describe("queryAllFeatures", () => {
         const fs = await import("fs");
         const filePath =
           "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf";
-        try {
-          arrayBufferSet1 = fs.readFileSync(filePath);
-        } catch (err) {
-          throw err;
-        }
+        arrayBufferSet1 = fs.readFileSync(filePath);
       }
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -764,12 +748,8 @@ describe("queryAllFeatures", () => {
           "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf";
         const filePathPartial =
           "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf";
-        try {
-          arrayBufferSet1 = fs.readFileSync(filePath);
-          arrayBufferSet2 = fs.readFileSync(filePathPartial);
-        } catch (err) {
-          throw err;
-        }
+        arrayBufferSet1 = fs.readFileSync(filePath);
+        arrayBufferSet2 = fs.readFileSync(filePathPartial);
       }
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -824,10 +804,10 @@ describe("queryAllFeatures", () => {
         "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet5.pbf",
         "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
       ];
-      let pbfPages: (ArrayBuffer | Buffer)[] = [];
+      const pbfPages: (ArrayBuffer | Buffer)[] = [];
 
       if (isBrowser) {
-        for (let path of rawPbfPaths) {
+        for (const path of rawPbfPaths) {
           const resp = await fetch(path);
           pbfPages.push(await resp.arrayBuffer());
         }
@@ -835,12 +815,8 @@ describe("queryAllFeatures", () => {
 
       if (isNode) {
         const fs = await import("fs");
-        try {
-          for (let path of rawPbfPaths) {
-            pbfPages.push(fs.readFileSync(path));
-          }
-        } catch (err) {
-          throw err;
+        for (const path of rawPbfPaths) {
+          pbfPages.push(fs.readFileSync(path));
         }
       }
 
@@ -894,11 +870,7 @@ describe("queryAllFeatures", () => {
         const fs = await import("fs");
         const filePath =
           "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf";
-        try {
-          arrayBufferSet1 = fs.readFileSync(filePath);
-        } catch (err) {
-          throw err;
-        }
+        arrayBufferSet1 = fs.readFileSync(filePath);
       }
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -949,11 +921,7 @@ describe("queryAllFeatures", () => {
         const fs = await import("fs");
         const filePath =
           "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf";
-        try {
-          arrayBufferSet1 = fs.readFileSync(filePath);
-        } catch (err) {
-          throw err;
-        }
+        arrayBufferSet1 = fs.readFileSync(filePath);
       }
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -998,10 +966,10 @@ describe("queryAllFeatures", () => {
         "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet5.pbf",
         "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
       ];
-      let pbfPages: (ArrayBuffer | Buffer)[] = [];
+      const pbfPages: (ArrayBuffer | Buffer)[] = [];
 
       if (isBrowser) {
-        for (let path of pbfPaths) {
+        for (const path of pbfPaths) {
           const resp = await fetch(path);
           pbfPages.push(await resp.arrayBuffer());
         }
@@ -1009,12 +977,8 @@ describe("queryAllFeatures", () => {
 
       if (isNode) {
         const fs = await import("fs");
-        try {
-          for (let path of pbfPaths) {
-            pbfPages.push(fs.readFileSync(path));
-          }
-        } catch (err) {
-          throw err;
+        for (const path of pbfPaths) {
+          pbfPages.push(fs.readFileSync(path));
         }
       }
 
