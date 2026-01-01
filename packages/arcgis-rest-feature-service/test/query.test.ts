@@ -10,7 +10,8 @@ import {
   queryRelated,
   IQueryFeaturesOptions,
   IQueryRelatedOptions,
-  IQueryAllFeaturesOptions
+  IQueryAllFeaturesOptions,
+  IQueryFeaturesResponse
 } from "../src/index.js";
 import {
   featureResponse,
@@ -200,7 +201,7 @@ describe("getFeature() and queryFeatures()", () => {
        *   "exceededTransferLimit": false
        * }
        */
-      const response = await queryFeatures(testPublicFeatureServer);
+      const response = (await queryFeatures(testPublicFeatureServer)) as any;
 
       expect(fetchMock.called()).toBeTruthy();
       const [url, options] = fetchMock.lastCall("*");
@@ -330,7 +331,9 @@ describe("getFeature() and queryFeatures()", () => {
         where: "1=1"
       };
 
-      const response = await queryFeatures(testPublicFeatureServer);
+      const response = (await queryFeatures(
+        testPublicFeatureServer
+      )) as IQueryFeaturesResponse;
 
       expect(fetchMock.called()).toBeTruthy();
       const [url, options] = fetchMock.lastCall("*");
