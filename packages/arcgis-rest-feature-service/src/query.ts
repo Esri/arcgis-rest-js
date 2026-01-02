@@ -437,7 +437,6 @@ export async function queryAllFeatures(
     );
 
     let response: IQueryAllFeaturesResponse;
-    // for queryAllFeatures we only need to supportpbf-as-geojson and pbf-as-arcgis since we need to decode to know if we need to get all the features
     if (
       queryOptions.params?.f === "pbf-as-geojson" ||
       queryOptions.params?.f === "pbf-as-arcgis"
@@ -466,7 +465,7 @@ export async function queryAllFeatures(
     const returnedCount = response.features.length;
 
     const exceededTransferLimit =
-      // ArcGIS JSON/PBF: exceededTransferLimit is on the response object
+      // ArcGIS JSON/pbf-as-{format}: exceededTransferLimit is on the response object
       response.exceededTransferLimit ||
       // GeoJson: exceededTransferLimit is on properties in the response object
       (response as any).properties?.exceededTransferLimit;

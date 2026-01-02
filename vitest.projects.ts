@@ -54,14 +54,14 @@ export const browserHeadedConfig = {
 
 export const nodeLiveConfig = {
   test: {
-    name: "node (LIVE)",
+    name: "nodeLive",
     include: liveTestPackages
   }
 };
 
-export const browserHeadlessLiveConfig = {
+export const headlessLiveConfig = {
   test: {
-    name: "headless (LIVE)",
+    name: "headlessLive",
     browser: {
       enabled: true,
       provider: playwright(),
