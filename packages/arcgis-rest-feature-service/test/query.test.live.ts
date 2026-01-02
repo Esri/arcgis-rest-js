@@ -326,7 +326,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
 
     describe("with pbf-as-geojson", () => {
       test(
-        "LIVE TEST LONG QUERY: should query all pbf-as-geojson objects",
+        "LIVE TEST LONG QUERY GeoJSON: should query all pbf-as-geojson objects",
         // run time may be longer on slower networks or when data is not cached
         { timeout: 15000 },
         async () => {
@@ -344,7 +344,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
 
     describe("with pbf-as-arcgis", () => {
       test(
-        "LIVE TEST LONG QUERY: should query all pbf-as-arcgis objects",
+        "LIVE TEST LONG QUERY ArcGIS: should query all pbf-as-arcgis objects",
         // run time may be longer on slower networks or when data is not cached
         { timeout: 15000 },
         async () => {
