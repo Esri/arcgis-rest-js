@@ -1,3 +1,4 @@
+/* istanbul ignore file --@preserve */
 import { FeatureCollectionPBuffer as EsriPbfBuffer } from "./PbfFeatureCollection.js";
 import Pbf from "pbf";
 

@@ -3,6 +3,8 @@ import {
   nodeConfig,
   browserHeadedConfig,
   browserHeadlessConfig,
+  nodeLiveConfig,
+  browserHeadlessLiveConfig,
 } from "./vitest.projects.ts";
 
 export default defineConfig({
@@ -10,7 +12,9 @@ export default defineConfig({
     projects: [
       nodeConfig,
       browserHeadlessConfig,
-      browserHeadedConfig
+      browserHeadedConfig,
+      nodeLiveConfig,
+      browserHeadlessLiveConfig
     ],
     coverage: {
       enabled: true,

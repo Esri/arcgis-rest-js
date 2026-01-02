@@ -281,6 +281,68 @@ describe("getFeature() and queryFeatures()", () => {
         expect((error as any).message).toBe("498: Invalid token.");
       }
     });
+
+    test("(invalid auth) should throw arcgis auth error when service returns 200 with json object containing token required error", async () => {
+      const featureServiceInvalidTokenErrorResponse = {
+        error: {
+          code: 499,
+          // not exact message from service
+          message: "Token required.",
+          details: ["Token required."]
+        }
+      };
+      fetchMock.once("*", {
+        status: 200,
+        headers: { "content-type": "application/json; charset=utf-8" },
+        body: featureServiceInvalidTokenErrorResponse
+      });
+
+      const docsPbfOptions: IQueryFeaturesOptions = {
+        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+        f: "pbf-as-geojson",
+        where: "1=1",
+        outFields: ["*"],
+        resultOffset: 0,
+        resultRecordCount: 3
+      };
+      try {
+        await queryFeatures(docsPbfOptions);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ArcGISAuthError);
+        expect((error as any).code).toBe(499);
+      }
+    });
+
+    test("(invalid request) should throw arcgis request error when service returns 200 with json object containing error", async () => {
+      const featureServiceInvalidTokenErrorResponse = {
+        error: {
+          code: 500,
+          // not exact message from service
+          message: "An error occurred.",
+          details: ["An error occurred."]
+        }
+      };
+      fetchMock.once("*", {
+        status: 200,
+        headers: { "content-type": "application/json; charset=utf-8" },
+        body: featureServiceInvalidTokenErrorResponse
+      });
+
+      const docsPbfOptions: IQueryFeaturesOptions = {
+        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+        f: "pbf-as-geojson",
+        where: "1=1",
+        outFields: ["*"],
+        resultOffset: 0,
+        resultRecordCount: 3
+      };
+      try {
+        await queryFeatures(docsPbfOptions);
+      } catch (error) {
+        expect(error).toBeInstanceOf(ArcGISRequestError);
+        expect((error as any).code).toBe(500);
+      }
+    });
   });
 
   describe("queryFeatures(): pbf-as-arcgis", () => {

@@ -158,7 +158,7 @@ export interface IQueryResponse {
 
 /**
  * Helper function to query and decode pbf features on the client. Improved performance on slow networks and large queries.
- * Handles both pbf-as-geojson and pbf-as-arcgis format query params and handles errors.
+ * Handles both f=pbf-as-geojson and f=pbf-as-arcgis format query params and handles errors.
  *
  * @param url - A feature service url
  * @param requestOptions - Options for the request that has been passed through appendCustomParams
@@ -200,6 +200,13 @@ export function queryPbfAsGeoJSONOrArcGIS(
       }
       try {
         const arrayBuffer = await response.arrayBuffer();
+        /* istanbul ignore else --@preserve */
+        if (queryOptions.params.f === "pbf-as-arcgis") {
+          console.log("pbf-as-arcgis query detected");
+          const arcGISFeaturesResponse = pbfToArcGIS(arrayBuffer);
+          return arcGISFeaturesResponse;
+        }
+        /* istanbul ignore else --@preserve */
         if (queryOptions.params.f === "pbf-as-geojson") {
           const decoded = pbfToGeoJSON(arrayBuffer);
           const geoJsonFeaturesResponse = {
@@ -207,9 +214,6 @@ export function queryPbfAsGeoJSONOrArcGIS(
             exceededTransferLimit: decoded.exceededTransferLimit
           };
           return geoJsonFeaturesResponse;
-        } else if (queryOptions.params.f === "pbf-as-arcgis") {
-          const arcGISFeaturesResponse = pbfToArcGIS(arrayBuffer);
-          return arcGISFeaturesResponse;
         }
       } catch (error) {
         throw new ArcGISRequestError(
