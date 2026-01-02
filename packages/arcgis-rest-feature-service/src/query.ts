@@ -161,7 +161,7 @@ export interface IQueryResponse {
  * Handles both f=pbf-as-geojson and f=pbf-as-arcgis format query params and handles errors.
  *
  * @param url - A feature service url
- * @param requestOptions - Options for the request that has been passed through appendCustomParams
+ * @param queryOptions - Options for the request that has been passed through appendCustomParams
  * @returns A Promise that will resolve with the query response.
  */
 
