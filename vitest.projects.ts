@@ -1,18 +1,20 @@
 import { playwright } from "@vitest/browser-playwright";
 
-export const testPackages = [
-  "packages/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-  "!packages/**/*.{test,spec}.live.?(c|m)[jt]s?(x)"
-];
+export const testPackages = ["packages/**/*.{test,spec}.?(c|m)[jt]s?(x)"];
 
 export const liveTestPackages = [
+  "packages/**/*.{test,spec}.live.?(c|m)[jt]s?(x)"
+];
+
+export const excludePackages = [
   "packages/**/*.{test,spec}.live.?(c|m)[jt]s?(x)"
 ];
 
 export const nodeConfig = {
   test: {
     name: { label: "node", color: "cyan" },
-    include: testPackages
+    include: testPackages,
+    exclude: excludePackages
   }
 };
 
@@ -29,7 +31,8 @@ export const browserHeadlessConfig = {
         { browser: "webkit" }
       ]
     },
-    include: testPackages
+    include: testPackages,
+    exclude: excludePackages
   }
 };
 
