@@ -202,7 +202,6 @@ export function queryPbfAsGeoJSONOrArcGIS(
         const arrayBuffer = await response.arrayBuffer();
         /* istanbul ignore else --@preserve */
         if (queryOptions.params.f === "pbf-as-arcgis") {
-          console.log("pbf-as-arcgis query detected");
           const arcGISFeaturesResponse = pbfToArcGIS(arrayBuffer);
           return arcGISFeaturesResponse;
         }

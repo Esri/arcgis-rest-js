@@ -142,7 +142,7 @@ describe("getFeature() and queryFeatures()", () => {
   });
 
   describe("queryFeatures(): pbf-as-geojson", () => {
-    // test case: should decode a valid pbf-as-geojson response from public server without api key
+    // should decode a valid pbf-as-geojson response from public server without api key
     test("(valid) should query pbf-as-geojson features by requesting pbf arrayBuffer and decoding into geojson", async () => {
       // use ArrayBuffer for browser, Buffer for node fs
       let arrayBuffer: ArrayBuffer | Buffer;
@@ -162,7 +162,7 @@ describe("getFeature() and queryFeatures()", () => {
         arrayBuffer = fs.readFileSync(filePath);
       }
 
-      // manually create fetch response object so fetchmock doesn't convert to json
+      // manually structure pbf response object so fetchmock doesn't convert to json
       fetchMock.once(
         "*",
         {
@@ -193,10 +193,9 @@ describe("getFeature() and queryFeatures()", () => {
         where: "1=1"
       };
 
-      // query pbf features as geojson, returns geojson feature collection with exceededTransferLimit property
+      // query pbf features as geojson, returns geojson features with exceededTransferLimit property
       /**
        * {
-       *   "type": "FeatureCollection",
        *   "features": [...geojsonFeatures],
        *   "exceededTransferLimit": false
        * }
@@ -251,7 +250,7 @@ describe("getFeature() and queryFeatures()", () => {
       }
     });
 
-    // test case: should handle pbf-as-geojson requests that fail due to unauthenticated states local obj fetchmock only
+    // should handle pbf-as-geojson requests that return unauthenticated states, fetchmock only
     test("(invalid auth) should throw arcgis auth error for queryFeatures() pbf-as-geojson queries when service returns 200 with json object containing error", async () => {
       const featureServiceInvalidTokenErrorResponse = {
         error: {
