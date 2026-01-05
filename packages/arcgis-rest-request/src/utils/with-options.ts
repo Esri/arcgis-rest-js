@@ -22,7 +22,7 @@ import { IRequestOptions } from "../utils/IRequestOptions.js";
  *   where: "TRL_NAME LIKE '%backbone%'"
  * }).then(result);
  * ```
- *
+ * @deprecated since v4.0.0.
  * @param defaultOptions The options to pass into to the `func`.
  * @param func Any function that accepts anything extending `IRequestOptions` as its last parameter.
  * @returns A copy of `func` with the `defaultOptions` passed in as defaults.
@@ -34,6 +34,7 @@ export function withOptions<
   defaultOptions: IRequestOptions,
   func: T
 ): (...funcArgs: Parameters<T>) => ReturnType<T> {
+  console.warn(`withOptions() is deprecated. This will be removed in ArcGIS REST JS v5.0.`);
   return (...args: Parameters<T>): ReturnType<T> => {
     const options: K =
       typeof args[args.length - 1] === "object"

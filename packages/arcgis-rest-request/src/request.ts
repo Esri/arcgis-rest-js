@@ -37,6 +37,7 @@ export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
  *
  * You should **never** set a default `authentication` when you are in a server side environment where you may be handling requests for many different authenticated users.
  *
+ * @deprecated since v4.0.0.
  * @param options The default options to pass with every request. Existing default will be overwritten.
  * @param hideWarnings Silence warnings about setting default `authentication` in shared environments.
  */
@@ -44,6 +45,7 @@ export function setDefaultRequestOptions(
   options: IRequestOptions,
   hideWarnings?: boolean
 ) {
+  console.warn(`setDefaultRequestOptions() is deprecated. This will be removed in ArcGIS REST JS v5.0.`);
   if (options.authentication && !hideWarnings) {
     warn(
       "You should not set `authentication` as a default in a shared environment such as a web server which will process multiple users requests. You can call `setDefaultRequestOptions` with `true` as a second argument to disable this warning."
@@ -502,6 +504,7 @@ export function internalRequest(
           });
       }
       if (rawResponse) {
+        console.warn(`rawResponse option is deprecated and will be removed in ArcGIS REST JS v5.0.`);
         return response;
       }
       switch (params.f) {
