@@ -340,7 +340,6 @@ export function queryFeatures(
   ) {
     return queryPbfAsGeoJSONOrArcGIS(requestOptions.url, queryOptions);
   }
-
   return request(`${cleanUrl(requestOptions.url)}/query`, queryOptions);
 }
 
@@ -369,7 +368,8 @@ export async function queryAllFeatures(
   // retrieve the maxRecordCount for the service
 
   const pageSizeResponse = await request(requestOptions.url, {
-    httpMethod: "GET"
+    httpMethod: "GET",
+    authentication: requestOptions.authentication
   });
   // default the pageSize to 2000 if it is not provided
   const pageSize = pageSizeResponse.maxRecordCount || 2000;

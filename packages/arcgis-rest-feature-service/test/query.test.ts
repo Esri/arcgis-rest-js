@@ -23,7 +23,10 @@ import {
   ArcGISAuthError,
   ArcGISRequestError
 } from "@esri/arcgis-rest-request";
-import { isBrowser, isNode } from "../../../scripts/test-helpers.js";
+import {
+  readEnvironmentEmptyArrayBuffer,
+  readEnvironmentFileToArrayBuffer
+} from "./utils/readFileArrayBuffer.js";
 
 const serviceUrl =
   "https://services.arcgis.com/f8b/arcgis/rest/services/Custom/FeatureServer/0";
@@ -144,23 +147,9 @@ describe("getFeature() and queryFeatures()", () => {
   describe("queryFeatures(): pbf-as-geojson", () => {
     // should decode a valid pbf-as-geojson response from public server without api key
     test("(valid) should query pbf-as-geojson features by requesting pbf arrayBuffer and decoding into geojson", async () => {
-      // use ArrayBuffer for browser, Buffer for node fs
-      let arrayBuffer: ArrayBuffer | Buffer;
-
-      // load in arrayBuffer
-      if (isBrowser) {
-        const pbf = await fetch(
-          "./packages/arcgis-rest-feature-service/test/mocks/results.pbf"
-        );
-        arrayBuffer = await pbf.arrayBuffer();
-      }
-
-      if (isNode) {
-        const fs = await import("fs");
-        const filePath =
-          "./packages/arcgis-rest-feature-service/test/mocks/results.pbf";
-        arrayBuffer = fs.readFileSync(filePath);
-      }
+      const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/results.pbf"
+      );
 
       // manually structure pbf response object so fetchmock doesn't convert to json
       fetchMock.once(
@@ -212,14 +201,7 @@ describe("getFeature() and queryFeatures()", () => {
     });
 
     test("(error) should throw an arcgis request error when pbf-as-geojson decode returns nothing or fails to decode", async () => {
-      let arrayBuffer: ArrayBuffer | Buffer;
-      // create empty buffer type according to test environment
-      if (isBrowser) {
-        arrayBuffer = new ArrayBuffer(8);
-      }
-      if (isNode) {
-        arrayBuffer = Buffer.from([]);
-      }
+      const arrayBuffer = await readEnvironmentEmptyArrayBuffer();
 
       fetchMock.once(
         "*",
@@ -346,22 +328,9 @@ describe("getFeature() and queryFeatures()", () => {
 
   describe("queryFeatures(): pbf-as-arcgis", () => {
     test("should query pbf as arcgis features by requesting pbf arrayBuffer and decoding into geojson then transforming to arcgis json objects", async () => {
-      // using arrayBuffer in browser and buffer for node fs
-      let arrayBuffer: ArrayBuffer | Buffer;
-
-      if (isBrowser) {
-        const pbf = await fetch(
-          "./packages/arcgis-rest-feature-service/test/mocks/results.pbf"
-        );
-        arrayBuffer = await pbf.arrayBuffer();
-      }
-
-      if (isNode) {
-        const fs = await import("fs");
-        const filePath =
-          "./packages/arcgis-rest-feature-service/test/mocks/results.pbf";
-        arrayBuffer = fs.readFileSync(filePath);
-      }
+      const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/results.pbf"
+      );
 
       fetchMock.once(
         "*",
@@ -405,15 +374,7 @@ describe("getFeature() and queryFeatures()", () => {
     });
 
     test("(invalid) should throw an arcgis request error when pbf-as-arcgis decode returns nothing or fails to decode", async () => {
-      let arrayBuffer: ArrayBuffer | Buffer;
-
-      // create buffer type according to test environment
-      if (isBrowser) {
-        arrayBuffer = new ArrayBuffer(8);
-      }
-      if (isNode) {
-        arrayBuffer = Buffer.from([]);
-      }
+      const arrayBuffer = await readEnvironmentEmptyArrayBuffer();
 
       fetchMock.once(
         "*",
@@ -523,7 +484,7 @@ describe("queryAllFeatures", () => {
   });
 
   test("fetches multiple pages based on feature count with authentication", async () => {
-    fetchMock.mock(`${serviceUrl}?f=json`, {
+    fetchMock.mock(`${serviceUrl}?f=json&token=MOCK_TOKEN`, {
       maxRecordCount: 2000
     });
 
@@ -692,21 +653,10 @@ describe("queryAllFeatures", () => {
     test("(valid less than) should query only one page of pbf-as-geojson if total features are less than page size", async () => {
       const thisServiceUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
-      let arrayBufferSet1: ArrayBuffer | Buffer;
 
-      if (isBrowser) {
-        const pbf = await fetch(
-          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
-        );
-        arrayBufferSet1 = await pbf.arrayBuffer();
-      }
-
-      if (isNode) {
-        const fs = await import("fs");
-        const filePath =
-          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf";
-        arrayBufferSet1 = fs.readFileSync(filePath);
-      }
+      const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+      );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
         maxRecordCount: 500
@@ -742,21 +692,10 @@ describe("queryAllFeatures", () => {
     test("(valid equal to) should query only one page of pbf-as-geojson if total features equal page size", async () => {
       const thisServiceUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
-      let arrayBufferSet1: ArrayBuffer | Buffer;
 
-      if (isBrowser) {
-        const pbf = await fetch(
-          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
-        );
-        arrayBufferSet1 = await pbf.arrayBuffer();
-      }
-
-      if (isNode) {
-        const fs = await import("fs");
-        const filePath =
-          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf";
-        arrayBufferSet1 = fs.readFileSync(filePath);
-      }
+      const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+      );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
         maxRecordCount: 131
@@ -792,29 +731,13 @@ describe("queryAllFeatures", () => {
     test("(valid exceeds) should query multiple pages of pbf-as-geojson if total features exceed page size", async () => {
       const thisServiceUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
-      let arrayBufferSet1: ArrayBuffer | Buffer;
-      let arrayBufferSet2: ArrayBuffer | Buffer;
 
-      if (isBrowser) {
-        const pbfFull = await fetch(
-          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf"
-        );
-        const pbfPartial = await fetch(
-          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
-        );
-        arrayBufferSet1 = await pbfFull.arrayBuffer();
-        arrayBufferSet2 = await pbfPartial.arrayBuffer();
-      }
-
-      if (isNode) {
-        const fs = await import("fs");
-        const filePath =
-          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf";
-        const filePathPartial =
-          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf";
-        arrayBufferSet1 = fs.readFileSync(filePath);
-        arrayBufferSet2 = fs.readFileSync(filePathPartial);
-      }
+      const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf"
+      );
+      const arrayBufferSet2 = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+      );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
         maxRecordCount: 500
@@ -870,18 +793,9 @@ describe("queryAllFeatures", () => {
       ];
       const pbfPages: (ArrayBuffer | Buffer)[] = [];
 
-      if (isBrowser) {
-        for (const path of rawPbfPaths) {
-          const resp = await fetch(path);
-          pbfPages.push(await resp.arrayBuffer());
-        }
-      }
-
-      if (isNode) {
-        const fs = await import("fs");
-        for (const path of rawPbfPaths) {
-          pbfPages.push(fs.readFileSync(path));
-        }
+      for (const path of rawPbfPaths) {
+        const arrBuff = await readEnvironmentFileToArrayBuffer(path);
+        pbfPages.push(arrBuff);
       }
 
       // set up first fetchMock to return maxRecordCount of 500 to become the page size
@@ -921,21 +835,10 @@ describe("queryAllFeatures", () => {
     test("(valid less than) should query only one page of pbf-as-arcgis if total features are under page size", async () => {
       const thisServiceUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
-      let arrayBufferSet1: ArrayBuffer | Buffer;
 
-      if (isBrowser) {
-        const pbf = await fetch(
-          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
-        );
-        arrayBufferSet1 = await pbf.arrayBuffer();
-      }
-
-      if (isNode) {
-        const fs = await import("fs");
-        const filePath =
-          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf";
-        arrayBufferSet1 = fs.readFileSync(filePath);
-      }
+      const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+      );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
         maxRecordCount: 500
@@ -972,21 +875,10 @@ describe("queryAllFeatures", () => {
     test("(valid equal to) should fetch one page of pbf-as-arcgis if total features are equal to one page", async () => {
       const thisServiceUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
-      let arrayBufferSet1: ArrayBuffer | Buffer;
 
-      if (isBrowser) {
-        const pbf = await fetch(
-          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
-        );
-        arrayBufferSet1 = await pbf.arrayBuffer();
-      }
-
-      if (isNode) {
-        const fs = await import("fs");
-        const filePath =
-          "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf";
-        arrayBufferSet1 = fs.readFileSync(filePath);
-      }
+      const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+      );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
         maxRecordCount: 131
@@ -1030,20 +922,12 @@ describe("queryAllFeatures", () => {
         "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet5.pbf",
         "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
       ];
+      // use arrayBuffer for browser, buffer in node environment
       const pbfPages: (ArrayBuffer | Buffer)[] = [];
 
-      if (isBrowser) {
-        for (const path of pbfPaths) {
-          const resp = await fetch(path);
-          pbfPages.push(await resp.arrayBuffer());
-        }
-      }
-
-      if (isNode) {
-        const fs = await import("fs");
-        for (const path of pbfPaths) {
-          pbfPages.push(fs.readFileSync(path));
-        }
+      for (const path of pbfPaths) {
+        const arrBuff = await readEnvironmentFileToArrayBuffer(path);
+        pbfPages.push(arrBuff);
       }
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {

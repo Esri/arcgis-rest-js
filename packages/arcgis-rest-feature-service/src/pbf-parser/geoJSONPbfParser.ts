@@ -1,4 +1,8 @@
-/* istanbul ignore file --@preserve */
+/**
+ * This code has been adapted from [arcgis-pbf-parser] ([https://github.com/rowanwins/arcgis-pbf-parser])
+ * Modifications have been made for use in this project.
+ */
+
 import { FeatureCollectionPBuffer as EsriPbfBuffer } from "./PbfFeatureCollection.js";
 import Pbf from "pbf";
 
@@ -7,10 +11,10 @@ export default function decode(featureCollectionBuffer: any) {
   try {
     decodedObject = EsriPbfBuffer.read(new Pbf(featureCollectionBuffer));
   } catch (error) {
-    throw new Error("Could not parse arcgis-pbf buffer: ");
+    throw new Error(`Could not parse arcgis-pbf buffer: ${error}`);
   }
   if (!decodedObject.queryResult) {
-    throw new Error("Could not parse arcgis-pbf buffer: ");
+    throw new Error("Could not parse arcgis-pbf buffer: Missing queryResult.");
   }
   const featureResult = decodedObject.queryResult.featureResult;
   const transform = featureResult.transform;
