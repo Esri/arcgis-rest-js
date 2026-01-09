@@ -9,7 +9,10 @@ import {
   IFeatureSet,
   IFeature,
   Units,
-  IExtent
+  IExtent,
+  ArcGISRequestError,
+  ArcGISAuthError,
+  IRequestOptions
 } from "@esri/arcgis-rest-request";
 
 import {
@@ -17,6 +20,9 @@ import {
   ISharedQueryOptions,
   IStatisticDefinition
 } from "./helpers.js";
+import { pbfToGeoJSON } from "./utils/pbfToGeoJSON.js";
+import { geojsonToArcGIS } from "@terraformer/arcgis";
+import { pbfToArcGIS } from "./utils/pbfToArcGIS.js";
 
 /**
  * Request options to fetch a feature by id.
@@ -75,7 +81,7 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
    * NOTE: for "pbf" you must also supply `rawResponse: true`
    * and parse the response yourself using `response.arrayBuffer()`
    */
-  f?: "json" | "geojson" | "pbf";
+  f?: "json" | "geojson" | "pbf" | "pbf-as-geojson" | "pbf-as-arcgis";
   /**
    * someday...
    *
@@ -130,7 +136,7 @@ export interface IQueryAllFeaturesOptions extends ISharedQueryOptions {
    * NOTE: for "pbf" you must also supply `rawResponse: true`
    * and parse the response yourself using `response.arrayBuffer()`
    */
-  f?: "json" | "geojson";
+  f?: "json" | "geojson" | "pbf" | "pbf-as-geojson" | "pbf-as-arcgis";
   /**
    * someday...
    *
@@ -148,6 +154,77 @@ export interface IQueryResponse {
   extent?: IExtent;
   objectIdFieldName?: string;
   objectIds?: number[];
+}
+
+/**
+ * Helper function to query and decode pbf features on the client. Improved performance on slow networks and large queries.
+ * Handles both f=pbf-as-geojson and f=pbf-as-arcgis format query params and handles errors.
+ *
+ * @param url - A feature service url
+ * @param queryOptions - Options for the request that has been passed through appendCustomParams
+ * @returns A Promise that will resolve with the query response.
+ */
+
+export function queryPbfAsGeoJSONOrArcGIS(
+  url: string,
+  queryOptions: IRequestOptions
+): Promise<IQueryFeaturesResponse | IQueryAllFeaturesResponse> {
+  // query with f=pbf and rawResponse:true on behalf of the user to fetch metadata with the pbf response
+  const customOptions = {
+    ...queryOptions,
+    params: { ...queryOptions.params, f: "pbf" } as any,
+    rawResponse: true
+  };
+  return request(`${cleanUrl(url)}/query`, customOptions).then(
+    async (response: any) => {
+      // if pbf request to service returns a json format, there is an error
+      if (response.headers.get("content-type")?.includes("application/json")) {
+        const err = (await response.json()).error;
+        // throw auth error, else throw generic request error
+        if (err?.code === 498 || err?.code === 499) {
+          throw new ArcGISAuthError(
+            err.message,
+            err.code,
+            err,
+            url,
+            customOptions
+          );
+        }
+        throw new ArcGISRequestError(
+          err.message,
+          err.code,
+          err,
+          url,
+          customOptions
+        );
+      }
+      try {
+        const arrayBuffer = await response.arrayBuffer();
+        /* istanbul ignore else --@preserve */
+        if (queryOptions.params.f === "pbf-as-arcgis") {
+          const arcGISFeaturesResponse = pbfToArcGIS(arrayBuffer);
+          return arcGISFeaturesResponse;
+        }
+        /* istanbul ignore else --@preserve */
+        if (queryOptions.params.f === "pbf-as-geojson") {
+          const decoded = pbfToGeoJSON(arrayBuffer);
+          const geoJsonFeaturesResponse = {
+            features: decoded.featureCollection.features,
+            exceededTransferLimit: decoded.exceededTransferLimit
+          };
+          return geoJsonFeaturesResponse;
+        }
+      } catch (error) {
+        throw new ArcGISRequestError(
+          "Error decoding PBF response",
+          500,
+          error as Error,
+          url,
+          customOptions
+        );
+      }
+    }
+  );
 }
 
 /**
@@ -257,6 +334,12 @@ export function queryFeatures(
     }
   );
 
+  if (
+    queryOptions.params?.f === "pbf-as-geojson" ||
+    queryOptions.params?.f === "pbf-as-arcgis"
+  ) {
+    return queryPbfAsGeoJSONOrArcGIS(requestOptions.url, queryOptions);
+  }
   return request(`${cleanUrl(requestOptions.url)}/query`, queryOptions);
 }
 
@@ -282,8 +365,8 @@ export async function queryAllFeatures(
   let offset = 0;
   let hasMore = true;
   let allFeaturesResponse: IQueryAllFeaturesResponse | null = null;
-
   // retrieve the maxRecordCount for the service
+
   const pageSizeResponse = await request(requestOptions.url, {
     httpMethod: "GET",
     authentication: requestOptions.authentication
@@ -351,10 +434,22 @@ export async function queryAllFeatures(
         }
       }
     );
-    const response: IQueryAllFeaturesResponse = await request(
-      `${cleanUrl(requestOptions.url)}/query`,
-      queryOptions
-    );
+
+    let response: IQueryAllFeaturesResponse;
+    if (
+      queryOptions.params?.f === "pbf-as-geojson" ||
+      queryOptions.params?.f === "pbf-as-arcgis"
+    ) {
+      response = (await queryPbfAsGeoJSONOrArcGIS(
+        requestOptions.url,
+        queryOptions
+      )) as IQueryAllFeaturesResponse;
+    } else {
+      response = await request(
+        `${cleanUrl(requestOptions.url)}/query`,
+        queryOptions
+      );
+    }
 
     // save the first response structure
     if (!allFeaturesResponse) {
@@ -368,18 +463,18 @@ export async function queryAllFeatures(
 
     const returnedCount = response.features.length;
 
-    // check if the response has exceededTransferLimit handles both the standard json and geojson responses
     const exceededTransferLimit =
+      // ArcGIS JSON/pbf-as-{format}: exceededTransferLimit is on the response object
       response.exceededTransferLimit ||
+      // GeoJson: exceededTransferLimit is on properties in the response object
       (response as any).properties?.exceededTransferLimit;
 
     // check if there are more features
-    if (returnedCount < pageSize || !exceededTransferLimit) {
+    if (returnedCount < recordCountToUse || !exceededTransferLimit) {
       hasMore = false;
     } else {
-      offset += pageSize;
+      offset += recordCountToUse;
     }
   }
-
   return allFeaturesResponse;
 }
