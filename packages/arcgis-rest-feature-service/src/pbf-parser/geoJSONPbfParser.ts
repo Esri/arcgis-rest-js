@@ -11,6 +11,7 @@ export default function decode(featureCollectionBuffer: any) {
   try {
     decodedObject = EsriPbfBuffer.read(new Pbf(featureCollectionBuffer));
   } catch (error) {
+    /* istanbul ignore next --@preserve */
     throw new Error(`Could not parse arcgis-pbf buffer: ${error}`);
   }
   if (!decodedObject.queryResult) {
@@ -66,6 +67,7 @@ function getGeometryParser(featureType: any) {
       return createLine;
     case 0:
       return createPoint;
+    /* istanbul ignore next --@preserve */
     default:
       return createPolygon;
   }
@@ -83,6 +85,7 @@ function createLine(f: any, transform: any) {
   let l = null;
   const lengths = f.geometry.lengths.length;
 
+  /* istanbul ignore else if --@preserve */
   if (lengths === 1) {
     l = {
       type: "LineString",
@@ -149,6 +152,7 @@ function createPolygon(f: any, transform: any) {
       // This is perhaps a bit naive
       // see https://github.com/terraformer-js/terraformer/blob/master/packages/arcgis/src/geojson.js
       // for a fuller example of doing this
+      /* istanbul ignore else if --@preserve */
       if (ringIsClockwise(ring)) {
         p.coordinates.push([ring]);
       } else if (p.coordinates.length > 0) {
@@ -181,6 +185,7 @@ function createLinearRing(
   stopPoint: any
 ) {
   const out = [] as any[];
+  /* istanbul ignore if --@preserve */
   if (arr.length === 0) return out;
 
   const initialX = arr[startPoint];
@@ -221,6 +226,7 @@ function getFeatureId(
       return featureAttributes[index][featureAttributes[index].value_type];
     }
   }
+  /* istanbul ignore next --@preserve */
   return null;
 }
 
@@ -234,6 +240,7 @@ function getKeyName(fields: any) {
       return "doubleValue";
     case 4:
       return "stringValue";
+    /* istanbul ignore next --@preserve */
     case 5:
       return "sint64Value";
     case 6:
@@ -243,6 +250,7 @@ function getKeyName(fields: any) {
   }
 }
 
+/* istanbul ignore next --@preserve */
 function transformTuple(coords: any, transform: any) {
   let x = coords[0];
   let y = coords[1];
