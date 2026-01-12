@@ -215,7 +215,7 @@ export function queryPbfAsGeoJSONOrArcGIS(
         }
       } catch (error) {
         throw new ArcGISRequestError(
-          "Error decoding PBF response",
+          "Unable to decode pbf response.",
           500,
           error as Error,
           url,
