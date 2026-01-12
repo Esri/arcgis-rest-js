@@ -51,7 +51,8 @@
   },
   "devDependencies": {
     "@esri/arcgis-rest-portal": "^4.0.2",
-    "@esri/arcgis-rest-request": "^4.0.1"
+    "@esri/arcgis-rest-request": "^4.0.1",
+    "@terraformer/arcgis": "2.1.2"
   },
   "contributors": [
     "Mike Tschudi <mtschudi@esri.com>",
