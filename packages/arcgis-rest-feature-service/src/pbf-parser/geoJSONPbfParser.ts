@@ -48,6 +48,7 @@ export default function decode(featureCollectionBuffer: any) {
   }
 
   // set feature ids after the fact for (o^n performance)
+  // collect attributes must be called first to ensure properties are populated
   out.features.forEach((feature, idx) => {
     feature.id = feature.properties[objectIdField];
   });
@@ -218,21 +219,6 @@ function collectAttributes(fields: any, featureAttributes: any) {
     else out[f.name] = null;
   }
   return out;
-}
-
-function getFeatureId(
-  fields: any,
-  featureAttributes: any,
-  featureIdField: any
-) {
-  for (let index = 0; index < fields.length; index++) {
-    const field = fields[index];
-    if (field.name === featureIdField) {
-      return featureAttributes[index][featureAttributes[index].value_type];
-    }
-  }
-  /* istanbul ignore next --@preserve */
-  return null;
 }
 
 function getKeyName(fields: any) {
