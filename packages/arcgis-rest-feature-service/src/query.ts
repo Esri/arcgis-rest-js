@@ -184,7 +184,7 @@ export function queryPbfAsGeoJSONOrArcGIS(
           throw new ArcGISAuthError(
             err.message,
             err.code,
-            err,
+            response,
             url,
             customOptions
           );
@@ -192,7 +192,7 @@ export function queryPbfAsGeoJSONOrArcGIS(
         throw new ArcGISRequestError(
           err.message,
           err.code,
-          err,
+          response,
           url,
           customOptions
         );
@@ -217,7 +217,7 @@ export function queryPbfAsGeoJSONOrArcGIS(
         throw new ArcGISRequestError(
           "Unable to decode pbf response.",
           500,
-          error as Error,
+          response,
           url,
           customOptions
         );

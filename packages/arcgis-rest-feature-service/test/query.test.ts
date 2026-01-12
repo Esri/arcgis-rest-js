@@ -200,7 +200,7 @@ describe("getFeature() and queryFeatures()", () => {
       expect(response.features[0].id).toBe(49481);
     });
 
-    test("(error) should throw an arcgis request error when pbf-as-geojson decode returns nothing or fails to decode", async () => {
+    test("(error) should throw a 500 ArcGISRequestError when pbf-as-geojson decode returns nothing or fails to decode", async () => {
       const arrayBuffer = await readEnvironmentEmptyArrayBuffer();
 
       fetchMock.once(
@@ -227,13 +227,13 @@ describe("getFeature() and queryFeatures()", () => {
       } catch (error) {
         expect(error).toBeInstanceOf(ArcGISRequestError);
         expect((error as any).message).toContain(
-          "500: Error decoding PBF response"
+          "500: Unable to decode pbf response."
         );
       }
     });
 
     // should handle pbf-as-geojson requests that return unauthenticated states, fetchmock only
-    test("(invalid auth) should throw arcgis auth error for queryFeatures() pbf-as-geojson queries when service returns 200 with json object containing error", async () => {
+    test("(invalid auth) should throw 498 arcgis auth error for queryFeatures() pbf-as-geojson queries when service returns 200 with json object containing error", async () => {
       const featureServiceInvalidTokenErrorResponse = {
         error: {
           code: 498,
@@ -263,7 +263,7 @@ describe("getFeature() and queryFeatures()", () => {
       }
     });
 
-    test("(invalid auth) should throw arcgis auth error when service returns 200 with json object containing token required error", async () => {
+    test("(invalid auth) should throw 499 arcgis auth error when service returns 200 with json object containing token required error", async () => {
       const featureServiceInvalidTokenErrorResponse = {
         error: {
           code: 499,
@@ -320,6 +320,7 @@ describe("getFeature() and queryFeatures()", () => {
       try {
         await queryFeatures(docsPbfOptions);
       } catch (error) {
+        expect((error as any).name).toBe("ArcGISRequestError");
         expect(error).toBeInstanceOf(ArcGISRequestError);
         expect((error as any).code).toBe(500);
       }
@@ -400,7 +401,7 @@ describe("getFeature() and queryFeatures()", () => {
       } catch (error) {
         expect(error).toBeInstanceOf(ArcGISRequestError);
         expect((error as any).message).toContain(
-          "500: Error decoding PBF response"
+          "500: Unable to decode pbf response."
         );
       }
     });
