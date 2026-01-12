@@ -1,5 +1,4 @@
 import { describe, expect, test } from "vitest";
-import { IQueryFeaturesOptions, queryFeatures } from "../../src/query.js";
 import decode from "../../src/pbf-parser/geoJSONPbfParser.js";
 import { readEnvironmentFileToArrayBuffer } from "../utils/readFileArrayBuffer.js";
 

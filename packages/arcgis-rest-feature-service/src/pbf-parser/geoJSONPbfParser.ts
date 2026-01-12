@@ -41,11 +41,16 @@ export default function decode(featureCollectionBuffer: any) {
     const f = featureResult.features[index];
     out.features.push({
       type: "Feature",
-      id: getFeatureId(fields, f.attributes, objectIdField),
+      // deliberately not setting id here (o^n*m performance)
       properties: collectAttributes(fields, f.attributes),
       geometry: f.geometry && geometryParser(f, transform)
     });
   }
+
+  // set feature ids after the fact for (o^n performance)
+  out.features.forEach((feature, idx) => {
+    feature.id = feature.properties[objectIdField];
+  });
 
   return {
     featureCollection: out,

@@ -21,7 +21,6 @@ import {
   IStatisticDefinition
 } from "./helpers.js";
 import { pbfToGeoJSON } from "./utils/pbfToGeoJSON.js";
-import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { pbfToArcGIS } from "./utils/pbfToArcGIS.js";
 
 /**
