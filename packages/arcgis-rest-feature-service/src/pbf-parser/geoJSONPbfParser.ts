@@ -29,9 +29,9 @@ export default function decode(featureCollectionBuffer: any) {
     field.keyName = getKeyName(field);
   }
 
-  const out = {
+  const out: GeoJSON.FeatureCollection = {
     type: "FeatureCollection",
-    features: [] as any[]
+    features: [] as GeoJSON.Feature[]
   };
 
   const geometryParser = getGeometryParser(geometryType);
@@ -43,7 +43,9 @@ export default function decode(featureCollectionBuffer: any) {
       type: "Feature",
       // deliberately not setting id here (o^n*m performance)
       properties: collectAttributes(fields, f.attributes),
-      geometry: f.geometry && geometryParser(f, transform)
+      geometry:
+        (f.geometry && (geometryParser(f, transform) as GeoJSON.Geometry)) ||
+        null
     });
   }
 
@@ -65,7 +67,7 @@ export default function decode(featureCollectionBuffer: any) {
 // * @property {number} esriGeometryTypePolygon=3 esriGeometryTypePolygon value
 // * @property {number} esriGeometryTypeMultipatch=4 esriGeometryTypeMultipatch value
 // * @property {number} esriGeometryTypeNone=127 esriGeometryTypeNone value
-function getGeometryParser(featureType: any) {
+function getGeometryParser(featureType: number) {
   switch (featureType) {
     case 3:
       return createPolygon;
@@ -185,10 +187,10 @@ function ringIsClockwise(ringToTest: any) {
 }
 
 function createLinearRing(
-  arr: any,
+  arr: number[],
   transform: any,
-  startPoint: any,
-  stopPoint: any
+  startPoint: number,
+  stopPoint: number
 ) {
   const out = [] as any[];
   /* istanbul ignore if --@preserve */

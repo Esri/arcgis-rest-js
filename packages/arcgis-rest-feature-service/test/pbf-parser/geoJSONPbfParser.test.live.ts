@@ -17,7 +17,6 @@ describe("LIVE: geoJSONPbfParser should decode each geometry type", () => {
     const arrBuffer = await (response as any).arrayBuffer();
 
     const decoded = decode(arrBuffer);
-    console.log(decoded);
   });
 
   test("LIVE TEST: should decode landmark service POINT pbf to geojson", async () => {
@@ -34,7 +33,6 @@ describe("LIVE: geoJSONPbfParser should decode each geometry type", () => {
     const arrBuffer = await (response as any).arrayBuffer();
 
     const decoded = decode(arrBuffer);
-    console.log(decoded);
   });
 
   test("LIVE TEST: should decode LINE pbf to geojson", async () => {
@@ -51,11 +49,10 @@ describe("LIVE: geoJSONPbfParser should decode each geometry type", () => {
     const arrBuffer = await (response as any).arrayBuffer();
 
     const decoded = decode(arrBuffer);
-    console.log(decoded);
   });
 
   test("LIVE TEST: should decode POLYGON pbf to geojson", async () => {
-    const ParksPolygonsPbfOptions: IQueryFeaturesOptions = {
+    const parksPolygonsPbfOptions: IQueryFeaturesOptions = {
       url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/Parks_and_Open_Space_Styled/FeatureServer/0`,
       f: "pbf",
       where: "1=1",
@@ -64,10 +61,10 @@ describe("LIVE: geoJSONPbfParser should decode each geometry type", () => {
       rawResponse: true
     };
 
-    const response = await queryFeatures(ParksPolygonsPbfOptions);
+    const response = await queryFeatures(parksPolygonsPbfOptions);
+
     const arrBuffer = await (response as any).arrayBuffer();
 
     const decoded = decode(arrBuffer);
-    console.log(decoded);
   });
 });
