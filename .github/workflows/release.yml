@@ -81,6 +81,7 @@ jobs:
           publish: npm run build && npx changeset publish
           # call changeset version and then update the lock file via yarn install
           version: npx changeset version
+          cwd: "${{ github.workspace }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Use OIDC for npm authentication instead of NPM_TOKEN
