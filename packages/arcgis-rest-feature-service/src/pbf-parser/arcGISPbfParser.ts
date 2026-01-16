@@ -148,7 +148,14 @@ function createPoint(f: any, transform: any) {
     type: "Point",
     coordinates: transformTuple(f.geometry.coords, transform)
   };
-  return p.coordinates;
+  const ret = {
+    x: p.coordinates[0],
+    y: p.coordinates[1]
+  };
+  if (p.coordinates.length > 2) {
+    return { ...ret, z: p.coordinates[2] };
+  }
+  return ret;
 }
 
 function createLine(f: any, transform: any) {
@@ -333,11 +340,7 @@ function transformTuple(coords: any, transform: any) {
   if (undefined !== z) {
     ret.push(z);
   }
-  return {
-    x,
-    y,
-    z
-  };
+  return ret;
 }
 
 function difference(a: any, b: any) {

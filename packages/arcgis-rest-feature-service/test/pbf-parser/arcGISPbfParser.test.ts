@@ -1,6 +1,7 @@
 import { test, describe } from "vitest";
 import { IQueryFeaturesOptions, queryFeatures } from "../../src/query.js";
 import decode from "../../src/pbf-parser/arcGISPbfParser.js";
+import { pbfToArcGIS } from "../../src/utils/pbfToArcGIS.js";
 
 describe("arcGISPbfParser should decode each geometry type", () => {
   test("LIVE TEST: should decode POINT pbf to arcgis", async () => {
@@ -55,4 +56,27 @@ describe("arcGISPbfParser should decode each geometry type", () => {
 
     const decoded = decode(arrBuffer);
   });
+
+  // test("LIVE TEST: should compare LINE terraformer decoded arcgis to arcgis object and pbf-as-arcgis", async () => {
+  //   const trailsLinesPbfOptions: IQueryFeaturesOptions = {
+  //     url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0`,
+  //     f: "pbf",
+  //     where: "1=1",
+  //     outFields: ["*"],
+  //     resultRecordCount: 1,
+  //     rawResponse: true
+  //   };
+
+  //   const response = await queryFeatures(trailsLinesPbfOptions);
+
+  //   const arrBuffer = await (response as any).arrayBuffer();
+
+  //   const decoded = pbfToArcGIS(arrBuffer);
+
+  //   const fs = await import("fs");
+  //   fs.writeFileSync(
+  //     "./packages/arcgis-rest-feature-service/test/mocks/terraformerLine.json",
+  //     JSON.stringify(decoded, null, 2)
+  //   );
+  // });
 });

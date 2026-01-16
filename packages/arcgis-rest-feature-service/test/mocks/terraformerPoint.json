@@ -1,0 +1,24 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "x": -8131340.554,
+        "y": 4985356.9969,
+        "spatialReference": {
+          "wkid": 4326
+        }
+      },
+      "attributes": {
+        "OBJECTID": 1,
+        "ZIP_CODE": "00501",
+        "PO_NAME": "Holtsville",
+        "STATE": "NY",
+        "ZIP_TYPE": "Post Office or large volume customer",
+        "POPULATION": null,
+        "POP_SQMI": null,
+        "SQMI": null
+      }
+    }
+  ],
+  "exceededTransferLimit": true
+}
