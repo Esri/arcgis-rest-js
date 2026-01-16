@@ -73,12 +73,9 @@ jobs:
       - name: Install
         run: npm ci
 
-      - name: Build
-        run: npm run build
-
       - name: Create Release Pull Request or Publish to NPM
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@v1.5.1 # workaround until fix for https://github.com/changesets/action/issues/501
         with:
           # build all packages and call changeset publish
           publish: npm run build && npx changeset publish
