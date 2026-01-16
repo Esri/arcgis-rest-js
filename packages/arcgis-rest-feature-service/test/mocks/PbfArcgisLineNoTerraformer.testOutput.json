@@ -1,0 +1,250 @@
+{
+  "objectIdFieldName": "OBJECTID",
+  "uniqueIdField": {
+    "name": "OBJECTID",
+    "isSystemMaintained": true
+  },
+  "globalIdFieldName": "",
+  "geometryProperties": {
+    "shapeAreaFieldName": "",
+    "shapeLengthFieldName": "Shape__Length",
+    "units": "esriMeters"
+  },
+  "geometryType": "esriGeometryPolyline",
+  "spatialReference": {
+    "wkid": 102100,
+    "lastestWkid": 3857,
+    "vcsWkid": 0,
+    "latestVcsWkid": 0,
+    "wkt": ""
+  },
+  "exceededTransferLimit": true,
+  "hasZ": false,
+  "hasM": false,
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "alias": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeInteger"
+    },
+    {
+      "name": "TRL_NAME",
+      "alias": "TRL_NAME",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "TRL_ID",
+      "alias": "TRL_ID",
+      "type": "esriFieldTypeInteger",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeInteger"
+    },
+    {
+      "name": "ELEV_MIN",
+      "alias": "ELEV_MIN",
+      "type": "esriFieldTypeInteger",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeInteger"
+    },
+    {
+      "name": "ELEV_MAX",
+      "alias": "ELEV_MAX",
+      "type": "esriFieldTypeInteger",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeInteger"
+    },
+    {
+      "name": "ELEV_GAIN",
+      "alias": "ELEV_GAIN",
+      "type": "esriFieldTypeInteger",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeInteger"
+    },
+    {
+      "name": "LENGTH_FT",
+      "alias": "LENGTH_FT",
+      "type": "esriFieldTypeInteger",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeInteger"
+    },
+    {
+      "name": "LENGTH_MI",
+      "alias": "LENGTH_MI",
+      "type": "esriFieldTypeSingle",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeReal"
+    },
+    {
+      "name": "USE_HIKE",
+      "alias": "USE_HIKE",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "USE_BIKE",
+      "alias": "USE_BIKE",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "USE_EQU",
+      "alias": "USE_EQU",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "USE_ATV",
+      "alias": "USE_ATV",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "PET_ACC",
+      "alias": "PET_ACC",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "Shape__Length",
+      "alias": "Shape__Length",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "OBJECTID": 1,
+        "TRL_NAME": "92 Trail",
+        "TRL_ID": 10002,
+        "ELEV_MIN": 1138,
+        "ELEV_MAX": 1161,
+        "ELEV_GAIN": 23,
+        "LENGTH_FT": 1010,
+        "LENGTH_MI": 0.1899999976158142,
+        "USE_HIKE": "Yes",
+        "USE_BIKE": "No",
+        "USE_EQU": "Yes",
+        "USE_ATV": "No",
+        "PET_ACC": "No",
+        "Shape__Length": 372.0436447385497
+      },
+      "geometry": {
+        "paths": [
+          {
+            "x": -13201648.146499999,
+            "y": 4041169.1981000006
+          },
+          {
+            "x": -13201642.639899999,
+            "y": 4041173.5380000025
+          },
+          {
+            "x": -13201648.2614,
+            "y": 4041181.9585000053
+          },
+          {
+            "x": -13201656.351,
+            "y": 4041189.5582000017
+          },
+          {
+            "x": -13201664.5799,
+            "y": 4041200.959399998
+          },
+          {
+            "x": -13201674.2699,
+            "y": 4041214.891400002
+          },
+          {
+            "x": -13201684.0332,
+            "y": 4041223.854500003
+          },
+          {
+            "x": -13201689.8181,
+            "y": 4041245.1664000005
+          },
+          {
+            "x": -13201691.2009,
+            "y": 4041261.8139000013
+          },
+          {
+            "x": -13201691.6218,
+            "y": 4041281.501000002
+          },
+          {
+            "x": -13201694.118299998,
+            "y": 4041301.158399999
+          },
+          {
+            "x": -13201696.635400001,
+            "y": 4041317.7864999995
+          },
+          {
+            "x": -13201698.284,
+            "y": 4041336.8618
+          },
+          {
+            "x": -13201697.3972,
+            "y": 4041356.868900001
+          },
+          {
+            "x": -13201696.745299999,
+            "y": 4041375.6675999984
+          },
+          {
+            "x": -13201688.8962,
+            "y": 4041392.4563000053
+          },
+          {
+            "x": -13201682.050299998,
+            "y": 4041410.7506000027
+          },
+          {
+            "x": -13201675.4848,
+            "y": 4041427.2192
+          },
+          {
+            "x": -13201666.9886,
+            "y": 4041446.1435000002
+          },
+          {
+            "x": -13201657.627700001,
+            "y": 4041462.3522000015
+          },
+          {
+            "x": -13201650.4802,
+            "y": 4041480.642099999
+          },
+          {
+            "x": -13201646.4827,
+            "y": 4041511.9221
+          }
+        ]
+      }
+    }
+  ]
+}

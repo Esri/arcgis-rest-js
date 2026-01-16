@@ -8,7 +8,24 @@ export interface IPbfToGeoJSON {
   exceededTransferLimit?: boolean;
 }
 
-export const pbfToGeoJSON = (arrayBuffer: ArrayBuffer): IPbfToGeoJSON => {
+export interface EsriGeoJSONFeatureCollection
+  extends GeoJSON.FeatureCollection {
+  properties?: {
+    exceededTransferLimit?: boolean;
+  };
+}
+
+export const pbfToGeoJSON = (
+  arrayBuffer: ArrayBuffer
+): EsriGeoJSONFeatureCollection => {
   // return decoded pbf as geojson structure
-  return decode(arrayBuffer) as IPbfToGeoJSON;
+  const decoded = decode(arrayBuffer) as IPbfToGeoJSON;
+
+  return {
+    type: decoded.featureCollection.type,
+    properties: {
+      exceededTransferLimit: decoded.exceededTransferLimit
+    },
+    features: decoded.featureCollection.features
+  };
 };

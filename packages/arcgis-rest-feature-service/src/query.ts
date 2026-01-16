@@ -206,10 +206,11 @@ export function queryPbfAsGeoJSONOrArcGIS(
         }
         /* istanbul ignore else --@preserve */
         if (queryOptions.params.f === "pbf-as-geojson") {
-          const decoded = pbfToGeoJSON(arrayBuffer);
+          const featureCollection = pbfToGeoJSON(arrayBuffer);
           const geoJsonFeaturesResponse = {
-            features: decoded.featureCollection.features,
-            exceededTransferLimit: decoded.exceededTransferLimit
+            features: featureCollection.features,
+            exceededTransferLimit:
+              featureCollection.properties?.exceededTransferLimit
           };
           return geoJsonFeaturesResponse;
         }
@@ -463,9 +464,9 @@ export async function queryAllFeatures(
     const returnedCount = response.features.length;
 
     const exceededTransferLimit =
-      // ArcGIS JSON/pbf-as-{format}: exceededTransferLimit is on the response object
+      // ArcGIS JSON | pbf-as-arcgis: exceededTransferLimit is on the response object
       response.exceededTransferLimit ||
-      // GeoJson: exceededTransferLimit is on properties in the response object
+      // GeoJSON | pbf-as-geojson: exceededTransferLimit is on properties in the response object
       (response as any).properties?.exceededTransferLimit;
 
     // check if there are more features

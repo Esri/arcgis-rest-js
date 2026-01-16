@@ -1,0 +1,1266 @@
+{
+  "objectIdFieldName": "FID",
+  "uniqueIdField": {
+    "name": "FID",
+    "isSystemMaintained": true
+  },
+  "globalIdFieldName": "",
+  "geometryProperties": {
+    "shapeAreaFieldName": "Shape__Area",
+    "shapeLengthFieldName": "Shape__Length",
+    "units": "esriMeters"
+  },
+  "geometryType": "esriGeometryPolygon",
+  "spatialReference": {
+    "wkid": 102100,
+    "lastestWkid": 3857,
+    "vcsWkid": 0,
+    "latestVcsWkid": 0,
+    "wkt": ""
+  },
+  "exceededTransferLimit": true,
+  "hasZ": false,
+  "hasM": false,
+  "fields": [
+    {
+      "name": "FID",
+      "alias": "FID",
+      "type": "esriFieldTypeOID",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeInteger"
+    },
+    {
+      "name": "FID_PARKS_",
+      "alias": "FID_PARKS_",
+      "type": "esriFieldTypeInteger",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeInteger"
+    },
+    {
+      "name": "UNIT_ID",
+      "alias": "UNIT_ID",
+      "type": "esriFieldTypeInteger",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeInteger"
+    },
+    {
+      "name": "PARK_NAME",
+      "alias": "PARK_NAME",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "PARK_LBL",
+      "alias": "PARK_LBL",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "ACCESS_TYP",
+      "alias": "ACCESS_TYP",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "RPT_ACRES",
+      "alias": "RPT_ACRES",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "GIS_ACRES",
+      "alias": "GIS_ACRES",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "AGNCY_NAME",
+      "alias": "AGNCY_NAME",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "AGNCY_LEV",
+      "alias": "AGNCY_LEV",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "AGNCY_TYP",
+      "alias": "AGNCY_TYP",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "AGNCY_WEB",
+      "alias": "AGNCY_WEB",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "MNG_AGENCY",
+      "alias": "MNG_AGENCY",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "COGP_TYP",
+      "alias": "COGP_TYP",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "NDS_AN_TYP",
+      "alias": "NDS_AN_TYP",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "NEEDS_ANLZ",
+      "alias": "NEEDS_ANLZ",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "TKIT_SUM",
+      "alias": "TKIT_SUM",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "AMEN_RPT",
+      "alias": "AMEN_RPT",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "PRKINF_CND",
+      "alias": "PRKINF_CND",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "AM_OPNSP",
+      "alias": "AM_OPNSP",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "AM_TRLS",
+      "alias": "AM_TRLS",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "TRLS_MI",
+      "alias": "TRLS_MI",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "TENIS",
+      "alias": "TENIS",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "BSKTB",
+      "alias": "BSKTB",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "BASEB",
+      "alias": "BASEB",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "SOCCR",
+      "alias": "SOCCR",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "MPFLD",
+      "alias": "MPFLD",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "FITZN",
+      "alias": "FITZN",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "SK8PK",
+      "alias": "SK8PK",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "PCNIC",
+      "alias": "PCNIC",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "PLGND",
+      "alias": "PLGND",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "POOLS",
+      "alias": "POOLS",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "SPPAD",
+      "alias": "SPPAD",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "DGPRK",
+      "alias": "DGPRK",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "GYM",
+      "alias": "GYM",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "COMCT",
+      "alias": "COMCT",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "SNRCT",
+      "alias": "SNRCT",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "RSTRM",
+      "alias": "RSTRM",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "TOTAL_GOOD",
+      "alias": "TOTAL_GOOD",
+      "type": "esriFieldTypeInteger",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeInteger"
+    },
+    {
+      "name": "TOTAL_FAIR",
+      "alias": "TOTAL_FAIR",
+      "type": "esriFieldTypeInteger",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeInteger"
+    },
+    {
+      "name": "TOTAL_POOR",
+      "alias": "TOTAL_POOR",
+      "type": "esriFieldTypeInteger",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeInteger"
+    },
+    {
+      "name": "TYPE",
+      "alias": "TYPE",
+      "type": "esriFieldTypeString",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeNVarchar"
+    },
+    {
+      "name": "Shape_STAr",
+      "alias": "Shape_STAr",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "Shape_STLe",
+      "alias": "Shape_STLe",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "Shape__Are",
+      "alias": "Shape__Are",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "Shape__Len",
+      "alias": "Shape__Len",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "Shape__A_1",
+      "alias": "Shape__A_1",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "Shape__L_1",
+      "alias": "Shape__L_1",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "OBJECTID_1",
+      "alias": "OBJECTID_1",
+      "type": "esriFieldTypeInteger",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeInteger"
+    },
+    {
+      "name": "BUFF_DIST",
+      "alias": "BUFF_DIST",
+      "type": "esriFieldTypeInteger",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeInteger"
+    },
+    {
+      "name": "AnalysisAr",
+      "alias": "AnalysisAr",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "FID_BOUNDA",
+      "alias": "FID_BOUNDA",
+      "type": "esriFieldTypeInteger",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeInteger"
+    },
+    {
+      "name": "Shape__A_2",
+      "alias": "Shape__A_2",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "Shape__L_2",
+      "alias": "Shape__L_2",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "Shape__Area",
+      "alias": "Shape__Area",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    },
+    {
+      "name": "Shape__Length",
+      "alias": "Shape__Length",
+      "type": "esriFieldTypeDouble",
+      "domain": null,
+      "defaultValue": null,
+      "sqlType": "sqlTypeFloat"
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "FID": 1,
+        "FID_PARKS_": 2696,
+        "UNIT_ID": 45791,
+        "PARK_NAME": "Crescent Place Triangle",
+        "PARK_LBL": "Crescent Place Triangle",
+        "ACCESS_TYP": "Open Access",
+        "RPT_ACRES": 0.016,
+        "GIS_ACRES": 0.01622558,
+        "AGNCY_NAME": "Los Angeles, City of",
+        "AGNCY_LEV": "City",
+        "AGNCY_TYP": "City Agency",
+        "AGNCY_WEB": "http://lacity.org/",
+        "MNG_AGENCY": "Los Angeles, City of",
+        "COGP_TYP": "Not Analyzed",
+        "NDS_AN_TYP": "Not Analyzed",
+        "NEEDS_ANLZ": "No",
+        "TKIT_SUM": "No",
+        "AMEN_RPT": "No",
+        "PRKINF_CND": "Not Reported",
+        "AM_OPNSP": "Not Reported",
+        "AM_TRLS": "Not Reported",
+        "TRLS_MI": 0,
+        "TENIS": 0,
+        "BSKTB": 0,
+        "BASEB": 0,
+        "SOCCR": 0,
+        "MPFLD": 0,
+        "FITZN": 0,
+        "SK8PK": 0,
+        "PCNIC": 0,
+        "PLGND": 0,
+        "POOLS": 0,
+        "SPPAD": 0,
+        "DGPRK": 0,
+        "GYM": 0,
+        "COMCT": 0,
+        "SNRCT": 0,
+        "RSTRM": 0,
+        "TOTAL_GOOD": 0,
+        "TOTAL_FAIR": 0,
+        "TOTAL_POOR": 0,
+        "TYPE": "Regional Open Space",
+        "Shape_STAr": 706.78613281,
+        "Shape_STLe": 94.25203719,
+        "Shape__Are": 0,
+        "Shape__Len": 0,
+        "Shape__A_1": 95.75390625,
+        "Shape__L_1": 34.6924088,
+        "OBJECTID_1": 0,
+        "BUFF_DIST": 50,
+        "AnalysisAr": 0.00002535,
+        "FID_BOUNDA": 1,
+        "Shape__A_2": 1165081251.07,
+        "Shape__L_2": 196762.787614,
+        "Shape__Area": 95.74609375,
+        "Shape__Length": 34.69242890775863
+      },
+      "geometry": {
+        "rings": [
+          [
+            {
+              "x": -13187024.5001,
+              "y": 4027629.7172000036
+            },
+            {
+              "x": -13187024.694600001,
+              "y": 4027629.7126
+            },
+            {
+              "x": -13187024.8856,
+              "y": 4027629.715400003
+            },
+            {
+              "x": -13187025.0766,
+              "y": 4027629.721900001
+            },
+            {
+              "x": -13187025.2677,
+              "y": 4027629.743200004
+            },
+            {
+              "x": -13187025.4587,
+              "y": 4027629.7644000053
+            },
+            {
+              "x": -13187025.649799999,
+              "y": 4027629.7967000008
+            },
+            {
+              "x": -13187025.8374,
+              "y": 4027629.832800001
+            },
+            {
+              "x": -13187026.024799999,
+              "y": 4027629.876199998
+            },
+            {
+              "x": -13187026.2124,
+              "y": 4027629.923299998
+            },
+            {
+              "x": -13187026.3962,
+              "y": 4027629.9814999998
+            },
+            {
+              "x": -13187026.5764,
+              "y": 4027630.0434000045
+            },
+            {
+              "x": -13187026.7567,
+              "y": 4027630.1125999987
+            },
+            {
+              "x": -13187026.9333,
+              "y": 4027630.1893000007
+            },
+            {
+              "x": -13187027.11,
+              "y": 4027630.269600004
+            },
+            {
+              "x": -13187027.2793,
+              "y": 4027630.3610000014
+            },
+            {
+              "x": -13187027.445,
+              "y": 4027630.4488999993
+            },
+            {
+              "x": -13187027.6144,
+              "y": 4027630.551300004
+            },
+            {
+              "x": -13187027.7764,
+              "y": 4027630.653900005
+            },
+            {
+              "x": -13187027.9274,
+              "y": 4027630.7639000043
+            },
+            {
+              "x": -13187028.0859,
+              "y": 4027630.8813000023
+            },
+            {
+              "x": -13187028.2371,
+              "y": 4027631.0022
+            },
+            {
+              "x": -13187028.3808,
+              "y": 4027631.1306999996
+            },
+            {
+              "x": -13187028.517299999,
+              "y": 4027631.2591999993
+            },
+            {
+              "x": -13187028.6574,
+              "y": 4027631.3988000005
+            },
+            {
+              "x": -13187028.7866,
+              "y": 4027631.5385000035
+            },
+            {
+              "x": -13187028.9159,
+              "y": 4027631.6854000017
+            },
+            {
+              "x": -13187029.0377,
+              "y": 4027631.8324000016
+            },
+            {
+              "x": -13187029.1523,
+              "y": 4027631.9868
+            },
+            {
+              "x": -13187029.2631,
+              "y": 4027632.1450000033
+            },
+            {
+              "x": -13187029.366799999,
+              "y": 4027632.3068000004
+            },
+            {
+              "x": -13187029.466699999,
+              "y": 4027632.4723000005
+            },
+            {
+              "x": -13187029.5593,
+              "y": 4027632.6416999996
+            },
+            {
+              "x": -13187029.6481,
+              "y": 4027632.8145999983
+            },
+            {
+              "x": -13187029.7298,
+              "y": 4027632.9913000017
+            },
+            {
+              "x": -13187029.804,
+              "y": 4027633.1680999994
+            },
+            {
+              "x": -13187029.874499999,
+              "y": 4027633.3486
+            },
+            {
+              "x": -13187029.9379,
+              "y": 4027633.528999999
+            },
+            {
+              "x": -13187029.9938,
+              "y": 4027633.713200003
+            },
+            {
+              "x": -13187030.042399999,
+              "y": 4027633.901200004
+            },
+            {
+              "x": -13187030.087299999,
+              "y": 4027634.0891000032
+            },
+            {
+              "x": -13187030.124899998,
+              "y": 4027634.2808
+            },
+            {
+              "x": -13187030.1551,
+              "y": 4027634.4689000025
+            },
+            {
+              "x": -13187030.178,
+              "y": 4027634.660599999
+            },
+            {
+              "x": -13187030.1973,
+              "y": 4027634.852400005
+            },
+            {
+              "x": -13187030.2056,
+              "y": 4027635.0478000045
+            },
+            {
+              "x": -13187030.210099999,
+              "y": 4027635.2396000028
+            },
+            {
+              "x": -13187030.2073,
+              "y": 4027635.4315000027
+            },
+            {
+              "x": -13187030.2009,
+              "y": 4027635.627000004
+            },
+            {
+              "x": -13187030.179699998,
+              "y": 4027635.8189999983
+            },
+            {
+              "x": -13187030.1548,
+              "y": 4027636.0108999982
+            },
+            {
+              "x": -13187030.1264,
+              "y": 4027636.1992999986
+            },
+            {
+              "x": -13187030.0905,
+              "y": 4027636.3913000003
+            },
+            {
+              "x": -13187030.0473,
+              "y": 4027636.579599999
+            },
+            {
+              "x": -13187029.996599998,
+              "y": 4027636.7643000036
+            },
+            {
+              "x": -13187029.942400001,
+              "y": 4027636.949000001
+            },
+            {
+              "x": -13187029.877099998,
+              "y": 4027637.1338
+            },
+            {
+              "x": -13187029.811900001,
+              "y": 4027637.3149000034
+            },
+            {
+              "x": -13187029.735599998,
+              "y": 4027637.4959999993
+            },
+            {
+              "x": -13187029.6556,
+              "y": 4027637.666100003
+            },
+            {
+              "x": -13187029.5683,
+              "y": 4027637.839900002
+            },
+            {
+              "x": -13187029.473499998,
+              "y": 4027638.006400004
+            },
+            {
+              "x": -13187029.3751,
+              "y": 4027638.1728000045
+            },
+            {
+              "x": -13187029.2694,
+              "y": 4027638.3356000036
+            },
+            {
+              "x": -13187029.16,
+              "y": 4027638.4948000014
+            },
+            {
+              "x": -13187029.046799999,
+              "y": 4027638.6466000006
+            },
+            {
+              "x": -13187028.922699999,
+              "y": 4027638.7983999997
+            },
+            {
+              "x": -13187028.7984,
+              "y": 4027638.942900002
+            },
+            {
+              "x": -13187028.6669,
+              "y": 4027639.0874000043
+            },
+            {
+              "x": -13187028.531599998,
+              "y": 4027639.224600002
+            },
+            {
+              "x": -13187028.3927,
+              "y": 4027639.354199998
+            },
+            {
+              "x": -13187028.246399999,
+              "y": 4027639.4804000035
+            },
+            {
+              "x": -13187028.096299998,
+              "y": 4027639.602800004
+            },
+            {
+              "x": -13187027.942699999,
+              "y": 4027639.7216000035
+            },
+            {
+              "x": -13187027.7852,
+              "y": 4027639.8293000013
+            },
+            {
+              "x": -13187027.6241,
+              "y": 4027639.9371000007
+            },
+            {
+              "x": -13187027.4594,
+              "y": 4027640.0375000015
+            },
+            {
+              "x": -13187027.2909,
+              "y": 4027640.1305000037
+            },
+            {
+              "x": -13187027.1224,
+              "y": 4027640.2161
+            },
+            {
+              "x": -13187026.9464,
+              "y": 4027640.301800005
+            },
+            {
+              "x": -13187026.7705,
+              "y": 4027640.3762999997
+            },
+            {
+              "x": -13187026.5909,
+              "y": 4027640.443599999
+            },
+            {
+              "x": -13187026.407499999,
+              "y": 4027640.507100001
+            },
+            {
+              "x": -13187026.2242,
+              "y": 4027640.5632999986
+            },
+            {
+              "x": -13187026.0408,
+              "y": 4027640.6158000007
+            },
+            {
+              "x": -13187025.8536,
+              "y": 4027640.657200001
+            },
+            {
+              "x": -13187025.6629,
+              "y": 4027640.6950000003
+            },
+            {
+              "x": -13187025.472,
+              "y": 4027640.725400001
+            },
+            {
+              "x": -13187025.2813,
+              "y": 4027640.7484000027
+            },
+            {
+              "x": -13187025.0904,
+              "y": 4027640.7677000016
+            },
+            {
+              "x": -13187024.8995,
+              "y": 4027640.7760000005
+            },
+            {
+              "x": -13187024.7085,
+              "y": 4027640.780600004
+            },
+            {
+              "x": -13187024.513799999,
+              "y": 4027640.777800001
+            },
+            {
+              "x": -13187024.3228,
+              "y": 4027640.7676
+            },
+            {
+              "x": -13187024.1318,
+              "y": 4027640.75
+            },
+            {
+              "x": -13187023.940699998,
+              "y": 4027640.7287999988
+            },
+            {
+              "x": -13187023.7533,
+              "y": 4027640.6964000016
+            },
+            {
+              "x": -13187023.562199999,
+              "y": 4027640.660400003
+            },
+            {
+              "x": -13187023.3784,
+              "y": 4027640.6171000004
+            },
+            {
+              "x": -13187023.187199999,
+              "y": 4027640.5698999986
+            },
+            {
+              "x": -13187023.0033,
+              "y": 4027640.5117999986
+            },
+            {
+              "x": -13187022.822999999,
+              "y": 4027640.4499000013
+            },
+            {
+              "x": -13187022.6428,
+              "y": 4027640.3805000037
+            },
+            {
+              "x": -13187022.462499999,
+              "y": 4027640.3039000034
+            },
+            {
+              "x": -13187022.2932,
+              "y": 4027640.2236
+            },
+            {
+              "x": -13187022.120299999,
+              "y": 4027640.135800004
+            },
+            {
+              "x": -13187021.9509,
+              "y": 4027640.044300005
+            },
+            {
+              "x": -13187021.7852,
+              "y": 4027639.9417999983
+            },
+            {
+              "x": -13187021.626699999,
+              "y": 4027639.843000002
+            },
+            {
+              "x": -13187021.4684,
+              "y": 4027639.7293
+            },
+            {
+              "x": -13187021.3136,
+              "y": 4027639.6120000035
+            },
+            {
+              "x": -13187021.1661,
+              "y": 4027639.4909000024
+            },
+            {
+              "x": -13187021.015,
+              "y": 4027639.3625000045
+            },
+            {
+              "x": -13187020.8785,
+              "y": 4027639.233900003
+            },
+            {
+              "x": -13187020.741999999,
+              "y": 4027639.0944000036
+            },
+            {
+              "x": -13187020.612799998,
+              "y": 4027638.9548000023
+            },
+            {
+              "x": -13187020.4837,
+              "y": 4027638.8077000007
+            },
+            {
+              "x": -13187020.3618,
+              "y": 4027638.6608000025
+            },
+            {
+              "x": -13187020.247299999,
+              "y": 4027638.506400004
+            },
+            {
+              "x": -13187020.1363,
+              "y": 4027638.348200001
+            },
+            {
+              "x": -13187020.0328,
+              "y": 4027638.186300002
+            },
+            {
+              "x": -13187019.9329,
+              "y": 4027638.024500005
+            },
+            {
+              "x": -13187019.8403,
+              "y": 4027637.851599999
+            },
+            {
+              "x": -13187019.7513,
+              "y": 4027637.678500004
+            },
+            {
+              "x": -13187019.669799998,
+              "y": 4027637.505599998
+            },
+            {
+              "x": -13187019.5955,
+              "y": 4027637.3215000033
+            },
+            {
+              "x": -13187019.5249,
+              "y": 4027637.144600004
+            },
+            {
+              "x": -13187019.4617,
+              "y": 4027636.9641000032
+            },
+            {
+              "x": -13187019.4057,
+              "y": 4027636.7798999995
+            },
+            {
+              "x": -13187019.3572,
+              "y": 4027636.5918999985
+            },
+            {
+              "x": -13187019.312199999,
+              "y": 4027636.404100001
+            },
+            {
+              "x": -13187019.2746,
+              "y": 4027636.2161
+            },
+            {
+              "x": -13187019.2443,
+              "y": 4027636.0244000033
+            },
+            {
+              "x": -13187019.2214,
+              "y": 4027635.832699999
+            },
+            {
+              "x": -13187019.2058,
+              "y": 4027635.640900001
+            },
+            {
+              "x": -13187019.194,
+              "y": 4027635.4491000026
+            },
+            {
+              "x": -13187019.1931,
+              "y": 4027635.2534999996
+            },
+            {
+              "x": -13187019.1959,
+              "y": 4027635.0615999997
+            },
+            {
+              "x": -13187019.206,
+              "y": 4027634.8660999984
+            },
+            {
+              "x": -13187019.2199,
+              "y": 4027634.6741999984
+            },
+            {
+              "x": -13187019.2447,
+              "y": 4027634.482200004
+            },
+            {
+              "x": -13187019.2732,
+              "y": 4027634.2902000025
+            },
+            {
+              "x": -13187019.309099998,
+              "y": 4027634.1055999994
+            },
+            {
+              "x": -13187019.3523,
+              "y": 4027633.913600005
+            },
+            {
+              "x": -13187019.4028,
+              "y": 4027633.7289000005
+            },
+            {
+              "x": -13187019.4607,
+              "y": 4027633.5441000015
+            },
+            {
+              "x": -13187019.5223,
+              "y": 4027633.359400004
+            },
+            {
+              "x": -13187019.5912,
+              "y": 4027633.178199999
+            },
+            {
+              "x": -13187019.6639,
+              "y": 4027633.0007999986
+            },
+            {
+              "x": -13187019.7476,
+              "y": 4027632.8271000013
+            },
+            {
+              "x": -13187019.8349,
+              "y": 4027632.6532000005
+            },
+            {
+              "x": -13187019.9259,
+              "y": 4027632.490500003
+            },
+            {
+              "x": -13187020.0207,
+              "y": 4027632.3203999996
+            },
+            {
+              "x": -13187020.1265,
+              "y": 4027632.1576000005
+            },
+            {
+              "x": -13187020.239599999,
+              "y": 4027631.998300001
+            },
+            {
+              "x": -13187020.3563,
+              "y": 4027631.839200005
+            },
+            {
+              "x": -13187020.4769,
+              "y": 4027631.6948000044
+            },
+            {
+              "x": -13187020.601,
+              "y": 4027631.546599999
+            },
+            {
+              "x": -13187020.7326,
+              "y": 4027631.4058
+            },
+            {
+              "x": -13187020.867800001,
+              "y": 4027631.2687000036
+            },
+            {
+              "x": -13187021.010499999,
+              "y": 4027631.142499998
+            },
+            {
+              "x": -13187021.1532,
+              "y": 4027631.0129000023
+            },
+            {
+              "x": -13187021.303100001,
+              "y": 4027630.8904
+            },
+            {
+              "x": -13187021.4569,
+              "y": 4027630.771499999
+            },
+            {
+              "x": -13187021.6142,
+              "y": 4027630.663800001
+            },
+            {
+              "x": -13187021.7753,
+              "y": 4027630.556200005
+            },
+            {
+              "x": -13187021.9364,
+              "y": 4027630.4558000043
+            },
+            {
+              "x": -13187022.1087,
+              "y": 4027630.362800002
+            },
+            {
+              "x": -13187022.2809,
+              "y": 4027630.2771999985
+            },
+            {
+              "x": -13187022.4531,
+              "y": 4027630.1952000037
+            },
+            {
+              "x": -13187022.629,
+              "y": 4027630.1169000044
+            },
+            {
+              "x": -13187022.808699999,
+              "y": 4027630.049600005
+            },
+            {
+              "x": -13187022.991999999,
+              "y": 4027629.986100003
+            },
+            {
+              "x": -13187023.1754,
+              "y": 4027629.929899998
+            },
+            {
+              "x": -13187023.362399999,
+              "y": 4027629.8773000017
+            },
+            {
+              "x": -13187023.5495,
+              "y": 4027629.835900001
+            },
+            {
+              "x": -13187023.7366,
+              "y": 4027629.798200004
+            },
+            {
+              "x": -13187023.9274,
+              "y": 4027629.7677000016
+            },
+            {
+              "x": -13187024.118299998,
+              "y": 4027629.7446999997
+            },
+            {
+              "x": -13187024.309099998,
+              "y": 4027629.725400001
+            },
+            {
+              "x": -13187024.5001,
+              "y": 4027629.7172000036
+            }
+          ]
+        ]
+      }
+    }
+  ]
+}
