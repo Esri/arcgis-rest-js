@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-routing",
-  "version": "4.0.3",
+  "version": "4.8.0",
   "description": "Routing helpers for @esri/arcgis-rest-js",
   "license": "Apache-2.0",
   "keywords": [
@@ -51,7 +51,7 @@
     "@esri/arcgis-rest-request": "^4.0.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-request": "^4.0.1"
+    "@esri/arcgis-rest-request": "^4.8.0"
   },
   "contributors": [
     "Gavin Rehkemper <gavin@gavinr.com>"
