@@ -29,45 +29,41 @@ export default function decode(featureCollectionBuffer: any) {
     decodedObject.queryResult.featureResult.geometryType;
 
   // 1. We want to decode and assign all the top level properties of IFeatureSet from featureResult
-  console.log("featureResult:", decodedObject.queryResult.featureResult);
   const out: IFeatureSet = {
-    ...featureResult
+    ...featureResult,
+    // decode geometry type
+    geometryType: getGeometryType(geometryType)
   };
 
-  // set all the top level properties of IFeatureSet
-  out.geometryType = getGeometryType(geometryType);
-
   // 2. We want to convert all the fields to match IFields
-
-  // a. create a map of sqlType values to their string names using the EsriPbfBuffer.SQLType enum.
-  const sqlTypeMap: Record<number, string> = {};
-  for (const [key, obj] of Object.entries(EsriPbfBuffer.SQLType)) {
-    sqlTypeMap[(obj as any).value] = key;
-  }
-  // b. create a map of fieldType values to their string names using the EsriPbfBuffer.FieldType enum (which map to a property "type" instead of "fieldType").
+  // a. create a map of fieldType values to their string names using the EsriPbfBuffer.FieldType enum (which map to a property "type" instead of "fieldType").
   const fieldTypeMap: Record<number, string> = {};
   for (const [key, obj] of Object.entries(EsriPbfBuffer.FieldType)) {
     fieldTypeMap[(obj as any).value] = key;
   }
-
+  // b. create a map of sqlType values to their string names using the EsriPbfBuffer.SQLType enum.
+  const sqlTypeMap: Record<number, string> = {};
+  for (const [key, obj] of Object.entries(EsriPbfBuffer.SQLType)) {
+    sqlTypeMap[(obj as any).value] = key;
+  }
   // c. decode a field object, mapping sqlType and fieldType, and normalizing domain/defaultValue
   const decodedFields = featureResult.fields.map((field: any) =>
-    decodeField(field, sqlTypeMap, fieldTypeMap)
+    decodeField(field, fieldTypeMap, sqlTypeMap)
   );
   out.fields = decodedFields;
 
   // 3. We want to convert all the features to match IFeature
-
-  // Wires up the field keynames
+  // Put field keynames on each field objest so we can access the correct attribute value later
+  //console.log("fields before keyName assignment:", decodedObject.queryResult.featureResult.fields);
   const fields = decodedObject.queryResult.featureResult.fields;
   for (let index = 0; index < fields.length; index++) {
     const field = fields[index];
     field.keyName = getKeyName(field);
   }
-
+  // get geometry parser so we can decode geometries
   const geometryParser = getGeometryParser(geometryType);
-  out.features = [] as any[];
 
+  // build features with decoded attributes and geometry
   const featureLen = featureResult.features.length;
   const features = [] as any[];
   for (let index = 0; index < featureLen; index++) {
@@ -77,23 +73,83 @@ export default function decode(featureCollectionBuffer: any) {
       geometry: ((f.geometry && geometryParser(f, transform)) as any) || null
     });
   }
+  // assign features to output
   out.features = features;
 
-  // 4. We want to configure geomety so that it matches IFeature geometry types and populates with the correct field names
-
-  // "esriGeometryPoint" need to resolve to a xyz point
-  // "esriGeometryPolyline" need to resolve to a paths array
-  // "esriGeometryPolygon" need to resolve to a rings array
-
-  // 5. Finally, we want to purge all properties that are not part of IFeatureSet from the output object (optionally retain some if needed)
-
-  const testOut: IFeatureSet = pickIFeatureSetProps(out);
+  // 4. Finally, we want to purge all properties that are not part of IFeatureSet from the output object (optionally retain some if needed)
+  const testOut = purgeIFeatureSetProps(out);
   // return out;
   return testOut;
 }
 
-function pickIFeatureSetProps(featureResult: any): IFeatureSet {
-  // List of keys you do NOT want to include
+// Fields: since the generated PbfFeatureCollection doesnt decode these in the same way I can either edit that or add functionality here to replace what it likely should be doing to decode field types
+function decodeField(
+  field: any,
+  fieldTypeMap: Record<number, string>,
+  sqlTypeMap?: Record<number, string>
+): IField {
+  const optionalProps: Array<[string, (f: any) => any]> = [
+    ["alias", (f) => f.alias],
+    // TODO: ? is domain a value that needs to be decoded similar to type?
+    ["domain", (f) => (f.domain === "" ? null : f.domain)],
+    ["editable", (f) => f.editable],
+    ["exactMatch", (f) => f.exactMatch],
+    ["length", (f) => f.length],
+    ["nullable", (f) => f.nullable],
+    ["defaultValue", (f) => (f.defaultValue === "" ? null : f.defaultValue)],
+    /**
+     * This property doesnt exist on interface but was returned on the ArcGIS json response
+     * and by PbfFeatureCollection definition with a value.
+     */
+    ["sqlType", (f) => (sqlTypeMap ? sqlTypeMap[f.sqlType] : undefined)]
+  ];
+
+  const out: any = {
+    name: field.name,
+    type: fieldTypeMap[field.fieldType]
+  };
+
+  for (const [key, getter] of optionalProps) {
+    if (field[key] !== undefined) {
+      out[key] = getter(field);
+    }
+  }
+  return out;
+}
+
+function getKeyName(fields: any) {
+  switch (fields.fieldType) {
+    case 1:
+      return "sintValue";
+    case 2:
+      return "floatValue";
+    case 3:
+      return "doubleValue";
+    case 4:
+      return "stringValue";
+    /* istanbul ignore next --@preserve */
+    case 5:
+      return "sint64Value";
+    case 6:
+      return "uintValue";
+    default:
+      return null;
+  }
+}
+
+function collectAttributes(fields: any, featureAttributes: any) {
+  const out = {} as { [key: string]: any };
+  for (let i = 0; i < fields.length; i++) {
+    const f = fields[i];
+    if (featureAttributes[i][featureAttributes[i].value_type] !== undefined)
+      out[f.name] = featureAttributes[i][featureAttributes[i].value_type];
+    else out[f.name] = null;
+  }
+  return out;
+}
+
+function purgeIFeatureSetProps(featureResult: any): IFeatureSet {
+  // List of keys on arcgis json and pbf response that are not part of IFeatureSet
   const excludeKeys: string[] = [
     "serverGens",
     "geohashFieldName",
@@ -139,7 +195,7 @@ function getGeometryType(featureType: number): GeometryType {
     case 3:
       return "esriGeometryPolygon";
     default:
-      throw new Error("Not Implemented.");
+      throw new Error("Geometry type not supported.");
   }
 }
 
@@ -152,6 +208,7 @@ function createPoint(f: any, transform: any) {
     x: p.coordinates[0],
     y: p.coordinates[1]
   };
+  // structure output according to arcgis point geometry spec
   if (p.coordinates.length > 2) {
     return { ...ret, z: p.coordinates[2] };
   }
@@ -191,6 +248,7 @@ function createLine(f: any, transform: any) {
       startPoint = stopPoint;
     }
   }
+  // structure output according to arcgis line geometry spec
   return {
     paths: l.coordinates
   };
@@ -240,6 +298,7 @@ function createPolygon(f: any, transform: any) {
       startPoint = stopPoint;
     }
   }
+  // structure output according to arcgis polygon geometry spec
   return {
     rings: p.coordinates
   };
@@ -285,37 +344,6 @@ function createLinearRing(
   return out;
 }
 
-function collectAttributes(fields: any, featureAttributes: any) {
-  const out = {} as { [key: string]: any };
-  for (let i = 0; i < fields.length; i++) {
-    const f = fields[i];
-    if (featureAttributes[i][featureAttributes[i].value_type] !== undefined)
-      out[f.name] = featureAttributes[i][featureAttributes[i].value_type];
-    else out[f.name] = null;
-  }
-  return out;
-}
-
-function getKeyName(fields: any) {
-  switch (fields.fieldType) {
-    case 1:
-      return "sintValue";
-    case 2:
-      return "floatValue";
-    case 3:
-      return "doubleValue";
-    case 4:
-      return "stringValue";
-    /* istanbul ignore next --@preserve */
-    case 5:
-      return "sint64Value";
-    case 6:
-      return "uintValue";
-    default:
-      return null;
-  }
-}
-
 /* istanbul ignore next --@preserve */
 function transformTuple(coords: any, transform: any) {
   let x = coords[0];
@@ -345,23 +373,4 @@ function transformTuple(coords: any, transform: any) {
 
 function difference(a: any, b: any) {
   return a + b;
-}
-
-// Fields: since the generated PbfFeatureCollection doesnt decode these in the same way I can either edit that or add functionality here to replace what it likely should be doing to decode field types
-function decodeField(
-  field: any,
-  sqlTypeMap: Record<number, string>,
-  fieldTypeMap: Record<number, string>
-): any {
-  return {
-    // IField properties
-    name: field.name,
-    alias: field.alias,
-    type: fieldTypeMap[field.fieldType],
-    // is domain an enum that needs to be decoded as above?
-    domain: field.domain === "" ? null : field.domain,
-    defaultValue: field.defaultValue === "" ? null : field.defaultValue,
-    // Additional optional? properties (found on ArcGIS json response and returned with pbf by PbfFeatureCollection definition with a value)
-    sqlType: sqlTypeMap[field.sqlType]
-  };
 }

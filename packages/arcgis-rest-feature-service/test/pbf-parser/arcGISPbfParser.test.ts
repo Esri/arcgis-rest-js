@@ -55,6 +55,8 @@ describe("arcGISPbfParser should decode each geometry type", () => {
     const arrBuffer = await (response as any).arrayBuffer();
 
     const decoded = decode(arrBuffer);
+
+    console.log(JSON.stringify(decoded.fields, null, 2));
   });
 
   // test("LIVE TEST: should compare LINE terraformer decoded arcgis to arcgis object and pbf-as-arcgis", async () => {
