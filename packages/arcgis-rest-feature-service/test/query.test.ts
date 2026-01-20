@@ -656,7 +656,7 @@ describe("queryAllFeatures", () => {
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
 
       const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf"
       );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -695,7 +695,7 @@ describe("queryAllFeatures", () => {
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
 
       const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf"
       );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -734,10 +734,10 @@ describe("queryAllFeatures", () => {
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
 
       const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage1.pbf"
       );
       const arrayBufferSet2 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf"
       );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -785,12 +785,12 @@ describe("queryAllFeatures", () => {
       const thisServiceUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
       const rawPbfPaths = [
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet2.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet3.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet4.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet5.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage1.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage2.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage3.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage4.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage5.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf"
       ];
       const pbfPages: (ArrayBuffer | Buffer)[] = [];
 
@@ -838,7 +838,7 @@ describe("queryAllFeatures", () => {
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
 
       const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf"
       );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -878,7 +878,7 @@ describe("queryAllFeatures", () => {
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
 
       const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf"
       );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -916,12 +916,12 @@ describe("queryAllFeatures", () => {
       const thisServiceUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
       const pbfPaths = [
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet1.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet2.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet3.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet4.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet5.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/PbfResultsSet6Partial.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage1.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage2.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage3.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage4.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage5.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf"
       ];
       // use arrayBuffer for browser, buffer in node environment
       const pbfPages: (ArrayBuffer | Buffer)[] = [];

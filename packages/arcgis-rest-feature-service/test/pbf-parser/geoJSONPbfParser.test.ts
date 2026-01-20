@@ -5,7 +5,7 @@ import { readEnvironmentFileToArrayBuffer } from "../utils/readFileArrayBuffer.j
 describe("geoJSONPbfParser should decode each geometry type", () => {
   test("should decode POINT pbf to geojson", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/PBFPointResponse.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPointResponse.pbf"
     );
 
     const decoded = decode(arrayBuffer);
@@ -17,7 +17,7 @@ describe("geoJSONPbfParser should decode each geometry type", () => {
 
   test("should decode POLYLINE pbf to geojson", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/PBFLineResponse.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFLineResponse.pbf"
     );
 
     const decoded = decode(arrayBuffer);
@@ -29,7 +29,7 @@ describe("geoJSONPbfParser should decode each geometry type", () => {
 
   test("should decode POLYGON pbf to geojson", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/PBFPolygonResponse.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonResponse.pbf"
     );
 
     const decoded = decode(arrayBuffer);
