@@ -1,10 +1,10 @@
 import { describe, test, expect } from "vitest";
-import { pbfToGeoJSON } from "../../src/utils/pbfToGeoJSON.js";
 import {
   IQueryFeaturesOptions,
   IQueryFeaturesResponse,
   queryFeatures
 } from "../../src/query.js";
+import pbfToGeoJSON from "../../src/pbf-parser/geoJSONPbfParser.js";
 
 describe("pbfToGeoJSON", () => {
   test("should compare pbfToGeoJSON object with geojson request object", async () => {

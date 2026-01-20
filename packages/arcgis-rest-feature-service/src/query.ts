@@ -20,8 +20,8 @@ import {
   ISharedQueryOptions,
   IStatisticDefinition
 } from "./helpers.js";
-import { pbfToGeoJSON } from "./utils/pbfToGeoJSON.js";
 import { pbfToArcGIS } from "./utils/pbfToArcGIS.js";
+import pbfToGeoJSON from "./pbf-parser/geoJSONPbfParser.js";
 
 /**
  * Request options to fetch a feature by id.

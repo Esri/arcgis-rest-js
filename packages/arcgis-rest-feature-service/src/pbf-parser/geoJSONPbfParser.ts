@@ -6,7 +6,29 @@
 import { FeatureCollectionPBuffer as EsriPbfBuffer } from "./PbfFeatureCollection.js";
 import Pbf from "pbf";
 
-export default function decode(featureCollectionBuffer: any) {
+export interface EsriGeoJSONFeatureCollection
+  extends GeoJSON.FeatureCollection {
+  properties?: {
+    exceededTransferLimit?: boolean;
+  };
+}
+
+export default function pbfToGeoJSON(
+  arrayBuffer: ArrayBuffer
+): EsriGeoJSONFeatureCollection {
+  // return decoded pbf as geojson structure
+  const decoded = decode(arrayBuffer);
+
+  return {
+    type: decoded.featureCollection.type,
+    properties: {
+      exceededTransferLimit: decoded.exceededTransferLimit
+    },
+    features: decoded.featureCollection.features
+  };
+}
+
+export function decode(featureCollectionBuffer: any) {
   let decodedObject;
   try {
     decodedObject = EsriPbfBuffer.read(new Pbf(featureCollectionBuffer));
