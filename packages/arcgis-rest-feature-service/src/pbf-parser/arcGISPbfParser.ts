@@ -4,30 +4,10 @@
  */
 
 import { GeometryType, IFeatureSet, IField } from "@esri/arcgis-rest-request";
-import { geojsonToArcGIS } from "@terraformer/arcgis";
 import { FeatureCollectionPBuffer as EsriPbfBuffer } from "./PbfFeatureCollection.js";
 import Pbf from "pbf";
-import pbfToGeoJSON from "./geoJSONPbfParser.js";
 
-export interface IPbfToArcGIS {
-  features: any;
-  exceededTransferLimit?: boolean;
-}
-
-// uses terraformer to convert pbf-as-geojson to arcgis json (returns only features and loses other information, use decode to get full IFeatureSet)
-export default function pbfToArcGIS(arrayBuffer: ArrayBuffer): IPbfToArcGIS {
-  // convert pbf array buffer to geojson structure
-  const featureCollection = pbfToGeoJSON(arrayBuffer);
-  // send geojson structure to terraformer for conversion to arcgis json
-  const arcgis = geojsonToArcGIS(featureCollection);
-  return {
-    features: arcgis,
-    exceededTransferLimit: featureCollection.properties?.exceededTransferLimit
-  };
-}
-
-// wip full decoder to convert pbf to IFeatureSet
-export function decode(featureCollectionBuffer: any): IFeatureSet {
+export function pbfToArcGIS(featureCollectionBuffer: ArrayBuffer): IFeatureSet {
   let decodedObject;
   try {
     decodedObject = EsriPbfBuffer.read(new Pbf(featureCollectionBuffer));
