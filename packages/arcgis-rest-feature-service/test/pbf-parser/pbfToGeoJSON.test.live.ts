@@ -45,9 +45,8 @@ describe("pbfToGeoJSON", () => {
     const livePbfResponse = await fetch(pbfUrl);
     const pbfArrayBuffer = await livePbfResponse.arrayBuffer();
 
-    const featureCollection = pbfToGeoJSON(pbfArrayBuffer);
+    const pbfGeoJson = pbfToGeoJSON(pbfArrayBuffer);
     const geojson = await liveGeoJsonResponse.json();
-    const pbfGeoJson = featureCollection;
 
     expect(geojson).toHaveProperty("crs");
     expect(pbfGeoJson).not.toHaveProperty("crs");

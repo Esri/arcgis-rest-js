@@ -1,10 +1,10 @@
 import { describe, test, expect } from "vitest";
-import { pbfToArcGIS } from "../../src/utils/pbfToArcGIS.js";
 import {
   IQueryFeaturesOptions,
   IQueryFeaturesResponse,
   queryFeatures
 } from "../../src/query.js";
+import pbfToArcGIS from "../../src/pbf-parser/arcGISPbfParser.js";
 
 describe("pbfToArcGIS", () => {
   test("should compare pbfToArcGIS json object with json request object", async () => {

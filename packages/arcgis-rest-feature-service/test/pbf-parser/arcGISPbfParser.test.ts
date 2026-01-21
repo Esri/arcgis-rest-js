@@ -1,7 +1,6 @@
 import { test, describe } from "vitest";
 import { IQueryFeaturesOptions, queryFeatures } from "../../src/query.js";
 import decode from "../../src/pbf-parser/arcGISPbfParser.js";
-import { pbfToArcGIS } from "../../src/utils/pbfToArcGIS.js";
 
 describe("arcGISPbfParser should decode each geometry type", () => {
   test("LIVE TEST: should decode POINT pbf to arcgis", async () => {
