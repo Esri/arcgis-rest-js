@@ -1,83 +1,108 @@
-import { test, describe } from "vitest";
-import { IQueryFeaturesOptions, queryFeatures } from "../../src/query.js";
-import decode from "../../src/pbf-parser/arcGISPbfParser.js";
+import { test, describe, expect } from "vitest";
+import pbfToArcGIS from "../../src/pbf-parser/arcGISPbfParser.js";
+import { readEnvironmentFileToArrayBuffer } from "../utils/readFileArrayBuffer.js";
 
-describe("arcGISPbfParser should decode each geometry type", () => {
-  test("LIVE TEST: should decode POINT pbf to arcgis", async () => {
-    const zipCodePointsPbfOptions: IQueryFeaturesOptions = {
-      url: `https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_ZIP_Code_Points_analysis/FeatureServer/0`,
-      f: "pbf",
-      where: "1=1",
-      outFields: ["*"],
-      resultRecordCount: 1,
-      rawResponse: true
-    };
+describe("arcGISPbfParser unit tests ", () => {
+  test("should convert a pbf single feature POLYGON to arcgis query features object", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonResponse.pbf";
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const features = pbfToArcGIS(arrayBuffer);
 
-    const response = await queryFeatures(zipCodePointsPbfOptions);
+    //console.log(features);
 
-    const arrBuffer = await (response as any).arrayBuffer();
+    // optional properties
+    expect(features.objectIdFieldName).toBe("FID");
+    expect(features.globalIdFieldName).toBe("");
+    expect(features.displayFieldName).toBe(undefined);
+    expect(features.geometryType).toBe("esriGeometryPolygon");
+    expect(features.spatialReference.wkid).toBe(102100);
+    expect(features.spatialReference.latestWkid).toBe(3857);
+    expect(features.fields?.length).toBe(56);
+    expect(features.fieldAliases).toBe(undefined);
+    expect(features.hasZ).toBe(false);
+    expect(features.hasM).toBe(false);
+    expect(features.exceededTransferLimit).toBe(true);
 
-    const decoded = decode(arrBuffer);
+    // required properties
+    expect(features.features.length).toBe(1);
 
-    console.log(decoded);
+    // extra fields not on IFeatureSet
   });
 
-  test("LIVE TEST: should decode LINE pbf to arcgis", async () => {
-    const trailsLinesPbfOptions: IQueryFeaturesOptions = {
-      url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0`,
-      f: "pbf",
-      where: "1=1",
-      outFields: ["*"],
-      resultRecordCount: 1,
-      rawResponse: true
-    };
+  test("should convert a pbf single feature POINT to arcgis query features object", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPointResponse.pbf";
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const features = pbfToArcGIS(arrayBuffer);
 
-    const response = await queryFeatures(trailsLinesPbfOptions);
+    //console.log(features);
 
-    const arrBuffer = await (response as any).arrayBuffer();
+    // optional properties
+    expect(features.objectIdFieldName).toBe("OBJECTID");
+    expect(features.globalIdFieldName).toBe("");
+    expect(features.displayFieldName).toBe(undefined);
+    expect(features.geometryType).toBe("esriGeometryPoint");
+    expect(features.spatialReference.wkid).toBe(102100);
+    expect(features.spatialReference.latestWkid).toBe(3857);
+    expect(features.fields?.length).toBe(8);
+    expect(features.fieldAliases).toBe(undefined);
+    expect(features.hasZ).toBe(false);
+    expect(features.hasM).toBe(false);
+    expect(features.exceededTransferLimit).toBe(true);
 
-    const decoded = decode(arrBuffer);
+    // required properties
+    expect(features.features.length).toBe(1);
   });
 
-  test("LIVE TEST: should decode POLYGON pbf to arcgis", async () => {
-    const parksPolygonsPbfOptions: IQueryFeaturesOptions = {
-      url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/Parks_and_Open_Space_Styled/FeatureServer/0`,
-      f: "pbf",
-      where: "1=1",
-      outFields: ["*"],
-      resultRecordCount: 1,
-      rawResponse: true
-    };
+  test("should convert a pbf single feature LINE to arcgis query features object", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFLineResponse.pbf";
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const features = pbfToArcGIS(arrayBuffer);
 
-    const response = await queryFeatures(parksPolygonsPbfOptions);
+    // optional properties
+    expect(features.objectIdFieldName).toBe("OBJECTID");
+    expect(features.globalIdFieldName).toBe("");
+    expect(features.displayFieldName).toBe(undefined);
+    expect(features.geometryType).toBe("esriGeometryPolyline");
+    expect(features.spatialReference.wkid).toBe(102100);
+    expect(features.spatialReference.latestWkid).toBe(3857);
+    expect(features.fields?.length).toBe(14);
+    expect(features.fieldAliases).toBe(undefined);
+    expect(features.hasZ).toBe(false);
+    expect(features.hasM).toBe(false);
+    expect(features.exceededTransferLimit).toBe(true);
 
-    const arrBuffer = await (response as any).arrayBuffer();
-
-    const decoded = decode(arrBuffer);
-
-    console.log(JSON.stringify(decoded.fields, null, 2));
+    // required properties
+    expect(features.features.length).toBe(1);
   });
 
-  // test("LIVE TEST: should compare LINE terraformer decoded arcgis to arcgis object and pbf-as-arcgis", async () => {
-  //   const trailsLinesPbfOptions: IQueryFeaturesOptions = {
-  //     url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0`,
-  //     f: "pbf",
-  //     where: "1=1",
-  //     outFields: ["*"],
-  //     resultRecordCount: 1,
-  //     rawResponse: true
-  //   };
+  test("should convert a pbf POLYGON PAGE to arcgis query features object", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf";
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const features = pbfToArcGIS(arrayBuffer);
 
-  //   const response = await queryFeatures(trailsLinesPbfOptions);
+    console.log(features);
 
-  //   const arrBuffer = await (response as any).arrayBuffer();
+    // optional properties
+    expect(features.objectIdFieldName).toBe("FID");
+    expect(features.globalIdFieldName).toBe("GlobalID");
+    expect(features.displayFieldName).toBe(undefined);
+    expect(features.geometryType).toBe("esriGeometryPolygon");
+    expect(features.spatialReference.wkid).toBe(102100);
+    expect(features.spatialReference.latestWkid).toBe(3857);
+    expect(features.fields?.length).toBe(8);
+    expect(features.fieldAliases).toBe(undefined);
+    expect(features.hasZ).toBe(false);
+    expect(features.hasM).toBe(false);
+    expect(features.exceededTransferLimit).toBe(false);
 
-  //   const decoded = pbfToArcGIS(arrBuffer);
+    // required properties
+    expect(features.features.length).toBe(131);
 
-  //   const fs = await import("fs");
-  //   fs.writeFileSync(
-  //     "./packages/arcgis-rest-feature-service/test/mocks/terraformerLine.json",
-  //     JSON.stringify(decoded, null, 2)
-  //   );
-  // });
+    // TODO: need to check fields for conversion integrity both against the fields decoder
+    // and against the ArcGIS Json repsonse
+  });
 });

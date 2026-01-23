@@ -1,0 +1,224 @@
+{
+  "version": "",
+  "queryResult": {
+    "featureResult": {
+      "objectIdFieldName": "OBJECTID",
+      "uniqueIdField": {
+        "name": "OBJECTID",
+        "isSystemMaintained": true
+      },
+      "globalIdFieldName": "",
+      "geohashFieldName": "",
+      "geometryProperties": null,
+      "serverGens": null,
+      "geometryType": 0,
+      "spatialReference": {
+        "wkid": 102100,
+        "lastestWkid": 3857,
+        "vcsWkid": 0,
+        "latestVcsWkid": 0,
+        "wkt": ""
+      },
+      "exceededTransferLimit": true,
+      "hasZ": false,
+      "hasM": false,
+      "transform": {
+        "quantizeOriginPostion": 0,
+        "scale": {
+          "xScale": 0,
+          "yScale": 0,
+          "mScale": 0,
+          "zScale": 0
+        },
+        "translate": {
+          "xTranslate": 0,
+          "yTranslate": 0,
+          "mTranslate": 0,
+          "zTranslate": 0
+        }
+      },
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "fieldType": 6,
+          "alias": "OBJECTID",
+          "sqlType": 16,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "ZIP_CODE",
+          "fieldType": 4,
+          "alias": "ZIP Code",
+          "sqlType": 16,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "PO_NAME",
+          "fieldType": 4,
+          "alias": "Post Office Name",
+          "sqlType": 16,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "STATE",
+          "fieldType": 4,
+          "alias": "State Abbreviation",
+          "sqlType": 16,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "ZIP_TYPE",
+          "fieldType": 4,
+          "alias": "ZIP Code Type",
+          "sqlType": 16,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "POPULATION",
+          "fieldType": 1,
+          "alias": "2023 Total Population",
+          "sqlType": 16,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "POP_SQMI",
+          "fieldType": 3,
+          "alias": "People per square mile",
+          "sqlType": 16,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "SQMI",
+          "fieldType": 3,
+          "alias": "Area in square miles",
+          "sqlType": 16,
+          "domain": "",
+          "defaultValue": ""
+        }
+      ],
+      "values": [],
+      "features": [
+        {
+          "attributes": [
+            {
+              "string_value": "",
+              "value_type": "uint_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 1,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "00501",
+              "value_type": "string_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "Holtsville",
+              "value_type": "string_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "NY",
+              "value_type": "string_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "Post Office or large volume customer",
+              "value_type": "string_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "",
+              "value_type": null,
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "",
+              "value_type": null,
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "",
+              "value_type": null,
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            }
+          ],
+          "geometry": {
+            "lengths": [],
+            "coords": [
+              119063594460,
+              -352264569969
+            ]
+          },
+          "compressed_geometry": "geometry",
+          "shapeBuffer": null,
+          "centroid": null
+        }
+      ]
+    },
+    "Results": "featureResult",
+    "countResult": null,
+    "idsResult": null
+  }
+}

@@ -1,13 +1,52 @@
 /**
  * This code has been adapted from [arcgis-pbf-parser] ([https://github.com/rowanwins/arcgis-pbf-parser])
- * Modifications have been made for use in this project.
+ * Modifications have been made for use in REST JS.
  */
-
-import { GeometryType, IFeatureSet, IField } from "@esri/arcgis-rest-request";
+import { GeometryType, IField } from "@esri/arcgis-rest-request";
 import { FeatureCollectionPBuffer as EsriPbfBuffer } from "./PbfFeatureCollection.js";
 import Pbf from "pbf";
+import { IQueryFeaturesResponse } from "../query.js";
 
-export function pbfToArcGIS(featureCollectionBuffer: ArrayBuffer): IFeatureSet {
+export default function pbfToArcGIS(
+  featureCollectionBuffer: any
+): IQueryFeaturesResponse {
+  const decodedObject = decode(featureCollectionBuffer);
+
+  const featureResult = decodedObject.queryResult.featureResult;
+  const transform = decodedObject.queryResult.featureResult.transform;
+  const geometryType = decodedObject.queryResult.featureResult.geometryType;
+
+  // Assign all the top level properties
+  const out: IQueryFeaturesResponse = {
+    ...featureResult,
+    geometryType: getGeometryType(geometryType)
+    // fields and features will be constructed below
+  };
+
+  // Normalize fields
+  out.fields = decodeFields(featureResult.fields);
+
+  // Create attribute field maps
+  const attributeFields = featureResult.fields.map((field: any) => ({
+    ...field,
+    keyName: getKeyName(field)
+  }));
+
+  const geometryParser = getGeometryParser(geometryType);
+
+  // Normalize Features
+  const features = featureResult.features.map((f: any) => ({
+    attributes: collectAttributes(attributeFields, f.attributes),
+    geometry: ((f.geometry && geometryParser(f, transform)) as any) || null
+  }));
+  out.features = features;
+
+  // 4. Purge all properties that are not part of IQueryFeaturesResponse from the output object (optionally retain some if needed)
+  const featureResponse = normalizeFeatureResponse(out);
+  return featureResponse;
+}
+
+export function decode(featureCollectionBuffer: any) {
   let decodedObject;
   try {
     decodedObject = EsriPbfBuffer.read(new Pbf(featureCollectionBuffer));
@@ -18,95 +57,64 @@ export function pbfToArcGIS(featureCollectionBuffer: ArrayBuffer): IFeatureSet {
   if (!decodedObject.queryResult) {
     throw new Error("Could not parse arcgis-pbf buffer: Missing queryResult.");
   }
-  const featureResult: IFeatureSet = decodedObject.queryResult.featureResult;
-  const transform = decodedObject.queryResult.featureResult.transform;
-  const geometryType: number =
-    decodedObject.queryResult.featureResult.geometryType;
-
-  // 1. We want to decode and assign all the top level properties of IFeatureSet from featureResult
-  const out: IFeatureSet = {
-    ...featureResult,
-    // decode geometry type
-    geometryType: getGeometryType(geometryType)
-  };
-
-  // 2. We want to convert all the fields to match IFields
-  // a. create a map of fieldType values to their string names using the EsriPbfBuffer.FieldType enum (which map to a property "type" instead of "fieldType").
-  const fieldTypeMap: Record<number, string> = {};
-  for (const [key, obj] of Object.entries(EsriPbfBuffer.FieldType)) {
-    fieldTypeMap[(obj as any).value] = key;
-  }
-  // b. create a map of sqlType values to their string names using the EsriPbfBuffer.SQLType enum.
-  const sqlTypeMap: Record<number, string> = {};
-  for (const [key, obj] of Object.entries(EsriPbfBuffer.SQLType)) {
-    sqlTypeMap[(obj as any).value] = key;
-  }
-  // c. decode a field object, mapping sqlType and fieldType, and normalizing domain/defaultValue
-  const decodedFields = featureResult.fields.map((field: any) =>
-    decodeField(field, fieldTypeMap, sqlTypeMap)
-  );
-  out.fields = decodedFields;
-
-  // 3. We want to convert all the features to match IFeature
-  // Put field keynames on each field objest so we can access the correct attribute value later
-  //console.log("fields before keyName assignment:", decodedObject.queryResult.featureResult.fields);
-  const fields = decodedObject.queryResult.featureResult.fields;
-  for (let index = 0; index < fields.length; index++) {
-    const field = fields[index];
-    field.keyName = getKeyName(field);
-  }
-  // get geometry parser so we can decode geometries
-  const geometryParser = getGeometryParser(geometryType);
-
-  // build features with decoded attributes and geometry
-  const featureLen = featureResult.features.length;
-  const features = [] as any[];
-  for (let index = 0; index < featureLen; index++) {
-    const f = featureResult.features[index];
-    features.push({
-      attributes: collectAttributes(fields, f.attributes),
-      geometry: ((f.geometry && geometryParser(f, transform)) as any) || null
-    });
-  }
-  // assign features to output
-  out.features = features;
-
-  // 4. Finally, we want to purge all properties that are not part of IFeatureSet from the output object (optionally retain some if needed)
-  const testOut = purgeIFeatureSetProps(out);
-  // return out;
-  return testOut;
+  return decodedObject;
 }
 
-// Fields: since the generated PbfFeatureCollection doesnt decode these in the same way I can either edit that or add functionality here to replace what it likely should be doing to decode field types
-function decodeField(
+export function decodeFields(fields: any[]) {
+  // Build lookup maps
+  const fieldTypeMap = buildKeyMap(EsriPbfBuffer.FieldType);
+  const sqlTypeMap = buildKeyMap(EsriPbfBuffer.SQLType);
+
+  return fields.map(
+    (field: any) => decodeField(field, fieldTypeMap)
+    // decodeField(field, fieldTypeMap, sqlTypeMap)
+  );
+}
+
+export function buildKeyMap(spec: any) {
+  const map: Record<number, string> = {};
+  for (const [key, obj] of Object.entries(spec)) {
+    map[(obj as any).value] = key;
+  }
+  return map;
+}
+
+// Fields: PbfFeatureCollection doesnt decode to IField
+export function decodeField(
   field: any,
   fieldTypeMap: Record<number, string>,
   sqlTypeMap?: Record<number, string>
 ): IField {
+  // configure getters that return arcgis json default values for optional props
   const optionalProps: Array<[string, (f: any) => any]> = [
     ["alias", (f) => f.alias],
     // TODO: ? is domain a value that needs to be decoded similar to type?
     ["domain", (f) => (f.domain === "" ? null : f.domain)],
     ["editable", (f) => f.editable],
     ["exactMatch", (f) => f.exactMatch],
-    ["length", (f) => f.length],
+    ["length", (f) => (f.length === 0 ? undefined : f.length)],
     ["nullable", (f) => f.nullable],
     ["defaultValue", (f) => (f.defaultValue === "" ? null : f.defaultValue)],
     /**
-     * This property doesnt exist on interface but was returned on the ArcGIS json response
+     * sqlType doesn't exist on docs or IField interface but was returned on the ArcGIS json response
      * and by PbfFeatureCollection definition with a value.
      */
     ["sqlType", (f) => (sqlTypeMap ? sqlTypeMap[f.sqlType] : undefined)]
   ];
 
+  // set required properties
   const out: any = {
     name: field.name,
     type: fieldTypeMap[field.fieldType]
   };
 
+  // set optional properties
   for (const [key, getter] of optionalProps) {
     if (field[key] !== undefined) {
-      out[key] = getter(field);
+      const val = getter(field);
+      if (val !== undefined) {
+        out[key] = val;
+      }
     }
   }
   return out;
@@ -143,8 +151,8 @@ function collectAttributes(fields: any, featureAttributes: any) {
   return out;
 }
 
-function purgeIFeatureSetProps(featureResult: any): IFeatureSet {
-  // List of keys on arcgis json and pbf response that are not part of IFeatureSet
+function normalizeFeatureResponse(featureResult: any): IQueryFeaturesResponse {
+  // List of keys pbf response that are not part of IQueryFeaturesResponse
   const excludeKeys: string[] = [
     "serverGens",
     "geohashFieldName",
@@ -152,13 +160,18 @@ function purgeIFeatureSetProps(featureResult: any): IFeatureSet {
     "values"
     // Add any other keys to exclude
   ];
-  const out: Partial<IFeatureSet> = {};
+  /**
+   * Keys on arcGIS json response that are not part of IQueryFeaturesResponse that should probably not be excluded
+   * uniqueIdField
+   * geometryProperties
+   */
+  const out: Partial<IQueryFeaturesResponse> = {};
   Object.keys(featureResult).forEach((key) => {
     if (!excludeKeys.includes(key)) {
       (out as any)[key] = featureResult[key];
     }
   });
-  return out as IFeatureSet;
+  return out as IQueryFeaturesResponse;
 }
 
 // * @property {number} esriGeometryTypePoint=0 esriGeometryTypePoint value

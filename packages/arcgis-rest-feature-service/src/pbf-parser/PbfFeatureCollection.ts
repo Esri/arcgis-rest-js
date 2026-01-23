@@ -240,7 +240,7 @@ FeatureCollectionPBuffer.SpatialReference.read = function (
 ) {
   return pbf.readFields(
     FeatureCollectionPBuffer.SpatialReference._readField,
-    { wkid: 0, lastestWkid: 0, vcsWkid: 0, latestVcsWkid: 0, wkt: "" },
+    { wkid: 0, latestWkid: 0, vcsWkid: 0, latestVcsWkid: 0, wkt: "" },
     end
   );
 };
@@ -250,7 +250,7 @@ FeatureCollectionPBuffer.SpatialReference._readField = function (
   pbf: any
 ) {
   if (tag === 1) obj.wkid = pbf.readVarint();
-  else if (tag === 2) obj.lastestWkid = pbf.readVarint();
+  else if (tag === 2) obj.latestWkid = pbf.readVarint();
   else if (tag === 3) obj.vcsWkid = pbf.readVarint();
   else if (tag === 4) obj.latestVcsWkid = pbf.readVarint();
   else if (tag === 5) obj.wkt = pbf.readString();
@@ -260,7 +260,7 @@ FeatureCollectionPBuffer.SpatialReference.write = function (
   pbf: any
 ) {
   if (obj.wkid) pbf.writeVarintField(1, obj.wkid);
-  if (obj.lastestWkid) pbf.writeVarintField(2, obj.lastestWkid);
+  if (obj.latestWkid) pbf.writeVarintField(2, obj.latestWkid);
   if (obj.vcsWkid) pbf.writeVarintField(3, obj.vcsWkid);
   if (obj.latestVcsWkid) pbf.writeVarintField(4, obj.latestVcsWkid);
   if (obj.wkt) pbf.writeStringField(5, obj.wkt);
