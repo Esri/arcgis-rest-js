@@ -142,7 +142,5 @@ describe("arcGISPbfParser unit tests ", () => {
     expect(arcgis.fields[7].editable).toBe(undefined);
     // sqlType not on IFields interface at the moment
     expect((arcgis.fields[7] as any).sqlType).toBe(undefined);
-
-    console.log(arcgis.features);
   });
 });

@@ -23,6 +23,11 @@ export default function pbfToArcGIS(
     // fields and features will be constructed below
   };
 
+  if (out.spatialReference) {
+    // Remove any spatial reference fields with empty values
+    out.spatialReference = filterSpatialReferenceFields(out.spatialReference);
+  }
+
   // Normalize fields
   out.fields = decodeFields(featureResult.fields);
 
@@ -149,6 +154,14 @@ function collectAttributes(fields: any, featureAttributes: any) {
     else out[f.name] = null;
   }
   return out;
+}
+
+export function filterSpatialReferenceFields(spatialReference: any) {
+  return Object.fromEntries(
+    Object.entries(spatialReference).filter(
+      ([, value]) => value !== 0 && value !== ""
+    )
+  );
 }
 
 function normalizeFeatureResponse(featureResult: any): IQueryFeaturesResponse {
