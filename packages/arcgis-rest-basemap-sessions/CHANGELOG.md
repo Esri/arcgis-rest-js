@@ -1,5 +1,7 @@
 # @esri/arcgis-rest-basemap-sessions Changelog
 
+## 4.8.1
+
 ## 4.8.0
 
 ### Minor Changes

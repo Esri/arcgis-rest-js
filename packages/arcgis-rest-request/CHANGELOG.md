@@ -1,5 +1,13 @@
 # @esri/arcgis-rest-request Changelog
 
+## 4.8.1
+
+### Patch Changes
+
+- 052ff8e: Added deprecation messages for upcoming request package updates
+  - @esri/arcgis-rest-fetch@4.8.1
+  - @esri/arcgis-rest-form-data@4.8.1
+
 ## 4.8.0
 
 ### Minor Changes
