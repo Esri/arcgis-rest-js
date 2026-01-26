@@ -18,6 +18,7 @@ export interface IRequestOptions {
   httpMethod?: HTTPMethods;
   /**
    * Return the raw [response](https://developer.mozilla.org/en-US/docs/Web/API/Response)
+   * @deprecated since v4.0.0.
    */
   rawResponse?: boolean;
   /**
@@ -65,6 +66,7 @@ export interface IRequestOptions {
 
   /**
    * Override the default function for making the request. This is mainly useful for testing purposes (i.e. so you can pass in a spy).
+   * @deprecated since v4.0.0
    * @param requestOptions
    * @returns
    */
