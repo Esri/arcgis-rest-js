@@ -2,13 +2,13 @@
  * This code has been adapted from [arcgis-pbf-parser] ([https://github.com/rowanwins/arcgis-pbf-parser])
  * Modifications have been made for use in REST JS.
  */
-import { GeometryType, IField } from "@esri/arcgis-rest-request";
+import { GeometryType, IFeature, IField } from "@esri/arcgis-rest-request";
 import { FeatureCollectionPBuffer as EsriPbfBuffer } from "./PbfFeatureCollection.js";
 import Pbf from "pbf";
 import { IQueryFeaturesResponse } from "../query.js";
 
 export default function pbfToArcGIS(
-  featureCollectionBuffer: any
+  featureCollectionBuffer: ArrayBuffer | Uint8Array | Buffer
 ): IQueryFeaturesResponse {
   const decodedObject = decode(featureCollectionBuffer);
 
@@ -25,7 +25,7 @@ export default function pbfToArcGIS(
 
   if (out.spatialReference) {
     // Remove any spatial reference fields with empty values
-    out.spatialReference = filterSpatialReferenceFields(out.spatialReference);
+    out.spatialReference = removeEmptyValues(out.spatialReference);
   }
 
   // Normalize fields
@@ -40,18 +40,22 @@ export default function pbfToArcGIS(
   const geometryParser = getGeometryParser(geometryType);
 
   // Normalize Features
-  const features = featureResult.features.map((f: any) => ({
-    attributes: collectAttributes(attributeFields, f.attributes),
-    geometry: ((f.geometry && geometryParser(f, transform)) as any) || null
-  }));
-  out.features = features;
+  out.features = featureResult.features.map(
+    (f: any) =>
+      ({
+        attributes: collectAttributes(attributeFields, f.attributes),
+        geometry: ((f.geometry && geometryParser(f, transform)) as any) || null
+      } as IFeature)
+  );
 
   // 4. Purge all properties that are not part of IQueryFeaturesResponse from the output object (optionally retain some if needed)
-  const featureResponse = normalizeFeatureResponse(out);
-  return featureResponse;
+  const queryFeaturesResponse = normalizeFeatureResponse(out);
+  return queryFeaturesResponse;
 }
 
-export function decode(featureCollectionBuffer: any) {
+export function decode(
+  featureCollectionBuffer: ArrayBuffer | Uint8Array | Buffer
+): { value: string; queryResult: any } {
   let decodedObject;
   try {
     decodedObject = EsriPbfBuffer.read(new Pbf(featureCollectionBuffer));
@@ -72,6 +76,7 @@ export function decodeFields(fields: any[]) {
 
   return fields.map(
     (field: any) => decodeField(field, fieldTypeMap)
+    // sqlMap exists on response on some feature services but not on the current REST JS IField interface
     // decodeField(field, fieldTypeMap, sqlTypeMap)
   );
 }
@@ -156,11 +161,9 @@ function collectAttributes(fields: any, featureAttributes: any) {
   return out;
 }
 
-export function filterSpatialReferenceFields(spatialReference: any) {
+export function removeEmptyValues(obj: any) {
   return Object.fromEntries(
-    Object.entries(spatialReference).filter(
-      ([, value]) => value !== 0 && value !== ""
-    )
+    Object.entries(obj).filter(([, value]) => value !== 0 && value !== "")
   );
 }
 

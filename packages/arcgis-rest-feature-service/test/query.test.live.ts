@@ -260,6 +260,108 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
           expect((error as any).message).toBe("498: Invalid token.");
         }
       });
+
+      test("LIVE TEST (output equality): pbf-as-geojson response should match standard geojson response", async () => {
+        const geojsonOptions: IQueryFeaturesOptions = {
+          url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+          f: "geojson",
+          where: "1=1",
+          outFields: ["*"],
+          resultOffset: 0,
+          resultRecordCount: 3
+        };
+        const pbfAsGeoJSONOptions: IQueryFeaturesOptions = {
+          ...geojsonOptions,
+          f: "pbf-as-geojson"
+        };
+
+        const [geojsonResponse, pbfAsGeoJSONResponse] = await Promise.all([
+          queryFeatures(geojsonOptions),
+          queryFeatures(pbfAsGeoJSONOptions)
+        ]);
+
+        // TODO?: equality check breaks at features geometry decimal precision level (around 8-9)
+        // expect(pbfAsGeoJSONResponse).toEqual(geojsonResponse);
+
+        // standard response should not have crs property
+        expect(geojsonResponse).not.toHaveProperty("crs");
+        expect(pbfAsGeoJSONResponse).not.toHaveProperty("crs");
+        // should have matching type
+        expect(geojsonResponse).toHaveProperty("type", "FeatureCollection");
+        expect(pbfAsGeoJSONResponse).toHaveProperty(
+          "type",
+          "FeatureCollection"
+        );
+        // should have matching feature count
+        expect((pbfAsGeoJSONResponse as any).features.length).toBe(3);
+        expect((geojsonResponse as any).features.length).toBe(3);
+        // should have same exceededTransferLimit value
+        expect((geojsonResponse as any).properties).toEqual(
+          (pbfAsGeoJSONResponse as any).properties
+        );
+        expect((geojsonResponse as any).features[0].properties).toEqual(
+          (pbfAsGeoJSONResponse as any).features[0].properties
+        );
+        expect((geojsonResponse as any).features[1].properties).toEqual(
+          (pbfAsGeoJSONResponse as any).features[1].properties
+        );
+        expect((geojsonResponse as any).features[2].properties).toEqual(
+          (pbfAsGeoJSONResponse as any).features[2].properties
+        );
+      });
+
+      test("LIVE TEST (output equality): non-standard crs pbf-as-geojson response should match non-standard geojson response", async () => {
+        const geojsonOptions: IQueryFeaturesOptions = {
+          url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+          f: "geojson",
+          where: "1=1",
+          outFields: ["*"],
+          resultOffset: 0,
+          resultRecordCount: 3,
+          outSR: "102100"
+        };
+        const pbfAsGeoJSONOptions: IQueryFeaturesOptions = {
+          ...geojsonOptions,
+          f: "pbf-as-geojson"
+        };
+
+        const [geojsonResponse, pbfAsGeoJSONResponse] = await Promise.all([
+          queryFeatures(geojsonOptions),
+          queryFeatures(pbfAsGeoJSONOptions)
+        ]);
+
+        // TODO?: equality check breaks at features geometry decimal precision level (around 4-5)
+        // expect(pbfAsGeoJSONResponse).toEqual(geojsonResponse);
+
+        // standard response should not have crs property
+        expect(geojsonResponse).toHaveProperty("crs");
+        expect(pbfAsGeoJSONResponse).toHaveProperty("crs");
+        expect((geojsonResponse as any).crs).toEqual(
+          (pbfAsGeoJSONResponse as any).crs
+        );
+        // should have matching type
+        expect(geojsonResponse).toHaveProperty("type", "FeatureCollection");
+        expect(pbfAsGeoJSONResponse).toHaveProperty(
+          "type",
+          "FeatureCollection"
+        );
+        // should have matching feature count
+        expect((pbfAsGeoJSONResponse as any).features.length).toBe(3);
+        expect((geojsonResponse as any).features.length).toBe(3);
+        // should have same exceededTransferLimit value
+        expect((geojsonResponse as any).properties).toEqual(
+          (pbfAsGeoJSONResponse as any).properties
+        );
+        expect((geojsonResponse as any).features[0].properties).toEqual(
+          (pbfAsGeoJSONResponse as any).features[0].properties
+        );
+        expect((geojsonResponse as any).features[1].properties).toEqual(
+          (pbfAsGeoJSONResponse as any).features[1].properties
+        );
+        expect((geojsonResponse as any).features[2].properties).toEqual(
+          (pbfAsGeoJSONResponse as any).features[2].properties
+        );
+      });
     });
 
     describe("with pbf-as-arcgis", () => {

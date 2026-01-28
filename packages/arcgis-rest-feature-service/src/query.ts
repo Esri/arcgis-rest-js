@@ -168,10 +168,20 @@ export function queryPbfAsGeoJSONOrArcGIS(
   url: string,
   queryOptions: IRequestOptions
 ): Promise<IQueryFeaturesResponse | IQueryAllFeaturesResponse> {
+  // default pbf wkid to EPSG:4326 to satisfy geojson crs standard unless otherwise specified
+  const geoJSONSpatialReference =
+    queryOptions.params.f === "pbf-as-geojson"
+      ? { outSR: queryOptions.params.outSR || "4326" }
+      : {};
   // query with f=pbf and rawResponse:true on behalf of the user to fetch metadata with the pbf response
+  // manually construct request options for pbf request
   const customOptions = {
     ...queryOptions,
-    params: { ...queryOptions.params, f: "pbf" } as any,
+    params: {
+      ...queryOptions.params,
+      ...geoJSONSpatialReference,
+      f: "pbf"
+    } as any,
     rawResponse: true
   };
   return request(`${cleanUrl(url)}/query`, customOptions).then(
@@ -201,18 +211,11 @@ export function queryPbfAsGeoJSONOrArcGIS(
         const arrayBuffer = await response.arrayBuffer();
         /* istanbul ignore else --@preserve */
         if (queryOptions.params.f === "pbf-as-arcgis") {
-          const arcGISFeaturesResponse = pbfToArcGIS(arrayBuffer);
-          return arcGISFeaturesResponse;
+          return pbfToArcGIS(arrayBuffer);
         }
         /* istanbul ignore else --@preserve */
         if (queryOptions.params.f === "pbf-as-geojson") {
-          const featureCollection = pbfToGeoJSON(arrayBuffer);
-          const geoJsonFeaturesResponse = {
-            features: featureCollection.features,
-            exceededTransferLimit:
-              featureCollection.properties?.exceededTransferLimit
-          };
-          return geoJsonFeaturesResponse;
+          return pbfToGeoJSON(arrayBuffer);
         }
       } catch (error) {
         throw new ArcGISRequestError(

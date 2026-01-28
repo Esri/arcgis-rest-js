@@ -6,26 +6,27 @@
 import { FeatureCollectionPBuffer as EsriPbfBuffer } from "./PbfFeatureCollection.js";
 import Pbf from "pbf";
 
-export interface EsriGeoJSONFeatureCollection
-  extends GeoJSON.FeatureCollection {
+export interface EsriGeoJSONFeatureCollection {
+  type: "FeatureCollection";
+  // optional coordinate reference system that may not be necessary?
+  crs?: {
+    type: "name";
+    properties: {
+      name: string; // e.g., "EPSG:4326", "EPSG:3857"
+    };
+  };
+  features: any[];
   properties?: {
     exceededTransferLimit?: boolean;
   };
 }
 
 export default function pbfToGeoJSON(
-  arrayBuffer: ArrayBuffer
+  arrayBuffer: ArrayBuffer | Uint8Array | Buffer
 ): EsriGeoJSONFeatureCollection {
   // return decoded pbf as geojson structure
   const decoded = decode(arrayBuffer);
-
-  return {
-    type: decoded.featureCollection.type,
-    properties: {
-      exceededTransferLimit: decoded.exceededTransferLimit
-    },
-    features: decoded.featureCollection.features
-  };
+  return decoded;
 }
 
 export function decode(featureCollectionBuffer: any) {
@@ -51,9 +52,23 @@ export function decode(featureCollectionBuffer: any) {
     field.keyName = getKeyName(field);
   }
 
-  const out: GeoJSON.FeatureCollection = {
+  const out: EsriGeoJSONFeatureCollection = {
     type: "FeatureCollection",
-    features: [] as GeoJSON.Feature[]
+    features: []
+  };
+  if (
+    featureResult.spatialReference?.wkid === 3857 ||
+    featureResult.spatialReference?.latestWkid === 3857
+  ) {
+    out.crs = {
+      type: "name",
+      properties: {
+        name: "EPSG:3857"
+      }
+    };
+  }
+  out.properties = {
+    exceededTransferLimit: featureResult.exceededTransferLimit
   };
 
   const geometryParser = getGeometryParser(geometryType);
@@ -65,22 +80,16 @@ export function decode(featureCollectionBuffer: any) {
       type: "Feature",
       // deliberately not setting id here (o^n*m performance)
       properties: collectAttributes(fields, f.attributes),
-      geometry:
-        (f.geometry && (geometryParser(f, transform) as GeoJSON.Geometry)) ||
-        null
+      geometry: (f.geometry && geometryParser(f, transform)) || null
     });
   }
-
   // set feature ids after the fact for (o^n performance)
   // collect attributes must be called first to ensure properties are populated
   out.features.forEach((feature, idx) => {
     feature.id = feature.properties[objectIdField];
   });
 
-  return {
-    featureCollection: out,
-    exceededTransferLimit: featureResult.exceededTransferLimit
-  };
+  return out;
 }
 
 // * @property {number} esriGeometryTypePoint=0 esriGeometryTypePoint value

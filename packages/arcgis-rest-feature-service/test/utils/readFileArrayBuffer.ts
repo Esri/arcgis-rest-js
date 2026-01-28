@@ -21,3 +21,14 @@ export const readEnvironmentFileToArrayBuffer = async (filePath: string) => {
     return fs.readFileSync(filePath);
   }
 };
+
+export const readEnvironmentFileToJSON = async (filePath: string) => {
+  if (isBrowser) {
+    const response = await fetch(filePath);
+    return await response.json();
+  }
+  if (isNode) {
+    const fs = await import("fs");
+    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+  }
+};

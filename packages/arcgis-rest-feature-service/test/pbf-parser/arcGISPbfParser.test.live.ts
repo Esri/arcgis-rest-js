@@ -46,6 +46,7 @@ describe("decode: arcGISPbfParser should decode each geometry type", () => {
 
     expect(arcgis.features[0]).toHaveProperty("geometry");
     expect(arcgis.features[0]).toHaveProperty("attributes");
+    // point geometry should have x, y
     expect(arcgis.features[0].geometry).toHaveProperty("x");
     expect(arcgis.features[0].geometry).toHaveProperty("y");
   });
