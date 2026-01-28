@@ -1,0 +1,392 @@
+{
+  "version": "",
+  "queryResult": {
+    "featureResult": {
+      "objectIdFieldName": "OBJECTID",
+      "uniqueIdField": {
+        "name": "OBJECTID",
+        "isSystemMaintained": true
+      },
+      "globalIdFieldName": "",
+      "geohashFieldName": "",
+      "geometryProperties": {
+        "shapeAreaFieldName": "",
+        "shapeLengthFieldName": "Shape__Length",
+        "units": "esriMeters"
+      },
+      "serverGens": null,
+      "geometryType": 2,
+      "spatialReference": {
+        "wkid": 102100,
+        "lastestWkid": 3857,
+        "vcsWkid": 0,
+        "latestVcsWkid": 0,
+        "wkt": ""
+      },
+      "exceededTransferLimit": true,
+      "hasZ": false,
+      "hasM": false,
+      "transform": {
+        "quantizeOriginPostion": 0,
+        "scale": {
+          "xScale": 0,
+          "yScale": 0,
+          "mScale": 0,
+          "zScale": 0
+        },
+        "translate": {
+          "xTranslate": 0,
+          "yTranslate": 0,
+          "mTranslate": 0,
+          "zTranslate": 0
+        }
+      },
+      "fields": [
+        {
+          "name": "OBJECTID",
+          "fieldType": 6,
+          "alias": "OBJECTID",
+          "sqlType": 10,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "TRL_NAME",
+          "fieldType": 4,
+          "alias": "TRL_NAME",
+          "sqlType": 15,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "TRL_ID",
+          "fieldType": 1,
+          "alias": "TRL_ID",
+          "sqlType": 10,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "ELEV_MIN",
+          "fieldType": 1,
+          "alias": "ELEV_MIN",
+          "sqlType": 10,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "ELEV_MAX",
+          "fieldType": 1,
+          "alias": "ELEV_MAX",
+          "sqlType": 10,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "ELEV_GAIN",
+          "fieldType": 1,
+          "alias": "ELEV_GAIN",
+          "sqlType": 10,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "LENGTH_FT",
+          "fieldType": 1,
+          "alias": "LENGTH_FT",
+          "sqlType": 10,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "LENGTH_MI",
+          "fieldType": 2,
+          "alias": "LENGTH_MI",
+          "sqlType": 17,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "USE_HIKE",
+          "fieldType": 4,
+          "alias": "USE_HIKE",
+          "sqlType": 15,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "USE_BIKE",
+          "fieldType": 4,
+          "alias": "USE_BIKE",
+          "sqlType": 15,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "USE_EQU",
+          "fieldType": 4,
+          "alias": "USE_EQU",
+          "sqlType": 15,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "USE_ATV",
+          "fieldType": 4,
+          "alias": "USE_ATV",
+          "sqlType": 15,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "PET_ACC",
+          "fieldType": 4,
+          "alias": "PET_ACC",
+          "sqlType": 15,
+          "domain": "",
+          "defaultValue": ""
+        },
+        {
+          "name": "Shape__Length",
+          "fieldType": 3,
+          "alias": "Shape__Length",
+          "sqlType": 7,
+          "domain": "",
+          "defaultValue": ""
+        }
+      ],
+      "values": [],
+      "features": [
+        {
+          "attributes": [
+            {
+              "string_value": "",
+              "value_type": "uint_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 1,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "92 Trail",
+              "value_type": "string_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "",
+              "value_type": "sint_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 10002,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "",
+              "value_type": "sint_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 1138,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "",
+              "value_type": "sint_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 1161,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "",
+              "value_type": "sint_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 23,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "",
+              "value_type": "sint_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 1010,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "",
+              "value_type": "float_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "Yes",
+              "value_type": "string_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "No",
+              "value_type": "string_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "Yes",
+              "value_type": "string_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "No",
+              "value_type": "string_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "No",
+              "value_type": "string_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            },
+            {
+              "string_value": "",
+              "value_type": "double_value",
+              "float_value": 0,
+              "double_value": 0,
+              "sint_value": 0,
+              "uint_value": 0,
+              "int64_value": 0,
+              "uint64_value": 0,
+              "sint64_value": 0,
+              "bool_value": false
+            }
+          ],
+          "geometry": {
+            "lengths": [
+              22
+            ],
+            "coords": [
+              68360518535,
+              -342822691981,
+              55066,
+              -43399,
+              -56215,
+              -84205,
+              -80896,
+              -75997,
+              -82289,
+              -114012,
+              -96900,
+              -139320,
+              -97633,
+              -89631,
+              -57849,
+              -213119,
+              -13828,
+              -166475,
+              -4209,
+              -196871,
+              -24965,
+              -196574,
+              -25171,
+              -166281,
+              -16486,
+              -190753,
+              8868,
+              -200071,
+              6519,
+              -187987,
+              78491,
+              -167887,
+              68459,
+              -182943,
+              65655,
+              -164686,
+              84962,
+              -189243,
+              93609,
+              -162087,
+              71475,
+              -182899,
+              39975,
+              -312800
+            ]
+          },
+          "compressed_geometry": "geometry",
+          "shapeBuffer": null,
+          "centroid": null
+        }
+      ]
+    },
+    "Results": "featureResult",
+    "countResult": null,
+    "idsResult": null
+  }
+}

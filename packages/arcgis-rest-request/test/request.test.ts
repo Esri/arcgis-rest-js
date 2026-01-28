@@ -431,8 +431,8 @@ describe("request()", () => {
     console.warn = oldWarn;
   });
 
-  describe("should impliment the IParamBuilder and IParamsBuilder interfaces builder", () => {
-    test("should encode a param that impliments IParamBuilder", async () => {
+  describe("should implement the IParamBuilder and IParamsBuilder interfaces builder", () => {
+    test("should encode a param that implements IParamBuilder", async () => {
       fetchMock.once("*", GeoJSONFeatureCollection);
 
       const builder = new MockParamBuilder();

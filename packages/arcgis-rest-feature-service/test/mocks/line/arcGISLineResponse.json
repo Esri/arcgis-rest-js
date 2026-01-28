@@ -1,0 +1,252 @@
+{
+  "objectIdFieldName": "OBJECTID",
+  "uniqueIdField": {
+    "name": "OBJECTID",
+    "isSystemMaintained": true
+  },
+  "globalIdFieldName": "",
+  "geometryProperties": {
+    "shapeLengthFieldName": "Shape__Length",
+    "units": "esriMeters"
+  },
+  "geometryType": "esriGeometryPolyline",
+  "spatialReference": {
+    "wkid": 102100,
+    "latestWkid": 3857
+  },
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "sqlType": "sqlTypeInteger",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "TRL_NAME",
+      "type": "esriFieldTypeString",
+      "alias": "TRL_NAME",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "TRL_ID",
+      "type": "esriFieldTypeInteger",
+      "alias": "TRL_ID",
+      "sqlType": "sqlTypeInteger",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "ELEV_MIN",
+      "type": "esriFieldTypeInteger",
+      "alias": "ELEV_MIN",
+      "sqlType": "sqlTypeInteger",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "ELEV_MAX",
+      "type": "esriFieldTypeInteger",
+      "alias": "ELEV_MAX",
+      "sqlType": "sqlTypeInteger",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "ELEV_GAIN",
+      "type": "esriFieldTypeInteger",
+      "alias": "ELEV_GAIN",
+      "sqlType": "sqlTypeInteger",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "LENGTH_FT",
+      "type": "esriFieldTypeInteger",
+      "alias": "LENGTH_FT",
+      "sqlType": "sqlTypeInteger",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "LENGTH_MI",
+      "type": "esriFieldTypeSingle",
+      "alias": "LENGTH_MI",
+      "sqlType": "sqlTypeReal",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "USE_HIKE",
+      "type": "esriFieldTypeString",
+      "alias": "USE_HIKE",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "USE_BIKE",
+      "type": "esriFieldTypeString",
+      "alias": "USE_BIKE",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "USE_EQU",
+      "type": "esriFieldTypeString",
+      "alias": "USE_EQU",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "USE_ATV",
+      "type": "esriFieldTypeString",
+      "alias": "USE_ATV",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "PET_ACC",
+      "type": "esriFieldTypeString",
+      "alias": "PET_ACC",
+      "sqlType": "sqlTypeNVarchar",
+      "length": 256,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "Shape__Length",
+      "type": "esriFieldTypeDouble",
+      "alias": "Shape__Length",
+      "sqlType": "sqlTypeFloat",
+      "domain": null,
+      "defaultValue": null
+    }
+  ],
+  "exceededTransferLimit": true,
+  "features": [
+    {
+      "attributes": {
+        "OBJECTID": 1,
+        "TRL_NAME": "92 Trail",
+        "TRL_ID": 10002,
+        "ELEV_MIN": 1138,
+        "ELEV_MAX": 1161,
+        "ELEV_GAIN": 23,
+        "LENGTH_FT": 1010,
+        "LENGTH_MI": 0.19,
+        "USE_HIKE": "Yes",
+        "USE_BIKE": "No",
+        "USE_EQU": "Yes",
+        "USE_ATV": "No",
+        "PET_ACC": "No",
+        "Shape__Length": 372.0436447385497
+      },
+      "geometry": {
+        "paths": [
+          [
+            [
+              -13201648.1464732,
+              4041169.19806736
+            ],
+            [
+              -13201642.6398708,
+              4041173.53801703
+            ],
+            [
+              -13201648.2613834,
+              4041181.95849441
+            ],
+            [
+              -13201656.3509946,
+              4041189.55822338
+            ],
+            [
+              -13201664.5799349,
+              4041200.95937505
+            ],
+            [
+              -13201674.2698551,
+              4041214.89135953
+            ],
+            [
+              -13201684.0331683,
+              4041223.85447298
+            ],
+            [
+              -13201689.8181127,
+              4041245.16642381
+            ],
+            [
+              -13201691.2009147,
+              4041261.81391711
+            ],
+            [
+              -13201691.6218035,
+              4041281.50095618
+            ],
+            [
+              -13201694.1183338,
+              4041301.1584012
+            ],
+            [
+              -13201696.6354482,
+              4041317.78653024
+            ],
+            [
+              -13201698.2840381,
+              4041336.86178128
+            ],
+            [
+              -13201697.3972466,
+              4041356.86888169
+            ],
+            [
+              -13201696.745344,
+              4041375.66758202
+            ],
+            [
+              -13201688.8962093,
+              4041392.45625303
+            ],
+            [
+              -13201682.0502577,
+              4041410.75059646
+            ],
+            [
+              -13201675.4847738,
+              4041427.21915705
+            ],
+            [
+              -13201666.9886068,
+              4041446.14345035
+            ],
+            [
+              -13201657.627707,
+              4041462.35217321
+            ],
+            [
+              -13201650.4801744,
+              4041480.64209343
+            ],
+            [
+              -13201646.4826711,
+              4041511.92209497
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}
