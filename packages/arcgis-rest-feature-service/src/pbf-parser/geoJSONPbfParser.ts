@@ -45,17 +45,14 @@ export function decode(featureCollectionBuffer: any) {
   const geometryType = featureResult.geometryType;
   const objectIdField = featureResult.objectIdFieldName;
 
-  // Wires up the field keynames
-  const fields = featureResult.fields;
-  for (let index = 0; index < fields.length; index++) {
-    const field = fields[index];
-    field.keyName = getKeyName(field);
-  }
-
   const out: EsriGeoJSONFeatureCollection = {
     type: "FeatureCollection",
     features: []
   };
+
+  // if the spatial reference is web mercator, add the crs property
+  // otherwise default to assuming WGS84 (ESPG:4326) per geojson
+  // if feature service returns wkid 102100, latestWkid will be 3857
   if (
     featureResult.spatialReference?.wkid === 3857 ||
     featureResult.spatialReference?.latestWkid === 3857
@@ -73,17 +70,23 @@ export function decode(featureCollectionBuffer: any) {
 
   const geometryParser = getGeometryParser(geometryType);
 
+  // decode the field keynames
+  const fields = featureResult.fields;
+  fields.forEach((field: any) => {
+    field.keyName = getKeyName(field);
+  });
+
   const featureLen = featureResult.features.length;
   for (let index = 0; index < featureLen; index++) {
     const f = featureResult.features[index];
     out.features.push({
       type: "Feature",
-      // deliberately not setting id here (o^n*m performance)
+      // deliberately not setting feature id here to improve performance
       properties: collectAttributes(fields, f.attributes),
       geometry: (f.geometry && geometryParser(f, transform)) || null
     });
   }
-  // set feature ids after the fact for (o^n performance)
+  // set feature ids after the fact here
   // collect attributes must be called first to ensure properties are populated
   out.features.forEach((feature, idx) => {
     feature.id = feature.properties[objectIdField];

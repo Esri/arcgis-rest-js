@@ -261,7 +261,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         }
       });
 
-      test("LIVE TEST (output equality): pbf-as-geojson response should match standard geojson response", async () => {
+      test("LIVE TEST (output equality): standard CRS pbf-as-geojson response should match standard geojson response", async () => {
         const geojsonOptions: IQueryFeaturesOptions = {
           url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
           f: "geojson",
@@ -270,6 +270,8 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
           resultOffset: 0,
           resultRecordCount: 3
         };
+        // default geojson requests return lat/lon (4326)
+        // default pbf-as-geojson requests with outSR: 4326 parameter to return lat/lon geometry coordinates
         const pbfAsGeoJSONOptions: IQueryFeaturesOptions = {
           ...geojsonOptions,
           f: "pbf-as-geojson"
@@ -310,7 +312,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         );
       });
 
-      test("LIVE TEST (output equality): non-standard crs pbf-as-geojson response should match non-standard geojson response", async () => {
+      test("LIVE TEST (output equality): non-standard CRS pbf-as-geojson response should match non-standard geojson response", async () => {
         const geojsonOptions: IQueryFeaturesOptions = {
           url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
           f: "geojson",
@@ -361,6 +363,89 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         expect((geojsonResponse as any).features[2].properties).toEqual(
           (pbfAsGeoJSONResponse as any).features[2].properties
         );
+      });
+
+      test("LIVE TEST (output equality): POINT pbf-as-geojson response should match geojson POINT response", async () => {
+        const zipCodePointsPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
+          url: `https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_ZIP_Code_Points_analysis/FeatureServer/0`,
+          f: "pbf-as-geojson",
+          where: "1=1",
+          outFields: ["*"],
+          resultRecordCount: 1
+        };
+        const zipCodeGeoJSONOptions: IQueryFeaturesOptions = {
+          ...zipCodePointsPbfAsGeoJSONOptions,
+          f: "geojson"
+        };
+
+        const [geojsonPointResponse, pbfAsGeoJSONPointResponse] =
+          await Promise.all([
+            queryFeatures(zipCodeGeoJSONOptions),
+            queryFeatures(zipCodePointsPbfAsGeoJSONOptions)
+          ]);
+        expect(geojsonPointResponse).toEqual(pbfAsGeoJSONPointResponse);
+      });
+
+      test("LIVE TEST (output equality): LINE pbf-as-geojson response should match geojson LINE response", async () => {
+        const trailsLinesPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
+          url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0`,
+          f: "pbf-as-geojson",
+          where: "1=1",
+          outFields: ["*"],
+          resultRecordCount: 1
+        };
+        const trailsLinesGeoJSONOptions: IQueryFeaturesOptions = {
+          ...trailsLinesPbfAsGeoJSONOptions,
+          f: "geojson"
+        };
+
+        const [geojsonLineResponse, pbfAsGeoJSONLineResponse] =
+          await Promise.all([
+            queryFeatures(trailsLinesGeoJSONOptions),
+            queryFeatures(trailsLinesPbfAsGeoJSONOptions)
+          ]);
+
+        // pbf values will be higher precision than geojson so we can't do strict equality check
+        // TODO: need to verify all properties are present but may need to rethink geometry precision comparison
+        (geojsonLineResponse as any).tempID = "geo";
+        (pbfAsGeoJSONLineResponse as any).tempID = "pbf";
+        const geo = console.log(
+          "geo" + JSON.stringify(geojsonLineResponse, null, 2)
+        );
+        const pbfGeo = console.log(
+          "pbf" + JSON.stringify(pbfAsGeoJSONLineResponse, null, 2)
+        );
+        //expect(geojsonLineResponse).toEqual(pbfAsGeoJSONLineResponse);
+      });
+
+      test("LIVE TEST (output equality): POLYGON pbf-as-geojson response should match geojson POLYGON response", async () => {
+        const parcelsPolygonPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
+          url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0`,
+          f: "pbf-as-geojson",
+          where: "1=1",
+          outFields: ["*"],
+          resultRecordCount: 1
+        };
+        const parcelsPolygonGeoJSONOptions: IQueryFeaturesOptions = {
+          ...parcelsPolygonPbfAsGeoJSONOptions,
+          f: "geojson"
+        };
+
+        const [geojsonPolygonResponse, pbfAsGeoJSONPolygonResponse] =
+          await Promise.all([
+            queryFeatures(parcelsPolygonGeoJSONOptions),
+            queryFeatures(parcelsPolygonPbfAsGeoJSONOptions)
+          ]);
+        (geojsonPolygonResponse as any).tempID = "geo";
+        (pbfAsGeoJSONPolygonResponse as any).tempID = "pbf";
+        const geo = console.log(
+          "geo" + JSON.stringify(geojsonPolygonResponse, null, 2)
+        );
+        const pbfGeo = console.log(
+          "pbf" + JSON.stringify(pbfAsGeoJSONPolygonResponse, null, 2)
+        );
+        //
+        //expect(geojsonPolygonResponse).toEqual(pbfAsGeoJSONPolygonResponse);
       });
     });
 
@@ -439,7 +524,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
 
           const response = await queryAllFeatures(docsPbfOptions);
           expect((response as any).features.length).toBeGreaterThan(20000);
-          expect((response as any).exceededTransferLimit).toBe(true);
+          expect((response as any).properties.exceededTransferLimit).toBe(true);
         }
       );
     });

@@ -13,7 +13,7 @@ describe("decode: arcGISPbfParser should convert pbf-as-arcgis arraybuffers to a
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
     const arcgis = pbfToArcGIS(arrayBuffer);
 
-    // optional properties
+    // optional IFeatureproperties
     expect(arcgis.objectIdFieldName).toBe("FID");
     expect(arcgis.globalIdFieldName).toBe("");
     expect(arcgis.displayFieldName).toBe(undefined);
@@ -25,10 +25,10 @@ describe("decode: arcGISPbfParser should convert pbf-as-arcgis arraybuffers to a
     expect(arcgis.hasZ).toBe(false);
     expect(arcgis.hasM).toBe(false);
     expect(arcgis.exceededTransferLimit).toBe(true);
-    // required properties
+    // required IFeature properties (features)
     expect(arcgis.features.length).toBe(1);
 
-    // inspect fields for required props
+    // inspect IField object for required props
     expect(arcgis.fields[0].name).toBe("FID");
     expect(arcgis.fields[0].type).toBe("esriFieldTypeOID");
     // expected defined properties
@@ -99,7 +99,7 @@ describe("decode: arcGISPbfParser should convert pbf-as-arcgis arraybuffers to a
     // required properties
     expect(arcgis.features.length).toBe(1);
 
-    // inspect fields for required props
+    // inspect IField obj for required props
     expect(arcgis.fields[4].name).toBe("ELEV_MAX");
     expect(arcgis.fields[4].type).toBe("esriFieldTypeInteger");
     // expected defined properties
@@ -119,7 +119,7 @@ describe("decode: arcGISPbfParser should convert pbf-as-arcgis arraybuffers to a
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
     const arcgis = pbfToArcGIS(arrayBuffer);
 
-    // optional properties
+    // inspect optional IFeature properties
     expect(arcgis.objectIdFieldName).toBe("FID");
     expect(arcgis.globalIdFieldName).toBe("GlobalID");
     expect(arcgis.displayFieldName).toBe(undefined);
@@ -131,10 +131,10 @@ describe("decode: arcGISPbfParser should convert pbf-as-arcgis arraybuffers to a
     expect(arcgis.hasZ).toBe(false);
     expect(arcgis.hasM).toBe(false);
     expect(arcgis.exceededTransferLimit).toBe(false);
-    // required properties
+    // inspect required IFeature properties (features)
     expect(arcgis.features.length).toBe(131);
 
-    // inspect fields for required props
+    // inspect IField for required props
     expect(arcgis.fields[7].name).toBe("GlobalID");
     expect(arcgis.fields[7].type).toBe("esriFieldTypeGlobalID");
     // expected defined properties
@@ -161,7 +161,7 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
     const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
       pathJSON
     );
-    // check for object differences
+    // check for object equality
     expect(arcGIS.objectIdFieldName).toEqual(pbfArcGIS.objectIdFieldName);
     expect(arcGIS.globalIdFieldName).toEqual(pbfArcGIS.globalIdFieldName);
     expect(arcGIS.displayFieldName).toEqual(pbfArcGIS.displayFieldName);
@@ -171,7 +171,7 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
     );
     expect(arcGIS.geometryType).toEqual(pbfArcGIS.geometryType);
 
-    // properties not on interface
+    // properties not on IFeature interface
     expect((arcGIS as any).uniqueIdField).toEqual(
       (pbfArcGIS as any).uniqueIdField
     );
@@ -179,7 +179,7 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
       (pbfArcGIS as any).geometryProperties
     );
 
-    // the current pbf decoder does not return length on String FieldTypes
+    // the current pbf decoder does not define length property on String FieldTypes
     expect(arcGIS.fields[3].length).toEqual(100);
     expect(pbfArcGIS.fields[3].length).toBeUndefined();
 
@@ -211,7 +211,7 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
     );
     expect(arcGIS.geometryType).toEqual(pbfArcGIS.geometryType);
 
-    // properties not on interface
+    // properties not on IFeature interface
     expect((arcGIS as any).uniqueIdField).toEqual(
       (pbfArcGIS as any).uniqueIdField
     );
@@ -222,10 +222,10 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
     expect(arcGIS.fields.length).toEqual(pbfArcGIS.fields.length);
     expect(arcGIS.features.length).toEqual(pbfArcGIS.features.length);
 
-    // decoder does not return length on fields
+    // decoder does not define length property on fields
     expect(pbfArcGIS.fields[1].length).toBeUndefined();
     expect(arcGIS.fields[1].length).toBe(10);
-    // decoder does not return description on fields
+    // decoder does not define description property on fields
     expect((pbfArcGIS.fields[1] as any).description).toBeUndefined();
     expect((arcGIS.fields[1] as any).description).toBeDefined();
     //
@@ -245,7 +245,7 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
       pathJSON
     );
 
-    // check for object differences
+    // check for object equality
     expect(arcGIS.objectIdFieldName).toEqual(pbfArcGIS.objectIdFieldName);
     expect(arcGIS.globalIdFieldName).toEqual(pbfArcGIS.globalIdFieldName);
     expect(arcGIS.displayFieldName).toEqual(pbfArcGIS.displayFieldName);
@@ -255,7 +255,7 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
     );
     expect(arcGIS.geometryType).toEqual(pbfArcGIS.geometryType);
 
-    // properties not on interface
+    // properties not on IFeature interface
     expect((arcGIS as any).uniqueIdField).toEqual(
       (pbfArcGIS as any).uniqueIdField
     );
