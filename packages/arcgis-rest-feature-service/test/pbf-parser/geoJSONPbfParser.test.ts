@@ -4,11 +4,16 @@ import {
   readEnvironmentFileToJSON
 } from "../utils/readFileArrayBuffer.js";
 import pbfToGeoJSON from "../../src/pbf-parser/geoJSONPbfParser.js";
+import {
+  compareCoordinates,
+  compareProperties,
+  maxPrecision
+} from "../utils/geoJsonTestHelpers.js";
 
 describe("geoJSONPbfParser should decode each geometry type", () => {
   test("should decode POINT pbf to geojson", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPointResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
     );
     const geoJSON = pbfToGeoJSON(arrayBuffer);
     expect(geoJSON.features[0].geometry).toHaveProperty("type", "Point");
@@ -18,7 +23,7 @@ describe("geoJSONPbfParser should decode each geometry type", () => {
 
   test("should decode LINE pbf to geojson", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFLineResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFLineResponseCRS4326.pbf"
     );
     const geoJSON = pbfToGeoJSON(arrayBuffer);
     expect(geoJSON.features[0].geometry).toHaveProperty("type", "LineString");
@@ -30,7 +35,7 @@ describe("geoJSONPbfParser should decode each geometry type", () => {
 
   test("should decode POLYGON pbf to geojson", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonResponseCRS4326.pbf"
     );
     const geoJSON = pbfToGeoJSON(arrayBuffer);
     expect(geoJSON.features[0].geometry).toHaveProperty("type", "Polygon");
@@ -41,29 +46,252 @@ describe("geoJSONPbfParser should decode each geometry type", () => {
     expect(geoJSON.features[0].geometry.coordinates[0][0].length).toBe(2);
   });
 
-  // This does not work, as the pbf response has much higher precision than the geojson json file. Need to test this live against the service instead.
-  test("for equality: geojson response vs pbf-as-geojson response", async () => {
+  // test the shape and structure of geojson and pbf-decoded geojson
+  test("equality: geojson POINT vs decoded pbf POINT", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
     );
-    const jsonMock = await readEnvironmentFileToJSON(
+    const geoJSON = await readEnvironmentFileToJSON(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONPointResponse.json"
+    );
+    const pbfGeoJSON = pbfToGeoJSON(arrayBuffer);
+
+    expect(geoJSON.type).toEqual(pbfGeoJSON.type);
+    expect(geoJSON.properties?.exceededTransferLimit).toEqual(
+      pbfGeoJSON.properties?.exceededTransferLimit
+    );
+    expect(geoJSON.crs).toEqual(pbfGeoJSON.crs);
+    expect(geoJSON.crs).toBeUndefined();
+
+    // test feature equality
+    const geoJSONFeature = geoJSON.features[0];
+    const pbfGeoJSONFeature = pbfGeoJSON.features[0];
+
+    expect(geoJSONFeature.id).toEqual(pbfGeoJSONFeature.id);
+    expect(geoJSONFeature.type).toEqual(pbfGeoJSONFeature.type);
+
+    // check that the feature properties match on both objects.
+    expect(geoJSONFeature.properties).toEqual(pbfGeoJSONFeature.properties);
+
+    // test for geometry shape and coordinate lengths, not checking for coordinates equality in this test
+    expect(geoJSONFeature.geometry.type).toBe(pbfGeoJSONFeature.geometry.type);
+    expect(geoJSONFeature.geometry.type).toBe("Point");
+    const geoJSONCoords = geoJSONFeature.geometry.coordinates;
+    const pbfGeoJSONCoords = pbfGeoJSONFeature.geometry.coordinates;
+    expect(geoJSONCoords.length).toEqual(pbfGeoJSONCoords.length);
+    expect(geoJSONCoords.length).toEqual(2);
+  });
+
+  test("equality: geojson LINE vs decoded pbf LINE", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFLineResponseCRS4326.pbf"
+    );
+    const geoJSON = await readEnvironmentFileToJSON(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONLineResponse.json"
+    );
+    const pbfGeoJSON = pbfToGeoJSON(arrayBuffer);
+
+    // check top-level properties
+    expect(geoJSON.type).toEqual(pbfGeoJSON.type);
+    expect(geoJSON.properties?.exceededTransferLimit).toEqual(
+      pbfGeoJSON.properties?.exceededTransferLimit
+    );
+    expect(geoJSON.crs).toEqual(pbfGeoJSON.crs);
+    expect(geoJSON.crs).toBeUndefined();
+    const geoJSONFeature = geoJSON.features[0];
+    const pbfGeoJSONFeature = pbfGeoJSON.features[0];
+
+    // test feature equality
+    expect(geoJSONFeature.id).toEqual(pbfGeoJSONFeature.id);
+    expect(geoJSONFeature.type).toEqual(pbfGeoJSONFeature.type);
+
+    // using a custom matcher for comparing properties with potential decimal precision issues
+    expect(
+      compareProperties(geoJSONFeature.properties, pbfGeoJSONFeature.properties)
+    ).toBe(true);
+    expect(geoJSONFeature.geometry.type).toBe(pbfGeoJSONFeature.geometry.type);
+    expect(geoJSONFeature.geometry.type).toBe("LineString");
+    const geoJSONCoords = geoJSONFeature.geometry.coordinates;
+    const pbfGeoJSONCoords = pbfGeoJSONFeature.geometry.coordinates;
+    expect(geoJSONCoords.length).toEqual(pbfGeoJSONCoords.length);
+    expect(geoJSONCoords.length).toEqual(22);
+  });
+
+  test("equality: geojson POLYGON vs decoded pbf POLYGON", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonResponseCRS4326.pbf"
+    );
+    const geoJSON = await readEnvironmentFileToJSON(
       "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONPolygonResponse.json"
     );
-    console.log(arrayBuffer.byteLength);
 
-    const geoJSONFromPbf = pbfToGeoJSON(arrayBuffer);
-    (geoJSONFromPbf as any).tempId = "THISONE";
-    //expect(geoJSONFromPbf).toEqual(jsonMock);
-    //expect(geoJSONFromPbf.features[0].geometry.coordinates[0]).toEqual(jsonMock.features[0].geometry.coordinates[0]);
-    console.log(
-      JSON.stringify(
-        geoJSONFromPbf.features[0].geometry.coordinates[0],
-        null,
-        2
-      )
+    const pbfGeoJSON = pbfToGeoJSON(arrayBuffer);
+
+    expect(geoJSON.type).toEqual(pbfGeoJSON.type);
+    expect(geoJSON.properties?.exceededTransferLimit).toEqual(
+      pbfGeoJSON.properties?.exceededTransferLimit
     );
-    console.log(
-      JSON.stringify(jsonMock.features[0].geometry.coordinates[0], null, 2)
+    // whether defined or undefined, crs should be equal
+    expect(geoJSON.crs).toEqual(pbfGeoJSON.crs);
+    expect(geoJSON.crs).toBeUndefined();
+    const geoJSONFeature = geoJSON.features[0];
+    const pbfGeoJSONFeature = pbfGeoJSON.features[0];
+
+    expect(geoJSONFeature.id).toEqual(pbfGeoJSONFeature.id);
+    expect(geoJSONFeature.type).toEqual(pbfGeoJSONFeature.type);
+
+    // check that the feature properties match on both objects.
+    expect(geoJSONFeature.properties).toEqual(pbfGeoJSONFeature.properties);
+
+    // test for geometry shape and coordinate lengths, not checking for coordinates equality in this test
+    expect(geoJSONFeature.geometry.type).toBe(pbfGeoJSONFeature.geometry.type);
+    const geoJSONCoords = geoJSONFeature.geometry.coordinates;
+    const pbfGeoJSONCoords = pbfGeoJSONFeature.geometry.coordinates;
+    expect(geoJSONFeature.geometry.type).toBe("Polygon");
+    expect(geoJSONCoords[0].length).toEqual(pbfGeoJSONCoords[0].length);
+  });
+
+  // Test for coordinate precision for properties
+  test("equality: geojson CRS:3857 (wkid:102100) POLYGON vs decoded pbf CRS:3857 POLYGON", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonResponseCRS3857.pbf"
     );
+    const geoJSON = await readEnvironmentFileToJSON(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONPolygonResponseCRS3857.json"
+    );
+    const pbfGeoJSON = pbfToGeoJSON(arrayBuffer);
+
+    expect(geoJSON.type).toEqual(pbfGeoJSON.type);
+    expect(geoJSON.properties?.exceededTransferLimit).toEqual(
+      pbfGeoJSON.properties?.exceededTransferLimit
+    );
+    expect(geoJSON.crs).toEqual(pbfGeoJSON.crs);
+    expect(geoJSON.crs.properties.name).toBe("EPSG:3857");
+    const geoJSONFeature = geoJSON.features[0];
+    const pbfGeoJSONFeature = pbfGeoJSON.features[0];
+
+    expect(geoJSONFeature.id).toEqual(pbfGeoJSONFeature.id);
+    expect(geoJSONFeature.type).toEqual(pbfGeoJSONFeature.type);
+
+    // check that the feature properties match on both objects.
+    expect(geoJSONFeature.properties).toEqual(pbfGeoJSONFeature.properties);
+
+    // test for geometry shape and coordinate lengths, not checking for coordinates equality in this test
+    expect(geoJSONFeature.geometry.type).toBe(pbfGeoJSONFeature.geometry.type);
+    const geoJSONCoords = geoJSONFeature.geometry.coordinates;
+    const pbfGeoJSONCoords = pbfGeoJSONFeature.geometry.coordinates;
+    expect(geoJSONFeature.geometry.type).toBe("Polygon");
+    expect(geoJSONCoords[0].length).toEqual(pbfGeoJSONCoords[0].length);
+  });
+
+  // test for coordinate equality to a certain precision
+  test("precision: geojson POLYGON coordinates should match pbf POLYGON coordinates to a certain precision", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonResponseCRS4326.pbf"
+    );
+    const geoJSON = await readEnvironmentFileToJSON(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONPolygonResponse.json"
+    );
+    const pbfGeoJSON = pbfToGeoJSON(arrayBuffer);
+
+    const coordA = geoJSON.features[0].geometry.coordinates;
+    const coordB = pbfGeoJSON.features[0].geometry.coordinates;
+
+    // Coordinate precision reference:
+    // 5 decimal places: ~1.1 meters
+    // 6 decimal places: ~1.1 decimeters (11 cm)
+    // 7 decimal places: ~1.1 centimeters
+    // 8 decimal places: ~1.1 millimeters
+    // (at the equator; precision distance decreases with latitude)
+
+    // In this one polygon feature, we can only get total equality up to 5-digit precision.
+    // theoretically and considering rounding,
+    // at 6 digit precision there are (1) coordinate differences of < (~11 cm / 2) (5.5 cm)
+    // at 7 digit precision there are (3) coordinate differences of < (~1.1 cm / 2) (.55 cm)
+    // at 8 digit precision there are (23) coordinate differences of < (~1.1 mm / 2) (.55 mm)
+    const coordinatePrecision = 5;
+    const deviances = compareCoordinates(coordA, coordB, coordinatePrecision);
+    // at 5 digit precision, geojson and pbf coordinates all match
+    // but could have drift of < .55 meter
+    // practically though, the drift for the largest deviance (at 6 digit precision) in this single feature is 50 micrometers (.05mm).
+    // this drift is due to the way pbf transforms and rebuilds coordinates using deltas to reconstruct coordinate values.
+    expect(deviances.length).toBe(0);
+
+    const highPrecision = 7;
+    const deviancesHighPrecision = compareCoordinates(
+      coordA,
+      coordB,
+      highPrecision
+    );
+    // at 7 digit precision, there are three coordinates that drift by < 30 micrometers (0.03 mm) for one polygon feature
+    expect(deviancesHighPrecision.length).toBe(3);
+    const maxPrecisionHere = maxPrecision(coordA, coordB);
+    expect(maxPrecisionHere).toBe(coordinatePrecision);
+  });
+
+  test("precision: geojson LINE coordinates should match pbf LINE coordinates to a certain precision", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFLineResponseCRS4326.pbf"
+    );
+    const geoJSON = await readEnvironmentFileToJSON(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONLineResponse.json"
+    );
+    const pbfGeoJSON = pbfToGeoJSON(arrayBuffer);
+
+    const coordA = geoJSON.features[0].geometry.coordinates;
+    const coordB = pbfGeoJSON.features[0].geometry.coordinates;
+
+    const coordinatePrecision = 7;
+    const deviances = compareCoordinates(coordA, coordB, coordinatePrecision);
+    // for this line feature, the max drift between a geojson and corresponding pbf coordinate is less than 50 micrometers or .05 mm
+    expect(deviances.length).toBe(0);
+  });
+
+  test("precision: geojson POINT coordinates should equal pbf POINT coordinates", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
+    );
+    const geoJSON = await readEnvironmentFileToJSON(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONPointResponse.json"
+    );
+    const pbfGeoJSON = pbfToGeoJSON(arrayBuffer);
+
+    const coordA = geoJSON.features[0].geometry.coordinates;
+    const coordB = pbfGeoJSON.features[0].geometry.coordinates;
+
+    // for this point feature the coordinates match exactly.
+    expect(coordA).toEqual(coordB);
+  });
+
+  // test for coordinate equality to a certain precision
+  test("precision: geojson CRS:3857 (wkid:102100) POLYGON coordinates should match pbf CRS:3857 POLYGON coordinates to a certain precision", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonResponseCRS3857.pbf"
+    );
+    const geoJSON = await readEnvironmentFileToJSON(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONPolygonResponseCRS3857.json"
+    );
+    const pbfGeoJSON = pbfToGeoJSON(arrayBuffer);
+
+    const coordA = geoJSON.features[0].geometry.coordinates;
+    const coordB = pbfGeoJSON.features[0].geometry.coordinates;
+
+    // Coordinates are in Web Mercator (EPSG:3857)
+    const coordinatePrecision = 7;
+    const deviances = compareCoordinates(coordA, coordB, coordinatePrecision);
+    expect(deviances.length).toBe(0);
+
+    const highPrecision = 8;
+    const deviancesHighPrecision = compareCoordinates(
+      coordA,
+      coordB,
+      highPrecision
+    );
+    // at 8 digit precision, Web Mercator, there are 5 coordinates that drift by up to 5.3 nanometers for one polygon feature
+    expect(deviancesHighPrecision.length).toBe(5);
+
+    // max matching precision is 7 decimals for this feature
+    const maxPrecisionHere = maxPrecision(coordA, coordB);
+    expect(maxPrecisionHere).toBe(coordinatePrecision);
   });
 });

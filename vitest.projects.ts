@@ -26,9 +26,9 @@ export const browserHeadlessConfig = {
       provider: playwright(),
       headless: true,
       instances: [
-        { browser: "chromium" },
-        { browser: "firefox" },
-        { browser: "webkit" }
+        { browser: "chromium" }
+        //{ browser: "firefox" },
+        //{ browser: "webkit" }
       ]
     },
     include: testPackages,

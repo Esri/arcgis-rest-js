@@ -6,7 +6,7 @@ export const readEnvironmentEmptyArrayBuffer = () => {
     return new ArrayBuffer(8);
   }
   if (isNode) {
-    return Buffer.from([]);
+    return new ArrayBuffer(8);
   }
 };
 
@@ -18,7 +18,11 @@ export const readEnvironmentFileToArrayBuffer = async (filePath: string) => {
   }
   if (isNode) {
     const fs = await import("fs");
-    return fs.readFileSync(filePath);
+    const nodeBuffer = fs.readFileSync(filePath);
+    return nodeBuffer.buffer.slice(
+      nodeBuffer.byteOffset,
+      nodeBuffer.byteOffset + nodeBuffer.byteLength
+    );
   }
 };
 

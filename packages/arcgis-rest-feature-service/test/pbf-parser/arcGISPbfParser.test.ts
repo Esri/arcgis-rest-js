@@ -157,7 +157,7 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
     const pbfArcGIS = pbfToArcGIS(arrayBuffer);
 
     const pathJSON =
-      "./packages/arcgis-rest-feature-service/test/mocks/polygon/arcGISPolygonResponse.json";
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/arcGISPolygonResponse.json";
     const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
       pathJSON
     );
@@ -196,7 +196,7 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
     const pbfArcGIS = pbfToArcGIS(arrayBuffer);
 
     const pathJSON =
-      "./packages/arcgis-rest-feature-service/test/mocks/point/arcGISPointResponse.json";
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/arcGISPointResponse.json";
     const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
       pathJSON
     );
@@ -240,7 +240,7 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
     const pbfArcGIS = pbfToArcGIS(arrayBuffer);
 
     const pathJSON =
-      "./packages/arcgis-rest-feature-service/test/mocks/line/arcGISLineResponse.json";
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/arcGISLineResponse.json";
     const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
       pathJSON
     );

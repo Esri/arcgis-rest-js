@@ -148,7 +148,7 @@ describe("getFeature() and queryFeatures()", () => {
     // should decode a valid pbf-as-geojson response from public server without api key
     test("(valid) should query pbf-as-geojson features by requesting pbf arrayBuffer and decoding into geojson", async () => {
       const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/results.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/MaritalStatusBoundariesResponse.pbf"
       );
 
       // manually structure pbf response object so fetchmock doesn't convert to json
@@ -330,7 +330,7 @@ describe("getFeature() and queryFeatures()", () => {
   describe("queryFeatures(): pbf-as-arcgis", () => {
     test("should query pbf as arcgis features by requesting pbf arrayBuffer and decoding into geojson then transforming to arcgis json objects", async () => {
       const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/results.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/MaritalStatusBoundariesResponse.pbf"
       );
 
       fetchMock.once(
