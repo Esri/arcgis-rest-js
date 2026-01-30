@@ -1,0 +1,110 @@
+{
+  "objectIdFieldName": "OBJECTID",
+  "uniqueIdField": {
+    "name": "OBJECTID",
+    "isSystemMaintained": true
+  },
+  "globalIdFieldName": "",
+  "geometryType": "esriGeometryPoint",
+  "spatialReference": {
+    "wkid": 102100,
+    "latestWkid": 3857
+  },
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "sqlType": "sqlTypeOther",
+      "domain": null,
+      "defaultValue": null,
+      "required": true
+    },
+    {
+      "name": "ZIP_CODE",
+      "type": "esriFieldTypeString",
+      "alias": "ZIP Code",
+      "sqlType": "sqlTypeOther",
+      "length": 10,
+      "domain": null,
+      "defaultValue": null,
+      "description": "{\"value\":\"The five digit ZIP Code for the feature.\",\"fieldValueType\":\"uniqueIdentifier\"}"
+    },
+    {
+      "name": "PO_NAME",
+      "type": "esriFieldTypeString",
+      "alias": "Post Office Name",
+      "sqlType": "sqlTypeOther",
+      "length": 100,
+      "domain": null,
+      "defaultValue": null,
+      "description": "{\"value\":\"Name of the post Office or large volume postal customer.\",\"fieldValueType\":\"nameOrTitle\"}"
+    },
+    {
+      "name": "STATE",
+      "type": "esriFieldTypeString",
+      "alias": "State Abbreviation",
+      "sqlType": "sqlTypeOther",
+      "length": 2,
+      "domain": null,
+      "defaultValue": null,
+      "description": "{\"value\":\"The two character abbreviation of the the State the feature is in.\",\"fieldValueType\":\"uniqueIdentifier\"}"
+    },
+    {
+      "name": "ZIP_TYPE",
+      "type": "esriFieldTypeString",
+      "alias": "ZIP Code Type",
+      "sqlType": "sqlTypeOther",
+      "length": 50,
+      "domain": null,
+      "defaultValue": null,
+      "description": "{\"value\":\"Indicates whether the ZIP Code represents a Post Office or a large volume postal customer.\",\"fieldValueType\":\"typeOrCategory\"}"
+    },
+    {
+      "name": "POPULATION",
+      "type": "esriFieldTypeInteger",
+      "alias": "2023 Total Population",
+      "sqlType": "sqlTypeOther",
+      "domain": null,
+      "defaultValue": null,
+      "description": "{\"value\":\"The total population of the ZIP Code area if it represents a delivery area instead of a Post Office.\",\"fieldValueType\":\"countOrAmount\"}"
+    },
+    {
+      "name": "POP_SQMI",
+      "type": "esriFieldTypeDouble",
+      "alias": "People per square mile",
+      "sqlType": "sqlTypeOther",
+      "domain": null,
+      "defaultValue": null,
+      "description": "{\"value\":\"The total number of people living in the ZIP Code area, if it represents a delivery area and not a Post Office.\",\"fieldValueType\":\"measurement\"}"
+    },
+    {
+      "name": "SQMI",
+      "type": "esriFieldTypeDouble",
+      "alias": "Area in square miles",
+      "sqlType": "sqlTypeOther",
+      "domain": null,
+      "defaultValue": null,
+      "description": "{\"value\":\"The area of the ZIP Code delivery area in square miles.\",\"fieldValueType\":\"\"}"
+    }
+  ],
+  "exceededTransferLimit": true,
+  "features": [
+    {
+      "attributes": {
+        "OBJECTID": 1,
+        "ZIP_CODE": "00501",
+        "PO_NAME": "Holtsville",
+        "STATE": "NY",
+        "ZIP_TYPE": "Post Office or large volume customer",
+        "POPULATION": null,
+        "POP_SQMI": null,
+        "SQMI": null
+      },
+      "geometry": {
+        "x": -8131340.553956478,
+        "y": 4985356.996949511
+      }
+    }
+  ]
+}
