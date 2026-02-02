@@ -168,7 +168,7 @@ export function removeEmptyValues(obj: any) {
 }
 
 function normalizeFeatureResponse(featureResult: any): IQueryFeaturesResponse {
-  // List of keys pbf response that are not part of IQueryFeaturesResponse
+  // List of keys pbf decoder result that are not part of IQueryFeaturesResponse
   const excludeKeys: string[] = [
     "serverGens",
     "geohashFieldName",

@@ -197,35 +197,39 @@ describe("geoJSONPbfParser should decode each geometry type", () => {
     const coordA = geoJSON.features[0].geometry.coordinates;
     const coordB = pbfGeoJSON.features[0].geometry.coordinates;
 
-    // Coordinate precision reference:
+    // Coordinate precision reference (truncation-induced inaccuracies):
     // 5 decimal places: ~1.1 meters
     // 6 decimal places: ~1.1 decimeters (11 cm)
     // 7 decimal places: ~1.1 centimeters
     // 8 decimal places: ~1.1 millimeters
     // (at the equator; precision distance decreases with latitude)
+    // Rounding to a precision will halve the inaccuracy, e.g., .5 meters at 5 decimal places
 
     // In this one polygon feature, we can only get total equality up to 5-digit precision.
-    // theoretically and considering rounding,
+    // theoretically and with rounding,
     // at 6 digit precision there are (1) coordinate differences of < (~11 cm / 2) (5.5 cm)
     // at 7 digit precision there are (3) coordinate differences of < (~1.1 cm / 2) (.55 cm)
     // at 8 digit precision there are (23) coordinate differences of < (~1.1 mm / 2) (.55 mm)
     const coordinatePrecision = 5;
-    const deviances = compareCoordinates(coordA, coordB, coordinatePrecision);
     // at 5 digit precision, geojson and pbf coordinates all match
+    const deviances = compareCoordinates(coordA, coordB, coordinatePrecision);
     // but could have drift of < .55 meter
-    // practically though, the drift for the largest deviance (at 6 digit precision) in this single feature is 50 micrometers (.05mm).
     // this drift is due to the way pbf transforms and rebuilds coordinates using deltas to reconstruct coordinate values.
+    // by preserving all digits and not rounding, the practical drift for the largest deviance in this single feature is 50 micrometers (.05mm).
+
+    // therefore, for this test we will accept coordinates are close enough at 5 digit precision
     expect(deviances.length).toBe(0);
 
-    const highPrecision = 7;
+    const highPrecision = 6;
     const deviancesHighPrecision = compareCoordinates(
       coordA,
       coordB,
       highPrecision
     );
-    // at 7 digit precision, there are three coordinates that drift by < 30 micrometers (0.03 mm) for one polygon feature
-    expect(deviancesHighPrecision.length).toBe(3);
+    // at 6 digit precision, there are (1)) coordinates that drift by < .05 millimeters (max coordinate deviance) for a single polygon feature
+    expect(deviancesHighPrecision.length).toBe(1);
     const maxPrecisionHere = maxPrecision(coordA, coordB);
+    // max precision where all coordinates match exactly is 5 decimals for this feature
     expect(maxPrecisionHere).toBe(coordinatePrecision);
   });
 
