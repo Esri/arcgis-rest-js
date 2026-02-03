@@ -32,12 +32,11 @@ export default function pbfToArcGIS(
   // Normalize fields
   out.fields = decodeFields(featureResult.fields);
 
-  // Create attribute field maps
+  // Get attribute and geometry transformations
   const attributeFields = featureResult.fields.map((field: any) => ({
     ...field,
     keyName: getKeyName(field)
   }));
-
   const geometryParser = getGeometryParser(geometryType);
 
   // Normalize Features

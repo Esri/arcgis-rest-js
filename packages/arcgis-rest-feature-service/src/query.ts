@@ -156,7 +156,7 @@ export interface IQueryResponse {
 }
 
 /**
- * Helper function to query and decode pbf features on the client. Improved performance on slow networks and large queries.
+ * Query and decode pbf features on the client. Improves performance on slow networks and large queries.
  * Handles both f=pbf-as-geojson and f=pbf-as-arcgis format query params and handles errors.
  *
  * @param url - A feature service url

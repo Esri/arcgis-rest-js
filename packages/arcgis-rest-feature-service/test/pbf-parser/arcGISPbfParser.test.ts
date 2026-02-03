@@ -27,9 +27,6 @@ describe("decode: arcGISPbfParser should convert pbf-as-arcgis arraybuffers to a
     expect(arcgis.hasZ).toBe(false);
     expect(arcgis.hasM).toBe(false);
     expect(arcgis.exceededTransferLimit).toBe(true);
-    // required IFeature properties (features)
-    expect(arcgis.features.length).toBe(1);
-
     // inspect IField object for required props
     expect(arcgis.fields[0].name).toBe("FID");
     expect(arcgis.fields[0].type).toBe("esriFieldTypeOID");
@@ -42,6 +39,8 @@ describe("decode: arcGISPbfParser should convert pbf-as-arcgis arraybuffers to a
     expect(arcgis.fields[0].editable).toBe(undefined);
     // sqlType not on IFields interface at the moment
     expect((arcgis.fields[0] as any).sqlType).toBe(undefined);
+    // required IFeature properties (features)
+    expect(arcgis.features.length).toBe(1);
   });
 
   test("should convert a pbf single feature POINT to arcgis query features object", async () => {
@@ -293,7 +292,7 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
         },
         {
           name: "field2",
-          fieldType: 2, // will be mapped to a type string
+          fieldType: 2,
           domain: "",
           editable: true,
           exactMatch: false,
@@ -319,7 +318,7 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
       // required properties should be decoded properly
       expect(decoded[1].name).toBe("field1");
       expect(decoded[1].type).toBe("esriFieldTypeInteger");
-      // optional properties should be decoded situationally
+      // optional properties should be decoded situationally:
       // or not present on the object if not defined
       expect(decoded[2].domain).toBe(null);
       expect(decoded[2].defaultValue).toBe(null);

@@ -8,7 +8,7 @@ import Pbf from "pbf";
 
 export interface EsriGeoJSONFeatureCollection {
   type: "FeatureCollection";
-  // optional coordinate reference system that may not be necessary?
+  // optional coordinate reference system that may not be necessary
   crs?: {
     type: "name";
     properties: {
