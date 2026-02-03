@@ -1,5 +1,7 @@
 import { test, describe, expect } from "vitest";
-import pbfToArcGIS from "../../src/pbf-parser/arcGISPbfParser.js";
+import pbfToArcGIS, {
+  decodeFields
+} from "../../src/pbf-parser/arcGISPbfParser.js";
 import {
   readEnvironmentFileToArrayBuffer,
   readEnvironmentFileToJSON
@@ -273,5 +275,65 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
 
     expect(arcGIS.fields.length).toEqual(pbfArcGIS.fields.length);
     expect(arcGIS.features.length).toEqual(pbfArcGIS.features.length);
+  });
+
+  // this test is covering decodeFields/decodeField which was custom made to match the way ArcGIS JSON Fields object represents empty values.
+  // if we replace the decoder with another newer official Esri one in the future, this test and transformations may need to be updated.
+  describe("decodeFields/decodeField optional property handling", () => {
+    test("should handle domain, editable, exactMatch, length, nullable, defaultValue", () => {
+      // IField-like object from the decoder to be transformed into IField.
+      const mockFields = [
+        {
+          // empty object
+        },
+        {
+          // required IField props only
+          name: "field1",
+          fieldType: 1
+        },
+        {
+          name: "field2",
+          fieldType: 2, // will be mapped to a type string
+          domain: "",
+          editable: true,
+          exactMatch: false,
+          length: 0,
+          nullable: true,
+          defaultValue: ""
+        },
+        {
+          name: "field3",
+          fieldType: 3,
+          domain: { type: "range" },
+          editable: false,
+          exactMatch: true,
+          length: 255,
+          nullable: false,
+          defaultValue: "default"
+        }
+      ];
+      const decoded = decodeFields(mockFields);
+      // required properties keys should be populated
+      expect(decoded[0].name).toBeUndefined();
+      expect(decoded[0].type).toBeUndefined();
+      // required properties should be decoded properly
+      expect(decoded[1].name).toBe("field1");
+      expect(decoded[1].type).toBe("esriFieldTypeInteger");
+      // optional properties should be decoded situationally
+      // or not present on the object if not defined
+      expect(decoded[2].domain).toBe(null);
+      expect(decoded[2].defaultValue).toBe(null);
+      expect(decoded[2].editable).toBe(true);
+      expect(decoded[2].exactMatch).toBe(false);
+      expect(decoded[2].nullable).toBe(true);
+      expect(decoded[2]).not.toHaveProperty("length");
+      // optional properties should be decoded properly when defined
+      expect(decoded[3].domain).toEqual({ type: "range" });
+      expect(decoded[3].editable).toBe(false);
+      expect(decoded[3].exactMatch).toBe(true);
+      expect(decoded[3].length).toBe(255);
+      expect(decoded[3].nullable).toBe(false);
+      expect(decoded[3].defaultValue).toBe("default");
+    });
   });
 });

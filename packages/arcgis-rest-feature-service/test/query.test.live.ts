@@ -4,6 +4,7 @@ import {
   IQueryAllFeaturesOptions,
   IQueryAllFeaturesResponse,
   IQueryFeaturesOptions,
+  IQueryFeaturesResponse,
   queryAllFeatures,
   queryFeatures
 } from "../src/index.js";

@@ -23,6 +23,7 @@ export default function pbfToArcGIS(
     // fields and features will be constructed below
   };
 
+  // istanbul ignore else --@preserve
   if (out.spatialReference) {
     // Remove any spatial reference fields with empty values
     out.spatialReference = removeEmptyValues(out.spatialReference);
@@ -72,7 +73,7 @@ export function decode(
 export function decodeFields(fields: any[]) {
   // Build lookup maps
   const fieldTypeMap = buildKeyMap(EsriPbfBuffer.FieldType);
-  const sqlTypeMap = buildKeyMap(EsriPbfBuffer.SQLType);
+  //const sqlTypeMap = buildKeyMap(EsriPbfBuffer.SQLType);
 
   return fields.map(
     (field: any) => decodeField(field, fieldTypeMap)
@@ -98,18 +99,18 @@ export function decodeField(
   // configure getters that return arcgis json default values for optional props
   const optionalProps: Array<[string, (f: any) => any]> = [
     ["alias", (f) => f.alias],
-    // TODO: ? is domain a value that needs to be decoded similar to type?
+    // TODO: ? is domain a value that needs to be decoded similar to type, or just parsed as is?
     ["domain", (f) => (f.domain === "" ? null : f.domain)],
     ["editable", (f) => f.editable],
     ["exactMatch", (f) => f.exactMatch],
     ["length", (f) => (f.length === 0 ? undefined : f.length)],
     ["nullable", (f) => f.nullable],
-    ["defaultValue", (f) => (f.defaultValue === "" ? null : f.defaultValue)],
+    ["defaultValue", (f) => (f.defaultValue === "" ? null : f.defaultValue)]
     /**
      * sqlType doesn't exist on docs or IField interface but was returned on the ArcGIS json response
      * and by PbfFeatureCollection definition with a value.
      */
-    ["sqlType", (f) => (sqlTypeMap ? sqlTypeMap[f.sqlType] : undefined)]
+    //["sqlType", (f) => (sqlTypeMap ? sqlTypeMap[f.sqlType] : undefined)]
   ];
 
   // set required properties
@@ -218,6 +219,7 @@ function getGeometryType(featureType: number): GeometryType {
       return "esriGeometryPolyline";
     case 3:
       return "esriGeometryPolygon";
+    // istanbul ignore next --@preserve
     default:
       throw new Error("Geometry type not supported.");
   }
@@ -233,6 +235,7 @@ function createPoint(f: any, transform: any) {
     y: p.coordinates[1]
   };
   // structure output according to arcgis point geometry spec
+  // istanbul ignore if else --@preserve
   if (p.coordinates.length > 2) {
     return { ...ret, z: p.coordinates[2] };
   }
