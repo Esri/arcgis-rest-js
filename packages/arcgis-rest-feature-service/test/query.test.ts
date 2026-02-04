@@ -145,10 +145,74 @@ describe("getFeature() and queryFeatures()", () => {
   });
 
   describe("queryFeatures(): pbf-as-geojson", () => {
+    test("should save pbf responses to local filesystem", async () => {
+      const requestOptions = {
+        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+        f: "pbf", // triggers pbf request and geojson conversion in rest-js
+        rawResponse: true,
+        outSR: "4326", // matches the mocked outSR for web mercator
+        resultOffset: 23464,
+        where: "1=1",
+        outFields: ["*"]
+      };
+
+      const response = await queryFeatures(requestOptions);
+      const arrayBuffer = await (response as any).arrayBuffer();
+
+      const fs = await import("fs");
+      // fs.writeFileSync(
+      //   "./packages/arcgis-rest-feature-service/test/mocks/geojson/Page500json.json",
+      //   JSON.stringify(response, null, 2)
+      // );
+      // fs.writeFileSync(
+      //   "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage67.pbf",
+      //   Buffer.from(arrayBuffer)
+      // );
+    });
+
+    test("should read many kinds of pbf files from local filesystem", async () => {
+      const page3PartialArrBuff = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage3PartialCRS4326.pbf"
+      );
+
+      const docsPbfOptions: IQueryFeaturesOptions = {
+        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+        f: "pbf-as-geojson",
+        where: "1=1",
+        outFields: ["*"]
+      };
+      const url =
+        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0/query?f=pbf&where=1%3D1&outFields=*&outSR=4326";
+      fetchMock.once(
+        url,
+        {
+          status: 200,
+          headers: { "content-type": "application/x-protobuf" },
+          body: page3PartialArrBuff
+        },
+        { sendAsJson: false }
+      );
+      const response4Page3Partial = await queryFeatures(docsPbfOptions);
+
+      console.log(
+        "response4Page3Partial",
+        response4Page3Partial.features[0].id
+      );
+      console.log(
+        "response4Page3Partial",
+        response4Page3Partial.features[66].id
+      );
+      console.log(
+        "exceededTransferLimit",
+        response4Page3Partial.properties.exceededTransferLimit
+      );
+      expect(response4Page3Partial.features.length).toBe(67);
+    });
+
     // should decode a valid pbf-as-geojson response from public server without api key
     test("(valid) should query pbf-as-geojson features by requesting pbf arrayBuffer and decoding into geojson", async () => {
       const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/MaritalStatusBoundariesResponse.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/geojson/MaritalStatusBoundariesResponseCRS4326.pbf"
       );
 
       // manually structure pbf response object so fetchmock doesn't convert to json
@@ -176,7 +240,6 @@ describe("getFeature() and queryFeatures()", () => {
           "NAME",
           "OBJECTID"
         ],
-        outSR: "102100",
         returnGeometry: false,
         spatialRel: "esriSpatialRelIntersects",
         where: "1=1"
@@ -190,6 +253,81 @@ describe("getFeature() and queryFeatures()", () => {
       expect(response.features[0].properties.OBJECTID).toBe(49481);
       expect(response.features[0].properties.County).toBe("Nassau County");
       expect(response.features[0].id).toBe(49481);
+    });
+
+    test("(valid) standard geojson query should not return crs property in response", async () => {
+      const serviceUrl = `https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_ZIP_Code_Points_analysis/FeatureServer/0`;
+      const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
+      );
+
+      const zipCodePointsPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
+        url: serviceUrl,
+        f: "pbf-as-geojson",
+        where: "1=1",
+        outFields: ["*"],
+        resultRecordCount: 1
+      };
+
+      fetchMock.once(
+        // queryFeatures:pbf-as-geojson will default outSR to 4326 for pbf requests to get standard geojson crs coordinates.
+        `${serviceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultRecordCount=1&outSR=4326`,
+        {
+          status: 200,
+          headers: { "content-type": "application/x-protobuf" },
+          body: arrayBuffer
+        },
+        { sendAsJson: false }
+      );
+
+      const geojson = (await queryFeatures(
+        zipCodePointsPbfAsGeoJSONOptions
+      )) as any;
+      expect(fetchMock.called()).toBeTruthy();
+      const [url, options] = fetchMock.lastCall("*");
+      expect(options.method).toBe("GET");
+      expect(geojson.type).toBe("FeatureCollection");
+      expect(geojson.features.length).toBe(1);
+      // standard responses should not have a crs property as the standard for geojson is to always be in EPSG:4326
+      expect(geojson).not.toHaveProperty("crs");
+    });
+
+    test("(error) should throw a 422 error when attempting a pbf-as-geojson request with nonstandard outSR for pbf-as-geojson", async () => {
+      const serviceUrl = `https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_ZIP_Code_Points_analysis/FeatureServer/0`;
+      const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
+      );
+
+      const zipCodePointsPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
+        url: serviceUrl,
+        f: "pbf-as-geojson",
+        where: "1=1",
+        outFields: ["*"],
+        resultRecordCount: 1,
+        outSR: "3857" // non standard for geojson
+      };
+
+      fetchMock.once(
+        // queryFeatures:pbf-as-geojson will default outSR to 4326 for pbf requests to get standard geojson crs coordinates.
+        "*",
+        {
+          status: 200,
+          headers: { "content-type": "application/x-protobuf" },
+          body: arrayBuffer
+        },
+        { sendAsJson: false }
+      );
+      try {
+        await queryFeatures(zipCodePointsPbfAsGeoJSONOptions);
+      } catch (error) {
+        expect(fetchMock.called()).toBeFalsy(); // should error before fetch called
+        expect(fetchMock.calls().length).toBe(0);
+        expect(error).toBeInstanceOf(ArcGISRequestError);
+        expect((error as any).code).toBe(422);
+        expect((error as any).message).toContain(
+          "422: Unsupported CRS format for GeoJSON."
+        );
+      }
     });
 
     test("(error) should throw a 500 ArcGISRequestError when pbf-as-geojson decode returns nothing or fails to decode", async () => {
@@ -316,43 +454,6 @@ describe("getFeature() and queryFeatures()", () => {
         expect(error).toBeInstanceOf(ArcGISRequestError);
         expect((error as any).code).toBe(500);
       }
-    });
-
-    test("(valid) standard geojson query should not return crs property in response", async () => {
-      const serviceUrl = `https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_ZIP_Code_Points_analysis/FeatureServer/0`;
-      const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
-      );
-
-      const zipCodePointsPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
-        url: serviceUrl,
-        f: "pbf-as-geojson",
-        where: "1=1",
-        outFields: ["*"],
-        resultRecordCount: 1
-      };
-
-      fetchMock.once(
-        // queryFeatures:pbf-as-geojson will default outSR to 4326 for pbf requests to get standard geojson crs coordinates.
-        `${serviceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultRecordCount=1&outSR=4326`,
-        {
-          status: 200,
-          headers: { "content-type": "application/x-protobuf" },
-          body: arrayBuffer
-        },
-        { sendAsJson: false }
-      );
-
-      const geojson = (await queryFeatures(
-        zipCodePointsPbfAsGeoJSONOptions
-      )) as any;
-      expect(fetchMock.called()).toBeTruthy();
-      const [url, options] = fetchMock.lastCall("*");
-      expect(options.method).toBe("GET");
-      expect(geojson.type).toBe("FeatureCollection");
-      expect(geojson.features.length).toBe(1);
-      // standard responses should not have a crs property as the standard for geojson is to always be in EPSG:4326
-      expect(geojson).not.toHaveProperty("crs");
     });
   });
 
@@ -680,15 +781,12 @@ describe("queryAllFeatures", () => {
   });
 
   describe("queryAllFeatures (pbf-as-geojson)", () => {
-    /*
-     * all tests here use geometry data with coordinates in web mercator (EPSG:3857/102100),
-     */
     test("(valid less than) should query only one page of pbf-as-geojson if total features are less than page size", async () => {
       const thisServiceUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
 
       const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage3PartialCRS4326.pbf"
       );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -697,8 +795,8 @@ describe("queryAllFeatures", () => {
 
       fetchMock.once(
         // feature service request will be f=pbf since we are converting to geojson in rest-js,
-        // setting outSR to 102100 to mock a fetch in web mercator since our large pages of pbf mock data are in web mercator
-        `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=500&outSR=102100`,
+        // query-as-geojson will default outSR to 4326 for pbf requests to get standard WSG84 lat/long geojson crs coordinates.
+        `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=500&outSR=4326`,
         {
           status: 200,
           headers: { "content-type": "application/x-protobuf" },
@@ -709,23 +807,22 @@ describe("queryAllFeatures", () => {
 
       const docsPbfOptions: IQueryAllFeaturesOptions = {
         url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-        f: "pbf-as-geojson",
-        // specify webmercator here, since our mock pbf data is in web mercator
-        outSR: 102100
+        f: "pbf-as-geojson"
+        // not setting outSR should default to 4326 for pbf-as-geojson requests
+        // setting outSR to 4326 explicitly will yield the same behavior
       };
 
       const geojson = await queryAllFeatures(docsPbfOptions);
       // expect fetch mock to only have been called twice: once for metadata, once for features
       expect(fetchMock.calls().length).toBe(2);
-      expect(geojson.features.length).toBe(131);
-      expect((geojson.features[0] as any).id).toBe(23401);
+      expect(geojson.features.length).toBe(67);
+      expect((geojson.features[0] as any).id).toBe(23465);
       expect(geojson.features[0]).toHaveProperty("properties");
       expect(geojson.features[0]).toHaveProperty("geometry");
-      // since we are not sending default crs (EPSG:4326) in pbf-as-geojson request, crs property should be present
-      expect(geojson.crs).toBeDefined();
-      expect(geojson.crs.properties.name).toBe("EPSG:3857");
-      // since total features (131) is less than, exceededTransferLimit will be false
-      expect(geojson.properties.exceededTransferLimit).toBe(false);
+      // default pbf-as-geojson responses should not have a crs property
+      expect(geojson).not.toHaveProperty("crs");
+      // since total features (67) is less than, exceededTransferLimit will be false
+      expect((geojson as any).properties.exceededTransferLimit).toBe(false);
     });
 
     test("(valid equal to) should query only one page of pbf-as-geojson if total features equal page size", async () => {
@@ -733,18 +830,17 @@ describe("queryAllFeatures", () => {
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
 
       const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage3PartialCRS4326.pbf"
       );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
-        maxRecordCount: 131
+        maxRecordCount: 67
       });
 
       fetchMock.once(
         // feature service request will be f=pbf since we are converting to geojson in rest-js
-        // passing outSR 3857 to fetch in web mercator since our mock pbf data is in web mercator
-        // passing outSR 3857 or 102100 should yield same results since they are equivalent
-        `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=131&outSR=3857`,
+        // pbf-as-geojson queries will set outSR to 4326 (geojson standard) so feature service doesnt return 3857 coords by default
+        `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=67&outSR=4326`,
         {
           status: 200,
           headers: { "content-type": "application/x-protobuf" },
@@ -755,22 +851,18 @@ describe("queryAllFeatures", () => {
 
       const docsPbfOptions: IQueryAllFeaturesOptions = {
         url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-        f: "pbf-as-geojson",
-        outSR: 3857
+        f: "pbf-as-geojson"
       };
 
       const geojson = await queryAllFeatures(docsPbfOptions);
       // expect fetch mock to only have been called twice: once for metadata, once for features
       expect(fetchMock.calls().length).toBe(2);
-      expect(geojson.features.length).toBe(131);
-      expect((geojson.features[0] as any).id).toBe(23401);
+      expect(geojson.features.length).toBe(67);
+      expect((geojson.features[0] as any).id).toBe(23465);
       expect(geojson.features[0]).toHaveProperty("properties");
       expect(geojson.features[0]).toHaveProperty("geometry");
-      // since we are not sending default crs (EPSG:4326) in pbf-as-geojson request, crs property should be present
-      expect(geojson.crs).toBeDefined();
-      expect(geojson.crs.properties.name).toBe("EPSG:3857");
       // since max page size equals total features, exceededTransferLimit should be false
-      expect(geojson.properties.exceededTransferLimit).toBe(false);
+      expect((geojson as any).properties.exceededTransferLimit).toBe(false);
     });
 
     test("(valid exceeds) should query multiple pages of pbf-as-geojson if total features exceed page size", async () => {
@@ -778,10 +870,10 @@ describe("queryAllFeatures", () => {
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
 
       const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage1.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage1CRS4326.pbf"
       );
       const arrayBufferSet2 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage3PartialCRS4326.pbf"
       );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -789,7 +881,7 @@ describe("queryAllFeatures", () => {
       });
 
       fetchMock.once(
-        `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=500&outSR=102100`,
+        `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=500&outSR=4326`,
         {
           status: 200,
           headers: { "content-type": "application/x-protobuf" },
@@ -799,7 +891,7 @@ describe("queryAllFeatures", () => {
       );
 
       fetchMock.once(
-        `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=500&resultRecordCount=500&outSR=102100`,
+        `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=500&resultRecordCount=500&outSR=4326`,
         {
           status: 200,
           headers: { "content-type": "application/x-protobuf" },
@@ -811,35 +903,29 @@ describe("queryAllFeatures", () => {
       const docsPbfOptions: IQueryAllFeaturesOptions = {
         url: thisServiceUrl,
         f: "pbf-as-geojson",
-        outSR: 102100
+        // explicitly setting outSR to 4326 for geojson standard will yield same behavior as default
+        outSR: "4326"
       };
 
       const geojson = await queryAllFeatures(docsPbfOptions);
-      console.log(geojson);
-      expect(geojson.features.length).toBe(631);
+      expect(geojson.features.length).toBe(567);
       expect((geojson.features[0] as any).id).toBe(1);
       expect((geojson.features[499] as any).id).toBe(500);
       //id's jump because we are using last page as partial which comes after page 5
-      expect((geojson.features[500] as any).id).toBe(23401);
+      expect((geojson.features[500] as any).id).toBe(23465);
       expect(geojson.features[0]).toHaveProperty("properties");
       expect(geojson.features[0]).toHaveProperty("geometry");
-      // since we are not sending default crs (EPSG:4326) in pbf-as-geojson request, crs property should be present
-      expect(geojson.crs).toBeDefined();
-      expect(geojson.crs.properties.name).toBe("EPSG:3857");
       // exceededTransferLimit only gets set the first iteration on the response object so it will always be true in multi-page scenarios
-      expect(geojson.properties.exceededTransferLimit).toBe(true);
+      expect((geojson as any).properties.exceededTransferLimit).toBe(true);
     });
 
-    test("(valid large) should query all pbf-as-geojson features as geojson objects", async () => {
+    test("(valid all) should query all pbf-as-geojson features as geojson objects", async () => {
       const thisServiceUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
       const rawPbfPaths = [
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage1.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage2.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage3.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage4.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage5.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage1CRS4326.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage2CRS4326.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage3PartialCRS4326.pbf"
       ];
       const pbfPages: (ArrayBuffer | Buffer)[] = [];
 
@@ -857,7 +943,7 @@ describe("queryAllFeatures", () => {
       for (let i = 0; i < pbfPages.length; i++) {
         const offset = i * 500;
         fetchMock.once(
-          `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=${offset}&resultRecordCount=500&outSR=102100`,
+          `${thisServiceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultOffset=${offset}&resultRecordCount=500&outSR=4326`,
           {
             status: 200,
             headers: { "content-type": "application/x-protobuf" },
@@ -869,19 +955,15 @@ describe("queryAllFeatures", () => {
 
       const docsPbfOptions: IQueryAllFeaturesOptions = {
         url: thisServiceUrl,
-        f: "pbf-as-geojson",
-        outSR: 102100
+        f: "pbf-as-geojson"
       };
 
       const geojson = await queryAllFeatures(docsPbfOptions);
 
-      expect(fetchMock.calls().length).toBe(7); // 1 for metadata + 6 pages
-      expect(geojson.features.length).toBe(2631);
-      // since we are sending outSR in pbf-as-geojson request, crs property should be present
-      expect(geojson.crs).toBeDefined();
-      expect(geojson.crs.properties.name).toBe("EPSG:3857");
+      expect(fetchMock.calls().length).toBe(4); // 1 for metadata + 6 pages
+      expect(geojson.features.length).toBe(1067);
       // exceededTransferLimit only gets set the first iteration on the response object so it will always be true in multi-page scenarios
-      expect(geojson.properties.exceededTransferLimit).toBe(true);
+      expect((geojson as any).properties.exceededTransferLimit).toBe(true);
     });
   });
 
@@ -916,7 +998,6 @@ describe("queryAllFeatures", () => {
       };
 
       const response = await queryAllFeatures(docsPbfOptions);
-      console.log(response.features[0]);
       // expect fetch mock to only have been called twice: once for max page size, once for features
       expect(fetchMock.calls().length).toBe(2);
       expect(response.features.length).toBe(131);

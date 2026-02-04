@@ -168,13 +168,25 @@ export function queryPbfAsGeoJSONOrArcGIS(
   url: string,
   queryOptions: IRequestOptions
 ): Promise<IQueryFeaturesResponse | IQueryAllFeaturesResponse> {
-  // default pbf wkid to EPSG:4326 to satisfy geojson crs standard unless otherwise specified
+  // if f=pbf-as-geojson, we need to set outSR=4326 to satisfy geojson crs standard
+  // if f-pbf-as-geojson, outSR should not be set, or should be 4326 otherwise throw error
+  if (
+    queryOptions.params.f === "pbf-as-geojson" &&
+    queryOptions.params.outSR &&
+    queryOptions.params.outSR !== "4326"
+  ) {
+    throw new ArcGISRequestError(
+      "Unsupported CRS format for GeoJSON.",
+      422,
+      null,
+      url,
+      queryOptions
+    );
+  }
+  // default pbf request to EPSG:4326 if requesting pbf-as-geojson to satisfy geojson crs standard
   const geoJSONSpatialReference =
-    queryOptions.params.f === "pbf-as-geojson"
-      ? { outSR: queryOptions.params.outSR || "4326" }
-      : {};
+    queryOptions.params.f === "pbf-as-geojson" ? { outSR: "4326" } : {};
   // query with f=pbf and rawResponse:true on behalf of the user to fetch metadata with the pbf response
-  // manually construct request options for pbf request
   const customOptions = {
     ...queryOptions,
     params: {

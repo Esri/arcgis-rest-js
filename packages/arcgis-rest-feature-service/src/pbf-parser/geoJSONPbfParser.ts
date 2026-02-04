@@ -9,12 +9,6 @@ import Pbf from "pbf";
 export interface EsriGeoJSONFeatureCollection {
   type: "FeatureCollection";
   // optional coordinate reference system that may not be necessary
-  crs?: {
-    type: "name";
-    properties: {
-      name: string; // e.g., "EPSG:4326", "EPSG:3857"
-    };
-  };
   features: any[];
   properties?: {
     exceededTransferLimit?: boolean;
@@ -50,20 +44,6 @@ export function decode(featureCollectionBuffer: any) {
     features: []
   };
 
-  // if the spatial reference is web mercator, add the crs property
-  // otherwise default to assuming WGS84 (ESPG:4326) per geojson
-  // if feature service returns wkid 102100, latestWkid will be 3857
-  if (
-    featureResult.spatialReference?.wkid === 3857 ||
-    featureResult.spatialReference?.latestWkid === 3857
-  ) {
-    out.crs = {
-      type: "name",
-      properties: {
-        name: "EPSG:3857"
-      }
-    };
-  }
   out.properties = {
     exceededTransferLimit: featureResult.exceededTransferLimit
   };
