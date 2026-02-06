@@ -10,7 +10,7 @@ import {
   maxPrecision
 } from "../utils/geoJsonTestHelpers.js";
 
-describe("geoJSONPbfParser should decode each geometry type", () => {
+describe("decode: geoJSONPbfParser should convert pbf arraybuffers to geoJSON objects", () => {
   test("should decode POINT pbf to geojson", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
       "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"

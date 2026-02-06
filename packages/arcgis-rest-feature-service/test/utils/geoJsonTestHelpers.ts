@@ -1,4 +1,3 @@
-/* istanbul ignore next --@preserve */
 // Find the greatest precision (1-8) at which two coordinate arrays match
 export function maxPrecision(a: any[], b: any[]): number {
   for (let precision = 8; precision >= 1; precision--) {
@@ -10,13 +9,11 @@ export function maxPrecision(a: any[], b: any[]): number {
   return -1; // No precision found where all match
 }
 
-/* istanbul ignore next --@preserve */
 // Helper: compare two numbers up to a given decimal precision (default 6)
 function numbersEqual(a: number, b: number, precision = 6) {
   return Number(a.toFixed(precision)) === Number(b.toFixed(precision));
 }
 
-/* istanbul ignore next --@preserve */
 // Helper: compare two properties objects (deep, with number precision up to given digits)
 export function compareProperties(
   a: Record<string, any>,
@@ -58,7 +55,6 @@ export function compareProperties(
   }
 }
 
-/* istanbul ignore next --@preserve */
 // Helper: recursively compare coordinates (numbers only, up to given digits)
 export function compareCoordinates(
   a: any,

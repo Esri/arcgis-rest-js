@@ -9,7 +9,7 @@ import {
 import { IQueryFeaturesResponse } from "../../src/query.js";
 import { IDomain } from "@esri/arcgis-rest-request";
 
-describe("decode: arcGISPbfParser should convert pbf-as-arcgis arraybuffers to arcGIS JSON objects", () => {
+describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON objects", () => {
   test("should convert a pbf single feature POLYGON to arcgis query features object", async () => {
     const path =
       "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonResponse.pbf";
