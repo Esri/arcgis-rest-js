@@ -176,7 +176,7 @@ export function queryPbfAsGeoJSONOrArcGIS(
     queryOptions.params.outSR !== "4326"
   ) {
     throw new ArcGISRequestError(
-      "Unsupported CRS format for GeoJSON.",
+      "Unsupported outSR for GeoJSON requests.",
       422,
       null,
       url,

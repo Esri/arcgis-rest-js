@@ -143,428 +143,380 @@ describe("getFeature() and queryFeatures()", () => {
     expect(options.body).toContain("definitionExpression=APPROXACRE%3C10000");
     expect(options.body).toContain("outFields=APPROXACRE%2CFIELD_NAME");
   });
+});
 
-  describe("queryFeatures(): pbf-as-geojson", () => {
-    test("should save pbf responses to local filesystem", async () => {
-      const requestOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-        f: "pbf", // triggers pbf request and geojson conversion in rest-js
-        rawResponse: true,
-        outSR: "4326", // matches the mocked outSR for web mercator
-        resultOffset: 23464,
-        where: "1=1",
-        outFields: ["*"]
-      };
-
-      const response = await queryFeatures(requestOptions);
-      const arrayBuffer = await (response as any).arrayBuffer();
-
-      const fs = await import("fs");
-      // fs.writeFileSync(
-      //   "./packages/arcgis-rest-feature-service/test/mocks/geojson/Page500json.json",
-      //   JSON.stringify(response, null, 2)
-      // );
-      // fs.writeFileSync(
-      //   "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage67.pbf",
-      //   Buffer.from(arrayBuffer)
-      // );
-    });
-
-    test("should read many kinds of pbf files from local filesystem", async () => {
-      const page3PartialArrBuff = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage3PartialCRS4326.pbf"
-      );
-
-      const docsPbfOptions: IQueryFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-        f: "pbf-as-geojson",
-        where: "1=1",
-        outFields: ["*"]
-      };
-      const url =
-        "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0/query?f=pbf&where=1%3D1&outFields=*&outSR=4326";
-      fetchMock.once(
-        url,
-        {
-          status: 200,
-          headers: { "content-type": "application/x-protobuf" },
-          body: page3PartialArrBuff
-        },
-        { sendAsJson: false }
-      );
-      const response4Page3Partial = await queryFeatures(docsPbfOptions);
-
-      console.log(
-        "response4Page3Partial",
-        response4Page3Partial.features[0].id
-      );
-      console.log(
-        "response4Page3Partial",
-        response4Page3Partial.features[66].id
-      );
-      console.log(
-        "exceededTransferLimit",
-        response4Page3Partial.properties.exceededTransferLimit
-      );
-      expect(response4Page3Partial.features.length).toBe(67);
-    });
-
-    // should decode a valid pbf-as-geojson response from public server without api key
-    test("(valid) should query pbf-as-geojson features by requesting pbf arrayBuffer and decoding into geojson", async () => {
-      const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/geojson/MaritalStatusBoundariesResponseCRS4326.pbf"
-      );
-
-      // manually structure pbf response object so fetchmock doesn't convert to json
-      fetchMock.once(
-        "*",
-        {
-          status: 200,
-          headers: { "content-type": "application/x-protobuf" },
-          body: arrayBuffer
-        },
-        { sendAsJson: false }
-      );
-
-      // configure query options
-      const testPublicFeatureServer: IQueryFeaturesOptions = {
-        url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2",
-        f: "pbf-as-geojson",
-        objectIds: [49481],
-        outFields: [
-          "B12001_calc_numDivorcedE",
-          "B12001_calc_numMarriedE",
-          "B12001_calc_numNeverE",
-          "B12001_calc_pctMarriedE",
-          "County",
-          "NAME",
-          "OBJECTID"
-        ],
-        returnGeometry: false,
-        spatialRel: "esriSpatialRelIntersects",
-        where: "1=1"
-      };
-      const response = (await queryFeatures(testPublicFeatureServer)) as any;
-
-      expect(fetchMock.called()).toBeTruthy();
-      const [url, options] = fetchMock.lastCall("*");
-      expect(options.method).toBe("GET");
-      expect(response.features.length).toBe(1);
-      expect(response.features[0].properties.OBJECTID).toBe(49481);
-      expect(response.features[0].properties.County).toBe("Nassau County");
-      expect(response.features[0].id).toBe(49481);
-    });
-
-    test("(valid) standard geojson query should not return crs property in response", async () => {
-      const serviceUrl = `https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_ZIP_Code_Points_analysis/FeatureServer/0`;
-      const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
-      );
-
-      const zipCodePointsPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
-        url: serviceUrl,
-        f: "pbf-as-geojson",
-        where: "1=1",
-        outFields: ["*"],
-        resultRecordCount: 1
-      };
-
-      fetchMock.once(
-        // queryFeatures:pbf-as-geojson will default outSR to 4326 for pbf requests to get standard geojson crs coordinates.
-        `${serviceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultRecordCount=1&outSR=4326`,
-        {
-          status: 200,
-          headers: { "content-type": "application/x-protobuf" },
-          body: arrayBuffer
-        },
-        { sendAsJson: false }
-      );
-
-      const geojson = (await queryFeatures(
-        zipCodePointsPbfAsGeoJSONOptions
-      )) as any;
-      expect(fetchMock.called()).toBeTruthy();
-      const [url, options] = fetchMock.lastCall("*");
-      expect(options.method).toBe("GET");
-      expect(geojson.type).toBe("FeatureCollection");
-      expect(geojson.features.length).toBe(1);
-      // standard responses should not have a crs property as the standard for geojson is to always be in EPSG:4326
-      expect(geojson).not.toHaveProperty("crs");
-    });
-
-    test("(error) should throw a 422 error when attempting a pbf-as-geojson request with nonstandard outSR for pbf-as-geojson", async () => {
-      const serviceUrl = `https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_ZIP_Code_Points_analysis/FeatureServer/0`;
-      const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
-      );
-
-      const zipCodePointsPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
-        url: serviceUrl,
-        f: "pbf-as-geojson",
-        where: "1=1",
-        outFields: ["*"],
-        resultRecordCount: 1,
-        outSR: "3857" // non standard for geojson
-      };
-
-      fetchMock.once(
-        // queryFeatures:pbf-as-geojson will default outSR to 4326 for pbf requests to get standard geojson crs coordinates.
-        "*",
-        {
-          status: 200,
-          headers: { "content-type": "application/x-protobuf" },
-          body: arrayBuffer
-        },
-        { sendAsJson: false }
-      );
-      try {
-        await queryFeatures(zipCodePointsPbfAsGeoJSONOptions);
-      } catch (error) {
-        expect(fetchMock.called()).toBeFalsy(); // should error before fetch called
-        expect(fetchMock.calls().length).toBe(0);
-        expect(error).toBeInstanceOf(ArcGISRequestError);
-        expect((error as any).code).toBe(422);
-        expect((error as any).message).toContain(
-          "422: Unsupported CRS format for GeoJSON."
-        );
-      }
-    });
-
-    test("(error) should throw a 500 ArcGISRequestError when pbf-as-geojson decode returns nothing or fails to decode", async () => {
-      const arrayBuffer = await readEnvironmentEmptyArrayBuffer();
-
-      fetchMock.once(
-        "*",
-        {
-          status: 200,
-          headers: { "content-type": "application/x-protobuf" },
-          body: arrayBuffer
-        },
-        { sendAsJson: false }
-      );
-
-      const docsPbfOptions: IQueryFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-        f: "pbf-as-geojson",
-        where: "1=1",
-        outFields: ["*"],
-        resultOffset: 0,
-        resultRecordCount: 3
-      };
-
-      try {
-        await queryFeatures(docsPbfOptions);
-      } catch (error) {
-        expect(error).toBeInstanceOf(ArcGISRequestError);
-        expect((error as any).message).toContain(
-          "500: Unable to decode pbf response."
-        );
-      }
-    });
-
-    // should handle pbf-as-geojson requests that return unauthenticated states, fetchmock only
-    test("(invalid auth) should throw 498 arcgis auth error for queryFeatures() pbf-as-geojson queries when service returns 200 with json object containing error", async () => {
-      const featureServiceInvalidTokenErrorResponse = {
-        error: {
-          code: 498,
-          message: "Invalid token.",
-          details: ["Invalid token."]
-        }
-      };
-      fetchMock.once("*", {
+describe("queryFeatures(): pbf-as-geojson", () => {
+  afterEach(() => {
+    fetchMock.restore();
+  });
+  // should decode a valid pbf-as-geojson response from public server without api key
+  test("(valid) should query pbf-as-geojson features by requesting pbf arrayBuffer and decoding into geojson", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/MaritalStatusBoundariesResponseCRS4326.pbf"
+    );
+    // manually structure pbf response object so fetchmock doesn't convert to json
+    fetchMock.once(
+      "*",
+      {
         status: 200,
-        headers: { "content-type": "application/json; charset=utf-8" },
-        body: featureServiceInvalidTokenErrorResponse
-      });
+        headers: { "content-type": "application/x-protobuf" },
+        body: arrayBuffer
+      },
+      { sendAsJson: false }
+    );
 
-      const docsPbfOptions: IQueryFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-        f: "pbf-as-geojson",
-        where: "1=1",
-        outFields: ["*"],
-        resultOffset: 0,
-        resultRecordCount: 3
-      };
-      try {
-        await queryFeatures(docsPbfOptions);
-      } catch (error) {
-        expect(error).toBeInstanceOf(ArcGISAuthError);
-        expect((error as any).message).toBe("498: Invalid token.");
-      }
-    });
+    // configure query options
+    const testPublicFeatureServer: IQueryFeaturesOptions = {
+      url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2",
+      f: "pbf-as-geojson",
+      objectIds: [49481],
+      outFields: [
+        "B12001_calc_numDivorcedE",
+        "B12001_calc_numMarriedE",
+        "B12001_calc_numNeverE",
+        "B12001_calc_pctMarriedE",
+        "County",
+        "NAME",
+        "OBJECTID"
+      ],
+      returnGeometry: false,
+      spatialRel: "esriSpatialRelIntersects",
+      where: "1=1"
+    };
+    const geojson = (await queryFeatures(
+      testPublicFeatureServer
+    )) as GeoJSON.FeatureCollection;
 
-    test("(invalid auth) should throw 499 arcgis auth error when service returns 200 with json object containing token required error", async () => {
-      const featureServiceInvalidTokenErrorResponse = {
-        error: {
-          code: 499,
-          // not exact message from service
-          message: "Token required.",
-          details: ["Token required."]
-        }
-      };
-      fetchMock.once("*", {
-        status: 200,
-        headers: { "content-type": "application/json; charset=utf-8" },
-        body: featureServiceInvalidTokenErrorResponse
-      });
-
-      const docsPbfOptions: IQueryFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-        f: "pbf-as-geojson",
-        where: "1=1",
-        outFields: ["*"],
-        resultOffset: 0,
-        resultRecordCount: 3
-      };
-      try {
-        await queryFeatures(docsPbfOptions);
-      } catch (error) {
-        expect(error).toBeInstanceOf(ArcGISAuthError);
-        expect((error as any).code).toBe(499);
-      }
-    });
-
-    test("(invalid request) should throw arcgis request error when service returns 200 with json object containing error", async () => {
-      const featureServiceInvalidTokenErrorResponse = {
-        error: {
-          code: 500,
-          // not exact message from service
-          message: "An error occurred.",
-          details: ["An error occurred."]
-        }
-      };
-      fetchMock.once("*", {
-        status: 200,
-        headers: { "content-type": "application/json; charset=utf-8" },
-        body: featureServiceInvalidTokenErrorResponse
-      });
-
-      const docsPbfOptions: IQueryFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-        f: "pbf-as-geojson",
-        where: "1=1",
-        outFields: ["*"],
-        resultOffset: 0,
-        resultRecordCount: 3
-      };
-      try {
-        await queryFeatures(docsPbfOptions);
-      } catch (error) {
-        expect((error as any).name).toBe("ArcGISRequestError");
-        expect(error).toBeInstanceOf(ArcGISRequestError);
-        expect((error as any).code).toBe(500);
-      }
-    });
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.method).toBe("GET");
+    expect(geojson.type).toBe("FeatureCollection");
+    expect(geojson.features.length).toBe(1);
+    expect(geojson.features[0].id).toBe(49481);
+    expect(geojson.features[0]).toHaveProperty("properties");
+    expect(geojson.features[0]).toHaveProperty("geometry");
+    expect(geojson.features[0]).toHaveProperty("geometry", null); // returnGeometry false should return null geometry
+    // check some properties
+    expect(geojson.features[0].properties.OBJECTID).toBe(49481);
+    expect(geojson.features[0].properties.County).toBe("Nassau County");
+    expect(geojson).not.toHaveProperty("crs");
+    // queryFeatures should return exceededTransferLimit property of false
+    expect((geojson as any).properties.exceededTransferLimit).toBe(false);
   });
 
-  describe("queryFeatures(): pbf-as-arcgis", () => {
-    test("should query pbf as arcgis features by requesting pbf arrayBuffer and decoding into geojson then transforming to arcgis json objects", async () => {
-      const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/MaritalStatusBoundariesResponse.pbf"
-      );
+  test("(valid) standard geojson query should not return crs property in response", async () => {
+    const serviceUrl = `https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_ZIP_Code_Points_analysis/FeatureServer/0`;
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
+    );
 
-      fetchMock.once(
-        "*",
-        {
-          status: 200,
-          headers: { "content-type": "application/x-protobuf" },
-          body: arrayBuffer
-        },
-        { sendAsJson: false }
-      );
+    const zipCodePointsPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
+      url: serviceUrl,
+      f: "pbf-as-geojson",
+      where: "1=1",
+      outFields: ["*"],
+      resultRecordCount: 1
+    };
 
-      const testPublicFeatureServer: IQueryFeaturesOptions = {
-        url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2",
-        f: "pbf-as-arcgis",
-        objectIds: [49481],
-        outFields: [
-          "B12001_calc_numDivorcedE",
-          "B12001_calc_numMarriedE",
-          "B12001_calc_numNeverE",
-          "B12001_calc_pctMarriedE",
-          "County",
-          "NAME",
-          "OBJECTID"
-        ],
-        outSR: "102100",
-        returnGeometry: false,
-        spatialRel: "esriSpatialRelIntersects",
-        where: "1=1"
-      };
-
-      const response = (await queryFeatures(
-        testPublicFeatureServer
-      )) as IQueryFeaturesResponse;
-
-      expect(fetchMock.called()).toBeTruthy();
-      const [url, options] = fetchMock.lastCall("*");
-      expect(options.method).toBe("GET");
-      expect(response.features.length).toBe(1);
-      expect(response.features[0].attributes.OBJECTID).toBe(49481);
-      expect(response.features[0].attributes.County).toBe("Nassau County");
-    });
-
-    test("(invalid) should throw an arcgis request error when pbf-as-arcgis decode returns nothing or fails to decode", async () => {
-      const arrayBuffer = await readEnvironmentEmptyArrayBuffer();
-
-      fetchMock.once(
-        "*",
-        {
-          status: 200,
-          headers: { "content-type": "application/x-protobuf" },
-          body: arrayBuffer
-        },
-        { sendAsJson: false }
-      );
-
-      const docsPbfOptions: IQueryFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-        f: "pbf-as-arcgis",
-        where: "1=1",
-        outFields: ["*"],
-        resultOffset: 0,
-        resultRecordCount: 3
-      };
-
-      try {
-        await queryFeatures(docsPbfOptions);
-      } catch (error) {
-        expect(error).toBeInstanceOf(ArcGISRequestError);
-        expect((error as any).message).toContain(
-          "500: Unable to decode pbf response."
-        );
-      }
-    });
-
-    test("(invalid auth) should throw arcgis auth error for queryFeatures() pbf-as-arcgis queries when service returns 200 with json object containing error", async () => {
-      const featureServiceInvalidTokenErrorResponse = {
-        error: {
-          code: 498,
-          message: "Invalid token.",
-          details: ["Invalid token."]
-        }
-      };
-      fetchMock.once("*", {
+    fetchMock.once(
+      // queryFeatures:pbf-as-geojson will default outSR to 4326 for pbf requests to get standard geojson crs coordinates.
+      `${serviceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultRecordCount=1&outSR=4326`,
+      {
         status: 200,
-        headers: { "content-type": "application/json; charset=utf-8" },
-        body: featureServiceInvalidTokenErrorResponse
-      });
+        headers: { "content-type": "application/x-protobuf" },
+        body: arrayBuffer
+      },
+      { sendAsJson: false }
+    );
 
-      const docsPbfOptions: IQueryFeaturesOptions = {
-        url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
-        f: "pbf-as-arcgis",
-        where: "1=1",
-        outFields: ["*"],
-        resultOffset: 0,
-        resultRecordCount: 3
-      };
-      try {
-        await queryFeatures(docsPbfOptions);
-      } catch (error) {
-        expect(error).toBeInstanceOf(ArcGISAuthError);
-        expect((error as any).message).toBe("498: Invalid token.");
+    const geojson = (await queryFeatures(
+      zipCodePointsPbfAsGeoJSONOptions
+    )) as any;
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.method).toBe("GET");
+    expect(geojson.type).toBe("FeatureCollection");
+    expect(geojson.features.length).toBe(1);
+    // standard responses should not have a crs property as the standard for geojson is to always be in EPSG:4326
+    expect(geojson).not.toHaveProperty("crs");
+  });
+
+  test("(error) should throw a 422 error when attempting a pbf-as-geojson request with nonstandard outSR for pbf-as-geojson", async () => {
+    const serviceUrl = `https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_ZIP_Code_Points_analysis/FeatureServer/0`;
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
+    );
+
+    const zipCodePointsPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
+      url: serviceUrl,
+      f: "pbf-as-geojson",
+      where: "1=1",
+      outFields: ["*"],
+      resultRecordCount: 1,
+      outSR: "3857" // non standard for geojson
+    };
+
+    fetchMock.once(
+      // queryFeatures:pbf-as-geojson will default outSR to 4326 for pbf requests to get standard geojson crs coordinates.
+      "*",
+      {
+        status: 200,
+        headers: { "content-type": "application/x-protobuf" },
+        body: arrayBuffer
+      },
+      { sendAsJson: false }
+    );
+    try {
+      await queryFeatures(zipCodePointsPbfAsGeoJSONOptions);
+    } catch (error) {
+      expect(fetchMock.called()).toBeFalsy(); // should error before fetch called
+      expect(fetchMock.calls().length).toBe(0);
+      expect(error).toBeInstanceOf(ArcGISRequestError);
+      expect((error as any).code).toBe(422);
+      expect((error as any).message).toContain(
+        "422: Unsupported outSR for GeoJSON requests."
+      );
+    }
+  });
+
+  test("(error) should throw a 500 ArcGISRequestError when pbf-as-geojson decode returns nothing or fails to decode", async () => {
+    const arrayBuffer = await readEnvironmentEmptyArrayBuffer();
+
+    fetchMock.once(
+      "*",
+      {
+        status: 200,
+        headers: { "content-type": "application/x-protobuf" },
+        body: arrayBuffer
+      },
+      { sendAsJson: false }
+    );
+
+    const docsPbfOptions: IQueryFeaturesOptions = {
+      url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      f: "pbf-as-geojson",
+      where: "1=1",
+      outFields: ["*"],
+      resultOffset: 0,
+      resultRecordCount: 3
+    };
+
+    try {
+      await queryFeatures(docsPbfOptions);
+    } catch (error) {
+      expect(error).toBeInstanceOf(ArcGISRequestError);
+      expect((error as any).message).toContain(
+        "500: Unable to decode pbf response."
+      );
+    }
+  });
+
+  // should handle pbf-as-geojson requests that return unauthenticated states, fetchmock only
+  test("(invalid auth) should throw 498 arcgis auth error for queryFeatures() pbf-as-geojson queries when service returns 200 with json object containing error", async () => {
+    const featureServiceInvalidTokenErrorResponse = {
+      error: {
+        code: 498,
+        message: "Invalid token.",
+        details: ["Invalid token."]
       }
+    };
+    fetchMock.once("*", {
+      status: 200,
+      headers: { "content-type": "application/json; charset=utf-8" },
+      body: featureServiceInvalidTokenErrorResponse
     });
+
+    const docsPbfOptions: IQueryFeaturesOptions = {
+      url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      f: "pbf-as-geojson",
+      where: "1=1",
+      outFields: ["*"],
+      resultOffset: 0,
+      resultRecordCount: 3
+    };
+    try {
+      await queryFeatures(docsPbfOptions);
+    } catch (error) {
+      expect(error).toBeInstanceOf(ArcGISAuthError);
+      expect((error as any).message).toBe("498: Invalid token.");
+    }
+  });
+
+  test("(invalid auth) should throw 499 arcgis auth error when service returns 200 with json object containing token required error", async () => {
+    const featureServiceInvalidTokenErrorResponse = {
+      error: {
+        code: 499,
+        // not exact message from service
+        message: "Token required.",
+        details: ["Token required."]
+      }
+    };
+    fetchMock.once("*", {
+      status: 200,
+      headers: { "content-type": "application/json; charset=utf-8" },
+      body: featureServiceInvalidTokenErrorResponse
+    });
+
+    const docsPbfOptions: IQueryFeaturesOptions = {
+      url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      f: "pbf-as-geojson",
+      where: "1=1",
+      outFields: ["*"],
+      resultOffset: 0,
+      resultRecordCount: 3
+    };
+    try {
+      await queryFeatures(docsPbfOptions);
+    } catch (error) {
+      expect(error).toBeInstanceOf(ArcGISAuthError);
+      expect((error as any).code).toBe(499);
+    }
+  });
+
+  test("(invalid request) should throw arcgis request error when service returns 200 with json object containing error", async () => {
+    const featureServiceInvalidTokenErrorResponse = {
+      error: {
+        code: 500,
+        // not exact message from service
+        message: "An error occurred.",
+        details: ["An error occurred."]
+      }
+    };
+    fetchMock.once("*", {
+      status: 200,
+      headers: { "content-type": "application/json; charset=utf-8" },
+      body: featureServiceInvalidTokenErrorResponse
+    });
+
+    const docsPbfOptions: IQueryFeaturesOptions = {
+      url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      f: "pbf-as-geojson",
+      where: "1=1",
+      outFields: ["*"],
+      resultOffset: 0,
+      resultRecordCount: 3
+    };
+    try {
+      await queryFeatures(docsPbfOptions);
+    } catch (error) {
+      expect((error as any).name).toBe("ArcGISRequestError");
+      expect(error).toBeInstanceOf(ArcGISRequestError);
+      expect((error as any).code).toBe(500);
+    }
+  });
+});
+
+describe("queryFeatures(): pbf-as-arcgis", () => {
+  afterEach(() => {
+    fetchMock.restore();
+  });
+
+  test("should query pbf as arcgis features by requesting pbf arrayBuffer and decoding into geojson then transforming to arcgis json objects", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/MaritalStatusBoundariesResponse.pbf"
+    );
+
+    fetchMock.once(
+      "*",
+      {
+        status: 200,
+        headers: { "content-type": "application/x-protobuf" },
+        body: arrayBuffer
+      },
+      { sendAsJson: false }
+    );
+
+    const testPublicFeatureServer: IQueryFeaturesOptions = {
+      url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2",
+      f: "pbf-as-arcgis",
+      objectIds: [49481],
+      outFields: [
+        "B12001_calc_numDivorcedE",
+        "B12001_calc_numMarriedE",
+        "B12001_calc_numNeverE",
+        "B12001_calc_pctMarriedE",
+        "County",
+        "NAME",
+        "OBJECTID"
+      ],
+      outSR: "102100",
+      returnGeometry: false,
+      spatialRel: "esriSpatialRelIntersects",
+      where: "1=1"
+    };
+
+    const response = (await queryFeatures(
+      testPublicFeatureServer
+    )) as IQueryFeaturesResponse;
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(options.method).toBe("GET");
+    expect(response.features.length).toBe(1);
+    expect(response.features[0].attributes.OBJECTID).toBe(49481);
+    expect(response.features[0].attributes.County).toBe("Nassau County");
+  });
+
+  test("(invalid) should throw an arcgis request error when pbf-as-arcgis decode returns nothing or fails to decode", async () => {
+    const arrayBuffer = await readEnvironmentEmptyArrayBuffer();
+
+    fetchMock.once(
+      "*",
+      {
+        status: 200,
+        headers: { "content-type": "application/x-protobuf" },
+        body: arrayBuffer
+      },
+      { sendAsJson: false }
+    );
+
+    const docsPbfOptions: IQueryFeaturesOptions = {
+      url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      f: "pbf-as-arcgis",
+      where: "1=1",
+      outFields: ["*"],
+      resultOffset: 0,
+      resultRecordCount: 3
+    };
+
+    try {
+      await queryFeatures(docsPbfOptions);
+    } catch (error) {
+      expect(error).toBeInstanceOf(ArcGISRequestError);
+      expect((error as any).message).toContain(
+        "500: Unable to decode pbf response."
+      );
+    }
+  });
+
+  test("(invalid auth) should throw arcgis auth error for queryFeatures() pbf-as-arcgis queries when service returns 200 with json object containing error", async () => {
+    const featureServiceInvalidTokenErrorResponse = {
+      error: {
+        code: 498,
+        message: "Invalid token.",
+        details: ["Invalid token."]
+      }
+    };
+    fetchMock.once("*", {
+      status: 200,
+      headers: { "content-type": "application/json; charset=utf-8" },
+      body: featureServiceInvalidTokenErrorResponse
+    });
+
+    const docsPbfOptions: IQueryFeaturesOptions = {
+      url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      f: "pbf-as-arcgis",
+      where: "1=1",
+      outFields: ["*"],
+      resultOffset: 0,
+      resultRecordCount: 3
+    };
+    try {
+      await queryFeatures(docsPbfOptions);
+    } catch (error) {
+      expect(error).toBeInstanceOf(ArcGISAuthError);
+      expect((error as any).message).toBe("498: Invalid token.");
+    }
   });
 });
 

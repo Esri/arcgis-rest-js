@@ -7,6 +7,7 @@ import {
   readEnvironmentFileToJSON
 } from "../utils/readFileArrayBuffer.js";
 import { IQueryFeaturesResponse } from "../../src/query.js";
+import { IDomain } from "@esri/arcgis-rest-request";
 
 describe("decode: arcGISPbfParser should convert pbf-as-arcgis arraybuffers to arcGIS JSON objects", () => {
   test("should convert a pbf single feature POLYGON to arcgis query features object", async () => {
@@ -148,6 +149,22 @@ describe("decode: arcGISPbfParser should convert pbf-as-arcgis arraybuffers to a
     // sqlType not on IFields interface at the moment
     expect((arcgis.fields[7] as any).sqlType).toBe(undefined);
   });
+
+  test("should properly decode a pbf that has populated domain in fields", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFWithDomainResponse.pbf"
+    );
+    const arcGIS = pbfToArcGIS(arrayBuffer);
+    const decodedFieldWithDomain: IDomain = arcGIS.fields[26].domain;
+
+    expect(decodedFieldWithDomain.type).toBe("codedValue");
+    expect(decodedFieldWithDomain.name).toBe("YesNo");
+    expect(decodedFieldWithDomain.codedValues.length).toBe(2);
+    expect(decodedFieldWithDomain.codedValues[0].name).toBe("Yes");
+    expect(decodedFieldWithDomain.codedValues[0].code).toBe("Yes");
+    expect(decodedFieldWithDomain.codedValues[1].name).toBe("No");
+    expect(decodedFieldWithDomain.codedValues[1].code).toBe("No");
+  });
 });
 
 describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON response objects", () => {
@@ -216,10 +233,6 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
     expect((arcGIS as any).uniqueIdField).toEqual(
       (pbfArcGIS as any).uniqueIdField
     );
-    // pbf decoder adds null geometry properties when geometryProperties are absent
-    expect(arcGIS as any).not.toHaveProperty("geometryProperties");
-    expect((pbfArcGIS as any).geometryProperties).toBe(null);
-
     expect(arcGIS.fields.length).toEqual(pbfArcGIS.fields.length);
     expect(arcGIS.features.length).toEqual(pbfArcGIS.features.length);
 
@@ -303,7 +316,8 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
         {
           name: "field3",
           fieldType: 3,
-          domain: { type: "range" },
+          domain:
+            '{"type":"codedValue","name":"YesNo","codedValues":[{"name":"Yes","code":"Yes"},{"name":"No","code":"No"}]}',
           editable: false,
           exactMatch: true,
           length: 255,
@@ -327,12 +341,25 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
       expect(decoded[2].nullable).toBe(true);
       expect(decoded[2]).not.toHaveProperty("length");
       // optional properties should be decoded properly when defined
-      expect(decoded[3].domain).toEqual({ type: "range" });
       expect(decoded[3].editable).toBe(false);
       expect(decoded[3].exactMatch).toBe(true);
       expect(decoded[3].length).toBe(255);
       expect(decoded[3].nullable).toBe(false);
       expect(decoded[3].defaultValue).toBe("default");
+      expect(decoded[3].domain).toEqual({
+        type: "codedValue",
+        name: "YesNo",
+        codedValues: [
+          {
+            name: "Yes",
+            code: "Yes"
+          },
+          {
+            name: "No",
+            code: "No"
+          }
+        ]
+      });
     });
   });
 });

@@ -6,6 +6,7 @@ import { GeometryType, IFeature, IField } from "@esri/arcgis-rest-request";
 import { FeatureCollectionPBuffer as EsriPbfBuffer } from "./PbfFeatureCollection.js";
 import Pbf from "pbf";
 import { IQueryFeaturesResponse } from "../query.js";
+import { readFeatureCollectionPBuffer } from "./PbfFeatureCollectionV2.js";
 
 export default function pbfToArcGIS(
   featureCollectionBuffer: ArrayBuffer | Uint8Array | Buffer
@@ -58,7 +59,9 @@ export function decode(
 ): { value: string; queryResult: any } {
   let decodedObject;
   try {
-    decodedObject = EsriPbfBuffer.read(new Pbf(featureCollectionBuffer));
+    decodedObject = readFeatureCollectionPBuffer(
+      new Pbf(featureCollectionBuffer)
+    );
   } catch (error) {
     /* istanbul ignore next --@preserve */
     throw new Error(`Could not parse arcgis-pbf buffer: ${error}`);
@@ -98,18 +101,14 @@ export function decodeField(
   // configure getters that return arcgis json default values for optional props
   const optionalProps: Array<[string, (f: any) => any]> = [
     ["alias", (f) => f.alias],
+    // ["sqlType", (f) => (sqlTypeMap ? sqlTypeMap[f.sqlType] : undefined)],
     // TODO: ? is domain a value that needs to be decoded similar to type, or just parsed as is?
-    ["domain", (f) => (f.domain === "" ? null : f.domain)],
+    ["domain", (f) => (f.domain === "" ? null : JSON.parse(f.domain))],
+    ["length", (f) => (f.length === 0 ? undefined : f.length)],
     ["editable", (f) => f.editable],
     ["exactMatch", (f) => f.exactMatch],
-    ["length", (f) => (f.length === 0 ? undefined : f.length)],
     ["nullable", (f) => f.nullable],
     ["defaultValue", (f) => (f.defaultValue === "" ? null : f.defaultValue)]
-    /**
-     * sqlType doesn't exist on docs or IField interface but was returned on the ArcGIS json response
-     * and by PbfFeatureCollection definition with a value.
-     */
-    //["sqlType", (f) => (sqlTypeMap ? sqlTypeMap[f.sqlType] : undefined)]
   ];
 
   // set required properties

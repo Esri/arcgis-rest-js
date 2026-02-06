@@ -4,6 +4,8 @@
  */
 
 import { FeatureCollectionPBuffer as EsriPbfBuffer } from "./PbfFeatureCollection.js";
+
+import { readFeatureCollectionPBuffer } from "./PbfFeatureCollectionV2.js";
 import Pbf from "pbf";
 
 export interface EsriGeoJSONFeatureCollection {
@@ -26,7 +28,9 @@ export default function pbfToGeoJSON(
 export function decode(featureCollectionBuffer: any) {
   let decodedObject;
   try {
-    decodedObject = EsriPbfBuffer.read(new Pbf(featureCollectionBuffer));
+    decodedObject = readFeatureCollectionPBuffer(
+      new Pbf(featureCollectionBuffer)
+    );
   } catch (error) {
     /* istanbul ignore next --@preserve */
     throw new Error(`Could not parse arcgis-pbf buffer: ${error}`);

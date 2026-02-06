@@ -46,6 +46,20 @@ describe("geoJSONPbfParser should decode each geometry type", () => {
     expect(geoJSON.features[0].geometry.coordinates[0][0].length).toBe(2);
   });
 
+  test("should decode MULTIPOLYGON pbf to geojson", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFMultiPolygonResponseCRS4326.pbf"
+    );
+    const geoJSON = pbfToGeoJSON(arrayBuffer);
+    expect(geoJSON.features[0].geometry).toHaveProperty("type", "MultiPolygon");
+    // multipolygon should have an array of polygon coordinate arrays
+    expect(geoJSON.features[0].geometry.coordinates.length).toBeGreaterThan(0);
+    expect(geoJSON.features[0].geometry.coordinates[0].length).toBeGreaterThan(
+      0
+    );
+    expect(geoJSON.features[0].geometry.coordinates[0][0][0].length).toBe(2);
+  });
+
   // test the shape and structure of geojson and pbf-decoded geojson
   test("equality: geojson POINT vs decoded pbf POINT", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
@@ -225,5 +239,92 @@ describe("geoJSONPbfParser should decode each geometry type", () => {
 
     // for this point feature the coordinates match exactly.
     expect(coordA).toEqual(coordB);
+  });
+
+  test("new decoder should perfectly match the old decoder output for the same pbf input", async () => {
+    // assign arraybuffers of every pbf we have for testing
+    const pointPbf = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
+    );
+    // duplicate point pbf arraybuff
+    const pointPbfDuplicate = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
+    );
+    const linePbf = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFLineResponseCRS4326.pbf"
+    );
+    const linePbfDuplicate = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFLineResponseCRS4326.pbf"
+    );
+    const polygonPbf = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonResponseCRS4326.pbf"
+    );
+    const polygonPbfDuplicate = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonResponseCRS4326.pbf"
+    );
+
+    const useNewDecoder = true;
+    const oldDecoderPointGeoJSON = pbfToGeoJSON(pointPbf);
+    const newDecoderPointGeoJSON = pbfToGeoJSON(
+      pointPbfDuplicate,
+      useNewDecoder
+    );
+    expect(oldDecoderPointGeoJSON).toEqual(newDecoderPointGeoJSON);
+
+    const oldDecoderLineGeoJSON = pbfToGeoJSON(linePbf);
+    const newDecoderLineGeoJSON = pbfToGeoJSON(linePbfDuplicate, useNewDecoder);
+    expect(oldDecoderLineGeoJSON).toEqual(newDecoderLineGeoJSON);
+
+    const oldDecoderPolygonGeoJSON = pbfToGeoJSON(polygonPbf);
+    const newDecoderPolygonGeoJSON = pbfToGeoJSON(
+      polygonPbfDuplicate,
+      useNewDecoder
+    );
+    expect(oldDecoderPolygonGeoJSON).toEqual(newDecoderPolygonGeoJSON);
+  });
+
+  test("new deecoder should match for arcgis pbf buffers", async () => {
+    const getFiles = async () => {
+      const msbArrayBuffer = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/MaritalStatusBoundariesResponse.pbf"
+      );
+      const pbfpolygonPage1arrayBuffer = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage1.pbf"
+      );
+      const pbfpolygonPage2arrayBuffer = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage2.pbf"
+      );
+      const pbfpolygonPage6PartialarrayBuffer =
+        await readEnvironmentFileToArrayBuffer(
+          "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf"
+        );
+      const pbfWithDOmainArrayBuffer = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFWithDomainResponse.pbf"
+      );
+      const PBFLineResponsearrayBuffer = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFLineResponse.pbf"
+      );
+      const PBFPointResponsearrayBuffer =
+        await readEnvironmentFileToArrayBuffer(
+          "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPointResponse.pbf"
+        );
+      return [
+        msbArrayBuffer,
+        pbfpolygonPage1arrayBuffer,
+        pbfpolygonPage2arrayBuffer,
+        pbfpolygonPage6PartialarrayBuffer,
+        pbfWithDOmainArrayBuffer,
+        PBFLineResponsearrayBuffer,
+        PBFPointResponsearrayBuffer
+      ];
+    };
+    const firstArrayBuffers = await getFiles();
+    const secondArrayBuffers = await getFiles();
+
+    for (let i = 0; i < firstArrayBuffers.length; i++) {
+      const oldDecoderGeoJSON = pbfToGeoJSON(firstArrayBuffers[i]);
+      const newDecoderGeoJSON = pbfToGeoJSON(secondArrayBuffers[i], true);
+      expect(oldDecoderGeoJSON).toEqual(newDecoderGeoJSON);
+    }
   });
 });
