@@ -17,7 +17,7 @@ describe("geoJSONPbfParser should decode each geometry type", () => {
     );
     const geoJSON = pbfToGeoJSON(arrayBuffer);
     expect(geoJSON.features[0].geometry).toHaveProperty("type", "Point");
-    expect((geoJSON as any).crs).toBeUndefined(); // default response crs should be lat/long and not return crs property
+    expect(geoJSON).not.toHaveProperty("crs"); // default response crs should be lat/long and not return crs property
     expect(geoJSON.features[0].geometry.coordinates.length).toBe(2);
   });
 
@@ -27,7 +27,7 @@ describe("geoJSONPbfParser should decode each geometry type", () => {
     );
     const geoJSON = pbfToGeoJSON(arrayBuffer);
     expect(geoJSON.features[0].geometry).toHaveProperty("type", "LineString");
-    expect(geoJSON.crs).toBeUndefined();
+    expect(geoJSON).not.toHaveProperty("crs");
     // line should have an array of coordinate arrays
     expect(geoJSON.features[0].geometry.coordinates.length).toBe(22);
     expect(geoJSON.features[0].geometry.coordinates[0].length).toBe(2);
@@ -39,7 +39,7 @@ describe("geoJSONPbfParser should decode each geometry type", () => {
     );
     const geoJSON = pbfToGeoJSON(arrayBuffer);
     expect(geoJSON.features[0].geometry).toHaveProperty("type", "Polygon");
-    expect(geoJSON.crs).toBeUndefined();
+    expect(geoJSON).not.toHaveProperty("crs");
     // polygon should have an array of linear ring coordinate arrays
     expect(geoJSON.features[0].geometry.coordinates.length).toBe(1);
     expect(geoJSON.features[0].geometry.coordinates[0].length).toBe(181);
@@ -53,10 +53,8 @@ describe("geoJSONPbfParser should decode each geometry type", () => {
     const geoJSON = pbfToGeoJSON(arrayBuffer);
     expect(geoJSON.features[0].geometry).toHaveProperty("type", "MultiPolygon");
     // multipolygon should have an array of polygon coordinate arrays
-    expect(geoJSON.features[0].geometry.coordinates.length).toBeGreaterThan(0);
-    expect(geoJSON.features[0].geometry.coordinates[0].length).toBeGreaterThan(
-      0
-    );
+    expect(geoJSON.features[0].geometry.coordinates.length).toBe(7);
+    expect(geoJSON.features[0].geometry.coordinates[0].length).toBe(1);
     expect(geoJSON.features[0].geometry.coordinates[0][0][0].length).toBe(2);
   });
 

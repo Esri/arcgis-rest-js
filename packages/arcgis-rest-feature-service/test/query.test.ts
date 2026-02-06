@@ -149,12 +149,12 @@ describe("queryFeatures(): pbf-as-geojson", () => {
   afterEach(() => {
     fetchMock.restore();
   });
-  // should decode a valid pbf-as-geojson response from public server without api key
+  // should decode a valid pbf-as-geojson response from public server
   test("(valid) should query pbf-as-geojson features by requesting pbf arrayBuffer and decoding into geojson", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
       "./packages/arcgis-rest-feature-service/test/mocks/geojson/MaritalStatusBoundariesResponseCRS4326.pbf"
     );
-    // manually structure pbf response object so fetchmock doesn't convert to json
+    // manually structure response object so fetchmock doesn't convert to json
     fetchMock.once(
       "*",
       {
@@ -165,7 +165,6 @@ describe("queryFeatures(): pbf-as-geojson", () => {
       { sendAsJson: false }
     );
 
-    // configure query options
     const testPublicFeatureServer: IQueryFeaturesOptions = {
       url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/ACS_Marital_Status_Boundaries/FeatureServer/2",
       f: "pbf-as-geojson",
@@ -194,7 +193,6 @@ describe("queryFeatures(): pbf-as-geojson", () => {
     expect(geojson.features.length).toBe(1);
     expect(geojson.features[0].id).toBe(49481);
     expect(geojson.features[0]).toHaveProperty("properties");
-    expect(geojson.features[0]).toHaveProperty("geometry");
     expect(geojson.features[0]).toHaveProperty("geometry", null); // returnGeometry false should return null geometry
     // check some properties
     expect(geojson.features[0].properties.OBJECTID).toBe(49481);
