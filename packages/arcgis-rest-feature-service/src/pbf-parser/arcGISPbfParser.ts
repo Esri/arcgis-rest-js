@@ -102,7 +102,6 @@ export function decodeField(
   const optionalProps: Array<[string, (f: any) => any]> = [
     ["alias", (f) => f.alias],
     // ["sqlType", (f) => (sqlTypeMap ? sqlTypeMap[f.sqlType] : undefined)],
-    // TODO: ? is domain a value that needs to be decoded similar to type, or just parsed as is?
     ["domain", (f) => (f.domain === "" ? null : JSON.parse(f.domain))],
     ["length", (f) => (f.length === 0 ? undefined : f.length)],
     ["editable", (f) => f.editable],
