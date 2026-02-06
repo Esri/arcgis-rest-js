@@ -2,9 +2,6 @@
  * This code has been adapted from [arcgis-pbf-parser] ([https://github.com/rowanwins/arcgis-pbf-parser])
  * Modifications have been made for use in this project.
  */
-
-import { FeatureCollectionPBuffer as EsriPbfBuffer } from "./PbfFeatureCollection.js";
-
 import { readFeatureCollectionPBuffer } from "./PbfFeatureCollectionV2.js";
 import Pbf from "pbf";
 

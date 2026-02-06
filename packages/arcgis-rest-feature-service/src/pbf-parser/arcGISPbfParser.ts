@@ -3,10 +3,13 @@
  * Modifications have been made for use in REST JS.
  */
 import { GeometryType, IFeature, IField } from "@esri/arcgis-rest-request";
-import { FeatureCollectionPBuffer as EsriPbfBuffer } from "./PbfFeatureCollection.js";
 import Pbf from "pbf";
 import { IQueryFeaturesResponse } from "../query.js";
-import { readFeatureCollectionPBuffer } from "./PbfFeatureCollectionV2.js";
+import {
+  readFeatureCollectionPBuffer,
+  FeatureCollectionPBufferFieldType,
+  FeatureCollectionPBufferSQLType
+} from "./PbfFeatureCollectionV2.js";
 
 export default function pbfToArcGIS(
   featureCollectionBuffer: ArrayBuffer | Uint8Array | Buffer
@@ -74,8 +77,8 @@ export function decode(
 
 export function decodeFields(fields: any[]) {
   // Build lookup maps
-  const fieldTypeMap = buildKeyMap(EsriPbfBuffer.FieldType);
-  //const sqlTypeMap = buildKeyMap(EsriPbfBuffer.SQLType);
+  const fieldTypeMap = buildKeyMap(FeatureCollectionPBufferFieldType);
+  // const sqlTypeMap = buildKeyMap(FeatureCollectionPBufferSQLType);
 
   return fields.map(
     (field: any) => decodeField(field, fieldTypeMap)
@@ -86,8 +89,8 @@ export function decodeFields(fields: any[]) {
 
 export function buildKeyMap(spec: any) {
   const map: Record<number, string> = {};
-  for (const [key, obj] of Object.entries(spec)) {
-    map[(obj as any).value] = key;
+  for (const [key, val] of Object.entries(spec)) {
+    map[val as number] = key;
   }
   return map;
 }
@@ -181,7 +184,8 @@ function normalizeFeatureResponse(featureResult: any): IQueryFeaturesResponse {
    */
   const out: Partial<IQueryFeaturesResponse> = {};
   Object.keys(featureResult).forEach((key) => {
-    if (!excludeKeys.includes(key)) {
+    // only assign properties that are defined and on the IQueryFeaturesResponse
+    if (!excludeKeys.includes(key) && featureResult[key] !== undefined) {
       (out as any)[key] = featureResult[key];
     }
   });

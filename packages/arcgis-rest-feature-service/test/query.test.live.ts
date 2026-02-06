@@ -653,7 +653,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         );
         // pbf decoder adds null geometry properties when geometryProperties are absent
         expect(arcGIS as any).not.toHaveProperty("geometryProperties");
-        expect((pbfArcGIS as any).geometryProperties).toBe(null);
+        expect(pbfArcGIS as any).not.toHaveProperty("geometryProperties");
 
         expect(arcGIS.fields.length).toEqual(pbfArcGIS.fields.length);
         expect(arcGIS.features.length).toEqual(pbfArcGIS.features.length);
