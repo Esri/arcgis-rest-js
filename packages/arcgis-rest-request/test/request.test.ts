@@ -416,9 +416,11 @@ describe("request()", () => {
       true
     );
 
-    expect(warnSpy).toHaveBeenCalledTimes(1);
+    // expect(warnSpy).toHaveBeenCalledTimes(1);
+    // with deprecation messages warn is called twice more
+    expect(warnSpy).toHaveBeenCalledTimes(3);
 
-    // since calling request is  sync we can delete this right away
+    // since calling request is sync we can delete this right away
     setDefaultRequestOptions({
       httpMethod: "POST",
       params: {
