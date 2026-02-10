@@ -55,6 +55,7 @@ describe("decode: geoJSONPbfParser should convert pbf arraybuffers to geoJSON ob
     // multipolygon should have an array of polygon coordinate arrays
     expect(geoJSON.features[0].geometry.coordinates.length).toBe(7);
     expect(geoJSON.features[0].geometry.coordinates[0].length).toBe(1);
+    expect(geoJSON.features[0].geometry.coordinates[0][0].length).toBe(30);
     expect(geoJSON.features[0].geometry.coordinates[0][0][0].length).toBe(2);
   });
 });

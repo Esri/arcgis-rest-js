@@ -119,6 +119,41 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
     expect((arcgis.fields[4] as any).sqlType).toBe("sqlTypeInteger");
   });
 
+  test("should convert a pbf single feature MULTIPOLYGON to arcgis query features object", async () => {
+    const path3857 =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFMultiPolygonResponseCRS3857.pbf";
+    const path4326 =
+      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFMultiPolygonResponseCRS4326.pbf";
+
+    const arrBuff3857 = await readEnvironmentFileToArrayBuffer(path3857);
+    const arrBuff4326 = await readEnvironmentFileToArrayBuffer(path4326);
+    const pbfArcGIS3857 = pbfToArcGIS(arrBuff3857);
+    const pbfArcGIS4326 = pbfToArcGIS(arrBuff4326);
+
+    console.log("pbfArcGIS", JSON.stringify(pbfArcGIS4326, null, 2));
+    expect((pbfArcGIS3857 as any).geometryProperties.units).toBe(
+      "esriDecimalDegrees"
+    );
+    expect(pbfArcGIS3857.spatialReference.wkid).toBe(102100);
+    expect(pbfArcGIS3857.spatialReference.latestWkid).toBe(3857);
+    expect(pbfArcGIS3857.geometryType).toBe("esriGeometryPolygon");
+
+    expect((pbfArcGIS4326 as any).geometryProperties.units).toBe(
+      "esriDecimalDegrees"
+    );
+    expect(pbfArcGIS4326.spatialReference.wkid).toBe(4326);
+    expect(pbfArcGIS4326.spatialReference.latestWkid).toBe(4326);
+    expect(pbfArcGIS4326.geometryType).toBe("esriGeometryPolygon");
+    expect((pbfArcGIS4326.features[0].geometry as any).rings.length).toBe(7);
+    expect((pbfArcGIS4326.features[0].geometry as any).rings[0].length).toBe(1);
+    expect((pbfArcGIS4326.features[0].geometry as any).rings[0][0].length).toBe(
+      30
+    );
+    expect(
+      (pbfArcGIS4326.features[0].geometry as any).rings[0][0][0].length
+    ).toBe(2);
+  });
+
   test("should convert a pbf POLYGON PAGE to arcgis query features object", async () => {
     const path =
       "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf";
