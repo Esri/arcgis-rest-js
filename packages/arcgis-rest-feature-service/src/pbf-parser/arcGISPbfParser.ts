@@ -2,7 +2,12 @@
  * This code has been adapted from [arcgis-pbf-parser] ([https://github.com/rowanwins/arcgis-pbf-parser])
  * Modifications have been made for use in REST JS.
  */
-import { GeometryType, IFeature, IField } from "@esri/arcgis-rest-request";
+import {
+  ArcGISRequestError,
+  GeometryType,
+  IFeature,
+  IField
+} from "@esri/arcgis-rest-request";
 import Pbf from "pbf";
 import { IQueryFeaturesResponse } from "../query.js";
 import {
@@ -12,10 +17,9 @@ import {
 } from "./PbfFeatureCollectionV2.js";
 
 export default function pbfToArcGIS(
-  featureCollectionBuffer: ArrayBuffer | Uint8Array | Buffer
+  featureCollectionBuffer: ArrayBuffer
 ): IQueryFeaturesResponse {
   const decodedObject = decode(featureCollectionBuffer);
-
   const featureResult = decodedObject.queryResult.featureResult;
   const transform = decodedObject.queryResult.featureResult.transform;
   const geometryType = decodedObject.queryResult.featureResult.geometryType;
@@ -57,9 +61,10 @@ export default function pbfToArcGIS(
   return queryFeaturesResponse;
 }
 
-export function decode(
-  featureCollectionBuffer: ArrayBuffer | Uint8Array | Buffer
-): { value: string; queryResult: any } {
+export function decode(featureCollectionBuffer: ArrayBuffer): {
+  value: string;
+  queryResult: any;
+} {
   let decodedObject;
   try {
     decodedObject = readFeatureCollectionPBuffer(
@@ -221,7 +226,7 @@ function getGeometryType(featureType: number): GeometryType {
       return "esriGeometryPolygon";
     // istanbul ignore next --@preserve
     default:
-      throw new Error("Geometry type not supported.");
+      throw new ArcGISRequestError("Geometry type not supported.");
   }
 }
 
