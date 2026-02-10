@@ -5,7 +5,7 @@ import {
 } from "../utils/readFileArrayBuffer.js";
 import pbfToGeoJSON from "../../src/pbf-parser/geoJSONPbfParser.js";
 import {
-  compareProperties,
+  compareKeysAndValues,
   CoordinateToleranceEnum,
   maxDifference
 } from "../utils/parserTestHelpers.js";
@@ -117,7 +117,10 @@ describe("equality: pbfToGeoJSON objects should closely match geoJSON responses"
 
     // using a custom matcher for comparing properties with potential decimal precision issues
     expect(
-      compareProperties(geoJSONFeature.properties, pbfGeoJSONFeature.properties)
+      compareKeysAndValues(
+        geoJSONFeature.properties,
+        pbfGeoJSONFeature.properties
+      )
     ).toBe(true);
     expect(geoJSONFeature.geometry.type).toBe(pbfGeoJSONFeature.geometry.type);
     expect(geoJSONFeature.geometry.type).toBe("LineString");

@@ -20,7 +20,7 @@ function numbersEqual(a: number, b: number, precision = 6) {
 }
 
 // Helper: compare two properties objects (deep, with number precision up to given digits)
-export function compareProperties(
+export function compareKeysAndValues(
   a: Record<string, any>,
   b: Record<string, any>,
   precision = 6
@@ -60,40 +60,7 @@ export function compareProperties(
   }
 }
 
-// Helper: recursively compare coordinates (numbers only, up to given digits)
-export function compareCoordinates(
-  a: any,
-  b: any
-): { a: number; b: number; diff: number }[] {
-  function compareRecursive(
-    a: any,
-    b: any,
-    diffs: { a: number; b: number; diff: number }[] = []
-  ): void {
-    if (Array.isArray(a) && Array.isArray(b)) {
-      if (a.length !== b.length) {
-        diffs.push({
-          a: a.length,
-          b: b.length,
-          diff: Math.abs(a.length - b.length)
-        });
-        return;
-      }
-      for (let i = 0; i < a.length; i++) {
-        compareRecursive(a[i], b[i], diffs);
-      }
-      return;
-    }
-    // At this point, both should be numbers
-    if (a !== b) {
-      diffs.push({ a, b, diff: Math.abs(a - b) });
-    }
-  }
-  const diffs: { a: number; b: number; diff: number }[] = [];
-  compareRecursive(a, b, diffs);
-  return diffs;
-}
-
+// This function takes in two nested arrays of corresponding coordinates and returns the set with the maximum divergence between corresponding pairs.
 export function maxDifference(
   a: any,
   b: any

@@ -17,7 +17,7 @@ import {
   IFeatureSet
 } from "@esri/arcgis-rest-request";
 import {
-  compareProperties,
+  compareKeysAndValues,
   CoordinateToleranceEnum,
   maxDifference
 } from "./utils/parserTestHelpers.js";
@@ -321,7 +321,9 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
           0.00000001
         ); // specific variability in miles (.016 mm)
         // check all value keys on the properties object
-        expect(compareProperties(geoJSONProps, pbfGeoJSONProps, 6)).toBe(true);
+        expect(compareKeysAndValues(geoJSONProps, pbfGeoJSONProps, 6)).toBe(
+          true
+        );
 
         // empty coordinates and properties to allow full object equality check without precision conflicts
         geojsonLineResponse.features[0].geometry.coordinates = [];
@@ -567,10 +569,8 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         const pbfField = (pbfAsArcGISResponse as IFeatureSet).fields[26];
         expect(jsonField.domain).toEqual(pbfField.domain);
       });
-    });
 
-    describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON response objects", () => {
-      test("LIVE TEST: should compare pbfToArcGIS POLYGON response with arccgis POLYGON response", async () => {
+      test("LIVE TEST (output equality): should compare pbfToArcGIS POLYGON response with arccgis POLYGON response", async () => {
         const parksPolygonsJsonOptions: IQueryFeaturesOptions = {
           url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/ArcGIS/rest/services/Parks_and_Open_Space_Styled/FeatureServer/0`,
           f: "json",
@@ -611,14 +611,31 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         // the current pbf decoder does not return length on String FieldTypes
         expect(arcGIS.fields[3].length).toEqual(100);
         expect(pbfArcGIS.fields[3].length).toBeUndefined();
+        // equalize lengths to allow for comparison of other field properties
+        pbfArcGIS.fields[3].length = 100;
+        expect(
+          compareKeysAndValues(
+            arcGIS.fields[3] as any,
+            pbfArcGIS.fields[3] as any
+          )
+        ).toBe(true);
+        expect(
+          compareKeysAndValues(
+            arcGIS.features[0].attributes as any,
+            pbfArcGIS.features[0].attributes as any
+          )
+        ).toBe(true);
 
-        // check that fields are equal for both
-        expect(arcGIS.fields.length).toEqual(pbfArcGIS.fields.length);
-        // check that features are equal for both
-        expect(arcGIS.features.length).toEqual(pbfArcGIS.features.length);
+        const tolerance = CoordinateToleranceEnum.EPSG_3857;
+        const arcGISGeometry = arcGIS.features[0].geometry as any;
+        const pbfArcGISGeometry = pbfArcGIS.features[0].geometry as any;
+        const arcGISCoords = arcGISGeometry.rings;
+        const pbfArcGISCoords = pbfArcGISGeometry.rings;
+        const maxDrift = maxDifference(arcGISCoords, pbfArcGISCoords);
+        expect(maxDrift?.diff).toBeLessThan(tolerance);
       });
 
-      test("LIVE TEST: should compare pbfToArcGIS POINT response with arcgis POINT response", async () => {
+      test("LIVE TEST (output equality): should compare pbfToArcGIS POINT response with arcgis POINT response", async () => {
         const landmarksPointsJsonOptions: IQueryFeaturesOptions = {
           url: `https://services9.arcgis.com/CAVmSZdRT9pdZgEk/arcgis/rest/services/Ball_Ground_Landmarks/FeatureServer/0`,
           f: "json",
@@ -652,7 +669,6 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         expect((arcGIS as any).uniqueIdField).toEqual(
           (pbfArcGIS as any).uniqueIdField
         );
-        // pbf decoder adds null geometry properties when geometryProperties are absent
         expect(arcGIS as any).not.toHaveProperty("geometryProperties");
         expect(pbfArcGIS as any).not.toHaveProperty("geometryProperties");
 
@@ -664,9 +680,32 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         expect(arcGIS.fields[1].type).toBe("esriFieldTypeGlobalID");
         expect((arcGIS.fields[1] as any).sqlType).toBe("sqlTypeOther");
         expect(pbfArcGIS.fields[1].length).toBeUndefined();
+
+        // check for field, attribute, and geometry equality on the single feature returned for both responses
+        const attributesMatch = compareKeysAndValues(
+          arcGIS.features[0].attributes as any,
+          pbfArcGIS.features[0].attributes as any
+        );
+        const fieldsMatch = compareKeysAndValues(
+          arcGIS.fields[0] as any,
+          pbfArcGIS.fields[0] as any
+        ) as any;
+        expect(attributesMatch).toBe(true);
+        expect(fieldsMatch).toBe(true);
+        expect((arcGIS.fields[0] as any).sqlType).toBe(
+          (pbfArcGIS.fields[0] as any).sqlType
+        );
+
+        const tolerance = CoordinateToleranceEnum.EPSG_3857;
+        const arcGISGeometry = arcGIS.features[0].geometry as any;
+        const pbfArcGISGeometry = pbfArcGIS.features[0].geometry as any;
+        const arcGISCoords = [arcGISGeometry.x, arcGISGeometry.y];
+        const pbfArcGISCoords = [pbfArcGISGeometry.x, pbfArcGISGeometry.y];
+        const maxDrift = maxDifference(arcGISCoords, pbfArcGISCoords);
+        expect(maxDrift?.diff).toBeLessThan(tolerance);
       });
 
-      test("LIVE TEST: should compare pbfToArcGIS LINE response with arcgis LINE response", async () => {
+      test("LIVE TEST (output equality): should compare pbfToArcGIS LINE response with arcgis LINE response", async () => {
         const trailsLinesJsonOptions: IQueryFeaturesOptions = {
           url: `https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Trails/FeatureServer/0`,
           f: "json",
@@ -687,21 +726,54 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
           trailsLinesPbfAsArcGISOptions
         )) as IQueryFeaturesResponse;
 
+        // check exceededTransferLimit values
+        expect(arcGIS.exceededTransferLimit).toEqual(
+          pbfArcGIS.exceededTransferLimit
+        );
         // check for object differences
         expect(arcGIS.objectIdFieldName).toEqual(pbfArcGIS.objectIdFieldName);
         expect(arcGIS.globalIdFieldName).toEqual(pbfArcGIS.globalIdFieldName);
         expect(arcGIS.displayFieldName).toEqual(pbfArcGIS.displayFieldName);
         expect(arcGIS.spatialReference).toEqual(pbfArcGIS.spatialReference);
-        expect(arcGIS.exceededTransferLimit).toEqual(
-          pbfArcGIS.exceededTransferLimit
-        );
         expect(arcGIS.geometryType).toEqual(pbfArcGIS.geometryType);
 
-        // properties not on interface
+        expect(arcGIS.fields.length).toEqual(pbfArcGIS.fields.length);
+        expect(arcGIS.features.length).toEqual(pbfArcGIS.features.length);
+
+        const attributesMatch = compareKeysAndValues(
+          arcGIS.features[0].attributes as any,
+          pbfArcGIS.features[0].attributes as any,
+          8
+        );
+        const fieldsMatch = compareKeysAndValues(
+          arcGIS.fields[0] as any,
+          pbfArcGIS.fields[0] as any,
+          8
+        );
+        expect(attributesMatch).toBe(true);
+        expect(fieldsMatch).toBe(true);
+
+        expect(arcGIS.features[0].geometry).toHaveProperty("paths");
+        expect(pbfArcGIS.features[0].geometry).toHaveProperty("paths");
+        // check LINE geometries have equal coordinate nesting
+        expect((arcGIS.features[0].geometry as any).paths[0].length).toBe(22);
+        expect((pbfArcGIS.features[0].geometry as any).paths[0].length).toBe(
+          22
+        );
+
+        // check geometry coordinate precision is within tolerance
+        const tolerance = CoordinateToleranceEnum.EPSG_3857;
+        const arcGISCoords = (arcGIS.features[0].geometry as any).paths;
+        const pbfArcGISCoords = (pbfArcGIS.features[0].geometry as any).paths;
+        const maxDrift = maxDifference(arcGISCoords, pbfArcGISCoords);
+        expect(maxDrift?.diff).toBeLessThan(tolerance);
+
+        // check properties not on interface
         expect((arcGIS as any).uniqueIdField).toEqual(
           (pbfArcGIS as any).uniqueIdField
         );
-        // since LINE has only one dimension arcgis returns one dimentsion while the decoder returns both with an empty dimension
+        // check geometry properties - decoder treats some fields differently
+        // since LINE has only one dimension arcgis returns one dimension while the decoder returns both with an empty dimension
         expect((arcGIS as any).geometryProperties.shapeLengthFieldName).toEqual(
           (pbfArcGIS as any).geometryProperties.shapeLengthFieldName
         );
@@ -714,9 +786,6 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         expect((pbfArcGIS as any).geometryProperties.shapeAreaFieldName).toBe(
           ""
         );
-
-        expect(arcGIS.fields.length).toEqual(pbfArcGIS.fields.length);
-        expect(arcGIS.features.length).toEqual(pbfArcGIS.features.length);
       });
     });
   });
