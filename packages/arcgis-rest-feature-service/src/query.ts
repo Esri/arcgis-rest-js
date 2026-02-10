@@ -135,7 +135,7 @@ export interface IQueryAllFeaturesOptions extends ISharedQueryOptions {
    * NOTE: for "pbf" you must also supply `rawResponse: true`
    * and parse the response yourself using `response.arrayBuffer()`
    */
-  f?: "json" | "geojson" | "pbf" | "pbf-as-geojson" | "pbf-as-arcgis";
+  f?: "json" | "geojson" | "pbf-as-geojson" | "pbf-as-arcgis";
   /**
    * someday...
    *
