@@ -13,7 +13,7 @@ import {
 describe("decode: geoJSONPbfParser should convert pbf arraybuffers to geoJSON objects", () => {
   test("should decode POINT pbf to geojson", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPointResponseCRS4326.pbf"
     );
     const geoJSON = pbfToGeoJSON(arrayBuffer);
     expect(geoJSON.features[0].geometry).toHaveProperty("type", "Point");
@@ -23,7 +23,7 @@ describe("decode: geoJSONPbfParser should convert pbf arraybuffers to geoJSON ob
 
   test("should decode LINE pbf to geojson", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFLineResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFLineResponseCRS4326.pbf"
     );
     const geoJSON = pbfToGeoJSON(arrayBuffer);
     expect(geoJSON.features[0].geometry).toHaveProperty("type", "LineString");
@@ -35,7 +35,7 @@ describe("decode: geoJSONPbfParser should convert pbf arraybuffers to geoJSON ob
 
   test("should decode POLYGON pbf to geojson", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPolygonResponseCRS4326.pbf"
     );
     const geoJSON = pbfToGeoJSON(arrayBuffer);
     expect(geoJSON.features[0].geometry).toHaveProperty("type", "Polygon");
@@ -48,7 +48,7 @@ describe("decode: geoJSONPbfParser should convert pbf arraybuffers to geoJSON ob
 
   test("should decode MULTIPOLYGON pbf to geojson", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFMultiPolygonResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFMultiPolygonResponseCRS4326.pbf"
     );
     const geoJSON = pbfToGeoJSON(arrayBuffer);
     expect(geoJSON.features[0].geometry).toHaveProperty("type", "MultiPolygon");
@@ -64,7 +64,7 @@ describe("equality: pbfToGeoJSON objects should closely match geoJSON responses"
   // test the shape and structure of geojson and pbf-decoded geojson
   test("equality: geojson POINT vs decoded pbf POINT", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPointResponseCRS4326.pbf"
     );
     const geoJSON = await readEnvironmentFileToJSON(
       "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONPointResponse.json"
@@ -97,7 +97,7 @@ describe("equality: pbfToGeoJSON objects should closely match geoJSON responses"
 
   test("equality: geojson LINE vs decoded pbf LINE", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFLineResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFLineResponseCRS4326.pbf"
     );
     const geoJSON = await readEnvironmentFileToJSON(
       "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONLineResponse.json"
@@ -133,7 +133,7 @@ describe("equality: pbfToGeoJSON objects should closely match geoJSON responses"
 
   test("equality: geojson POLYGON vs decoded pbf POLYGON", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPolygonResponseCRS4326.pbf"
     );
     const geoJSON = await readEnvironmentFileToJSON(
       "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONPolygonResponse.json"
@@ -167,7 +167,7 @@ describe("precision: pbfToGeoJSON geometries coordinates should match geoJSON co
   // test for coordinate equality to a certain precision
   test("precision: geojson POLYGON coordinates should match pbf POLYGON coordinates to a certain precision", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPolygonResponseCRS4326.pbf"
     );
     const geoJSON = await readEnvironmentFileToJSON(
       "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONPolygonResponse.json"
@@ -189,7 +189,7 @@ describe("precision: pbfToGeoJSON geometries coordinates should match geoJSON co
 
   test("precision: geojson LINE coordinates should match pbf LINE coordinates to a certain precision", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFLineResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFLineResponseCRS4326.pbf"
     );
     const geoJSON = await readEnvironmentFileToJSON(
       "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONLineResponse.json"
@@ -206,7 +206,7 @@ describe("precision: pbfToGeoJSON geometries coordinates should match geoJSON co
 
   test("precision: geojson POINT coordinates should equal pbf POINT coordinates", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPointResponseCRS4326.pbf"
     );
     const geoJSON = await readEnvironmentFileToJSON(
       "./packages/arcgis-rest-feature-service/test/mocks/geojson/geoJSONPointResponse.json"

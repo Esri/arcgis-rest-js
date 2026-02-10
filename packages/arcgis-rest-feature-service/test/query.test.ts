@@ -152,7 +152,7 @@ describe("queryFeatures(): pbf-as-geojson", () => {
   // should decode a valid pbf-as-geojson response from public server
   test("(valid) should query pbf-as-geojson features by requesting pbf arrayBuffer and decoding into geojson", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/geojson/MaritalStatusBoundariesResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/MaritalStatusBoundariesResponseCRS4326.pbf"
     );
     // manually structure response object so fetchmock doesn't convert to json
     fetchMock.once(
@@ -205,7 +205,7 @@ describe("queryFeatures(): pbf-as-geojson", () => {
   test("(valid) standard geojson query should not return crs property in response", async () => {
     const serviceUrl = `https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_ZIP_Code_Points_analysis/FeatureServer/0`;
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPointResponseCRS4326.pbf"
     );
 
     const zipCodePointsPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
@@ -242,7 +242,7 @@ describe("queryFeatures(): pbf-as-geojson", () => {
   test("(error) should throw a 422 error when attempting a pbf-as-geojson request with nonstandard outSR for pbf-as-geojson", async () => {
     const serviceUrl = `https://services.arcgis.com/P3ePLMYs2RVChkJx/arcgis/rest/services/USA_ZIP_Code_Points_analysis/FeatureServer/0`;
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPointResponseCRS4326.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPointResponseCRS4326.pbf"
     );
 
     const zipCodePointsPbfAsGeoJSONOptions: IQueryFeaturesOptions = {
@@ -411,7 +411,7 @@ describe("queryFeatures(): pbf-as-arcgis", () => {
 
   test("should query pbf as arcgis features by requesting pbf arrayBuffer and decoding into geojson then transforming to arcgis json objects", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/MaritalStatusBoundariesResponse.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/MaritalStatusBoundariesResponse.pbf"
     );
 
     fetchMock.once(
@@ -736,7 +736,7 @@ describe("queryAllFeatures", () => {
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
 
       const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage3PartialCRS4326.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPolygonPage3PartialCRS4326.pbf"
       );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -780,7 +780,7 @@ describe("queryAllFeatures", () => {
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
 
       const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage3PartialCRS4326.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPolygonPage3PartialCRS4326.pbf"
       );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -820,10 +820,10 @@ describe("queryAllFeatures", () => {
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
 
       const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage1CRS4326.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPolygonPage1CRS4326.pbf"
       );
       const arrayBufferSet2 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage3PartialCRS4326.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPolygonPage3PartialCRS4326.pbf"
       );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -873,9 +873,9 @@ describe("queryAllFeatures", () => {
       const thisServiceUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
       const rawPbfPaths = [
-        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage1CRS4326.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage2CRS4326.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFPolygonPage3PartialCRS4326.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPolygonPage1CRS4326.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPolygonPage2CRS4326.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPolygonPage3PartialCRS4326.pbf"
       ];
       const pbfPages: (ArrayBuffer | Buffer)[] = [];
 
@@ -923,7 +923,7 @@ describe("queryAllFeatures", () => {
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
 
       const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonPage6Partial.pbf"
       );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -963,7 +963,7 @@ describe("queryAllFeatures", () => {
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
 
       const arrayBufferSet1 = await readEnvironmentFileToArrayBuffer(
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonPage6Partial.pbf"
       );
 
       fetchMock.once(`${thisServiceUrl}?f=json`, {
@@ -1001,12 +1001,12 @@ describe("queryAllFeatures", () => {
       const thisServiceUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
       const pbfPaths = [
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage1.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage2.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage3.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage4.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage5.pbf",
-        "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf"
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonPage1.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonPage2.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonPage3.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonPage4.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonPage5.pbf",
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonPage6Partial.pbf"
       ];
       // use arrayBuffer for browser, buffer in node environment
       const pbfPages: (ArrayBuffer | Buffer)[] = [];

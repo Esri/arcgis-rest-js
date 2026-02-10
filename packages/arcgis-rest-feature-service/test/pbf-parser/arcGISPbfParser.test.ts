@@ -16,7 +16,7 @@ import {
 describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON objects", () => {
   test("should convert a pbf single feature POLYGON to arcgis query features object", async () => {
     const path =
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonResponse.pbf";
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonResponse.pbf";
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
     const arcgis = pbfToArcGIS(arrayBuffer);
 
@@ -50,7 +50,7 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
 
   test("should convert a pbf single feature POINT to arcgis query features object", async () => {
     const path =
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPointResponse.pbf";
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPointResponse.pbf";
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
     const arcgis = pbfToArcGIS(arrayBuffer);
 
@@ -86,7 +86,7 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
 
   test("should convert a pbf single feature LINE to arcgis query features object", async () => {
     const path =
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFLineResponse.pbf";
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFLineResponse.pbf";
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
     const arcgis = pbfToArcGIS(arrayBuffer);
 
@@ -121,9 +121,9 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
 
   test("should convert a pbf single feature MULTIPOLYGON to arcgis query features object", async () => {
     const path3857 =
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFMultiPolygonResponseCRS3857.pbf";
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFMultiPolygonResponseCRS3857.pbf";
     const path4326 =
-      "./packages/arcgis-rest-feature-service/test/mocks/geojson/PBFMultiPolygonResponseCRS4326.pbf";
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFMultiPolygonResponseCRS4326.pbf";
 
     const arrBuff3857 = await readEnvironmentFileToArrayBuffer(path3857);
     const arrBuff4326 = await readEnvironmentFileToArrayBuffer(path4326);
@@ -156,7 +156,7 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
 
   test("should convert a pbf POLYGON PAGE to arcgis query features object", async () => {
     const path =
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonPage6Partial.pbf";
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonPage6Partial.pbf";
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
     const arcgis = pbfToArcGIS(arrayBuffer);
 
@@ -190,7 +190,7 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
 
   test("should properly decode a pbf that has populated domain in fields", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFWithDomainResponse.pbf"
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFWithDomainResponse.pbf"
     );
     const arcGIS = pbfToArcGIS(arrayBuffer);
     const decodedFieldWithDomain: IDomain = arcGIS.fields[26].domain;
@@ -283,7 +283,7 @@ describe("decodeFields/decodeField: optional property handling", () => {
 describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON response objects", () => {
   test("should compare pbfToArcGIS POLYGON response with arccgis POLYGON response", async () => {
     const path =
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonResponse.pbf";
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonResponse.pbf";
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
     const pbfArcGIS = pbfToArcGIS(arrayBuffer);
 
@@ -322,7 +322,7 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
 
   test("should compare pbfToArcGIS POINT response with arcgis POINT response", async () => {
     const path =
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPointResponse.pbf";
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPointResponse.pbf";
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
     const pbfArcGIS = pbfToArcGIS(arrayBuffer);
 
@@ -362,7 +362,7 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
 
   test("should compare pbfToArcGIS LINE response with arcgis LINE response", async () => {
     const path =
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFLineResponse.pbf";
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFLineResponse.pbf";
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
     const pbfArcGIS = pbfToArcGIS(arrayBuffer);
 
@@ -406,7 +406,7 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
 describe("precision: pbfToArcGIS geometries should closely match ArcGIS JSON response geometries up to an acceptable precision tolerance", () => {
   test("pbfToArcGIS POINT geometry shape and precisions should closely match arcgis POINT geometry shape and precisions", async () => {
     const path =
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPointResponse.pbf";
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPointResponse.pbf";
     const pathJSON =
       "./packages/arcgis-rest-feature-service/test/mocks/arcgis/arcGISPointResponse.json";
 
@@ -434,7 +434,7 @@ describe("precision: pbfToArcGIS geometries should closely match ArcGIS JSON res
 
   test("pbfToArcGIS LINE geometry shape and precisions should closely match arcgis LINE geometry shape and precisions", async () => {
     const path =
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFLineResponse.pbf";
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFLineResponse.pbf";
     const pathJSON =
       "./packages/arcgis-rest-feature-service/test/mocks/arcgis/arcGISLineResponse.json";
 
@@ -455,7 +455,7 @@ describe("precision: pbfToArcGIS geometries should closely match ArcGIS JSON res
 
   test("pbfToArcGIS POLYGON geometry shape and precisions should closely match arcgis POLYGON geometry shape and precisions", async () => {
     const path =
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonResponse.pbf";
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonResponse.pbf";
     const pathJSON =
       "./packages/arcgis-rest-feature-service/test/mocks/arcgis/arcGISPolygonResponse.json";
 
