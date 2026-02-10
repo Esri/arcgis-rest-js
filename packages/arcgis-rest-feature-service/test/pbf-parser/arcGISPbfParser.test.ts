@@ -130,7 +130,6 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
     const pbfArcGIS3857 = pbfToArcGIS(arrBuff3857);
     const pbfArcGIS4326 = pbfToArcGIS(arrBuff4326);
 
-    console.log("pbfArcGIS", JSON.stringify(pbfArcGIS4326, null, 2));
     expect((pbfArcGIS3857 as any).geometryProperties.units).toBe(
       "esriDecimalDegrees"
     );

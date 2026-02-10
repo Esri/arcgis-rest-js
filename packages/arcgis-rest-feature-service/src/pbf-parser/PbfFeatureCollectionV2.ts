@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 /* istanbul ignore file --@preserve */
 
 // generated from https://github.com/Esri/arcgis-pbf/blob/main/proto/FeatureCollection/FeatureCollection.proto

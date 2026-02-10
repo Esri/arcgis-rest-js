@@ -11,10 +11,10 @@ export default defineConfig({
   test: {
     projects: [
       nodeConfig,
-      //browserHeadlessConfig,
-      //browserHeadedConfig,
+      browserHeadlessConfig,
+      browserHeadedConfig,
       nodeLiveConfig,
-      //headlessLiveConfig
+      headlessLiveConfig
     ],
     coverage: {
       enabled: true,
