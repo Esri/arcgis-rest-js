@@ -66,30 +66,30 @@ export function maxDifference(
   b: any
 ): { a: number; b: number; diff: number } | null {
   let maxDiffObj: { a: number; b: number; diff: number } | null = null;
-
   function compareRecursive(a: any, b: any): void {
     if (Array.isArray(a) && Array.isArray(b)) {
       if (a.length !== b.length) {
-        const diff = Math.abs(a.length - b.length);
-        if (!maxDiffObj || diff > maxDiffObj.diff) {
-          maxDiffObj = { a: a.length, b: b.length, diff };
-        }
-        return;
+        throw new Error("Array lengths differ");
       }
       for (let i = 0; i < a.length; i++) {
         compareRecursive(a[i], b[i]);
       }
       return;
     }
-    // At this point, both should be numbers
-    if (a !== b) {
+    if (typeof a !== typeof b) {
+      throw new Error("Type mismatch in structure");
+    }
+    if (typeof a === "number" && a !== b) {
       const diff = Math.abs(a - b);
       if (!maxDiffObj || diff > maxDiffObj.diff) {
         maxDiffObj = { a, b, diff };
       }
     }
+    // For non-number types, only allow strict equality
+    if (typeof a !== "number" && a !== b) {
+      throw new Error("Value mismatch for non-number type");
+    }
   }
-
   compareRecursive(a, b);
   return maxDiffObj;
 }

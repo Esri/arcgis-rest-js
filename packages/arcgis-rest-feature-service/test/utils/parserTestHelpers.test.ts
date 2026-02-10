@@ -1,4 +1,4 @@
-import { compareKeysAndValues } from "./parserTestHelpers.js";
+import { maxDifference, compareKeysAndValues } from "./parserTestHelpers.js";
 import { describe, test, expect } from "vitest";
 
 describe("geojsonTestHelpers", () => {
@@ -40,6 +40,60 @@ describe("geojsonTestHelpers", () => {
       const result = compareKeysAndValues(a, b);
       expect(result).toHaveProperty("type", "value-mismatch");
       expect((result as any).diffs.length).toBe(2);
+    });
+  });
+
+  describe("maxDifference", () => {
+    test("returns null for identical flat arrays", () => {
+      expect(maxDifference([1, 2, 3], [1, 2, 3])).toBeNull();
+    });
+
+    test("returns correct max difference for flat arrays", () => {
+      const result = maxDifference([1, 2, 3], [1, 2, 4]);
+      expect(result).toEqual({ a: 3, b: 4, diff: 1 });
+    });
+
+    test("returns correct max difference for nested arrays", () => {
+      const result = maxDifference(
+        [
+          [1, 2],
+          [3, 4]
+        ],
+        [
+          [1, 2],
+          [3, 5]
+        ]
+      );
+      expect(result).toEqual({ a: 4, b: 5, diff: 1 });
+    });
+
+    test("throws for arrays of different lengths", () => {
+      expect(() => maxDifference([1, 2, 3], [1, 2])).toThrow(
+        "Array lengths differ"
+      );
+    });
+
+    test("handles negative numbers and zero", () => {
+      const result = maxDifference([-5, 0, 10], [-5, 0, 8]);
+      expect(result).toEqual({ a: 10, b: 8, diff: 2 });
+    });
+
+    test("throws for different nesting", () => {
+      expect(() => maxDifference([1, [2, 3]], [1, 2, 3])).toThrow(
+        "Array lengths differ"
+      );
+    });
+
+    test("throws for type mismatch", () => {
+      expect(() => maxDifference([1, 2], [1, "2"])).toThrow(
+        "Type mismatch in structure"
+      );
+    });
+
+    test("throws for value mismatch for non-number type", () => {
+      expect(() => maxDifference(["a", "b"], ["a", "c"])).toThrow(
+        "Value mismatch for non-number type"
+      );
     });
   });
 });
