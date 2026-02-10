@@ -277,8 +277,9 @@ function createLine(f: any, transform: any) {
     }
   }
   // structure output according to arcgis line geometry spec
+  // https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths
   return {
-    paths: l.coordinates
+    paths: [l.coordinates]
   };
 }
 

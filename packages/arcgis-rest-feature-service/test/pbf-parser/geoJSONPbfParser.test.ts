@@ -5,10 +5,10 @@ import {
 } from "../utils/readFileArrayBuffer.js";
 import pbfToGeoJSON from "../../src/pbf-parser/geoJSONPbfParser.js";
 import {
-  compareCoordinates,
   compareProperties,
-  maxPrecision
-} from "../utils/geoJsonTestHelpers.js";
+  CoordinateToleranceEnum,
+  maxDifference
+} from "../utils/parserTestHelpers.js";
 
 describe("decode: geoJSONPbfParser should convert pbf arraybuffers to geoJSON objects", () => {
   test("should decode POINT pbf to geojson", async () => {
@@ -57,7 +57,9 @@ describe("decode: geoJSONPbfParser should convert pbf arraybuffers to geoJSON ob
     expect(geoJSON.features[0].geometry.coordinates[0].length).toBe(1);
     expect(geoJSON.features[0].geometry.coordinates[0][0][0].length).toBe(2);
   });
+});
 
+describe("equality: pbfToGeoJSON objects should closely match geoJSON responses", () => {
   // test the shape and structure of geojson and pbf-decoded geojson
   test("equality: geojson POINT vs decoded pbf POINT", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
@@ -155,7 +157,9 @@ describe("decode: geoJSONPbfParser should convert pbf arraybuffers to geoJSON ob
     expect(geoJSONFeature.geometry.type).toBe("Polygon");
     expect(geoJSONCoords[0].length).toEqual(pbfGeoJSONCoords[0].length);
   });
+});
 
+describe("precision: pbfToGeoJSON geometries coordinates should match geoJSON coordinates up to precision tolerance", () => {
   // test for coordinate equality to a certain precision
   test("precision: geojson POLYGON coordinates should match pbf POLYGON coordinates to a certain precision", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
@@ -169,40 +173,16 @@ describe("decode: geoJSONPbfParser should convert pbf arraybuffers to geoJSON ob
     const coordA = geoJSON.features[0].geometry.coordinates;
     const coordB = pbfGeoJSON.features[0].geometry.coordinates;
 
-    // Coordinate precision reference (truncation-induced inaccuracies):
-    // 5 decimal places: ~1.1 meters
+    // EPSG: 4326 lat/long degrees precision tolerance (at equator):
     // 6 decimal places: ~1.1 decimeters (11 cm)
     // 7 decimal places: ~1.1 centimeters
     // 8 decimal places: ~1.1 millimeters
-    // (at the equator; precision distance decreases with latitude)
-    // Rounding to a precision will halve the inaccuracy, e.g., .5 meters at 5 decimal places
+    // 9 decimal places: ~0.1 millimeters (100 micrometers)
 
-    // In this one polygon feature, we can only get total equality up to 5-digit precision.
-    // theoretically and with rounding,
-    // at 6 digit precision there are (1) coordinate differences of < (~11 cm / 2) (5.5 cm)
-    // at 7 digit precision there are (3) coordinate differences of < (~1.1 cm / 2) (.55 cm)
-    // at 8 digit precision there are (23) coordinate differences of < (~1.1 mm / 2) (.55 mm)
-    const coordinatePrecision = 5;
-    // at 5 digit precision, geojson and pbf coordinates all match
-    const deviances = compareCoordinates(coordA, coordB, coordinatePrecision);
-    // but could have drift of < .55 meter
-    // this drift is due to the way pbf transforms and rebuilds coordinates using deltas to reconstruct coordinate values.
-    // by preserving all digits and not rounding, the practical drift for the largest deviance in this single feature is 50 micrometers (.05mm).
-
-    // therefore, for this test we will accept coordinates are close enough at 5 digit precision
-    expect(deviances.length).toBe(0);
-
-    const highPrecision = 6;
-    const deviancesHighPrecision = compareCoordinates(
-      coordA,
-      coordB,
-      highPrecision
-    );
-    // at 6 digit precision, there are (1)) coordinates that drift by < .05 millimeters (max coordinate deviance) for a single polygon feature
-    expect(deviancesHighPrecision.length).toBe(1);
-    const maxPrecisionHere = maxPrecision(coordA, coordB);
-    // max precision where all coordinates match exactly is 5 decimals for this feature
-    expect(maxPrecisionHere).toBe(coordinatePrecision);
+    const tolerance = CoordinateToleranceEnum.EPSG_4326;
+    const maxDrift = maxDifference(coordA, coordB);
+    console.log("maxDrift", maxDrift);
+    expect(maxDrift.diff).toBeLessThan(tolerance);
   });
 
   test("precision: geojson LINE coordinates should match pbf LINE coordinates to a certain precision", async () => {
@@ -217,10 +197,10 @@ describe("decode: geoJSONPbfParser should convert pbf arraybuffers to geoJSON ob
     const coordA = geoJSON.features[0].geometry.coordinates;
     const coordB = pbfGeoJSON.features[0].geometry.coordinates;
 
-    const coordinatePrecision = 7;
-    const deviances = compareCoordinates(coordA, coordB, coordinatePrecision);
-    // for this line feature, the max drift between a geojson and corresponding pbf coordinate is less than 50 micrometers or .05 mm
-    expect(deviances.length).toBe(0);
+    const tolerance = CoordinateToleranceEnum.EPSG_4326;
+    const maxDrift = maxDifference(coordA, coordB);
+    console.log("maxDrift", maxDrift);
+    expect(maxDrift.diff).toBeLessThan(tolerance);
   });
 
   test("precision: geojson POINT coordinates should equal pbf POINT coordinates", async () => {
@@ -234,6 +214,8 @@ describe("decode: geoJSONPbfParser should convert pbf arraybuffers to geoJSON ob
 
     const coordA = geoJSON.features[0].geometry.coordinates;
     const coordB = pbfGeoJSON.features[0].geometry.coordinates;
+
+    console.log(coordA, coordB);
 
     // for this point feature the coordinates match exactly.
     expect(coordA).toEqual(coordB);

@@ -7,7 +7,11 @@ import {
   readEnvironmentFileToJSON
 } from "../utils/readFileArrayBuffer.js";
 import { IQueryFeaturesResponse } from "../../src/query.js";
-import { IDomain } from "@esri/arcgis-rest-request";
+import { IDomain, IPoint } from "@esri/arcgis-rest-request";
+import {
+  CoordinateToleranceEnum,
+  maxDifference
+} from "../utils/parserTestHelpers.js";
 
 describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON objects", () => {
   test("should convert a pbf single feature POLYGON to arcgis query features object", async () => {
@@ -167,6 +171,80 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
   });
 });
 
+// this test is covering decodeFields/decodeField which was custom made to match the way ArcGIS JSON Fields object represents empty values.
+// if we regenerate the decoder with a new Esri Feature Collection proto spec in the future, this test and transformations may need to be updated.
+describe("decodeFields/decodeField: optional property handling", () => {
+  test("should handle domain, editable, exactMatch, length, nullable, defaultValue", () => {
+    // IField-like object from the decoder to be transformed into IField.
+    const mockFields = [
+      {
+        // empty object
+      },
+      {
+        // required IField props only
+        name: "field1",
+        fieldType: 1
+      },
+      {
+        name: "field2",
+        fieldType: 2,
+        domain: "",
+        editable: true,
+        exactMatch: false,
+        length: 0,
+        nullable: true,
+        defaultValue: ""
+      },
+      {
+        name: "field3",
+        fieldType: 3,
+        domain:
+          '{"type":"codedValue","name":"YesNo","codedValues":[{"name":"Yes","code":"Yes"},{"name":"No","code":"No"}]}',
+        editable: false,
+        exactMatch: true,
+        length: 255,
+        nullable: false,
+        defaultValue: "default"
+      }
+    ];
+    const decoded = decodeFields(mockFields);
+    // required properties keys should be populated
+    expect(decoded[0].name).toBeUndefined();
+    expect(decoded[0].type).toBeUndefined();
+    // required properties should be decoded properly
+    expect(decoded[1].name).toBe("field1");
+    expect(decoded[1].type).toBe("esriFieldTypeInteger");
+    // optional properties should be decoded situationally:
+    // or not present on the object if not defined
+    expect(decoded[2].domain).toBe(null);
+    expect(decoded[2].defaultValue).toBe(null);
+    expect(decoded[2].editable).toBe(true);
+    expect(decoded[2].exactMatch).toBe(false);
+    expect(decoded[2].nullable).toBe(true);
+    expect(decoded[2]).not.toHaveProperty("length");
+    // optional properties should be decoded properly when defined
+    expect(decoded[3].editable).toBe(false);
+    expect(decoded[3].exactMatch).toBe(true);
+    expect(decoded[3].length).toBe(255);
+    expect(decoded[3].nullable).toBe(false);
+    expect(decoded[3].defaultValue).toBe("default");
+    expect(decoded[3].domain).toEqual({
+      type: "codedValue",
+      name: "YesNo",
+      codedValues: [
+        {
+          name: "Yes",
+          code: "Yes"
+        },
+        {
+          name: "No",
+          code: "No"
+        }
+      ]
+    });
+  });
+});
+
 describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON response objects", () => {
   test("should compare pbfToArcGIS POLYGON response with arccgis POLYGON response", async () => {
     const path =
@@ -288,78 +366,76 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
     expect(arcGIS.fields.length).toEqual(pbfArcGIS.fields.length);
     expect(arcGIS.features.length).toEqual(pbfArcGIS.features.length);
   });
+});
 
-  // this test is covering decodeFields/decodeField which was custom made to match the way ArcGIS JSON Fields object represents empty values.
-  // if we replace the decoder with another newer official Esri one in the future, this test and transformations may need to be updated.
-  describe("decodeFields/decodeField optional property handling", () => {
-    test("should handle domain, editable, exactMatch, length, nullable, defaultValue", () => {
-      // IField-like object from the decoder to be transformed into IField.
-      const mockFields = [
-        {
-          // empty object
-        },
-        {
-          // required IField props only
-          name: "field1",
-          fieldType: 1
-        },
-        {
-          name: "field2",
-          fieldType: 2,
-          domain: "",
-          editable: true,
-          exactMatch: false,
-          length: 0,
-          nullable: true,
-          defaultValue: ""
-        },
-        {
-          name: "field3",
-          fieldType: 3,
-          domain:
-            '{"type":"codedValue","name":"YesNo","codedValues":[{"name":"Yes","code":"Yes"},{"name":"No","code":"No"}]}',
-          editable: false,
-          exactMatch: true,
-          length: 255,
-          nullable: false,
-          defaultValue: "default"
-        }
-      ];
-      const decoded = decodeFields(mockFields);
-      // required properties keys should be populated
-      expect(decoded[0].name).toBeUndefined();
-      expect(decoded[0].type).toBeUndefined();
-      // required properties should be decoded properly
-      expect(decoded[1].name).toBe("field1");
-      expect(decoded[1].type).toBe("esriFieldTypeInteger");
-      // optional properties should be decoded situationally:
-      // or not present on the object if not defined
-      expect(decoded[2].domain).toBe(null);
-      expect(decoded[2].defaultValue).toBe(null);
-      expect(decoded[2].editable).toBe(true);
-      expect(decoded[2].exactMatch).toBe(false);
-      expect(decoded[2].nullable).toBe(true);
-      expect(decoded[2]).not.toHaveProperty("length");
-      // optional properties should be decoded properly when defined
-      expect(decoded[3].editable).toBe(false);
-      expect(decoded[3].exactMatch).toBe(true);
-      expect(decoded[3].length).toBe(255);
-      expect(decoded[3].nullable).toBe(false);
-      expect(decoded[3].defaultValue).toBe("default");
-      expect(decoded[3].domain).toEqual({
-        type: "codedValue",
-        name: "YesNo",
-        codedValues: [
-          {
-            name: "Yes",
-            code: "Yes"
-          },
-          {
-            name: "No",
-            code: "No"
-          }
-        ]
-      });
-    });
+describe("precision: pbfToArcGIS geometries should closely match ArcGIS JSON response geometries up to an acceptable precision tolerance", () => {
+  test("pbfToArcGIS POINT geometry shape and precisions should closely match arcgis POINT geometry shape and precisions", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPointResponse.pbf";
+    const pathJSON =
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/arcGISPointResponse.json";
+
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const pbfArcGIS = pbfToArcGIS(arrayBuffer);
+    const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
+      pathJSON
+    );
+
+    // (Web Mercator - max distance at equator)
+    // 1 decimal: 10 meters
+    // 2 decimals: 1 meter
+    // 3 decimals: 0.1 meter (10 centimeters)
+    // 4 decimals: 0.01 meter (1 centimeter)
+    // 5 decimals: 0.001 meter (1 millimeter)
+    // 6 decimals: 0.0001 meter (0.1 millimeter, or 100 micrometers at equator)
+    const pbfPoint = pbfArcGIS.features[0].geometry as IPoint;
+    const arcGISPoint = arcGIS.features[0].geometry as IPoint;
+    const tolerance = CoordinateToleranceEnum.EPSG_3857; // .1 millimeters at equator in Web Mercator
+    const arr1 = [pbfPoint.x, pbfPoint.y];
+    const arr2 = [arcGISPoint.x, arcGISPoint.y];
+    const maxDrift = maxDifference(arr1, arr2)?.diff;
+    expect(maxDrift).toBeLessThan(tolerance);
+  });
+
+  test("pbfToArcGIS LINE geometry shape and precisions should closely match arcgis LINE geometry shape and precisions", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFLineResponse.pbf";
+    const pathJSON =
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/arcGISLineResponse.json";
+
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const pbfArcGIS = pbfToArcGIS(arrayBuffer);
+    const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
+      pathJSON
+    );
+
+    // see precision comments in previous test
+    const tolerance = CoordinateToleranceEnum.EPSG_3857;
+    const pbfCoords = (pbfArcGIS.features[0].geometry as any).paths;
+    const arcGISCoords = (arcGIS.features[0].geometry as any).paths;
+
+    const maxDrift = maxDifference(pbfCoords, arcGISCoords)?.diff;
+    console.log("maxDrift", maxDrift);
+    expect(maxDrift).toBeLessThan(tolerance);
+  });
+
+  test("pbfToArcGIS POLYGON geometry shape and precisions should closely match arcgis POLYGON geometry shape and precisions", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/PBFPolygonResponse.pbf";
+    const pathJSON =
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/arcGISPolygonResponse.json";
+
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const pbfArcGIS = pbfToArcGIS(arrayBuffer);
+    const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
+      pathJSON
+    );
+
+    // see precision comments in previous tests
+    const tolerance = CoordinateToleranceEnum.EPSG_3857;
+    const pbfCoords = (pbfArcGIS.features[0].geometry as any).rings;
+    const arcGISCoords = (arcGIS.features[0].geometry as any).rings;
+    const maxDrift = maxDifference(pbfCoords, arcGISCoords);
+    expect(maxDrift.diff).toBeLessThan(tolerance);
   });
 });

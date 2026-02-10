@@ -8,7 +8,6 @@ import {
   queryAllFeatures,
   queryFeatures
 } from "../src/index.js";
-import pbfToGeoJSON from "../src/pbf-parser/geoJSONPbfParser.js";
 import pbfToArcGIS from "../src/pbf-parser/arcGISPbfParser.js";
 import { readEnvironmentFileToJSON } from "./utils/readFileArrayBuffer.js";
 import {
@@ -18,9 +17,10 @@ import {
   IFeatureSet
 } from "@esri/arcgis-rest-request";
 import {
-  compareCoordinates,
-  compareProperties
-} from "./utils/geoJsonTestHelpers.js";
+  compareProperties,
+  CoordinateToleranceEnum,
+  maxDifference
+} from "./utils/parserTestHelpers.js";
 
 describe("queryFeatures() and queryAllFeatures() live tests", () => {
   afterEach(() => {
@@ -249,9 +249,11 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         const geoJSONCoords = (geoJSON.features[0].geometry as any).coordinates;
         const pbfGeoJSONCoords = (pbfGeojson.features[0].geometry as any)
           .coordinates;
-        expect(
-          compareCoordinates(geoJSONCoords, pbfGeoJSONCoords, 5).length
-        ).toBe(0);
+
+        const tolerance = CoordinateToleranceEnum.EPSG_4326; // .11 millimeters at the equator in EPSG:4326
+        const maxDrift = maxDifference(geoJSONCoords, pbfGeoJSONCoords);
+        console.log("maxDrift", maxDrift);
+        expect(maxDrift.diff).toBeLessThan(tolerance);
         // check full object equality without precision conflicts from coordinates
         (geoJSON.features[0].geometry as any).coordinates = [];
         (pbfGeojson.features[0].geometry as any).coordinates = [];
@@ -306,22 +308,20 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         const geoJSONProps = geojsonLineResponse.features[0].properties;
         const pbfGeoJSONProps = pbfAsGeoJSONLineResponse.features[0].properties;
 
-        // in this case geojson coords match pbf-as-geojson coords up to 5 decimal places (1.1m drift)
-        // however actual difference is ~50 micrometers
-        expect(
-          compareCoordinates(geoJSONCoords, pbfGeoJSONCoords, 5).length
-        ).toBe(0);
+        // check the max drift from geojson pbf coordinate decoding is within tolerance for lat/long degrees.
+        const tolerance = CoordinateToleranceEnum.EPSG_4326; // .11 millimeters at the equator in EPSG:4326;
+        const maxDrift = maxDifference(geoJSONCoords, pbfGeoJSONCoords);
+        expect(maxDrift?.diff).toBeLessThan(tolerance);
+
         // One pbf property field varies from geojson at high precision so we will also check properties to a precision
         // Example:
         expect(geoJSONProps.LENGTH_MI).toBe(0.19);
         expect(pbfGeoJSONProps.LENGTH_MI).toBe(0.1899999976158142);
-        // check specific field
-        expect(geoJSONProps.LENGTH_MI).toBeCloseTo(
-          pbfGeoJSONProps.LENGTH_MI,
-          5
-        );
+        expect(geoJSONProps.LENGTH_MI - pbfGeoJSONProps.LENGTH_MI).toBeLessThan(
+          0.00000001
+        ); // specific variability in miles (.016 mm)
         // check all value keys on the properties object
-        expect(compareProperties(geoJSONProps, pbfGeoJSONProps, 5)).toBe(true);
+        expect(compareProperties(geoJSONProps, pbfGeoJSONProps, 6)).toBe(true);
 
         // empty coordinates and properties to allow full object equality check without precision conflicts
         geojsonLineResponse.features[0].geometry.coordinates = [];
@@ -355,9 +355,10 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
           geojsonPolygonResponse.features[0].geometry.coordinates;
         const pbfGeoJSONCoords =
           pbfAsGeoJSONPolygonResponse.features[0].geometry.coordinates;
-        expect(
-          compareCoordinates(geoJSONCoords, pbfGeoJSONCoords, 6).length
-        ).toBe(0);
+
+        const tolerance = CoordinateToleranceEnum.EPSG_4326; // .11 millimeters at the equator in EPSG:4326;
+        const maxDrift = maxDifference(geoJSONCoords, pbfGeoJSONCoords);
+        expect(maxDrift?.diff).toBeLessThan(tolerance);
 
         geojsonPolygonResponse.features[0].geometry.coordinates = [];
         pbfAsGeoJSONPolygonResponse.features[0].geometry.coordinates = [];
@@ -414,10 +415,10 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
             .coordinates;
           const pbfGeoJSONCoords = (pbfAsGeoJSONResponse as any).features[i]
             .geometry.coordinates;
-          // coordinates in each feature are equal in both responses up to 9 decimal places
-          expect(
-            compareCoordinates(geoJSONCoords, pbfGeoJSONCoords, 9).length
-          ).toBe(0);
+
+          const tolerance = CoordinateToleranceEnum.EPSG_4326; // .11 millimeters at the equator in EPSG:4326;
+          const maxDrift = maxDifference(geoJSONCoords, pbfGeoJSONCoords);
+          expect(maxDrift?.diff).toBeLessThan(tolerance);
         }
       });
     });
@@ -720,6 +721,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
     });
   });
 
+  // The purpose of these long query tests is to check the value of exceededTransferLimit on large queries, total feature count, and general feature shape.
   describe("queryAllFeatures() (LONG QUERIES)", () => {
     describe("with geojson", () => {
       test(
