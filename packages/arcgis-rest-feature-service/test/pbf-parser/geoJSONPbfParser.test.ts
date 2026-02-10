@@ -181,10 +181,8 @@ describe("precision: pbfToGeoJSON geometries coordinates should match geoJSON co
     // 7 decimal places: ~1.1 centimeters
     // 8 decimal places: ~1.1 millimeters
     // 9 decimal places: ~0.1 millimeters (100 micrometers)
-
     const tolerance = CoordinateToleranceEnum.EPSG_4326;
     const maxDrift = maxDifference(coordA, coordB);
-    console.log("maxDrift", maxDrift);
     expect(maxDrift.diff).toBeLessThan(tolerance);
   });
 
@@ -202,7 +200,6 @@ describe("precision: pbfToGeoJSON geometries coordinates should match geoJSON co
 
     const tolerance = CoordinateToleranceEnum.EPSG_4326;
     const maxDrift = maxDifference(coordA, coordB);
-    console.log("maxDrift", maxDrift);
     expect(maxDrift.diff).toBeLessThan(tolerance);
   });
 
@@ -217,8 +214,6 @@ describe("precision: pbfToGeoJSON geometries coordinates should match geoJSON co
 
     const coordA = geoJSON.features[0].geometry.coordinates;
     const coordB = pbfGeoJSON.features[0].geometry.coordinates;
-
-    console.log(coordA, coordB);
 
     // for this point feature the coordinates match exactly.
     expect(coordA).toEqual(coordB);

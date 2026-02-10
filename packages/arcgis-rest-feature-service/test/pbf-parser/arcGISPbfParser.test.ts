@@ -43,7 +43,7 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
     expect(arcgis.fields[0].nullable).toBe(undefined);
     expect(arcgis.fields[0].editable).toBe(undefined);
     // sqlType not on IFields interface at the moment
-    expect((arcgis.fields[0] as any).sqlType).toBe(undefined);
+    expect((arcgis.fields[0] as any).sqlType).toBe("sqlTypeInteger");
     // required IFeature properties (features)
     expect(arcgis.features.length).toBe(1);
   });
@@ -81,7 +81,7 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
     expect(arcgis.fields[3].editable).toBe(undefined);
     expect(arcgis.fields[3].length).toBe(undefined);
     // sqlType not on IFields interface at the moment
-    expect((arcgis.fields[3] as any).sqlType).toBe(undefined);
+    expect((arcgis.fields[3] as any).sqlType).toBe("sqlTypeOther");
   });
 
   test("should convert a pbf single feature LINE to arcgis query features object", async () => {
@@ -116,7 +116,7 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
     expect(arcgis.fields[4].nullable).toBe(undefined);
     expect(arcgis.fields[4].editable).toBe(undefined);
     // sqlType not on IFields interface at the moment
-    expect((arcgis.fields[4] as any).sqlType).toBe(undefined);
+    expect((arcgis.fields[4] as any).sqlType).toBe("sqlTypeInteger");
   });
 
   test("should convert a pbf POLYGON PAGE to arcgis query features object", async () => {
@@ -150,8 +150,7 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
     // expected undefined properties
     expect(arcgis.fields[7].nullable).toBe(undefined);
     expect(arcgis.fields[7].editable).toBe(undefined);
-    // sqlType not on IFields interface at the moment
-    expect((arcgis.fields[7] as any).sqlType).toBe(undefined);
+    expect((arcgis.fields[7] as any).sqlType).toBe("sqlTypeOther");
   });
 
   test("should properly decode a pbf that has populated domain in fields", async () => {
@@ -211,6 +210,7 @@ describe("decodeFields/decodeField: optional property handling", () => {
     // required properties keys should be populated
     expect(decoded[0].name).toBeUndefined();
     expect(decoded[0].type).toBeUndefined();
+    expect(decoded[0] as any).not.toHaveProperty("sqlType");
     // required properties should be decoded properly
     expect(decoded[1].name).toBe("field1");
     expect(decoded[1].type).toBe("esriFieldTypeInteger");
@@ -393,8 +393,8 @@ describe("precision: pbfToArcGIS geometries should closely match ArcGIS JSON res
     const tolerance = CoordinateToleranceEnum.EPSG_3857; // .1 millimeters at equator in Web Mercator
     const arr1 = [pbfPoint.x, pbfPoint.y];
     const arr2 = [arcGISPoint.x, arcGISPoint.y];
-    const maxDrift = maxDifference(arr1, arr2)?.diff;
-    expect(maxDrift).toBeLessThan(tolerance);
+    const maxDrift = maxDifference(arr1, arr2);
+    expect(maxDrift?.diff).toBeLessThan(tolerance);
   });
 
   test("pbfToArcGIS LINE geometry shape and precisions should closely match arcgis LINE geometry shape and precisions", async () => {
@@ -414,9 +414,8 @@ describe("precision: pbfToArcGIS geometries should closely match ArcGIS JSON res
     const pbfCoords = (pbfArcGIS.features[0].geometry as any).paths;
     const arcGISCoords = (arcGIS.features[0].geometry as any).paths;
 
-    const maxDrift = maxDifference(pbfCoords, arcGISCoords)?.diff;
-    console.log("maxDrift", maxDrift);
-    expect(maxDrift).toBeLessThan(tolerance);
+    const maxDrift = maxDifference(pbfCoords, arcGISCoords);
+    expect(maxDrift?.diff).toBeLessThan(tolerance);
   });
 
   test("pbfToArcGIS POLYGON geometry shape and precisions should closely match arcgis POLYGON geometry shape and precisions", async () => {
@@ -436,6 +435,6 @@ describe("precision: pbfToArcGIS geometries should closely match ArcGIS JSON res
     const pbfCoords = (pbfArcGIS.features[0].geometry as any).rings;
     const arcGISCoords = (arcGIS.features[0].geometry as any).rings;
     const maxDrift = maxDifference(pbfCoords, arcGISCoords);
-    expect(maxDrift.diff).toBeLessThan(tolerance);
+    expect(maxDrift?.diff).toBeLessThan(tolerance);
   });
 });

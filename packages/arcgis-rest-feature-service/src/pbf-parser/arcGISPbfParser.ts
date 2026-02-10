@@ -80,12 +80,9 @@ export function decodeFields(fields: any[]) {
   const fieldTypeMap = buildKeyMap(FeatureCollectionPBufferFieldType);
   const sqlTypeMap = buildKeyMap(FeatureCollectionPBufferSQLType);
 
-  return fields.map(
-    (
-      field: any // decodeField(field, fieldTypeMap)
-    ) =>
-      // sqlMap exists on response on some feature services but not on the current REST JS IField interface
-      decodeField(field, fieldTypeMap, sqlTypeMap)
+  return fields.map((field: any) =>
+    // sqlMap exists on response on some feature services but not on the current REST JS IField interface
+    decodeField(field, fieldTypeMap, sqlTypeMap)
   );
 }
 
@@ -106,7 +103,7 @@ export function decodeField(
   // configure getters that return arcgis json default values for optional props
   const optionalProps: Array<[string, (f: any) => any]> = [
     ["alias", (f) => f.alias],
-    ["sqlType", (f) => (sqlTypeMap ? sqlTypeMap[f.sqlType] : undefined)],
+    ["sqlType", (f) => sqlTypeMap[f.sqlType]],
     ["domain", (f) => (f.domain === "" ? null : JSON.parse(f.domain))],
     ["length", (f) => (f.length === 0 ? undefined : f.length)],
     ["editable", (f) => f.editable],

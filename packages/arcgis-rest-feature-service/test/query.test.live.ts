@@ -252,8 +252,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
 
         const tolerance = CoordinateToleranceEnum.EPSG_4326; // .11 millimeters at the equator in EPSG:4326
         const maxDrift = maxDifference(geoJSONCoords, pbfGeoJSONCoords);
-        console.log("maxDrift", maxDrift);
-        expect(maxDrift.diff).toBeLessThan(tolerance);
+        expect(maxDrift?.diff).toBeLessThan(tolerance);
         // check full object equality without precision conflicts from coordinates
         (geoJSON.features[0].geometry as any).coordinates = [];
         (pbfGeojson.features[0].geometry as any).coordinates = [];
