@@ -262,6 +262,11 @@ function createLine(f: any, transform: any) {
         f.geometry.lengths[0] * 2
       )
     };
+    // structure output according to arcgis Polyline geometry spec
+    // https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths
+    return {
+      paths: [l.coordinates]
+    };
   } else if (lengths > 1) {
     l = {
       type: "MultiLineString",
@@ -279,12 +284,10 @@ function createLine(f: any, transform: any) {
       l.coordinates.push(line);
       startPoint = stopPoint;
     }
+    return {
+      paths: l.coordinates
+    };
   }
-  // structure output according to arcgis line geometry spec
-  // https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-Polyline.html#paths
-  return {
-    paths: [l.coordinates]
-  };
 }
 
 function createPolygon(f: any, transform: any) {
