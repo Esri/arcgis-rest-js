@@ -46,6 +46,11 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
     expect((arcgis.fields[0] as any).sqlType).toBe("sqlTypeInteger");
     // required IFeature properties (features)
     expect(arcgis.features.length).toBe(1);
+    // inspect geometry for expected shape and properties
+    expect(arcgis.features[0].geometry).toHaveProperty("rings");
+    expect((arcgis.features[0].geometry as any).rings.length).toBe(1);
+    expect((arcgis.features[0].geometry as any).rings[0].length).toBe(181);
+    expect((arcgis.features[0].geometry as any).rings[0][0].length).toBe(2);
   });
 
   test("should convert a pbf single feature POINT to arcgis query features object", async () => {
@@ -82,6 +87,9 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
     expect(arcgis.fields[3].length).toBe(undefined);
     // sqlType not on IFields interface at the moment
     expect((arcgis.fields[3] as any).sqlType).toBe("sqlTypeOther");
+    // inspect geometry for expected shape and properties
+    expect(arcgis.features[0].geometry).toHaveProperty("x");
+    expect(arcgis.features[0].geometry).toHaveProperty("y");
   });
 
   test("should convert a pbf single feature LINE to arcgis query features object", async () => {
@@ -117,6 +125,11 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
     expect(arcgis.fields[4].editable).toBe(undefined);
     // sqlType not on IFields interface at the moment
     expect((arcgis.fields[4] as any).sqlType).toBe("sqlTypeInteger");
+
+    expect(arcgis.features[0].geometry).toHaveProperty("paths");
+    expect((arcgis.features[0].geometry as any).paths.length).toBe(1);
+    expect((arcgis.features[0].geometry as any).paths[0].length).toBe(22);
+    expect((arcgis.features[0].geometry as any).paths[0][0].length).toBe(2);
   });
 
   test("should convert a pbf single feature MULTIPOLYGON to arcgis query features object", async () => {
