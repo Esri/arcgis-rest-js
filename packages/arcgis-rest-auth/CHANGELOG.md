@@ -1,5 +1,13 @@
 # @esri/arcgis-rest-auth Changelog
 
+## 4.9.0
+
+### Patch Changes
+
+- Updated dependencies [052ff8e]
+- Updated dependencies [51e8144]
+  - @esri/arcgis-rest-request@4.9.0
+
 ## 4.8.0
 
 ### Minor Changes

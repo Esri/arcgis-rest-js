@@ -1,5 +1,14 @@
 # @esri/arcgis-rest-request Changelog
 
+## 4.9.0
+
+### Patch Changes
+
+- 052ff8e: Added deprecation messages for upcoming request package updates
+- 51e8144: Added pbf types to request RequestFormats types.
+  - @esri/arcgis-rest-fetch@4.9.0
+  - @esri/arcgis-rest-form-data@4.9.0
+
 ## 4.8.0
 
 ### Minor Changes
