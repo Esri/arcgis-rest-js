@@ -1,5 +1,16 @@
 # @esri/arcgis-rest-feature-service Changelog
 
+## 4.9.0
+
+### Minor Changes
+
+- 51e8144: Added query params where user can query a pbf request and get back geojson or arcgis features.
+  - User can request features from feature service using "f: pbf-as-geojson" or "f: pbf-as-arcgis" in request options
+  - Added EsriFeatureCollection proto spec and modular pbf decoder
+  - Added pbfToGeoJSON parser and pbfToArcGIS parser
+  - Added Live Tests
+- 51e8144: Added pbf types to request RequestFormats types.
+
 ## 4.8.0
 
 ### Minor Changes

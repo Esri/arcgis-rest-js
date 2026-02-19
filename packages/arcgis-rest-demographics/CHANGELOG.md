@@ -1,5 +1,7 @@
 # @esri/arcgis-rest-demographics Changelog
 
+## 4.9.0
+
 ## 4.8.0
 
 ### Minor Changes
