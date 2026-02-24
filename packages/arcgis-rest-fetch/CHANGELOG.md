@@ -1,5 +1,7 @@
 # @esri/arcgis-rest-fetch Changelog
 
+## 4.9.1
+
 ## 4.9.0
 
 ## 4.8.0

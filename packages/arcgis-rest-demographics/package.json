@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-demographics",
-  "version": "4.9.0",
+  "version": "4.9.1",
   "description": "Demographics data helpers for @esri/arcgis-rest-js",
   "license": "Apache-2.0",
   "keywords": [
@@ -50,7 +50,7 @@
     "@esri/arcgis-rest-request": "^4.0.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-request": "^4.9.0"
+    "@esri/arcgis-rest-request": "^4.9.1"
   },
   "contributors": [
     "Gavin Rehkemper <grehkemper@esri.com> (http://gavinr.com/)",

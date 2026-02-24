@@ -1,6 +1,6 @@
 {
   "name": "@esri/arcgis-rest-geocoding",
-  "version": "4.9.0",
+  "version": "4.9.1",
   "description": "Geocoding helpers for @esri/arcgis-rest-js",
   "license": "Apache-2.0",
   "keywords": [
@@ -51,7 +51,7 @@
     "@esri/arcgis-rest-request": "^4.0.0"
   },
   "devDependencies": {
-    "@esri/arcgis-rest-request": "^4.9.0"
+    "@esri/arcgis-rest-request": "^4.9.1"
   },
   "contributors": [
     "Patrick Arlt <parlt@esri.com> (http://patrickarlt.com/)"
