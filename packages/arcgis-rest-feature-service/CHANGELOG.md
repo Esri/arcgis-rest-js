@@ -1,5 +1,11 @@
 # @esri/arcgis-rest-feature-service Changelog
 
+## 4.9.1
+
+### Patch Changes
+
+- eb06bff: added pbf package to feature service
+
 ## 4.9.0
 
 ### Minor Changes
