@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { describe, afterEach, test, expect, vi } from "vitest";
+import { describe, afterEach, test, expect, vi, beforeEach } from "vitest";
 import fetchMock from "fetch-mock";
 import {
   getFeature,
@@ -518,7 +518,7 @@ describe("queryFeatures(): pbf-as-arcgis", () => {
   });
 });
 
-describe("queryAllFeatures", () => {
+describe("queryAllFeatures (default)", () => {
   const pageSize = 2000;
   // first page with 2000 features
   const page1Features = Array.from({ length: pageSize }, (_, i) => ({
@@ -614,73 +614,7 @@ describe("queryAllFeatures", () => {
 
     expect(result.features.length).toBe(1);
     expect(result.features[0].attributes.OBJECTID).toBe(2001);
-  });
-
-  test("uses user defined resultRecordCount if less than page size", async () => {
-    const customCount = 1000;
-
-    fetchMock.getOnce(`${serviceUrl}?f=json`, {
-      maxRecordCount: 2000
-    });
-
-    fetchMock.getOnce(
-      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultRecordCount=${customCount}&resultOffset=0`,
-      {
-        features: page1Features.slice(0, customCount)
-      }
-    );
-
-    const result = await queryAllFeatures({
-      url: serviceUrl,
-      where: "1=1",
-      outFields: "*",
-      params: {
-        resultRecordCount: customCount
-      }
-    });
-
-    expect(result.features.length).toBe(customCount);
-  });
-
-  test("fall back to service pageSize if user resultRecordCount exceeds it", async () => {
-    fetchMock.getOnce(`${serviceUrl}?f=json`, {
-      maxRecordCount: 2000
-    });
-
-    fetchMock.getOnce(
-      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultRecordCount=2000&resultOffset=0`,
-      {
-        features: page1Features
-      }
-    );
-
-    const result = await queryAllFeatures({
-      url: serviceUrl,
-      where: "1=1",
-      outFields: "*",
-      params: {
-        resultRecordCount: 3000 // greater than maxRecordCount
-      }
-    });
-
-    expect(result.features.length).toBe(pageSize);
-  });
-
-  test("fall back to a default size of 2000 if the service does not return a page size", async () => {
-    fetchMock.getOnce(`${serviceUrl}?f=json`, {});
-
-    fetchMock.getOnce(
-      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=2000`,
-      {
-        features: page1Features
-      }
-    );
-
-    const result = await queryAllFeatures({
-      url: serviceUrl
-    });
-
-    expect(result.features.length).toBe(pageSize);
+    expect(fetchMock.calls().length).toBe(2); // 1 metadata, 1 features
   });
 
   test("paginates over services using f=geojson", async () => {
@@ -997,7 +931,7 @@ describe("queryAllFeatures", () => {
       expect(response.exceededTransferLimit).toBe(false);
     });
 
-    test("should fetch all pages of pbf-as-arcgis and return as arcgis json objects", async () => {
+    test("(valid all) should fetch all pages of pbf-as-arcgis and return as arcgis json objects", async () => {
       const thisServiceUrl =
         "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0";
       const pbfPaths = [
@@ -1050,5 +984,242 @@ describe("queryAllFeatures", () => {
       // exceededTransferLimit only gets set the first iteration on the response object so it will always be true in multi-page scenarios
       expect(response.exceededTransferLimit).toBe(true);
     });
+  });
+});
+
+describe("queryAllFeatures (custom pagination)", () => {
+  // mock returned values from service to test
+  /**
+   * features: [...],
+   * exceededTransferLimit: boolean
+   * properties: { exceededTransferLimit: boolean }, // for geojson
+   * maxRecordCount: number // for metadata response
+   */
+
+  const serviceMaxRecordCount = 1000;
+  const userRecordCount = 500;
+
+  const serviceFeaturesPageFull = Array.from(
+    { length: serviceMaxRecordCount },
+    (_, i) => ({
+      attributes: { OBJECTID: i + 1, name: `Feature ${i + 1}` }
+    })
+  );
+  const serviceFeaturesPagePartial = [
+    {
+      attributes: {
+        OBJECTID: serviceMaxRecordCount + 1,
+        name: `Feature ${serviceMaxRecordCount + 1}`
+      }
+    }
+  ];
+  const userRecordCountFeaturesPageFull = Array.from(
+    { length: userRecordCount },
+    (_, i) => ({
+      attributes: { OBJECTID: i + 1, name: `Feature ${i + 1}` }
+    })
+  );
+  const userRecordCountFeaturesPagePartial = [
+    {
+      attributes: {
+        OBJECTID: userRecordCount + 1,
+        name: `Feature ${userRecordCount + 1}`
+      }
+    }
+  ];
+
+  beforeEach(() => {
+    fetchMock.restore();
+  });
+
+  test("should use maxRecordCount from service metadata to paginate over queries when user does not provide a record count.", async () => {
+    fetchMock.mock(`${serviceUrl}?f=json`, {
+      maxRecordCount: serviceMaxRecordCount
+    });
+    fetchMock.mock(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=${serviceMaxRecordCount}`,
+      {
+        features: serviceFeaturesPageFull,
+        exceededTransferLimit: true
+      }
+    );
+
+    fetchMock.mock(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultOffset=${serviceMaxRecordCount}&resultRecordCount=${serviceMaxRecordCount}`,
+      {
+        features: serviceFeaturesPagePartial,
+        exceededTransferLimit: false
+      }
+    );
+    const result = await queryAllFeatures({
+      url: serviceUrl
+    });
+
+    expect(result.features.length).toBe(serviceMaxRecordCount + 1);
+    expect(result.features[0].attributes.OBJECTID).toBe(1);
+    expect(result.features[serviceMaxRecordCount].attributes.OBJECTID).toBe(
+      serviceMaxRecordCount + 1
+    );
+    expect(fetchMock.called(`${serviceUrl}?f=json`)).toBeTruthy();
+    expect(fetchMock.calls().length).toBe(3); // 1 for metadata, 2 for features
+  });
+
+  test("should use user record count when within the service limit to paginate over queries.", async () => {
+    fetchMock.mock(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultRecordCount=${userRecordCount}&resultOffset=0`,
+      {
+        features: userRecordCountFeaturesPageFull,
+        exceededTransferLimit: true
+      }
+    );
+
+    fetchMock.mock(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultRecordCount=${userRecordCount}&resultOffset=${userRecordCount}`,
+      {
+        features: userRecordCountFeaturesPagePartial,
+        exceededTransferLimit: false
+      }
+    );
+
+    const result = await queryAllFeatures({
+      url: serviceUrl,
+      params: {
+        resultRecordCount: userRecordCount
+      }
+    });
+
+    expect(result.features.length).toBe(userRecordCount + 1);
+    expect(result.features[0].attributes.OBJECTID).toBe(1);
+    expect(result.features[userRecordCount].attributes.OBJECTID).toBe(
+      userRecordCount + 1
+    );
+    expect(fetchMock.called(`${serviceUrl}?f=json`)).toBeFalsy(); // should not have requested metadata
+    expect(fetchMock.calls().length).toBe(2); // 2 for features
+  });
+
+  test("should fall back to service limit (use service page size) when user record count exceeds the service limit.", async () => {
+    const userRecordCountHigh = serviceMaxRecordCount + 500;
+    fetchMock.mock(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultRecordCount=${userRecordCountHigh}&resultOffset=0`,
+      {
+        features: serviceFeaturesPageFull,
+        exceededTransferLimit: true
+      }
+    );
+    // queryAllFeatures overrides the user provided record count with the service max record count if the user provided count exceeds the service limit, so the second request will use the service max record count
+    fetchMock.mock(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultRecordCount=${serviceMaxRecordCount}&resultOffset=${serviceMaxRecordCount}`,
+      {
+        features: serviceFeaturesPagePartial,
+        exceededTransferLimit: false
+      }
+    );
+
+    const result = await queryAllFeatures({
+      url: serviceUrl,
+      params: {
+        resultRecordCount: userRecordCountHigh
+      }
+    });
+    expect(result.features.length).toBe(serviceMaxRecordCount + 1);
+    expect(result.features.length).toBe(1001);
+    expect(result.features[0].attributes.OBJECTID).toBe(1);
+    expect(result.features[serviceMaxRecordCount].attributes.OBJECTID).toBe(
+      serviceMaxRecordCount + 1
+    ); // 1001
+    expect(fetchMock.calls().length).toBe(2); // 2 for features
+  });
+
+  test("should default page size to 2000 if metadata does not provide a max record count and user does not provide a record count.", async () => {
+    const defaultPageSize = 2000;
+    const defaultFeaturesPageFull = Array.from(
+      { length: defaultPageSize },
+      (_, i) => ({
+        attributes: { OBJECTID: i + 1, name: `Feature ${i + 1}` }
+      })
+    );
+    const defaultFeaturesPagePartial = [
+      {
+        attributes: {
+          OBJECTID: defaultPageSize + 1,
+          name: `Feature ${defaultPageSize + 1}`
+        }
+      }
+    ];
+    fetchMock.mock(`${serviceUrl}?f=json`, {
+      // no maxRecordCount provided in metadata response
+    });
+    fetchMock.mock(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultOffset=0&resultRecordCount=${defaultPageSize}`,
+      {
+        features: defaultFeaturesPageFull,
+        exceededTransferLimit: true
+      }
+    );
+    fetchMock.mock(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultOffset=${defaultPageSize}&resultRecordCount=${defaultPageSize}`,
+      {
+        features: defaultFeaturesPagePartial,
+        exceededTransferLimit: false
+      }
+    );
+    const result = await queryAllFeatures({
+      url: serviceUrl
+    });
+
+    expect(result.features.length).toBe(2001);
+    expect(result.features[0].attributes.OBJECTID).toBe(1);
+    expect(result.features[defaultPageSize].attributes.OBJECTID).toBe(
+      defaultPageSize + 1
+    );
+    expect(fetchMock.called(`${serviceUrl}?f=json`)).toBeTruthy();
+    expect(fetchMock.calls().length).toBe(3); // 1 for metadata, 2 for features
+  });
+
+  test("should return after a single request if the features returned are less than the user defined record count or service limit.", async () => {
+    fetchMock.mock(
+      `${serviceUrl}/query?f=json&where=1%3D1&outFields=*&resultRecordCount=${userRecordCount}&resultOffset=0`,
+      {
+        features: userRecordCountFeaturesPagePartial,
+        exceededTransferLimit: false
+      }
+    );
+    const result = await queryAllFeatures({
+      url: serviceUrl,
+      params: {
+        resultRecordCount: userRecordCount
+      }
+    });
+    expect(result.features.length).toBe(1);
+    expect(result.features[0].attributes.OBJECTID).toBe(501);
+    expect(fetchMock.called(`${serviceUrl}?f=json`)).toBeFalsy(); // should not have requested metadata
+    expect(fetchMock.calls().length).toBe(1); // 1 for features
+  });
+
+  test("should throw an error if the user defined record count is too large.", async () => {
+    const userRecordCountMassive = 100000;
+    const userRecordCountMassiver = 100001;
+    try {
+      await queryAllFeatures({
+        url: serviceUrl,
+        params: {
+          resultRecordCount: userRecordCountMassive
+        }
+      });
+    } catch (error) {
+      expect(error).toBeInstanceOf(ArcGISRequestError);
+      expect((error as any).code).toBe(400);
+    }
+    try {
+      await queryAllFeatures({
+        url: serviceUrl,
+        params: {
+          resultRecordCount: userRecordCountMassiver
+        }
+      });
+    } catch (error) {
+      expect(error).toBeInstanceOf(ArcGISRequestError);
+      expect((error as any).code).toBe(400);
+    }
   });
 });
