@@ -915,6 +915,48 @@ describe("queryAllFeatures", () => {
       // exceededTransferLimit only gets set the first iteration on the response object so it will always be true in multi-page scenarios
       expect((geojson as any).properties.exceededTransferLimit).toBe(true);
     });
+
+    test("(invalid request) should throw 400 arcgis request error when objectIdFields fail to parse in pbf-to-geojson parser", async () => {
+      const thisServiceUrl = `https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/NYC_Footprints_fgdb/FeatureServer/0`;
+      const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFNoObjectIdFieldResponse.pbf"
+      );
+
+      fetchMock.once(`${thisServiceUrl}?f=json`, {
+        maxRecordCount: 500
+      });
+
+      fetchMock.once(
+        `*`,
+        {
+          status: 200,
+          headers: { "content-type": "application/x-protobuf" },
+          body: arrayBuffer
+        },
+        { sendAsJson: false }
+      );
+
+      const noObjectFieldIdOptions: IQueryAllFeaturesOptions = {
+        url: thisServiceUrl,
+        where: "HEIGHTROOF > 95",
+        outFields: ["OBJECTID", "HEIGHTROOF", "GROUNDELEV", "CNSTRCT_YR"],
+        f: "pbf-as-geojson",
+        resultType: "tile",
+        inSR: "4326",
+        spatialRel: "esriSpatialRelIntersects",
+        geometryType: "esriGeometryEnvelope"
+      };
+      try {
+        await queryAllFeatures(noObjectFieldIdOptions);
+      } catch (error) {
+        expect(fetchMock.calls().length).toBe(2);
+        expect(error).toBeInstanceOf(ArcGISRequestError);
+        expect((error as any).code).toBe(400);
+        expect((error as any).message).toContain(
+          "400: objectIdField 'OBJECTID_1' was not found."
+        );
+      }
+    });
   });
 
   describe("queryAllFeatures (pbf-as-arcgis)", () => {
@@ -1049,6 +1091,47 @@ describe("queryAllFeatures", () => {
       expect(response.features[0]).toHaveProperty("geometry");
       // exceededTransferLimit only gets set the first iteration on the response object so it will always be true in multi-page scenarios
       expect(response.exceededTransferLimit).toBe(true);
+    });
+
+    test("(invalid request) should throw 400 arcgis request error when objectIdFields fail to parse in pbf-to-arcgis parser", async () => {
+      const thisServiceUrl = `https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/NYC_Footprints_fgdb/FeatureServer/0`;
+      const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+        "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFNoObjectIdFieldResponse.pbf"
+      );
+
+      fetchMock.once(`${thisServiceUrl}?f=json`, {
+        maxRecordCount: 500
+      });
+      fetchMock.once(
+        `*`,
+        {
+          status: 200,
+          headers: { "content-type": "application/x-protobuf" },
+          body: arrayBuffer
+        },
+        { sendAsJson: false }
+      );
+
+      const noObjectFieldIdOptions: IQueryAllFeaturesOptions = {
+        url: thisServiceUrl,
+        where: "HEIGHTROOF > 95",
+        outFields: ["OBJECTID", "HEIGHTROOF", "GROUNDELEV", "CNSTRCT_YR"],
+        f: "pbf-as-arcgis",
+        resultType: "tile",
+        inSR: "4326",
+        spatialRel: "esriSpatialRelIntersects",
+        geometryType: "esriGeometryEnvelope"
+      };
+      try {
+        await queryAllFeatures(noObjectFieldIdOptions);
+      } catch (error) {
+        expect(fetchMock.calls().length).toBe(2);
+        expect(error).toBeInstanceOf(ArcGISRequestError);
+        expect((error as any).code).toBe(400);
+        expect((error as any).message).toContain(
+          "400: objectIdField 'OBJECTID_1' was not found."
+        );
+      }
     });
   });
 });
