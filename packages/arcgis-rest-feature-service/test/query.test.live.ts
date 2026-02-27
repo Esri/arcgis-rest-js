@@ -2,7 +2,6 @@ import fetchMock from "fetch-mock";
 import { describe, afterEach, test, expect } from "vitest";
 import {
   IQueryAllFeaturesOptions,
-  IQueryAllFeaturesResponse,
   IQueryFeaturesOptions,
   IQueryFeaturesResponse,
   queryAllFeatures,
@@ -848,6 +847,29 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
           expect((response as any).properties.exceededTransferLimit).toBe(true);
         }
       );
+      test(
+        "LIVE TEST: pbf-as-geojson request should throw an error when an object id field does not exist in the service",
+        { timeout: 15000 },
+        async () => {
+          const options: IQueryAllFeaturesOptions = {
+            url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/NYC_Footprints_fgdb/FeatureServer/0",
+            where: "HEIGHTROOF > 95",
+            outFields: ["OBJECTID", "HEIGHTROOF", "GROUNDELEV", "CNSTRCT_YR"],
+            f: "pbf-as-geojson",
+            resultType: "tile",
+            inSR: "4326",
+            spatialRel: "esriSpatialRelIntersects",
+            geometryType: "esriGeometryEnvelope"
+          };
+          try {
+            await queryAllFeatures(options);
+            throw new Error("Expected an error");
+          } catch (error) {
+            expect(error).toBeInstanceOf(ArcGISRequestError);
+            expect((error as ArcGISRequestError).code).toBe(400);
+          }
+        }
+      );
     });
 
     describe("with pbf-as-arcgis", () => {
@@ -865,6 +887,29 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
           expect((response as any).exceededTransferLimit).toBe(true);
           expect((response as any).features[0]).toHaveProperty("attributes");
           expect((response as any).features[0]).toHaveProperty("geometry");
+        }
+      );
+      test(
+        "LIVE TEST: pbf-as-arcgis request should throw an error when an object id field does not exist in the service",
+        { timeout: 15000 },
+        async () => {
+          const options: IQueryAllFeaturesOptions = {
+            url: "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/NYC_Footprints_fgdb/FeatureServer/0",
+            where: "HEIGHTROOF > 95",
+            outFields: ["OBJECTID", "HEIGHTROOF", "GROUNDELEV", "CNSTRCT_YR"],
+            f: "pbf-as-arcgis",
+            resultType: "tile",
+            inSR: "4326",
+            spatialRel: "esriSpatialRelIntersects",
+            geometryType: "esriGeometryEnvelope"
+          };
+          try {
+            await queryAllFeatures(options);
+            throw new Error("Expected an error");
+          } catch (error) {
+            expect(error).toBeInstanceOf(ArcGISRequestError);
+            expect((error as ArcGISRequestError).code).toBe(400);
+          }
         }
       );
     });
