@@ -1,5 +1,11 @@
 # @esri/arcgis-rest-auth Changelog
 
+## 4.10.0
+
+### Patch Changes
+
+- @esri/arcgis-rest-request@4.10.0
+
 ## 4.9.1
 
 ### Patch Changes
