@@ -39,6 +39,17 @@ export default function pbfToArcGIS(
 
   // Normalize fields
   out.fields = decodeFields(featureResult.fields);
+  // Throw error if objectIdField does not exist in the fields
+  if (
+    out.fields.every(
+      (field: any) => field.name !== featureResult.objectIdFieldName
+    )
+  ) {
+    throw new ArcGISRequestError(
+      `objectIdField '${featureResult.objectIdFieldName}' was not found.`,
+      400
+    );
+  }
 
   // Get attribute and geometry transformations
   const attributeFields = featureResult.fields.map((field: any) => ({
@@ -226,7 +237,7 @@ function getGeometryType(featureType: number): GeometryType {
       return "esriGeometryPolygon";
     // istanbul ignore next --@preserve
     default:
-      throw new ArcGISRequestError("Geometry type not supported.");
+      throw new ArcGISRequestError("Geometry type not supported.", 501);
   }
 }
 

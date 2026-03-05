@@ -230,15 +230,22 @@ export function queryPbfAsGeoJSONOrArcGIS(
           return pbfToGeoJSON(arrayBuffer);
         }
       } catch (error) {
-        // this is a catch all for any errors that occur during parsing of the pbf response
-        // this block could be expanded to handle more specific errors from the parser with different messages or error codes
-        throw new ArcGISRequestError(
-          "Unable to decode pbf response.",
-          500,
-          response,
-          url,
-          customOptions
-        );
+        if (error instanceof ArcGISRequestError) {
+          // Append response, url, customOptions
+          error.response = response;
+          error.url = url;
+          error.options = customOptions;
+          throw error;
+        } else {
+          // catch all for any errors that occur during the parsing of the pbf response
+          throw new ArcGISRequestError(
+            "Unable to decode pbf response.",
+            500,
+            response,
+            url,
+            customOptions
+          );
+        }
       }
     }
   );

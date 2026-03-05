@@ -2,6 +2,7 @@
  * This code has been adapted from [arcgis-pbf-parser] ([https://github.com/rowanwins/arcgis-pbf-parser])
  * Modifications have been made for use in this project.
  */
+import { ArcGISRequestError } from "@esri/arcgis-rest-request";
 import { readFeatureCollectionPBuffer } from "./PbfFeatureCollectionV2.js";
 import Pbf from "pbf";
 
@@ -56,6 +57,14 @@ export function decode(featureCollectionBuffer: any) {
   fields.forEach((field: any) => {
     field.keyName = getKeyName(field);
   });
+
+  // throw error if objectIdField does not exist in the fields
+  if (fields.every((field: any) => field.name !== objectIdField)) {
+    throw new ArcGISRequestError(
+      `objectIdField '${objectIdField}' was not found.`,
+      400
+    );
+  }
 
   const featureLen = featureResult.features.length;
   for (let index = 0; index < featureLen; index++) {
