@@ -379,21 +379,36 @@ export function queryFeatures(
 export async function queryAllFeatures(
   requestOptions: IQueryAllFeaturesOptions
 ): Promise<IQueryAllFeaturesResponse> {
+  let firstResponse = true;
   let offset = 0;
   let hasMore = true;
   let allFeaturesResponse: IQueryAllFeaturesResponse | null = null;
-  // retrieve the maxRecordCount for the service
 
-  const pageSizeResponse = await request(requestOptions.url, {
-    httpMethod: "GET",
-    authentication: requestOptions.authentication
-  });
-  // default the pageSize to 2000 if it is not provided
-  const pageSize = pageSizeResponse.maxRecordCount || 2000;
   const userRecordCount = requestOptions.params?.resultRecordCount;
-  // use the user defined count only if it's less than or equal to the page size, otherwise use pageSize
-  const recordCountToUse =
-    userRecordCount && userRecordCount <= pageSize ? userRecordCount : pageSize;
+  // Throw error if user requests 100,000 or more features
+  if (userRecordCount && userRecordCount >= 100_000) {
+    throw new ArcGISRequestError(
+      "resultRecordCount must be less than 100,000.",
+      400,
+      null,
+      requestOptions.url,
+      requestOptions
+    );
+  }
+
+  let recordCountToUse: number;
+  if (userRecordCount) {
+    // Use user-provided recordCount directly
+    recordCountToUse = userRecordCount;
+  } else {
+    // retrieve the maxRecordCount for the service only if user did not provide resultRecordCount
+    const pageSizeResponse = await request(requestOptions.url, {
+      httpMethod: "GET",
+      authentication: requestOptions.authentication
+    });
+    // default the pageSize to 2000 if it is not provided
+    recordCountToUse = pageSizeResponse.maxRecordCount || 2000;
+  }
 
   while (hasMore) {
     const pagedOptions = {
@@ -479,6 +494,14 @@ export async function queryAllFeatures(
     }
 
     const returnedCount = response.features.length;
+
+    // Use the returned feature count as the page size for subsequent requests if user record count exceeds service limits
+    if (firstResponse) {
+      firstResponse = false;
+      if (returnedCount > 0 && returnedCount < recordCountToUse) {
+        recordCountToUse = returnedCount;
+      }
+    }
 
     const exceededTransferLimit =
       // ArcGIS JSON | pbf-as-arcgis: exceededTransferLimit is on the response object
