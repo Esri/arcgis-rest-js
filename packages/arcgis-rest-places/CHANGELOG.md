@@ -1,5 +1,7 @@
 # @esri/arcgis-rest-places Changelog
 
+## 4.10.0
+
 ## 4.9.1
 
 ## 4.9.0

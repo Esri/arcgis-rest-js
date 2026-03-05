@@ -1,5 +1,15 @@
 # @esri/arcgis-rest-feature-service Changelog
 
+## 4.10.0
+
+### Minor Changes
+
+- c10b39e: change queryAllFeatures fallback order to prefer user defined record count without querying service metadata
+
+### Patch Changes
+
+- 43d2733: added error handling for missing object id fields
+
 ## 4.9.1
 
 ### Patch Changes
