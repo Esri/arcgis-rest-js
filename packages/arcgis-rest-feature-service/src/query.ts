@@ -66,6 +66,7 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   multipatchOption?: "xyFootprint";
   resultOffset?: number;
   resultRecordCount?: number;
+  maxRecordCountFactor?: number;
   // TODO: IQuantizationParameters?
   quantizationParameters?: any;
   returnCentroid?: boolean;
@@ -122,6 +123,7 @@ export interface IQueryAllFeaturesOptions extends ISharedQueryOptions {
   multipatchOption?: "xyFootprint";
   resultOffset?: number;
   resultRecordCount?: number;
+  maxRecordCountFactor?: number;
   // TODO: IQuantizationParameters?
   quantizationParameters?: any;
   resultType?: "none" | "standard" | "tile";
@@ -391,7 +393,10 @@ export async function queryAllFeatures(
   let hasMore = true;
   let allFeaturesResponse: IQueryAllFeaturesResponse | null = null;
 
-  const userRecordCount = requestOptions.params?.resultRecordCount;
+  const userRecordCount =
+    requestOptions.resultRecordCount ||
+    requestOptions.params?.resultRecordCount;
+
   // Throw error if user requests 100,000 or more features
   if (userRecordCount && userRecordCount >= 100_000) {
     throw new ArcGISRequestError(
@@ -456,6 +461,7 @@ export async function queryAllFeatures(
         "multipatchOption",
         "resultOffset",
         "resultRecordCount",
+        "maxRecordCountFactor",
         "quantizationParameters",
         "resultType",
         "historicMoment",
