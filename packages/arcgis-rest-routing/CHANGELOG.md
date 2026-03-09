@@ -1,5 +1,7 @@
 # @esri/arcgis-rest-routing Changelog
 
+## 4.10.1
+
 ## 4.10.0
 
 ## 4.9.1
