@@ -1,5 +1,11 @@
 # @esri/arcgis-rest-feature-service Changelog
 
+## 4.10.1
+
+### Patch Changes
+
+- 48b7f8d: Add support for `maxRecordCountFactor` in `queryFeatures()` and `queryAllFeatures()`. Fix a bug in `queryAllFeatures()` could end up requesting too few features per page.
+
 ## 4.10.0
 
 ### Minor Changes
