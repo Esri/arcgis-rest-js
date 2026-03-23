@@ -29,8 +29,8 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
     expect(arcgis.spatialReference.latestWkid).toBe(3857);
     expect(arcgis.fields.length).toBe(56);
     expect(arcgis.fieldAliases).toBe(undefined);
-    expect(arcgis.hasZ).toBe(false);
-    expect(arcgis.hasM).toBe(false);
+    expect(arcgis.hasZ).toBe(undefined);
+    expect(arcgis.hasM).toBe(undefined);
     expect(arcgis.exceededTransferLimit).toBe(true);
     // inspect IField object for required props
     expect(arcgis.fields[0].name).toBe("FID");
@@ -68,8 +68,8 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
     expect(arcgis.spatialReference.latestWkid).toBe(3857);
     expect(arcgis.fields.length).toBe(8);
     expect(arcgis.fieldAliases).toBe(undefined);
-    expect(arcgis.hasZ).toBe(false);
-    expect(arcgis.hasM).toBe(false);
+    expect(arcgis.hasZ).toBe(undefined);
+    expect(arcgis.hasM).toBe(undefined);
     expect(arcgis.exceededTransferLimit).toBe(true);
     // required properties
     expect(arcgis.features.length).toBe(1);
@@ -107,8 +107,8 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
     expect(arcgis.spatialReference.latestWkid).toBe(3857);
     expect(arcgis.fields?.length).toBe(14);
     expect(arcgis.fieldAliases).toBe(undefined);
-    expect(arcgis.hasZ).toBe(false);
-    expect(arcgis.hasM).toBe(false);
+    expect(arcgis.hasZ).toBe(undefined);
+    expect(arcgis.hasM).toBe(undefined);
     expect(arcgis.exceededTransferLimit).toBe(true);
     // required properties
     expect(arcgis.features.length).toBe(1);
@@ -157,13 +157,12 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
     expect(pbfArcGIS4326.spatialReference.latestWkid).toBe(4326);
     expect(pbfArcGIS4326.geometryType).toBe("esriGeometryPolygon");
     expect((pbfArcGIS4326.features[0].geometry as any).rings.length).toBe(7);
-    expect((pbfArcGIS4326.features[0].geometry as any).rings[0].length).toBe(1);
-    expect((pbfArcGIS4326.features[0].geometry as any).rings[0][0].length).toBe(
+    expect((pbfArcGIS4326.features[0].geometry as any).rings[0].length).toBe(
       30
     );
-    expect(
-      (pbfArcGIS4326.features[0].geometry as any).rings[0][0][0].length
-    ).toBe(2);
+    expect((pbfArcGIS4326.features[0].geometry as any).rings[0][0].length).toBe(
+      2
+    );
   });
 
   test("should convert a pbf POLYGON PAGE to arcgis query features object", async () => {
@@ -181,8 +180,8 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
     expect(arcgis.spatialReference.latestWkid).toBe(3857);
     expect(arcgis.fields?.length).toBe(8);
     expect(arcgis.fieldAliases).toBe(undefined);
-    expect(arcgis.hasZ).toBe(false);
-    expect(arcgis.hasM).toBe(false);
+    expect(arcgis.hasZ).toBe(undefined);
+    expect(arcgis.hasM).toBe(undefined);
     expect(arcgis.exceededTransferLimit).toBe(false);
     // inspect required IFeature properties (features)
     expect(arcgis.features.length).toBe(131);

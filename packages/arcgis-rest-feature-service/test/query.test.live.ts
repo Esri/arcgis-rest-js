@@ -466,8 +466,8 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
         expect(arcgis.spatialReference.latestWkid).toBe(3857);
         expect(arcgis.fields.length).toBe(8);
         expect(arcgis.fieldAliases).toBe(undefined);
-        expect(arcgis.hasZ).toBe(false);
-        expect(arcgis.hasM).toBe(false);
+        expect(arcgis.hasZ).toBe(undefined);
+        expect(arcgis.hasM).toBe(undefined);
         expect(arcgis.exceededTransferLimit).toBe(true);
         // properties not on interface
         expect((arcgis as any).uniqueIdField?.name).toBe("OBJECTID");

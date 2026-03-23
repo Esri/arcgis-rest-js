@@ -58,6 +58,14 @@ export function decode(featureCollectionBuffer: any) {
     field.keyName = getKeyName(field);
   });
 
+  // throw error if hasM is true
+  if (featureResult.hasM) {
+    throw new ArcGISRequestError(
+      "M values are not supported for GeoJSON.",
+      422
+    );
+  }
+
   // throw error if objectIdField does not exist in the fields
   if (fields.every((field: any) => field.name !== objectIdField)) {
     throw new ArcGISRequestError(
