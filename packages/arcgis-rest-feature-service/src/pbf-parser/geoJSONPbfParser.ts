@@ -109,7 +109,7 @@ function getGeometryParser(featureType: number) {
       return createPoint;
     /* istanbul ignore next --@preserve */
     default:
-      return createPolygon;
+      throw new ArcGISRequestError("Geometry type not supported.", 501);
   }
 }
 
