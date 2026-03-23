@@ -12,6 +12,67 @@ import {
   CoordinateToleranceEnum,
   maxDifference
 } from "../utils/parserTestHelpers.js";
+import { writeFeatureCollectionPBuffer } from "../../src/pbf-parser/PbfFeatureCollectionV2.js";
+import Pbf from "pbf";
+
+function buildFeatureResultPbfArrayBuffer(options: {
+  geometryType: 0 | 2 | 3;
+  hasZ?: boolean;
+  hasM?: boolean;
+  lengths?: number[];
+  coords: number[];
+}) {
+  const featureCollection = {
+    version: "2.0",
+    queryResult: {
+      featureResult: {
+        objectIdFieldName: "OBJECTID",
+        geometryType: options.geometryType,
+        hasZ: options.hasZ,
+        hasM: options.hasM,
+        transform: {
+          scale: {
+            xScale: 2,
+            yScale: 3,
+            mScale: 5,
+            zScale: 7
+          },
+          translate: {
+            xTranslate: 100,
+            yTranslate: 200,
+            mTranslate: 300,
+            zTranslate: 400
+          }
+        },
+        fields: [
+          {
+            name: "OBJECTID",
+            fieldType: 6,
+            alias: "OBJECTID"
+          }
+        ],
+        features: [
+          {
+            attributes: [{ sint_value: 1 }],
+            geometry: {
+              geometryType: options.geometryType,
+              lengths: options.lengths || [],
+              coords: options.coords
+            }
+          }
+        ]
+      }
+    }
+  };
+
+  const pbf = new Pbf();
+  writeFeatureCollectionPBuffer(featureCollection, pbf);
+  const bytes = pbf.finish();
+  return bytes.buffer.slice(
+    bytes.byteOffset,
+    bytes.byteOffset + bytes.byteLength
+  );
+}
 
 describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON objects", () => {
   test("should convert a pbf single feature POLYGON to arcgis query features object", async () => {
@@ -482,5 +543,69 @@ describe("precision: pbfToArcGIS geometries should closely match ArcGIS JSON res
     const arcGISCoords = (arcGIS.features[0].geometry as any).rings;
     const maxDrift = maxDifference(pbfCoords, arcGISCoords);
     expect(maxDrift?.diff).toBeLessThan(tolerance);
+  });
+});
+
+describe("dimensions: pbfToArcGIS should decode XY/XYZ/XYM/XYZM geometry coordinates correctly", () => {
+  // ArcGIS JSON coordinate ordering contract used by this parser:
+  // - 2D: [x, y]
+  // - hasZ only: [x, y, z]
+  // - hasM only: [x, y, m]
+  // - hasZ + hasM: [x, y, z, m]
+  // These tests intentionally validate both tuple ordering and per-axis transforms.
+  test("should decode and transform POINT with hasM as x,y,m", () => {
+    const arrayBuffer = buildFeatureResultPbfArrayBuffer({
+      geometryType: 0,
+      hasM: true,
+      coords: [1, 2, 3]
+    });
+
+    const response = pbfToArcGIS(arrayBuffer);
+    const point = response.features[0].geometry as any;
+
+    expect(response.hasM).toBe(true);
+    expect(response.hasZ).toBe(undefined);
+    expect(point).toEqual({
+      x: 102,
+      y: 194,
+      m: 315
+    });
+  });
+
+  test("should decode and transform POLYLINE with hasZ as [x,y,z] vertices", () => {
+    const arrayBuffer = buildFeatureResultPbfArrayBuffer({
+      geometryType: 2,
+      hasZ: true,
+      lengths: [2],
+      coords: [1, 2, 3, 10, 20, 30]
+    });
+
+    const response = pbfToArcGIS(arrayBuffer);
+    const paths = (response.features[0].geometry as any).paths;
+
+    expect(response.hasM).toBe(undefined);
+    expect(response.hasZ).toBe(true);
+    expect(paths[0][0]).toEqual([102, 194, 421]);
+    expect(paths[0][1]).toEqual([122, 134, 631]);
+  });
+
+  test("should decode and transform POLYGON with hasZ and hasM as [x,y,z,m] vertices", () => {
+    const arrayBuffer = buildFeatureResultPbfArrayBuffer({
+      geometryType: 3,
+      hasZ: true,
+      hasM: true,
+      lengths: [3],
+      coords: [1, 2, 3, 4, 10, 20, 30, 40, 10, 20, 30, 40]
+    });
+
+    const response = pbfToArcGIS(arrayBuffer);
+    const rings = (response.features[0].geometry as any).rings;
+
+    expect(response.hasZ).toBe(true);
+    expect(response.hasM).toBe(true);
+    expect(rings[0][0]).toEqual([102, 194, 421, 320]);
+    expect(rings[0][1]).toEqual([122, 134, 631, 520]);
+    expect(rings[0][2]).toEqual([142, 74, 841, 720]);
+    expect(rings[0][rings[0].length - 1]).toEqual(rings[0][0]);
   });
 });

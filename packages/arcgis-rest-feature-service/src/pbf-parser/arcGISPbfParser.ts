@@ -58,6 +58,11 @@ export default function pbfToArcGIS(
   }));
   const geometryParser = getGeometryParser(geometryType);
   const hasZ = featureResult.hasZ === true;
+  const hasM = featureResult.hasM === true;
+
+  featureResult.features.map((f) =>
+    console.log("feature geometry", f.geometry.coords)
+  ); // --- IGNORE ---
 
   // Normalize Features
   out.features = featureResult.features.map(
@@ -65,7 +70,8 @@ export default function pbfToArcGIS(
       ({
         attributes: collectAttributes(attributeFields, f.attributes),
         geometry:
-          ((f.geometry && geometryParser(f, transform, hasZ)) as any) || null
+          ((f.geometry && geometryParser(f, transform, hasZ, hasM)) as any) ||
+          null
       } as IFeature)
   );
 
@@ -229,6 +235,16 @@ function getGeometryParser(featureType: number) {
   }
 }
 
+function getCoordinateDimensions(hasZ: boolean, hasM: boolean) {
+  if (hasZ && hasM) {
+    return 4;
+  }
+  if (hasZ || hasM) {
+    return 3;
+  }
+  return 2;
+}
+
 function getGeometryType(featureType: number): GeometryType {
   switch (featureType) {
     case 0:
@@ -243,11 +259,13 @@ function getGeometryType(featureType: number): GeometryType {
   }
 }
 
-function createPoint(f: any, transform: any, hasZ: boolean) {
-  const dimensions = hasZ ? 3 : 2;
+function createPoint(f: any, transform: any, hasZ: boolean, hasM: boolean) {
+  const dimensions = getCoordinateDimensions(hasZ, hasM);
   const coordinates = transformTuple(
     f.geometry.coords.slice(0, dimensions),
-    transform
+    transform,
+    hasZ,
+    hasM
   );
 
   const point: any = {
@@ -256,16 +274,21 @@ function createPoint(f: any, transform: any, hasZ: boolean) {
   };
 
   if (coordinates.length > 2) {
-    point.z = coordinates[2];
+    if (hasZ) {
+      point.z = coordinates[2];
+    }
+    if (hasM) {
+      point.m = coordinates[hasZ ? 3 : 2];
+    }
   }
 
   return point;
 }
 
-function createPolyLine(f: any, transform: any, hasZ: boolean) {
+function createPolyLine(f: any, transform: any, hasZ: boolean, hasM: boolean) {
   const paths = [];
   let startPoint = 0;
-  const dimensions = hasZ ? 3 : 2;
+  const dimensions = getCoordinateDimensions(hasZ, hasM);
 
   for (let i = 0; i < f.geometry.lengths.length; i++) {
     const stopPoint = startPoint + f.geometry.lengths[i] * dimensions;
@@ -275,7 +298,9 @@ function createPolyLine(f: any, transform: any, hasZ: boolean) {
         transform,
         startPoint,
         stopPoint,
-        dimensions
+        dimensions,
+        hasZ,
+        hasM
       )
     );
     startPoint = stopPoint;
@@ -284,11 +309,11 @@ function createPolyLine(f: any, transform: any, hasZ: boolean) {
   return { paths };
 }
 
-function createPolygon(f: any, transform: any, hasZ: boolean) {
+function createPolygon(f: any, transform: any, hasZ: boolean, hasM: boolean) {
   const rings = [] as any[];
   const lengths = f.geometry.lengths.length;
   let startPoint = 0;
-  const dimensions = hasZ ? 3 : 2;
+  const dimensions = getCoordinateDimensions(hasZ, hasM);
 
   for (let index = 0; index < lengths; index++) {
     const stopPoint = startPoint + f.geometry.lengths[index] * dimensions;
@@ -297,7 +322,9 @@ function createPolygon(f: any, transform: any, hasZ: boolean) {
       transform,
       startPoint,
       stopPoint,
-      dimensions
+      dimensions,
+      hasZ,
+      hasM
     );
 
     if (ring.length > 0) {
@@ -315,43 +342,32 @@ function genericPartDecoder(
   transform: any,
   startPoint: number,
   stopPoint: number,
-  dimensions: number
+  dimensions: number,
+  hasZ: boolean,
+  hasM: boolean
 ) {
   const out = [] as any[];
   /* istanbul ignore if --@preserve */
   if (arr.length === 0) return out;
 
-  const initialX = arr[startPoint];
-  const initialY = arr[startPoint + 1];
-  const initialZ = dimensions === 3 ? arr[startPoint + 2] : undefined;
-  out.push(
-    transformTuple(
-      initialZ !== undefined
-        ? [initialX, initialY, initialZ]
-        : [initialX, initialY],
-      transform
-    )
-  );
-  let prevX = initialX;
-  let prevY = initialY;
-  let prevZ = initialZ;
+  let prevCoords = arr.slice(startPoint, startPoint + dimensions);
+  if (prevCoords.length < 2) return out;
+
+  out.push(transformTuple(prevCoords, transform, hasZ, hasM));
+
   for (let i = startPoint + dimensions; i < stopPoint; i = i + dimensions) {
-    const x = sum(prevX, arr[i]);
-    const y = sum(prevY, arr[i + 1]);
-    let z;
-    if (dimensions === 3 && prevZ !== undefined) {
-      z = sum(prevZ, arr[i + 2]);
+    const delta = arr.slice(i, i + dimensions);
+    if (delta.length < 2) {
+      continue;
     }
-    const transformed = transformTuple(
-      z !== undefined ? [x, y, z] : [x, y],
-      transform
+
+    const currentCoords = prevCoords.map((coordinate, index) =>
+      sum(coordinate, delta[index])
     );
+
+    const transformed = transformTuple(currentCoords, transform, hasZ, hasM);
     out.push(transformed);
-    prevX = x;
-    prevY = y;
-    if (z !== undefined) {
-      prevZ = z;
-    }
+    prevCoords = currentCoords;
   }
   return out;
 }
@@ -365,28 +381,48 @@ function closeRing(ring: any[]) {
 }
 
 /* istanbul ignore next --@preserve */
-function transformTuple(coords: any, transform: any) {
+function transformTuple(
+  coords: any,
+  transform: any,
+  hasZ: boolean,
+  hasM: boolean
+) {
+  const scale = transform?.scale || {};
+  const translate = transform?.translate || {};
+
+  const xScale = scale.xScale ?? 1;
+  const yScale = scale.yScale ?? 1;
+  const zScale = scale.zScale ?? 1;
+  const mScale = scale.mScale ?? 1;
+
+  const xTranslate = translate.xTranslate ?? 0;
+  const yTranslate = translate.yTranslate ?? 0;
+  const zTranslate = translate.zTranslate ?? 0;
+  const mTranslate = translate.mTranslate ?? 0;
+
   let x = coords[0];
   let y = coords[1];
 
-  let z = coords.length > 2 && coords[2] !== null ? coords[2] : undefined;
-  if (transform.scale) {
-    x *= transform.scale.xScale;
-    y *= -transform.scale.yScale;
-    if (undefined !== z) {
-      z *= transform.scale.zScale;
-    }
+  let z = hasZ ? coords[2] : undefined;
+  let m = hasM ? coords[hasZ ? 3 : 2] : undefined;
+
+  x = x * xScale + xTranslate;
+  y = y * -yScale + yTranslate;
+
+  if (undefined !== z) {
+    z = z * zScale + zTranslate;
   }
-  if (transform.translate) {
-    x += transform.translate.xTranslate;
-    y += transform.translate.yTranslate;
-    if (undefined !== z) {
-      z += transform.translate.zTranslate;
-    }
+
+  if (undefined !== m) {
+    m = m * mScale + mTranslate;
   }
+
   const ret = [x, y];
   if (undefined !== z) {
     ret.push(z);
+  }
+  if (undefined !== m) {
+    ret.push(m);
   }
   return ret;
 }
