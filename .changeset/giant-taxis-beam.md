@@ -1,5 +1,5 @@
 ---
-"@esri/arcgis-rest-request": minor
+"@esri/arcgis-rest-request": major
 ---
 
 Removed `withOptions()` from `@esri/arcgis-rest-request`.
