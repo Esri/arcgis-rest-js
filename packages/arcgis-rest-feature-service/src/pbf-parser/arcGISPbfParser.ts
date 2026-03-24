@@ -361,9 +361,18 @@ function genericPartDecoder(
       continue;
     }
 
-    const currentCoords = prevCoords.map((coordinate, index) =>
-      sum(coordinate, delta[index])
-    );
+    const currentCoords = prevCoords.map((coordinate, index) => {
+      // minimal edge-case fix:
+      // when hasM only (no Z), treat 3rd lane as absolute M per vertex
+      if (hasM && !hasZ && index === 2) {
+        return delta[index];
+      }
+      if (hasM && hasZ && index === 3) {
+        return delta[index];
+      }
+      // keep existing behavior for all other extra lanes
+      return sum(coordinate, delta[index]);
+    });
 
     const transformed = transformTuple(currentCoords, transform, hasZ, hasM);
     out.push(transformed);
@@ -414,7 +423,11 @@ function transformTuple(
   }
 
   if (undefined !== m) {
-    m = m * mScale + mTranslate;
+    if (m === 0) {
+      m = null;
+    } else {
+      m = m * mScale + mTranslate;
+    }
   }
 
   const ret = [x, y];
