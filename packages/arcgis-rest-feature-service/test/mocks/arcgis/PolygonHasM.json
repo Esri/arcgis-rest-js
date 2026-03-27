@@ -1,0 +1,252 @@
+{
+  "objectIdFieldName": "OBJECTID",
+  "uniqueIdField": {
+    "name": "OBJECTID",
+    "isSystemMaintained": true
+  },
+  "globalIdFieldName": "GlobalID",
+  "geometryProperties": {
+    "shapeAreaFieldName": "Shape__Area",
+    "shapeLengthFieldName": "Shape__Length",
+    "units": "esriMeters"
+  },
+  "hasM": true,
+  "geometryType": "esriGeometryPolygon",
+  "spatialReference": {
+    "wkid": 102100,
+    "latestWkid": 3857
+  },
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "sqlType": "sqlTypeOther",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "GlobalID",
+      "type": "esriFieldTypeGlobalID",
+      "alias": "GlobalID",
+      "sqlType": "sqlTypeOther",
+      "length": 38,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "Shape__Area",
+      "type": "esriFieldTypeDouble",
+      "alias": "Shape__Area",
+      "sqlType": "sqlTypeDouble",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "Shape__Length",
+      "type": "esriFieldTypeDouble",
+      "alias": "Shape__Length",
+      "sqlType": "sqlTypeDouble",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "Mvalue",
+      "type": "esriFieldTypeString",
+      "alias": "LOOK",
+      "sqlType": "sqlTypeOther",
+      "length": 256,
+      "domain": null,
+      "defaultValue": "LOOK",
+      "description": "{\"value\":\"\",\"fieldValueType\":\"description\"}"
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "OBJECTID": 1,
+        "GlobalID": "a4c47862-8b14-4f90-8c84-f303638e2b1f",
+        "Shape__Area": 183157286.46875,
+        "Shape__Length": 53658.69599516858,
+        "Mvalue": "fivevertexpolygonid1"
+      },
+      "geometry": {
+        "hasM": true,
+        "rings": [
+          [
+            [
+              -13524078.9598822,
+              5707278.93529062,
+              0
+            ],
+            [
+              -13526394.1657822,
+              5719377.48369062,
+              0
+            ],
+            [
+              -13512730.4498822,
+              5720301.29679062,
+              0
+            ],
+            [
+              -13512120.7450822,
+              5709972.14619062,
+              0
+            ],
+            [
+              -13518223.7640822,
+              5702434.14149062,
+              0
+            ],
+            [
+              -13524078.9598822,
+              5707278.93529062,
+              0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 4,
+        "GlobalID": "d669f835-982a-43a3-ab66-7bdf5f1f198d",
+        "Shape__Area": 220331962.671875,
+        "Shape__Length": 77691.02618027572,
+        "Mvalue": "trianglepolygonwithsquareholeid4"
+      },
+      "geometry": {
+        "hasM": true,
+        "rings": [
+          [
+            [
+              -13524389.4853101,
+              5665089.27864595,
+              0
+            ],
+            [
+              -13503566.9639101,
+              5659136.74514595,
+              0
+            ],
+            [
+              -13520172.3112101,
+              5642226.24694595,
+              0
+            ],
+            [
+              -13524389.4853101,
+              5665089.27864595,
+              0
+            ]
+          ],
+          [
+            [
+              -13517426.2512101,
+              5654173.86204595,
+              0
+            ],
+            [
+              -13515252.1253101,
+              5654173.86204595,
+              0
+            ],
+            [
+              -13515252.1253101,
+              5656542.43954595,
+              0
+            ],
+            [
+              -13517426.2512101,
+              5656542.43954595,
+              0
+            ],
+            [
+              -13517426.2512101,
+              5654173.86204595,
+              0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 6,
+        "GlobalID": "095a8a78-6bf3-46ad-bba0-9f77defb021d",
+        "Shape__Area": 119060461.640625,
+        "Shape__Length": 52815.023827286685,
+        "Mvalue": "triangleid6"
+      },
+      "geometry": {
+        "hasM": true,
+        "rings": [
+          [
+            [
+              -13513652.7702168,
+              5691365.85073824,
+              123
+            ],
+            [
+              -13503307.4960168,
+              5681936.62673824,
+              234
+            ],
+            [
+              -13524844.8231168,
+              5678549.51093824,
+              345
+            ],
+            [
+              -13513652.7702168,
+              5691365.85073824,
+              123
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 8,
+        "GlobalID": "fa5a6825-a7bf-41b4-bcaf-e786debd1419",
+        "Shape__Area": 170678885.671875,
+        "Shape__Length": 54086.5717932282,
+        "Mvalue": null
+      },
+      "geometry": {
+        "hasM": true,
+        "rings": [
+          [
+            [
+              -13526575.1025181,
+              5637941.7600619,
+              0
+            ],
+            [
+              -13516130.6991181,
+              5630077.1064619,
+              0
+            ],
+            [
+              -13527954.5520181,
+              5622638.8281619,
+              0
+            ],
+            [
+              -13538398.9553181,
+              5630503.4817619,
+              0
+            ],
+            [
+              -13526575.1025181,
+              5637941.7600619,
+              0
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

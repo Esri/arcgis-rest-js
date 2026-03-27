@@ -1,0 +1,186 @@
+{
+  "objectIdFieldName": "OBJECTID",
+  "uniqueIdField": {
+    "name": "OBJECTID",
+    "isSystemMaintained": true
+  },
+  "globalIdFieldName": "GlobalID",
+  "geometryProperties": {
+    "shapeAreaFieldName": "Shape__Area",
+    "shapeLengthFieldName": "Shape__Length",
+    "units": "esriMeters"
+  },
+  "hasZ": true,
+  "geometryType": "esriGeometryPolygon",
+  "spatialReference": {
+    "wkid": 102100,
+    "latestWkid": 3857
+  },
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "sqlType": "sqlTypeOther",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "GlobalID",
+      "type": "esriFieldTypeGlobalID",
+      "alias": "GlobalID",
+      "sqlType": "sqlTypeOther",
+      "length": 38,
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "Shape__Area",
+      "type": "esriFieldTypeDouble",
+      "alias": "Shape__Area",
+      "sqlType": "sqlTypeDouble",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "Shape__Length",
+      "type": "esriFieldTypeDouble",
+      "alias": "Shape__Length",
+      "sqlType": "sqlTypeDouble",
+      "domain": null,
+      "defaultValue": null
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "OBJECTID": 1,
+        "GlobalID": "acd482dd-9906-4d71-9439-bf9a7ccec90f",
+        "Shape__Area": 60912370.6796875,
+        "Shape__Length": 32136.02247305231
+      },
+      "geometry": {
+        "hasZ": true,
+        "rings": [
+          [
+            [
+              -13649975.97068,
+              5704030.21232292,
+              0
+            ],
+            [
+              -13639968.9901996,
+              5703461.56263398,
+              0
+            ],
+            [
+              -13640731.7182807,
+              5696732.26761454,
+              0
+            ],
+            [
+              -13650351.7363054,
+              5698479.86889014,
+              0
+            ],
+            [
+              -13649975.97068,
+              5704030.21232292,
+              0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 2,
+        "GlobalID": "32658ee4-863f-44c7-9c68-ee8f8f464124",
+        "Shape__Area": 50812051.71875,
+        "Shape__Length": 36549.54418411045
+      },
+      "geometry": {
+        "hasZ": true,
+        "rings": [
+          [
+            [
+              -13647966.0649929,
+              5693773.46788095,
+              0
+            ],
+            [
+              -13637498.67085,
+              5694788.64716286,
+              0
+            ],
+            [
+              -13634229.7935622,
+              5685397.04447662,
+              0
+            ],
+            [
+              -13647966.0649929,
+              5693773.46788095,
+              0
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 3,
+        "GlobalID": "456523a4-5bee-4ad4-8513-a68badca6169",
+        "Shape__Area": 369954770.1015625,
+        "Shape__Length": 106290.59399137291
+      },
+      "geometry": {
+        "hasZ": true,
+        "rings": [
+          [
+            [
+              -13646967.6063109,
+              5690339.47466882,
+              0
+            ],
+            [
+              -13633686.3740642,
+              5682640.83272623,
+              0
+            ],
+            [
+              -13630703.8370504,
+              5686006.15204577,
+              1000000000
+            ],
+            [
+              -13634258.7560299,
+              5695058.565419,
+              -100000
+            ],
+            [
+              -13622776.4811872,
+              5694404.07336431,
+              543.23
+            ],
+            [
+              -13627044.4143213,
+              5665707.04513967,
+              0.22
+            ],
+            [
+              -13649807.1224788,
+              5683810.67755756,
+              -1
+            ],
+            [
+              -13646967.6063109,
+              5690339.47466882,
+              -10000
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

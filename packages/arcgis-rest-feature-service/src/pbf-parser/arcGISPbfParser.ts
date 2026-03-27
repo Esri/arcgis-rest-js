@@ -60,10 +60,6 @@ export default function pbfToArcGIS(
   const hasZ = featureResult.hasZ === true;
   const hasM = featureResult.hasM === true;
 
-  featureResult.features.map((f) =>
-    console.log("feature geometry", f.geometry.coords)
-  ); // --- IGNORE ---
-
   // Normalize Features
   out.features = featureResult.features.map(
     (f: any) =>
@@ -364,9 +360,19 @@ function genericPartDecoder(
     const currentCoords = prevCoords.map((coordinate, index) => {
       // minimal edge-case fix:
       // when hasM only (no Z), treat 3rd lane as absolute M per vertex
+      // handle hasM only
       if (hasM && !hasZ && index === 2) {
         return delta[index];
       }
+      // handle hasZ only
+      if (!hasM && hasZ && index === 2) {
+        return delta[index];
+      }
+      // handle hasZ when hasZM
+      if (hasM && hasZ && index === 2) {
+        return delta[index];
+      }
+      // handle hasM when hasZM
       if (hasM && hasZ && index === 3) {
         return delta[index];
       }
