@@ -170,8 +170,12 @@ export function queryPbfAsGeoJSONOrArcGIS(
   url: string,
   queryOptions: IRequestOptions
 ): Promise<IQueryFeaturesResponse | IQueryAllFeaturesResponse> {
+  // check for unsupported query options
+  let message = "";
+  if (queryOptions.params.returnTrueCurves) {
+    message = "True-curve geometries are not supported.";
+  }
   if (queryOptions.params.f === "pbf-as-geojson") {
-    let message = "";
     // if f=pbf-as-geojson, we need to set outSR=4326 to satisfy geojson crs standard
     // if f-pbf-as-geojson, outSR should not be set, or should be 4326 otherwise throw error
     if (
@@ -183,9 +187,6 @@ export function queryPbfAsGeoJSONOrArcGIS(
     }
     if (queryOptions.params.returnM) {
       message = "M values are not supported for GeoJSON requests.";
-    }
-    if (queryOptions.params.returnTrueCurves) {
-      message = "True curve geometries are not supported for GeoJSON requests.";
     }
     if (message.length) {
       throw new ArcGISRequestError(message, 422, null, url, queryOptions);
