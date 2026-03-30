@@ -147,7 +147,6 @@
     "packages/arcgis-rest-portal",
     "packages/arcgis-rest-places",
     "packages/arcgis-rest-routing",
-    "packages/arcgis-rest-fetch",
     "packages/arcgis-rest-form-data",
     "packages/arcgis-rest-developer-credentials",
     "packages/arcgis-rest-basemap-sessions"

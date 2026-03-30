@@ -18,11 +18,35 @@ import {
 import { IParams } from "./utils/IParams.js";
 import { warn } from "./utils/warn.js";
 import { IRetryAuthError } from "./utils/retryAuthError.js";
-import { getFetch } from "@esri/arcgis-rest-fetch";
 import { IAuthenticationManager } from "./index.js";
 import { isSameOrigin } from "./utils/isSameOrigin.js";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
+
+const dynamicImport = new Function("specifier", "return import(specifier)") as (
+  specifier: string
+) => Promise<any>;
+
+/* istanbul ignore next -- @preserve */
+async function getFetch() {
+  if (globalThis.fetch) {
+    return {
+      fetch: globalThis.fetch,
+      Headers: globalThis.Headers,
+      Request: globalThis.Request,
+      Response: globalThis.Response
+    };
+  }
+
+  /* istanbul ignore next -- @preserve */
+  const module = await dynamicImport("node-fetch");
+  return {
+    fetch: module.default as unknown as typeof fetch,
+    Headers: module.Headers as unknown as typeof Headers,
+    Request: module.Request as unknown as typeof Request,
+    Response: module.Response as unknown as typeof Response
+  };
+}
 
 /**
  * Sets the default options that will be passed in **all requests across all `@esri/arcgis-rest-js` modules**.
@@ -45,7 +69,9 @@ export function setDefaultRequestOptions(
   options: IRequestOptions,
   hideWarnings?: boolean
 ) {
-  console.warn(`setDefaultRequestOptions() is deprecated. This will be removed in ArcGIS REST JS v5.0.`);
+  console.warn(
+    `setDefaultRequestOptions() is deprecated. This will be removed in ArcGIS REST JS v5.0.`
+  );
   if (options.authentication && !hideWarnings) {
     warn(
       "You should not set `authentication` as a default in a shared environment such as a web server which will process multiple users requests. You can call `setDefaultRequestOptions` with `true` as a second argument to disable this warning."
@@ -458,11 +484,9 @@ export function internalRequest(
        */
 
       /* istanbul ignore next -- @preserve : coverage is based on browser code and we don't test for the absence of global fetch so we can skip the else here. */
-      return globalThis.fetch
-        ? globalThis.fetch(url, fetchOptions)
-        : getFetch().then(({ fetch }) => {
-            return fetch(url, fetchOptions);
-          });
+      return getFetch().then(({ fetch }) => {
+        return fetch(url, fetchOptions);
+      });
     })
     .then((response: any) => {
       // the request got back an error status code (4xx, 5xx)
@@ -505,7 +529,9 @@ export function internalRequest(
           });
       }
       if (rawResponse) {
-        console.warn(`rawResponse option is deprecated and will be removed in ArcGIS REST JS v5.0.`);
+        console.warn(
+          `rawResponse option is deprecated and will be removed in ArcGIS REST JS v5.0.`
+        );
         return response;
       }
       switch (params.f) {
