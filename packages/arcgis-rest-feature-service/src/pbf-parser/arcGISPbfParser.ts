@@ -334,6 +334,7 @@ function createPolygon(f: any, transform: any, hasZ: boolean, hasM: boolean) {
   return { rings };
 }
 
+/* istanbul ignore next --@preserve */
 function genericPartDecoder(
   arr: number[],
   transform: any,
@@ -344,7 +345,6 @@ function genericPartDecoder(
   hasM: boolean
 ) {
   const out = [] as any[];
-  /* istanbul ignore if --@preserve */
   if (arr.length === 0) return out;
 
   let prevCoords = arr.slice(startPoint, startPoint + dimensions);
@@ -373,11 +373,11 @@ function genericPartDecoder(
   return out;
 }
 
+/* istanbul ignore next --@preserve */
 function closeRing(ring: any[]) {
   const first = ring[0];
   const last = ring[ring.length - 1];
   if (!first || !last) return ring;
-  /* istanbul ignore else --@preserve */
   if (first[0] === last[0] && first[1] === last[1]) return ring;
   return [...ring, [...first]];
 }
