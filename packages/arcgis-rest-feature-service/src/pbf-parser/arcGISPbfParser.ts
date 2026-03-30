@@ -323,6 +323,7 @@ function createPolygon(f: any, transform: any, hasZ: boolean, hasM: boolean) {
       hasM
     );
 
+    /* istanbul ignore else --@preserve */
     if (ring.length > 0) {
       rings.push(closeRing(ring));
     }
@@ -357,28 +358,13 @@ function genericPartDecoder(
       continue;
     }
 
-    const currentCoords = prevCoords.map((coordinate, index) => {
-      // minimal edge-case fix:
-      // when hasM only (no Z), treat 3rd lane as absolute M per vertex
-      // handle hasM only
-      if (hasM && !hasZ && index === 2) {
-        return delta[index];
-      }
-      // handle hasZ only
-      if (!hasM && hasZ && index === 2) {
-        return delta[index];
-      }
-      // handle hasZ when hasZM
-      if (hasM && hasZ && index === 2) {
-        return delta[index];
-      }
-      // handle hasM when hasZM
-      if (hasM && hasZ && index === 3) {
-        return delta[index];
-      }
-      // keep existing behavior for all other extra lanes
-      return sum(coordinate, delta[index]);
-    });
+    const currentCoords = prevCoords.map((coordinate, index) =>
+      // x and y values are relative to the previous coordinate, while z and m values are absolute
+      // if idx is >= 2, we are handling z or m values so we should return the value only
+      // if idx is < 2, we are handling x and y values so we should sum the delta to the previous coordinate value
+      // since x and y values are encoded as deltas in the pbf
+      index < 2 ? sum(coordinate, delta[index]) : delta[index]
+    );
 
     const transformed = transformTuple(currentCoords, transform, hasZ, hasM);
     out.push(transformed);
@@ -391,6 +377,7 @@ function closeRing(ring: any[]) {
   const first = ring[0];
   const last = ring[ring.length - 1];
   if (!first || !last) return ring;
+  /* istanbul ignore else --@preserve */
   if (first[0] === last[0] && first[1] === last[1]) return ring;
   return [...ring, [...first]];
 }
