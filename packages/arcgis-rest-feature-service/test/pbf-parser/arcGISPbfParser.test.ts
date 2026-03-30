@@ -12,67 +12,7 @@ import {
   CoordinateToleranceEnum,
   maxDifference
 } from "../utils/parserTestHelpers.js";
-import { writeFeatureCollectionPBuffer } from "../../src/pbf-parser/PbfFeatureCollectionV2.js";
-import Pbf from "pbf";
-
-function buildFeatureResultPbfArrayBuffer(options: {
-  geometryType: 0 | 2 | 3;
-  hasZ?: boolean;
-  hasM?: boolean;
-  lengths?: number[];
-  coords: number[];
-}) {
-  const featureCollection = {
-    version: "2.0",
-    queryResult: {
-      featureResult: {
-        objectIdFieldName: "OBJECTID",
-        geometryType: options.geometryType,
-        hasZ: options.hasZ,
-        hasM: options.hasM,
-        transform: {
-          scale: {
-            xScale: 2,
-            yScale: 3,
-            mScale: 5,
-            zScale: 7
-          },
-          translate: {
-            xTranslate: 100,
-            yTranslate: 200,
-            mTranslate: 300,
-            zTranslate: 400
-          }
-        },
-        fields: [
-          {
-            name: "OBJECTID",
-            fieldType: 6,
-            alias: "OBJECTID"
-          }
-        ],
-        features: [
-          {
-            attributes: [{ sint_value: 1 }],
-            geometry: {
-              geometryType: options.geometryType,
-              lengths: options.lengths || [],
-              coords: options.coords
-            }
-          }
-        ]
-      }
-    }
-  };
-
-  const pbf = new Pbf();
-  writeFeatureCollectionPBuffer(featureCollection, pbf);
-  const bytes = pbf.finish();
-  return bytes.buffer.slice(
-    bytes.byteOffset,
-    bytes.byteOffset + bytes.byteLength
-  );
-}
+import pbfToGeoJSON from "../../src/pbf-parser/geoJSONPbfParser.js";
 
 describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON objects", () => {
   test("should convert a pbf single feature POLYGON to arcgis query features object", async () => {
@@ -275,6 +215,179 @@ describe("decode: arcGISPbfParser should convert pbf arraybuffers to arcGIS JSON
     expect(decodedFieldWithDomain.codedValues[1].name).toBe("No");
     expect(decodedFieldWithDomain.codedValues[1].code).toBe("No");
   });
+
+  test("should convert pbf POINT with M values to arcgis object", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPointHasM.pbf"
+    );
+    const arcGIS = pbfToArcGIS(arrayBuffer);
+    // expect hasM to be true in the decoded response
+    expect(arcGIS.hasM).toBe(true);
+    // expect null M values to decode to null
+    expect((arcGIS.features[0].geometry as IPoint).m).toBeDefined();
+    expect((arcGIS.features[0].geometry as IPoint).m).toBeNull();
+    // expect 0 M values to decode to 0
+    expect((arcGIS.features[1].geometry as IPoint).m).toBe(0);
+    // expect floating point M values to decode within very high precision in web mercator
+    expect((arcGIS.spatialReference as any).latestWkid).toBe(3857);
+    expect((arcGIS.features[2].geometry as IPoint).m).toBeCloseTo(12.34, 9);
+  });
+
+  test("should convert pbf LINE with M values to arcgis object", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFLineHasM.pbf"
+    );
+    const arcGIS = pbfToArcGIS(arrayBuffer);
+    // expect hasM to be true in the decoded response
+    expect(arcGIS.hasM).toBe(true);
+    // expect lines with M values to have 3 coordinates per point [x, y, m]
+    expect(
+      arcGIS.features.every(
+        (feature) => (feature.geometry as any).paths[0][0].length === 3
+      )
+    ).toBe(true);
+    // expect whole number M values to decode to whole numbers
+    expect((arcGIS.features[0].geometry as any).paths[0][0][2]).toBe(3);
+    expect((arcGIS.features[0].geometry as any).paths[0][1][2]).toBe(5);
+    // expect floating point M values in LINES to decode within very high precision in web mercator
+    expect((arcGIS.spatialReference as any).latestWkid).toBe(3857);
+    expect((arcGIS.features[1].geometry as any).paths[0][0][2]).toBeCloseTo(
+      2.3,
+      9
+    );
+  });
+
+  test("should convert pbf POLYGON with M values to arcgis object", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonHasM.pbf"
+    );
+    const arcGIS = pbfToArcGIS(arrayBuffer);
+
+    expect(arcGIS.hasM).toBe(true);
+    expect((arcGIS.features[2].geometry as any).rings[0].length).toBe(4);
+    expect((arcGIS.features[2].geometry as any).rings[0][0].length).toBe(3);
+    // expect M value to be present as 3rd coordinate in rings array
+    expect((arcGIS.features[2].geometry as any).rings[0][2][2]).toBe(345);
+    // expect closed ring M values to be the same
+    expect((arcGIS.features[2].geometry as any).rings[0][0][2]).toBe(123);
+    expect((arcGIS.features[2].geometry as any).rings[0][3][2]).toBe(123);
+  });
+
+  test("should convert 3D pbf POINT with Z values to arcgis object", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPointHasZ.pbf"
+    );
+    const arcGIS = pbfToArcGIS(arrayBuffer);
+    // expect hasZ to be true in the decoded response
+    expect(arcGIS.hasZ).toBe(true);
+    expect((arcGIS.features[0].geometry as IPoint).z).toBeDefined();
+    // expect 0 or null Z values to decode to 0 in Z coordinate
+    expect((arcGIS.features[0].geometry as IPoint).z).toBe(0);
+    // expect whole Z values to decode
+    expect((arcGIS.features[1].geometry as IPoint).z).toBe(67);
+    // expect floating point Z values to decode within very high precision in web mercator
+    expect((arcGIS.spatialReference as any).latestWkid).toBe(3857);
+    expect((arcGIS.features[2].geometry as IPoint).z).toBeCloseTo(123.45, 9);
+  });
+
+  test("should convert 3D pbf LINE with Z values to arcgis object", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFLineHasZ.pbf"
+    );
+    const arcGIS = pbfToArcGIS(arrayBuffer);
+    // expect hasZ to be true in the decoded response
+    expect(arcGIS.hasZ).toBe(true);
+    // expect lines with Z values to have 3 coordinates per point [x, y, z]
+    expect(
+      arcGIS.features.every(
+        (feature) => (feature.geometry as any).paths[0][0].length === 3
+      )
+    ).toBe(true);
+    // expect zero Z values to decode to 0 in Z coordinate
+    expect((arcGIS.features[2].geometry as any).paths[0][0][2]).toBe(0);
+    // expect null sentinel? value for M values to decode to real value in Z coordinate
+    expect((arcGIS.features[2].geometry as any).paths[0][1][2]).toBe(
+      1000000000
+    );
+    // expect 0 sentinel value for M values to decode to real value in Z coordinate
+    expect((arcGIS.features[2].geometry as any).paths[0][3][2]).toBe(-100000);
+    // expect whole Z values to decode
+    expect((arcGIS.features[2].geometry as any).paths[0][7][2]).toBe(8);
+  });
+
+  test("should convert 3D pbf POLYGON with Z values to arcgis object", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonHasZ.pbf"
+    );
+    const arcGIS = pbfToArcGIS(arrayBuffer);
+
+    expect(arcGIS.hasZ).toBe(true);
+    // expect Z coordinate to be present as 3rd coordinate in rings array
+    expect((arcGIS.features[2].geometry as any).rings[0][0].length).toBe(3);
+  });
+
+  test("should convert pbf POINT with Z and M values to arcgis object", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPointHasZM.pbf"
+    );
+    const arcGIS = pbfToArcGIS(arrayBuffer);
+    // expect hasZ to be true in the decoded response
+    expect(arcGIS.hasZ).toBe(true);
+    expect(arcGIS.hasM).toBe(true);
+    expect((arcGIS.features[0].geometry as IPoint).z).toBeDefined();
+    expect((arcGIS.features[0].geometry as IPoint).m).toBeDefined();
+    // expect all Z values to decode correctly
+    expect((arcGIS.features[0].geometry as IPoint).z).toBe(40);
+    expect((arcGIS.features[1].geometry as IPoint).z).toBe(55);
+    expect((arcGIS.features[2].geometry as IPoint).z).toBe(0);
+    // expect all M values to decode correctly
+    expect((arcGIS.features[0].geometry as IPoint).m).toBe(0);
+    expect((arcGIS.features[1].geometry as IPoint).m).toBe(null);
+    expect((arcGIS.features[2].geometry as IPoint).m).toBe(3);
+  });
+
+  test("should convert pbf LINE with Z and M values to arcgis object", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFLineHasZM.pbf"
+    );
+    const arcGIS = pbfToArcGIS(arrayBuffer);
+    expect(arcGIS.hasZ).toBe(true);
+    expect(arcGIS.hasM).toBe(true);
+    // expect lines with Z and M values to have 4 coordinates per point [x, y, z, m]
+    expect(
+      arcGIS.features.every(
+        (feature) => (feature.geometry as any).paths[0][0].length === 4
+      )
+    ).toBe(true);
+    // expect Z values to decode
+    expect((arcGIS.features[0].geometry as any).paths[0][0][2]).toBe(5);
+    expect((arcGIS.features[0].geometry as any).paths[0][1][2]).toBe(33);
+    expect((arcGIS.features[0].geometry as any).paths[0][2][2]).toBe(77);
+    // expect M values to decode
+    expect((arcGIS.features[0].geometry as any).paths[0][0][3]).toBeCloseTo(
+      53.35,
+      9
+    );
+    expect((arcGIS.features[0].geometry as any).paths[0][1][3]).toBeCloseTo(
+      3.5,
+      9
+    );
+    expect((arcGIS.features[0].geometry as any).paths[0][2][3]).toBeCloseTo(
+      5.3,
+      9
+    );
+  });
+
+  test("should convert pbf POLYGON with Z and M values to arcgis object", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonHasZM.pbf"
+    );
+    const arcGIS = pbfToArcGIS(arrayBuffer);
+    expect(arcGIS.hasZ).toBe(true);
+    expect(arcGIS.hasM).toBe(true);
+    // expect Z and M coordinates to be present as 3rd and 4th coordinates in rings array
+    expect((arcGIS.features[2].geometry as any).rings[0][0].length).toBe(4);
+  });
 });
 
 // this test is covering decodeFields/decodeField which was custom made to match the way ArcGIS JSON Fields object represents empty values.
@@ -353,45 +466,6 @@ describe("decodeFields/decodeField: optional property handling", () => {
 });
 
 describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON response objects", () => {
-  test("should compare pbfToArcGIS POLYGON response with arccgis POLYGON response", async () => {
-    const path =
-      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonResponse.pbf";
-    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
-    const pbfArcGIS = pbfToArcGIS(arrayBuffer);
-
-    const pathJSON =
-      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/arcGISPolygonResponse.json";
-    const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
-      pathJSON
-    );
-    // check for object equality
-    expect(arcGIS.objectIdFieldName).toEqual(pbfArcGIS.objectIdFieldName);
-    expect(arcGIS.globalIdFieldName).toEqual(pbfArcGIS.globalIdFieldName);
-    expect(arcGIS.displayFieldName).toEqual(pbfArcGIS.displayFieldName);
-    expect(arcGIS.spatialReference).toEqual(pbfArcGIS.spatialReference);
-    expect(arcGIS.exceededTransferLimit).toEqual(
-      pbfArcGIS.exceededTransferLimit
-    );
-    expect(arcGIS.geometryType).toEqual(pbfArcGIS.geometryType);
-
-    // properties not on IFeature interface
-    expect((arcGIS as any).uniqueIdField).toEqual(
-      (pbfArcGIS as any).uniqueIdField
-    );
-    expect((arcGIS as any).geometryProperties).toEqual(
-      (pbfArcGIS as any).geometryProperties
-    );
-
-    // the current pbf decoder does not define length property on String FieldTypes
-    expect(arcGIS.fields[3].length).toEqual(100);
-    expect(pbfArcGIS.fields[3].length).toBeUndefined();
-
-    // check that fields are equal for both
-    expect(arcGIS.fields.length).toEqual(pbfArcGIS.fields.length);
-    // check that features are equal for both
-    expect(arcGIS.features.length).toEqual(pbfArcGIS.features.length);
-  });
-
   test("should compare pbfToArcGIS POINT response with arcgis POINT response", async () => {
     const path =
       "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPointResponse.pbf";
@@ -473,6 +547,85 @@ describe("equality: pbfToArcGIS objects should closely match ArcGIS JSON respons
     expect(arcGIS.fields.length).toEqual(pbfArcGIS.fields.length);
     expect(arcGIS.features.length).toEqual(pbfArcGIS.features.length);
   });
+
+  test("should compare pbfToArcGIS POLYGON response with arccgis POLYGON response", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonResponse.pbf";
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const pbfArcGIS = pbfToArcGIS(arrayBuffer);
+
+    const pathJSON =
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/arcGISPolygonResponse.json";
+    const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
+      pathJSON
+    );
+    // check for object equality
+    expect(arcGIS.objectIdFieldName).toEqual(pbfArcGIS.objectIdFieldName);
+    expect(arcGIS.globalIdFieldName).toEqual(pbfArcGIS.globalIdFieldName);
+    expect(arcGIS.displayFieldName).toEqual(pbfArcGIS.displayFieldName);
+    expect(arcGIS.spatialReference).toEqual(pbfArcGIS.spatialReference);
+    expect(arcGIS.exceededTransferLimit).toEqual(
+      pbfArcGIS.exceededTransferLimit
+    );
+    expect(arcGIS.geometryType).toEqual(pbfArcGIS.geometryType);
+
+    // properties not on IFeature interface
+    expect((arcGIS as any).uniqueIdField).toEqual(
+      (pbfArcGIS as any).uniqueIdField
+    );
+    expect((arcGIS as any).geometryProperties).toEqual(
+      (pbfArcGIS as any).geometryProperties
+    );
+
+    // the current pbf decoder does not define length property on String FieldTypes
+    expect(arcGIS.fields[3].length).toEqual(100);
+    expect(pbfArcGIS.fields[3].length).toBeUndefined();
+
+    // check that fields are equal for both
+    expect(arcGIS.fields.length).toEqual(pbfArcGIS.fields.length);
+    // check that features are equal for both
+    expect(arcGIS.features.length).toEqual(pbfArcGIS.features.length);
+  });
+
+  test("should compare ZM POINT pbf response with arcgis POINT ZM response", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPointHasZM.pbf";
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const pbfArcGIS = pbfToArcGIS(arrayBuffer);
+
+    const pathJSON =
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/PointHasZM.json";
+    const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
+      pathJSON
+    );
+
+    // parsed pbf has these properties
+    arcGIS.exceededTransferLimit = false;
+    (arcGIS as any).geometryFields = [];
+    // arcGIS has length that pbf proto doesnt define
+    pbfArcGIS.fields[1].length = 38;
+    // expect top level propeerties to be the same
+    const topPbfObject = {
+      ...pbfArcGIS,
+      features: [] as any[]
+    };
+    const topArcGISObject = {
+      ...arcGIS,
+      features: [] as any[]
+    };
+
+    expect(topArcGISObject).toEqual(topPbfObject);
+    // expect features length and coordinates to be equal and present
+    expect(arcGIS.features.length).toEqual(pbfArcGIS.features.length);
+    const arcGISGeometry = arcGIS.features[0].geometry as any;
+    const pbfArcGISGeometry = pbfArcGIS.features[0].geometry as any;
+    expect(arcGISGeometry).toHaveProperty("z");
+    expect(arcGISGeometry).toHaveProperty("m");
+    expect(pbfArcGISGeometry).toHaveProperty("z");
+    expect(pbfArcGISGeometry).toHaveProperty("m");
+    expect(arcGISGeometry.z).toEqual((pbfArcGISGeometry as any).z);
+    expect(arcGISGeometry.m).toEqual((pbfArcGISGeometry as any).m);
+  });
 });
 
 describe("precision: pbfToArcGIS geometries should closely match ArcGIS JSON response geometries up to an acceptable precision tolerance", () => {
@@ -544,68 +697,191 @@ describe("precision: pbfToArcGIS geometries should closely match ArcGIS JSON res
     const maxDrift = maxDifference(pbfCoords, arcGISCoords);
     expect(maxDrift?.diff).toBeLessThan(tolerance);
   });
-});
 
-describe("dimensions: pbfToArcGIS should decode XY/XYZ/XYM/XYZM geometry coordinates correctly", () => {
-  // ArcGIS JSON coordinate ordering contract used by this parser:
-  // - 2D: [x, y]
-  // - hasZ only: [x, y, z]
-  // - hasM only: [x, y, m]
-  // - hasZ + hasM: [x, y, z, m]
-  // These tests intentionally validate both tuple ordering and per-axis transforms.
-  test("should decode and transform POINT with hasM as x,y,m", () => {
-    const arrayBuffer = buildFeatureResultPbfArrayBuffer({
-      geometryType: 0,
-      hasM: true,
-      coords: [1, 2, 3]
-    });
+  test("pbfToArcGIS M POINT geometry coordinate precisions with M values should closely match arcgis M POINT geometry coordinate precisions with M values", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPointHasM.pbf";
+    const pathJSON =
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/PointHasM.json";
 
-    const response = pbfToArcGIS(arrayBuffer);
-    const point = response.features[0].geometry as any;
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const pbfArcGIS = pbfToArcGIS(arrayBuffer);
+    const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
+      pathJSON
+    );
 
-    expect(response.hasM).toBe(true);
-    expect(response.hasZ).toBe(undefined);
-    expect(point).toEqual({
-      x: 102,
-      y: 194,
-      m: 315
-    });
+    const tolerance = CoordinateToleranceEnum.EPSG_3857;
+    const pbfPoint = pbfArcGIS.features[0].geometry as IPoint;
+    const arcGISPoint = arcGIS.features[0].geometry as IPoint;
+    const arr1 = [pbfPoint.x, pbfPoint.y, pbfPoint.m];
+    const arr2 = [arcGISPoint.x, arcGISPoint.y, arcGISPoint.m];
+    const maxDrift = maxDifference(arr1, arr2);
+    expect(maxDrift?.diff).toBeLessThan(tolerance);
   });
 
-  test("should decode and transform POLYLINE with hasZ as [x,y,z] vertices", () => {
-    const arrayBuffer = buildFeatureResultPbfArrayBuffer({
-      geometryType: 2,
-      hasZ: true,
-      lengths: [2],
-      coords: [1, 2, 3, 10, 20, 30]
-    });
+  test("pbfToArcGIS M LINE geometry coordinate precisions with M values should closely match arcgis M LINE geometry coordinate precisions with M values", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFLineHasM.pbf";
+    const pathJSON =
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/LineHasM.json";
 
-    const response = pbfToArcGIS(arrayBuffer);
-    const paths = (response.features[0].geometry as any).paths;
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const pbfArcGIS = pbfToArcGIS(arrayBuffer);
+    const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
+      pathJSON
+    );
 
-    expect(response.hasM).toBe(undefined);
-    expect(response.hasZ).toBe(true);
-    expect(paths[0][0]).toEqual([102, 194, 421]);
-    expect(paths[0][1]).toEqual([122, 134, 631]);
+    // see precision comments in previous test
+    const tolerance = CoordinateToleranceEnum.EPSG_3857;
+    const pbfCoords = (pbfArcGIS.features[1].geometry as any).paths;
+    const arcGISCoords = (arcGIS.features[1].geometry as any).paths;
+
+    const maxDrift = maxDifference(pbfCoords, arcGISCoords);
+    expect(maxDrift?.diff).toBeLessThan(tolerance);
   });
 
-  test("should decode and transform POLYGON with hasZ and hasM as [x,y,z,m] vertices", () => {
-    const arrayBuffer = buildFeatureResultPbfArrayBuffer({
-      geometryType: 3,
-      hasZ: true,
-      hasM: true,
-      lengths: [3],
-      coords: [1, 2, 3, 4, 10, 20, 30, 40, 10, 20, 30, 40]
-    });
+  test("pbfToArcGIS M POLYGON geometry coordinate precisions with M values should closely match arcgis M POLYGON geometry coordinate precisions with M values", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonHasM.pbf";
+    const pathJSON =
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/PolygonHasM.json";
 
-    const response = pbfToArcGIS(arrayBuffer);
-    const rings = (response.features[0].geometry as any).rings;
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const pbfArcGIS = pbfToArcGIS(arrayBuffer);
+    const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
+      pathJSON
+    );
 
-    expect(response.hasZ).toBe(true);
-    expect(response.hasM).toBe(true);
-    expect(rings[0][0]).toEqual([102, 194, 421, 320]);
-    expect(rings[0][1]).toEqual([122, 134, 631, 520]);
-    expect(rings[0][2]).toEqual([142, 74, 841, 720]);
-    expect(rings[0][rings[0].length - 1]).toEqual(rings[0][0]);
+    // see precision comments in previous tests
+    const tolerance = CoordinateToleranceEnum.EPSG_3857;
+    const pbfCoords = (pbfArcGIS.features[2].geometry as any).rings;
+    const arcGISCoords = (arcGIS.features[2].geometry as any).rings;
+    const maxDrift = maxDifference(pbfCoords, arcGISCoords);
+    expect(maxDrift?.diff).toBeLessThan(tolerance);
+  });
+
+  test("pbfToArcGIS Z POINT geometry coordinate precisions with Z values should closely match arcgis Z POINT geometry coordinate precisions with Z values", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPointHasZ.pbf";
+    const pathJSON =
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/PointHasZ.json";
+
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const pbfArcGIS = pbfToArcGIS(arrayBuffer);
+    const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
+      pathJSON
+    );
+
+    const tolerance = CoordinateToleranceEnum.EPSG_3857;
+    const pbfPoint = pbfArcGIS.features[2].geometry as IPoint;
+    const arcGISPoint = arcGIS.features[2].geometry as IPoint;
+    const arr1 = [pbfPoint.x, pbfPoint.y, pbfPoint.z];
+    const arr2 = [arcGISPoint.x, arcGISPoint.y, arcGISPoint.z];
+    const maxDrift = maxDifference(arr1, arr2);
+    expect(maxDrift?.diff).toBeLessThan(tolerance);
+  });
+
+  test("pbfToArcGIS Z LINE geometry coordinate precisions with Z values should closely match arcgis Z LINE geometry coordinate precisions with Z values", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFLineHasZ.pbf";
+    const pathJSON =
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/LineHasZ.json";
+
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const pbfArcGIS = pbfToArcGIS(arrayBuffer);
+    const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
+      pathJSON
+    );
+
+    // see precision comments in previous test
+    const tolerance = CoordinateToleranceEnum.EPSG_3857;
+    const pbfCoords = (pbfArcGIS.features[2].geometry as any).paths;
+    const arcGISCoords = (arcGIS.features[2].geometry as any).paths;
+    const maxDrift = maxDifference(pbfCoords, arcGISCoords);
+    expect(maxDrift?.diff).toBeLessThan(tolerance);
+  });
+
+  test("pbfToArcGIS Z POLYGON geometry coordinate precisions with Z values should closely match arcgis Z POLYGON geometry coordinate precisions with Z values", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonHasZ.pbf";
+    const pathJSON =
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/PolygonHasZ.json";
+
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const pbfArcGIS = pbfToArcGIS(arrayBuffer);
+    const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
+      pathJSON
+    );
+
+    // see precision comments in previous tests
+    const tolerance = CoordinateToleranceEnum.EPSG_3857;
+    const pbfCoords = (pbfArcGIS.features[2].geometry as any).rings;
+    const arcGISCoords = (arcGIS.features[2].geometry as any).rings;
+    const maxDrift = maxDifference(pbfCoords, arcGISCoords);
+    expect(maxDrift?.diff).toBeLessThan(tolerance);
+  });
+
+  test("pbfToArcGIS ZM POINT geometry coordinate precisions should closely match arcgis ZM POINT geometry coordinate precisions", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPointHasZM.pbf";
+    const pathJSON =
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/PointHasZM.json";
+
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const pbfArcGIS = pbfToArcGIS(arrayBuffer);
+    const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
+      pathJSON
+    );
+
+    // see precision comments in previous tests
+    const tolerance = CoordinateToleranceEnum.EPSG_3857;
+    const pbfPoint = pbfArcGIS.features[0].geometry as IPoint;
+    const arcGISPoint = arcGIS.features[0].geometry as IPoint;
+    const arr1 = [pbfPoint.x, pbfPoint.y, pbfPoint.z, pbfPoint.m];
+    const arr2 = [arcGISPoint.x, arcGISPoint.y, arcGISPoint.z, arcGISPoint.m];
+    const maxDrift = maxDifference(arr1, arr2);
+    expect(maxDrift?.diff).toBeLessThan(tolerance);
+  });
+
+  test("pbfToArcGIS ZM LINE geometry coordinate precisions should closely match arcgis ZM LINE geometry coordinate precisions", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFLineHasZM.pbf";
+    const pathJSON =
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/LineHasZM.json";
+
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const pbfArcGIS = pbfToArcGIS(arrayBuffer);
+    const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
+      pathJSON
+    );
+
+    // see precision comments in previous tests
+    const tolerance = CoordinateToleranceEnum.EPSG_3857;
+    const pbfCoords = (pbfArcGIS.features[0].geometry as any).paths;
+    const arcGISCoords = (arcGIS.features[0].geometry as any).paths;
+
+    const maxDrift = maxDifference(pbfCoords, arcGISCoords);
+    expect(maxDrift?.diff).toBeLessThan(tolerance);
+  });
+
+  test("pbfToArcGIS ZM POLYGON geometry coordinate precisions should closely match arcgis ZM POLYGON geometry coordinate precisions", async () => {
+    const path =
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonHasZM.pbf";
+    const pathJSON =
+      "./packages/arcgis-rest-feature-service/test/mocks/arcgis/PolygonHasZM.json";
+
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(path);
+    const pbfArcGIS = pbfToArcGIS(arrayBuffer);
+    const arcGIS: IQueryFeaturesResponse = await readEnvironmentFileToJSON(
+      pathJSON
+    );
+
+    // see precision comments in previous tests
+    const tolerance = CoordinateToleranceEnum.EPSG_3857;
+    const pbfCoords = (pbfArcGIS.features[0].geometry as any).rings;
+    const arcGISCoords = (arcGIS.features[0].geometry as any).rings;
+
+    const maxDrift = maxDifference(pbfCoords, arcGISCoords);
+    expect(maxDrift?.diff).toBeLessThan(tolerance);
   });
 });

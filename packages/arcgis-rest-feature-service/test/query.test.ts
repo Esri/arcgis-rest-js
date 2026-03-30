@@ -320,7 +320,7 @@ describe("queryFeatures(): pbf-as-geojson", () => {
       expect(error).toBeInstanceOf(ArcGISRequestError);
       expect((error as any).code).toBe(422);
       expect((error as any).message).toContain(
-        "422: True curve geometries are not supported for GeoJSON requests."
+        "422: True-curve geometries are not supported."
       );
     }
   });
