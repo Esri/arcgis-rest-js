@@ -270,3 +270,14 @@ describe("precision: pbfToGeoJSON geometries coordinates should match geoJSON co
     expect(maxDrift.diff).toBeLessThan(tolerance);
   });
 });
+
+describe("errors: pbfToGeoJSON should throw errors when given invalid input", () => {
+  test("should throw error if trying to parse M values in geoJSON", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFPolygonHasM.pbf"
+    );
+    expect(() => pbfToGeoJSON(arrayBuffer)).toThrowError(
+      "M values are not supported for GeoJSON."
+    );
+  });
+});
