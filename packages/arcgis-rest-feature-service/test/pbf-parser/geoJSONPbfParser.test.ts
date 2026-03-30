@@ -220,7 +220,7 @@ describe("precision: pbfToGeoJSON geometries coordinates should match geoJSON co
     expect(coordA).toEqual(coordB);
   });
 
-  test("precision: Z POINT geojson coordinates should match Z POINT pbf coordinates to a certain precision", async () => {
+  test("precision: geojson Z POINT coordinates should match Z POINT pbf coordinates to a certain precision", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
       "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPointHasZCRS4326.pbf"
     );
@@ -237,7 +237,7 @@ describe("precision: pbfToGeoJSON geometries coordinates should match geoJSON co
     expect(maxDrift.diff).toBeLessThan(tolerance);
   });
 
-  test("precision: Z LINE geojson coordinates should match Z LINE pbf coordinates to a certain precision", async () => {
+  test("precision: geojson Z LINE coordinates should match Z LINE pbf coordinates to a certain precision", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
       "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFLineHasZCRS4326.pbf"
     );
@@ -253,7 +253,7 @@ describe("precision: pbfToGeoJSON geometries coordinates should match geoJSON co
     expect(maxDrift.diff).toBeLessThan(tolerance);
   });
 
-  test("precision: Z POLYGON geojson coordinates should match Z POLYGON pbf coordinates to a certain precision", async () => {
+  test("precision: geojson Z POLYGON coordinates should match Z POLYGON pbf coordinates to a certain precision", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
       "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPolygonHasZCRS4326.pbf"
     );
