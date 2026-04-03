@@ -2,8 +2,6 @@
  * Apache-2.0 */
 
 import { request, appendCustomParams } from "@esri/arcgis-rest-request";
-import type { Blob, File } from "@esri/arcgis-rest-request";
-
 import { getPortalUrl } from "../util/get-portal-url.js";
 import {
   IUserItemOptions,
@@ -13,7 +11,6 @@ import {
   determineOwner,
   IManageItemRelationshipOptions
 } from "./helpers.js";
-
 import { updateItem, IUpdateItemOptions } from "./update.js";
 
 export interface IAddItemDataOptions extends IUserItemOptions {

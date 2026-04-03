@@ -37,14 +37,12 @@ const moduleName = "arcgisRest";
 
 /**
  * Now we need to discover all the `@esri/arcgis-rest-*` package names so we can create
- * the `globals` and `externals` to pass to Rollup. @esri/arcgis-rest-fetch is excluded
- * from this because we WANT to bundle it since it only contains references to global
- * fetch. process.cwd() will be the directory of each package
+ * the `globals` and `externals` to pass to Rollup. process.cwd() will be the directory
+ * of each package
  */
 const packageNames = fs
   .readdirSync(path.join(import.meta.dirname, "packages"))
   .filter((p) => p[0] !== ".")
-  .filter((p) => p !== "arcgis-rest-fetch")
   .map((p) => {
     return JSON.parse(
       fs.readFileSync(
