@@ -39,7 +39,7 @@
   },
   "engines": {
     "npm": ">=7.0.0",
-    "node": ">=12.20.0"
+    "node": ">=22.0.0"
   },
   "eslintIgnore": [
     "packages/**/test",
@@ -148,7 +148,6 @@
     "packages/arcgis-rest-places",
     "packages/arcgis-rest-routing",
     "packages/arcgis-rest-fetch",
-    "packages/arcgis-rest-form-data",
     "packages/arcgis-rest-developer-credentials",
     "packages/arcgis-rest-basemap-sessions"
   ],

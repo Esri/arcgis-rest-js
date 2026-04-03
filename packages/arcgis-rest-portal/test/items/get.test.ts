@@ -2,7 +2,6 @@
  * Apache-2.0 */
 
 import { describe, test, afterEach, expect } from "vitest";
-import { Blob } from "@esri/arcgis-rest-form-data";
 import fetchMock from "fetch-mock";
 import {
   IGetItemInfoOptions,
@@ -75,7 +74,7 @@ describe("get", () => {
   });
 
   test("should return binary item data by id", async () => {
-    // using Blob from ponyfill to test in node and be consistent with other instances of testing file attachments
+    // using Blob to test in node and be consistent with other instances of testing file attachments
     fetchMock.once("*", {
       sendAsJson: false,
       headers: { "Content-Type": "application/zip" },

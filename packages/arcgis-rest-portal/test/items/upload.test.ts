@@ -11,7 +11,6 @@ import {
 import { ItemSuccessResponse } from "../mocks/items/item.js";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW, attachmentFile } from "../../../../scripts/test-helpers.js";
-import { FormData } from "@esri/arcgis-rest-form-data";
 
 describe("search", () => {
   afterEach(() => {

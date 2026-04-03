@@ -40,7 +40,7 @@
     "dev:esm": "tsc -w --outDir ./dist/esm --declaration"
   },
   "engines": {
-    "node": ">=12.20.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "@esri/arcgis-rest-portal": "^4.10.1",
