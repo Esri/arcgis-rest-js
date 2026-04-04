@@ -453,16 +453,6 @@ export function internalRequest(
           "application/x-www-form-urlencoded";
       }
 
-      if (!globalThis.fetch) {
-        throw new ArcGISRequestError(
-          "`fetch` is unavailable in this environment.",
-          "FETCH_UNAVAILABLE",
-          undefined,
-          url,
-          options
-        );
-      }
-
       return globalThis.fetch(url, fetchOptions);
     })
     .then((response: any) => {

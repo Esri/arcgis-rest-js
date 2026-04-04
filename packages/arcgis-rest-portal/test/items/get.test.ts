@@ -74,12 +74,16 @@ describe("get", () => {
   });
 
   test("should return binary item data by id", async () => {
-    // using Blob to test in node and be consistent with other instances of testing file attachments
-    fetchMock.once("*", {
-      sendAsJson: false,
-      headers: { "Content-Type": "application/zip" },
-      body: new Blob()
-    });
+    fetchMock.once(
+      "*",
+      {
+        headers: { "Content-Type": "application/zip" },
+        body: new Blob(["abcd"])
+      },
+      {
+        sendAsJson: false
+      }
+    );
     const response = await getItemData("3ef", { file: true });
     expect(fetchMock.called()).toEqual(true);
     const [url, options] = fetchMock.lastCall("*");
@@ -87,7 +91,10 @@ describe("get", () => {
       "https://www.arcgis.com/sharing/rest/content/items/3ef/data"
     );
     expect(options.method).toBe("GET");
-    expect(response instanceof Blob).toBeTruthy();
+    expect(response).toBeDefined();
+    expect((response as Blob).size).toBe(4);
+    const bytes = new Uint8Array(await (response as Blob).arrayBuffer());
+    expect(Array.from(bytes)).toEqual([97, 98, 99, 100]);
   });
 
   test("should return a valid response even when no data is retrieved", async () => {
