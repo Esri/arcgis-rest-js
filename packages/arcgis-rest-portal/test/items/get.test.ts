@@ -35,7 +35,11 @@ import {
   IAuthenticationManager
 } from "@esri/arcgis-rest-request";
 
-import { TOMORROW } from "../../../../scripts/test-helpers.js";
+import {
+  isBrowser,
+  isNode,
+  TOMORROW
+} from "../../../../scripts/test-helpers.js";
 
 describe("get base url", () => {
   test("should return base url when passed a portal url", () => {
@@ -92,9 +96,14 @@ describe("get", () => {
     );
     expect(options.method).toBe("GET");
     expect(response).toBeDefined();
-    expect((response as Blob).size).toBe(4);
-    const bytes = new Uint8Array(await (response as Blob).arrayBuffer());
-    expect(Array.from(bytes)).toEqual([97, 98, 99, 100]);
+    if (isBrowser) {
+      expect(response).toBeInstanceOf(Blob);
+    }
+    if (isNode) {
+      expect((response as Blob).size).toBe(4);
+      const bytes = new Uint8Array(await (response as Blob).arrayBuffer());
+      expect(Array.from(bytes)).toEqual([97, 98, 99, 100]);
+    }
   });
 
   test("should return a valid response even when no data is retrieved", async () => {
