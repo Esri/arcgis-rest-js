@@ -1,5 +1,11 @@
 # @esri/arcgis-rest-portal Changelog
 
+## 4.10.2
+
+### Patch Changes
+
+- 4cce28a: Fix a bug in `getItem()` when using LDAP or cookie-based auth.
+
 ## 4.10.1
 
 ## 4.10.0
