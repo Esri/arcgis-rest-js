@@ -1,5 +1,13 @@
 # @esri/arcgis-rest-developer-credentials Changelog
 
+## 4.10.2
+
+### Patch Changes
+
+- Updated dependencies [4cce28a]
+  - @esri/arcgis-rest-portal@4.10.2
+  - @esri/arcgis-rest-request@4.10.2
+
 ## 4.10.1
 
 ### Patch Changes
