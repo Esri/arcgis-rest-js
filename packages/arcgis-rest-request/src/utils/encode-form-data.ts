@@ -30,7 +30,7 @@ export function encodeFormData(
 
         // we should really only be allowing the File type here but we can't restrict to that
         // because of backwards compatibility issues. So we do a runtime check below.
-        // we shoudl update this in the next major version.
+        // we should update this in the next major version.
         const filename =
           newParams["fileName"] || (newParams[key] as File).name || key;
         formData.append(key, newParams[key], filename);
