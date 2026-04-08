@@ -142,7 +142,11 @@ describe("search", () => {
       if (params.get) {
         expect(params.get("token")).toEqual("fake-token");
         expect(params.get("f")).toEqual("json");
-        expect(params.get("file")).toEqual(file);
+        const uploaded = params.get("file") as File;
+        expect(uploaded).toBeTruthy();
+        expect(uploaded.size).toBe(file.size);
+        expect(uploaded.type).toBe(file.type);
+        expect(await uploaded.text()).toEqual(await file.text());
       }
     });
 
@@ -194,9 +198,14 @@ describe("search", () => {
       if (params.get) {
         expect(params.get("token")).toEqual("fake-token");
         expect(params.get("f")).toEqual("json");
-        expect(params.get("file")).toEqual(file);
+        const uploaded = params.get("file") as File;
+        expect(uploaded).toBeTruthy();
+        expect(uploaded.size).toBe(file.size);
+        expect(uploaded.type).toBe(file.type);
+        expect(await uploaded.text()).toEqual(await file.text());
         expect(params.get("access")).toEqual("inherit");
         expect(params.get("fileName")).toEqual("thebigkahuna");
+        expect(uploaded.name).toBe(params.get("fileName"));
         expect(params.get("resourcesPrefix")).toEqual("myfiles");
       }
     });
@@ -227,9 +236,14 @@ describe("search", () => {
       if (params.get) {
         expect(params.get("token")).toEqual("fake-token");
         expect(params.get("f")).toEqual("json");
-        expect(params.get("file")).toEqual(file);
+        const uploaded = params.get("file") as File;
+        expect(uploaded).toBeTruthy();
+        expect(uploaded.size).toBe(file.size);
+        expect(uploaded.type).toBe(file.type);
+        expect(await uploaded.text()).toEqual(await file.text());
         expect(params.get("access")).toEqual("private");
         expect(params.get("fileName")).toEqual("thebigkahuna");
+        expect(uploaded.name).toBe(params.get("fileName"));
       }
     });
 
