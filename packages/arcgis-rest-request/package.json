@@ -41,11 +41,9 @@
     "dev:esm": "tsc -w --outDir ./dist/esm --declaration"
   },
   "engines": {
-    "node": ">=12.20.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
-    "@esri/arcgis-rest-fetch": "^4.10.1",
-    "@esri/arcgis-rest-form-data": "^4.10.1",
     "mitt": "^3.0.0",
     "tslib": "^2.3.1"
   },

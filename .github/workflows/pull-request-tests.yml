@@ -9,6 +9,7 @@ on:
     paths-ignore:
       - "**.md"
       - "docs/**"
+
 jobs:
   build:
     if: github.event.pull_request.draft == false
@@ -18,11 +19,11 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        node: [20, 22, 24]
+        node: [22, 24]
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
 
@@ -56,7 +57,7 @@ jobs:
           thresholds: "100 100"
 
       - name: Add Coverage PR Comment
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         if: github.event_name == 'pull_request' && matrix.node == 22
         with:
           recreate: true
