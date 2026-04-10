@@ -58,7 +58,11 @@ export function getItem(
       typeof requestOptions.authentication !== "string" &&
       item.access !== "public"
     ) {
-      token = await requestOptions.authentication.getToken(url);
+      try {
+        token = await requestOptions.authentication.getToken(url);
+      } catch (e) {
+        // Ignore token acquisition errors because `getToken()` can fail for some authentication types, but we still want to return the item info when possible since the browser may still provide thumbnail access via an auth cookie.
+      }
     }
 
     return decorateThumbnail(item, portal, token);

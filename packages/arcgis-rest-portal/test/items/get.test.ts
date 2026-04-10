@@ -246,6 +246,21 @@ describe("get", () => {
         "https://www.arcgis.com/sharing/rest/content/items/3ef/info/thumb.png"
       );
     });
+
+    test("should not decorate with an item thumbnail if there is an error getting a token", async () => {
+      fetchMock.once("*", MOCK_ITEM);
+      const fakeAuthManager = {
+        getToken: (_url: string) => Promise.reject(new Error("error")),
+        portal: "https://www.arcgis.com/sharing/rest",
+        federatedServers: []
+      } as IAuthenticationManager;
+      const item = await getItem("3ef", {
+        authentication: fakeAuthManager
+      });
+      expect(item.thumbnailUrl).toBe(
+        "https://www.arcgis.com/sharing/rest/content/items/3ef/info/thumb.png"
+      );
+    });
   });
 
   describe("Authenticated methods", () => {
