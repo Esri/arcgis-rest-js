@@ -18,7 +18,6 @@ export function appendCustomParams<T extends IRequestOptions>(
     "authentication",
     "requestOptions",
     "fetchOptions",
-
     // legacy options
     "httpMethod",
     "rawResponse",
