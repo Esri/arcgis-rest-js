@@ -2,10 +2,10 @@
  * Apache-2.0 */
 
 // This file should be removed with the completion of ArcGIS REST JS v5.0 release.
-import { ILegacyRequestOptions } from "./IRequestOptions.js";
+import { _ILegacyRequestOptions } from "./IRequestOptions.js";
 import { warn } from "./warn.js";
 
-const DEPRECATED_REQUEST_OPTION_KEYS: Array<keyof ILegacyRequestOptions> = [
+const DEPRECATED_REQUEST_OPTION_KEYS: Array<keyof _ILegacyRequestOptions> = [
   // request options
   "suppressWarnings",
   "hideToken",
@@ -22,7 +22,7 @@ const DEPRECATED_REQUEST_OPTION_KEYS: Array<keyof ILegacyRequestOptions> = [
 ];
 
 const DEPRECATED_REQUEST_OPTION_REPLACEMENTS: Partial<
-  Record<keyof ILegacyRequestOptions, string>
+  Record<keyof _ILegacyRequestOptions, string>
 > = {
   hideToken: "requestOptions.hideToken",
   suppressWarnings: "requestOptions.suppressWarnings",
@@ -33,7 +33,7 @@ const DEPRECATED_REQUEST_OPTION_REPLACEMENTS: Partial<
 };
 
 function getDeprecatedRequestOptionWarning(
-  key: keyof ILegacyRequestOptions
+  key: keyof _ILegacyRequestOptions
 ): string {
   const replacement = DEPRECATED_REQUEST_OPTION_REPLACEMENTS[key];
   return `${key} is deprecated as a top-level request option and will be removed in ArcGIS REST JS v5.0.${
@@ -42,7 +42,7 @@ function getDeprecatedRequestOptionWarning(
 }
 
 export function warnOnDeprecatedRequestOptions(
-  options?: Partial<ILegacyRequestOptions>
+  options?: Partial<_ILegacyRequestOptions>
 ): void {
   if (!options) {
     return;

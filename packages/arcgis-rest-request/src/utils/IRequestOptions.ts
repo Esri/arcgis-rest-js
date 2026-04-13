@@ -9,7 +9,7 @@ import { IAuthenticationManager } from "./IAuthenticationManager.js";
  *
  * @deprecated Use the new `requestOptions` object on `IRequestOptions` where applicable.
  */
-export interface ILegacyRequestOptions {
+export interface _ILegacyRequestOptions {
   /**
    * The HTTP method to send the request with.
    * @deprecated This top-level option is legacy and will be removed in a future release.
@@ -75,7 +75,7 @@ export interface ILegacyRequestOptions {
 /**
  * Options for the `request()` method.
  */
-export interface IRequestOptions extends ILegacyRequestOptions {
+export interface IRequestOptions extends _ILegacyRequestOptions {
   /**
    * Additional parameters to pass in the request.
    */
