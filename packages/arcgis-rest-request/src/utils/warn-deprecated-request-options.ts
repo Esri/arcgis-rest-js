@@ -1,6 +1,7 @@
 /* Copyright (c) 2017-2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
+// This file should be removed with the completion of ArcGIS REST JS v5.0 release.
 import { ILegacyRequestOptions } from "./IRequestOptions.js";
 import { warn } from "./warn.js";
 

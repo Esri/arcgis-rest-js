@@ -1,12 +1,24 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
-
+// This file should be removed with the completion of ArcGIS REST JS v5.0 release.
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { request } from "../src/index.js";
+import { warnOnDeprecatedRequestOptions } from "../src/utils/warn-deprecated-request-options.js";
 import fetchMock from "fetch-mock";
 import { SharingRestInfo } from "./mocks/sharing-rest-info.js";
 
 describe("deprecated request option warnings", () => {
+  test("should no-op when deprecated options are undefined", () => {
+    const oldWarn = console.warn;
+    const warnSpy = vi.fn();
+    console.warn = warnSpy;
+
+    warnOnDeprecatedRequestOptions(undefined);
+
+    expect(warnSpy).not.toHaveBeenCalled();
+    console.warn = oldWarn;
+  });
+
   afterEach(() => {
     fetchMock.restore();
   });
