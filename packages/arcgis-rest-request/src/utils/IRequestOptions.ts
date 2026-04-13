@@ -20,7 +20,6 @@ export interface ILegacyRequestOptions {
    * @deprecated since v4.0.0.
    */
   rawResponse?: boolean;
-
   /**
    * Prevents the token from being passed in a URL Query param that is saved in browser history.
    * Instead, the token will be passed in POST request body or through X-Esri-Authorization header.
@@ -34,10 +33,6 @@ export interface ILegacyRequestOptions {
    * @deprecated This top-level option is legacy and will be removed in a future release.
    */
   portal?: string;
-  /**
-   * The implementation of `fetch` to use. Defaults to a global `fetch`.
-   */
-  // fetch?: (input: RequestInfo, init?) => Promise<Response>;
   /**
    * A string indicating whether credentials (cookies) will be sent with the request. Used internally for authentication workflows.
    * @deprecated This top-level option is legacy and will be removed in a future release.
@@ -60,13 +55,11 @@ export interface ILegacyRequestOptions {
    * @deprecated This top-level option is legacy and will be removed in a future release.
    */
   signal?: AbortSignal;
-
   /**
    * Suppress any ArcGIS REST JS related warnings for this request.
    * @deprecated Use `requestOptions.suppressWarnings`.
    */
   suppressWarnings?: boolean;
-
   /**
    * Override the default function for making the request. This is mainly useful for testing purposes (i.e. so you can pass in a spy).
    * @deprecated since v4.0.0
