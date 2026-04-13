@@ -11,7 +11,6 @@ import {
 import { ItemSuccessResponse } from "../mocks/items/item.js";
 import { ArcGISIdentityManager } from "@esri/arcgis-rest-request";
 import { TOMORROW, attachmentFile } from "../../../../scripts/test-helpers.js";
-import { FormData } from "@esri/arcgis-rest-form-data";
 
 describe("search", () => {
   afterEach(() => {
@@ -139,7 +138,11 @@ describe("search", () => {
       if (params.get) {
         expect(params.get("token")).toEqual("fake-token");
         expect(params.get("f")).toEqual("json");
-        expect(params.get("file")).toEqual(file);
+        const uploaded = params.get("file") as File;
+        expect(uploaded).toBeTruthy();
+        expect(uploaded.size).toBe(file.size);
+        expect(uploaded.type).toBe(file.type);
+        expect(await uploaded.text()).toEqual(await file.text());
       }
     });
 
@@ -170,7 +173,11 @@ describe("search", () => {
       if (params.get) {
         expect(params.get("token")).toEqual("fake-token");
         expect(params.get("f")).toEqual("json");
-        expect(params.get("file")).toEqual(file);
+        const uploaded = params.get("file") as File;
+        expect(uploaded).toBeTruthy();
+        expect(uploaded.size).toBe(file.size);
+        expect(uploaded.type).toBe(file.type);
+        expect(await uploaded.text()).toEqual(await file.text());
       }
     });
 

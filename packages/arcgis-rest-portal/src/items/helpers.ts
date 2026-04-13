@@ -6,7 +6,6 @@ import {
   IAuthenticatedRequestOptions
 } from "@esri/arcgis-rest-request";
 import { IItem } from "../helpers.js";
-import type { Blob, File } from "@esri/arcgis-rest-request";
 
 /**
  * Base options interface for making authenticated requests for items.

@@ -46,6 +46,3 @@ export * from "./types/group.js";
 export * from "./types/user.js";
 export * from "./types/job-statuses.js";
 export * from "./types/oauthState.js";
-
-export * from "@esri/arcgis-rest-fetch";
-export * from "@esri/arcgis-rest-form-data";
