@@ -18,11 +18,11 @@ export function appendCustomParams<T extends IRequestOptions>(
     "authentication",
     "requestFlags",
     "fetchOptions",
+    "portal",
     // legacy options
     "httpMethod",
     "rawResponse",
     "hideToken",
-    "portal",
     "credentials",
     "maxUrlLength",
     "headers",
