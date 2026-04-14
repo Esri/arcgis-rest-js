@@ -7,7 +7,7 @@ import { IAuthenticationManager } from "./IAuthenticationManager.js";
 /**
  * Legacy request option properties kept for backwards compatibility.
  *
- * @deprecated Use the new `requestOptions` object on `IRequestOptions` where applicable.
+ * @deprecated Use the new `requestFlags` object on `IRequestOptions` where applicable.
  */
 export interface _ILegacyRequestOptions {
   /**
@@ -24,15 +24,9 @@ export interface _ILegacyRequestOptions {
    * Prevents the token from being passed in a URL Query param that is saved in browser history.
    * Instead, the token will be passed in POST request body or through X-Esri-Authorization header.
    * NOTE: This will force POST requests in browsers since auth header is not yet supported by preflight OPTIONS check with CORS.
-   * @deprecated Use `requestOptions.hideToken`.
+   * @deprecated Use `requestFlags.hideToken`.
    */
   hideToken?: boolean;
-  /**
-   * Base url for the portal you want to make the request to. Defaults to authentication.portal if authentication
-   * exists, otherwise to 'https://www.arcgis.com/sharing/rest'.
-   * @deprecated This top-level option is legacy and will be removed in a future release.
-   */
-  portal?: string;
   /**
    * A string indicating whether credentials (cookies) will be sent with the request. Used internally for authentication workflows.
    * @deprecated This top-level option is legacy and will be removed in a future release.
@@ -57,7 +51,7 @@ export interface _ILegacyRequestOptions {
   signal?: AbortSignal;
   /**
    * Suppress any ArcGIS REST JS related warnings for this request.
-   * @deprecated Use `requestOptions.suppressWarnings`.
+   * @deprecated Use `requestFlags.suppressWarnings`.
    */
   suppressWarnings?: boolean;
   /**
@@ -84,7 +78,12 @@ export interface IRequestOptions extends _ILegacyRequestOptions {
    * The instance of {@linkcode @esri/arcgis-rest-request!ArcGISIdentityManager}, {@linkcode @esri/arcgis-rest-request!ApplicationCredentialsManager} or {@linkcode @esri/arcgis-rest-request!ApiKeyManager} to use to authenticate this request. A token may also be passed directly as a string however using the built in authentication managers is encouraged.
    */
   authentication?: IAuthenticationManager | string;
-  requestOptions?: {
+  /**
+   * Base url for the portal you want to make the request to. Defaults to authentication.portal if authentication
+   * exists, otherwise to 'https://www.arcgis.com/sharing/rest'.
+   */
+  portal?: string;
+  requestFlags?: {
     // additional options for our internal request method
     hideToken?: boolean; // put the token param in the header for GET requests
     suppressWarnings?: boolean; // silence all internal console warnings from REST JS

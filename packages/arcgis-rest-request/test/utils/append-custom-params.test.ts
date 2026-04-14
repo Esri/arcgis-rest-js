@@ -61,6 +61,8 @@ describe("appendCustomParams", () => {
         "httpMethod",
         "rawResponse",
         "authentication",
+        "requestFlags",
+        "fetchOptions",
         "hideToken",
         "portal",
         "credentials",

@@ -15,7 +15,6 @@ const DEPRECATED_REQUEST_OPTION_KEYS: Array<keyof _ILegacyRequestOptions> = [
   "headers",
   "signal",
   // RESTJS options
-  "portal",
   "maxUrlLength",
   "rawResponse",
   "request"
@@ -24,8 +23,8 @@ const DEPRECATED_REQUEST_OPTION_KEYS: Array<keyof _ILegacyRequestOptions> = [
 const DEPRECATED_REQUEST_OPTION_REPLACEMENTS: Partial<
   Record<keyof _ILegacyRequestOptions, string>
 > = {
-  hideToken: "requestOptions.hideToken",
-  suppressWarnings: "requestOptions.suppressWarnings",
+  hideToken: "requestFlags.hideToken",
+  suppressWarnings: "requestFlags.suppressWarnings",
   httpMethod: "fetchOptions.method",
   credentials: "fetchOptions.credentials",
   headers: "fetchOptions.headers",

@@ -62,11 +62,6 @@ describe("deprecated request option warnings", () => {
     );
     expect(warnSpy).toHaveBeenCalledWith(
       expect.stringContaining(
-        "portal is deprecated as a top-level request option"
-      )
-    );
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining(
         "credentials is deprecated as a top-level request option"
       )
     );
