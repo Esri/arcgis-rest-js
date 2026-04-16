@@ -5,10 +5,7 @@ import { encodeFormData } from "./utils/encode-form-data.js";
 import { encodeQueryString } from "./utils/encode-query-string.js";
 import { requiresFormData } from "./utils/process-params.js";
 import { ArcGISRequestError } from "./utils/ArcGISRequestError.js";
-import {
-  IRequestOptions,
-  InternalRequestOptions
-} from "./utils/IRequestOptions.js";
+import { IRequestOptions } from "./utils/IRequestOptions.js";
 import {
   isNoCorsDomain,
   isNoCorsRequestRequired,
@@ -226,7 +223,7 @@ export function checkForErrors(
  */
 export function internalRequest(
   url: string,
-  requestOptions: InternalRequestOptions
+  requestOptions: IRequestOptions
 ): Promise<any> {
   warnOnDeprecatedRequestOptions(requestOptions);
 

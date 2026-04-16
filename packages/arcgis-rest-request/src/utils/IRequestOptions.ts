@@ -87,8 +87,3 @@ export interface IRequestOptions extends _ILegacyRequestOptions {
    **/
   fetchOptions?: RequestInit;
 }
-
-/**
- * Options for the function that will be making the actual request.
- */
-export type InternalRequestOptions = IRequestOptions;
