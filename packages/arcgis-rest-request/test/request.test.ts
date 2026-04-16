@@ -692,19 +692,6 @@ describe("request()", () => {
     });
   });
 
-  test("should use a passed in request function", async () => {
-    const url =
-      "https://www.arcgis.com/sharing/rest/content/items/43a8e51789044d9480a20089a84129ad/data";
-    const options = {
-      httpMethod: "GET",
-      params: { f: "text" }
-    } as const;
-    const requestSpy = vi.fn().mockResolvedValue(WebMapAsText);
-    await request(url, { ...options, request: requestSpy });
-    expect(requestSpy).toHaveBeenCalledTimes(1);
-    expect(requestSpy).toHaveBeenCalledWith(url, options);
-  });
-
   describe("no-cors:", () => {
     beforeEach(() => {
       // Reset requestConfig before each test

@@ -16,8 +16,7 @@ const DEPRECATED_REQUEST_OPTION_KEYS: Array<keyof _ILegacyRequestOptions> = [
   "signal",
   // RESTJS options
   "maxUrlLength",
-  "rawResponse",
-  "request"
+  "rawResponse"
 ];
 
 const DEPRECATED_REQUEST_OPTION_REPLACEMENTS: Partial<

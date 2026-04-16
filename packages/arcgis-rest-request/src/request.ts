@@ -587,27 +587,19 @@ export function request(
   url: string,
   requestOptions: IRequestOptions = { params: { f: "json" } }
 ): Promise<any> {
-  const { request, ...internalOptions } = requestOptions;
-  if (request) {
-    warnOnDeprecatedRequestOptions(internalOptions);
-    warnOnDeprecatedRequestOptions({ request });
-  }
-  // if the user passed in a custom request function, use that instead of the default
-  return request
-    ? request(url, internalOptions)
-    : internalRequest(url, internalOptions).catch((e) => {
-        if (
-          e instanceof ArcGISAuthError &&
-          requestOptions.authentication &&
-          typeof requestOptions.authentication !== "string" &&
-          requestOptions.authentication.canRefresh &&
-          requestOptions.authentication.refreshCredentials
-        ) {
-          return e.retry(() => {
-            return (requestOptions.authentication as any).refreshCredentials();
-          }, 1);
-        } else {
-          return Promise.reject(e);
-        }
-      });
+  return internalRequest(url, requestOptions).catch((e) => {
+    if (
+      e instanceof ArcGISAuthError &&
+      requestOptions.authentication &&
+      typeof requestOptions.authentication !== "string" &&
+      requestOptions.authentication.canRefresh &&
+      requestOptions.authentication.refreshCredentials
+    ) {
+      return e.retry(() => {
+        return (requestOptions.authentication as any).refreshCredentials();
+      }, 1);
+    } else {
+      return Promise.reject(e);
+    }
+  });
 }
