@@ -7,7 +7,7 @@ import { IAuthenticationManager } from "./IAuthenticationManager.js";
 /**
  * Legacy request option properties kept for backwards compatibility.
  *
- * @deprecated Use the new `requestFlags` object on `IRequestOptions` where applicable.
+ * @deprecated This class represents the v4 @linkcode{IRequestOptions} which should be used instead.
  */
 export interface ILegacyRequestOptions {
   /**
