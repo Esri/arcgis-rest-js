@@ -88,6 +88,7 @@ export interface IRequestOptions extends ILegacyRequestOptions {
     hideToken?: boolean; // put the token param in the header for GET requests
     suppressWarnings?: boolean; // silence all internal console warnings from REST JS
     injectRequestHeaders?: boolean; // add a `arcgisRestRequestHeaders` property that returns the request headers to resolve https://github.com/Esri/arcgis-rest-js/issues/1181
+    ignoreMaxUrlLength?: boolean; // ignore the URL length and use specified HTTP method
   };
   /**
    * anything you can pass to the options for fetch
