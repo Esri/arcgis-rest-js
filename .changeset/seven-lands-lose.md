@@ -12,4 +12,33 @@
 "@esri/arcgis-rest-auth": major
 ---
 
-Changed IRequestOptions interface to have only necessary top level properties, moved fetch and request options to fetchOptions and requestFlags
+### What
+
+This is a breaking change to `IRequestOptions`.
+
+- `IRequestOptions` top-level properties were reorganized:
+  - request control flags were moved under `requestFlags` as follows:
+  - `hideToken` is deprecated and is being moved to `requestFlags.hideToken`.
+  - `suppressWarnings` is deprecated and is being moved to `requestFlags.suppressWarnings`.
+  - `fetch`-related options were moved under `fetchOptions` as follows:
+  - `httpMethod` is deprecated and is being moved to `fetchOptions.method`.
+  - `credentials` is deprecated and is being moved to `fetchOptions.credentials`.
+  - `headers` is deprecated and is being moved to `fetchOptions.headers`.
+  - `signal` is deprecated and is being moved to `fetchOptions.signal`.
+  - standalone deprecated options:
+  - `maxUrlLength` is deprecated.
+  - `rawResponse` is deprecated and will be removed in a future version.
+  - `request` is deprecated and will be removed in a future version.
+
+### Why
+
+Simplifying request options by grouping fetch options together allows better handling of options between internal methods.
+
+### How to migrate
+
+Update all `IRequestOptions` call sites to use the new nested properties:
+
+- Move `credentials`, `headers`, and `signal` under `fetchOptions`.
+- Rename `httpMethod` to `method` and move under `fetchOptions`.
+- Move `hideToken` and `suppressWarnings` under `requestFlags`.
+- Property `rawResponse` is being removed in favor of a publicly exported`rawRequest()` method.

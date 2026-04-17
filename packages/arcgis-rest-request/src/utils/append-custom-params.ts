@@ -20,14 +20,14 @@ export function appendCustomParams<T extends IRequestOptions>(
     "fetchOptions",
     "portal",
     // legacy options
-    "httpMethod",
-    "rawResponse",
+    "suppressWarnings",
     "hideToken",
+    "httpMethod",
     "credentials",
-    "maxUrlLength",
     "headers",
     "signal",
-    "suppressWarnings",
+    "maxUrlLength",
+    "rawResponse",
     "request"
   ];
 
