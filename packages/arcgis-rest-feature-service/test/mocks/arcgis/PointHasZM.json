@@ -1,0 +1,72 @@
+{
+  "objectIdFieldName": "OBJECTID",
+  "uniqueIdField": {
+    "name": "OBJECTID",
+    "isSystemMaintained": true
+  },
+  "globalIdFieldName": "GlobalID",
+  "hasZ": true,
+  "hasM": true,
+  "geometryType": "esriGeometryPoint",
+  "spatialReference": {
+    "wkid": 102100,
+    "latestWkid": 3857
+  },
+  "fields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "sqlType": "sqlTypeOther",
+      "domain": null,
+      "defaultValue": null
+    },
+    {
+      "name": "GlobalID",
+      "type": "esriFieldTypeGlobalID",
+      "alias": "GlobalID",
+      "sqlType": "sqlTypeOther",
+      "length": 38,
+      "domain": null,
+      "defaultValue": null
+    }
+  ],
+  "features": [
+    {
+      "attributes": {
+        "OBJECTID": 1,
+        "GlobalID": "f994c422-a2b6-4a55-b30e-98a622b1eb44"
+      },
+      "geometry": {
+        "x": -13199344.008373085,
+        "y": 6056886.973585309,
+        "z": 40,
+        "m": 0
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 2,
+        "GlobalID": "f957b286-326f-4eb6-a879-be90a8d857e7"
+      },
+      "geometry": {
+        "x": -13199699.918286039,
+        "y": 6037204.438801886,
+        "z": 55,
+        "m": null
+      }
+    },
+    {
+      "attributes": {
+        "OBJECTID": 3,
+        "GlobalID": "3278cad5-2692-44db-b9a8-f5545e7a5ace"
+      },
+      "geometry": {
+        "x": -13200187.204341356,
+        "y": 6018059.3518735925,
+        "z": 0,
+        "m": 3
+      }
+    }
+  ]
+}

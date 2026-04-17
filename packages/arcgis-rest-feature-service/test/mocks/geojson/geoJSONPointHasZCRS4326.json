@@ -1,0 +1,59 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": "EPSG:4326"
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": 1,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.558966493748,
+          47.2938302422839,
+          0
+        ]
+      },
+      "properties": {
+        "OBJECTID": 1,
+        "GlobalID": "74684f1c-429f-4936-8b52-05f24980adef"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 2,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.559029777117,
+          47.2932346286065,
+          67
+        ]
+      },
+      "properties": {
+        "OBJECTID": 2,
+        "GlobalID": "0d97f741-d1d9-461d-b6ba-d3c6601fd3e9"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": 3,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -118.559089875363,
+          47.2926355119087,
+          123.450000000012
+        ]
+      },
+      "properties": {
+        "OBJECTID": 3,
+        "GlobalID": "cbec1238-ee39-4345-877a-6962e86e4e65"
+      }
+    }
+  ]
+}
