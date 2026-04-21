@@ -7,9 +7,9 @@ import { IAuthenticationManager } from "./IAuthenticationManager.js";
 /**
  * Legacy request option properties kept for backwards compatibility.
  *
- * @deprecated Use the new `requestFlags` object on `IRequestOptions` where applicable.
+ * @deprecated This class represents the v4 @linkcode{IRequestOptions} which should be used instead.
  */
-export interface _ILegacyRequestOptions {
+export interface ILegacyRequestOptions {
   /**
    * The HTTP method to send the request with.
    * @deprecated This top-level option is legacy and will be removed in a future release.
@@ -59,7 +59,7 @@ export interface _ILegacyRequestOptions {
 /**
  * Options for the `request()` method.
  */
-export interface IRequestOptions extends _ILegacyRequestOptions {
+export interface IRequestOptions extends ILegacyRequestOptions {
   /**
    * Additional parameters to pass in the request.
    */
@@ -78,6 +78,7 @@ export interface IRequestOptions extends _ILegacyRequestOptions {
     hideToken?: boolean; // put the token param in the header for GET requests
     suppressWarnings?: boolean; // silence all internal console warnings from REST JS
     injectRequestHeaders?: boolean; // add a `arcgisRestRequestHeaders` property that returns the request headers to resolve https://github.com/Esri/arcgis-rest-js/issues/1181
+    ignoreMaxUrlLength?: boolean; // ignore the URL length and use specified HTTP method
   };
   /**
    * anything you can pass to the options for fetch
