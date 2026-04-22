@@ -119,39 +119,33 @@ export class ArcGISAuthError extends ArcGISRequestError {
   public retry(getSession: IRetryAuthError, retryLimit = 1) {
     let tries = 0;
 
-    const retryRequest = (resolve: any, reject: any) => {
+    const retryRequest = async (): Promise<any> => {
       tries = tries + 1;
 
-      getSession(this.url, this.options)
-        .then((session) => {
-          const newOptions = {
-            ...this.options,
-            ...{ authentication: session }
-          };
+      try {
+        const session = await getSession(this.url, this.options);
+        const newOptions = {
+          ...this.options,
+          ...{ authentication: session }
+        };
 
-          return internalRequest(this.url, newOptions);
-        })
-        .then((response) => {
-          resolve(response);
-        })
-        .catch((e) => {
-          if (e.name === "ArcGISAuthError" && tries < retryLimit) {
-            retryRequest(resolve, reject);
-          } else if (
-            e.name === this.name &&
-            e.message === this.message &&
-            tries >= retryLimit
-          ) {
-            reject(this);
-          } else {
-            reject(e);
-          }
-        });
+        return await internalRequest(this.url, newOptions);
+      } catch (e: any) {
+        if (e.name === "ArcGISAuthError" && tries < retryLimit) {
+          return retryRequest();
+        } else if (
+          e.name === this.name &&
+          e.message === this.message &&
+          tries >= retryLimit
+        ) {
+          throw this;
+        } else {
+          throw e;
+        }
+      }
     };
 
-    return new Promise((resolve, reject) => {
-      retryRequest(resolve, reject);
-    });
+    return retryRequest();
   }
 }
 
@@ -220,7 +214,7 @@ export function checkForErrors(
  * @returns A Promise that will resolve with the data from the response.
  * @internal
  */
-export function internalRequest(
+export async function internalRequest(
   url: string,
   requestOptions: IRequestOptions
 ): Promise<any> {
@@ -341,219 +335,224 @@ export function internalRequest(
     firstPromise = sendNoCorsRequest(url);
   }
 
-  return firstPromise
-    .then(() =>
-      authentication
-        ? authentication.getToken(url).catch((err) => {
-            /**
-             * append original request url and requestOptions
-             * to the error thrown by getToken()
-             * to assist with retrying
-             */
-            err.url = url;
-            err.options = options;
-            /**
-             * if an attempt is made to talk to an unfederated server
-             * first try the request anonymously. if a 'token required'
-             * error is thrown, throw the UNFEDERATED error then.
-             */
-            originalAuthError = err;
-            return Promise.resolve("");
-          })
-        : Promise.resolve("")
-    )
-    .then((token) => {
-      if (token.length) {
+  await firstPromise;
+
+  let token = "";
+  if (authentication) {
+    try {
+      token = await authentication.getToken(url);
+    } catch (err: any) {
+      /**
+       * append original request url and requestOptions
+       * to the error thrown by getToken()
+       * to assist with retrying
+       */
+      err.url = url;
+      err.options = options;
+      /**
+       * if an attempt is made to talk to an unfederated server
+       * first try the request anonymously. if a 'token required'
+       * error is thrown, throw the UNFEDERATED error then.
+       */
+      originalAuthError = err;
+      token = "";
+    }
+  }
+
+  if (token.length) {
+    params.token = token;
+  }
+
+  if (authentication && authentication.getDomainCredentials) {
+    fetchOptions.credentials = authentication.getDomainCredentials(url);
+  }
+
+  // Custom headers to add to request. IRequestOptions.headers with merge over requestHeaders.
+  const requestHeaders: {
+    [key: string]: any;
+  } = {};
+
+  if (fetchOptions.method === "GET") {
+    // Prevents token from being passed in query params when hideToken option is used.
+    /* istanbul ignore if --@preserve - window is always defined in a browser. Test case is covered by Jasmine in node test */
+    if (
+      params.token &&
+      options.hideToken &&
+      // Sharing API does not support preflight check required by modern browsers https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
+      typeof window === "undefined"
+    ) {
+      requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`;
+      delete params.token;
+    }
+    // encode the parameters into the query string
+    const queryParams = encodeQueryString(params);
+    // dont append a '?' unless parameters are actually present
+    const urlWithQueryString =
+      queryParams === ""
+        ? /* istanbul ignore next -- @preserve */
+          url
+        : `${url}?${queryParams}`;
+
+    if (
+      // This would exceed the maximum length for URLs by 2000 as default or as specified by the consumer and requires POST
+      (options.maxUrlLength &&
+        urlWithQueryString.length > options.maxUrlLength) ||
+      (!options.maxUrlLength && urlWithQueryString.length > 2000) ||
+      // Or if the customer requires the token to be hidden and it has not already been hidden in the header (for browsers)
+      (params.token && options.hideToken)
+    ) {
+      // the consumer specified a maximum length for URLs
+      // and this would exceed it, so use post instead
+      fetchOptions.method = "POST";
+
+      // If the token was already added as a Auth header, add the token back to body with other params instead of header
+      if (token.length && options.hideToken) {
         params.token = token;
+        // Remove existing header that was added before url query length was checked
+        delete requestHeaders["X-Esri-Authorization"];
+      }
+    } else {
+      // just use GET
+      url = urlWithQueryString;
+    }
+  }
+
+  /* updateResources currently requires FormData even when the input parameters dont warrant it.
+https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
+    see https://github.com/Esri/arcgis-rest-js/pull/500 for more info. */
+  const forceFormData = new RegExp("/items/.+/updateResources").test(url);
+
+  if (fetchOptions.method === "POST") {
+    fetchOptions.body = encodeFormData(params, forceFormData) as any;
+  }
+
+  // Mixin headers from request options
+  fetchOptions.headers = {
+    ...requestHeaders,
+    ...options.headers
+  };
+
+  // This should have the same conditional for Node JS as ArcGISIdentityManager.refreshWithUsernameAndPassword()
+  // to ensure that generated tokens have the same referer when used in Node with a username and password.
+  /* istanbul ignore next --@preserve */
+  if (
+    (typeof window === "undefined" ||
+      (window && typeof window.document === "undefined")) &&
+    !(fetchOptions.headers as any).referer
+  ) {
+    (fetchOptions.headers as any).referer = NODEJS_DEFAULT_REFERER_HEADER;
+  }
+
+  /* istanbul ignore next -- @preserve : blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
+  if (!requiresFormData(params) && !forceFormData) {
+    (fetchOptions.headers as any)["Content-Type"] =
+      "application/x-www-form-urlencoded";
+  }
+
+  const response: any = await globalThis.fetch(url, fetchOptions);
+
+  // the request got back an error status code (4xx, 5xx)
+  if (!response.ok) {
+    // we need to determine if the server returned a JSON body with more details.
+    // this is the format used by newer services such as the Places and Style service.
+    try {
+      const jsonError: any = await response.json();
+      // The body can be parsed as JSON
+      const { status, statusText } = response;
+      const { message, details } = jsonError.error;
+      const formattedMessage = `${message}. ${
+        details ? details.join(" ") : ""
+      }`.trim();
+
+      throw new ArcGISRequestError(
+        formattedMessage,
+        `HTTP ${status} ${statusText}`,
+        jsonError,
+        url,
+        options
+      );
+    } catch (e: any) {
+      // if we already were about to format this as an ArcGISRequestError throw that error
+      if (e.name === "ArcGISRequestError") {
+        throw e;
       }
 
-      if (authentication && authentication.getDomainCredentials) {
-        fetchOptions.credentials = authentication.getDomainCredentials(url);
+      // server responded w/ an actual error (404, 500, etc) but we could not parse it as JSON
+      const { status, statusText } = response;
+      throw new ArcGISRequestError(
+        statusText,
+        `HTTP ${status}`,
+        response,
+        url,
+        options
+      );
+    }
+  }
+
+  let data: any;
+  if (rawResponse) {
+    data = response;
+  } else {
+    switch (params.f) {
+      case "json":
+        data = await response.json();
+        break;
+      case "geojson":
+        data = await response.json();
+        break;
+      case "html":
+        data = await response.text();
+        break;
+      case "text":
+        data = await response.text();
+        break;
+      /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust that isomorphic fetch will do its job */
+      default:
+        data = await response.blob();
+        break;
+    }
+  }
+
+  // Check for an error in the JSON body of a successful response.
+  // Most ArcGIS Server services will return a successful status code but include an error in the response body.
+  if ((params.f === "json" || params.f === "geojson") && !rawResponse) {
+    const parsedResponse = checkForErrors(
+      data,
+      originalUrl,
+      params,
+      options,
+      originalAuthError
+    );
+
+    // If this was a portal/self call, and we got authorizedNoCorsDomains back
+    // register them
+    if (data && /\/sharing\/rest\/(accounts|portals)\/self/i.test(url)) {
+      // if we have a list of no-cors domains, register them
+      if (Array.isArray(data.authorizedCrossOriginNoCorsDomains)) {
+        registerNoCorsDomains(data.authorizedCrossOriginNoCorsDomains);
       }
+    }
 
-      // Custom headers to add to request. IRequestOptions.headers with merge over requestHeaders.
-      const requestHeaders: {
-        [key: string]: any;
-      } = {};
+    if (originalAuthError) {
+      /* If the request was made to an unfederated service that
+      didn't require authentication, add the base url and a dummy token
+      to the list of trusted servers to avoid another federation check
+      in the event of a repeat request */
+      const truncatedUrl: string = url
+        .toLowerCase()
+        .split(/\/rest(\/admin)?\/services\//)[0];
 
-      if (fetchOptions.method === "GET") {
-        // Prevents token from being passed in query params when hideToken option is used.
-        /* istanbul ignore if --@preserve - window is always defined in a browser. Test case is covered by Jasmine in node test */
-        if (
-          params.token &&
-          options.hideToken &&
-          // Sharing API does not support preflight check required by modern browsers https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
-          typeof window === "undefined"
-        ) {
-          requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`;
-          delete params.token;
-        }
-        // encode the parameters into the query string
-        const queryParams = encodeQueryString(params);
-        // dont append a '?' unless parameters are actually present
-        const urlWithQueryString =
-          queryParams === ""
-            ? /* istanbul ignore next -- @preserve */
-              url
-            : `${url}?${queryParams}`;
-
-        if (
-          // This would exceed the maximum length for URLs by 2000 as default or as specified by the consumer and requires POST
-          (options.maxUrlLength &&
-            urlWithQueryString.length > options.maxUrlLength) ||
-          (!options.maxUrlLength && urlWithQueryString.length > 2000) ||
-          // Or if the customer requires the token to be hidden and it has not already been hidden in the header (for browsers)
-          (params.token && options.hideToken)
-        ) {
-          // the consumer specified a maximum length for URLs
-          // and this would exceed it, so use post instead
-          fetchOptions.method = "POST";
-
-          // If the token was already added as a Auth header, add the token back to body with other params instead of header
-          if (token.length && options.hideToken) {
-            params.token = token;
-            // Remove existing header that was added before url query length was checked
-            delete requestHeaders["X-Esri-Authorization"];
-          }
-        } else {
-          // just use GET
-          url = urlWithQueryString;
-        }
-      }
-
-      /* updateResources currently requires FormData even when the input parameters dont warrant it.
-  https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
-      see https://github.com/Esri/arcgis-rest-js/pull/500 for more info. */
-      const forceFormData = new RegExp("/items/.+/updateResources").test(url);
-
-      if (fetchOptions.method === "POST") {
-        fetchOptions.body = encodeFormData(params, forceFormData) as any;
-      }
-
-      // Mixin headers from request options
-      fetchOptions.headers = {
-        ...requestHeaders,
-        ...options.headers
+      (options.authentication as any).federatedServers[truncatedUrl] = {
+        token: [],
+        // default to 24 hours
+        expires: new Date(Date.now() + 86400 * 1000)
       };
+      originalAuthError = null;
+    }
+    return parsedResponse;
+  }
 
-      // This should have the same conditional for Node JS as ArcGISIdentityManager.refreshWithUsernameAndPassword()
-      // to ensure that generated tokens have the same referer when used in Node with a username and password.
-      /* istanbul ignore next --@preserve */
-      if (
-        (typeof window === "undefined" ||
-          (window && typeof window.document === "undefined")) &&
-        !fetchOptions.headers.referer
-      ) {
-        fetchOptions.headers.referer = NODEJS_DEFAULT_REFERER_HEADER;
-      }
-
-      /* istanbul ignore next -- @preserve : blob responses are difficult to make cross platform we will just have to trust the isomorphic fetch will do its job */
-      if (!requiresFormData(params) && !forceFormData) {
-        fetchOptions.headers["Content-Type"] =
-          "application/x-www-form-urlencoded";
-      }
-
-      return globalThis.fetch(url, fetchOptions);
-    })
-    .then((response: any) => {
-      // the request got back an error status code (4xx, 5xx)
-      if (!response.ok) {
-        // we need to determine if the server returned a JSON body with more details.
-        // this is the format used by newer services such as the Places and Style service.
-        return response
-          .json()
-          .then((jsonError: any) => {
-            // The body can be parsed as JSON
-            const { status, statusText } = response;
-            const { message, details } = jsonError.error;
-            const formattedMessage = `${message}. ${
-              details ? details.join(" ") : ""
-            }`.trim();
-
-            throw new ArcGISRequestError(
-              formattedMessage,
-              `HTTP ${status} ${statusText}`,
-              jsonError,
-              url,
-              options
-            );
-          })
-          .catch((e: any) => {
-            // if we already were about to format this as an ArcGISRequestError throw that error
-            if (e.name === "ArcGISRequestError") {
-              throw e;
-            }
-
-            // server responded w/ an actual error (404, 500, etc) but we could not parse it as JSON
-            const { status, statusText } = response;
-            throw new ArcGISRequestError(
-              statusText,
-              `HTTP ${status}`,
-              response,
-              url,
-              options
-            );
-          });
-      }
-      if (rawResponse) {
-        return response;
-      }
-      switch (params.f) {
-        case "json":
-          return response.json();
-        case "geojson":
-          return response.json();
-        case "html":
-          return response.text();
-        case "text":
-          return response.text();
-        /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust that isomorphic fetch will do its job */
-        default:
-          return response.blob();
-      }
-    })
-    .then((data) => {
-      // Check for an error in the JSON body of a successful response.
-      // Most ArcGIS Server services will return a successful status code but include an error in the response body.
-      if ((params.f === "json" || params.f === "geojson") && !rawResponse) {
-        const response = checkForErrors(
-          data,
-          originalUrl,
-          params,
-          options,
-          originalAuthError
-        );
-
-        // If this was a portal/self call, and we got authorizedNoCorsDomains back
-        // register them
-        if (data && /\/sharing\/rest\/(accounts|portals)\/self/i.test(url)) {
-          // if we have a list of no-cors domains, register them
-          if (Array.isArray(data.authorizedCrossOriginNoCorsDomains)) {
-            registerNoCorsDomains(data.authorizedCrossOriginNoCorsDomains);
-          }
-        }
-
-        if (originalAuthError) {
-          /* If the request was made to an unfederated service that
-          didn't require authentication, add the base url and a dummy token
-          to the list of trusted servers to avoid another federation check
-          in the event of a repeat request */
-          const truncatedUrl: string = url
-            .toLowerCase()
-            .split(/\/rest(\/admin)?\/services\//)[0];
-
-          (options.authentication as any).federatedServers[truncatedUrl] = {
-            token: [],
-            // default to 24 hours
-            expires: new Date(Date.now() + 86400 * 1000)
-          };
-          originalAuthError = null;
-        }
-        return response;
-      } else {
-        return data;
-      }
-    });
+  return data;
 }
 
 /**
@@ -579,11 +578,13 @@ export function internalRequest(
  * @param requestOptions - Options for the request, including parameters relevant to the endpoint.
  * @returns A Promise that will resolve with the data from the response.
  */
-export function request(
+export async function request(
   url: string,
   requestOptions: IRequestOptions = { params: { f: "json" } }
 ): Promise<any> {
-  return internalRequest(url, requestOptions).catch((e) => {
+  try {
+    return await internalRequest(url, requestOptions);
+  } catch (e: any) {
     if (
       e instanceof ArcGISAuthError &&
       requestOptions.authentication &&
@@ -594,8 +595,8 @@ export function request(
       return e.retry(() => {
         return (requestOptions.authentication as any).refreshCredentials();
       }, 1);
-    } else {
-      return Promise.reject(e);
     }
-  });
+
+    throw e;
+  }
 }
