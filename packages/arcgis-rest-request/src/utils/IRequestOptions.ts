@@ -12,7 +12,7 @@ import { IAuthenticationManager } from "./IAuthenticationManager.js";
 export interface ILegacyRequestOptions {
   /**
    * The HTTP method to send the request with.
-   * @deprecated This top-level option is legacy and will be removed in a future release.
+   * @deprecated This top-level option is legacy and will be removed in a future release. Use `fetchOptions.httpMethod` in @linkcode{IRequestOptions} instead.
    */
   httpMethod?: HTTPMethods;
   /**
