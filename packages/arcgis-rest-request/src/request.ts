@@ -45,7 +45,6 @@ export function setDefaultRequestOptions(
   console.warn(
     `setDefaultRequestOptions() is deprecated. This will be removed in ArcGIS REST JS v5.0.`
   );
-  warnOnDeprecatedRequestOptions(options);
   if (options.authentication && !hideWarnings) {
     warn(
       "You should not set `authentication` as a default in a shared environment such as a web server which will process multiple users requests. You can call `setDefaultRequestOptions` with `true` as a second argument to disable this warning."
