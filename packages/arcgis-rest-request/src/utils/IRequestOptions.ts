@@ -12,7 +12,7 @@ import { IAuthenticationManager } from "./IAuthenticationManager.js";
 export interface ILegacyRequestOptions {
   /**
    * The HTTP method to send the request with.
-   * @deprecated This top-level option is legacy and will be removed in a future release.
+   * @deprecated Use `fetchOptions.httpMethod` in @linkcode{IRequestOptions} instead.
    */
   httpMethod?: HTTPMethods;
   /**
@@ -24,12 +24,12 @@ export interface ILegacyRequestOptions {
    * Prevents the token from being passed in a URL Query param that is saved in browser history.
    * Instead, the token will be passed in POST request body or through X-Esri-Authorization header.
    * NOTE: This will force POST requests in browsers since auth header is not yet supported by preflight OPTIONS check with CORS.
-   * @deprecated Use `requestFlags.hideToken`.
+   * @deprecated Use `requestFlags.hideToken` in @linkcode{IRequestOptions} instead.
    */
   hideToken?: boolean;
   /**
    * A string indicating whether credentials (cookies) will be sent with the request. Used internally for authentication workflows.
-   * @deprecated This top-level option is legacy and will be removed in a future release.
+   * @deprecated Use `fetchOptions.credentials` in @linkcode{IRequestOptions} instead.
    */
   credentials?: RequestCredentials;
   /**
@@ -39,19 +39,19 @@ export interface ILegacyRequestOptions {
   maxUrlLength?: number;
   /**
    * Additional [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers) to pass into the request.
-   * @deprecated This top-level option is legacy and will be removed in a future release.
+   * @deprecated Use `fetchOptions.headers` in @linkcode{IRequestOptions} instead.
    */
   headers?: {
     [key: string]: any;
   };
   /**
    * An [AbortSignal](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal) object instance; allows you to abort a request and via an [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController).
-   * @deprecated This top-level option is legacy and will be removed in a future release.
+   * @deprecated Use `fetchOptions.signal` in @linkcode{IRequestOptions} instead.
    */
   signal?: AbortSignal;
   /**
    * Suppress any ArcGIS REST JS related warnings for this request.
-   * @deprecated Use `requestFlags.suppressWarnings`.
+   * @deprecated Use `requestFlags.suppressWarnings` in @linkcode{IRequestOptions} instead.
    */
   suppressWarnings?: boolean;
 }
