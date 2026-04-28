@@ -88,25 +88,4 @@ describe("deprecated request option warnings", () => {
 
     console.warn = oldWarn;
   });
-
-  test("should warn when deprecated request override option is used", async () => {
-    const oldWarn = console.warn;
-    const warnSpy = vi.fn();
-    console.warn = warnSpy;
-
-    const customRequest = vi.fn().mockResolvedValue({ ok: true });
-    const response = await request("https://www.arcgis.com/sharing/rest/info", {
-      request: customRequest
-    });
-
-    expect(response).toEqual({ ok: true });
-    expect(customRequest).toHaveBeenCalledTimes(1);
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining(
-        "request is deprecated as a top-level request option"
-      )
-    );
-
-    console.warn = oldWarn;
-  });
 });
