@@ -17,6 +17,7 @@ import {
 } from "./utils/sendNoCorsRequest.js";
 import { IParams } from "./utils/IParams.js";
 import { warn } from "./utils/warn.js";
+import { warnOnDeprecatedRequestOptions } from "./utils/warn-deprecated-request-options.js";
 import { IRetryAuthError } from "./utils/retryAuthError.js";
 import { IAuthenticationManager } from "./index.js";
 import { isSameOrigin } from "./utils/isSameOrigin.js";
@@ -226,6 +227,8 @@ export function internalRequest(
   url: string,
   requestOptions: InternalRequestOptions
 ): Promise<any> {
+  warnOnDeprecatedRequestOptions(requestOptions);
+
   const defaults = getDefaultRequestOptions();
   const options: IRequestOptions = {
     ...{ httpMethod: "POST" },
@@ -496,9 +499,6 @@ export function internalRequest(
           });
       }
       if (rawResponse) {
-        console.warn(
-          `rawResponse option is deprecated and will be removed in ArcGIS REST JS v5.0.`
-        );
         return response;
       }
       switch (params.f) {
@@ -587,6 +587,10 @@ export function request(
   requestOptions: IRequestOptions = { params: { f: "json" } }
 ): Promise<any> {
   const { request, ...internalOptions } = requestOptions;
+  if (request) {
+    warnOnDeprecatedRequestOptions(internalOptions);
+    warnOnDeprecatedRequestOptions({ request });
+  }
   // if the user passed in a custom request function, use that instead of the default
   return request
     ? request(url, internalOptions)
