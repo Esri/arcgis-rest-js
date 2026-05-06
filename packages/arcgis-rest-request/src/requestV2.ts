@@ -205,23 +205,13 @@ export function checkForErrors(
   return response;
 }
 
-/**
- * This is the internal implementation of `request` without the automatic retry behavior to prevent
- * infinite loops when a server continues to return invalid token errors.
- *
- * @param url - The URL of the ArcGIS REST API endpoint.
- * @param requestOptions - Options for the request, including parameters relevant to the endpoint.
- * @returns A Promise that will resolve with the data from the response.
- * @internal
- */
-export async function internalRequest(
-  url: string,
+function resolveRequestOptions(
   requestOptions: IRequestOptions
-): Promise<any> {
+): IRequestOptions {
   warnOnDeprecatedRequestOptions(requestOptions);
 
   const defaults = getDefaultRequestOptions();
-  const options: IRequestOptions = {
+  return {
     ...{ httpMethod: "POST" },
     ...defaults,
     ...requestOptions,
@@ -236,40 +226,11 @@ export async function internalRequest(
       }
     }
   };
+}
 
-  const { httpMethod, rawResponse } = options;
-
-  const params: IParams = {
-    ...{ f: "json" },
-    ...options.params
-  };
-
-  let originalAuthError: ArcGISAuthError = null;
-
-  const fetchOptions: RequestInit = {
-    method: httpMethod,
-    signal: options.signal,
-    /* ensures behavior mimics XMLHttpRequest.
-    needed to support sending IWA cookies */
-    credentials: options.credentials || "same-origin"
-  };
-
-  // Is this a no-cors domain? if so we need to set credentials to include
-  if (isNoCorsDomain(url)) {
-    fetchOptions.credentials = "include";
-  }
-
-  // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
-  // and that request needs to send cookies cross domain
-  // so we need to set the credentials to "include"
-  if (
-    options.headers &&
-    options.headers["X-Esri-Auth-Client-Id"] &&
-    url.indexOf("/oauth2/platformSelf") > -1
-  ) {
-    fetchOptions.credentials = "include";
-  }
-
+function resolveAuthentication(
+  options: IRequestOptions
+): IAuthenticationManager {
   let authentication: IAuthenticationManager;
 
   // Check to see if this is a raw token as a string and create a IAuthenticationManager like object for it.
@@ -303,36 +264,85 @@ export async function internalRequest(
     authentication = options.authentication;
   }
 
+  return authentication;
+}
+
+function applyPlatformSelfCredentials(
+  url: string,
+  headers: { [key: string]: any },
+  fetchOptions: RequestInit
+) {
+  // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
+  // and that request needs to send cookies cross domain
+  // so we need to set the credentials to "include"
+  if (
+    headers &&
+    headers["X-Esri-Auth-Client-Id"] &&
+    url.indexOf("/oauth2/platformSelf") > -1
+  ) {
+    fetchOptions.credentials = "include";
+  }
+}
+
+async function executeRequest(
+  requestUrl: string,
+  requestOptions: IRequestOptions
+): Promise<{
+  response: Response;
+  url: string;
+  originalUrl: string;
+  options: IRequestOptions;
+  params: IParams;
+  originalAuthError: ArcGISAuthError;
+}> {
+  const options = resolveRequestOptions(requestOptions);
+  const { httpMethod } = options;
+
+  const params: IParams = {
+    ...{ f: "json" },
+    ...options.params
+  };
+
+  let originalAuthError: ArcGISAuthError = null;
+
+  const fetchOptions: RequestInit = {
+    method: httpMethod,
+    signal: options.signal,
+    /* ensures behavior mimics XMLHttpRequest.
+    needed to support sending IWA cookies */
+    credentials: options.credentials || "same-origin"
+  };
+
+  // Is this a no-cors domain? if so we need to set credentials to include
+  if (isNoCorsDomain(requestUrl)) {
+    fetchOptions.credentials = "include";
+  }
+
+  applyPlatformSelfCredentials(requestUrl, options.headers, fetchOptions);
+
+  const authentication = resolveAuthentication(options);
+
   // for errors in GET requests we want the URL passed to the error to be the URL before
   // query params are applied.
-  const originalUrl = url;
+  const originalUrl = requestUrl;
 
   // default to false, for nodejs
   let sameOrigin = false;
   // if we are in a browser, check if the url is same origin
   /* istanbul ignore else -- @preserve */
   if (typeof window !== "undefined") {
-    sameOrigin = isSameOrigin(url);
+    sameOrigin = isSameOrigin(requestUrl);
   }
-  const requiresNoCors = !sameOrigin && isNoCorsRequestRequired(url);
+  const requiresNoCors = !sameOrigin && isNoCorsRequestRequired(requestUrl);
 
-  // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
-  // and that request needs to send cookies cross domain
-  // so we need to set the credentials to "include"
-  if (
-    options.headers &&
-    options.headers["X-Esri-Auth-Client-Id"] &&
-    url.indexOf("/oauth2/platformSelf") > -1
-  ) {
-    fetchOptions.credentials = "include";
-  }
+  applyPlatformSelfCredentials(requestUrl, options.headers, fetchOptions);
 
   // Simple first promise that we may turn into the no-cors request
   let firstPromise = Promise.resolve();
   if (requiresNoCors) {
     // ensure we send cookies on the request after
     fetchOptions.credentials = "include";
-    firstPromise = sendNoCorsRequest(url);
+    firstPromise = sendNoCorsRequest(requestUrl);
   }
 
   await firstPromise;
@@ -340,14 +350,14 @@ export async function internalRequest(
   let token = "";
   if (authentication) {
     try {
-      token = await authentication.getToken(url);
+      token = await authentication.getToken(requestUrl);
     } catch (err: any) {
       /**
        * append original request url and requestOptions
        * to the error thrown by getToken()
        * to assist with retrying
        */
-      err.url = url;
+      err.url = requestUrl;
       err.options = options;
       /**
        * if an attempt is made to talk to an unfederated server
@@ -364,7 +374,7 @@ export async function internalRequest(
   }
 
   if (authentication && authentication.getDomainCredentials) {
-    fetchOptions.credentials = authentication.getDomainCredentials(url);
+    fetchOptions.credentials = authentication.getDomainCredentials(requestUrl);
   }
 
   // Custom headers to add to request. IRequestOptions.headers with merge over requestHeaders.
@@ -390,8 +400,8 @@ export async function internalRequest(
     const urlWithQueryString =
       queryParams === ""
         ? /* istanbul ignore next -- @preserve */
-          url
-        : `${url}?${queryParams}`;
+          requestUrl
+        : `${requestUrl}?${queryParams}`;
 
     if (
       // This would exceed the maximum length for URLs by 2000 as default or as specified by the consumer and requires POST
@@ -413,14 +423,16 @@ export async function internalRequest(
       }
     } else {
       // just use GET
-      url = urlWithQueryString;
+      requestUrl = urlWithQueryString;
     }
   }
 
   /* updateResources currently requires FormData even when the input parameters dont warrant it.
 https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
     see https://github.com/Esri/arcgis-rest-js/pull/500 for more info. */
-  const forceFormData = new RegExp("/items/.+/updateResources").test(url);
+  const forceFormData = new RegExp("/items/.+/updateResources").test(
+    requestUrl
+  );
 
   if (fetchOptions.method === "POST") {
     fetchOptions.body = encodeFormData(params, forceFormData) as any;
@@ -449,7 +461,7 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
       "application/x-www-form-urlencoded";
   }
 
-  const response: any = await globalThis.fetch(url, fetchOptions);
+  const response: any = await globalThis.fetch(requestUrl, fetchOptions);
 
   // the request got back an error status code (4xx, 5xx)
   if (!response.ok) {
@@ -468,7 +480,7 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
         formattedMessage,
         `HTTP ${status} ${statusText}`,
         jsonError,
-        url,
+        requestUrl,
         options
       );
     } catch (e: any) {
@@ -483,34 +495,70 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
         statusText,
         `HTTP ${status}`,
         response,
-        url,
+        requestUrl,
         options
       );
     }
   }
 
+  return {
+    response,
+    url: requestUrl,
+    originalUrl,
+    options,
+    params,
+    originalAuthError
+  };
+}
+
+async function parseResponseByFormat(
+  response: Response,
+  format: any
+): Promise<any> {
+  switch (format) {
+    case "json":
+      return response.json();
+    case "geojson":
+      return response.json();
+    case "html":
+      return response.text();
+    case "text":
+      return response.text();
+    /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust that isomorphic fetch will do its job */
+    default:
+      return response.blob();
+  }
+}
+
+/**
+ * This is the internal implementation of `request` without the automatic retry behavior to prevent
+ * infinite loops when a server continues to return invalid token errors.
+ *
+ * @param url - The URL of the ArcGIS REST API endpoint.
+ * @param requestOptions - Options for the request, including parameters relevant to the endpoint.
+ * @returns A Promise that will resolve with the data from the response.
+ * @internal
+ */
+export async function internalRequest(
+  url: string,
+  requestOptions: IRequestOptions
+): Promise<any> {
+  const preparedRequest = await executeRequest(url, requestOptions);
+  const {
+    response,
+    options,
+    params,
+    originalUrl,
+    url: finalUrl
+  } = preparedRequest;
+  let { originalAuthError } = preparedRequest;
+  const { rawResponse } = options;
+
   let data: any;
   if (rawResponse) {
     data = response;
   } else {
-    switch (params.f) {
-      case "json":
-        data = await response.json();
-        break;
-      case "geojson":
-        data = await response.json();
-        break;
-      case "html":
-        data = await response.text();
-        break;
-      case "text":
-        data = await response.text();
-        break;
-      /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust that isomorphic fetch will do its job */
-      default:
-        data = await response.blob();
-        break;
-    }
+    data = await parseResponseByFormat(response, params.f);
   }
 
   // Check for an error in the JSON body of a successful response.
@@ -526,7 +574,7 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
 
     // If this was a portal/self call, and we got authorizedNoCorsDomains back
     // register them
-    if (data && /\/sharing\/rest\/(accounts|portals)\/self/i.test(url)) {
+    if (data && /\/sharing\/rest\/(accounts|portals)\/self/i.test(finalUrl)) {
       // if we have a list of no-cors domains, register them
       if (Array.isArray(data.authorizedCrossOriginNoCorsDomains)) {
         registerNoCorsDomains(data.authorizedCrossOriginNoCorsDomains);
@@ -538,7 +586,7 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
       didn't require authentication, add the base url and a dummy token
       to the list of trusted servers to avoid another federation check
       in the event of a repeat request */
-      const truncatedUrl: string = url
+      const truncatedUrl: string = finalUrl
         .toLowerCase()
         .split(/\/rest(\/admin)?\/services\//)[0];
 
@@ -553,6 +601,22 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
   }
 
   return data;
+}
+
+/**
+ * Generic method for making HTTP requests to ArcGIS REST API endpoints and returning
+ * the native [response](https://developer.mozilla.org/en-US/docs/Web/API/Response).
+ *
+ * @param url - The URL of the ArcGIS REST API endpoint.
+ * @param requestOptions - Options for the request, including parameters relevant to the endpoint.
+ * @returns A Promise that will resolve with the native response.
+ */
+export async function rawRequest(
+  url: string,
+  requestOptions: IRequestOptions = { params: { f: "json" } }
+): Promise<Response> {
+  const { response } = await executeRequest(url, requestOptions);
+  return response;
 }
 
 /**
