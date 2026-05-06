@@ -285,7 +285,7 @@ function applyPlatformSelfCredentials(
 }
 
 async function executeRequest(
-  requestUrl: string,
+  url: string,
   requestOptions: IRequestOptions
 ): Promise<{
   response: Response;
@@ -314,35 +314,35 @@ async function executeRequest(
   };
 
   // Is this a no-cors domain? if so we need to set credentials to include
-  if (isNoCorsDomain(requestUrl)) {
+  if (isNoCorsDomain(url)) {
     fetchOptions.credentials = "include";
   }
 
-  applyPlatformSelfCredentials(requestUrl, options.headers, fetchOptions);
+  applyPlatformSelfCredentials(url, options.headers, fetchOptions);
 
   const authentication = resolveAuthentication(options);
 
   // for errors in GET requests we want the URL passed to the error to be the URL before
   // query params are applied.
-  const originalUrl = requestUrl;
+  const originalUrl = url;
 
   // default to false, for nodejs
   let sameOrigin = false;
   // if we are in a browser, check if the url is same origin
   /* istanbul ignore else -- @preserve */
   if (typeof window !== "undefined") {
-    sameOrigin = isSameOrigin(requestUrl);
+    sameOrigin = isSameOrigin(url);
   }
-  const requiresNoCors = !sameOrigin && isNoCorsRequestRequired(requestUrl);
+  const requiresNoCors = !sameOrigin && isNoCorsRequestRequired(url);
 
-  applyPlatformSelfCredentials(requestUrl, options.headers, fetchOptions);
+  applyPlatformSelfCredentials(url, options.headers, fetchOptions);
 
   // Simple first promise that we may turn into the no-cors request
   let firstPromise = Promise.resolve();
   if (requiresNoCors) {
     // ensure we send cookies on the request after
     fetchOptions.credentials = "include";
-    firstPromise = sendNoCorsRequest(requestUrl);
+    firstPromise = sendNoCorsRequest(url);
   }
 
   await firstPromise;
@@ -350,14 +350,14 @@ async function executeRequest(
   let token = "";
   if (authentication) {
     try {
-      token = await authentication.getToken(requestUrl);
+      token = await authentication.getToken(url);
     } catch (err: any) {
       /**
        * append original request url and requestOptions
        * to the error thrown by getToken()
        * to assist with retrying
        */
-      err.url = requestUrl;
+      err.url = url;
       err.options = options;
       /**
        * if an attempt is made to talk to an unfederated server
@@ -374,7 +374,7 @@ async function executeRequest(
   }
 
   if (authentication && authentication.getDomainCredentials) {
-    fetchOptions.credentials = authentication.getDomainCredentials(requestUrl);
+    fetchOptions.credentials = authentication.getDomainCredentials(url);
   }
 
   // Custom headers to add to request. IRequestOptions.headers with merge over requestHeaders.
@@ -400,8 +400,8 @@ async function executeRequest(
     const urlWithQueryString =
       queryParams === ""
         ? /* istanbul ignore next -- @preserve */
-          requestUrl
-        : `${requestUrl}?${queryParams}`;
+          url
+        : `${url}?${queryParams}`;
 
     if (
       // This would exceed the maximum length for URLs by 2000 as default or as specified by the consumer and requires POST
@@ -423,16 +423,14 @@ async function executeRequest(
       }
     } else {
       // just use GET
-      requestUrl = urlWithQueryString;
+      url = urlWithQueryString;
     }
   }
 
   /* updateResources currently requires FormData even when the input parameters dont warrant it.
 https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
     see https://github.com/Esri/arcgis-rest-js/pull/500 for more info. */
-  const forceFormData = new RegExp("/items/.+/updateResources").test(
-    requestUrl
-  );
+  const forceFormData = new RegExp("/items/.+/updateResources").test(url);
 
   if (fetchOptions.method === "POST") {
     fetchOptions.body = encodeFormData(params, forceFormData) as any;
@@ -461,7 +459,7 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
       "application/x-www-form-urlencoded";
   }
 
-  const response: any = await globalThis.fetch(requestUrl, fetchOptions);
+  const response: any = await globalThis.fetch(url, fetchOptions);
 
   // the request got back an error status code (4xx, 5xx)
   if (!response.ok) {
@@ -480,7 +478,7 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
         formattedMessage,
         `HTTP ${status} ${statusText}`,
         jsonError,
-        requestUrl,
+        url,
         options
       );
     } catch (e: any) {
@@ -495,7 +493,7 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
         statusText,
         `HTTP ${status}`,
         response,
-        requestUrl,
+        url,
         options
       );
     }
@@ -503,7 +501,7 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
 
   return {
     response,
-    url: requestUrl,
+    url,
     originalUrl,
     options,
     params,
