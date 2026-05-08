@@ -205,7 +205,7 @@ export function checkForErrors(
   return response;
 }
 
-function resolveRequestOptions(
+function normalizeRequestOptions(
   requestOptions: IRequestOptions
 ): IRequestOptions {
   warnOnDeprecatedRequestOptions(requestOptions);
@@ -228,7 +228,7 @@ function resolveRequestOptions(
   };
 }
 
-function resolveAuthentication(
+function resolveAuthenticationManager(
   options: IRequestOptions
 ): IAuthenticationManager {
   let authentication: IAuthenticationManager;
@@ -295,7 +295,7 @@ async function executeRequest(
   params: IParams;
   originalAuthError: ArcGISAuthError;
 }> {
-  const options = resolveRequestOptions(requestOptions);
+  const options = normalizeRequestOptions(requestOptions);
   const { httpMethod } = options;
 
   const params: IParams = {
@@ -320,7 +320,7 @@ async function executeRequest(
 
   applyPlatformSelfCredentials(url, options.headers, fetchOptions);
 
-  const authentication = resolveAuthentication(options);
+  const authentication = resolveAuthenticationManager(options);
 
   // for errors in GET requests we want the URL passed to the error to be the URL before
   // query params are applied.
@@ -561,7 +561,7 @@ export async function internalRequest(
 
   // Check for an error in the JSON body of a successful response.
   // Most ArcGIS Server services will return a successful status code but include an error in the response body.
-  if ((params.f === "json" || params.f === "geojson") && !rawResponse) {
+  if (!rawResponse && (params.f === "json" || params.f === "geojson")) {
     const parsedResponse = checkForErrors(
       data,
       originalUrl,
