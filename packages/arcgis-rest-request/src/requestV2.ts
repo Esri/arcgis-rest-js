@@ -509,25 +509,6 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
   };
 }
 
-async function parseResponseByFormat(
-  response: Response,
-  format: any
-): Promise<any> {
-  switch (format) {
-    case "json":
-      return response.json();
-    case "geojson":
-      return response.json();
-    case "html":
-      return response.text();
-    case "text":
-      return response.text();
-    /* istanbul ignore next blob responses are difficult to make cross platform we will just have to trust that isomorphic fetch will do its job */
-    default:
-      return response.blob();
-  }
-}
-
 /**
  * This is the internal implementation of `request` without the automatic retry behavior to prevent
  * infinite loops when a server continues to return invalid token errors.
@@ -541,6 +522,19 @@ export async function internalRequest(
   url: string,
   requestOptions: IRequestOptions
 ): Promise<any> {
+  // -----------------------------
+  // we want to only support json f parameter json for this so we must override the f parameter to json unconditionally.
+  // we should warn users f params will be ignored.
+  if (requestOptions?.params?.f && requestOptions.params.f !== "json") {
+    console.warn(
+      `The 'f' parameter is not supported in request to 'json'. Provided value '${requestOptions.params.f}' will be defaulted to 'json'.`
+    );
+  }
+  requestOptions.params = {
+    ...requestOptions.params,
+    ...{ f: "json" }
+  };
+  // -----------------------------
   const preparedRequest = await executeRequest(url, requestOptions);
   const {
     response,
@@ -550,55 +544,39 @@ export async function internalRequest(
     url: finalUrl
   } = preparedRequest;
   let { originalAuthError } = preparedRequest;
-  const { rawResponse } = options;
 
-  let data: any;
-  if (rawResponse) {
-    data = response;
-  } else {
-    data = await parseResponseByFormat(response, params.f);
-  }
+  const json = await response.json();
 
   // Check for an error in the JSON body of a successful response.
   // Most ArcGIS Server services will return a successful status code but include an error in the response body.
-  if (!rawResponse && (params.f === "json" || params.f === "geojson")) {
-    const parsedResponse = checkForErrors(
-      data,
-      originalUrl,
-      params,
-      options,
-      originalAuthError
-    );
+  checkForErrors(json, originalUrl, params, options, originalAuthError);
 
-    // If this was a portal/self call, and we got authorizedNoCorsDomains back
-    // register them
-    if (data && /\/sharing\/rest\/(accounts|portals)\/self/i.test(finalUrl)) {
-      // if we have a list of no-cors domains, register them
-      if (Array.isArray(data.authorizedCrossOriginNoCorsDomains)) {
-        registerNoCorsDomains(data.authorizedCrossOriginNoCorsDomains);
-      }
+  // If this was a portal/self call, and we got authorizedNoCorsDomains back
+  // register them
+  if (json && /\/sharing\/rest\/(accounts|portals)\/self/i.test(finalUrl)) {
+    // if we have a list of no-cors domains, register them
+    if (Array.isArray(json.authorizedCrossOriginNoCorsDomains)) {
+      registerNoCorsDomains(json.authorizedCrossOriginNoCorsDomains);
     }
-
-    if (originalAuthError) {
-      /* If the request was made to an unfederated service that
-      didn't require authentication, add the base url and a dummy token
-      to the list of trusted servers to avoid another federation check
-      in the event of a repeat request */
-      const truncatedUrl: string = finalUrl
-        .toLowerCase()
-        .split(/\/rest(\/admin)?\/services\//)[0];
-
-      (options.authentication as any).federatedServers[truncatedUrl] = {
-        token: [],
-        // default to 24 hours
-        expires: new Date(Date.now() + 86400 * 1000)
-      };
-      originalAuthError = null;
-    }
-    return parsedResponse;
   }
 
-  return data;
+  if (originalAuthError) {
+    /* If the request was made to an unfederated service that
+    didn't require authentication, add the base url and a dummy token
+    to the list of trusted servers to avoid another federation check
+    in the event of a repeat request */
+    const truncatedUrl: string = finalUrl
+      .toLowerCase()
+      .split(/\/rest(\/admin)?\/services\//)[0];
+
+    (options.authentication as any).federatedServers[truncatedUrl] = {
+      token: [],
+      // default to 24 hours
+      expires: new Date(Date.now() + 86400 * 1000)
+    };
+    originalAuthError = null;
+  }
+  return json;
 }
 
 /**
