@@ -161,7 +161,6 @@ export class ArcGISAuthError extends ArcGISRequestError {
 export function checkForErrors(
   response: any,
   url?: string,
-  params?: IParams,
   options?: IRequestOptions,
   originalAuthError?: ArcGISAuthError
 ): any {
@@ -549,7 +548,7 @@ export async function internalRequest(
 
   // Check for an error in the JSON body of a successful response.
   // Most ArcGIS Server services will return a successful status code but include an error in the response body.
-  checkForErrors(json, originalUrl, params, options, originalAuthError);
+  checkForErrors(json, originalUrl, options, originalAuthError);
 
   // If this was a portal/self call, and we got authorizedNoCorsDomains back
   // register them
