@@ -520,7 +520,7 @@ export async function internalRequest(
   requestOptions: IRequestOptions
 ): Promise<any> {
   // -----------------------------
-  // we want to only support json f parameter json for this so we must override the f parameter to json unconditionally.
+  // we want to only support json responses for request so we must override the f parameter to json if it is not json or geojson.
   // we should warn users f params will be ignored.
   if (
     requestOptions?.params?.f &&
@@ -528,14 +528,13 @@ export async function internalRequest(
     requestOptions.params.f !== "geojson"
   ) {
     console.warn(
-      `The 'f' parameter is not supported in request to 'json'. Provided value '${requestOptions.params.f}' 
-      will be defaulted to 'json'. Use 'rawRequest()' to use special 'f' parameter values.`
+      `The 'f' parameter is not supported in request to 'json'. Provided value '${requestOptions.params.f}' will be defaulted to 'json'. Use 'rawRequest()' to support special 'f' parameter values.`
     );
+    requestOptions.params = {
+      ...requestOptions.params,
+      ...{ f: "json" }
+    };
   }
-  requestOptions.params = {
-    ...requestOptions.params,
-    ...{ f: "json" }
-  };
   // -----------------------------
   const preparedRequest = await executeRequest(url, requestOptions);
   const {
