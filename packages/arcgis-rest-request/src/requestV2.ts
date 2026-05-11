@@ -291,7 +291,6 @@ async function executeRequest(
   url: string;
   originalUrl: string;
   options: IRequestOptions;
-  params: IParams;
   originalAuthError: ArcGISAuthError;
 }> {
   const options = normalizeRequestOptions(requestOptions);
@@ -503,7 +502,6 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
     url,
     originalUrl,
     options,
-    params,
     originalAuthError
   };
 }
@@ -524,9 +522,14 @@ export async function internalRequest(
   // -----------------------------
   // we want to only support json f parameter json for this so we must override the f parameter to json unconditionally.
   // we should warn users f params will be ignored.
-  if (requestOptions?.params?.f && requestOptions.params.f !== "json") {
+  if (
+    requestOptions?.params?.f &&
+    requestOptions.params.f !== "json" &&
+    requestOptions.params.f !== "geojson"
+  ) {
     console.warn(
-      `The 'f' parameter is not supported in request to 'json'. Provided value '${requestOptions.params.f}' will be defaulted to 'json'.`
+      `The 'f' parameter is not supported in request to 'json'. Provided value '${requestOptions.params.f}' 
+      will be defaulted to 'json'. Use 'rawRequest()' to use special 'f' parameter values.`
     );
   }
   requestOptions.params = {
@@ -538,11 +541,10 @@ export async function internalRequest(
   const {
     response,
     options,
-    params,
     originalUrl,
-    url: finalUrl
+    url: finalUrl,
+    originalAuthError
   } = preparedRequest;
-  let { originalAuthError } = preparedRequest;
 
   const json = await response.json();
 
@@ -573,7 +575,6 @@ export async function internalRequest(
       // default to 24 hours
       expires: new Date(Date.now() + 86400 * 1000)
     };
-    originalAuthError = null;
   }
   return json;
 }
