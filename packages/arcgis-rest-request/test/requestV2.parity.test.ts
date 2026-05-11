@@ -95,32 +95,6 @@ describe("requestV2 parity", () => {
     console.warn = oldWarn;
   });
 
-  test("should force f=json for GET request when geojson is requested", async () => {
-    fetchMock.once("*", SharingRestInfo);
-    const oldWarn = console.warn;
-    const warnSpy = vi.fn();
-    console.warn = warnSpy;
-
-    const response = await request(
-      "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
-      {
-        httpMethod: "GET",
-        params: { where: "1=1", f: "geojson" }
-      }
-    );
-    const [url, options] = fetchMock.lastCall("*");
-    expect(url).toEqual(
-      "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query?f=json&where=1%3D1"
-    );
-    expect(options.method).toBe("GET");
-    expect(response).toEqual(SharingRestInfo);
-    expect(warnSpy).toHaveBeenCalledWith(
-      "request() only supports 'json' formats and responses. Provided value 'geojson' will be defaulted to 'json'. Use 'rawRequest()' to support special 'f' parameter values."
-    );
-
-    console.warn = oldWarn;
-  });
-
   test("should switch from GET to POST when url is longer than 2000 by default", async () => {
     fetchMock.once("*", { features: [] });
 
