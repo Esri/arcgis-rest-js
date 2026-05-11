@@ -68,7 +68,7 @@ describe("requestV2 parity", () => {
     expect(options.method).toBe("GET");
     expect(response).toEqual(SharingRestInfo);
     expect(warnSpy).toHaveBeenCalledWith(
-      "The 'f' parameter is not supported in request to 'json'. Provided value 'text' will be defaulted to 'json'."
+      "request() only supports 'json' formats and responses. Provided value 'text' will be defaulted to 'json'. Use 'rawRequest()' to support special 'f' parameter values."
     );
 
     console.warn = oldWarn;
@@ -89,7 +89,7 @@ describe("requestV2 parity", () => {
     expect(options.method).toBe("GET");
     expect(response).toEqual(SharingRestInfo);
     expect(warnSpy).toHaveBeenCalledWith(
-      "The 'f' parameter is not supported in request to 'json'. Provided value 'html' will be defaulted to 'json'."
+      "request() only supports 'json' formats and responses. Provided value 'html' will be defaulted to 'json'. Use 'rawRequest()' to support special 'f' parameter values."
     );
 
     console.warn = oldWarn;
@@ -115,7 +115,7 @@ describe("requestV2 parity", () => {
     expect(options.method).toBe("GET");
     expect(response).toEqual(SharingRestInfo);
     expect(warnSpy).toHaveBeenCalledWith(
-      "The 'f' parameter is not supported in request to 'json'. Provided value 'geojson' will be defaulted to 'json'."
+      "request() only supports 'json' formats and responses. Provided value 'geojson' will be defaulted to 'json'. Use 'rawRequest()' to support special 'f' parameter values."
     );
 
     console.warn = oldWarn;

@@ -528,7 +528,7 @@ export async function internalRequest(
     requestOptions.params.f !== "geojson"
   ) {
     console.warn(
-      `The 'f' parameter is not supported in request to 'json'. Provided value '${requestOptions.params.f}' will be defaulted to 'json'. Use 'rawRequest()' to support special 'f' parameter values.`
+      `request() only supports 'json' formats and responses. Provided value '${requestOptions.params.f}' will be defaulted to 'json'. Use 'rawRequest()' to support special 'f' parameter values.`
     );
     requestOptions.params = {
       ...requestOptions.params,
