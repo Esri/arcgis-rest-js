@@ -303,7 +303,6 @@ async function executeRequest(
   originalAuthError: ArcGISAuthError;
 }> {
   const options = normalizeRequestOptions(requestOptions);
-  const providedFetchOptions = options.fetchOptions || {};
 
   const params: IParams = {
     ...{ f: "json" },
@@ -313,12 +312,12 @@ async function executeRequest(
   let originalAuthError: ArcGISAuthError = null;
 
   const fetchOptions: RequestInit = {
-    ...providedFetchOptions,
-    method: providedFetchOptions.method || "POST",
-    signal: providedFetchOptions.signal,
+    ...(options.fetchOptions || {}),
+    method: options.fetchOptions?.method || "POST",
+    signal: options.fetchOptions?.signal,
     /* ensures behavior mimics XMLHttpRequest.
     needed to support sending IWA cookies */
-    credentials: providedFetchOptions.credentials || "same-origin"
+    credentials: options.fetchOptions?.credentials || "same-origin"
   };
 
   // Is this a no-cors domain? if so we need to set credentials to include
@@ -444,10 +443,9 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
   }
 
   // Mixin headers from request options
-  const existingHeaders = (fetchOptions.headers || {}) as any;
   fetchOptions.headers = {
     ...requestHeaders,
-    ...existingHeaders
+    ...(fetchOptions.headers as any)
   };
 
   // This should have the same conditional for Node JS as ArcGISIdentityManager.refreshWithUsernameAndPassword()
