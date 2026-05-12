@@ -209,19 +209,30 @@ function normalizeRequestOptions(
 ): IRequestOptions {
   warnOnDeprecatedRequestOptions(requestOptions);
 
+  // Placeholder: this is the single entry point where deprecated request
+  // option shapes will be transformed to the v2 IRequestOptions shape.
+  const normalizedRequestOptions = requestOptions;
   const defaults = getDefaultRequestOptions();
+
   return {
-    ...{ httpMethod: "POST" },
     ...defaults,
-    ...requestOptions,
+    ...normalizedRequestOptions,
     ...{
       params: {
         ...defaults.params,
-        ...requestOptions.params
+        ...normalizedRequestOptions.params
       },
-      headers: {
-        ...defaults.headers,
-        ...requestOptions.headers
+      requestFlags: {
+        ...defaults.requestFlags,
+        ...normalizedRequestOptions.requestFlags
+      },
+      fetchOptions: {
+        ...defaults.fetchOptions,
+        ...normalizedRequestOptions.fetchOptions,
+        headers: {
+          ...(defaults.fetchOptions?.headers as any),
+          ...(normalizedRequestOptions.fetchOptions?.headers as any)
+        }
       }
     }
   };
@@ -250,7 +261,7 @@ function resolveAuthenticationManager(
       !options.authentication.startsWith("AAPT") &&
       !options.authentication.startsWith("AATK") && // doesn't look like an API Key
       !options.authentication.startsWith("AAST") && // doesn't look like a session token
-      !options.suppressWarnings && // user doesn't want to suppress warnings for this request
+      !options.requestFlags?.suppressWarnings && // user doesn't want to suppress warnings for this request
       !(globalThis as any).ARCGIS_REST_JS_SUPPRESS_TOKEN_WARNING // we haven't shown the user this warning yet
     ) {
       warn(
@@ -266,11 +277,9 @@ function resolveAuthenticationManager(
   return authentication;
 }
 
-function applyPlatformSelfCredentials(
-  url: string,
-  headers: { [key: string]: any },
-  fetchOptions: RequestInit
-) {
+function applyPlatformSelfCredentials(url: string, fetchOptions: RequestInit) {
+  const headers = (fetchOptions.headers as any) || {};
+
   // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
   // and that request needs to send cookies cross domain
   // so we need to set the credentials to "include"
@@ -294,7 +303,7 @@ async function executeRequest(
   originalAuthError: ArcGISAuthError;
 }> {
   const options = normalizeRequestOptions(requestOptions);
-  const { httpMethod } = options;
+  const providedFetchOptions = options.fetchOptions || {};
 
   const params: IParams = {
     ...{ f: "json" },
@@ -304,11 +313,12 @@ async function executeRequest(
   let originalAuthError: ArcGISAuthError = null;
 
   const fetchOptions: RequestInit = {
-    method: httpMethod,
-    signal: options.signal,
+    ...providedFetchOptions,
+    method: providedFetchOptions.method || "POST",
+    signal: providedFetchOptions.signal,
     /* ensures behavior mimics XMLHttpRequest.
     needed to support sending IWA cookies */
-    credentials: options.credentials || "same-origin"
+    credentials: providedFetchOptions.credentials || "same-origin"
   };
 
   // Is this a no-cors domain? if so we need to set credentials to include
@@ -316,7 +326,7 @@ async function executeRequest(
     fetchOptions.credentials = "include";
   }
 
-  applyPlatformSelfCredentials(url, options.headers, fetchOptions);
+  applyPlatformSelfCredentials(url, fetchOptions);
 
   const authentication = resolveAuthenticationManager(options);
 
@@ -333,7 +343,7 @@ async function executeRequest(
   }
   const requiresNoCors = !sameOrigin && isNoCorsRequestRequired(url);
 
-  applyPlatformSelfCredentials(url, options.headers, fetchOptions);
+  applyPlatformSelfCredentials(url, fetchOptions);
 
   // Simple first promise that we may turn into the no-cors request
   let firstPromise = Promise.resolve();
@@ -363,7 +373,6 @@ async function executeRequest(
        * error is thrown, throw the UNFEDERATED error then.
        */
       originalAuthError = err;
-      token = "";
     }
   }
 
@@ -375,7 +384,8 @@ async function executeRequest(
     fetchOptions.credentials = authentication.getDomainCredentials(url);
   }
 
-  // Custom headers to add to request. IRequestOptions.headers with merge over requestHeaders.
+  // Custom headers to add to request. IRequestOptions.fetchOptions.headers
+  // will merge over these request headers.
   const requestHeaders: {
     [key: string]: any;
   } = {};
@@ -385,7 +395,7 @@ async function executeRequest(
     /* istanbul ignore if --@preserve - window is always defined in a browser. Test case is covered by Jasmine in node test */
     if (
       params.token &&
-      options.hideToken &&
+      options.requestFlags?.hideToken &&
       // Sharing API does not support preflight check required by modern browsers https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
       typeof window === "undefined"
     ) {
@@ -402,19 +412,18 @@ async function executeRequest(
         : `${url}?${queryParams}`;
 
     if (
-      // This would exceed the maximum length for URLs by 2000 as default or as specified by the consumer and requires POST
-      (options.maxUrlLength &&
-        urlWithQueryString.length > options.maxUrlLength) ||
-      (!options.maxUrlLength && urlWithQueryString.length > 2000) ||
+      // This would exceed the default maximum URL length and requires POST,
+      // unless the consumer explicitly opts out of this behavior.
+      (!options.requestFlags?.ignoreMaxUrlLength &&
+        urlWithQueryString.length > 2000) ||
       // Or if the customer requires the token to be hidden and it has not already been hidden in the header (for browsers)
-      (params.token && options.hideToken)
+      (params.token && options.requestFlags?.hideToken)
     ) {
-      // the consumer specified a maximum length for URLs
-      // and this would exceed it, so use post instead
+      // The request exceeds default URL length handling, so use POST.
       fetchOptions.method = "POST";
 
       // If the token was already added as a Auth header, add the token back to body with other params instead of header
-      if (token.length && options.hideToken) {
+      if (token.length && options.requestFlags?.hideToken) {
         params.token = token;
         // Remove existing header that was added before url query length was checked
         delete requestHeaders["X-Esri-Authorization"];
@@ -435,9 +444,10 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
   }
 
   // Mixin headers from request options
+  const existingHeaders = (fetchOptions.headers || {}) as any;
   fetchOptions.headers = {
     ...requestHeaders,
-    ...options.headers
+    ...existingHeaders
   };
 
   // This should have the same conditional for Node JS as ArcGISIdentityManager.refreshWithUsernameAndPassword()
