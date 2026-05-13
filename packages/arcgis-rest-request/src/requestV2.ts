@@ -238,7 +238,7 @@ function normalizeRequestOptions(
   };
 }
 
-function resolveAuthenticationManager(
+function buildAuthenticationManager(
   options: IRequestOptions
 ): IAuthenticationManager {
   let authentication: IAuthenticationManager;
@@ -277,21 +277,6 @@ function resolveAuthenticationManager(
   return authentication;
 }
 
-function applyPlatformSelfCredentials(url: string, fetchOptions: RequestInit) {
-  const headers = (fetchOptions.headers as any) || {};
-
-  // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
-  // and that request needs to send cookies cross domain
-  // so we need to set the credentials to "include"
-  if (
-    headers &&
-    headers["X-Esri-Auth-Client-Id"] &&
-    url.indexOf("/oauth2/platformSelf") > -1
-  ) {
-    fetchOptions.credentials = "include";
-  }
-}
-
 async function executeRequest(
   url: string,
   requestOptions: IRequestOptions
@@ -309,25 +294,35 @@ async function executeRequest(
     ...options.params
   };
 
-  let originalAuthError: ArcGISAuthError = null;
+  const requestFlags = options.requestFlags || {};
 
   const fetchOptions: RequestInit = {
-    ...(options.fetchOptions || {}),
+    ...options.fetchOptions,
     method: options.fetchOptions?.method || "POST",
-    signal: options.fetchOptions?.signal,
     /* ensures behavior mimics XMLHttpRequest.
     needed to support sending IWA cookies */
     credentials: options.fetchOptions?.credentials || "same-origin"
   };
+
+  let originalAuthError: ArcGISAuthError = null;
 
   // Is this a no-cors domain? if so we need to set credentials to include
   if (isNoCorsDomain(url)) {
     fetchOptions.credentials = "include";
   }
 
-  applyPlatformSelfCredentials(url, fetchOptions);
+  // the /oauth2/platformSelf route will add X-Esri-Auth-Client-Id header
+  // and that request needs to send cookies cross domain
+  // so we need to set the credentials to "include"
+  if (
+    fetchOptions.headers &&
+    (fetchOptions.headers as any)["X-Esri-Auth-Client-Id"] &&
+    url.indexOf("/oauth2/platformSelf") > -1
+  ) {
+    fetchOptions.credentials = "include";
+  }
 
-  const authentication = resolveAuthenticationManager(options);
+  const authentication = buildAuthenticationManager(options);
 
   // for errors in GET requests we want the URL passed to the error to be the URL before
   // query params are applied.
@@ -342,17 +337,12 @@ async function executeRequest(
   }
   const requiresNoCors = !sameOrigin && isNoCorsRequestRequired(url);
 
-  applyPlatformSelfCredentials(url, fetchOptions);
-
   // Simple first promise that we may turn into the no-cors request
-  let firstPromise = Promise.resolve();
   if (requiresNoCors) {
     // ensure we send cookies on the request after
     fetchOptions.credentials = "include";
-    firstPromise = sendNoCorsRequest(url);
+    await sendNoCorsRequest(url);
   }
-
-  await firstPromise;
 
   let token = "";
   if (authentication) {
@@ -394,7 +384,7 @@ async function executeRequest(
     /* istanbul ignore if --@preserve - window is always defined in a browser. Test case is covered by Jasmine in node test */
     if (
       params.token &&
-      options.requestFlags?.hideToken &&
+      requestFlags.hideToken &&
       // Sharing API does not support preflight check required by modern browsers https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
       typeof window === "undefined"
     ) {
@@ -413,16 +403,15 @@ async function executeRequest(
     if (
       // This would exceed the default maximum URL length and requires POST,
       // unless the consumer explicitly opts out of this behavior.
-      (!options.requestFlags?.ignoreMaxUrlLength &&
-        urlWithQueryString.length > 2000) ||
+      (!requestFlags.ignoreMaxUrlLength && urlWithQueryString.length > 2000) ||
       // Or if the customer requires the token to be hidden and it has not already been hidden in the header (for browsers)
-      (params.token && options.requestFlags?.hideToken)
+      (params.token && requestFlags.hideToken)
     ) {
       // The request exceeds default URL length handling, so use POST.
       fetchOptions.method = "POST";
 
       // If the token was already added as a Auth header, add the token back to body with other params instead of header
-      if (token.length && options.requestFlags?.hideToken) {
+      if (token.length && requestFlags.hideToken) {
         params.token = token;
         // Remove existing header that was added before url query length was checked
         delete requestHeaders["X-Esri-Authorization"];
