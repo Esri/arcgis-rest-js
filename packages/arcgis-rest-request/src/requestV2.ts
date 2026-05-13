@@ -533,14 +533,13 @@ export async function internalRequest(
     };
   }
   // -----------------------------
-  const preparedRequest = await executeRequest(url, requestOptions);
   const {
     response,
     options,
     originalUrl,
     url: finalUrl,
     originalAuthError
-  } = preparedRequest;
+  } = await executeRequest(url, requestOptions);
 
   const json = await response.json();
 
