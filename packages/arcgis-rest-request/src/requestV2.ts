@@ -586,23 +586,8 @@ export async function rawRequest(
   url: string,
   requestOptions: IRequestOptions = { params: { f: "json" } }
 ): Promise<Response> {
-  try {
-    const { response } = await executeRequest(url, requestOptions);
-    return response;
-  } catch (e: any) {
-    if (
-      e instanceof ArcGISAuthError &&
-      requestOptions.authentication &&
-      typeof requestOptions.authentication !== "string" &&
-      requestOptions.authentication.canRefresh &&
-      requestOptions.authentication.refreshCredentials
-    ) {
-      return e.retry(() => {
-        return (requestOptions.authentication as any).refreshCredentials();
-      }, 1);
-    }
-    throw e;
-  }
+  const { response } = await executeRequest(url, requestOptions);
+  return response;
 }
 
 /**
