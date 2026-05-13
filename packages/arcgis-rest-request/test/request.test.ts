@@ -366,6 +366,51 @@ describe("request()", () => {
     expect(raw).toEqual(GeoJSONFeatureCollection);
   });
 
+  test("should warn when rawResponse is used without suppressWarnings", async () => {
+    const oldWarn = console.warn;
+    const warnSpy = vi.fn();
+    console.warn = warnSpy;
+
+    fetchMock.once("*", GeoJSONFeatureCollection);
+
+    await request(
+      "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
+      {
+        httpMethod: "GET",
+        params: { where: "1=1", f: "geojson" },
+        rawResponse: true
+      }
+    );
+
+    expect(warnSpy).toHaveBeenCalledWith(
+      "rawResponse option is deprecated and will be removed in ArcGIS REST JS v5.0."
+    );
+
+    console.warn = oldWarn;
+  });
+
+  test("should not warn when rawResponse is used with suppressWarnings", async () => {
+    const oldWarn = console.warn;
+    const warnSpy = vi.fn();
+    console.warn = warnSpy;
+
+    fetchMock.once("*", GeoJSONFeatureCollection);
+
+    await request(
+      "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
+      {
+        httpMethod: "GET",
+        params: { where: "1=1", f: "geojson" },
+        rawResponse: true,
+        suppressWarnings: true
+      }
+    );
+
+    expect(warnSpy).not.toHaveBeenCalled();
+
+    console.warn = oldWarn;
+  });
+
   test("should allow setting defaults for all requests", async () => {
     fetchMock.once("*", SharingRestInfo);
 
