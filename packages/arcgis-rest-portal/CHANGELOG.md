@@ -1,5 +1,7 @@
 # @esri/arcgis-rest-portal Changelog
 
+## 4.10.3
+
 ## 4.10.2
 
 ### Patch Changes
