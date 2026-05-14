@@ -241,40 +241,31 @@ function normalizeRequestOptions(
 function buildAuthenticationManager(
   options: IRequestOptions
 ): IAuthenticationManager {
-  let authentication: IAuthenticationManager;
-
-  // Check to see if this is a raw token as a string and create a IAuthenticationManager like object for it.
-  // Otherwise this just assumes that options.authentication is an IAuthenticationManager.
-  if (typeof options.authentication === "string") {
-    const rawToken = options.authentication;
-
-    authentication = {
-      portal: "https://www.arcgis.com/sharing/rest",
-      getToken: () => {
-        return Promise.resolve(rawToken);
-      }
-    };
-
-    /* istanbul ignore else -- @preserve : we don't need to test NOT warning people */
-    if (
-      !options.authentication.startsWith("AAPK") &&
-      !options.authentication.startsWith("AAPT") &&
-      !options.authentication.startsWith("AATK") && // doesn't look like an API Key
-      !options.authentication.startsWith("AAST") && // doesn't look like a session token
-      !options.requestFlags?.suppressWarnings && // user doesn't want to suppress warnings for this request
-      !(globalThis as any).ARCGIS_REST_JS_SUPPRESS_TOKEN_WARNING // we haven't shown the user this warning yet
-    ) {
-      warn(
-        `Using an oAuth 2.0 access token directly in the token option is discouraged. Consider using ArcGISIdentityManager or Application session. See https://esriurl.com/arcgis-rest-js-direct-token-warning for more information.`
-      );
-
-      (globalThis as any).ARCGIS_REST_JS_SUPPRESS_TOKEN_WARNING = true;
-    }
-  } else {
-    authentication = options.authentication;
+  if (typeof options.authentication !== "string") {
+    return options.authentication;
   }
 
-  return authentication;
+  const rawToken = options.authentication;
+
+  /* istanbul ignore else -- @preserve : we don't need to test NOT warning people */
+  if (
+    !rawToken.startsWith("AAPK") &&
+    !rawToken.startsWith("AAPT") &&
+    !rawToken.startsWith("AATK") &&
+    !rawToken.startsWith("AAST") &&
+    !options.requestFlags?.suppressWarnings &&
+    !(globalThis as any).ARCGIS_REST_JS_SUPPRESS_TOKEN_WARNING
+  ) {
+    warn(
+      `Using an oAuth 2.0 access token directly in the token option is discouraged. Consider using ArcGISIdentityManager or Application session. See https://esriurl.com/arcgis-rest-js-direct-token-warning for more information.`
+    );
+    (globalThis as any).ARCGIS_REST_JS_SUPPRESS_TOKEN_WARNING = true;
+  }
+
+  return {
+    portal: "https://www.arcgis.com/sharing/rest",
+    getToken: () => Promise.resolve(rawToken)
+  };
 }
 
 async function executeRequest(
