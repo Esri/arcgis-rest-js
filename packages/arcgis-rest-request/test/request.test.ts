@@ -366,6 +366,51 @@ describe("request()", () => {
     expect(raw).toEqual(GeoJSONFeatureCollection);
   });
 
+  test("should warn when rawResponse is used without suppressWarnings", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    fetchMock.once("*", GeoJSONFeatureCollection);
+
+    try {
+      await request(
+        "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
+        {
+          httpMethod: "GET",
+          params: { where: "1=1", f: "geojson" },
+          rawResponse: true
+        }
+      );
+
+      expect(warnSpy).toHaveBeenCalledWith(
+        "rawResponse option is deprecated and will be removed in ArcGIS REST JS v5.0."
+      );
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
+  test("should not warn when rawResponse is used with suppressWarnings", async () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    fetchMock.once("*", GeoJSONFeatureCollection);
+
+    try {
+      await request(
+        "https://services1.arcgis.com/ORG/arcgis/rest/services/FEATURE_SERVICE/FeatureServer/0/query",
+        {
+          httpMethod: "GET",
+          params: { where: "1=1", f: "geojson" },
+          rawResponse: true,
+          suppressWarnings: true
+        }
+      );
+
+      expect(warnSpy).not.toHaveBeenCalled();
+    } finally {
+      warnSpy.mockRestore();
+    }
+  });
+
   test("should allow setting defaults for all requests", async () => {
     fetchMock.once("*", SharingRestInfo);
 
@@ -391,6 +436,34 @@ describe("request()", () => {
       }
       // fetch,
     });
+  });
+
+  test("should warn when setDefaultRequestOptions is used without suppressWarnings", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    setDefaultRequestOptions({
+      headers: {
+        "Test-Header": "Test"
+      }
+    });
+
+    expect(warnSpy).toHaveBeenCalledWith(
+      "setDefaultRequestOptions() is deprecated. This will be removed in ArcGIS REST JS v5.0."
+    );
+
+    warnSpy.mockRestore();
+  });
+
+  test("should not warn when setDefaultRequestOptions is used with suppressWarnings", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    setDefaultRequestOptions({
+      headers: {
+        "Test-Header": "Test"
+      },
+      suppressWarnings: true
+    });
+    warnSpy.mockRestore();
   });
 
   test("should warn users when attempting to set default auth", () => {
