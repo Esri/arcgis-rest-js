@@ -170,20 +170,27 @@ export function queryPbfAsGeoJSONOrArcGIS(
   url: string,
   queryOptions: IRequestOptions
 ): Promise<IQueryFeaturesResponse | IQueryAllFeaturesResponse> {
-  // if f=pbf-as-geojson, we need to set outSR=4326 to satisfy geojson crs standard
-  // if f-pbf-as-geojson, outSR should not be set, or should be 4326 otherwise throw error
-  if (
-    queryOptions.params.f === "pbf-as-geojson" &&
-    queryOptions.params.outSR &&
-    queryOptions.params.outSR !== "4326"
-  ) {
-    throw new ArcGISRequestError(
-      "Unsupported outSR for GeoJSON requests.",
-      422,
-      null,
-      url,
-      queryOptions
-    );
+  // check for unsupported query options
+  let message = "";
+  if (queryOptions.params.returnTrueCurves) {
+    message = "True-curve geometries are not supported.";
+  }
+  if (queryOptions.params.f === "pbf-as-geojson") {
+    // if f=pbf-as-geojson, we need to set outSR=4326 to satisfy geojson crs standard
+    // if f-pbf-as-geojson, outSR should not be set, or should be 4326 otherwise throw error
+    if (
+      !!queryOptions?.params?.outSR &&
+      queryOptions.params.outSR !== "4326" &&
+      queryOptions.params.outSR !== 4326
+    ) {
+      message = "Unsupported outSR for GeoJSON requests.";
+    }
+    if (queryOptions.params.returnM) {
+      message = "M values are not supported for GeoJSON requests.";
+    }
+    if (message.length) {
+      throw new ArcGISRequestError(message, 422, null, url, queryOptions);
+    }
   }
   // default pbf request to EPSG:4326 if requesting pbf-as-geojson to satisfy geojson crs standard
   const geoJSONSpatialReference =

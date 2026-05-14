@@ -635,8 +635,9 @@ export function readFeatureCollectionPBufferFeatureResult(pbf: any, end: any) {
       geometryType: 0,
       spatialReference: undefined,
       exceededTransferLimit: false,
-      hasZ: false,
-      hasM: false,
+      // the following 2 fields can be removed as they are populated later but may break tests that test for their presence incorrectly as their presence does not match arcgis responses functionality.
+      // hasZ: false,
+      // hasM: false,
       transform: undefined,
       fields: [],
       values: [],

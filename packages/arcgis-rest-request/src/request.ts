@@ -45,7 +45,11 @@ export function setDefaultRequestOptions(
   options: IRequestOptions,
   hideWarnings?: boolean
 ) {
-  console.warn(`setDefaultRequestOptions() is deprecated. This will be removed in ArcGIS REST JS v5.0.`);
+  if (!options.suppressWarnings) {
+    console.warn(
+      `setDefaultRequestOptions() is deprecated. This will be removed in ArcGIS REST JS v5.0.`
+    );
+  }
   if (options.authentication && !hideWarnings) {
     warn(
       "You should not set `authentication` as a default in a shared environment such as a web server which will process multiple users requests. You can call `setDefaultRequestOptions` with `true` as a second argument to disable this warning."
@@ -505,7 +509,11 @@ export function internalRequest(
           });
       }
       if (rawResponse) {
-        console.warn(`rawResponse option is deprecated and will be removed in ArcGIS REST JS v5.0.`);
+        if (!options.suppressWarnings) {
+          console.warn(
+            `rawResponse option is deprecated and will be removed in ArcGIS REST JS v5.0.`
+          );
+        }
         return response;
       }
       switch (params.f) {

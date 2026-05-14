@@ -277,6 +277,54 @@ describe("queryFeatures(): pbf-as-geojson", () => {
     }
   });
 
+  test("(error) should throw a 422 error when attempting a pbf-as-geojson request with returnM", async () => {
+    const docsPbfOptions: IQueryFeaturesOptions = {
+      url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      f: "pbf-as-geojson",
+      where: "1=1",
+      outFields: ["*"],
+      resultOffset: 0,
+      resultRecordCount: 3,
+      returnM: true
+    };
+
+    try {
+      await queryFeatures(docsPbfOptions);
+    } catch (error) {
+      expect(fetchMock.called()).toBeFalsy(); // should error before fetch called
+      expect(fetchMock.calls().length).toBe(0);
+      expect(error).toBeInstanceOf(ArcGISRequestError);
+      expect((error as any).code).toBe(422);
+      expect((error as any).message).toContain(
+        "422: M values are not supported for GeoJSON requests."
+      );
+    }
+  });
+
+  test("(error) should throw a 422 error when attempting a pbf-as-geojson request with returnTrueCurves", async () => {
+    const docsPbfOptions: IQueryFeaturesOptions = {
+      url: "https://services3.arcgis.com/GVgbJbqm8hXASVYi/arcgis/rest/services/Santa_Monica_public_parcels/FeatureServer/0",
+      f: "pbf-as-geojson",
+      where: "1=1",
+      outFields: ["*"],
+      resultOffset: 0,
+      resultRecordCount: 3,
+      returnTrueCurves: true as any
+    };
+
+    try {
+      await queryFeatures(docsPbfOptions);
+    } catch (error) {
+      expect(fetchMock.called()).toBeFalsy(); // should error before fetch called
+      expect(fetchMock.calls().length).toBe(0);
+      expect(error).toBeInstanceOf(ArcGISRequestError);
+      expect((error as any).code).toBe(422);
+      expect((error as any).message).toContain(
+        "422: True-curve geometries are not supported."
+      );
+    }
+  });
+
   test("(error) should throw a 500 ArcGISRequestError when pbf-as-geojson decode returns nothing or fails to decode", async () => {
     const arrayBuffer = await readEnvironmentEmptyArrayBuffer();
 
@@ -310,7 +358,7 @@ describe("queryFeatures(): pbf-as-geojson", () => {
   });
 
   // should handle pbf-as-geojson requests that return unauthenticated states, fetchmock only
-  test("(invalid auth) should throw 498 arcgis auth error for queryFeatures() pbf-as-geojson queries when service returns 200 with json object containing error", async () => {
+  test("(invalid auth) should throw 498 ArcGISAuthError when service returns 200 with json object containing invalid token error", async () => {
     const featureServiceInvalidTokenErrorResponse = {
       error: {
         code: 498,
@@ -340,7 +388,7 @@ describe("queryFeatures(): pbf-as-geojson", () => {
     }
   });
 
-  test("(invalid auth) should throw 499 arcgis auth error when service returns 200 with json object containing token required error", async () => {
+  test("(invalid auth) should throw 499 ArcGISAuthError when service returns 200 with json object containing token required error", async () => {
     const featureServiceInvalidTokenErrorResponse = {
       error: {
         code: 499,
@@ -371,7 +419,7 @@ describe("queryFeatures(): pbf-as-geojson", () => {
     }
   });
 
-  test("(invalid request) should throw arcgis request error when service returns 200 with json object containing error", async () => {
+  test("(invalid request) should throw 500 ArcGISRequestError when service returns 200 with json object body containing error", async () => {
     const featureServiceInvalidTokenErrorResponse = {
       error: {
         code: 500,
@@ -409,7 +457,7 @@ describe("queryFeatures(): pbf-as-arcgis", () => {
     fetchMock.restore();
   });
 
-  test("should query pbf as arcgis features by requesting pbf arrayBuffer and decoding into geojson then transforming to arcgis json objects", async () => {
+  test("should query pbf-as-arcgis features by requesting pbf arrayBuffer and decoding into arcgis json", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
       "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/MaritalStatusBoundariesResponse.pbf"
     );
@@ -455,7 +503,63 @@ describe("queryFeatures(): pbf-as-arcgis", () => {
     expect(response.features[0].attributes.County).toBe("Nassau County");
   });
 
-  test("(invalid) should throw an arcgis request error when pbf-as-arcgis decode returns nothing or fails to decode", async () => {
+  test("should decode - hasM - property correctly from pbf", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFLineHasM.pbf"
+    );
+
+    fetchMock.once(
+      "*",
+      {
+        status: 200,
+        headers: { "content-type": "application/x-protobuf" },
+        body: arrayBuffer
+      },
+      { sendAsJson: false }
+    );
+
+    const options: IQueryFeaturesOptions = {
+      url: "FeatureServer/LineHasM",
+      returnM: true,
+      returnGeometry: false,
+      f: "pbf-as-arcgis"
+    };
+
+    const response = (await queryFeatures(options)) as IQueryFeaturesResponse;
+    expect(fetchMock.called()).toBeTruthy();
+    expect(response.hasM).toBe(true);
+    expect(response.hasZ).toBe(undefined);
+  });
+
+  test("should decode - hasZ - property correctly from pbf", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS3857/PBFLineHasZ.pbf"
+    );
+
+    fetchMock.once(
+      "*",
+      {
+        status: 200,
+        headers: { "content-type": "application/x-protobuf" },
+        body: arrayBuffer
+      },
+      { sendAsJson: false }
+    );
+
+    const options: IQueryFeaturesOptions = {
+      url: "FeatureServer/LineHasZ",
+      returnZ: true,
+      returnGeometry: false,
+      f: "pbf-as-arcgis"
+    };
+
+    const response = (await queryFeatures(options)) as IQueryFeaturesResponse;
+    expect(fetchMock.called()).toBeTruthy();
+    expect(response.hasM).toBe(undefined);
+    expect(response.hasZ).toBe(true);
+  });
+
+  test("(invalid) should throw a 500 ArcGISRequestError when pbf-as-arcgis decode returns nothing or fails to decode", async () => {
     const arrayBuffer = await readEnvironmentEmptyArrayBuffer();
 
     fetchMock.once(
@@ -487,7 +591,7 @@ describe("queryFeatures(): pbf-as-arcgis", () => {
     }
   });
 
-  test("(invalid auth) should throw arcgis auth error for queryFeatures() pbf-as-arcgis queries when service returns 200 with json object containing error", async () => {
+  test("(invalid auth) should throw a 498 ArcGISAuthError when service returns 200 with json object containing error", async () => {
     const featureServiceInvalidTokenErrorResponse = {
       error: {
         code: 498,
