@@ -438,6 +438,34 @@ describe("request()", () => {
     });
   });
 
+  test("should warn when setDefaultRequestOptions is used without suppressWarnings", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    setDefaultRequestOptions({
+      headers: {
+        "Test-Header": "Test"
+      }
+    });
+
+    expect(warnSpy).toHaveBeenCalledWith(
+      "setDefaultRequestOptions() is deprecated. This will be removed in ArcGIS REST JS v5.0."
+    );
+
+    warnSpy.mockRestore();
+  });
+
+  test("should not warn when setDefaultRequestOptions is used with suppressWarnings", () => {
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    setDefaultRequestOptions({
+      headers: {
+        "Test-Header": "Test"
+      },
+      suppressWarnings: true
+    });
+    warnSpy.mockRestore();
+  });
+
   test("should warn users when attempting to set default auth", () => {
     const oldWarn = console.warn;
     const warnSpy = vi.fn();
