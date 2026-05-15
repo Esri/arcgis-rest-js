@@ -57,6 +57,7 @@ export function setDefaultRequestOptions(
 export function getDefaultRequestOptions() {
   return (
     (globalThis as any).DEFAULT_ARCGIS_REQUEST_OPTIONS || {
+      //fetchOptions: { method: "POST" },
       httpMethod: "POST",
       params: {
         f: "json"
