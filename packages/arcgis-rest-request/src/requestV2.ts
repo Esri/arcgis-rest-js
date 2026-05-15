@@ -18,6 +18,7 @@ import { warnOnDeprecatedRequestOptions } from "./utils/warn-deprecated-request-
 import { IRetryAuthError } from "./utils/retryAuthError.js";
 import { IAuthenticationManager } from "./index.js";
 import { isSameOrigin } from "./utils/isSameOrigin.js";
+import { normalizeDeprecatedRequestOptions } from "./utils/normalize-deprecated-request-options.js";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
@@ -209,10 +210,11 @@ function normalizeRequestOptions(
 ): IRequestOptions {
   warnOnDeprecatedRequestOptions(requestOptions);
 
-  // Placeholder: this is the single entry point where deprecated request
-  // option shapes will be transformed to the v2 IRequestOptions shape.
-  const normalizedRequestOptions = requestOptions;
-  const defaults = getDefaultRequestOptions();
+  const normalizedRequestOptions =
+    normalizeDeprecatedRequestOptions(requestOptions);
+  const defaults = normalizeDeprecatedRequestOptions(
+    getDefaultRequestOptions()
+  );
 
   return {
     ...defaults,
