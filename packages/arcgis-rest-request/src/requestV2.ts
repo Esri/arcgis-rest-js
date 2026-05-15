@@ -208,7 +208,11 @@ export function checkForErrors(
 function normalizeRequestOptions(
   requestOptions: IRequestOptions
 ): IRequestOptions {
-  warnOnDeprecatedRequestOptions(requestOptions);
+  const suppressWarnings =
+    requestOptions.requestFlags?.suppressWarnings ??
+    requestOptions.suppressWarnings ??
+    false;
+  warnOnDeprecatedRequestOptions(requestOptions, suppressWarnings);
 
   const normalizedRequestOptions =
     normalizeDeprecatedRequestOptions(requestOptions);
@@ -217,6 +221,7 @@ function normalizeRequestOptions(
   );
 
   return {
+    ...{ fetchOptions: { method: "POST" } },
     ...defaults,
     ...normalizedRequestOptions,
     ...{

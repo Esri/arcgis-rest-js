@@ -30,9 +30,23 @@ const DEPRECATED_REQUEST_OPTION_REPLACEMENTS: Partial<
   signal: "fetchOptions.signal"
 };
 
+const UNSUPPORTED_REQUEST_OPTION_WARNINGS: Partial<
+  Record<keyof ILegacyRequestOptions, string>
+> = {
+  maxUrlLength:
+    "maxUrlLength is no longer supported as a top-level request option and is ignored. Use requestFlags.ignoreMaxUrlLength to control URL length handling behavior.",
+  rawResponse:
+    "rawResponse is no longer supported as a top-level request option. Use rawRequest() instead."
+};
+
 function getDeprecatedRequestOptionWarning(
   key: keyof ILegacyRequestOptions
 ): string {
+  const unsupportedWarning = UNSUPPORTED_REQUEST_OPTION_WARNINGS[key];
+  if (unsupportedWarning) {
+    return unsupportedWarning;
+  }
+
   const replacement = DEPRECATED_REQUEST_OPTION_REPLACEMENTS[key];
   return `${key} is deprecated as a top-level request option and will be removed in ArcGIS REST JS v5.0.${
     replacement ? ` Use ${replacement} instead.` : ""
@@ -40,9 +54,10 @@ function getDeprecatedRequestOptionWarning(
 }
 
 export function warnOnDeprecatedRequestOptions(
-  options?: Partial<ILegacyRequestOptions>
+  options?: Partial<ILegacyRequestOptions>,
+  suppressWarnings = false
 ): void {
-  if (!options) {
+  if (!options || suppressWarnings) {
     return;
   }
 
