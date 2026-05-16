@@ -95,7 +95,7 @@ describe("requestV2 parity", () => {
     console.warn = oldWarn;
   });
 
-  test("should switch from GET to POST when url is longer than 2000 by default", async () => {
+  test("should switch from GET to POST when url is longer than 2000 by default and when ignoreMaxUrlLength is not defined", async () => {
     fetchMock.once("*", { features: [] });
 
     const response = await request(
@@ -119,7 +119,7 @@ describe("requestV2 parity", () => {
     expect(response).toEqual({ features: [] });
   });
 
-  test("should switch from GET to POST when url is longer than specified", async () => {
+  test("should NOT switch from GET to POST when ignoreMaxUrlLength is true", async () => {
     fetchMock.once("*", SharingRestInfo);
     const restInfoUrl = "https://www.arcgis.com/sharing/rest/info";
 
@@ -128,12 +128,13 @@ describe("requestV2 parity", () => {
       // typically consumers would base maxUrlLength on browser/server limits
       // but for testing, we use an artificially low limit
       // like this one that assumes no parameters will be added
-      maxUrlLength: restInfoUrl.length
+      requestFlags: {
+        ignoreMaxUrlLength: true
+      }
     });
     const [url, options] = fetchMock.lastCall("*");
-    expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
-    expect(options.method).toBe("POST");
-    expect(options.body).toContain("f=json");
+    expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json");
+    expect(options.method).toBe("GET");
     expect(response).toEqual(SharingRestInfo);
   });
 
@@ -252,12 +253,23 @@ describe("requestV2 parity", () => {
       // like this one that assumes no parameters will be added
       maxUrlLength: restInfoUrl.length
     });
-    const [url, options] = fetchMock.lastCall("*");
-    expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
-    expect(options.method).toBe("POST");
-    expect(options.body).toContain("f=json");
-    expect(options.body).toContain("token=token");
-    expect((options.headers as any)["X-Esri-Authorization"]).toBe(undefined);
+
+    if (typeof window === "undefined") {
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual("https://www.arcgis.com/sharing/rest/info?f=json");
+      expect(options.method).toBe("GET");
+      expect((options.headers as any)["X-Esri-Authorization"]).toBe(
+        "Bearer token"
+      );
+    } else {
+      const [url, options] = fetchMock.lastCall("*");
+      expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
+      expect(options.method).toBe("POST");
+      expect(options.body).toContain("f=json");
+      expect(options.body).toContain("token=token");
+      expect((options.headers as any)["X-Esri-Authorization"]).toBe(undefined);
+    }
+
     expect(response).toEqual(SharingRestInfo);
   });
 
