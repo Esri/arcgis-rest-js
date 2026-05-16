@@ -27,8 +27,7 @@ export function appendCustomParams<T extends IRequestOptions>(
     "headers",
     "signal",
     "maxUrlLength",
-    "rawResponse",
-    "request"
+    "rawResponse"
   ];
 
   const options: T = {

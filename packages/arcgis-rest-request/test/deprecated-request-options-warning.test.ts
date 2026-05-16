@@ -19,6 +19,23 @@ describe("deprecated request option warnings", () => {
     console.warn = oldWarn;
   });
 
+  test("should no-op when suppressWarnings argument is true", () => {
+    const oldWarn = console.warn;
+    const warnSpy = vi.fn();
+    console.warn = warnSpy;
+
+    warnOnDeprecatedRequestOptions(
+      {
+        httpMethod: "GET",
+        maxUrlLength: 3000
+      },
+      true
+    );
+
+    expect(warnSpy).not.toHaveBeenCalled();
+    console.warn = oldWarn;
+  });
+
   afterEach(() => {
     fetchMock.restore();
   });
@@ -52,7 +69,7 @@ describe("deprecated request option warnings", () => {
     );
     expect(warnSpy).toHaveBeenCalledWith(
       expect.stringContaining(
-        "rawResponse is deprecated as a top-level request option"
+        "rawResponse is no longer supported as a top-level request option"
       )
     );
     expect(warnSpy).toHaveBeenCalledWith(
@@ -67,7 +84,7 @@ describe("deprecated request option warnings", () => {
     );
     expect(warnSpy).toHaveBeenCalledWith(
       expect.stringContaining(
-        "maxUrlLength is deprecated as a top-level request option"
+        "maxUrlLength is no longer supported as a top-level request option"
       )
     );
     expect(warnSpy).toHaveBeenCalledWith(
