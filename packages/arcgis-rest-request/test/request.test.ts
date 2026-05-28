@@ -780,3 +780,23 @@ describe("request()", () => {
     });
   });
 });
+
+describe("rawRequest()", () => {
+  afterEach(() => {
+    fetchMock.restore();
+  });
+
+  test("should make a basic POST raw request", async () => {
+    fetchMock.once("*", SharingRestInfo);
+
+    const response = await rawRequest(
+      "https://www.arcgis.com/sharing/rest/info"
+    );
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual("https://www.arcgis.com/sharing/rest/info");
+    expect(options.method).toBe("POST");
+    const data = await response.json();
+    expect(data).toEqual(SharingRestInfo);
+    expect(options.body).toContain("f=json");
+  });
+});
