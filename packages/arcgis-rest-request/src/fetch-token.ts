@@ -16,7 +16,7 @@ interface IoAuthTokenResponse {
   refresh_token_expires_in?: number;
 }
 
-interface IGenerateTokenRawResponse {
+interface IGenerateTokenResponse {
   token: string;
   expires: number;
 }
@@ -36,11 +36,8 @@ export function fetchToken(
 ): Promise<IFetchTokenResponse> {
   const options: IRequestOptions = requestOptions;
 
-  // we generate a response, so we can't return the raw response
-  options.rawResponse = false;
-
   return request(url, options).then(
-    (response: IGenerateTokenRawResponse | IoAuthTokenResponse) => {
+    (response: IGenerateTokenResponse | IoAuthTokenResponse) => {
       // Typescript uses the "in" keyword to determine we have a generateToken response or an oauth token response
       if ("token" in response && "expires" in response) {
         return {

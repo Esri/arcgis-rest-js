@@ -584,7 +584,7 @@ export async function internalRequest(
 export async function rawRequest(
   url: string,
   requestOptions: IRequestOptions = { params: { f: "json" } }
-): Promise<Response> {
+): Promise<any> {
   const { response } = await executeRequest(url, requestOptions);
   return response;
 }

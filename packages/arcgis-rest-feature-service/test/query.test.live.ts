@@ -447,8 +447,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
           f: "pbf",
           where: "1=1",
           outFields: ["*"],
-          resultRecordCount: 1,
-          rawResponse: true
+          resultRecordCount: 1
         };
         const response = await queryFeatures(zipCodePointsPbfOptions);
         const arrBuffer = await (response as any).arrayBuffer();
@@ -489,8 +488,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
           f: "pbf",
           where: "1=1",
           outFields: ["*"],
-          resultRecordCount: 1,
-          rawResponse: true
+          resultRecordCount: 1
         };
         const response = await queryFeatures(trailsLinesPbfOptions);
         const arrBuffer = await (response as any).arrayBuffer();
@@ -523,8 +521,7 @@ describe("queryFeatures() and queryAllFeatures() live tests", () => {
           f: "pbf",
           where: "1=1",
           outFields: ["*"],
-          resultRecordCount: 1,
-          rawResponse: true
+          resultRecordCount: 1
         };
         const response = await queryFeatures(parksPolygonsPbfOptions);
         const arrBuffer = await (response as any).arrayBuffer();

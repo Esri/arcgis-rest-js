@@ -5,7 +5,8 @@ import {
   request,
   IRequestOptions,
   appendCustomParams,
-  IGroup
+  IGroup,
+  rawRequest
 } from "@esri/arcgis-rest-request";
 import { IItem } from "../helpers.js";
 
@@ -458,14 +459,13 @@ function getItemFile(
     params: {},
     ...requestOptions
   };
-  const justReturnResponse = options.rawResponse;
-  options.rawResponse = true;
   options.params.f = null;
 
+  if (options.rawResponse) {
+    return rawRequest(url, options);
+  }
+
   return request(url, options).then((response) => {
-    if (justReturnResponse) {
-      return response;
-    }
     return readMethod !== "json"
       ? response[readMethod]()
       : response
