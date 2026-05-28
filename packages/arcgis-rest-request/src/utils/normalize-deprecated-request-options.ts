@@ -39,6 +39,9 @@ export function normalizeDeprecatedRequestOptions(
   };
 
   const normalizedOptions: IRequestOptions = {
+    // some packages extend IRequestOptions with additional properties that we want to preserve, so we spread the original requestOptions here and then override the known deprecated options with their new equivalents
+    // then delete the deprecated options at the end to avoid duplication
+    ...(requestOptions as any),
     params: requestOptions.params,
     authentication: requestOptions.authentication,
     portal: requestOptions.portal,
@@ -47,6 +50,14 @@ export function normalizeDeprecatedRequestOptions(
   };
 
   // we are outright dropping support for maxUrlLength and rawResponse as top-level options and warning users separately
-
+  delete (normalizedOptions as any).maxUrlLength;
+  delete (normalizedOptions as any).rawResponse;
+  // delete the deprecated options from the normalized options to avoid confusion and duplication with the new options
+  delete (normalizedOptions as any).httpMethod;
+  delete (normalizedOptions as any).credentials;
+  delete (normalizedOptions as any).headers;
+  delete (normalizedOptions as any).signal;
+  delete (normalizedOptions as any).hideToken;
+  delete (normalizedOptions as any).suppressWarnings;
   return normalizedOptions;
 }
