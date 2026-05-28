@@ -111,6 +111,7 @@ export function getItemData(
 
   if (options.file) {
     options.params.f = null;
+    return rawRequest(url, options).then((response) => response.blob());
   }
 
   return request(url, options).catch((err) => {
@@ -465,7 +466,7 @@ function getItemFile(
     return rawRequest(url, options);
   }
 
-  return request(url, options).then((response) => {
+  return rawRequest(url, options).then((response) => {
     return readMethod !== "json"
       ? response[readMethod]()
       : response
