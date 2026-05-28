@@ -5,6 +5,16 @@ import { describe, expect, test } from "vitest";
 import { normalizeDeprecatedRequestOptions } from "../../src/utils/normalize-deprecated-request-options.js";
 
 describe("normalizeDeprecatedRequestOptions", () => {
+  test("should return normalized defaults when called without options", () => {
+    const normalized = normalizeDeprecatedRequestOptions();
+
+    expect(normalized.requestFlags).toEqual({});
+    expect(normalized.fetchOptions).toEqual({ headers: {} });
+    expect(normalized.params).toBeUndefined();
+    expect(normalized.authentication).toBeUndefined();
+    expect(normalized.portal).toBeUndefined();
+  });
+
   test("should map deprecated top-level request options to requestFlags and fetchOptions", () => {
     const controller = new AbortController();
 

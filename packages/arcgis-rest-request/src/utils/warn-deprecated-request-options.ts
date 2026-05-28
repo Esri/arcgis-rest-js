@@ -48,9 +48,7 @@ function getDeprecatedRequestOptionWarning(
   }
 
   const replacement = DEPRECATED_REQUEST_OPTION_REPLACEMENTS[key];
-  return `${key} is deprecated as a top-level request option and will be removed in ArcGIS REST JS v5.0.${
-    replacement ? ` Use ${replacement} instead.` : ""
-  }`;
+  return `${key} is deprecated as a top-level request option and will be removed in ArcGIS REST JS v5.0. Use ${replacement} instead.`;
 }
 
 export function warnOnDeprecatedRequestOptions(

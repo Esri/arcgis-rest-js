@@ -293,7 +293,7 @@ async function executeRequest(
     ...options.params
   };
 
-  const requestFlags = options.requestFlags || {};
+  const requestFlags = options.requestFlags;
 
   const fetchOptions: RequestInit = {
     ...options.fetchOptions,
