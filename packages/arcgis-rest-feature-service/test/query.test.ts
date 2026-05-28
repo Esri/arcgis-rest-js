@@ -1306,3 +1306,49 @@ describe("queryAllFeatures (custom pagination)", () => {
     }
   });
 });
+
+describe("queryFeatures(): pbf", () => {
+  afterEach(() => {
+    fetchMock.restore();
+  });
+
+  test("should return raw response for f=pbf without decoding", async () => {
+    const arrayBuffer = await readEnvironmentFileToArrayBuffer(
+      "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPointResponseCRS4326.pbf"
+    );
+
+    fetchMock.once(
+      "*",
+      {
+        status: 200,
+        headers: { "content-type": "application/x-protobuf" },
+        body: arrayBuffer
+      },
+      { sendAsJson: false }
+    );
+
+    const requestOptions: IQueryFeaturesOptions = {
+      url: serviceUrl,
+      f: "pbf",
+      where: "1=1",
+      outFields: ["*"],
+      resultRecordCount: 1
+    };
+
+    const response: any = await queryFeatures(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toBe(
+      `${serviceUrl}/query?f=pbf&where=1%3D1&outFields=*&resultRecordCount=1`
+    );
+    expect(options.method).toBe("GET");
+
+    // rawRequest path should return a Response-like object
+    expect(response.status).toBe(200);
+    expect(response.ok).toBe(true);
+
+    const rawBuffer = await response.arrayBuffer();
+    expect(rawBuffer.byteLength).toBeGreaterThan(0);
+  });
+});
