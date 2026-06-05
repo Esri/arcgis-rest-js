@@ -270,11 +270,11 @@ export function queryPbfAsGeoJSONOrArcGIS(
  * ```
  *
  * @param requestOptions - Options for the request
- * @returns A Promise that will resolve with the feature.
+ * @returns A Promise that resolves with the feature by default, or with the native Response when `rawResponse` is `true`.
  */
 export function getFeature(
   requestOptions: IGetFeatureOptions
-): Promise<IFeature> {
+): Promise<IFeature | Response> {
   const url = `${cleanUrl(requestOptions.url)}/${requestOptions.id}`;
 
   // default to a GET request

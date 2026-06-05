@@ -57,7 +57,6 @@ export function setDefaultRequestOptions(
 export function getDefaultRequestOptions() {
   return (
     (globalThis as any).DEFAULT_ARCGIS_REQUEST_OPTIONS || {
-      //fetchOptions: { method: "POST" },
       httpMethod: "POST",
       params: {
         f: "json"
@@ -156,8 +155,8 @@ export class ArcGISAuthError extends ArcGISRequestError {
  *
  * @param response The response JSON to check for errors.
  * @param url The url of the original request
- * @param params The parameters of the original request
  * @param options The options of the original request
+ * @param originalAuthError The original authentication error, if one exists.
  * @returns The data that was passed in the `data` parameter
  */
 export function checkForErrors(
@@ -248,7 +247,7 @@ function normalizeRequestOptions(
 
 function buildAuthenticationManager(
   options: IRequestOptions
-): IAuthenticationManager {
+): IAuthenticationManager | undefined {
   if (typeof options.authentication !== "string") {
     return options.authentication;
   }
@@ -284,7 +283,7 @@ async function executeRequest(
   url: string;
   originalUrl: string;
   options: IRequestOptions;
-  originalAuthError: ArcGISAuthError;
+  originalAuthError: ArcGISAuthError | null;
 }> {
   const options = normalizeRequestOptions(requestOptions);
 
@@ -303,7 +302,7 @@ async function executeRequest(
     credentials: options.fetchOptions?.credentials || "same-origin"
   };
 
-  let originalAuthError: ArcGISAuthError = null;
+  let originalAuthError: ArcGISAuthError | null = null;
 
   // Is this a no-cors domain? if so we need to set credentials to include
   if (isNoCorsDomain(url)) {
@@ -383,7 +382,7 @@ async function executeRequest(
     /* istanbul ignore if --@preserve - window is always defined in a browser. Test case is covered by Jasmine in node test */
     if (
       params.token &&
-      requestFlags.hideToken &&
+      requestFlags?.hideToken &&
       // Sharing API does not support preflight check required by modern browsers https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
       typeof window === "undefined"
     ) {
@@ -402,15 +401,15 @@ async function executeRequest(
     if (
       // This would exceed the default maximum URL length and requires POST,
       // unless the consumer explicitly opts out of this behavior.
-      (!requestFlags.ignoreMaxUrlLength && urlWithQueryString.length > 2000) ||
+      (!requestFlags?.ignoreMaxUrlLength && urlWithQueryString.length > 2000) ||
       // Or if the customer requires the token to be hidden and it has not already been hidden in the header (for browsers)
-      (params.token && requestFlags.hideToken)
+      (params.token && requestFlags?.hideToken)
     ) {
       // The request exceeds default URL length handling, so use POST.
       fetchOptions.method = "POST";
 
       // If the token was already added as a Auth header, add the token back to body with other params instead of header
-      if (token.length && requestFlags.hideToken) {
+      if (token.length && requestFlags?.hideToken) {
         params.token = token;
         // Remove existing header that was added before url query length was checked
         delete requestHeaders["X-Esri-Authorization"];
@@ -516,21 +515,30 @@ export async function internalRequest(
   requestOptions: IRequestOptions
 ): Promise<any> {
   // -----------------------------
-  // we want to only support json responses for request so we must override the f parameter to json if it is not json or geojson.
-  // we should warn users f params will be ignored.
-  if (
+  const suppressWarnings =
+    requestOptions.requestFlags?.suppressWarnings ??
+    requestOptions.suppressWarnings ??
+    false;
+  const formatIsNotJson =
     requestOptions?.params?.f &&
     requestOptions.params.f !== "json" &&
-    requestOptions.params.f !== "geojson"
-  ) {
+    requestOptions.params.f !== "geojson";
+  // we want to only support json responses for request so we must override the f parameter to json if it is not json or geojson.
+  // we should warn users f params will be ignored.
+  if (formatIsNotJson && !suppressWarnings) {
     console.warn(
       `request() only supports 'json' formats and responses. Provided value '${requestOptions.params.f}' will be defaulted to 'json'. Use 'rawRequest()' to support special 'f' parameter values.`
     );
-    requestOptions.params = {
-      ...requestOptions.params,
-      ...{ f: "json" }
-    };
   }
+  const jsonFormatRequestOptions: IRequestOptions = formatIsNotJson
+    ? {
+        ...requestOptions,
+        params: {
+          ...requestOptions.params,
+          f: "json"
+        }
+      }
+    : requestOptions;
   // -----------------------------
   const {
     response,
@@ -538,7 +546,7 @@ export async function internalRequest(
     originalUrl,
     url: finalUrl,
     originalAuthError
-  } = await executeRequest(url, requestOptions);
+  } = await executeRequest(url, jsonFormatRequestOptions);
 
   const json = await response.json();
 
