@@ -559,22 +559,26 @@ export async function internalRequest(
     requestOptions.requestFlags?.suppressWarnings ??
     requestOptions.suppressWarnings ??
     false;
-  const formatIsNotJson =
-    requestOptions.params?.f &&
-    requestOptions.params?.f !== "json" &&
-    requestOptions.params?.f !== "geojson";
+
+  const requestedFormat = requestOptions.params?.f;
+  const formatIsDefinedButNotJson =
+    requestedFormat !== undefined &&
+    requestedFormat !== "json" &&
+    requestedFormat !== "geojson";
+  const formatIsJson =
+    requestedFormat === "json" || requestedFormat === "geojson";
   // we want to only support json responses for request so we must override the f parameter to json if it is not json or geojson.
   // we should warn users f params will be ignored.
-  if (formatIsNotJson && !suppressWarnings) {
+  if (formatIsDefinedButNotJson && !suppressWarnings) {
     console.warn(
-      `request() only supports 'json' formats and responses. Provided value '${requestOptions.params.f}' will be defaulted to 'json'. Use 'rawRequest()' to support special 'f' parameter values.`
+      `request() only supports 'json' formats and responses. Provided value '${requestedFormat}' will be defaulted to 'json'. Use 'rawRequest()' to support special 'f' parameter values.`
     );
   }
   const jsonFormatRequestOptions: IRequestOptions = {
     ...requestOptions,
     params: {
       ...requestOptions.params,
-      f: "json"
+      f: formatIsJson ? requestedFormat : "json"
     }
   };
   // -----------------------------
