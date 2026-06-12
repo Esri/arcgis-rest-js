@@ -18,7 +18,7 @@ import { warnOnDeprecatedRequestOptions } from "./utils/warn-deprecated-request-
 import { IRetryAuthError } from "./utils/retryAuthError.js";
 import { IAuthenticationManager } from "./index.js";
 import { isSameOrigin } from "./utils/isSameOrigin.js";
-import { normalizeDeprecatedRequestOptions } from "./utils/normalize-deprecated-request-options.js";
+import { normalizeRequestOptions } from "./utils/normalize-request-options.js";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 
@@ -205,46 +205,6 @@ export function checkForErrors(
   return response;
 }
 
-function normalizeRequestOptions(
-  requestOptions: IRequestOptions
-): IRequestOptions {
-  const suppressWarnings =
-    requestOptions.requestFlags?.suppressWarnings ??
-    requestOptions.suppressWarnings ??
-    false;
-  warnOnDeprecatedRequestOptions(requestOptions, suppressWarnings);
-
-  const normalizedRequestOptions =
-    normalizeDeprecatedRequestOptions(requestOptions);
-  const defaults = normalizeDeprecatedRequestOptions(
-    getDefaultRequestOptions()
-  );
-
-  return {
-    ...{ fetchOptions: { method: "POST" } },
-    ...defaults,
-    ...normalizedRequestOptions,
-    ...{
-      params: {
-        ...defaults.params,
-        ...normalizedRequestOptions.params
-      },
-      requestFlags: {
-        ...defaults.requestFlags,
-        ...normalizedRequestOptions.requestFlags
-      },
-      fetchOptions: {
-        ...defaults.fetchOptions,
-        ...normalizedRequestOptions.fetchOptions,
-        headers: {
-          ...(defaults.fetchOptions?.headers as any),
-          ...(normalizedRequestOptions.fetchOptions?.headers as any)
-        }
-      }
-    }
-  };
-}
-
 function buildAuthenticationManager(
   options: IRequestOptions
 ): IAuthenticationManager | undefined {
@@ -285,7 +245,11 @@ async function executeRequest(
   options: IRequestOptions;
   originalAuthError: ArcGISAuthError | null;
 }> {
-  const options = normalizeRequestOptions(requestOptions);
+  const options = normalizeRequestOptions(
+    requestOptions,
+    getDefaultRequestOptions(),
+    warnOnDeprecatedRequestOptions
+  );
 
   const params: IParams = {
     ...{ f: "json" },
@@ -379,7 +343,7 @@ async function executeRequest(
 
   if (fetchOptions.method === "GET") {
     // Prevents token from being passed in query params when hideToken option is used.
-    /* istanbul ignore if --@preserve - window is always defined in a browser. Test case is covered by Jasmine in node test */
+    /* istanbul ignore if --@preserve - window is always defined in a browser. */
     if (
       params.token &&
       requestFlags?.hideToken &&
