@@ -53,18 +53,24 @@ export function setDefaultRequestOptions(
       "You should not set `authentication` as a default in a shared environment such as a web server which will process multiple users requests. You can call `setDefaultRequestOptions` with `true` as a second argument to disable this warning."
     );
   }
-  (globalThis as any).DEFAULT_ARCGIS_REQUEST_OPTIONS = options;
+  (globalThis as any).DEFAULT_ARCGIS_REQUEST_OPTIONS =
+    normalizeDeprecatedRequestOptions(options);
 }
 
-export function getDefaultRequestOptions() {
-  return (
-    (globalThis as any).DEFAULT_ARCGIS_REQUEST_OPTIONS || {
-      httpMethod: "POST",
-      params: {
-        f: "json"
-      }
+export function getDefaultRequestOptions(): IRequestOptions {
+  const defaultRequestOptions = (globalThis as any)
+    .DEFAULT_ARCGIS_REQUEST_OPTIONS;
+  if (defaultRequestOptions) {
+    return normalizeDeprecatedRequestOptions(defaultRequestOptions);
+  }
+  return {
+    fetchOptions: {
+      method: "POST"
+    },
+    params: {
+      f: "json"
     }
-  );
+  };
 }
 
 /**
@@ -218,9 +224,7 @@ function normalizeRequestOptions(
 
   const normalizedRequestOptions =
     normalizeDeprecatedRequestOptions(requestOptions);
-  const defaults = normalizeDeprecatedRequestOptions(
-    getDefaultRequestOptions()
-  );
+  const defaults = getDefaultRequestOptions();
 
   return {
     ...{ fetchOptions: { method: "POST" } },
