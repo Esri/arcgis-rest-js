@@ -21,6 +21,7 @@ import { isSameOrigin } from "./utils/isSameOrigin.js";
 import { normalizeDeprecatedRequestOptions } from "./utils/normalize-deprecated-request-options.js";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
+const ENTERPRISE_MAX_URL_LENGTH = 2000;
 
 /**
  * Sets the default options that will be passed in **all requests across all `@esri/arcgis-rest-js` modules**.
@@ -275,6 +276,71 @@ function buildAuthenticationManager(
   };
 }
 
+function resolveGetRequestPostFallback(options: {
+  url: string;
+  params: IParams;
+  token: string;
+  requestFlags: IRequestOptions["requestFlags"];
+  isNode: boolean;
+}): {
+  method: "GET" | "POST";
+  url: string;
+  requestHeaders: {
+    [key: string]: any;
+  };
+} {
+  const { url, token, params, requestFlags, isNode } = options;
+  const requestHeaders: {
+    [key: string]: any;
+  } = {};
+
+  // Prevents token from being passed in query params when hideToken option is used.
+  /* istanbul ignore if --@preserve - window is always defined in a browser. */
+  if (isNode && params.token && requestFlags?.hideToken) {
+    requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`;
+    delete params.token;
+  }
+
+  // encode the parameters into the query string
+  const queryParams = encodeQueryString(params);
+  // dont append a '?' unless parameters are actually present
+  const urlWithQueryString =
+    queryParams === ""
+      ? /* istanbul ignore next -- @preserve */
+        url
+      : `${url}?${queryParams}`;
+
+  // if full url would exceed default URL length handling, and customer has not explicitly opted out of that behavior, requires POST
+  const exceedsMaxUrlLength =
+    urlWithQueryString.length > ENTERPRISE_MAX_URL_LENGTH &&
+    !requestFlags?.ignoreMaxUrlLength;
+
+  // Or if the customer requires the token to be hidden and it has not already been hidden in the header (for browsers)
+  const hideTokenInRequest = requestFlags?.hideToken && params.token;
+
+  if (exceedsMaxUrlLength || hideTokenInRequest) {
+    // If the token was already added as a Auth header, add the token back to body with other params instead of header
+    if (token.length && requestFlags?.hideToken) {
+      params.token = token;
+      // Remove existing header that was added before url query length was checked
+      delete requestHeaders["X-Esri-Authorization"];
+    }
+
+    // convert to POST request with params in the body instead of query string
+    return {
+      method: "POST",
+      url,
+      requestHeaders
+    };
+  }
+
+  return {
+    method: "GET",
+    url: urlWithQueryString,
+    requestHeaders
+  };
+}
+
 async function executeRequest(
   url: string,
   requestOptions: IRequestOptions
@@ -373,51 +439,23 @@ async function executeRequest(
 
   // Custom headers to add to request. IRequestOptions.fetchOptions.headers
   // will merge over these request headers.
-  const requestHeaders: {
+  let requestHeaders: {
     [key: string]: any;
   } = {};
 
   if (fetchOptions.method === "GET") {
-    // Prevents token from being passed in query params when hideToken option is used.
-    /* istanbul ignore if --@preserve - window is always defined in a browser. Test case is covered by Jasmine in node test */
-    if (
-      params.token &&
-      requestFlags?.hideToken &&
-      // Sharing API does not support preflight check required by modern browsers https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
-      typeof window === "undefined"
-    ) {
-      requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`;
-      delete params.token;
-    }
-    // encode the parameters into the query string
-    const queryParams = encodeQueryString(params);
-    // dont append a '?' unless parameters are actually present
-    const urlWithQueryString =
-      queryParams === ""
-        ? /* istanbul ignore next -- @preserve */
-          url
-        : `${url}?${queryParams}`;
-
-    if (
-      // This would exceed the default maximum URL length and requires POST,
-      // unless the consumer explicitly opts out of this behavior.
-      (!requestFlags?.ignoreMaxUrlLength && urlWithQueryString.length > 2000) ||
-      // Or if the customer requires the token to be hidden and it has not already been hidden in the header (for browsers)
-      (params.token && requestFlags?.hideToken)
-    ) {
-      // The request exceeds default URL length handling, so use POST.
-      fetchOptions.method = "POST";
-
-      // If the token was already added as a Auth header, add the token back to body with other params instead of header
-      if (token.length && requestFlags?.hideToken) {
-        params.token = token;
-        // Remove existing header that was added before url query length was checked
-        delete requestHeaders["X-Esri-Authorization"];
-      }
-    } else {
-      // just use GET
-      url = urlWithQueryString;
-    }
+    // destructure resolved values from resolveGetRequestPostFallback back into fetchOptions and params
+    ({
+      method: fetchOptions.method,
+      url,
+      requestHeaders
+    } = resolveGetRequestPostFallback({
+      url,
+      params,
+      token,
+      requestFlags,
+      isNode: typeof window === "undefined"
+    }));
   }
 
   /* updateResources currently requires FormData even when the input parameters dont warrant it.
