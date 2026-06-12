@@ -19,6 +19,7 @@ import { IRetryAuthError } from "./utils/retryAuthError.js";
 import { IAuthenticationManager } from "./index.js";
 import { isSameOrigin } from "./utils/isSameOrigin.js";
 import { normalizeDeprecatedRequestOptions } from "./utils/normalize-deprecated-request-options.js";
+import { mergeHeaders } from "./utils/merge-headers.js";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
 const ENTERPRISE_MAX_URL_LENGTH = 2000;
@@ -237,10 +238,10 @@ function normalizeRequestOptions(
       fetchOptions: {
         ...defaults.fetchOptions,
         ...normalizedRequestOptions.fetchOptions,
-        headers: {
-          ...(defaults.fetchOptions?.headers as any),
-          ...(normalizedRequestOptions.fetchOptions?.headers as any)
-        }
+        headers: mergeHeaders(
+          defaults.fetchOptions?.headers,
+          normalizedRequestOptions.fetchOptions?.headers
+        )
       }
     }
   };
@@ -468,10 +469,7 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
   }
 
   // Mixin headers from request options
-  fetchOptions.headers = {
-    ...requestHeaders,
-    ...(fetchOptions.headers as any)
-  };
+  fetchOptions.headers = mergeHeaders(requestHeaders, fetchOptions.headers);
 
   // This should have the same conditional for Node JS as ArcGISIdentityManager.refreshWithUsernameAndPassword()
   // to ensure that generated tokens have the same referer when used in Node with a username and password.

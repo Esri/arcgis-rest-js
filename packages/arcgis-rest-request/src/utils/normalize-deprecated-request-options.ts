@@ -2,6 +2,7 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "./IRequestOptions.js";
+import { mergeHeaders } from "./merge-headers.js";
 
 /**
  * Converts deprecated top-level request options into their v2 IRequestOptions
@@ -32,10 +33,7 @@ export function normalizeDeprecatedRequestOptions(
     ...(credentials !== undefined ? { credentials } : {}),
     ...(signal !== undefined ? { signal } : {}),
     ...requestOptions.fetchOptions,
-    headers: {
-      ...(headers as any),
-      ...(requestOptions.fetchOptions?.headers as any)
-    }
+    headers: mergeHeaders(headers as any, requestOptions.fetchOptions?.headers)
   };
 
   const normalizedOptions: IRequestOptions = {
