@@ -78,9 +78,7 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   sqlFormat?: "none" | "standard" | "native";
   returnExceededLimitFeatures?: boolean;
   /**
-   * Response format. Defaults to "json"
-   * NOTE: for "pbf" you must use the method `rawRequest()`
-   * and parse the response yourself using `response.arrayBuffer()`
+   * Response format. Defaults to "json".
    */
   f?: "json" | "geojson" | "pbf" | "pbf-as-geojson" | "pbf-as-arcgis";
   /**

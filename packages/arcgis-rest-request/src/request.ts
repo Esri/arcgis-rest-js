@@ -19,8 +19,11 @@ import { IRetryAuthError } from "./utils/retryAuthError.js";
 import { IAuthenticationManager } from "./index.js";
 import { isSameOrigin } from "./utils/isSameOrigin.js";
 import { normalizeRequestOptions } from "./utils/normalize-request-options.js";
+import { normalizeDeprecatedRequestOptions } from "./utils/normalize-deprecated-request-options.js";
+import { mergeHeaders } from "./utils/merge-headers.js";
 
 export const NODEJS_DEFAULT_REFERER_HEADER = `@esri/arcgis-rest-js`;
+const ENTERPRISE_MAX_URL_LENGTH = 2000;
 
 /**
  * Sets the default options that will be passed in **all requests across all `@esri/arcgis-rest-js` modules**.
@@ -51,18 +54,24 @@ export function setDefaultRequestOptions(
       "You should not set `authentication` as a default in a shared environment such as a web server which will process multiple users requests. You can call `setDefaultRequestOptions` with `true` as a second argument to disable this warning."
     );
   }
-  (globalThis as any).DEFAULT_ARCGIS_REQUEST_OPTIONS = options;
+  (globalThis as any).DEFAULT_ARCGIS_REQUEST_OPTIONS =
+    normalizeDeprecatedRequestOptions(options);
 }
 
-export function getDefaultRequestOptions() {
-  return (
-    (globalThis as any).DEFAULT_ARCGIS_REQUEST_OPTIONS || {
-      httpMethod: "POST",
-      params: {
-        f: "json"
-      }
+export function getDefaultRequestOptions(): IRequestOptions {
+  const defaultRequestOptions = (globalThis as any)
+    .DEFAULT_ARCGIS_REQUEST_OPTIONS;
+  if (defaultRequestOptions) {
+    return normalizeDeprecatedRequestOptions(defaultRequestOptions);
+  }
+  return {
+    fetchOptions: {
+      method: "POST"
+    },
+    params: {
+      f: "json"
     }
-  );
+  };
 }
 
 /**
@@ -235,6 +244,71 @@ function buildAuthenticationManager(
   };
 }
 
+function resolveGetRequestPostFallback(options: {
+  url: string;
+  params: IParams;
+  token: string;
+  requestFlags: IRequestOptions["requestFlags"];
+  isNode: boolean;
+}): {
+  method: "GET" | "POST";
+  url: string;
+  requestHeaders: {
+    [key: string]: any;
+  };
+} {
+  const { url, token, params, requestFlags, isNode } = options;
+  const requestHeaders: {
+    [key: string]: any;
+  } = {};
+
+  // Prevents token from being passed in query params when hideToken option is used.
+  /* istanbul ignore if --@preserve - window is always defined in a browser. */
+  if (isNode && params.token && requestFlags?.hideToken) {
+    requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`;
+    delete params.token;
+  }
+
+  // encode the parameters into the query string
+  const queryParams = encodeQueryString(params);
+  // dont append a '?' unless parameters are actually present
+  const urlWithQueryString =
+    queryParams === ""
+      ? /* istanbul ignore next -- @preserve */
+        url
+      : `${url}?${queryParams}`;
+
+  // if full url would exceed default URL length handling, and customer has not explicitly opted out of that behavior, requires POST
+  const exceedsMaxUrlLength =
+    urlWithQueryString.length > ENTERPRISE_MAX_URL_LENGTH &&
+    !requestFlags?.ignoreMaxUrlLength;
+
+  // Or if the customer requires the token to be hidden and it has not already been hidden in the header (for browsers)
+  const hideTokenInRequest = requestFlags?.hideToken && params.token;
+
+  if (exceedsMaxUrlLength || hideTokenInRequest) {
+    // If the token was already added as a Auth header, add the token back to body with other params instead of header
+    if (token.length && requestFlags?.hideToken) {
+      params.token = token;
+      // Remove existing header that was added before url query length was checked
+      delete requestHeaders["X-Esri-Authorization"];
+    }
+
+    // convert to POST request with params in the body instead of query string
+    return {
+      method: "POST",
+      url,
+      requestHeaders
+    };
+  }
+
+  return {
+    method: "GET",
+    url: urlWithQueryString,
+    requestHeaders
+  };
+}
+
 async function executeRequest(
   url: string,
   requestOptions: IRequestOptions
@@ -337,51 +411,23 @@ async function executeRequest(
 
   // Custom headers to add to request. IRequestOptions.fetchOptions.headers
   // will merge over these request headers.
-  const requestHeaders: {
+  let requestHeaders: {
     [key: string]: any;
   } = {};
 
   if (fetchOptions.method === "GET") {
-    // Prevents token from being passed in query params when hideToken option is used.
-    /* istanbul ignore if --@preserve - window is always defined in a browser. */
-    if (
-      params.token &&
-      requestFlags?.hideToken &&
-      // Sharing API does not support preflight check required by modern browsers https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request
-      typeof window === "undefined"
-    ) {
-      requestHeaders["X-Esri-Authorization"] = `Bearer ${params.token}`;
-      delete params.token;
-    }
-    // encode the parameters into the query string
-    const queryParams = encodeQueryString(params);
-    // dont append a '?' unless parameters are actually present
-    const urlWithQueryString =
-      queryParams === ""
-        ? /* istanbul ignore next -- @preserve */
-          url
-        : `${url}?${queryParams}`;
-
-    if (
-      // This would exceed the default maximum URL length and requires POST,
-      // unless the consumer explicitly opts out of this behavior.
-      (!requestFlags?.ignoreMaxUrlLength && urlWithQueryString.length > 2000) ||
-      // Or if the customer requires the token to be hidden and it has not already been hidden in the header (for browsers)
-      (params.token && requestFlags?.hideToken)
-    ) {
-      // The request exceeds default URL length handling, so use POST.
-      fetchOptions.method = "POST";
-
-      // If the token was already added as a Auth header, add the token back to body with other params instead of header
-      if (token.length && requestFlags?.hideToken) {
-        params.token = token;
-        // Remove existing header that was added before url query length was checked
-        delete requestHeaders["X-Esri-Authorization"];
-      }
-    } else {
-      // just use GET
-      url = urlWithQueryString;
-    }
+    // destructure resolved values from resolveGetRequestPostFallback back into fetchOptions and params
+    ({
+      method: fetchOptions.method,
+      url,
+      requestHeaders
+    } = resolveGetRequestPostFallback({
+      url,
+      params,
+      token,
+      requestFlags,
+      isNode: typeof window === "undefined"
+    }));
   }
 
   /* updateResources currently requires FormData even when the input parameters dont warrant it.
@@ -394,10 +440,7 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
   }
 
   // Mixin headers from request options
-  fetchOptions.headers = {
-    ...requestHeaders,
-    ...(fetchOptions.headers as any)
-  };
+  fetchOptions.headers = mergeHeaders(requestHeaders, fetchOptions.headers);
 
   // This should have the same conditional for Node JS as ArcGISIdentityManager.refreshWithUsernameAndPassword()
   // to ensure that generated tokens have the same referer when used in Node with a username and password.
@@ -483,26 +526,28 @@ export async function internalRequest(
     requestOptions.requestFlags?.suppressWarnings ??
     requestOptions.suppressWarnings ??
     false;
-  const formatIsNotJson =
-    requestOptions?.params?.f &&
-    requestOptions.params.f !== "json" &&
-    requestOptions.params.f !== "geojson";
+
+  const requestedFormat = requestOptions.params?.f;
+  const formatIsDefinedButNotJson =
+    requestedFormat !== undefined &&
+    requestedFormat !== "json" &&
+    requestedFormat !== "geojson";
+  const formatIsJson =
+    requestedFormat === "json" || requestedFormat === "geojson";
   // we want to only support json responses for request so we must override the f parameter to json if it is not json or geojson.
   // we should warn users f params will be ignored.
-  if (formatIsNotJson && !suppressWarnings) {
+  if (formatIsDefinedButNotJson && !suppressWarnings) {
     console.warn(
-      `request() only supports 'json' formats and responses. Provided value '${requestOptions.params.f}' will be defaulted to 'json'. Use 'rawRequest()' to support special 'f' parameter values.`
+      `request() only supports 'json' formats and responses. Provided value '${requestedFormat}' will be defaulted to 'json'. Use 'rawRequest()' to support special 'f' parameter values.`
     );
   }
-  const jsonFormatRequestOptions: IRequestOptions = formatIsNotJson
-    ? {
-        ...requestOptions,
-        params: {
-          ...requestOptions.params,
-          f: "json"
-        }
-      }
-    : requestOptions;
+  const jsonFormatRequestOptions: IRequestOptions = {
+    ...requestOptions,
+    params: {
+      ...requestOptions.params,
+      f: formatIsJson ? requestedFormat : "json"
+    }
+  };
   // -----------------------------
   const {
     response,

@@ -94,6 +94,88 @@ describe("normalizeDeprecatedRequestOptions", () => {
     });
   });
 
+  test("should normalize tuple-based fetch headers", () => {
+    const normalized = normalizeDeprecatedRequestOptions({
+      headers: {
+        "X-Deprecated": "legacy"
+      },
+      fetchOptions: {
+        headers: [["X-Fetch-Tuple", "tuple-value"]]
+      }
+    });
+
+    expect(normalized.fetchOptions?.headers).toEqual({
+      "X-Deprecated": "legacy",
+      "X-Fetch-Tuple": "tuple-value"
+    });
+  });
+
+  test("should prefer tuple-based fetch headers over deprecated top-level headers", () => {
+    const normalized = normalizeDeprecatedRequestOptions({
+      headers: {
+        "X-Test": "legacy-value",
+        "X-Deprecated-Only": "legacy"
+      },
+      fetchOptions: {
+        headers: [
+          ["X-Test", "tuple-value"],
+          ["X-Fetch-Only", "tuple-only"]
+        ]
+      }
+    });
+
+    expect(normalized.fetchOptions?.headers).toEqual({
+      "X-Test": "tuple-value",
+      "X-Deprecated-Only": "legacy",
+      "X-Fetch-Only": "tuple-only"
+    });
+  });
+
+  test("should normalize Headers instance in fetchOptions.headers", () => {
+    if (typeof Headers === "undefined") {
+      return;
+    }
+
+    const normalized = normalizeDeprecatedRequestOptions({
+      headers: {
+        "X-Deprecated": "legacy"
+      },
+      fetchOptions: {
+        headers: new Headers([["X-Fetch-Headers", "headers-value"]])
+      }
+    });
+
+    expect(normalized.fetchOptions?.headers).toEqual({
+      "X-Deprecated": "legacy",
+      "x-fetch-headers": "headers-value"
+    });
+  });
+
+  test("should prefer Headers instance values over deprecated top-level headers", () => {
+    if (typeof Headers === "undefined") {
+      return;
+    }
+
+    const normalized = normalizeDeprecatedRequestOptions({
+      headers: {
+        "x-test": "legacy-value",
+        "X-Deprecated-Only": "legacy"
+      },
+      fetchOptions: {
+        headers: new Headers([
+          ["X-Test", "headers-value"],
+          ["X-Fetch-Only", "headers-only"]
+        ])
+      }
+    });
+
+    expect(normalized.fetchOptions?.headers).toEqual({
+      "x-test": "headers-value",
+      "X-Deprecated-Only": "legacy",
+      "x-fetch-only": "headers-only"
+    });
+  });
+
   test("should drop legacy options without v2 replacements", () => {
     const normalized = normalizeDeprecatedRequestOptions({
       maxUrlLength: 3000,
