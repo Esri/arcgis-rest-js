@@ -11,7 +11,7 @@
 
 # @esri/arcgis-rest-js
 
-> compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers.
+> compact, modular JavaScript wrappers for the ArcGIS REST API that run in Node.js and modern browsers. (But test build, this should not appear in the main repo at all!)
 
 ## Table of Contents
 
