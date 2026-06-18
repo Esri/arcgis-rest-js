@@ -94,7 +94,7 @@ export interface IGeocodeResponse {
  * ```
  *
  * @param address String representing the address or point of interest or RequestOptions to pass to the endpoint.
- * @returns A Promise that will resolve with address candidates for the request. The spatial reference will be added to candidate locations and extents unless `rawResponse: true` was passed.
+ * @returns A Promise that will resolve with address candidates for the request. The spatial reference will be added to candidate locations and extents.
  */
 export function geocode(
   address: string | IGeocodeOptions
@@ -133,10 +133,6 @@ export function geocode(
           "Issues can arise when using it as a number, especially if they start with zero."
       );
     }
-  }
-
-  if (typeof address !== "string" && address.rawResponse) {
-    return rawRequest(`${cleanUrl(endpoint)}/findAddressCandidates`, options);
   }
 
   // add spatialReference property to individual matches
@@ -178,4 +174,52 @@ export function geocode(
       return response;
     }
   );
+}
+
+/**
+ * Used to determine the location of a single address or point of interest and return the native response.
+ *
+ * @param address String representing the address or point of interest or RequestOptions to pass to the endpoint.
+ * @returns A Promise that will resolve with the native response.
+ */
+export function rawGeocode(
+  address: string | IGeocodeOptions
+): Promise<Response> {
+  let options: IGeocodeOptions = {};
+  let endpoint: string;
+
+  if (typeof address === "string") {
+    options.params = { singleLine: address };
+    endpoint = ARCGIS_ONLINE_GEOCODING_URL;
+  } else {
+    endpoint = address.endpoint || ARCGIS_ONLINE_GEOCODING_URL;
+    options = appendCustomParams<IGeocodeOptions>(
+      address,
+      [
+        "singleLine",
+        "address",
+        "address2",
+        "address3",
+        "neighborhood",
+        "city",
+        "subregion",
+        "region",
+        "postal",
+        "postalExt",
+        "countryCode",
+        "outFields",
+        "magicKey"
+      ],
+      { params: { ...address.params } }
+    );
+
+    if (options.params.postal && typeof options.params.postal === "number") {
+      warn(
+        "The postal code should be a string. " +
+          "Issues can arise when using it as a number, especially if they start with zero."
+      );
+    }
+  }
+
+  return rawRequest(`${cleanUrl(endpoint)}/findAddressCandidates`, options);
 }

@@ -5,6 +5,7 @@ import { describe, afterEach, test, expect, vi, beforeEach } from "vitest";
 import fetchMock from "fetch-mock";
 import {
   getFeature,
+  rawGetFeature,
   queryFeatures,
   queryAllFeatures,
   queryRelated,
@@ -51,15 +52,14 @@ describe("getFeature() and queryFeatures()", () => {
     expect(response.attributes.FID).toBe(42);
   });
 
-  test("return rawResponse when getting a feature", async () => {
+  test("returns raw response when getting a feature", async () => {
     const requestOptions = {
       url: serviceUrl,
-      id: 42,
-      rawResponse: true
+      id: 42
     };
     fetchMock.once("*", featureResponse);
 
-    const response: any = await getFeature(requestOptions);
+    const response: any = await rawGetFeature(requestOptions);
 
     expect(fetchMock.called()).toBeTruthy();
     const [url, options] = fetchMock.lastCall("*");

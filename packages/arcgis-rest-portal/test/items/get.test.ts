@@ -14,8 +14,10 @@ import {
   getItemParts,
   getRelatedItems,
   getItemInfo,
+  rawGetItemInfo,
   getItemMetadata,
-  getItemResource
+  getItemResource,
+  rawGetItemResource
 } from "../../src/items/get.js";
 
 import {
@@ -175,11 +177,10 @@ describe("get", () => {
     expect(options.method).toBe("GET");
   });
 
-  test("should return raw response item info if desired", async () => {
+  test("should return raw response item info", async () => {
     fetchMock.once("*", ItemFormJsonResponse);
-    const response = await getItemInfo("3ef", {
-      fileName: "form.json",
-      rawResponse: true
+    const response = await rawGetItemInfo("3ef", {
+      fileName: "form.json"
     } as IGetItemInfoOptions);
     const formJson = await response.json();
     expect(formJson).toEqual(ItemFormJsonResponse);
@@ -404,13 +405,12 @@ describe("get", () => {
         expect(resource.foo).toEqual("foobarbaz");
       });
 
-      test("respects rawResponse setting with JSON resource", async () => {
+      test("returns raw response for a JSON resource", async () => {
         const badJsonString = '{"foo":"foobarbaz"}';
         fetchMock.once("*", badJsonString);
 
-        const response = await getItemResource("3ef", {
+        const response = await rawGetItemResource("3ef", {
           fileName: "resource.json",
-          rawResponse: true,
           ...MOCK_USER_REQOPTS
         });
         const [url, options] = fetchMock.lastCall("*");

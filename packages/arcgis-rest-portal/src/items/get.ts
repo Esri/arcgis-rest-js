@@ -248,7 +248,7 @@ export interface IGetItemResourceOptions extends IRequestOptions {
  *  .then(resourceContents => {});
  *
  * // Get the response object instead
- * getItemResource("3ef",{ rawResponse: true, fileName: "resource.json" })
+ * rawGetItemResource("3ef", { fileName: "resource.json" })
  *  .then(response => {})
  * ```
  *
@@ -266,6 +266,28 @@ export function getItemResource(
     readAs,
     requestOptions
   );
+}
+
+/**
+ * Fetches an item resource and returns the native response.
+ *
+ * @param itemId - The item id.
+ * @param requestOptions - Options for the request.
+ * @returns A Promise that resolves with the native response.
+ */
+export function rawGetItemResource(
+  itemId: string,
+  requestOptions: IGetItemResourceOptions
+): Promise<Response> {
+  const url = `${getItemBaseUrl(itemId, requestOptions)}/resources/${
+    requestOptions.fileName
+  }`;
+  const options: IRequestOptions = {
+    params: {},
+    ...requestOptions
+  };
+  options.params.f = null;
+  return rawRequest(url, options);
 }
 
 /**
@@ -418,6 +440,28 @@ export function getItemInfo(
 }
 
 /**
+ * Get an info file for an item and return the native response.
+ *
+ * @param id - Item Id.
+ * @param requestOptions - Options for the request, including the file name which defaults to `iteminfo.xml`.
+ * @returns A Promise that resolves with the native response.
+ */
+export function rawGetItemInfo(
+  id: string,
+  requestOptions?: IGetItemInfoOptions
+): Promise<Response> {
+  const { fileName = "iteminfo.xml" } = requestOptions || {};
+  const options: IRequestOptions = {
+    params: {},
+    httpMethod: "GET",
+    ...requestOptions
+  };
+  options.params.f = null;
+  const url = `${getItemBaseUrl(id, options)}/info/${fileName}`;
+  return rawRequest(url, options);
+}
+
+/**
  * ```
  * import { getItemMetadata } from "@esri/arcgis-rest-portal";
  * // get the metadata for the item
@@ -454,17 +498,12 @@ function getItemFile(
   requestOptions?: IRequestOptions
 ): Promise<any> {
   const url = `${getItemBaseUrl(id, requestOptions)}${fileName}`;
-  // preserve escape hatch to let the consumer read the response
-  // and ensure the f param is not appended to the query string
+  // ensure f param is not appended to the query string for file endpoints
   const options: IRequestOptions = {
     params: {},
     ...requestOptions
   };
   options.params.f = null;
-
-  if (options.rawResponse) {
-    return rawRequest(url, options);
-  }
 
   return rawRequest(url, options).then((response) => {
     return readMethod !== "json"

@@ -267,12 +267,12 @@ export function queryPbfAsGeoJSONOrArcGIS(
  * });
  * ```
  *
- * @param requestOptions - Options for the request
- * @returns A Promise that resolves with the feature by default, or with the native Response when `rawResponse` is `true`.
+ * @param requestOptions - Options for the request.
+ * @returns A Promise that resolves with the feature.
  */
 export function getFeature(
   requestOptions: IGetFeatureOptions
-): Promise<IFeature | Response> {
+): Promise<IFeature> {
   const url = `${cleanUrl(requestOptions.url)}/${requestOptions.id}`;
 
   // default to a GET request
@@ -280,10 +280,26 @@ export function getFeature(
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
-  if (options.rawResponse) {
-    return rawRequest(url, options);
-  }
   return request(url, options).then((response: any) => response.feature);
+}
+
+/**
+ * Get a feature by id and return the native response.
+ *
+ * @param requestOptions - Options for the request.
+ * @returns A Promise that resolves with the native response.
+ */
+export function rawGetFeature(
+  requestOptions: IGetFeatureOptions
+): Promise<Response> {
+  const url = `${cleanUrl(requestOptions.url)}/${requestOptions.id}`;
+
+  // default to a GET request
+  const options: IGetFeatureOptions = {
+    ...{ httpMethod: "GET" },
+    ...requestOptions
+  };
+  return rawRequest(url, options);
 }
 
 /**

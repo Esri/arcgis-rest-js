@@ -3,7 +3,7 @@
 
 import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
-import { bulkGeocode } from "../src/bulk.js";
+import { bulkGeocode, rawBulkGeocode } from "../src/bulk.js";
 import { GeocodeAddresses } from "./mocks/responses.js";
 
 const addresses = [
@@ -180,7 +180,7 @@ describe("geocode", () => {
     expect(response.spatialReference.latestWkid).toEqual(4326);
   });
 
-  test("should support rawResponse", async () => {
+  test("should return raw response from rawBulkGeocode", async () => {
     fetchMock.once("*", GeocodeAddresses);
 
     const MOCK_AUTH = {
@@ -190,10 +190,9 @@ describe("geocode", () => {
       portal: "https://mapsdev.arcgis.com"
     };
 
-    const response: any = await bulkGeocode({
+    const response: any = await rawBulkGeocode({
       addresses,
-      authentication: MOCK_AUTH,
-      rawResponse: true
+      authentication: MOCK_AUTH
     });
     expect(fetchMock.called()).toEqual(true);
     const [url, options] = fetchMock.lastCall("*");

@@ -3,7 +3,7 @@
 
 import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
-import { geocode } from "../src/geocode.js";
+import { geocode, rawGeocode } from "../src/geocode.js";
 import {
   FindAddressCandidates,
   FindAddressCandidates3857,
@@ -177,12 +177,11 @@ describe("geocode", () => {
     ).toBe(true);
   });
 
-  test("should support rawResponse", async () => {
+  test("should return raw response from rawGeocode", async () => {
     fetchMock.once("*", FindAddressCandidates);
-    const response: any = await geocode({
+    const response: any = await rawGeocode({
       address: "1600 Pennsylvania Avenue",
-      city: "Washington D.C.",
-      rawResponse: true
+      city: "Washington D.C."
     });
     expect(fetchMock.called()).toEqual(true);
     const [url, options] = fetchMock.lastCall("*");
