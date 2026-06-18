@@ -65,7 +65,7 @@
     "@changesets/cli": "^2.29.8",
     "@eslint/compat": "^2.0.0",
     "@eslint/js": "^9.39.1",
-    "@playwright/test": "^1.56.1",
+    "@playwright/test": "^1.60.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.3.0",

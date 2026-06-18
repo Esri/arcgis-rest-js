@@ -5,7 +5,8 @@ import {
   request,
   cleanUrl,
   ISpatialReference,
-  IPoint
+  IPoint,
+  rawRequest
 } from "@esri/arcgis-rest-request";
 
 import {
@@ -94,13 +95,17 @@ export function bulkGeocode(
     );
   }
 
+  if (options.rawResponse) {
+    return rawRequest(
+      `${cleanUrl(options.endpoint)}/geocodeAddresses`,
+      options
+    );
+  }
+
   return request(
     `${cleanUrl(options.endpoint)}/geocodeAddresses`,
     options
   ).then((response) => {
-    if (options.rawResponse) {
-      return response;
-    }
     const sr = response.spatialReference;
     response.locations.forEach(function (address: { location: IPoint }) {
       if (address.location) {

@@ -1159,7 +1159,7 @@ export class ArcGISIdentityManager
    *   })
    * ```
    *
-   * @param requestOptions - Options for the request. NOTE: `rawResponse` is not supported by this operation.
+   * @param requestOptions - Options for the request.
    * @returns A Promise that will resolve with the data from the response.
    */
   public getPortal(requestOptions?: IRequestOptions): Promise<any> {
@@ -1173,8 +1173,7 @@ export class ArcGISIdentityManager
       const options = {
         httpMethod: "GET",
         authentication: this,
-        ...requestOptions,
-        rawResponse: false
+        ...requestOptions
       } as IRequestOptions;
 
       this._pendingPortalRequest = request(url, options).then((response) => {

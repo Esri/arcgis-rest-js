@@ -12,7 +12,8 @@ import {
   IExtent,
   ArcGISRequestError,
   ArcGISAuthError,
-  IRequestOptions
+  IRequestOptions,
+  rawRequest
 } from "@esri/arcgis-rest-request";
 
 import {
@@ -77,9 +78,7 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   sqlFormat?: "none" | "standard" | "native";
   returnExceededLimitFeatures?: boolean;
   /**
-   * Response format. Defaults to "json"
-   * NOTE: for "pbf" you must also supply `rawResponse: true`
-   * and parse the response yourself using `response.arrayBuffer()`
+   * Response format. Defaults to "json".
    */
   f?: "json" | "geojson" | "pbf" | "pbf-as-geojson" | "pbf-as-arcgis";
   /**
@@ -134,7 +133,7 @@ export interface IQueryAllFeaturesOptions extends ISharedQueryOptions {
   returnExceededLimitFeatures?: true;
   /**
    * Response format. Defaults to "json"
-   * NOTE: for "pbf" you must also supply `rawResponse: true`
+   * NOTE: for "pbf" you must use the method `rawRequest()`
    * and parse the response yourself using `response.arrayBuffer()`
    */
   f?: "json" | "geojson" | "pbf-as-geojson" | "pbf-as-arcgis";
@@ -188,17 +187,16 @@ export function queryPbfAsGeoJSONOrArcGIS(
   // default pbf request to EPSG:4326 if requesting pbf-as-geojson to satisfy geojson crs standard
   const geoJSONSpatialReference =
     queryOptions.params.f === "pbf-as-geojson" ? { outSR: "4326" } : {};
-  // query with f=pbf and rawResponse:true on behalf of the user to fetch metadata with the pbf response
+  // query with f=pbf and rawRequest on behalf of the user to fetch metadata with the pbf response
   const customOptions = {
     ...queryOptions,
     params: {
       ...queryOptions.params,
       ...geoJSONSpatialReference,
       f: "pbf"
-    } as any,
-    rawResponse: true
+    } as any
   };
-  return request(`${cleanUrl(url)}/query`, customOptions).then(
+  return rawRequest(`${cleanUrl(url)}/query`, customOptions).then(
     async (response: any) => {
       // if pbf request to service returns a json format, there is an error
       if (response.headers.get("content-type")?.includes("application/json")) {
@@ -270,11 +268,11 @@ export function queryPbfAsGeoJSONOrArcGIS(
  * ```
  *
  * @param requestOptions - Options for the request
- * @returns A Promise that will resolve with the feature or the [response](https://developer.mozilla.org/en-US/docs/Web/API/Response) itself if `rawResponse: true` was passed in.
+ * @returns A Promise that resolves with the feature by default, or with the native Response when `rawResponse` is `true`.
  */
 export function getFeature(
   requestOptions: IGetFeatureOptions
-): Promise<IFeature> {
+): Promise<IFeature | Response> {
   const url = `${cleanUrl(requestOptions.url)}/${requestOptions.id}`;
 
   // default to a GET request
@@ -282,12 +280,10 @@ export function getFeature(
     ...{ httpMethod: "GET" },
     ...requestOptions
   };
-  return request(url, options).then((response: any) => {
-    if (options.rawResponse) {
-      return response;
-    }
-    return response.feature;
-  });
+  if (options.rawResponse) {
+    return rawRequest(url, options);
+  }
+  return request(url, options).then((response: any) => response.feature);
 }
 
 /**
@@ -365,6 +361,11 @@ export function queryFeatures(
     queryOptions.params?.f === "pbf-as-arcgis"
   ) {
     return queryPbfAsGeoJSONOrArcGIS(requestOptions.url, queryOptions);
+  } else if (queryOptions.params?.f === "pbf") {
+    return rawRequest(
+      `${cleanUrl(requestOptions.url)}/query`,
+      queryOptions
+    ) as Promise<any>;
   }
   return request(`${cleanUrl(requestOptions.url)}/query`, queryOptions);
 }

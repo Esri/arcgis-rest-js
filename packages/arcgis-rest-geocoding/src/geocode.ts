@@ -8,7 +8,8 @@ import {
   IExtent,
   ISpatialReference,
   IPoint,
-  warn
+  warn,
+  rawRequest
 } from "@esri/arcgis-rest-request";
 
 import { ARCGIS_ONLINE_GEOCODING_URL, IEndpointOptions } from "./helpers.js";
@@ -134,12 +135,13 @@ export function geocode(
     }
   }
 
+  if (typeof address !== "string" && address.rawResponse) {
+    return rawRequest(`${cleanUrl(endpoint)}/findAddressCandidates`, options);
+  }
+
   // add spatialReference property to individual matches
   return request(`${cleanUrl(endpoint)}/findAddressCandidates`, options).then(
     (response) => {
-      if (typeof address !== "string" && address.rawResponse) {
-        return response;
-      }
       const sr: ISpatialReference = response.spatialReference;
       response.candidates.forEach(function (candidate: {
         location: IPoint;
