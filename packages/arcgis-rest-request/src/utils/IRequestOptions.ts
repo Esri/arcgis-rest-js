@@ -7,7 +7,7 @@ import { IAuthenticationManager } from "./IAuthenticationManager.js";
 /**
  * Legacy request option properties kept for backwards compatibility.
  *
- * @deprecated This class represents the v4 @linkcode{IRequestOptions} which should be used instead.
+ * @deprecated This interface contains deprecated properties from the REST JS v4 @linkcode{IRequestOptions}, use @linkcode{IRequestOptions} instead.
  */
 export interface ILegacyRequestOptions {
   /**
@@ -57,6 +57,39 @@ export interface ILegacyRequestOptions {
 }
 
 /**
+ * Internal flags that control ArcGIS REST JS request behavior.
+ *
+ */
+export interface IRequestFlags {
+  /**
+   * Attempts to keep authentication tokens out of URL query params.
+   *
+   * For GET requests in Node.js, REST JS may use the `X-Esri-Authorization` header.
+   * In browser flows where that header path is not used, REST JS may switch to POST
+   * so the token is sent in the request body instead of the URL.
+   */
+  hideToken?: boolean;
+  /**
+   * Suppresses ArcGIS REST JS request warnings for this call, including deprecation
+   * and format-related warnings emitted during request processing.
+   */
+  suppressWarnings?: boolean;
+  /**
+   * Reserved for response header injection behavior.
+   *
+   * Note: this flag is currently defined for API compatibility/documentation, but is
+   * not actively applied in the current request pipeline.
+   */
+  injectRequestHeaders?: boolean;
+  /**
+   * Disables automatic GET -> POST conversion based solely on URL length (2000+ chars).
+   *
+   * Other request rules may still result in POST (for example token-hiding behavior).
+   */
+  ignoreMaxUrlLength?: boolean;
+}
+
+/**
  * Options for the `request()` method.
  */
 export interface IRequestOptions extends ILegacyRequestOptions {
@@ -73,13 +106,10 @@ export interface IRequestOptions extends ILegacyRequestOptions {
    * exists, otherwise to 'https://www.arcgis.com/sharing/rest'.
    */
   portal?: string;
-  requestFlags?: {
-    // additional options for our internal request method
-    hideToken?: boolean; // put the token param in the header for GET requests
-    suppressWarnings?: boolean; // silence all internal console warnings from REST JS
-    injectRequestHeaders?: boolean; // add a `arcgisRestRequestHeaders` property that returns the request headers to resolve https://github.com/Esri/arcgis-rest-js/issues/1181
-    ignoreMaxUrlLength?: boolean; // ignore the URL length and use specified HTTP method
-  };
+  /**
+   * ArcGIS REST JS runtime flags.
+   */
+  requestFlags?: IRequestFlags;
   /**
    * anything you can pass to the options for fetch
    * https://developer.mozilla.org/en-US/docs/Web/API/RequestInit

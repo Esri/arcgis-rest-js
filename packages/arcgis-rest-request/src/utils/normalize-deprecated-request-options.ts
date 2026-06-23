@@ -37,7 +37,7 @@ export function normalizeDeprecatedRequestOptions(
   };
 
   const normalizedOptions: IRequestOptions = {
-    // some packages extend IRequestOptions with additional properties that we want to preserve, so we spread the original requestOptions here and then override the known deprecated options with their new equivalents
+    // some packages extend IRequestOptions with additional properties that we want to preserve, so we spread the extended requestOptions here, then override the known deprecated options with their new equivalents
     // then delete the deprecated options at the end to avoid duplication
     ...(requestOptions as any),
     params: requestOptions.params,
