@@ -129,7 +129,7 @@ describe("getFeature() and queryFeatures()", () => {
       relationshipId: 1,
       definitionExpression: "APPROXACRE<10000",
       outFields: ["APPROXACRE", "FIELD_NAME"],
-      httpMethod: "POST"
+      fetchOptions: { method: "POST" }
     };
     fetchMock.once("*", queryRelatedResponse);
     const response = await queryRelated(requestOptions);
