@@ -2,7 +2,7 @@
  * Apache-2.0 */
 
 import { IRequestOptions } from "./IRequestOptions.js";
-import { normalizeRequestOptions } from "./normalize-request-options.js";
+import { normalizeDeprecatedRequestOptions } from "./normalize-deprecated-request-options.js";
 
 /**
  * Appends selected custom option keys into `params` while preserving request options.
@@ -68,5 +68,5 @@ export function appendCustomParams<T extends IRequestOptions>(
   }, {} as IRequestOptions);
 
   // Normalize legacy top-level options into requestFlags/fetchOptions.
-  return normalizeRequestOptions(requestOptions);
+  return normalizeDeprecatedRequestOptions(requestOptions);
 }
