@@ -25,7 +25,7 @@ export interface IGetCategoryResponse extends successResponse {}
  * Options for {@linkcode getCategory}.
  */
 export interface IGetCategoryOptions
-  extends Omit<IRequestOptions, "httpMethod">,
+  extends Omit<IRequestOptions, "fetchOptions">,
     queryParams {
   categoryId: string;
   icon?: IconOptions;
@@ -68,7 +68,10 @@ export function getCategory(
     requestOptions.endpoint || `${baseUrl}/categories/${categoryId}`,
     {
       ...options,
-      httpMethod: "GET"
+      fetchOptions: {
+        ...(options.fetchOptions || {}),
+        method: "GET"
+      }
     }
   );
 }

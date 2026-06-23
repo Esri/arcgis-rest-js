@@ -50,7 +50,10 @@ import { getRegisteredAppInfo } from "./shared/getRegisteredAppInfo.js";
 export async function updateOAuthApp(
   requestOptions: IUpdateOAuthOptions
 ): Promise<IOAuthApp> {
-  requestOptions.httpMethod = "POST";
+  requestOptions.fetchOptions = {
+    ...(requestOptions.fetchOptions || {}),
+    method: "POST"
+  };
 
   // get app
   const baseRequestOptions = extractBaseRequestOptions(requestOptions); // get base requestOptions snapshot

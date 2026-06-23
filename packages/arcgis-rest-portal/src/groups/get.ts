@@ -61,8 +61,11 @@ export function getGroup(
   const url = `${getPortalUrl(requestOptions)}/community/groups/${id}`;
   // default to a GET request
   const options: IRequestOptions = {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...(requestOptions?.fetchOptions || {})
+    }
   };
   return request(url, options);
 }
@@ -85,8 +88,11 @@ export function getGroupCategorySchema(
 
   // default to a GET request
   const options: IRequestOptions = {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...(requestOptions?.fetchOptions || {})
+    }
   };
   return request(url, options);
 }
@@ -106,10 +112,18 @@ export function getGroupContent(
 
   // default to a GET request
   const options: IRequestOptions = {
-    ...{ httpMethod: "GET" },
+    fetchOptions: {
+      method: "GET",
+      ...(requestOptions?.fetchOptions || {})
+    },
     params: { start: 1, num: 100 },
     ...requestOptions
   } as IGetGroupContentOptions;
+
+  options.fetchOptions = {
+    method: "GET",
+    ...(requestOptions?.fetchOptions || {})
+  };
 
   // is this the most concise way to mixin with the defaults above?
   if (requestOptions && requestOptions.paging) {
@@ -133,8 +147,11 @@ export function getGroupUsers(
   const url = `${getPortalUrl(requestOptions)}/community/groups/${id}/users`;
   // default to a GET request
   const options: IRequestOptions = {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...(requestOptions?.fetchOptions || {})
+    }
   };
   return request(url, options);
 }
@@ -182,8 +199,12 @@ export function searchGroupUsers(
     searchOptions || {},
     ["name", "num", "start", "sortField", "sortOrder", "joined", "memberType"],
     {
-      httpMethod: "GET"
+      fetchOptions: { method: "GET" }
     }
   );
+  options.fetchOptions = {
+    method: "GET",
+    ...(options.fetchOptions || {})
+  };
   return request(url, options);
 }

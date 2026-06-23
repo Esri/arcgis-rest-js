@@ -41,7 +41,7 @@ export async function getUser(
   requestOptions?: string | IGetUserOptions
 ): Promise<IUser> {
   let url;
-  let options = { httpMethod: "GET" } as IGetUserOptions;
+  let options = { fetchOptions: { method: "GET" } } as IGetUserOptions;
 
   // if a username is passed, assume ArcGIS Online
   if (typeof requestOptions === "string") {
@@ -52,7 +52,10 @@ export async function getUser(
     url = `${getPortalUrl(requestOptions)}/community/users/${username}`;
     options = {
       ...requestOptions,
-      ...options
+      fetchOptions: {
+        method: "GET",
+        ...(requestOptions?.fetchOptions || {})
+      }
     };
   }
   // send the request

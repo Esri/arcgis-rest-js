@@ -62,7 +62,10 @@ import { getRegisteredAppInfo } from "./shared/getRegisteredAppInfo.js";
 export async function createApiKey(
   requestOptions: ICreateApiKeyOptions
 ): Promise<IApiKeyResponse> {
-  requestOptions.httpMethod = "POST";
+  requestOptions.fetchOptions = {
+    ...(requestOptions.fetchOptions || {}),
+    method: "POST"
+  };
 
   // filter param buckets:
   const baseRequestOptions = extractBaseRequestOptions(requestOptions); // snapshot of basic IRequestOptions before customized params being built into it

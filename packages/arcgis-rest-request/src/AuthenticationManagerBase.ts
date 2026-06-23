@@ -86,10 +86,14 @@ class AuthenticationManagerBase {
       const url = `${this.portal}/community/self`;
 
       const options = {
-        httpMethod: "GET",
         authentication: this,
         ...requestOptions
       } as IRequestOptions;
+
+      options.fetchOptions = {
+        method: "GET",
+        ...(requestOptions?.fetchOptions || {})
+      };
 
       this._pendingUserRequest = request(url, options).then((response) => {
         this._user = response;

@@ -1,9 +1,7 @@
-import { HTTPMethods } from "./HTTPMethods.js";
+import { IRequestOptions } from "./IRequestOptions.js";
 import { IGenerateTokenParams } from "./IGenerateTokenParams.js";
 import { IFetchTokenParams } from "./IFetchTokenParams.js";
 
-export interface ITokenRequestOptions {
+export interface ITokenRequestOptions extends IRequestOptions {
   params?: IGenerateTokenParams | IFetchTokenParams;
-  httpMethod?: HTTPMethods;
-  fetch?: (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 }

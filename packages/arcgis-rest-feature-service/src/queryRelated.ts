@@ -68,7 +68,7 @@ export function queryRelated(
     requestOptions,
     ["objectIds", "relationshipId", "definitionExpression", "outFields"],
     {
-      httpMethod: "GET",
+      fetchOptions: { method: "GET" },
       params: {
         // set default query parameters
         definitionExpression: "1=1",
@@ -78,6 +78,11 @@ export function queryRelated(
       }
     }
   );
+
+  options.fetchOptions = {
+    method: "GET",
+    ...(options.fetchOptions || {})
+  };
 
   return request(
     `${cleanUrl(requestOptions.url)}/queryRelatedRecords`,

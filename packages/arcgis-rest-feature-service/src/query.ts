@@ -277,8 +277,11 @@ export function getFeature(
 
   // default to a GET request
   const options: IGetFeatureOptions = {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...(requestOptions.fetchOptions || {})
+    }
   };
   return request(url, options).then((response: any) => response.feature);
 }
@@ -296,8 +299,11 @@ export function rawGetFeature(
 
   // default to a GET request
   const options: IGetFeatureOptions = {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...(requestOptions.fetchOptions || {})
+    }
   };
   return rawRequest(url, options);
 }
@@ -362,7 +368,7 @@ export function queryFeatures(
       "f"
     ],
     {
-      httpMethod: "GET",
+      fetchOptions: { method: "GET" },
       params: {
         // set default query parameters
         where: "1=1",
@@ -371,6 +377,11 @@ export function queryFeatures(
       }
     }
   );
+
+  queryOptions.fetchOptions = {
+    method: "GET",
+    ...(queryOptions.fetchOptions || {})
+  };
 
   if (
     queryOptions.params?.f === "pbf-as-geojson" ||
@@ -432,7 +443,7 @@ export async function queryAllFeatures(
   } else {
     // retrieve the maxRecordCount for the service only if user did not provide resultRecordCount
     const pageSizeResponse = await request(requestOptions.url, {
-      httpMethod: "GET",
+      fetchOptions: { method: "GET" },
       authentication: requestOptions.authentication
     });
     // default the pageSize to 2000 if it is not provided
@@ -487,7 +498,7 @@ export async function queryAllFeatures(
         "f"
       ],
       {
-        httpMethod: "GET",
+        fetchOptions: { method: "GET" },
         params: {
           where: "1=1",
           outFields: "*",
@@ -496,6 +507,11 @@ export async function queryAllFeatures(
         }
       }
     );
+
+    queryOptions.fetchOptions = {
+      method: "GET",
+      ...(queryOptions.fetchOptions || {})
+    };
 
     let response: IQueryAllFeaturesResponse;
     if (

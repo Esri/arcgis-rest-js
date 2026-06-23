@@ -656,7 +656,7 @@ export async function rawRequest(
  *   .then(response) // response.currentVersion === 5.2
  *
  * request('https://www.arcgis.com/sharing/rest', {
- *   httpMethod: "GET"
+ *   fetchOptions: { method: "GET" }
  * })
  *
  * request('https://www.arcgis.com/sharing/rest/search', {

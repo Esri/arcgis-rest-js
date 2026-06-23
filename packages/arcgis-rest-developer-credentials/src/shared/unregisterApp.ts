@@ -36,7 +36,10 @@ import { request } from "@esri/arcgis-rest-request";
 export async function unregisterApp(
   requestOptions: IUnregisterAppOptions
 ): Promise<IUnregisterAppResponse> {
-  requestOptions.httpMethod = "POST";
+  requestOptions.fetchOptions = {
+    ...(requestOptions.fetchOptions || {}),
+    method: "POST"
+  };
 
   // get app
   const baseRequestOptions = extractBaseRequestOptions(requestOptions);

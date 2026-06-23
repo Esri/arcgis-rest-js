@@ -27,7 +27,7 @@ export interface IFindElevationAtPointResponse extends successResponse {}
  * Options for {@linkcode findElevationAtPoint}.
  */
 export interface IFindElevationAtPointOptions
-  extends Omit<IRequestOptions, "httpMethod" | "f">,
+  extends Omit<IRequestOptions, "fetchOptions">,
     queryParams {}
 
 /**
@@ -68,7 +68,10 @@ export function findElevationAtPoint(
   return (
     request(`${baseUrl}/elevation/at-point`, {
       ...options,
-      httpMethod: "GET"
+      fetchOptions: {
+        ...(options.fetchOptions || {}),
+        method: "GET"
+      }
     }) as Promise<successResponse>
   ).then((response) => {
     const r: IFindElevationAtPointResponse = {

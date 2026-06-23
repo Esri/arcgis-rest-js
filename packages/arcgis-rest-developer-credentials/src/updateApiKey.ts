@@ -63,7 +63,10 @@ import {
 export async function updateApiKey(
   requestOptions: IUpdateApiKeyOptions
 ): Promise<IApiKeyResponse> {
-  requestOptions.httpMethod = "POST";
+  requestOptions.fetchOptions = {
+    ...(requestOptions.fetchOptions || {}),
+    method: "POST"
+  };
   const baseRequestOptions = extractBaseRequestOptions(requestOptions); // get base requestOptions snapshot
 
   /**

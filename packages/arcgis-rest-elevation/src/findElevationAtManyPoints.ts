@@ -27,7 +27,7 @@ export interface IFindElevationAtManyPointsResponse extends successResponse {}
  * Options for {@linkcode findElevationAtPoint}.
  */
 export interface IFindElevationAtManyPointsOptions
-  extends Omit<IRequestOptions, "httpMethod" | "f">,
+  extends Omit<IRequestOptions, "fetchOptions">,
     queryParams {}
 
 /**
@@ -74,6 +74,10 @@ export function findElevationAtManyPoints(
   );
 
   options.params.coordinates = JSON.stringify(requestOptions.coordinates);
+  options.fetchOptions = {
+    ...(options.fetchOptions || {}),
+    method: "GET"
+  };
 
   return (
     request(`${baseUrl}/elevation/at-many-points`, {

@@ -29,7 +29,7 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
   let options: IRequestOptions;
   if (typeof search === "string" || search instanceof SearchQueryBuilder) {
     options = {
-      httpMethod: "GET",
+      fetchOptions: { method: "GET" },
       params: {
         q: search
       }
@@ -53,10 +53,15 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
         "categoryFilters"
       ],
       {
-        httpMethod: "GET"
+        fetchOptions: { method: "GET" }
       }
     );
   }
+
+  options.fetchOptions = {
+    method: "GET",
+    ...(options.fetchOptions || {})
+  };
 
   let path;
   switch (searchType) {
