@@ -42,7 +42,10 @@ export async function getRegisteredAppInfo(
   const url =
     getPortalUrl(requestOptions) +
     `/content/users/${userName}/items/${requestOptions.itemId}/registeredAppInfo`;
-  requestOptions.httpMethod = "POST";
+  requestOptions.fetchOptions = {
+    ...requestOptions.fetchOptions,
+    method: "POST"
+  };
 
   const registeredAppResponse: IRegisteredAppResponse = await request(url, {
     ...requestOptions,
