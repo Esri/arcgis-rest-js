@@ -280,7 +280,7 @@ export function getFeature(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions.fetchOptions || {})
+      ...requestOptions.fetchOptions
     }
   };
   return request(url, options).then((response: any) => response.feature);
@@ -302,7 +302,7 @@ export function rawGetFeature(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions.fetchOptions || {})
+      ...requestOptions.fetchOptions
     }
   };
   return rawRequest(url, options);
@@ -380,7 +380,7 @@ export function queryFeatures(
 
   queryOptions.fetchOptions = {
     method: "GET",
-    ...(queryOptions.fetchOptions || {})
+    ...queryOptions.fetchOptions
   };
 
   if (
@@ -456,7 +456,7 @@ export async function queryAllFeatures(
       params: {
         where: "1=1",
         outFields: "*",
-        ...(requestOptions.params || {}),
+        ...requestOptions.params,
         resultOffset: offset,
         resultRecordCount: recordCountToUse
       }
@@ -510,7 +510,7 @@ export async function queryAllFeatures(
 
     queryOptions.fetchOptions = {
       method: "GET",
-      ...(queryOptions.fetchOptions || {})
+      ...queryOptions.fetchOptions
     };
 
     let response: IQueryAllFeaturesResponse;

@@ -54,7 +54,7 @@ export async function getUser(
       ...requestOptions,
       fetchOptions: {
         method: "GET",
-        ...(requestOptions?.fetchOptions || {})
+        ...requestOptions?.fetchOptions
       }
     };
   }

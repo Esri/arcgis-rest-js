@@ -64,7 +64,7 @@ export function getGroup(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions?.fetchOptions || {})
+      ...requestOptions?.fetchOptions
     }
   };
   return request(url, options);
@@ -91,7 +91,7 @@ export function getGroupCategorySchema(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions?.fetchOptions || {})
+      ...requestOptions?.fetchOptions
     }
   };
   return request(url, options);
@@ -114,7 +114,7 @@ export function getGroupContent(
   const options: IRequestOptions = {
     fetchOptions: {
       method: "GET",
-      ...(requestOptions?.fetchOptions || {})
+      ...requestOptions?.fetchOptions
     },
     params: { start: 1, num: 100 },
     ...requestOptions
@@ -122,7 +122,7 @@ export function getGroupContent(
 
   options.fetchOptions = {
     method: "GET",
-    ...(requestOptions?.fetchOptions || {})
+    ...requestOptions?.fetchOptions
   };
 
   // is this the most concise way to mixin with the defaults above?
@@ -150,7 +150,7 @@ export function getGroupUsers(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions?.fetchOptions || {})
+      ...requestOptions?.fetchOptions
     }
   };
   return request(url, options);
@@ -204,7 +204,7 @@ export function searchGroupUsers(
   );
   options.fetchOptions = {
     method: "GET",
-    ...(options.fetchOptions || {})
+    ...options.fetchOptions
   };
   return request(url, options);
 }

@@ -57,7 +57,7 @@ export async function getUserNotifications(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions.fetchOptions || {})
+      ...requestOptions.fetchOptions
     }
   };
 

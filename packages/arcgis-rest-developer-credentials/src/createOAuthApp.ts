@@ -49,7 +49,7 @@ export async function createOAuthApp(
   requestOptions: ICreateOAuthAppOption
 ): Promise<IOAuthApp> {
   requestOptions.fetchOptions = {
-    ...(requestOptions.fetchOptions || {}),
+    ...requestOptions.fetchOptions,
     method: "POST"
   };
 

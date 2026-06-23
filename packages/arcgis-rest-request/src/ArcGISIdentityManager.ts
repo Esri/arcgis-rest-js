@@ -1177,7 +1177,7 @@ export class ArcGISIdentityManager
 
       options.fetchOptions = {
         method: "GET",
-        ...(requestOptions?.fetchOptions || {})
+        ...requestOptions?.fetchOptions
       };
 
       this._pendingPortalRequest = request(url, options).then((response) => {

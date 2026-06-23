@@ -50,7 +50,7 @@ export function getPortal(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions?.fetchOptions || {})
+      ...requestOptions?.fetchOptions
     }
   };
 

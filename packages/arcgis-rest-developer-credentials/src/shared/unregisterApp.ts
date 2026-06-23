@@ -37,7 +37,7 @@ export async function unregisterApp(
   requestOptions: IUnregisterAppOptions
 ): Promise<IUnregisterAppResponse> {
   requestOptions.fetchOptions = {
-    ...(requestOptions.fetchOptions || {}),
+    ...requestOptions.fetchOptions,
     method: "POST"
   };
 

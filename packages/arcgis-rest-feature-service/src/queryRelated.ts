@@ -81,7 +81,7 @@ export function queryRelated(
 
   options.fetchOptions = {
     method: "GET",
-    ...(options.fetchOptions || {})
+    ...options.fetchOptions
   };
 
   return request(

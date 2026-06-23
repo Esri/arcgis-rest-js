@@ -43,7 +43,7 @@ export async function getRegisteredAppInfo(
     getPortalUrl(requestOptions) +
     `/content/users/${userName}/items/${requestOptions.itemId}/registeredAppInfo`;
   requestOptions.fetchOptions = {
-    ...(requestOptions.fetchOptions || {}),
+    ...requestOptions.fetchOptions,
     method: "POST"
   };
 

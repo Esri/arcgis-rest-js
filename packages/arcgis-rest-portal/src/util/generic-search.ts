@@ -60,7 +60,7 @@ export function genericSearch<T extends IItem | IGroup | IUser>(
 
   options.fetchOptions = {
     method: "GET",
-    ...(options.fetchOptions || {})
+    ...options.fetchOptions
   };
 
   let path;

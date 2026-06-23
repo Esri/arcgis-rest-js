@@ -50,7 +50,7 @@ export function getGeocodeService(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions?.fetchOptions || {})
+      ...requestOptions?.fetchOptions
     }
   };
 

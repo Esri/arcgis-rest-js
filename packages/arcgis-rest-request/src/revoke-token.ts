@@ -49,7 +49,7 @@ export function revokeToken(
   const options: IRequestOptions = {
     ...requestOptions,
     fetchOptions: {
-      ...(requestOptions.fetchOptions || {}),
+      ...requestOptions.fetchOptions,
       method: "POST"
     },
     params: {

@@ -109,7 +109,7 @@ export function findPlacesWithinExtent(
     request(requestOptions.endpoint || `${baseUrl}/places/within-extent`, {
       ...options,
       fetchOptions: {
-        ...(options.fetchOptions || {}),
+        ...options.fetchOptions,
         method: "GET"
       }
     }) as Promise<successResponse>

@@ -51,7 +51,7 @@ export async function updateOAuthApp(
   requestOptions: IUpdateOAuthOptions
 ): Promise<IOAuthApp> {
   requestOptions.fetchOptions = {
-    ...(requestOptions.fetchOptions || {}),
+    ...requestOptions.fetchOptions,
     method: "POST"
   };
 

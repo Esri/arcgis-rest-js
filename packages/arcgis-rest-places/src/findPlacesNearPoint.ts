@@ -100,7 +100,7 @@ export function findPlacesNearPoint(
     request(requestOptions.endpoint || `${baseUrl}/places/near-point`, {
       ...options,
       fetchOptions: {
-        ...(options.fetchOptions || {}),
+        ...options.fetchOptions,
         method: "GET"
       }
     }) as Promise<successResponse>

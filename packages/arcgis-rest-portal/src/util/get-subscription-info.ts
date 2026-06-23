@@ -39,7 +39,7 @@ export function getSubscriptionInfo(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions?.fetchOptions || {})
+      ...requestOptions?.fetchOptions
     }
   };
 

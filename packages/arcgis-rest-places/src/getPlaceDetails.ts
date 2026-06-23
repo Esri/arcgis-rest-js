@@ -83,7 +83,7 @@ export function getPlaceDetails(
   return request(requestOptions.endpoint || `${baseUrl}/places/${placeId}`, {
     ...options,
     fetchOptions: {
-      ...(options.fetchOptions || {}),
+      ...options.fetchOptions,
       method: "GET"
     }
   });

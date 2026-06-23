@@ -69,7 +69,7 @@ export function findElevationAtPoint(
     request(`${baseUrl}/elevation/at-point`, {
       ...options,
       fetchOptions: {
-        ...(options.fetchOptions || {}),
+        ...options.fetchOptions,
         method: "GET"
       }
     }) as Promise<successResponse>

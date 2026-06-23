@@ -92,7 +92,7 @@ class AuthenticationManagerBase {
 
       options.fetchOptions = {
         method: "GET",
-        ...(requestOptions?.fetchOptions || {})
+        ...requestOptions?.fetchOptions
       };
 
       this._pendingUserRequest = request(url, options).then((response) => {

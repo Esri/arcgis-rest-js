@@ -69,7 +69,7 @@ export function getCategory(
     {
       ...options,
       fetchOptions: {
-        ...(options.fetchOptions || {}),
+        ...options.fetchOptions,
         method: "GET"
       }
     }

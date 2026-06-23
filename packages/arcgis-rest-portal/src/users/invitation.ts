@@ -62,7 +62,7 @@ export async function getUserInvitations(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions.fetchOptions || {})
+      ...requestOptions.fetchOptions
     }
   };
 
@@ -105,7 +105,7 @@ export async function getUserInvitation(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions.fetchOptions || {})
+      ...requestOptions.fetchOptions
     }
   };
 

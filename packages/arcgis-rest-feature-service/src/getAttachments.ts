@@ -47,7 +47,7 @@ export function getAttachments(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions.fetchOptions || {})
+      ...requestOptions.fetchOptions
     }
   };
 

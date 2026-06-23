@@ -63,7 +63,7 @@ export async function createApiKey(
   requestOptions: ICreateApiKeyOptions
 ): Promise<IApiKeyResponse> {
   requestOptions.fetchOptions = {
-    ...(requestOptions.fetchOptions || {}),
+    ...requestOptions.fetchOptions,
     method: "POST"
   };
 

@@ -38,7 +38,7 @@ export async function getUserProperties(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions.fetchOptions || {})
+      ...requestOptions.fetchOptions
     }
   });
   if (!response.properties.mapViewer) {

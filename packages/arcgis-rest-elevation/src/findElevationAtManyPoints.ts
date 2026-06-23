@@ -75,7 +75,7 @@ export function findElevationAtManyPoints(
 
   options.params.coordinates = JSON.stringify(requestOptions.coordinates);
   options.fetchOptions = {
-    ...(options.fetchOptions || {}),
+    ...options.fetchOptions,
     method: "GET"
   };
 

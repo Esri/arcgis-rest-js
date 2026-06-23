@@ -40,7 +40,7 @@ export function getPortalSettings(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions?.fetchOptions || {})
+      ...requestOptions?.fetchOptions
     }
   };
 

@@ -74,7 +74,7 @@ export function getCategories(
   return request(requestOptions.endpoint || `${baseUrl}/categories`, {
     ...options,
     fetchOptions: {
-      ...(options.fetchOptions || {}),
+      ...options.fetchOptions,
       method: "GET"
     }
   });

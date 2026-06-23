@@ -48,7 +48,7 @@ export function getItem(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions?.fetchOptions || {})
+      ...requestOptions?.fetchOptions
     }
   };
 
@@ -112,7 +112,7 @@ export function getItemData(
     params: {},
     fetchOptions: {
       method: "GET",
-      ...(requestOptions?.fetchOptions || {})
+      ...requestOptions?.fetchOptions
     }
   };
 
@@ -164,7 +164,7 @@ export function getRelatedItems(
   const options: IItemRelationshipOptions = {
     fetchOptions: {
       method: "GET",
-      ...(requestOptions.fetchOptions || {})
+      ...requestOptions.fetchOptions
     },
     params: {
       direction: requestOptions.direction
@@ -446,7 +446,7 @@ export function getItemInfo(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions?.fetchOptions || {})
+      ...requestOptions?.fetchOptions
     }
   };
   return getItemFile(id, `/info/${fileName}`, readAs, options);
@@ -469,7 +469,7 @@ export function rawGetItemInfo(
     ...requestOptions,
     fetchOptions: {
       method: "GET",
-      ...(requestOptions?.fetchOptions || {})
+      ...requestOptions?.fetchOptions
     }
   };
   options.params.f = null;
