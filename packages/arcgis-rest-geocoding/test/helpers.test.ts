@@ -34,7 +34,9 @@ describe("geocode", () => {
   test("should make POST request for metadata from the World Geocoding Service", async () => {
     fetchMock.once("*", SharingInfo);
 
-    const response = await getGeocodeService({ httpMethod: "POST" });
+    const response = await getGeocodeService({
+      fetchOptions: { method: "POST" }
+    });
     expect(fetchMock.called()).toEqual(true);
     const [url, options] = fetchMock.lastCall("*");
     expect(url).toEqual(
