@@ -37,7 +37,7 @@ export interface IFindPlacesWithinExtentResponse extends successResponse {
  * Options for {@linkcode findPlacesNearPoint}.
  */
 export interface IFindPlaceWithinExtentOptions
-  extends Omit<IRequestOptions, "httpMethod" | "f">,
+  extends Omit<IRequestOptions, "fetchOptions">,
     queryParams {
   /**
    * Override the URL. This should be the full URL to the API endpoint you want to call. Used internally by Esri staff for testing.
@@ -108,7 +108,10 @@ export function findPlacesWithinExtent(
   return (
     request(requestOptions.endpoint || `${baseUrl}/places/within-extent`, {
       ...options,
-      httpMethod: "GET"
+      fetchOptions: {
+        ...options.fetchOptions,
+        method: "GET"
+      }
     }) as Promise<successResponse>
   ).then((response) => {
     const r: IFindPlacesWithinExtentResponse = {
