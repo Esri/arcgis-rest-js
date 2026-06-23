@@ -146,7 +146,7 @@ describe("geocode", () => {
         address: "380 New York St",
         postal: 92373
       },
-      httpMethod: "GET"
+      fetchOptions: { method: "GET" }
     });
     expect(fetchMock.called()).toEqual(true);
     const [url, options] = fetchMock.lastCall("*");
