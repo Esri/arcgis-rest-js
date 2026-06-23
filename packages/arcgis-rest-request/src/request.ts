@@ -18,7 +18,6 @@ import { warnOnDeprecatedRequestOptions } from "./utils/warn-deprecated-request-
 import { IRetryAuthError } from "./utils/retryAuthError.js";
 import { IAuthenticationManager } from "./index.js";
 import { isSameOrigin } from "./utils/isSameOrigin.js";
-import { mergeNormalizedRequestOptions } from "./utils/merge-normalized-request-options.js";
 import { normalizeDeprecatedRequestOptions } from "./utils/normalize-deprecated-request-options.js";
 import { mergeHeaders } from "./utils/merge-headers.js";
 
