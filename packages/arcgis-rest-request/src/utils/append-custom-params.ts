@@ -7,10 +7,6 @@ import { normalizeDeprecatedRequestOptions } from "./normalize-deprecated-reques
 /**
  * Appends selected custom option keys into `params` while preserving request options.
  *
- * This utility exists to support endpoint helper methods that accept many first-order options.
- * It is maintained for backwards compatibility while endpoint helpers transition to clearer,
- * explicit request options over time.
- *
  * @param customOptions Endpoint-specific options supplied by the caller.
  * @param keys Keys from `customOptions` that should be appended to `params`.
  * @param baseOptions Request defaults merged before `customOptions`.
