@@ -456,7 +456,7 @@ export async function queryAllFeatures(
       params: {
         where: "1=1",
         outFields: "*",
-        ...requestOptions.params,
+        ...(requestOptions.params || {}),
         resultOffset: offset,
         resultRecordCount: recordCountToUse
       }
