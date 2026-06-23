@@ -45,8 +45,11 @@ export function getItem(
 
   // default to a GET request
   const options: IRequestOptions = {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions?.fetchOptions
+    }
   };
 
   return request(url, options).then(async (item: IItem) => {
@@ -105,8 +108,12 @@ export function getItemData(
   const url = `${getItemBaseUrl(id, requestOptions)}/data`;
   // default to a GET request
   const options: IItemDataOptions = {
-    ...{ httpMethod: "GET", params: {} },
-    ...requestOptions
+    ...requestOptions,
+    params: {},
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions?.fetchOptions
+    }
   };
 
   if (options.file) {
@@ -155,7 +162,10 @@ export function getRelatedItems(
   )}/relatedItems`;
 
   const options: IItemRelationshipOptions = {
-    httpMethod: "GET",
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions.fetchOptions
+    },
     params: {
       direction: requestOptions.direction
     },
@@ -433,8 +443,11 @@ export function getItemInfo(
 ): Promise<any> {
   const { fileName = "iteminfo.xml", readAs = "text" } = requestOptions || {};
   const options: IRequestOptions = {
-    httpMethod: "GET",
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions?.fetchOptions
+    }
   };
   return getItemFile(id, `/info/${fileName}`, readAs, options);
 }
@@ -453,8 +466,11 @@ export function rawGetItemInfo(
   const { fileName = "iteminfo.xml" } = requestOptions || {};
   const options: IRequestOptions = {
     params: {},
-    httpMethod: "GET",
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions?.fetchOptions
+    }
   };
   options.params.f = null;
   const url = `${getItemBaseUrl(id, options)}/info/${fileName}`;

@@ -46,12 +46,20 @@ export interface INotificationResult {
 export async function getUserNotifications(
   requestOptions: IAuthenticatedRequestOptions
 ): Promise<INotificationResult> {
-  let options = { httpMethod: "GET" } as IAuthenticatedRequestOptions;
+  let options = {
+    fetchOptions: { method: "GET" }
+  } as IAuthenticatedRequestOptions;
 
   const username = await determineUsername(requestOptions);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/notifications`;
-  options = { ...requestOptions, ...options };
+  options = {
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions.fetchOptions
+    }
+  };
 
   // send the request
   return request(url, options);

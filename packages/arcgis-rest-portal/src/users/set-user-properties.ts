@@ -24,7 +24,7 @@ export async function setUserProperties(
     requestOptions
   )}/community/users/${encodeURIComponent(username)}/setProperties`;
   const options: IAuthenticatedRequestOptions = {
-    httpMethod: "POST",
+    fetchOptions: { method: "POST" },
     params: { properties },
     ...requestOptions
   };
