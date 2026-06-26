@@ -14,10 +14,8 @@ import {
   getItemParts,
   getRelatedItems,
   getItemInfo,
-  rawGetItemInfo,
   getItemMetadata,
-  getItemResource,
-  rawGetItemResource
+  getItemResource
 } from "../../src/items/get.js";
 
 import {
@@ -173,21 +171,6 @@ describe("get", () => {
     const [url, options] = fetchMock.lastCall("*");
     expect(url).toEqual(
       "https://www.arcgis.com/sharing/rest/content/items/3ef/info/iteminfo.xml"
-    );
-    expect(options.method).toBe("GET");
-  });
-
-  test("should return raw response item info", async () => {
-    fetchMock.once("*", ItemFormJsonResponse);
-    const response = await rawGetItemInfo("3ef", {
-      fileName: "form.json"
-    } as IGetItemInfoOptions);
-    const formJson = await response.json();
-    expect(formJson).toEqual(ItemFormJsonResponse);
-    expect(fetchMock.called()).toEqual(true);
-    const [url, options] = fetchMock.lastCall("*");
-    expect(url).toEqual(
-      "https://www.arcgis.com/sharing/rest/content/items/3ef/info/form.json"
     );
     expect(options.method).toBe("GET");
   });
@@ -403,23 +386,6 @@ describe("get", () => {
         );
         expect(options.method).toBe("POST");
         expect(resource.foo).toEqual("foobarbaz");
-      });
-
-      test("returns raw response for a JSON resource", async () => {
-        const badJsonString = '{"foo":"foobarbaz"}';
-        fetchMock.once("*", badJsonString);
-
-        const response = await rawGetItemResource("3ef", {
-          fileName: "resource.json",
-          ...MOCK_USER_REQOPTS
-        });
-        const [url, options] = fetchMock.lastCall("*");
-        expect(url).toEqual(
-          "https://myorg.maps.arcgis.com/sharing/rest/content/items/3ef/resources/resource.json"
-        );
-        expect(options.method).toBe("POST");
-        expect(response.json).toBeDefined();
-        await expect(response.json()).rejects.toBeDefined();
       });
     });
 

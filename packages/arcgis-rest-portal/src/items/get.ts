@@ -258,7 +258,7 @@ export interface IGetItemResourceOptions extends IRequestOptions {
  *  .then(resourceContents => {});
  *
  * // Get the response object instead
- * rawGetItemResource("3ef", { fileName: "resource.json" })
+ * getItemResource("3ef", { fileName: "resource.json" })
  *  .then(response => {})
  * ```
  *
@@ -276,28 +276,6 @@ export function getItemResource(
     readAs,
     requestOptions
   );
-}
-
-/**
- * Fetches an item resource and returns the native response.
- *
- * @param itemId - The item id.
- * @param requestOptions - Options for the request.
- * @returns A Promise that resolves with the native response.
- */
-export function rawGetItemResource(
-  itemId: string,
-  requestOptions: IGetItemResourceOptions
-): Promise<Response> {
-  const url = `${getItemBaseUrl(itemId, requestOptions)}/resources/${
-    requestOptions.fileName
-  }`;
-  const options: IRequestOptions = {
-    params: {},
-    ...requestOptions
-  };
-  options.params.f = null;
-  return rawRequest(url, options);
 }
 
 /**
@@ -453,31 +431,6 @@ export function getItemInfo(
 }
 
 /**
- * Get an info file for an item and return the native response.
- *
- * @param id - Item Id.
- * @param requestOptions - Options for the request, including the file name which defaults to `iteminfo.xml`.
- * @returns A Promise that resolves with the native response.
- */
-export function rawGetItemInfo(
-  id: string,
-  requestOptions?: IGetItemInfoOptions
-): Promise<Response> {
-  const { fileName = "iteminfo.xml" } = requestOptions || {};
-  const options: IRequestOptions = {
-    params: {},
-    ...requestOptions,
-    fetchOptions: {
-      method: "GET",
-      ...requestOptions?.fetchOptions
-    }
-  };
-  options.params.f = null;
-  const url = `${getItemBaseUrl(id, options)}/info/${fileName}`;
-  return rawRequest(url, options);
-}
-
-/**
  * ```
  * import { getItemMetadata } from "@esri/arcgis-rest-portal";
  * // get the metadata for the item
@@ -506,7 +459,7 @@ export function getItemMetadata(
 // overrides request()'s default behavior for reading the response
 // which is based on `params.f` and defaults to JSON
 // Also adds JSON parse error protection by sanitizing out any unescaped control characters before parsing
-function getItemFile(
+async function getItemFile(
   id: string,
   // NOTE: fileName should include any folder/subfolders
   fileName: string,
@@ -521,11 +474,11 @@ function getItemFile(
   };
   options.params.f = null;
 
-  return rawRequest(url, options).then((response) => {
-    return readMethod !== "json"
-      ? response[readMethod]()
-      : response
-          .text()
-          .then((text: string) => JSON.parse(scrubControlChars(text)));
-  });
+  const response = await rawRequest(url, options);
+
+  return readMethod !== "json"
+    ? response[readMethod]()
+    : response
+        .text()
+        .then((text: string) => JSON.parse(scrubControlChars(text)));
 }
