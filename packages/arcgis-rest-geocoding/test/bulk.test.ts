@@ -3,7 +3,7 @@
 
 import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
-import { bulkGeocode, rawBulkGeocode } from "../src/bulk.js";
+import { bulkGeocode } from "../src/bulk.js";
 import { GeocodeAddresses } from "./mocks/responses.js";
 
 const addresses = [
@@ -178,34 +178,5 @@ describe("geocode", () => {
       )}`
     );
     expect(response.spatialReference.latestWkid).toEqual(4326);
-  });
-
-  test("should return raw response from rawBulkGeocode", async () => {
-    fetchMock.once("*", GeocodeAddresses);
-
-    const MOCK_AUTH = {
-      getToken() {
-        return Promise.resolve("token");
-      },
-      portal: "https://mapsdev.arcgis.com"
-    };
-
-    const response: any = await rawBulkGeocode({
-      addresses,
-      authentication: MOCK_AUTH
-    });
-    expect(fetchMock.called()).toEqual(true);
-    const [url, options] = fetchMock.lastCall("*");
-    expect(url).toEqual(
-      "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/geocodeAddresses"
-    );
-    expect(options.method).toBe("POST");
-    expect(response.status).toBe(200);
-    expect(response.ok).toBe(true);
-    expect(response.body.Readable).not.toBe(null);
-    const raw = await response.json();
-    expect(raw).toEqual(GeocodeAddresses);
-    // this used to work with isomorphic-fetch
-    // expect(response instanceof Response).toBe(true);
   });
 });

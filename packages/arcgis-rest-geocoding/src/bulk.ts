@@ -70,7 +70,7 @@ export interface IBulkGeocodeResponse {
  * @param requestOptions - Request options to pass to the geocoder, including an array of addresses and authentication session.
  * @returns A Promise that will resolve with the data from the response. The spatial reference will be added to address locations.
  */
-export function bulkGeocode(
+export async function bulkGeocode(
   requestOptions: IBulkGeocodeOptions // must POST, which is the default
 ): Promise<IBulkGeocodeResponse> {
   const options: IBulkGeocodeOptions = {
@@ -85,63 +85,25 @@ export function bulkGeocode(
     })
   };
 
-  const endpoint = options.endpoint;
-
   // the SAS service does not support anonymous requests
   if (
     !requestOptions.authentication &&
-    endpoint === ARCGIS_ONLINE_BULK_GEOCODING_URL
+    options.endpoint === ARCGIS_ONLINE_BULK_GEOCODING_URL
   ) {
-    return Promise.reject(
-      "bulk geocoding using the ArcGIS service requires authentication"
+    throw new Error(
+      "bulk geocoding using the ArcGIS service requires authentication."
     );
   }
 
-  return request(`${cleanUrl(endpoint)}/geocodeAddresses`, options).then(
-    (response) => {
-      const sr = response.spatialReference;
-      response.locations.forEach(function (address: { location: IPoint }) {
-        if (address.location) {
-          address.location.spatialReference = sr;
-        }
-      });
-      return response;
-    }
+  const response = await request(
+    `${cleanUrl(options.endpoint)}/geocodeAddresses`,
+    options
   );
-}
-
-/**
- * Used to geocode a batch of addresses and return the native response.
- *
- * @param requestOptions - Request options to pass to the geocoder, including an array of addresses and authentication session.
- * @returns A Promise that resolves with the native response.
- */
-export function rawBulkGeocode(
-  requestOptions: IBulkGeocodeOptions
-): Promise<Response> {
-  const options: IBulkGeocodeOptions = {
-    endpoint: ARCGIS_ONLINE_BULK_GEOCODING_URL,
-    params: {},
-    ...requestOptions
-  };
-
-  options.params.addresses = {
-    records: requestOptions.addresses.map((address) => {
-      return { attributes: address };
-    })
-  };
-
-  const endpoint = options.endpoint;
-
-  // the SAS service does not support anonymous requests
-  if (
-    !requestOptions.authentication &&
-    endpoint === ARCGIS_ONLINE_BULK_GEOCODING_URL
-  ) {
-    return Promise.reject(
-      "bulk geocoding using the ArcGIS service requires authentication"
-    );
-  }
-
-  return rawRequest(`${cleanUrl(endpoint)}/geocodeAddresses`, options);
+  const sr = response.spatialReference;
+  response.locations.forEach(function (address: { location: IPoint }) {
+    if (address.location) {
+      address.location.spatialReference = sr;
+    }
+  });
+  return response;
 }
