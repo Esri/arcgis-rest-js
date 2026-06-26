@@ -287,28 +287,6 @@ export function getFeature(
 }
 
 /**
- * Get a feature by id and return the native response.
- *
- * @param requestOptions - Options for the request.
- * @returns A Promise that resolves with the native response.
- */
-export function rawGetFeature(
-  requestOptions: IGetFeatureOptions
-): Promise<Response> {
-  const url = `${cleanUrl(requestOptions.url)}/${requestOptions.id}`;
-
-  // default to a GET request
-  const options: IGetFeatureOptions = {
-    ...requestOptions,
-    fetchOptions: {
-      method: "GET",
-      ...requestOptions.fetchOptions
-    }
-  };
-  return rawRequest(url, options);
-}
-
-/**
  * Query a feature service. See [REST Documentation](https://developers.arcgis.com/rest/services-reference/query-feature-service-layer-.htm) for more information.
  *
  * ```js

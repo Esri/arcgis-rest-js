@@ -5,7 +5,6 @@ import { describe, afterEach, test, expect, vi, beforeEach } from "vitest";
 import fetchMock from "fetch-mock";
 import {
   getFeature,
-  rawGetFeature,
   queryFeatures,
   queryAllFeatures,
   queryRelated,
@@ -50,27 +49,6 @@ describe("getFeature() and queryFeatures()", () => {
     expect(url).toBe(`${requestOptions.url}/42?f=json`);
     expect(options.method).toBe("GET");
     expect(response.attributes.FID).toBe(42);
-  });
-
-  test("returns raw response when getting a feature", async () => {
-    const requestOptions = {
-      url: serviceUrl,
-      id: 42
-    };
-    fetchMock.once("*", featureResponse);
-
-    const response: any = await rawGetFeature(requestOptions);
-
-    expect(fetchMock.called()).toBeTruthy();
-    const [url, options] = fetchMock.lastCall("*");
-    expect(url).toBe(`${requestOptions.url}/42?f=json`);
-    expect(options.method).toBe("GET");
-    expect(response.status).toBe(200);
-    expect(response.ok).toBe(true);
-    expect(response.body.Readable).not.toBe(null);
-
-    const raw = await response.json();
-    expect(raw).toEqual(featureResponse);
   });
 
   test("should supply default query parameters", async () => {
