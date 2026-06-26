@@ -96,7 +96,7 @@ export interface IGeocodeResponse {
  * @param address String representing the address or point of interest or RequestOptions to pass to the endpoint.
  * @returns A Promise that will resolve with address candidates for the request. The spatial reference will be added to candidate locations and extents.
  */
-export function geocode(
+export async function geocode(
   address: string | IGeocodeOptions
 ): Promise<IGeocodeResponse> {
   let options: IGeocodeOptions = {};
@@ -135,91 +135,43 @@ export function geocode(
     }
   }
 
-  // add spatialReference property to individual matches
-  return request(`${cleanUrl(endpoint)}/findAddressCandidates`, options).then(
-    (response) => {
-      const sr: ISpatialReference = response.spatialReference;
-      response.candidates.forEach(function (candidate: {
-        location: IPoint;
-        extent?: IExtent;
-      }) {
-        candidate.location.spatialReference = sr;
-        if (candidate.extent) {
-          candidate.extent.spatialReference = sr;
-        }
-      });
-
-      // geoJson
-      if (sr.wkid === 4326) {
-        const features = response.candidates.map((candidate: any) => {
-          return {
-            type: "Feature",
-            geometry: arcgisToGeoJSON(candidate.location),
-            properties: Object.assign(
-              {
-                address: candidate.address,
-                score: candidate.score
-              },
-              candidate.attributes
-            )
-          };
-        });
-
-        response.geoJson = {
-          type: "FeatureCollection",
-          features
-        };
-      }
-
-      return response;
-    }
+  const response = await request(
+    `${cleanUrl(endpoint)}/findAddressCandidates`,
+    options
   );
-}
-
-/**
- * Used to determine the location of a single address or point of interest and return the native response.
- *
- * @param address String representing the address or point of interest or RequestOptions to pass to the endpoint.
- * @returns A Promise that will resolve with the native response.
- */
-export function rawGeocode(
-  address: string | IGeocodeOptions
-): Promise<Response> {
-  let options: IGeocodeOptions = {};
-  let endpoint: string;
-
-  if (typeof address === "string") {
-    options.params = { singleLine: address };
-    endpoint = ARCGIS_ONLINE_GEOCODING_URL;
-  } else {
-    endpoint = address.endpoint || ARCGIS_ONLINE_GEOCODING_URL;
-    options = appendCustomParams<IGeocodeOptions>(
-      address,
-      [
-        "singleLine",
-        "address",
-        "address2",
-        "address3",
-        "neighborhood",
-        "city",
-        "subregion",
-        "region",
-        "postal",
-        "postalExt",
-        "countryCode",
-        "outFields",
-        "magicKey"
-      ],
-      { params: { ...address.params } }
-    );
-
-    if (options.params.postal && typeof options.params.postal === "number") {
-      warn(
-        "The postal code should be a string. " +
-          "Issues can arise when using it as a number, especially if they start with zero."
-      );
+  const sr: ISpatialReference = response.spatialReference;
+  // add spatialReference property to individual matches
+  response.candidates.forEach(function (candidate: {
+    location: IPoint;
+    extent?: IExtent;
+  }) {
+    candidate.location.spatialReference = sr;
+    if (candidate.extent) {
+      candidate.extent.spatialReference = sr;
     }
+  });
+
+  // geoJson
+  if (sr.wkid === 4326) {
+    const features = response.candidates.map((candidate: any) => {
+      return {
+        type: "Feature",
+        geometry: arcgisToGeoJSON(candidate.location),
+        properties: Object.assign(
+          {
+            address: candidate.address,
+            score: candidate.score
+          },
+          candidate.attributes
+        )
+      };
+    });
+
+    response.geoJson = {
+      type: "FeatureCollection",
+      features
+    };
   }
 
-  return rawRequest(`${cleanUrl(endpoint)}/findAddressCandidates`, options);
+  return response;
 }

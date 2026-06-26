@@ -3,7 +3,7 @@
 
 import { describe, test, afterEach, expect } from "vitest";
 import fetchMock from "fetch-mock";
-import { geocode, rawGeocode } from "../src/geocode.js";
+import { geocode } from "../src/geocode.js";
 import {
   FindAddressCandidates,
   FindAddressCandidates3857,
@@ -175,35 +175,6 @@ describe("geocode", () => {
     expect(
       response.candidates.every((candidate) => candidate.extent == null)
     ).toBe(true);
-  });
-
-  test("should return raw response from rawGeocode", async () => {
-    fetchMock.once("*", FindAddressCandidates);
-    const response: any = await rawGeocode({
-      address: "1600 Pennsylvania Avenue",
-      city: "Washington D.C."
-    });
-    expect(fetchMock.called()).toEqual(true);
-    const [url, options] = fetchMock.lastCall("*");
-    expect(url).toEqual(
-      "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates"
-    );
-    expect(options.method).toBe("POST");
-    expect(options.body).toContain("f=json");
-    expect(options.body).toContain(
-      `address=${encodeURIComponent("1600 Pennsylvania Avenue")}`
-    );
-    expect(options.body).toContain(
-      `city=${encodeURIComponent("Washington D.C.")}`
-    );
-    expect(options.method).toBe("POST");
-    expect(response.status).toBe(200);
-    expect(response.ok).toBe(true);
-    expect(response.body.Readable).not.toBe(null);
-    const raw = await response.json();
-    expect(raw).toEqual(FindAddressCandidates);
-    // this used to work with isomorphic-fetch
-    // expect(response instanceof Response).toBe(true);
   });
 
   test("should make a single geocoding request with a postal code as a string", async () => {
