@@ -66,8 +66,8 @@ describe("geocode", () => {
   test("should throw an error when a bulk geocoding request is made without a token", async () => {
     fetchMock.once("*", GeocodeAddresses);
 
-    await expect(bulkGeocode({ addresses })).rejects.toEqual(
-      "bulk geocoding using the ArcGIS service requires authentication"
+    await expect(bulkGeocode({ addresses })).rejects.toThrowError(
+      "bulk geocoding using the ArcGIS service requires authentication."
     );
   });
 
