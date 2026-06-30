@@ -8,6 +8,7 @@ import {
   getItemBaseUrl,
   getItem,
   getItemData,
+  getItemDataRaw,
   getItemResources,
   getItemGroups,
   getItemStatus,
@@ -36,8 +37,8 @@ import {
 } from "@esri/arcgis-rest-request";
 
 import {
-  isBrowser,
   isNode,
+  isBrowser,
   TOMORROW
 } from "../../../../scripts/test-helpers.js";
 
@@ -77,7 +78,7 @@ describe("get", () => {
     expect(options.method).toBe("GET");
   });
 
-  test("should return binary item data by id", async () => {
+  test("should return raw item data by id", async () => {
     fetchMock.once(
       "*",
       {
@@ -88,22 +89,37 @@ describe("get", () => {
         sendAsJson: false
       }
     );
-    const response = await getItemData("3ef", { file: true });
+    const response = await getItemDataRaw("3ef");
     expect(fetchMock.called()).toEqual(true);
     const [url, options] = fetchMock.lastCall("*");
     expect(url).toEqual(
       "https://www.arcgis.com/sharing/rest/content/items/3ef/data"
     );
     expect(options.method).toBe("GET");
-    expect(response).toBeDefined();
+    expect(response.ok).toBe(true);
+    expect(response.status).toBe(200);
+    const blob = await response.blob();
     if (isBrowser) {
-      expect(response).toBeInstanceOf(Blob);
+      expect(blob).toBeInstanceOf(Blob);
     }
     if (isNode) {
-      expect((response as Blob).size).toBe(4);
-      const bytes = new Uint8Array(await (response as Blob).arrayBuffer());
+      expect(blob.size).toBe(4);
+      const bytes = new Uint8Array(await blob.arrayBuffer());
       expect(Array.from(bytes)).toEqual([97, 98, 99, 100]);
     }
+  });
+
+  test("should return parsed json item data even when file is requested", async () => {
+    fetchMock.once("*", ItemDataResponse);
+
+    const response = await getItemData("3ef", { file: true } as any);
+    expect(fetchMock.called()).toEqual(true);
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      "https://www.arcgis.com/sharing/rest/content/items/3ef/data?f=json"
+    );
+    expect(options.method).toBe("GET");
+    expect(response).toEqual(ItemDataResponse);
   });
 
   test("should return a valid response even when no data is retrieved", async () => {

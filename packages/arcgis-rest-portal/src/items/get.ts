@@ -13,7 +13,6 @@ import { IItem } from "../helpers.js";
 import { getPortalUrl } from "../util/get-portal-url.js";
 import { scrubControlChars } from "../util/scrub-control-chars.js";
 import {
-  IItemDataOptions,
   IItemRelationshipOptions,
   IUserItemOptions,
   determineOwner,
@@ -103,11 +102,11 @@ export const getItemBaseUrl = (
  */
 export function getItemData(
   id: string,
-  requestOptions?: IItemDataOptions
+  requestOptions?: IRequestOptions
 ): Promise<any> {
   const url = `${getItemBaseUrl(id, requestOptions)}/data`;
   // default to a GET request
-  const options: IItemDataOptions = {
+  const options: IRequestOptions = {
     ...requestOptions,
     params: {},
     fetchOptions: {
@@ -115,11 +114,6 @@ export function getItemData(
       ...requestOptions?.fetchOptions
     }
   };
-
-  if (options.file) {
-    options.params.f = null;
-    return rawRequest(url, options).then((response) => response.blob());
-  }
 
   return request(url, options).catch((err) => {
     /* if the item doesn't include data, the response will be empty
@@ -131,6 +125,44 @@ export function getItemData(
       return;
     } else throw err;
   });
+}
+
+/**
+ * ```
+ * import { getItemDataRaw } from "@esri/arcgis-rest-portal";
+ *
+ * const response = await getItemDataRaw("ae7");
+ * const data = await response.json();
+ * // or
+ * const data = await response.text();
+ * // or
+ * const data = await response.blob();
+ * // or
+ * const data = await response.arrayBuffer();
+ * ```
+ * Get the native response for an item's /data resource so callers can parse
+ * JSON, text, blobs, or array buffers themselves.
+ *
+ * @param id - Item Id
+ * @param requestOptions - Options for the request
+ * @returns A Promise that will resolve with the native response.
+ */
+export function getItemDataRaw(
+  id: string,
+  requestOptions?: IRequestOptions
+): Promise<Response> {
+  const url = `${getItemBaseUrl(id, requestOptions)}/data`;
+  const options: IRequestOptions = {
+    ...requestOptions,
+    params: {},
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions?.fetchOptions
+    }
+  };
+
+  options.params.f = null;
+  return rawRequest(url, options);
 }
 
 export interface IGetRelatedItemsResponse {
