@@ -315,7 +315,7 @@ export function decorateThumbnail(
   if (typeof item.thumbnail === "string") {
     thumbnailUrl = `${portal}/content/items/${item.id}/info/${item.thumbnail}`;
     if (thumbnailUrl && item.access !== "public" && token) {
-      thumbnailUrl += `?${token}`;
+      thumbnailUrl += `?token=${token}`;
     }
   }
 
