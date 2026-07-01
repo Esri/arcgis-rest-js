@@ -33,11 +33,18 @@ export interface IFindPlacesWithinExtentResponse extends successResponse {
   nextPage?: () => Promise<IFindPlacesWithinExtentResponse>;
 }
 
+type IRequestOptionsWithoutHttpMethod = Omit<
+  IRequestOptions,
+  "fetchOptions"
+> & {
+  fetchOptions?: Omit<RequestInit, "method">;
+};
+
 /**
  * Options for {@linkcode findPlacesNearPoint}.
  */
 export interface IFindPlaceWithinExtentOptions
-  extends Omit<IRequestOptions, "fetchOptions">,
+  extends IRequestOptionsWithoutHttpMethod,
     queryParams {
   /**
    * Override the URL. This should be the full URL to the API endpoint you want to call. Used internally by Esri staff for testing.
