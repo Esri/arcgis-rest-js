@@ -107,8 +107,8 @@ export function getItemData(
   const url = `${getItemBaseUrl(id, requestOptions)}/data`;
   // default to a GET request
   const options: IRequestOptions = {
-    ...requestOptions,
     params: {},
+    ...requestOptions,
     fetchOptions: {
       method: "GET",
       ...requestOptions?.fetchOptions
@@ -153,8 +153,8 @@ export function getItemDataRaw(
 ): Promise<Response> {
   const url = `${getItemBaseUrl(id, requestOptions)}/data`;
   const options: IRequestOptions = {
-    ...requestOptions,
     params: {},
+    ...requestOptions,
     fetchOptions: {
       method: "GET",
       ...requestOptions?.fetchOptions
@@ -194,14 +194,15 @@ export function getRelatedItems(
   )}/relatedItems`;
 
   const options: IItemRelationshipOptions = {
+    ...requestOptions,
     fetchOptions: {
       method: "GET",
       ...requestOptions.fetchOptions
     },
     params: {
+      ...requestOptions.params,
       direction: requestOptions.direction
-    },
-    ...requestOptions
+    }
   };
 
   if (typeof requestOptions.relationshipType === "string") {

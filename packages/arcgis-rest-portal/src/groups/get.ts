@@ -112,18 +112,13 @@ export function getGroupContent(
 
   // default to a GET request
   const options: IRequestOptions = {
+    params: { start: 1, num: 100 },
+    ...requestOptions,
     fetchOptions: {
       method: "GET",
       ...requestOptions?.fetchOptions
-    },
-    params: { start: 1, num: 100 },
-    ...requestOptions
+    }
   } as IGetGroupContentOptions;
-
-  options.fetchOptions = {
-    method: "GET",
-    ...requestOptions?.fetchOptions
-  };
 
   // is this the most concise way to mixin with the defaults above?
   if (requestOptions && requestOptions.paging) {
@@ -197,10 +192,7 @@ export function searchGroupUsers(
   const url = `${getPortalUrl(searchOptions)}/community/groups/${id}/userlist`;
   const options = appendCustomParams<ISearchGroupUsersOptions>(
     searchOptions || {},
-    ["name", "num", "start", "sortField", "sortOrder", "joined", "memberType"],
-    {
-      fetchOptions: { method: "GET" }
-    }
+    ["name", "num", "start", "sortField", "sortOrder", "joined", "memberType"]
   );
   options.fetchOptions = {
     method: "GET",

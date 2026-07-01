@@ -23,11 +23,18 @@ type successResponse =
  */
 export interface IFindElevationAtManyPointsResponse extends successResponse {}
 
+type IRequestOptionsWithoutHttpMethod = Omit<
+  IRequestOptions,
+  "fetchOptions"
+> & {
+  fetchOptions?: Omit<RequestInit, "method">;
+};
+
 /**
  * Options for {@linkcode findElevationAtPoint}.
  */
 export interface IFindElevationAtManyPointsOptions
-  extends Omit<IRequestOptions, "fetchOptions">,
+  extends IRequestOptionsWithoutHttpMethod,
     queryParams {}
 
 /**
@@ -74,10 +81,6 @@ export function findElevationAtManyPoints(
   );
 
   options.params.coordinates = JSON.stringify(requestOptions.coordinates);
-  options.fetchOptions = {
-    ...options.fetchOptions,
-    method: "GET"
-  };
 
   return (
     request(`${baseUrl}/elevation/at-many-points`, {

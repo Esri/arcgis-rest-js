@@ -34,13 +34,15 @@ export async function getUserProperties(
   const url = `${getPortalUrl(
     requestOptions
   )}/community/users/${encodeURIComponent(username)}/properties`;
-  const response = await request(url, {
+
+  const options = {
     ...requestOptions,
     fetchOptions: {
-      method: "GET",
-      ...requestOptions.fetchOptions
+      ...requestOptions.fetchOptions,
+      method: "GET"
     }
-  });
+  };
+  const response = await request(url, options);
   if (!response.properties.mapViewer) {
     response.properties.mapViewer = "modern";
   }

@@ -68,7 +68,6 @@ export function queryRelated(
     requestOptions,
     ["objectIds", "relationshipId", "definitionExpression", "outFields"],
     {
-      fetchOptions: { method: "GET" },
       params: {
         // set default query parameters
         definitionExpression: "1=1",

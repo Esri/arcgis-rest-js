@@ -53,8 +53,8 @@ export async function getUser(
     options = {
       ...requestOptions,
       fetchOptions: {
-        method: "GET",
-        ...requestOptions?.fetchOptions
+        ...requestOptions?.fetchOptions,
+        method: "GET"
       }
     };
   }

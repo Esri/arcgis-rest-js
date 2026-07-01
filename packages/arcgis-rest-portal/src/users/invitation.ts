@@ -52,17 +52,14 @@ export interface IInvitationResult {
 export async function getUserInvitations(
   requestOptions: IAuthenticatedRequestOptions
 ): Promise<IInvitationResult> {
-  let options = {
-    fetchOptions: { method: "GET" }
-  } as IAuthenticatedRequestOptions;
   const username = await determineUsername(requestOptions);
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/invitations`;
-  options = {
+  const options = {
     ...requestOptions,
     fetchOptions: {
-      method: "GET",
-      ...requestOptions.fetchOptions
+      ...requestOptions.fetchOptions,
+      method: "GET"
     }
   };
 
@@ -98,14 +95,11 @@ export async function getUserInvitation(
   const portalUrl = getPortalUrl(requestOptions);
   const url = `${portalUrl}/community/users/${username}/invitations/${requestOptions.invitationId}`;
 
-  let options = {
-    fetchOptions: { method: "GET" }
-  } as IGetUserInvitationOptions;
-  options = {
+  const options = {
     ...requestOptions,
     fetchOptions: {
-      method: "GET",
-      ...requestOptions.fetchOptions
+      ...requestOptions.fetchOptions,
+      method: "GET"
     }
   };
 

@@ -208,7 +208,6 @@ function prepareQueryFeaturesOptions(
       "f"
     ],
     {
-      fetchOptions: { method: "GET" },
       params: {
         // set default query parameters
         where: "1=1",
@@ -499,7 +498,6 @@ export async function queryAllFeatures(
         "f"
       ],
       {
-        fetchOptions: { method: "GET" },
         params: {
           where: "1=1",
           outFields: "*",
