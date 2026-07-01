@@ -24,11 +24,18 @@ type successResponse =
  */
 export interface IGetPlaceResponse extends successResponse {}
 
+type IRequestOptionsWithoutHttpMethod = Omit<
+  IRequestOptions,
+  "fetchOptions"
+> & {
+  fetchOptions?: Omit<RequestInit, "method">;
+};
+
 /**
  * Options for {@linkcode getPlaceDetails}.
  */
 export interface IGetPlaceOptions
-  extends Omit<IRequestOptions, "fetchOptions">,
+  extends IRequestOptionsWithoutHttpMethod,
     queryParams {
   placeId: string;
   /**
