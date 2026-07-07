@@ -24,13 +24,15 @@ interface ProcessOptionsConfig<T extends IRequestOptions> {
   paramKeys: Array<ExtractableKey<T>>;
   extractKeys: Array<ExtractableKey<T>>;
   overwriteOptions?: Partial<OverwriteableOptions>;
+  moveRemainingToParams?: boolean;
 }
 
 export function processOptions<T extends IRequestOptions>(
   options: T,
   optionsConfig: ProcessOptionsConfig<T>
 ): ProcessOptionsResult<T> {
-  const { paramKeys, extractKeys, overwriteOptions } = optionsConfig;
+  const { paramKeys, extractKeys, overwriteOptions, moveRemainingToParams } =
+    optionsConfig;
 
   // internally redefine types as Record type for parsing and merging
   const originalOptions = options as Record<string, any>;
@@ -69,6 +71,22 @@ export function processOptions<T extends IRequestOptions>(
       toExtract[keyName] = originalOptions[keyName];
     }
   });
+
+  // 2b) optionally move all remaining non-request-option, non-extracted keys to params
+  if (moveRemainingToParams) {
+    const extractedKeySet = new Set<string>(extractKeys as string[]);
+    const explicitParamKeySet = new Set<string>(paramKeys as string[]);
+
+    Object.keys(originalOptions).forEach((keyName) => {
+      if (
+        !REQUEST_OPTION_KEYS.has(keyName as RequestOptionsKeys) &&
+        !extractedKeySet.has(keyName) &&
+        !explicitParamKeySet.has(keyName)
+      ) {
+        toParams[keyName] = originalOptions[keyName];
+      }
+    });
+  }
 
   // 3) build requestOptions by merging overwriteOptions over originalOptions
   (["authentication", "portal"] as const).forEach((key) => {
