@@ -2,28 +2,28 @@
 
 import { ILegacyRequestOptions, IRequestOptions } from "./IRequestOptions.js";
 
+// using PureRequestOptions to explicitly only support v5 requestOptions until legacy requestOptions are removed from IRequestOptions
 type PureRequestOptions = Omit<IRequestOptions, keyof ILegacyRequestOptions>;
+type RequestOptionsKeys = keyof PureRequestOptions;
 
-type PureRequestOptionsKeys = Array<keyof PureRequestOptions>;
-
-const ALLOWED_TOP_LEVEL_KEYS: PureRequestOptionsKeys = [
-  "authentication",
-  "portal",
-  "fetchOptions",
-  "requestFlags",
-  "params"
-];
-
-const REQUEST_OPTION_KEYS = new Set<string>(ALLOWED_TOP_LEVEL_KEYS);
+// using ExtractableKey to explicitly define that only non IRequestOptions keys can be extracted to help avoid duplicate exports in props
+type ExtractableKey<T extends IRequestOptions> = Exclude<
+  keyof T,
+  keyof IRequestOptions
+>;
+type OverwriteableOptions = Pick<
+  PureRequestOptions,
+  "authentication" | "portal" | "fetchOptions" | "requestFlags"
+>;
 
 type ProcessOptionsResult<T extends IRequestOptions> = {
-  requestOptions: IRequestOptions;
-} & Partial<Omit<T, keyof IRequestOptions>>;
+  requestOptions: Partial<PureRequestOptions>;
+} & Partial<Pick<T, ExtractableKey<T>>>;
 
 interface ProcessOptionsConfig<T extends IRequestOptions> {
-  paramKeys: Array<Exclude<keyof T, keyof IRequestOptions>>;
-  extractKeys: Array<keyof T>;
-  overwriteOptions?: Partial<Omit<IRequestOptions, "params">>;
+  paramKeys: Array<ExtractableKey<T>>;
+  extractKeys: Array<ExtractableKey<T>>;
+  overwriteOptions?: Partial<OverwriteableOptions>;
 }
 
 export function processOptions<T extends IRequestOptions>(
@@ -42,18 +42,27 @@ export function processOptions<T extends IRequestOptions>(
   const existsIn = (obj: Record<string, any>, key: string) =>
     Object.prototype.hasOwnProperty.call(obj, key);
 
-  // 1) move non-request-option param keys into params bucket
+  const REQUEST_OPTION_KEYS = new Set<RequestOptionsKeys>([
+    "authentication",
+    "portal",
+    "fetchOptions",
+    "requestFlags",
+    "params"
+  ]);
+
+  // 1) move non-request-option paramkeys into params bucket
   paramKeys.forEach((key) => {
     const keyName = key as string;
     if (
       existsIn(originalOptions, keyName) &&
-      !REQUEST_OPTION_KEYS.has(keyName)
+      // requestOptions keys should not be able to be added to paramKeys, enforce here
+      !REQUEST_OPTION_KEYS.has(keyName as RequestOptionsKeys)
     ) {
       toParams[keyName] = originalOptions[keyName];
     }
   });
 
-  // 2) extract requested top-level keys
+  // 2) extract requested top-level keys into bucket
   extractKeys.forEach((key) => {
     const keyName = key as string;
     if (existsIn(originalOptions, keyName)) {
@@ -61,27 +70,15 @@ export function processOptions<T extends IRequestOptions>(
     }
   });
 
-  // 3) build requestOptions with presence-based inclusion
-  const OVERWRITEABLE_KEYS: Array<"authentication" | "portal"> = [
-    "authentication",
-    "portal"
-  ];
-  const MERGEABLE_KEYS: Array<"fetchOptions" | "requestFlags"> = [
-    "fetchOptions",
-    "requestFlags"
-    // no params here because params is handled separately
-  ];
-
-  OVERWRITEABLE_KEYS.forEach((key) => {
-    if (existsIn(originalOptions, key)) {
+  // 3) build requestOptions by merging overwriteOptions over originalOptions
+  (["authentication", "portal"] as const).forEach((key) => {
+    if (existsIn(originalOptions, key))
       requestOptionsOut[key] = originalOptions[key];
-    }
-    if (existsIn(overwriteOptionsAs, key)) {
+    if (existsIn(overwriteOptionsAs, key))
       requestOptionsOut[key] = overwriteOptionsAs[key];
-    }
   });
 
-  MERGEABLE_KEYS.forEach((key) => {
+  (["fetchOptions", "requestFlags"] as const).forEach((key) => {
     if (existsIn(originalOptions, key) || existsIn(overwriteOptionsAs, key)) {
       requestOptionsOut[key] = {
         ...(originalOptions[key] ?? {}),
@@ -90,7 +87,11 @@ export function processOptions<T extends IRequestOptions>(
     }
   });
 
-  // if options has a params object or if any top-level options keys were delegated to become params, merge them into requestOptions.params
+  /**
+   * if original options has a params object,
+   * or if any top-level options keys were delegated to become params,
+   * merge them all into requestOptions.params.
+   */
   if (existsIn(originalOptions, "params") || Object.keys(toParams).length > 0) {
     requestOptionsOut.params = {
       ...(originalOptions.params ?? {}),
@@ -99,7 +100,7 @@ export function processOptions<T extends IRequestOptions>(
   }
 
   return {
-    ...(toExtract as Partial<Omit<T, keyof IRequestOptions>>),
-    requestOptions: requestOptionsOut as IRequestOptions
+    ...(toExtract as Partial<Pick<T, ExtractableKey<T>>>),
+    requestOptions: requestOptionsOut as Partial<PureRequestOptions>
   };
 }
