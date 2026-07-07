@@ -27,6 +27,7 @@ describe("processOptions", () => {
       // param keys
       f: "json",
       token: "abc123",
+      // params.a should appear as "a:"" in params
       params: { a: 1 },
       // extra keys that should be ignored
       extra: "should be ignored",
@@ -267,5 +268,115 @@ describe("processOptions", () => {
       f: "json"
     });
     expect(result.requestOptions.params).not.toHaveProperty("authentication");
+  });
+
+  test("should ignore extractKeys that are not present on options", () => {
+    const result = processOptions(
+      {
+        f: "json",
+        params: {
+          outSR: 3857
+        }
+      },
+      {
+        paramKeys: ["f"],
+        extractKeys: ["id", "routeType"] as any
+      }
+    );
+
+    expect(result).not.toHaveProperty("id");
+    expect(result).not.toHaveProperty("routeType");
+    expect(result.requestOptions.params).toEqual({
+      outSR: 3857,
+      f: "json"
+    });
+  });
+
+  test("should build mergeable request options from overwriteOptions when original options are absent", () => {
+    const result = processOptions(
+      {
+        fetchOptions: {
+          credentials: "include"
+        },
+        requestFlags: {
+          hideToken: true
+        }
+      },
+      {
+        paramKeys: [],
+        extractKeys: [],
+        overwriteOptions: {
+          fetchOptions: {
+            method: "POST"
+          },
+          requestFlags: {
+            suppressWarnings: true
+          }
+        }
+      }
+    );
+
+    expect(result.requestOptions).toEqual({
+      fetchOptions: {
+        credentials: "include",
+        method: "POST"
+      },
+      requestFlags: {
+        hideToken: true,
+        suppressWarnings: true
+      }
+    });
+  });
+
+  test("should build mergeable request options from overwriteOptions when original mergeable keys are missing", () => {
+    const result = processOptions(
+      {
+        authentication: "auth-from-options",
+        portal: "https://example.com/sharing/rest"
+      },
+      {
+        paramKeys: [],
+        extractKeys: [],
+        overwriteOptions: {
+          fetchOptions: {
+            method: "POST",
+            credentials: "omit"
+          },
+          requestFlags: {
+            suppressWarnings: true
+          }
+        }
+      }
+    );
+
+    expect(result.requestOptions).toEqual({
+      authentication: "auth-from-options",
+      portal: "https://example.com/sharing/rest",
+      fetchOptions: {
+        method: "POST",
+        credentials: "omit"
+      },
+      requestFlags: {
+        suppressWarnings: true
+      }
+    });
+  });
+
+  test("should create params when original options has no params object", () => {
+    const result = processOptions(
+      {
+        f: "json",
+        token: "abc123"
+      },
+      {
+        paramKeys: ["f", "token"],
+        extractKeys: []
+      }
+    );
+
+    expect(result.requestOptions.params).toEqual({
+      f: "json",
+      token: "abc123"
+    });
   });
 });
