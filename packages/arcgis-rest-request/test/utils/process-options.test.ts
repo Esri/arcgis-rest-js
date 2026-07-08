@@ -363,7 +363,11 @@ describe("processOptions", () => {
   });
 
   test("should create params when original options has no params object", () => {
-    const result = processOptions(
+    type TestOptions = IRequestOptions & {
+      f: "json";
+      token: "abc123";
+    };
+    const result = processOptions<TestOptions>(
       {
         f: "json",
         token: "abc123"
