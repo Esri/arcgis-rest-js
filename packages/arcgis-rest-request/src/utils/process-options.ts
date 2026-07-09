@@ -11,7 +11,7 @@ type ExtractableKey<T extends IRequestOptions> = Exclude<
   keyof T,
   keyof IRequestOptions
 >;
-type OverwriteableOptions = Pick<
+type DefaultableOptions = Pick<
   PureRequestOptions,
   "authentication" | "portal" | "fetchOptions" | "requestFlags"
 >;
@@ -23,19 +23,20 @@ type ProcessOptionsResult<T extends IRequestOptions> = {
 interface ProcessOptionsConfig<T extends IRequestOptions> {
   paramKeys: Array<ExtractableKey<T>>;
   extractKeys: Array<ExtractableKey<T>>;
-  overwriteOptions?: Partial<OverwriteableOptions>;
+  // Fallback values used only when the corresponding value is not provided in options.
+  defaultOptions?: Partial<DefaultableOptions>;
 }
 
 export function processOptions<T extends IRequestOptions>(
   options: T,
   optionsConfig: ProcessOptionsConfig<T>
 ): ProcessOptionsResult<T> {
-  const { paramKeys, extractKeys, overwriteOptions } = optionsConfig;
+  const { paramKeys, extractKeys, defaultOptions } = optionsConfig;
 
   // internally redefine types as Record type for parsing and merging
   const originalOptions = options as Record<string, any>;
   const requestOptionsOut: Record<string, any> = {};
-  const overwriteOptionsAs = (overwriteOptions ?? {}) as Record<string, any>;
+  const defaultOptionsAs = (defaultOptions ?? {}) as Record<string, any>;
   const toParams: Record<string, any> = {};
   const toExtract: Record<string, any> = {};
 
@@ -70,19 +71,20 @@ export function processOptions<T extends IRequestOptions>(
     }
   });
 
-  // 3) build requestOptions by merging overwriteOptions over originalOptions
+  // 3) build requestOptions by applying defaults first, then explicit option values.
+  // This ensures explicit caller-supplied values are preferred over defaults.
   (["authentication", "portal"] as const).forEach((key) => {
+    if (existsIn(defaultOptionsAs, key))
+      requestOptionsOut[key] = defaultOptionsAs[key];
     if (existsIn(originalOptions, key))
       requestOptionsOut[key] = originalOptions[key];
-    if (existsIn(overwriteOptionsAs, key))
-      requestOptionsOut[key] = overwriteOptionsAs[key];
   });
 
   (["fetchOptions", "requestFlags"] as const).forEach((key) => {
-    if (existsIn(originalOptions, key) || existsIn(overwriteOptionsAs, key)) {
+    if (existsIn(originalOptions, key) || existsIn(defaultOptionsAs, key)) {
       requestOptionsOut[key] = {
-        ...(originalOptions[key] ?? {}),
-        ...(overwriteOptionsAs[key] ?? {})
+        ...(defaultOptionsAs[key] ?? {}),
+        ...(originalOptions[key] ?? {})
       };
     }
   });

@@ -37,7 +37,7 @@ describe("processOptions", () => {
       credentials: "include",
       headers: { "X-Custom-Header": "value" },
       hideToken: true,
-      // requestOptions fetch options that will come through the final requestOptions object, unless overridden by overwriteOptions
+      // requestOptions fetch options that will come through the final requestOptions object, unless absent and filled by defaultOptions
       fetchOptions: {
         method: "POST",
         credentials: "omit",
@@ -51,7 +51,7 @@ describe("processOptions", () => {
     const { id, requestOptions } = processOptions(options, {
       paramKeys: ["f", "token", "bogus-or-misspelled-key" as any],
       extractKeys: ["id"],
-      overwriteOptions: {
+      defaultOptions: {
         authentication: "none",
         fetchOptions: {
           method: "GET"
@@ -73,16 +73,16 @@ describe("processOptions", () => {
       })
     );
     // requestOptions should be a pure IRequestOptions object with no extra keys or legacy keys
-    // requestOptions should reflect overridden values from overwriteOptions, if any
+    // requestOptions should prefer explicit options values over defaultOptions values
     expect(requestOptions).toEqual({
       authentication: "none",
       fetchOptions: {
-        method: "GET",
+        method: "POST",
         credentials: "omit",
         signal: expect.anything()
       },
       requestFlags: {
-        suppressWarnings: false
+        suppressWarnings: true
       },
       params: {
         a: 1,
@@ -160,7 +160,7 @@ describe("processOptions", () => {
     });
   });
 
-  test("should apply overwriteOptions precedence for top-level and nested request options", () => {
+  test("should apply defaultOptions and prefer explicit option values for top-level and nested request options", () => {
     const options: IRequestOptions = {
       authentication: "from-options",
       portal: "https://from-options.example.com/sharing/rest",
@@ -178,9 +178,9 @@ describe("processOptions", () => {
     const result = processOptions(options, {
       paramKeys: [],
       extractKeys: [],
-      overwriteOptions: {
-        authentication: "from-overwrite",
-        portal: "https://from-overwrite.example.com/sharing/rest",
+      defaultOptions: {
+        authentication: "from-default",
+        portal: "https://from-default.example.com/sharing/rest",
         fetchOptions: {
           method: "GET"
         },
@@ -191,16 +191,16 @@ describe("processOptions", () => {
     });
 
     expect(result.requestOptions).toEqual({
-      authentication: "from-overwrite",
-      portal: "https://from-overwrite.example.com/sharing/rest",
+      authentication: "from-options",
+      portal: "https://from-options.example.com/sharing/rest",
       fetchOptions: {
-        method: "GET",
+        method: "POST",
         credentials: "include",
         signal: expect.anything()
       },
       requestFlags: {
         hideToken: true,
-        suppressWarnings: false
+        suppressWarnings: true
       }
     });
   });
@@ -270,7 +270,7 @@ describe("processOptions", () => {
     expect(result).not.toHaveProperty("hideToken");
   });
 
-  test("should build requestOptions correctly when overwriteOptions is omitted", () => {
+  test("should build requestOptions correctly when defaultOptions is omitted", () => {
     const options = {
       id: "abc123",
       f: "json",
@@ -355,7 +355,7 @@ describe("processOptions", () => {
     });
   });
 
-  test("should build mergeable request options from overwriteOptions when original options are absent", () => {
+  test("should build mergeable request options from defaultOptions when original options are absent", () => {
     const options = {
       fetchOptions: {
         credentials: "include" as RequestCredentials
@@ -368,7 +368,7 @@ describe("processOptions", () => {
     const result = processOptions(options, {
       paramKeys: [],
       extractKeys: [],
-      overwriteOptions: {
+      defaultOptions: {
         fetchOptions: {
           method: "POST"
         },
@@ -390,7 +390,7 @@ describe("processOptions", () => {
     });
   });
 
-  test("should build mergeable request options from overwriteOptions when original mergeable keys are missing", () => {
+  test("should build mergeable request options from defaultOptions when original mergeable keys are missing", () => {
     const result = processOptions(
       {
         authentication: "auth-from-options",
@@ -399,7 +399,7 @@ describe("processOptions", () => {
       {
         paramKeys: [],
         extractKeys: [],
-        overwriteOptions: {
+        defaultOptions: {
           fetchOptions: {
             method: "POST",
             credentials: "omit"
