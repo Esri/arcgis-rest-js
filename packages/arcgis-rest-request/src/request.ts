@@ -53,6 +53,7 @@ export function setDefaultRequestOptions(
       "You should not set `authentication` as a default in a shared environment such as a web server which will process multiple users requests. You can call `setDefaultRequestOptions` with `true` as a second argument to disable this warning."
     );
   }
+  warnOnDeprecatedRequestOptions(options, hideWarnings);
   (globalThis as any).DEFAULT_ARCGIS_REQUEST_OPTIONS =
     normalizeDeprecatedRequestOptions(options);
 }
@@ -61,6 +62,7 @@ export function getDefaultRequestOptions(): IRequestOptions {
   const defaultRequestOptions = (globalThis as any)
     .DEFAULT_ARCGIS_REQUEST_OPTIONS;
   if (defaultRequestOptions) {
+    warnOnDeprecatedRequestOptions(defaultRequestOptions, true);
     return normalizeDeprecatedRequestOptions(defaultRequestOptions);
   }
   return {
@@ -69,6 +71,46 @@ export function getDefaultRequestOptions(): IRequestOptions {
     },
     params: {
       f: "json"
+    }
+  };
+}
+
+/**
+ * Merges request options by translating legacy options to their normalized equivalents,
+ * applying defaults, and deeply merging params/requestFlags/fetchOptions.headers.
+ */
+function mergeNormalizedRequestOptions(
+  requestOptions: IRequestOptions,
+  defaultRequestOptions: IRequestOptions
+): IRequestOptions {
+  const suppressWarnings =
+    requestOptions.requestFlags?.suppressWarnings ??
+    requestOptions.suppressWarnings;
+  warnOnDeprecatedRequestOptions(requestOptions, suppressWarnings);
+
+  const normalizedRequestOptions =
+    normalizeDeprecatedRequestOptions(requestOptions);
+
+  return {
+    ...defaultRequestOptions,
+    ...normalizedRequestOptions,
+    ...{
+      params: {
+        ...defaultRequestOptions.params,
+        ...normalizedRequestOptions.params
+      },
+      requestFlags: {
+        ...defaultRequestOptions.requestFlags,
+        ...normalizedRequestOptions.requestFlags
+      },
+      fetchOptions: {
+        ...defaultRequestOptions.fetchOptions,
+        ...normalizedRequestOptions.fetchOptions,
+        headers: {
+          ...(defaultRequestOptions.fetchOptions?.headers as any),
+          ...(normalizedRequestOptions.fetchOptions?.headers as any)
+        }
+      }
     }
   };
 }
@@ -213,44 +255,6 @@ export function checkForErrors(
   return response;
 }
 
-function normalizeRequestOptions(
-  requestOptions: IRequestOptions
-): IRequestOptions {
-  const suppressWarnings =
-    requestOptions.requestFlags?.suppressWarnings ??
-    requestOptions.suppressWarnings ??
-    false;
-  warnOnDeprecatedRequestOptions(requestOptions, suppressWarnings);
-
-  const normalizedRequestOptions =
-    normalizeDeprecatedRequestOptions(requestOptions);
-  const defaults = getDefaultRequestOptions();
-
-  return {
-    ...{ fetchOptions: { method: "POST" } },
-    ...defaults,
-    ...normalizedRequestOptions,
-    ...{
-      params: {
-        ...defaults.params,
-        ...normalizedRequestOptions.params
-      },
-      requestFlags: {
-        ...defaults.requestFlags,
-        ...normalizedRequestOptions.requestFlags
-      },
-      fetchOptions: {
-        ...defaults.fetchOptions,
-        ...normalizedRequestOptions.fetchOptions,
-        headers: mergeHeaders(
-          defaults.fetchOptions?.headers,
-          normalizedRequestOptions.fetchOptions?.headers
-        )
-      }
-    }
-  };
-}
-
 function buildAuthenticationManager(
   options: IRequestOptions
 ): IAuthenticationManager | undefined {
@@ -356,7 +360,10 @@ async function executeRequest(
   options: IRequestOptions;
   originalAuthError: ArcGISAuthError | null;
 }> {
-  const options = normalizeRequestOptions(requestOptions);
+  const options = mergeNormalizedRequestOptions(
+    requestOptions,
+    getDefaultRequestOptions()
+  );
 
   const params: IParams = {
     ...{ f: "json" },
