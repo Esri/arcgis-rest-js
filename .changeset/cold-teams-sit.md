@@ -33,7 +33,7 @@ This change drops support for `rawResponse` from all packages, updates all packa
 - `queryFeatures()` can no longer be used to query features as pbf with `f=pbf`.
 - `bulkGeocode()` no longer supports raw response.
 - `geocode()` no longer supports raw response.
-- `getItemData()` no longer supports raw, file, or binary responses, use getItemDataRaw()instead.
+- `getItemData()` no longer supports raw, file, or binary responses, use `getItemDataRaw()` instead.
   deprecated IItemDataOptions since we don't support the file property in getItemData() anymore. Use getItemDataRaw() to get the native response instead.
 - `getItemInfo()` no longer supports rawResponse as an option and uses rawRequest() as default behavior.
 - `getItemResource()` no longer supports rawResponse as an option and uses rawRequest() as default behavior.
