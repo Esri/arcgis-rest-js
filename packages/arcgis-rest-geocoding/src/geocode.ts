@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
+  processOptions,
   IExtent,
   ISpatialReference,
   IPoint,
@@ -107,9 +107,8 @@ export async function geocode(
     endpoint = ARCGIS_ONLINE_GEOCODING_URL;
   } else {
     endpoint = address.endpoint || ARCGIS_ONLINE_GEOCODING_URL;
-    options = appendCustomParams<IGeocodeOptions>(
-      address,
-      [
+    const { requestOptions: processedOptions } = processOptions(address, {
+      paramKeys: [
         "singleLine",
         "address",
         "address2",
@@ -124,10 +123,11 @@ export async function geocode(
         "outFields",
         "magicKey"
       ],
-      { params: { ...address.params } }
-    );
+      extractKeys: []
+    });
+    options = processedOptions;
 
-    if (options.params.postal && typeof options.params.postal === "number") {
+    if (options.params?.postal && typeof options.params.postal !== "string") {
       warn(
         "The postal code should be a string. " +
           "Issues can arise when using it as a number, especially if they start with zero."
