@@ -1,11 +1,7 @@
 /* Copyright (c) 2020 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import {
-  request,
-  cleanUrl,
-  appendCustomParams
-} from "@esri/arcgis-rest-request";
+import { request, cleanUrl, processOptions } from "@esri/arcgis-rest-request";
 
 import {
   ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL,
@@ -106,13 +102,19 @@ export interface IGetGeographyResponse {
 export function getGeography(
   requestOptions?: IGetGeographyOptions
 ): Promise<IGetGeographyResponse> {
+  // the SAAS service does not support anonymous requests
+  if (!requestOptions.authentication) {
+    return Promise.reject(
+      "Geoenrichment using the ArcGIS service requires authentication"
+    );
+  }
+
   const endpoint = `${
     requestOptions.endpoint || ARCGIS_ONLINE_STANDARD_GEOGRAPHY_QUERY_URL
   }/execute`;
 
-  const options = appendCustomParams<IGetGeographyOptions>(
-    requestOptions,
-    [
+  const { requestOptions: options } = processOptions(requestOptions, {
+    paramKeys: [
       "sourceCountry",
       "optionalCountryDataset",
       "geographyLayers",
@@ -130,15 +132,8 @@ export function getGeography(
       "featureOffset",
       "langCode"
     ],
-    { params: { ...requestOptions.params } }
-  );
-
-  // the SAAS service does not support anonymous requests
-  if (!requestOptions.authentication) {
-    return Promise.reject(
-      "Geoenrichment using the ArcGIS service requires authentication"
-    );
-  }
+    extractKeys: []
+  });
 
   // These parameters are passed as JSON-style strings:
   ["geographyLayers", "geographyIDs"].forEach((parameter) => {

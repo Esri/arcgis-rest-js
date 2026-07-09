@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
+  processOptions,
   IExtent
 } from "@esri/arcgis-rest-request";
 
@@ -89,26 +89,24 @@ export interface IApportionmentThreshold {
 export function getAvailableCountries(
   requestOptions?: IGetAvailableCountriesOptions
 ): Promise<IGetAvailableCountriesResponse> {
+  let url = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/countries`;
   let options: IEndpointOptions = {};
-  let endpoint = `${ARCGIS_ONLINE_GEOENRICHMENT_URL}/countries`;
-  if (!requestOptions) {
-    options.params = {};
-  } else {
+  if (requestOptions) {
     if (requestOptions.endpoint) {
-      endpoint = `${requestOptions.endpoint}/countries`;
+      url = `${requestOptions.endpoint}/countries`;
     }
-
-    options = appendCustomParams<IGetAvailableCountriesOptions>(
-      requestOptions,
-      [],
-      { params: { ...requestOptions.params } }
-    );
     if (requestOptions.countryCode) {
-      endpoint = `${endpoint}/${requestOptions.countryCode}`;
+      url = `${url}/${requestOptions.countryCode}`;
     }
-  }
 
-  return request(cleanUrl(endpoint), options).then((response: any) => {
+    const { requestOptions: processedOptions } =
+      processOptions<IGetAvailableCountriesOptions>(requestOptions, {
+        paramKeys: [],
+        extractKeys: []
+      });
+    options = processedOptions;
+  }
+  return request(cleanUrl(url), options).then((response: any) => {
     return response;
   });
 }
