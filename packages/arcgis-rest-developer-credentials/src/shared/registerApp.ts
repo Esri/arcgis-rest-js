@@ -60,6 +60,9 @@ export async function registerApp(
     ],
     extractKeys: [],
     defaultOptions: {
+      params: {
+        f: "json"
+      },
       fetchOptions: {
         method: "POST"
       }

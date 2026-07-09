@@ -186,6 +186,9 @@ describe("processOptions", () => {
         },
         requestFlags: {
           suppressWarnings: false
+        },
+        params: {
+          f: "json"
         }
       }
     });
@@ -201,7 +204,43 @@ describe("processOptions", () => {
       requestFlags: {
         hideToken: true,
         suppressWarnings: true
+      },
+      params: {
+        f: "json"
       }
+    });
+  });
+
+  test("should merge params with precedence moved paramKeys > options.params > defaultOptions.params", () => {
+    const result = processOptions(
+      {
+        token: "from-top-level",
+        f: "pjson",
+        params: {
+          token: "from-options-params",
+          f: "json",
+          culture: "fr-FR"
+        }
+      },
+      {
+        paramKeys: ["token"],
+        extractKeys: [],
+        defaultOptions: {
+          params: {
+            token: "from-default",
+            f: "html",
+            culture: "en-US",
+            outSR: 3857
+          }
+        }
+      }
+    );
+
+    expect(result.requestOptions.params).toEqual({
+      token: "from-top-level",
+      f: "json",
+      culture: "fr-FR",
+      outSR: 3857
     });
   });
 
@@ -374,6 +413,9 @@ describe("processOptions", () => {
         },
         requestFlags: {
           suppressWarnings: true
+        },
+        params: {
+          f: "json"
         }
       }
     });
@@ -386,6 +428,9 @@ describe("processOptions", () => {
       requestFlags: {
         hideToken: true,
         suppressWarnings: true
+      },
+      params: {
+        f: "json"
       }
     });
   });
@@ -479,7 +524,7 @@ describe("processOptions", () => {
       // these will be discarded because they are not included in paramKeys or extractKeys
       f: "json",
       token: "abc123",
-      // params will be includedi n output because it is a requestOptions key
+      // params will be included in output because it is a requestOptions key
       params: {
         a: 1
       }
@@ -494,23 +539,6 @@ describe("processOptions", () => {
       params: {
         a: 1
       }
-    });
-  });
-
-  test("should handle missing params object gracefully", () => {
-    const options = {
-      f: "json",
-      token: "abc123"
-    };
-
-    const result = processOptions(options as any, {
-      paramKeys: ["f", "token"],
-      extractKeys: []
-    });
-
-    expect(result.requestOptions.params).toEqual({
-      f: "json",
-      token: "abc123"
     });
   });
 });

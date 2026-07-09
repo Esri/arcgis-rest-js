@@ -11,10 +11,6 @@ type ExtractableKey<T extends IRequestOptions> = Exclude<
   keyof T,
   keyof IRequestOptions
 >;
-type DefaultableOptions = Pick<
-  PureRequestOptions,
-  "authentication" | "portal" | "fetchOptions" | "requestFlags"
->;
 
 type ProcessOptionsResult<T extends IRequestOptions> = {
   requestOptions: Partial<PureRequestOptions>;
@@ -24,7 +20,7 @@ interface ProcessOptionsConfig<T extends IRequestOptions> {
   paramKeys: Array<ExtractableKey<T>>;
   extractKeys: Array<ExtractableKey<T>>;
   // Fallback values used only when the corresponding value is not provided in options.
-  defaultOptions?: Partial<DefaultableOptions>;
+  defaultOptions?: Partial<PureRequestOptions>;
 }
 
 export function processOptions<T extends IRequestOptions>(
@@ -94,8 +90,13 @@ export function processOptions<T extends IRequestOptions>(
    * or if any top-level options keys were delegated to become params,
    * merge them all into requestOptions.params.
    */
-  if (existsIn(originalOptions, "params") || Object.keys(toParams).length > 0) {
+  if (
+    existsIn(defaultOptionsAs, "params") ||
+    existsIn(originalOptions, "params") ||
+    Object.keys(toParams).length > 0
+  ) {
     requestOptionsOut.params = {
+      ...(defaultOptionsAs.params ?? {}),
       ...(originalOptions.params ?? {}),
       ...toParams
     };
