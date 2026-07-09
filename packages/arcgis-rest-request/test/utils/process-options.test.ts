@@ -447,7 +447,7 @@ describe("processOptions", () => {
     });
   });
 
-  test("should not include undefined or null values in params", () => {
+  test("should include explicitly undefined or null values in params", () => {
     const options = {
       f: "json",
       token: undefined,
@@ -466,14 +466,20 @@ describe("processOptions", () => {
 
     expect(result.requestOptions.params).toEqual({
       f: "json",
-      a: 1
+      token: undefined,
+      extra: null,
+      a: 1,
+      b: undefined,
+      c: null
     });
   });
 
-  test("should handle empty paramKeys and extractKeys gracefully", () => {
+  test("should handle empty paramKeys and extractKeys", () => {
     const options = {
+      // these will be discarded because they are not included in paramKeys or extractKeys
       f: "json",
       token: "abc123",
+      // params will be includedi n output because it is a requestOptions key
       params: {
         a: 1
       }
@@ -484,10 +490,10 @@ describe("processOptions", () => {
       extractKeys: []
     });
 
-    expect(result.requestOptions.params).toEqual({
-      f: "json",
-      token: "abc123",
-      a: 1
+    expect(result.requestOptions).toEqual({
+      params: {
+        a: 1
+      }
     });
   });
 
