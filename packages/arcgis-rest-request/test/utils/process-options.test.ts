@@ -32,11 +32,12 @@ describe("processOptions", () => {
       // extra keys that should be ignored
       extra: "should be ignored",
       // legacy request options keys that should be ignored altogether, as processOptions is not intended to support legacy request options at all
+      // (Typescript will complain if you try to use them), but if you force them as any, they will be moved to params instead
       httpMethod: "POST",
       credentials: "include",
       headers: { "X-Custom-Header": "value" },
       hideToken: true,
-      // requestOptions that should be in the final requestOptions object, but overridden by options if present
+      // requestOptions fetch options that will come through the final requestOptions object, unless overridden by overwriteOptions
       fetchOptions: {
         method: "POST",
         credentials: "omit",
@@ -72,7 +73,7 @@ describe("processOptions", () => {
       })
     );
     // requestOptions should be a pure IRequestOptions object with no extra keys or legacy keys
-    // requestOptions should reflect overriden values from options, if any
+    // requestOptions should reflect overridden values from overwriteOptions, if any
     expect(requestOptions).toEqual({
       authentication: "none",
       fetchOptions: {
@@ -88,6 +89,74 @@ describe("processOptions", () => {
         f: "json",
         token: "abc123"
       }
+    });
+  });
+
+  test("should include abort controller signal in fetchOptions when provided", () => {
+    const abortController = new AbortController();
+    const abortControllerTopLevel = new AbortController();
+    const requestOptions: IRequestOptions = {
+      authentication: "fake-token",
+      fetchOptions: {
+        signal: abortController.signal
+      }
+    };
+    const options = {
+      x: -73,
+      y: 40,
+      radius: 1600, // 5 miles in meters
+      categoryIds: ["123456789987654321"],
+      // if signal is provided at top-level and included in paramKeys, it will be moved to params
+      signal: abortControllerTopLevel.signal,
+      // structure abort controller in requestOptions.fetchOptions instead of at top-level
+      ...requestOptions
+    };
+
+    const processed = processOptions(options, {
+      // typescript will complain about signal because it is a legacy top-level requestOption
+      // and is excluded from ExtractableKey<T> type and should be included in requestOptions.fetchOptions,
+      // but will be moved into params if you force it.
+      paramKeys: ["x", "y", "radius", "categoryIds", "signal" as any],
+      extractKeys: []
+    });
+
+    expect(processed.requestOptions.fetchOptions?.signal).toBe(
+      abortController.signal
+    );
+    expect(processed.requestOptions).not.toHaveProperty("signal");
+    expect(processed.requestOptions.params).toEqual({
+      x: -73,
+      y: 40,
+      radius: 1600,
+      categoryIds: ["123456789987654321"],
+      signal: abortControllerTopLevel.signal
+    });
+  });
+
+  test("should not chain merge params under params if user tries to include params", () => {
+    const someUserBugThingShapeSearch = {
+      q: "my awesome query here",
+      start: 1,
+      num: 100,
+      params: {
+        categories: "/Categories/Trending"
+      }
+    };
+
+    const processed = processOptions(someUserBugThingShapeSearch, {
+      // typescript will complain about params because it is already a requestOption key
+      // but will not chain nest it if included in paramKeys.
+      paramKeys: ["q", "start", "num", "params" as any],
+      extractKeys: []
+    });
+
+    // processOptions should merge in { q, start, and num } from paramKeys since they are non requestOptions keys
+    // and should pull in all params by default, since params is a requestOptions key.
+    expect(processed.requestOptions.params).toEqual({
+      q: "my awesome query here",
+      start: 1,
+      num: 100,
+      categories: "/Categories/Trending"
     });
   });
 
@@ -153,13 +222,15 @@ describe("processOptions", () => {
     );
 
     expect(result.requestOptions.params).toEqual({
+      // top level token was moved to params and overwrote the existing params.token value,
+      // to preserve 'params-token', use extractKeys to extract top level keys instead of moving them into params.
       token: "top-level-token",
       culture: "en-US",
       f: "json"
     });
   });
 
-  test("should return extracted keys and exclude extracted and unsupported keys from requestOptions", () => {
+  test("should return extracted keys and only keys included in toParams and toExtract", () => {
     const result = processOptions(
       {
         id: "route-id",
@@ -168,6 +239,7 @@ describe("processOptions", () => {
         params: {
           outSR: 4326
         },
+        // should ignore all keys below
         extra: "ignore-me",
         httpMethod: "POST",
         credentials: "include",
@@ -184,7 +256,6 @@ describe("processOptions", () => {
 
     expect(result.id).toBe("route-id");
     expect(result.routeType).toBe("fastest");
-
     expect(result.requestOptions).toEqual({
       params: {
         outSR: 4326,
@@ -192,46 +263,40 @@ describe("processOptions", () => {
       }
     });
 
-    expect(result.requestOptions).not.toHaveProperty("id");
-    expect(result.requestOptions).not.toHaveProperty("routeType");
-    expect(result.requestOptions).not.toHaveProperty("extra");
-    expect(result.requestOptions).not.toHaveProperty("httpMethod");
-    expect(result.requestOptions).not.toHaveProperty("credentials");
-    expect(result.requestOptions).not.toHaveProperty("headers");
-    expect(result.requestOptions).not.toHaveProperty("hideToken");
+    expect(result).not.toHaveProperty("extra");
+    expect(result).not.toHaveProperty("httpMethod");
+    expect(result).not.toHaveProperty("credentials");
+    expect(result).not.toHaveProperty("headers");
+    expect(result).not.toHaveProperty("hideToken");
   });
 
   test("should build requestOptions correctly when overwriteOptions is omitted", () => {
-    const result = processOptions(
-      {
-        id: "abc123",
-        portal: "https://example.com/sharing/rest",
-        f: "json",
-        token: "token-from-options",
-        params: {
-          outSR: 3857
-        },
-        fetchOptions: {
-          method: "POST",
-          credentials: "include"
-        },
-        requestFlags: {
-          hideToken: true
-        }
+    const options = {
+      id: "abc123",
+      f: "json",
+      token: "token-from-options",
+      portal: "https://example.com/sharing/rest",
+      params: {
+        outSR: 3857
       },
-      {
-        paramKeys: ["f", "token"],
-        extractKeys: ["id"]
+      fetchOptions: {
+        method: "POST"
+      },
+      requestFlags: {
+        hideToken: true
       }
-    );
+    };
+
+    const result = processOptions(options, {
+      paramKeys: ["f", "token"],
+      extractKeys: ["id"]
+    });
 
     expect(result.id).toBe("abc123");
-
     expect(result.requestOptions).toEqual({
       portal: "https://example.com/sharing/rest",
       fetchOptions: {
-        method: "POST",
-        credentials: "include"
+        method: "POST"
       },
       requestFlags: {
         hideToken: true
@@ -242,8 +307,6 @@ describe("processOptions", () => {
         token: "token-from-options"
       }
     });
-
-    expect(result.requestOptions).not.toHaveProperty("id");
   });
 
   test("should ignore reserved IRequestOptions keys forced into paramKeys", () => {
@@ -257,7 +320,7 @@ describe("processOptions", () => {
       },
       {
         // Simulate a JS caller bypassing TypeScript constraints.
-        paramKeys: ["f", "authentication"] as any,
+        paramKeys: ["f", "authentication" as any] as any,
         extractKeys: []
       }
     );
@@ -293,28 +356,27 @@ describe("processOptions", () => {
   });
 
   test("should build mergeable request options from overwriteOptions when original options are absent", () => {
-    const result = processOptions(
-      {
+    const options = {
+      fetchOptions: {
+        credentials: "include" as RequestCredentials
+      },
+      requestFlags: {
+        hideToken: true
+      }
+    };
+
+    const result = processOptions(options, {
+      paramKeys: [],
+      extractKeys: [],
+      overwriteOptions: {
         fetchOptions: {
-          credentials: "include"
+          method: "POST"
         },
         requestFlags: {
-          hideToken: true
-        }
-      },
-      {
-        paramKeys: [],
-        extractKeys: [],
-        overwriteOptions: {
-          fetchOptions: {
-            method: "POST"
-          },
-          requestFlags: {
-            suppressWarnings: true
-          }
+          suppressWarnings: true
         }
       }
-    );
+    });
 
     expect(result.requestOptions).toEqual({
       fetchOptions: {
@@ -363,6 +425,7 @@ describe("processOptions", () => {
   });
 
   test("should create params when original options has no params object", () => {
+    // define custom object type
     type TestOptions = IRequestOptions & {
       f: "json";
       token: "abc123";
@@ -377,6 +440,67 @@ describe("processOptions", () => {
         extractKeys: []
       }
     );
+
+    expect(result.requestOptions.params).toEqual({
+      f: "json",
+      token: "abc123"
+    });
+  });
+
+  test("should not include undefined or null values in params", () => {
+    const options = {
+      f: "json",
+      token: undefined,
+      extra: null,
+      params: {
+        a: 1,
+        b: undefined,
+        c: null
+      }
+    };
+
+    const result = processOptions(options, {
+      paramKeys: ["f", "token", "extra"],
+      extractKeys: []
+    });
+
+    expect(result.requestOptions.params).toEqual({
+      f: "json",
+      a: 1
+    });
+  });
+
+  test("should handle empty paramKeys and extractKeys gracefully", () => {
+    const options = {
+      f: "json",
+      token: "abc123",
+      params: {
+        a: 1
+      }
+    };
+
+    const result = processOptions(options, {
+      paramKeys: [],
+      extractKeys: []
+    });
+
+    expect(result.requestOptions.params).toEqual({
+      f: "json",
+      token: "abc123",
+      a: 1
+    });
+  });
+
+  test("should handle missing params object gracefully", () => {
+    const options = {
+      f: "json",
+      token: "abc123"
+    };
+
+    const result = processOptions(options as any, {
+      paramKeys: ["f", "token"],
+      extractKeys: []
+    });
 
     expect(result.requestOptions.params).toEqual({
       f: "json",
