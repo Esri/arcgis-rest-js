@@ -541,4 +541,22 @@ describe("processOptions", () => {
       }
     });
   });
+
+  test("should return empty requestOptions when options is an empty object", () => {
+    const result = processOptions({} as IRequestOptions, {
+      paramKeys: [],
+      extractKeys: []
+    });
+
+    expect(result.requestOptions).toEqual({});
+  });
+
+  test("should throw when options is undefined", () => {
+    expect(() =>
+      processOptions(undefined as any, {
+        paramKeys: [],
+        extractKeys: []
+      })
+    ).toThrow();
+  });
 });

@@ -1,7 +1,7 @@
 /* Copyright (c) 2018 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, appendCustomParams } from "@esri/arcgis-rest-request";
+import { request, processOptions } from "@esri/arcgis-rest-request";
 import { IItemAdd } from "../helpers.js";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
@@ -110,21 +110,21 @@ export function createItemInFolder(
     }
 
     // serialize the item into something Portal will accept
-    const options = appendCustomParams<ICreateItemOptions>(
+    const { requestOptions: options } = processOptions<ICreateItemOptions>(
       requestOptions,
-      [
-        "owner",
-        "folderId",
-        "file",
-        "dataUrl",
-        "text",
-        "async",
-        "multipart",
-        "filename",
-        "overwrite"
-      ],
       {
-        params: { ...requestOptions.params }
+        paramKeys: [
+          "owner",
+          "folderId",
+          "file",
+          "dataUrl",
+          "text",
+          "async",
+          "multipart",
+          "filename",
+          "overwrite"
+        ],
+        extractKeys: []
       }
     );
     return request(url, options);

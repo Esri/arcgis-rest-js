@@ -4,7 +4,7 @@
 import {
   request,
   IRequestOptions,
-  appendCustomParams,
+  processOptions,
   IGroup,
   rawRequest
 } from "@esri/arcgis-rest-request";
@@ -379,10 +379,12 @@ export function getItemStatus(
       requestOptions.id
     }/status`;
 
-    const options = appendCustomParams<IItemStatusOptions>(
+    const { requestOptions: options } = processOptions<IItemStatusOptions>(
       requestOptions,
-      ["jobId", "jobType"],
-      { params: { ...requestOptions.params } }
+      {
+        paramKeys: ["jobId", "jobType"],
+        extractKeys: []
+      }
     );
 
     return request(url, options);

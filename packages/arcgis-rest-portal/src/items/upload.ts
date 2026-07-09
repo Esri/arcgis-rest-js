@@ -1,7 +1,7 @@
 /* Copyright (c) 2017-2019 Environmental Systems Research Institute, Inc.
  * Apache-2.0 */
 
-import { request, appendCustomParams } from "@esri/arcgis-rest-request";
+import { request, processOptions } from "@esri/arcgis-rest-request";
 import { IItemAdd } from "../helpers.js";
 
 import { getPortalUrl } from "../util/get-portal-url.js";
@@ -53,11 +53,10 @@ export function addItemPart(
       requestOptions.id
     }/addPart?partNum=${partNum}`;
 
-    const options = appendCustomParams<IItemPartOptions>(
-      requestOptions,
-      ["file"],
-      { params: { ...requestOptions.params } }
-    );
+    const { requestOptions: options } = processOptions(requestOptions, {
+      paramKeys: ["file"],
+      extractKeys: []
+    });
 
     return request(url, options);
   });
@@ -87,12 +86,20 @@ export function commitItemUpload(
       requestOptions.id
     }/commit`;
 
-    const options = appendCustomParams<ICommitItemOptions>(requestOptions, [], {
-      params: {
-        ...requestOptions.params,
-        ...requestOptions.item
+    const { requestOptions: options } = processOptions<ICommitItemOptions>(
+      requestOptions,
+      {
+        paramKeys: [],
+        extractKeys: []
       }
-    });
+    );
+
+    // Preserve prior helper behavior: item fields were only merged when params was not provided.
+    if (!requestOptions.params) {
+      options.params = {
+        ...requestOptions.item
+      };
+    }
 
     return request(url, options);
   });
