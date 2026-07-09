@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
+  processOptions,
   ISpatialReference,
   IFeatureSet,
   IFeature,
@@ -167,9 +167,8 @@ export interface IQueryFeaturesRawOptions
 function prepareQueryFeaturesOptions(
   requestOptions: IQueryFeaturesRawOptions | IQueryFeaturesOptions
 ): IRequestOptions {
-  const queryOptions = appendCustomParams<IQueryFeaturesRawOptions>(
-    requestOptions,
-    [
+  const { requestOptions: queryOptions } = processOptions(requestOptions, {
+    paramKeys: [
       "where",
       "objectIds",
       "relationParam",
@@ -207,20 +206,18 @@ function prepareQueryFeaturesOptions(
       "returnExceededLimitFeatures",
       "f"
     ],
-    {
+    extractKeys: [],
+    defaultOptions: {
+      fetchOptions: {
+        method: "GET"
+      },
       params: {
         // set default query parameters
         where: "1=1",
-        outFields: "*",
-        ...requestOptions.params
+        outFields: "*"
       }
     }
-  );
-
-  queryOptions.fetchOptions = {
-    method: "GET",
-    ...queryOptions.fetchOptions
-  };
+  });
 
   return queryOptions;
 }
@@ -230,7 +227,7 @@ function prepareQueryFeaturesOptions(
  * Handles both f=pbf-as-geojson and f=pbf-as-arcgis format query params and handles errors.
  *
  * @param url - A feature service url
- * @param queryOptions - Options for the request that has been passed through appendCustomParams
+ * @param queryOptions - Options for the request that has been passed through processOptions
  * @returns A Promise that will resolve with the query response.
  */
 
@@ -462,9 +459,8 @@ export async function queryAllFeatures(
       }
     };
 
-    const queryOptions = appendCustomParams<IQueryAllFeaturesOptions>(
-      pagedOptions,
-      [
+    const { requestOptions: queryOptions } = processOptions(pagedOptions, {
+      paramKeys: [
         "where",
         "objectIds",
         "relationParam",
@@ -497,20 +493,18 @@ export async function queryAllFeatures(
         "sqlFormat",
         "f"
       ],
-      {
+      extractKeys: [],
+      defaultOptions: {
+        fetchOptions: {
+          method: "GET"
+        },
         params: {
+          // set default query parameters
           where: "1=1",
-          outFields: "*",
-          returnExceededLimitFeatures: true,
-          ...pagedOptions.params
+          outFields: "*"
         }
       }
-    );
-
-    queryOptions.fetchOptions = {
-      method: "GET",
-      ...queryOptions.fetchOptions
-    };
+    });
 
     let response: IQueryAllFeaturesResponse;
     if (

@@ -4,7 +4,7 @@
 import {
   request,
   cleanUrl,
-  appendCustomParams,
+  processOptions,
   ISpatialReference,
   IFeature,
   IHasZM,
@@ -64,24 +64,26 @@ export interface IQueryRelatedResponse extends IHasZM {
 export function queryRelated(
   requestOptions: IQueryRelatedOptions
 ): Promise<IQueryRelatedResponse> {
-  const options = appendCustomParams<IQueryRelatedOptions>(
-    requestOptions,
-    ["objectIds", "relationshipId", "definitionExpression", "outFields"],
-    {
+  const { requestOptions: options } = processOptions(requestOptions, {
+    paramKeys: [
+      "objectIds",
+      "relationshipId",
+      "definitionExpression",
+      "outFields"
+    ],
+    extractKeys: [],
+    defaultOptions: {
+      fetchOptions: {
+        method: "GET"
+      },
       params: {
         // set default query parameters
         definitionExpression: "1=1",
         outFields: "*",
-        relationshipId: 0,
-        ...requestOptions.params
+        relationshipId: 0
       }
     }
-  );
-
-  options.fetchOptions = {
-    method: "GET",
-    ...options.fetchOptions
-  };
+  });
 
   return request(
     `${cleanUrl(requestOptions.url)}/queryRelatedRecords`,
