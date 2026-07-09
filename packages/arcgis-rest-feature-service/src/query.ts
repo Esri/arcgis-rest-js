@@ -80,7 +80,7 @@ export interface IQueryFeaturesOptions extends ISharedQueryOptions {
   /**
    * Response format. Defaults to "json".
    */
-  f?: "json" | "geojson" | "pbf" | "pbf-as-geojson" | "pbf-as-arcgis";
+  f?: "json" | "geojson" | "pbf-as-geojson" | "pbf-as-arcgis";
   /**
    * someday...
    *
@@ -133,7 +133,7 @@ export interface IQueryAllFeaturesOptions extends ISharedQueryOptions {
   returnExceededLimitFeatures?: true;
   /**
    * Response format. Defaults to "json"
-   * NOTE: for "pbf" you must use the method `rawRequest()`
+   * NOTE: for "f=pbf" you must use the method `queryFeaturesRaw()`
    * and parse the response yourself using `response.arrayBuffer()`
    */
   f?: "json" | "geojson" | "pbf-as-geojson" | "pbf-as-arcgis";
@@ -154,6 +154,75 @@ export interface IQueryResponse {
   extent?: IExtent;
   objectIdFieldName?: string;
   objectIds?: number[];
+}
+
+export interface IQueryFeaturesRawOptions
+  extends Omit<IQueryFeaturesOptions, "f"> {
+  /**
+   * Response format for raw queries. Includes "pbf" for callers that need direct binary handling.
+   */
+  f?: IQueryFeaturesOptions["f"] | "pbf";
+}
+
+function prepareQueryFeaturesOptions(
+  requestOptions: IQueryFeaturesRawOptions | IQueryFeaturesOptions
+): IRequestOptions {
+  const queryOptions = appendCustomParams<IQueryFeaturesRawOptions>(
+    requestOptions,
+    [
+      "where",
+      "objectIds",
+      "relationParam",
+      "time",
+      "distance",
+      "units",
+      "outFields",
+      "geometry",
+      "geometryType",
+      "spatialRel",
+      "returnGeometry",
+      "maxAllowableOffset",
+      "geometryPrecision",
+      "inSR",
+      "outSR",
+      "gdbVersion",
+      "returnDistinctValues",
+      "returnIdsOnly",
+      "returnCountOnly",
+      "returnExtentOnly",
+      "orderByFields",
+      "groupByFieldsForStatistics",
+      "outStatistics",
+      "returnZ",
+      "returnM",
+      "multipatchOption",
+      "resultOffset",
+      "resultRecordCount",
+      "quantizationParameters",
+      "returnCentroid",
+      "resultType",
+      "historicMoment",
+      "returnTrueCurves",
+      "sqlFormat",
+      "returnExceededLimitFeatures",
+      "f"
+    ],
+    {
+      params: {
+        // set default query parameters
+        where: "1=1",
+        outFields: "*",
+        ...requestOptions.params
+      }
+    }
+  );
+
+  queryOptions.fetchOptions = {
+    method: "GET",
+    ...queryOptions.fetchOptions
+  };
+
+  return queryOptions;
 }
 
 /**
@@ -267,22 +336,22 @@ export function queryPbfAsGeoJSONOrArcGIS(
  * });
  * ```
  *
- * @param requestOptions - Options for the request
- * @returns A Promise that resolves with the feature by default, or with the native Response when `rawResponse` is `true`.
+ * @param requestOptions - Options for the request.
+ * @returns A Promise that resolves with the feature.
  */
 export function getFeature(
   requestOptions: IGetFeatureOptions
-): Promise<IFeature | Response> {
+): Promise<IFeature> {
   const url = `${cleanUrl(requestOptions.url)}/${requestOptions.id}`;
 
   // default to a GET request
   const options: IGetFeatureOptions = {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions.fetchOptions
+    }
   };
-  if (options.rawResponse) {
-    return rawRequest(url, options);
-  }
   return request(url, options).then((response: any) => response.feature);
 }
 
@@ -305,69 +374,27 @@ export function getFeature(
 export function queryFeatures(
   requestOptions: IQueryFeaturesOptions
 ): Promise<IQueryFeaturesResponse | IQueryResponse> {
-  const queryOptions = appendCustomParams<IQueryFeaturesOptions>(
-    requestOptions,
-    [
-      "where",
-      "objectIds",
-      "relationParam",
-      "time",
-      "distance",
-      "units",
-      "outFields",
-      "geometry",
-      "geometryType",
-      "spatialRel",
-      "returnGeometry",
-      "maxAllowableOffset",
-      "geometryPrecision",
-      "inSR",
-      "outSR",
-      "gdbVersion",
-      "returnDistinctValues",
-      "returnIdsOnly",
-      "returnCountOnly",
-      "returnExtentOnly",
-      "orderByFields",
-      "groupByFieldsForStatistics",
-      "outStatistics",
-      "returnZ",
-      "returnM",
-      "multipatchOption",
-      "resultOffset",
-      "resultRecordCount",
-      "quantizationParameters",
-      "returnCentroid",
-      "resultType",
-      "historicMoment",
-      "returnTrueCurves",
-      "sqlFormat",
-      "returnExceededLimitFeatures",
-      "f"
-    ],
-    {
-      httpMethod: "GET",
-      params: {
-        // set default query parameters
-        where: "1=1",
-        outFields: "*",
-        ...requestOptions.params
-      }
-    }
-  );
-
+  const queryOptions = prepareQueryFeaturesOptions(requestOptions);
   if (
     queryOptions.params?.f === "pbf-as-geojson" ||
     queryOptions.params?.f === "pbf-as-arcgis"
   ) {
     return queryPbfAsGeoJSONOrArcGIS(requestOptions.url, queryOptions);
-  } else if (queryOptions.params?.f === "pbf") {
-    return rawRequest(
-      `${cleanUrl(requestOptions.url)}/query`,
-      queryOptions
-    ) as Promise<any>;
   }
   return request(`${cleanUrl(requestOptions.url)}/query`, queryOptions);
+}
+
+/**
+ * Query a feature service and return the native response.
+ *
+ * @param requestOptions - Options for the request
+ * @returns A Promise that resolves with the native response.
+ */
+export function queryFeaturesRaw(
+  requestOptions: IQueryFeaturesRawOptions
+): Promise<Response> {
+  const queryOptions = prepareQueryFeaturesOptions(requestOptions);
+  return rawRequest(`${cleanUrl(requestOptions.url)}/query`, queryOptions);
 }
 
 /**
@@ -416,7 +443,7 @@ export async function queryAllFeatures(
   } else {
     // retrieve the maxRecordCount for the service only if user did not provide resultRecordCount
     const pageSizeResponse = await request(requestOptions.url, {
-      httpMethod: "GET",
+      fetchOptions: { method: "GET" },
       authentication: requestOptions.authentication
     });
     // default the pageSize to 2000 if it is not provided
@@ -471,7 +498,6 @@ export async function queryAllFeatures(
         "f"
       ],
       {
-        httpMethod: "GET",
         params: {
           where: "1=1",
           outFields: "*",
@@ -480,6 +506,11 @@ export async function queryAllFeatures(
         }
       }
     );
+
+    queryOptions.fetchOptions = {
+      method: "GET",
+      ...queryOptions.fetchOptions
+    };
 
     let response: IQueryAllFeaturesResponse;
     if (

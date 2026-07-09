@@ -33,7 +33,7 @@ describe("geocode", () => {
 
     const response = await reverseGeocode(
       { x: -118.409, y: 33.9425, spatialReference: { wkid: 4326 } },
-      { httpMethod: "GET" }
+      { fetchOptions: { method: "GET" } }
     );
     expect(fetchMock.called()).toEqual(true);
     const [url, options] = fetchMock.lastCall("*");

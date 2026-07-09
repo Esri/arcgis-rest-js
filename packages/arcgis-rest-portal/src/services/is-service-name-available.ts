@@ -22,7 +22,7 @@ export function isServiceNameAvailable(
       name,
       type
     },
-    httpMethod: "GET",
+    fetchOptions: { method: "GET" },
     authentication: session
   });
 }

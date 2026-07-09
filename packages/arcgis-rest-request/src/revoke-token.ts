@@ -48,7 +48,10 @@ export function revokeToken(
 
   const options: IRequestOptions = {
     ...requestOptions,
-    httpMethod: "POST",
+    fetchOptions: {
+      ...requestOptions.fetchOptions,
+      method: "POST"
+    },
     params: {
       client_id: clientId,
       auth_token: token

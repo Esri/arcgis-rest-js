@@ -180,7 +180,7 @@ export interface ICreateUpdateItemOptions extends IAuthenticatedRequestOptions {
 
 export interface IItemDataOptions extends IRequestOptions {
   /**
-   * Used to request binary data.
+   * @deprecated Use getItemDataRaw() to retrieve native responses or binary item data.
    */
   file?: boolean;
 }

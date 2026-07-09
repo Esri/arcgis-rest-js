@@ -47,8 +47,11 @@ export function getPortal(
 
   // default to a GET request
   const options: IRequestOptions = {
-    ...{ httpMethod: "GET" },
-    ...requestOptions
+    ...requestOptions,
+    fetchOptions: {
+      method: "GET",
+      ...requestOptions?.fetchOptions
+    }
   };
 
   // send the request

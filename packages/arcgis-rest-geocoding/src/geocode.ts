@@ -94,9 +94,9 @@ export interface IGeocodeResponse {
  * ```
  *
  * @param address String representing the address or point of interest or RequestOptions to pass to the endpoint.
- * @returns A Promise that will resolve with address candidates for the request. The spatial reference will be added to candidate locations and extents unless `rawResponse: true` was passed.
+ * @returns A Promise that will resolve with address candidates for the request. The spatial reference will be added to candidate locations and extents.
  */
-export function geocode(
+export async function geocode(
   address: string | IGeocodeOptions
 ): Promise<IGeocodeResponse> {
   let options: IGeocodeOptions = {};
@@ -135,47 +135,43 @@ export function geocode(
     }
   }
 
-  if (typeof address !== "string" && address.rawResponse) {
-    return rawRequest(`${cleanUrl(endpoint)}/findAddressCandidates`, options);
+  const response = await request(
+    `${cleanUrl(endpoint)}/findAddressCandidates`,
+    options
+  );
+  const sr: ISpatialReference = response.spatialReference;
+  // add spatialReference property to individual matches
+  response.candidates.forEach(function (candidate: {
+    location: IPoint;
+    extent?: IExtent;
+  }) {
+    candidate.location.spatialReference = sr;
+    if (candidate.extent) {
+      candidate.extent.spatialReference = sr;
+    }
+  });
+
+  // geoJson
+  if (sr.wkid === 4326) {
+    const features = response.candidates.map((candidate: any) => {
+      return {
+        type: "Feature",
+        geometry: arcgisToGeoJSON(candidate.location),
+        properties: Object.assign(
+          {
+            address: candidate.address,
+            score: candidate.score
+          },
+          candidate.attributes
+        )
+      };
+    });
+
+    response.geoJson = {
+      type: "FeatureCollection",
+      features
+    };
   }
 
-  // add spatialReference property to individual matches
-  return request(`${cleanUrl(endpoint)}/findAddressCandidates`, options).then(
-    (response) => {
-      const sr: ISpatialReference = response.spatialReference;
-      response.candidates.forEach(function (candidate: {
-        location: IPoint;
-        extent?: IExtent;
-      }) {
-        candidate.location.spatialReference = sr;
-        if (candidate.extent) {
-          candidate.extent.spatialReference = sr;
-        }
-      });
-
-      // geoJson
-      if (sr.wkid === 4326) {
-        const features = response.candidates.map((candidate: any) => {
-          return {
-            type: "Feature",
-            geometry: arcgisToGeoJSON(candidate.location),
-            properties: Object.assign(
-              {
-                address: candidate.address,
-                score: candidate.score
-              },
-              candidate.attributes
-            )
-          };
-        });
-
-        response.geoJson = {
-          type: "FeatureCollection",
-          features
-        };
-      }
-
-      return response;
-    }
-  );
+  return response;
 }

@@ -6,9 +6,11 @@ import fetchMock from "fetch-mock";
 import {
   getFeature,
   queryFeatures,
+  queryFeaturesRaw,
   queryAllFeatures,
   queryRelated,
   IQueryFeaturesOptions,
+  IQueryFeaturesRawOptions,
   IQueryRelatedOptions,
   IQueryAllFeaturesOptions,
   IQueryFeaturesResponse
@@ -51,28 +53,6 @@ describe("getFeature() and queryFeatures()", () => {
     expect(response.attributes.FID).toBe(42);
   });
 
-  test("return rawResponse when getting a feature", async () => {
-    const requestOptions = {
-      url: serviceUrl,
-      id: 42,
-      rawResponse: true
-    };
-    fetchMock.once("*", featureResponse);
-
-    const response: any = await getFeature(requestOptions);
-
-    expect(fetchMock.called()).toBeTruthy();
-    const [url, options] = fetchMock.lastCall("*");
-    expect(url).toBe(`${requestOptions.url}/42?f=json`);
-    expect(options.method).toBe("GET");
-    expect(response.status).toBe(200);
-    expect(response.ok).toBe(true);
-    expect(response.body.Readable).not.toBe(null);
-
-    const raw = await response.json();
-    expect(raw).toEqual(featureResponse);
-  });
-
   test("should supply default query parameters", async () => {
     const requestOptions: IQueryFeaturesOptions = {
       url: serviceUrl
@@ -108,6 +88,31 @@ describe("getFeature() and queryFeatures()", () => {
     expect(options.method).toBe("GET");
   });
 
+  test("queryFeaturesRaw should return raw response for default json queries", async () => {
+    const requestOptions: IQueryFeaturesOptions = {
+      url: serviceUrl,
+      where: "1=1",
+      outFields: ["*"]
+    };
+    fetchMock.once("*", queryResponse);
+
+    const response: any = await queryFeaturesRaw(requestOptions);
+
+    expect(fetchMock.called()).toBeTruthy();
+    const [url, options] = fetchMock.lastCall("*");
+    expect(url).toEqual(
+      `${requestOptions.url}/query?f=json&where=1%3D1&outFields=*`
+    );
+    expect(options.method).toBe("GET");
+
+    expect(response.status).toBe(200);
+    expect(response.ok).toBe(true);
+
+    // convert the raw response to json and verify the json is as expected
+    const json = await response.json();
+    expect(json.features[0].attributes.FID).toBe(1);
+  });
+
   test("should supply default query related parameters", async () => {
     const requestOptions: IQueryRelatedOptions = {
       url: serviceUrl
@@ -129,7 +134,7 @@ describe("getFeature() and queryFeatures()", () => {
       relationshipId: 1,
       definitionExpression: "APPROXACRE<10000",
       outFields: ["APPROXACRE", "FIELD_NAME"],
-      httpMethod: "POST"
+      fetchOptions: { method: "POST" }
     };
     fetchMock.once("*", queryRelatedResponse);
     const response = await queryRelated(requestOptions);
@@ -1307,12 +1312,12 @@ describe("queryAllFeatures (custom pagination)", () => {
   });
 });
 
-describe("queryFeatures(): pbf", () => {
+describe("queryFeaturesRaw() and queryFeatures(): pbf", () => {
   afterEach(() => {
     fetchMock.restore();
   });
 
-  test("should return raw response for f=pbf without decoding", async () => {
+  test("queryFeaturesRaw should return raw response for f=pbf without decoding", async () => {
     const arrayBuffer = await readEnvironmentFileToArrayBuffer(
       "./packages/arcgis-rest-feature-service/test/mocks/pbf/CRS4326/PBFPointResponseCRS4326.pbf"
     );
@@ -1327,7 +1332,7 @@ describe("queryFeatures(): pbf", () => {
       { sendAsJson: false }
     );
 
-    const requestOptions: IQueryFeaturesOptions = {
+    const requestOptions: IQueryFeaturesRawOptions = {
       url: serviceUrl,
       f: "pbf",
       where: "1=1",
@@ -1335,7 +1340,7 @@ describe("queryFeatures(): pbf", () => {
       resultRecordCount: 1
     };
 
-    const response: any = await queryFeatures(requestOptions);
+    const response: any = await queryFeaturesRaw(requestOptions);
 
     expect(fetchMock.called()).toBeTruthy();
     const [url, options] = fetchMock.lastCall("*");
@@ -1348,7 +1353,50 @@ describe("queryFeatures(): pbf", () => {
     expect(response.status).toBe(200);
     expect(response.ok).toBe(true);
 
-    const rawBuffer = await response.arrayBuffer();
-    expect(rawBuffer.byteLength).toBeGreaterThan(0);
+    const rawBuffer = (await response.arrayBuffer()) as ArrayBuffer;
+    // expect the raw buffer to have a byte length of 443, which is the length of the mock pbf file
+    expect(rawBuffer.byteLength).toBe(443);
+  });
+
+  test("queryFeatures with f=pbf should warn, but will query json and return typed json for f=pbf queries", async () => {
+    // create console spy to check if warning is logged for f=pbf queries
+    const consoleWarn = console.warn;
+    const warnSpy = vi.fn();
+    console.warn = warnSpy;
+
+    fetchMock.once("*", {
+      features: [
+        {
+          attributes: { name: "Feature 1" }
+        }
+      ],
+      exceededTransferLimit: true
+    });
+
+    const requestOptions: IQueryFeaturesRawOptions = {
+      url: serviceUrl,
+      f: "pbf",
+      where: "1=1",
+      outFields: ["*"],
+      resultRecordCount: 1
+    };
+
+    const response = (await queryFeatures(
+      // typescript should warn here if user passes in f=pbf, but this test is asserting the behavior in which case they try and override it
+      requestOptions as any
+    )) as IQueryFeaturesResponse;
+
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    // expect warn spy with message that includes
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining(
+        "request() only supports 'json' formats and responses. Provided value 'pbf' will be defaulted to 'json'. Use 'rawRequest()' to support special 'f' parameter values."
+      )
+    );
+    expect(response.features.length).toBe(1);
+    expect(response.features[0].attributes.name).toBe("Feature 1"); // dummy assertion to ensure test passes if no error is thrown
+
+    // reset console.warn to default behavior
+    console.warn = consoleWarn;
   });
 });

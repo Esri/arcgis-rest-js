@@ -29,7 +29,7 @@ export function isItemSharedWithGroup(
     num: 10,
     sortField: "title",
     authentication: requestOptions.authentication,
-    httpMethod: "POST"
+    fetchOptions: { method: "POST" }
   } as ISearchOptions;
 
   return searchItems(searchOpts).then((searchResponse) => {
