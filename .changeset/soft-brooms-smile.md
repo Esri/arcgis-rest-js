@@ -7,3 +7,5 @@ Added `processOptions` to `@esri/arcgis-rest-request` and published it in export
 Replaced `appendCustomParams` with `processOptions` across REST JS.
 
 Deprecated `appendCustomParams` for removal in a future release.
+
+Fixed issue witn `findElevationAtManyPoints` where coordinates were not being passed consistently.
