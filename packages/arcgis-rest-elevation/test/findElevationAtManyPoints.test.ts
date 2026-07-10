@@ -42,4 +42,26 @@ describe("findElevationAtManyPoints()", () => {
 
     expect(response.result).toEqual(atManyPointsEllipsoidResult.result);
   });
+
+  test("Outbound Smoke Test to verify current code but this method needs to be reviewed", async () => {
+    fetchMock.mock("*", atManyPointsDefaultResult);
+
+    const coordinates: Array<[number, number]> = [
+      [1.2, 3.4],
+      [1.23, 3.45]
+    ];
+
+    await findElevationAtManyPoints({
+      coordinates,
+      // This forces the branch where processOptions keeps params.coordinates.
+      params: { coordinates: "placeholder" },
+      authentication: ApiKeyManager.fromKey("MOCK_KEY")
+    } as any);
+
+    const [url, options] = fetchMock.lastCall("*");
+    const body = String(options?.body || "");
+    const params = new URLSearchParams(body);
+
+    expect(params.get("coordinates")).toEqual(JSON.stringify(coordinates));
+  });
 });
