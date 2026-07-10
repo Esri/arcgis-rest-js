@@ -12,7 +12,6 @@ describe("findElevationAtManyPoints()", () => {
 
   test("should return elevation at points with mean sea level as the reference", async () => {
     fetchMock.mock("*", atManyPointsDefaultResult);
-
     const response = await findElevationAtManyPoints({
       coordinates: [
         [1.2, 3.4],
@@ -22,46 +21,35 @@ describe("findElevationAtManyPoints()", () => {
     });
 
     const [url, options] = fetchMock.lastCall("*");
-
-    expect(response.result).toEqual(atManyPointsDefaultResult.result);
+    console.log("options.body", options.body);
+    expect(url).toContain("/elevation/at-many-points");
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain(
+      "coordinates=%5B%5B1.2%2C3.4%5D%2C%5B1.23%2C3.45%5D%5D"
+    );
   });
 
   test("should return elevation at points with ellipsoid as the reference", async () => {
     fetchMock.mock("*", atManyPointsEllipsoidResult);
 
+    const coordinates = [
+      [1.2, 3.4],
+      [1.23, 3.45]
+    ];
+
     const response = await findElevationAtManyPoints({
-      coordinates: [
-        [1.2, 3.4],
-        [1.23, 3.45]
-      ],
+      coordinates,
       relativeTo: "ellipsoid",
       authentication: ApiKeyManager.fromKey("MOCK_KEY")
     });
 
     const [url, options] = fetchMock.lastCall("*");
-
-    expect(response.result).toEqual(atManyPointsEllipsoidResult.result);
-  });
-
-  test("Outbound Smoke Test to verify current code but this method needs to be reviewed", async () => {
-    fetchMock.mock("*", atManyPointsDefaultResult);
-
-    const coordinates: Array<[number, number]> = [
-      [1.2, 3.4],
-      [1.23, 3.45]
-    ];
-
-    await findElevationAtManyPoints({
-      coordinates,
-      // This forces the branch where processOptions keeps params.coordinates.
-      params: { coordinates: "placeholder" },
-      authentication: ApiKeyManager.fromKey("MOCK_KEY")
-    } as any);
-
-    const [url, options] = fetchMock.lastCall("*");
-    const body = String(options?.body || "");
-    const params = new URLSearchParams(body);
-
-    expect(params.get("coordinates")).toEqual(JSON.stringify(coordinates));
+    expect(url).toContain("/elevation/at-many-points");
+    expect(options.method).toBe("POST");
+    expect(options.body).toContain("f=json");
+    expect(options.body).toContain(
+      "coordinates=%5B%5B1.2%2C3.4%5D%2C%5B1.23%2C3.45%5D%5D"
+    );
   });
 });

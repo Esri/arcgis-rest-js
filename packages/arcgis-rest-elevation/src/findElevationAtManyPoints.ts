@@ -69,27 +69,20 @@ export interface IFindElevationAtManyPointsOptions
  * console.log(results)
  * ```
  */
-export function findElevationAtManyPoints(
+export async function findElevationAtManyPoints(
   requestOptions: IFindElevationAtManyPointsOptions
 ): Promise<IFindElevationAtManyPointsResponse> {
   const { requestOptions: options } = processOptions(requestOptions, {
-    paramKeys: ["relativeTo"],
+    paramKeys: ["relativeTo", "coordinates"],
     extractKeys: []
   });
 
+  // if coordinates were provided, we need to stringify them for the request body
   if (options.params?.coordinates) {
-    options.params.coordinates = JSON.stringify(requestOptions.coordinates);
+    options.params.coordinates = JSON.stringify(options.params.coordinates);
   }
 
-  return (
-    request(`${baseUrl}/elevation/at-many-points`, {
-      ...options
-    }) as Promise<successResponse>
-  ).then((response) => {
-    const r: IFindElevationAtManyPointsResponse = {
-      ...response
-    };
-
-    return r;
+  return request(`${baseUrl}/elevation/at-many-points`, {
+    ...options
   });
 }
