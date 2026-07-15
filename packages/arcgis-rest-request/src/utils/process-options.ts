@@ -4,7 +4,7 @@ import { ILegacyRequestOptions, IRequestOptions } from "./IRequestOptions.js";
 
 // using PureRequestOptions to explicitly only support v5 requestOptions until legacy requestOptions are removed from IRequestOptions
 type PureRequestOptions = Omit<IRequestOptions, keyof ILegacyRequestOptions>;
-type RequestOptionsKeys = keyof PureRequestOptions;
+type RequestOptionsKeys = keyof IRequestOptions;
 
 // using ExtractableKey to explicitly define that only non IRequestOptions keys can be extracted to help avoid duplicate exports in props
 type ExtractableKey<T extends IRequestOptions> = Exclude<
@@ -13,7 +13,7 @@ type ExtractableKey<T extends IRequestOptions> = Exclude<
 >;
 
 type ProcessOptionsResult<T extends IRequestOptions> = {
-  requestOptions: Partial<PureRequestOptions>;
+  requestOptions: Partial<IRequestOptions>;
 } & Partial<Pick<T, ExtractableKey<T>>>;
 
 interface ProcessOptionsConfig<T extends IRequestOptions> {
@@ -44,10 +44,20 @@ export function processOptions<T extends IRequestOptions>(
     "portal",
     "fetchOptions",
     "requestFlags",
-    "params"
+    "params",
+    // legacy request options are passed through to request() where warnings
+    // and v5 normalization are handled centrally.
+    "httpMethod",
+    "credentials",
+    "headers",
+    "signal",
+    "hideToken",
+    "suppressWarnings",
+    "maxUrlLength",
+    "rawResponse"
   ]);
 
-  // 1) move non-request-option paramkeys into params bucket
+  // a) move non-request-option paramkeys into params bucket
   paramKeys.forEach((key) => {
     const keyName = key as string;
     if (
@@ -59,7 +69,7 @@ export function processOptions<T extends IRequestOptions>(
     }
   });
 
-  // 2) extract requested top-level keys into bucket
+  // b) move all keys to extract into extract bucket
   extractKeys.forEach((key) => {
     const keyName = key as string;
     if (existsIn(originalOptions, keyName)) {
@@ -67,8 +77,8 @@ export function processOptions<T extends IRequestOptions>(
     }
   });
 
-  // 3) build requestOptions by applying defaults first, then explicit option values.
-  // This ensures explicit caller-supplied values are preferred over defaults.
+  // 1) build requestOptions by applying default options first, then override with any existing option values.
+  // start with top-level keys, then fetchOptions and requestFlags objects.
   (["authentication", "portal"] as const).forEach((key) => {
     if (existsIn(defaultOptionsAs, key))
       requestOptionsOut[key] = defaultOptionsAs[key];
@@ -82,6 +92,28 @@ export function processOptions<T extends IRequestOptions>(
         ...(defaultOptionsAs[key] ?? {}),
         ...(originalOptions[key] ?? {})
       };
+    }
+  });
+
+  // 2) pass through any legacy top-level request options from original options.
+  // request() can emit warnings and convert them to v5 shape in one place.
+  // Legacy defaults are intentionally not allowed in defaultOptions.
+  (
+    [
+      "httpMethod",
+      "credentials",
+      "headers",
+      "signal",
+      "hideToken",
+      "suppressWarnings",
+      "maxUrlLength",
+      "rawResponse"
+    ] as const
+  ).forEach((key) => {
+    // this will only pass through legacy request options from the original options.
+    // default options will not allow legacy request options to be introduced
+    if (existsIn(originalOptions, key)) {
+      requestOptionsOut[key] = originalOptions[key];
     }
   });
 
@@ -104,6 +136,6 @@ export function processOptions<T extends IRequestOptions>(
 
   return {
     ...(toExtract as Partial<Pick<T, ExtractableKey<T>>>),
-    requestOptions: requestOptionsOut as Partial<PureRequestOptions>
+    requestOptions: requestOptionsOut as Partial<IRequestOptions>
   };
 }
