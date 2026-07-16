@@ -567,12 +567,61 @@ describe("processOptions", () => {
     });
   });
 
+  test("should hande case where optional keys are missing from options but included in paramKeys", () => {
+    type TestOptionalsWithNoneDefined = IRequestOptions & {
+      f?: "json";
+      token?: "abc123";
+    };
+    const options: TestOptionalsWithNoneDefined = {
+      authentication: "auth-from-options"
+      // f and token are missing from options, but included in paramKeys
+    };
+
+    const result = processOptions(options, {
+      paramKeys: ["f", "token"],
+      extractKeys: []
+    });
+
+    expect(result.requestOptions.params).toBeUndefined();
+    // assert shape
+    expect(result.requestOptions.authentication).toBe("auth-from-options");
+    expect(result.requestOptions).toEqual({
+      authentication: "auth-from-options"
+    });
+
+    type TestOptionalsWithOneDefined = IRequestOptions & {
+      f?: "json";
+      token?: "abc123";
+    };
+
+    const optionsWithOneDefined: TestOptionalsWithOneDefined = {
+      authentication: "auth-from-options",
+      f: "json"
+      // token is missing from options, but included in paramKeys
+    };
+
+    const resultWithOneDefined = processOptions(optionsWithOneDefined, {
+      paramKeys: ["f", "token"],
+      extractKeys: []
+    });
+
+    expect(resultWithOneDefined.requestOptions).toEqual({
+      authentication: "auth-from-options",
+      params: {
+        f: "json"
+      }
+    });
+  });
+
   test("should return empty requestOptions when options is an empty object", () => {
     const result = processOptions({} as IRequestOptions, {
       paramKeys: [],
       extractKeys: []
     });
 
+    expect(result).toEqual({
+      requestOptions: {}
+    });
     expect(result.requestOptions).toEqual({});
   });
 
