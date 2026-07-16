@@ -166,6 +166,8 @@ describe("findPlacesNearPoint()", () => {
       });
     });
 
+    // test legacy top level option
+
     const legacyAbortController = new AbortController();
     const legacyPromise = findPlacesNearPoint({
       x: -73.735152,
@@ -180,6 +182,8 @@ describe("findPlacesNearPoint()", () => {
     await expect(legacyPromise).rejects.toMatchObject({
       name: "AbortError"
     });
+
+    // test signal in fetchOptions
 
     const fetchOptionsAbortController = new AbortController();
     const fetchOptionsPromise = findPlacesNearPoint({
