@@ -1,6 +1,6 @@
 import { ApiKeyManager } from "@esri/arcgis-rest-request";
 import { findPlacesNearPoint, IconOptions } from "../src/index.js";
-import { describe, test, expect, afterEach } from "vitest";
+import { describe, test, expect, afterEach, vi } from "vitest";
 import fetchMock, { MockCall } from "fetch-mock";
 import {
   placeNearPointMockNoMoreResults,
@@ -197,5 +197,29 @@ describe("findPlacesNearPoint()", () => {
     await expect(fetchOptionsPromise).rejects.toMatchObject({
       name: "AbortError"
     });
+  });
+
+  test("should console log a warning about deprecated options when using legacy top-level request options", async () => {
+    const consoleWarnSpy = vi
+      .spyOn(console, "warn")
+      .mockImplementation(() => {});
+
+    fetchMock.mock("*", placeNearPointMockNoMoreResults);
+
+    await findPlacesNearPoint({
+      x: -3.1883,
+      y: 55.9533,
+      radius: 10,
+      authentication: MOCK_AUTH,
+      credentials: "include"
+    });
+
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect.stringContaining(
+        "credentials is deprecated as a top-level request option"
+      )
+    );
+
+    consoleWarnSpy.mockRestore();
   });
 });
