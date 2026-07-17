@@ -135,7 +135,7 @@ export async function geocode(
     }
   }
 
-  const response = await request(
+  const response = await request<IGeocodeResponse>(
     `${cleanUrl(endpoint)}/findAddressCandidates`,
     options
   );

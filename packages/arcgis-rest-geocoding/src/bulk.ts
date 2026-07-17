@@ -95,12 +95,12 @@ export async function bulkGeocode(
     );
   }
 
-  const response = await request(
+  const response = await request<IBulkGeocodeResponse>(
     `${cleanUrl(options.endpoint)}/geocodeAddresses`,
     options
   );
   const sr = response.spatialReference;
-  response.locations.forEach(function (address: { location: IPoint }) {
+  response.locations.forEach(function (address: { location?: IPoint }) {
     if (address.location) {
       address.location.spatialReference = sr;
     }
