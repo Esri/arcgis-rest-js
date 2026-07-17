@@ -21,7 +21,9 @@ import {
   ISharedQueryOptions,
   IStatisticDefinition
 } from "./helpers.js";
-import pbfToGeoJSON from "./pbf-parser/geoJSONPbfParser.js";
+import pbfToGeoJSON, {
+  EsriGeoJSONFeatureCollection
+} from "./pbf-parser/geoJSONPbfParser.js";
 import pbfToArcGIS from "./pbf-parser/arcGISPbfParser.js";
 
 /**
@@ -149,6 +151,11 @@ export interface IQueryAllFeaturesResponse extends IFeatureSet {
   exceededTransferLimit?: true;
 }
 
+type QueryAllFeatureTypes =
+  | IQueryFeaturesResponse
+  | IQueryAllFeaturesResponse
+  | EsriGeoJSONFeatureCollection;
+
 export interface IQueryResponse {
   count?: number;
   extent?: IExtent;
@@ -164,10 +171,10 @@ export interface IQueryFeaturesRawOptions
   f?: IQueryFeaturesOptions["f"] | "pbf";
 }
 
-function prepareQueryFeaturesOptions(
+function processQueryFeaturesOptions(
   requestOptions: IQueryFeaturesRawOptions | IQueryFeaturesOptions
-): IRequestOptions {
-  const { requestOptions: queryOptions } = processOptions(requestOptions, {
+) {
+  return processOptions(requestOptions, {
     paramKeys: [
       "where",
       "objectIds",
@@ -206,7 +213,7 @@ function prepareQueryFeaturesOptions(
       "returnExceededLimitFeatures",
       "f"
     ],
-    extractKeys: [],
+    extractKeys: ["url"],
     defaultOptions: {
       fetchOptions: {
         method: "GET"
@@ -218,8 +225,6 @@ function prepareQueryFeaturesOptions(
       }
     }
   });
-
-  return queryOptions;
 }
 
 /**
@@ -231,10 +236,10 @@ function prepareQueryFeaturesOptions(
  * @returns A Promise that will resolve with the query response.
  */
 
-export function queryPbfAsGeoJSONOrArcGIS(
+function queryPbfAsGeoJSONOrArcGIS(
   url: string,
   queryOptions: IRequestOptions
-): Promise<IQueryFeaturesResponse | IQueryAllFeaturesResponse> {
+): Promise<IQueryFeaturesResponse | EsriGeoJSONFeatureCollection> {
   // if f=pbf-as-geojson, we need to set outSR=4326 to satisfy geojson crs standard
   // if f-pbf-as-geojson, outSR should not be set, or should be 4326 otherwise throw error
   if (
@@ -368,17 +373,48 @@ export function getFeature(
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the query response.
  */
-export function queryFeatures(
-  requestOptions: IQueryFeaturesOptions
-): Promise<IQueryFeaturesResponse | IQueryResponse> {
-  const queryOptions = prepareQueryFeaturesOptions(requestOptions);
-  if (
-    queryOptions.params?.f === "pbf-as-geojson" ||
-    queryOptions.params?.f === "pbf-as-arcgis"
-  ) {
-    return queryPbfAsGeoJSONOrArcGIS(requestOptions.url, queryOptions);
+
+function queryFeatures(
+  requestOptions: IQueryFeaturesOptions & {
+    f: "json";
   }
-  return request(`${cleanUrl(requestOptions.url)}/query`, queryOptions);
+): Promise<IQueryFeaturesResponse | IQueryResponse>;
+function queryFeatures(
+  requestOptions: IQueryFeaturesOptions & {
+    f: "geojson" | "pbf-as-geojson";
+  }
+): Promise<EsriGeoJSONFeatureCollection>;
+function queryFeatures(
+  requestOptions: IQueryFeaturesOptions & {
+    f: "pbf-as-arcgis";
+  }
+): Promise<IQueryFeaturesResponse>;
+function queryFeatures(
+  requestOptions: IQueryFeaturesOptions
+): Promise<IQueryFeaturesResponse | IQueryResponse>;
+function queryFeatures(
+  requestOptions: IQueryFeaturesOptions
+): Promise<
+  IQueryFeaturesResponse | IQueryResponse | EsriGeoJSONFeatureCollection
+> {
+  const processedOptions = processQueryFeaturesOptions(requestOptions);
+  const queryOptions = processedOptions.requestOptions;
+  if (queryOptions.params?.f === "geojson") {
+    return request<EsriGeoJSONFeatureCollection>(
+      `${cleanUrl(processedOptions.url)}/query`,
+      queryOptions
+    );
+  }
+  if (queryOptions.params?.f === "pbf-as-geojson") {
+    return queryPbfAsGeoJSONOrArcGIS(processedOptions.url, queryOptions);
+  }
+  if (queryOptions.params?.f === "pbf-as-arcgis") {
+    return queryPbfAsGeoJSONOrArcGIS(processedOptions.url, queryOptions);
+  }
+  return request<IQueryFeaturesResponse | IQueryResponse>(
+    `${cleanUrl(processedOptions.url)}/query`,
+    queryOptions
+  );
 }
 
 /**
@@ -387,11 +423,12 @@ export function queryFeatures(
  * @param requestOptions - Options for the request
  * @returns A Promise that resolves with the native response.
  */
-export function queryFeaturesRaw(
+function queryFeaturesRaw(
   requestOptions: IQueryFeaturesRawOptions
 ): Promise<Response> {
-  const queryOptions = prepareQueryFeaturesOptions(requestOptions);
-  return rawRequest(`${cleanUrl(requestOptions.url)}/query`, queryOptions);
+  const processedOptions = processQueryFeaturesOptions(requestOptions);
+  const queryOptions = processedOptions.requestOptions;
+  return rawRequest(`${cleanUrl(processedOptions.url)}/query`, queryOptions);
 }
 
 /**
@@ -410,13 +447,23 @@ export function queryFeaturesRaw(
  * @param requestOptions - Options for the request
  * @returns A Promise that will resolve with the query response.
  */
+export function queryAllFeatures(
+  requestOptions: IQueryAllFeaturesOptions & {
+    f: "geojson" | "pbf-as-geojson";
+  }
+): Promise<EsriGeoJSONFeatureCollection>;
+export function queryAllFeatures(
+  requestOptions: IQueryAllFeaturesOptions & {
+    f?: "json" | "pbf-as-arcgis";
+  }
+): Promise<IQueryAllFeaturesResponse | IQueryFeaturesResponse>;
 export async function queryAllFeatures(
   requestOptions: IQueryAllFeaturesOptions
-): Promise<IQueryAllFeaturesResponse> {
+): Promise<QueryAllFeatureTypes> {
   let firstResponse = true;
   let offset = 0;
   let hasMore = true;
-  let allFeaturesResponse: IQueryAllFeaturesResponse | null = null;
+  let allFeaturesResponse: QueryAllFeatureTypes | null = null;
 
   const userRecordCount =
     requestOptions.resultRecordCount ||
@@ -506,17 +553,24 @@ export async function queryAllFeatures(
       }
     });
 
-    let response: IQueryAllFeaturesResponse;
-    if (
-      queryOptions.params?.f === "pbf-as-geojson" ||
-      queryOptions.params?.f === "pbf-as-arcgis"
-    ) {
-      response = (await queryPbfAsGeoJSONOrArcGIS(
+    let response: QueryAllFeatureTypes;
+    if (queryOptions.params?.f === "pbf-as-geojson") {
+      response = await queryPbfAsGeoJSONOrArcGIS(
         requestOptions.url,
         queryOptions
-      )) as IQueryAllFeaturesResponse;
+      );
+    } else if (queryOptions.params?.f === "pbf-as-arcgis") {
+      response = await queryPbfAsGeoJSONOrArcGIS(
+        requestOptions.url,
+        queryOptions
+      );
+    } else if (queryOptions.params?.f === "geojson") {
+      response = await request<EsriGeoJSONFeatureCollection>(
+        `${cleanUrl(requestOptions.url)}/query`,
+        queryOptions
+      );
     } else {
-      response = await request(
+      response = await request<IQueryAllFeaturesResponse>(
         `${cleanUrl(requestOptions.url)}/query`,
         queryOptions
       );
@@ -527,9 +581,10 @@ export async function queryAllFeatures(
       allFeaturesResponse = { ...response };
     } else {
       // append features of subsequent requests
-      allFeaturesResponse.features = allFeaturesResponse.features.concat(
-        response.features
-      );
+      allFeaturesResponse.features = [
+        ...allFeaturesResponse.features,
+        ...response.features
+      ];
     }
 
     const returnedCount = response.features.length;
@@ -544,9 +599,11 @@ export async function queryAllFeatures(
 
     const exceededTransferLimit =
       // ArcGIS JSON | pbf-as-arcgis: exceededTransferLimit is on the response object
-      response.exceededTransferLimit ||
+      ("exceededTransferLimit" in response &&
+        !!response.exceededTransferLimit) ||
       // GeoJSON | pbf-as-geojson: exceededTransferLimit is on properties in the response object
-      (response as any).properties?.exceededTransferLimit;
+      ("properties" in response &&
+        !!response.properties?.exceededTransferLimit);
 
     // check if there are more features
     if (returnedCount < recordCountToUse || !exceededTransferLimit) {
@@ -557,3 +614,5 @@ export async function queryAllFeatures(
   }
   return allFeaturesResponse;
 }
+
+export { queryFeatures, queryFeaturesRaw, processQueryFeaturesOptions };

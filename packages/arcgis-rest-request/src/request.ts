@@ -557,10 +557,10 @@ https://developers.arcgis.com/rest/users-groups-and-items/update-resources.htm
  * @returns A Promise that will resolve with the data from the response.
  * @internal
  */
-export async function internalRequest(
+export async function internalRequest<T = any>(
   url: string,
   requestOptions: IRequestOptions
-): Promise<any> {
+): Promise<T> {
   // -----------------------------
   const suppressWarnings =
     requestOptions.requestFlags?.suppressWarnings ??
@@ -641,7 +641,7 @@ export async function internalRequest(
 export async function rawRequest(
   url: string,
   requestOptions: IRequestOptions = { params: { f: "json" } }
-): Promise<any> {
+): Promise<Response> {
   const { response } = await executeRequest(url, requestOptions);
   return response;
 }
@@ -669,12 +669,12 @@ export async function rawRequest(
  * @param requestOptions - Options for the request, including parameters relevant to the endpoint.
  * @returns A Promise that will resolve with the data from the response.
  */
-export async function request(
+export async function request<T = any>(
   url: string,
   requestOptions: IRequestOptions = { params: { f: "json" } }
-): Promise<any> {
+): Promise<T> {
   try {
-    return await internalRequest(url, requestOptions);
+    return await internalRequest<T>(url, requestOptions);
   } catch (e: any) {
     if (
       e instanceof ArcGISAuthError &&
